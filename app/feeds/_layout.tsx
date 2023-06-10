@@ -10,6 +10,12 @@ const FeedsLayout = () => {
                     title: "Feeds"
                 }}
             />
+            <Stack.Screen
+                name={"post"}
+                options={{
+                    title: "Post"
+                }}
+            />
         </Stack>
     );
 };

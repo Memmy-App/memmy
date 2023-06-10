@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Button, Image, StyleSheet, TouchableOpacity} from "react-native";
+import React, {useEffect} from "react";
+import {Image, StyleSheet, TouchableOpacity} from "react-native";
 import {ArrowDownIcon, ArrowUpIcon, Divider, Icon, IconButton, Text, View} from "native-base";
 import {PostView} from "lemmy-js-client";
 import {Ionicons} from "@expo/vector-icons";
@@ -7,7 +7,7 @@ import moment from "moment";
 
 interface FeedItemProps {
     post: PostView,
-    onPress: () => void|Promise<void>
+    onPress: (postId: number) => void|Promise<void>
 }
 
 const FeedItem = ({post, onPress}: FeedItemProps) => {
@@ -17,7 +17,7 @@ const FeedItem = ({post, onPress}: FeedItemProps) => {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={onPress}>
+            <TouchableOpacity onPress={() => onPress(post.post.id)}>
                 <View style={styles.community}>
                     {
                         post.community.icon && (

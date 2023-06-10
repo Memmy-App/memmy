@@ -4,43 +4,49 @@ import {Settings, StyleSheet} from "react-native";
 import {GetPostsResponse, LemmyHttp, Post, PostView} from "lemmy-js-client";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
 import FeedItem from "../../ui/FeedItem";
+import {useRouter} from "expo-router";
+import {initialize, lemmyInstance} from "../../lemmy/LemmyInstance";
+import LoadingView from "../../ui/LoadingView";
 
 const FeedsIndex = () => {
     const [posts, setPosts] = useState<GetPostsResponse|null>(null);
+
+    const router = useRouter();
 
     useEffect(() => {
         load().then();
     }, []);
 
     const load = async () => {
-        const server = (Settings.get("servers") as ILemmyServer[])?.[0];
-        const lemmy = new LemmyHttp(`https://${server.server}`);
+        await initialize((Settings.get("servers") as ILemmyServer[])?.[0]);
 
-        await lemmy.login({
-            username_or_email: server.username,
-            password: server.password
-        });
-
-        setPosts(await lemmy.getPosts({
+        setPosts(await lemmyInstance.getPosts({
             limit: 20
         }));
     };
 
+    const onPostPress = (postId: number) => {
+        router.push({
+            pathname: "/feeds/post",
+            params: {
+                postId: postId
+            }
+        });
+    };
+
     const postItem = ({item}: {item: PostView}) => {
         return (
-            <FeedItem post={item} />
+            <FeedItem post={item} onPress={onPostPress} />
         );
     };
 
+    if(!posts || posts.posts.length === 0) {
+        return <LoadingView />;
+    }
+
     return (
         <View>
-            {
-                (!posts || posts.posts.length === 0) ? (
-                    <Text>Loading...</Text>
-                ) : (
-                    <FlatList data={posts.posts} renderItem={postItem} />
-                )
-            }
+            <FlatList data={posts.posts} renderItem={postItem} />
         </View>
     );
 };
