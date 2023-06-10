@@ -6,24 +6,37 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@types/react": "~18.0.27",
     "expo": "^48.0.7",
     "expo-constants": "~14.2.1",
+    "expo-dev-client": "~2.2.1",
     "expo-linking": "~4.0.1",
     "expo-router": "^1.2.0",
     "expo-splash-screen": "~0.18.1",
     "expo-status-bar": "~1.4.2",
+    "lemmy-js-client": "^0.17.2-rc.24",
+    "moment": "^2.29.4",
+    "native-base": "^3.4.28",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.71.3",
     "react-native-gesture-handler": "~2.9.0",
+    "react-native-ionicons": "^4.6.5",
     "react-native-reanimated": "~2.14.4",
-    "react-native-safe-area-context": "4.5.0",
+    "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "~3.20.0",
-    "react-native-web": "~0.18.7"
+    "react-native-svg": "^12.1.1",
+    "react-native-tableview-simple": "^4.4.0",
+    "react-native-web": "~0.18.7",
+    "typescript": "^4.9.4"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
-    "@babel/plugin-proposal-export-namespace-from": "^7.18.9"
+    "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
+    "@typescript-eslint/eslint-plugin": "^5.59.9",
+    "@typescript-eslint/parser": "^5.59.9",
+    "eslint": "^8.42.0",
+    "eslint-plugin-react": "^7.32.2"
   },
   "resolutions": {
     "metro": "^0.73.7",

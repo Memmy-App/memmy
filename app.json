@@ -5,6 +5,14 @@
       "bundler": "metro"
     },
     "name": "memmy",
-    "slug": "memmy"
+    "slug": "memmy",
+    "extra": {
+      "eas": {
+        "projectId": "4597fe91-1b05-41ad-a76d-d38679e90d53"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.gkasdorf.memmy"
+    }
   }
 }
