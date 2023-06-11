@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {Image, StyleSheet, TouchableOpacity} from "react-native";
+import {StyleSheet, TouchableOpacity} from "react-native";
 import {ArrowDownIcon, ArrowUpIcon, Divider, Icon, IconButton, Text, View} from "native-base";
 import {PostView} from "lemmy-js-client";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
 import {lemmyAuthToken, lemmyInstance} from "../lemmy/LemmyInstance";
 import {trigger} from "react-native-haptic-feedback";
+import {Image} from "expo-image";
 
 interface FeedItemProps {
     post: PostView,
@@ -45,7 +46,10 @@ const FeedItem = ({post, onPress}: FeedItemProps) => {
                 <View style={styles.community}>
                     {
                         post.community.icon && (
-                            <Image source={{uri: post.community.icon}} />
+                            <Image
+                                source={{uri: post.community.icon}}
+                                cachePolicy={"disk"}
+                            />
                         )
                     }
                     <Text fontSize={"sm"}>{post.community.name}</Text>
@@ -59,8 +63,8 @@ const FeedItem = ({post, onPress}: FeedItemProps) => {
                         <View>
                             <Image
                                 source={{uri: post.post.thumbnail_url}}
-                                alt={post.post.name}
                                 style={styles.image}
+                                cachePolicy={"disk"}
                             />
                         </View>
                     )
