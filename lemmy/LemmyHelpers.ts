@@ -1,4 +1,4 @@
-import {Post} from "lemmy-js-client";
+import {CommentView, Post} from "lemmy-js-client";
 import ELemmyPostType from "./types/ELemmyPostType";
 
 export const getType = (post: Post): ELemmyPostType => {
@@ -11,4 +11,10 @@ export const getType = (post: Post): ELemmyPostType => {
     } else if(post.thumbnail_url) {
         return ELemmyPostType.IMAGE;
     }
+};
+
+export const truncateName = (name: string): string => {
+    if(name.length <= 16) return name;
+
+    return name.slice(0,16) + "...";
 };

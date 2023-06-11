@@ -18,7 +18,7 @@ const FeedsIndex = () => {
     }, []);
 
     const load = async () => {
-        await initialize((Settings.get("servers") as ILemmyServer[])?.[0]);
+        await initialize((Settings.get("servers") as ILemmyServer[])?.[1]);
 
         setPosts(await lemmyInstance.getPosts({
             limit: 20

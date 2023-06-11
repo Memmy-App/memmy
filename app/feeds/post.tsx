@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from "react";
-import {Post, PostView} from "lemmy-js-client";
+import {CommentReplyView, CommentView, Post, PostView} from "lemmy-js-client";
 import {Stack, useRouter, useSearchParams} from "expo-router";
 import {isInitialized, lemmyInstance} from "../../lemmy/LemmyInstance";
 import LoadingView from "../../ui/LoadingView";
 import {
     ArrowDownIcon,
-    ArrowUpIcon,
-    Divider,
+    ArrowUpIcon, Center,
+    Divider, FlatList,
     HStack,
     Icon,
     IconButton,
-    ScrollView,
+    ScrollView, Spinner,
     Text,
     View,
     VStack
@@ -18,9 +18,13 @@ import {
 import {StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment/moment";
+import ILemmyComment from "../../lemmy/types/ILemmyComment";
+import CommentItem from "../../ui/CommentItem";
+import LemmyCommentsHelper from "../../lemmy/LemmyCommentsHelper";
 
 const PostScreen = () => {
     const [post, setPost] = useState<PostView | null>(null);
+    const [comments, setComments] = useState<ILemmyComment[] | null>(null);
 
     const {postId} = useSearchParams();
     const router = useRouter();
@@ -35,22 +39,44 @@ const PostScreen = () => {
     }, []);
 
     const load = async () => {
-        const res = await lemmyInstance.getPost({
+        const postRes = await lemmyInstance.getPost({
             id: Number(postId)
         });
 
-        setPost(res.post_view);
+        setPost(postRes.post_view);
+
+        const commentsRes = await lemmyInstance.getComments({
+            post_id: Number(postId),
+            max_depth: 15,
+            type_: "All"
+        });
+
+        const helper = new LemmyCommentsHelper(commentsRes.comments);
+
+        const parsed = helper.getParsed();
+
+        setComments(parsed);
+    };
+
+    const commentItem = ({item}: {item: ILemmyComment}) => {
+
+        return (
+            <>
+                <CommentItem comment={item} />
+            </>
+        );
     };
 
     if(!post) {
         return <LoadingView />;
     }
 
+
     return (
         <ScrollView style={styles.container}>
             <Stack.Screen
                 options={{
-                    title: `${post.counts.comments} Comments`
+                    title: `${post.counts.comments} Comment${post.counts.comments !== 1 ? "s" : ""}`
                 }}
             />
             <Text fontSize={"2xl"}>{post.post.name}</Text>
@@ -59,29 +85,35 @@ const PostScreen = () => {
                     {post.post.body}
                 </Text>
             </VStack>
+            <HStack mt={2}>
+                <Text>in </Text>
+                <Text fontWeight={"bold"}>{post.community.name} </Text>
+                <Text>by </Text>
+                <Text fontWeight={"bold"}>{post.creator.name}</Text>
+            </HStack>
             <HStack mt={2} space={3} alignItems={"center"}>
                 <HStack space={1} alignItems={"center"}>
                     {
-                        (post.counts.upvotes - post.counts.downvotes) >= 0 ? (
+                        post.counts.score >= 0 ? (
                             <ArrowUpIcon />
                         ) : (
                             <ArrowDownIcon />
                         )
                     }
-                    <Text>{post.counts.upvotes - post.counts.downvotes}</Text>
+                    <Text color={"gray.500"}>{post.counts.score}</Text>
                 </HStack>
 
                 <HStack space={1} alignItems={"center"}>
                     <Icon as={Ionicons} name={"chatbubble-outline"} />
-                    <Text>{post.counts.comments}</Text>
+                    <Text color={"gray.500"}>{post.counts.comments}</Text>
                 </HStack>
 
                 <HStack space={1} alignItems={"center"}>
                     <Icon as={Ionicons} name={"time-outline"} />
-                    <Text>{moment(post.post.published).fromNow()}</Text>
+                    <Text color={"gray.500"}>{moment(post.post.published).utc(true).fromNow()}</Text>
                 </HStack>
             </HStack>
-            <Divider my={3} />
+            <Divider my={1} />
             <HStack justifyContent={"center"} space={10}>
                 <IconButton icon={<Icon as={Ionicons} name={"arrow-up-outline"} />} />
                 <IconButton icon={<Icon as={Ionicons} name={"arrow-down-outline"} />} />
@@ -90,9 +122,24 @@ const PostScreen = () => {
                 <IconButton icon={<Icon as={Ionicons} name={"share-outline"} />} />
             </HStack>
             <Divider />
-            <HStack style={styles.comments}>
-
-            </HStack>
+            <VStack style={styles.comments}>
+                {
+                    !comments && (
+                        <>
+                            <Text textAlign={"center"} alignSelf={"center"} justifyContent={"center"} mt={10}>
+                                Loading comments...
+                            </Text>
+                            <Spinner mt={4} />
+                        </>
+                    ) || comments.length === 0 && (
+                        <Text textAlign={"center"} alignSelf={"auto"} mt={10}>
+                            No comments yet :(
+                        </Text>
+                    ) || (
+                        <FlatList data={comments} renderItem={commentItem} />
+                    )
+                }
+            </VStack>
         </ScrollView>
     );
 };
