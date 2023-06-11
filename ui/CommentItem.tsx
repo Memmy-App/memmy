@@ -32,6 +32,7 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
     }
 
     const onCommentSwipe = (direction: string, swipeable: Swipeable) => {
+        trigger("impactMedium");
         router.push({pathname: "/feeds/commentModal", params: {commentId: comment.top.comment.id}});
         swipeable.close();
     };
