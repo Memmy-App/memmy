@@ -15,25 +15,26 @@ interface FeedItemProps {
 const FeedItem = ({post, onPress}: FeedItemProps) => {
     const [myVote, setMyVote] = useState(post.my_vote);
 
-
-    const onVotePress = (value: -1 | 0 | 1) => {
+    const onVotePress = async (value: -1 | 0 | 1) => {
         if(value === 1 && myVote === 1) {
             value = 0;
         } else if(value === -1 && myVote === -1) {
             value = 0;
         }
 
+        const oldValue = myVote;
+
+        setMyVote(value);
+        trigger("impactMedium");
+
         try {
-            lemmyInstance.likePost({
+            await lemmyInstance.likePost({
                 auth: lemmyAuthToken,
                 post_id: post.post.id,
                 score: value
             });
-
-            setMyVote(value);
-
-            trigger("impactMedium");
         } catch(e) {
+            setMyVote(oldValue);
             return;
         }
     };
