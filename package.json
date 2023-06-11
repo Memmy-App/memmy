@@ -6,6 +6,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@shopify/flash-list": "1.4.0",
     "@types/marked": "^5.0.0",
     "@types/react": "~18.0.27",
     "expo": "^48.0.7",
@@ -22,6 +23,7 @@
     "react-dom": "18.2.0",
     "react-native": "0.71.3",
     "react-native-gesture-handler": "~2.9.0",
+    "react-native-haptic-feedback": "^2.0.3",
     "react-native-ionicons": "^4.6.5",
     "react-native-reanimated": "~2.14.4",
     "react-native-render-html": "^6.3.4",
@@ -32,8 +34,7 @@
     "react-native-web": "~0.18.7",
     "sanitize-html": "^2.10.0",
     "showdown": "^2.1.0",
-    "typescript": "^4.9.4",
-    "@shopify/flash-list": "1.4.0"
+    "typescript": "^4.9.4"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",

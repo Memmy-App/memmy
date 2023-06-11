@@ -16,6 +16,13 @@ const FeedsLayout = () => {
                     title: "Post"
                 }}
             />
+            <Stack.Screen
+                name={"commentModal"}
+                options={{
+                    presentation: "modal",
+                    title: "New Comment"
+                }}
+            />
         </Stack>
     );
 };

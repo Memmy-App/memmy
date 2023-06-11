@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {CommentReplyView, CommentView, Post, PostView} from "lemmy-js-client";
+import {PostView} from "lemmy-js-client";
 import {Stack, useRouter, useSearchParams} from "expo-router";
 import {isInitialized, lemmyInstance} from "../../lemmy/LemmyInstance";
 import LoadingView from "../../ui/LoadingView";
@@ -64,7 +64,7 @@ const PostScreen = () => {
     const commentItem = ({item}: {item: ILemmyComment}) => {
 
         return (
-            <View style={styles.container}>
+            <View style={styles.commentContainer}>
                 <CommentItem comment={item} />
             </View>
         );
@@ -75,7 +75,7 @@ const PostScreen = () => {
     }
 
     const header = () => (
-        <View style={styles.container}>
+        <View style={styles.postContainer}>
             <Stack.Screen
                 options={{
                     title: `${post.counts.comments} Comment${post.counts.comments !== 1 ? "s" : ""}`
@@ -150,7 +150,7 @@ const PostScreen = () => {
 
 
     return (
-        <View style={styles.container}>
+        <View style={styles.commentContainer}>
             <FlashList
                 ListFooterComponent={footer}
                 ListHeaderComponent={header}
@@ -164,10 +164,14 @@ const PostScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
+    postContainer: {
         flex: 1,
+        padding: 10,
         backgroundColor: "white",
-        padding: 10
+    },
+
+    commentContainer: {
+        flex: 1,
     },
 });
 
