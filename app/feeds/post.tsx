@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {PostView} from "lemmy-js-client";
 import {Stack, useRouter, useSearchParams} from "expo-router";
-import {isInitialized, lemmyInstance} from "../../lemmy/LemmyInstance";
+import {isInitialized, lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import LoadingView from "../../ui/LoadingView";
 import {
     ArrowDownIcon,
@@ -28,6 +28,7 @@ import {FlashList} from "@shopify/flash-list";
 const PostScreen = () => {
     const [post, setPost] = useState<PostView | null>(null);
     const [comments, setComments] = useState<ILemmyComment[] | null>(null);
+    const [myVote, setMyVote] = useState(0);
 
     const {postId} = useSearchParams();
     const router = useRouter();
@@ -43,12 +44,15 @@ const PostScreen = () => {
 
     const load = async () => {
         const postRes = await lemmyInstance.getPost({
+            auth: lemmyAuthToken,
             id: Number(postId)
         });
 
         setPost(postRes.post_view);
+        setMyVote(postRes.post_view.my_vote);
 
         const commentsRes = await lemmyInstance.getComments({
+            auth: lemmyAuthToken,
             post_id: Number(postId),
             max_depth: 15,
             type_: "All"
@@ -68,6 +72,26 @@ const PostScreen = () => {
                 <CommentItem comment={item} />
             </View>
         );
+    };
+
+    const onVotePress = (value: -1 | 0 | 1) => {
+        if(value === 1 && myVote === 1) {
+            value = 0;
+        } else if(value === -1 && myVote === -1) {
+            value = 0;
+        }
+
+        try {
+            lemmyInstance.likePost({
+                auth: lemmyAuthToken,
+                post_id: post.post.id,
+                score: value
+            });
+
+            setMyVote(value);
+        } catch(e) {
+            return;
+        }
     };
 
     if(!post) {
@@ -119,8 +143,32 @@ const PostScreen = () => {
             </HStack>
             <Divider my={1} />
             <HStack justifyContent={"center"} space={10}>
-                <IconButton icon={<Icon as={Ionicons} name={"arrow-up-outline"} />} />
-                <IconButton icon={<Icon as={Ionicons} name={"arrow-down-outline"} />} />
+                <IconButton
+                    icon={
+                        <Icon
+                            as={Ionicons}
+                            name={"arrow-up-outline"}
+                            size={6}
+                            onPress={() => onVotePress(1)}
+                            color={myVote === 1 ? "white" : "blue.500"}
+                        />
+                    }
+                    backgroundColor={myVote !== 1 ? "white" : "green.500"}
+                    padding={2}
+                />
+                <IconButton
+                    icon={
+                        <Icon
+                            as={Ionicons}
+                            name={"arrow-down-outline"}
+                            size={6}
+                            onPress={() => onVotePress(-1)}
+                            color={myVote === -1 ? "white" : "blue.500"}
+                        />
+                    }
+                    backgroundColor={myVote !== -1 ? "white" : "orange.500"}
+                    padding={2}
+                />
                 <IconButton icon={<Icon as={Ionicons} name={"bookmark-outline"} />} />
                 <IconButton icon={<Icon as={Ionicons} name={"arrow-undo-outline"} />} />
                 <IconButton icon={<Icon as={Ionicons} name={"share-outline"} />} />
