@@ -10,17 +10,20 @@ import {
     HStack,
     Icon,
     IconButton,
-    ScrollView, Spinner,
+    ScrollView, SectionList, Spinner,
     Text,
     View,
     VStack
 } from "native-base";
-import {StyleSheet} from "react-native";
+import {Dimensions, StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment/moment";
 import ILemmyComment from "../../lemmy/types/ILemmyComment";
 import CommentItem from "../../ui/CommentItem";
 import LemmyCommentsHelper from "../../lemmy/LemmyCommentsHelper";
+import RenderHTML from "react-native-render-html";
+import {parseMarkdown} from "../../helpers/MarkdownHelper";
+import {FlashList} from "@shopify/flash-list";
 
 const PostScreen = () => {
     const [post, setPost] = useState<PostView | null>(null);
@@ -61,9 +64,9 @@ const PostScreen = () => {
     const commentItem = ({item}: {item: ILemmyComment}) => {
 
         return (
-            <>
+            <View style={styles.container}>
                 <CommentItem comment={item} />
-            </>
+            </View>
         );
     };
 
@@ -71,18 +74,19 @@ const PostScreen = () => {
         return <LoadingView />;
     }
 
-
-    return (
-        <ScrollView style={styles.container}>
+    const header = () => (
+        <View style={styles.container}>
             <Stack.Screen
                 options={{
                     title: `${post.counts.comments} Comment${post.counts.comments !== 1 ? "s" : ""}`
                 }}
             />
             <Text fontSize={"2xl"}>{post.post.name}</Text>
-            <VStack style={styles.body}>
+            <VStack>
                 <Text fontSize={"sm"}>
-                    {post.post.body}
+                    <RenderHTML source={{
+                        html: parseMarkdown(post.post.body)
+                    }} contentWidth={100}/>
                 </Text>
             </VStack>
             <HStack mt={2}>
@@ -121,44 +125,50 @@ const PostScreen = () => {
                 <IconButton icon={<Icon as={Ionicons} name={"arrow-undo-outline"} />} />
                 <IconButton icon={<Icon as={Ionicons} name={"share-outline"} />} />
             </HStack>
-            <Divider />
-            <VStack style={styles.comments}>
-                {
-                    !comments && (
-                        <>
-                            <Text textAlign={"center"} alignSelf={"center"} justifyContent={"center"} mt={10}>
-                                Loading comments...
-                            </Text>
-                            <Spinner mt={4} />
-                        </>
-                    ) || comments.length === 0 && (
-                        <Text textAlign={"center"} alignSelf={"auto"} mt={10}>
-                            No comments yet :(
-                        </Text>
-                    ) || (
-                        <FlatList data={comments} renderItem={commentItem} />
-                    )
-                }
-            </VStack>
-        </ScrollView>
+        </View>
+    );
+
+    const footer = () => {
+        if(!comments) {
+            return (
+                <Center mt={8}>
+                    <Spinner />
+                    <Text fontStyle={"italic"} color={"gray.500"}>Loading comments...</Text>
+                </Center>
+            );
+        }
+
+        if(comments.length === 0) {
+            return (
+                <Center mt={8}>
+                    <Text fontStyle={"italic"} color={"gray.500"}>No comments yet :(</Text>
+                </Center>
+            );
+        }
+    };
+
+
+
+    return (
+        <View style={styles.container}>
+            <FlashList
+                ListFooterComponent={footer}
+                ListHeaderComponent={header}
+                data={comments}
+                renderItem={commentItem}
+                keyExtractor={(item) => item.top.comment.id.toString()}
+                estimatedItemSize={300}
+            />
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        backgroundColor: "white"
+        backgroundColor: "white",
+        padding: 10
     },
-
-    body: {
-
-    },
-
-    comments: {
-
-    }
 });
 
 export default PostScreen;
