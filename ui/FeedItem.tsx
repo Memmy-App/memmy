@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
-import {StyleSheet, TouchableOpacity} from "react-native";
-import {ArrowDownIcon, ArrowUpIcon, Divider, Icon, IconButton, Text, View} from "native-base";
+import React, {useState} from "react";
+import {StyleSheet} from "react-native";
+import {ArrowDownIcon, ArrowUpIcon, Divider, Icon, IconButton, Pressable, Text, View} from "native-base";
 import {PostView} from "lemmy-js-client";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
@@ -46,7 +46,7 @@ const FeedItem = ({post, onPress}: FeedItemProps) => {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => onPress(post.post.id)}>
+            <Pressable onPress={() => onPress(post.post.id)}>
                 <>
                     <View style={styles.community}>
                         {
@@ -128,7 +128,7 @@ const FeedItem = ({post, onPress}: FeedItemProps) => {
                         </View>
                     </View>
                 </>
-            </TouchableOpacity>
+            </Pressable>
         </View>
     );
 };
