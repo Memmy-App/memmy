@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {FlatList, View} from "native-base";
+import { View} from "native-base";
 import {Alert, Settings, StyleSheet} from "react-native";
-import {GetPostsResponse, LemmyHttp, Post, PostView} from "lemmy-js-client";
+import {GetPostsResponse, PostView} from "lemmy-js-client";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
 import FeedItem from "../../ui/FeedItem";
 import {useRouter} from "expo-router";
-import {initialize, lemmyInstance} from "../../lemmy/LemmyInstance";
+import {initialize, lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import LoadingView from "../../ui/LoadingView";
 import {FlashList} from "@shopify/flash-list";
 
@@ -36,6 +36,7 @@ const FeedsIndex = () => {
         }
 
         setPosts(await lemmyInstance.getPosts({
+            auth: lemmyAuthToken,
             limit: 50
         }));
     };
