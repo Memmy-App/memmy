@@ -24,6 +24,7 @@ import LemmyCommentsHelper from "../../lemmy/LemmyCommentsHelper";
 import RenderHTML from "react-native-render-html";
 import {parseMarkdown} from "../../helpers/MarkdownHelper";
 import {FlashList} from "@shopify/flash-list";
+import {trigger} from "react-native-haptic-feedback";
 
 const PostScreen = () => {
     const [post, setPost] = useState<PostView | null>(null);
@@ -89,6 +90,8 @@ const PostScreen = () => {
             });
 
             setMyVote(value);
+
+            trigger("impactMedium");
         } catch(e) {
             return;
         }

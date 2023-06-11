@@ -5,6 +5,7 @@ import {PostView} from "lemmy-js-client";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
 import {lemmyAuthToken, lemmyInstance} from "../lemmy/LemmyInstance";
+import {trigger} from "react-native-haptic-feedback";
 
 interface FeedItemProps {
     post: PostView,
@@ -33,6 +34,8 @@ const FeedItem = ({post, onPress}: FeedItemProps) => {
             });
 
             setMyVote(value);
+
+            trigger("impactMedium");
         } catch(e) {
             return;
         }
