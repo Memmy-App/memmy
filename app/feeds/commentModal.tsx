@@ -1,10 +1,8 @@
 import React, {useState} from "react";
 import {KeyboardAvoidingView, TextArea, View} from "native-base";
-import {Button, StyleSheet, TextInput} from "react-native";
-import {Navigator, Stack, useRouter, useSearchParams} from "expo-router";
-import {Screen} from "expo-router/build/primitives";
-import {lemmyInstance} from "../../lemmy/LemmyInstance";
-import post from "./post";
+import {Alert, Button, StyleSheet, TextInput} from "react-native";
+import {Stack, useRouter, useSearchParams} from "expo-router";
+import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 
 const CommentModalScreen = () => {
     const [content, setContent] = useState("");
@@ -13,17 +11,22 @@ const CommentModalScreen = () => {
 
     const {commentId, postId} = useSearchParams();
 
-    const onSubmitPress = () => {
+    const onSubmitPress = async () => {
         if(!content) {
             return;
         }
 
-        const res = lemmyInstance.createComment({
-            auth: "",
-            content: content,
-            post_id: postId ? Number(postId) : undefined,
-            parent_id: commentId ? Number(commentId) : undefined
-        });
+        try {
+            const res = await lemmyInstance.createComment({
+                auth: lemmyAuthToken,
+                content: content,
+                post_id: postId ? Number(postId) : undefined,
+                parent_id: commentId ? Number(commentId) : undefined
+            });
+        } catch(e) {
+            Alert.alert("Error submitting comment.");
+            return;
+        }
     };
 
     return (
