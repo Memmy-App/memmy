@@ -1,9 +1,10 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Image, StyleSheet, TouchableOpacity} from "react-native";
 import {ArrowDownIcon, ArrowUpIcon, Divider, Icon, IconButton, Text, View} from "native-base";
 import {PostView} from "lemmy-js-client";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
+import {lemmyAuthToken, lemmyInstance} from "../lemmy/LemmyInstance";
 
 interface FeedItemProps {
     post: PostView,
@@ -11,9 +12,31 @@ interface FeedItemProps {
 }
 
 const FeedItem = ({post, onPress}: FeedItemProps) => {
+    const [myVote, setMyVote] = useState(post.my_vote);
+
     useEffect(() => {
         console.log(post.community.icon);
     }, []);
+
+    const onVotePress = (value: -1 | 0 | 1) => {
+        if(value === 1 && myVote === 1) {
+            value = 0;
+        } else if(value === -1 && myVote === -1) {
+            value = 0;
+        }
+
+        try {
+            lemmyInstance.likePost({
+                auth: lemmyAuthToken,
+                post_id: post.post.id,
+                score: value
+            });
+
+            setMyVote(value);
+        } catch(e) {
+            return;
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -55,21 +78,49 @@ const FeedItem = ({post, onPress}: FeedItemProps) => {
                 <Divider my={2} />
 
                 <View style={styles.interactions}>
-                    {
-                        (post.counts.upvotes - post.counts.downvotes) >= 0 ? (
-                            <ArrowUpIcon />
-                        ) : (
-                            <ArrowDownIcon />
-                        )
-                    }
-                    <Text>{post.counts.upvotes - post.counts.downvotes}</Text>
-                    <Icon as={Ionicons} name={"chatbubble-outline"} />
-                    <Text>{post.counts.comments}</Text>
-                    <Icon as={Ionicons} name={"time-outline"} />
-                    <Text>{moment(post.post.published).fromNow()}</Text>
-                    <View style={{alignItems: "flex-end", flex: 1, alignSelf: "flex-end", flexDirection: "row"}}>
-                        <IconButton icon={<Icon as={Ionicons} name={"arrow-up-outline"} size={6} />} />
-                        <IconButton icon={<Icon as={Ionicons} name={"arrow-down-outline"} size={6} />} />
+                    <View style={styles.interactions}>
+                        {
+                            (post.counts.upvotes - post.counts.downvotes) >= 0 ? (
+                                <ArrowUpIcon />
+                            ) : (
+                                <ArrowDownIcon />
+                            )
+                        }
+                        <Text>{post.counts.upvotes - post.counts.downvotes}</Text>
+                        <Icon as={Ionicons} name={"chatbubble-outline"} />
+                        <Text>{post.counts.comments}</Text>
+                        <Icon as={Ionicons} name={"time-outline"} />
+                        <Text>{moment(post.post.published).fromNow()}</Text>
+                    </View>
+                    <View>
+                        <View style={{alignItems: "flex-end", flex: 1, alignSelf: "flex-end", flexDirection: "row"}}>
+                            <IconButton
+                                icon={
+                                    <Icon
+                                        as={Ionicons}
+                                        name={"arrow-up-outline"}
+                                        size={6}
+                                        onPress={() => onVotePress(1)}
+                                        color={myVote === 1 ? "white" : "blue.500"}
+                                    />
+                                }
+                                backgroundColor={myVote !== 1 ? "white" : "green.500"}
+                                padding={1}
+                            />
+                            <IconButton
+                                icon={
+                                    <Icon
+                                        as={Ionicons}
+                                        name={"arrow-down-outline"}
+                                        size={6}
+                                        onPress={() => onVotePress(-1)}
+                                        color={myVote === -1 ? "white" : "blue.500"}
+                                    />
+                                }
+                                backgroundColor={myVote !== -1 ? "white" : "orange.500"}
+                                padding={1}
+                            />
+                        </View>
                     </View>
                 </View>
             </TouchableOpacity>
