@@ -15,9 +15,6 @@ interface FeedItemProps {
 const FeedItem = ({post, onPress}: FeedItemProps) => {
     const [myVote, setMyVote] = useState(post.my_vote);
 
-    useEffect(() => {
-        console.log(post.community.icon);
-    }, []);
 
     const onVotePress = (value: -1 | 0 | 1) => {
         if(value === 1 && myVote === 1) {
