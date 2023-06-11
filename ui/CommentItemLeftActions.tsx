@@ -1,5 +1,5 @@
 import React from "react";
-import {Icon, Text, View} from "native-base";
+import {Icon, View} from "native-base";
 import {StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 

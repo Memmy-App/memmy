@@ -1,4 +1,4 @@
-import {CommentView, Post} from "lemmy-js-client";
+import {Post} from "lemmy-js-client";
 import ELemmyPostType from "./types/ELemmyPostType";
 
 export const getType = (post: Post): ELemmyPostType => {

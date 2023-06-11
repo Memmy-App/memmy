@@ -5,17 +5,18 @@ import {isInitialized, lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyIns
 import LoadingView from "../../ui/LoadingView";
 import {
     ArrowDownIcon,
-    ArrowUpIcon, Center,
-    Divider, FlatList,
+    ArrowUpIcon,
+    Center,
+    Divider,
     HStack,
     Icon,
     IconButton,
-    ScrollView, SectionList, Spinner,
+    Spinner,
     Text,
     View,
     VStack
 } from "native-base";
-import {Dimensions, StyleSheet} from "react-native";
+import {StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment/moment";
 import ILemmyComment from "../../lemmy/types/ILemmyComment";

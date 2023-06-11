@@ -1,24 +1,15 @@
 import React, {useRef, useState} from "react";
-import {
-    Divider,
-    HStack,
-    Icon,
-    Pressable,
-    Text,
-    View,
-    VStack
-} from "native-base";
+import {Divider, HStack, Icon, Pressable, Text, View, VStack} from "native-base";
 import ILemmyComment from "../lemmy/types/ILemmyComment";
-import {Alert, StyleSheet} from "react-native";
+import {StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
 import {truncateName} from "../lemmy/LemmyHelpers";
-import RenderHTML from "react-native-render-html";
-import {parseMarkdown} from "../helpers/MarkdownHelper";
 import {depthToColor} from "../helpers/ColorHelper";
 import {GestureHandlerRootView, Swipeable} from "react-native-gesture-handler";
 import CommentItemRightActions from "./CommentItemLeftActions";
 import {useRouter} from "expo-router";
+import {trigger} from "react-native-haptic-feedback";
 
 interface CommentItemProps {
     comment: ILemmyComment,

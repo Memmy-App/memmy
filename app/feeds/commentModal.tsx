@@ -1,8 +1,8 @@
 import React, {useState} from "react";
-import {KeyboardAvoidingView, TextArea, View} from "native-base";
 import {Alert, Button, StyleSheet, TextInput} from "react-native";
 import {Stack, useRouter, useSearchParams} from "expo-router";
 import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 const CommentModalScreen = () => {
     const [content, setContent] = useState("");
