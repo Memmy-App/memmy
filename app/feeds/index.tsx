@@ -7,9 +7,10 @@ import FeedItem from "../../ui/FeedItem";
 import {useRouter} from "expo-router";
 import {initialize, lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import LoadingView from "../../ui/LoadingView";
+import LoadingErrorView from "../../ui/LoadingErrorView";
 
 const FeedsIndex = () => {
-    const [posts, setPosts] = useState<GetPostsResponse|null>(null);
+    const [posts, setPosts] = useState<GetPostsResponse|null|false>(null);
 
     const router = useRouter();
 
@@ -18,26 +19,25 @@ const FeedsIndex = () => {
     }, []);
 
     const load = async () => {
+        setPosts(null);
+
         try {
             await initialize((Settings.get("servers") as ILemmyServer[])?.[1]);
         } catch(e) {
-            Alert.alert("Connection Error", "Error connecting to server. Try again?", [
-                {
-                    text: "Retry",
-                    onPress: load
-                },
-                {
-                    text: "Cancel"
-                }
-            ]);
-
+            setPosts(false);
             return;
         }
 
-        setPosts(await lemmyInstance.getPosts({
-            auth: lemmyAuthToken,
-            limit: 50
-        }));
+        try {
+            const res = await lemmyInstance.getPosts({
+                auth: lemmyAuthToken,
+                limit: 50
+            });
+
+            setPosts(res);
+        } catch(e) {
+            setPosts(false);
+        }
     };
 
     const onPostPress = (postId: number) => {
@@ -55,8 +55,12 @@ const FeedsIndex = () => {
         );
     };
 
-    if(!posts || posts.posts.length === 0) {
+    if(posts === null || (posts && posts.posts.length === 0)) {
         return <LoadingView />;
+    }
+
+    if(posts === false) {
+        return <LoadingErrorView onRetryPress={load} />;
     }
 
     return (
