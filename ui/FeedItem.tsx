@@ -20,12 +20,6 @@ const FeedItem = ({post, onPress}: FeedItemProps) => {
     const [myVote, setMyVote] = useState(post.my_vote);
     const linkInfo = getLinkInfo(post.post.url);
 
-    useEffect(() => {
-        if(linkInfo.extType === ExtensionType.NONE) {
-            console.log(post.post);
-        }
-    }, []);
-
     const onVotePress = async (value: -1 | 0 | 1) => {
         if(value === 1 && myVote === 1) {
             value = 0;
