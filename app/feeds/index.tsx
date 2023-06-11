@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { View} from "native-base";
+import {FlatList, View} from "native-base";
 import {Alert, Settings, StyleSheet} from "react-native";
 import {GetPostsResponse, PostView} from "lemmy-js-client";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
@@ -7,7 +7,6 @@ import FeedItem from "../../ui/FeedItem";
 import {useRouter} from "expo-router";
 import {initialize, lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import LoadingView from "../../ui/LoadingView";
-import {FlashList} from "@shopify/flash-list";
 
 const FeedsIndex = () => {
     const [posts, setPosts] = useState<GetPostsResponse|null>(null);
@@ -62,11 +61,12 @@ const FeedsIndex = () => {
 
     return (
         <View style={styles.container}>
-            <FlashList
+            <FlatList
                 data={posts.posts}
                 renderItem={postItem}
                 keyExtractor={item => item.post.id.toString()}
-                estimatedItemSize={100}
+                maxToRenderPerBatch={10}
+                initialNumToRender={10}
             />
         </View>
     );
