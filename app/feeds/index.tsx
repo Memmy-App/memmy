@@ -55,6 +55,8 @@ const FeedsIndex = () => {
         );
     };
 
+    const keyExtractor = (item) => item.post.id.toString();
+
     if(posts === null || (posts && posts.posts.length === 0)) {
         return <LoadingView />;
     }
@@ -68,9 +70,9 @@ const FeedsIndex = () => {
             <FlatList
                 data={posts.posts}
                 renderItem={postItem}
-                keyExtractor={item => item.post.id.toString()}
-                maxToRenderPerBatch={10}
-                initialNumToRender={10}
+                keyExtractor={keyExtractor}
+                maxToRenderPerBatch={4}
+                initialNumToRender={4}
             />
         </View>
     );
