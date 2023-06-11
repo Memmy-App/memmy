@@ -30,7 +30,7 @@ const CommentModalScreen = () => {
     };
 
     return (
-        <KeyboardAvoidingView style={styles.container}>
+        <KeyboardAwareScrollView>
             <Stack.Screen
                 options={{
                     headerLeft: () => (
@@ -49,7 +49,7 @@ const CommentModalScreen = () => {
                 value={content}
                 onChangeText={setContent}
             />
-        </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
     );
 };
 
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     },
 
     input: {
-        backgroundColor: "red",
+        backgroundColor: "white",
         alignSelf: "stretch",
         padding: 10,
         paddingTop: 15
