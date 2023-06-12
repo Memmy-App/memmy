@@ -4,7 +4,7 @@ import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 
 const store = configureStore({
     reducer: {
-        post: postSlice
+        post: postSlice.reducer
     }
 });
 

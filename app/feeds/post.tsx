@@ -26,18 +26,34 @@ import RenderHTML from "react-native-render-html";
 import {parseMarkdown} from "../../helpers/MarkdownHelper";
 import {FlashList} from "@shopify/flash-list";
 import {trigger} from "react-native-haptic-feedback";
+import {clearPost, selectPost, setPost} from "../../slices/post/postSlice";
+import {useAppDispatch, useAppSelector} from "../../store";
 
 const PostScreen = () => {
-    const [post, setPost] = useState<PostView | null>(null);
+    //const [post, setPost] = useState<PostView | null>(null);
     const [comments, setComments] = useState<ILemmyComment[] | null>(null);
     const [myVote, setMyVote] = useState(0);
 
-    const {postId} = useSearchParams();
+    const {post} = useAppSelector(selectPost);
+
+    const {postId, commentId, commentIsTop} = useSearchParams();
     const router = useRouter();
+
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         load().then();
+
+        return () => {
+            dispatch(clearPost());
+        };
     }, []);
+
+    useEffect(() => {
+        if(commentId && commentIsTop) {
+            //setComments(comments.unshift(lemmyInstance.getComment()))
+        }
+    }, [commentId, commentIsTop]);
 
     const load = async () => {
         const postRes = await lemmyInstance.getPost({
@@ -45,7 +61,7 @@ const PostScreen = () => {
             id: Number(postId)
         });
 
-        setPost(postRes.post_view);
+        dispatch(setPost(postRes.post_view));
         setMyVote(postRes.post_view.my_vote);
 
         const commentsRes = await lemmyInstance.getComments({
@@ -93,6 +109,10 @@ const PostScreen = () => {
             setMyVote(oldValue);
             return;
         }
+    };
+
+    const onCommentPress = () => {
+        router.push({pathname: "/feeds/commentModal", params: {postId: post.post.id}});
     };
 
     if(!post) {
@@ -171,7 +191,7 @@ const PostScreen = () => {
                     padding={2}
                 />
                 <IconButton icon={<Icon as={Ionicons} name={"bookmark-outline"} />} />
-                <IconButton icon={<Icon as={Ionicons} name={"arrow-undo-outline"} />} />
+                <IconButton icon={<Icon as={Ionicons} name={"arrow-undo-outline"} />} onPress={onCommentPress} />
                 <IconButton icon={<Icon as={Ionicons} name={"share-outline"} />} />
             </HStack>
         </View>

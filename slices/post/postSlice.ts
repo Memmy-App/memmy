@@ -28,11 +28,13 @@ export const postSlice = createSlice({
 
         setPostNewComment: (state: PostState, action: PayloadAction<PostNewComment>) => {
             state.newComment = action.payload;
-        }
+        },
+
+        clearPost: () => initialState
     }
 });
 
 export const selectPost = (state: RootState) => state.post;
 
-export const {setPost, setPostNewComment} = postSlice.actions;
+export const {setPost, setPostNewComment, clearPost} = postSlice.actions;
 export default postSlice.reducer;
