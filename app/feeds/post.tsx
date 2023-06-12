@@ -3,7 +3,7 @@ import {Stack, useRouter} from "expo-router";
 import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import LoadingView from "../../ui/LoadingView";
 import {ArrowDownIcon, ArrowUpIcon, Center, Divider, HStack, Icon, IconButton, Spinner, Text, View,} from "native-base";
-import {StyleSheet} from "react-native";
+import {RefreshControl, StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment/moment";
 import ILemmyComment from "../../lemmy/types/ILemmyComment";
@@ -19,6 +19,7 @@ import ContentView from "../../ui/ContentView";
 const PostScreen = () => {
     const [comments, setComments] = useState<ILemmyComment[] | null>(null);
     const [myVote, setMyVote] = useState(0);
+    const [refreshing, setRefreshing] = useState(false);
 
     const {post, newComment} = useAppSelector(selectPost);
 
@@ -36,7 +37,13 @@ const PostScreen = () => {
 
     useEffect(() => {
         if(newComment) {
+            console.log(newComment);
+
             if(newComment.isTopComment) {
+                setComments([{
+                    top: newComment.comment,
+                    replies: []
+                }, ...comments]);
             }
         }
     }, [newComment]);
@@ -48,7 +55,8 @@ const PostScreen = () => {
             auth: lemmyAuthToken,
             post_id: post.post.id,
             max_depth: 15,
-            type_: "All"
+            type_: "All",
+            sort: "Top"
         });
 
         const helper = new LemmyCommentsHelper(commentsRes.comments);
@@ -56,6 +64,7 @@ const PostScreen = () => {
         const parsed = helper.getParsed();
 
         setComments(parsed);
+        setRefreshing(false);
     };
 
     const commentItem = ({item}: {item: ILemmyComment}) => {
@@ -98,6 +107,13 @@ const PostScreen = () => {
 
         router.push({pathname: "/feeds/commentModal", params: {postId: post.post.id}});
     };
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        load().then();
+    };
+
+    const refreshControl = <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />;
 
     if(!post) {
         return <LoadingView />;
@@ -205,6 +221,8 @@ const PostScreen = () => {
                 renderItem={commentItem}
                 keyExtractor={(item) => item.top.comment.id.toString()}
                 estimatedItemSize={300}
+                refreshControl={refreshControl}
+                refreshing={refreshing}
             />
         </View>
     );
