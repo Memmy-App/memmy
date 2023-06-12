@@ -11,14 +11,14 @@ import CommentItem from "../../ui/CommentItem";
 import LemmyCommentsHelper from "../../lemmy/LemmyCommentsHelper";
 import {FlashList} from "@shopify/flash-list";
 import {trigger} from "react-native-haptic-feedback";
-import {clearPost, selectPost} from "../../slices/post/postSlice";
+import {clearPost, selectPost, setPostVote} from "../../slices/post/postSlice";
 import {useAppDispatch, useAppSelector} from "../../store";
 import {setResponseTo} from "../../slices/newComment/newCommentSlice";
 import ContentView from "../../ui/ContentView";
+import {setPostsVote} from "../../slices/posts/postsSlice";
 
 const PostScreen = () => {
     const [comments, setComments] = useState<ILemmyComment[] | null>(null);
-    const [myVote, setMyVote] = useState(0);
     const [refreshing, setRefreshing] = useState(false);
     const [refresh, setRefresh] = useState(false);
 
@@ -54,8 +54,6 @@ const PostScreen = () => {
     }, [newComment]);
 
     const load = async () => {
-        setMyVote(post.my_vote);
-
         const commentsRes = await lemmyInstance.getComments({
             auth: lemmyAuthToken,
             post_id: post.post.id,
@@ -82,15 +80,16 @@ const PostScreen = () => {
     };
 
     const onVotePress = async (value: -1 | 0 | 1) => {
-        if(value === 1 && myVote === 1) {
-            value = 0;
-        } else if(value === -1 && myVote === -1) {
-            value = 0;
-        }
+        if(value === post.my_vote) value = 0;
 
-        const oldValue = myVote;
+        const oldValue = post.my_vote;
 
-        setMyVote(value);
+        dispatch(setPostVote(value));
+        dispatch(setPostsVote({
+            postId: post.post.id,
+            vote: value
+        }));
+
         trigger("impactMedium");
 
         try {
@@ -100,7 +99,11 @@ const PostScreen = () => {
                 score: value
             });
         } catch(e) {
-            setMyVote(oldValue);
+            dispatch(setPostVote(oldValue as -1|0|1));
+            dispatch(setPostsVote({
+                postId: post.post.id,
+                vote: oldValue as -1|0|1
+            }));
             return;
         }
     };
@@ -170,10 +173,10 @@ const PostScreen = () => {
                             name={"arrow-up-outline"}
                             size={6}
                             onPress={() => onVotePress(1)}
-                            color={myVote === 1 ? "white" : "blue.500"}
+                            color={post.my_vote === 1 ? "white" : "blue.500"}
                         />
                     }
-                    backgroundColor={myVote !== 1 ? "white" : "green.500"}
+                    backgroundColor={post.my_vote !== 1 ? "white" : "green.500"}
                     padding={2}
                 />
                 <IconButton
@@ -183,10 +186,10 @@ const PostScreen = () => {
                             name={"arrow-down-outline"}
                             size={6}
                             onPress={() => onVotePress(-1)}
-                            color={myVote === -1 ? "white" : "blue.500"}
+                            color={post.my_vote === -1 ? "white" : "blue.500"}
                         />
                     }
-                    backgroundColor={myVote !== -1 ? "white" : "orange.500"}
+                    backgroundColor={post.my_vote !== -1 ? "white" : "orange.500"}
                     padding={2}
                 />
                 <IconButton icon={<Icon as={Ionicons} name={"bookmark-outline"} />} />

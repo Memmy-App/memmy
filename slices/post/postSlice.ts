@@ -1,10 +1,13 @@
 import {CommentView, PostView} from "lemmy-js-client";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "../../store";
+import {getPost} from "./postActions";
 
 interface PostState {
     post: PostView|null,
-    newComment: PostNewComment
+    newComment: PostNewComment,
+    loading: boolean,
+    error: boolean
 }
 
 export interface PostNewComment {
@@ -14,7 +17,9 @@ export interface PostNewComment {
 
 const initialState: PostState ={
     post: null,
-    newComment: null
+    newComment: null,
+    loading: false,
+    error: false
 };
 
 export const postSlice = createSlice({
@@ -30,11 +35,34 @@ export const postSlice = createSlice({
             state.newComment = action.payload;
         },
 
+        setPostVote: (state: PostState, action: PayloadAction<1|0|-1>) => {
+            state.post = {
+                ...state.post,
+                my_vote: action.payload
+            };
+        },
+
         clearPost: () => initialState
+    },
+    extraReducers: (builder) => {
+        builder.addCase(getPost.pending, (state: PostState) => {
+            state.loading = true;
+            state.error = false;
+        });
+
+        builder.addCase(getPost.rejected, (state: PostState) => {
+            state.loading = false;
+            state.error = true;
+        });
+
+        builder.addCase(getPost.fulfilled, (state: PostState) => {
+            state.loading = false;
+            state.error = false;
+        });
     }
 });
 
 export const selectPost = (state: RootState) => state.post;
 
-export const {setPost, setPostNewComment, clearPost} = postSlice.actions;
+export const {setPost, setPostNewComment, setPostVote, clearPost} = postSlice.actions;
 export default postSlice.reducer;

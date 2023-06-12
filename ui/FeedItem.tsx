@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {StyleSheet} from "react-native";
 import {ArrowDownIcon, ArrowUpIcon, Divider, Icon, IconButton, Pressable, Text, View} from "native-base";
 import {PostView} from "lemmy-js-client";
@@ -11,27 +11,26 @@ import {useRouter} from "expo-router";
 import {useDispatch} from "react-redux";
 import {setPost} from "../slices/post/postSlice";
 import ContentView from "./ContentView";
+import {setPostsVote} from "../slices/posts/postsSlice";
 
 interface FeedItemProps {
     post: PostView,
 }
 
 const FeedItem = ({post}: FeedItemProps) => {
-    const [myVote, setMyVote] = useState(post.my_vote);
-
     const router = useRouter();
     const dispatch = useDispatch();
 
     const onVotePress = async (value: -1 | 0 | 1) => {
-        if(value === 1 && myVote === 1) {
-            value = 0;
-        } else if(value === -1 && myVote === -1) {
-            value = 0;
-        }
+        if(value === post.my_vote) value = 0;
 
-        const oldValue = myVote;
+        const oldValue = post.my_vote;
 
-        setMyVote(value);
+        dispatch(setPostsVote({
+            postId: post.post.id,
+            vote: value
+        }));
+
         trigger("impactMedium");
 
         try {
@@ -41,7 +40,10 @@ const FeedItem = ({post}: FeedItemProps) => {
                 score: value
             });
         } catch(e) {
-            setMyVote(oldValue);
+            dispatch(setPostsVote({
+                postId: post.post.id,
+                vote: oldValue as -1|0|1
+            }));
             return;
         }
     };
@@ -99,10 +101,10 @@ const FeedItem = ({post}: FeedItemProps) => {
                                             name={"arrow-up-outline"}
                                             size={6}
                                             onPress={() => onVotePress(1)}
-                                            color={myVote === 1 ? "white" : "blue.500"}
+                                            color={post.my_vote === 1 ? "white" : "blue.500"}
                                         />
                                     }
-                                    backgroundColor={myVote !== 1 ? "white" : "green.500"}
+                                    backgroundColor={post.my_vote !== 1 ? "white" : "green.500"}
                                     padding={1}
                                 />
                                 <IconButton
@@ -112,10 +114,10 @@ const FeedItem = ({post}: FeedItemProps) => {
                                             name={"arrow-down-outline"}
                                             size={6}
                                             onPress={() => onVotePress(-1)}
-                                            color={myVote === -1 ? "white" : "blue.500"}
+                                            color={post.my_vote === -1 ? "white" : "blue.500"}
                                         />
                                     }
-                                    backgroundColor={myVote !== -1 ? "white" : "orange.500"}
+                                    backgroundColor={post.my_vote !== -1 ? "white" : "orange.500"}
                                     padding={1}
                                 />
                             </View>
