@@ -20,6 +20,7 @@ const PostScreen = () => {
     const [comments, setComments] = useState<ILemmyComment[] | null>(null);
     const [myVote, setMyVote] = useState(0);
     const [refreshing, setRefreshing] = useState(false);
+    const [refresh, setRefresh] = useState(false);
 
     const {post, newComment} = useAppSelector(selectPost);
 
@@ -37,13 +38,17 @@ const PostScreen = () => {
 
     useEffect(() => {
         if(newComment) {
-            console.log(newComment);
+            const lComment: ILemmyComment = {
+                top: newComment.comment,
+                replies: []
+            };
 
             if(newComment.isTopComment) {
-                setComments([{
-                    top: newComment.comment,
-                    replies: []
-                }, ...comments]);
+                setComments([lComment, ...comments]);
+            } else {
+                const newChain = LemmyCommentsHelper.findAndAdd(comments, lComment);
+                setComments(newChain);
+                setRefresh(!refresh);
             }
         }
     }, [newComment]);
@@ -217,6 +222,7 @@ const PostScreen = () => {
             <FlashList
                 ListFooterComponent={footer}
                 ListHeaderComponent={header}
+                extraData={refresh}
                 data={comments}
                 renderItem={commentItem}
                 keyExtractor={(item) => item.top.comment.id.toString()}

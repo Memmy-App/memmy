@@ -50,6 +50,24 @@ class LemmyCommentsHelper {
             lemmyComment.replies.push(newLemmyComment);
         }
     };
+
+    public static findAndAdd = (chain: ILemmyComment[], newComment: ILemmyComment, depth = 1): ILemmyComment[] => {
+        const pathArr = newComment.top.comment.path.split(".");
+
+        for(const comment of chain) {
+            if (comment.top.comment.path.includes(pathArr[depth])) {
+                if (comment.top.comment.id.toString() === pathArr[pathArr.length - 2]) {
+                    comment.replies.unshift(newComment);
+                } else {
+                    comment.replies = this.findAndAdd(comment.replies, newComment, depth + 1);
+                }
+
+                break;
+            }
+        }
+
+        return chain;
+    };
 }
 
 export default LemmyCommentsHelper;

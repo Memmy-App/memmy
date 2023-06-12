@@ -4,7 +4,7 @@ import {Stack, useRouter} from "expo-router";
 import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {useAppSelector} from "../../store";
-import {selectNewComment} from "../../slices/newComment/newCommentSlice";
+import {clearNewComment, selectNewComment} from "../../slices/newComment/newCommentSlice";
 import {useDispatch} from "react-redux";
 import {setPostNewComment} from "../../slices/post/postSlice";
 import LoadingView from "../../ui/LoadingView";
@@ -19,8 +19,9 @@ const CommentModalScreen = () => {
     const {responseTo} = useAppSelector(selectNewComment);
 
     useEffect(() => {
-        if(!responseTo.post) return;
-        console.log("post id: ", responseTo.post.post.id);
+        return () => {
+            dispatch(clearNewComment());
+        };
     }, []);
 
     const onSubmitPress = async () => {
@@ -34,17 +35,18 @@ const CommentModalScreen = () => {
             const res = await lemmyInstance.createComment({
                 auth: lemmyAuthToken,
                 content: content,
-                post_id: responseTo.post ? responseTo.post.post.id : undefined,
+                post_id: responseTo.post ? responseTo.post.post.id : responseTo.comment.post.id,
                 parent_id: responseTo.comment ? responseTo.comment.comment.id : undefined
             });
 
             dispatch(setPostNewComment({
                 comment: res.comment_view,
-                isTopComment: responseTo.post !== undefined
+                isTopComment: !!responseTo.post
             }));
 
             router.back();
         } catch(e) {
+            console.log(e);
             setLoading(false);
             Alert.alert("Error submitting comment.");
             return;
@@ -64,7 +66,8 @@ const CommentModalScreen = () => {
                     ),
                     headerRight: () => (
                         <Button title={"Submit"} onPress={onSubmitPress} disabled={loading} />
-                    )
+                    ),
+                    title: responseTo.post ? "Replying to Post" : "Replying to Comment"
                 }}
             />
             <TextInput

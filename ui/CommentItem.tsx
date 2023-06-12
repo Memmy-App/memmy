@@ -10,6 +10,8 @@ import {GestureHandlerRootView, Swipeable} from "react-native-gesture-handler";
 import CommentItemRightActions from "./CommentItemLeftActions";
 import {useRouter} from "expo-router";
 import {trigger} from "react-native-haptic-feedback";
+import {setResponseTo} from "../slices/newComment/newCommentSlice";
+import {useAppDispatch} from "../store";
 
 interface CommentItemProps {
     comment: ILemmyComment,
@@ -20,10 +22,10 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
     const lastCommentId = useRef(comment.top.comment.id);
 
     const [collapsed, setCollapsed] = useState(false);
-    const [pressed, setPressed] = useState(false);
     const [vote, setVote] = useState(comment.top.my_vote);
 
     const router = useRouter();
+    const dispatch = useAppDispatch();
 
     if(comment.top.comment.id !== lastCommentId.current) {
         lastCommentId.current = comment.top.comment.id;
@@ -33,7 +35,10 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
 
     const onCommentSwipe = (direction: string, swipeable: Swipeable) => {
         trigger("impactMedium");
-        router.push({pathname: "/feeds/commentModal", params: {commentId: comment.top.comment.id}});
+        dispatch(setResponseTo({
+            comment: comment.top,
+        }));
+        router.push("/feeds/commentModal");
         swipeable.close();
     };
 
@@ -49,8 +54,6 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                         <View style={[depth > 1 && styles.side, {borderLeftColor: depthToColor(depth)}]}>
                             <Pressable
                                 onPress={() => setCollapsed(!collapsed)}
-                                onPressIn={() => setPressed(true)}
-                                onPressOut={() => setPressed(false)}
                             >
                                 <HStack mb={1} space={3} alignItems={"center"}>
                                     <Text fontWeight={"bold"}>{truncateName(comment.top.creator.name)}</Text>
