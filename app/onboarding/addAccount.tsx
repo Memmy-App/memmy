@@ -32,6 +32,7 @@ const AddAccountScreen = () => {
                 description: "All fields are required.",
                 duration: 3000
             });
+            return;
         }
 
         setLoading(true);
