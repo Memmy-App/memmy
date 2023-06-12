@@ -41,3 +41,6 @@ made, we can expect this library to be updated by Lemmy developers themselves. T
 ## Contribution
 You are more than welcome to contribute to the codebase on your own. Simply open up an issue or PR and we'll talk! You
 can always add me on Discord if you want as well: gk#5175
+
+## Acknowledgements
+Thanks to [Interstellar_1@lemmy.world](https://lemmy.world/u/Interstellar_1) for creating app graphics.

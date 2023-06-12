@@ -1,18 +1,28 @@
 {
   "expo": {
-    "scheme": "acme",
+    "scheme": "memmy",
     "web": {
       "bundler": "metro"
     },
     "name": "memmy",
     "slug": "memmy",
+    "version": "0.0.1",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "extra": {
       "eas": {
         "projectId": "4597fe91-1b05-41ad-a76d-d38679e90d53"
       }
     },
     "ios": {
-      "bundleIdentifier": "com.gkasdorf.memmy"
+      "bundleIdentifier": "com.gkasdorf.memmy",
+      "supportsTablet": false,
+      "buildNumber": "1"
     },
     "plugins": [
       [
