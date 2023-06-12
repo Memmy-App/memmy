@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {Settings, StyleSheet} from "react-native";
+import {Settings} from "react-native";
 import {PostView} from "lemmy-js-client";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
 import {initialize, lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
-import LoadingView from "../../ui/LoadingView";
-import LoadingErrorView from "../../ui/LoadingErrorView";
 import FeedView from "../../ui/FeedView";
 
 const FeedsIndex = () => {
@@ -41,15 +39,7 @@ const FeedsIndex = () => {
         }
     };
 
-    if((!posts && loading) || (posts && posts.length === 0)) {
-        return <LoadingView />;
-    }
-
-    if(!posts && !loading) {
-        return <LoadingErrorView onRetryPress={load} />;
-    }
-
-    return <FeedView posts={posts} refreshing={loading} refresh={load} />;
+    return <FeedView posts={posts} loading={loading} load={load} />;
 };
 
 export default FeedsIndex;
