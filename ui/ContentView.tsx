@@ -9,10 +9,11 @@ import LinkButton from "./LinkButton";
 import {StyleSheet} from "react-native";
 
 interface ContentViewProps {
-    post: PostView
+    post: PostView,
+    truncate?: boolean
 }
 
-const ContentView = ({post}: ContentViewProps) => {
+const ContentView = ({post, truncate = false}: ContentViewProps) => {
     const linkInfo = getLinkInfo(post.post.url);
     const [imageVisible, setImageVisible] = useState(false);
 
@@ -22,7 +23,7 @@ const ContentView = ({post}: ContentViewProps) => {
 
     if(linkInfo.extType === ExtensionType.NONE) {
         return (
-            <Text fontSize={"md"}>{truncatePost(post.post.body) ?? ""}</Text>
+            <Text fontSize={"md"}>{(truncate ? truncatePost(post.post.body) : post.post.body) ?? ""}</Text>
         );
     } else if(linkInfo.extType === ExtensionType.IMAGE) {
         return (

@@ -70,7 +70,7 @@ const FeedItem = ({post}: FeedItemProps) => {
                         {post.post.name}
                     </Text>
 
-                    <ContentView post={post} />
+                    <ContentView post={post} truncate />
 
                     <Divider my={2} />
 
