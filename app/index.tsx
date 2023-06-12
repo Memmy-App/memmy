@@ -14,7 +14,7 @@ const IndexScreen = () => {
     }
 
     if(!servers || servers.length < 1) {
-        router.replace("/onboarding/index");
+        router.replace("/onboarding");
         return;
     } else {
         router.replace("/tabs/feeds");
