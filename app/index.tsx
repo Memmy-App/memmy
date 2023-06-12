@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Settings} from "react-native";
 import {SplashScreen, useRootNavigationState, useRouter} from "expo-router";
 import ILemmyServer from "../lemmy/types/ILemmyServer";
