@@ -1,19 +1,25 @@
-import React from "react";
-import {PostView} from "lemmy-js-client";
+import React, {useState} from "react";
+import {PostView, SortType} from "lemmy-js-client";
 import {FlatList, View} from "native-base";
-import {RefreshControl, StyleSheet} from "react-native";
+import {Button, RefreshControl, StyleSheet} from "react-native";
 import FeedItem from "./FeedItem";
 import LoadingView from "./LoadingView";
 import LoadingErrorView from "./LoadingErrorView";
 import {Stack} from "expo-router";
+import {useActionSheet} from "@expo/react-native-action-sheet";
+import {FlashList} from "@shopify/flash-list";
 
 interface FeedViewProps {
     posts: PostView[],
     load: () => Promise<void>,
-    loading: boolean
+    loading: boolean,
+    sort: SortType,
+    setSort: React.Dispatch<React.SetStateAction<SortType>>;
 }
 
-const FeedView = ({posts, load, loading}: FeedViewProps) => {
+const FeedView = ({posts, load, loading, sort, setSort}: FeedViewProps) => {
+    const {showActionSheetWithOptions} = useActionSheet();
+
     const feedItem = ({item}: {item: PostView}) => {
         return (
             <FeedItem post={item} />
@@ -21,8 +27,25 @@ const FeedView = ({posts, load, loading}: FeedViewProps) => {
     };
 
     const onSortPress = () => {
-        const options = ["Top", "Hot", "New", "MostComments", "Cancel"];
+        const options = ["Top Day", "Top Week", "Hot", "New", "Most Comments", "Cancel"];
         const cancelButtonIndex = 4;
+
+        showActionSheetWithOptions({
+            options,
+            cancelButtonIndex
+        }, (index: number) => {
+            if(index === cancelButtonIndex) return;
+
+            if(index === 0) {
+                setSort("TopDay");
+            } else if(index === 1) {
+                setSort("TopWeek");
+            } else if(index === 4) {
+                setSort("MostComments");
+            } else {
+                setSort(options[index] as SortType);
+            }
+        });
     };
 
     const keyExtractor = (item) => item.post.id.toString();
@@ -38,15 +61,18 @@ const FeedView = ({posts, load, loading}: FeedViewProps) => {
     return (
         <View style={styles.container}>
             <Stack.Screen
-
+                options={{
+                    headerLeft: () => (
+                        <Button title={sort} onPress={onSortPress} />
+                    )
+                }}
             />
-            <FlatList
+            <FlashList
                 data={posts}
                 renderItem={feedItem}
                 keyExtractor={keyExtractor}
-                maxToRenderPerBatch={4}
-                initialNumToRender={4}
                 refreshControl={<RefreshControl refreshing={loading} onRefresh={load}/>}
+                estimatedItemSize={200}
             />
         </View>
     );

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Settings} from "react-native";
-import {PostView} from "lemmy-js-client";
+import {PostView, SortType} from "lemmy-js-client";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
 import {initialize, lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import FeedView from "../../ui/FeedView";
@@ -8,10 +8,11 @@ import FeedView from "../../ui/FeedView";
 const FeedsIndex = () => {
     const [posts, setPosts] = useState<PostView[]|null>(null);
     const [loading, setLoading] = useState(true);
+    const [sort, setSort] = useState<SortType>("New");
 
     useEffect(() => {
         load().then();
-    }, []);
+    }, [sort]);
 
     const load = async () => {
         setLoading(true);
@@ -28,7 +29,7 @@ const FeedsIndex = () => {
             const res = await lemmyInstance.getPosts({
                 auth: lemmyAuthToken,
                 limit: 50,
-                sort: "New"
+                sort: sort
             });
 
             setPosts(res.posts);
@@ -39,7 +40,7 @@ const FeedsIndex = () => {
         }
     };
 
-    return <FeedView posts={posts} loading={loading} load={load} />;
+    return <FeedView posts={posts} loading={loading} load={load} sort={sort} setSort={setSort} />;
 };
 
 export default FeedsIndex;
