@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {StyleSheet, TouchableOpacity} from "react-native";
+import {StyleSheet} from "react-native";
 import {ArrowDownIcon, ArrowUpIcon, Divider, Icon, IconButton, Pressable, Text, View} from "native-base";
 import {PostView} from "lemmy-js-client";
 import {Ionicons} from "@expo/vector-icons";
@@ -7,11 +7,7 @@ import moment from "moment";
 import {lemmyAuthToken, lemmyInstance} from "../lemmy/LemmyInstance";
 import {trigger} from "react-native-haptic-feedback";
 import {Image} from "expo-image";
-import {ExtensionType, getLinkInfo} from "../helpers/LinkHelper";
-import {truncatePost} from "../helpers/TextHelper";
-import LinkButton from "./LinkButton";
 import {useRouter} from "expo-router";
-import ImageView from "react-native-image-viewing";
 import {useDispatch} from "react-redux";
 import {setPost} from "../slices/post/postSlice";
 import ContentView from "./ContentView";
@@ -22,8 +18,6 @@ interface FeedItemProps {
 
 const FeedItem = ({post}: FeedItemProps) => {
     const [myVote, setMyVote] = useState(post.my_vote);
-    const [imageVisible, setImageVisible] = useState(false);
-    const linkInfo = getLinkInfo(post.post.url);
 
     const router = useRouter();
     const dispatch = useDispatch();
@@ -55,10 +49,6 @@ const FeedItem = ({post}: FeedItemProps) => {
     const onPress = () => {
         dispatch(setPost(post));
         router.push("/feeds/post");
-    };
-
-    const onImagePress = () => {
-        setImageVisible(prev => !prev);
     };
 
     return (
