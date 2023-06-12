@@ -12,7 +12,7 @@ const FeedsLayout = () => {
                 options={{
                     title: "Feeds",
                     headerRight: () => (
-                        <Button title={"New Post"} onPress={() => router.push("/feeds/newPost")} />
+                        <Button title={"New Post"} onPress={() => router.push("/tabs/feeds/newPost")} />
                     )
                 }}
             />

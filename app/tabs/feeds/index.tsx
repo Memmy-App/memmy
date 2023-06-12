@@ -1,11 +1,11 @@
 import React, {useEffect} from "react";
 import {Settings} from "react-native";
-import ILemmyServer from "../../lemmy/types/ILemmyServer";
-import {initialize, lemmyAuthToken} from "../../lemmy/LemmyInstance";
-import FeedView from "../../ui/FeedView";
-import {useAppDispatch, useAppSelector} from "../../store";
-import {selectPosts, setLoading, setPosts} from "../../slices/posts/postsSlice";
-import {getPosts} from "../../slices/posts/postsActions";
+import ILemmyServer from "../../../lemmy/types/ILemmyServer";
+import {initialize, lemmyAuthToken} from "../../../lemmy/LemmyInstance";
+import FeedView from "../../../ui/FeedView";
+import {useAppDispatch, useAppSelector} from "../../../store";
+import {selectPosts, setLoading, setPosts} from "../../../slices/posts/postsSlice";
+import {getPosts} from "../../../slices/posts/postsActions";
 
 const FeedsIndex = () => {
     const dispatch = useAppDispatch();

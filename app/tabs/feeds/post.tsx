@@ -1,21 +1,21 @@
 import React, {useEffect, useState} from "react";
 import {Stack, useRouter} from "expo-router";
-import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
-import LoadingView from "../../ui/LoadingView";
+import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
+import LoadingView from "../../../ui/LoadingView";
 import {ArrowDownIcon, ArrowUpIcon, Center, Divider, HStack, Icon, IconButton, Spinner, Text, View,} from "native-base";
 import {RefreshControl, StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment/moment";
-import ILemmyComment from "../../lemmy/types/ILemmyComment";
-import CommentItem from "../../ui/CommentItem";
-import LemmyCommentsHelper from "../../lemmy/LemmyCommentsHelper";
+import ILemmyComment from "../../../lemmy/types/ILemmyComment";
+import CommentItem from "../../../ui/CommentItem";
+import LemmyCommentsHelper from "../../../lemmy/LemmyCommentsHelper";
 import {FlashList} from "@shopify/flash-list";
 import {trigger} from "react-native-haptic-feedback";
-import {clearPost, selectPost, setPostVote} from "../../slices/post/postSlice";
-import {useAppDispatch, useAppSelector} from "../../store";
-import {setResponseTo} from "../../slices/newComment/newCommentSlice";
-import ContentView from "../../ui/ContentView";
-import {setPostsVote} from "../../slices/posts/postsSlice";
+import {clearPost, selectPost, setPostVote} from "../../../slices/post/postSlice";
+import {useAppDispatch, useAppSelector} from "../../../store";
+import {setResponseTo} from "../../../slices/newComment/newCommentSlice";
+import ContentView from "../../../ui/ContentView";
+import {setPostsVote} from "../../../slices/posts/postsSlice";
 
 const PostScreen = () => {
     const [comments, setComments] = useState<ILemmyComment[] | null>(null);
@@ -113,7 +113,7 @@ const PostScreen = () => {
             post: post
         }));
 
-        router.push({pathname: "/feeds/commentModal", params: {postId: post.post.id}});
+        router.push({pathname: "/tabs/feeds/commentModal", params: {postId: post.post.id}});
     };
 
     const onRefresh = () => {

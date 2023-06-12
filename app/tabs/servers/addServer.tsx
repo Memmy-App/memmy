@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 import {Alert, Button, Settings, StyleSheet, TextInput} from "react-native";
 import {ScrollView, useToast} from "native-base";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
-import ILemmyServer from "../../lemmy/types/ILemmyServer";
+import ILemmyServer from "../../../lemmy/types/ILemmyServer";
 import {Stack, useRouter, useSearchParams} from "expo-router";
-import {initialize, lemmyAuthToken} from "../../lemmy/LemmyInstance";
+import {initialize, lemmyAuthToken} from "../../../lemmy/LemmyInstance";
 
 const AddServerScreen = () => {
     const [form, setForm] = useState<ILemmyServer>({
@@ -54,7 +54,7 @@ const AddServerScreen = () => {
         }
 
         const servers = Settings.get("servers") as ILemmyServer[] ?? [];
-        const serverIndex = servers.findIndex((x) => (x.server.toLowerCase() === form.server.toLowerCase() && x.username.toLowerCase() === form.username.toLowerCase()))
+        const serverIndex = servers.findIndex((x) => (x.server.toLowerCase() === form.server.toLowerCase() && x.username.toLowerCase() === form.username.toLowerCase()));
 
         if(serverIndex > -1) {
             servers[serverIndex] = {
@@ -77,7 +77,7 @@ const AddServerScreen = () => {
 
     const onDeletePress = () => {
         const servers = Settings.get("servers") as ILemmyServer[];
-        const serverIndex = servers.findIndex((x) => (x.server.toLowerCase() === form.server.toLowerCase() && x.username.toLowerCase() === form.username.toLowerCase()))
+        const serverIndex = servers.findIndex((x) => (x.server.toLowerCase() === form.server.toLowerCase() && x.username.toLowerCase() === form.username.toLowerCase()));
 
         delete servers[serverIndex];
 

@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {Alert, Button, StyleSheet, TextInput} from "react-native";
 import {Stack, useRouter} from "expo-router";
-import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
+import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {useAppSelector} from "../../store";
-import {clearNewComment, selectNewComment} from "../../slices/newComment/newCommentSlice";
+import {useAppSelector} from "../../../store";
+import {clearNewComment, selectNewComment} from "../../../slices/newComment/newCommentSlice";
 import {useDispatch} from "react-redux";
-import {setPostNewComment} from "../../slices/post/postSlice";
-import LoadingView from "../../ui/LoadingView";
+import {setPostNewComment} from "../../../slices/post/postSlice";
+import LoadingView from "../../../ui/LoadingView";
 
 const CommentModalScreen = () => {
     const [content, setContent] = useState("");

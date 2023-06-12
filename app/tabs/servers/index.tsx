@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from "react";
 import {Text, View} from "native-base";
 import {Alert, Button, Settings, StyleSheet} from "react-native";
-import ILemmyServer from "../../lemmy/types/ILemmyServer";
+import ILemmyServer from "../../../lemmy/types/ILemmyServer";
 import {Stack, useFocusEffect, useRouter} from "expo-router";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 
@@ -20,7 +20,7 @@ const ServersIndex = () => {
             return;
         }
 
-        router.push("/servers/addServer");
+        router.push("/tabs/servers/addServer");
     };
 
     return (
@@ -59,7 +59,7 @@ const ServersIndex = () => {
                                             title={server.server}
                                             accessory={"DisclosureIndicator"}
                                             onPress={() => {
-                                                router.push({pathname: "/servers/addServer", params: {serverIndex: index}});
+                                                router.push({pathname: "/tabs/servers/addServer", params: {serverIndex: index}});
                                             }}
                                         />
                                     );

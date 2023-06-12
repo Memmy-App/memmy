@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React from "react";
 import {PostView, SortType} from "lemmy-js-client";
-import {FlatList, View} from "native-base";
+import {View} from "native-base";
 import {Button, RefreshControl, StyleSheet} from "react-native";
 import FeedItem from "./FeedItem";
 import LoadingView from "./LoadingView";
