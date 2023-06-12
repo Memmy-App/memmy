@@ -6,6 +6,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/react-native-action-sheet": "^4.0.1",
     "@reduxjs/toolkit": "^1.9.5",
     "@shopify/flash-list": "1.4.0",
     "@types/marked": "^5.0.0",
