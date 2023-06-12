@@ -1,7 +1,7 @@
 import React, {useRef, useState} from "react";
 import {Divider, HStack, Icon, Pressable, Text, View, VStack} from "native-base";
 import ILemmyComment from "../lemmy/types/ILemmyComment";
-import {StyleSheet} from "react-native";
+import {Dimensions, StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
 import {truncateName} from "../lemmy/LemmyHelpers";
@@ -12,6 +12,8 @@ import {useRouter} from "expo-router";
 import {trigger} from "react-native-haptic-feedback";
 import {setResponseTo} from "../slices/newComment/newCommentSlice";
 import {useAppDispatch} from "../store";
+import RenderHTML from "react-native-render-html";
+import {parseMarkdown} from "../helpers/MarkdownHelper";
 
 interface CommentItemProps {
     comment: ILemmyComment,
@@ -73,13 +75,13 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                                                 (comment.top.comment.deleted || comment.top.comment.removed) ? (
                                                     <Text fontStyle={"italic"} color={"gray.500"}>Comment was deleted :(</Text>
                                                 ) : (
-                                                    // <RenderHTML
-                                                    //     source={{
-                                                    //         html: parseMarkdown(comment.top.comment.content)
-                                                    //     }}
-                                                    //     contentWidth={100}
-                                                    // />
-                                                    <Text>{comment.top.comment.content}</Text>
+                                                    <RenderHTML
+                                                        source={{
+                                                            html: parseMarkdown(comment.top.comment.content)
+                                                        }}
+                                                        contentWidth={Dimensions.get("window").width}
+                                                    />
+                                                    // <Text>{comment.top.comment.content}</Text>
                                                 )
                                             }
                                         </Text>

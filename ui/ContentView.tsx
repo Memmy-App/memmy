@@ -1,12 +1,14 @@
 import React, {useState} from "react";
 import {PostView} from "lemmy-js-client";
 import {ExtensionType, getLinkInfo} from "../helpers/LinkHelper";
-import {Pressable, Text} from "native-base";
+import {Pressable} from "native-base";
 import {truncatePost} from "../helpers/TextHelper";
 import {Image} from "expo-image";
 import ImageView from "react-native-image-viewing";
 import LinkButton from "./LinkButton";
-import {StyleSheet} from "react-native";
+import {Dimensions, StyleSheet} from "react-native";
+import {parseMarkdown} from "../helpers/MarkdownHelper";
+import RenderHTML from "react-native-render-html";
 
 interface ContentViewProps {
     post: PostView,
@@ -23,16 +25,19 @@ const ContentView = ({post, truncate = false}: ContentViewProps) => {
 
     if(linkInfo.extType === ExtensionType.NONE) {
         return (
-            <Text fontSize={"md"}>{(truncate ? truncatePost(post.post.body) : post.post.body) ?? ""}</Text>
+            <RenderHTML source={{
+                html: (truncate ? parseMarkdown(truncatePost(post.post.body)) : parseMarkdown(post.post.body)) ?? ""
+            }} contentWidth={Dimensions.get("window").width}/>
         );
     } else if(linkInfo.extType === ExtensionType.IMAGE) {
         return (
             <>
                 <Pressable onPress={onImagePress}>
                     <Image
-                        source={{uri: post.post.url}}
+                        source={{uri: post.post.thumbnail_url}}
                         style={styles.image}
                         cachePolicy={"disk"}
+                        resizeMode={"contain"}
                     />
                 </Pressable>
                 <ImageView
