@@ -113,7 +113,7 @@ const PostScreen = () => {
             post: post
         }));
 
-        router.push({pathname: "/feeds/commentModal", params: {postId: post.post.id}});
+        router.push({pathname: "/tabs/feeds/commentModal", params: {postId: post.post.id}});
     };
 
     const onRefresh = () => {

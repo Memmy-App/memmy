@@ -40,7 +40,7 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
         dispatch(setResponseTo({
             comment: comment.top,
         }));
-        router.push("/feeds/commentModal");
+        router.push("/tabs/feeds/commentModal");
         swipeable.close();
     };
 

@@ -50,7 +50,7 @@ const FeedItem = ({post}: FeedItemProps) => {
 
     const onPress = () => {
         dispatch(setPost(post));
-        router.push("/feeds/post");
+        router.push("/tabs/feeds/post");
     };
 
     return (

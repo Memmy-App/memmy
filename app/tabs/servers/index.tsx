@@ -20,7 +20,7 @@ const ServersIndex = () => {
             return;
         }
 
-        router.push("/servers/addServer");
+        router.push("/tabs/servers/addServer");
     };
 
     return (
@@ -59,7 +59,7 @@ const ServersIndex = () => {
                                             title={server.server}
                                             accessory={"DisclosureIndicator"}
                                             onPress={() => {
-                                                router.push({pathname: "/servers/addServer", params: {serverIndex: index}});
+                                                router.push({pathname: "/tabs/servers/addServer", params: {serverIndex: index}});
                                             }}
                                         />
                                     );
