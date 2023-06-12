@@ -28,15 +28,16 @@ import {FlashList} from "@shopify/flash-list";
 import {trigger} from "react-native-haptic-feedback";
 import {clearPost, selectPost, setPost} from "../../slices/post/postSlice";
 import {useAppDispatch, useAppSelector} from "../../store";
+import {setResponseTo} from "../../slices/newComment/newCommentSlice";
 
 const PostScreen = () => {
     //const [post, setPost] = useState<PostView | null>(null);
     const [comments, setComments] = useState<ILemmyComment[] | null>(null);
     const [myVote, setMyVote] = useState(0);
 
-    const {post} = useAppSelector(selectPost);
+    const {post, newComment} = useAppSelector(selectPost);
 
-    const {postId, commentId, commentIsTop} = useSearchParams();
+    const {postId} = useSearchParams();
     const router = useRouter();
 
     const dispatch = useAppDispatch();
@@ -50,10 +51,11 @@ const PostScreen = () => {
     }, []);
 
     useEffect(() => {
-        if(commentId && commentIsTop) {
-            //setComments(comments.unshift(lemmyInstance.getComment()))
+        if(newComment) {
+            if(newComment.isTopComment) {
+            }
         }
-    }, [commentId, commentIsTop]);
+    }, [newComment]);
 
     const load = async () => {
         const postRes = await lemmyInstance.getPost({
@@ -112,6 +114,10 @@ const PostScreen = () => {
     };
 
     const onCommentPress = () => {
+        dispatch(setResponseTo({
+            post: post
+        }));
+
         router.push({pathname: "/feeds/commentModal", params: {postId: post.post.id}});
     };
 
