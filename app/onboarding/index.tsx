@@ -2,8 +2,11 @@ import React from "react";
 import {StyleSheet} from "react-native";
 import {HStack, Text, View, VStack, Button, Spacer} from "native-base";
 import {Image} from "expo-image";
+import {Link, useRouter} from "expo-router";
 
 const OnboardingScreen = () => {
+    const router = useRouter();
+
     return (
         <VStack justifyContent={"center"} alignItems={"center"} pt={10} space={"md"}>
             <Text fontSize={32}>
@@ -17,7 +20,7 @@ const OnboardingScreen = () => {
                 New to Lemmy? We&apos;ll help you find an instance and create an account.
             </Text>
             <HStack space={"md"}>
-                <Button>
+                <Button onPress={() => router.push("/onboarding/addAccount")}>
                     I Already Have an Account
                 </Button>
                 <Button>
