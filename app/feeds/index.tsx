@@ -44,18 +44,9 @@ const FeedsIndex = () => {
         }
     };
 
-    const onPostPress = (postId: number) => {
-        router.push({
-            pathname: "/feeds/post",
-            params: {
-                postId: postId
-            }
-        });
-    };
-
     const postItem = ({item}: {item: PostView}) => {
         return (
-            <FeedItem post={item} onPress={onPostPress} />
+            <FeedItem post={item} />
         );
     };
 

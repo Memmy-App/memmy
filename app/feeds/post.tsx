@@ -31,7 +31,6 @@ import {useAppDispatch, useAppSelector} from "../../store";
 import {setResponseTo} from "../../slices/newComment/newCommentSlice";
 
 const PostScreen = () => {
-    //const [post, setPost] = useState<PostView | null>(null);
     const [comments, setComments] = useState<ILemmyComment[] | null>(null);
     const [myVote, setMyVote] = useState(0);
 
@@ -58,17 +57,11 @@ const PostScreen = () => {
     }, [newComment]);
 
     const load = async () => {
-        const postRes = await lemmyInstance.getPost({
-            auth: lemmyAuthToken,
-            id: Number(postId)
-        });
-
-        dispatch(setPost(postRes.post_view));
-        setMyVote(postRes.post_view.my_vote);
+        setMyVote(post.my_vote);
 
         const commentsRes = await lemmyInstance.getComments({
             auth: lemmyAuthToken,
-            post_id: Number(postId),
+            post_id: post.post.id,
             max_depth: 15,
             type_: "All"
         });

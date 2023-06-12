@@ -12,18 +12,20 @@ import {truncatePost} from "../helpers/TextHelper";
 import LinkButton from "./LinkButton";
 import {useRouter} from "expo-router";
 import ImageView from "react-native-image-viewing";
+import {useDispatch} from "react-redux";
+import {setPost} from "../slices/post/postSlice";
 
 interface FeedItemProps {
     post: PostView,
-    onPress: (postId: number) => void|Promise<void>
 }
 
-const FeedItem = ({post, onPress}: FeedItemProps) => {
+const FeedItem = ({post}: FeedItemProps) => {
     const [myVote, setMyVote] = useState(post.my_vote);
     const [imageVisible, setImageVisible] = useState(false);
     const linkInfo = getLinkInfo(post.post.url);
 
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const onVotePress = async (value: -1 | 0 | 1) => {
         if(value === 1 && myVote === 1) {
@@ -49,13 +51,18 @@ const FeedItem = ({post, onPress}: FeedItemProps) => {
         }
     };
 
+    const onPress = () => {
+        dispatch(setPost(post));
+        router.push("/feeds/post");
+    };
+
     const onImagePress = () => {
         setImageVisible(prev => !prev);
     };
 
     return (
         <View style={styles.container}>
-            <Pressable onPress={() => onPress(post.post.id)}>
+            <Pressable onPress={onPress}>
                 <>
                     <View style={styles.community}>
                         {
