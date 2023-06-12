@@ -29,6 +29,7 @@ import {trigger} from "react-native-haptic-feedback";
 import {clearPost, selectPost, setPost} from "../../slices/post/postSlice";
 import {useAppDispatch, useAppSelector} from "../../store";
 import {setResponseTo} from "../../slices/newComment/newCommentSlice";
+import ContentView from "../../ui/ContentView";
 
 const PostScreen = () => {
     const [comments, setComments] = useState<ILemmyComment[] | null>(null);
@@ -126,13 +127,7 @@ const PostScreen = () => {
                 }}
             />
             <Text fontSize={"2xl"}>{post.post.name}</Text>
-            <VStack>
-                <Text fontSize={"sm"}>
-                    <RenderHTML source={{
-                        html: parseMarkdown(post.post.body)
-                    }} contentWidth={100}/>
-                </Text>
-            </VStack>
+            <ContentView post={post} />
             <HStack mt={2}>
                 <Text>in </Text>
                 <Text fontWeight={"bold"}>{post.community.name} </Text>
