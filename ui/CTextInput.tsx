@@ -26,6 +26,7 @@ const CTextInput = ({name, value, onChange, placeholder, label, style = {}, secu
                 value={value}
                 onChangeText={(value) => onChange(name, value)}
                 autoCapitalize={autoCapitalize}
+                autoCorrect={autoCorrect}
                 secureTextEntry={secure}
             />
         </VStack>
