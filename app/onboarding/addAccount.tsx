@@ -1,9 +1,11 @@
-import React, {useEffect, useState} from "react";
-import {Input, Text, View, VStack, Stack, FormControl, Button} from "native-base";
-import {StyleSheet} from "react-native";
+import React, {useState} from "react";
+import {Text, VStack, Button, useToast} from "native-base";
+import {Alert, Settings} from "react-native";
 import CTextInput from "../../ui/CTextInput";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {useRouter} from "expo-router";
+import {initialize, lemmyAuthToken} from "../../lemmy/LemmyInstance";
 
 const AddAccountScreen = () => {
     const [form, setForm] = useState<ILemmyServer>({
@@ -12,12 +14,55 @@ const AddAccountScreen = () => {
         password: "",
         auth: ""
     });
+    const [loading, setLoading] = useState(false);
+
+    const toast = useToast();
+    const router = useRouter();
 
     const onFormChange = (name, value) => {
         setForm({
             ...form,
             [name]: value
         });
+    };
+
+    const onPress = async () => {
+        if(!form.server || !form.username || !form.password) {
+            toast.show({
+                description: "All fields are required.",
+                duration: 3000
+            });
+        }
+
+        setLoading(true);
+
+        const regex = new RegExp("^(?:https?:\\/\\/)?([^\\/]+)");
+        const serverParsed = form.server.match(regex)[1];
+
+        const server: ILemmyServer = {
+            username: form.username,
+            password: form.password,
+            server: serverParsed,
+        };
+
+        try {
+            setLoading(true);
+
+            await initialize(server);
+        } catch(e) {
+            Alert.alert("Error", e);
+            setLoading(false);
+            return;
+        }
+
+        server.auth = lemmyAuthToken;
+
+        Settings.set({
+            servers: [server]
+        });
+
+        setLoading(false);
+        router.replace("/tabs/feeds");
     };
 
     return (
@@ -54,16 +99,12 @@ const AddAccountScreen = () => {
                     autoCorrect={false}
                     secure
                 />
-                <Button mx={2}>
+                <Button mx={2} disabled={loading} onPress={onPress}>
                     Add Account
                 </Button>
             </VStack>
         </KeyboardAwareScrollView>
     );
 };
-
-const styles = StyleSheet.create({
-
-});
 
 export default AddAccountScreen;
