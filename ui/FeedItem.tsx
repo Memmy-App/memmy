@@ -94,7 +94,7 @@ const FeedItem = ({post, onPress}: FeedItemProps) => {
                             <Icon as={Ionicons} name={"chatbubble-outline"} />
                             <Text>{post.counts.comments}</Text>
                             <Icon as={Ionicons} name={"time-outline"} />
-                            <Text>{moment(post.post.published).fromNow()}</Text>
+                            <Text>{moment(post.post.published).utc(true).fromNow()}</Text>
                         </View>
                         <View>
                             <View style={{alignItems: "flex-end", flex: 1, alignSelf: "flex-end", flexDirection: "row"}}>

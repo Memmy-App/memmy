@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {FlatList, View} from "native-base";
-import {Alert, Settings, StyleSheet} from "react-native";
+import {Settings, StyleSheet} from "react-native";
 import {GetPostsResponse, PostView} from "lemmy-js-client";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
 import FeedItem from "../../ui/FeedItem";
