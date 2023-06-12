@@ -14,6 +14,7 @@ import {useRouter} from "expo-router";
 import ImageView from "react-native-image-viewing";
 import {useDispatch} from "react-redux";
 import {setPost} from "../slices/post/postSlice";
+import ContentView from "./ContentView";
 
 interface FeedItemProps {
     post: PostView,
@@ -79,31 +80,7 @@ const FeedItem = ({post}: FeedItemProps) => {
                         {post.post.name}
                     </Text>
 
-                    {
-                        linkInfo.extType === ExtensionType.NONE && (
-                            <Text fontSize={"md"}>{truncatePost(post.post.body) ?? ""}</Text>
-                        ) || linkInfo.extType === ExtensionType.IMAGE && (
-                            <>
-                                <Pressable onPress={onImagePress}>
-                                    <Image
-                                        source={{uri: post.post.url}}
-                                        style={styles.image}
-                                        cachePolicy={"disk"}
-                                    />
-                                </Pressable>
-                                <ImageView
-                                    images={[{uri: post.post.url.toString()}]}
-                                    imageIndex={0}
-                                    visible={imageVisible}
-                                    onRequestClose={onImagePress}
-                                />
-                            </>
-                        ) || linkInfo.extType === ExtensionType.VIDEO && (
-                            <LinkButton link={linkInfo.link} />
-                        ) || linkInfo.extType === ExtensionType.GENERIC && (
-                            <LinkButton link={linkInfo.link} />
-                        )
-                    }
+                    <ContentView post={post} />
 
                     <Divider my={2} />
 
@@ -122,6 +99,7 @@ const FeedItem = ({post}: FeedItemProps) => {
                             <Icon as={Ionicons} name={"time-outline"} />
                             <Text>{moment(post.post.published).utc(true).fromNow()}</Text>
                         </View>
+
                         <View>
                             <View style={{alignItems: "flex-end", flex: 1, alignSelf: "flex-end", flexDirection: "row"}}>
                                 <IconButton
