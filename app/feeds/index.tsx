@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {FlatList, View} from "native-base";
-import {Settings, StyleSheet} from "react-native";
+import {RefreshControl, Settings, StyleSheet} from "react-native";
 import {GetPostsResponse, PostView} from "lemmy-js-client";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
 import FeedItem from "../../ui/FeedItem";
@@ -10,7 +10,8 @@ import LoadingView from "../../ui/LoadingView";
 import LoadingErrorView from "../../ui/LoadingErrorView";
 
 const FeedsIndex = () => {
-    const [posts, setPosts] = useState<GetPostsResponse|null|false>(null);
+    const [posts, setPosts] = useState<GetPostsResponse|null>(null);
+    const [loading, setLoading] = useState(true);
 
     const router = useRouter();
 
@@ -19,12 +20,13 @@ const FeedsIndex = () => {
     }, []);
 
     const load = async () => {
-        setPosts(null);
+        setLoading(true);
 
         try {
             await initialize((Settings.get("servers") as ILemmyServer[])?.[1]);
         } catch(e) {
             setPosts(false);
+            setLoading(false);
             return;
         }
 
@@ -35,8 +37,10 @@ const FeedsIndex = () => {
             });
 
             setPosts(res);
+            setLoading(false);
         } catch(e) {
             setPosts(false);
+            setLoading(false);
         }
     };
 
@@ -57,11 +61,11 @@ const FeedsIndex = () => {
 
     const keyExtractor = (item) => item.post.id.toString();
 
-    if(posts === null || (posts && posts.posts.length === 0)) {
+    if((!posts && loading) || (posts && posts.posts.length === 0)) {
         return <LoadingView />;
     }
 
-    if(posts === false) {
+    if(!posts && !loading) {
         return <LoadingErrorView onRetryPress={load} />;
     }
 
@@ -73,6 +77,7 @@ const FeedsIndex = () => {
                 keyExtractor={keyExtractor}
                 maxToRenderPerBatch={4}
                 initialNumToRender={4}
+                refreshControl={<RefreshControl refreshing={loading} onRefresh={load}/>}
             />
         </View>
     );
