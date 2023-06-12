@@ -13,6 +13,16 @@
     },
     "ios": {
       "bundleIdentifier": "com.gkasdorf.memmy"
-    }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "flipper": true
+          }
+        }
+      ]
+    ]
   }
 }
