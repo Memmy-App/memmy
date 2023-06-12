@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {StyleSheet} from "react-native";
+import {StyleSheet, TouchableOpacity} from "react-native";
 import {ArrowDownIcon, ArrowUpIcon, Divider, Icon, IconButton, Pressable, Text, View} from "native-base";
 import {PostView} from "lemmy-js-client";
 import {Ionicons} from "@expo/vector-icons";
@@ -10,6 +10,8 @@ import {Image} from "expo-image";
 import {ExtensionType, getLinkInfo} from "../helpers/LinkHelper";
 import {truncatePost} from "../helpers/TextHelper";
 import LinkButton from "./LinkButton";
+import {useRouter} from "expo-router";
+import ImageView from "react-native-image-viewing";
 
 interface FeedItemProps {
     post: PostView,
@@ -18,7 +20,10 @@ interface FeedItemProps {
 
 const FeedItem = ({post, onPress}: FeedItemProps) => {
     const [myVote, setMyVote] = useState(post.my_vote);
+    const [imageVisible, setImageVisible] = useState(false);
     const linkInfo = getLinkInfo(post.post.url);
+
+    const router = useRouter();
 
     const onVotePress = async (value: -1 | 0 | 1) => {
         if(value === 1 && myVote === 1) {
@@ -44,6 +49,10 @@ const FeedItem = ({post, onPress}: FeedItemProps) => {
         }
     };
 
+    const onImagePress = () => {
+        setImageVisible(prev => !prev);
+    };
+
     return (
         <View style={styles.container}>
             <Pressable onPress={() => onPress(post.post.id)}>
@@ -67,11 +76,21 @@ const FeedItem = ({post, onPress}: FeedItemProps) => {
                         linkInfo.extType === ExtensionType.NONE && (
                             <Text fontSize={"md"}>{truncatePost(post.post.body) ?? ""}</Text>
                         ) || linkInfo.extType === ExtensionType.IMAGE && (
-                            <Image
-                                source={{uri: post.post.url}}
-                                style={styles.image}
-                                cachePolicy={"disk"}
-                            />
+                            <>
+                                <Pressable onPress={onImagePress}>
+                                    <Image
+                                        source={{uri: post.post.url}}
+                                        style={styles.image}
+                                        cachePolicy={"disk"}
+                                    />
+                                </Pressable>
+                                <ImageView
+                                    images={[{uri: post.post.url.toString()}]}
+                                    imageIndex={0}
+                                    visible={imageVisible}
+                                    onRequestClose={onImagePress}
+                                />
+                            </>
                         ) || linkInfo.extType === ExtensionType.VIDEO && (
                             <LinkButton link={linkInfo.link} />
                         ) || linkInfo.extType === ExtensionType.GENERIC && (
