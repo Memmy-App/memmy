@@ -8,7 +8,7 @@ const OnboardingScreen = () => {
     const router = useRouter();
 
     return (
-        <VStack justifyContent={"center"} alignItems={"center"} pt={10} space={"md"}>
+        <VStack justifyContent={"center"} alignItems={"center"} pt={10} space={"md"} px={5}>
             <Text fontSize={32}>
                 Welcome to Lemmy!
             </Text>
@@ -23,7 +23,7 @@ const OnboardingScreen = () => {
                 <Button onPress={() => router.push("/onboarding/addAccount")}>
                     I Already Have an Account
                 </Button>
-                <Button>
+                <Button onPress={() => router.push("/onboarding/createAccount")}>
                     Get Started
                 </Button>
             </HStack>
