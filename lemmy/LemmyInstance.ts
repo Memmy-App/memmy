@@ -5,6 +5,11 @@ export let lemmyInstance: LemmyHttp | null = null;
 export let lemmyAuthToken: string | undefined = undefined;
 
 export const initialize = async (server: ILemmyServer) => {
+    if(server.auth) {
+        lemmyAuthToken = server.auth;
+        return;
+    }
+
     lemmyInstance = new LemmyHttp(`https://${server.server}`);
 
     const res = await lemmyInstance.login({
@@ -14,5 +19,3 @@ export const initialize = async (server: ILemmyServer) => {
 
     lemmyAuthToken = res.jwt;
 };
-
-export const isInitialized = () => lemmyInstance !== null;

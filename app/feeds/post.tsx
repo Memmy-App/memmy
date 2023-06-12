@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {PostView} from "lemmy-js-client";
 import {Stack, useRouter, useSearchParams} from "expo-router";
-import {isInitialized, lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
+import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import LoadingView from "../../ui/LoadingView";
 import {
     ArrowDownIcon,
@@ -36,11 +36,6 @@ const PostScreen = () => {
     const router = useRouter();
 
     useEffect(() => {
-        if(!isInitialized()) {
-            router.back();
-            return;
-        }
-
         load().then();
     }, []);
 

@@ -1,20 +1,25 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Text, View} from "native-base";
-import {Button, Settings, StyleSheet} from "react-native";
+import {Alert, Button, Settings, StyleSheet} from "react-native";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
-import {Stack, useRouter} from "expo-router";
+import {Stack, useFocusEffect, useRouter} from "expo-router";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 
-const TabsIndex = () => {
+const ServersIndex = () => {
     const [servers, setServers] = useState<ILemmyServer[]|null>(null);
 
     const router = useRouter();
 
-    useEffect(() => {
+    useFocusEffect(useCallback(() => {
         setServers(Settings.get("servers"));
-    }, []);
+    }, []));
 
     const onAddServerPress = () => {
+        if(servers && servers.length > 0) {
+            Alert.alert("Currently only one server is supported. Please edit your current server for now.");
+            return;
+        }
+
         router.push("/servers/addServer");
     };
 
@@ -26,7 +31,7 @@ const TabsIndex = () => {
                     headerRight: () => {
                         return (
                             <Button
-                                title={"+"}
+                                title={"Add"}
                                 onPress={onAddServerPress}
                             />
                         );
@@ -54,7 +59,7 @@ const TabsIndex = () => {
                                             title={server.server}
                                             accessory={"DisclosureIndicator"}
                                             onPress={() => {
-                                                router.push(`/servers/${server.server}`);
+                                                router.push({pathname: "/servers/addServer", params: {serverIndex: index}});
                                             }}
                                         />
                                     );
@@ -84,4 +89,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default TabsIndex;
+export default ServersIndex;

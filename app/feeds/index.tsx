@@ -23,9 +23,9 @@ const FeedsIndex = () => {
         setLoading(true);
 
         try {
-            await initialize((Settings.get("servers") as ILemmyServer[])?.[1]);
+            await initialize((Settings.get("servers") as ILemmyServer[])?.[0]);
         } catch(e) {
-            setPosts(false);
+            setPosts(null);
             setLoading(false);
             return;
         }
@@ -39,7 +39,7 @@ const FeedsIndex = () => {
             setPosts(res);
             setLoading(false);
         } catch(e) {
-            setPosts(false);
+            setPosts(null);
             setLoading(false);
         }
     };

@@ -1,19 +1,32 @@
-import React, {useState} from "react";
-import {Button, Settings, StyleSheet, TextInput} from "react-native";
+import React, {useEffect, useState} from "react";
+import {Alert, Button, Settings, StyleSheet, TextInput} from "react-native";
 import {ScrollView, useToast} from "native-base";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
-import {Stack, useRouter} from "expo-router";
+import {Stack, useRouter, useSearchParams} from "expo-router";
+import {initialize, lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
+import servers from "./index";
 
 const AddServerScreen = () => {
     const [form, setForm] = useState<ILemmyServer>({
         server: "",
         username: "",
-        password: ""
+        password: "",
+        auth: ""
     });
+    const [loading, setLoading] = useState(false);
+
+    const {serverIndex} = useSearchParams();
 
     const router = useRouter();
     const toast = useToast();
+
+    useEffect(() => {
+        if(serverIndex) {
+            const servers = Settings.get("servers");
+            setForm(servers[Number(serverIndex)] as ILemmyServer);
+        }
+    }, []);
 
     const onFormChange = (name: string, value: string) => {
         setForm({
@@ -22,7 +35,7 @@ const AddServerScreen = () => {
         });
     };
 
-    const onSavePress = () => {
+    const onSavePress = async () => {
         if(!form.server || !form.username || !form.password) {
             toast.show({
                 description: "All fields are required.",
@@ -31,20 +44,49 @@ const AddServerScreen = () => {
             return;
         }
 
-        const servers = Settings.get("servers") as ILemmyServer[] ?? [];
+        try {
+            setLoading(true);
 
-        if(servers.find((x) => (x.server.toLowerCase() === form.server.toLowerCase() && x.username.toLowerCase() === form.username.toLowerCase()))) {
-            toast.show({
-                description: "You have already added this server.",
-                duration: 3000
-            });
+            await initialize(form);
+        } catch {
+            Alert.alert("Error authenticating with server.");
+            setLoading(false);
             return;
         }
 
-        servers.push(form);
+        const servers = Settings.get("servers") as ILemmyServer[] ?? [];
+        const serverIndex = servers.findIndex((x) => (x.server.toLowerCase() === form.server.toLowerCase() && x.username.toLowerCase() === form.username.toLowerCase()))
+
+        if(serverIndex > -1) {
+            servers[serverIndex] = {
+                ...form,
+                auth: lemmyAuthToken
+            };
+        } else {
+            servers.push({
+                ...form,
+                auth: lemmyAuthToken
+            });
+        }
+
         Settings.set({
             servers
         });
+
+        router.back();
+    };
+
+    const onDeletePress = () => {
+        const servers = Settings.get("servers") as ILemmyServer[];
+        const serverIndex = servers.findIndex((x) => (x.server.toLowerCase() === form.server.toLowerCase() && x.username.toLowerCase() === form.username.toLowerCase()))
+
+        delete servers[serverIndex];
+
+        Settings.set({
+            servers
+        });
+
+        router.back();
     };
 
     return (
@@ -53,7 +95,7 @@ const AddServerScreen = () => {
                 options={{
                     headerRight: () => {
                         return(
-                            <Button title={"Save"} onPress={onSavePress} />
+                            <Button title={"Save"} onPress={onSavePress} disabled={loading} />
                         );
                     }
                 }}
@@ -72,6 +114,8 @@ const AddServerScreen = () => {
                             placeholder="Server Address"
                             value={form.server}
                             onChangeText={(text) => onFormChange("server", text)}
+                            autoCapitalize={"none"}
+                            autoCorrect={false}
                         />
                     } />
                 </Section>
@@ -88,6 +132,8 @@ const AddServerScreen = () => {
                             placeholder={"Username"}
                             value={form.username}
                             onChangeText={(text) => onFormChange("username", text)}
+                            autoCapitalize={"none"}
+                            autoCorrect={false}
                         />
                     } />
                     <Cell cellContentView={
@@ -96,9 +142,26 @@ const AddServerScreen = () => {
                             placeholder={"Password"}
                             value={form.password}
                             onChangeText={(text) => onFormChange("password", text)}
+                            autoCorrect={false}
+                            autoCapitalize={"none"}
+                            secureTextEntry={true}
                         />
                     } />
                 </Section>
+
+                {
+                    serverIndex && (
+                        <Section
+                            header={"DELETE"}
+                            roundedCorners={true}
+                            hideSurroundingSeparators={true}
+                        >
+                            <Cell cellContentView={
+                                <Button title={"Delete Server"} color={"red"} onPress={onDeletePress} />
+                            } />
+                        </Section>
+                    )
+                }
             </TableView>
         </ScrollView>
     );
