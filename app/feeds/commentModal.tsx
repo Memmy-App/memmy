@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from "react";
 import {Alert, Button, StyleSheet, TextInput} from "react-native";
-import {Stack, usePathname, useRouter, useSearchParams} from "expo-router";
+import {Stack, useRouter} from "expo-router";
 import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {useAppSelector} from "../../store";
 import {selectNewComment} from "../../slices/newComment/newCommentSlice";
 import {useDispatch} from "react-redux";
 import {setPostNewComment} from "../../slices/post/postSlice";
+import LoadingView from "../../ui/LoadingView";
 
 const CommentModalScreen = () => {
     const [content, setContent] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const router = useRouter();
     const dispatch = useDispatch();
@@ -27,6 +29,8 @@ const CommentModalScreen = () => {
         }
 
         try {
+            setLoading(true);
+
             const res = await lemmyInstance.createComment({
                 auth: lemmyAuthToken,
                 content: content,
@@ -41,10 +45,15 @@ const CommentModalScreen = () => {
 
             router.back();
         } catch(e) {
+            setLoading(false);
             Alert.alert("Error submitting comment.");
             return;
         }
     };
+
+    if(loading) {
+        return <LoadingView />;
+    }
 
     return (
         <KeyboardAwareScrollView>
@@ -54,7 +63,7 @@ const CommentModalScreen = () => {
                         <Button title={"Cancel"} onPress={router.back} />
                     ),
                     headerRight: () => (
-                        <Button title={"Submit"} onPress={onSubmitPress} />
+                        <Button title={"Submit"} onPress={onSubmitPress} disabled={loading} />
                     )
                 }}
             />
@@ -62,7 +71,7 @@ const CommentModalScreen = () => {
                 multiline={true}
                 autoCapitalize={"sentences"}
                 style={styles.input}
-                numberOfLines={10}
+                numberOfLines={20}
                 value={content}
                 onChangeText={setContent}
             />
@@ -81,7 +90,8 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         alignSelf: "stretch",
         padding: 10,
-        paddingTop: 15
+        paddingTop: 15,
+        height: 300
     }
 });
 
