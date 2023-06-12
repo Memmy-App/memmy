@@ -1,7 +1,7 @@
 import React from "react";
 import {StyleSheet} from "react-native";
 import {openLink} from "../helpers/LinkHelper";
-import {ChevronRightIcon, HStack, Icon, Pressable, Spacer, Text, View} from "native-base";
+import {ChevronRightIcon, HStack, Icon, Pressable, Spacer, Text} from "native-base";
 import {Ionicons} from "@expo/vector-icons";
 import {truncateLink} from "../helpers/TextHelper";
 

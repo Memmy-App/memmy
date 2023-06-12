@@ -1,32 +1,17 @@
 import React, {useEffect, useState} from "react";
-import {PostView} from "lemmy-js-client";
-import {Stack, useRouter, useSearchParams} from "expo-router";
+import {Stack, useRouter} from "expo-router";
 import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import LoadingView from "../../ui/LoadingView";
-import {
-    ArrowDownIcon,
-    ArrowUpIcon,
-    Center,
-    Divider,
-    HStack,
-    Icon,
-    IconButton,
-    Spinner,
-    Text,
-    View,
-    VStack
-} from "native-base";
+import {ArrowDownIcon, ArrowUpIcon, Center, Divider, HStack, Icon, IconButton, Spinner, Text, View,} from "native-base";
 import {StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment/moment";
 import ILemmyComment from "../../lemmy/types/ILemmyComment";
 import CommentItem from "../../ui/CommentItem";
 import LemmyCommentsHelper from "../../lemmy/LemmyCommentsHelper";
-import RenderHTML from "react-native-render-html";
-import {parseMarkdown} from "../../helpers/MarkdownHelper";
 import {FlashList} from "@shopify/flash-list";
 import {trigger} from "react-native-haptic-feedback";
-import {clearPost, selectPost, setPost} from "../../slices/post/postSlice";
+import {clearPost, selectPost} from "../../slices/post/postSlice";
 import {useAppDispatch, useAppSelector} from "../../store";
 import {setResponseTo} from "../../slices/newComment/newCommentSlice";
 import ContentView from "../../ui/ContentView";
@@ -37,7 +22,6 @@ const PostScreen = () => {
 
     const {post, newComment} = useAppSelector(selectPost);
 
-    const {postId} = useSearchParams();
     const router = useRouter();
 
     const dispatch = useAppDispatch();

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useState} from "react";
 import {Text, View} from "native-base";
 import {Alert, Button, Settings, StyleSheet} from "react-native";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";

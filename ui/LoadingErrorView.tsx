@@ -1,5 +1,5 @@
 import React from "react";
-import {Spinner, Text, View} from "native-base";
+import {Text, View} from "native-base";
 import {Button, StyleSheet} from "react-native";
 
 interface LoadingViewProps {

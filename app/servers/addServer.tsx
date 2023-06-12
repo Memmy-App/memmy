@@ -4,8 +4,7 @@ import {ScrollView, useToast} from "native-base";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
 import {Stack, useRouter, useSearchParams} from "expo-router";
-import {initialize, lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
-import servers from "./index";
+import {initialize, lemmyAuthToken} from "../../lemmy/LemmyInstance";
 
 const AddServerScreen = () => {
     const [form, setForm] = useState<ILemmyServer>({
