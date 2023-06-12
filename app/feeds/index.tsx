@@ -1,19 +1,15 @@
 import React, {useEffect, useState} from "react";
-import {FlatList, View} from "native-base";
-import {RefreshControl, Settings, StyleSheet} from "react-native";
-import {GetPostsResponse, PostView} from "lemmy-js-client";
+import {Settings, StyleSheet} from "react-native";
+import {PostView} from "lemmy-js-client";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
-import FeedItem from "../../ui/FeedItem";
-import {useRouter} from "expo-router";
 import {initialize, lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import LoadingView from "../../ui/LoadingView";
 import LoadingErrorView from "../../ui/LoadingErrorView";
+import FeedView from "../../ui/FeedView";
 
 const FeedsIndex = () => {
-    const [posts, setPosts] = useState<GetPostsResponse|null>(null);
+    const [posts, setPosts] = useState<PostView[]|null>(null);
     const [loading, setLoading] = useState(true);
-
-    const router = useRouter();
 
     useEffect(() => {
         load().then();
@@ -37,7 +33,7 @@ const FeedsIndex = () => {
                 sort: "New"
             });
 
-            setPosts(res);
+            setPosts(res.posts);
             setLoading(false);
         } catch(e) {
             setPosts(null);
@@ -45,15 +41,7 @@ const FeedsIndex = () => {
         }
     };
 
-    const postItem = ({item}: {item: PostView}) => {
-        return (
-            <FeedItem post={item} />
-        );
-    };
-
-    const keyExtractor = (item) => item.post.id.toString();
-
-    if((!posts && loading) || (posts && posts.posts.length === 0)) {
+    if((!posts && loading) || (posts && posts.length === 0)) {
         return <LoadingView />;
     }
 
@@ -61,24 +49,7 @@ const FeedsIndex = () => {
         return <LoadingErrorView onRetryPress={load} />;
     }
 
-    return (
-        <View style={styles.container}>
-            <FlatList
-                data={posts.posts}
-                renderItem={postItem}
-                keyExtractor={keyExtractor}
-                maxToRenderPerBatch={4}
-                initialNumToRender={4}
-                refreshControl={<RefreshControl refreshing={loading} onRefresh={load}/>}
-            />
-        </View>
-    );
+    return <FeedView posts={posts} refreshing={loading} refresh={load} />;
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    }
-});
 
 export default FeedsIndex;
