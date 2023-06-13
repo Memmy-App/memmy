@@ -6,7 +6,7 @@ import ILemmyServer from "../../../lemmy/types/ILemmyServer";
 import {Stack, useRouter, useSearchParams} from "expo-router";
 import {initialize, lemmyAuthToken} from "../../../lemmy/LemmyInstance";
 
-const AddServerScreen = () => {
+const EditAccountScreen = () => {
     const [form, setForm] = useState<ILemmyServer>({
         server: "",
         username: "",
@@ -176,4 +176,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AddServerScreen;
+export default EditAccountScreen;

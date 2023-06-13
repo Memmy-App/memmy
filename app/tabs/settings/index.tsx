@@ -40,7 +40,7 @@ const SettingsIndexScreen = () => {
                         cellStyle={"Basic"}
                         title={"Change Account Settings"}
                         accessory={"DisclosureIndicator"}
-                        onPress={() => router.push("/tabs/settings/account")}
+                        onPress={() => router.push("/tabs/settings/editAccount")}
                     />
                 </Section>
 
