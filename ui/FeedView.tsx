@@ -8,10 +8,13 @@ import LoadingErrorView from "./LoadingErrorView";
 import {Stack} from "expo-router";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import {FlashList} from "@shopify/flash-list";
-import {useAppDispatch} from "../store";
+import {useAppDispatch, useAppSelector} from "../store";
 import {setSort} from "../slices/posts/postsSlice";
 import SortIconType from "../types/SortIconType";
 import CIconButton from "./CIconButton";
+import HeaderDropdown from "./HeaderDropdown";
+import HeaderDropdownDrawer from "./HeaderDropdownDrawer";
+import {selectFeed} from "../slices/feed/feedSlice";
 
 interface FeedViewProps {
     posts: PostView[],
@@ -21,9 +24,11 @@ interface FeedViewProps {
 }
 
 const FeedView = ({posts, load, loading, sort}: FeedViewProps) => {
+    const [sortIcon, setSortIcon] = useState(SortIconType[2]);
+    const feed = useAppSelector(selectFeed);
+
     const {showActionSheetWithOptions} = useActionSheet();
     const dispatch = useAppDispatch();
-    const [sortIcon, setSortIcon] = useState(SortIconType[2]);
 
     const feedItem = ({item}: {item: PostView}) => {
         return (
@@ -70,11 +75,12 @@ const FeedView = ({posts, load, loading, sort}: FeedViewProps) => {
             <Stack.Screen
                 options={{
                     headerLeft: () => (
-                        // <Button title={sort} onPress={onSortPress} />
                         <CIconButton name={sortIcon} onPress={onSortPress} />
-                    )
+                    ),
+                    headerTitle: () => <HeaderDropdown title={feed.category.name} />
                 }}
             />
+
             <FlashList
                 data={posts}
                 renderItem={feedItem}

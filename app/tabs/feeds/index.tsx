@@ -6,6 +6,7 @@ import FeedView from "../../../ui/FeedView";
 import {useAppDispatch, useAppSelector} from "../../../store";
 import {selectPosts, setLoading, setPosts} from "../../../slices/posts/postsSlice";
 import {getPosts} from "../../../slices/posts/postsActions";
+import {setCategory} from "../../../slices/feed/feedSlice";
 
 const FeedsIndex = () => {
     const dispatch = useAppDispatch();
@@ -20,8 +21,8 @@ const FeedsIndex = () => {
         try {
             await initialize((Settings.get("servers") as ILemmyServer[])?.[0]);
         } catch(e) {
-            setPosts(null);
-            setLoading(false);
+            dispatch(setPosts(null));
+            dispatch(setLoading(false));
             return;
         }
 
@@ -29,6 +30,11 @@ const FeedsIndex = () => {
             auth: lemmyAuthToken,
             limit: 50,
             sort
+        }));
+
+        dispatch(setCategory({
+            name: "All",
+            type: "global"
         }));
     };
 
