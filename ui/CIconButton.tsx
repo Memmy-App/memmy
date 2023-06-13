@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import {Button} from "react-native";
 import {Icon, Pressable} from "native-base";
 import {Ionicons} from "@expo/vector-icons";
 

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Checkbox, HStack, Switch, Text, useToast, View, VStack} from "native-base";
+import {Button, HStack, Switch, Text, useToast, VStack} from "native-base";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
 import {useRouter} from "expo-router";
 import {initialize, lemmyAuthToken} from "../../lemmy/LemmyInstance";
@@ -7,7 +7,6 @@ import {Alert, Linking, Settings} from "react-native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import CTextInput from "../../ui/CTextInput";
 import {LemmyHttp} from "lemmy-js-client";
-import {Swipeable} from "react-native-gesture-handler";
 import LoadingModal from "../../ui/LoadingModal";
 
 interface RegisterForm {

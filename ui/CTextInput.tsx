@@ -1,6 +1,6 @@
 import React from "react";
-import {StyleProp, StyleSheet, TextInput} from "react-native";
-import {Text, View, VStack} from "native-base";
+import {StyleSheet, TextInput} from "react-native";
+import {Text, VStack} from "native-base";
 
 interface TextInputProps {
     name: string,

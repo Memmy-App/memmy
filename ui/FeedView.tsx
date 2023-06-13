@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {PostView, SortType} from "lemmy-js-client";
-import {IconButton, View} from "native-base";
-import {Button, RefreshControl, StyleSheet} from "react-native";
+import {View} from "native-base";
+import {RefreshControl, StyleSheet} from "react-native";
 import FeedItem from "./FeedItem";
 import LoadingView from "./LoadingView";
 import LoadingErrorView from "./LoadingErrorView";
@@ -11,7 +11,6 @@ import {FlashList} from "@shopify/flash-list";
 import {useAppDispatch} from "../store";
 import {setSort} from "../slices/posts/postsSlice";
 import SortIconType from "../types/SortIconType";
-import {Ionicons} from "@expo/vector-icons";
 import CIconButton from "./CIconButton";
 
 interface FeedViewProps {
