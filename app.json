@@ -20,8 +20,8 @@
       }
     },
     "ios": {
-      "bundleIdentifier": "com.gkasdorf.memmyapp",
       "supportsTablet": false,
+      "bundleIdentifier": "com.gkasdorf.memmyapp",
       "buildNumber": "4"
     },
     "plugins": [
@@ -34,6 +34,10 @@
           }
         }
       ]
-    ]
+    ],
+    "android": {
+      "package": "com.gkasdorf.memmyapp",
+      "versionCode": 2
+    }
   }
 }
