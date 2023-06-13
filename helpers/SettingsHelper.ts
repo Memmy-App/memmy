@@ -10,7 +10,7 @@ export const getServers = async (): Promise<ILemmyServer[] | null> => {
 };
 
 export const addServer = async (server: ILemmyServer) => {
-    const servers = await getServers();
+    const servers = await getServers() ?? [];
     servers.push(server);
     await AsyncStorage.setItem("@servers", JSON.stringify(servers));
 };

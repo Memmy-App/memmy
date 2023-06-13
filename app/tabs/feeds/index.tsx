@@ -37,7 +37,7 @@ const FeedsIndexScreen = () => {
         setLoading(true);
 
         try {
-            const servers = getServers();
+            const servers = await getServers();
             await initialize(servers[0]);
         } catch(e) {
             console.log("Error: ", e);
