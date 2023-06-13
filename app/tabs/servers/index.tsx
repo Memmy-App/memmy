@@ -5,7 +5,7 @@ import ILemmyServer from "../../../lemmy/types/ILemmyServer";
 import {Stack, useFocusEffect, useRouter} from "expo-router";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 
-const ServersIndex = () => {
+const ServersIndexScreen = () => {
     const [servers, setServers] = useState<ILemmyServer[]|null>(null);
 
     const router = useRouter();
@@ -89,4 +89,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default ServersIndex;
+export default ServersIndexScreen;
