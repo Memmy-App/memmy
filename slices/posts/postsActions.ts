@@ -1,7 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {GetPosts} from "lemmy-js-client";
 import {lemmyInstance} from "../../lemmy/LemmyInstance";
-import {setPosts} from "./postsSlice";
 
 export const getPosts = createAsyncThunk(
     "posts/getPosts",
@@ -9,7 +8,7 @@ export const getPosts = createAsyncThunk(
         try {
             const res = await lemmyInstance.getPosts(data);
 
-            thunkAPI.dispatch(setPosts(res.posts));
+            return res.posts;
         } catch(e) {
             thunkAPI.rejectWithValue(e);
         }

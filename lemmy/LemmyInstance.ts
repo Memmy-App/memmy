@@ -9,13 +9,13 @@ export const initialize = async (server: ILemmyServer) => {
 
     if(server.auth) {
         lemmyAuthToken = server.auth;
-        return;
+    } else {
+
+        const res = await lemmyInstance.login({
+            username_or_email: server.username,
+            password: server.password
+        });
+
+        lemmyAuthToken = res.jwt;
     }
-
-    const res = await lemmyInstance.login({
-        username_or_email: server.username,
-        password: server.password
-    });
-
-    lemmyAuthToken = res.jwt;
 };

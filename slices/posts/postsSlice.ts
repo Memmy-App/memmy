@@ -62,7 +62,8 @@ export const postsSlice = createSlice({
             state.error = true;
         });
 
-        builder.addCase(getPosts.fulfilled, (state: PostsState) => {
+        builder.addCase(getPosts.fulfilled, (state: PostsState, action) => {
+            state.posts = action.payload;
             state.loading = false;
             state.error = false;
         });

@@ -4,14 +4,14 @@ import {ArrowDownIcon, ArrowUpIcon, Divider, Icon, IconButton, Pressable, Text, 
 import {PostView} from "lemmy-js-client";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
-import {lemmyAuthToken, lemmyInstance} from "../lemmy/LemmyInstance";
+import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import {trigger} from "react-native-haptic-feedback";
 import {Image} from "expo-image";
 import {useRouter} from "expo-router";
 import {useDispatch} from "react-redux";
-import {setPost} from "../slices/post/postSlice";
-import ContentView from "./ContentView";
-import {setPostsVote} from "../slices/posts/postsSlice";
+import {setPost} from "../../slices/post/postSlice";
+import ContentView from "../ContentView";
+import {setPostsVote} from "../../slices/posts/postsSlice";
 
 interface FeedItemProps {
     post: PostView,

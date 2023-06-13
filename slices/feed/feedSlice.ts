@@ -3,7 +3,7 @@ import {RootState} from "../../store";
 
 interface FeedState {
     category: Category,
-    dropdownVisible: boolean
+    dropdownVisible: boolean,
 }
 
 interface Category {
@@ -23,8 +23,8 @@ const feedSlice = createSlice({
     name: "feed",
     initialState,
     reducers: {
-        setDropdownVisible: (state: FeedState, actions: PayloadAction<boolean>) => {
-            state.dropdownVisible = actions.payload;
+        setDropdownVisible: (state: FeedState) => {
+            state.dropdownVisible = !state.dropdownVisible;
         },
 
         setCategory: (state: FeedState, actions: PayloadAction<Category>) => {

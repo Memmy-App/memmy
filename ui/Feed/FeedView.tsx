@@ -3,27 +3,27 @@ import {PostView, SortType} from "lemmy-js-client";
 import {View} from "native-base";
 import {RefreshControl, StyleSheet} from "react-native";
 import FeedItem from "./FeedItem";
-import LoadingView from "./LoadingView";
-import LoadingErrorView from "./LoadingErrorView";
+import LoadingView from "../LoadingView";
+import LoadingErrorView from "../LoadingErrorView";
 import {Stack} from "expo-router";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import {FlashList} from "@shopify/flash-list";
-import {useAppDispatch, useAppSelector} from "../store";
-import {setSort} from "../slices/posts/postsSlice";
-import SortIconType from "../types/SortIconType";
-import CIconButton from "./CIconButton";
-import HeaderDropdown from "./HeaderDropdown";
-import HeaderDropdownDrawer from "./HeaderDropdownDrawer";
-import {selectFeed} from "../slices/feed/feedSlice";
+import {useAppDispatch, useAppSelector} from "../../store";
+import {setSort} from "../../slices/posts/postsSlice";
+import SortIconType from "../../types/SortIconType";
+import CIconButton from "../CIconButton";
+import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
+import {selectFeed} from "../../slices/feed/feedSlice";
 
 interface FeedViewProps {
     posts: PostView[],
     load: () => Promise<void>,
     loading: boolean,
     sort: SortType,
+    titleDropsdown?: boolean
 }
 
-const FeedView = ({posts, load, loading, sort}: FeedViewProps) => {
+const FeedView = ({posts, load, loading, sort, titleDropsdown = true}: FeedViewProps) => {
     const [sortIcon, setSortIcon] = useState(SortIconType[2]);
     const feed = useAppSelector(selectFeed);
 
@@ -76,10 +76,11 @@ const FeedView = ({posts, load, loading, sort}: FeedViewProps) => {
                 options={{
                     headerLeft: () => (
                         <CIconButton name={sortIcon} onPress={onSortPress} />
-                    ),
-                    headerTitle: () => <HeaderDropdown title={feed.category.name} />
+                    )
                 }}
             />
+
+            <FeedHeaderDropdownDrawer />
 
             <FlashList
                 data={posts}

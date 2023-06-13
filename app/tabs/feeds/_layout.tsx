@@ -1,9 +1,12 @@
 import React from "react";
-import {Stack, useRouter} from "expo-router";
-import {Button} from "react-native";
+import {Stack} from "expo-router";
+import FeedHeaderRightButton from "../../../ui/Feed/FeedHeaderRightButton";
+import FeedHeaderDropdown from "../../../ui/Feed/FeedHeaderDropdown";
+import {useAppSelector} from "../../../store";
+import {selectFeed} from "../../../slices/feed/feedSlice";
 
 const FeedsLayout = () => {
-    const router = useRouter();
+    const {category} = useAppSelector(selectFeed);
 
     return (
         <Stack>
@@ -12,7 +15,10 @@ const FeedsLayout = () => {
                 options={{
                     title: "Feeds",
                     headerRight: () => (
-                        <Button title={"New Post"} onPress={() => router.push("/tabs/feeds/newPost")} />
+                        <FeedHeaderRightButton />
+                    ),
+                    headerTitle: () => (
+                        <FeedHeaderDropdown title={category.name} enabled={true} />
                     )
                 }}
             />
