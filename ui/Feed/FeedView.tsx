@@ -72,7 +72,7 @@ const FeedView = ({posts, load, loading, sort, titleDropsdown = true}: FeedViewP
         <View style={styles.container}>
             <Stack.Screen
                 options={{
-                    headerLeft: () => (
+                    headerRight: () => (
                         <CIconButton name={sortIcon} onPress={onSortPress} />
                     )
                 }}

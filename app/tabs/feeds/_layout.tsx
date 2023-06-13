@@ -14,9 +14,6 @@ const FeedsLayout = () => {
                 name={"index"}
                 options={{
                     title: "Feeds",
-                    headerRight: () => (
-                        <FeedHeaderRightButton />
-                    ),
                     headerTitle: () => (
                         <FeedHeaderDropdown title={category.name} enabled={true} />
                     )
@@ -39,6 +36,13 @@ const FeedsLayout = () => {
                 name={"newPost"}
                 options={{
                     title: "New Post"
+                }}
+            />
+
+            <Stack.Screen
+                name={"[communityId]"}
+                options={{
+                    title: "Community"
                 }}
             />
         </Stack>
