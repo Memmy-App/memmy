@@ -192,6 +192,7 @@ const PostScreen = () => {
                 <IconButton icon={<Icon as={Ionicons} name={"arrow-undo-outline"} />} onPress={onCommentPress} />
                 <IconButton icon={<Icon as={Ionicons} name={"share-outline"} />} />
             </HStack>
+            <Divider />
         </View>
     );
 
