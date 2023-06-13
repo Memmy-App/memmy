@@ -14,15 +14,13 @@ import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
 
 interface FeedViewProps {
     posts: PostView[],
-    load: () => Promise<void>,
+    load: (refresh?: boolean) => Promise<void>,
     loading: boolean,
-    sort: SortType,
     titleDropsdown?: boolean,
     setSort:  React.Dispatch<React.SetStateAction<SortType>>,
-    communityTitle?: boolean
 }
 
-const FeedView = ({posts, load, loading, setSort, sort, titleDropsdown = true, communityTitle = false}: FeedViewProps) => {
+const FeedView = ({posts, load, loading, setSort, titleDropsdown = true}: FeedViewProps) => {
     const [sortIcon, setSortIcon] = useState(SortIconType[2]);
 
     const {showActionSheetWithOptions} = useActionSheet();
@@ -84,7 +82,7 @@ const FeedView = ({posts, load, loading, setSort, sort, titleDropsdown = true, c
                 data={posts}
                 renderItem={feedItem}
                 keyExtractor={keyExtractor}
-                refreshControl={<RefreshControl refreshing={loading} onRefresh={load}/>}
+                refreshControl={<RefreshControl refreshing={loading} onRefresh={() => load(true)}/>}
                 estimatedItemSize={200}
                 onEndReached={load}
                 onEndReachedThreshold={0.95}

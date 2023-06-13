@@ -17,7 +17,7 @@ const FeedsCommunityScreen = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        load().then();
+        load(true).then();
     }, [sort]);
 
     useEffect(() => {
@@ -33,7 +33,7 @@ const FeedsCommunityScreen = () => {
         }
     }, [updateVote]);
 
-    const load = async () => {
+    const load = async (refresh = false) => {
         setLoading(true);
 
         try {
@@ -45,7 +45,7 @@ const FeedsCommunityScreen = () => {
                 sort: sort
             });
 
-            if(!posts) {
+            if(!posts || refresh) {
                 setPosts(res.posts);
             } else {
                 setPosts([...posts, ...res.posts]);
@@ -58,7 +58,7 @@ const FeedsCommunityScreen = () => {
         }
     };
 
-    return <FeedView posts={posts} load={load} loading={loading} sort={sort} setSort={setSort} communityTitle />;
+    return <FeedView posts={posts} load={load} loading={loading} setSort={setSort} />;
 };
 
 export default FeedsCommunityScreen;

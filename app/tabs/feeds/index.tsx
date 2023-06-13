@@ -31,10 +31,10 @@ const FeedsIndexScreen = () => {
     }, [updateVote]);
 
     useEffect(() => {
-        load().then();
+        load(true).then();
     }, [sort]);
 
-    const load = async () => {
+    const load = async (refresh = false) => {
         setLoading(true);
 
         try {
@@ -54,7 +54,7 @@ const FeedsIndexScreen = () => {
                 sort: sort
             });
 
-            if(!posts) {
+            if(!posts || refresh) {
                 setPosts(res.posts);
             } else {
                 setPosts([...posts, ...res.posts]);
@@ -70,7 +70,7 @@ const FeedsIndexScreen = () => {
         dispatch(getSubscribedCommunities());
     };
 
-    return <FeedView posts={posts} loading={loading} load={load} sort={sort} setSort={setSort} titleDropsdown={true} />;
+    return <FeedView posts={posts} loading={loading} load={load} setSort={setSort} titleDropsdown={true} />;
 };
 
 export default FeedsIndexScreen;
