@@ -11,10 +11,8 @@ const FeedsCommunityScreen = () => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        console.log("Hello");
-        console.log(communityId);
         load().then();
-    }, []);
+    }, [sort]);
 
     const load = async () => {
         setLoading(true);
@@ -34,7 +32,7 @@ const FeedsCommunityScreen = () => {
         }
     };
 
-    return <FeedView posts={posts} load={load} loading={loading} sort={sort} setSort={setSort} />;
+    return <FeedView posts={posts} load={load} loading={loading} sort={sort} setSort={setSort} communityTitle />;
 };
 
 export default FeedsCommunityScreen;

@@ -19,9 +19,10 @@ interface FeedViewProps {
     sort: SortType,
     titleDropsdown?: boolean,
     setSort:  React.Dispatch<React.SetStateAction<SortType>>,
+    communityTitle?: boolean
 }
 
-const FeedView = ({posts, load, loading, setSort, sort, titleDropsdown = true}: FeedViewProps) => {
+const FeedView = ({posts, load, loading, setSort, sort, titleDropsdown = true, communityTitle = false}: FeedViewProps) => {
     const [sortIcon, setSortIcon] = useState(SortIconType[2]);
 
     const {showActionSheetWithOptions} = useActionSheet();
@@ -72,7 +73,8 @@ const FeedView = ({posts, load, loading, setSort, sort, titleDropsdown = true}: 
                 options={{
                     headerRight: () => (
                         <CIconButton name={sortIcon} onPress={onSortPress} />
-                    )
+                    ),
+                    title: posts[0].community.name
                 }}
             />
 
