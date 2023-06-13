@@ -8,8 +8,6 @@ import LoadingErrorView from "../LoadingErrorView";
 import {Stack} from "expo-router";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import {FlashList} from "@shopify/flash-list";
-import {useAppDispatch, useAppSelector} from "../../store";
-import {setSort} from "../../slices/posts/postsSlice";
 import SortIconType from "../../types/SortIconType";
 import CIconButton from "../CIconButton";
 import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
@@ -19,14 +17,14 @@ interface FeedViewProps {
     load: () => Promise<void>,
     loading: boolean,
     sort: SortType,
-    titleDropsdown?: boolean
+    titleDropsdown?: boolean,
+    setSort:  React.Dispatch<React.SetStateAction<SortType>>,
 }
 
-const FeedView = ({posts, load, loading, sort, titleDropsdown = true}: FeedViewProps) => {
+const FeedView = ({posts, load, loading, setSort, sort, titleDropsdown = true}: FeedViewProps) => {
     const [sortIcon, setSortIcon] = useState(SortIconType[2]);
 
     const {showActionSheetWithOptions} = useActionSheet();
-    const dispatch = useAppDispatch();
 
     const feedItem = ({item}: {item: PostView}) => {
         return (
@@ -45,13 +43,13 @@ const FeedView = ({posts, load, loading, sort, titleDropsdown = true}: FeedViewP
             if(index === cancelButtonIndex) return;
 
             if(index === 0) {
-                dispatch(setSort("TopDay"));
+                setSort("TopDay");
             } else if(index === 1) {
-                dispatch(setSort("TopWeek"));
+                setSort("TopWeek");
             } else if(index === 4) {
-                dispatch(setSort("MostComments"));
+                setSort("MostComments");
             } else {
-                dispatch(setSort(options[index] as SortType));
+                setSort(options[index] as SortType);
             }
 
             setSortIcon(SortIconType[index]);

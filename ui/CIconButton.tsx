@@ -8,10 +8,6 @@ interface CIconButtonProps {
 }
 
 const CIconButton = ({name, onPress}: CIconButtonProps) => {
-    useEffect(() => {
-        console.log(name);
-    }, [name]);
-
     return (
         <Pressable onPress={onPress}>
             <Icon as={Ionicons} name={name} color={"#007AFF"} size={6}/>
