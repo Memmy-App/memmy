@@ -22,7 +22,7 @@ const FeedItem = ({post}: FeedItemProps) => {
     const dispatch = useDispatch();
 
     const onVotePress = async (value: -1 | 0 | 1) => {
-        if(value === post.my_vote) value = 0;
+        if(value === post.my_vote && value !== 0) value = 0;
 
         const oldValue = post.my_vote;
 
