@@ -1,6 +1,5 @@
 import React from "react";
 import {Stack} from "expo-router";
-import FeedHeaderRightButton from "../../../ui/Feed/FeedHeaderRightButton";
 import FeedHeaderDropdown from "../../../ui/Feed/FeedHeaderDropdown";
 import {useAppSelector} from "../../../store";
 import {selectFeed} from "../../../slices/feed/feedSlice";

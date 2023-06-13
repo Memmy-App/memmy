@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {StyleSheet} from "react-native";
 import {ArrowDownIcon, ArrowUpIcon, Divider, Icon, IconButton, Pressable, Text, View} from "native-base";
 import {PostView} from "lemmy-js-client";
@@ -11,7 +11,7 @@ import {useRouter} from "expo-router";
 import {useDispatch} from "react-redux";
 import {setPost} from "../../slices/post/postSlice";
 import ContentView from "../ContentView";
-import {setPostsVote} from "../../slices/posts/postsSlice";
+import {setUpdateVote} from "../../slices/feed/feedSlice";
 
 interface FeedItemProps {
     post: PostView,
@@ -26,9 +26,9 @@ const FeedItem = ({post}: FeedItemProps) => {
 
         const oldValue = post.my_vote;
 
-        dispatch(setPostsVote({
+        dispatch(setUpdateVote({
             postId: post.post.id,
-            vote: value
+            vote: value,
         }));
 
         trigger("impactMedium");
@@ -40,9 +40,9 @@ const FeedItem = ({post}: FeedItemProps) => {
                 score: value
             });
         } catch(e) {
-            dispatch(setPostsVote({
+            dispatch(setUpdateVote({
                 postId: post.post.id,
-                vote: oldValue as -1|0|1
+                vote: oldValue as -1 | 0 | 1,
             }));
             return;
         }

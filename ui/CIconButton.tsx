@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Icon, Pressable} from "native-base";
 import {Ionicons} from "@expo/vector-icons";
 

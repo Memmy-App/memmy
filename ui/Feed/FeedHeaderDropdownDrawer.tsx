@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import {Alert, StyleSheet} from "react-native";
+import React from "react";
+import {StyleSheet} from "react-native";
 import {VStack} from "native-base";
 import {useAppDispatch, useAppSelector} from "../../store";
 import {selectFeed, setDropdownVisible} from "../../slices/feed/feedSlice";

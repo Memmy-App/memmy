@@ -15,7 +15,7 @@ import {clearPost, selectPost, setPostVote} from "../../../slices/post/postSlice
 import {useAppDispatch, useAppSelector} from "../../../store";
 import {setResponseTo} from "../../../slices/newComment/newCommentSlice";
 import ContentView from "../../../ui/ContentView";
-import {setPostsVote} from "../../../slices/posts/postsSlice";
+import {setUpdateVote} from "../../../slices/feed/feedSlice";
 
 const PostScreen = () => {
     const [comments, setComments] = useState<ILemmyComment[] | null>(null);
@@ -85,7 +85,7 @@ const PostScreen = () => {
         const oldValue = post.my_vote;
 
         dispatch(setPostVote(value));
-        dispatch(setPostsVote({
+        dispatch(setUpdateVote({
             postId: post.post.id,
             vote: value
         }));
@@ -100,10 +100,6 @@ const PostScreen = () => {
             });
         } catch(e) {
             dispatch(setPostVote(oldValue as -1|0|1));
-            dispatch(setPostsVote({
-                postId: post.post.id,
-                vote: oldValue as -1|0|1
-            }));
             return;
         }
     };

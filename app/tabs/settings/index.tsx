@@ -1,8 +1,7 @@
 import React, {useCallback, useState} from "react";
 import {VStack} from "native-base";
-import {Switch} from "react-native";
+import {Settings, StyleSheet, Switch} from "react-native";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
-import {Settings, StyleSheet} from "react-native";
 import {useFocusEffect, useRouter} from "expo-router";
 import ILemmyServer from "../../../lemmy/types/ILemmyServer";
 import {getBuildNumber, getVersion} from "react-native-device-info";
