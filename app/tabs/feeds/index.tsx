@@ -9,7 +9,7 @@ import {getPosts} from "../../../slices/posts/postsActions";
 import {setCategory} from "../../../slices/feed/feedSlice";
 import {getAllCommunities, getSubscribedCommunities} from "../../../slices/communities/communitiesActions";
 
-const FeedsIndex = () => {
+const FeedsIndexScreen = () => {
     const dispatch = useAppDispatch();
 
     const {posts, loading, sort} = useAppSelector(selectPosts);
@@ -46,4 +46,4 @@ const FeedsIndex = () => {
     return <FeedView posts={posts} loading={loading} load={load} sort={sort} titleDropsdown={true} />;
 };
 
-export default FeedsIndex;
+export default FeedsIndexScreen;
