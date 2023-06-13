@@ -1,5 +1,4 @@
 import React from "react";
-import {StyleSheet} from "react-native";
 import {openLink} from "../helpers/LinkHelper";
 import {ChevronRightIcon, HStack, Icon, Pressable, Spacer, Text} from "native-base";
 import {Ionicons} from "@expo/vector-icons";
@@ -35,8 +34,5 @@ const LinkButton = ({link}: LinkButtonProps) => {
         </Pressable>
     );
 };
-
-const styles = StyleSheet.create({
-});
 
 export default LinkButton;

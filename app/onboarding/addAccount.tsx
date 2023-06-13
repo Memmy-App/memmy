@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Text, VStack, Button, useToast} from "native-base";
+import {Button, Text, useToast, VStack} from "native-base";
 import {Alert, Settings} from "react-native";
 import CTextInput from "../../ui/CTextInput";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";

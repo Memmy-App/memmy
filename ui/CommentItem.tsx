@@ -24,7 +24,6 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
     const lastCommentId = useRef(comment.top.comment.id);
 
     const [collapsed, setCollapsed] = useState(false);
-    const [vote, setVote] = useState(comment.top.my_vote);
 
     const router = useRouter();
     const dispatch = useAppDispatch();
@@ -32,7 +31,6 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
     if(comment.top.comment.id !== lastCommentId.current) {
         lastCommentId.current = comment.top.comment.id;
         setCollapsed(false);
-        setVote(comment.top.my_vote);
     }
 
     const onCommentSwipe = (direction: string, swipeable: Swipeable) => {

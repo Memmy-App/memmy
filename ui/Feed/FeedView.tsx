@@ -1,26 +1,31 @@
-import React from "react";
+import React, {useState} from "react";
 import {PostView, SortType} from "lemmy-js-client";
 import {View} from "native-base";
-import {Button, RefreshControl, StyleSheet} from "react-native";
+import {RefreshControl, StyleSheet} from "react-native";
 import FeedItem from "./FeedItem";
-import LoadingView from "./LoadingView";
-import LoadingErrorView from "./LoadingErrorView";
+import LoadingView from "../LoadingView";
+import LoadingErrorView from "../LoadingErrorView";
 import {Stack} from "expo-router";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import {FlashList} from "@shopify/flash-list";
-import {useAppDispatch} from "../store";
-import {setSort} from "../slices/posts/postsSlice";
+import SortIconType from "../../types/SortIconType";
+import CIconButton from "../CIconButton";
+import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
 
 interface FeedViewProps {
     posts: PostView[],
     load: () => Promise<void>,
     loading: boolean,
     sort: SortType,
+    titleDropsdown?: boolean,
+    setSort:  React.Dispatch<React.SetStateAction<SortType>>,
+    communityTitle?: boolean
 }
 
-const FeedView = ({posts, load, loading, sort}: FeedViewProps) => {
+const FeedView = ({posts, load, loading, setSort, sort, titleDropsdown = true, communityTitle = false}: FeedViewProps) => {
+    const [sortIcon, setSortIcon] = useState(SortIconType[2]);
+
     const {showActionSheetWithOptions} = useActionSheet();
-    const dispatch = useAppDispatch();
 
     const feedItem = ({item}: {item: PostView}) => {
         return (
@@ -30,7 +35,7 @@ const FeedView = ({posts, load, loading, sort}: FeedViewProps) => {
 
     const onSortPress = () => {
         const options = ["Top Day", "Top Week", "Hot", "New", "Most Comments", "Cancel"];
-        const cancelButtonIndex = 4;
+        const cancelButtonIndex = 5;
 
         showActionSheetWithOptions({
             options,
@@ -39,14 +44,16 @@ const FeedView = ({posts, load, loading, sort}: FeedViewProps) => {
             if(index === cancelButtonIndex) return;
 
             if(index === 0) {
-                dispatch(setSort("TopDay"));
+                setSort("TopDay");
             } else if(index === 1) {
-                dispatch(setSort("TopWeek"));
+                setSort("TopWeek");
             } else if(index === 4) {
-                dispatch(setSort("MostComments"));
+                setSort("MostComments");
             } else {
-                dispatch(setSort(options[index] as SortType));
+                setSort(options[index] as SortType);
             }
+
+            setSortIcon(SortIconType[index]);
         });
     };
 
@@ -64,11 +71,15 @@ const FeedView = ({posts, load, loading, sort}: FeedViewProps) => {
         <View style={styles.container}>
             <Stack.Screen
                 options={{
-                    headerLeft: () => (
-                        <Button title={sort} onPress={onSortPress} />
-                    )
+                    headerRight: () => (
+                        <CIconButton name={sortIcon} onPress={onSortPress} />
+                    ),
+                    title: posts[0].community.name
                 }}
             />
+
+            <FeedHeaderDropdownDrawer />
+
             <FlashList
                 data={posts}
                 renderItem={feedItem}

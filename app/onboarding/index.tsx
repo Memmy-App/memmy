@@ -1,8 +1,8 @@
 import React from "react";
 import {StyleSheet} from "react-native";
-import {HStack, Text, View, VStack, Button, Spacer} from "native-base";
+import {Button, HStack, Text, VStack} from "native-base";
 import {Image} from "expo-image";
-import {Link, useRouter} from "expo-router";
+import {useRouter} from "expo-router";
 
 const OnboardingScreen = () => {
     const router = useRouter();
