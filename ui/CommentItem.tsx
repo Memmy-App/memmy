@@ -23,8 +23,6 @@ import Animated, {
     withSpring
 } from "react-native-reanimated";
 import {setResponseTo} from "../slices/newComment/newCommentSlice";
-import {setPostVote} from "../slices/post/postSlice";
-import {setUpdateVote} from "../slices/feed/feedSlice";
 import {lemmyAuthToken, lemmyInstance} from "../lemmy/LemmyInstance";
 
 interface CommentItemProps {
@@ -69,7 +67,7 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
 
     const width = Dimensions.get("screen").width;
 
-    const [color, setColor] = useState("#000");
+    const [color, setColor] = useState("#1abd3e");
     const [iconName, setIconName] = useState("");
 
     const translateX = useSharedValue(0);
