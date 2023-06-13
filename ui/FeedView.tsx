@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
 import {PostView, SortType} from "lemmy-js-client";
-import {View} from "native-base";
+import {IconButton, View} from "native-base";
 import {Button, RefreshControl, StyleSheet} from "react-native";
 import FeedItem from "./FeedItem";
 import LoadingView from "./LoadingView";
@@ -10,6 +10,9 @@ import {useActionSheet} from "@expo/react-native-action-sheet";
 import {FlashList} from "@shopify/flash-list";
 import {useAppDispatch} from "../store";
 import {setSort} from "../slices/posts/postsSlice";
+import SortIconType from "../types/SortIconType";
+import {Ionicons} from "@expo/vector-icons";
+import CIconButton from "./CIconButton";
 
 interface FeedViewProps {
     posts: PostView[],
@@ -21,6 +24,7 @@ interface FeedViewProps {
 const FeedView = ({posts, load, loading, sort}: FeedViewProps) => {
     const {showActionSheetWithOptions} = useActionSheet();
     const dispatch = useAppDispatch();
+    const [sortIcon, setSortIcon] = useState(SortIconType[2]);
 
     const feedItem = ({item}: {item: PostView}) => {
         return (
@@ -47,6 +51,8 @@ const FeedView = ({posts, load, loading, sort}: FeedViewProps) => {
             } else {
                 dispatch(setSort(options[index] as SortType));
             }
+
+            setSortIcon(SortIconType[index]);
         });
     };
 
@@ -65,7 +71,8 @@ const FeedView = ({posts, load, loading, sort}: FeedViewProps) => {
             <Stack.Screen
                 options={{
                     headerLeft: () => (
-                        <Button title={sort} onPress={onSortPress} />
+                        // <Button title={sort} onPress={onSortPress} />
+                        <CIconButton name={sortIcon} onPress={onSortPress} />
                     )
                 }}
             />
