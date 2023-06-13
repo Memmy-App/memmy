@@ -13,7 +13,6 @@ import {setSort} from "../../slices/posts/postsSlice";
 import SortIconType from "../../types/SortIconType";
 import CIconButton from "../CIconButton";
 import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
-import {selectFeed} from "../../slices/feed/feedSlice";
 
 interface FeedViewProps {
     posts: PostView[],
@@ -25,7 +24,6 @@ interface FeedViewProps {
 
 const FeedView = ({posts, load, loading, sort, titleDropsdown = true}: FeedViewProps) => {
     const [sortIcon, setSortIcon] = useState(SortIconType[2]);
-    const feed = useAppSelector(selectFeed);
 
     const {showActionSheetWithOptions} = useActionSheet();
     const dispatch = useAppDispatch();

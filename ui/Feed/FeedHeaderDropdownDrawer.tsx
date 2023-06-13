@@ -11,8 +11,6 @@ const FeedHeaderDropdownDrawer = () => {
     const {dropdownVisible} = useAppSelector(selectFeed);
     const {subscribedCommunities} = useAppSelector(selectCommunities);
 
-    const dispatch = useAppDispatch();
-
     useEffect(() => {
         console.log("Communities: ", subscribedCommunities);
     }, [subscribedCommunities]);

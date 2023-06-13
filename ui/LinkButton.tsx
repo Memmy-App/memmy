@@ -36,7 +36,4 @@ const LinkButton = ({link}: LinkButtonProps) => {
     );
 };
 
-const styles = StyleSheet.create({
-});
-
 export default LinkButton;

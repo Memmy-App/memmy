@@ -12,7 +12,7 @@ import {getAllCommunities, getSubscribedCommunities} from "../../../slices/commu
 const FeedsIndex = () => {
     const dispatch = useAppDispatch();
 
-    const {posts, loading, error, sort} = useAppSelector(selectPosts);
+    const {posts, loading, sort} = useAppSelector(selectPosts);
 
     useEffect(() => {
         load().then();
