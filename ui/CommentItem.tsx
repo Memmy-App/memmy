@@ -23,6 +23,9 @@ import Animated, {
     withSpring
 } from "react-native-reanimated";
 import {setResponseTo} from "../slices/newComment/newCommentSlice";
+import {setPostVote} from "../slices/post/postSlice";
+import {setUpdateVote} from "../slices/feed/feedSlice";
+import {lemmyAuthToken, lemmyInstance} from "../lemmy/LemmyInstance";
 
 interface CommentItemProps {
     comment: ILemmyComment,
@@ -33,6 +36,7 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
     const lastCommentId = useRef(comment.top.comment.id);
 
     const [collapsed, setCollapsed] = useState(false);
+    const [myVote, setMyVote] = useState(comment.top.my_vote);
 
     const router = useRouter();
     const dispatch = useAppDispatch();
@@ -41,6 +45,25 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
         lastCommentId.current = comment.top.comment.id;
         setCollapsed(false);
     }
+
+    const onVote = async (value: -1 | 0 | 1) => {
+        if(value === myVote && value !== 0) value = 0;
+
+        const oldValue = comment.top.my_vote;
+
+        setMyVote(value);
+
+        try {
+            await lemmyInstance.likeComment({
+                auth: lemmyAuthToken,
+                comment_id: comment.top.comment.id,
+                score: value
+            });
+        } catch(e) {
+            setMyVote(oldValue as -1|0|1);
+            return;
+        }
+    };
 
     // Gesture Logic
 
@@ -107,7 +130,9 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                 runOnJS(onDone)("comment");
             }
 
-            translateX.value = withSpring(0);
+            translateX.value = withSpring(0, {
+                damping: 40
+            });
         },
     });
 
@@ -137,6 +162,14 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
 
     function onDone(action: null|"upvote"|"downvote"|"comment"|"back") {
         switch (action) {
+            case "upvote": {
+                onVote(1);
+                break;
+            }
+            case "downvote": {
+                onVote(-1);
+                break;
+            }
             case "comment": {
                 dispatch(setResponseTo({
                     comment: comment.top
@@ -156,17 +189,21 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
             <View>
                 <View style={styles.backgroundContainer}>
                     <View style={styles.backgroundLeft} justifyContent={"center"} backgroundColor={color}>
-                        <Icon as={Ionicons} name={iconName} size={16} color={"white"} alignSelf={iconName === "arrow-undo" ? "flex-end" : "flex-start"} />
+                        <Icon as={Ionicons} name={iconName} size={12} color={"white"} alignSelf={iconName === "arrow-undo" ? "flex-end" : "flex-start"} />
                     </View>
                     <View style={styles.backgroundLeft} backgroundColor={color}>
 
                     </View>
                     <View style={styles.backgroundRight} justifyContent={"center"} backgroundColor={"#007AFF"}>
-                        <Icon as={Ionicons} name={"arrow-undo"} size={16} color={"white"} alignSelf={"flex-end"} />
+                        <Icon as={Ionicons} name={"arrow-undo"} size={12} color={"white"} alignSelf={"flex-end"} />
                     </View>
                 </View>
 
-                <PanGestureHandler onGestureEvent={gestureHandler}>
+                <PanGestureHandler
+                    onGestureEvent={gestureHandler}
+                    minPointers={1}
+                    activeOffsetX={[-10, 10]}
+                >
                     <Animated.View style={[animatedStyle]}>
                         <VStack pl={((depth - 1) * 2) + 4} style={styles.commentContainer}>
                             <View style={[depth > 1 && styles.side, {borderLeftColor: depthToColor(depth)}]}>
@@ -176,8 +213,16 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                                     <HStack mb={1} space={3} alignItems={"center"}>
                                         <Text fontWeight={"bold"}>{truncateName(comment.top.creator.name)}</Text>
                                         <HStack space={0} alignItems={"center"}>
-                                            <Icon as={Ionicons} name={"arrow-up-outline"} />
-                                            <Text color={"gray.500"}>{comment.top.counts.score}</Text>
+                                            <Icon
+                                                as={Ionicons}
+                                                name={myVote !== -1 ? "arrow-up-outline" : "arrow-down-outline"}
+                                                color={myVote === -1 ? "orange.500" : (myVote === 1 ? "green.500" : "gray.500")}
+                                            />
+                                            <Text
+                                                color={myVote === -1 ? "orange.500" : (myVote === 1 ? "green.500" : "gray.500")}
+                                            >
+                                                {comment.top.counts.score + myVote}
+                                            </Text>
                                         </HStack>
                                         <HStack space={1} alignItems={"center"}>
                                             <Icon as={Ionicons} name={"time-outline"} />
