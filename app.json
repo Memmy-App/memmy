@@ -22,14 +22,15 @@
     "ios": {
       "bundleIdentifier": "com.gkasdorf.memmyapp",
       "supportsTablet": false,
-      "buildNumber": "3"
+      "buildNumber": "4"
     },
     "plugins": [
       [
         "expo-build-properties",
         {
           "ios": {
-            "flipper": true
+            "flipper": true,
+            "deploymentTarget": "15.0"
           }
         }
       ]
