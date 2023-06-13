@@ -7,6 +7,7 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {useRouter} from "expo-router";
 import {initialize, lemmyAuthToken} from "../../lemmy/LemmyInstance";
 import LoadingModal from "../../ui/LoadingModal";
+import {addServer} from "../../helpers/SettingsHelper";
 
 const AddAccountScreen = () => {
     const [form, setForm] = useState<ILemmyServer>({
@@ -59,9 +60,7 @@ const AddAccountScreen = () => {
 
         server.auth = lemmyAuthToken;
 
-        Settings.set({
-            servers: [server]
-        });
+        await addServer(server);
 
         setLoading(false);
         router.replace("/tabs/feeds");

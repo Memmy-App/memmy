@@ -5,7 +5,7 @@ import {Cell, Section, TableView} from "react-native-tableview-simple";
 import ILemmyServer from "../../../lemmy/types/ILemmyServer";
 import {Stack, useRouter, useSearchParams} from "expo-router";
 import {initialize, lemmyAuthToken} from "../../../lemmy/LemmyInstance";
-import {getServers} from "../../../helpers/SettingsHelper";
+import {getServers, setServers} from "../../../helpers/SettingsHelper";
 
 const EditAccountScreen = () => {
     const [form, setForm] = useState<ILemmyServer>({
@@ -73,9 +73,7 @@ const EditAccountScreen = () => {
             });
         }
 
-        Settings.set({
-            servers
-        });
+        await setServers(servers);
 
         router.back();
     };
@@ -86,9 +84,7 @@ const EditAccountScreen = () => {
 
         delete servers[serverIndex];
 
-        Settings.set({
-            servers
-        });
+        await setServers(servers);
 
         router.back();
     };
