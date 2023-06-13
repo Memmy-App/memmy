@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {PostView, SortType} from "lemmy-js-client";
 import {View} from "native-base";
-import {RefreshControl, StyleSheet} from "react-native";
+import {Button, RefreshControl, StyleSheet} from "react-native";
 import FeedItem from "./FeedItem";
 import LoadingView from "../LoadingView";
 import LoadingErrorView from "../LoadingErrorView";
@@ -11,6 +11,8 @@ import {FlashList} from "@shopify/flash-list";
 import SortIconType from "../../types/SortIconType";
 import CIconButton from "../CIconButton";
 import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
+import {useAppDispatch, useAppSelector} from "../../store";
+import {selectFeed, setDropdownVisible} from "../../slices/feed/feedSlice";
 
 interface FeedViewProps {
     posts: PostView[],
@@ -24,7 +26,10 @@ interface FeedViewProps {
 const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communityTitle = false}: FeedViewProps) => {
     const [sortIcon, setSortIcon] = useState(SortIconType[2]);
 
+    const {dropdownVisible} = useAppSelector(selectFeed);
+
     const {showActionSheetWithOptions} = useActionSheet();
+    const dispatch = useAppDispatch();
 
     const feedItem = ({item}: {item: PostView}) => {
         return (
@@ -70,9 +75,13 @@ const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communi
         <View style={styles.container}>
             <Stack.Screen
                 options={{
-                    headerRight: () => (
-                        <CIconButton name={sortIcon} onPress={onSortPress} />
-                    ),
+                    headerRight: () => {
+                        if(dropdownVisible) {
+                            return <Button title={"Cancel"} onPress={() => dispatch(setDropdownVisible())} />;
+                        }
+
+                        return <CIconButton name={sortIcon} onPress={onSortPress} />;
+                    },
                     title: communityTitle ? posts[0].community.name : null
                 }}
             />
