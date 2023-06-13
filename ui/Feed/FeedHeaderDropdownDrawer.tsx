@@ -11,10 +11,6 @@ const FeedHeaderDropdownDrawer = () => {
     const {dropdownVisible} = useAppSelector(selectFeed);
     const {subscribedCommunities} = useAppSelector(selectCommunities);
 
-    useEffect(() => {
-        console.log("Communities: ", subscribedCommunities);
-    }, [subscribedCommunities]);
-
     const onCommunityPress = (community: CommunityView) => {
         Alert.alert(community.community.name);
     };
