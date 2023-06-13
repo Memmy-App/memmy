@@ -30,7 +30,7 @@ const FeedView = ({posts, load, loading, sort}: FeedViewProps) => {
 
     const onSortPress = () => {
         const options = ["Top Day", "Top Week", "Hot", "New", "Most Comments", "Cancel"];
-        const cancelButtonIndex = 4;
+        const cancelButtonIndex = 5;
 
         showActionSheetWithOptions({
             options,
