@@ -2,17 +2,22 @@ import React, {useEffect} from "react";
 import {Alert, StyleSheet} from "react-native";
 import {VStack} from "native-base";
 import {useAppDispatch, useAppSelector} from "../../store";
-import {selectFeed} from "../../slices/feed/feedSlice";
+import {selectFeed, setDropdownVisible} from "../../slices/feed/feedSlice";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 import {selectCommunities} from "../../slices/communities/communitiesSlice";
 import {CommunityView} from "lemmy-js-client";
+import {useRouter} from "expo-router";
 
 const FeedHeaderDropdownDrawer = () => {
     const {dropdownVisible} = useAppSelector(selectFeed);
     const {subscribedCommunities} = useAppSelector(selectCommunities);
 
+    const dispatch = useAppDispatch();
+    const router = useRouter();
+
     const onCommunityPress = (community: CommunityView) => {
-        Alert.alert(community.community.name);
+        dispatch(setDropdownVisible());
+        router.push(`/tabs/feeds/${community.community.id}`);
     };
 
     if(!dropdownVisible) return;
