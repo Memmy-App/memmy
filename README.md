@@ -1,6 +1,6 @@
-# memmy - An iOS client for Lemmy
+# memmy - An iOS and Android client for Lemmy
 
-An Apollo-inspired iOS client for using [Lemmy](https://github.com/LemmyNet/lemmy), a federated link aggregator.
+An Apollo-inspired iOS and Android client for using [Lemmy](https://github.com/LemmyNet/lemmy), a federated link aggregator.
 
 ## Work in Progress
 This is a work in progress and is not in a function state - yet. I intend to release builds on TestFlight starting in
@@ -14,7 +14,12 @@ to create your own builds.
 ```shell
 git clone https://github.com/gkasdorf/memmy.git
 cd memmy
-eas build -p ios --profile preview --local --output memmy-build.ipa 
+
+# IOS
+eas build -p ios --profile preview --local --output memmy-build.ipa
+
+# Android
+eas build -p android --profile preview --local --output memmy-build.apk
 ```
 
 Install the application through Xcode devices or however else you wish to install.
@@ -27,11 +32,6 @@ While there are certainly plenty of people who are adept at Swift,
 there are already a few projects out there that are using Swift to create their iOS Lemmy applications. I'd like to
 have a codebase where those who may not have a good grasp of native mobile app development to have a chance to contribute,
 such as those who already have a good grasp of React.
-
-#### Easily portable to Android
-Although I am not currently targeting Android, creating Android builds from this codebase will be certainly possible,
-with minor changes. If you are interested in doing this but don't know how to go about it, reach out and I will point
-you in the right direction.
 
 #### Compatible with already existing libraries
 Especially since Lemmy is an ongoing project that will certainly evolve over time, we can easily use the official
