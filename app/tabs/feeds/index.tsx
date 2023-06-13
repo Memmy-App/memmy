@@ -31,10 +31,10 @@ const FeedsIndexScreen = () => {
     }, [updateVote]);
 
     useEffect(() => {
-        load().then();
+        load(true).then();
     }, [sort]);
 
-    const load = async () => {
+    const load = async (refresh = false) => {
         setLoading(true);
 
         try {
@@ -50,10 +50,16 @@ const FeedsIndexScreen = () => {
             const res = await lemmyInstance.getPosts({
                 auth: lemmyAuthToken,
                 limit: 50,
+                page: !posts ? 1 : (posts.length / 50) + 1,
                 sort: sort
             });
 
-            setPosts(res.posts);
+            if(!posts || refresh) {
+                setPosts(res.posts);
+            } else {
+                setPosts([...posts, ...res.posts]);
+            }
+
             setLoading(false);
         } catch(e) {
             setPosts(null);
@@ -64,7 +70,7 @@ const FeedsIndexScreen = () => {
         dispatch(getSubscribedCommunities());
     };
 
-    return <FeedView posts={posts} loading={loading} load={load} sort={sort} setSort={setSort} titleDropsdown={true} />;
+    return <FeedView posts={posts} loading={loading} load={load} setSort={setSort} titleDropsdown={true} />;
 };
 
 export default FeedsIndexScreen;
