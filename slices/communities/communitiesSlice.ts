@@ -2,7 +2,6 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "../../store";
 import {CommunityView} from "lemmy-js-client";
 import {getAllCommunities, getSubscribedCommunities} from "./communitiesActions";
-import {getPosts} from "../posts/postsActions";
 
 interface CommunitiesState {
     allCommunities: CommunityView[],

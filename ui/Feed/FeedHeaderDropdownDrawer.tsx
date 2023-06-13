@@ -1,12 +1,11 @@
 import React, {useEffect} from "react";
-import {Alert, Button, StyleSheet} from "react-native";
+import {Alert, StyleSheet} from "react-native";
 import {VStack} from "native-base";
 import {useAppDispatch, useAppSelector} from "../../store";
-import {selectFeed, setDropdownVisible} from "../../slices/feed/feedSlice";
+import {selectFeed} from "../../slices/feed/feedSlice";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 import {selectCommunities} from "../../slices/communities/communitiesSlice";
 import {CommunityView} from "lemmy-js-client";
-import {Stack} from "expo-router";
 
 const FeedHeaderDropdownDrawer = () => {
     const {dropdownVisible} = useAppSelector(selectFeed);
