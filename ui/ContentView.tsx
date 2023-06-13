@@ -37,7 +37,7 @@ const ContentView = ({post, truncate = false}: ContentViewProps) => {
                         source={{uri: post.post.thumbnail_url}}
                         style={styles.image}
                         cachePolicy={"disk"}
-                        resizeMode={"contain"}
+                        contentFit={"contain"}
                     />
                 </Pressable>
                 <ImageView
