@@ -5,8 +5,7 @@ import {Cell, Section, TableView} from "react-native-tableview-simple";
 import {Settings, StyleSheet} from "react-native";
 import {useFocusEffect, useRouter} from "expo-router";
 import ILemmyServer from "../../../lemmy/types/ILemmyServer";
-import {getApplicationName, getBuildNumber, getReadableVersion, getVersion} from "react-native-device-info";
-import {useFocus} from "native-base/lib/typescript/components/primitives";
+import {getBuildNumber, getVersion} from "react-native-device-info";
 
 const SettingsIndexScreen = () => {
     const [server, setServer] = useState(Settings.get("servers")[0] as ILemmyServer);
