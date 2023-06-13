@@ -86,6 +86,9 @@ const FeedView = ({posts, load, loading, setSort, sort, titleDropsdown = true, c
                 keyExtractor={keyExtractor}
                 refreshControl={<RefreshControl refreshing={loading} onRefresh={load}/>}
                 estimatedItemSize={200}
+                onEndReached={load}
+                onEndReachedThreshold={0.95}
+                ListFooterComponent={loading ? <LoadingView /> : null}
             />
         </View>
     );

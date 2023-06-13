@@ -50,10 +50,16 @@ const FeedsIndexScreen = () => {
             const res = await lemmyInstance.getPosts({
                 auth: lemmyAuthToken,
                 limit: 50,
+                page: !posts ? 1 : (posts.length / 50) + 1,
                 sort: sort
             });
 
-            setPosts(res.posts);
+            if(!posts) {
+                setPosts(res.posts);
+            } else {
+                setPosts([...posts, ...res.posts]);
+            }
+
             setLoading(false);
         } catch(e) {
             setPosts(null);
