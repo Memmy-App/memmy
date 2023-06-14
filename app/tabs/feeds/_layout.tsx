@@ -1,13 +1,8 @@
 import React from "react";
 import {Stack} from "expo-router";
-import FeedHeaderDropdown from "../../../ui/Feed/FeedHeaderDropdown";
-import {useAppSelector} from "../../../store";
-import {selectFeed} from "../../../slices/feed/feedSlice";
 import {useTheme} from "native-base";
 
 const FeedsLayout = () => {
-    const {category} = useAppSelector(selectFeed);
-
     const theme = useTheme();
 
     return (
@@ -25,9 +20,6 @@ const FeedsLayout = () => {
                 name={"index"}
                 options={{
                     title: "Feeds",
-                    headerTitle: () => (
-                        <FeedHeaderDropdown title={category.name} enabled={true} />
-                    )
                 }}
             />
             <Stack.Screen
