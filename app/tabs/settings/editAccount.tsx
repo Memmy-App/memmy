@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {Alert, Button, Settings, StyleSheet, TextInput} from "react-native";
-import {ScrollView, useToast} from "native-base";
+import {Alert, Button, StyleSheet, TextInput} from "react-native";
+import {useTheme, useToast, VStack} from "native-base";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 import ILemmyServer from "../../../lemmy/types/ILemmyServer";
 import {Stack, useRouter, useSearchParams} from "expo-router";
@@ -20,6 +20,7 @@ const EditAccountScreen = () => {
 
     const router = useRouter();
     const toast = useToast();
+    const theme = useTheme();
 
     useEffect(() => {
         if(serverIndex) {
@@ -90,7 +91,7 @@ const EditAccountScreen = () => {
     };
 
     return (
-        <ScrollView style={styles.container}>
+        <VStack flex={1} backgroundColor={"screen.800"}>
             <Stack.Screen
                 options={{
                     headerRight: () => {
@@ -108,16 +109,22 @@ const EditAccountScreen = () => {
                     hideSurroundingSeparators={true}
                     footer={"URL for the server you wish to connect"}
                 >
-                    <Cell cellContentView={
-                        <TextInput
-                            style={{fontSize: 16, flex: 1}}
-                            placeholder="Server Address"
-                            value={form.server}
-                            onChangeText={(text) => onFormChange("server", text)}
-                            autoCapitalize={"none"}
-                            autoCorrect={false}
-                        />
-                    } />
+                    <Cell
+                        cellContentView={
+                            <TextInput
+                                style={{fontSize: 16, flex: 1, color: theme.colors.lightText}}
+                                placeholderTextColor={theme.colors.screen["400"]}
+                                placeholder="Server Address"
+                                value={form.server}
+                                onChangeText={(text) => onFormChange("server", text)}
+                                autoCapitalize={"none"}
+                                autoCorrect={false}
+                            />
+                        }
+                        backgroundColor={theme.colors.screen["700"]}
+                        titleTextColor={theme.colors.lightText}
+                        rightDetailColor={theme.colors.screen["400"]}
+                    />
                 </Section>
 
                 <Section
@@ -126,27 +133,39 @@ const EditAccountScreen = () => {
                     hideSurroundingSeparators={true}
                     footer={"Credentials for the server you are connecting."}
                 >
-                    <Cell cellContentView={
-                        <TextInput
-                            style={{fontSize: 16, flex: 1}}
-                            placeholder={"Username"}
-                            value={form.username}
-                            onChangeText={(text) => onFormChange("username", text)}
-                            autoCapitalize={"none"}
-                            autoCorrect={false}
-                        />
-                    } />
-                    <Cell cellContentView={
-                        <TextInput
-                            style={{fontSize: 16, flex: 1}}
-                            placeholder={"Password"}
-                            value={form.password}
-                            onChangeText={(text) => onFormChange("password", text)}
-                            autoCorrect={false}
-                            autoCapitalize={"none"}
-                            secureTextEntry={true}
-                        />
-                    } />
+                    <Cell
+                        cellContentView={
+                            <TextInput
+                                style={{fontSize: 16, flex: 1, color: theme.colors.lightText}}
+                                placeholderTextColor={theme.colors.screen["400"]}
+                                placeholder={"Username"}
+                                value={form.username}
+                                onChangeText={(text) => onFormChange("username", text)}
+                                autoCapitalize={"none"}
+                                autoCorrect={false}
+                            />
+                        }
+                        backgroundColor={theme.colors.screen["700"]}
+                        titleTextColor={theme.colors.lightText}
+                        rightDetailColor={theme.colors.screen["400"]}
+                    />
+                    <Cell
+                        cellContentView={
+                            <TextInput
+                                style={{fontSize: 16, flex: 1, color: theme.colors.lightText}}
+                                placeholderTextColor={theme.colors.screen["400"]}
+                                placeholder={"Password"}
+                                value={form.password}
+                                onChangeText={(text) => onFormChange("password", text)}
+                                autoCorrect={false}
+                                autoCapitalize={"none"}
+                                secureTextEntry={true}
+                            />
+                        }
+                        backgroundColor={theme.colors.screen["700"]}
+                        titleTextColor={theme.colors.lightText}
+                        rightDetailColor={theme.colors.screen["400"]}
+                    />
                 </Section>
 
                 {
@@ -163,7 +182,7 @@ const EditAccountScreen = () => {
                     )
                 }
             </TableView>
-        </ScrollView>
+        </VStack>
     );
 };
 

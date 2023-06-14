@@ -23,8 +23,8 @@ const FeedHeaderDropdown = ({title, enabled}: HeaderDropdownProps) => {
     return (
         <Pressable onPress={onPress}>
             <Text fontWeight={"bold"} fontSize={16}>
-                {title}
-                <Icon as={Ionicons} name={dropdownVisible ? "caret-up-outline" : "caret-down-outline"} color={"black"} />
+                {title}&nbsp;&nbsp;
+                <Icon as={Ionicons} name={dropdownVisible ? "caret-up-outline" : "caret-down-outline"} color={"white"} />
             </Text>
         </Pressable>
     );

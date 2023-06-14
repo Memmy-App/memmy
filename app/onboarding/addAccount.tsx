@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Button, Text, useToast, VStack} from "native-base";
-import {Alert, Settings} from "react-native";
+import {Alert} from "react-native";
 import CTextInput from "../../ui/CTextInput";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";

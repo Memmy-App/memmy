@@ -1,11 +1,19 @@
 import React from "react";
 import {Tabs} from "expo-router";
-import {Icon} from "native-base";
+import {Icon, useTheme} from "native-base";
 import {Ionicons} from "@expo/vector-icons";
 
 const Layout = () => {
+    const theme = useTheme();
+
     return (
-        <Tabs>
+        <Tabs
+            screenOptions={{
+                tabBarStyle: {
+                    backgroundColor: theme.colors.screen[900]
+                }
+            }}
+        >
             <Tabs.Screen
                 name={"feeds"}
                 options={{

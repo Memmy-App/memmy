@@ -3,7 +3,7 @@ import {Button, HStack, Switch, Text, useToast, VStack} from "native-base";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
 import {useRouter} from "expo-router";
 import {initialize, lemmyAuthToken} from "../../lemmy/LemmyInstance";
-import {Alert, Linking, Settings} from "react-native";
+import {Alert, Linking} from "react-native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import CTextInput from "../../ui/CTextInput";
 import {LemmyHttp} from "lemmy-js-client";

@@ -1,43 +1,31 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {PostView} from "lemmy-js-client";
 import {ExtensionType, getLinkInfo} from "../helpers/LinkHelper";
-import {HStack, Pressable, Text, View} from "native-base";
+import {Text, useTheme, VStack} from "native-base";
 import {truncatePost} from "../helpers/TextHelper";
 import LinkButton from "./LinkButton";
 import {Dimensions, StyleSheet} from "react-native";
 import {parseMarkdown} from "../helpers/MarkdownHelper";
 import RenderHTML from "react-native-render-html";
-import {Link} from "expo-router";
 import ImageModal from "react-native-image-modal";
-import FastImage from "react-native-fast-image";
 
 interface ContentViewProps {
     post: PostView,
     truncate?: boolean,
-    alwaysShowBody?: boolean
+    showBody?: boolean,
+    showTitle?: boolean
 }
 
-const ContentView = ({post, truncate = false, alwaysShowBody = false}: ContentViewProps) => {
+const ContentView = ({post, truncate = false, showBody = false, showTitle = false}: ContentViewProps) => {
     const linkInfo = getLinkInfo(post.post.url);
-    const [imageVisible, setImageVisible] = useState(false);
 
-    const onImagePress = () => {
-        setImageVisible(prev => !prev);
-    };
+    const theme = useTheme();
 
     return (
         <>
             {
                 linkInfo.extType === ExtensionType.IMAGE && (
-                    <View style={styles.imageContainer}>
-                        {/*<Pressable onPress={onImagePress}>*/}
-                        {/*    <Image*/}
-                        {/*        source={{uri: post.post.url}}*/}
-                        {/*        style={styles.image}*/}
-                        {/*        cachePolicy={"disk"}*/}
-                        {/*        contentFit={"contain"}*/}
-                        {/*    />*/}
-                        {/*</Pressable>*/}
+                    <VStack mb={3}>
                         <ImageModal
                             isTranslucent={true}
                             swipeToDismiss={true}
@@ -46,17 +34,27 @@ const ContentView = ({post, truncate = false, alwaysShowBody = false}: ContentVi
                             source={{
                                 uri: post.post.url
                             }}
+                            imageBackgroundColor={theme.colors.screen["700"]}
                         />
-
-                    </View>
+                    </VStack>
                 )
             }
 
             {
-                (linkInfo.extType === ExtensionType.NONE || alwaysShowBody) && (
-                    <RenderHTML source={{
-                        html: (truncate ? parseMarkdown(truncatePost(post.post.body)) : parseMarkdown(post.post.body)) ?? ""
-                    }} contentWidth={Dimensions.get("window").width}/>
+                showTitle && (
+                    <Text fontSize={"xl"} mx={4} mb={2}>
+                        {post.post.name}
+                    </Text>
+                )
+            }
+
+            {
+                (linkInfo.extType === ExtensionType.NONE || showBody) && (
+                    <VStack px={4}>
+                        <RenderHTML source={{
+                            html: `<div style="color: white; font-size: 16px">` + (truncate ? parseMarkdown(truncatePost(post.post.body)) : parseMarkdown(post.post.body)) + "</div>" ?? ""
+                        }} contentWidth={Dimensions.get("window").width}/>
+                    </VStack>
                 )
             }
 
@@ -67,28 +65,14 @@ const ContentView = ({post, truncate = false, alwaysShowBody = false}: ContentVi
                     <LinkButton link={linkInfo.link} />
                 )
             }
-
-            <HStack>
-                <Text>in </Text>
-                <Link href={`/tabs/feeds/${post.community.id}`}>
-                    <Text fontWeight={"bold"}>{post.community.name}</Text>
-                </Link>
-                <Text> by </Text>
-                <Text fontWeight={"bold"}>{post.creator.name}</Text>
-            </HStack>
         </>
     );
 };
 
 const styles = StyleSheet.create({
-    imageContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
     image: {
-        width: Dimensions.get("screen").width - 25,
-        height: 250
+        height: 350,
+        width: Dimensions.get("screen").width
     },
 });
 

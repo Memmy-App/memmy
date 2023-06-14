@@ -16,13 +16,14 @@ const LinkButton = ({link}: LinkButtonProps) => {
     return (
         <Pressable onPress={onPress}>
             <HStack
-                backgroundColor={"gray.200"}
+                backgroundColor={"screen.700"}
                 borderRadius={5}
                 padding={4}
                 flexDirection={"row"}
                 alignItems={"center"}
                 space={2}
                 my={4}
+                mx={5}
             >
                 <Icon as={Ionicons} name={"link"} />
                 <Spacer />

@@ -1,6 +1,6 @@
-import React, {ReactElement, ReactNode} from "react";
+import React from "react";
 import {StyleSheet} from "react-native";
-import {Icon, ScrollView, Text, View, VStack} from "native-base";
+import {Icon, ScrollView, View, VStack} from "native-base";
 import {useAppDispatch, useAppSelector} from "../../store";
 import {selectFeed, setDropdownVisible, setFeedListingType} from "../../slices/feed/feedSlice";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
