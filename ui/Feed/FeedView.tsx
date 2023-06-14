@@ -1,6 +1,6 @@
 import React, {useRef, useState} from "react";
 import {PostView, SortType} from "lemmy-js-client";
-import {View} from "native-base";
+import {useTheme, View} from "native-base";
 import {Button, RefreshControl, StyleSheet} from "react-native";
 import FeedItem from "./FeedItem";
 import LoadingView from "../LoadingView";
@@ -36,6 +36,7 @@ const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communi
 
     const {showActionSheetWithOptions} = useActionSheet();
     const dispatch = useAppDispatch();
+    const theme = useTheme();
 
     const feedItem = ({item}: {item: PostView}) => {
         return (
@@ -90,7 +91,11 @@ const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communi
     };
 
     const keyExtractor = (item) => item.post.id.toString();
-    const refreshControl = <RefreshControl refreshing={loading} onRefresh={() => load(true)}/>;
+    const refreshControl = <RefreshControl
+        refreshing={loading}
+        onRefresh={() => load(true)}
+        tintColor={theme.colors.screen[300]}
+    />;
 
     if((!posts && loading) || (posts && posts.length === 0)) {
         return <LoadingView />;
