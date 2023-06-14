@@ -32,7 +32,7 @@ export const getSubscribedCommunities = createAsyncThunk(
                 limit: 50,
             });
 
-            return res.communities;
+            return res.communities.sort((a, b) => a.community.name.localeCompare(b.community.name));
         } catch(e) {
             thunkAPI.rejectWithValue(e);
         }
