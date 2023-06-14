@@ -1,8 +1,8 @@
 import React from "react";
 import {StyleSheet} from "react-native";
 import {Button, HStack, Text, VStack} from "native-base";
-import {Image} from "expo-image";
 import {useRouter} from "expo-router";
+import FastImage from "react-native-fast-image";
 
 const OnboardingScreen = () => {
     const router = useRouter();
@@ -12,7 +12,7 @@ const OnboardingScreen = () => {
             <Text fontSize={32}>
                 Welcome to Lemmy!
             </Text>
-            <Image
+            <FastImage
                 source={require("../../assets/splash.png")}
                 style={styles.image}
             />
