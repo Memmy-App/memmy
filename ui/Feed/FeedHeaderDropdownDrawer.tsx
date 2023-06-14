@@ -9,6 +9,7 @@ import {CommunityView, ListingType} from "lemmy-js-client";
 import {useRouter} from "expo-router";
 import FeedHeaderDropdownHeaderComponent from "./FeedHeaderDropdownHeaderComponent";
 import {Ionicons} from "@expo/vector-icons";
+import {getBaseUrl} from "../../helpers/LinkHelper";
 
 const FeedHeaderDropdownDrawer = () => {
     const {dropdownVisible} = useAppSelector(selectFeed);
@@ -49,7 +50,7 @@ const FeedHeaderDropdownDrawer = () => {
                                                     <Cell
                                                         key={community.community.id}
                                                         cellStyle={"Basic"}
-                                                        title={community.community.name}
+                                                        title={`${community.community.name}@${getBaseUrl(community.community.actor_id)}`}
                                                         accessory={"DisclosureIndicator"}
                                                         onPress={() => onCommunityPress(community)}
                                                     />

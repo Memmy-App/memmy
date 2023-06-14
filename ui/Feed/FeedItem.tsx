@@ -77,7 +77,7 @@ const FeedItem = ({post}: FeedItemProps) => {
                 <>
                     <HStack mx={4} mb={1}>
                         <Text>in </Text>
-                        <Link href={`/tabs/feeds/${post.community.id}`}>
+                        <Link href={{pathname: `/tabs/feeds/${post.community.id}`, params: {actorId: encodeURIComponent(post.community.actor_id)}}}>
                             <Text fontWeight={"bold"}>{post.community.name}</Text>
                         </Link>
                         <Text> by </Text>

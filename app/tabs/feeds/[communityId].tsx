@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from "react";
-import {useLocalSearchParams} from "expo-router";
+import {Stack, useLocalSearchParams} from "expo-router";
 import {PostView, SortType} from "lemmy-js-client";
 import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
 import FeedView from "../../../ui/Feed/FeedView";
 import {clearUpdateVote, selectFeed} from "../../../slices/feed/feedSlice";
 import {useAppDispatch, useAppSelector} from "../../../store";
+import {Text, VStack} from "native-base";
+import {getBaseUrl} from "../../../helpers/LinkHelper";
+import {removeDuplicatePosts} from "../../../lemmy/LemmyHelpers";
 
 const FeedsCommunityScreen = () => {
-    const {communityId} = useLocalSearchParams();
+    const {communityId, actorId} = useLocalSearchParams();
     const [posts, setPosts] = useState<PostView[]|null>(null);
     const [sort, setSort] = useState<SortType|null>(null);
     const [loading, setLoading] = useState(false);
@@ -41,14 +44,14 @@ const FeedsCommunityScreen = () => {
                 auth: lemmyAuthToken,
                 community_id: Number(communityId),
                 limit: 20,
-                page: !posts ? 1 : (posts.length / 20) + 1,
+                page: (!posts || refresh) ? 1 : (posts.length / 20) + 1,
                 sort: sort
             });
 
             if(!posts || refresh) {
                 setPosts(res.posts);
             } else {
-                setPosts([...posts, ...res.posts]);
+                setPosts(prev => [...prev, ...removeDuplicatePosts(prev.slice(0, 50), res.posts)]);
             }
 
             setLoading(false);
@@ -58,7 +61,21 @@ const FeedsCommunityScreen = () => {
         }
     };
 
-    return <FeedView posts={posts} load={load} loading={loading} setSort={setSort} communityTitle={true} />;
+    return (
+        <>
+            <Stack.Screen
+                options={{
+                    headerTitle: () => (
+                        <VStack alignItems={"center"}>
+                            <Text fontSize={16} fontWeight={"semibold"}>Hey</Text>
+                            <Text fontSize={12}>@{getBaseUrl(actorId.toString())}</Text>
+                        </VStack>
+                    )
+                }}
+            />
+            <FeedView posts={posts} load={load} loading={loading} setSort={setSort} communityTitle={true} />
+        </>
+    );
 };
 
 export default FeedsCommunityScreen;

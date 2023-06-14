@@ -9,6 +9,7 @@ import {getServers} from "../../../helpers/SettingsHelper";
 import {selectSettings} from "../../../slices/settings/settingsSlice";
 import {Stack} from "expo-router";
 import FeedHeaderDropdown from "../../../ui/Feed/FeedHeaderDropdown";
+import {removeDuplicatePosts} from "../../../lemmy/LemmyHelpers";
 
 const FeedsIndexScreen = () => {
     const dispatch = useAppDispatch();
@@ -18,7 +19,7 @@ const FeedsIndexScreen = () => {
     const [posts, setPosts] = useState<PostView[]|null>(null);
     const [loading, setLoading] = useState(false);
     const [sort, setSort] = useState<SortType>(settings.defaultSort);
-    const [listingType] = useState<ListingType>(settings.defaultListingType);
+    const [listingType, setListingType] = useState<ListingType>(settings.defaultListingType);
 
     const {updateVote} = useAppSelector(selectFeed);
 
@@ -58,7 +59,7 @@ const FeedsIndexScreen = () => {
             const res = await lemmyInstance.getPosts({
                 auth: lemmyAuthToken,
                 limit: 20,
-                page: !posts ? 1 : (posts.length / 20) + 1,
+                page: (!posts || refresh) ? 1 : (posts.length / 20) + 1,
                 sort: sort,
                 type_: listingType,
             });
@@ -66,7 +67,7 @@ const FeedsIndexScreen = () => {
             if(!posts || refresh) {
                 setPosts(res.posts);
             } else {
-                setPosts([...posts, ...res.posts]);
+                setPosts(prev => [...prev, ...removeDuplicatePosts(prev.slice(0, 50), res.posts)]);
             }
 
             setLoading(false);
@@ -97,7 +98,7 @@ const FeedsIndexScreen = () => {
                 }}
             />
 
-            <FeedView posts={posts} loading={loading} load={load} setSort={setSort} titleDropsdown={true} />
+            <FeedView posts={posts} loading={loading} load={load} setSort={setSort} titleDropsdown={true} setListingType={setListingType} />
         </>
     );
 };

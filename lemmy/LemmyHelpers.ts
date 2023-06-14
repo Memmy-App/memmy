@@ -1,4 +1,4 @@
-import {CommunityView, Post} from "lemmy-js-client";
+import {CommunityView, Post, PostView} from "lemmy-js-client";
 import ELemmyPostType from "./types/ELemmyPostType";
 
 export const getType = (post: Post): ELemmyPostType => {
@@ -23,4 +23,8 @@ export const isSubscribed = (communityId: number, communities: CommunityView[]):
     const res = communities.find((c) => c.community.id === communityId);
 
     return !!res;
+};
+
+export const removeDuplicatePosts = (currentList: PostView[], newItems: PostView[]) => {
+    return newItems.filter((p) => currentList.findIndex((pp) => pp.post.id === p.post.id) === -1);
 };
