@@ -202,7 +202,16 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                     hitSlop={{left: -25}}
                 >
                     <Animated.View style={[animatedStyle]}>
-                        <VStack pl={((depth - 1) * 2) + 4} style={[styles.commentContainer, {backgroundColor: theme.colors.screen["800"]}]}>
+                        <VStack
+                            flex={1}
+                            py={1.5}
+                            style={[
+                                {
+                                    backgroundColor: theme.colors.screen["800"],
+                                    paddingLeft: ((depth) * 8)
+                                }
+                            ]}
+                        >
                             <View style={[depth > 1 && styles.side, {borderLeftColor: depthToColor(depth)}]}>
                                 <Pressable
                                     onPress={() => setCollapsed(!collapsed)}
