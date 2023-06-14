@@ -7,6 +7,8 @@ import {ListingType, PostView, SortType} from "lemmy-js-client";
 import {clearUpdateVote, selectFeed} from "../../../slices/feed/feedSlice";
 import {getServers} from "../../../helpers/SettingsHelper";
 import {selectSettings} from "../../../slices/settings/settingsSlice";
+import {Stack} from "expo-router";
+import FeedHeaderDropdown from "../../../ui/Feed/FeedHeaderDropdown";
 
 const FeedsIndexScreen = () => {
     const dispatch = useAppDispatch();
@@ -16,7 +18,7 @@ const FeedsIndexScreen = () => {
     const [posts, setPosts] = useState<PostView[]|null>(null);
     const [loading, setLoading] = useState(false);
     const [sort, setSort] = useState<SortType>(settings.defaultSort);
-    const [listingType, setListingType] = useState<ListingType>(settings.defaultListingType);
+    const [listingType] = useState<ListingType>(settings.defaultListingType);
 
     const {updateVote} = useAppSelector(selectFeed);
 
@@ -77,7 +79,27 @@ const FeedsIndexScreen = () => {
         dispatch(getSubscribedCommunities());
     };
 
-    return <FeedView posts={posts} loading={loading} load={load} setSort={setSort} titleDropsdown={true} />;
+    const sortFix = () => {
+        if(sort === "MostComments") return "Most Comments";
+        else if(sort === "TopDay") return "Top Day";
+        else if(sort === "TopWeek") return "Top Week";
+
+        return sort;
+    };
+
+    return (
+        <>
+            <Stack.Screen
+                options={{
+                    headerTitle: () => (
+                        <FeedHeaderDropdown title={sortFix()} enabled={true} />
+                    )
+                }}
+            />
+
+            <FeedView posts={posts} loading={loading} load={load} setSort={setSort} titleDropsdown={true} />
+        </>
+    );
 };
 
 export default FeedsIndexScreen;
