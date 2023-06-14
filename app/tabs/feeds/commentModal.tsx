@@ -94,7 +94,8 @@ const styles = StyleSheet.create({
         alignSelf: "stretch",
         padding: 10,
         paddingTop: 15,
-        height: 300
+        height: 300,
+        fontSize: 16
     }
 });
 

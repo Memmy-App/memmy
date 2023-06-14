@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Stack, useRouter} from "expo-router";
+import {Link, Stack, useRouter} from "expo-router";
 import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
 import LoadingView from "../../../ui/LoadingView";
 import {ArrowDownIcon, ArrowUpIcon, Center, Divider, HStack, Icon, IconButton, Spinner, Text, View,} from "native-base";
@@ -131,10 +131,14 @@ const PostScreen = () => {
                 }}
             />
             <Text fontSize={"2xl"}>{post.post.name}</Text>
-            <ContentView post={post} />
+
+            <ContentView post={post} alwaysShowBody={true} />
+
             <HStack mt={2}>
                 <Text>in </Text>
-                <Text fontWeight={"bold"}>{post.community.name} </Text>
+                <Link href={`/tabs/feeds/${post.community.id}`}>
+                    <Text fontWeight={"bold"}>{post.community.name} </Text>
+                </Link>
                 <Text>by </Text>
                 <Text fontWeight={"bold"}>{post.creator.name}</Text>
             </HStack>

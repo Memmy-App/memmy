@@ -1,10 +1,13 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "../../store";
+import {ListingType} from "lemmy-js-client";
+import {marked} from "marked";
 
 interface FeedState {
     category: Category,
     dropdownVisible: boolean,
     updateVote: UpdateVote|null,
+    listingType: ListingType,
 }
 
 interface Category {
@@ -23,7 +26,8 @@ const initialState: FeedState = {
         type: "global"
     },
     updateVote: null,
-    dropdownVisible: false
+    dropdownVisible: false,
+    listingType: "All",
 };
 
 const feedSlice = createSlice({
@@ -42,9 +46,13 @@ const feedSlice = createSlice({
             state.updateVote = actions.payload;
         },
 
+        setFeedListingType: (state: FeedState, actions: PayloadAction<ListingType>) => {
+            state.listingType = actions.payload;
+        },
+
         clearUpdateVote: (state: FeedState) => {
             state.updateVote = null;
-        }
+        },
     }
 });
 
@@ -54,6 +62,7 @@ export const {
     setDropdownVisible,
     setCategory,
     setUpdateVote,
-    clearUpdateVote
+    clearUpdateVote,
+    setFeedListingType,
 } = feedSlice.actions;
 export default feedSlice.reducer;
