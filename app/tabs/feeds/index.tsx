@@ -14,7 +14,7 @@ const FeedsIndexScreen = () => {
     const [loading, setLoading] = useState(false);
     const [sort, setSort] = useState<SortType>("Hot");
 
-    const {updateVote} = useAppSelector(selectFeed);
+    const {updateVote, listingType} = useAppSelector(selectFeed);
 
     useEffect(() => {
         if(updateVote) {
@@ -31,7 +31,7 @@ const FeedsIndexScreen = () => {
 
     useEffect(() => {
         load(true).then();
-    }, [sort]);
+    }, [sort, listingType]);
 
     const load = async (refresh = false) => {
         setLoading(true);
@@ -51,7 +51,8 @@ const FeedsIndexScreen = () => {
                 auth: lemmyAuthToken,
                 limit: 50,
                 page: !posts ? 1 : (posts.length / 50) + 1,
-                sort: sort
+                sort: sort,
+                type_: listingType,
             });
 
             if(!posts || refresh) {

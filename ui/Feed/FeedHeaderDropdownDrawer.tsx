@@ -1,15 +1,17 @@
-import React from "react";
+import React, {ReactElement, ReactNode} from "react";
 import {StyleSheet} from "react-native";
-import {Pressable, ScrollView, View, VStack} from "native-base";
+import {Icon, ScrollView, Text, View, VStack} from "native-base";
 import {useAppDispatch, useAppSelector} from "../../store";
-import {selectFeed, setDropdownVisible} from "../../slices/feed/feedSlice";
+import {selectFeed, setDropdownVisible, setFeedListingType} from "../../slices/feed/feedSlice";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 import {selectCommunities} from "../../slices/communities/communitiesSlice";
-import {CommunityView} from "lemmy-js-client";
+import {CommunityView, ListingType} from "lemmy-js-client";
 import {useRouter} from "expo-router";
+import FeedHeaderDropdownHeaderComponent from "./FeedHeaderDropdownHeaderComponent";
+import {Ionicons} from "@expo/vector-icons";
 
 const FeedHeaderDropdownDrawer = () => {
-    const {dropdownVisible} = useAppSelector(selectFeed);
+    const {dropdownVisible, listingType} = useAppSelector(selectFeed);
     const {subscribedCommunities} = useAppSelector(selectCommunities);
 
     const dispatch = useAppDispatch();
@@ -20,6 +22,11 @@ const FeedHeaderDropdownDrawer = () => {
         router.push(`/tabs/feeds/${community.community.id}`);
     };
 
+    const onSelectListingType = (type: ListingType) => {
+        dispatch(setFeedListingType(type));
+        dispatch(setDropdownVisible());
+    };
+
     if(!dropdownVisible) return;
 
     return (
@@ -28,9 +35,36 @@ const FeedHeaderDropdownDrawer = () => {
                 <ScrollView>
                     <TableView style={styles.table}>
                         <Section
-                            roundedCorners={true}
-                            hideSurroundingSeparators={true}
+                            hideSurroundingSeparators={false}
+                            headerComponent={<FeedHeaderDropdownHeaderComponent text={"View"} />}
                         >
+
+                            <Cell
+                                cellStyle={"Basic"}
+                                title={"All"}
+                                onPress={() => onSelectListingType("All")}
+                                cellAccessoryView={listingType === "All" ? <Icon as={Ionicons} name={"checkmark-outline"} size={6} /> : null}
+                            />
+                            <Cell
+                                cellStyle={"Basic"}
+                                title={"Local"}
+                                onPress={() => onSelectListingType("Local")}
+                                cellAccessoryView={listingType === "Local" ? <Icon as={Ionicons} name={"checkmark-outline"} size={6} /> : null}
+
+                            />
+                            <Cell
+                                cellStyle={"Basic"}
+                                title={"Subscribed"}
+                                onPress={() => onSelectListingType("Subscribed")}
+                                cellAccessoryView={listingType === "Subscribed" ? <Icon as={Ionicons} name={"checkmark-outline"} size={6} /> : null}
+                            />
+                        </Section>
+
+                        <Section
+                            hideSurroundingSeparators={false}
+                            headerComponent={<FeedHeaderDropdownHeaderComponent text={"Subscribed"} />}
+                        >
+
                             {
                                 subscribedCommunities.length === 0 ? (
                                     <Cell
@@ -68,10 +102,8 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 5,
-        backgroundColor: "rgba(0, 0, 0, .2)",
+        backgroundColor: "rgba(0, 0, 0, .5)",
         position: "absolute",
-        padding: 10,
         zIndex: 1,
         top: -10,
         bottom: 0,
@@ -87,6 +119,11 @@ const styles = StyleSheet.create({
 
     table: {
         flex: 1,
+    },
+
+    header: {
+        flex: 1,
+        backgroundColor: "gray"
     }
 });
 
