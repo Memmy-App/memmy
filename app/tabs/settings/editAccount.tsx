@@ -12,9 +12,11 @@ const EditAccountScreen = () => {
         server: "",
         username: "",
         password: "",
-        auth: ""
+        auth: "",
+        totpToken: ""
     });
     const [loading, setLoading] = useState(false);
+    const [showTotpToken, setShowTotpToken] = useState(false);
 
     const {serverIndex} = useSearchParams();
 
@@ -53,8 +55,12 @@ const EditAccountScreen = () => {
             setLoading(true);
 
             await initialize(form);
-        } catch {
-            Alert.alert("Error authenticating with server.");
+        } catch(e) {
+            if (e === "missing_totp_token") {
+                setShowTotpToken(true);
+            } else {
+                Alert.alert("Error authenticating with server.");
+            }
             setLoading(false);
             return;
         }
@@ -166,6 +172,28 @@ const EditAccountScreen = () => {
                         titleTextColor={theme.colors.lightText}
                         rightDetailColor={theme.colors.screen["400"]}
                     />
+                    {
+                        showTotpToken && (
+                            <Cell
+                                cellContentView={
+                                    <TextInput
+                                        style={{fontSize: 16, flex: 1, color: theme.colors.lightText}}
+                                        placeholderTextColor={theme.colors.screen["400"]}
+                                        placeholder={"2FA Token"}
+                                        value={form.totpToken}
+                                        onChangeText={(text) => onFormChange("totpToken", text)}
+                                        autoCorrect={false}
+                                        autoCapitalize={"none"}
+                                        secureTextEntry={true}
+                                        autoFocus={showTotpToken}
+                                    />
+                                }
+                                backgroundColor={theme.colors.screen["700"]}
+                                titleTextColor={theme.colors.lightText}
+                                rightDetailColor={theme.colors.screen["400"]}
+                            />
+                        )
+                    }
                 </Section>
 
                 {

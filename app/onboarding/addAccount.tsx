@@ -14,9 +14,11 @@ const AddAccountScreen = () => {
         server: "",
         username: "",
         password: "",
-        auth: ""
+        auth: "",
+        totpToken: ""
     });
     const [loading, setLoading] = useState(false);
+    const [showTotpToken, setShowTotpToken] = useState(false);
 
     const toast = useToast();
     const router = useRouter();
@@ -47,6 +49,7 @@ const AddAccountScreen = () => {
             username: form.username,
             password: form.password,
             server: serverParsed,
+            totpToken: form.totpToken
         };
 
         try {
@@ -54,7 +57,11 @@ const AddAccountScreen = () => {
 
             await initialize(server);
         } catch(e) {
-            Alert.alert("Error", e);
+            if (e === "missing_totp_token") {
+                setShowTotpToken(true);
+            } else {
+                Alert.alert("Error", e);
+            }
             setLoading(false);
             return;
         }
@@ -83,6 +90,7 @@ const AddAccountScreen = () => {
                     onChange={onFormChange}
                     autoCapitalize={"none"}
                     autoCorrect={false}
+                    autoFocus={true}
                 />
                 <CTextInput
                     name={"username"}
@@ -103,6 +111,21 @@ const AddAccountScreen = () => {
                     autoCorrect={false}
                     secure
                 />
+                {
+                    showTotpToken && (
+                        <CTextInput
+                            name={"totpToken"}
+                            value={form.totpToken}
+                            placeholder={"2FA Token"}
+                            label={"2FA Token"}
+                            onChange={onFormChange}
+                            autoCapitalize={"none"}
+                            autoCorrect={false}
+                            autoFocus={showTotpToken}
+                            secure
+                        />
+                    )
+                }
                 <Button mx={2} disabled={loading} onPress={onPress}>
                     Add Account
                 </Button>
