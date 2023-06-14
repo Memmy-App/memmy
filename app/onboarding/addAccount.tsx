@@ -48,7 +48,7 @@ const AddAccountScreen = () => {
         const server: ILemmyServer = {
             username: form.username,
             password: form.password,
-            server: serverPasred,
+            server: serverParsed,
             totpToken: form.totpToken
         };
 
