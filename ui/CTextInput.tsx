@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {StyleSheet, TextInput} from "react-native";
 import {Text, VStack} from "native-base";
 
@@ -12,10 +12,30 @@ interface TextInputProps {
     secure?: boolean,
     autoCapitalize?: "none" | "sentences" | "words" | "characters",
     autoCorrect?: boolean,
-    autoFocus?: boolean
+    autoFocus?: boolean,
+    autoFocusConditional?: boolean
 }
 
-const CTextInput = ({name, value, onChange, placeholder, label, style = {}, secure = false, autoCapitalize = "sentences", autoCorrect = true, autoFocus = false}: TextInputProps) => {
+const CTextInput = (
+    {
+        name,
+        value,
+        onChange,
+        placeholder,
+        label,
+        style = {},
+        secure = false,
+        autoCapitalize = "sentences",
+        autoCorrect = true,
+        autoFocus = false,
+    }: TextInputProps) =>
+{
+    const ref = useCallback(node => {
+        if(!node) return;
+
+        if(autoFocus) node.focus();
+    }, []);
+
     return (
         <VStack>
             <Text mx={3}>
@@ -29,7 +49,7 @@ const CTextInput = ({name, value, onChange, placeholder, label, style = {}, secu
                 autoCapitalize={autoCapitalize}
                 autoCorrect={autoCorrect}
                 secureTextEntry={secure}
-                autoFocus={autoFocus}
+                ref={ref}
             />
         </VStack>
     );

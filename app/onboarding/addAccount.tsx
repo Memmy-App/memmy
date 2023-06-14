@@ -90,6 +90,7 @@ const AddAccountScreen = () => {
                     onChange={onFormChange}
                     autoCapitalize={"none"}
                     autoCorrect={false}
+                    autoFocus={true}
                 />
                 <CTextInput
                     name={"username"}
