@@ -26,7 +26,7 @@ interface FeedViewProps {
 const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communityTitle = false}: FeedViewProps) => {
     const [sortIcon, setSortIcon] = useState(SortIconType[2]);
 
-    const flashList = useRef();
+    const flashList = useRef<FlashList<any>>();
 
     const {dropdownVisible} = useAppSelector(selectFeed);
 
