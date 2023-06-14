@@ -1,6 +1,6 @@
 # memmy - An iOS and Android client for Lemmy
 
-An Apollo-inspired iOS and Android client for using [Lemmy](https://github.com/LemmyNet/lemmy), a federated link aggregator.
+An Apollo-inspired iOS and Android client for using [Lemmy](https://github.com/LemmyNet/lemmy), a federated link aggregator. Heavly influenced and inspired by Apollo for Reddit. Thanks [Christian](https://github.com/christianselig).
 
 ## Work in Progress
 This is a work in progress and is not in a function state - yet. I intend to release builds on TestFlight starting in
@@ -58,3 +58,5 @@ how themes work. You are more than welcome to submit a PR that includes code mod
 
 ## Acknowledgements
 Thanks to [Interstellar_1@lemmy.world](https://lemmy.world/u/Interstellar_1) for creating app graphics.
+
+<a href="https://www.buymeacoffee.com/gavink" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
