@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, HStack, Switch, Text, useToast, VStack} from "native-base";
+import {Button, HStack, Switch, Text, useTheme, useToast, VStack} from "native-base";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
 import {useRouter} from "expo-router";
 import {initialize, lemmyAuthToken} from "../../lemmy/LemmyInstance";
@@ -34,6 +34,7 @@ const CreateAccountScreen = () => {
 
     const toast = useToast();
     const router = useRouter();
+    const theme = useTheme();
 
     useEffect(() => {
         if(!ready) return;
@@ -133,9 +134,9 @@ const CreateAccountScreen = () => {
     };
 
     return (
-        <KeyboardAwareScrollView>
+        <KeyboardAwareScrollView style={{backgroundColor: theme.colors.screen[800]}}>
             <LoadingModal loading={loading} />
-            <VStack pt={10} mb={5} space={"md"} justifyContent={"center"}>
+            <VStack flex={1} pt={10} mb={5} space={"md"} justifyContent={"center"}>
                 {
                     sentEmail ? (
                         <VStack px={4} space={"md"}>
