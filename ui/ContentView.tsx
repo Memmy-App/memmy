@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {PostView} from "lemmy-js-client";
 import {ExtensionType, getLinkInfo} from "../helpers/LinkHelper";
-import {Pressable} from "native-base";
+import {HStack, Pressable, Text} from "native-base";
 import {truncatePost} from "../helpers/TextHelper";
 import {Image} from "expo-image";
 import ImageView from "react-native-image-viewing";
@@ -9,6 +9,7 @@ import LinkButton from "./LinkButton";
 import {Dimensions, StyleSheet} from "react-native";
 import {parseMarkdown} from "../helpers/MarkdownHelper";
 import RenderHTML from "react-native-render-html";
+import {Link} from "expo-router";
 
 interface ContentViewProps {
     post: PostView,
@@ -62,6 +63,15 @@ const ContentView = ({post, truncate = false, alwaysShowBody = false}: ContentVi
                     <LinkButton link={linkInfo.link} />
                 )
             }
+
+            <HStack>
+                <Text>in </Text>
+                <Link href={`/tabs/feeds/${post.community.id}`}>
+                    <Text fontWeight={"bold"}>{post.community.name}</Text>
+                </Link>
+                <Text> by </Text>
+                <Text fontWeight={"bold"}>{post.creator.name}</Text>
+            </HStack>
         </>
     );
 };

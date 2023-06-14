@@ -7,7 +7,7 @@ import moment from "moment";
 import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import {trigger} from "react-native-haptic-feedback";
 import {Image} from "expo-image";
-import {useRouter} from "expo-router";
+import {Link, useRouter} from "expo-router";
 import {useDispatch} from "react-redux";
 import {setPost} from "../../slices/post/postSlice";
 import ContentView from "../ContentView";
@@ -66,7 +66,6 @@ const FeedItem = ({post}: FeedItemProps) => {
                                 />
                             )
                         }
-                        <Text fontSize={"sm"}>{post.community.name}</Text>
                     </View>
                     <Text fontSize={"xl"}>
                         {post.post.name}
