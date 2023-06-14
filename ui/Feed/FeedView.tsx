@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import {PostView, SortType} from "lemmy-js-client";
 import {View} from "native-base";
 import {Button, RefreshControl, StyleSheet} from "react-native";
@@ -25,6 +25,8 @@ interface FeedViewProps {
 
 const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communityTitle = false}: FeedViewProps) => {
     const [sortIcon, setSortIcon] = useState(SortIconType[2]);
+
+    const flashList = useRef();
 
     const {dropdownVisible} = useAppSelector(selectFeed);
 
@@ -58,6 +60,7 @@ const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communi
             }
 
             setSortIcon(SortIconType[index]);
+            flashList?.current?.scrollToOffset({animated: true, offset: 0});
         });
     };
 
@@ -97,6 +100,7 @@ const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communi
                 onEndReached={load}
                 onEndReachedThreshold={0.95}
                 ListFooterComponent={loading ? <LoadingView /> : null}
+                ref={flashList}
             />
         </View>
     );
