@@ -6,11 +6,17 @@ import {useFocusEffect, useRouter} from "expo-router";
 import {getBuildNumber, getVersion} from "react-native-device-info";
 import {getServers} from "../../../helpers/SettingsHelper";
 import LoadingView from "../../../ui/LoadingView";
+import {useAppDispatch, useAppSelector} from "../../../store";
+import {selectSettings} from "../../../slices/settings/settingsSlice";
+import {setSetting} from "../../../slices/settings/settingsActions";
 
 const SettingsIndexScreen = () => {
     const [server, setServer] = useState(null);
 
+    const settings = useAppSelector(selectSettings);
+
     const router = useRouter();
+    const dispatch = useAppDispatch();
 
     useFocusEffect(useCallback(() => {
         load().then();
@@ -19,6 +25,13 @@ const SettingsIndexScreen = () => {
     const load = async () => {
         const servers = await getServers();
         setServer(servers[0]);
+    };
+
+    const onChange = (key: string, value: string) => {
+        dispatch(setSetting({
+            key,
+            value
+        }));
     };
 
     if(!server) {
@@ -58,8 +71,11 @@ const SettingsIndexScreen = () => {
                     hideSurroundingSeparators={true}
                 >
                     <Cell
-                        title={"Disable Comment Swipe Gestures"}
-                        cellAccessoryView={<Switch />}
+                        title={"Swipe Gestures"}
+                        cellAccessoryView={<Switch
+                            value={settings.swipeGestures === "true"}
+                            onValueChange={(v) => onChange("swipeGestures", v.toString())}
+                        />}
                     />
                 </Section>
 
