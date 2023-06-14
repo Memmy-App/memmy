@@ -13,6 +13,9 @@ import CIconButton from "../CIconButton";
 import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
 import {useAppDispatch, useAppSelector} from "../../store";
 import {selectFeed, setDropdownVisible} from "../../slices/feed/feedSlice";
+import {subscribeToCommunity} from "../../slices/communities/communitiesActions";
+import {isSubscribed} from "../../lemmy/LemmyHelpers";
+import {selectCommunities} from "../../slices/communities/communitiesSlice";
 
 interface FeedViewProps {
     posts: PostView[],
@@ -29,6 +32,7 @@ const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communi
     const flashList = useRef<FlashList<any>>();
 
     const {dropdownVisible} = useAppSelector(selectFeed);
+    const {subscribedCommunities} = useAppSelector(selectCommunities);
 
     const {showActionSheetWithOptions} = useActionSheet();
     const dispatch = useAppDispatch();
@@ -64,6 +68,27 @@ const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communi
         });
     };
 
+    const onCommunityHeaderPress = () => {
+        const subscribed = isSubscribed(posts[0].community.id, subscribedCommunities);
+
+        const options = [subscribed ? "Unsubscribe" : "Subscribe", "Cancel"];
+        const cancelButtonIndex = 1;
+
+        showActionSheetWithOptions({
+            options,
+            cancelButtonIndex
+        }, (index: number) => {
+            if(index === cancelButtonIndex) return;
+
+            if(index === 0) {
+                dispatch(subscribeToCommunity({
+                    communityId: posts[0].community.id,
+                    subscribe: !subscribed
+                }));
+            }
+        });
+    };
+
     const keyExtractor = (item) => item.post.id.toString();
 
     if((!posts && loading) || (posts && posts.length === 0)) {
@@ -83,7 +108,16 @@ const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communi
                             return <Button title={"Cancel"} onPress={() => dispatch(setDropdownVisible())} />;
                         }
 
-                        return <CIconButton name={sortIcon} onPress={onSortPress} />;
+                        return (
+                            <>
+                                <CIconButton name={sortIcon} onPress={onSortPress} />
+                                {
+                                    communityTitle && (
+                                        <CIconButton name={"ellipsis-horizontal-outline"} onPress={onCommunityHeaderPress} />
+                                    )
+                                }
+                            </>
+                        );
                     },
                     title: communityTitle ? posts[0].community.name : null
                 }}

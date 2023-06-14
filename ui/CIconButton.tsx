@@ -10,7 +10,7 @@ interface CIconButtonProps {
 const CIconButton = ({name, onPress}: CIconButtonProps) => {
     return (
         <Pressable onPress={onPress}>
-            <Icon as={Ionicons} name={name} color={"#007AFF"} size={6}/>
+            <Icon as={Ionicons} name={name} color={"#007AFF"} size={6} ml={2}/>
         </Pressable>
     );
 };
