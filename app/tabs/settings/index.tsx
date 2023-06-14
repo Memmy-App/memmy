@@ -9,6 +9,7 @@ import LoadingView from "../../../ui/LoadingView";
 import {useAppDispatch, useAppSelector} from "../../../store";
 import {selectSettings} from "../../../slices/settings/settingsSlice";
 import {setSetting} from "../../../slices/settings/settingsActions";
+import {useActionSheet} from "@expo/react-native-action-sheet";
 
 const SettingsIndexScreen = () => {
     const [server, setServer] = useState(null);
@@ -18,6 +19,7 @@ const SettingsIndexScreen = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const theme = useTheme();
+    const {showActionSheetWithOptions} = useActionSheet();
 
     useFocusEffect(useCallback(() => {
         load().then();
@@ -86,6 +88,68 @@ const SettingsIndexScreen = () => {
                             value={settings.swipeGestures === "true"}
                             onValueChange={(v) => onChange("swipeGestures", v.toString())}
                         />}
+                        backgroundColor={theme.colors.screen["700"]}
+                        titleTextColor={theme.colors.lightText}
+                        rightDetailColor={theme.colors.screen["400"]}
+                    />
+                    <Cell
+                        cellStyle={"RightDetail"}
+                        title={"Default Sort"}
+                        detail={settings.defaultSort}
+                        accessory={"DisclosureIndicator"}
+                        onPress={() => {
+                            const options = ["Top Day", "Top Week", "Hot", "New", "Most Comments", "Cancel"];
+                            const cancelButtonIndex = 5;
+
+                            showActionSheetWithOptions({
+                                options,
+                                cancelButtonIndex
+                            }, (index: number) => {
+                                if(index === cancelButtonIndex) return;
+
+                                let selection;
+
+                                if(index === 0) {
+                                    selection = "TopDay";
+                                } else if(index === 1) {
+                                    selection = "TopWeek";
+                                } else if(index === 4) {
+                                    selection = "MostComments";
+                                } else {
+                                    selection = options[index];
+                                }
+
+                                dispatch(setSetting({
+                                    key: "defaultSort",
+                                    value: selection
+                                }));
+                            });
+                        }}
+                        backgroundColor={theme.colors.screen["700"]}
+                        titleTextColor={theme.colors.lightText}
+                        rightDetailColor={theme.colors.screen["400"]}
+                    />
+                    <Cell
+                        cellStyle={"RightDetail"}
+                        title={"Default Listing Type"}
+                        detail={settings.defaultListingType}
+                        accessory={"DisclosureIndicator"}
+                        onPress={() => {
+                            const options = ["All", "Local", "Subscribed", "Cancel"];
+                            const cancelButtonIndex = 3;
+
+                            showActionSheetWithOptions({
+                                options,
+                                cancelButtonIndex
+                            }, (index: number) => {
+                                if(index === cancelButtonIndex) return;
+
+                                dispatch(setSetting({
+                                    key: "defaultListingType",
+                                    value: options[index]
+                                }));
+                            });
+                        }}
                         backgroundColor={theme.colors.screen["700"]}
                         titleTextColor={theme.colors.lightText}
                         rightDetailColor={theme.colors.screen["400"]}

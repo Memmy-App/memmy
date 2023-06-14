@@ -3,18 +3,24 @@ import {initialize, lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyIns
 import FeedView from "../../../ui/Feed/FeedView";
 import {useAppDispatch, useAppSelector} from "../../../store";
 import {getAllCommunities, getSubscribedCommunities} from "../../../slices/communities/communitiesActions";
-import {PostView, SortType} from "lemmy-js-client";
+import {ListingType, PostView, SortType} from "lemmy-js-client";
 import {clearUpdateVote, selectFeed} from "../../../slices/feed/feedSlice";
 import {getServers} from "../../../helpers/SettingsHelper";
+import {selectSettings} from "../../../slices/settings/settingsSlice";
+import {Stack} from "expo-router";
+import FeedHeaderDropdown from "../../../ui/Feed/FeedHeaderDropdown";
 
 const FeedsIndexScreen = () => {
     const dispatch = useAppDispatch();
 
+    const settings = useAppSelector(selectSettings);
+
     const [posts, setPosts] = useState<PostView[]|null>(null);
     const [loading, setLoading] = useState(false);
-    const [sort, setSort] = useState<SortType>("Hot");
+    const [sort, setSort] = useState<SortType>(settings.defaultSort);
+    const [listingType] = useState<ListingType>(settings.defaultListingType);
 
-    const {updateVote, listingType} = useAppSelector(selectFeed);
+    const {updateVote} = useAppSelector(selectFeed);
 
     useEffect(() => {
         if(updateVote) {
@@ -36,21 +42,23 @@ const FeedsIndexScreen = () => {
     const load = async (refresh = false) => {
         setLoading(true);
 
-        try {
-            const servers = await getServers();
-            await initialize(servers[0]);
-        } catch(e) {
-            console.log("Error: ", e);
-            setPosts(null);
-            setLoading(false);
-            return;
+        if(!lemmyInstance) {
+            try {
+                const servers = await getServers();
+                await initialize(servers[0]);
+            } catch (e) {
+                console.log("Error: ", e);
+                setPosts(null);
+                setLoading(false);
+                return;
+            }
         }
 
         try {
             const res = await lemmyInstance.getPosts({
                 auth: lemmyAuthToken,
-                limit: 50,
-                page: !posts ? 1 : (posts.length / 50) + 1,
+                limit: 20,
+                page: !posts ? 1 : (posts.length / 20) + 1,
                 sort: sort,
                 type_: listingType,
             });
@@ -71,7 +79,27 @@ const FeedsIndexScreen = () => {
         dispatch(getSubscribedCommunities());
     };
 
-    return <FeedView posts={posts} loading={loading} load={load} setSort={setSort} titleDropsdown={true} />;
+    const sortFix = () => {
+        if(sort === "MostComments") return "Most Comments";
+        else if(sort === "TopDay") return "Top Day";
+        else if(sort === "TopWeek") return "Top Week";
+
+        return sort;
+    };
+
+    return (
+        <>
+            <Stack.Screen
+                options={{
+                    headerTitle: () => (
+                        <FeedHeaderDropdown title={sortFix()} enabled={true} />
+                    )
+                }}
+            />
+
+            <FeedView posts={posts} loading={loading} load={load} setSort={setSort} titleDropsdown={true} />
+        </>
+    );
 };
 
 export default FeedsIndexScreen;

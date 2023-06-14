@@ -3,15 +3,9 @@ import {RootState} from "../../store";
 import {ListingType} from "lemmy-js-client";
 
 interface FeedState {
-    category: Category,
     dropdownVisible: boolean,
     updateVote: UpdateVote|null,
     listingType: ListingType,
-}
-
-interface Category {
-    name: string,
-    type: "category" | "global" | "subscriptions"
 }
 
 interface UpdateVote {
@@ -20,10 +14,6 @@ interface UpdateVote {
 }
 
 const initialState: FeedState = {
-    category: {
-        name: "Hot",
-        type: "global"
-    },
     updateVote: null,
     dropdownVisible: false,
     listingType: "All",
@@ -35,10 +25,6 @@ const feedSlice = createSlice({
     reducers: {
         setDropdownVisible: (state: FeedState) => {
             state.dropdownVisible = !state.dropdownVisible;
-        },
-
-        setCategory: (state: FeedState, actions: PayloadAction<Category>) => {
-            state.category = actions.payload;
         },
 
         setUpdateVote: (state: FeedState, actions: PayloadAction<UpdateVote>) => {
@@ -59,7 +45,6 @@ export const selectFeed = (state: RootState) => state.feed;
 
 export const {
     setDropdownVisible,
-    setCategory,
     setUpdateVote,
     clearUpdateVote,
     setFeedListingType,

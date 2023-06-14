@@ -12,7 +12,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#292524"
     },
     "extra": {
       "eas": {
@@ -22,7 +22,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.gkasdorf.memmyapp",
-      "buildNumber": "13"
+      "buildNumber": "14"
     },
     "plugins": [
       [

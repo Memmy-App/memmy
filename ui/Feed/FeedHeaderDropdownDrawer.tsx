@@ -1,6 +1,6 @@
 import React from "react";
 import {StyleSheet} from "react-native";
-import {Icon, ScrollView, View, VStack} from "native-base";
+import {Icon, Pressable, ScrollView, View, VStack} from "native-base";
 import {useAppDispatch, useAppSelector} from "../../store";
 import {selectFeed, setDropdownVisible, setFeedListingType} from "../../slices/feed/feedSlice";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
@@ -11,7 +11,7 @@ import FeedHeaderDropdownHeaderComponent from "./FeedHeaderDropdownHeaderCompone
 import {Ionicons} from "@expo/vector-icons";
 
 const FeedHeaderDropdownDrawer = () => {
-    const {dropdownVisible, listingType} = useAppSelector(selectFeed);
+    const {dropdownVisible} = useAppSelector(selectFeed);
     const {subscribedCommunities} = useAppSelector(selectCommunities);
 
     const dispatch = useAppDispatch();
@@ -22,47 +22,16 @@ const FeedHeaderDropdownDrawer = () => {
         router.push(`/tabs/feeds/${community.community.id}`);
     };
 
-    const onSelectListingType = (type: ListingType) => {
-        dispatch(setFeedListingType(type));
-        dispatch(setDropdownVisible());
-    };
-
     if(!dropdownVisible) return;
 
     return (
-        <VStack style={styles.container}>
+        <Pressable style={styles.container} onPress={() => dispatch(setDropdownVisible())}>
             <View style={styles.scrollContainer}>
                 <ScrollView>
                     <TableView style={styles.table}>
                         <Section
-                            hideSurroundingSeparators={false}
-                            headerComponent={<FeedHeaderDropdownHeaderComponent text={"View"} />}
-                        >
-
-                            <Cell
-                                cellStyle={"Basic"}
-                                title={"All"}
-                                onPress={() => onSelectListingType("All")}
-                                cellAccessoryView={listingType === "All" ? <Icon as={Ionicons} name={"checkmark-outline"} size={6} /> : null}
-                            />
-                            <Cell
-                                cellStyle={"Basic"}
-                                title={"Local"}
-                                onPress={() => onSelectListingType("Local")}
-                                cellAccessoryView={listingType === "Local" ? <Icon as={Ionicons} name={"checkmark-outline"} size={6} /> : null}
-
-                            />
-                            <Cell
-                                cellStyle={"Basic"}
-                                title={"Subscribed"}
-                                onPress={() => onSelectListingType("Subscribed")}
-                                cellAccessoryView={listingType === "Subscribed" ? <Icon as={Ionicons} name={"checkmark-outline"} size={6} /> : null}
-                            />
-                        </Section>
-
-                        <Section
-                            hideSurroundingSeparators={false}
-                            headerComponent={<FeedHeaderDropdownHeaderComponent text={"Subscribed"} />}
+                            roundedCorners={true}
+                            hideSurroundingSeparators={true}
                         >
 
                             {
@@ -94,7 +63,7 @@ const FeedHeaderDropdownDrawer = () => {
                     </TableView>
                 </ScrollView>
             </View>
-        </VStack>
+        </Pressable>
     );
 };
 
@@ -119,6 +88,7 @@ const styles = StyleSheet.create({
 
     table: {
         flex: 1,
+        marginHorizontal: 15
     },
 
     header: {

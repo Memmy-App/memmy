@@ -1,14 +1,15 @@
 import React from "react";
 import {StyleSheet} from "react-native";
-import {Button, HStack, Text, VStack} from "native-base";
+import {Button, HStack, Text, useTheme, VStack} from "native-base";
 import {useRouter} from "expo-router";
 import FastImage from "react-native-fast-image";
 
 const OnboardingScreen = () => {
     const router = useRouter();
+    const theme = useTheme();
 
     return (
-        <VStack justifyContent={"center"} alignItems={"center"} pt={10} space={"md"} px={5}>
+        <VStack flex={1} backgroundColor={theme.colors.screen[800]} justifyContent={"center"} alignItems={"center"} space={"md"} px={5}>
             <Text fontSize={32}>
                 Welcome to Lemmy!
             </Text>

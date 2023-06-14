@@ -199,6 +199,7 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                     onGestureEvent={gestureHandler}
                     minPointers={1}
                     activeOffsetX={[-10, 10]}
+                    hitSlop={{left: -25}}
                 >
                     <Animated.View style={[animatedStyle]}>
                         <VStack pl={((depth - 1) * 2) + 4} style={[styles.commentContainer, {backgroundColor: theme.colors.screen["800"]}]}>

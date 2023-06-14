@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "../../store";
 import {loadSettings, setSetting} from "./settingsActions";
+import {ListingType, SortType} from "lemmy-js-client";
 
 interface SettingsState {
     settings: Settings
@@ -8,6 +9,8 @@ interface SettingsState {
 interface Settings {
     swipeGestures: string,
     displayImagesInFeed: string,
+    defaultSort: SortType,
+    defaultListingType: ListingType,
 }
 
 export interface Setting {
@@ -19,6 +22,8 @@ const initialState: SettingsState = {
     settings: {
         swipeGestures: "true",
         displayImagesInFeed: "true",
+        defaultSort: "Hot",
+        defaultListingType: "All"
     }
 };
 

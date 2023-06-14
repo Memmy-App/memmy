@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Text, useToast, VStack} from "native-base";
+import {Button, Text, useTheme, useToast, VStack} from "native-base";
 import {Alert} from "react-native";
 import CTextInput from "../../ui/CTextInput";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
@@ -20,6 +20,7 @@ const AddAccountScreen = () => {
 
     const toast = useToast();
     const router = useRouter();
+    const theme = useTheme();
 
     const onFormChange = (name, value) => {
         setForm({
@@ -67,7 +68,7 @@ const AddAccountScreen = () => {
     };
 
     return (
-        <KeyboardAwareScrollView>
+        <KeyboardAwareScrollView style={{backgroundColor: theme.colors.screen[800]}}>
             <LoadingModal loading={loading} />
 
             <VStack pt={10} mb={5} space={"md"} justifyContent={"center"}>
