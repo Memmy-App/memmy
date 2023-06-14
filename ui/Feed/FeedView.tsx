@@ -137,7 +137,6 @@ const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communi
                 onEndReachedThreshold={0.95}
                 estimatedItemSize={300}
                 estimatedListSize={{height: 50, width: 1}}
-                disableScrollViewPanResponder={true}
                 ListFooterComponent={loading ? <LoadingView /> : null}
                 onEndReached={load}
                 ref={flashList}
