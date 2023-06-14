@@ -1,6 +1,6 @@
 import React from "react";
 import {StyleSheet} from "react-native";
-import {VStack} from "native-base";
+import {Pressable, ScrollView, View, VStack} from "native-base";
 import {useAppDispatch, useAppSelector} from "../../store";
 import {selectFeed, setDropdownVisible} from "../../slices/feed/feedSlice";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
@@ -24,38 +24,42 @@ const FeedHeaderDropdownDrawer = () => {
 
     return (
         <VStack style={styles.container}>
-            <TableView style={styles.table}>
-                <Section
-                    roundedCorners={true}
-                    hideSurroundingSeparators={true}
-                >
-                    {
-                        subscribedCommunities.length === 0 ? (
-                            <Cell
-                                cellStyle={"Basic"}
-                                title={"No subscribed communities"}
-                                isDisabled={true}
-                            />
-                        ) : (
-                            <>
-                                {
-                                    subscribedCommunities.map((community) => {
-                                        return (
-                                            <Cell
-                                                key={community.community.id}
-                                                cellStyle={"Basic"}
-                                                title={community.community.name}
-                                                accessory={"DisclosureIndicator"}
-                                                onPress={() => onCommunityPress(community)}
-                                            />
-                                        );
-                                    })
-                                }
-                            </>
-                        )
-                    }
-                </Section>
-            </TableView>
+            <View style={styles.scrollContainer}>
+                <ScrollView>
+                    <TableView style={styles.table}>
+                        <Section
+                            roundedCorners={true}
+                            hideSurroundingSeparators={true}
+                        >
+                            {
+                                subscribedCommunities.length === 0 ? (
+                                    <Cell
+                                        cellStyle={"Basic"}
+                                        title={"No subscribed communities"}
+                                        isDisabled={true}
+                                    />
+                                ) : (
+                                    <>
+                                        {
+                                            subscribedCommunities.map((community) => {
+                                                return (
+                                                    <Cell
+                                                        key={community.community.id}
+                                                        cellStyle={"Basic"}
+                                                        title={community.community.name}
+                                                        accessory={"DisclosureIndicator"}
+                                                        onPress={() => onCommunityPress(community)}
+                                                    />
+                                                );
+                                            })
+                                        }
+                                    </>
+                                )
+                            }
+                        </Section>
+                    </TableView>
+                </ScrollView>
+            </View>
         </VStack>
     );
 };
@@ -65,26 +69,24 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 5,
-        backgroundColor: "transparent",
+        backgroundColor: "rgba(0, 0, 0, .2)",
         position: "absolute",
         padding: 10,
         zIndex: 1,
-        width: "90%",
-        right: "5%",
-        left: "5%",
-        top: -5,
+        top: -10,
+        bottom: 0,
+        right: 0,
+        left: 0,
+    },
+
+    scrollContainer: {
+        flex: 1,
+        alignItems: "stretch",
+        width: "100%",
     },
 
     table: {
-        width: "100%",
-        shadowColor: "black",
-        shadowOffset: {
-            width: 0,
-            height: 0
-        },
-        shadowOpacity: 1,
-        shadowRadius: 100,
-        elevation: 5,
+        flex: 1,
     }
 });
 
