@@ -134,14 +134,6 @@ const PostScreen = () => {
 
             <ContentView post={post} alwaysShowBody={true} />
 
-            <HStack mt={2}>
-                <Text>in </Text>
-                <Link href={`/tabs/feeds/${post.community.id}`}>
-                    <Text fontWeight={"bold"}>{post.community.name} </Text>
-                </Link>
-                <Text>by </Text>
-                <Text fontWeight={"bold"}>{post.creator.name}</Text>
-            </HStack>
             <HStack mt={2} space={3} alignItems={"center"}>
                 <HStack space={1} alignItems={"center"}>
                     {
