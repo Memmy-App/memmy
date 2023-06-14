@@ -42,5 +42,19 @@ made, we can expect this library to be updated by Lemmy developers themselves. T
 You are more than welcome to contribute to the codebase on your own. Simply open up an issue or PR and we'll talk! You
 can always add me on Discord if you want as well: gk#5175
 
+The codebase is a bit wild right now and needs some refactoring. It was written quite quickly (as of right now in about
+3 days) to get something off the ground quickly. I'll be going through and refactoring it in the coming days.
+
+### Themes
+Currently, I have thrown together a dark theme for the app given user preference. I will also work on a light theme to
+complement that theme. If you are interested in working on themes, you can contribute as well! I will offer support for
+multiple themes once we have a few different ones to pick from.
+
+You can view `theme.js` for an example of a theme. Most of the items use one of the `screen` colors. Those are the base
+colors for the whole app. I plan to actually name each of these items so that you can easily contribute to themes.
+
+For information, you can view the [NativeBase docs](https://docs.nativebase.io/getting-started) for information about
+how themes work. You are more than welcome to submit a PR that includes code modifications to make use of themes better.
+
 ## Acknowledgements
 Thanks to [Interstellar_1@lemmy.world](https://lemmy.world/u/Interstellar_1) for creating app graphics.
