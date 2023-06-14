@@ -20,19 +20,24 @@
       }
     },
     "ios": {
-      "bundleIdentifier": "com.gkasdorf.memmyapp",
       "supportsTablet": false,
-      "buildNumber": "3"
+      "bundleIdentifier": "com.gkasdorf.memmyapp",
+      "buildNumber": "9"
     },
     "plugins": [
       [
         "expo-build-properties",
         {
           "ios": {
-            "flipper": true
+            "flipper": true,
+            "deploymentTarget": "15.0"
           }
         }
       ]
-    ]
+    ],
+    "android": {
+      "package": "com.gkasdorf.memmyapp",
+      "versionCode": 2
+    }
   }
 }

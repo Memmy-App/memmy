@@ -22,6 +22,7 @@ const LinkButton = ({link}: LinkButtonProps) => {
                 flexDirection={"row"}
                 alignItems={"center"}
                 space={2}
+                my={4}
             >
                 <Icon as={Ionicons} name={"link"} />
                 <Spacer />

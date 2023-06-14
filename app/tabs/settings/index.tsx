@@ -1,19 +1,29 @@
 import React, {useCallback, useState} from "react";
 import {VStack} from "native-base";
-import {Settings, StyleSheet, Switch} from "react-native";
+import {StyleSheet, Switch} from "react-native";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 import {useFocusEffect, useRouter} from "expo-router";
-import ILemmyServer from "../../../lemmy/types/ILemmyServer";
 import {getBuildNumber, getVersion} from "react-native-device-info";
+import {getServers} from "../../../helpers/SettingsHelper";
+import LoadingView from "../../../ui/LoadingView";
 
 const SettingsIndexScreen = () => {
-    const [server, setServer] = useState(Settings.get("servers")[0] as ILemmyServer);
+    const [server, setServer] = useState(null);
 
     const router = useRouter();
 
     useFocusEffect(useCallback(() => {
-        setServer(Settings.get("servers")[0] as ILemmyServer);
+        load().then();
     }, []));
+
+    const load = async () => {
+        const servers = await getServers();
+        setServer(servers[0]);
+    };
+
+    if(!server) {
+        return <LoadingView />;
+    }
 
     return (
         <VStack>

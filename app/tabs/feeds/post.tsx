@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Stack, useRouter} from "expo-router";
+import {Link, Stack, useRouter} from "expo-router";
 import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
 import LoadingView from "../../../ui/LoadingView";
 import {ArrowDownIcon, ArrowUpIcon, Center, Divider, HStack, Icon, IconButton, Spinner, Text, View,} from "native-base";
@@ -80,7 +80,7 @@ const PostScreen = () => {
     };
 
     const onVotePress = async (value: -1 | 0 | 1) => {
-        if(value === post.my_vote) value = 0;
+        if(value === post.my_vote && value !== 0) value = 0;
 
         const oldValue = post.my_vote;
 
@@ -131,13 +131,9 @@ const PostScreen = () => {
                 }}
             />
             <Text fontSize={"2xl"}>{post.post.name}</Text>
-            <ContentView post={post} />
-            <HStack mt={2}>
-                <Text>in </Text>
-                <Text fontWeight={"bold"}>{post.community.name} </Text>
-                <Text>by </Text>
-                <Text fontWeight={"bold"}>{post.creator.name}</Text>
-            </HStack>
+
+            <ContentView post={post} alwaysShowBody={true} />
+
             <HStack mt={2} space={3} alignItems={"center"}>
                 <HStack space={1} alignItems={"center"}>
                     {
@@ -192,6 +188,7 @@ const PostScreen = () => {
                 <IconButton icon={<Icon as={Ionicons} name={"arrow-undo-outline"} />} onPress={onCommentPress} />
                 <IconButton icon={<Icon as={Ionicons} name={"share-outline"} />} />
             </HStack>
+            <Divider />
         </View>
     );
 

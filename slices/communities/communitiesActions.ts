@@ -1,5 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
+import {CommunityView} from "lemmy-js-client";
 
 export const getAllCommunities = createAsyncThunk(
     "communities/getAllCommunities",
@@ -32,7 +33,29 @@ export const getSubscribedCommunities = createAsyncThunk(
                 limit: 50,
             });
 
-            return res.communities;
+            return res.communities.sort((a, b) => a.community.name.localeCompare(b.community.name));
+        } catch(e) {
+            thunkAPI.rejectWithValue(e);
+        }
+    }
+);
+
+interface SubscribeToCommunityOptions {
+    communityId: number,
+    subscribe: boolean
+}
+
+export const subscribeToCommunity = createAsyncThunk(
+    "communities/subscribeToCommunity",
+    async(data: SubscribeToCommunityOptions, thunkAPI) => {
+        try {
+            await lemmyInstance.followCommunity({
+                auth: lemmyAuthToken,
+                community_id: data.communityId,
+                follow: data.subscribe
+            });
+
+            thunkAPI.dispatch(getSubscribedCommunities());
         } catch(e) {
             thunkAPI.rejectWithValue(e);
         }

@@ -58,7 +58,7 @@ const FeedsCommunityScreen = () => {
         }
     };
 
-    return <FeedView posts={posts} load={load} loading={loading} setSort={setSort} />;
+    return <FeedView posts={posts} load={load} loading={loading} setSort={setSort} communityTitle={true} />;
 };
 
 export default FeedsCommunityScreen;

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React from "react";
 import {StyleSheet} from "react-native";
 import {ArrowDownIcon, ArrowUpIcon, Divider, Icon, IconButton, Pressable, Text, View} from "native-base";
 import {PostView} from "lemmy-js-client";
@@ -7,7 +7,7 @@ import moment from "moment";
 import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import {trigger} from "react-native-haptic-feedback";
 import {Image} from "expo-image";
-import {useRouter} from "expo-router";
+import {Link, useRouter} from "expo-router";
 import {useDispatch} from "react-redux";
 import {setPost} from "../../slices/post/postSlice";
 import ContentView from "../ContentView";
@@ -22,7 +22,7 @@ const FeedItem = ({post}: FeedItemProps) => {
     const dispatch = useDispatch();
 
     const onVotePress = async (value: -1 | 0 | 1) => {
-        if(value === post.my_vote) value = 0;
+        if(value === post.my_vote && value !== 0) value = 0;
 
         const oldValue = post.my_vote;
 
@@ -66,7 +66,6 @@ const FeedItem = ({post}: FeedItemProps) => {
                                 />
                             )
                         }
-                        <Text fontSize={"sm"}>{post.community.name}</Text>
                     </View>
                     <Text fontSize={"xl"}>
                         {post.post.name}

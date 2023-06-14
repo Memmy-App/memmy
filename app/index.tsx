@@ -1,11 +1,8 @@
 import React, {useEffect} from "react";
-import {Settings} from "react-native";
 import {SplashScreen, useRootNavigationState, useRouter} from "expo-router";
-import ILemmyServer from "../lemmy/types/ILemmyServer";
+import {getServers} from "../helpers/SettingsHelper";
 
 const IndexScreen = () => {
-    const servers = Settings.get("servers") as ILemmyServer[];
-
     const router = useRouter();
     const navState = useRootNavigationState();
 
@@ -14,6 +11,12 @@ const IndexScreen = () => {
             return;
         }
 
+        load().then();
+    }, [navState?.key]);
+
+    const load = async () => {
+        const servers = await getServers();
+
         if(!servers || servers.length < 1) {
             router.replace("/onboarding");
             return;
@@ -21,7 +24,7 @@ const IndexScreen = () => {
             router.replace("/tabs/feeds");
             return;
         }
-    }, [navState?.key]);
+    };
 
     return <SplashScreen />;
 };

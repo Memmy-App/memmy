@@ -5,6 +5,7 @@ import {Cell, Section, TableView} from "react-native-tableview-simple";
 import ILemmyServer from "../../../lemmy/types/ILemmyServer";
 import {Stack, useRouter, useSearchParams} from "expo-router";
 import {initialize, lemmyAuthToken} from "../../../lemmy/LemmyInstance";
+import {getServers, setServers} from "../../../helpers/SettingsHelper";
 
 const EditAccountScreen = () => {
     const [form, setForm] = useState<ILemmyServer>({
@@ -22,10 +23,14 @@ const EditAccountScreen = () => {
 
     useEffect(() => {
         if(serverIndex) {
-            const servers = Settings.get("servers");
-            setForm(servers[Number(serverIndex)] as ILemmyServer);
+            load().then();
         }
     }, []);
+
+    const load = async () => {
+        const servers = await getServers();
+        setForm(servers[Number(serverIndex)]);
+    };
 
     const onFormChange = (name: string, value: string) => {
         setForm({
@@ -53,7 +58,7 @@ const EditAccountScreen = () => {
             return;
         }
 
-        const servers = Settings.get("servers") as ILemmyServer[] ?? [];
+        const servers = await getServers() ?? [];
         const serverIndex = servers.findIndex((x) => (x.server.toLowerCase() === form.server.toLowerCase() && x.username.toLowerCase() === form.username.toLowerCase()));
 
         if(serverIndex > -1) {
@@ -68,22 +73,18 @@ const EditAccountScreen = () => {
             });
         }
 
-        Settings.set({
-            servers
-        });
+        await setServers(servers);
 
         router.back();
     };
 
-    const onDeletePress = () => {
-        const servers = Settings.get("servers") as ILemmyServer[];
+    const onDeletePress = async () => {
+        const servers = await getServers();
         const serverIndex = servers.findIndex((x) => (x.server.toLowerCase() === form.server.toLowerCase() && x.username.toLowerCase() === form.username.toLowerCase()));
 
         delete servers[serverIndex];
 
-        Settings.set({
-            servers
-        });
+        await setServers(servers);
 
         router.back();
     };

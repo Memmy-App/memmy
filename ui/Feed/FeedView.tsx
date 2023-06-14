@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import {PostView, SortType} from "lemmy-js-client";
 import {View} from "native-base";
-import {RefreshControl, StyleSheet} from "react-native";
+import {Button, RefreshControl, StyleSheet} from "react-native";
 import FeedItem from "./FeedItem";
 import LoadingView from "../LoadingView";
 import LoadingErrorView from "../LoadingErrorView";
@@ -11,6 +11,11 @@ import {FlashList} from "@shopify/flash-list";
 import SortIconType from "../../types/SortIconType";
 import CIconButton from "../CIconButton";
 import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
+import {useAppDispatch, useAppSelector} from "../../store";
+import {selectFeed, setDropdownVisible} from "../../slices/feed/feedSlice";
+import {subscribeToCommunity} from "../../slices/communities/communitiesActions";
+import {isSubscribed} from "../../lemmy/LemmyHelpers";
+import {selectCommunities} from "../../slices/communities/communitiesSlice";
 
 interface FeedViewProps {
     posts: PostView[],
@@ -18,12 +23,19 @@ interface FeedViewProps {
     loading: boolean,
     titleDropsdown?: boolean,
     setSort:  React.Dispatch<React.SetStateAction<SortType>>,
+    communityTitle?: boolean
 }
 
-const FeedView = ({posts, load, loading, setSort, titleDropsdown = true}: FeedViewProps) => {
+const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communityTitle = false}: FeedViewProps) => {
     const [sortIcon, setSortIcon] = useState(SortIconType[2]);
 
+    const flashList = useRef<FlashList<any>>();
+
+    const {dropdownVisible} = useAppSelector(selectFeed);
+    const {subscribedCommunities} = useAppSelector(selectCommunities);
+
     const {showActionSheetWithOptions} = useActionSheet();
+    const dispatch = useAppDispatch();
 
     const feedItem = ({item}: {item: PostView}) => {
         return (
@@ -52,6 +64,28 @@ const FeedView = ({posts, load, loading, setSort, titleDropsdown = true}: FeedVi
             }
 
             setSortIcon(SortIconType[index]);
+            flashList?.current?.scrollToOffset({animated: true, offset: 0});
+        });
+    };
+
+    const onCommunityHeaderPress = () => {
+        const subscribed = isSubscribed(posts[0].community.id, subscribedCommunities);
+
+        const options = [subscribed ? "Unsubscribe" : "Subscribe", "Cancel"];
+        const cancelButtonIndex = 1;
+
+        showActionSheetWithOptions({
+            options,
+            cancelButtonIndex
+        }, (index: number) => {
+            if(index === cancelButtonIndex) return;
+
+            if(index === 0) {
+                dispatch(subscribeToCommunity({
+                    communityId: posts[0].community.id,
+                    subscribe: !subscribed
+                }));
+            }
         });
     };
 
@@ -69,10 +103,23 @@ const FeedView = ({posts, load, loading, setSort, titleDropsdown = true}: FeedVi
         <View style={styles.container}>
             <Stack.Screen
                 options={{
-                    headerRight: () => (
-                        <CIconButton name={sortIcon} onPress={onSortPress} />
-                    ),
-                    title: posts[0].community.name
+                    headerRight: () => {
+                        if(dropdownVisible) {
+                            return <Button title={"Cancel"} onPress={() => dispatch(setDropdownVisible())} />;
+                        }
+
+                        return (
+                            <>
+                                <CIconButton name={sortIcon} onPress={onSortPress} />
+                                {
+                                    communityTitle && (
+                                        <CIconButton name={"ellipsis-horizontal-outline"} onPress={onCommunityHeaderPress} />
+                                    )
+                                }
+                            </>
+                        );
+                    },
+                    title: communityTitle ? posts[0].community.name : null
                 }}
             />
 
@@ -87,6 +134,7 @@ const FeedView = ({posts, load, loading, setSort, titleDropsdown = true}: FeedVi
                 onEndReached={load}
                 onEndReachedThreshold={0.95}
                 ListFooterComponent={loading ? <LoadingView /> : null}
+                ref={flashList}
             />
         </View>
     );

@@ -1,15 +1,17 @@
-import React from "react";
+import React, {ReactElement, ReactNode} from "react";
 import {StyleSheet} from "react-native";
-import {VStack} from "native-base";
+import {Icon, ScrollView, Text, View, VStack} from "native-base";
 import {useAppDispatch, useAppSelector} from "../../store";
-import {selectFeed, setDropdownVisible} from "../../slices/feed/feedSlice";
+import {selectFeed, setDropdownVisible, setFeedListingType} from "../../slices/feed/feedSlice";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 import {selectCommunities} from "../../slices/communities/communitiesSlice";
-import {CommunityView} from "lemmy-js-client";
+import {CommunityView, ListingType} from "lemmy-js-client";
 import {useRouter} from "expo-router";
+import FeedHeaderDropdownHeaderComponent from "./FeedHeaderDropdownHeaderComponent";
+import {Ionicons} from "@expo/vector-icons";
 
 const FeedHeaderDropdownDrawer = () => {
-    const {dropdownVisible} = useAppSelector(selectFeed);
+    const {dropdownVisible, listingType} = useAppSelector(selectFeed);
     const {subscribedCommunities} = useAppSelector(selectCommunities);
 
     const dispatch = useAppDispatch();
@@ -20,42 +22,78 @@ const FeedHeaderDropdownDrawer = () => {
         router.push(`/tabs/feeds/${community.community.id}`);
     };
 
+    const onSelectListingType = (type: ListingType) => {
+        dispatch(setFeedListingType(type));
+        dispatch(setDropdownVisible());
+    };
+
     if(!dropdownVisible) return;
 
     return (
         <VStack style={styles.container}>
-            <TableView style={styles.table}>
-                <Section
-                    roundedCorners={true}
-                    hideSurroundingSeparators={true}
-                >
-                    {
-                        subscribedCommunities.length === 0 ? (
+            <View style={styles.scrollContainer}>
+                <ScrollView>
+                    <TableView style={styles.table}>
+                        <Section
+                            hideSurroundingSeparators={false}
+                            headerComponent={<FeedHeaderDropdownHeaderComponent text={"View"} />}
+                        >
+
                             <Cell
                                 cellStyle={"Basic"}
-                                title={"No subscribed communities"}
-                                isDisabled={true}
+                                title={"All"}
+                                onPress={() => onSelectListingType("All")}
+                                cellAccessoryView={listingType === "All" ? <Icon as={Ionicons} name={"checkmark-outline"} size={6} /> : null}
                             />
-                        ) : (
-                            <>
-                                {
-                                    subscribedCommunities.map((community) => {
-                                        return (
-                                            <Cell
-                                                key={community.community.id}
-                                                cellStyle={"Basic"}
-                                                title={community.community.name}
-                                                accessory={"DisclosureIndicator"}
-                                                onPress={() => onCommunityPress(community)}
-                                            />
-                                        );
-                                    })
-                                }
-                            </>
-                        )
-                    }
-                </Section>
-            </TableView>
+                            <Cell
+                                cellStyle={"Basic"}
+                                title={"Local"}
+                                onPress={() => onSelectListingType("Local")}
+                                cellAccessoryView={listingType === "Local" ? <Icon as={Ionicons} name={"checkmark-outline"} size={6} /> : null}
+
+                            />
+                            <Cell
+                                cellStyle={"Basic"}
+                                title={"Subscribed"}
+                                onPress={() => onSelectListingType("Subscribed")}
+                                cellAccessoryView={listingType === "Subscribed" ? <Icon as={Ionicons} name={"checkmark-outline"} size={6} /> : null}
+                            />
+                        </Section>
+
+                        <Section
+                            hideSurroundingSeparators={false}
+                            headerComponent={<FeedHeaderDropdownHeaderComponent text={"Subscribed"} />}
+                        >
+
+                            {
+                                subscribedCommunities.length === 0 ? (
+                                    <Cell
+                                        cellStyle={"Basic"}
+                                        title={"No subscribed communities"}
+                                        isDisabled={true}
+                                    />
+                                ) : (
+                                    <>
+                                        {
+                                            subscribedCommunities.map((community) => {
+                                                return (
+                                                    <Cell
+                                                        key={community.community.id}
+                                                        cellStyle={"Basic"}
+                                                        title={community.community.name}
+                                                        accessory={"DisclosureIndicator"}
+                                                        onPress={() => onCommunityPress(community)}
+                                                    />
+                                                );
+                                            })
+                                        }
+                                    </>
+                                )
+                            }
+                        </Section>
+                    </TableView>
+                </ScrollView>
+            </View>
         </VStack>
     );
 };
@@ -64,27 +102,28 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 5,
-        backgroundColor: "transparent",
+        backgroundColor: "rgba(0, 0, 0, .5)",
         position: "absolute",
-        padding: 10,
         zIndex: 1,
-        width: "90%",
-        right: "5%",
-        left: "5%",
-        top: -5,
+        top: -10,
+        bottom: 0,
+        right: 0,
+        left: 0,
+    },
+
+    scrollContainer: {
+        flex: 1,
+        alignItems: "stretch",
+        width: "100%",
     },
 
     table: {
-        width: "100%",
-        shadowColor: "black",
-        shadowOffset: {
-            width: 0,
-            height: 0
-        },
-        shadowOpacity: 1,
-        shadowRadius: 100,
-        elevation: 5,
+        flex: 1,
+    },
+
+    header: {
+        flex: 1,
+        backgroundColor: "gray"
     }
 });
 

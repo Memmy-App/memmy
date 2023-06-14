@@ -8,6 +8,7 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import CTextInput from "../../ui/CTextInput";
 import {LemmyHttp} from "lemmy-js-client";
 import LoadingModal from "../../ui/LoadingModal";
+import {addServer} from "../../helpers/SettingsHelper";
 
 interface RegisterForm {
     server: string,
@@ -125,9 +126,7 @@ const CreateAccountScreen = () => {
 
         server.auth = lemmyAuthToken;
 
-        Settings.set({
-            servers: [server]
-        });
+        await addServer(server);
 
         setLoading(false);
         router.replace("/tabs/feeds");
