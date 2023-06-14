@@ -18,7 +18,7 @@ const FeedsIndexScreen = () => {
     const [posts, setPosts] = useState<PostView[]|null>(null);
     const [loading, setLoading] = useState(false);
     const [sort, setSort] = useState<SortType>(settings.defaultSort);
-    const [listingType] = useState<ListingType>(settings.defaultListingType);
+    const [listingType, setListingType] = useState<ListingType>(settings.defaultListingType);
 
     const {updateVote} = useAppSelector(selectFeed);
 
@@ -97,7 +97,7 @@ const FeedsIndexScreen = () => {
                 }}
             />
 
-            <FeedView posts={posts} loading={loading} load={load} setSort={setSort} titleDropsdown={true} />
+            <FeedView posts={posts} loading={loading} load={load} setSort={setSort} titleDropsdown={true} setListingType={setListingType} />
         </>
     );
 };
