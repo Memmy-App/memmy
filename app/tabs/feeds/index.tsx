@@ -9,6 +9,7 @@ import {getServers} from "../../../helpers/SettingsHelper";
 import {selectSettings} from "../../../slices/settings/settingsSlice";
 import {Stack} from "expo-router";
 import FeedHeaderDropdown from "../../../ui/Feed/FeedHeaderDropdown";
+import {removeDuplicatePosts} from "../../../lemmy/LemmyHelpers";
 
 const FeedsIndexScreen = () => {
     const dispatch = useAppDispatch();
@@ -66,7 +67,7 @@ const FeedsIndexScreen = () => {
             if(!posts || refresh) {
                 setPosts(res.posts);
             } else {
-                setPosts([...posts, ...res.posts]);
+                setPosts(prev => [...prev, ...removeDuplicatePosts(prev.slice(0, 50), res.posts)]);
             }
 
             setLoading(false);

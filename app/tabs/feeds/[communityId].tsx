@@ -7,6 +7,7 @@ import {clearUpdateVote, selectFeed} from "../../../slices/feed/feedSlice";
 import {useAppDispatch, useAppSelector} from "../../../store";
 import {Text, VStack} from "native-base";
 import {getBaseUrl} from "../../../helpers/LinkHelper";
+import {removeDuplicatePosts} from "../../../lemmy/LemmyHelpers";
 
 const FeedsCommunityScreen = () => {
     const {communityId, actorId} = useLocalSearchParams();
@@ -50,7 +51,7 @@ const FeedsCommunityScreen = () => {
             if(!posts || refresh) {
                 setPosts(res.posts);
             } else {
-                setPosts([...posts, ...res.posts]);
+                setPosts(prev => [...prev, ...removeDuplicatePosts(prev.slice(0, 50), res.posts)]);
             }
 
             setLoading(false);
