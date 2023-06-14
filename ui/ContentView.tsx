@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {PostView} from "lemmy-js-client";
 import {ExtensionType, getLinkInfo} from "../helpers/LinkHelper";
 import {HStack, Pressable, Text} from "native-base";
@@ -32,7 +32,7 @@ const ContentView = ({post, truncate = false, alwaysShowBody = false}: ContentVi
                     <>
                         <Pressable onPress={onImagePress}>
                             <Image
-                                source={{uri: post.post.thumbnail_url}}
+                                source={{uri: post.post.url}}
                                 style={styles.image}
                                 cachePolicy={"disk"}
                                 contentFit={"contain"}
