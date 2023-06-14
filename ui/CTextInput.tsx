@@ -11,10 +11,11 @@ interface TextInputProps {
     style?: object,
     secure?: boolean,
     autoCapitalize?: "none" | "sentences" | "words" | "characters",
-    autoCorrect?: boolean
+    autoCorrect?: boolean,
+    autoFocus?: boolean
 }
 
-const CTextInput = ({name, value, onChange, placeholder, label, style = {}, secure = false, autoCapitalize = "sentences", autoCorrect = true}: TextInputProps) => {
+const CTextInput = ({name, value, onChange, placeholder, label, style = {}, secure = false, autoCapitalize = "sentences", autoCorrect = true, autoFocus = false}: TextInputProps) => {
     return (
         <VStack>
             <Text mx={3}>
@@ -28,6 +29,7 @@ const CTextInput = ({name, value, onChange, placeholder, label, style = {}, secu
                 autoCapitalize={autoCapitalize}
                 autoCorrect={autoCorrect}
                 secureTextEntry={secure}
+                autoFocus={autoFocus}
             />
         </VStack>
     );
