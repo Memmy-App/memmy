@@ -1,6 +1,5 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
-import {CommunityView} from "lemmy-js-client";
 
 export const getAllCommunities = createAsyncThunk(
     "communities/getAllCommunities",

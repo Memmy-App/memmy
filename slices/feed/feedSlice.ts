@@ -1,7 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "../../store";
 import {ListingType} from "lemmy-js-client";
-import {marked} from "marked";
 
 interface FeedState {
     category: Category,

@@ -8,6 +8,7 @@ import {clearNewComment, selectNewComment} from "../../../slices/newComment/newC
 import {useDispatch} from "react-redux";
 import {setPostNewComment} from "../../../slices/post/postSlice";
 import LoadingView from "../../../ui/LoadingView";
+import {useTheme} from "native-base";
 
 const CommentModalScreen = () => {
     const [content, setContent] = useState("");
@@ -15,6 +16,7 @@ const CommentModalScreen = () => {
 
     const router = useRouter();
     const dispatch = useDispatch();
+    const theme = useTheme();
 
     const {responseTo} = useAppSelector(selectNewComment);
 
@@ -58,7 +60,7 @@ const CommentModalScreen = () => {
     }
 
     return (
-        <KeyboardAwareScrollView>
+        <KeyboardAwareScrollView style={{backgroundColor: theme.colors.screen[800]}}>
             <Stack.Screen
                 options={{
                     headerLeft: () => (
@@ -73,7 +75,7 @@ const CommentModalScreen = () => {
             <TextInput
                 multiline={true}
                 autoCapitalize={"sentences"}
-                style={styles.input}
+                style={[styles.input, {backgroundColor: theme.colors.screen["700"]}]}
                 numberOfLines={20}
                 value={content}
                 onChangeText={setContent}
@@ -83,19 +85,13 @@ const CommentModalScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        backgroundColor: "white",
-    },
-
     input: {
-        backgroundColor: "white",
         alignSelf: "stretch",
         padding: 10,
         paddingTop: 15,
         height: 300,
-        fontSize: 16
+        fontSize: 16,
+        color: "#fff"
     }
 });
 

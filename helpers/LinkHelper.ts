@@ -57,3 +57,8 @@ export const getLinkInfo = (link?: string): LinkInfo => {
 export const openLink = async (link: string): Promise<WebBrowser.WebBrowserResult> => {
     return WebBrowser.openBrowserAsync(link);
 };
+
+export const getBaseUrl = (link: string): string => {
+    const regex = new RegExp("^(?:https?:\\/\\/)?([^\\/]+)");
+    return link.match(regex)[1];
+};

@@ -2,7 +2,20 @@ import React, {useEffect, useState} from "react";
 import {Link, Stack, useRouter} from "expo-router";
 import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
 import LoadingView from "../../../ui/LoadingView";
-import {ArrowDownIcon, ArrowUpIcon, Center, Divider, HStack, Icon, IconButton, Spinner, Text, View,} from "native-base";
+import {
+    ArrowDownIcon,
+    ArrowUpIcon,
+    Center,
+    Divider,
+    HStack,
+    Icon,
+    IconButton,
+    Spinner,
+    Text,
+    useTheme,
+    View,
+    VStack,
+} from "native-base";
 import {RefreshControl, StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment/moment";
@@ -16,6 +29,7 @@ import {useAppDispatch, useAppSelector} from "../../../store";
 import {setResponseTo} from "../../../slices/newComment/newCommentSlice";
 import ContentView from "../../../ui/ContentView";
 import {setUpdateVote} from "../../../slices/feed/feedSlice";
+import {getBaseUrl} from "../../../helpers/LinkHelper";
 
 const PostScreen = () => {
     const [comments, setComments] = useState<ILemmyComment[] | null>(null);
@@ -27,6 +41,7 @@ const PostScreen = () => {
     const router = useRouter();
 
     const dispatch = useAppDispatch();
+    const theme = useTheme();
 
     useEffect(() => {
         load().then();
@@ -63,7 +78,6 @@ const PostScreen = () => {
         });
 
         const helper = new LemmyCommentsHelper(commentsRes.comments);
-
         const parsed = helper.getParsed();
 
         setComments(parsed);
@@ -71,7 +85,6 @@ const PostScreen = () => {
     };
 
     const commentItem = ({item}: {item: ILemmyComment}) => {
-
         return (
             <View style={styles.commentContainer}>
                 <CommentItem comment={item} />
@@ -117,47 +130,60 @@ const PostScreen = () => {
         load().then();
     };
 
-    const refreshControl = <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />;
+    const refreshControl = <RefreshControl
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+        tintColor={theme.colors.screen[300]}
+    />;
 
     if(!post) {
         return <LoadingView />;
     }
 
     const header = () => (
-        <View style={styles.postContainer}>
+        <VStack flex={1} backgroundColor={"screen.800"}>
             <Stack.Screen
                 options={{
                     title: `${post.counts.comments} Comment${post.counts.comments !== 1 ? "s" : ""}`
                 }}
             />
-            <Text fontSize={"2xl"}>{post.post.name}</Text>
 
-            <ContentView post={post} alwaysShowBody={true} />
+            <ContentView post={post} showBody={true} showTitle={true} />
 
-            <HStack mt={2} space={3} alignItems={"center"}>
+            <HStack mx={4} mb={1}>
+                <Text>in </Text>
+                <Link href={`/tabs/feeds/${post.community.id}`}>
+                    <Text fontWeight={"bold"}>{post.community.name}</Text>
+                </Link>
+                <Text> by </Text>
+                <Text fontWeight={"bold"}>{post.creator.name}</Text>
+
+                <Text fontSize={"sm"} fontStyle={"italic"} mx={4} mt={-1} color={"screen.400"} alignSelf={"flex-end"}>
+                    {post.post.url && getBaseUrl(post.post.url)}
+                </Text>
+            </HStack>
+            <HStack mx={3} space={2} alignItems={"center"} mb={3}>
                 <HStack space={1} alignItems={"center"}>
                     {
-                        post.counts.score >= 0 ? (
+                        (post.counts.upvotes - post.counts.downvotes) >= 0 ? (
                             <ArrowUpIcon />
                         ) : (
                             <ArrowDownIcon />
                         )
                     }
-                    <Text color={"gray.500"}>{post.counts.score}</Text>
+                    <Text>{post.counts.upvotes - post.counts.downvotes}</Text>
                 </HStack>
-
                 <HStack space={1} alignItems={"center"}>
                     <Icon as={Ionicons} name={"chatbubble-outline"} />
-                    <Text color={"gray.500"}>{post.counts.comments}</Text>
+                    <Text>{post.counts.comments}</Text>
                 </HStack>
-
                 <HStack space={1} alignItems={"center"}>
                     <Icon as={Ionicons} name={"time-outline"} />
-                    <Text color={"gray.500"}>{moment(post.post.published).utc(true).fromNow()}</Text>
+                    <Text>{moment(post.post.published).utc(true).fromNow()}</Text>
                 </HStack>
             </HStack>
             <Divider my={1} />
-            <HStack justifyContent={"center"} space={10}>
+            <HStack justifyContent={"center"} space={10} mb={2}>
                 <IconButton
                     icon={
                         <Icon
@@ -168,7 +194,7 @@ const PostScreen = () => {
                             color={post.my_vote === 1 ? "white" : "blue.500"}
                         />
                     }
-                    backgroundColor={post.my_vote !== 1 ? "white" : "green.500"}
+                    backgroundColor={post.my_vote !== 1 ? "screen.800" : "green.500"}
                     padding={2}
                 />
                 <IconButton
@@ -181,7 +207,7 @@ const PostScreen = () => {
                             color={post.my_vote === -1 ? "white" : "blue.500"}
                         />
                     }
-                    backgroundColor={post.my_vote !== -1 ? "white" : "orange.500"}
+                    backgroundColor={post.my_vote !== -1 ? "screen.800" : "orange.500"}
                     padding={2}
                 />
                 <IconButton icon={<Icon as={Ionicons} name={"bookmark-outline"} />} />
@@ -189,7 +215,7 @@ const PostScreen = () => {
                 <IconButton icon={<Icon as={Ionicons} name={"share-outline"} />} />
             </HStack>
             <Divider />
-        </View>
+        </VStack>
     );
 
     const footer = () => {
@@ -211,10 +237,8 @@ const PostScreen = () => {
         }
     };
 
-
-
     return (
-        <View style={styles.commentContainer}>
+        <VStack style={[styles.commentContainer, {backgroundColor: theme.colors.screen["800"]}]}>
             <FlashList
                 ListFooterComponent={footer}
                 ListHeaderComponent={header}
@@ -226,17 +250,11 @@ const PostScreen = () => {
                 refreshControl={refreshControl}
                 refreshing={refreshing}
             />
-        </View>
+        </VStack>
     );
 };
 
 const styles = StyleSheet.create({
-    postContainer: {
-        flex: 1,
-        padding: 10,
-        backgroundColor: "white",
-    },
-
     commentContainer: {
         flex: 1,
     },

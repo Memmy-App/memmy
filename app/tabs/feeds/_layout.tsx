@@ -3,12 +3,24 @@ import {Stack} from "expo-router";
 import FeedHeaderDropdown from "../../../ui/Feed/FeedHeaderDropdown";
 import {useAppSelector} from "../../../store";
 import {selectFeed} from "../../../slices/feed/feedSlice";
+import {useTheme} from "native-base";
 
 const FeedsLayout = () => {
     const {category} = useAppSelector(selectFeed);
 
+    const theme = useTheme();
+
     return (
-        <Stack>
+        <Stack
+            screenOptions={{
+                headerStyle:{
+                    backgroundColor: theme.colors.screen["900"]
+                },
+                headerTitleStyle: {
+                    color: theme.colors.lightText
+                }
+            }}
+        >
             <Stack.Screen
                 name={"index"}
                 options={{

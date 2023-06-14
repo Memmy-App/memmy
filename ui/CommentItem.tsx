@@ -1,15 +1,12 @@
-import React, { useRef, useState} from "react";
-import {Divider, HStack, Icon, Pressable, Text, View, VStack} from "native-base";
+import React, {useRef, useState} from "react";
+import {Divider, HStack, Icon, Pressable, Text, useTheme, View, VStack} from "native-base";
 import ILemmyComment from "../lemmy/types/ILemmyComment";
 import {Dimensions, StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
 import {truncateName} from "../lemmy/LemmyHelpers";
 import {depthToColor} from "../helpers/ColorHelper";
-import {
-    GestureHandlerRootView,
-    PanGestureHandler,
-} from "react-native-gesture-handler";
+import {GestureHandlerRootView, PanGestureHandler,} from "react-native-gesture-handler";
 import {useRouter} from "expo-router";
 import {trigger} from "react-native-haptic-feedback";
 import {useAppDispatch} from "../store";
@@ -38,6 +35,7 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
 
     const router = useRouter();
     const dispatch = useAppDispatch();
+    const theme = useTheme();
 
     if(comment.top.comment.id !== lastCommentId.current) {
         lastCommentId.current = comment.top.comment.id;
@@ -203,7 +201,7 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                     activeOffsetX={[-10, 10]}
                 >
                     <Animated.View style={[animatedStyle]}>
-                        <VStack pl={((depth - 1) * 2) + 4} style={styles.commentContainer}>
+                        <VStack pl={((depth - 1) * 2) + 4} style={[styles.commentContainer, {backgroundColor: theme.colors.screen["800"]}]}>
                             <View style={[depth > 1 && styles.side, {borderLeftColor: depthToColor(depth)}]}>
                                 <Pressable
                                     onPress={() => setCollapsed(!collapsed)}
@@ -234,13 +232,11 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                                                     (comment.top.comment.deleted || comment.top.comment.removed) ? (
                                                         <Text fontStyle={"italic"} color={"gray.500"}>Comment was deleted :(</Text>
                                                     ) : (
-                                                        <RenderHTML
-                                                            source={{
-                                                                html: parseMarkdown(comment.top.comment.content)
-                                                            }}
-                                                            contentWidth={Dimensions.get("window").width}
-                                                        />
-                                                        // <Text>{comment.top.comment.content}</Text>
+                                                        <VStack>
+                                                            <RenderHTML source={{
+                                                                html: `<div style="color: white; font-size: 16px">` + parseMarkdown(comment.top.comment.content) + "</div>" ?? ""
+                                                            }} contentWidth={Dimensions.get("window").width}/>
+                                                        </VStack>
                                                     )
                                                 }
                                             </Text>

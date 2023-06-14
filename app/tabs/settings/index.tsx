@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from "react";
-import {VStack} from "native-base";
+import {useTheme, VStack} from "native-base";
 import {StyleSheet, Switch} from "react-native";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 import {useFocusEffect, useRouter} from "expo-router";
@@ -17,6 +17,7 @@ const SettingsIndexScreen = () => {
 
     const router = useRouter();
     const dispatch = useAppDispatch();
+    const theme = useTheme();
 
     useFocusEffect(useCallback(() => {
         load().then();
@@ -39,7 +40,7 @@ const SettingsIndexScreen = () => {
     }
 
     return (
-        <VStack>
+        <VStack backgroundColor={"screen.800"} flex={1}>
             <TableView style={styles.table}>
                 <Section
                     header={"ACCOUNT"}
@@ -50,11 +51,17 @@ const SettingsIndexScreen = () => {
                         cellStyle={"RightDetail"}
                         title={"Server"}
                         detail={server.server}
+                        backgroundColor={theme.colors.screen["700"]}
+                        titleTextColor={theme.colors.lightText}
+                        rightDetailColor={theme.colors.screen["400"]}
                     />
                     <Cell
                         cellStyle={"RightDetail"}
                         title={"Username"}
                         detail={server.username}
+                        backgroundColor={theme.colors.screen["700"]}
+                        titleTextColor={theme.colors.lightText}
+                        rightDetailColor={theme.colors.screen["400"]}
                     />
 
                     <Cell
@@ -62,6 +69,9 @@ const SettingsIndexScreen = () => {
                         title={"Change Account Settings"}
                         accessory={"DisclosureIndicator"}
                         onPress={() => router.push("/tabs/settings/editAccount")}
+                        backgroundColor={theme.colors.screen["700"]}
+                        titleTextColor={theme.colors.lightText}
+                        rightDetailColor={theme.colors.screen["400"]}
                     />
                 </Section>
 
@@ -76,6 +86,9 @@ const SettingsIndexScreen = () => {
                             value={settings.swipeGestures === "true"}
                             onValueChange={(v) => onChange("swipeGestures", v.toString())}
                         />}
+                        backgroundColor={theme.colors.screen["700"]}
+                        titleTextColor={theme.colors.lightText}
+                        rightDetailColor={theme.colors.screen["400"]}
                     />
                 </Section>
 
@@ -88,6 +101,9 @@ const SettingsIndexScreen = () => {
                         cellStyle={"RightDetail"}
                         title={"Version"}
                         detail={`${getVersion()} (${getBuildNumber()})`}
+                        backgroundColor={theme.colors.screen["700"]}
+                        titleTextColor={theme.colors.lightText}
+                        rightDetailColor={theme.colors.screen["400"]}
                     />
                 </Section>
 

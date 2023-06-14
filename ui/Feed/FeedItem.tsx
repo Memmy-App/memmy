@@ -1,17 +1,18 @@
 import React from "react";
 import {StyleSheet} from "react-native";
-import {ArrowDownIcon, ArrowUpIcon, Divider, Icon, IconButton, Pressable, Text, View} from "native-base";
+import {ArrowDownIcon, ArrowUpIcon, HStack, Icon, IconButton, Pressable, Text, View, VStack} from "native-base";
 import {PostView} from "lemmy-js-client";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
 import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import {trigger} from "react-native-haptic-feedback";
-import {useRouter} from "expo-router";
+import {Link, useRouter} from "expo-router";
 import {useDispatch} from "react-redux";
 import {setPost} from "../../slices/post/postSlice";
 import ContentView from "../ContentView";
 import {setUpdateVote} from "../../slices/feed/feedSlice";
 import FastImage from "react-native-fast-image";
+import {getBaseUrl} from "../../helpers/LinkHelper";
 
 interface FeedItemProps {
     post: PostView,
@@ -54,7 +55,7 @@ const FeedItem = ({post}: FeedItemProps) => {
     };
 
     return (
-        <View style={styles.container}>
+        <VStack flex={1} my={1.5} backgroundColor={"screen.800"} shadow={2}>
             <Pressable onPress={onPress}>
                 <>
                     <View style={styles.community}>
@@ -66,75 +67,84 @@ const FeedItem = ({post}: FeedItemProps) => {
                             )
                         }
                     </View>
-                    <Text fontSize={"xl"}>
+                    <Text fontSize={"xl"} mx={4} my={2}>
                         {post.post.name}
                     </Text>
+                </>
 
-                    <ContentView post={post} truncate />
+                <ContentView post={post} truncate />
 
-                    <Divider my={2} />
+                <>
+                    <HStack mx={4} mb={1}>
+                        <Text>in </Text>
+                        <Link href={`/tabs/feeds/${post.community.id}`}>
+                            <Text fontWeight={"bold"}>{post.community.name}</Text>
+                        </Link>
+                        <Text> by </Text>
+                        <Text fontWeight={"bold"}>{post.creator.name}</Text>
 
-                    <View style={styles.interactions}>
-                        <View style={styles.interactions}>
-                            {
-                                (post.counts.upvotes - post.counts.downvotes) >= 0 ? (
-                                    <ArrowUpIcon />
-                                ) : (
-                                    <ArrowDownIcon />
-                                )
-                            }
-                            <Text>{post.counts.upvotes - post.counts.downvotes}</Text>
-                            <Icon as={Ionicons} name={"chatbubble-outline"} />
-                            <Text>{post.counts.comments}</Text>
-                            <Icon as={Ionicons} name={"time-outline"} />
-                            <Text>{moment(post.post.published).utc(true).fromNow()}</Text>
-                        </View>
+                        <Text fontSize={"sm"} fontStyle={"italic"} mx={4} mt={-1} color={"screen.400"} alignSelf={"flex-end"}>
+                            {post.post.url && getBaseUrl(post.post.url)}
+                        </Text>
+                    </HStack>
+                    <HStack mx={3} alignItems={"center"} mb={3}>
+                        <HStack flex={1} space={2}>
+                            <HStack space={1} alignItems={"center"}>
+                                {
+                                    (post.counts.upvotes - post.counts.downvotes) >= 0 ? (
+                                        <ArrowUpIcon />
+                                    ) : (
+                                        <ArrowDownIcon />
+                                    )
+                                }
+                                <Text>{post.counts.upvotes - post.counts.downvotes}</Text>
+                            </HStack>
+                            <HStack space={1} alignItems={"center"}>
+                                <Icon as={Ionicons} name={"chatbubble-outline"} />
+                                <Text>{post.counts.comments}</Text>
+                            </HStack>
+                            <HStack space={1} alignItems={"center"}>
+                                <Icon as={Ionicons} name={"time-outline"} />
+                                <Text>{moment(post.post.published).utc(true).fromNow()}</Text>
+                            </HStack>
+                        </HStack>
 
-                        <View>
-                            <View style={{alignItems: "flex-end", flex: 1, alignSelf: "flex-end", flexDirection: "row"}}>
-                                <IconButton
-                                    icon={
-                                        <Icon
-                                            as={Ionicons}
-                                            name={"arrow-up-outline"}
-                                            size={6}
-                                            onPress={() => onVotePress(1)}
-                                            color={post.my_vote === 1 ? "white" : "blue.500"}
-                                        />
-                                    }
-                                    backgroundColor={post.my_vote !== 1 ? "white" : "green.500"}
-                                    padding={1}
-                                />
-                                <IconButton
-                                    icon={
-                                        <Icon
-                                            as={Ionicons}
-                                            name={"arrow-down-outline"}
-                                            size={6}
-                                            onPress={() => onVotePress(-1)}
-                                            color={post.my_vote === -1 ? "white" : "blue.500"}
-                                        />
-                                    }
-                                    backgroundColor={post.my_vote !== -1 ? "white" : "orange.500"}
-                                    padding={1}
-                                />
-                            </View>
-                        </View>
-                    </View>
+                        <HStack space={3} alignContent={"center"} justifyContent={"flex-end"}>
+                            <IconButton
+                                icon={
+                                    <Icon
+                                        as={Ionicons}
+                                        name={"arrow-up-outline"}
+                                        size={6}
+                                        onPress={() => onVotePress(1)}
+                                        color={post.my_vote === 1 ? "white" : "blue.500"}
+                                    />
+                                }
+                                backgroundColor={post.my_vote !== 1 ? "screen.800" : "green.500"}
+                                padding={1}
+                            />
+                            <IconButton
+                                icon={
+                                    <Icon
+                                        as={Ionicons}
+                                        name={"arrow-down-outline"}
+                                        size={6}
+                                        onPress={() => onVotePress(-1)}
+                                        color={post.my_vote === -1 ? "white" : "blue.500"}
+                                    />
+                                }
+                                backgroundColor={post.my_vote !== -1 ? "screen.800" : "orange.500"}
+                                padding={1}
+                            />
+                        </HStack>
+                    </HStack>
                 </>
             </Pressable>
-        </View>
+        </VStack>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        marginBottom: 8,
-        backgroundColor: "white"
-    },
-
     community: {
         flexDirection: "row"
     },
@@ -151,12 +161,6 @@ const styles = StyleSheet.create({
         aspectRatio: 1
     },
 
-    interactions: {
-        flex: 1,
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 5,
-    },
 });
 
 export default FeedItem;
