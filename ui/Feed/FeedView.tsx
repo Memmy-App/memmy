@@ -1,6 +1,6 @@
 import React, {useRef, useState} from "react";
 import {PostView, SortType} from "lemmy-js-client";
-import {View} from "native-base";
+import {FlatList, View} from "native-base";
 import {Button, RefreshControl, StyleSheet} from "react-native";
 import FeedItem from "./FeedItem";
 import LoadingView from "../LoadingView";
@@ -90,6 +90,10 @@ const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communi
     };
 
     const keyExtractor = (item) => item.post.id.toString();
+    const refreshControl = <RefreshControl refreshing={loading} onRefresh={() => load(true)}/>;
+    const onEndReached = ({distanceFromEnd}) => {
+        if(distanceFromEnd < 0) return;
+    };
 
     if((!posts && loading) || (posts && posts.length === 0)) {
         return <LoadingView />;
@@ -129,11 +133,13 @@ const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communi
                 data={posts}
                 renderItem={feedItem}
                 keyExtractor={keyExtractor}
-                refreshControl={<RefreshControl refreshing={loading} onRefresh={() => load(true)}/>}
-                estimatedItemSize={200}
-                onEndReached={load}
+                refreshControl={refreshControl}
                 onEndReachedThreshold={0.95}
+                estimatedItemSize={300}
+                estimatedListSize={{height: 50, width: 1}}
+                disableScrollViewPanResponder={true}
                 ListFooterComponent={loading ? <LoadingView /> : null}
+                onEndReached={load}
                 ref={flashList}
             />
         </View>

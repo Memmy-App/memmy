@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {PostView} from "lemmy-js-client";
 import {ExtensionType, getLinkInfo} from "../helpers/LinkHelper";
-import {HStack, Pressable, Text} from "native-base";
+import {HStack, Pressable, Text, View} from "native-base";
 import {truncatePost} from "../helpers/TextHelper";
-import {Image} from "expo-image";
-import ImageView from "react-native-image-viewing";
 import LinkButton from "./LinkButton";
 import {Dimensions, StyleSheet} from "react-native";
 import {parseMarkdown} from "../helpers/MarkdownHelper";
 import RenderHTML from "react-native-render-html";
 import {Link} from "expo-router";
+import ImageModal from "react-native-image-modal";
+import FastImage from "react-native-fast-image";
 
 interface ContentViewProps {
     post: PostView,
@@ -29,22 +29,26 @@ const ContentView = ({post, truncate = false, alwaysShowBody = false}: ContentVi
         <>
             {
                 linkInfo.extType === ExtensionType.IMAGE && (
-                    <>
-                        <Pressable onPress={onImagePress}>
-                            <Image
-                                source={{uri: post.post.url}}
-                                style={styles.image}
-                                cachePolicy={"disk"}
-                                contentFit={"contain"}
-                            />
-                        </Pressable>
-                        <ImageView
-                            images={[{uri: post.post.url.toString()}]}
-                            imageIndex={0}
-                            visible={imageVisible}
-                            onRequestClose={onImagePress}
+                    <View style={styles.imageContainer}>
+                        {/*<Pressable onPress={onImagePress}>*/}
+                        {/*    <Image*/}
+                        {/*        source={{uri: post.post.url}}*/}
+                        {/*        style={styles.image}*/}
+                        {/*        cachePolicy={"disk"}*/}
+                        {/*        contentFit={"contain"}*/}
+                        {/*    />*/}
+                        {/*</Pressable>*/}
+                        <ImageModal
+                            isTranslucent={true}
+                            swipeToDismiss={true}
+                            resizeMode={"contain"}
+                            style={styles.image}
+                            source={{
+                                uri: post.post.url
+                            }}
                         />
-                    </>
+
+                    </View>
                 )
             }
 
@@ -77,10 +81,14 @@ const ContentView = ({post, truncate = false, alwaysShowBody = false}: ContentVi
 };
 
 const styles = StyleSheet.create({
-    image: {
+    imageContainer: {
         flex: 1,
-        width: "100%",
-        aspectRatio: 1
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    image: {
+        width: Dimensions.get("screen").width - 25,
+        height: 250
     },
 });
 

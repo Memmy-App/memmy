@@ -6,12 +6,12 @@ import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
 import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import {trigger} from "react-native-haptic-feedback";
-import {Image} from "expo-image";
-import {Link, useRouter} from "expo-router";
+import {useRouter} from "expo-router";
 import {useDispatch} from "react-redux";
 import {setPost} from "../../slices/post/postSlice";
 import ContentView from "../ContentView";
 import {setUpdateVote} from "../../slices/feed/feedSlice";
+import FastImage from "react-native-fast-image";
 
 interface FeedItemProps {
     post: PostView,
@@ -60,9 +60,8 @@ const FeedItem = ({post}: FeedItemProps) => {
                     <View style={styles.community}>
                         {
                             post.community.icon && (
-                                <Image
+                                <FastImage
                                     source={{uri: post.community.icon}}
-                                    cachePolicy={"disk"}
                                 />
                             )
                         }
