@@ -1,7 +1,7 @@
 import React, {useRef, useState} from "react";
 import {Divider, HStack, Icon, Pressable, Text, useTheme, View, VStack} from "native-base";
 import ILemmyComment from "../lemmy/types/ILemmyComment";
-import {Dimensions, StyleSheet} from "react-native";
+import {Dimensions, Platform, StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
 import {truncateName} from "../lemmy/LemmyHelpers";
@@ -234,9 +234,16 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                                                         <Text fontStyle={"italic"} color={"gray.500"}>Comment was deleted :(</Text>
                                                     ) : (
                                                         <VStack>
-                                                            <RenderHTML source={{
-                                                                html: `<div style="color: white; font-size: 16px">` + parseMarkdown(comment.top.comment.content) + "</div>" ?? ""
-                                                            }} contentWidth={Dimensions.get("window").width}/>
+                                                            {
+                                                                Platform.OS === "ios" ? (
+                                                                    <RenderHTML source={{
+                                                                        html: `<div style="color: white; font-size: 16px">` + parseMarkdown(comment.top.comment.content) + "</div>" ?? ""
+                                                                    }} contentWidth={Dimensions.get("window").width}/>
+                                                                ) : (
+                                                                    <Text color={"lightText"}>{comment.top.comment.content}</Text>
+                                                                )
+                                                            }
+
                                                         </VStack>
                                                     )
                                                 }
