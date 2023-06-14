@@ -131,7 +131,9 @@ const PostScreen = () => {
                 }}
             />
             <Text fontSize={"2xl"}>{post.post.name}</Text>
-            <ContentView post={post} />
+
+            <ContentView post={post} alwaysShowBody={true} />
+
             <HStack mt={2}>
                 <Text>in </Text>
                 <Text fontWeight={"bold"}>{post.community.name} </Text>

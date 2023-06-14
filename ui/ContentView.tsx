@@ -12,10 +12,11 @@ import RenderHTML from "react-native-render-html";
 
 interface ContentViewProps {
     post: PostView,
-    truncate?: boolean
+    truncate?: boolean,
+    alwaysShowBody?: boolean
 }
 
-const ContentView = ({post, truncate = false}: ContentViewProps) => {
+const ContentView = ({post, truncate = false, alwaysShowBody = false}: ContentViewProps) => {
     const linkInfo = getLinkInfo(post.post.url);
     const [imageVisible, setImageVisible] = useState(false);
 
@@ -23,36 +24,46 @@ const ContentView = ({post, truncate = false}: ContentViewProps) => {
         setImageVisible(prev => !prev);
     };
 
-    if(linkInfo.extType === ExtensionType.NONE) {
-        return (
-            <RenderHTML source={{
-                html: (truncate ? parseMarkdown(truncatePost(post.post.body)) : parseMarkdown(post.post.body)) ?? ""
-            }} contentWidth={Dimensions.get("window").width}/>
-        );
-    } else if(linkInfo.extType === ExtensionType.IMAGE) {
-        return (
-            <>
-                <Pressable onPress={onImagePress}>
-                    <Image
-                        source={{uri: post.post.thumbnail_url}}
-                        style={styles.image}
-                        cachePolicy={"disk"}
-                        contentFit={"contain"}
-                    />
-                </Pressable>
-                <ImageView
-                    images={[{uri: post.post.url.toString()}]}
-                    imageIndex={0}
-                    visible={imageVisible}
-                    onRequestClose={onImagePress}
-                />
-            </>
-        );
-    } else if(linkInfo.extType === ExtensionType.VIDEO) {
-        return <LinkButton link={linkInfo.link} />;
-    } else {
-        return <LinkButton link={linkInfo.link} />;
-    }
+    return (
+        <>
+            {
+                linkInfo.extType === ExtensionType.IMAGE && (
+                    <>
+                        <Pressable onPress={onImagePress}>
+                            <Image
+                                source={{uri: post.post.thumbnail_url}}
+                                style={styles.image}
+                                cachePolicy={"disk"}
+                                contentFit={"contain"}
+                            />
+                        </Pressable>
+                        <ImageView
+                            images={[{uri: post.post.url.toString()}]}
+                            imageIndex={0}
+                            visible={imageVisible}
+                            onRequestClose={onImagePress}
+                        />
+                    </>
+                )
+            }
+
+            {
+                (linkInfo.extType === ExtensionType.NONE || alwaysShowBody) && (
+                    <RenderHTML source={{
+                        html: (truncate ? parseMarkdown(truncatePost(post.post.body)) : parseMarkdown(post.post.body)) ?? ""
+                    }} contentWidth={Dimensions.get("window").width}/>
+                )
+            }
+
+            {
+                linkInfo.extType === ExtensionType.VIDEO && (
+                    <LinkButton link={linkInfo.link} />
+                ) || linkInfo.extType === ExtensionType.GENERIC && (
+                    <LinkButton link={linkInfo.link} />
+                )
+            }
+        </>
+    );
 };
 
 const styles = StyleSheet.create({
