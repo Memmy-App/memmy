@@ -43,7 +43,7 @@ const FeedsCommunityScreen = () => {
                 auth: lemmyAuthToken,
                 community_id: Number(communityId),
                 limit: 20,
-                page: !posts ? 1 : (posts.length / 20) + 1,
+                page: (!posts || refresh) ? 1 : (posts.length / 20) + 1,
                 sort: sort
             });
 

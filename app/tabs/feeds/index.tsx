@@ -58,7 +58,7 @@ const FeedsIndexScreen = () => {
             const res = await lemmyInstance.getPosts({
                 auth: lemmyAuthToken,
                 limit: 20,
-                page: !posts ? 1 : (posts.length / 20) + 1,
+                page: (!posts || refresh) ? 1 : (posts.length / 20) + 1,
                 sort: sort,
                 type_: listingType,
             });
