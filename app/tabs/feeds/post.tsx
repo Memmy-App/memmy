@@ -30,6 +30,7 @@ import {setResponseTo} from "../../../slices/newComment/newCommentSlice";
 import ContentView from "../../../ui/ContentView";
 import {setUpdateVote} from "../../../slices/feed/feedSlice";
 import {getBaseUrl} from "../../../helpers/LinkHelper";
+import CommunityLink from "../../../ui/CommunityLink";
 
 const PostScreen = () => {
     const [comments, setComments] = useState<ILemmyComment[] | null>(null);
@@ -152,9 +153,7 @@ const PostScreen = () => {
 
             <HStack mx={4} mb={1}>
                 <Text>in </Text>
-                <Link href={{pathname: `/tabs/feeds/${post.community.id}`, params: {actorId: encodeURIComponent(post.community.actor_id)}}}>
-                    <Text fontWeight={"bold"}>{post.community.name}</Text>
-                </Link>
+                <CommunityLink community={post.community} />
                 <Text> by </Text>
                 <Text fontWeight={"bold"}>{post.creator.name}</Text>
 

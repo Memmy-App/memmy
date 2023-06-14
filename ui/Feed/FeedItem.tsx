@@ -13,6 +13,7 @@ import ContentView from "../ContentView";
 import {setUpdateVote} from "../../slices/feed/feedSlice";
 import FastImage from "react-native-fast-image";
 import {getBaseUrl} from "../../helpers/LinkHelper";
+import CommunityLink from "../CommunityLink";
 
 interface FeedItemProps {
     post: PostView,
@@ -77,9 +78,7 @@ const FeedItem = ({post}: FeedItemProps) => {
                 <>
                     <HStack mx={4} mb={1}>
                         <Text>in </Text>
-                        <Link href={{pathname: `/tabs/feeds/${post.community.id}`, params: {actorId: encodeURIComponent(post.community.actor_id)}}}>
-                            <Text fontWeight={"bold"}>{post.community.name}</Text>
-                        </Link>
+                        <CommunityLink community={post.community} />
                         <Text> by </Text>
                         <Text fontWeight={"bold"}>{post.creator.name}</Text>
 

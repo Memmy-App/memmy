@@ -1,14 +1,12 @@
 import React from "react";
 import {StyleSheet} from "react-native";
-import {Icon, Pressable, ScrollView, View, VStack} from "native-base";
+import {Pressable, ScrollView, View} from "native-base";
 import {useAppDispatch, useAppSelector} from "../../store";
-import {selectFeed, setDropdownVisible, setFeedListingType} from "../../slices/feed/feedSlice";
+import {selectFeed, setDropdownVisible} from "../../slices/feed/feedSlice";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 import {selectCommunities} from "../../slices/communities/communitiesSlice";
-import {CommunityView, ListingType} from "lemmy-js-client";
+import {CommunityView} from "lemmy-js-client";
 import {useRouter} from "expo-router";
-import FeedHeaderDropdownHeaderComponent from "./FeedHeaderDropdownHeaderComponent";
-import {Ionicons} from "@expo/vector-icons";
 import {getBaseUrl} from "../../helpers/LinkHelper";
 
 const FeedHeaderDropdownDrawer = () => {
@@ -20,7 +18,12 @@ const FeedHeaderDropdownDrawer = () => {
 
     const onCommunityPress = (community: CommunityView) => {
         dispatch(setDropdownVisible());
-        router.push(`/tabs/feeds/${community.community.id}`);
+        router.push({
+            pathname: `/tabs/feeds/${community.community.id}`,
+            params: {
+                communityName: community.community.name,
+                actorId: encodeURIComponent(community.community.actor_id)
+            }});
     };
 
     if(!dropdownVisible) return;

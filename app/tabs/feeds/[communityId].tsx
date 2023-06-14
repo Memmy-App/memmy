@@ -10,7 +10,7 @@ import {getBaseUrl} from "../../../helpers/LinkHelper";
 import {removeDuplicatePosts} from "../../../lemmy/LemmyHelpers";
 
 const FeedsCommunityScreen = () => {
-    const {communityId, actorId} = useLocalSearchParams();
+    const {communityId, communityName, actorId} = useLocalSearchParams();
     const [posts, setPosts] = useState<PostView[]|null>(null);
     const [sort, setSort] = useState<SortType|null>(null);
     const [loading, setLoading] = useState(false);
@@ -67,13 +67,19 @@ const FeedsCommunityScreen = () => {
                 options={{
                     headerTitle: () => (
                         <VStack alignItems={"center"}>
-                            <Text fontSize={16} fontWeight={"semibold"}>Hey</Text>
+                            <Text fontSize={16} fontWeight={"semibold"}>{communityName.toString()}</Text>
                             <Text fontSize={12}>@{getBaseUrl(actorId.toString())}</Text>
                         </VStack>
                     )
                 }}
             />
-            <FeedView posts={posts} load={load} loading={loading} setSort={setSort} communityTitle={true} />
+            <FeedView
+                posts={posts}
+                load={load}
+                loading={loading}
+                setSort={setSort}
+                community
+            />
         </>
     );
 };

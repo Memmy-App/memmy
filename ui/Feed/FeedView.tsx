@@ -24,7 +24,7 @@ interface FeedViewProps {
     titleDropsdown?: boolean,
     setSort:  React.Dispatch<React.SetStateAction<SortType>>,
     setListingType?: React.Dispatch<React.SetStateAction<ListingType>>,
-    communityTitle?: boolean
+    community: boolean
 }
 
 const FeedView = (
@@ -35,7 +35,7 @@ const FeedView = (
         setSort,
         setListingType,
         titleDropsdown = true,
-        communityTitle = false,
+        community = false,
     }: FeedViewProps) =>
 {
     const [sortIcon, setSortIcon] = useState(SortIconType[2]);
@@ -81,7 +81,7 @@ const FeedView = (
     };
 
     const onEllipsisButtonPress = () => {
-        if(communityTitle) {
+        if(community) {
             const subscribed = isSubscribed(posts[0].community.id, subscribedCommunities);
 
             const options = [subscribed ? "Unsubscribe" : "Subscribe", "Cancel"];
@@ -146,8 +146,7 @@ const FeedView = (
                                 <CIconButton name={"ellipsis-horizontal-outline"} onPress={onEllipsisButtonPress} />
                             </>
                         );
-                    },
-                    title: communityTitle ? posts[0].community.name : null
+                    }
                 }}
             />
 
