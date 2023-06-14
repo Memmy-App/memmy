@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import {PostView, SortType} from "lemmy-js-client";
+import {ListingType, PostView, SortType} from "lemmy-js-client";
 import {useTheme, View} from "native-base";
 import {Button, RefreshControl, StyleSheet} from "react-native";
 import FeedItem from "./FeedItem";
@@ -23,10 +23,21 @@ interface FeedViewProps {
     loading: boolean,
     titleDropsdown?: boolean,
     setSort:  React.Dispatch<React.SetStateAction<SortType>>,
+    setListingType?: React.Dispatch<React.SetStateAction<ListingType>>,
     communityTitle?: boolean
 }
 
-const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communityTitle = false}: FeedViewProps) => {
+const FeedView = (
+    {
+        posts,
+        load,
+        loading,
+        setSort,
+        setListingType,
+        titleDropsdown = true,
+        communityTitle = false,
+    }: FeedViewProps) =>
+{
     const [sortIcon, setSortIcon] = useState(SortIconType[2]);
 
     const flashList = useRef<FlashList<any>>();
@@ -69,25 +80,40 @@ const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communi
         });
     };
 
-    const onCommunityHeaderPress = () => {
-        const subscribed = isSubscribed(posts[0].community.id, subscribedCommunities);
+    const onEllipsisButtonPress = () => {
+        if(communityTitle) {
+            const subscribed = isSubscribed(posts[0].community.id, subscribedCommunities);
 
-        const options = [subscribed ? "Unsubscribe" : "Subscribe", "Cancel"];
-        const cancelButtonIndex = 1;
+            const options = [subscribed ? "Unsubscribe" : "Subscribe", "Cancel"];
+            const cancelButtonIndex = 1;
 
-        showActionSheetWithOptions({
-            options,
-            cancelButtonIndex
-        }, (index: number) => {
-            if(index === cancelButtonIndex) return;
+            showActionSheetWithOptions({
+                options,
+                cancelButtonIndex
+            }, (index: number) => {
+                if (index === cancelButtonIndex) return;
 
-            if(index === 0) {
-                dispatch(subscribeToCommunity({
-                    communityId: posts[0].community.id,
-                    subscribe: !subscribed
-                }));
-            }
-        });
+                if (index === 0) {
+                    dispatch(subscribeToCommunity({
+                        communityId: posts[0].community.id,
+                        subscribe: !subscribed
+                    }));
+                }
+            });
+        } else {
+            const options = ["All", "Local", "Subscribed", "Cancel"];
+            const cancelButtonIndex = 3;
+
+            showActionSheetWithOptions({
+                options,
+                cancelButtonIndex
+            }, (index: number) => {
+                if(index === cancelButtonIndex) return;
+
+                setListingType(options[index] as ListingType);
+                flashList?.current?.scrollToOffset({animated: true, offset: 0});
+            });
+        }
     };
 
     const keyExtractor = (item) => item.post.id.toString();
@@ -117,11 +143,7 @@ const FeedView = ({posts, load, loading, setSort, titleDropsdown = true, communi
                         return (
                             <>
                                 <CIconButton name={sortIcon} onPress={onSortPress} />
-                                {
-                                    communityTitle && (
-                                        <CIconButton name={"ellipsis-horizontal-outline"} onPress={onCommunityHeaderPress} />
-                                    )
-                                }
+                                <CIconButton name={"ellipsis-horizontal-outline"} onPress={onEllipsisButtonPress} />
                             </>
                         );
                     },
