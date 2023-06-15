@@ -4,7 +4,7 @@ import ILemmyComment from "../../lemmy/types/ILemmyComment";
 import {Dimensions, Platform, StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
-import {truncateName} from "../../lemmy/LemmyHelpers";
+import {truncateName} from "../../helpers/TextHelper";
 import {depthToColor} from "../../helpers/ColorHelper";
 import {GestureHandlerRootView, PanGestureHandler,} from "react-native-gesture-handler";
 import {trigger} from "react-native-haptic-feedback";
