@@ -24,7 +24,7 @@ import CommentItem from "../../../ui/CommentItem";
 import LemmyCommentsHelper from "../../../lemmy/LemmyCommentsHelper";
 import {FlashList} from "@shopify/flash-list";
 import {trigger} from "react-native-haptic-feedback";
-import {clearPost, selectPost, setPostVote} from "../../../slices/post/postSlice";
+import {clearPost, selectPost, setPostVote, setPostSaved} from "../../../slices/post/postSlice";
 import {useAppDispatch, useAppSelector} from "../../../store";
 import {setResponseTo} from "../../../slices/newComment/newCommentSlice";
 import ContentView from "../../../ui/ContentView";
@@ -125,6 +125,24 @@ const PostScreen = () => {
         router.push({pathname: "/tabs/feeds/commentModal", params: {postId: post.post.id}});
     };
 
+    const onBookmarkPress = async () => {
+        const value = !post.saved;
+        dispatch(setPostSaved(value));
+
+        trigger("impactMedium");
+
+        try {
+            await lemmyInstance.savePost({
+                auth: lemmyAuthToken,
+                post_id: post.post.id,
+                save: value
+            });
+        } catch(e) {
+            dispatch(setPostSaved(!value));
+            return;
+        }
+    };
+
     const onRefresh = () => {
         setRefreshing(true);
         load().then();
@@ -210,7 +228,15 @@ const PostScreen = () => {
                     backgroundColor={post.my_vote !== -1 ? "screen.800" : "orange.500"}
                     padding={2}
                 />
-                <IconButton icon={<Icon as={Ionicons} name={"bookmark-outline"} />} />
+                <IconButton
+                    icon={
+                        <Icon
+                            as={Ionicons}
+                            name={post.saved ? "bookmark" : "bookmark-outline"}
+                            onPress={onBookmarkPress}
+                        />
+                     }
+                />
                 <IconButton icon={<Icon as={Ionicons} name={"arrow-undo-outline"} />} onPress={onCommentPress} />
                 <IconButton icon={<Icon as={Ionicons} name={"share-outline"} />} />
             </HStack>
