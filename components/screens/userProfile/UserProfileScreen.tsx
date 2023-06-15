@@ -8,8 +8,6 @@ import CSection from "../../ui/table/CSection";
 import CCell from "../../ui/table/CCell";
 
 const BookmarksScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {
-    const theme = useTheme();
-
     return (
         <VStack
             flex={1}
