@@ -1,7 +1,7 @@
 import React from "react";
 import {Icon, Pressable, Text} from "native-base";
-import {selectFeed, setDropdownVisible} from "../../slices/feed/feedSlice";
-import {useAppDispatch, useAppSelector} from "../../store";
+import {selectFeed, setDropdownVisible} from "../../../slices/feed/feedSlice";
+import {useAppDispatch, useAppSelector} from "../../../store";
 import {Ionicons} from "@expo/vector-icons";
 
 interface HeaderDropdownProps {

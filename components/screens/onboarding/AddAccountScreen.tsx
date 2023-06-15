@@ -2,11 +2,11 @@ import React, {useState} from "react";
 import {Button, Text, useTheme, useToast, VStack} from "native-base";
 import {Alert} from "react-native";
 import CTextInput from "../../ui/CTextInput";
-import ILemmyServer from "../../lemmy/types/ILemmyServer";
+import ILemmyServer from "../../../lemmy/types/ILemmyServer";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {initialize, lemmyAuthToken} from "../../lemmy/LemmyInstance";
+import {initialize, lemmyAuthToken} from "../../../lemmy/LemmyInstance";
 import LoadingModal from "../../ui/LoadingModal";
-import {addServer} from "../../helpers/SettingsHelper";
+import {addServer} from "../../../helpers/SettingsHelper";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 const AddAccountScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {

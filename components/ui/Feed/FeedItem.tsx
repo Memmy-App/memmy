@@ -4,14 +4,14 @@ import {ArrowDownIcon, ArrowUpIcon, HStack, Icon, IconButton, Pressable, Text, V
 import {PostView} from "lemmy-js-client";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
-import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
+import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
 import {trigger} from "react-native-haptic-feedback";
 import {useDispatch} from "react-redux";
-import {setPost} from "../../slices/post/postSlice";
+import {setPost} from "../../../slices/post/postSlice";
 import ContentView from "../ContentView";
-import {setUpdateVote} from "../../slices/feed/feedSlice";
+import {setUpdateVote} from "../../../slices/feed/feedSlice";
 import FastImage from "react-native-fast-image";
-import {getBaseUrl} from "../../helpers/LinkHelper";
+import {getBaseUrl} from "../../../helpers/LinkHelper";
 import CommunityLink from "../CommunityLink";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";

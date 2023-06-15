@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {Button, HStack, Switch, Text, useTheme, useToast, VStack} from "native-base";
-import ILemmyServer from "../../lemmy/types/ILemmyServer";
-import {initialize, lemmyAuthToken} from "../../lemmy/LemmyInstance";
+import ILemmyServer from "../../../lemmy/types/ILemmyServer";
+import {initialize, lemmyAuthToken} from "../../../lemmy/LemmyInstance";
 import {Alert, Linking} from "react-native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import CTextInput from "../../ui/CTextInput";
 import {LemmyHttp} from "lemmy-js-client";
 import LoadingModal from "../../ui/LoadingModal";
-import {addServer} from "../../helpers/SettingsHelper";
+import {addServer} from "../../../helpers/SettingsHelper";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 interface RegisterForm {

@@ -1,16 +1,16 @@
 import React, {useRef, useState} from "react";
 import {Divider, HStack, Icon, Pressable, Text, useTheme, View, VStack} from "native-base";
-import ILemmyComment from "../lemmy/types/ILemmyComment";
+import ILemmyComment from "../../lemmy/types/ILemmyComment";
 import {Dimensions, Platform, StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
-import {truncateName} from "../lemmy/LemmyHelpers";
-import {depthToColor} from "../helpers/ColorHelper";
+import {truncateName} from "../../lemmy/LemmyHelpers";
+import {depthToColor} from "../../helpers/ColorHelper";
 import {GestureHandlerRootView, PanGestureHandler,} from "react-native-gesture-handler";
 import {trigger} from "react-native-haptic-feedback";
-import {useAppDispatch} from "../store";
+import {useAppDispatch} from "../../store";
 import RenderHTML from "react-native-render-html";
-import {parseMarkdown} from "../helpers/MarkdownHelper";
+import {parseMarkdown} from "../../helpers/MarkdownHelper";
 import Animated, {
     runOnJS,
     useAnimatedGestureHandler,
@@ -18,8 +18,8 @@ import Animated, {
     useSharedValue,
     withSpring
 } from "react-native-reanimated";
-import {setResponseTo} from "../slices/newComment/newCommentSlice";
-import {lemmyAuthToken, lemmyInstance} from "../lemmy/LemmyInstance";
+import {setResponseTo} from "../../slices/newComment/newCommentSlice";
+import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 

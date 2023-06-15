@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Alert, Button, StyleSheet, TextInput} from "react-native";
-import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
+import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {useAppSelector} from "../../store";
-import {clearNewComment, selectNewComment} from "../../slices/newComment/newCommentSlice";
+import {useAppSelector} from "../../../store";
+import {clearNewComment, selectNewComment} from "../../../slices/newComment/newCommentSlice";
 import {useDispatch} from "react-redux";
-import {setPostNewComment} from "../../slices/post/postSlice";
+import {setPostNewComment} from "../../../slices/post/postSlice";
 import LoadingView from "../../ui/LoadingView";
 import {useColorMode, useTheme} from "native-base";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";

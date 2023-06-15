@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 import {Alert, Button, StyleSheet, TextInput} from "react-native";
 import {useTheme, useToast, VStack} from "native-base";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
-import ILemmyServer from "../../lemmy/types/ILemmyServer";
-import {initialize, lemmyAuthToken} from "../../lemmy/LemmyInstance";
-import {getServers, setServers} from "../../helpers/SettingsHelper";
+import ILemmyServer from "../../../lemmy/types/ILemmyServer";
+import {initialize, lemmyAuthToken} from "../../../lemmy/LemmyInstance";
+import {getServers, setServers} from "../../../helpers/SettingsHelper";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 const EditAccountScreen = ({route, navigation}: {route: any, navigation: NativeStackNavigationProp<any>}) => {

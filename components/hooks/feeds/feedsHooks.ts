@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 import {ListingType, PostView, SortType} from "lemmy-js-client";
-import {useAppDispatch, useAppSelector} from "../../store";
-import {selectSettings} from "../../slices/settings/settingsSlice";
-import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
-import {removeDuplicatePosts} from "../../lemmy/LemmyHelpers";
-import {clearUpdateVote, selectFeed} from "../../slices/feed/feedSlice";
+import {useAppDispatch, useAppSelector} from "../../../store";
+import {selectSettings} from "../../../slices/settings/settingsSlice";
+import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
+import {removeDuplicatePosts} from "../../../lemmy/LemmyHelpers";
+import {clearUpdateVote, selectFeed} from "../../../slices/feed/feedSlice";
 
 export const useFeed = (communityId?: number) => {
     const settings = useAppSelector(selectSettings);

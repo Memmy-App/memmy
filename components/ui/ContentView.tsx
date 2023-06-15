@@ -1,11 +1,11 @@
 import React from "react";
 import {PostView} from "lemmy-js-client";
-import {ExtensionType, getLinkInfo} from "../helpers/LinkHelper";
+import {ExtensionType, getLinkInfo} from "../../helpers/LinkHelper";
 import {Text, useTheme, VStack} from "native-base";
-import {truncatePost} from "../helpers/TextHelper";
+import {truncatePost} from "../../helpers/TextHelper";
 import LinkButton from "./LinkButton";
 import {Dimensions, StyleSheet} from "react-native";
-import {parseMarkdown} from "../helpers/MarkdownHelper";
+import {parseMarkdown} from "../../helpers/MarkdownHelper";
 import RenderHTML from "react-native-render-html";
 import ImageModal from "react-native-image-modal";
 

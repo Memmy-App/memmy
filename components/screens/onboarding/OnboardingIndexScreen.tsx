@@ -13,7 +13,7 @@ const OnboardingScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
                 Welcome to Lemmy!
             </Text>
             <FastImage
-                source={require("../../assets/splash.png")}
+                source={require("../../../assets/splash.png")}
                 style={styles.image}
             />
             <Text fontSize={18} textAlign={"center"}>

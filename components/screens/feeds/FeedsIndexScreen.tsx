@@ -1,11 +1,11 @@
 import React, {useEffect} from "react";
 import FeedView from "../../ui/Feed/FeedView";
 import FeedHeaderDropdown from "../../ui/Feed/FeedHeaderDropdown";
-import {useFeed} from "../../componentHelpers/feeds/feedsHooks";
-import {initialize, lemmyInstance} from "../../lemmy/LemmyInstance";
-import {getServers} from "../../helpers/SettingsHelper";
-import {useAppDispatch} from "../../store";
-import {getAllCommunities, getSubscribedCommunities} from "../../slices/communities/communitiesActions";
+import {useFeed} from "../../hooks/feeds/feedsHooks";
+import {initialize, lemmyInstance} from "../../../lemmy/LemmyInstance";
+import {getServers} from "../../../helpers/SettingsHelper";
+import {useAppDispatch} from "../../../store";
+import {getAllCommunities, getSubscribedCommunities} from "../../../slices/communities/communitiesActions";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {

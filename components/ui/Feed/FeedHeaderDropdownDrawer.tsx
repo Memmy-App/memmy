@@ -1,12 +1,12 @@
 import React from "react";
 import {StyleSheet} from "react-native";
 import {Pressable, ScrollView, View} from "native-base";
-import {useAppDispatch, useAppSelector} from "../../store";
-import {selectFeed, setDropdownVisible} from "../../slices/feed/feedSlice";
+import {useAppDispatch, useAppSelector} from "../../../store";
+import {selectFeed, setDropdownVisible} from "../../../slices/feed/feedSlice";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
-import {selectCommunities} from "../../slices/communities/communitiesSlice";
+import {selectCommunities} from "../../../slices/communities/communitiesSlice";
 import {CommunityView} from "lemmy-js-client";
-import {getBaseUrl} from "../../helpers/LinkHelper";
+import {getBaseUrl} from "../../../helpers/LinkHelper";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 

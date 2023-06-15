@@ -1,10 +1,10 @@
 import React, {useEffect} from "react";
 import FeedView from "../../ui/Feed/FeedView";
-import {selectFeed} from "../../slices/feed/feedSlice";
-import {useAppDispatch, useAppSelector} from "../../store";
+import {selectFeed} from "../../../slices/feed/feedSlice";
+import {useAppDispatch, useAppSelector} from "../../../store";
 import {Text, VStack} from "native-base";
-import {getBaseUrl} from "../../helpers/LinkHelper";
-import {useFeed} from "../../componentHelpers/feeds/feedsHooks";
+import {getBaseUrl} from "../../../helpers/LinkHelper";
+import {useFeed} from "../../hooks/feeds/feedsHooks";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 const FeedsCommunityScreen = ({route, navigation}: {route: any, navigation: NativeStackNavigationProp<any>}) => {

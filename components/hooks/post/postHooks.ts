@@ -1,11 +1,11 @@
-import ILemmyComment from "../../lemmy/types/ILemmyComment";
+import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import {useEffect, useState} from "react";
 import {PostView} from "lemmy-js-client";
-import {useAppDispatch, useAppSelector} from "../../store";
-import {selectPost, setPost, setPostVote} from "../../slices/post/postSlice";
-import LemmyCommentsHelper from "../../lemmy/LemmyCommentsHelper";
-import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
-import {setUpdateVote} from "../../slices/feed/feedSlice";
+import {useAppDispatch, useAppSelector} from "../../../store";
+import {selectPost, setPost, setPostVote} from "../../../slices/post/postSlice";
+import LemmyCommentsHelper from "../../../lemmy/LemmyCommentsHelper";
+import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
+import {setUpdateVote} from "../../../slices/feed/feedSlice";
 import {trigger} from "react-native-haptic-feedback";
 import {useToast} from "native-base";
 

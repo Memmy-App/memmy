@@ -7,14 +7,14 @@ import LoadingView from "../LoadingView";
 import LoadingErrorView from "../LoadingErrorView";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import {FlashList} from "@shopify/flash-list";
-import SortIconType from "../../types/SortIconType";
+import SortIconType from "../../../types/SortIconType";
 import CIconButton from "../CIconButton";
 import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
-import {useAppDispatch, useAppSelector} from "../../store";
-import {selectFeed, setDropdownVisible} from "../../slices/feed/feedSlice";
-import {subscribeToCommunity} from "../../slices/communities/communitiesActions";
-import {isSubscribed} from "../../lemmy/LemmyHelpers";
-import {selectCommunities} from "../../slices/communities/communitiesSlice";
+import {useAppDispatch, useAppSelector} from "../../../store";
+import {selectFeed, setDropdownVisible} from "../../../slices/feed/feedSlice";
+import {subscribeToCommunity} from "../../../slices/communities/communitiesActions";
+import {isSubscribed} from "../../../lemmy/LemmyHelpers";
+import {selectCommunities} from "../../../slices/communities/communitiesSlice";
 import {useNavigation} from "@react-navigation/native";
 
 interface FeedViewProps {

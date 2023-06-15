@@ -17,18 +17,18 @@ import {
 import {RefreshControl, StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment/moment";
-import ILemmyComment from "../../lemmy/types/ILemmyComment";
+import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import CommentItem from "../../ui/CommentItem";
 import {FlashList} from "@shopify/flash-list";
-import {setResponseTo} from "../../slices/newComment/newCommentSlice";
+import {setResponseTo} from "../../../slices/newComment/newCommentSlice";
 import ContentView from "../../ui/ContentView";
-import {getBaseUrl} from "../../helpers/LinkHelper";
+import {getBaseUrl} from "../../../helpers/LinkHelper";
 import CommunityLink from "../../ui/CommunityLink";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
-import {shareLink} from "../../helpers/ShareHelper";
-import {usePost} from "../../componentHelpers/post/postHooks";
-import {useAppDispatch} from "../../store";
+import {shareLink} from "../../../helpers/ShareHelper";
+import {usePost} from "../../hooks/post/postHooks";
+import {useAppDispatch} from "../../../store";
 
 const PostScreen = () => {
     const navigation = useNavigation<NativeStackNavigationProp<any>>();

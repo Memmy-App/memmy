@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
-import {getServers} from "../helpers/SettingsHelper";
-import {useAppDispatch} from "../store";
-import {loadSettings} from "../slices/settings/settingsActions";
+import {getServers} from "../../helpers/SettingsHelper";
+import {useAppDispatch} from "../../store";
+import {loadSettings} from "../../slices/settings/settingsActions";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 const IndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {

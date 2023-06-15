@@ -1,21 +1,21 @@
 import React from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import FeedsIndexScreen from "./screens/feeds/FeedsIndexScreen";
-import CommunityFeedScreen from "./screens/feeds/CommunityFeedScreen";
-import PostScreen from "./screens/post/PostScreen";
-import NewPostScreen from "./screens/post/NewPostScreen";
-import SettingsIndexScreen from "./screens/settings/SettingsIndexScreen";
-import EditAccountScreen from "./screens/settings/EditAccountScreen";
+import FeedsIndexScreen from "./components/screens/feeds/FeedsIndexScreen";
+import CommunityFeedScreen from "./components/screens/feeds/CommunityFeedScreen";
+import PostScreen from "./components/screens/post/PostScreen";
+import NewPostScreen from "./components/screens/post/NewPostScreen";
+import SettingsIndexScreen from "./components/screens/settings/SettingsIndexScreen";
+import EditAccountScreen from "./components/screens/settings/EditAccountScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {Icon, useTheme} from "native-base";
-import NewCommentScreen from "./screens/post/NewCommentScreen";
+import NewCommentScreen from "./components/screens/post/NewCommentScreen";
 import {Ionicons} from "@expo/vector-icons";
-import OnboardingIndexScreen from "./screens/onboarding/OnboardingIndexScreen";
+import OnboardingIndexScreen from "./components/screens/onboarding/OnboardingIndexScreen";
 import {getServers} from "./helpers/SettingsHelper";
-import OnboardingScreen from "./screens/onboarding/OnboardingIndexScreen";
-import AddAccountScreen from "./screens/onboarding/AddAccountScreen";
-import CreateAccountScreen from "./screens/onboarding/CreateAccountScreen";
+import OnboardingScreen from "./components/screens/onboarding/OnboardingIndexScreen";
+import AddAccountScreen from "./components/screens/onboarding/AddAccountScreen";
+import CreateAccountScreen from "./components/screens/onboarding/CreateAccountScreen";
 
 const Stack = () => {
     const theme = useTheme();
