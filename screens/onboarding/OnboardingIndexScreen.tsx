@@ -1,11 +1,10 @@
 import React from "react";
 import {StyleSheet} from "react-native";
 import {Button, HStack, Text, useTheme, VStack} from "native-base";
-import {useRouter} from "expo-router";
 import FastImage from "react-native-fast-image";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
-const OnboardingScreen = () => {
-    const router = useRouter();
+const OnboardingScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {
     const theme = useTheme();
 
     return (
@@ -21,10 +20,10 @@ const OnboardingScreen = () => {
                 New to Lemmy? We&apos;ll help you find an instance and create an account.
             </Text>
             <HStack space={"md"}>
-                <Button onPress={() => router.push("/onboarding/addAccount")}>
+                <Button onPress={() => navigation.push("AddAccount")}>
                     I Already Have an Account
                 </Button>
-                <Button onPress={() => router.push("/onboarding/createAccount")}>
+                <Button onPress={() => navigation.push("CreateAccount")}>
                     Get Started
                 </Button>
             </HStack>

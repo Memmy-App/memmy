@@ -6,24 +6,25 @@ import {selectFeed, setDropdownVisible} from "../../slices/feed/feedSlice";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 import {selectCommunities} from "../../slices/communities/communitiesSlice";
 import {CommunityView} from "lemmy-js-client";
-import {useRouter} from "expo-router";
 import {getBaseUrl} from "../../helpers/LinkHelper";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 const FeedHeaderDropdownDrawer = () => {
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
     const {dropdownVisible} = useAppSelector(selectFeed);
     const {subscribedCommunities} = useAppSelector(selectCommunities);
 
     const dispatch = useAppDispatch();
-    const router = useRouter();
 
     const onCommunityPress = (community: CommunityView) => {
         dispatch(setDropdownVisible());
-        router.push({
-            pathname: `/tabs/feeds/${community.community.id}`,
-            params: {
-                communityName: community.community.name,
-                actorId: encodeURIComponent(community.community.actor_id)
-            }});
+        navigation.push("Community", {
+            communityId: community.community.id,
+            communityName: community.community.name,
+            actorId: community.community.actor_id
+        });
     };
 
     if(!dropdownVisible) return;

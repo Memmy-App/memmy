@@ -2,12 +2,12 @@ import React, {useEffect, useState} from "react";
 import {Alert, Button, StyleSheet, TextInput} from "react-native";
 import {useTheme, useToast, VStack} from "native-base";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
-import ILemmyServer from "../../../lemmy/types/ILemmyServer";
-import {Stack, useRouter, useSearchParams} from "expo-router";
-import {initialize, lemmyAuthToken} from "../../../lemmy/LemmyInstance";
-import {getServers, setServers} from "../../../helpers/SettingsHelper";
+import ILemmyServer from "../../lemmy/types/ILemmyServer";
+import {initialize, lemmyAuthToken} from "../../lemmy/LemmyInstance";
+import {getServers, setServers} from "../../helpers/SettingsHelper";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
-const EditAccountScreen = () => {
+const EditAccountScreen = ({route, navigation}: {route: any, navigation: NativeStackNavigationProp<any>}) => {
     const [form, setForm] = useState<ILemmyServer>({
         server: "",
         username: "",
@@ -18,21 +18,24 @@ const EditAccountScreen = () => {
     const [loading, setLoading] = useState(false);
     const [showTotpToken, setShowTotpToken] = useState(false);
 
-    const {serverIndex} = useSearchParams();
-
-    const router = useRouter();
     const toast = useToast();
     const theme = useTheme();
 
-    useEffect(() => {
-        if(serverIndex) {
-            load().then();
+    navigation.setOptions({
+        headerRight: () => {
+            return(
+                <Button title={"Save"} onPress={onSavePress} disabled={loading} />
+            );
         }
+    });
+
+    useEffect(() => {
+        load().then();
     }, []);
 
     const load = async () => {
         const servers = await getServers();
-        setForm(servers[Number(serverIndex)]);
+        setForm(servers[0]);
     };
 
     const onFormChange = (name: string, value: string) => {
@@ -82,32 +85,11 @@ const EditAccountScreen = () => {
 
         await setServers(servers);
 
-        router.back();
-    };
-
-    const onDeletePress = async () => {
-        const servers = await getServers();
-        const serverIndex = servers.findIndex((x) => (x.server.toLowerCase() === form.server.toLowerCase() && x.username.toLowerCase() === form.username.toLowerCase()));
-
-        delete servers[serverIndex];
-
-        await setServers(servers);
-
-        router.back();
+        navigation.pop();
     };
 
     return (
         <VStack flex={1} backgroundColor={"screen.800"}>
-            <Stack.Screen
-                options={{
-                    headerRight: () => {
-                        return(
-                            <Button title={"Save"} onPress={onSavePress} disabled={loading} />
-                        );
-                    }
-                }}
-            />
-
             <TableView style={styles.table}>
                 <Section
                     header={"SERVER ADDRESS"}
@@ -196,19 +178,19 @@ const EditAccountScreen = () => {
                     }
                 </Section>
 
-                {
-                    serverIndex && (
-                        <Section
-                            header={"DELETE"}
-                            roundedCorners={true}
-                            hideSurroundingSeparators={true}
-                        >
-                            <Cell cellContentView={
-                                <Button title={"Delete Server"} color={"red"} onPress={onDeletePress} />
-                            } />
-                        </Section>
-                    )
-                }
+                {/*{*/}
+                {/*    serverIndex && (*/}
+                {/*        <Section*/}
+                {/*            header={"DELETE"}*/}
+                {/*            roundedCorners={true}*/}
+                {/*            hideSurroundingSeparators={true}*/}
+                {/*        >*/}
+                {/*            <Cell cellContentView={*/}
+                {/*                <Button title={"Delete Server"} color={"red"} onPress={onDeletePress} />*/}
+                {/*            } />*/}
+                {/*        </Section>*/}
+                {/*    )*/}
+                {/*}*/}
             </TableView>
         </VStack>
     );

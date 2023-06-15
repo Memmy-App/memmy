@@ -5,7 +5,6 @@ import {Button, RefreshControl, StyleSheet} from "react-native";
 import FeedItem from "./FeedItem";
 import LoadingView from "../LoadingView";
 import LoadingErrorView from "../LoadingErrorView";
-import {Stack} from "expo-router";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import {FlashList} from "@shopify/flash-list";
 import SortIconType from "../../types/SortIconType";
@@ -16,6 +15,7 @@ import {selectFeed, setDropdownVisible} from "../../slices/feed/feedSlice";
 import {subscribeToCommunity} from "../../slices/communities/communitiesActions";
 import {isSubscribed} from "../../lemmy/LemmyHelpers";
 import {selectCommunities} from "../../slices/communities/communitiesSlice";
+import {useNavigation} from "@react-navigation/native";
 
 interface FeedViewProps {
     posts: PostView[],
@@ -38,6 +38,23 @@ const FeedView = (
         community = false,
     }: FeedViewProps) =>
 {
+    const navigation = useNavigation();
+
+    navigation.setOptions({
+        headerRight: () => {
+            if(dropdownVisible) {
+                return <Button title={"Cancel"} onPress={() => dispatch(setDropdownVisible())} />;
+            }
+
+            return (
+                <>
+                    <CIconButton name={sortIcon} onPress={onSortPress} />
+                    <CIconButton name={"ellipsis-horizontal-outline"} onPress={onEllipsisButtonPress} />
+                </>
+            );
+        }
+    });
+
     const [sortIcon, setSortIcon] = useState(SortIconType[2]);
 
     const flashList = useRef<FlashList<any>>();
@@ -133,23 +150,6 @@ const FeedView = (
 
     return (
         <View style={styles.container} backgroundColor={"screen.900"}>
-            <Stack.Screen
-                options={{
-                    headerRight: () => {
-                        if(dropdownVisible) {
-                            return <Button title={"Cancel"} onPress={() => dispatch(setDropdownVisible())} />;
-                        }
-
-                        return (
-                            <>
-                                <CIconButton name={sortIcon} onPress={onSortPress} />
-                                <CIconButton name={"ellipsis-horizontal-outline"} onPress={onEllipsisButtonPress} />
-                            </>
-                        );
-                    }
-                }}
-            />
-
             <FeedHeaderDropdownDrawer />
 
             <FlashList

@@ -6,7 +6,6 @@ import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
 import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import {trigger} from "react-native-haptic-feedback";
-import {useRouter} from "expo-router";
 import {useDispatch} from "react-redux";
 import {setPost} from "../../slices/post/postSlice";
 import ContentView from "../ContentView";
@@ -14,14 +13,17 @@ import {setUpdateVote} from "../../slices/feed/feedSlice";
 import FastImage from "react-native-fast-image";
 import {getBaseUrl} from "../../helpers/LinkHelper";
 import CommunityLink from "../CommunityLink";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 interface FeedItemProps {
-    post: PostView,
+    post: PostView
 }
 
 const FeedItem = ({post}: FeedItemProps) => {
-    const router = useRouter();
     const dispatch = useDispatch();
+
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
     const onVotePress = async (value: -1 | 0 | 1) => {
         if(value === post.my_vote && value !== 0) value = 0;
@@ -52,7 +54,7 @@ const FeedItem = ({post}: FeedItemProps) => {
 
     const onPress = () => {
         dispatch(setPost(post));
-        router.push("/tabs/feeds/post");
+        navigation.push("Post");
     };
 
     return (

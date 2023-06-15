@@ -38,9 +38,9 @@ export const useFeed = (communityId?: number) => {
 
 
     const load = async (refresh = false) => {
-        setLoading(true);
+        console.log("Community id: ", communityId);
 
-        console.log(nextPage);
+        setLoading(true);
 
         try {
             const res = await lemmyInstance.getPosts({

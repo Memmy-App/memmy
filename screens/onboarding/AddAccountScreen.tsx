@@ -4,12 +4,12 @@ import {Alert} from "react-native";
 import CTextInput from "../../ui/CTextInput";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {useRouter} from "expo-router";
 import {initialize, lemmyAuthToken} from "../../lemmy/LemmyInstance";
 import LoadingModal from "../../ui/LoadingModal";
 import {addServer} from "../../helpers/SettingsHelper";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
-const AddAccountScreen = () => {
+const AddAccountScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {
     const [form, setForm] = useState<ILemmyServer>({
         server: "",
         username: "",
@@ -21,7 +21,6 @@ const AddAccountScreen = () => {
     const [showTotpToken, setShowTotpToken] = useState(false);
 
     const toast = useToast();
-    const router = useRouter();
     const theme = useTheme();
 
     const onFormChange = (name, value) => {
@@ -76,7 +75,7 @@ const AddAccountScreen = () => {
         await addServer(server);
 
         setLoading(false);
-        router.replace("/tabs/feeds");
+        navigation.replace("Feed");
     };
 
     return (

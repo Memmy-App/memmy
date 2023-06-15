@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {Stack, useRouter} from "expo-router";
-import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
-import LoadingView from "../../../ui/LoadingView";
+import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
+import LoadingView from "../../ui/LoadingView";
 import {
     ArrowDownIcon,
     ArrowUpIcon,
@@ -19,37 +18,47 @@ import {
 import {RefreshControl, StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment/moment";
-import ILemmyComment from "../../../lemmy/types/ILemmyComment";
-import CommentItem from "../../../ui/CommentItem";
-import LemmyCommentsHelper from "../../../lemmy/LemmyCommentsHelper";
+import ILemmyComment from "../../lemmy/types/ILemmyComment";
+import CommentItem from "../../ui/CommentItem";
+import LemmyCommentsHelper from "../../lemmy/LemmyCommentsHelper";
 import {FlashList} from "@shopify/flash-list";
 import {trigger} from "react-native-haptic-feedback";
-import {clearPost, selectPost, setPostVote} from "../../../slices/post/postSlice";
-import {useAppDispatch, useAppSelector} from "../../../store";
-import {setResponseTo} from "../../../slices/newComment/newCommentSlice";
-import ContentView from "../../../ui/ContentView";
-import {setUpdateVote} from "../../../slices/feed/feedSlice";
-import {getBaseUrl} from "../../../helpers/LinkHelper";
-import CommunityLink from "../../../ui/CommunityLink";
+import {clearPost, selectPost, setPost, setPostVote} from "../../slices/post/postSlice";
+import {useAppDispatch, useAppSelector} from "../../store";
+import {setResponseTo} from "../../slices/newComment/newCommentSlice";
+import ContentView from "../../ui/ContentView";
+import {setUpdateVote} from "../../slices/feed/feedSlice";
+import {getBaseUrl} from "../../helpers/LinkHelper";
+import CommunityLink from "../../ui/CommunityLink";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {PostView} from "lemmy-js-client";
 
 const PostScreen = () => {
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
     const [comments, setComments] = useState<ILemmyComment[] | null>(null);
     const [refreshing, setRefreshing] = useState(false);
     const [refresh, setRefresh] = useState(false);
+    const [savedPost, setSavedPost] = useState<PostView|null>();
 
     const {post, newComment} = useAppSelector(selectPost);
-
-    const router = useRouter();
 
     const dispatch = useAppDispatch();
     const theme = useTheme();
 
-    useEffect(() => {
-        load().then();
+    navigation.setOptions({
+        title: `${post.counts.comments} Comment${post.counts.comments !== 1 ? "s" : ""}`
+    });
 
-        return () => {
-            dispatch(clearPost());
-        };
+    useEffect(() => {
+        if(savedPost) {
+            dispatch(setPost(savedPost));
+        } else {
+            setSavedPost(post);
+        }
+
+        load().then();
     }, []);
 
     useEffect(() => {
@@ -123,7 +132,7 @@ const PostScreen = () => {
             post: post
         }));
 
-        router.push({pathname: "/tabs/feeds/commentModal", params: {postId: post.post.id}});
+        navigation.push("NewComment");
     };
 
     const onRefresh = () => {
@@ -143,12 +152,6 @@ const PostScreen = () => {
 
     const header = () => (
         <VStack flex={1} backgroundColor={"screen.800"}>
-            <Stack.Screen
-                options={{
-                    title: `${post.counts.comments} Comment${post.counts.comments !== 1 ? "s" : ""}`
-                }}
-            />
-
             <ContentView post={post} showBody={true} showTitle={true} />
 
             <HStack mx={4} mb={1}>

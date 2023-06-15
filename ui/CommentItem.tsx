@@ -7,7 +7,6 @@ import moment from "moment";
 import {truncateName} from "../lemmy/LemmyHelpers";
 import {depthToColor} from "../helpers/ColorHelper";
 import {GestureHandlerRootView, PanGestureHandler,} from "react-native-gesture-handler";
-import {useRouter} from "expo-router";
 import {trigger} from "react-native-haptic-feedback";
 import {useAppDispatch} from "../store";
 import RenderHTML from "react-native-render-html";
@@ -21,6 +20,8 @@ import Animated, {
 } from "react-native-reanimated";
 import {setResponseTo} from "../slices/newComment/newCommentSlice";
 import {lemmyAuthToken, lemmyInstance} from "../lemmy/LemmyInstance";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 interface CommentItemProps {
     comment: ILemmyComment,
@@ -28,12 +29,13 @@ interface CommentItemProps {
 }
 
 const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
     const lastCommentId = useRef(comment.top.comment.id);
 
     const [collapsed, setCollapsed] = useState(false);
     const [myVote, setMyVote] = useState(comment.top.my_vote);
 
-    const router = useRouter();
     const dispatch = useAppDispatch();
     const theme = useTheme();
 
@@ -170,11 +172,11 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                 dispatch(setResponseTo({
                     comment: comment.top
                 }));
-                router.push("/tabs/feeds/commentModal");
+                navigation.push("NewComment");
                 break;
             }
             case "back": {
-                router.back();
+                navigation.pop();
                 break;
             }
         }
@@ -205,7 +207,7 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                         <VStack
                             flex={1}
                             py={1.5}
-                            backgroundColor={"app.commentBackground"}
+                            backgroundColor={"screen.800"}
                             style={{
                                 paddingLeft: ((depth) * 8)
                             }}

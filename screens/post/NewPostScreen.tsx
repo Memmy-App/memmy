@@ -1,6 +1,5 @@
 import React from "react";
 import {StyleSheet} from "react-native";
-import {useRouter} from "expo-router";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {Input} from "native-base";
 

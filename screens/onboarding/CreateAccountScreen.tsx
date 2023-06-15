@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Button, HStack, Switch, Text, useTheme, useToast, VStack} from "native-base";
 import ILemmyServer from "../../lemmy/types/ILemmyServer";
-import {useRouter} from "expo-router";
 import {initialize, lemmyAuthToken} from "../../lemmy/LemmyInstance";
 import {Alert, Linking} from "react-native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
@@ -9,6 +8,7 @@ import CTextInput from "../../ui/CTextInput";
 import {LemmyHttp} from "lemmy-js-client";
 import LoadingModal from "../../ui/LoadingModal";
 import {addServer} from "../../helpers/SettingsHelper";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 interface RegisterForm {
     server: string,
@@ -19,7 +19,7 @@ interface RegisterForm {
     showNsfw: boolean
 }
 
-const CreateAccountScreen = () => {
+const CreateAccountScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {
     const [form, setForm] = useState<RegisterForm>({
         server: "",
         username: "",
@@ -33,7 +33,6 @@ const CreateAccountScreen = () => {
     const [ready, setReady] = useState(false);
 
     const toast = useToast();
-    const router = useRouter();
     const theme = useTheme();
 
     useEffect(() => {
@@ -130,7 +129,7 @@ const CreateAccountScreen = () => {
         await addServer(server);
 
         setLoading(false);
-        router.replace("/tabs/feeds");
+        navigation.replace("Feed");
     };
 
     return (

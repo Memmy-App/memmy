@@ -1,25 +1,34 @@
 import React, {useEffect, useState} from "react";
 import {Alert, Button, StyleSheet, TextInput} from "react-native";
-import {Stack, useRouter} from "expo-router";
-import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
+import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {useAppSelector} from "../../../store";
-import {clearNewComment, selectNewComment} from "../../../slices/newComment/newCommentSlice";
+import {useAppSelector} from "../../store";
+import {clearNewComment, selectNewComment} from "../../slices/newComment/newCommentSlice";
 import {useDispatch} from "react-redux";
-import {setPostNewComment} from "../../../slices/post/postSlice";
-import LoadingView from "../../../ui/LoadingView";
+import {setPostNewComment} from "../../slices/post/postSlice";
+import LoadingView from "../../ui/LoadingView";
 import {useColorMode, useTheme} from "native-base";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
-const CommentModalScreen = () => {
+const NewCommentScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {
     const [content, setContent] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const router = useRouter();
     const dispatch = useDispatch();
     const theme = useTheme();
     const colorMode = useColorMode();
 
     const {responseTo} = useAppSelector(selectNewComment);
+
+    navigation.setOptions({
+        headerLeft: () => (
+            <Button title={"Cancel"} onPress={() => navigation.pop()} />
+        ),
+        headerRight: () => (
+            <Button title={"Submit"} onPress={onSubmitPress} disabled={loading} />
+        ),
+        title: responseTo.post ? "Replying to Post" : "Replying to Comment"
+    });
 
     useEffect(() => {
         return () => {
@@ -47,7 +56,7 @@ const CommentModalScreen = () => {
                 isTopComment: !!responseTo.post
             }));
 
-            router.back();
+            navigation.pop();
         } catch(e) {
             console.log(e);
             setLoading(false);
@@ -62,17 +71,6 @@ const CommentModalScreen = () => {
 
     return (
         <KeyboardAwareScrollView style={{backgroundColor: theme.colors.screen[800]}}>
-            <Stack.Screen
-                options={{
-                    headerLeft: () => (
-                        <Button title={"Cancel"} onPress={router.back} />
-                    ),
-                    headerRight: () => (
-                        <Button title={"Submit"} onPress={onSubmitPress} disabled={loading} />
-                    ),
-                    title: responseTo.post ? "Replying to Post" : "Replying to Comment"
-                }}
-            />
             <TextInput
                 multiline={true}
                 autoCapitalize={"sentences"}
@@ -97,4 +95,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default CommentModalScreen;
+export default NewCommentScreen;
