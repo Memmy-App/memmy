@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from "react";
-import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
+import React from "react";
 import LoadingView from "../../ui/LoadingView";
 import {
     ArrowDownIcon,
@@ -15,85 +14,31 @@ import {
     View,
     VStack,
 } from "native-base";
-import {RefreshControl, Share, StyleSheet} from "react-native";
+import {RefreshControl, StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment/moment";
 import ILemmyComment from "../../lemmy/types/ILemmyComment";
 import CommentItem from "../../ui/CommentItem";
-import LemmyCommentsHelper from "../../lemmy/LemmyCommentsHelper";
 import {FlashList} from "@shopify/flash-list";
-import {trigger} from "react-native-haptic-feedback";
-import {selectPost, setPost, setPostVote} from "../../slices/post/postSlice";
-import {useAppDispatch, useAppSelector} from "../../store";
 import {setResponseTo} from "../../slices/newComment/newCommentSlice";
 import ContentView from "../../ui/ContentView";
-import {setUpdateVote} from "../../slices/feed/feedSlice";
 import {getBaseUrl} from "../../helpers/LinkHelper";
 import CommunityLink from "../../ui/CommunityLink";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
-import {PostView} from "lemmy-js-client";
 import {shareLink} from "../../helpers/ShareHelper";
+import {usePost} from "../../componentHelpers/post/postHooks";
+import {useAppDispatch} from "../../store";
 
 const PostScreen = () => {
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
-    const [comments, setComments] = useState<ILemmyComment[] | null>(null);
-    const [refreshing, setRefreshing] = useState(false);
-    const [refresh, setRefresh] = useState(false);
-    const [savedPost, setSavedPost] = useState<PostView|null>();
-
-    const {post, newComment} = useAppSelector(selectPost);
-
-    const dispatch = useAppDispatch();
     const theme = useTheme();
+    const post = usePost();
+    const dispatch = useAppDispatch();
 
     navigation.setOptions({
-        title: `${post.counts.comments} Comment${post.counts.comments !== 1 ? "s" : ""}`
+        title: `${post.currentPost?.counts.comments} Comment${post.currentPost?.counts.comments !== 1 ? "s" : ""}`
     });
-
-    useEffect(() => {
-        if(savedPost) {
-            dispatch(setPost(savedPost));
-        } else {
-            setSavedPost(post);
-        }
-
-        load().then();
-    }, []);
-
-    useEffect(() => {
-        if(newComment) {
-            const lComment: ILemmyComment = {
-                top: newComment.comment,
-                replies: []
-            };
-
-            if(newComment.isTopComment) {
-                setComments([lComment, ...comments]);
-            } else {
-                const newChain = LemmyCommentsHelper.findAndAdd(comments, lComment);
-                setComments(newChain);
-                setRefresh(!refresh);
-            }
-        }
-    }, [newComment]);
-
-    const load = async () => {
-        const commentsRes = await lemmyInstance.getComments({
-            auth: lemmyAuthToken,
-            post_id: post.post.id,
-            max_depth: 15,
-            type_: "All",
-            sort: "Top"
-        });
-
-        const helper = new LemmyCommentsHelper(commentsRes.comments);
-        const parsed = helper.getParsed();
-
-        setComments(parsed);
-        setRefreshing(false);
-    };
 
     const commentItem = ({item}: {item: ILemmyComment}) => {
         return (
@@ -103,34 +48,13 @@ const PostScreen = () => {
         );
     };
 
-    const onVotePress = async (value: -1 | 0 | 1) => {
-        if(value === post.my_vote && value !== 0) value = 0;
-
-        const oldValue = post.my_vote;
-
-        dispatch(setPostVote(value));
-        dispatch(setUpdateVote({
-            postId: post.post.id,
-            vote: value
-        }));
-
-        trigger("impactMedium");
-
-        try {
-            await lemmyInstance.likePost({
-                auth: lemmyAuthToken,
-                post_id: post.post.id,
-                score: value
-            });
-        } catch(e) {
-            dispatch(setPostVote(oldValue as -1|0|1));
-            return;
-        }
+    const onVotePress = (value: -1 | 0 | 1) => {
+        post.doVote(value);
     };
 
     const onCommentPress = () => {
         dispatch(setResponseTo({
-            post: post
+            post: post.currentPost
         }));
 
         navigation.push("NewComment");
@@ -138,18 +62,17 @@ const PostScreen = () => {
 
     const onSharePress = () => {
         shareLink({
-            link: post.post.ap_id,
-            title: post.post.name
+            link: post.currentPost.post.ap_id,
+            title: post.currentPost.post.name
         });
     };
 
     const onRefresh = () => {
-        setRefreshing(true);
-        load().then();
+        post.doRefresh();
     };
 
     const refreshControl = <RefreshControl
-        refreshing={refreshing}
+        refreshing={post.refreshing}
         onRefresh={onRefresh}
         tintColor={theme.colors.screen[300]}
     />;
@@ -160,36 +83,36 @@ const PostScreen = () => {
 
     const header = () => (
         <VStack flex={1} backgroundColor={"screen.800"}>
-            <ContentView post={post} showBody={true} showTitle={true} />
+            <ContentView post={post.currentPost} showBody={true} showTitle={true} />
 
             <HStack mx={4} mb={1}>
                 <Text>in </Text>
-                <CommunityLink community={post.community} />
+                <CommunityLink community={post.currentPost?.community} />
                 <Text> by </Text>
-                <Text fontWeight={"bold"}>{post.creator.name}</Text>
+                <Text fontWeight={"bold"}>{post.currentPost?.creator.name}</Text>
 
                 <Text fontSize={"sm"} fontStyle={"italic"} mx={4} mt={-1} color={"screen.400"} alignSelf={"flex-end"}>
-                    {post.post.url && getBaseUrl(post.post.url)}
+                    {post.currentPost?.post.url && getBaseUrl(post.currentPost?.post.url)}
                 </Text>
             </HStack>
             <HStack mx={3} space={2} alignItems={"center"} mb={3}>
                 <HStack space={1} alignItems={"center"}>
                     {
-                        (post.counts.upvotes - post.counts.downvotes) >= 0 ? (
+                        (post.currentPost?.counts.upvotes - post.currentPost?.counts.downvotes) >= 0 ? (
                             <ArrowUpIcon />
                         ) : (
                             <ArrowDownIcon />
                         )
                     }
-                    <Text>{post.counts.upvotes - post.counts.downvotes}</Text>
+                    <Text>{post.currentPost?.counts.upvotes - post.currentPost?.counts.downvotes}</Text>
                 </HStack>
                 <HStack space={1} alignItems={"center"}>
                     <Icon as={Ionicons} name={"chatbubble-outline"} />
-                    <Text>{post.counts.comments}</Text>
+                    <Text>{post.currentPost?.counts.comments}</Text>
                 </HStack>
                 <HStack space={1} alignItems={"center"}>
                     <Icon as={Ionicons} name={"time-outline"} />
-                    <Text>{moment(post.post.published).utc(true).fromNow()}</Text>
+                    <Text>{moment(post.currentPost?.post.published).utc(true).fromNow()}</Text>
                 </HStack>
             </HStack>
             <Divider my={1} />
@@ -201,10 +124,10 @@ const PostScreen = () => {
                             name={"arrow-up-outline"}
                             size={6}
                             onPress={() => onVotePress(1)}
-                            color={post.my_vote === 1 ? "white" : "blue.500"}
+                            color={post.currentPost?.my_vote === 1 ? "white" : "blue.500"}
                         />
                     }
-                    backgroundColor={post.my_vote !== 1 ? "screen.800" : "green.500"}
+                    backgroundColor={post.currentPost?.my_vote !== 1 ? "screen.800" : "green.500"}
                     padding={2}
                 />
                 <IconButton
@@ -214,10 +137,10 @@ const PostScreen = () => {
                             name={"arrow-down-outline"}
                             size={6}
                             onPress={() => onVotePress(-1)}
-                            color={post.my_vote === -1 ? "white" : "blue.500"}
+                            color={post.currentPost?.my_vote === -1 ? "white" : "blue.500"}
                         />
                     }
-                    backgroundColor={post.my_vote !== -1 ? "screen.800" : "orange.500"}
+                    backgroundColor={post.currentPost?.my_vote !== -1 ? "screen.800" : "orange.500"}
                     padding={2}
                 />
                 <IconButton icon={<Icon as={Ionicons} name={"bookmark-outline"} />} />
@@ -232,7 +155,7 @@ const PostScreen = () => {
     );
 
     const footer = () => {
-        if(!comments) {
+        if(!post.comments) {
             return (
                 <Center mt={8}>
                     <Spinner />
@@ -241,7 +164,7 @@ const PostScreen = () => {
             );
         }
 
-        if(comments.length === 0) {
+        if(post.comments.length === 0) {
             return (
                 <Center mt={8}>
                     <Text fontStyle={"italic"} color={"gray.500"}>No comments yet :(</Text>
@@ -250,21 +173,23 @@ const PostScreen = () => {
         }
     };
 
-    return (
-        <VStack style={[styles.commentContainer, {backgroundColor: theme.colors.screen["800"]}]}>
-            <FlashList
-                ListFooterComponent={footer}
-                ListHeaderComponent={header}
-                extraData={refresh}
-                data={comments}
-                renderItem={commentItem}
-                keyExtractor={(item) => item.top.comment.id.toString()}
-                estimatedItemSize={300}
-                refreshControl={refreshControl}
-                refreshing={refreshing}
-            />
-        </VStack>
-    );
+    if(post.currentPost) {
+        return (
+            <VStack style={[styles.commentContainer, {backgroundColor: theme.colors.screen["800"]}]}>
+                <FlashList
+                    ListFooterComponent={footer}
+                    ListHeaderComponent={header}
+                    extraData={post.refresh}
+                    data={post.comments}
+                    renderItem={commentItem}
+                    keyExtractor={(item) => item.top.comment.id.toString()}
+                    estimatedItemSize={300}
+                    refreshControl={refreshControl}
+                    refreshing={post.refreshing}
+                />
+            </VStack>
+        );
+    }
 };
 
 const styles = StyleSheet.create({
