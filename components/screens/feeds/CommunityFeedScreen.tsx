@@ -1,7 +1,5 @@
 import React, {useEffect} from "react";
 import FeedView from "../../ui/Feed/FeedView";
-import {selectFeed} from "../../../slices/feed/feedSlice";
-import {useAppDispatch, useAppSelector} from "../../../store";
 import {Text, VStack} from "native-base";
 import {getBaseUrl} from "../../../helpers/LinkHelper";
 import {useFeed} from "../../hooks/feeds/feedsHooks";
@@ -11,9 +9,6 @@ const FeedsCommunityScreen = ({route, navigation}: {route: any, navigation: Nati
     const {communityId, communityName, actorId} = route.params;
 
     const feed = useFeed(Number(communityId));
-
-    const {updateVote} = useAppSelector(selectFeed);
-    const dispatch = useAppDispatch();
 
     navigation.setOptions({
         headerTitle: () => (

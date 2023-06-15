@@ -17,7 +17,6 @@ const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
 
     const dispatch = useAppDispatch();
 
-
     useEffect(() => {
         load();
     }, []);
