@@ -30,10 +30,15 @@ const CTextInput = (
         autoFocus = false,
     }: TextInputProps) =>
 {
+    let focused = false;
+
     const ref = useCallback(node => {
         if(!node) return;
 
-        if(autoFocus) node.focus();
+        if(autoFocus && !focused) {
+            focused = true;
+            node.focus();
+        }
     }, []);
 
     return (
@@ -45,11 +50,11 @@ const CTextInput = (
                 placeholder={placeholder}
                 style={[styles.input, style]}
                 value={value}
-                onChangeText={(value) => onChange(name, value)}
+                onChangeText={(v) => onChange(name, v)}
                 autoCapitalize={autoCapitalize}
                 autoCorrect={autoCorrect}
                 secureTextEntry={secure}
-                ref={ref}
+                ref={autoFocus ? ref : null}
             />
         </VStack>
     );
