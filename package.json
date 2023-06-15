@@ -5,7 +5,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "buildProd": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive",
-    "buildAndSubmit": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive && eas submit -p ios --path build.ipa"
+    "buildAndSubmit": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive && eas submit -p ios --path build.ipa --non-interactive"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^4.0.1",
