@@ -1,12 +1,15 @@
 import {useEffect, useState} from "react";
 import {ListingType, PostView, SortType} from "lemmy-js-client";
-import {useAppSelector} from "../../store";
+import {useAppDispatch, useAppSelector} from "../../store";
 import {selectSettings} from "../../slices/settings/settingsSlice";
 import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import {removeDuplicatePosts} from "../../lemmy/LemmyHelpers";
+import {clearUpdateVote, selectFeed} from "../../slices/feed/feedSlice";
 
-export const useFeed = () => {
+export const useFeed = (communityId?: number) => {
     const settings = useAppSelector(selectSettings);
+    const {updateVote} = useAppSelector(selectFeed);
+    const dispatch = useAppDispatch();
 
     const [posts, setPosts] = useState<PostView[]|null>(null);
     const [loading, setLoading] = useState<boolean>(false);
@@ -15,12 +18,24 @@ export const useFeed = () => {
     const [nextPage, setNextPage] = useState(1);
 
     useEffect(() => {
-        console.log("hi");
-
         if(lemmyInstance) {
             load(true);
         }
     }, [sort, listingType]);
+
+    useEffect(() => {
+        if(updateVote) {
+            setPosts(posts?.map(post => {
+                if(post.post.id === updateVote.postId) {
+                    post.my_vote = updateVote.vote;
+                }
+
+                return post;
+            }));
+            dispatch(clearUpdateVote());
+        }
+    }, [updateVote]);
+
 
     const load = async (refresh = false) => {
         setLoading(true);
@@ -30,6 +45,7 @@ export const useFeed = () => {
         try {
             const res = await lemmyInstance.getPosts({
                 auth: lemmyAuthToken,
+                community_id: communityId ?? undefined,
                 limit: 20,
                 page: refresh ? 1 : nextPage,
                 sort: sort,

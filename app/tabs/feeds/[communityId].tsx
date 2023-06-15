@@ -8,58 +8,20 @@ import {useAppDispatch, useAppSelector} from "../../../store";
 import {Text, VStack} from "native-base";
 import {getBaseUrl} from "../../../helpers/LinkHelper";
 import {removeDuplicatePosts} from "../../../lemmy/LemmyHelpers";
+import {useFeed} from "../../../componentHelpers/feeds/feedsHooks";
 
 const FeedsCommunityScreen = () => {
     const {communityId, communityName, actorId} = useLocalSearchParams();
-    const [posts, setPosts] = useState<PostView[]|null>(null);
-    const [sort, setSort] = useState<SortType|null>(null);
-    const [loading, setLoading] = useState(false);
+
+    const feed = useFeed(Number(communityId));
 
     const {updateVote} = useAppSelector(selectFeed);
 
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        load(true).then();
-    }, [sort]);
-
-    useEffect(() => {
-        if(updateVote) {
-            setPosts(posts?.map(post => {
-                if(post.post.id === updateVote.postId) {
-                    post.my_vote = updateVote.vote;
-                }
-
-                return post;
-            }));
-            dispatch(clearUpdateVote());
-        }
-    }, [updateVote]);
-
-    const load = async (refresh = false) => {
-        setLoading(true);
-
-        try {
-            const res = await lemmyInstance.getPosts({
-                auth: lemmyAuthToken,
-                community_id: Number(communityId),
-                limit: 20,
-                page: (!posts || refresh) ? 1 : (posts.length / 20) + 1,
-                sort: sort
-            });
-
-            if(!posts || refresh) {
-                setPosts(res.posts);
-            } else {
-                setPosts(prev => [...prev, ...removeDuplicatePosts(prev.slice(0, 50), res.posts)]);
-            }
-
-            setLoading(false);
-        } catch(e) {
-            setLoading(false);
-            return;
-        }
-    };
+        feed.load();
+    }, []);
 
     return (
         <>
@@ -74,10 +36,10 @@ const FeedsCommunityScreen = () => {
                 }}
             />
             <FeedView
-                posts={posts}
-                load={load}
-                loading={loading}
-                setSort={setSort}
+                posts={feed.posts}
+                load={feed.load}
+                loading={feed.loading}
+                setSort={feed.setSort}
                 community
             />
         </>
