@@ -15,7 +15,7 @@ import {
     View,
     VStack,
 } from "native-base";
-import {RefreshControl, StyleSheet} from "react-native";
+import {RefreshControl, Share, StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment/moment";
 import ILemmyComment from "../../lemmy/types/ILemmyComment";
@@ -23,7 +23,7 @@ import CommentItem from "../../ui/CommentItem";
 import LemmyCommentsHelper from "../../lemmy/LemmyCommentsHelper";
 import {FlashList} from "@shopify/flash-list";
 import {trigger} from "react-native-haptic-feedback";
-import {clearPost, selectPost, setPost, setPostVote} from "../../slices/post/postSlice";
+import {selectPost, setPost, setPostVote} from "../../slices/post/postSlice";
 import {useAppDispatch, useAppSelector} from "../../store";
 import {setResponseTo} from "../../slices/newComment/newCommentSlice";
 import ContentView from "../../ui/ContentView";
@@ -33,6 +33,7 @@ import CommunityLink from "../../ui/CommunityLink";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {PostView} from "lemmy-js-client";
+import {shareLink} from "../../helpers/ShareHelper";
 
 const PostScreen = () => {
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -135,6 +136,13 @@ const PostScreen = () => {
         navigation.push("NewComment");
     };
 
+    const onSharePress = () => {
+        shareLink({
+            link: post.post.ap_id,
+            title: post.post.name
+        });
+    };
+
     const onRefresh = () => {
         setRefreshing(true);
         load().then();
@@ -214,7 +222,10 @@ const PostScreen = () => {
                 />
                 <IconButton icon={<Icon as={Ionicons} name={"bookmark-outline"} />} />
                 <IconButton icon={<Icon as={Ionicons} name={"arrow-undo-outline"} />} onPress={onCommentPress} />
-                <IconButton icon={<Icon as={Ionicons} name={"share-outline"} />} />
+                <IconButton
+                    icon={<Icon as={Ionicons} name={"share-outline"} />}
+                    onPress={onSharePress}
+                />
             </HStack>
             <Divider />
         </VStack>
