@@ -1,7 +1,8 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "../../store";
-import {loadSettings, setSetting} from "./settingsActions";
+import {loadSettings, removeBookmark, setSetting} from "./settingsActions";
 import {ListingType, SortType} from "lemmy-js-client";
+import Bookmark from "../../types/Bookmark";
 
 interface SettingsState {
     settings: Settings
@@ -11,6 +12,7 @@ interface Settings {
     displayImagesInFeed: string,
     defaultSort: SortType,
     defaultListingType: ListingType,
+    bookmarks: Bookmark[]
 }
 
 export interface Setting {
@@ -23,7 +25,8 @@ const initialState: SettingsState = {
         swipeGestures: "true",
         displayImagesInFeed: "true",
         defaultSort: "Hot",
-        defaultListingType: "All"
+        defaultListingType: "All",
+        bookmarks: []
     }
 };
 
@@ -54,6 +57,13 @@ const settingsSlice = createSlice({
             state.settings = {
                 ...state.settings,
                 [action.payload.key]: action.payload.value
+            };
+        });
+
+        builder.addCase(removeBookmark.fulfilled, (state, action) => {
+            state.settings = {
+                ...state.settings,
+                bookmarks: action.payload
             };
         });
     }
