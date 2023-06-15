@@ -205,12 +205,10 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                         <VStack
                             flex={1}
                             py={1.5}
-                            style={[
-                                {
-                                    backgroundColor: theme.colors.screen["800"],
-                                    paddingLeft: ((depth) * 8)
-                                }
-                            ]}
+                            backgroundColor={"app.commentBackground"}
+                            style={{
+                                paddingLeft: ((depth) * 8)
+                            }}
                         >
                             <View style={[depth > 1 && styles.side, {borderLeftColor: depthToColor(depth)}]}>
                                 <Pressable
@@ -288,13 +286,6 @@ const styles = StyleSheet.create({
         borderLeftWidth: 2,
         paddingLeft: 8,
         marginLeft: -4,
-    },
-
-    commentContainer: {
-        flex: 1,
-        backgroundColor: "white",
-        paddingVertical: 5,
-        paddingRight: 20,
     },
 
     backgroundContainer: {

@@ -16,7 +16,12 @@ const darkTheme= extendTheme({
         },
 
         lightText: "#ffffff",
-        darkText: "#ffffff"
+        darkText: "#ffffff",
+
+        app: {
+            commentBackground: "#292524",
+
+        }
     },
     config: {
         initialColorMode: "dark"
