@@ -30,7 +30,7 @@ const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationPro
         setServer(servers[0]);
     };
 
-    const onChange = (key: string, value: string) => {
+    const onChange = (key: string, value: any) => {
         dispatch(setSetting({
             key,
             value

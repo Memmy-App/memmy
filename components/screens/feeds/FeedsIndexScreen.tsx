@@ -7,6 +7,7 @@ import {getServers} from "../../../helpers/SettingsHelper";
 import {useAppDispatch} from "../../../store";
 import {getAllCommunities, getSubscribedCommunities} from "../../../slices/communities/communitiesActions";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {loadSettings} from "../../../slices/settings/settingsActions";
 
 const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {
     navigation.setOptions({
@@ -36,6 +37,7 @@ const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
                 feed.load(false);
                 dispatch(getSubscribedCommunities());
                 dispatch(getAllCommunities());
+                dispatch(loadSettings());
             } catch (e) {
                 console.log("Error", e);
             }
