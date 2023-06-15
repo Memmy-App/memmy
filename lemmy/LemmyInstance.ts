@@ -10,14 +10,15 @@ export const initialize = async (server: ILemmyServer) => {
     if(server.auth) {
         lemmyAuthToken = server.auth;
     } else {
-
-        var args = {
+        const args = {
             username_or_email: server.username,
             password: server.password
         };
-	if (server.totpToken) {
-		args["totp_2fa_token"] = server.totpToken;
-	}
+
+        if (server.totpToken) {
+            args["totp_2fa_token"] = server.totpToken;
+        }
+
         const res = await lemmyInstance.login(args);
 
         lemmyAuthToken = res.jwt;

@@ -13,12 +13,6 @@ export const getType = (post: Post): ELemmyPostType => {
     }
 };
 
-export const truncateName = (name: string): string => {
-    if(name.length <= 16) return name;
-
-    return name.slice(0,16) + "...";
-};
-
 export const isSubscribed = (communityId: number, communities: CommunityView[]): boolean => {
     const res = communities.find((c) => c.community.id === communityId);
 
