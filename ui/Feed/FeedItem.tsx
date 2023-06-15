@@ -6,7 +6,7 @@ import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
 import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import {trigger} from "react-native-haptic-feedback";
-import {Link, useRouter} from "expo-router";
+import {useRouter} from "expo-router";
 import {useDispatch} from "react-redux";
 import {setPost} from "../../slices/post/postSlice";
 import ContentView from "../ContentView";

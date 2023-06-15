@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Link, Stack, useRouter} from "expo-router";
+import {Stack, useRouter} from "expo-router";
 import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
 import LoadingView from "../../../ui/LoadingView";
 import {

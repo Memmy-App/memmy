@@ -5,7 +5,6 @@ import FeedHeaderDropdown from "../../../ui/Feed/FeedHeaderDropdown";
 import {useFeed} from "../../../componentHelpers/feeds/feedsHooks";
 import {initialize, lemmyInstance} from "../../../lemmy/LemmyInstance";
 import {getServers} from "../../../helpers/SettingsHelper";
-import {useDispatch} from "react-redux";
 import {useAppDispatch} from "../../../store";
 import {getAllCommunities, getSubscribedCommunities} from "../../../slices/communities/communitiesActions";
 

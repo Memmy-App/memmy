@@ -1,13 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {Stack, useLocalSearchParams} from "expo-router";
-import {PostView, SortType} from "lemmy-js-client";
-import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
 import FeedView from "../../../ui/Feed/FeedView";
-import {clearUpdateVote, selectFeed} from "../../../slices/feed/feedSlice";
+import {selectFeed} from "../../../slices/feed/feedSlice";
 import {useAppDispatch, useAppSelector} from "../../../store";
 import {Text, VStack} from "native-base";
 import {getBaseUrl} from "../../../helpers/LinkHelper";
-import {removeDuplicatePosts} from "../../../lemmy/LemmyHelpers";
 import {useFeed} from "../../../componentHelpers/feeds/feedsHooks";
 
 const FeedsCommunityScreen = () => {
