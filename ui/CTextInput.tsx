@@ -1,6 +1,6 @@
 import React, {useCallback} from "react";
 import {StyleSheet, TextInput} from "react-native";
-import {Text, VStack} from "native-base";
+import {Text, useColorMode, VStack} from "native-base";
 
 interface TextInputProps {
     name: string,
@@ -32,6 +32,8 @@ const CTextInput = (
 {
     let focused = false;
 
+    const colorMode = useColorMode();
+
     const ref = useCallback(node => {
         if(!node) return;
 
@@ -55,6 +57,7 @@ const CTextInput = (
                 autoCorrect={autoCorrect}
                 secureTextEntry={secure}
                 ref={autoFocus ? ref : null}
+                keyboardAppearance={colorMode.colorMode}
             />
         </VStack>
     );

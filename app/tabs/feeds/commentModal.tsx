@@ -8,7 +8,7 @@ import {clearNewComment, selectNewComment} from "../../../slices/newComment/newC
 import {useDispatch} from "react-redux";
 import {setPostNewComment} from "../../../slices/post/postSlice";
 import LoadingView from "../../../ui/LoadingView";
-import {useTheme} from "native-base";
+import {useColorMode, useTheme} from "native-base";
 
 const CommentModalScreen = () => {
     const [content, setContent] = useState("");
@@ -17,6 +17,7 @@ const CommentModalScreen = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const theme = useTheme();
+    const colorMode = useColorMode();
 
     const {responseTo} = useAppSelector(selectNewComment);
 
@@ -79,6 +80,7 @@ const CommentModalScreen = () => {
                 numberOfLines={20}
                 value={content}
                 onChangeText={setContent}
+                keyboardAppearance={colorMode.colorMode}
             />
         </KeyboardAwareScrollView>
     );
