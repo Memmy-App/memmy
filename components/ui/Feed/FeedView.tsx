@@ -1,6 +1,6 @@
 import React, {useRef, useState} from "react";
 import {ListingType, PostView, SortType} from "lemmy-js-client";
-import {useTheme, View} from "native-base";
+import {useTheme, useToast, View} from "native-base";
 import {Button, RefreshControl, StyleSheet} from "react-native";
 import FeedItem from "./FeedItem";
 import LoadingView from "../LoadingView";
@@ -16,6 +16,7 @@ import {subscribeToCommunity} from "../../../slices/communities/communitiesActio
 import {isSubscribed} from "../../../lemmy/LemmyHelpers";
 import {selectCommunities} from "../../../slices/communities/communitiesSlice";
 import {useNavigation} from "@react-navigation/native";
+import {trigger} from "react-native-haptic-feedback";
 
 interface FeedViewProps {
     posts: PostView[],
@@ -39,6 +40,8 @@ const FeedView = (
     }: FeedViewProps) =>
 {
     const navigation = useNavigation();
+
+    const toast = useToast();
 
     navigation.setOptions({
         headerRight: () => {
@@ -111,6 +114,12 @@ const FeedView = (
                 if (index === cancelButtonIndex) return;
 
                 if (index === 0) {
+                    trigger("impactMedium");
+                    toast.show({
+                        title: `${!subscribed ? "Subscribed to" : "Unsubscribed from"} ${posts[0].community.name}`,
+                        duration: 3000
+                    });
+
                     dispatch(subscribeToCommunity({
                         communityId: posts[0].community.id,
                         subscribe: !subscribed
