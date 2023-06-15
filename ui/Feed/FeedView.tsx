@@ -5,7 +5,7 @@ import {Button, RefreshControl, StyleSheet} from "react-native";
 import FeedItem from "./FeedItem";
 import LoadingView from "../LoadingView";
 import LoadingErrorView from "../LoadingErrorView";
-import {Stack, Tabs} from "expo-router";
+import {Stack} from "expo-router";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import {FlashList} from "@shopify/flash-list";
 import SortIconType from "../../types/SortIconType";
@@ -16,7 +16,6 @@ import {selectFeed, setDropdownVisible} from "../../slices/feed/feedSlice";
 import {subscribeToCommunity} from "../../slices/communities/communitiesActions";
 import {isSubscribed} from "../../lemmy/LemmyHelpers";
 import {selectCommunities} from "../../slices/communities/communitiesSlice";
-import TabBar from "native-base/lib/typescript/components/composites/Tabs/TabBar";
 
 interface FeedViewProps {
     posts: PostView[],
