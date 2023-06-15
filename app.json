@@ -20,9 +20,9 @@
       }
     },
     "ios": {
-      "supportsTablet": false,
+      "supportsTablet": true,
       "bundleIdentifier": "com.gkasdorf.memmyapp",
-      "buildNumber": "16"
+      "buildNumber": "19"
     },
     "plugins": [
       [
