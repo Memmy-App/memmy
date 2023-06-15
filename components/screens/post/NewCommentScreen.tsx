@@ -1,20 +1,15 @@
-import React, {useEffect, useState} from "react";
-import {Alert, Button, StyleSheet, TextInput} from "react-native";
-import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
+import React from "react";
+import {Button, StyleSheet, TextInput} from "react-native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {useAppSelector} from "../../../store";
-import {clearNewComment, selectNewComment} from "../../../slices/newComment/newCommentSlice";
-import {useDispatch} from "react-redux";
-import {setPostNewComment} from "../../../slices/post/postSlice";
+import {selectNewComment} from "../../../slices/newComment/newCommentSlice";
 import LoadingView from "../../ui/LoadingView";
 import {useColorMode, useTheme} from "native-base";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {useNewComment} from "../../hooks/newComment/newCommentHooks";
 
 const NewCommentScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {
-    const [content, setContent] = useState("");
-    const [loading, setLoading] = useState(false);
-
-    const dispatch = useDispatch();
+    const newComment = useNewComment();
     const theme = useTheme();
     const colorMode = useColorMode();
 
@@ -25,51 +20,12 @@ const NewCommentScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
             <Button title={"Cancel"} onPress={() => navigation.pop()} />
         ),
         headerRight: () => (
-            <Button title={"Submit"} onPress={onSubmitPress} disabled={loading} />
+            <Button title={"Submit"} onPress={newComment.doSubmit} disabled={newComment.loading} />
         ),
         title: responseTo.post ? "Replying to Post" : "Replying to Comment"
     });
 
-    useEffect(() => {
-        return () => {
-            dispatch(clearNewComment());
-        };
-    }, []);
-
-    const onSubmitPress = async () => {
-        if(!content) {
-            return;
-        }
-
-        try {
-            setLoading(true);
-
-            const res = await lemmyInstance.createComment({
-                auth: lemmyAuthToken,
-                content: content,
-                post_id: responseTo.post ? responseTo.post.post.id : responseTo.comment.post.id,
-                parent_id: responseTo.comment ? responseTo.comment.comment.id : undefined
-            });
-
-            dispatch(setPostNewComment({
-                comment: res.comment_view,
-                isTopComment: !!responseTo.post
-            }));
-
-            navigation.pop();
-        } catch(e) {
-            setLoading(false);
-
-            if(e.toString() === "rate_limit_error") {
-                Alert.alert("Error", "Rate limit error. Please try again in a bit...");
-                return;
-            }
-
-            Alert.alert("Error", e.toString());
-        }
-    };
-
-    if(loading) {
+    if(newComment.loading) {
         return <LoadingView />;
     }
 
@@ -80,8 +36,8 @@ const NewCommentScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
                 autoCapitalize={"sentences"}
                 style={[styles.input, {backgroundColor: theme.colors.screen["700"]}]}
                 numberOfLines={20}
-                value={content}
-                onChangeText={setContent}
+                value={newComment.content}
+                onChangeText={newComment.setContent}
                 keyboardAppearance={colorMode.colorMode}
             />
         </KeyboardAwareScrollView>
