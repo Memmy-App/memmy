@@ -9,9 +9,13 @@ import SettingsIndexScreen from "./screens/settings/SettingsIndexScreen";
 import EditAccountScreen from "./screens/settings/EditAccountScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {Icon, useTheme} from "native-base";
-import CommentModalScreen from "./screens/post/NewCommentScreen";
 import NewCommentScreen from "./screens/post/NewCommentScreen";
 import {Ionicons} from "@expo/vector-icons";
+import OnboardingIndexScreen from "./screens/onboarding/OnboardingIndexScreen";
+import {getServers} from "./helpers/SettingsHelper";
+import OnboardingScreen from "./screens/onboarding/OnboardingIndexScreen";
+import AddAccountScreen from "./screens/onboarding/AddAccountScreen";
+import CreateAccountScreen from "./screens/onboarding/CreateAccountScreen";
 
 const Stack = () => {
     const theme = useTheme();
@@ -82,24 +86,43 @@ const Stack = () => {
 
     const Tab = createBottomTabNavigator();
 
-    return (
-        <NavigationContainer>
+    const Tabs = () => {
+        return (
             <Tab.Navigator
                 screenOptions={{
                     tabBarStyle: {
                         backgroundColor: theme.colors.screen[900],
                     },
+                    tabBarLabel: "Feed"
                 }}
             >
-                <Tab.Screen name={"Feed"} component={FeedStackScreen} options={{
+                <Tab.Screen name={"FeedStack"} component={FeedStackScreen} options={{
                     headerShown: false,
                     tabBarIcon: ({color}) => <Icon as={Ionicons} name={"list-outline"} size={6} color={color} />
                 }} />
-                <Tab.Screen name={"Settings"} component={SettingsStackScreen} options={{
+                <Tab.Screen name={"SettingsStack"} component={SettingsStackScreen} options={{
                     headerShown: false,
-                    tabBarIcon: ({color}) => <Icon as={Ionicons} name={"cog-outline"} size={6} color={color} />
+                    tabBarIcon: ({color}) => <Icon as={Ionicons} name={"cog-outline"} size={6} color={color} />,
+                    tabBarLabel: "Settings"
                 }} />
             </Tab.Navigator>
+        );
+    };
+
+    const MainStack = createNativeStackNavigator();
+
+    return (
+        <NavigationContainer>
+            <MainStack.Navigator screenOptions={{
+                headerStyle: {
+                    backgroundColor: theme.colors.screen[900]
+                }
+            }}>
+                <MainStack.Screen name={"Tabs"} component={Tabs} options={{headerShown: false}}/>
+                <MainStack.Screen name={"Onboarding"} component={OnboardingIndexScreen} options={{title: "Welcome"}} />
+                <MainStack.Screen name={"AddAccount"} component={AddAccountScreen} options={{title: "Add Account"}} />
+                <MainStack.Screen name={"CreateAccount"} component={CreateAccountScreen} options={{title: "Create Account"}} />
+            </MainStack.Navigator>
         </NavigationContainer>
     );
 };

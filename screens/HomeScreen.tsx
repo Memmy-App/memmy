@@ -19,7 +19,7 @@ const IndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>})
             navigation.replace("Onboarding");
             return;
         } else {
-            navigation.replace("Feed");
+            navigation.replace("Tabs");
             return;
         }
     };

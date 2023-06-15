@@ -26,6 +26,12 @@ const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
         if(!lemmyInstance) {
             try {
                 const servers = await getServers();
+
+                if(!servers || servers.length < 1) {
+                    navigation.replace("Onboarding");
+                    return;
+                }
+
                 await initialize(servers[0]);
 
                 feed.load(false);

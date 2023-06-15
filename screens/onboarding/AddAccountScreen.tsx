@@ -75,7 +75,7 @@ const AddAccountScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
         await addServer(server);
 
         setLoading(false);
-        navigation.replace("Feed");
+        navigation.replace("Tabs");
     };
 
     return (
