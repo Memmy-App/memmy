@@ -12,10 +12,10 @@ import {Icon, useTheme} from "native-base";
 import NewCommentScreen from "./components/screens/post/NewCommentScreen";
 import {Ionicons} from "@expo/vector-icons";
 import OnboardingIndexScreen from "./components/screens/onboarding/OnboardingIndexScreen";
-import {getServers} from "./helpers/SettingsHelper";
-import OnboardingScreen from "./components/screens/onboarding/OnboardingIndexScreen";
 import AddAccountScreen from "./components/screens/onboarding/AddAccountScreen";
 import CreateAccountScreen from "./components/screens/onboarding/CreateAccountScreen";
+import BookmarksScreen from "./components/screens/userProfile/BookmarksScreen";
+import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
 
 const Stack = () => {
     const theme = useTheme();
@@ -58,6 +58,37 @@ const Stack = () => {
         );
     };
 
+    const ProfileStack = createNativeStackNavigator();
+
+    const ProfileStackScreen = () => {
+        return (
+            <ProfileStack.Navigator
+                screenOptions={{
+                    headerStyle: {
+                        backgroundColor: theme.colors.screen[900],
+                    },
+                    headerTitleStyle: {
+                        color: theme.colors.lightText,
+                    }
+                }}
+            >
+                <ProfileStack.Screen
+                    name={"UserProfile"}
+                    component={UserProfileScreen}
+                    options={{
+                        title: "Your Profile"
+                    }}
+                />
+                <ProfileStack.Screen
+                    name={"Bookmarks"}
+                    component={BookmarksScreen}
+                />
+            </ProfileStack.Navigator>
+        );
+    };
+
+
+
     const SettingsStack = createNativeStackNavigator();
 
     const SettingsStackScreen = () => {
@@ -96,15 +127,30 @@ const Stack = () => {
                     tabBarLabel: "Feed"
                 }}
             >
-                <Tab.Screen name={"FeedStack"} component={FeedStackScreen} options={{
-                    headerShown: false,
-                    tabBarIcon: ({color}) => <Icon as={Ionicons} name={"list-outline"} size={6} color={color} />
-                }} />
-                <Tab.Screen name={"SettingsStack"} component={SettingsStackScreen} options={{
-                    headerShown: false,
-                    tabBarIcon: ({color}) => <Icon as={Ionicons} name={"cog-outline"} size={6} color={color} />,
-                    tabBarLabel: "Settings"
-                }} />
+                <Tab.Screen
+                    name={"FeedStack"}
+                    component={FeedStackScreen} options={{
+                        headerShown: false,
+                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"list-outline"} size={6} color={color} />
+                    }}
+                />
+                <Tab.Screen
+                    name={"UserProfileStack"}
+                    component={ProfileStackScreen}
+                    options={{
+                        headerShown: false,
+                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"person-outline"} size={6} color={color} />
+                    }}
+                />
+                <Tab.Screen
+                    name={"SettingsStack"}
+                    component={SettingsStackScreen}
+                    options={{
+                        headerShown: false,
+                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"cog-outline"} size={6} color={color} />,
+                        tabBarLabel: "Settings"
+                    }}
+                />
             </Tab.Navigator>
         );
     };
