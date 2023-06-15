@@ -60,9 +60,14 @@ const AddAccountScreen = () => {
             if (e === "missing_totp_token") {
                 setShowTotpToken(true);
             } else {
-                Alert.alert("Error", e);
+                Alert.alert("Error", e.toString());
             }
             setLoading(false);
+            return;
+        }
+
+        if(!lemmyAuthToken) {
+            Alert.alert("Error", "Did not receive authentication response.");
             return;
         }
 

@@ -101,7 +101,7 @@ const CreateAccountScreen = () => {
         } catch(e) {
             console.log(e);
             setLoading(false);
-            Alert.alert("Error", e);
+            Alert.alert("Error", e.toString());
         }
     };
 
@@ -120,7 +120,7 @@ const CreateAccountScreen = () => {
         try {
             await initialize(server);
         } catch (e) {
-            Alert.alert("Error", e);
+            Alert.alert("Error", e.toString());
             setLoading(false);
             return;
         }
