@@ -58,10 +58,14 @@ const NewCommentScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
 
             navigation.pop();
         } catch(e) {
-            console.log(e);
             setLoading(false);
-            Alert.alert("Error submitting comment.");
-            return;
+
+            if(e.toString() === "rate_limit_error") {
+                Alert.alert("Error", "Rate limit error. Please try again in a bit...");
+                return;
+            }
+
+            Alert.alert("Error", e.toString());
         }
     };
 
