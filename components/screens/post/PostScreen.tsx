@@ -143,7 +143,15 @@ const PostScreen = () => {
                     backgroundColor={post.currentPost?.my_vote !== -1 ? "screen.800" : "orange.500"}
                     padding={2}
                 />
-                <IconButton icon={<Icon as={Ionicons} name={"bookmark-outline"} />} />
+                <IconButton
+                    icon={
+                        <Icon
+                            as={Ionicons}
+                            name={post.bookmarked ? "bookmark" : "bookmark-outline"}
+                            onPress={post.doBookmark}
+                        />
+                    }
+                />
                 <IconButton icon={<Icon as={Ionicons} name={"arrow-undo-outline"} />} onPress={onCommentPress} />
                 <IconButton
                     icon={<Icon as={Ionicons} name={"share-outline"} />}

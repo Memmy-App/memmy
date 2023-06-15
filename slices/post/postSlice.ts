@@ -42,6 +42,13 @@ export const postSlice = createSlice({
             };
         },
 
+        setPostSaved: (state: PostState, action: PayloadAction<boolean>) => {
+            state.post = {
+                ...state.post,
+                saved: action.payload
+            };
+        },
+
         clearPost: () => initialState
     },
     extraReducers: (builder) => {
@@ -64,5 +71,5 @@ export const postSlice = createSlice({
 
 export const selectPost = (state: RootState) => state.post;
 
-export const {setPost, setPostNewComment, setPostVote, clearPost} = postSlice.actions;
+export const {setPost, setPostNewComment, setPostVote, setPostSaved, clearPost} = postSlice.actions;
 export default postSlice.reducer;

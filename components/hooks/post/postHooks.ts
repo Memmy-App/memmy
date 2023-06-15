@@ -8,6 +8,9 @@ import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
 import {setUpdateVote} from "../../../slices/feed/feedSlice";
 import {trigger} from "react-native-haptic-feedback";
 import {useToast} from "native-base";
+import {selectSettings} from "../../../slices/settings/settingsSlice";
+import {addBookmark, removeBookmark} from "../../../slices/settings/settingsActions";
+import bookmark from "../../../types/Bookmark";
 
 export const usePost = () => {
     const {
@@ -15,10 +18,17 @@ export const usePost = () => {
         newComment
     } = useAppSelector(selectPost);
 
+    const {
+        bookmarks
+    } = useAppSelector(selectSettings);
+
     const [comments, setComments] = useState<ILemmyComment[] | null>(null);
     const [refreshing, setRefreshing] = useState(false);
     const [refresh, setRefresh] = useState(false);
     const [currentPost, setCurrentPost] = useState<PostView>(post);
+    const [bookmarked, setBookmarked] = useState<boolean>(
+        bookmarks.findIndex((b) => b.postId === currentPost.post.id) !== -1
+    );
 
     const dispatch = useAppDispatch();
 
@@ -114,12 +124,33 @@ export const usePost = () => {
         }
     };
 
+    const doBookmark = async () => {
+        console.log("hi");
+
+        console.log(bookmarks);
+
+        if(bookmarked) {
+            dispatch(removeBookmark(post.post.id));
+            setBookmarked(false);
+        } else {
+            dispatch(addBookmark({
+                postId: post.post.id,
+                postName: post.post.name,
+                postLink: post.post.ap_id
+            }));
+            setBookmarked(true);
+        }
+    };
+
     return {
         comments,
         refreshing,
         refresh,
         currentPost,
+        bookmarked,
+
         doVote,
-        doRefresh
+        doRefresh,
+        doBookmark
     };
 };
