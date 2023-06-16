@@ -21,15 +21,15 @@ const EditAccountScreen = ({route, navigation}: {route: any, navigation: NativeS
     const toast = useToast();
     const theme = useTheme();
 
-    navigation.setOptions({
-        headerRight: () => {
-            return(
-                <Button title={"Save"} onPress={onSavePress} disabled={loading} />
-            );
-        }
-    });
-
     useEffect(() => {
+        navigation.setOptions({
+            headerRight: () => {
+                return(
+                    <Button title={"Save"} onPress={onSavePress} disabled={loading} />
+                );
+            }
+        });
+
         load().then();
     }, []);
 

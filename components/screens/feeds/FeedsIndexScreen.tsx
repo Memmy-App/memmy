@@ -12,10 +12,7 @@ import {selectSettings} from "../../../slices/settings/settingsSlice";
 import {Text} from "native-base";
 
 const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {
-    navigation.setOptions({
-        headerTitle: () => <FeedHeaderDropdown title={sortFix()} enabled={true} />,
-        headerLeft: () => <CIconButton name={"star-outline"} onPress={() => navigation.push("Subscriptions")} />
-    });
+
 
     const feed = useFeed();
 
@@ -24,6 +21,11 @@ const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
     const dispatch = useAppDispatch();
 
     useEffect(() => {
+        navigation.setOptions({
+            headerTitle: () => <FeedHeaderDropdown title={sortFix()} enabled={true} />,
+            headerLeft: () => <CIconButton name={"star-outline"} onPress={() => navigation.push("Subscriptions")} />
+        });
+
         load();
     }, []);
 
