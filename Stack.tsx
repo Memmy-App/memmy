@@ -16,6 +16,7 @@ import AddAccountScreen from "./components/screens/onboarding/AddAccountScreen";
 import CreateAccountScreen from "./components/screens/onboarding/CreateAccountScreen";
 import BookmarksScreen from "./components/screens/userProfile/BookmarksScreen";
 import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
+import SubscriptionsScreen from "./components/screens/userProfile/SubscriptionsScreen";
 
 const Stack = () => {
     const theme = useTheme();
@@ -83,6 +84,7 @@ const Stack = () => {
                     name={"Bookmarks"}
                     component={BookmarksScreen}
                 />
+                <ProfileStack.Screen name={"Subscriptions"} component={SubscriptionsScreen} />
             </ProfileStack.Navigator>
         );
     };
@@ -131,7 +133,8 @@ const Stack = () => {
                     name={"FeedStack"}
                     component={FeedStackScreen} options={{
                         headerShown: false,
-                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"list-outline"} size={6} color={color} />
+                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"list-outline"} size={6} color={color} />,
+                        tabBarLabel: "Feed"
                     }}
                 />
                 <Tab.Screen
@@ -139,7 +142,8 @@ const Stack = () => {
                     component={ProfileStackScreen}
                     options={{
                         headerShown: false,
-                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"person-outline"} size={6} color={color} />
+                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"person-outline"} size={6} color={color} />,
+                        tabBarLabel: "Profile"
                     }}
                 />
                 <Tab.Screen
