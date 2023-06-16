@@ -43,6 +43,7 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
     if(comment.top.comment.id !== lastCommentId.current) {
         lastCommentId.current = comment.top.comment.id;
         setCollapsed(false);
+        setMyVote(comment.top.my_vote);
     }
 
     const onVote = async (value: -1 | 0 | 1) => {
