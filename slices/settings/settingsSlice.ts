@@ -3,11 +3,13 @@ import {RootState} from "../../store";
 import {addBookmark, loadSettings, removeBookmark, setSetting} from "./settingsActions";
 import {ListingType, SortType} from "lemmy-js-client";
 import Bookmark from "../../types/Bookmark";
+import {act} from "react-dom/test-utils";
 
 export interface SettingsState {
     settings: Settings
 }
 export interface Settings {
+
     swipeGestures: string,
     displayImagesInFeed: string,
     defaultSort: SortType,
@@ -45,7 +47,13 @@ const settingsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(loadSettings.fulfilled, (state, action) => {
-            state.settings = action.payload;
+            if(action.payload !== null) {
+                console.log(action.payload);
+                state.settings = {
+                    ...state.settings,
+                    ...action.payload
+                };
+            }
         });
 
         builder.addCase(setSetting.fulfilled, (state, action) => {
