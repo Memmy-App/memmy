@@ -10,17 +10,17 @@ const FeedsCommunityScreen = ({route, navigation}: {route: any, navigation: Nati
 
     const feed = useFeed(Number(communityId));
 
-    navigation.setOptions({
-        headerTitle: () => (
-            <VStack alignItems={"center"}>
-                <Text fontSize={16} fontWeight={"semibold"}>{communityName.toString()}</Text>
-                <Text fontSize={12}>@{getBaseUrl(actorId.toString())}</Text>
-            </VStack>
-        ),
-        title: communityName
-    });
-
     useEffect(() => {
+        navigation.setOptions({
+            headerTitle: () => (
+                <VStack alignItems={"center"}>
+                    <Text fontSize={16} fontWeight={"semibold"}>{communityName.toString()}</Text>
+                    <Text fontSize={12}>@{getBaseUrl(actorId.toString())}</Text>
+                </VStack>
+            ),
+            title: communityName
+        });
+
         feed.load();
     }, []);
 

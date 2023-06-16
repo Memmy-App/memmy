@@ -7,8 +7,9 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import CTextInput from "../../ui/CTextInput";
 import {LemmyHttp} from "lemmy-js-client";
 import LoadingModal from "../../ui/LoadingModal";
-import {addServer} from "../../../helpers/SettingsHelper";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {useAppDispatch} from "../../../store";
+import {addAccount} from "../../../slices/accounts/accountsActions";
 
 interface RegisterForm {
     server: string,
@@ -34,6 +35,7 @@ const CreateAccountScreen = ({navigation}: {navigation: NativeStackNavigationPro
 
     const toast = useToast();
     const theme = useTheme();
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         if(!ready) return;
@@ -126,10 +128,12 @@ const CreateAccountScreen = ({navigation}: {navigation: NativeStackNavigationPro
 
         server.auth = lemmyAuthToken;
 
-        await addServer(server);
-
-        setLoading(false);
-        navigation.replace("Tabs");
+        dispatch(addAccount({
+            username: form.username,
+            password: form.password,
+            instance: serverParsed,
+            token: lemmyAuthToken
+        }));
     };
 
     return (

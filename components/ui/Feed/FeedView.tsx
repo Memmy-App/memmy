@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {ListingType, PostView, SortType} from "lemmy-js-client";
 import {useTheme, useToast, View} from "native-base";
 import {Button, RefreshControl, StyleSheet} from "react-native";
@@ -43,20 +43,22 @@ const FeedView = (
 
     const toast = useToast();
 
-    navigation.setOptions({
-        headerRight: () => {
-            if(dropdownVisible) {
-                return <Button title={"Cancel"} onPress={() => dispatch(setDropdownVisible())} />;
-            }
+    useEffect(() => {
+        navigation.setOptions({
+            headerRight: () => {
+                if(dropdownVisible) {
+                    return <Button title={"Cancel"} onPress={() => dispatch(setDropdownVisible())} />;
+                }
 
-            return (
-                <>
-                    <CIconButton name={sortIcon} onPress={onSortPress} />
-                    <CIconButton name={"ellipsis-horizontal-outline"} onPress={onEllipsisButtonPress} />
-                </>
-            );
-        }
-    });
+                return (
+                    <>
+                        <CIconButton name={sortIcon} onPress={onSortPress} />
+                        <CIconButton name={"ellipsis-horizontal-outline"} onPress={onEllipsisButtonPress} />
+                    </>
+                );
+            }
+        });
+    }, []);
 
     const [sortIcon, setSortIcon] = useState(SortIconType[2]);
 

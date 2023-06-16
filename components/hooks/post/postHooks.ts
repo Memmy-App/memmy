@@ -2,15 +2,14 @@ import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import {useEffect, useState} from "react";
 import {PostView} from "lemmy-js-client";
 import {useAppDispatch, useAppSelector} from "../../../store";
-import {selectPost, setPost, setPostVote} from "../../../slices/post/postSlice";
+import {selectPost} from "../../../slices/post/postSlice";
 import LemmyCommentsHelper from "../../../lemmy/LemmyCommentsHelper";
 import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
 import {setUpdateVote} from "../../../slices/feed/feedSlice";
 import {trigger} from "react-native-haptic-feedback";
 import {useToast} from "native-base";
-import {selectSettings} from "../../../slices/settings/settingsSlice";
-import {addBookmark, removeBookmark} from "../../../slices/settings/settingsActions";
-import bookmark from "../../../types/Bookmark";
+import {selectBookmarks} from "../../../slices/bookmarks/bookmarksSlice";
+import {addBookmark, removeBookmark} from "../../../slices/bookmarks/bookmarksActions";
 
 export const usePost = () => {
     const {
@@ -18,16 +17,14 @@ export const usePost = () => {
         newComment
     } = useAppSelector(selectPost);
 
-    const {
-        bookmarks
-    } = useAppSelector(selectSettings);
+    const bookmarks = useAppSelector(selectBookmarks);
 
     const [comments, setComments] = useState<ILemmyComment[] | null>(null);
     const [refreshing, setRefreshing] = useState(false);
     const [refresh, setRefresh] = useState(false);
     const [currentPost, setCurrentPost] = useState<PostView>(post);
     const [bookmarked, setBookmarked] = useState<boolean>(
-        bookmarks.findIndex((b) => b.postId === currentPost.post.id) !== -1
+        bookmarks?.findIndex((b) => b.postId === currentPost.post.id) !== -1
     );
 
     const dispatch = useAppDispatch();
