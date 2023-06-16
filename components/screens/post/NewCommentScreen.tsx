@@ -3,7 +3,7 @@ import {Button, StyleSheet, TextInput} from "react-native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {useAppSelector} from "../../../store";
 import {selectNewComment} from "../../../slices/newComment/newCommentSlice";
-import LoadingView from "../../ui/LoadingView";
+import LoadingView from "../../ui/Loading/LoadingView";
 import {useColorMode, useTheme} from "native-base";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {useNewComment} from "../../hooks/newComment/newCommentHooks";

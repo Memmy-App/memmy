@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import LoadingView from "../../ui/LoadingView";
+import LoadingView from "../../ui/Loading/LoadingView";
 import {
     ArrowDownIcon,
     ArrowUpIcon,
