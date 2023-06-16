@@ -20,9 +20,13 @@ export const usePost = () => {
     const bookmarks = useAppSelector(selectBookmarks);
 
     const [comments, setComments] = useState<ILemmyComment[] | null>(null);
-    const [refreshing, setRefreshing] = useState(false);
+    const [commentsLoading, setCommentsLoading] = useState<boolean>(true);
+    const [commentsError, setCommentsError] = useState<boolean>(false);
+
     const [refresh, setRefresh] = useState(false);
+
     const [currentPost, setCurrentPost] = useState<PostView>(post);
+
     const [bookmarked, setBookmarked] = useState<boolean>(
         bookmarks?.findIndex((b) => b.postId === currentPost.post.id) !== -1
     );
@@ -60,27 +64,27 @@ export const usePost = () => {
      * Load the comments for the current post
      */
     const doLoad = async () => {
-        const commentsRes = await lemmyInstance.getComments({
-            auth: lemmyAuthToken,
-            post_id: currentPost.post.id,
-            max_depth: 15,
-            type_: "All",
-            sort: "Top"
-        });
+        setCommentsLoading(true);
+        setCommentsError(false);
 
-        const helper = new LemmyCommentsHelper(commentsRes.comments);
-        const parsed = helper.getParsed();
+        try {
+            const commentsRes = await lemmyInstance.getComments({
+                auth: lemmyAuthToken,
+                post_id: currentPost.post.id,
+                max_depth: 15,
+                type_: "All",
+                sort: "Top"
+            });
 
-        setComments(parsed);
-        setRefreshing(false);
-    };
+            const helper = new LemmyCommentsHelper(commentsRes.comments);
+            const parsed = helper.getParsed();
 
-    /**
-     * Refresh the comments
-     */
-    const doRefresh = () => {
-        setRefreshing(true);
-        doLoad();
+            setComments(parsed);
+            setCommentsLoading(false);
+        } catch(e) {
+            setCommentsLoading(false);
+            setCommentsError(true);
+        }
     };
 
     /**
@@ -149,13 +153,17 @@ export const usePost = () => {
 
     return {
         comments,
-        refreshing,
+        commentsLoading,
+        commentsError,
+        doLoad,
+
         refresh,
+
         currentPost,
+
         bookmarked,
+        doBookmark,
 
         doVote,
-        doRefresh,
-        doBookmark
     };
 };
