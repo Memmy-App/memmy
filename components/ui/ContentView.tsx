@@ -21,9 +21,6 @@ const ContentView = ({post, truncate = false, showBody = false, showTitle = fals
 
     const theme = useTheme();
 
-    const textColor = truncate ? theme.colors.gray[400] : theme.colors.white;
-    const body = truncate ? parseMarkdown(truncatePost(post.post.body, 200)) : parseMarkdown(post.post.body);
-
     return (
         <>
             {
@@ -45,7 +42,7 @@ const ContentView = ({post, truncate = false, showBody = false, showTitle = fals
 
             {
                 showTitle && (
-                    <Text fontSize={"xl"} mx={4}>
+                    <Text fontSize={"xl"} mx={4} mb={2}>
                         {post.post.name}
                     </Text>
                 )
@@ -55,7 +52,7 @@ const ContentView = ({post, truncate = false, showBody = false, showTitle = fals
                 (linkInfo.extType === ExtensionType.NONE || showBody) && (
                     <VStack px={4}>
                         <RenderHTML source={{
-                            html: `<div style="color: ${textColor}; font-size: 16px;">` + (body) + "</div>" ?? ""
+                            html: `<div style="color: white; font-size: 16px">` + (truncate ? parseMarkdown(truncatePost(post.post.body)) : parseMarkdown(post.post.body)) + "</div>" ?? ""
                         }} contentWidth={Dimensions.get("window").width}/>
                     </VStack>
                 )

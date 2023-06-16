@@ -4,11 +4,10 @@ import {Text} from "native-base";
 import Link from "./Link";
 
 interface CommunityLinkProps {
-    community: Community;
-    isFeedItem?: boolean;
+    community: Community
 }
 
-const CommunityLink = ({community, isFeedItem}: CommunityLinkProps) => {
+const CommunityLink = ({community}: CommunityLinkProps) => {
     return (
         <Link screen={"Community"} params={{
             communityId: community.id,
@@ -16,7 +15,7 @@ const CommunityLink = ({community, isFeedItem}: CommunityLinkProps) => {
             communityName: community.name
         }}>
 
-            <Text color={isFeedItem && "gray.400"} fontWeight={"bold"}>{community.name}</Text>
+            <Text fontWeight={"bold"}>{community.name}</Text>
         </Link>
     );
 };

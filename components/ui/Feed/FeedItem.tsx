@@ -75,10 +75,6 @@ const FeedItem = ({post}: FeedItemProps) => {
 
     return (
         <VStack flex={1} my={1.5} backgroundColor={"screen.800"} shadow={2}>
-            <View mx={4} mt={1}>
-                <CommunityLink community={post.community} isFeedItem />
-            </View>
-
             <Pressable onPress={onPress}>
                 <>
                     <View style={styles.community}>
@@ -90,7 +86,7 @@ const FeedItem = ({post}: FeedItemProps) => {
                             )
                         }
                     </View>
-                    <Text fontSize={"lg"} mx={4} my={1}>
+                    <Text fontSize={"xl"} mx={4} my={2}>
                         {post.post.name}
                     </Text>
                 </>
@@ -99,6 +95,8 @@ const FeedItem = ({post}: FeedItemProps) => {
 
                 <>
                     <HStack mx={4} mb={1}>
+                        <Text>in </Text>
+                        <CommunityLink community={post.community} />
                         <Text> by </Text>
                         <Text fontWeight={"bold"}>{post.creator.name}</Text>
 
@@ -106,7 +104,7 @@ const FeedItem = ({post}: FeedItemProps) => {
                             {post.post.url && getBaseUrl(post.post.url)}
                         </Text>
                     </HStack>
-                    <HStack mx={4} alignItems={"center"} mb={3}>
+                    <HStack mx={3} alignItems={"center"} mb={3}>
                         <HStack flex={1} space={2}>
                             <HStack space={1} alignItems={"center"}>
                                 {

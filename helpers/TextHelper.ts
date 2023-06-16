@@ -10,10 +10,10 @@ export const truncateLink = (link: string): string => {
     return link.slice(0,36) + "...";
 };
 
-export const truncatePost = (post: string, truncLength = 500): string => {
+export const truncatePost = (post: string): string => {
     if(!post) return "";
 
-    if(post.length <= truncLength) return post;
+    if(post.length <= 500) return post;
 
-    return post.slice(0,truncLength) + "...";
+    return post.slice(0,500) + "...";
 };
