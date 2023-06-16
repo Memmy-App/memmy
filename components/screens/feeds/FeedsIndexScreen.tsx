@@ -23,7 +23,7 @@ const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
     useEffect(() => {
         navigation.setOptions({
             headerTitle: () => <FeedHeaderDropdown title={sortFix()} enabled={true} />,
-            headerLeft: () => <CIconButton name={"star-outline"} onPress={() => navigation.push("Subscriptions")} />
+            headerLeft: () => <CIconButton name={"star-outline"} onPress={() => navigation.navigate("Subscriptions")} />
         });
 
         load();

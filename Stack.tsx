@@ -21,7 +21,6 @@ import {useAppDispatch, useAppSelector} from "./store";
 import {selectSettings, selectSettingsLoaded} from "./slices/settings/settingsSlice";
 import LoadingView from "./components/ui/LoadingView";
 import {loadSettings} from "./slices/settings/settingsActions";
-import {SafeAreaProvider} from "react-native-safe-area-context";
 
 const Stack = () => {
     const theme = useTheme();
@@ -61,9 +60,9 @@ const Stack = () => {
                             title: "Feed",
                         }}
                     />
-                    <FeedStack.Screen name={"Community"} component={CommunityFeedScreen} />
                     <FeedStack.Screen name={"Post"} component={PostScreen} />
                     <FeedStack.Screen name={"NewPost"} component={NewPostScreen} />
+                    <FeedStack.Screen name={"Community"} component={CommunityFeedScreen} />
                     <FeedStack.Screen name={"Subscriptions"} component={SubscriptionsScreen} />
                 </FeedStack.Group>
 
@@ -104,6 +103,7 @@ const Stack = () => {
                     component={BookmarksScreen}
                 />
                 <ProfileStack.Screen name={"Subscriptions"} component={SubscriptionsScreen} />
+                <ProfileStack.Screen name={"Community"} component={CommunityFeedScreen} />
             </ProfileStack.Navigator>
         );
     };
