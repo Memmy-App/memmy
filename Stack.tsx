@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import FeedsIndexScreen from "./components/screens/feeds/FeedsIndexScreen";
@@ -17,11 +17,29 @@ import CreateAccountScreen from "./components/screens/onboarding/CreateAccountSc
 import BookmarksScreen from "./components/screens/userProfile/BookmarksScreen";
 import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
 import SubscriptionsScreen from "./components/screens/userProfile/SubscriptionsScreen";
+import {useAppDispatch, useAppSelector} from "./store";
+import {selectSettings, selectSettingsLoaded} from "./slices/settings/settingsSlice";
+import LoadingView from "./components/ui/LoadingView";
+import {loadSettings} from "./slices/settings/settingsActions";
 
 const Stack = () => {
     const theme = useTheme();
 
     const FeedStack = createNativeStackNavigator();
+
+    const settings = useAppSelector(selectSettings);
+    const settingsLoaded = useAppSelector(selectSettingsLoaded);
+    const [ranLoad, setRanLoad] = useState(false);
+    const dispatch = useAppDispatch();
+
+    if(!settingsLoaded) {
+        if(!ranLoad) {
+            dispatch(loadSettings());
+            setRanLoad(true);
+        }
+
+        return <LoadingView />;
+    }
 
     const FeedStackScreen = () => {
         return (
@@ -175,11 +193,21 @@ const Stack = () => {
                     backgroundColor: theme.colors.screen[900]
                 }
             }}>
-                <MainStack.Screen name={"Tabs"} component={Tabs} options={{headerShown: false}}/>
-                <MainStack.Screen name={"Onboarding"} component={OnboardingIndexScreen} options={{title: "Welcome"}} />
-                <MainStack.Screen name={"AddAccount"} component={AddAccountScreen} options={{title: "Add Account"}} />
-                <MainStack.Screen name={"CreateAccount"} component={CreateAccountScreen} options={{title: "Create Account"}} />
+                {settings.accounts.length > 0 ? (
+                    
+                    <MainStack.Screen name={"Tabs"} component={Tabs} options={{headerShown: false}}/>
+            
+                ) : (
+                    <>
+                        <MainStack.Screen name={"Onboarding"} component={OnboardingIndexScreen} options={{title: "Welcome"}} />
+                        <MainStack.Screen name={"AddAccount"} component={AddAccountScreen} options={{title: "Add Account"}} />
+                        <MainStack.Screen name={"CreateAccount"} component={CreateAccountScreen} options={{title: "Create Account"}} />
+                    </>
+                )}
+                    
             </MainStack.Navigator>
+        
+    
         </NavigationContainer>
     );
 };

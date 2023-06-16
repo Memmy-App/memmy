@@ -1,20 +1,27 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "../../store";
-import {addBookmark, loadSettings, removeBookmark, setSetting} from "./settingsActions";
+import {addAccount, addBookmark, loadSettings, removeBookmark, setAccount, setSetting} from "./settingsActions";
 import {ListingType, SortType} from "lemmy-js-client";
 import Bookmark from "../../types/Bookmark";
-import {act} from "react-dom/test-utils";
 
 export interface SettingsState {
-    settings: Settings
+    settings: Settings,
+    loaded: boolean,
 }
 export interface Settings {
-
+    accounts: Account[]
     swipeGestures: string,
     displayImagesInFeed: string,
     defaultSort: SortType,
     defaultListingType: ListingType,
     bookmarks: Bookmark[]
+}
+
+export interface Account {
+    username: string,
+    password: string,
+    instance: string,
+    token: string
 }
 
 export interface Setting {
@@ -24,12 +31,14 @@ export interface Setting {
 
 const initialState: SettingsState = {
     settings: {
+        accounts: [],
         swipeGestures: "true",
         displayImagesInFeed: "true",
         defaultSort: "Hot",
         defaultListingType: "All",
         bookmarks: []
-    }
+    },
+    loaded: false
 };
 
 const settingsSlice = createSlice({
@@ -53,6 +62,8 @@ const settingsSlice = createSlice({
                     ...state.settings,
                     ...action.payload
                 };
+
+                state.loaded = true;
             }
         });
 
@@ -64,6 +75,8 @@ const settingsSlice = createSlice({
         });
 
         builder.addCase(addBookmark.fulfilled, (state, action) => {
+            console.log("payload: ", action.payload);
+
             state.settings = {
                 ...state.settings,
                 bookmarks: [
@@ -79,10 +92,28 @@ const settingsSlice = createSlice({
                 bookmarks: action.payload
             };
         });
+
+        builder.addCase(addAccount.fulfilled, (state, action) => {
+            state.settings = {
+                ...state.settings,
+                accounts: [
+                    ...state.settings.accounts,
+                    action.payload
+                ]
+            };
+        });
+
+        builder.addCase(setAccount.fulfilled, (state, action) => {
+            state.settings = {
+                ...state.settings,
+                accounts: action.payload
+            };
+        });
     }
 });
 
 export const selectSettings = (state: RootState) => state.settings.settings;
+export const selectSettingsLoaded = (state: RootState) => state.settings.loaded;
 
 export const {setSettings} = settingsSlice.actions;
 export default settingsSlice.reducer;

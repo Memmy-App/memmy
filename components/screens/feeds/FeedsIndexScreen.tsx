@@ -3,13 +3,13 @@ import FeedView from "../../ui/Feed/FeedView";
 import FeedHeaderDropdown from "../../ui/Feed/FeedHeaderDropdown";
 import {useFeed} from "../../hooks/feeds/feedsHooks";
 import {initialize, lemmyInstance} from "../../../lemmy/LemmyInstance";
-import {getServers} from "../../../helpers/SettingsHelper";
-import {useAppDispatch} from "../../../store";
+import {useAppDispatch, useAppSelector} from "../../../store";
 import {getAllCommunities, getSubscribedCommunities} from "../../../slices/communities/communitiesActions";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {loadSettings} from "../../../slices/settings/settingsActions";
-import {Button} from "react-native";
 import CIconButton from "../../ui/CIconButton";
+import {selectSettings} from "../../../slices/settings/settingsSlice";
+import {Text} from "native-base";
 
 const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {
     navigation.setOptions({
@@ -18,6 +18,8 @@ const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
     });
 
     const feed = useFeed();
+
+    const settings = useAppSelector(selectSettings);
 
     const dispatch = useAppDispatch();
 
@@ -28,14 +30,12 @@ const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
     const load = async () => {
         if(!lemmyInstance) {
             try {
-                const servers = await getServers();
-
-                if(!servers || servers.length < 1) {
-                    navigation.replace("Onboarding");
-                    return;
-                }
-
-                await initialize(servers[0]);
+                await initialize({
+                    server: settings.accounts[0].instance,
+                    username: settings.accounts[0].username,
+                    password: settings.accounts[0].password,
+                    auth: settings.accounts[0].token
+                });
 
                 feed.load(false);
                 dispatch(getSubscribedCommunities());
@@ -56,6 +56,8 @@ const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
     };
 
     return <FeedView posts={feed.posts} loading={feed.loading} load={feed.load} setSort={feed.setSort} titleDropsdown={true} setListingType={feed.setListingType} />;
+
+    return <Text> Hello</Text>;
 };
 
 export default FeedsIndexScreen;

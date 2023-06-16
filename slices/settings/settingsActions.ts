@@ -1,17 +1,14 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {Setting} from "./settingsSlice";
+import {Account, Setting, Settings} from "./settingsSlice";
 import Bookmark from "../../types/Bookmark";
-import {Settings} from "react-native";
 
 export const loadSettings = createAsyncThunk(
     "settings/loadSettings",
     async () => {
         const settingsStr = await AsyncStorage.getItem("settings");
 
-        const x = JSON.parse(settingsStr) as Settings;
-        console.log(x);
-        return x;
+        return JSON.parse(settingsStr) as Settings;
     }
 );
 
@@ -55,5 +52,45 @@ export const removeBookmark = createAsyncThunk(
         }));
 
         return bookmarks;
+    }
+);
+
+export const addAccount = createAsyncThunk(
+    "settings/addAccount",
+    async (account: Account, thunkAPI) => {
+        const state = thunkAPI.getState();
+
+        const accounts = [...state.settings.settings.accounts, account];
+
+        console.log(accounts);
+
+        thunkAPI.dispatch(setSetting({
+            key: "accounts",
+            value: accounts
+        }));
+
+        return account;
+    }
+);
+
+export const setAccount = createAsyncThunk(
+    "settings/setAccount",
+    async (account: Account, thunkAPI) => {
+        const state = thunkAPI.getState();
+
+        const accounts = state.settings.settings.accounts.map((a) => {
+            if(a.username === account.username && a.instance === account.instance) {
+                return account;
+            }
+
+            return a;
+        });
+
+        thunkAPI.dispatch(setSetting({
+            key: "accounts",
+            value: accounts
+        }));
+
+        return accounts;
     }
 );
