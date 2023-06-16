@@ -1,34 +1,20 @@
-import React, {useCallback, useState} from "react";
+import React, {useState} from "react";
 import {useTheme, VStack} from "native-base";
 import {StyleSheet, Switch} from "react-native";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 import {getBuildNumber, getVersion} from "react-native-device-info";
-import {getServers} from "../../../helpers/SettingsHelper";
-import LoadingView from "../../ui/LoadingView";
 import {useAppDispatch, useAppSelector} from "../../../store";
 import {selectSettings} from "../../../slices/settings/settingsSlice";
 import {setSetting} from "../../../slices/settings/settingsActions";
 import {useActionSheet} from "@expo/react-native-action-sheet";
-import {useFocusEffect} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {
-    const [server, setServer] = useState(null);
-
     const settings = useAppSelector(selectSettings);
 
     const dispatch = useAppDispatch();
     const theme = useTheme();
     const {showActionSheetWithOptions} = useActionSheet();
-
-    useFocusEffect(useCallback(() => {
-        load().then();
-    }, []));
-
-    const load = async () => {
-        const servers = await getServers();
-        setServer(servers[0]);
-    };
 
     const onChange = (key: string, value: any) => {
         dispatch(setSetting({
@@ -36,10 +22,6 @@ const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationPro
             value
         }));
     };
-
-    if(!server) {
-        return <LoadingView />;
-    }
 
     return (
         <VStack backgroundColor={"screen.800"} flex={1}>
@@ -52,7 +34,7 @@ const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationPro
                     <Cell
                         cellStyle={"RightDetail"}
                         title={"Server"}
-                        detail={server.server}
+                        detail={settings.accounts[0].instance}
                         backgroundColor={theme.colors.screen["700"]}
                         titleTextColor={theme.colors.lightText}
                         rightDetailColor={theme.colors.screen["400"]}
@@ -60,7 +42,7 @@ const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationPro
                     <Cell
                         cellStyle={"RightDetail"}
                         title={"Username"}
-                        detail={server.username}
+                        detail={settings.accounts[0].username}
                         backgroundColor={theme.colors.screen["700"]}
                         titleTextColor={theme.colors.lightText}
                         rightDetailColor={theme.colors.screen["400"]}
@@ -70,7 +52,7 @@ const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationPro
                         cellStyle={"Basic"}
                         title={"Change Account Settings"}
                         accessory={"DisclosureIndicator"}
-                        onPress={() => navigation.push("EditAccount", {server})}
+                        onPress={() => navigation.push("EditAccount")}
                         backgroundColor={theme.colors.screen["700"]}
                         titleTextColor={theme.colors.lightText}
                         rightDetailColor={theme.colors.screen["400"]}
