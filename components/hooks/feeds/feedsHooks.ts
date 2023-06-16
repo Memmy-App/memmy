@@ -13,8 +13,8 @@ export const useFeed = (communityId?: number) => {
 
     const [posts, setPosts] = useState<PostView[]|null>(null);
     const [loading, setLoading] = useState<boolean>(false);
-    const [sort, setSort] = useState<SortType>(settings.defaultSort);
-    const [listingType, setListingType] = useState<ListingType>(settings.defaultListingType);
+    const [sort, setSort] = useState<SortType>(settings?.defaultSort);
+    const [listingType, setListingType] = useState<ListingType>(settings?.defaultListingType);
     const [nextPage, setNextPage] = useState(1);
 
     useEffect(() => {
