@@ -1,6 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {Account, Setting, Settings} from "./settingsSlice";
+import {Account, Setting, SettingsState} from "./settingsSlice";
 import Bookmark from "../../types/Bookmark";
 
 export const loadSettings = createAsyncThunk(
@@ -8,7 +8,7 @@ export const loadSettings = createAsyncThunk(
     async () => {
         const settingsStr = await AsyncStorage.getItem("settings");
 
-        return JSON.parse(settingsStr) as Settings;
+        return JSON.parse(settingsStr) as SettingsState;
     }
 );
 
@@ -16,9 +16,10 @@ export const setSetting = createAsyncThunk(
     "settings/setSetting",
     async (setting: Setting, thunkAPI) => {
         const state = thunkAPI.getState();
-        const settings = state.settings.settings;
-
-        settings[setting.key] = setting.value;
+        const settings = {
+            ...state.settings,
+            ...setting
+        };
 
         await AsyncStorage.setItem("settings", JSON.stringify(settings));
 
@@ -33,7 +34,7 @@ export const addBookmark = createAsyncThunk(
 
         thunkAPI.dispatch(setSetting({
             key: "bookmarks",
-            value: [...state.settings.settings.bookmarks, bookmark]
+            value: [...state.settings.bookmarks, bookmark]
         }));
 
         return bookmark;
@@ -44,7 +45,7 @@ export const removeBookmark = createAsyncThunk(
     "settings/removeBookmark",
     async (postId: number, thunkAPI) => {
         const state = thunkAPI.getState();
-        const bookmarks = state.settings.settings.bookmarks.filter((b) => b.postId !== postId);
+        const bookmarks = state.settings.bookmarks.filter((b) => b.postId !== postId);
 
         thunkAPI.dispatch(setSetting({
             key: "bookmarks",
@@ -60,7 +61,7 @@ export const addAccount = createAsyncThunk(
     async (account: Account, thunkAPI) => {
         const state = thunkAPI.getState();
 
-        const accounts = [...state.settings.settings.accounts, account];
+        const accounts = [...state.settings.accounts, account];
 
         console.log(accounts);
 
@@ -78,7 +79,7 @@ export const setAccount = createAsyncThunk(
     async (account: Account, thunkAPI) => {
         const state = thunkAPI.getState();
 
-        const accounts = state.settings.settings.accounts.map((a) => {
+        const accounts = state.settings.accounts.map((a) => {
             if(a.username === account.username && a.instance === account.instance) {
                 return account;
             }

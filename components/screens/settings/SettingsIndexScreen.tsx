@@ -17,10 +17,7 @@ const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationPro
     const {showActionSheetWithOptions} = useActionSheet();
 
     const onChange = (key: string, value: any) => {
-        dispatch(setSetting({
-            key,
-            value
-        }));
+        dispatch(setSetting({[key]: value}));
     };
 
     return (
@@ -67,8 +64,8 @@ const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationPro
                     <Cell
                         title={"Swipe Gestures"}
                         cellAccessoryView={<Switch
-                            value={settings.swipeGestures === "true"}
-                            onValueChange={(v) => onChange("swipeGestures", v.toString())}
+                            value={settings.swipeGestures}
+                            onValueChange={(v) => onChange("swipeGestures", v)}
                         />}
                         backgroundColor={theme.colors.screen["700"]}
                         titleTextColor={theme.colors.lightText}
@@ -101,10 +98,7 @@ const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationPro
                                     selection = options[index];
                                 }
 
-                                dispatch(setSetting({
-                                    key: "defaultSort",
-                                    value: selection
-                                }));
+                                dispatch(setSetting({defaultSort: selection}));
                             });
                         }}
                         backgroundColor={theme.colors.screen["700"]}
@@ -126,10 +120,7 @@ const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationPro
                             }, (index: number) => {
                                 if(index === cancelButtonIndex) return;
 
-                                dispatch(setSetting({
-                                    key: "defaultListingType",
-                                    value: options[index]
-                                }));
+                                dispatch(setSetting({defaultListingType: options[index]}));
                             });
                         }}
                         backgroundColor={theme.colors.screen["700"]}

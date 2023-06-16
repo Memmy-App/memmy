@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {NavigationContainer} from "@react-navigation/native";
+import {NavigationContainer, DarkTheme} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import FeedsIndexScreen from "./components/screens/feeds/FeedsIndexScreen";
 import CommunityFeedScreen from "./components/screens/feeds/CommunityFeedScreen";
@@ -8,7 +8,7 @@ import NewPostScreen from "./components/screens/post/NewPostScreen";
 import SettingsIndexScreen from "./components/screens/settings/SettingsIndexScreen";
 import EditAccountScreen from "./components/screens/settings/EditAccountScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {Icon, useTheme} from "native-base";
+import {Icon, useTheme, View} from "native-base";
 import NewCommentScreen from "./components/screens/post/NewCommentScreen";
 import {Ionicons} from "@expo/vector-icons";
 import OnboardingIndexScreen from "./components/screens/onboarding/OnboardingIndexScreen";
@@ -21,18 +21,18 @@ import {useAppDispatch, useAppSelector} from "./store";
 import {selectSettings, selectSettingsLoaded} from "./slices/settings/settingsSlice";
 import LoadingView from "./components/ui/LoadingView";
 import {loadSettings} from "./slices/settings/settingsActions";
+import {SafeAreaProvider} from "react-native-safe-area-context";
 
 const Stack = () => {
     const theme = useTheme();
 
     const FeedStack = createNativeStackNavigator();
 
-    const settings = useAppSelector(selectSettings);
-    const settingsLoaded = useAppSelector(selectSettingsLoaded);
+    const {loaded, accounts} = useAppSelector(selectSettings);
     const [ranLoad, setRanLoad] = useState(false);
     const dispatch = useAppDispatch();
 
-    if(!settingsLoaded) {
+    if(!loaded) {
         if(!ranLoad) {
             dispatch(loadSettings());
             setRanLoad(true);
@@ -187,13 +187,13 @@ const Stack = () => {
     const MainStack = createNativeStackNavigator();
 
     return (
-        <NavigationContainer>
+        <NavigationContainer theme={DarkTheme}>
             <MainStack.Navigator screenOptions={{
                 headerStyle: {
                     backgroundColor: theme.colors.screen[900]
-                }
+                },
             }}>
-                {settings.accounts.length > 0 ? (
+                {accounts.length > 0 ? (
                     
                     <MainStack.Screen name={"Tabs"} component={Tabs} options={{headerShown: false}}/>
             

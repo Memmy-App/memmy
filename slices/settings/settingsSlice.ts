@@ -5,16 +5,13 @@ import {ListingType, SortType} from "lemmy-js-client";
 import Bookmark from "../../types/Bookmark";
 
 export interface SettingsState {
-    settings: Settings,
-    loaded: boolean,
-}
-export interface Settings {
     accounts: Account[]
-    swipeGestures: string,
+    swipeGestures: boolean,
     displayImagesInFeed: string,
     defaultSort: SortType,
     defaultListingType: ListingType,
-    bookmarks: Bookmark[]
+    bookmarks: Bookmark[],
+    loaded: boolean
 }
 
 export interface Account {
@@ -24,20 +21,13 @@ export interface Account {
     token: string
 }
 
-export interface Setting {
-    key: string,
-    value: any
-}
-
 const initialState: SettingsState = {
-    settings: {
-        accounts: [],
-        swipeGestures: "true",
-        displayImagesInFeed: "true",
-        defaultSort: "Hot",
-        defaultListingType: "All",
-        bookmarks: []
-    },
+    accounts: [],
+    swipeGestures: true,
+    displayImagesInFeed: "true",
+    defaultSort: "Hot",
+    defaultListingType: "All",
+    bookmarks: [],
     loaded: false
 };
 
@@ -45,75 +35,51 @@ const settingsSlice = createSlice({
     name: "settings",
     initialState,
     reducers: {
-        setSettings: (state: SettingsState, action: PayloadAction<Setting[]>) => {
-            for (const setting of action.payload) {
-                state.settings = {
-                    ...state.settings,
-                    [setting.key]: setting.value
-                };
-            }
-        }
     },
     extraReducers: (builder) => {
         builder.addCase(loadSettings.fulfilled, (state, action) => {
-            if(action.payload !== null) {
+            if(action.payload) {
                 console.log(action.payload);
-                state.settings = {
-                    ...state.settings,
-                    ...action.payload
-                };
+                for(const key in action.payload) {
+                    state[key] = action.payload[key];
+                }
 
                 state.loaded = true;
             }
         });
 
         builder.addCase(setSetting.fulfilled, (state, action) => {
-            state.settings = {
-                ...state.settings,
-                [action.payload.key]: action.payload.value
-            };
+            for(const key in action.payload) {
+                state[key] = action.payload[key];
+            }
         });
 
         builder.addCase(addBookmark.fulfilled, (state, action) => {
             console.log("payload: ", action.payload);
 
-            state.settings = {
-                ...state.settings,
-                bookmarks: [
-                    ...state.settings.bookmarks,
-                    action.payload
-                ]
-            };
+            state.bookmarks = [
+                ...state.bookmarks,
+                action.payload
+            ];
         });
 
         builder.addCase(removeBookmark.fulfilled, (state, action) => {
-            state.settings = {
-                ...state.settings,
-                bookmarks: action.payload
-            };
+            state.bookmarks = action.payload;
         });
 
         builder.addCase(addAccount.fulfilled, (state, action) => {
-            state.settings = {
-                ...state.settings,
-                accounts: [
-                    ...state.settings.accounts,
-                    action.payload
-                ]
-            };
+            state.accounts = [
+                ...state.accounts,
+                action.payload
+            ];
         });
 
         builder.addCase(setAccount.fulfilled, (state, action) => {
-            state.settings = {
-                ...state.settings,
-                accounts: action.payload
-            };
+            state.accounts = action.payload;
         });
     }
 });
 
-export const selectSettings = (state: RootState) => state.settings.settings;
+export const selectSettings = (state: RootState) => state.settings;
 export const selectSettingsLoaded = (state: RootState) => state.settings.loaded;
-
-export const {setSettings} = settingsSlice.actions;
 export default settingsSlice.reducer;
