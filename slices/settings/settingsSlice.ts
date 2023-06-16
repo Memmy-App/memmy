@@ -1,21 +1,23 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "../../store";
-import {loadSettings, setSetting} from "./settingsActions";
+import {addBookmark, loadSettings, removeBookmark, setSetting} from "./settingsActions";
 import {ListingType, SortType} from "lemmy-js-client";
+import Bookmark from "../../types/Bookmark";
 
-interface SettingsState {
+export interface SettingsState {
     settings: Settings
 }
-interface Settings {
+export interface Settings {
     swipeGestures: string,
     displayImagesInFeed: string,
     defaultSort: SortType,
     defaultListingType: ListingType,
+    bookmarks: Bookmark[]
 }
 
 export interface Setting {
     key: string,
-    value: string
+    value: any
 }
 
 const initialState: SettingsState = {
@@ -23,7 +25,8 @@ const initialState: SettingsState = {
         swipeGestures: "true",
         displayImagesInFeed: "true",
         defaultSort: "Hot",
-        defaultListingType: "All"
+        defaultListingType: "All",
+        bookmarks: []
     }
 };
 
@@ -32,28 +35,40 @@ const settingsSlice = createSlice({
     initialState,
     reducers: {
         setSettings: (state: SettingsState, action: PayloadAction<Setting[]>) => {
-            for(const setting of action.payload) {
+            for (const setting of action.payload) {
                 state.settings = {
                     ...state.settings,
                     [setting.key]: setting.value
                 };
             }
-        },
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(loadSettings.fulfilled, (state, action) => {
-            for(const setting of action.payload) {
-                state.settings = {
-                    ...state.settings,
-                    [setting.key]: setting.value
-                };
-            }
+            state.settings = action.payload;
         });
 
         builder.addCase(setSetting.fulfilled, (state, action) => {
             state.settings = {
                 ...state.settings,
                 [action.payload.key]: action.payload.value
+            };
+        });
+
+        builder.addCase(addBookmark.fulfilled, (state, action) => {
+            state.settings = {
+                ...state.settings,
+                bookmarks: [
+                    ...state.settings.bookmarks,
+                    action.payload
+                ]
+            };
+        });
+
+        builder.addCase(removeBookmark.fulfilled, (state, action) => {
+            state.settings = {
+                ...state.settings,
+                bookmarks: action.payload
             };
         });
     }

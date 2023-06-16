@@ -1,5 +1,6 @@
 {
   "expo": {
+    "main": "node_modules/expo/AppEntry.js",
     "scheme": "memmyapp",
     "web": {
       "bundler": "metro"
@@ -20,9 +21,9 @@
       }
     },
     "ios": {
-      "supportsTablet": false,
+      "supportsTablet": true,
       "bundleIdentifier": "com.gkasdorf.memmyapp",
-      "buildNumber": "16"
+      "buildNumber": "21"
     },
     "plugins": [
       [
