@@ -28,15 +28,15 @@ const BookmarksScreen = ({navigation}: {navigation: NativeStackNavigationProp<an
                             }
                         }}
                     />
-                    <CCell
-                        props={{
-                            title: "Bookmarks",
-                            accessory: "DisclosureIndicator",
-                            onPress: () => {
-                                navigation.push("Bookmarks");
-                            }
-                        }}
-                    />
+                    {/*<CCell*/}
+                    {/*    props={{*/}
+                    {/*        title: "Bookmarks",*/}
+                    {/*        accessory: "DisclosureIndicator",*/}
+                    {/*        onPress: () => {*/}
+                    {/*            navigation.push("Bookmarks");*/}
+                    {/*        }*/}
+                    {/*    }}*/}
+                    {/*/>*/}
                 </CSection>
             </CTable>
         </VStack>
