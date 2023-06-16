@@ -59,7 +59,9 @@ export const usePost = () => {
         }
     }, [newComment]);
 
-    // Load post data
+    /**
+     * Load the comments for the current post
+     */
     const doLoad = async () => {
         const commentsRes = await lemmyInstance.getComments({
             auth: lemmyAuthToken,
@@ -76,11 +78,18 @@ export const usePost = () => {
         setRefreshing(false);
     };
 
-    const doRefresh = async () => {
+    /**
+     * Refresh the comments
+     */
+    const doRefresh = () => {
         setRefreshing(true);
         doLoad();
     };
 
+    /**
+     * Vote on the current post
+     * @param value
+     */
     const doVote = async (value: -1 | 0 | 1) => {
         // If we already voted, this will be a neutral vote.
         if(value === currentPost.my_vote && value !== 0) value = 0;
@@ -124,11 +133,10 @@ export const usePost = () => {
         }
     };
 
-    const doBookmark = async () => {
-        console.log("hi");
-
-        console.log(bookmarks);
-
+    /**
+     * Bookmark the current post
+     */
+    const doBookmark = () => {
         if(bookmarked) {
             dispatch(removeBookmark(post.post.id));
             setBookmarked(false);
