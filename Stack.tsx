@@ -109,10 +109,16 @@ const Stack = () => {
                 <SettingsStack.Screen
                     name={"SettingsScreen"}
                     component={SettingsIndexScreen}
+                    options={{
+                        title: "Settings",
+                    }}
                 />
                 <SettingsStack.Screen
                     name={"EditAccount"}
                     component={EditAccountScreen}
+                    options={{
+                        title: "Edit Account",
+                    }}
                 />
             </SettingsStack.Navigator>
         );
