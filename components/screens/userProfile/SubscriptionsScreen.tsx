@@ -23,7 +23,7 @@ const SubscriptionsScreen = ({navigation}: {navigation: NativeStackNavigationPro
                     }}
                 >
                     {
-                        subscribedCommunities.map((community) => (
+                        subscribedCommunities?.map((community) => (
                             <CCell
                                 key={community.community.id}
                                 props={{
