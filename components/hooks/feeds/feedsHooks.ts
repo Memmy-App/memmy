@@ -62,7 +62,6 @@ export const useFeed = (communityId?: number) => {
 
             setLoading(false);
         } catch(e) {
-            console.log(e);
             setPosts(null);
             setLoading(false);
         }
