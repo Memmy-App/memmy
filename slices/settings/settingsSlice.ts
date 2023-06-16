@@ -39,13 +39,12 @@ const settingsSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(loadSettings.fulfilled, (state, action) => {
             if(action.payload) {
-                console.log(action.payload);
                 for(const key in action.payload) {
                     state[key] = action.payload[key];
                 }
-
-                state.loaded = true;
             }
+
+            state.loaded = true;
         });
 
         builder.addCase(setSetting.fulfilled, (state, action) => {

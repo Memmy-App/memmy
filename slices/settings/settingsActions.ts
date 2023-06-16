@@ -1,6 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {Account, Setting, SettingsState} from "./settingsSlice";
+import {Account, SettingsState} from "./settingsSlice";
 import Bookmark from "../../types/Bookmark";
 
 export const loadSettings = createAsyncThunk(
@@ -8,13 +8,17 @@ export const loadSettings = createAsyncThunk(
     async () => {
         const settingsStr = await AsyncStorage.getItem("settings");
 
+        if(!settingsStr) {
+            return null;
+        }
+
         return JSON.parse(settingsStr) as SettingsState;
     }
 );
 
 export const setSetting = createAsyncThunk(
     "settings/setSetting",
-    async (setting: Setting, thunkAPI) => {
+    async (setting: object, thunkAPI) => {
         const state = thunkAPI.getState();
         const settings = {
             ...state.settings,

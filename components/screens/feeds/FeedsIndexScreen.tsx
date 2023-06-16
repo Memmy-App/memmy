@@ -16,7 +16,7 @@ const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
 
     const feed = useFeed();
 
-    const settings = useAppSelector(selectSettings);
+    const {accounts} = useAppSelector(selectSettings);
 
     const dispatch = useAppDispatch();
 
@@ -33,16 +33,15 @@ const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
         if(!lemmyInstance) {
             try {
                 await initialize({
-                    server: settings.accounts[0].instance,
-                    username: settings.accounts[0].username,
-                    password: settings.accounts[0].password,
-                    auth: settings.accounts[0].token
+                    server: accounts[0].instance,
+                    username: accounts[0].username,
+                    password: accounts[0].password,
+                    auth: accounts[0].token
                 });
 
                 feed.load(false);
                 dispatch(getSubscribedCommunities());
                 dispatch(getAllCommunities());
-                dispatch(loadSettings());
             } catch (e) {
                 console.log("Error", e);
             }
