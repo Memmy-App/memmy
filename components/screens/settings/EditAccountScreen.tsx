@@ -7,7 +7,7 @@ import {initialize, lemmyAuthToken} from "../../../lemmy/LemmyInstance";
 import {getServers, setServers} from "../../../helpers/SettingsHelper";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
-const EditAccountScreen = ({route, navigation}: {route: any, navigation: NativeStackNavigationProp<any>}) => {
+const EditAccountScreen = ({navigation}: {route: any, navigation: NativeStackNavigationProp<any>}) => {
     const [form, setForm] = useState<ILemmyServer>({
         server: "",
         username: "",
@@ -15,6 +15,7 @@ const EditAccountScreen = ({route, navigation}: {route: any, navigation: NativeS
         auth: "",
         totpToken: ""
     });
+
     const [loading, setLoading] = useState(false);
     const [showTotpToken, setShowTotpToken] = useState(false);
 

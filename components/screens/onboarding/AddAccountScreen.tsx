@@ -7,8 +7,8 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {initialize, lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
 import LoadingModal from "../../ui/LoadingModal";
 import {useAppDispatch} from "../../../store";
-import {addAccount} from "../../../slices/settings/settingsActions";
 import {getBaseUrl} from "../../../helpers/LinkHelper";
+import {addAccount} from "../../../slices/accounts/accountsActions";
 
 const AddAccountScreen = () => {
     const [form, setForm] = useState<ILemmyServer>({

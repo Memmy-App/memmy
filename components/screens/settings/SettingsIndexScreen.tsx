@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {useTheme, VStack} from "native-base";
 import {StyleSheet, Switch} from "react-native";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
@@ -8,9 +8,11 @@ import {selectSettings} from "../../../slices/settings/settingsSlice";
 import {setSetting} from "../../../slices/settings/settingsActions";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {selectAccounts} from "../../../slices/accounts/accountsSlice";
 
 const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {
     const settings = useAppSelector(selectSettings);
+    const accounts = useAppSelector(selectAccounts);
 
     const dispatch = useAppDispatch();
     const theme = useTheme();
@@ -31,7 +33,7 @@ const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationPro
                     <Cell
                         cellStyle={"RightDetail"}
                         title={"Server"}
-                        detail={settings.accounts[0].instance}
+                        detail={accounts[0].instance}
                         backgroundColor={theme.colors.screen["700"]}
                         titleTextColor={theme.colors.lightText}
                         rightDetailColor={theme.colors.screen["400"]}
@@ -39,7 +41,7 @@ const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationPro
                     <Cell
                         cellStyle={"RightDetail"}
                         title={"Username"}
-                        detail={settings.accounts[0].username}
+                        detail={accounts[0].username}
                         backgroundColor={theme.colors.screen["700"]}
                         titleTextColor={theme.colors.lightText}
                         rightDetailColor={theme.colors.screen["400"]}

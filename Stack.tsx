@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {NavigationContainer, DarkTheme} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import FeedsIndexScreen from "./components/screens/feeds/FeedsIndexScreen";
@@ -8,7 +8,7 @@ import NewPostScreen from "./components/screens/post/NewPostScreen";
 import SettingsIndexScreen from "./components/screens/settings/SettingsIndexScreen";
 import EditAccountScreen from "./components/screens/settings/EditAccountScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {Icon, useTheme, View} from "native-base";
+import {Icon, useTheme} from "native-base";
 import NewCommentScreen from "./components/screens/post/NewCommentScreen";
 import {Ionicons} from "@expo/vector-icons";
 import OnboardingIndexScreen from "./components/screens/onboarding/OnboardingIndexScreen";
@@ -18,26 +18,44 @@ import BookmarksScreen from "./components/screens/userProfile/BookmarksScreen";
 import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
 import SubscriptionsScreen from "./components/screens/userProfile/SubscriptionsScreen";
 import {useAppDispatch, useAppSelector} from "./store";
-import {selectSettings, selectSettingsLoaded} from "./slices/settings/settingsSlice";
-import LoadingView from "./components/ui/LoadingView";
 import {loadSettings} from "./slices/settings/settingsActions";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import ILemmyServer from "./lemmy/types/ILemmyServer";
+import {selectAccounts} from "./slices/accounts/accountsSlice";
+import {addAccount, loadAccounts} from "./slices/accounts/accountsActions";
+import {getServers} from "./helpers/SettingsHelper";
 
 const Stack = () => {
     const theme = useTheme();
 
     const FeedStack = createNativeStackNavigator();
-
-    const {loaded, accounts} = useAppSelector(selectSettings);
-    const [ranLoad, setRanLoad] = useState(false);
+    const accounts = useAppSelector(selectAccounts);
+    const [loaded, setLoaded] = useState(false);
     const dispatch = useAppDispatch();
 
-    if(!loaded) {
-        if(!ranLoad) {
-            dispatch(loadSettings());
-            setRanLoad(true);
+    const tempFix = async () => {
+        const servers = await getServers();
+
+        if (servers && servers.length > 0) {
+            dispatch(addAccount({
+                username: servers[0].username,
+                password: servers[0].password,
+                token: servers[0].auth,
+                instance: servers[0].server
+            }));
         }
 
-        return <LoadingView />;
+        await AsyncStorage.removeItem("@servers");
+    };
+
+    if (!loaded) {
+        dispatch(loadSettings());
+        dispatch(loadAccounts());
+        setLoaded(true);
+    }
+
+    if(loaded && accounts.length === 0) {
+        tempFix();
     }
 
     const FeedStackScreen = () => {
@@ -60,10 +78,10 @@ const Stack = () => {
                             title: "Feed",
                         }}
                     />
-                    <FeedStack.Screen name={"Post"} component={PostScreen} />
-                    <FeedStack.Screen name={"NewPost"} component={NewPostScreen} />
-                    <FeedStack.Screen name={"Community"} component={CommunityFeedScreen} />
-                    <FeedStack.Screen name={"Subscriptions"} component={SubscriptionsScreen} />
+                    <FeedStack.Screen name={"Post"} component={PostScreen}/>
+                    <FeedStack.Screen name={"NewPost"} component={NewPostScreen}/>
+                    <FeedStack.Screen name={"Community"} component={CommunityFeedScreen}/>
+                    <FeedStack.Screen name={"Subscriptions"} component={SubscriptionsScreen}/>
                 </FeedStack.Group>
 
                 <FeedStack.Group
@@ -71,7 +89,8 @@ const Stack = () => {
                         presentation: "modal"
                     }}
                 >
-                    <FeedStack.Screen name={"NewComment"} component={NewCommentScreen} options={{title: "New Comment"}} />
+                    <FeedStack.Screen name={"NewComment"} component={NewCommentScreen}
+                        options={{title: "New Comment"}}/>
                 </FeedStack.Group>
             </FeedStack.Navigator>
         );
@@ -102,12 +121,11 @@ const Stack = () => {
                     name={"Bookmarks"}
                     component={BookmarksScreen}
                 />
-                <ProfileStack.Screen name={"Subscriptions"} component={SubscriptionsScreen} />
-                <ProfileStack.Screen name={"Community"} component={CommunityFeedScreen} />
+                <ProfileStack.Screen name={"Subscriptions"} component={SubscriptionsScreen}/>
+                <ProfileStack.Screen name={"Community"} component={CommunityFeedScreen}/>
             </ProfileStack.Navigator>
         );
     };
-
 
 
     const SettingsStack = createNativeStackNavigator();
@@ -158,7 +176,7 @@ const Stack = () => {
                     name={"FeedStack"}
                     component={FeedStackScreen} options={{
                         headerShown: false,
-                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"list-outline"} size={6} color={color} />,
+                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"list-outline"} size={6} color={color}/>,
                         tabBarLabel: "Feed"
                     }}
                 />
@@ -167,7 +185,7 @@ const Stack = () => {
                     component={ProfileStackScreen}
                     options={{
                         headerShown: false,
-                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"person-outline"} size={6} color={color} />,
+                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"person-outline"} size={6} color={color}/>,
                         tabBarLabel: "Profile"
                     }}
                 />
@@ -176,7 +194,7 @@ const Stack = () => {
                     component={SettingsStackScreen}
                     options={{
                         headerShown: false,
-                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"cog-outline"} size={6} color={color} />,
+                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"cog-outline"} size={6} color={color}/>,
                         tabBarLabel: "Settings"
                     }}
                 />
@@ -194,20 +212,23 @@ const Stack = () => {
                 },
             }}>
                 {accounts.length > 0 ? (
-                    
+
                     <MainStack.Screen name={"Tabs"} component={Tabs} options={{headerShown: false}}/>
-            
+
                 ) : (
                     <>
-                        <MainStack.Screen name={"Onboarding"} component={OnboardingIndexScreen} options={{title: "Welcome"}} />
-                        <MainStack.Screen name={"AddAccount"} component={AddAccountScreen} options={{title: "Add Account"}} />
-                        <MainStack.Screen name={"CreateAccount"} component={CreateAccountScreen} options={{title: "Create Account"}} />
+                        <MainStack.Screen name={"Onboarding"} component={OnboardingIndexScreen}
+                            options={{title: "Welcome"}}/>
+                        <MainStack.Screen name={"AddAccount"} component={AddAccountScreen}
+                            options={{title: "Add Account"}}/>
+                        <MainStack.Screen name={"CreateAccount"} component={CreateAccountScreen}
+                            options={{title: "Create Account"}}/>
                     </>
                 )}
-                    
+
             </MainStack.Navigator>
-        
-    
+
+
         </NavigationContainer>
     );
 };

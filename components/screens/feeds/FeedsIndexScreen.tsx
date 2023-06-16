@@ -10,13 +10,13 @@ import {loadSettings} from "../../../slices/settings/settingsActions";
 import CIconButton from "../../ui/CIconButton";
 import {selectSettings} from "../../../slices/settings/settingsSlice";
 import {Text} from "native-base";
+import {selectAccounts} from "../../../slices/accounts/accountsSlice";
+import {loadBookmarks} from "../../../slices/bookmarks/bookmarksActions";
 
 const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {
-
-
     const feed = useFeed();
 
-    const {accounts} = useAppSelector(selectSettings);
+    const accounts = useAppSelector(selectAccounts);
 
     const dispatch = useAppDispatch();
 
@@ -40,12 +40,13 @@ const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
                 });
 
                 feed.load(false);
-                dispatch(getSubscribedCommunities());
-                dispatch(getAllCommunities());
             } catch (e) {
                 console.log("Error", e);
             }
         }
+        dispatch(getSubscribedCommunities());
+        dispatch(getAllCommunities());
+        dispatch(loadBookmarks());
     };
 
     const sortFix = () => {
@@ -57,8 +58,6 @@ const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
     };
 
     return <FeedView posts={feed.posts} loading={feed.loading} load={feed.load} setSort={feed.setSort} titleDropsdown={true} setListingType={feed.setListingType} />;
-
-    return <Text> Hello</Text>;
 };
 
 export default FeedsIndexScreen;

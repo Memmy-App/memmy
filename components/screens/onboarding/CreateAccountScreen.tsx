@@ -7,10 +7,9 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import CTextInput from "../../ui/CTextInput";
 import {LemmyHttp} from "lemmy-js-client";
 import LoadingModal from "../../ui/LoadingModal";
-import {addServer} from "../../../helpers/SettingsHelper";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {useAppDispatch} from "../../../store";
-import {addAccount} from "../../../slices/settings/settingsActions";
+import {addAccount} from "../../../slices/accounts/accountsActions";
 
 interface RegisterForm {
     server: string,
