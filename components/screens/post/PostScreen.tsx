@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import LoadingView from "../../ui/LoadingView";
 import {
     ArrowDownIcon,
@@ -36,9 +36,11 @@ const PostScreen = () => {
     const post = usePost();
     const dispatch = useAppDispatch();
 
-    navigation.setOptions({
-        title: `${post.currentPost?.counts.comments} Comment${post.currentPost?.counts.comments !== 1 ? "s" : ""}`
-    });
+    useEffect(() => {
+        navigation.setOptions({
+            title: `${post.currentPost?.counts.comments} Comment${post.currentPost?.counts.comments !== 1 ? "s" : ""}`
+        });
+    }, []);
 
     const commentItem = ({item}: {item: ILemmyComment}) => {
         return (

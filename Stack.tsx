@@ -1,5 +1,5 @@
-import React from "react";
-import {NavigationContainer} from "@react-navigation/native";
+import React, {useState} from "react";
+import {NavigationContainer, DarkTheme} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import FeedsIndexScreen from "./components/screens/feeds/FeedsIndexScreen";
 import CommunityFeedScreen from "./components/screens/feeds/CommunityFeedScreen";
@@ -17,11 +17,46 @@ import CreateAccountScreen from "./components/screens/onboarding/CreateAccountSc
 import BookmarksScreen from "./components/screens/userProfile/BookmarksScreen";
 import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
 import SubscriptionsScreen from "./components/screens/userProfile/SubscriptionsScreen";
+import {useAppDispatch, useAppSelector} from "./store";
+import {loadSettings} from "./slices/settings/settingsActions";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import ILemmyServer from "./lemmy/types/ILemmyServer";
+import {selectAccounts} from "./slices/accounts/accountsSlice";
+import {addAccount, loadAccounts} from "./slices/accounts/accountsActions";
+import {getServers} from "./helpers/SettingsHelper";
 
 const Stack = () => {
     const theme = useTheme();
 
     const FeedStack = createNativeStackNavigator();
+    const accounts = useAppSelector(selectAccounts);
+    const [loaded, setLoaded] = useState(false);
+    const dispatch = useAppDispatch();
+
+    const tempFix = async () => {
+        const servers = await getServers();
+
+        if (servers && servers.length > 0) {
+            dispatch(addAccount({
+                username: servers[0].username,
+                password: servers[0].password,
+                token: servers[0].auth,
+                instance: servers[0].server
+            }));
+        }
+
+        await AsyncStorage.removeItem("@servers");
+    };
+
+    if (!loaded) {
+        dispatch(loadSettings());
+        dispatch(loadAccounts());
+        setLoaded(true);
+    }
+
+    if(loaded && accounts.length === 0) {
+        tempFix();
+    }
 
     const FeedStackScreen = () => {
         return (
@@ -43,10 +78,10 @@ const Stack = () => {
                             title: "Feed",
                         }}
                     />
-                    <FeedStack.Screen name={"Community"} component={CommunityFeedScreen} />
-                    <FeedStack.Screen name={"Post"} component={PostScreen} />
-                    <FeedStack.Screen name={"NewPost"} component={NewPostScreen} />
-                    <FeedStack.Screen name={"Subscriptions"} component={SubscriptionsScreen} />
+                    <FeedStack.Screen name={"Post"} component={PostScreen}/>
+                    <FeedStack.Screen name={"NewPost"} component={NewPostScreen}/>
+                    <FeedStack.Screen name={"Community"} component={CommunityFeedScreen}/>
+                    <FeedStack.Screen name={"Subscriptions"} component={SubscriptionsScreen}/>
                 </FeedStack.Group>
 
                 <FeedStack.Group
@@ -54,7 +89,8 @@ const Stack = () => {
                         presentation: "modal"
                     }}
                 >
-                    <FeedStack.Screen name={"NewComment"} component={NewCommentScreen} options={{title: "New Comment"}} />
+                    <FeedStack.Screen name={"NewComment"} component={NewCommentScreen}
+                        options={{title: "New Comment"}}/>
                 </FeedStack.Group>
             </FeedStack.Navigator>
         );
@@ -85,11 +121,11 @@ const Stack = () => {
                     name={"Bookmarks"}
                     component={BookmarksScreen}
                 />
-                <ProfileStack.Screen name={"Subscriptions"} component={SubscriptionsScreen} />
+                <ProfileStack.Screen name={"Subscriptions"} component={SubscriptionsScreen}/>
+                <ProfileStack.Screen name={"Community"} component={CommunityFeedScreen}/>
             </ProfileStack.Navigator>
         );
     };
-
 
 
     const SettingsStack = createNativeStackNavigator();
@@ -109,10 +145,16 @@ const Stack = () => {
                 <SettingsStack.Screen
                     name={"SettingsScreen"}
                     component={SettingsIndexScreen}
+                    options={{
+                        title: "Settings",
+                    }}
                 />
                 <SettingsStack.Screen
                     name={"EditAccount"}
                     component={EditAccountScreen}
+                    options={{
+                        title: "Edit Account",
+                    }}
                 />
             </SettingsStack.Navigator>
         );
@@ -134,7 +176,7 @@ const Stack = () => {
                     name={"FeedStack"}
                     component={FeedStackScreen} options={{
                         headerShown: false,
-                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"list-outline"} size={6} color={color} />,
+                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"list-outline"} size={6} color={color}/>,
                         tabBarLabel: "Feed"
                     }}
                 />
@@ -143,7 +185,7 @@ const Stack = () => {
                     component={ProfileStackScreen}
                     options={{
                         headerShown: false,
-                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"person-outline"} size={6} color={color} />,
+                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"person-outline"} size={6} color={color}/>,
                         tabBarLabel: "Profile"
                     }}
                 />
@@ -152,7 +194,7 @@ const Stack = () => {
                     component={SettingsStackScreen}
                     options={{
                         headerShown: false,
-                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"cog-outline"} size={6} color={color} />,
+                        tabBarIcon: ({color}) => <Icon as={Ionicons} name={"cog-outline"} size={6} color={color}/>,
                         tabBarLabel: "Settings"
                     }}
                 />
@@ -163,17 +205,30 @@ const Stack = () => {
     const MainStack = createNativeStackNavigator();
 
     return (
-        <NavigationContainer>
+        <NavigationContainer theme={DarkTheme}>
             <MainStack.Navigator screenOptions={{
                 headerStyle: {
                     backgroundColor: theme.colors.screen[900]
-                }
+                },
             }}>
-                <MainStack.Screen name={"Tabs"} component={Tabs} options={{headerShown: false}}/>
-                <MainStack.Screen name={"Onboarding"} component={OnboardingIndexScreen} options={{title: "Welcome"}} />
-                <MainStack.Screen name={"AddAccount"} component={AddAccountScreen} options={{title: "Add Account"}} />
-                <MainStack.Screen name={"CreateAccount"} component={CreateAccountScreen} options={{title: "Create Account"}} />
+                {accounts.length > 0 ? (
+
+                    <MainStack.Screen name={"Tabs"} component={Tabs} options={{headerShown: false}}/>
+
+                ) : (
+                    <>
+                        <MainStack.Screen name={"Onboarding"} component={OnboardingIndexScreen}
+                            options={{title: "Welcome"}}/>
+                        <MainStack.Screen name={"AddAccount"} component={AddAccountScreen}
+                            options={{title: "Add Account"}}/>
+                        <MainStack.Screen name={"CreateAccount"} component={CreateAccountScreen}
+                            options={{title: "Create Account"}}/>
+                    </>
+                )}
+
             </MainStack.Navigator>
+
+
         </NavigationContainer>
     );
 };

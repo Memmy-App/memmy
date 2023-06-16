@@ -22,6 +22,7 @@ import {setResponseTo} from "../../slices/newComment/newCommentSlice";
 import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {getBaseUrl} from "../../helpers/LinkHelper";
 
 interface CommentItemProps {
     comment: ILemmyComment,
@@ -223,7 +224,7 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                                     onPress={() => setCollapsed(!collapsed)}
                                 >
                                     <HStack mb={1} space={3} alignItems={"center"}>
-                                        <Text fontWeight={"bold"}>{truncateName(comment.top.creator.name)}</Text>
+                                        <Text fontWeight={"bold"}>{`${truncateName(comment.top.creator.name)}@${getBaseUrl(comment.top.creator.actor_id)}`}</Text>
                                         <HStack space={0} alignItems={"center"}>
                                             <Icon
                                                 as={Ionicons}

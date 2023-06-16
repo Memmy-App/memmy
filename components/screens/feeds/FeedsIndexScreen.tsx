@@ -3,48 +3,50 @@ import FeedView from "../../ui/Feed/FeedView";
 import FeedHeaderDropdown from "../../ui/Feed/FeedHeaderDropdown";
 import {useFeed} from "../../hooks/feeds/feedsHooks";
 import {initialize, lemmyInstance} from "../../../lemmy/LemmyInstance";
-import {getServers} from "../../../helpers/SettingsHelper";
-import {useAppDispatch} from "../../../store";
+import {useAppDispatch, useAppSelector} from "../../../store";
 import {getAllCommunities, getSubscribedCommunities} from "../../../slices/communities/communitiesActions";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {loadSettings} from "../../../slices/settings/settingsActions";
-import {Button} from "react-native";
 import CIconButton from "../../ui/CIconButton";
+import {selectSettings} from "../../../slices/settings/settingsSlice";
+import {Text} from "native-base";
+import {selectAccounts} from "../../../slices/accounts/accountsSlice";
+import {loadBookmarks} from "../../../slices/bookmarks/bookmarksActions";
 
 const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {
-    navigation.setOptions({
-        headerTitle: () => <FeedHeaderDropdown title={sortFix()} enabled={true} />,
-        headerLeft: () => <CIconButton name={"star-outline"} onPress={() => navigation.push("Subscriptions")} />
-    });
-
     const feed = useFeed();
+
+    const accounts = useAppSelector(selectAccounts);
 
     const dispatch = useAppDispatch();
 
     useEffect(() => {
+        navigation.setOptions({
+            headerTitle: () => <FeedHeaderDropdown title={sortFix()} enabled={true} />,
+            headerLeft: () => <CIconButton name={"star-outline"} onPress={() => navigation.navigate("Subscriptions")} />
+        });
+
         load();
     }, []);
 
     const load = async () => {
         if(!lemmyInstance) {
             try {
-                const servers = await getServers();
-
-                if(!servers || servers.length < 1) {
-                    navigation.replace("Onboarding");
-                    return;
-                }
-
-                await initialize(servers[0]);
+                await initialize({
+                    server: accounts[0].instance,
+                    username: accounts[0].username,
+                    password: accounts[0].password,
+                    auth: accounts[0].token
+                });
 
                 feed.load(false);
-                dispatch(getSubscribedCommunities());
-                dispatch(getAllCommunities());
-                dispatch(loadSettings());
             } catch (e) {
                 console.log("Error", e);
             }
         }
+        dispatch(getSubscribedCommunities());
+        dispatch(getAllCommunities());
+        dispatch(loadBookmarks());
     };
 
     const sortFix = () => {

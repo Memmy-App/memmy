@@ -4,12 +4,13 @@ import {Alert} from "react-native";
 import CTextInput from "../../ui/CTextInput";
 import ILemmyServer from "../../../lemmy/types/ILemmyServer";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {initialize, lemmyAuthToken} from "../../../lemmy/LemmyInstance";
+import {initialize, lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
 import LoadingModal from "../../ui/LoadingModal";
-import {addServer} from "../../../helpers/SettingsHelper";
-import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {useAppDispatch} from "../../../store";
+import {getBaseUrl} from "../../../helpers/LinkHelper";
+import {addAccount} from "../../../slices/accounts/accountsActions";
 
-const AddAccountScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {
+const AddAccountScreen = () => {
     const [form, setForm] = useState<ILemmyServer>({
         server: "",
         username: "",
@@ -22,6 +23,7 @@ const AddAccountScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
 
     const toast = useToast();
     const theme = useTheme();
+    const dispatch = useAppDispatch();
 
     const onFormChange = (name, value) => {
         setForm({
@@ -30,7 +32,7 @@ const AddAccountScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
         });
     };
 
-    const onPress = async () => {
+    const doLogin = async () => {
         if(!form.server || !form.username || !form.password) {
             toast.show({
                 description: "All fields are required.",
@@ -69,13 +71,21 @@ const AddAccountScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
             Alert.alert("Error", "Did not receive authentication response.");
             return;
         }
+    };
 
-        server.auth = lemmyAuthToken;
+    const onPress = () => {
+        doLogin().then(() => {
+            if(!lemmyAuthToken) return;
 
-        await addServer(server);
+            dispatch(addAccount({
+                username: form.username,
+                password: form.password,
+                instance: getBaseUrl(form.server),
+                token: lemmyAuthToken,
+            }));
 
-        setLoading(false);
-        navigation.replace("Tabs");
+            setLoading(false);
+        });
     };
 
     return (
