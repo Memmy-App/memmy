@@ -40,12 +40,13 @@ const Stack = () => {
                         name={"FeedScreen"}
                         component={FeedsIndexScreen}
                         options={{
-                            title: "Feed"
+                            title: "Feed",
                         }}
                     />
                     <FeedStack.Screen name={"Community"} component={CommunityFeedScreen} />
                     <FeedStack.Screen name={"Post"} component={PostScreen} />
                     <FeedStack.Screen name={"NewPost"} component={NewPostScreen} />
+                    <FeedStack.Screen name={"Subscriptions"} component={SubscriptionsScreen} />
                 </FeedStack.Group>
 
                 <FeedStack.Group

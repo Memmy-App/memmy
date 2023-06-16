@@ -8,10 +8,13 @@ import {useAppDispatch} from "../../../store";
 import {getAllCommunities, getSubscribedCommunities} from "../../../slices/communities/communitiesActions";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {loadSettings} from "../../../slices/settings/settingsActions";
+import {Button} from "react-native";
+import CIconButton from "../../ui/CIconButton";
 
 const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {
     navigation.setOptions({
         headerTitle: () => <FeedHeaderDropdown title={sortFix()} enabled={true} />,
+        headerLeft: () => <CIconButton name={"star-outline"} onPress={() => navigation.push("Subscriptions")} />
     });
 
     const feed = useFeed();
