@@ -1,6 +1,17 @@
 import React from "react";
 import {StyleSheet} from "react-native";
-import {ArrowDownIcon, ArrowUpIcon, HStack, Icon, IconButton, Pressable, Text, View, VStack} from "native-base";
+import {
+    ArrowDownIcon,
+    ArrowUpIcon,
+    HStack,
+    Icon,
+    IconButton,
+    Pressable,
+    Text,
+    useToast,
+    View,
+    VStack
+} from "native-base";
 import {PostView} from "lemmy-js-client";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
@@ -24,6 +35,7 @@ const FeedItem = ({post}: FeedItemProps) => {
     const dispatch = useDispatch();
 
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
+    const toast = useToast();
 
     const onVotePress = async (value: -1 | 0 | 1) => {
         if(value === post.my_vote && value !== 0) value = 0;
@@ -44,6 +56,10 @@ const FeedItem = ({post}: FeedItemProps) => {
                 score: value
             });
         } catch(e) {
+            toast.show({
+                title: "Error submitting vote...",
+                duration: 3000
+            });
             dispatch(setUpdateVote({
                 postId: post.post.id,
                 vote: oldValue as -1 | 0 | 1,

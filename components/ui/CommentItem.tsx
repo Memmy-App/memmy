@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import {Divider, HStack, Icon, Pressable, Text, useTheme, View, VStack} from "native-base";
+import {Divider, HStack, Icon, Pressable, Text, useTheme, useToast, View, VStack} from "native-base";
 import ILemmyComment from "../../lemmy/types/ILemmyComment";
 import {Dimensions, Platform, StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
@@ -38,6 +38,7 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
 
     const dispatch = useAppDispatch();
     const theme = useTheme();
+    const toast = useToast();
 
     if(comment.top.comment.id !== lastCommentId.current) {
         lastCommentId.current = comment.top.comment.id;
@@ -58,6 +59,10 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                 score: value
             });
         } catch(e) {
+            toast.show({
+                title: "Error submitting vote...",
+                duration: 3000
+            });
             setMyVote(oldValue as -1|0|1);
             return;
         }
