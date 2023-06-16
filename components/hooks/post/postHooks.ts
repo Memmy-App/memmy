@@ -27,7 +27,7 @@ export const usePost = () => {
     const [refresh, setRefresh] = useState(false);
     const [currentPost, setCurrentPost] = useState<PostView>(post);
     const [bookmarked, setBookmarked] = useState<boolean>(
-        bookmarks.findIndex((b) => b.postId === currentPost.post.id) !== -1
+        bookmarks?.findIndex((b) => b.postId === currentPost.post.id) !== -1
     );
 
     const dispatch = useAppDispatch();
