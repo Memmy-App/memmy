@@ -73,8 +73,8 @@ const FeedView = (
     };
 
     const onSortPress = () => {
-        const options = ["Top Day", "Top Week", "Hot", "New", "Most Comments", "Cancel"];
-        const cancelButtonIndex = 5;
+        const options = ["Top Day", "Top Week", "Hot", "Active", "New", "Most Comments", "Cancel"];
+        const cancelButtonIndex = 6;
 
         showActionSheetWithOptions({
             options,
@@ -86,7 +86,7 @@ const FeedView = (
                 setSort("TopDay");
             } else if(index === 1) {
                 setSort("TopWeek");
-            } else if(index === 4) {
+            } else if(index === 5) {
                 setSort("MostComments");
             } else {
                 setSort(options[index] as SortType);
