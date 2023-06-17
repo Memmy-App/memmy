@@ -75,7 +75,7 @@ const FeedItem = ({post}: FeedItemProps) => {
 
     return (
         <VStack flex={1} my={1.5} backgroundColor={"screen.800"} shadow={2}>
-            <View mx={4} mt={1}>
+            <View mx={4} mt={2}>
                 <CommunityLink community={post.community} isFeedItem />
             </View>
 
@@ -90,7 +90,7 @@ const FeedItem = ({post}: FeedItemProps) => {
                             )
                         }
                     </View>
-                    <Text fontSize={"lg"} mx={4} my={1}>
+                    <Text fontSize={"xl"} fontWeight={"semibold"} mx={4} my={2}>
                         {post.post.name}
                     </Text>
                 </>

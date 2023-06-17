@@ -8,6 +8,7 @@ import {Dimensions, StyleSheet} from "react-native";
 import {parseMarkdown} from "../../helpers/MarkdownHelper";
 import RenderHTML from "react-native-render-html";
 import ImageModal from "react-native-image-modal";
+import RenderMarkdown from "./markdown/RenderMarkdown";
 
 interface ContentViewProps {
     post: PostView,
@@ -45,7 +46,7 @@ const ContentView = ({post, truncate = false, showBody = false, showTitle = fals
 
             {
                 showTitle && (
-                    <Text fontSize={"xl"} mx={4}>
+                    <Text fontSize={"xl"} fontWeight={"semibold"} mt={5} mx={4} mb={4}>
                         {post.post.name}
                     </Text>
                 )
@@ -54,9 +55,7 @@ const ContentView = ({post, truncate = false, showBody = false, showTitle = fals
             {
                 (linkInfo.extType === ExtensionType.NONE || showBody) && (
                     <VStack px={4}>
-                        <RenderHTML source={{
-                            html: `<div style="color: ${textColor}; font-size: 16px;">` + (body) + "</div>" ?? ""
-                        }} contentWidth={Dimensions.get("window").width}/>
+                        <RenderMarkdown text={body} />
                     </VStack>
                 )
             }
