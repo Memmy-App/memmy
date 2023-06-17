@@ -6,10 +6,7 @@ import {initialize, lemmyInstance} from "../../../lemmy/LemmyInstance";
 import {useAppDispatch, useAppSelector} from "../../../store";
 import {getAllCommunities, getSubscribedCommunities} from "../../../slices/communities/communitiesActions";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
-import {loadSettings} from "../../../slices/settings/settingsActions";
 import CIconButton from "../../ui/CIconButton";
-import {selectSettings} from "../../../slices/settings/settingsSlice";
-import {Text} from "native-base";
 import {selectAccounts} from "../../../slices/accounts/accountsSlice";
 import {loadBookmarks} from "../../../slices/bookmarks/bookmarksActions";
 
@@ -39,7 +36,7 @@ const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
                     auth: accounts[0].token
                 });
 
-                feed.load(false);
+                feed.doLoad(false);
             } catch (e) {
                 console.log("Error", e);
             }
@@ -57,7 +54,7 @@ const FeedsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<a
         return feed.sort;
     };
 
-    return <FeedView posts={feed.posts} loading={feed.loading} load={feed.load} setSort={feed.setSort} titleDropsdown={true} setListingType={feed.setListingType} />;
+    return <FeedView feed={feed} />;
 };
 
 export default FeedsIndexScreen;

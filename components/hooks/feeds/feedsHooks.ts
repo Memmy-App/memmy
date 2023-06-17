@@ -6,20 +6,36 @@ import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
 import {removeDuplicatePosts} from "../../../lemmy/LemmyHelpers";
 import {clearUpdateVote, selectFeed} from "../../../slices/feed/feedSlice";
 
-export const useFeed = (communityId?: number) => {
+export interface UseFeed {
+    posts: PostView[]|null;
+    postsLoading: boolean;
+    postsError: boolean;
+
+    sort: SortType;
+    setSort: (sort: SortType) => void;
+
+    listingType: ListingType;
+    setListingType: (listingType: ListingType) => void;
+
+    doLoad: (refresh?: boolean) => void;
+}
+
+export const useFeed = (communityId?: number): UseFeed => {
     const {defaultSort, defaultListingType} = useAppSelector(selectSettings);
     const {updateVote} = useAppSelector(selectFeed);
     const dispatch = useAppDispatch();
 
     const [posts, setPosts] = useState<PostView[]|null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [postsLoading, setPostsLoading] = useState<boolean>(false);
+    const [postsError, setPostsError] = useState<boolean>(false);
+
     const [sort, setSort] = useState<SortType>(defaultSort);
     const [listingType, setListingType] = useState<ListingType>(defaultListingType);
     const [nextPage, setNextPage] = useState(1);
 
     useEffect(() => {
         if(lemmyInstance) {
-            load(true);
+            doLoad(true);
         }
     }, [sort, listingType]);
 
@@ -37,10 +53,9 @@ export const useFeed = (communityId?: number) => {
     }, [updateVote]);
 
 
-    const load = async (refresh = false) => {
-        console.log("Community id: ", communityId);
-
-        setLoading(true);
+    const doLoad = async (refresh = false) => {
+        setPostsLoading(true);
+        setPostsError(false);
 
         try {
             const res = await lemmyInstance.getPosts({
@@ -60,20 +75,25 @@ export const useFeed = (communityId?: number) => {
                 setNextPage(prev => prev + 1);
             }
 
-            setLoading(false);
+            setPostsLoading(false);
         } catch(e) {
             setPosts(null);
-            setLoading(false);
+            setPostsError(false);
+            setPostsError(true);
         }
     };
 
     return {
         posts,
-        loading,
+        postsLoading,
+        postsError,
+
         sort,
-        listingType,
-        load,
         setSort,
+
+        listingType,
         setListingType,
+
+        doLoad,
     };
 };

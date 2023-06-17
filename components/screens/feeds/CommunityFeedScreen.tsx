@@ -21,15 +21,12 @@ const FeedsCommunityScreen = ({route, navigation}: {route: any, navigation: Nati
             title: communityName
         });
 
-        feed.load();
+        feed.doLoad();
     }, []);
 
     return (
         <FeedView
-            posts={feed.posts}
-            load={feed.load}
-            loading={feed.loading}
-            setSort={feed.setSort}
+            feed={feed}
             community
         />
     );
