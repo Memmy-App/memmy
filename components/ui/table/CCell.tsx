@@ -1,9 +1,10 @@
 import React from "react";
 import {Cell} from "react-native-tableview-simple";
 import {useTheme} from "native-base";
+import {CellInterface} from "react-native-tableview-simple/lib/typescript/components/Cell";
 
 interface CCellProps {
-    props: object,
+    props: CellInterface,
 }
 
 const CCell = ({props}: CCellProps) => {
