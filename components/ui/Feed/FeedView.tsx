@@ -152,7 +152,7 @@ const FeedView = (
     />;
 
     const footer = () => {
-        if(feed.postsLoading && feed.posts.length > 0) {
+        if((feed.postsLoading && feed.posts.length > 0) || endReached) {
             return <LoadingFooter message={"Loading more posts..."} />;
         } else if(feed.postsError) {
             return <LoadingErrorFooter message={"Failed to load posts"} onRetryPress={feed.doLoad} />;
@@ -173,7 +173,7 @@ const FeedView = (
                         onEndReachedThreshold={0.8}
                         estimatedItemSize={300}
                         estimatedListSize={{height: 50, width: 1}}
-                        ListFooterComponent={feed.postsLoading ? <LoadingView /> : null}
+                        ListFooterComponent={footer}
                         onEndReached={() => setEndReached(true)}
                         ref={flashList}
                         onMomentumScrollEnd={() => {
