@@ -19,6 +19,7 @@ import {trigger} from "react-native-haptic-feedback";
 import {UseFeed} from "../../hooks/feeds/feedsHooks";
 import LoadingFooter from "../Loading/LoadingFooter";
 import LoadingErrorFooter from "../Loading/LoadingErrorFooter";
+import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
 
 interface FeedViewProps {
     feed: UseFeed;
@@ -106,8 +107,8 @@ const FeedView = (
         if(community) {
             const subscribed = isSubscribed(communityId.current, subscribedCommunities);
 
-            const options = [subscribed ? "Unsubscribe" : "Subscribe", "Cancel"];
-            const cancelButtonIndex = 1;
+            const options = [subscribed ? "Unsubscribe" : "Subscribe", "Block Community", "Cancel"];
+            const cancelButtonIndex = 2;
 
             showActionSheetWithOptions({
                 options,
@@ -126,6 +127,18 @@ const FeedView = (
                         communityId: feed.posts[0].community.id,
                         subscribe: !subscribed
                     }));
+                } else if(index === 1) {
+                    trigger("impactMedium");
+                    toast.show({
+                        title: `Blocked ${feed.posts[0].community.name}`,
+                        duration: 3000
+                    });
+
+                    lemmyInstance.blockCommunity({
+                        auth: lemmyAuthToken,
+                        community_id: communityId.current,
+                        block: true
+                    });
                 }
             });
         } else {
