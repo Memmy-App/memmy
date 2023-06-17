@@ -28,7 +28,6 @@ const ImageButton = ({src}: ImageButtonProps) => {
                     alignItems={"center"}
                     space={2}
                     my={4}
-                    mx={5}
                 >
                     <FastImage
                         style={{
@@ -41,7 +40,7 @@ const ImageButton = ({src}: ImageButtonProps) => {
                         }}
                     />
                     <Spacer />
-                    <Text>
+                    <Text color={"white"}>
                         {truncateImageLink(src)}
                     </Text>
                     <Spacer />
