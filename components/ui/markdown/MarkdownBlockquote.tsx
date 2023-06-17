@@ -12,6 +12,7 @@ const MarkdownBlockquote = ({children}: MarkdownBlockquoteProps) => {
             backgroundColor={"screen.700"}
             px={2}
             py={1}
+            my={2}
             borderLeftWidth={3}
             borderLeftColor={"orange.300"}
             borderRadius={5}
