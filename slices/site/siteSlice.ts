@@ -1,5 +1,5 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {CommunityBlockView, GetSiteResponse, MyUserInfo, PersonBlockView} from "lemmy-js-client";
+import {createSlice} from "@reduxjs/toolkit";
+import {CommunityBlockView, PersonBlockView} from "lemmy-js-client";
 import {getSiteInfo, unblockCommunity} from "./siteActions";
 import {RootState} from "../../store";
 

@@ -1,6 +1,5 @@
 import React from "react";
-import {Box, Center, Pressable, Text, View, VStack} from "native-base";
-import {Button} from "react-native";
+import {Center, Pressable, Text} from "native-base";
 
 interface LoadingErrorFooterProps {
     onRetryPress: () => void|Promise<void>;

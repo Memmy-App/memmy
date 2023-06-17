@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {useTheme, VStack} from "native-base";
 import Markdown, {MarkdownIt} from "@ronradtke/react-native-markdown-display";
 import {openLink} from "../../../helpers/LinkHelper";

@@ -7,6 +7,7 @@ import LoadingView from "../Loading/LoadingView";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import {FlashList} from "@shopify/flash-list";
 import SortIconType from "../../../types/SortIconType";
+import sortIconType from "../../../types/SortIconType";
 import CIconButton from "../CIconButton";
 import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
 import {useAppDispatch, useAppSelector} from "../../../store";
@@ -20,7 +21,6 @@ import {UseFeed} from "../../hooks/feeds/feedsHooks";
 import LoadingFooter from "../Loading/LoadingFooter";
 import LoadingErrorFooter from "../Loading/LoadingErrorFooter";
 import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
-import sortIconType from "../../../types/SortIconType";
 
 interface FeedViewProps {
     feed: UseFeed;

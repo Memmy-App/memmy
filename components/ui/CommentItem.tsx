@@ -1,7 +1,7 @@
 import React, {useRef, useState} from "react";
 import {Divider, HStack, Icon, Pressable, Text, useTheme, useToast, View, VStack} from "native-base";
 import ILemmyComment from "../../lemmy/types/ILemmyComment";
-import {Dimensions, Platform, StyleSheet} from "react-native";
+import {Dimensions, StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import moment from "moment";
 import {truncateName} from "../../helpers/TextHelper";

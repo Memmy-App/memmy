@@ -1,10 +1,8 @@
-import React, {useRef, useState} from "react";
-import {openLink} from "../../helpers/LinkHelper";
-import {ChevronRightIcon, HStack, Icon, Pressable, Spacer, Text} from "native-base";
-import {truncateImageLink, truncateLink} from "../../helpers/TextHelper";
-import ImageModal, {ImageDetail} from "@dreamwalk-os/react-native-image-modal";
+import React, {useState} from "react";
+import {ChevronRightIcon, HStack, Pressable, Spacer, Text} from "native-base";
+import {truncateImageLink} from "../../helpers/TextHelper";
+import {ImageDetail} from "@dreamwalk-os/react-native-image-modal";
 import FastImage from "react-native-fast-image";
-import ImageModalScreen from "../screens/image/ImageModalScreen";
 import {Dimensions} from "react-native";
 
 interface ImageButtonProps {

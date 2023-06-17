@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {NavigationContainer, DarkTheme} from "@react-navigation/native";
+import {DarkTheme, NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import FeedsIndexScreen from "./components/screens/feeds/FeedsIndexScreen";
 import CommunityFeedScreen from "./components/screens/feeds/CommunityFeedScreen";
@@ -20,7 +20,6 @@ import SubscriptionsScreen from "./components/screens/userProfile/SubscriptionsS
 import {useAppDispatch, useAppSelector} from "./store";
 import {loadSettings} from "./slices/settings/settingsActions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import ILemmyServer from "./lemmy/types/ILemmyServer";
 import {selectAccounts} from "./slices/accounts/accountsSlice";
 import {addAccount, loadAccounts} from "./slices/accounts/accountsActions";
 import {getServers} from "./helpers/SettingsHelper";

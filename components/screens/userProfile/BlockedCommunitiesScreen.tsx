@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback} from "react";
 import {ScrollView} from "native-base";
 import {useFocusEffect} from "@react-navigation/native";
 import {useAppDispatch, useAppSelector} from "../../../store";
@@ -9,8 +9,6 @@ import CTable from "../../ui/table/CTable";
 import CSection from "../../ui/table/CSection";
 import CCell from "../../ui/table/CCell";
 import {useActionSheet} from "@expo/react-native-action-sheet";
-import {SortType} from "lemmy-js-client";
-import SortIconType from "../../../types/SortIconType";
 import {trigger} from "react-native-haptic-feedback";
 
 const BlockedCommunitiesScreen = () => {
