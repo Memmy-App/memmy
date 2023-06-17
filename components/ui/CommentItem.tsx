@@ -24,6 +24,8 @@ import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {getBaseUrl} from "../../helpers/LinkHelper";
 import {selectSettings} from "../../slices/settings/settingsSlice";
+import RenderMarkdown from "./markdown/RenderMarkdown";
+import {compiler} from "markdown-to-jsx";
 
 interface CommentItemProps {
     comment: ILemmyComment,
@@ -226,7 +228,7 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                                 <Pressable
                                     onPress={() => setCollapsed(!collapsed)}
                                 >
-                                    <VStack space={1} alignItems={"flex-start"}>
+                                    <VStack flex={1} space={1} alignItems={"flex-start"}>
                                         <Text fontWeight={"bold"}>
                                             {`${truncateName(comment.top.creator.name)}${showInstanceForUsernames ? `@${getBaseUrl(comment.top.creator.actor_id)}` : ""}`}
                                         </Text>
@@ -255,19 +257,8 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                                                         (comment.top.comment.deleted || comment.top.comment.removed) ? (
                                                             <Text fontStyle={"italic"} color={"gray.500"}>Comment was deleted :(</Text>
                                                         ) : (
-                                                            <VStack
-                                                                paddingRight={2}
-                                                            >
-                                                                {
-                                                                    Platform.OS === "ios" ? (
-                                                                        <RenderHTML source={{
-                                                                            html: `<div style="color: white; font-size: 16px">` + parseMarkdown(comment.top.comment.content) + "</div>" ?? ""
-                                                                        }} contentWidth={Dimensions.get("window").width}/>
-                                                                    ) : (
-                                                                        <Text color={"lightText"}>{comment.top.comment.content}</Text>
-                                                                    )
-                                                                }
-
+                                                            <VStack pr={2}>
+                                                                <RenderMarkdown text={comment.top.comment.content} />
                                                             </VStack>
                                                         )
                                                     }
