@@ -27,6 +27,7 @@ const siteSlice = createSlice({
         builder.addCase(getSiteInfo.fulfilled, (state, action) => {
             state.communityBlocks = action.payload.my_user.community_blocks;
             state.personBlocks = action.payload.my_user.person_blocks;
+            state.loaded = true;
         });
 
         builder.addCase(unblockCommunity.fulfilled, (state, action) => {
