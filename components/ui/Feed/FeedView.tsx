@@ -3,8 +3,8 @@ import {ListingType, PostView, SortType} from "lemmy-js-client";
 import {useTheme, useToast, View} from "native-base";
 import {Button, RefreshControl, StyleSheet} from "react-native";
 import FeedItem from "./FeedItem";
-import LoadingView from "../LoadingView";
-import LoadingErrorView from "../LoadingErrorView";
+import LoadingView from "../Loading/LoadingView";
+import LoadingErrorView from "../Loading/LoadingErrorView";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import {FlashList} from "@shopify/flash-list";
 import SortIconType from "../../../types/SortIconType";
@@ -17,29 +17,24 @@ import {isSubscribed} from "../../../lemmy/LemmyHelpers";
 import {selectCommunities} from "../../../slices/communities/communitiesSlice";
 import {useNavigation} from "@react-navigation/native";
 import {trigger} from "react-native-haptic-feedback";
+import {UseFeed} from "../../hooks/feeds/feedsHooks";
+import LoadingFooter from "../Loading/LoadingFooter";
+import LoadingErrorFooter from "../Loading/LoadingErrorFooter";
 
 interface FeedViewProps {
-    posts: PostView[],
-    load: (refresh?: boolean) => Promise<void>,
-    loading: boolean,
-    titleDropsdown?: boolean,
-    setSort:  React.Dispatch<React.SetStateAction<SortType>>,
-    setListingType?: React.Dispatch<React.SetStateAction<ListingType>>,
+    feed: UseFeed;
     community?: boolean
 }
 
 const FeedView = (
     {
-        posts,
-        load,
-        loading,
-        setSort,
-        setListingType,
-        titleDropsdown = true,
+        feed,
         community = false,
     }: FeedViewProps) =>
 {
     const navigation = useNavigation();
+
+    const [endReached, setEndReached] = useState(false);
 
     const toast = useToast();
 
@@ -88,13 +83,13 @@ const FeedView = (
             if(index === cancelButtonIndex) return;
 
             if(index === 0) {
-                setSort("TopDay");
+                feed.setSort("TopDay");
             } else if(index === 1) {
-                setSort("TopWeek");
+                feed.setSort("TopWeek");
             } else if(index === 5) {
-                setSort("MostComments");
+                feed.setSort("MostComments");
             } else {
-                setSort(options[index] as SortType);
+                feed.setSort(options[index] as SortType);
             }
 
             setSortIcon(SortIconType[index]);
@@ -104,7 +99,7 @@ const FeedView = (
 
     const onEllipsisButtonPress = () => {
         if(community) {
-            const subscribed = isSubscribed(posts[0].community.id, subscribedCommunities);
+            const subscribed = isSubscribed(feed.posts[0].community.id, subscribedCommunities);
 
             const options = [subscribed ? "Unsubscribe" : "Subscribe", "Cancel"];
             const cancelButtonIndex = 1;
@@ -118,12 +113,12 @@ const FeedView = (
                 if (index === 0) {
                     trigger("impactMedium");
                     toast.show({
-                        title: `${!subscribed ? "Subscribed to" : "Unsubscribed from"} ${posts[0].community.name}`,
+                        title: `${!subscribed ? "Subscribed to" : "Unsubscribed from"} ${feed.posts[0].community.name}`,
                         duration: 3000
                     });
 
                     dispatch(subscribeToCommunity({
-                        communityId: posts[0].community.id,
+                        communityId: feed.posts[0].community.id,
                         subscribe: !subscribed
                     }));
                 }
@@ -138,7 +133,7 @@ const FeedView = (
             }, (index: number) => {
                 if(index === cancelButtonIndex) return;
 
-                setListingType(options[index] as ListingType);
+                feed.setListingType(options[index] as ListingType);
                 flashList?.current?.scrollToOffset({animated: true, offset: 0});
             });
         }
@@ -146,35 +141,45 @@ const FeedView = (
 
     const keyExtractor = (item) => item.post.id.toString();
     const refreshControl = <RefreshControl
-        refreshing={loading}
-        onRefresh={() => load(true)}
+        refreshing={feed.postsLoading}
+        onRefresh={() => feed.doLoad(true)}
         tintColor={theme.colors.screen[300]}
     />;
 
-    if((!posts && loading) || (posts && posts.length === 0)) {
-        return <LoadingView />;
-    }
-
-    if(!posts && !loading) {
-        return <LoadingErrorView onRetryPress={load} />;
-    }
+    const footer = () => {
+        if(feed.postsLoading && feed.posts.length > 0) {
+            return <LoadingFooter message={"Loading more posts..."} />;
+        } else if(feed.postsError) {
+            return <LoadingErrorFooter message={"Failed to load posts"} onRetryPress={feed.doLoad} />;
+        }
+    };
 
     return (
         <View style={styles.container} backgroundColor={"screen.900"}>
             <FeedHeaderDropdownDrawer />
 
-            <FlashList
-                data={posts}
-                renderItem={feedItem}
-                keyExtractor={keyExtractor}
-                refreshControl={refreshControl}
-                onEndReachedThreshold={0.95}
-                estimatedItemSize={300}
-                estimatedListSize={{height: 50, width: 1}}
-                ListFooterComponent={loading ? <LoadingView /> : null}
-                onEndReached={load}
-                ref={flashList}
-            />
+            {
+                feed.postsLoading && !feed.posts ? <LoadingView /> : (
+                    <FlashList
+                        data={feed.posts}
+                        renderItem={feedItem}
+                        keyExtractor={keyExtractor}
+                        refreshControl={refreshControl}
+                        onEndReachedThreshold={0.8}
+                        estimatedItemSize={300}
+                        estimatedListSize={{height: 50, width: 1}}
+                        ListFooterComponent={feed.postsLoading ? <LoadingView /> : null}
+                        onEndReached={() => setEndReached(true)}
+                        ref={flashList}
+                        onMomentumScrollEnd={() => {
+                            if(endReached) {
+                                feed.doLoad();
+                                setEndReached(false);
+                            }
+                        }}
+                    />
+                )
+            }
         </View>
     );
 };

@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import LoadingView from "../../ui/LoadingView";
+import LoadingView from "../../ui/Loading/LoadingView";
 import {
     ArrowDownIcon,
     ArrowUpIcon,
@@ -29,6 +29,7 @@ import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {shareLink} from "../../../helpers/ShareHelper";
 import {usePost} from "../../hooks/post/postHooks";
 import {useAppDispatch} from "../../../store";
+import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 
 const PostScreen = () => {
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -69,13 +70,9 @@ const PostScreen = () => {
         });
     };
 
-    const onRefresh = () => {
-        post.doRefresh();
-    };
-
     const refreshControl = <RefreshControl
-        refreshing={post.refreshing}
-        onRefresh={onRefresh}
+        refreshing={post.commentsLoading}
+        onRefresh={post.doLoad}
         tintColor={theme.colors.screen[300]}
     />;
 
@@ -165,19 +162,21 @@ const PostScreen = () => {
     );
 
     const footer = () => {
-        if(!post.comments) {
+        if(!post.comments && !post.commentsError) {
             return (
-                <Center mt={8}>
-                    <Spinner />
+                <Center my={4}>
+                    <Spinner/>
                     <Text fontStyle={"italic"} color={"gray.500"}>Loading comments...</Text>
                 </Center>
             );
-        }
-
-        if(post.comments.length === 0) {
+        } else if(post.commentsError) {
             return (
-                <Center mt={8}>
-                    <Text fontStyle={"italic"} color={"gray.500"}>No comments yet :(</Text>
+                <LoadingErrorFooter onRetryPress={post.doLoad} message={"Error loading comments 😢"} />
+            );
+        } else if (post.comments.length === 0 && !post.commentsError) {
+            return (
+                <Center my={4}>
+                    <Text fontStyle={"italic"} color={"gray.500"}>No comments yet. Time to do your part 🫡</Text>
                 </Center>
             );
         }
@@ -195,7 +194,7 @@ const PostScreen = () => {
                     keyExtractor={(item) => item.top.comment.id.toString()}
                     estimatedItemSize={300}
                     refreshControl={refreshControl}
-                    refreshing={post.refreshing}
+                    refreshing={post.commentsLoading}
                 />
             </VStack>
         );

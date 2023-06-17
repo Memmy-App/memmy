@@ -5,7 +5,7 @@ import CTextInput from "../../ui/CTextInput";
 import ILemmyServer from "../../../lemmy/types/ILemmyServer";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {initialize, lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
-import LoadingModal from "../../ui/LoadingModal";
+import LoadingModal from "../../ui/Loading/LoadingModal";
 import {useAppDispatch} from "../../../store";
 import {getBaseUrl} from "../../../helpers/LinkHelper";
 import {addAccount} from "../../../slices/accounts/accountsActions";
