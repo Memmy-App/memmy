@@ -12,6 +12,7 @@
     "@expo/react-native-action-sheet": "^4.0.1",
     "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-navigation/bottom-tabs": "^6.5.7",
+    "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@reduxjs/toolkit": "^1.9.5",
     "@ronradtke/react-native-markdown-display": "^8.0.0",

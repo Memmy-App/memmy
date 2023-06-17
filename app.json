@@ -23,7 +23,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.gkasdorf.memmyapp",
-      "buildNumber": "41"
+      "buildNumber": "42"
     },
     "plugins": [
       [
