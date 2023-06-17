@@ -13,9 +13,7 @@ const BookmarksScreen = ({navigation}: {navigation: NativeStackNavigationProp<an
         >
             <CTable>
                 <CSection
-                    props={{
-                        header: "USER PROFILE",
-                    }}
+                    header={"USER PROFILE"}
                 >
                     <CCell
                         title={"Subscriptions"}

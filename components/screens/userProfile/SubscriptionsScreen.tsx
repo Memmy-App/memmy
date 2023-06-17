@@ -18,9 +18,7 @@ const SubscriptionsScreen = ({navigation}: {navigation: NativeStackNavigationPro
         >
             <CTable>
                 <CSection
-                    props={{
-                        header: "SUBSCRIPTIONS",
-                    }}
+                    header={"SUBSCRIPTIONS"}
                 >
                     {
                         subscribedCommunities?.map((community) => (
