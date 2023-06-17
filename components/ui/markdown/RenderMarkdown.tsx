@@ -110,7 +110,32 @@ const RenderMarkdown = ({text, addImages = false}: MarkdownProps) => {
             borderColor: theme.colors.screen[700],
             color: "white",
             fontSize: 16,
-        }
+        },
+        em: {
+            fontStyle: "italic",
+            color: "white",
+            fontSize: 16,
+        },
+        strong: {
+            fontWeight: "bold",
+            color: "white",
+            fontSize: 16,
+        },
+        s: {
+            textDecorationLine: "line-through",
+            color: "white",
+            fontSize: 16,
+        },
+        heading3: {
+            fontSize: 22,
+            fontWeight: "bold",
+            color: "white"
+        },
+        heading4: {
+            fontSize: 18,
+            fontWeight: "bold",
+            color: "white"
+        },
     };
 
     const markdown = useMemo(() => {
