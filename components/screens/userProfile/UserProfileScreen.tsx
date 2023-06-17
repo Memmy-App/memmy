@@ -1,7 +1,5 @@
 import React from "react";
-import {useAppSelector} from "../../../store";
-import {selectSettings} from "../../../slices/settings/settingsSlice";
-import {useTheme, VStack} from "native-base";
+import {VStack} from "native-base";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import CTable from "../../ui/table/CTable";
 import CSection from "../../ui/table/CSection";
@@ -15,28 +13,22 @@ const BookmarksScreen = ({navigation}: {navigation: NativeStackNavigationProp<an
         >
             <CTable>
                 <CSection
-                    props={{
-                        header: "USER PROFILE",
-                    }}
+                    header={"USER PROFILE"}
                 >
                     <CCell
-                        props={{
-                            title: "Subscriptions",
-                            accessory: "DisclosureIndicator",
-                            onPress: () => {
-                                navigation.push("Subscriptions");
-                            }
+                        title={"Subscriptions"}
+                        accessory={"DisclosureIndicator"}
+                        onPress={() => {
+                            navigation.push("Subscriptions");
                         }}
                     />
-                    {/*<CCell*/}
-                    {/*    props={{*/}
-                    {/*        title: "Bookmarks",*/}
-                    {/*        accessory: "DisclosureIndicator",*/}
-                    {/*        onPress: () => {*/}
-                    {/*            navigation.push("Bookmarks");*/}
-                    {/*        }*/}
-                    {/*    }}*/}
-                    {/*/>*/}
+                    <CCell
+                        title={"Blocked Communities"}
+                        accessory={"DisclosureIndicator"}
+                        onPress={() => {
+                            navigation.push("BlockedCommunities");
+                        }}
+                    />
                 </CSection>
             </CTable>
         </VStack>

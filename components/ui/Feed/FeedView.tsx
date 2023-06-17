@@ -19,6 +19,7 @@ import {trigger} from "react-native-haptic-feedback";
 import {UseFeed} from "../../hooks/feeds/feedsHooks";
 import LoadingFooter from "../Loading/LoadingFooter";
 import LoadingErrorFooter from "../Loading/LoadingErrorFooter";
+import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
 
 interface FeedViewProps {
     feed: UseFeed;
@@ -35,6 +36,7 @@ const FeedView = (
 
     const [endReached, setEndReached] = useState(false);
     const communityId = useRef(0);
+    const communityName = useRef("");
 
     const toast = useToast();
 
@@ -58,6 +60,7 @@ const FeedView = (
     useEffect(() => {
         if(!feed.posts || communityId.current !== 0) return;
         communityId.current = feed.posts[0].community.id;
+        communityName.current = feed.posts[0].community.name;
     }, [feed.posts]);
 
     const [sortIcon, setSortIcon] = useState(SortIconType[2]);
@@ -106,8 +109,8 @@ const FeedView = (
         if(community) {
             const subscribed = isSubscribed(communityId.current, subscribedCommunities);
 
-            const options = [subscribed ? "Unsubscribe" : "Subscribe", "Cancel"];
-            const cancelButtonIndex = 1;
+            const options = [subscribed ? "Unsubscribe" : "Subscribe", "Block Community", "Cancel"];
+            const cancelButtonIndex = 2;
 
             showActionSheetWithOptions({
                 options,
@@ -118,14 +121,26 @@ const FeedView = (
                 if (index === 0) {
                     trigger("impactMedium");
                     toast.show({
-                        title: `${!subscribed ? "Subscribed to" : "Unsubscribed from"} ${feed.posts[0].community.name}`,
+                        title: `${!subscribed ? "Subscribed to" : "Unsubscribed from"} ${communityName.current}`,
                         duration: 3000
                     });
 
                     dispatch(subscribeToCommunity({
-                        communityId: feed.posts[0].community.id,
+                        communityId: communityId.current,
                         subscribe: !subscribed
                     }));
+                } else if(index === 1) {
+                    trigger("impactMedium");
+                    toast.show({
+                        title: `Blocked ${communityName.current}`,
+                        duration: 3000
+                    });
+
+                    lemmyInstance.blockCommunity({
+                        auth: lemmyAuthToken,
+                        community_id: communityId.current,
+                        block: true
+                    });
                 }
             });
         } else {

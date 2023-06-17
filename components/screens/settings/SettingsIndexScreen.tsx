@@ -64,27 +64,24 @@ const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationPro
                     roundedCorners={true}
                     hideSurroundingSeparators={true}
                 >
-                    <Cell
+                    <CCell
                         title={"Swipe Gestures"}
                         cellAccessoryView={<Switch
                             value={settings.swipeGestures}
                             onValueChange={(v) => onChange("swipeGestures", v)}
                         />}
-                        backgroundColor={theme.colors.screen["700"]}
-                        titleTextColor={theme.colors.lightText}
-                        rightDetailColor={theme.colors.screen["400"]}
                     />
-                    <CCell props={{
-                        cellStyle: "RightDetail",
-                        title: "Show Instance For Usernames",
-                        cellAccessoryView: (
+                    <CCell
+                        cellStyle={"RightDetail"}
+                        title={"Show Instance For Usernames"}
+                        cellAccessoryView={(
                             <Switch
                                 value={settings.showInstanceForUsernames}
                                 onValueChange={(v) => onChange("showInstanceForUsernames", v)}
                             />
-                        )
-                    }} />
-                    <Cell
+                        )}
+                    />
+                    <CCell
                         cellStyle={"RightDetail"}
                         title={"Default Sort"}
                         detail={settings.defaultSort}
@@ -114,11 +111,8 @@ const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationPro
                                 dispatch(setSetting({defaultSort: selection}));
                             });
                         }}
-                        backgroundColor={theme.colors.screen["700"]}
-                        titleTextColor={theme.colors.lightText}
-                        rightDetailColor={theme.colors.screen["400"]}
                     />
-                    <Cell
+                    <CCell
                         cellStyle={"RightDetail"}
                         title={"Default Listing Type"}
                         detail={settings.defaultListingType}
@@ -136,9 +130,6 @@ const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationPro
                                 dispatch(setSetting({defaultListingType: options[index]}));
                             });
                         }}
-                        backgroundColor={theme.colors.screen["700"]}
-                        titleTextColor={theme.colors.lightText}
-                        rightDetailColor={theme.colors.screen["400"]}
                     />
                 </Section>
 
@@ -147,13 +138,10 @@ const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationPro
                     roundedCorners={true}
                     hideSurroundingSeparators={true}
                 >
-                    <Cell
+                    <CCell
                         cellStyle={"RightDetail"}
                         title={"Version"}
                         detail={`${getVersion()} (${getBuildNumber()})`}
-                        backgroundColor={theme.colors.screen["700"]}
-                        titleTextColor={theme.colors.lightText}
-                        rightDetailColor={theme.colors.screen["400"]}
                     />
                 </Section>
 

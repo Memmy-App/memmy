@@ -7,6 +7,7 @@ import communitiesSlice from "./slices/communities/communitiesSlice";
 import settingsSlice from "./slices/settings/settingsSlice";
 import accountsSlice from "./slices/accounts/accountsSlice";
 import bookmarksSlice from "./slices/bookmarks/bookmarksSlice";
+import siteSlice from "./slices/site/siteSlice";
 
 const store = configureStore({
     reducer: {
@@ -16,7 +17,8 @@ const store = configureStore({
         communities: communitiesSlice,
         settings: settingsSlice,
         accounts: accountsSlice,
-        bookmarks: bookmarksSlice
+        bookmarks: bookmarksSlice,
+        site: siteSlice
     }
 });
 

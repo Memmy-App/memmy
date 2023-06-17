@@ -1,19 +1,15 @@
 import React from "react";
 import {Section} from "react-native-tableview-simple";
+import {SectionInterface} from "react-native-tableview-simple/lib/typescript/components/Section";
 
-interface CSectionProps {
-    props: object,
-    children: React.ReactNode
-}
-
-const CSection = ({props, children}: CSectionProps) => {
+const CSection = (props: SectionInterface) => {
     return (
         <Section
             roundedCorners={true}
             hideSurroundingSeparators={true}
             {...props}
         >
-            {children}
+            {props.children}
         </Section>
     );
 };

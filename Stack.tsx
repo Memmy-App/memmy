@@ -24,6 +24,7 @@ import ILemmyServer from "./lemmy/types/ILemmyServer";
 import {selectAccounts} from "./slices/accounts/accountsSlice";
 import {addAccount, loadAccounts} from "./slices/accounts/accountsActions";
 import {getServers} from "./helpers/SettingsHelper";
+import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
 
 const Stack = () => {
     const theme = useTheme();
@@ -123,6 +124,7 @@ const Stack = () => {
                 />
                 <ProfileStack.Screen name={"Subscriptions"} component={SubscriptionsScreen}/>
                 <ProfileStack.Screen name={"Community"} component={CommunityFeedScreen}/>
+                <ProfileStack.Screen name={"BlockedCommunities"} component={BlockedCommunitiesScreen} options={{title: "Blocked Communities"}}/>
             </ProfileStack.Navigator>
         );
     };

@@ -1,7 +1,7 @@
 import React from "react";
 import {useAppSelector} from "../../../store";
 import {selectCommunities} from "../../../slices/communities/communitiesSlice";
-import {ScrollView, VStack} from "native-base";
+import {ScrollView} from "native-base";
 import CTable from "../../ui/table/CTable";
 import CSection from "../../ui/table/CSection";
 import CCell from "../../ui/table/CCell";
@@ -18,24 +18,20 @@ const SubscriptionsScreen = ({navigation}: {navigation: NativeStackNavigationPro
         >
             <CTable>
                 <CSection
-                    props={{
-                        header: "SUBSCRIPTIONS",
-                    }}
+                    header={"SUBSCRIPTIONS"}
                 >
                     {
                         subscribedCommunities?.map((community) => (
                             <CCell
                                 key={community.community.id}
-                                props={{
-                                    title: `${community.community.name}@${getBaseUrl(community.community.actor_id)}`,
-                                    accessory: "DisclosureIndicator",
-                                    onPress: () => {
-                                        navigation.navigate("Community", {
-                                            communityId: community.community.id,
-                                            communityName: community.community.name,
-                                            actorId: community.community.actor_id
-                                        });
-                                    }
+                                title={`${community.community.name}@${getBaseUrl(community.community.actor_id)}`}
+                                accessory={"DisclosureIndicator"}
+                                onPress={() => {
+                                    navigation.navigate("Community", {
+                                        communityId: community.community.id,
+                                        communityName: community.community.name,
+                                        actorId: community.community.actor_id
+                                    });
                                 }}
                             />
                         ))
