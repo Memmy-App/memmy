@@ -1,16 +1,18 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {GetSiteResponse, MyUserInfo} from "lemmy-js-client";
-import {getSiteInfo} from "./siteActions";
+import {CommunityBlockView, GetSiteResponse, MyUserInfo, PersonBlockView} from "lemmy-js-client";
+import {getSiteInfo, unblockCommunity} from "./siteActions";
 import {RootState} from "../../store";
 
 interface SiteState {
-    myUser: MyUserInfo,
+    communityBlocks: CommunityBlockView[],
+    personBlocks: PersonBlockView[],
     loaded: boolean,
     error: boolean,
 }
 
-const initialState = {
-    myUser: null,
+const initialState: SiteState = {
+    communityBlocks: [],
+    personBlocks: [],
     loaded: false,
     error: false
 };
@@ -23,7 +25,12 @@ const siteSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(getSiteInfo.fulfilled, (state, action) => {
-            state.myUser = action.payload.my_user;
+            state.communityBlocks = action.payload.my_user.community_blocks;
+            state.personBlocks = action.payload.my_user.person_blocks;
+        });
+
+        builder.addCase(unblockCommunity.fulfilled, (state, action) => {
+            state.communityBlocks = state.communityBlocks.filter(b => b.community.id !== action.payload.community_view.community.id);
         });
     }
 });

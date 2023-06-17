@@ -1,7 +1,6 @@
 import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {GetSiteResponse} from "lemmy-js-client";
-import {RejectedWithValueActionFromAsyncThunk} from "@reduxjs/toolkit/dist/matchers";
 
 export const getSiteInfo = createAsyncThunk(
     "site/getSiteInfo",
@@ -35,5 +34,20 @@ export const getSiteInfo = createAsyncThunk(
         }
 
         return res as GetSiteResponse;
+    }
+);
+
+export const unblockCommunity = createAsyncThunk(
+    "site/unblockCommunity",
+    async (communityId: number, thunkAPI) => {
+        try {
+            return await lemmyInstance.blockCommunity({
+                auth: lemmyAuthToken,
+                community_id: communityId,
+                block: false
+            });
+        } catch(e) {
+            return thunkAPI.rejectWithValue(e.toString());
+        }
     }
 );
