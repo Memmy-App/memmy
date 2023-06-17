@@ -20,6 +20,7 @@ import {UseFeed} from "../../hooks/feeds/feedsHooks";
 import LoadingFooter from "../Loading/LoadingFooter";
 import LoadingErrorFooter from "../Loading/LoadingErrorFooter";
 import {lemmyAuthToken, lemmyInstance} from "../../../lemmy/LemmyInstance";
+import sortIconType from "../../../types/SortIconType";
 
 interface FeedViewProps {
     feed: UseFeed;
@@ -40,6 +41,8 @@ const FeedView = (
 
     const toast = useToast();
 
+    const [sortIcon, setSortIcon] = useState(SortIconType[feed.sort]);
+
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => {
@@ -49,21 +52,19 @@ const FeedView = (
 
                 return (
                     <>
-                        <CIconButton name={sortIcon} onPress={onSortPress} />
+                        <CIconButton name={sortIconType[feed.sort]} onPress={onSortPress} />
                         <CIconButton name={"ellipsis-horizontal-outline"} onPress={onEllipsisButtonPress} />
                     </>
                 );
             }
         });
-    }, []);
+    }, [feed.sort]);
 
     useEffect(() => {
         if(!feed.posts || communityId.current !== 0) return;
         communityId.current = feed.posts[0].community.id;
         communityName.current = feed.posts[0].community.name;
     }, [feed.posts]);
-
-    const [sortIcon, setSortIcon] = useState(SortIconType[2]);
 
     const flashList = useRef<FlashList<any>>();
 
