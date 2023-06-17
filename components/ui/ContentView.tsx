@@ -30,7 +30,7 @@ const ContentView = ({post, truncate = false, showBody = false, showTitle = fals
                 linkInfo.extType === ExtensionType.IMAGE && (
                     <VStack mb={3}>
                         <ImageModal
-                            isTranslucent={true}
+                            isTranslucent={false}
                             swipeToDismiss={true}
                             resizeMode={"contain"}
                             style={styles.image}
