@@ -1,12 +1,28 @@
-import React from "react";
-import {useTheme} from "native-base";
-import Markdown from "@ronradtke/react-native-markdown-display";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
+import {useTheme, VStack} from "native-base";
+import Markdown, {MarkdownIt} from "@ronradtke/react-native-markdown-display";
+import {openLink} from "../../../helpers/LinkHelper";
+import {findImages} from "../../../helpers/MarkdownHelper";
+import ImageButton from "../ImageButton";
 
 interface MarkdownProps {
-    text: string
+    text: string,
+    addImages?: boolean
 }
 
-const RenderMarkdown = ({text}: MarkdownProps) => {
+const RenderMarkdown = ({text, addImages = false}: MarkdownProps) => {
+    const [ready, setReady] = useState(false);
+
+    useEffect(() => {
+        findImages(text);
+        console.log("Running...");
+
+    }, []);
+
+    const onLinkPress = (url) => {
+        openLink(url);
+    };
+
     const theme = useTheme();
 
     const styles = {
@@ -97,11 +113,28 @@ const RenderMarkdown = ({text}: MarkdownProps) => {
         }
     };
 
-    return (
-        <Markdown style={styles}>
-            {text.toString()}
-        </Markdown>
-    );
+    const markdown = useMemo(() => {
+        const src = findImages(text);
+
+        return (
+            <VStack flex={1}>
+                <Markdown
+                    style={styles}
+                    onLinkPress={openLink}
+                    markdownit={MarkdownIt({typographer: true}).disable(["image"])}
+                >
+                    {text ?? ""}
+                </Markdown>
+                {
+                    addImages && src && (
+                        <ImageButton src={src} />
+                    )
+                }
+            </VStack>
+        );
+    }, []);
+
+    return markdown;
 };
 
 export default RenderMarkdown;

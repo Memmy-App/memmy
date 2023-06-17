@@ -9,8 +9,6 @@ import {depthToColor} from "../../helpers/ColorHelper";
 import {GestureHandlerRootView, PanGestureHandler,} from "react-native-gesture-handler";
 import {trigger} from "react-native-haptic-feedback";
 import {useAppDispatch, useAppSelector} from "../../store";
-import RenderHTML from "react-native-render-html";
-import {parseMarkdown} from "../../helpers/MarkdownHelper";
 import Animated, {
     runOnJS,
     useAnimatedGestureHandler,
@@ -25,7 +23,6 @@ import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {getBaseUrl} from "../../helpers/LinkHelper";
 import {selectSettings} from "../../slices/settings/settingsSlice";
 import RenderMarkdown from "./markdown/RenderMarkdown";
-import {compiler} from "markdown-to-jsx";
 
 interface CommentItemProps {
     comment: ILemmyComment,
@@ -258,7 +255,7 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                                                             <Text fontStyle={"italic"} color={"gray.500"}>Comment was deleted :(</Text>
                                                         ) : (
                                                             <VStack pr={2}>
-                                                                <RenderMarkdown text={comment.top.comment.content} />
+                                                                <RenderMarkdown text={comment.top.comment.content} addImages={true} />
                                                             </VStack>
                                                         )
                                                     }

@@ -8,6 +8,7 @@
     "buildAndSubmit": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive && eas submit -p ios --path build.ipa --non-interactive"
   },
   "dependencies": {
+    "@dreamwalk-os/react-native-image-modal": "github:dreamwalk-apps/react-native-image-modal",
     "@expo/react-native-action-sheet": "^4.0.1",
     "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-navigation/bottom-tabs": "^6.5.7",
@@ -29,7 +30,6 @@
     "expo-web-browser": "^12.1.1",
     "flash-list": "^0.0.1-security",
     "lemmy-js-client": "^0.17.2-rc.24",
-    "markdown-to-jsx": "^7.1.9",
     "moment": "^2.29.4",
     "native-base": "^3.4.28",
     "react": "18.2.0",
@@ -40,10 +40,8 @@
     "react-native-fast-image": "^8.6.3",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-haptic-feedback": "^2.0.3",
-    "react-native-image-modal": "^2.0.4",
     "react-native-ionicons": "^4.6.5",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
-    "react-native-markdown-package": "^1.8.2",
     "react-native-reanimated": "~2.14.4",
     "react-native-render-html": "^6.3.4",
     "react-native-safe-area-context": "^3.3.2",
@@ -52,8 +50,6 @@
     "react-native-tableview-simple": "^4.4.0",
     "react-native-web": "~0.18.7",
     "react-redux": "^8.0.7",
-    "sanitize-html": "^2.10.0",
-    "showdown": "^2.1.0",
     "typescript": "^4.9.4"
   },
   "devDependencies": {

@@ -1,10 +1,14 @@
-import sanitizeHtml from "sanitize-html";
-import showdown from "showdown";
+export const findImages = (text: string) => {
+    const pattern = /!\[(.*?)\]\((.*?)\)/g;
 
-export const parseMarkdown = (text: string): string => {
-    //const parsed = marked.parse(text);
-    //return sanitizeHtml(parsed);
-    //return parsed;
-    const converter = new showdown.Converter();
-    return sanitizeHtml(converter.makeHtml(text));
+    let match;
+    let imageUrl = null;
+
+    while ((match = pattern.exec(text)) !== null) {
+        const altText = match[1];
+        imageUrl = match[2];
+        break;
+    }
+
+    return imageUrl;
 };

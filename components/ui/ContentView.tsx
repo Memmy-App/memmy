@@ -5,9 +5,7 @@ import {Text, useTheme, VStack} from "native-base";
 import {truncatePost} from "../../helpers/TextHelper";
 import LinkButton from "./LinkButton";
 import {Dimensions, StyleSheet} from "react-native";
-import {parseMarkdown} from "../../helpers/MarkdownHelper";
-import RenderHTML from "react-native-render-html";
-import ImageModal from "react-native-image-modal";
+import ImageModal from "@dreamwalk-os/react-native-image-modal";
 import RenderMarkdown from "./markdown/RenderMarkdown";
 
 interface ContentViewProps {
@@ -56,7 +54,7 @@ const ContentView = ({post, truncate = false, showBody = false, showTitle = fals
             {
                 (linkInfo.extType === ExtensionType.NONE || showBody) && (
                     <VStack px={4}>
-                        <RenderMarkdown text={body} />
+                        <RenderMarkdown text={body} addImages={showTitle}/>
                     </VStack>
                 )
             }
