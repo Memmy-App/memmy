@@ -164,16 +164,22 @@ const FeedView = (
             <FeedHeaderDropdownDrawer />
 
             <FlashList
-                data={posts}
+                data={feed.posts}
                 renderItem={feedItem}
                 keyExtractor={keyExtractor}
                 refreshControl={refreshControl}
-                onEndReachedThreshold={0.95}
+                onEndReachedThreshold={0.8}
                 estimatedItemSize={300}
                 estimatedListSize={{height: 50, width: 1}}
-                ListFooterComponent={loading ? <LoadingView /> : null}
-                onEndReached={load}
+                ListFooterComponent={feed.postsLoading ? <LoadingView /> : null}
+                onEndReached={() => setEndReached(true)}
                 ref={flashList}
+                onMomentumScrollEnd={() => {
+                    if(endReached) {
+                        feed.doLoad();
+                        setEndReached(false);
+                    }
+                }}
             />
         </View>
     );
