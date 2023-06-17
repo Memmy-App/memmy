@@ -8,7 +8,7 @@ import {truncateName} from "../../helpers/TextHelper";
 import {depthToColor} from "../../helpers/ColorHelper";
 import {GestureHandlerRootView, PanGestureHandler,} from "react-native-gesture-handler";
 import {trigger} from "react-native-haptic-feedback";
-import {useAppDispatch} from "../../store";
+import {useAppDispatch, useAppSelector} from "../../store";
 import RenderHTML from "react-native-render-html";
 import {parseMarkdown} from "../../helpers/MarkdownHelper";
 import Animated, {
@@ -23,6 +23,7 @@ import {lemmyAuthToken, lemmyInstance} from "../../lemmy/LemmyInstance";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {getBaseUrl} from "../../helpers/LinkHelper";
+import {selectSettings} from "../../slices/settings/settingsSlice";
 
 interface CommentItemProps {
     comment: ILemmyComment,
@@ -40,6 +41,8 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
     const dispatch = useAppDispatch();
     const theme = useTheme();
     const toast = useToast();
+
+    const {showInstanceForUsernames} = useAppSelector(selectSettings);
 
     if(comment.top.comment.id !== lastCommentId.current) {
         lastCommentId.current = comment.top.comment.id;
@@ -223,53 +226,59 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                                 <Pressable
                                     onPress={() => setCollapsed(!collapsed)}
                                 >
-                                    <HStack mb={1} space={3} alignItems={"center"}>
-                                        <Text fontWeight={"bold"}>{`${truncateName(comment.top.creator.name)}@${getBaseUrl(comment.top.creator.actor_id)}`}</Text>
-                                        <HStack space={0} alignItems={"center"}>
-                                            <Icon
-                                                as={Ionicons}
-                                                name={myVote !== -1 ? "arrow-up-outline" : "arrow-down-outline"}
-                                                color={myVote === -1 ? "orange.500" : (myVote === 1 ? "green.500" : "gray.500")}
-                                            />
-                                            <Text
-                                                color={myVote === -1 ? "orange.500" : (myVote === 1 ? "green.500" : "gray.500")}
-                                            >
-                                                {comment.top.counts.score + myVote}
-                                            </Text>
+                                    <VStack space={1} alignItems={"flex-start"}>
+                                        <Text fontWeight={"bold"}>
+                                            {`${truncateName(comment.top.creator.name)}${showInstanceForUsernames ? `@${getBaseUrl(comment.top.creator.actor_id)}` : ""}`}
+                                        </Text>
+                                        <HStack space={3} alignItems={"center"}>
+                                            <HStack space={0} alignItems={"center"}>
+                                                <Icon
+                                                    as={Ionicons}
+                                                    name={myVote !== -1 ? "arrow-up-outline" : "arrow-down-outline"}
+                                                    color={myVote === -1 ? "orange.500" : (myVote === 1 ? "green.500" : "gray.500")}
+                                                />
+                                                <Text
+                                                    color={myVote === -1 ? "orange.500" : (myVote === 1 ? "green.500" : "gray.500")}
+                                                >
+                                                    {comment.top.counts.score + myVote}
+                                                </Text>
+                                            </HStack>
+                                            <HStack space={1} alignItems={"center"}>
+                                                <Icon as={Ionicons} name={"time-outline"} />
+                                                <Text color={"gray.500"}>{moment(comment.top.comment.published).utc(true).fromNow()}</Text>
+                                            </HStack>
                                         </HStack>
-                                        <HStack space={1} alignItems={"center"}>
-                                            <Icon as={Ionicons} name={"time-outline"} />
-                                            <Text color={"gray.500"}>{moment(comment.top.comment.published).utc(true).fromNow()}</Text>
-                                        </HStack>
-                                    </HStack>
-                                    {
-                                        !collapsed ? (
-                                            <Text>
-                                                {
-                                                    (comment.top.comment.deleted || comment.top.comment.removed) ? (
-                                                        <Text fontStyle={"italic"} color={"gray.500"}>Comment was deleted :(</Text>
-                                                    ) : (
-                                                        <VStack>
-                                                            {
-                                                                Platform.OS === "ios" ? (
-                                                                    <RenderHTML source={{
-                                                                        html: `<div style="color: white; font-size: 16px">` + parseMarkdown(comment.top.comment.content) + "</div>" ?? ""
-                                                                    }} contentWidth={Dimensions.get("window").width}/>
-                                                                ) : (
-                                                                    <Text color={"lightText"}>{comment.top.comment.content}</Text>
-                                                                )
-                                                            }
+                                        {
+                                            !collapsed ? (
+                                                <Text>
+                                                    {
+                                                        (comment.top.comment.deleted || comment.top.comment.removed) ? (
+                                                            <Text fontStyle={"italic"} color={"gray.500"}>Comment was deleted :(</Text>
+                                                        ) : (
+                                                            <VStack
+                                                                paddingRight={2}
+                                                            >
+                                                                {
+                                                                    Platform.OS === "ios" ? (
+                                                                        <RenderHTML source={{
+                                                                            html: `<div style="color: white; font-size: 16px">` + parseMarkdown(comment.top.comment.content) + "</div>" ?? ""
+                                                                        }} contentWidth={Dimensions.get("window").width}/>
+                                                                    ) : (
+                                                                        <Text color={"lightText"}>{comment.top.comment.content}</Text>
+                                                                    )
+                                                                }
 
-                                                        </VStack>
-                                                    )
-                                                }
-                                            </Text>
-                                        ) : (
-                                            <Text fontStyle={"italic"} color={"gray.500"}>
-                                                Comment collapsed
-                                            </Text>
-                                        )
-                                    }
+                                                            </VStack>
+                                                        )
+                                                    }
+                                                </Text>
+                                            ) : (
+                                                <Text fontStyle={"italic"} color={"gray.500"}>
+                                                    Comment collapsed
+                                                </Text>
+                                            )
+                                        }
+                                    </VStack>
                                 </Pressable>
                             </View>
                         </VStack>

@@ -9,6 +9,7 @@ import {setSetting} from "../../../slices/settings/settingsActions";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {selectAccounts} from "../../../slices/accounts/accountsSlice";
+import CCell from "../../ui/table/CCell";
 
 const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationProp<any>}) => {
     const settings = useAppSelector(selectSettings);
@@ -73,6 +74,16 @@ const SettingsIndexScreen = ({navigation}: {navigation: NativeStackNavigationPro
                         titleTextColor={theme.colors.lightText}
                         rightDetailColor={theme.colors.screen["400"]}
                     />
+                    <CCell props={{
+                        cellStyle: "RightDetail",
+                        title: "Show Instance For Usernames",
+                        cellAccessoryView: (
+                            <Switch
+                                value={settings.showInstanceForUsernames}
+                                onValueChange={(v) => onChange("showInstanceForUsernames", v)}
+                            />
+                        )
+                    }} />
                     <Cell
                         cellStyle={"RightDetail"}
                         title={"Default Sort"}

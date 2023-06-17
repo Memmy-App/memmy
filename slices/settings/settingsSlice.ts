@@ -8,6 +8,7 @@ export interface SettingsState {
     displayImagesInFeed: string,
     defaultSort: SortType,
     defaultListingType: ListingType,
+    showInstanceForUsernames: boolean,
     loaded: boolean
 }
 
@@ -16,6 +17,7 @@ const initialState: SettingsState = {
     displayImagesInFeed: "true",
     defaultSort: "Hot",
     defaultListingType: "All",
+    showInstanceForUsernames: false,
     loaded: false
 };
 
