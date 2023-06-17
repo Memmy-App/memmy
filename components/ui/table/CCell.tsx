@@ -3,11 +3,7 @@ import {Cell} from "react-native-tableview-simple";
 import {useTheme} from "native-base";
 import {CellInterface} from "react-native-tableview-simple/lib/typescript/components/Cell";
 
-interface CCellProps {
-    props: CellInterface,
-}
-
-const CCell = ({props}: CCellProps) => {
+const CCell = (props: CellInterface) => {
     const theme = useTheme();
 
     return (

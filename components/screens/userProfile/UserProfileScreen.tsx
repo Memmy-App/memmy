@@ -1,7 +1,5 @@
 import React from "react";
-import {useAppSelector} from "../../../store";
-import {selectSettings} from "../../../slices/settings/settingsSlice";
-import {useTheme, VStack} from "native-base";
+import {VStack} from "native-base";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import CTable from "../../ui/table/CTable";
 import CSection from "../../ui/table/CSection";
@@ -20,23 +18,12 @@ const BookmarksScreen = ({navigation}: {navigation: NativeStackNavigationProp<an
                     }}
                 >
                     <CCell
-                        props={{
-                            title: "Subscriptions",
-                            accessory: "DisclosureIndicator",
-                            onPress: () => {
-                                navigation.push("Subscriptions");
-                            }
+                        title={"Subscriptions"}
+                        accessory={"DisclosureIndicator"}
+                        onPress={() => {
+                            navigation.push("Subscriptions");
                         }}
                     />
-                    {/*<CCell*/}
-                    {/*    props={{*/}
-                    {/*        title: "Bookmarks",*/}
-                    {/*        accessory: "DisclosureIndicator",*/}
-                    {/*        onPress: () => {*/}
-                    {/*            navigation.push("Bookmarks");*/}
-                    {/*        }*/}
-                    {/*    }}*/}
-                    {/*/>*/}
                 </CSection>
             </CTable>
         </VStack>
