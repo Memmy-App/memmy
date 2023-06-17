@@ -2,7 +2,7 @@ import React from "react";
 import {Section} from "react-native-tableview-simple";
 
 interface CSectionProps {
-    props: object,
+    props?: object,
     children: React.ReactNode
 }
 
