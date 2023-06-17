@@ -12,11 +12,9 @@ export const getSiteInfo = createAsyncThunk(
             try {
                 tries++;
 
-                const res = await lemmyInstance.getSite({
+                return await lemmyInstance.getSite({
                     auth: lemmyAuthToken
                 });
-
-                return res;
             } catch(e) {
                 if(tries < 3) {
                     return get();

@@ -22,6 +22,13 @@ const BookmarksScreen = ({navigation}: {navigation: NativeStackNavigationProp<an
                             navigation.push("Subscriptions");
                         }}
                     />
+                    <CCell
+                        title={"Blocked Communities"}
+                        accessory={"DisclosureIndicator"}
+                        onPress={() => {
+                            navigation.push("BlockedCommunities");
+                        }}
+                    />
                 </CSection>
             </CTable>
         </VStack>

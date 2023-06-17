@@ -8,15 +8,35 @@ import LoadingView from "../../ui/Loading/LoadingView";
 import CTable from "../../ui/table/CTable";
 import CSection from "../../ui/table/CSection";
 import CCell from "../../ui/table/CCell";
+import {useActionSheet} from "@expo/react-native-action-sheet";
+import {SortType} from "lemmy-js-client";
+import SortIconType from "../../../types/SortIconType";
+import {trigger} from "react-native-haptic-feedback";
 
 const BlockedCommunitiesScreen = () => {
     const {communityBlocks, loaded} = useAppSelector(selectSite);
 
     const dispatch = useAppDispatch();
+    const {showActionSheetWithOptions} = useActionSheet();
 
     useFocusEffect(useCallback(() => {
         dispatch(getSiteInfo());
     }, []));
+
+    const onCommunityPress = () => {
+        const options = ["Unblock", "Cancel"];
+        const cancelButtonIndex = 1;
+
+        showActionSheetWithOptions({
+            options,
+            cancelButtonIndex
+        }, (index: number) => {
+            if(index === cancelButtonIndex) return;
+
+            trigger("impactMedium");
+            dispatch(unblockCommunity(communityBlocks[index].community.id));
+        });
+    };
 
     if(!loaded) {
         return <LoadingView />;
@@ -44,9 +64,7 @@ const BlockedCommunitiesScreen = () => {
                                         key={b.community.id}
                                         title={b.community.name}
                                         accessory={"DisclosureIndicator"}
-                                        onPress={() => {
-                                            dispatch(unblockCommunity(b.community.id));
-                                        }}
+                                        onPress={onCommunityPress}
                                     />
                                 );
                             })
