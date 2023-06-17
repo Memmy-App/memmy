@@ -4,7 +4,6 @@ import {useTheme, useToast, View} from "native-base";
 import {Button, RefreshControl, StyleSheet} from "react-native";
 import FeedItem from "./FeedItem";
 import LoadingView from "../Loading/LoadingView";
-import LoadingErrorView from "../Loading/LoadingErrorView";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import {FlashList} from "@shopify/flash-list";
 import SortIconType from "../../../types/SortIconType";
@@ -35,6 +34,7 @@ const FeedView = (
     const navigation = useNavigation();
 
     const [endReached, setEndReached] = useState(false);
+    const communityId = useRef(0);
 
     const toast = useToast();
 
@@ -54,6 +54,11 @@ const FeedView = (
             }
         });
     }, []);
+
+    useEffect(() => {
+        if(!feed.posts || communityId.current !== 0) return;
+        communityId.current = feed.posts[0].community.id;
+    }, [feed.posts]);
 
     const [sortIcon, setSortIcon] = useState(SortIconType[2]);
 
@@ -99,7 +104,7 @@ const FeedView = (
 
     const onEllipsisButtonPress = () => {
         if(community) {
-            const subscribed = isSubscribed(feed.posts[0].community.id, subscribedCommunities);
+            const subscribed = isSubscribed(communityId.current, subscribedCommunities);
 
             const options = [subscribed ? "Unsubscribe" : "Subscribe", "Cancel"];
             const cancelButtonIndex = 1;
@@ -147,7 +152,7 @@ const FeedView = (
     />;
 
     const footer = () => {
-        if(feed.postsLoading && feed.posts.length > 0) {
+        if((feed.postsLoading && feed.posts.length > 0) || endReached) {
             return <LoadingFooter message={"Loading more posts..."} />;
         } else if(feed.postsError) {
             return <LoadingErrorFooter message={"Failed to load posts"} onRetryPress={feed.doLoad} />;
@@ -168,7 +173,7 @@ const FeedView = (
                         onEndReachedThreshold={0.8}
                         estimatedItemSize={300}
                         estimatedListSize={{height: 50, width: 1}}
-                        ListFooterComponent={feed.postsLoading ? <LoadingView /> : null}
+                        ListFooterComponent={footer}
                         onEndReached={() => setEndReached(true)}
                         ref={flashList}
                         onMomentumScrollEnd={() => {

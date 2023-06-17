@@ -1,7 +1,7 @@
 import React from "react";
 import {useAppSelector} from "../../../store";
 import {selectCommunities} from "../../../slices/communities/communitiesSlice";
-import {VStack} from "native-base";
+import {ScrollView, VStack} from "native-base";
 import CTable from "../../ui/table/CTable";
 import CSection from "../../ui/table/CSection";
 import CCell from "../../ui/table/CCell";
@@ -12,7 +12,7 @@ const SubscriptionsScreen = ({navigation}: {navigation: NativeStackNavigationPro
     const {subscribedCommunities} = useAppSelector(selectCommunities);
 
     return (
-        <VStack
+        <ScrollView
             flex={1}
             backgroundColor={"screen.800"}
         >
@@ -42,7 +42,7 @@ const SubscriptionsScreen = ({navigation}: {navigation: NativeStackNavigationPro
                     }
                 </CSection>                
             </CTable>
-        </VStack>
+        </ScrollView>
     );
 };
 
