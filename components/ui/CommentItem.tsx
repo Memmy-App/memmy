@@ -255,7 +255,9 @@ const CommentItem = ({comment, depth = 1}: CommentItemProps) => {
                                                         (comment.top.comment.deleted || comment.top.comment.removed) ? (
                                                             <Text fontStyle={"italic"} color={"gray.500"}>Comment was deleted :(</Text>
                                                         ) : (
-                                                            <VStack>
+                                                            <VStack
+                                                                paddingRight={2}
+                                                            >
                                                                 {
                                                                     Platform.OS === "ios" ? (
                                                                         <RenderHTML source={{
