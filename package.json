@@ -8,7 +8,7 @@
     "buildAndSubmit": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive && eas submit -p ios --path build.ipa --non-interactive"
   },
   "dependencies": {
-    "@dreamwalk-os/react-native-image-modal": "github:dreamwalk-apps/react-native-image-modal",
+    "@dreamwalk-os/react-native-image-modal": "^2.2.0",
     "@expo/react-native-action-sheet": "^4.0.1",
     "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-navigation/bottom-tabs": "^6.5.7",
