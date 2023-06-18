@@ -42,6 +42,12 @@
           "savePhotosPermission": "Allow Memmy App to save photos.",
           "isAccessMediaLocationEnabled": true
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Memmy App to access your photos"
+        }
       ]
     ],
     "android": {

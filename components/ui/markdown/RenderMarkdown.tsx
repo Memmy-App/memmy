@@ -17,7 +17,7 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
 
   const onLinkPress = (url): boolean => {
     openLink(url).then();
-    return true;
+    return false;
   };
 
   const theme = useTheme();
@@ -149,7 +149,7 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
         {addImages && src && <ImageButton src={src} />}
       </VStack>
     );
-  }, []);
+  }, [text]);
 
   return markdown;
 };

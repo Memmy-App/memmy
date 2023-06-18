@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ListingType, PostView, SortType } from "lemmy-js-client";
 import { useTheme, useToast, View } from "native-base";
 import { Button, RefreshControl, StyleSheet } from "react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { FlashList } from "@shopify/flash-list";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { trigger } from "react-native-haptic-feedback";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import FeedItem from "./FeedItem";
 import LoadingView from "../Loading/LoadingView";
 import SortIconType from "../../../types/SortIconType";
@@ -20,6 +21,7 @@ import { UseFeed } from "../../hooks/feeds/feedsHooks";
 import LoadingFooter from "../Loading/LoadingFooter";
 import LoadingErrorFooter from "../Loading/LoadingErrorFooter";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
+import { selectPost } from "../../../slices/post/postSlice";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -27,7 +29,7 @@ interface FeedViewProps {
 }
 
 function FeedView({ feed, community = false }: FeedViewProps) {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const [endReached, setEndReached] = useState(false);
   const communityId = useRef(0);
@@ -41,10 +43,14 @@ function FeedView({ feed, community = false }: FeedViewProps) {
 
   const { dropdownVisible } = useAppSelector(selectFeed);
   const { subscribedCommunities } = useAppSelector(selectCommunities);
+  const { post } = useAppSelector(selectPost);
 
   const { showActionSheetWithOptions } = useActionSheet();
   const dispatch = useAppDispatch();
   const theme = useTheme();
+
+  const creatingPost = useRef(false);
+  const lastPost = useRef(0);
 
   useEffect(() => {
     navigation.setOptions({
@@ -57,6 +63,18 @@ function FeedView({ feed, community = false }: FeedViewProps) {
     communityId.current = feed.posts[0].community.id;
     communityName.current = feed.posts[0].community.name;
   }, [feed.posts]);
+
+  useEffect(() => {
+    if (creatingPost.current && post && lastPost.current !== post.post.id) {
+      console.log("yup");
+      creatingPost.current = false;
+      setTimeout(() => {
+        navigation.push("Post");
+      }, 500);
+    } else {
+      console.log("nope");
+    }
+  }, [post]);
 
   const feedItem = ({ item }: { item: PostView }) => <FeedItem post={item} />;
 
@@ -104,11 +122,12 @@ function FeedView({ feed, community = false }: FeedViewProps) {
       );
 
       const options = [
+        "New Post",
         subscribed ? "Unsubscribe" : "Subscribe",
         "Block Community",
         "Cancel",
       ];
-      const cancelButtonIndex = 2;
+      const cancelButtonIndex = 3;
 
       showActionSheetWithOptions(
         {
@@ -119,6 +138,16 @@ function FeedView({ feed, community = false }: FeedViewProps) {
           if (index === cancelButtonIndex) return;
 
           if (index === 0) {
+            creatingPost.current = true;
+            lastPost.current = post ? post.post.id : 0;
+
+            navigation.push("NewPost", {
+              communityId: communityId.current,
+              communityName: communityName.current,
+            });
+          }
+
+          if (index === 1) {
             trigger("impactMedium");
             toast.show({
               title: `${!subscribed ? "Subscribed to" : "Unsubscribed from"} ${
@@ -133,7 +162,7 @@ function FeedView({ feed, community = false }: FeedViewProps) {
                 subscribe: !subscribed,
               })
             );
-          } else if (index === 1) {
+          } else if (index === 2) {
             trigger("impactMedium");
             toast.show({
               title: `Blocked ${communityName.current}`,
