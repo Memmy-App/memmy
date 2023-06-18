@@ -81,6 +81,16 @@ function SettingsIndexScreen({
           />
           <CCell
             cellStyle="RightDetail"
+            title="Blur NSFW"
+            cellAccessoryView={
+              <Switch
+                value={settings.blurNsfw}
+                onValueChange={(v) => onChange("blurNsfw", v)}
+              />
+            }
+          />
+          <CCell
+            cellStyle="RightDetail"
             title="Default Sort"
             detail={settings.defaultSort}
             accessory="DisclosureIndicator"
