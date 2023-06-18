@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon, useTheme } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Settings } from "react-native";
 import FeedsIndexScreen from "./components/screens/feeds/FeedsIndexScreen";
 import CommunityFeedScreen from "./components/screens/feeds/CommunityFeedScreen";
 import PostScreen from "./components/screens/post/PostScreen";
@@ -24,6 +25,7 @@ import { selectAccounts } from "./slices/accounts/accountsSlice";
 import { addAccount, loadAccounts } from "./slices/accounts/accountsActions";
 import { getServers } from "./helpers/SettingsHelper";
 import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
+import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -126,6 +128,13 @@ function SettingsStackScreen() {
         component={SettingsIndexScreen}
         options={{
           title: "Settings",
+        }}
+      />
+      <SettingsStack.Screen
+        name="ViewAccounts"
+        component={ViewAccountsScreen}
+        options={{
+          title: "Manage Accounts",
         }}
       />
       <SettingsStack.Screen

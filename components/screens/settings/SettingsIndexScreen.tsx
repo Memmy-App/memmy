@@ -1,5 +1,5 @@
 import React from "react";
-import { useTheme, VStack } from "native-base";
+import { ScrollView, useTheme, VStack } from "native-base";
 import { StyleSheet, Switch } from "react-native";
 import { Cell, Section, TableView } from "react-native-tableview-simple";
 import { getBuildNumber, getVersion } from "react-native-device-info";
@@ -28,7 +28,7 @@ function SettingsIndexScreen({
   };
 
   return (
-    <VStack backgroundColor="screen.800" flex={1}>
+    <ScrollView backgroundColor="screen.800" flex={1}>
       <TableView style={styles.table}>
         <Section header="ACCOUNT" roundedCorners hideSurroundingSeparators>
           <Cell
@@ -52,7 +52,7 @@ function SettingsIndexScreen({
             cellStyle="Basic"
             title="Change Account Settings"
             accessory="DisclosureIndicator"
-            onPress={() => navigation.push("EditAccount")}
+            onPress={() => navigation.push("ViewAccounts")}
             backgroundColor={theme.colors.screen["700"]}
             titleTextColor={theme.colors.lightText}
             rightDetailColor={theme.colors.screen["400"]}
@@ -182,7 +182,7 @@ function SettingsIndexScreen({
 
         <Section header="DEBUG" roundedCorners hideSurroundingSeparators />
       </TableView>
-    </VStack>
+    </ScrollView>
   );
 }
 
