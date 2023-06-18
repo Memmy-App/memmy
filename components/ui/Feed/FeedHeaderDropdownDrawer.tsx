@@ -1,30 +1,27 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Pressable, ScrollView, View } from "native-base";
-import { Cell, Section, TableView } from "react-native-tableview-simple";
-import { CommunityView } from "lemmy-js-client";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectFeed, setDropdownVisible } from "../../../slices/feed/feedSlice";
-import { selectCommunities } from "../../../slices/communities/communitiesSlice";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
+import {
+  selectAccounts,
+  setCurrentAccount,
+} from "../../../slices/accounts/accountsSlice";
+import CTable from "../table/CTable";
+import CSection from "../table/CSection";
+import { Account } from "../../../types/Account";
+import CCell from "../table/CCell";
+import { resetInstance } from "../../../lemmy/LemmyInstance";
 
 function FeedHeaderDropdownDrawer() {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
   const { dropdownVisible } = useAppSelector(selectFeed);
-  const { subscribedCommunities } = useAppSelector(selectCommunities);
+  const accounts = useAppSelector(selectAccounts);
 
   const dispatch = useAppDispatch();
 
-  const onCommunityPress = (community: CommunityView) => {
+  const onAccountPress = (account: Account) => {
+    dispatch(setCurrentAccount(account));
     dispatch(setDropdownVisible());
-    navigation.push("Community", {
-      communityId: community.community.id,
-      communityName: community.community.name,
-      actorId: community.community.actor_id,
-    });
   };
 
   if (!dropdownVisible) return null;
@@ -36,31 +33,19 @@ function FeedHeaderDropdownDrawer() {
     >
       <View style={styles.scrollContainer}>
         <ScrollView>
-          <TableView style={styles.table}>
-            <Section roundedCorners hideSurroundingSeparators>
-              {subscribedCommunities.length === 0 ? (
-                <Cell
+          <CTable>
+            <CSection>
+              {accounts.map((a, i) => (
+                <CCell
+                  key={i}
                   cellStyle="Basic"
-                  title="No subscribed communities"
-                  isDisabled
+                  title={`${a.username}@${a.instance}`}
+                  accessory="DisclosureIndicator"
+                  onPress={() => onAccountPress(a)}
                 />
-              ) : (
-                <>
-                  {subscribedCommunities.map((community) => (
-                    <Cell
-                      key={community.community.id}
-                      cellStyle="Basic"
-                      title={`${community.community.name}@${getBaseUrl(
-                        community.community.actor_id
-                      )}`}
-                      accessory="DisclosureIndicator"
-                      onPress={() => onCommunityPress(community)}
-                    />
-                  ))}
-                </>
-              )}
-            </Section>
-          </TableView>
+              ))}
+            </CSection>
+          </CTable>
         </ScrollView>
       </View>
     </Pressable>

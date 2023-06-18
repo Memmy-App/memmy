@@ -1,17 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { current } from "@reduxjs/toolkit";
+import { Alert } from "react-native";
 import FeedView from "../../ui/Feed/FeedView";
 import FeedHeaderDropdown from "../../ui/Feed/FeedHeaderDropdown";
 import { useFeed } from "../../hooks/feeds/feedsHooks";
-import { initialize, lemmyInstance } from "../../../lemmy/LemmyInstance";
+import {
+  initialize,
+  lemmyAuthToken,
+  lemmyInstance,
+} from "../../../lemmy/LemmyInstance";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import {
   getAllCommunities,
   getSubscribedCommunities,
 } from "../../../slices/communities/communitiesActions";
 import CIconButton from "../../ui/CIconButton";
-import { selectAccounts } from "../../../slices/accounts/accountsSlice";
+import {
+  selectAccounts,
+  selectCurrentAccount,
+} from "../../../slices/accounts/accountsSlice";
 import { loadBookmarks } from "../../../slices/bookmarks/bookmarksActions";
+import { Account } from "../../../types/Account";
 
 function FeedsIndexScreen({
   navigation,
@@ -20,11 +30,17 @@ function FeedsIndexScreen({
 }) {
   const feed = useFeed();
 
-  const accounts = useAppSelector(selectAccounts);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const previousAccount = useRef<Account | null>(null);
 
   const dispatch = useAppDispatch();
 
-  const headerTitle = () => <FeedHeaderDropdown title={sortFix()} enabled />;
+  const headerTitle = () => (
+    <FeedHeaderDropdown
+      title={`${currentAccount.username}@${currentAccount.instance}`}
+      enabled
+    />
+  );
   const headerLeft = () => (
     <CIconButton
       name="star-outline"
@@ -34,44 +50,36 @@ function FeedsIndexScreen({
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle,
+      headerLeft: () => headerLeft(),
+      headerTitle: () => headerTitle(),
     });
-  }, [feed.sort]);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft,
-    });
+    if (currentAccount === previousAccount.current) return;
 
     load().then();
-  }, []);
+  }, [currentAccount]);
 
   const load = async () => {
-    if (!lemmyInstance) {
-      try {
-        await initialize({
-          server: accounts[0].instance,
-          username: accounts[0].username,
-          password: accounts[0].password,
-          auth: accounts[0].token,
-        });
+    try {
+      await initialize({
+        username: currentAccount.username,
+        password: currentAccount.password,
+        auth: currentAccount.token,
+        server: currentAccount.instance,
+      });
 
-        feed.doLoad(false);
-      } catch (e) {
-        console.log("Error", e);
-      }
+      feed.doLoad(false);
+    } catch (e) {
+      Alert.alert(e.toString());
     }
+
+    previousAccount.current = currentAccount;
+
     dispatch(getSubscribedCommunities());
     dispatch(getAllCommunities());
     dispatch(loadBookmarks());
-  };
 
-  const sortFix = () => {
-    if (feed.sort === "MostComments") return "Most Comments";
-    if (feed.sort === "TopDay") return "Top Day";
-    if (feed.sort === "TopWeek") return "Top Week";
-
-    return feed.sort;
+    feed.doLoad(true);
   };
 
   return <FeedView feed={feed} />;
