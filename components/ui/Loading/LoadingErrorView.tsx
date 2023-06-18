@@ -8,7 +8,7 @@ interface LoadingViewProps {
 
 function LoadingErrorView({ onRetryPress }: LoadingViewProps) {
   return (
-    <View style={styles.container}>
+    <View style={styles.container} backgroundColor="screen.800">
       <Text fontStyle="italic" color="gray.500">
         Error loading content :(
       </Text>
