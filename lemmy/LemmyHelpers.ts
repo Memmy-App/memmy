@@ -16,3 +16,6 @@ export const removeDuplicatePosts = (
   newItems.filter(
     (p) => currentList.findIndex((pp) => pp.post.id === p.post.id) === -1
   );
+
+export const removeNsfwPosts = (list: PostView[]) =>
+  list.filter((p) => !p.post.nsfw);

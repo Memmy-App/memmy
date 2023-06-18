@@ -3,7 +3,10 @@ import { ListingType, PostView, SortType } from "lemmy-js-client";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
-import { removeDuplicatePosts } from "../../../lemmy/LemmyHelpers";
+import {
+  removeDuplicatePosts,
+  removeNsfwPosts,
+} from "../../../lemmy/LemmyHelpers";
 import { clearUpdateVote, selectFeed } from "../../../slices/feed/feedSlice";
 
 export interface UseFeed {
@@ -21,7 +24,8 @@ export interface UseFeed {
 }
 
 export const useFeed = (communityId?: number): UseFeed => {
-  const { defaultSort, defaultListingType } = useAppSelector(selectSettings);
+  const { defaultSort, defaultListingType, hideNsfw } =
+    useAppSelector(selectSettings);
   const { updateVote } = useAppSelector(selectFeed);
   const dispatch = useAppDispatch();
 
@@ -69,10 +73,17 @@ export const useFeed = (communityId?: number): UseFeed => {
         type_: listingType,
       });
 
+      const newPosts = hideNsfw ? removeNsfwPosts(res.posts) : res.posts;
+
       if (!posts || refresh) {
-        setPosts(res.posts);
+        setPosts(newPosts);
         setNextPage(2);
       } else {
+        setPosts((prev) => [
+          ...prev,
+          ...removeDuplicatePosts(prev.slice(0, 50), newPosts),
+        ]);
+
         setPosts((prev) => [
           ...prev,
           ...removeDuplicatePosts(prev.slice(0, 50), res.posts),
