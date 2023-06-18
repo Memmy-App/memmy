@@ -1,7 +1,9 @@
 import React from "react";
 import { ImageDetail } from "@dreamwalk-os/react-native-image-modal";
 import { Dimensions, Share } from "react-native";
+import { useToast } from "native-base";
 import ImageViewFooter from "./ImageViewFooter";
+import downloadAndSaveImage from "../../../helpers/ImageHelper";
 
 interface ImageViewProps {
   source: string;
@@ -10,12 +12,20 @@ interface ImageViewProps {
 }
 
 function ImageView({ source, setIsOpen, isOpen }: ImageViewProps) {
+  const toast = useToast();
+
   const onClose = () => {
     setIsOpen(false);
   };
 
-  const onSave = () => {};
+  const onSave = () => {
+    toast.show({
+      title: "Image saved",
+      duration: 3000,
+    });
 
+    downloadAndSaveImage(source);
+  };
   const onShare = () => {
     Share.share({
       url: source,
