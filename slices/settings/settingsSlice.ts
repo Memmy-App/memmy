@@ -10,6 +10,8 @@ export interface SettingsState {
   defaultListingType: ListingType;
   showInstanceForUsernames: boolean;
   loaded: boolean;
+  blurNsfw: boolean;
+  hideNsfw: boolean;
 }
 
 const initialState: SettingsState = {
@@ -19,6 +21,8 @@ const initialState: SettingsState = {
   defaultListingType: ListingType.All,
   showInstanceForUsernames: false,
   loaded: false,
+  blurNsfw: true,
+  hideNsfw: false,
 };
 
 const settingsSlice = createSlice({

@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SettingsState } from "./settingsSlice";
+import { RootState } from "../../store";
 
 export const loadSettings = createAsyncThunk(
   "settings/loadSettings",
@@ -24,7 +25,7 @@ export const loadSettings = createAsyncThunk(
 export const setSetting = createAsyncThunk(
   "settings/setSetting",
   async (setting: object, thunkAPI) => {
-    const state = thunkAPI.getState();
+    const state = thunkAPI.getState() as RootState;
     const settings = {
       ...state.settings,
       ...setting,
