@@ -140,14 +140,20 @@ function EditAccountScreen({
           <Cell
             cellContentView={
               <TextInput
-                style={{ fontSize: 16, flex: 1, color: theme.colors.gray[400] }}
+                style={{
+                  fontSize: 16,
+                  flex: 1,
+                  color: !edit.current
+                    ? theme.colors.lightText
+                    : theme.colors.gray[400],
+                }}
                 placeholderTextColor={theme.colors.screen["400"]}
                 placeholder="Server Address"
                 value={form.server}
                 onChangeText={(text) => onFormChange("server", text)}
                 autoCapitalize="none"
                 autoCorrect={false}
-                editable={!edit}
+                editable={!edit.current}
               />
             }
             backgroundColor={theme.colors.screen["700"]}
@@ -165,14 +171,20 @@ function EditAccountScreen({
           <Cell
             cellContentView={
               <TextInput
-                style={{ fontSize: 16, flex: 1, color: theme.colors.gray[400] }}
+                style={{
+                  fontSize: 16,
+                  flex: 1,
+                  color: !edit
+                    ? theme.colors.lightText
+                    : theme.colors.gray[400],
+                }}
                 placeholderTextColor={theme.colors.screen["400"]}
                 placeholder="Username"
                 value={form.username}
                 onChangeText={(text) => onFormChange("username", text)}
                 autoCapitalize="none"
                 autoCorrect={false}
-                editable={!edit}
+                editable={!edit.current}
               />
             }
             backgroundColor={theme.colors.screen["700"]}
