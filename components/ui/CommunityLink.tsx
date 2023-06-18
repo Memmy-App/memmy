@@ -1,10 +1,10 @@
 import React from "react";
-import { CommunityView } from "lemmy-js-client";
+import { CommunitySafe } from "lemmy-js-client";
 import { Text } from "native-base";
 import Link from "./Link";
 
 interface CommunityLinkProps {
-  community: CommunityView;
+  community: CommunitySafe;
   isFeedItem?: boolean;
 }
 
