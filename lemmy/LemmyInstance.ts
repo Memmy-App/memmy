@@ -4,6 +4,10 @@ import ILemmyServer from "./types/ILemmyServer";
 export let lemmyInstance: LemmyHttp | null = null;
 export let lemmyAuthToken: string | undefined;
 
+export const resetInstance = () => {
+  lemmyInstance = null;
+};
+
 export const initialize = async (server: ILemmyServer) => {
   lemmyInstance = new LemmyHttp(`https://${server.server}`);
 

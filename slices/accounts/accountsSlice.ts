@@ -5,19 +5,30 @@ import { Account } from "../../types/Account";
 
 interface AccountsState {
   accounts: Account[];
+  currentAccount: Account | null;
 }
 
 const initialState: AccountsState = {
   accounts: [],
+  currentAccount: null,
 };
 
 const accountsSlice = createSlice({
   name: "accounts",
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentAccount: (state, action) => {
+      state.currentAccount = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(loadAccounts.fulfilled, (state, action) => {
-      if (action.payload) state.accounts = action.payload;
+      if (action.payload) {
+        state.accounts = action.payload;
+
+        const [mainAccount] = action.payload;
+        state.currentAccount = mainAccount;
+      }
     });
     builder.addCase(addAccount.fulfilled, (state, action) => {
       if (action.payload) state.accounts = action.payload;
@@ -29,5 +40,8 @@ const accountsSlice = createSlice({
 });
 
 export const selectAccounts = (state: RootState) => state.accounts.accounts;
+export const selectCurrentAccount = (state: RootState) =>
+  state.accounts.currentAccount;
 
+export const { setCurrentAccount } = accountsSlice.actions;
 export default accountsSlice.reducer;
