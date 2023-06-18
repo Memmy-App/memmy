@@ -149,7 +149,7 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
         {addImages && src && <ImageButton src={src} />}
       </VStack>
     );
-  }, []);
+  }, [text]);
 
   return markdown;
 };
