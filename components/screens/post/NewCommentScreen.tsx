@@ -32,8 +32,8 @@ function NewCommentScreen({
   );
 
   navigation.setOptions({
-    headerLeft,
-    headerRight,
+    headerLeft: () => headerLeft(),
+    headerRight: () => headerRight(),
     title: responseTo.post ? "Replying to Post" : "Replying to Comment",
   });
 

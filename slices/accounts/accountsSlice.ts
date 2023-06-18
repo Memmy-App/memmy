@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addAccount, loadAccounts } from "./accountsActions";
+import { addAccount, editAccount, loadAccounts } from "./accountsActions";
 import { RootState } from "../../store";
 import { Account } from "../../types/Account";
 
@@ -20,6 +20,9 @@ const accountsSlice = createSlice({
       if (action.payload) state.accounts = action.payload;
     });
     builder.addCase(addAccount.fulfilled, (state, action) => {
+      if (action.payload) state.accounts = action.payload;
+    });
+    builder.addCase(editAccount.fulfilled, (state, action) => {
       if (action.payload) state.accounts = action.payload;
     });
   },

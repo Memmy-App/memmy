@@ -40,7 +40,7 @@ function FeedsIndexScreen({
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft,
+      headerLeft: () => headerLeft(),
     });
 
     load().then();

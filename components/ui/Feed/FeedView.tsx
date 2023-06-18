@@ -48,7 +48,7 @@ function FeedView({ feed, community = false }: FeedViewProps) {
 
   useEffect(() => {
     navigation.setOptions({
-      headerRight,
+      headerRight: () => headerRight(),
     });
   }, [feed.sort]);
 
