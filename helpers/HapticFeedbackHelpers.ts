@@ -1,4 +1,5 @@
 import {trigger} from "react-native-haptic-feedback";
+import { Platform } from "react-native";
 
 export const onVoteHapticFeedback = () => {
     setTimeout(function() {
@@ -15,4 +16,14 @@ export const onUpvoteHapticFeedback = () => {
 
 export const onDownVoteHapticFeedback = () => {
     onVoteHapticFeedback()
+}
+
+export const onCommentSlideHapticFeedback = () => {
+    if (Platform.OS === 'ios') {
+        trigger("impactHeavy")
+    }
+
+    if (Platform.OS === 'android') {
+        trigger("effectHeavyClick");
+    }
 }
