@@ -1,4 +1,5 @@
 import * as WebBrowser from "expo-web-browser";
+import { WebBrowserPresentationStyle } from "expo-web-browser";
 
 const imageExtensions = [
   "webp",
@@ -52,7 +53,12 @@ export const getLinkInfo = (link?: string): LinkInfo => {
 
 export const openLink = async (
   link: string
-): Promise<WebBrowser.WebBrowserResult> => WebBrowser.openBrowserAsync(link);
+): Promise<WebBrowser.WebBrowserResult> =>
+  WebBrowser.openBrowserAsync(link, {
+    dismissButtonStyle: "close",
+    presentationStyle: WebBrowserPresentationStyle.FULL_SCREEN,
+    toolbarColor: "#000",
+  });
 
 export const getBaseUrl = (link: string): string => {
   const regex = /^(?:https?:\/\/)?([^/]+)/;
