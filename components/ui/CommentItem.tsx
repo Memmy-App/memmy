@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Divider,
   HStack,
@@ -113,7 +113,7 @@ function CommentItem({ comment, depth = 1 }: CommentItemProps) {
       translateX.value = ctx.startX + event.translationX;
 
       if (event.translationX > 0) {
-        if (event.translationX < width * 0.4) {
+        if (event.translationX < width * 0.3) {
           runOnJS(setStyles)("upvote");
         } else {
           runOnJS(setStyles)("downvote");
@@ -122,18 +122,26 @@ function CommentItem({ comment, depth = 1 }: CommentItemProps) {
         runOnJS(setStyles)("comment");
       }
 
-      if (event.translationX >= width * 0.2 && !ranFeedbackUpvote.value) {
+      if (event.translationX >= width * 0.15 && !ranFeedbackUpvote.value) {
         runOnJS(trigger)("impactHeavy");
         ranFeedbackUpvote.value = true;
       } else if (
-        event.translationX >= width * 0.4 &&
+        event.translationX >= width * 0.3 &&
         !ranFeedbackDownvote.value
       ) {
         runOnJS(trigger)("impactHeavy");
         ranFeedbackDownvote.value = true;
       } else if (
-        event.translationX <= -(width * 0.2) &&
-        !ranFeedbackComment.value
+        event.translationX >= width * 0.15 &&
+        event.translationX < width * 0.3 &&
+        ranFeedbackUpvote.value &&
+        ranFeedbackDownvote.value
+      ) {
+        runOnJS(trigger)("impactHeavy");
+        ranFeedbackDownvote.value = false;
+      } else if (
+        event.translationX <= -(width * 0.15) &&
+        ranFeedbackComment.value
       ) {
         runOnJS(trigger)("impactHeavy");
         ranFeedbackComment.value = true;
@@ -150,18 +158,18 @@ function CommentItem({ comment, depth = 1 }: CommentItemProps) {
         runOnJS(onDone)("back");
         action.value = "back";
       } else if (
-        event.translationX >= width * 0.2 &&
-        event.translationX < width * 0.4
+        event.translationX >= width * 0.15 &&
+        event.translationX < width * 0.3
       ) {
         runOnJS(onDone)("upvote");
-      } else if (event.translationX >= width * 0.4) {
+      } else if (event.translationX >= width * 0.3) {
         runOnJS(onDone)("downvote");
-      } else if (event.translationX <= -(width * 0.2)) {
+      } else if (event.translationX <= -(width * 0.15)) {
         runOnJS(onDone)("comment");
       }
 
       translateX.value = withSpring(0, {
-        damping: 40,
+        damping: 30,
       });
     },
   });
