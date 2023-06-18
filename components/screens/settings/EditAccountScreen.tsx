@@ -147,7 +147,7 @@ function EditAccountScreen({
                 onChangeText={(text) => onFormChange("server", text)}
                 autoCapitalize="none"
                 autoCorrect={false}
-                editable={false}
+                editable={!edit}
               />
             }
             backgroundColor={theme.colors.screen["700"]}
@@ -172,7 +172,7 @@ function EditAccountScreen({
                 onChangeText={(text) => onFormChange("username", text)}
                 autoCapitalize="none"
                 autoCorrect={false}
-                editable={false}
+                editable={!edit}
               />
             }
             backgroundColor={theme.colors.screen["700"]}
