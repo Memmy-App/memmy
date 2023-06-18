@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { ChevronRightIcon, HStack, Pressable, Spacer, Text } from "native-base";
 import { ImageDetail } from "@dreamwalk-os/react-native-image-modal";
 import FastImage from "react-native-fast-image";
-import { Dimensions } from "react-native";
+import { Dimensions, Share } from "react-native";
 import { truncateImageLink } from "../../helpers/TextHelper";
+import ImageViewFooter from "./image/ImageViewFooter";
+import downloadAndSaveImage from "../../helpers/ImageHelper";
 
 interface ImageButtonProps {
   src: string;
@@ -15,6 +17,16 @@ function ImageButton({ src }: ImageButtonProps) {
   const onPress = () => {
     setVisible(true);
     console.log("sup");
+  };
+
+  const onShare = () => {
+    Share.share({
+      url: src,
+    });
+  };
+
+  const onSave = () => {
+    downloadAndSaveImage(src).then();
   };
 
   return (
@@ -58,6 +70,9 @@ function ImageButton({ src }: ImageButtonProps) {
         swipeToDismiss
         onClose={() => setVisible(false)}
         isOpen={visible}
+        renderFooter={() => (
+          <ImageViewFooter onShare={onShare} onSave={onSave} />
+        )}
       />
     </>
   );
