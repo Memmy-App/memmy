@@ -1,6 +1,6 @@
 export interface Account {
-    username: string,
-    password: string,
-    instance: string,
-    token: string
+  username: string;
+  password: string;
+  instance: string;
+  token: string;
 }

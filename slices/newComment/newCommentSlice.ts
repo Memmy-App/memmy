@@ -1,35 +1,38 @@
-import {CommentView, PostView} from "lemmy-js-client";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {RootState} from "../../store";
+import { CommentView, PostView } from "lemmy-js-client";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../store";
 
 interface NewCommentState {
-    responseTo: ResponseTo | null,
-    newComment?: CommentView
+  responseTo: ResponseTo | null;
+  newComment?: CommentView;
 }
 
 export interface ResponseTo {
-    post?: PostView,
-    comment?: CommentView
+  post?: PostView;
+  comment?: CommentView;
 }
 
 const initialState: NewCommentState = {
-    responseTo: null,
-    newComment: null
+  responseTo: null,
+  newComment: null,
 };
 
 export const newCommentSlice = createSlice({
-    name: "newComment",
-    initialState,
-    reducers: {
-        setResponseTo: (state: NewCommentState, action: PayloadAction<ResponseTo>) => {
-            state.responseTo = action.payload;
-        },
+  name: "newComment",
+  initialState,
+  reducers: {
+    setResponseTo: (
+      state: NewCommentState,
+      action: PayloadAction<ResponseTo>
+    ) => {
+      state.responseTo = action.payload;
+    },
 
-        clearNewComment: () => initialState
-    }
+    clearNewComment: () => initialState,
+  },
 });
 
 export const selectNewComment = (state: RootState) => state.newComment;
 
-export const {setResponseTo, clearNewComment} = newCommentSlice.actions;
+export const { setResponseTo, clearNewComment } = newCommentSlice.actions;
 export default newCommentSlice.reducer;

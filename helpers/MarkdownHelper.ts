@@ -1,14 +1,16 @@
+// eslint-disable-next-line import/prefer-default-export
 export const findImages = (text: string) => {
-    const pattern = /!\[(.*?)\]\((.*?)\)/g;
+  const pattern = /!\[(.*?)\]\((.*?)\)/g;
 
-    let match;
-    let imageUrl = null;
+  let match;
+  let imageUrl = null;
 
-    while ((match = pattern.exec(text)) !== null) {
-        const altText = match[1];
-        imageUrl = match[2];
-        break;
-    }
+  // eslint-disable-next-line no-cond-assign,no-unreachable-loop
+  while ((match = pattern.exec(text)) !== null) {
+    // eslint-disable-next-line prefer-destructuring
+    imageUrl = match[2];
+    break;
+  }
 
-    return imageUrl;
+  return imageUrl;
 };

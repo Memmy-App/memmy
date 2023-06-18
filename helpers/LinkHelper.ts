@@ -1,64 +1,60 @@
 import * as WebBrowser from "expo-web-browser";
 
 const imageExtensions = [
-    "webp",
-    "png",
-    "avif",
-    "heic",
-    "jpeg",
-    "jpg",
-    "gif",
-    "svg",
-    "ico",
-    "icns"
+  "webp",
+  "png",
+  "avif",
+  "heic",
+  "jpeg",
+  "jpg",
+  "gif",
+  "svg",
+  "ico",
+  "icns",
 ];
 
-const videoExtensions = [
-    "mp4",
-    "mov",
-    "m4a"
-];
+const videoExtensions = ["mp4", "mov", "m4a"];
 
 export interface LinkInfo {
-    extType?: ExtensionType,
-    link?: string,
+  extType?: ExtensionType;
+  link?: string;
 }
 
 export enum ExtensionType {
-    NONE = 0,
-    IMAGE = 1,
-    VIDEO = 2,
-    GENERIC = 3,
+  NONE = 0,
+  IMAGE = 1,
+  VIDEO = 2,
+  GENERIC = 3,
 }
 
 export const getLinkInfo = (link?: string): LinkInfo => {
-    let type;
+  let type;
 
-    if(!link) {
-        type = ExtensionType.NONE;
+  if (!link) {
+    type = ExtensionType.NONE;
+  } else {
+    const extension = link.split(".").pop();
+
+    if (imageExtensions.includes(extension)) {
+      type = ExtensionType.IMAGE;
+    } else if (videoExtensions.includes(extension)) {
+      type = ExtensionType.VIDEO;
     } else {
-        const extension = link.split(".").pop();
-
-        if (imageExtensions.includes(extension)) {
-            type = ExtensionType.IMAGE;
-        } else if (videoExtensions.includes(extension)) {
-            type = ExtensionType.VIDEO;
-        } else {
-            type = ExtensionType.GENERIC;
-        }
+      type = ExtensionType.GENERIC;
     }
+  }
 
-    return {
-        link,
-        extType: type
-    };
+  return {
+    link,
+    extType: type,
+  };
 };
 
-export const openLink = async (link: string): Promise<WebBrowser.WebBrowserResult> => {
-    return WebBrowser.openBrowserAsync(link);
-};
+export const openLink = async (
+  link: string
+): Promise<WebBrowser.WebBrowserResult> => WebBrowser.openBrowserAsync(link);
 
 export const getBaseUrl = (link: string): string => {
-    const regex = new RegExp("^(?:https?:\\/\\/)?([^\\/]+)");
-    return link.match(regex)[1];
+  const regex = /^(?:https?:\/\/)?([^/]+)/;
+  return link.match(regex)[1];
 };

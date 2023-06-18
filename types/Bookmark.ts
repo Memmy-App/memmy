@@ -1,7 +1,7 @@
 interface Bookmark {
-    postId: number,
-    postName: string,
-    postLink: string
+  postId: number;
+  postName: string;
+  postLink: string;
 }
 
 export default Bookmark;

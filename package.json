@@ -10,6 +10,7 @@
   "dependencies": {
     "@dreamwalk-os/react-native-image-modal": "^2.2.0",
     "@expo/react-native-action-sheet": "^4.0.1",
+    "@expo/vector-icons": "^13.0.0",
     "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/native": "^6.1.6",
@@ -19,6 +20,7 @@
     "@shopify/flash-list": "1.4.0",
     "@types/marked": "^5.0.0",
     "@types/react": "~18.0.27",
+    "eslint-config-airbnb-typescript": "^17.0.0",
     "expo": "^48.0.19",
     "expo-av": "~13.2.1",
     "expo-build-properties": "~0.6.0",
@@ -56,10 +58,17 @@
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
-    "@typescript-eslint/eslint-plugin": "^5.59.9",
-    "@typescript-eslint/parser": "^5.59.9",
-    "eslint": "^8.42.0",
-    "eslint-plugin-react": "^7.32.2"
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^7.32.0 || ^8.2.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "prettier": "^2.8.8"
   },
   "resolutions": {
     "metro": "^0.73.7",
