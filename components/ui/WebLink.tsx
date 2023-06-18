@@ -1,28 +1,24 @@
 import React from "react";
-import {openLink} from "../../helpers/LinkHelper";
-import {Pressable, Text} from "native-base";
+import { Pressable, Text } from "native-base";
+import { openLink } from "../../helpers/LinkHelper";
 
 interface WebLinkProps {
-    href: string,
-    children: React.ReactNode
+  href: string;
+  children: React.ReactNode;
 }
 
-const WebLink = ({href, children}: WebLinkProps) => {
-    const onPress = () => {
-        openLink(href);
-    };
+function WebLink({ href, children }: WebLinkProps) {
+  const onPress = () => {
+    openLink(href);
+  };
 
-    return (
-        <Pressable onPress={onPress}>
-            <Text
-                color={"blue.500"}
-                underline={true}
-                fontSize={"md"}
-            >
-                {children}
-            </Text>
-        </Pressable>
-    );
-};
+  return (
+    <Pressable onPress={onPress}>
+      <Text color="blue.500" underline fontSize="md">
+        {children}
+      </Text>
+    </Pressable>
+  );
+}
 
 export default WebLink;

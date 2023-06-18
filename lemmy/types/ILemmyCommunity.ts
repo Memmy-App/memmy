@@ -1,5 +1,5 @@
 interface ILemmyCommunity {
-    name: string,
+  name: string;
 }
 
 export default ILemmyCommunity;
