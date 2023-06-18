@@ -1,4 +1,4 @@
-import React, { SetStateAction } from "react";
+import React, { SetStateAction, useState } from "react";
 import { Alert, Button, InputAccessoryView, TextInput } from "react-native";
 import { HStack, Icon, IconButton, useTheme, View } from "native-base";
 import {
@@ -7,6 +7,9 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
+import { selectImage } from "../../helpers/ImageHelper";
+import LoadingModal from "./Loading/LoadingModal";
+import uploadToImgur from "../../helpers/ImgurHelper";
 
 function KeyboardAccessory({
   setText,
@@ -22,6 +25,8 @@ function KeyboardAccessory({
   };
   inputRef: React.MutableRefObject<TextInput>;
 }) {
+  const [uploading, setUploading] = useState(false);
+
   const replace = (newText: string) =>
     text.substring(0, selection.start) +
     newText +
@@ -59,6 +64,39 @@ function KeyboardAccessory({
     inputRef.current.setNativeProps({
       selection: { start: selection.end, end: selection.end },
     });
+  };
+
+  const onImagePress = async () => {
+    let path;
+
+    try {
+      path = await selectImage();
+    } catch (e) {
+      if (e.toString() === "permissions") {
+        Alert.alert(
+          "Permissions Error",
+          "Please allow Memmy App to access your camera roll."
+        );
+        return;
+      }
+    }
+
+    setUploading(true);
+
+    let imgurLink;
+
+    try {
+      imgurLink = await uploadToImgur(path);
+    } catch (e) {
+      setUploading(false);
+      console.log(e);
+      Alert.alert("Error uploading to Imgur.");
+    }
+
+    setUploading(false);
+
+    const replacement = `![](${imgurLink})`;
+    setText(replace(replacement));
   };
 
   return (
@@ -114,7 +152,20 @@ function KeyboardAccessory({
           }
           size={8}
         />
+
+        <IconButton
+          icon={
+            <Icon
+              as={MaterialIcons}
+              name="photo"
+              size={8}
+              onPress={onImagePress}
+            />
+          }
+          size={8}
+        />
       </HStack>
+      <LoadingModal loading={uploading} />
     </InputAccessoryView>
   );
 }

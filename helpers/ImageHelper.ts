@@ -4,6 +4,8 @@ import * as FileSystem from "expo-file-system";
 import * as Permissions from "expo-permissions";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as MediaLibrary from "expo-media-library";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as ImagePicker from "expo-image-picker";
 
 const downloadAndSaveImage = async (src: string): Promise<boolean> => {
   const fileName = src.split("/").pop();
@@ -33,6 +35,27 @@ const saveImage = async (filePath: string) => {
   } catch (e) {
     console.log("Error: ", e);
   }
+};
+
+export const selectImage = async (): Promise<string> => {
+  const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+
+  if (status === "granted") {
+    const res = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: false,
+      aspect: [4, 3],
+      allowsMultipleSelection: false,
+    });
+
+    if (res.canceled) {
+      throw Error("cancelled");
+    }
+
+    const localUri = res.assets[0].uri;
+
+    return localUri;
+  }
+  throw Error("permissions");
 };
 
 export default downloadAndSaveImage;
