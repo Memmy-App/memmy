@@ -80,7 +80,7 @@ function SettingsIndexScreen({
             title="Hide NSFW"
             cellAccessoryView={
               <Switch
-                value={settings.blurNsfw}
+                value={settings.hideNsfw}
                 onValueChange={(v) => onChange("hideNsfw", v)}
               />
             }
