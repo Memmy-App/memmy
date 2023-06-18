@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { CommentSortType, ListingType, PostView } from "lemmy-js-client";
-import { trigger } from "react-native-haptic-feedback";
 import { useToast } from "native-base";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import { useAppDispatch, useAppSelector } from "../../../store";
@@ -13,6 +12,7 @@ import {
   addBookmark,
   removeBookmark,
 } from "../../../slices/bookmarks/bookmarksActions";
+import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 
 const usePost = () => {
   const { post, newComment } = useAppSelector(selectPost);
@@ -99,7 +99,7 @@ const usePost = () => {
     const oldValue = currentPost.my_vote;
 
     // Play trigger
-    trigger("impactMedium");
+    onVoteHapticFeedback()
 
     // Update the state
     setCurrentPost({

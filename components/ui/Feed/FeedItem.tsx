@@ -16,7 +16,6 @@ import { PostView } from "lemmy-js-client";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
-import { trigger } from "react-native-haptic-feedback";
 import { useDispatch } from "react-redux";
 import FastImage from "react-native-fast-image";
 import { useNavigation } from "@react-navigation/native";
@@ -27,6 +26,7 @@ import ContentView from "../ContentView";
 import { setUpdateVote } from "../../../slices/feed/feedSlice";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import CommunityLink from "../CommunityLink";
+import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 
 interface FeedItemProps {
   post: PostView;
@@ -50,7 +50,7 @@ function FeedItem({ post }: FeedItemProps) {
       })
     );
 
-    trigger("impactMedium");
+    onVoteHapticFeedback()
 
     try {
       await lemmyInstance.likePost({
