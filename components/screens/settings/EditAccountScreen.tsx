@@ -105,7 +105,7 @@ function EditAccountScreen({
       return;
     }
 
-    if (edit) {
+    if (edit.current) {
       dispatch(
         editAccount({
           username: form.username,
@@ -174,7 +174,7 @@ function EditAccountScreen({
                 style={{
                   fontSize: 16,
                   flex: 1,
-                  color: !edit
+                  color: !edit.current
                     ? theme.colors.lightText
                     : theme.colors.gray[400],
                 }}
