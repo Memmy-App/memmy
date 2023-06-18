@@ -5,7 +5,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon, useTheme } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Button, Settings } from "react-native";
 import FeedsIndexScreen from "./components/screens/feeds/FeedsIndexScreen";
 import CommunityFeedScreen from "./components/screens/feeds/CommunityFeedScreen";
 import PostScreen from "./components/screens/post/PostScreen";
@@ -50,7 +49,6 @@ function FeedStackScreen() {
           }}
         />
         <FeedStack.Screen name="Post" component={PostScreen} />
-        <FeedStack.Screen name="NewPost" component={NewPostScreen} />
         <FeedStack.Screen name="Community" component={CommunityFeedScreen} />
         <FeedStack.Screen
           name="Subscriptions"
@@ -60,13 +58,18 @@ function FeedStackScreen() {
 
       <FeedStack.Group
         screenOptions={{
-          presentation: "modal",
+          presentation: "fullScreenModal",
         }}
       >
         <FeedStack.Screen
           name="NewComment"
           component={NewCommentScreen}
           options={{ title: "New Comment" }}
+        />
+        <FeedStack.Screen
+          name="NewPost"
+          component={NewPostScreen}
+          options={{ title: "New Post" }}
         />
       </FeedStack.Group>
     </FeedStack.Navigator>
