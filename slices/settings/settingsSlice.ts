@@ -11,6 +11,7 @@ export interface SettingsState {
   showInstanceForUsernames: boolean;
   loaded: boolean;
   blurNsfw: boolean;
+  hideNsfw: boolean;
 }
 
 const initialState: SettingsState = {
@@ -21,6 +22,7 @@ const initialState: SettingsState = {
   showInstanceForUsernames: false,
   loaded: false,
   blurNsfw: true,
+  hideNsfw: false,
 };
 
 const settingsSlice = createSlice({

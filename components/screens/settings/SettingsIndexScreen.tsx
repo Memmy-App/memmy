@@ -59,6 +59,34 @@ function SettingsIndexScreen({
           />
         </Section>
 
+        <Section
+          header="NSWF CONTENT"
+          footer="This toggle does not affect your Lemmy account NSFW settings. This local setting will apply only to the app and will apply to all accounts."
+          roundedCorners
+          hideSurroundingSeparators
+        >
+          <CCell
+            cellStyle="RightDetail"
+            title="Blur NSFW"
+            cellAccessoryView={
+              <Switch
+                value={settings.blurNsfw}
+                onValueChange={(v) => onChange("blurNsfw", v)}
+              />
+            }
+          />
+          <CCell
+            cellStyle="RightDetail"
+            title="Hide NSFW"
+            cellAccessoryView={
+              <Switch
+                value={settings.blurNsfw}
+                onValueChange={(v) => onChange("hideNsfw", v)}
+              />
+            }
+          />
+        </Section>
+
         <Section header="APPEARANCE" roundedCorners hideSurroundingSeparators>
           <CCell
             title="Swipe Gestures"
@@ -76,16 +104,6 @@ function SettingsIndexScreen({
               <Switch
                 value={settings.showInstanceForUsernames}
                 onValueChange={(v) => onChange("showInstanceForUsernames", v)}
-              />
-            }
-          />
-          <CCell
-            cellStyle="RightDetail"
-            title="Blur NSFW"
-            cellAccessoryView={
-              <Switch
-                value={settings.blurNsfw}
-                onValueChange={(v) => onChange("blurNsfw", v)}
               />
             }
           />
