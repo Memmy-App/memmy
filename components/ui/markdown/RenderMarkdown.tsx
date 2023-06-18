@@ -13,7 +13,6 @@ interface MarkdownProps {
 const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
   useEffect(() => {
     findImages(text);
-    console.log("Running...");
   }, []);
 
   const onLinkPress = (url): boolean => {

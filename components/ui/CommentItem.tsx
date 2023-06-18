@@ -243,9 +243,10 @@ function CommentItem({ comment, depth = 1 }: CommentItemProps) {
             <Icon
               as={Ionicons}
               name={iconName}
-              size={12}
+              size={8}
               color="white"
-              alignSelf={iconName === "arrow-undo" ? "flex-end" : "flex-start"}
+              ml={3}
+              alignSelf="flex-start"
             />
           </View>
           <View style={styles.backgroundLeft} backgroundColor={color} />
@@ -257,8 +258,9 @@ function CommentItem({ comment, depth = 1 }: CommentItemProps) {
             <Icon
               as={Ionicons}
               name="arrow-undo"
-              size={12}
+              size={8}
               color="white"
+              mr={3}
               alignSelf="flex-end"
             />
           </View>
