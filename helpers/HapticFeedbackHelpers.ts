@@ -5,7 +5,7 @@ export const onVoteHapticFeedback = () => {
         trigger("soft");
     }, 25)
 
-    trigger("effectDoubleClick");
+    trigger("effectHeavyClick");
 }
 
 // these two are for if we need a different feedback for upvotes and downvotes
