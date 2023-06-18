@@ -23,3 +23,20 @@ export const addAccount = createAsyncThunk(
     return accounts;
   }
 );
+
+export const editAccount = createAsyncThunk(
+  "accounts/editAccount",
+  async (account: Account) => {
+    const accounts =
+      (JSON.parse(await AsyncStorage.getItem("@accounts")) as Account[]) ?? [];
+
+    const index = accounts.findIndex(
+      (a) => a.username === account.username && a.instance === account.instance
+    );
+
+    accounts[index].password = account.password;
+
+    await AsyncStorage.setItem("@accounts", JSON.stringify(accounts));
+    return accounts;
+  }
+);

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { ScrollView } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Button } from "react-native";
 import { useAppSelector } from "../../../store";
 import { selectAccounts } from "../../../slices/accounts/accountsSlice";
 import CTable from "../../ui/table/CTable";
@@ -15,6 +16,16 @@ interface ViewAccountsScreenProps {
 function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   const accounts = useAppSelector(selectAccounts);
 
+  const headerRight = () => (
+    <Button title="Add" onPress={() => navigation.push("EditAccount")} />
+  );
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => headerRight(),
+    });
+  }, []);
+
   const onAccountPress = (account: Account) => {
     navigation.push("EditAccount", {
       username: account.username,
@@ -26,8 +37,9 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
     <ScrollView backgroundColor="screen.800">
       <CTable>
         <CSection header="ACCOUNTS">
-          {accounts.map((a) => (
+          {accounts.map((a, i) => (
             <CCell
+              key={i}
               cellStyle="Basic"
               title={`${a.username}@${a.instance}`}
               accessory="DisclosureIndicator"
