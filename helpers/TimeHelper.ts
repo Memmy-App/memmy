@@ -20,5 +20,5 @@ export const timeFromNowShort = (time: string): string => {
     },
   });
 
-  return moment(time).fromNow(true);
+  return moment(time).utc().fromNow(true);
 };
