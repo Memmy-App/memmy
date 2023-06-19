@@ -8,8 +8,8 @@ interface IconButtonWithTextProps {
   onPressHandler: (event: GestureResponderEvent) => void;
   icon: JSX.Element;
   iconBgColor?: ColorType;
-  text: string | number;
-  textColor: ColorType;
+  text?: string | number;
+  textColor?: ColorType;
   textSize?: IFontSize;
 }
 
@@ -27,9 +27,11 @@ function IconButtonWithText({
         <Box borderRadius={5} backgroundColor={iconBgColor} padding={0.5}>
           {icon}
         </Box>
-        <Text color={textColor} fontSize={textSize}>
-          {text}
-        </Text>
+        {text !== undefined && (
+          <Text color={textColor} fontSize={textSize}>
+            {text}
+          </Text>
+        )}
       </HStack>
     </Pressable>
   );

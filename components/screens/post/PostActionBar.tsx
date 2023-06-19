@@ -4,8 +4,6 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
-  IconArrowDown,
-  IconArrowUp,
   IconBookmark,
   IconMessageCircle,
   IconShare2,
@@ -15,6 +13,7 @@ import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
 import { useAppDispatch } from "../../../store";
 import usePost from "../../hooks/post/postHooks";
 import IconButtonWithText from "../../ui/common/IconButtonWithText";
+import VoteButton from "../../ui/common/VoteButton";
 
 function PostActionBar() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -49,32 +48,18 @@ function PostActionBar() {
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <HStack justifyContent="center" alignItems="center" space={6} mb={2}>
-      <IconButtonWithText
+      <VoteButton
         onPressHandler={() => onVotePress(1)}
-        icon={
-          <IconArrowUp
-            color={isUpvoted ? colors.white : colors.accentColor}
-            size={25}
-          />
-        }
-        iconBgColor={isUpvoted ? colors.app.upvoteColor : colors.screen[800]}
+        type="upvote"
+        isVoted={isUpvoted}
         text={post.currentPost.counts.upvotes}
-        textColor={isUpvoted ? colors.app.upvoteColor : colors.accentColor}
       />
 
-      <IconButtonWithText
+      <VoteButton
         onPressHandler={() => onVotePress(-1)}
-        icon={
-          <IconArrowDown
-            size={25}
-            color={isDownvoted ? colors.white : colors.accentColor}
-          />
-        }
-        iconBgColor={
-          isDownvoted ? colors.app.downvoteColor : colors.screen[800]
-        }
+        type="downvote"
+        isVoted={isDownvoted}
         text={post.currentPost.counts.downvotes}
-        textColor={isDownvoted ? colors.app.downvoteColor : colors.accentColor}
       />
 
       <IconButton
