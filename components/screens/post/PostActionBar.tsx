@@ -14,7 +14,7 @@ import { shareLink } from "../../../helpers/ShareHelper";
 import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
 import { useAppDispatch } from "../../../store";
 import usePost from "../../hooks/post/postHooks";
-import IconButtonWithText from "./IconButtonWithText";
+import IconButtonWithText from "../../ui/common/IconButtonWithText";
 
 function PostActionBar() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
