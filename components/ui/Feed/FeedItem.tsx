@@ -50,7 +50,7 @@ function FeedItem({ post }: FeedItemProps) {
       })
     );
 
-    onVoteHapticFeedback()
+    onVoteHapticFeedback();
 
     try {
       await lemmyInstance.likePost({
