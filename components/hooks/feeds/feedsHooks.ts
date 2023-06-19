@@ -83,11 +83,6 @@ export const useFeed = (communityId?: number): UseFeed => {
           ...prev,
           ...removeDuplicatePosts(prev.slice(0, 50), newPosts),
         ]);
-
-        setPosts((prev) => [
-          ...prev,
-          ...removeDuplicatePosts(prev.slice(0, 50), res.posts),
-        ]);
         setNextPage((prev) => prev + 1);
       }
 
