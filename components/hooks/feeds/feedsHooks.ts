@@ -79,10 +79,9 @@ export const useFeed = (communityId?: number): UseFeed => {
         setPosts(newPosts);
         setNextPage(2);
       } else {
-        setPosts((prev) => [
-          ...prev,
-          ...removeDuplicatePosts(prev.slice(0, 50), newPosts),
-        ]);
+        // TODO Revisit this once hopeful changes are made to Lemmy. I don't like having to actually iterate through
+        // all of the posts to remove duplicates, seems hacky
+        setPosts((prev) => [...prev, ...removeDuplicatePosts(prev, newPosts)]);
         setNextPage((prev) => prev + 1);
       }
 
