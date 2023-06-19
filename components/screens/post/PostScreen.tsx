@@ -32,6 +32,7 @@ import usePost from "../../hooks/post/postHooks";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import { selectPost } from "../../../slices/post/postSlice";
+import CommentItem2 from "../../ui/CommentItem2";
 
 function PostScreen() {
   const { post: realPost } = useAppSelector(selectPost);
@@ -39,7 +40,6 @@ function PostScreen() {
   const theme = useTheme();
   const post = usePost();
   const dispatch = useAppDispatch();
-  const [endReached, setEndReached] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
@@ -50,9 +50,10 @@ function PostScreen() {
   }, []);
 
   const commentItem = ({ item }) => (
-    <View style={styles.commentContainer}>
-      <CommentItem comment={item} />
-    </View>
+    // <View style={styles.commentContainer}>
+    //   <CommentItem comment={item} />
+    // </View>
+    <CommentItem2 nestedComment={item} />
   );
   const onVotePress = (value: -1 | 0 | 1) => {
     post.doVote(value);
@@ -206,7 +207,7 @@ function PostScreen() {
         />
       );
     }
-    if (post.comments.length === 0 && !post.commentsError) {
+    if (post.comments && post.comments.length === 0 && !post.commentsError) {
       return (
         <Center my={4}>
           <Text fontStyle="italic" color="gray.500">
@@ -233,8 +234,8 @@ function PostScreen() {
           extraData={post.refreshList}
           data={post.comments}
           renderItem={commentItem}
-          keyExtractor={(item) => item.top.comment.id.toString()}
-          estimatedItemSize={100}
+          keyExtractor={(item) => item.comment.comment.id.toString()}
+          estimatedItemSize={200}
           refreshControl={refreshControl}
           refreshing={post.commentsLoading}
         />

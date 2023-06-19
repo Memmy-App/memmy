@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { CommentSortType, ListingType, PostView } from "lemmy-js-client";
+import {
+  CommentSortType,
+  CommentView,
+  ListingType,
+  PostView,
+} from "lemmy-js-client";
 import { useToast } from "native-base";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import { useAppDispatch, useAppSelector } from "../../../store";
@@ -20,7 +25,7 @@ const usePost = () => {
   const bookmarks = useAppSelector(selectBookmarks);
 
   // State
-  const [comments, setComments] = useState<ILemmyComment[] | null>(null);
+  const [comments, setComments] = useState<NestedComment[] | null>(null);
   const [commentsLoading, setCommentsLoading] = useState<boolean>(true);
   const [commentsError, setCommentsError] = useState<boolean>(false);
   const [refreshList, setRefreshList] = useState(false);
@@ -28,6 +33,7 @@ const usePost = () => {
   const [bookmarked, setBookmarked] = useState<boolean>(
     bookmarks?.findIndex((b) => b.postId === currentPost.post.id) !== -1
   );
+  const [collapsed, setCollapsed] = useState<number[]>([]);
 
   // Other Hooks
   const dispatch = useAppDispatch();
@@ -42,19 +48,18 @@ const usePost = () => {
   useEffect(() => {
     if (newComment) {
       // Create a new comment chain
-      const lComment: ILemmyComment = {
-        top: newComment.comment,
-        replies: [],
-      };
-
+      // const lComment: ILemmyComment = {
+      //   top: newComment.comment,
+      //   replies: [],
+      // };
       // If it's a top comment, add it to top of current chain
-      if (newComment.isTopComment) {
-        setComments([lComment, ...comments]);
-      } else {
-        const newChain = LemmyCommentsHelper.findAndAdd(comments, lComment);
-        setComments(newChain);
-        setRefreshList(!refreshList);
-      }
+      // if (newComment.isTopComment) {
+      //   setComments([lComment, ...comments]);
+      // } else {
+      //   const newChain = LemmyCommentsHelper.findAndAdd(comments, lComment);
+      //   setComments(newChain);
+      //   setRefreshList(!refreshList);
+      // }
     }
   }, [newComment]);
 
@@ -74,12 +79,18 @@ const usePost = () => {
         sort: CommentSortType.Top,
       });
 
-      const helper = new LemmyCommentsHelper(commentsRes.comments);
-      const parsed = helper.getParsed();
+      // const helper = new LemmyCommentsHelper(commentsRes.comments);
+      // const parsed = helper.getParsed();
+
+      const ordered = commentsRes.comments.sort((a, b) =>
+        a.comment.path.localeCompare(b.comment.path)
+      );
+      const parsed = buildComments(ordered);
 
       setComments(parsed);
       setCommentsLoading(false);
     } catch (e) {
+      console.log(e);
       setCommentsLoading(false);
       setCommentsError(true);
     }
@@ -166,8 +177,47 @@ const usePost = () => {
     bookmarked,
     doBookmark,
 
+    collapsed,
+    setCollapsed,
+
     doVote,
   };
 };
+
+export interface NestedComment {
+  comment: CommentView;
+  replies: NestedComment[];
+}
+
+function buildComments(comments: CommentView[]): NestedComment[] {
+  const nestedComments = [];
+
+  const commentDict = {};
+
+  for (const comment of comments) {
+    const { path } = comment.comment;
+
+    const pathIds = path.split(".").map(Number);
+
+    const parentId = pathIds[pathIds.length - 2];
+
+    const currentComment = {
+      comment,
+      replies: [],
+    };
+
+    commentDict[comment.comment.id] = currentComment;
+
+    if (parentId !== 0) {
+      const parentComment = commentDict[parentId];
+
+      parentComment.replies.push(currentComment);
+    } else {
+      nestedComments.push(currentComment);
+    }
+  }
+
+  return nestedComments;
+}
 
 export default usePost;
