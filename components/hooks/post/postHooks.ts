@@ -211,7 +211,9 @@ function buildComments(comments: CommentView[]): NestedComment[] {
     if (parentId !== 0) {
       const parentComment = commentDict[parentId];
 
-      parentComment.replies.push(currentComment);
+      try {
+        parentComment.replies.push(currentComment);
+      } catch (e) {}
     } else {
       nestedComments.push(currentComment);
     }

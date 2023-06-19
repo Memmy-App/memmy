@@ -143,7 +143,7 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
         runOnJS(onCommentSlideHapticFeedback)();
         ranFeedbackDownvote.value = false;
       } else if (
-        event.translationX >= -(width * 0.15) &&
+        event.translationX <= -(width * 0.15) &&
         ranFeedbackComment.value
       ) {
         runOnJS(onCommentSlideHapticFeedback)();
@@ -281,14 +281,16 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                   flex={1}
                   pr={2}
                   py={2}
-                  pl={depth * 2}
                   space={2}
                   backgroundColor="screen.800"
+                  style={{
+                    paddingLeft: depth * 8,
+                  }}
                 >
                   <VStack
                     borderLeftWidth={depth > 2 ? 2 : 0}
                     borderLeftColor={
-                      theme.colors.app.commentChain[depth] ??
+                      theme.colors.app.commentChain[depth - 2] ??
                       theme.colors.app.commentChain[5]
                     }
                     borderLeftRadius={1}
@@ -315,17 +317,33 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                         </Text>
                         <HStack alignItems="center">
                           <IconArrowUp
-                            color={theme.colors.app.upvoteColor}
-                            size={16}
+                            color={
+                              myVote === 1
+                                ? theme.colors.app.upvoteColor
+                                : theme.colors.app.iconColor
+                            }
+                            size={18}
                           />
-                          <Text>{nestedComment.comment.counts.upvotes}</Text>
+                          <Text>
+                            {myVote === 1
+                              ? nestedComment.comment.counts.upvotes + 1
+                              : nestedComment.comment.counts.upvotes}
+                          </Text>
                         </HStack>
                         <HStack alignItems="center">
                           <IconArrowDown
-                            color={theme.colors.app.downvoteColor}
-                            size={16}
+                            color={
+                              myVote === -1
+                                ? theme.colors.app.downvoteColor
+                                : theme.colors.app.iconColor
+                            }
+                            size={18}
                           />
-                          <Text>{nestedComment.comment.counts.downvotes}</Text>
+                          <Text>
+                            {myVote === -1
+                              ? nestedComment.comment.counts.downvotes + 1
+                              : nestedComment.comment.counts.downvotes}
+                          </Text>
                         </HStack>
                       </HStack>
                       <HStack alignItems="center" space={2}>
@@ -348,21 +366,25 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                       />
                     )}
                   </VStack>
+                  <Divider ml={4} mt={-1} />
                 </VStack>
               </Pressable>
             </Animated.View>
           </PanGestureHandler>
-          <Divider />
         </View>
       </GestureHandlerRootView>
       {(!collapsed &&
         !showAll &&
         nestedComment.replies
           .slice(0, 5)
-          .map((r) => <CommentItem2 nestedComment={r} />)) ||
+          .map((r) => (
+            <CommentItem2 key={r.comment.comment.id} nestedComment={r} />
+          ))) ||
         (!collapsed &&
           showAll &&
-          nestedComment.replies.map((r) => <CommentItem2 nestedComment={r} />))}
+          nestedComment.replies.map((r) => (
+            <CommentItem2 key={r.comment.comment.id} nestedComment={r} />
+          )))}
     </>
   );
 }
