@@ -33,6 +33,8 @@ import Animated, {
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
+import { useActionSheet } from "@expo/react-native-action-sheet";
+import Clipboard from "@react-native-community/clipboard";
 import RenderMarkdown from "./markdown/RenderMarkdown";
 import { timeFromNowShort } from "../../helpers/TimeHelper";
 import { onCommentSlideHapticFeedback } from "../../helpers/HapticFeedbackHelpers";
@@ -41,6 +43,8 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 import { NestedComment } from "../hooks/post/postHooks";
+import { getBaseUrl } from "../../helpers/LinkHelper";
+import commentItem from "./CommentItem";
 
 function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
   const theme = useTheme();
@@ -62,8 +66,26 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
 
   const [showAll, setShowAll] = useState(false);
 
+  const { showActionSheetWithOptions } = useActionSheet();
+
   const onCommentPress = () => {
     setCollapsed(!collapsed);
+  };
+
+  const onCommentLongPress = () => {
+    const options = ["Copy", "Cancel"];
+    const cancelButtonIndex = 1;
+
+    showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+      },
+      (index: number) => {
+        if (index === cancelButtonIndex) return;
+        Clipboard.setString(nestedComment.comment.comment.content);
+      }
+    );
   };
 
   const onVote = async (value: -1 | 0 | 1) => {
@@ -276,7 +298,10 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
             hitSlop={{ left: -25 }}
           >
             <Animated.View style={[animatedStyle]}>
-              <Pressable onPress={() => onCommentPress()}>
+              <Pressable
+                onPress={onCommentPress}
+                onLongPress={onCommentLongPress}
+              >
                 <VStack
                   flex={1}
                   pr={2}
@@ -312,9 +337,18 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                         ) : (
                           <IconUser color={theme.colors.app.iconColor} />
                         )}
-                        <Text fontWeight="semibold">
-                          {nestedComment.comment.creator.name}
-                        </Text>
+                        <VStack>
+                          <Text fontWeight="semibold">
+                            {nestedComment.comment.creator.name}
+                          </Text>
+                          {showInstanceForUsernames && (
+                            <Text fontSize="sm">
+                              {getBaseUrl(
+                                nestedComment.comment.creator.actor_id
+                              )}
+                            </Text>
+                          )}
+                        </VStack>
                         <HStack alignItems="center">
                           <IconArrowUp
                             color={
