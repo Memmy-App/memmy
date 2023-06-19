@@ -1,19 +1,20 @@
-import { HStack, Icon, IconButton, useTheme } from "native-base";
+import { HStack, IconButton, useTheme } from "native-base";
 import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
   IconArrowDown,
   IconArrowUp,
   IconBookmark,
+  IconMessageCircle,
   IconShare2,
 } from "tabler-icons-react-native";
 import { shareLink } from "../../../helpers/ShareHelper";
 import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
 import { useAppDispatch } from "../../../store";
 import usePost from "../../hooks/post/postHooks";
+import IconButtonWithText from "./IconButtonWithText";
 
 function PostActionBar() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -42,39 +43,40 @@ function PostActionBar() {
     });
   };
 
+  const isUpvoted = post.currentPost?.my_vote === 1;
+  const isDownvoted = post.currentPost?.my_vote === -1;
+
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    <HStack justifyContent="center" space={10} mb={2}>
-      <IconButton
+    <HStack justifyContent="center" alignItems="center" space={6} mb={2}>
+      <IconButtonWithText
+        onPressHandler={() => onVotePress(1)}
         icon={
           <IconArrowUp
-            color={
-              post.currentPost?.my_vote === 1 ? "white" : colors.accentColor
-            }
+            color={isUpvoted ? "white" : colors.accentColor}
             size={25}
           />
         }
-        onPress={() => onVotePress(1)}
-        backgroundColor={
-          post.currentPost?.my_vote !== 1 && colors.app.upvoteColor
-        }
-        padding={2}
+        iconBgColor={isUpvoted ? colors.app.upvoteColor : colors.screen[800]}
+        text={post.currentPost.counts.upvotes}
+        textColor={isUpvoted ? colors.app.upvoteColor : colors.accentColor}
       />
-      <IconButton
+
+      <IconButtonWithText
+        onPressHandler={() => onVotePress(-1)}
         icon={
           <IconArrowDown
             size={25}
-            color={
-              post.currentPost?.my_vote === -1 ? "white" : colors.accentColor
-            }
+            color={isDownvoted ? "white" : colors.accentColor}
           />
         }
-        onPress={() => onVotePress(-1)}
-        backgroundColor={
-          post.currentPost?.my_vote === -1 && colors.app.downvoteColor
+        iconBgColor={
+          isDownvoted ? colors.app.downvoteColor : colors.screen[800]
         }
-        padding={2}
+        text={post.currentPost.counts.downvotes}
+        textColor={isDownvoted ? colors.app.downvoteColor : colors.accentColor}
       />
+
       <IconButton
         icon={
           <IconBookmark
@@ -83,14 +85,21 @@ function PostActionBar() {
           />
         }
         onPress={post.doBookmark}
-        backgroundColor={post.bookmarked && "green.500"}
+        backgroundColor={post.bookmarked ? "green.500" : colors.screen[800]}
         padding={2}
       />
+
       <IconButton
-        icon={<Icon as={Ionicons} name="arrow-undo-outline" />}
-        onPress={onCommentPress}
+        icon={<IconShare2 size={25} color={colors.accentColor} />}
+        onPress={onSharePress}
       />
-      <IconButton icon={<IconShare2 size={25} />} onPress={onSharePress} />
+
+      <IconButtonWithText
+        onPressHandler={onCommentPress}
+        icon={<IconMessageCircle color={colors.accentColor} size={25} />}
+        text={post.currentPost.counts.comments}
+        textColor={colors.accentColor}
+      />
     </HStack>
   );
 }
