@@ -53,7 +53,7 @@ function PostActionBar() {
         onPressHandler={() => onVotePress(1)}
         icon={
           <IconArrowUp
-            color={isUpvoted ? "white" : colors.accentColor}
+            color={isUpvoted ? colors.white : colors.accentColor}
             size={25}
           />
         }
@@ -67,7 +67,7 @@ function PostActionBar() {
         icon={
           <IconArrowDown
             size={25}
-            color={isDownvoted ? "white" : colors.accentColor}
+            color={isDownvoted ? colors.white : colors.accentColor}
           />
         }
         iconBgColor={
@@ -81,11 +81,13 @@ function PostActionBar() {
         icon={
           <IconBookmark
             size={25}
-            color={post.bookmarked ? "white" : colors.accentColor}
+            color={post.bookmarked ? colors.white : colors.accentColor}
           />
         }
         onPress={post.doBookmark}
-        backgroundColor={post.bookmarked ? "green.500" : colors.screen[800]}
+        backgroundColor={
+          post.bookmarked ? colors.green[500] : colors.screen[800]
+        }
         padding={2}
       />
 
