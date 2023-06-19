@@ -24,11 +24,12 @@ export interface UseFeed {
 }
 
 export const useFeed = (communityId?: number): UseFeed => {
+  // Global State
   const { defaultSort, defaultListingType, hideNsfw } =
     useAppSelector(selectSettings);
   const { updateVote } = useAppSelector(selectFeed);
-  const dispatch = useAppDispatch();
 
+  // State
   const [posts, setPosts] = useState<PostView[] | null>(null);
   const [postsLoading, setPostsLoading] = useState<boolean>(false);
   const [postsError, setPostsError] = useState<boolean>(false);
@@ -38,6 +39,11 @@ export const useFeed = (communityId?: number): UseFeed => {
     useState<ListingType>(defaultListingType);
   const [nextPage, setNextPage] = useState(1);
 
+  // Refs
+
+  // Other Hooks
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (lemmyInstance) {
       doLoad(true).then();
@@ -46,13 +52,13 @@ export const useFeed = (communityId?: number): UseFeed => {
 
   useEffect(() => {
     if (updateVote) {
-      setPosts(
-        posts?.map((post) => {
-          if (post.post.id === updateVote.postId) {
-            post.my_vote = updateVote.vote;
+      setPosts((prev) =>
+        prev.map((p) => {
+          if (p.post.id === updateVote.postId) {
+            p.my_vote = updateVote.vote;
           }
 
-          return post;
+          return p;
         })
       );
       dispatch(clearUpdateVote());
