@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { ListingType, SortType } from "lemmy-js-client";
 import { useTheme, useToast, View } from "native-base";
 import { Button, RefreshControl, StyleSheet } from "react-native";
@@ -72,8 +78,6 @@ function FeedView({ feed, community = false }: FeedViewProps) {
       }, 500);
     }
   }, [post]);
-
-  const feedItem = useCallback(({ item }) => <FeedItem post={item} />, []);
 
   const onSortPress = () => {
     const options = [
@@ -195,6 +199,10 @@ function FeedView({ feed, community = false }: FeedViewProps) {
     }
   };
 
+  const feedItem = useCallback(({ item }) => <FeedItem post={item} />, []);
+
+  // const feedItem = ({ item }) => <FeedItem post={item} />;
+
   const headerRight = () => {
     if (dropdownVisible) {
       return (
@@ -246,6 +254,7 @@ function FeedView({ feed, community = false }: FeedViewProps) {
       ) : (
         <FlashList
           data={feed.posts}
+          extraData={feed.refreshList}
           renderItem={feedItem}
           keyExtractor={keyExtractor}
           refreshControl={refreshControl}

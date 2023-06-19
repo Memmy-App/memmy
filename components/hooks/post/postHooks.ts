@@ -15,24 +15,22 @@ import {
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 
 const usePost = () => {
+  // Global State
   const { post, newComment } = useAppSelector(selectPost);
-
   const bookmarks = useAppSelector(selectBookmarks);
 
+  // State
   const [comments, setComments] = useState<ILemmyComment[] | null>(null);
   const [commentsLoading, setCommentsLoading] = useState<boolean>(true);
   const [commentsError, setCommentsError] = useState<boolean>(false);
-
   const [refresh, setRefresh] = useState(false);
-
   const [currentPost, setCurrentPost] = useState<PostView>(post);
-
   const [bookmarked, setBookmarked] = useState<boolean>(
     bookmarks?.findIndex((b) => b.postId === currentPost.post.id) !== -1
   );
 
+  // Other Hooks
   const dispatch = useAppDispatch();
-
   const toast = useToast();
 
   // Check if a post is saved
@@ -99,7 +97,7 @@ const usePost = () => {
     const oldValue = currentPost.my_vote;
 
     // Play trigger
-    onVoteHapticFeedback()
+    onVoteHapticFeedback();
 
     // Update the state
     setCurrentPost({

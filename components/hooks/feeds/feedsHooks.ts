@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import { ListingType, PostView, SortType } from "lemmy-js-client";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
@@ -16,6 +16,9 @@ export interface UseFeed {
 
   sort: SortType;
   setSort: (sort: SortType) => void;
+
+  refreshList: boolean;
+  setRefreshList: React.Dispatch<SetStateAction<boolean>>;
 
   listingType: ListingType;
   setListingType: (listingType: ListingType) => void;
@@ -39,6 +42,8 @@ export const useFeed = (communityId?: number): UseFeed => {
     useState<ListingType>(defaultListingType);
   const [nextPage, setNextPage] = useState(1);
 
+  const [refreshList, setRefreshList] = useState(false);
+
   // Refs
 
   // Other Hooks
@@ -55,12 +60,18 @@ export const useFeed = (communityId?: number): UseFeed => {
       setPosts((prev) =>
         prev.map((p) => {
           if (p.post.id === updateVote.postId) {
-            p.my_vote = updateVote.vote;
+            return {
+              ...p,
+              my_vote: updateVote.vote,
+            };
           }
 
           return p;
         })
       );
+
+      setRefreshList(!refreshList);
+
       dispatch(clearUpdateVote());
     }
   }, [updateVote]);
@@ -103,6 +114,9 @@ export const useFeed = (communityId?: number): UseFeed => {
     posts,
     postsLoading,
     postsError,
+
+    refreshList,
+    setRefreshList,
 
     sort,
     setSort,
