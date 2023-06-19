@@ -34,6 +34,9 @@ export interface UseFeed {
   setListingType: (listingType: ListingType) => void;
 
   doLoad: (refresh?: boolean) => void;
+
+  loaded: boolean;
+  setLoaded: React.Dispatch<SetStateAction<any>>;
 }
 
 export const useFeed = (communityIdOrName?: number | string): UseFeed => {
@@ -57,6 +60,7 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
   const [nextPage, setNextPage] = useState(1);
 
   const [refreshList, setRefreshList] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   // Refs
 
@@ -64,6 +68,8 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    if (!loaded) return;
+
     if (lemmyInstance) {
       doLoad(true).then();
     }
@@ -183,5 +189,8 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
     setListingType,
 
     doLoad,
+
+    loaded,
+    setLoaded,
   };
 };

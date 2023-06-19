@@ -1,15 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { current } from "@reduxjs/toolkit";
 import { Alert } from "react-native";
 import FeedView from "../../ui/Feed/FeedView";
 import FeedHeaderDropdown from "../../ui/Feed/FeedHeaderDropdown";
 import { useFeed } from "../../hooks/feeds/feedsHooks";
-import {
-  initialize,
-  lemmyAuthToken,
-  lemmyInstance,
-} from "../../../lemmy/LemmyInstance";
+import { initialize, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import {
   getAllCommunities,
@@ -72,8 +67,6 @@ function FeedsIndexScreen({
           server: currentAccount.instance,
         });
       }
-
-      feed.doLoad(false);
     } catch (e) {
       Alert.alert(e.toString());
     }
@@ -85,6 +78,7 @@ function FeedsIndexScreen({
     dispatch(loadBookmarks());
 
     feed.doLoad(true);
+    feed.setLoaded(true);
   };
 
   return <FeedView feed={feed} />;
