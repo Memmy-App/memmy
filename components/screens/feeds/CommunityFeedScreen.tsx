@@ -19,6 +19,7 @@ import ButtonOne from "../../ui/buttons/ButtonOne";
 import { subscribeToCommunity } from "../../../slices/communities/communitiesActions";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../../slices/post/postSlice";
+import NotFoundView from "../../ui/Loading/NotFoundView";
 
 function FeedsCommunityScreen({
   route,
@@ -66,6 +67,10 @@ function FeedsCommunityScreen({
 
     feed.doLoad();
   }, []);
+
+  if (feed.communityNotFound) {
+    return <NotFoundView />;
+  }
 
   if (feed.communityError || feed.postsError) {
     return <LoadingErrorView onRetryPress={feed.doLoad} />;

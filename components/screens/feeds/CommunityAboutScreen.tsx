@@ -1,5 +1,4 @@
 import React from "react";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView, Text, useTheme, VStack } from "native-base";
 import FastImage from "react-native-fast-image";
 import RenderMarkdown from "../../ui/markdown/RenderMarkdown";

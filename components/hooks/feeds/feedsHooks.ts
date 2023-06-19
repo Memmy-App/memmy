@@ -24,6 +24,7 @@ export interface UseFeed {
   community: CommunityView | null;
   communityLoading: boolean;
   communityError: boolean;
+  communityNotFound: boolean;
 
   sort: SortType;
   setSort: (sort: SortType) => void;
@@ -58,6 +59,7 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
   const [community, setCommunity] = useState<CommunityView | null>(null);
   const [communityLoading, setCommunityLoading] = useState<boolean>(false);
   const [communityError, setCommunityError] = useState<boolean>(false);
+  const [communityNotFound, setCommunityNotFound] = useState<boolean>(false);
 
   const [subscribed, setSubscribed] = useState<boolean>(false);
 
@@ -121,12 +123,23 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
               : undefined,
         });
 
+        if (res.error && res.error === "couldnt_find_community") {
+          setCommunityNotFound(true);
+          return;
+        }
+
         setCommunity(res.community_view);
         setCommunityLoading(false);
         setSubscribed(
           isSubscribed(res.community_view.community.id, subscribedCommunities)
         );
       } catch (e) {
+        console.log(e.toString());
+
+        if (e.toString() === "couldnt_find_community") {
+          setCommunityNotFound(true);
+        }
+
         setCommunityLoading(false);
         setCommunityError(true);
       }
@@ -188,6 +201,7 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
     community,
     communityLoading,
     communityError,
+    communityNotFound,
 
     refreshList,
     setRefreshList,
