@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import { ListingType, PostView, SortType } from "lemmy-js-client";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
@@ -17,6 +17,9 @@ export interface UseFeed {
   sort: SortType;
   setSort: (sort: SortType) => void;
 
+  refreshList: boolean;
+  setRefreshList: React.Dispatch<SetStateAction<boolean>>;
+
   listingType: ListingType;
   setListingType: (listingType: ListingType) => void;
 
@@ -24,11 +27,12 @@ export interface UseFeed {
 }
 
 export const useFeed = (communityId?: number): UseFeed => {
+  // Global State
   const { defaultSort, defaultListingType, hideNsfw } =
     useAppSelector(selectSettings);
   const { updateVote } = useAppSelector(selectFeed);
-  const dispatch = useAppDispatch();
 
+  // State
   const [posts, setPosts] = useState<PostView[] | null>(null);
   const [postsLoading, setPostsLoading] = useState<boolean>(false);
   const [postsError, setPostsError] = useState<boolean>(false);
@@ -38,6 +42,13 @@ export const useFeed = (communityId?: number): UseFeed => {
     useState<ListingType>(defaultListingType);
   const [nextPage, setNextPage] = useState(1);
 
+  const [refreshList, setRefreshList] = useState(false);
+
+  // Refs
+
+  // Other Hooks
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (lemmyInstance) {
       doLoad(true).then();
@@ -46,15 +57,21 @@ export const useFeed = (communityId?: number): UseFeed => {
 
   useEffect(() => {
     if (updateVote) {
-      setPosts(
-        posts?.map((post) => {
-          if (post.post.id === updateVote.postId) {
-            post.my_vote = updateVote.vote;
+      setPosts((prev) =>
+        prev.map((p) => {
+          if (p.post.id === updateVote.postId) {
+            return {
+              ...p,
+              my_vote: updateVote.vote,
+            };
           }
 
-          return post;
+          return p;
         })
       );
+
+      setRefreshList(!refreshList);
+
       dispatch(clearUpdateVote());
     }
   }, [updateVote]);
@@ -79,15 +96,9 @@ export const useFeed = (communityId?: number): UseFeed => {
         setPosts(newPosts);
         setNextPage(2);
       } else {
-        setPosts((prev) => [
-          ...prev,
-          ...removeDuplicatePosts(prev.slice(0, 50), newPosts),
-        ]);
-
-        setPosts((prev) => [
-          ...prev,
-          ...removeDuplicatePosts(prev.slice(0, 50), res.posts),
-        ]);
+        // TODO Revisit this once hopeful changes are made to Lemmy. I don't like having to actually iterate through
+        // all of the posts to remove duplicates, seems hacky
+        setPosts((prev) => [...prev, ...removeDuplicatePosts(prev, newPosts)]);
         setNextPage((prev) => prev + 1);
       }
 
@@ -103,6 +114,9 @@ export const useFeed = (communityId?: number): UseFeed => {
     posts,
     postsLoading,
     postsError,
+
+    refreshList,
+    setRefreshList,
 
     sort,
     setSort,

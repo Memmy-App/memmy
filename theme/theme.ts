@@ -19,31 +19,18 @@ const darkTheme = extendTheme({
     darkText: "#ffffff",
 
     app: {
-      background: "#292524",
-      commentBackground: "#292524",
-    },
+      upvoteColor: "#EE923D",
+      downvoteColor: "#1A84E5",
 
-    appTheme: {
-      darkAccent: "#",
-      lightAccent: "#",
-      darkForeground: "#",
-      lightSecondaryText: "#",
-      darkSecondaryText: "#",
-      downvoteColor: "#",
-      upvoteColor: "#",
-      white: "#",
-      commentChain1: "#",
-      commentChain2: "#",
-      commentChain3: "#",
-      commentChain4: "#",
-      commentChain5: "#",
-      extraLightAccent: "#",
-      black: "#",
-      lightBorder: "#",
-      moderatorColor: "#",
-      good: "#",
-      lightThirdLayerText: "#",
-      adminColor: "#",
+      iconColor: "#9A9A9A",
+
+      commentChain: {
+        1: "#FA6969",
+        2: "#FFB800",
+        3: "#FFE500",
+        4: "#36CF3C",
+        5: "#4BA9FF",
+      },
     },
   },
   config: {

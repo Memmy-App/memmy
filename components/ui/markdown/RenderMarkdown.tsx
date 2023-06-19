@@ -133,6 +133,13 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
       fontWeight: "bold",
       color: "white",
     },
+    body: {
+      color: "white",
+      fontSize: 16,
+    },
+    hr: {
+      color: theme.colors.screen[600],
+    },
   };
 
   const markdown = useMemo(() => {

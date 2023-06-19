@@ -1,9 +1,10 @@
 import React from "react";
-import { Icon, Pressable, Text } from "native-base";
+import { HStack, Icon, IconButton, Pressable, Text, VStack } from "native-base";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
 import { selectFeed, setDropdownVisible } from "../../../slices/feed/feedSlice";
 import { useAppDispatch, useAppSelector } from "../../../store";
+import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 
 interface HeaderDropdownProps {
   title: string;
@@ -12,6 +13,7 @@ interface HeaderDropdownProps {
 
 function FeedHeaderDropdown({ title, enabled }: HeaderDropdownProps) {
   const { dropdownVisible } = useAppSelector(selectFeed);
+  const { username, instance } = useAppSelector(selectCurrentAccount);
 
   const dispatch = useAppDispatch();
 
@@ -23,14 +25,19 @@ function FeedHeaderDropdown({ title, enabled }: HeaderDropdownProps) {
 
   return (
     <Pressable onPress={onPress}>
-      <Text fontWeight="bold" fontSize={16}>
-        {title}&nbsp;&nbsp;
+      <HStack justifyContent="center" alignItems="center" space="3">
+        <VStack justifyContent="center" alignItems="center">
+          <Text fontSize="16" fontWeight="bold">
+            {username}
+          </Text>
+          <Text fontSize="12">{instance}</Text>
+        </VStack>
         <Icon
           as={Ionicons}
           name={dropdownVisible ? "caret-up-outline" : "caret-down-outline"}
           color="white"
         />
-      </Text>
+      </HStack>
     </Pressable>
   );
 }

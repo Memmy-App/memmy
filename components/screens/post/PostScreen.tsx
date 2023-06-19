@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -29,10 +29,13 @@ import { getBaseUrl } from "../../../helpers/LinkHelper";
 import CommunityLink from "../../ui/CommunityLink";
 import { shareLink } from "../../../helpers/ShareHelper";
 import usePost from "../../hooks/post/postHooks";
-import { useAppDispatch } from "../../../store";
+import { useAppDispatch, useAppSelector } from "../../../store";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
+import { selectPost } from "../../../slices/post/postSlice";
+import CommentItem2 from "../../ui/CommentItem2";
 
 function PostScreen() {
+  const { post: realPost } = useAppSelector(selectPost);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const theme = useTheme();
   const post = usePost();
@@ -46,12 +49,7 @@ function PostScreen() {
     });
   }, []);
 
-  const commentItem = ({ item }: { item: ILemmyComment }) => (
-    <View style={styles.commentContainer}>
-      <CommentItem comment={item} />
-    </View>
-  );
-
+  const commentItem = ({ item }) => <CommentItem2 nestedComment={item} />;
   const onVotePress = (value: -1 | 0 | 1) => {
     post.doVote(value);
   };
@@ -186,7 +184,7 @@ function PostScreen() {
   );
 
   const footer = () => {
-    if (!post.comments && !post.commentsError) {
+    if (post.commentsLoading) {
       return (
         <Center my={4}>
           <Spinner />
@@ -204,7 +202,7 @@ function PostScreen() {
         />
       );
     }
-    if (post.comments.length === 0 && !post.commentsError) {
+    if (post.comments && post.comments.length === 0 && !post.commentsError) {
       return (
         <Center my={4}>
           <Text fontStyle="italic" color="gray.500">
@@ -228,11 +226,11 @@ function PostScreen() {
         <FlashList
           ListFooterComponent={footer}
           ListHeaderComponent={header}
-          extraData={post.refresh}
+          extraData={post.refreshList}
           data={post.comments}
           renderItem={commentItem}
-          keyExtractor={(item) => item.top.comment.id.toString()}
-          estimatedItemSize={300}
+          keyExtractor={(item) => item.comment.comment.id.toString()}
+          estimatedItemSize={200}
           refreshControl={refreshControl}
           refreshing={post.commentsLoading}
         />

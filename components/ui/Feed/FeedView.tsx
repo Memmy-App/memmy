@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { ListingType, PostView, SortType } from "lemmy-js-client";
+import { ListingType, SortType } from "lemmy-js-client";
 import { useTheme, useToast, View } from "native-base";
 import { Button, RefreshControl, StyleSheet } from "react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { FlashList } from "@shopify/flash-list";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { trigger } from "react-native-haptic-feedback";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import FeedItem from "./FeedItem";
@@ -29,28 +29,28 @@ interface FeedViewProps {
 }
 
 function FeedView({ feed, community = false }: FeedViewProps) {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
+  // State Props
   const [endReached, setEndReached] = useState(false);
-  const communityId = useRef(0);
-  const communityName = useRef("");
-
-  const toast = useToast();
-
   const [, setSortIcon] = useState(SortIconType[feed.sort]);
 
-  const flashList = useRef<FlashList<any>>();
-
+  // Global state props
   const { dropdownVisible } = useAppSelector(selectFeed);
   const { subscribedCommunities } = useAppSelector(selectCommunities);
   const { post } = useAppSelector(selectPost);
 
+  // Refs
+  const communityId = useRef(0);
+  const communityName = useRef("");
+  const lastPost = useRef(0);
+  const flashList = useRef<FlashList<any>>();
+  const creatingPost = useRef(false);
+
+  // Other Hooks
+  const toast = useToast();
+  const theme = useTheme();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { showActionSheetWithOptions } = useActionSheet();
   const dispatch = useAppDispatch();
-  const theme = useTheme();
-
-  const creatingPost = useRef(false);
-  const lastPost = useRef(0);
 
   useEffect(() => {
     navigation.setOptions({
@@ -66,17 +66,12 @@ function FeedView({ feed, community = false }: FeedViewProps) {
 
   useEffect(() => {
     if (creatingPost.current && post && lastPost.current !== post.post.id) {
-      console.log("yup");
       creatingPost.current = false;
       setTimeout(() => {
         navigation.push("Post");
       }, 500);
-    } else {
-      console.log("nope");
     }
   }, [post]);
-
-  const feedItem = ({ item }: { item: PostView }) => <FeedItem post={item} />;
 
   const onSortPress = () => {
     const options = [
@@ -198,6 +193,8 @@ function FeedView({ feed, community = false }: FeedViewProps) {
     }
   };
 
+  const feedItem = useCallback(({ item }) => <FeedItem post={item} />, []);
+
   const headerRight = () => {
     if (dropdownVisible) {
       return (
@@ -249,11 +246,12 @@ function FeedView({ feed, community = false }: FeedViewProps) {
       ) : (
         <FlashList
           data={feed.posts}
+          extraData={feed.refreshList}
           renderItem={feedItem}
           keyExtractor={keyExtractor}
           refreshControl={refreshControl}
           onEndReachedThreshold={0.8}
-          estimatedItemSize={300}
+          estimatedItemSize={500}
           estimatedListSize={{ height: 50, width: 1 }}
           ListFooterComponent={footer}
           onEndReached={() => setEndReached(true)}

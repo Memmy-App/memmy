@@ -34,5 +34,6 @@ module.exports = {
     "import/no-cycle": "off",
     "no-param-reassign": "warn",
     "no-nested-ternary": "off",
+    "import/no-extraneous-dependencies": "off",
   },
 };

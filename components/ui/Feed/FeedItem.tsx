@@ -39,6 +39,8 @@ function FeedItem({ post }: FeedItemProps) {
   const toast = useToast();
 
   const onVotePress = async (value: -1 | 0 | 1) => {
+    onVoteHapticFeedback();
+
     if (value === post.my_vote && value !== 0) value = 0;
 
     const oldValue = post.my_vote;
@@ -49,8 +51,6 @@ function FeedItem({ post }: FeedItemProps) {
         vote: value,
       })
     );
-
-    onVoteHapticFeedback()
 
     try {
       await lemmyInstance.likePost({
