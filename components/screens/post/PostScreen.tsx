@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -46,10 +46,13 @@ function PostScreen() {
     });
   }, []);
 
-  const commentItem = ({ item }: { item: ILemmyComment }) => (
-    <View style={styles.commentContainer}>
-      <CommentItem comment={item} />
-    </View>
+  const commentItem = useCallback(
+    ({ item }) => (
+      <View style={styles.commentContainer}>
+        <CommentItem comment={item} />
+      </View>
+    ),
+    []
   );
 
   const onVotePress = (value: -1 | 0 | 1) => {
@@ -232,7 +235,7 @@ function PostScreen() {
           data={post.comments}
           renderItem={commentItem}
           keyExtractor={(item) => item.top.comment.id.toString()}
-          estimatedItemSize={300}
+          estimatedItemSize={50}
           refreshControl={refreshControl}
           refreshing={post.commentsLoading}
         />
