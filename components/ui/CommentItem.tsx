@@ -53,12 +53,25 @@ function CommentItem({ comment, depth = 1 }: CommentItemProps) {
   const dispatch = useAppDispatch();
   const toast = useToast();
 
+  const recycledItems = {};
+
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
 
   if (comment.top.comment.id !== lastCommentId.current) {
+    recycledItems[lastCommentId.current] = {
+      collapsed,
+      myVote,
+    };
+
+    if (recycledItems[comment.top.comment.id]) {
+      setCollapsed(recycledItems[comment.top.comment.id].collapsed);
+      setMyVote(recycledItems[comment.top.comment.id].myVote);
+    } else {
+      setCollapsed(false);
+      setMyVote(comment.top.my_vote);
+    }
+
     lastCommentId.current = comment.top.comment.id;
-    setCollapsed(false);
-    setMyVote(comment.top.my_vote);
   }
 
   const onVote = async (value: -1 | 0 | 1) => {

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -37,6 +37,7 @@ function PostScreen() {
   const theme = useTheme();
   const post = usePost();
   const dispatch = useAppDispatch();
+  const [endReached, setEndReached] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
@@ -189,7 +190,7 @@ function PostScreen() {
   );
 
   const footer = () => {
-    if (!post.comments && !post.commentsError) {
+    if (post.commentsLoading) {
       return (
         <Center my={4}>
           <Spinner />
@@ -231,13 +232,25 @@ function PostScreen() {
         <FlashList
           ListFooterComponent={footer}
           ListHeaderComponent={header}
-          extraData={post.refresh}
+          extraData={post.refreshList}
           data={post.comments}
           renderItem={commentItem}
+          onEndReachedThreshold={0.8}
           keyExtractor={(item) => item.top.comment.id.toString()}
-          estimatedItemSize={50}
+          estimatedItemSize={100}
+          estimatedListSize={{
+            height: 50,
+            width: 1,
+          }}
+          onEndReached={() => setEndReached(true)}
           refreshControl={refreshControl}
           refreshing={post.commentsLoading}
+          onMomentumScrollEnd={() => {
+            if (endReached) {
+              post.doLoad();
+              setEndReached(false);
+            }
+          }}
         />
       </VStack>
     );
