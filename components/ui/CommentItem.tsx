@@ -17,7 +17,6 @@ import {
   GestureHandlerRootView,
   PanGestureHandler,
 } from "react-native-gesture-handler";
-import { trigger } from "react-native-haptic-feedback";
 import Animated, {
   runOnJS,
   useAnimatedGestureHandler,
@@ -123,14 +122,14 @@ function CommentItem({ comment, depth = 1 }: CommentItemProps) {
         runOnJS(setStyles)("comment");
       }
 
-      if (event.translationX >= width * 0.15 && !ranFeedbackUpvote.value) {       
-        runOnJS(onCommentSlideHapticFeedback)()
+      if (event.translationX >= width * 0.15 && !ranFeedbackUpvote.value) {
+        runOnJS(onCommentSlideHapticFeedback)();
         ranFeedbackUpvote.value = true;
       } else if (
         event.translationX >= width * 0.3 &&
         !ranFeedbackDownvote.value
       ) {
-        runOnJS(onCommentSlideHapticFeedback)()
+        runOnJS(onCommentSlideHapticFeedback)();
         ranFeedbackDownvote.value = true;
       } else if (
         event.translationX >= width * 0.15 &&
@@ -138,13 +137,13 @@ function CommentItem({ comment, depth = 1 }: CommentItemProps) {
         ranFeedbackUpvote.value &&
         ranFeedbackDownvote.value
       ) {
-        runOnJS(onCommentSlideHapticFeedback)()
+        runOnJS(onCommentSlideHapticFeedback)();
         ranFeedbackDownvote.value = false;
       } else if (
         event.translationX <= -(width * 0.15) &&
         ranFeedbackComment.value
       ) {
-        runOnJS(onCommentSlideHapticFeedback)()
+        runOnJS(onCommentSlideHapticFeedback)();
         ranFeedbackComment.value = true;
       }
     },
