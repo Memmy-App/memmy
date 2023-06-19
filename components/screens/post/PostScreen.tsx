@@ -49,12 +49,7 @@ function PostScreen() {
     });
   }, []);
 
-  const commentItem = ({ item }) => (
-    // <View style={styles.commentContainer}>
-    //   <CommentItem comment={item} />
-    // </View>
-    <CommentItem2 nestedComment={item} />
-  );
+  const commentItem = ({ item }) => <CommentItem2 nestedComment={item} />;
   const onVotePress = (value: -1 | 0 | 1) => {
     post.doVote(value);
   };

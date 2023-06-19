@@ -18,6 +18,7 @@ import {
   removeBookmark,
 } from "../../../slices/bookmarks/bookmarksActions";
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
+import findAndAddComment from "../../../lemmy/LemmyCommentsHelper";
 
 const usePost = () => {
   // Global State
@@ -48,18 +49,22 @@ const usePost = () => {
   useEffect(() => {
     if (newComment) {
       // Create a new comment chain
-      // const lComment: ILemmyComment = {
-      //   top: newComment.comment,
-      //   replies: [],
-      // };
+      const lComment: NestedComment = {
+        comment: newComment.comment,
+        replies: [],
+      };
       // If it's a top comment, add it to top of current chain
-      // if (newComment.isTopComment) {
-      //   setComments([lComment, ...comments]);
-      // } else {
-      //   const newChain = LemmyCommentsHelper.findAndAdd(comments, lComment);
-      //   setComments(newChain);
-      //   setRefreshList(!refreshList);
-      // }
+      if (newComment.isTopComment) {
+        setComments([lComment, ...comments]);
+      } else {
+        const newChain = findAndAddComment(comments, {
+          comment: newComment.comment,
+          replies: [],
+        });
+
+        setComments(newChain);
+        setRefreshList(!refreshList);
+      }
     }
   }, [newComment]);
 
