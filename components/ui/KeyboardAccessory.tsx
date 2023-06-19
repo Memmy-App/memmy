@@ -1,12 +1,7 @@
 import React, { SetStateAction, useState } from "react";
-import { Alert, Button, InputAccessoryView, TextInput } from "react-native";
-import { HStack, Icon, IconButton, useTheme, View } from "native-base";
-import {
-  AntDesign,
-  Ionicons,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { Alert, InputAccessoryView, TextInput } from "react-native";
+import { HStack, Icon, IconButton } from "native-base";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { selectImage } from "../../helpers/ImageHelper";
 import LoadingModal from "./Loading/LoadingModal";
 import uploadToImgur from "../../helpers/ImgurHelper";
@@ -35,7 +30,7 @@ function KeyboardAccessory({
   const getSelected = () => text.substring(selection.start, selection.end);
 
   const onItalicPress = () => {
-    const replacement = `**${getSelected()}**`;
+    const replacement = `*${getSelected()}*`;
     setText(replace(replacement));
     inputRef.current.setNativeProps({
       selection: { start: selection.end, end: selection.end },
@@ -43,7 +38,7 @@ function KeyboardAccessory({
   };
 
   const onBoldPress = () => {
-    const replacement = `*${getSelected()}*`;
+    const replacement = `**${getSelected()}**`;
     setText(replace(replacement));
     inputRef.current.setNativeProps({
       selection: { start: selection.end, end: selection.end },
