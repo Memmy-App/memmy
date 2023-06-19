@@ -19,8 +19,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import moment from "moment/moment";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
-import { selectPost } from "../../../slices/post/postSlice";
-import { useAppSelector } from "../../../store";
 import usePost from "../../hooks/post/postHooks";
 import CommentItem2 from "../../ui/CommentItem2";
 import CommunityLink from "../../ui/CommunityLink";
@@ -30,7 +28,6 @@ import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
 
 function PostScreen() {
-  const { post: realPost } = useAppSelector(selectPost);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const theme = useTheme();
   const post = usePost();
