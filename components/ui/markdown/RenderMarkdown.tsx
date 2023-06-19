@@ -15,10 +15,6 @@ interface MarkdownProps {
 const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  useEffect(() => {
-    findImages(text);
-  }, []);
-
   const onLinkPress = (url): boolean => {
     openLink(url, navigation);
     return false;
@@ -148,6 +144,11 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
 
   const markdown = useMemo(() => {
     const src = findImages(text);
+    text = text.replace(
+      /(^|[^[\]])\b(https?:\/\/[^\s]+)\b(?![\]]|\()/g,
+      (match, prefix, url) => `${prefix}[${url}](${url})`
+    );
+
     return (
       <VStack flex={1}>
         <Markdown
