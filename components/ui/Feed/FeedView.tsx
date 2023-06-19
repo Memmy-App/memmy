@@ -26,9 +26,10 @@ import { selectPost } from "../../../slices/post/postSlice";
 interface FeedViewProps {
   feed: UseFeed;
   community?: boolean;
+  header?: JSX.Element | null;
 }
 
-function FeedView({ feed, community = false }: FeedViewProps) {
+function FeedView({ feed, community = false, header }: FeedViewProps) {
   // State Props
   const [endReached, setEndReached] = useState(false);
   const [, setSortIcon] = useState(SortIconType[feed.sort]);
@@ -245,6 +246,7 @@ function FeedView({ feed, community = false }: FeedViewProps) {
         <LoadingView />
       ) : (
         <FlashList
+          ListHeaderComponent={header}
           data={feed.posts}
           extraData={feed.refreshList}
           renderItem={feedItem}

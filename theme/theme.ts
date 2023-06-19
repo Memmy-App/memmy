@@ -31,6 +31,19 @@ const darkTheme = extendTheme({
         4: "#36CF3C",
         5: "#4BA9FF",
       },
+
+      primaryText: "",
+      secondaryText: "#999999",
+
+      buttonOneIcon: "#007AFF",
+      buttonTwoIcon: "",
+      buttonThreeIcon: "",
+
+      buttonOneText: "#fff",
+      buttonTwoText: "",
+      buttonThreeText: "",
+
+      buttonOne: "#44403c",
     },
   },
   config: {
