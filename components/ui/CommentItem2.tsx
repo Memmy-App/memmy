@@ -10,7 +10,6 @@ import {
   View,
   VStack,
 } from "native-base";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   IconArrowDown,
   IconArrowUp,
@@ -22,7 +21,7 @@ import {
   GestureHandlerRootView,
   PanGestureHandler,
 } from "react-native-gesture-handler";
-import { Dimensions, StyleSheet } from "react-native";
+import { Alert, Dimensions, StyleSheet } from "react-native";
 import Animated, {
   runOnJS,
   useAnimatedGestureHandler,
@@ -34,6 +33,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import { useActionSheet } from "@expo/react-native-action-sheet";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import Clipboard from "@react-native-community/clipboard";
 import RenderMarkdown from "./markdown/RenderMarkdown";
 import { timeFromNowShort } from "../../helpers/TimeHelper";
@@ -44,7 +44,6 @@ import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 import { NestedComment } from "../hooks/post/postHooks";
 import { getBaseUrl } from "../../helpers/LinkHelper";
-import commentItem from "./CommentItem";
 
 function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
   const theme = useTheme();
@@ -67,6 +66,13 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
   const [showAll, setShowAll] = useState(false);
 
   const { showActionSheetWithOptions } = useActionSheet();
+
+  if (nestedComment.comment.comment.id !== lastCommentId.current) {
+    setCollapsed(false);
+    setMyVote(nestedComment.comment.my_vote);
+
+    lastCommentId.current = nestedComment.comment.comment.id;
+  }
 
   const onCommentPress = () => {
     setCollapsed(!collapsed);
@@ -342,7 +348,7 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                             {nestedComment.comment.creator.name}
                           </Text>
                           {showInstanceForUsernames && (
-                            <Text fontSize="sm">
+                            <Text fontSize="xs">
                               {getBaseUrl(
                                 nestedComment.comment.creator.actor_id
                               )}
