@@ -36,6 +36,7 @@ import ILemmyComment from "../../lemmy/types/ILemmyComment";
 import { getBaseUrl } from "../../helpers/LinkHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 import RenderMarkdown from "./markdown/RenderMarkdown";
+import { onCommentSlideHapticFeedback } from "../../helpers/HapticFeedbackHelpers";
 
 interface CommentItemProps {
   comment: ILemmyComment;
@@ -122,14 +123,14 @@ function CommentItem({ comment, depth = 1 }: CommentItemProps) {
         runOnJS(setStyles)("comment");
       }
 
-      if (event.translationX >= width * 0.15 && !ranFeedbackUpvote.value) {
-        runOnJS(trigger)("impactHeavy");
+      if (event.translationX >= width * 0.15 && !ranFeedbackUpvote.value) {       
+        runOnJS(onCommentSlideHapticFeedback)()
         ranFeedbackUpvote.value = true;
       } else if (
         event.translationX >= width * 0.3 &&
         !ranFeedbackDownvote.value
       ) {
-        runOnJS(trigger)("impactHeavy");
+        runOnJS(onCommentSlideHapticFeedback)()
         ranFeedbackDownvote.value = true;
       } else if (
         event.translationX >= width * 0.15 &&
@@ -137,13 +138,13 @@ function CommentItem({ comment, depth = 1 }: CommentItemProps) {
         ranFeedbackUpvote.value &&
         ranFeedbackDownvote.value
       ) {
-        runOnJS(trigger)("impactHeavy");
+        runOnJS(onCommentSlideHapticFeedback)()
         ranFeedbackDownvote.value = false;
       } else if (
         event.translationX <= -(width * 0.15) &&
         ranFeedbackComment.value
       ) {
-        runOnJS(trigger)("impactHeavy");
+        runOnJS(onCommentSlideHapticFeedback)()
         ranFeedbackComment.value = true;
       }
     },
