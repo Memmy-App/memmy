@@ -90,7 +90,7 @@ function FeedItem({ post }: FeedItemProps) {
               <FastImage source={{ uri: post.community.icon }} />
             )}
           </View>
-          <Text fontSize="xl" fontWeight="semibold" mx={4} my={2}>
+          <Text fontSize="lg" fontWeight="semibold" mx={4} my={2}>
             {post.post.name}
           </Text>
         </>
