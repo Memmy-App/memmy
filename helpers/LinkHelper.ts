@@ -60,15 +60,16 @@ export const openLink = async (
   const isFed = link.match(pattern);
 
   if (isFed) {
-    const communityOnEnd = link.split("@").pop();
+    const communityOnEnd = link.includes("@");
 
     let baseUrl;
     let community;
 
     if (communityOnEnd) {
-      baseUrl = communityOnEnd;
+      baseUrl = link.split("@").pop();
       community = link.split("c/").pop().split("@")[0];
     } else {
+      console.log("there");
       baseUrl = getBaseUrl(link);
       community = link.split("/").pop();
     }
