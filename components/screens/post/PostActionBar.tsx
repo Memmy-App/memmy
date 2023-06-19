@@ -8,6 +8,7 @@ import {
   IconArrowDown,
   IconArrowUp,
   IconBookmark,
+  IconShare2,
 } from "tabler-icons-react-native";
 import { shareLink } from "../../../helpers/ShareHelper";
 import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
@@ -16,7 +17,7 @@ import usePost from "../../hooks/post/postHooks";
 
 function PostActionBar() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const theme = useTheme();
+  const { colors } = useTheme();
   const post = usePost();
   const dispatch = useAppDispatch();
 
@@ -48,16 +49,14 @@ function PostActionBar() {
         icon={
           <IconArrowUp
             color={
-              post.currentPost?.my_vote === 1 ? "white" : theme.colors.blue[500]
+              post.currentPost?.my_vote === 1 ? "white" : colors.accentColor
             }
             size={25}
           />
         }
         onPress={() => onVotePress(1)}
         backgroundColor={
-          post.currentPost?.my_vote !== 1
-            ? "screen.800"
-            : theme.colors.app.upvoteColor
+          post.currentPost?.my_vote !== 1 && colors.app.upvoteColor
         }
         padding={2}
       />
@@ -66,23 +65,22 @@ function PostActionBar() {
           <IconArrowDown
             size={25}
             color={
-              post.currentPost?.my_vote === -1
-                ? "white"
-                : theme.colors.blue[500]
+              post.currentPost?.my_vote === -1 ? "white" : colors.accentColor
             }
           />
         }
         onPress={() => onVotePress(-1)}
         backgroundColor={
-          post.currentPost?.my_vote !== -1
-            ? "screen.800"
-            : theme.colors.app.downvoteColor
+          post.currentPost?.my_vote === -1 && colors.app.downvoteColor
         }
         padding={2}
       />
       <IconButton
         icon={
-          <IconBookmark size={25} color={post.bookmarked ? "white" : "blue"} />
+          <IconBookmark
+            size={25}
+            color={post.bookmarked ? "white" : colors.accentColor}
+          />
         }
         onPress={post.doBookmark}
         backgroundColor={post.bookmarked && "green.500"}
@@ -92,10 +90,7 @@ function PostActionBar() {
         icon={<Icon as={Ionicons} name="arrow-undo-outline" />}
         onPress={onCommentPress}
       />
-      <IconButton
-        icon={<Icon as={Ionicons} name="share-outline" />}
-        onPress={onSharePress}
-      />
+      <IconButton icon={<IconShare2 size={25} />} onPress={onSharePress} />
     </HStack>
   );
 }
