@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo } from "react";
 import { useTheme, VStack } from "native-base";
 import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { openLink } from "../../../helpers/LinkHelper";
 import { findImages } from "../../../helpers/MarkdownHelper";
 import ImageButton from "../ImageButton";
@@ -11,12 +13,14 @@ interface MarkdownProps {
 }
 
 const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   useEffect(() => {
     findImages(text);
   }, []);
 
   const onLinkPress = (url): boolean => {
-    openLink(url).then();
+    openLink(url, navigation);
     return false;
   };
 

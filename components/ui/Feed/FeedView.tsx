@@ -14,14 +14,10 @@ import CIconButton from "../CIconButton";
 import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectFeed, setDropdownVisible } from "../../../slices/feed/feedSlice";
-import { subscribeToCommunity } from "../../../slices/communities/communitiesActions";
-import { isSubscribed } from "../../../lemmy/LemmyHelpers";
-import { selectCommunities } from "../../../slices/communities/communitiesSlice";
 import { UseFeed } from "../../hooks/feeds/feedsHooks";
 import LoadingFooter from "../Loading/LoadingFooter";
 import LoadingErrorFooter from "../Loading/LoadingErrorFooter";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
-import { selectPost } from "../../../slices/post/postSlice";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -36,8 +32,6 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
 
   // Global state props
   const { dropdownVisible } = useAppSelector(selectFeed);
-  const { subscribedCommunities } = useAppSelector(selectCommunities);
-  const { post } = useAppSelector(selectPost);
 
   // Refs
   const communityId = useRef(0);

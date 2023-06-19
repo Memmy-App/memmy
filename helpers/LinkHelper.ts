@@ -1,5 +1,6 @@
 import * as WebBrowser from "expo-web-browser";
 import { WebBrowserPresentationStyle } from "expo-web-browser";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 const imageExtensions = [
   "webp",
@@ -52,13 +53,39 @@ export const getLinkInfo = (link?: string): LinkInfo => {
 };
 
 export const openLink = async (
-  link: string
-): Promise<WebBrowser.WebBrowserResult> =>
-  WebBrowser.openBrowserAsync(link, {
-    dismissButtonStyle: "close",
-    presentationStyle: WebBrowserPresentationStyle.FULL_SCREEN,
-    toolbarColor: "#000",
-  });
+  link: string,
+  navigation: NativeStackNavigationProp<any, string, undefined>
+): Promise<WebBrowser.WebBrowserResult | void> => {
+  const pattern = /https:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+\/[cm]\/[A-Za-z]+/;
+  const isFed = link.match(pattern);
+
+  if (isFed) {
+    const communityOnEnd = link.split("@").pop();
+
+    let baseUrl;
+    let community;
+
+    if (communityOnEnd) {
+      baseUrl = communityOnEnd;
+      community = link.split("c/").pop().split("@")[0];
+    } else {
+      baseUrl = getBaseUrl(link);
+      community = link.split("/").pop();
+    }
+
+    navigation.push("Community", {
+      communityFullName: `${community}@${baseUrl}`,
+      communityName: community,
+      actorId: baseUrl,
+    });
+  } else {
+    WebBrowser.openBrowserAsync(link, {
+      dismissButtonStyle: "close",
+      presentationStyle: WebBrowserPresentationStyle.FULL_SCREEN,
+      toolbarColor: "#000",
+    });
+  }
+};
 
 export const getBaseUrl = (link: string): string => {
   const regex = /^(?:https?:\/\/)?([^/]+)/;

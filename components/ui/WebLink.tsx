@@ -1,5 +1,7 @@
 import React from "react";
 import { Pressable, Text } from "native-base";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { openLink } from "../../helpers/LinkHelper";
 
 interface WebLinkProps {
@@ -8,8 +10,10 @@ interface WebLinkProps {
 }
 
 function WebLink({ href, children }: WebLinkProps) {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   const onPress = () => {
-    openLink(href);
+    openLink(href, navigation).then();
   };
 
   return (
