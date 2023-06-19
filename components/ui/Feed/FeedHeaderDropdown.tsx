@@ -4,7 +4,10 @@ import { HStack, Icon, IconButton, Pressable, Text, VStack } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { selectFeed, setDropdownVisible } from "../../../slices/feed/feedSlice";
 import { useAppDispatch, useAppSelector } from "../../../store";
-import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
+import {
+  selectAccounts,
+  selectCurrentAccount,
+} from "../../../slices/accounts/accountsSlice";
 
 interface HeaderDropdownProps {
   title: string;
@@ -13,7 +16,8 @@ interface HeaderDropdownProps {
 
 function FeedHeaderDropdown({ title, enabled }: HeaderDropdownProps) {
   const { dropdownVisible } = useAppSelector(selectFeed);
-  const { username, instance } = useAppSelector(selectCurrentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const accounts = useAppSelector(selectAccounts);
 
   const dispatch = useAppDispatch();
 
@@ -28,9 +32,11 @@ function FeedHeaderDropdown({ title, enabled }: HeaderDropdownProps) {
       <HStack justifyContent="center" alignItems="center" space="3">
         <VStack justifyContent="center" alignItems="center">
           <Text fontSize="16" fontWeight="bold">
-            {username}
+            {currentAccount ? currentAccount.username : accounts[0].username}
           </Text>
-          <Text fontSize="12">{instance}</Text>
+          <Text fontSize="12">
+            {currentAccount ? currentAccount.username : accounts[0].instance}
+          </Text>
         </VStack>
         <Icon
           as={Ionicons}

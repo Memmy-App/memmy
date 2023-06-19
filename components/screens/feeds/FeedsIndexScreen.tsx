@@ -31,13 +31,16 @@ function FeedsIndexScreen({
   const feed = useFeed();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const accounts = useAppSelector(selectAccounts);
   const previousAccount = useRef<Account | null>(null);
 
   const dispatch = useAppDispatch();
 
   const headerTitle = () => (
     <FeedHeaderDropdown
-      title={`${currentAccount.username}@${currentAccount.instance}`}
+      title={`${
+        currentAccount ? currentAccount.username : accounts[0].username
+      }@${currentAccount ? currentAccount.instance : accounts[0].instance}`}
       enabled
     />
   );
@@ -61,12 +64,14 @@ function FeedsIndexScreen({
 
   const load = async () => {
     try {
-      await initialize({
-        username: currentAccount.username,
-        password: currentAccount.password,
-        auth: currentAccount.token,
-        server: currentAccount.instance,
-      });
+      if (!lemmyInstance) {
+        await initialize({
+          username: currentAccount.username,
+          password: currentAccount.password,
+          auth: currentAccount.token,
+          server: currentAccount.instance,
+        });
+      }
 
       feed.doLoad(false);
     } catch (e) {
