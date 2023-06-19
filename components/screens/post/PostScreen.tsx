@@ -29,10 +29,12 @@ import { getBaseUrl } from "../../../helpers/LinkHelper";
 import CommunityLink from "../../ui/CommunityLink";
 import { shareLink } from "../../../helpers/ShareHelper";
 import usePost from "../../hooks/post/postHooks";
-import { useAppDispatch } from "../../../store";
+import { useAppDispatch, useAppSelector } from "../../../store";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
+import { selectPost } from "../../../slices/post/postSlice";
 
 function PostScreen() {
+  const { post: realPost } = useAppSelector(selectPost);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const theme = useTheme();
   const post = usePost();
@@ -47,15 +49,11 @@ function PostScreen() {
     });
   }, []);
 
-  const commentItem = useCallback(
-    ({ item }) => (
-      <View style={styles.commentContainer}>
-        <CommentItem comment={item} />
-      </View>
-    ),
-    []
+  const commentItem = ({ item }) => (
+    <View style={styles.commentContainer}>
+      <CommentItem comment={item} />
+    </View>
   );
-
   const onVotePress = (value: -1 | 0 | 1) => {
     post.doVote(value);
   };
@@ -235,22 +233,10 @@ function PostScreen() {
           extraData={post.refreshList}
           data={post.comments}
           renderItem={commentItem}
-          onEndReachedThreshold={0.8}
           keyExtractor={(item) => item.top.comment.id.toString()}
           estimatedItemSize={100}
-          estimatedListSize={{
-            height: 50,
-            width: 1,
-          }}
-          onEndReached={() => setEndReached(true)}
           refreshControl={refreshControl}
           refreshing={post.commentsLoading}
-          onMomentumScrollEnd={() => {
-            if (endReached) {
-              post.doLoad();
-              setEndReached(false);
-            }
-          }}
         />
       </VStack>
     );

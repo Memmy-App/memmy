@@ -23,9 +23,7 @@ const usePost = () => {
   const [comments, setComments] = useState<ILemmyComment[] | null>(null);
   const [commentsLoading, setCommentsLoading] = useState<boolean>(true);
   const [commentsError, setCommentsError] = useState<boolean>(false);
-  const [nextPage, setNextPage] = useState(1);
   const [refreshList, setRefreshList] = useState(false);
-  const [endReached, setEndReached] = useState(false);
   const [currentPost, setCurrentPost] = useState<PostView>(post);
   const [bookmarked, setBookmarked] = useState<boolean>(
     bookmarks?.findIndex((b) => b.postId === currentPost.post.id) !== -1
@@ -63,9 +61,7 @@ const usePost = () => {
   /**
    * Load the comments for the current post
    */
-  const doLoad = async (refresh = false) => {
-    if (endReached) return;
-
+  const doLoad = async () => {
     setCommentsLoading(true);
     setCommentsError(false);
 
@@ -76,25 +72,12 @@ const usePost = () => {
         max_depth: 10,
         type_: ListingType.All,
         sort: CommentSortType.Top,
-        limit: post.counts.comments > 100 ? 10 : 50,
-        page: refresh ? 1 : nextPage,
       });
 
       const helper = new LemmyCommentsHelper(commentsRes.comments);
       const parsed = helper.getParsed();
 
-      if (!comments || refresh) {
-        setNextPage(2);
-        setComments(parsed);
-      } else {
-        setNextPage((prev) => prev + 1);
-        setComments((prev) => [...prev, ...parsed]);
-      }
-
-      if (parsed.length < 20) {
-        setEndReached(true);
-      }
-
+      setComments(parsed);
       setCommentsLoading(false);
     } catch (e) {
       setCommentsLoading(false);
