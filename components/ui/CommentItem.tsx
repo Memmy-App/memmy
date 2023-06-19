@@ -140,7 +140,7 @@ function CommentItem({ comment, depth = 1 }: CommentItemProps) {
         runOnJS(onCommentSlideHapticFeedback)();
         ranFeedbackDownvote.value = false;
       } else if (
-        event.translationX <= -(width * 0.15) &&
+        event.translationX >= -(width * 0.15) &&
         ranFeedbackComment.value
       ) {
         runOnJS(onCommentSlideHapticFeedback)();
