@@ -3,6 +3,7 @@ import {
   Divider,
   HStack,
   Icon,
+  IconButton,
   Pressable,
   Text,
   useTheme,
@@ -37,7 +38,10 @@ import { useActionSheet } from "@expo/react-native-action-sheet";
 import Clipboard from "@react-native-community/clipboard";
 import RenderMarkdown from "./markdown/RenderMarkdown";
 import { timeFromNowShort } from "../../helpers/TimeHelper";
-import { onCommentSlideHapticFeedback } from "../../helpers/HapticFeedbackHelpers";
+import {
+  onCommentSlideHapticFeedback,
+  onGenericHapticFeedback,
+} from "../../helpers/HapticFeedbackHelpers";
 import { setResponseTo } from "../../slices/newComment/newCommentSlice";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
@@ -75,10 +79,14 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
   }
 
   const onCommentPress = () => {
+    onGenericHapticFeedback();
+
     setCollapsed(!collapsed);
   };
 
   const onCommentLongPress = () => {
+    onGenericHapticFeedback();
+
     const options = ["Copy", "Cancel"];
     const cancelButtonIndex = 1;
 
@@ -387,9 +395,14 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                         </HStack>
                       </HStack>
                       <HStack alignItems="center" space={2}>
-                        <IconDots
-                          size={24}
-                          color={theme.colors.app.iconColor}
+                        <IconButton
+                          icon={
+                            <IconDots
+                              size={24}
+                              color={theme.colors.app.iconColor}
+                            />
+                          }
+                          onPress={onCommentLongPress}
                         />
                         <Text>
                           {timeFromNowShort(

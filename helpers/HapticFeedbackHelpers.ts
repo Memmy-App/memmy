@@ -27,3 +27,11 @@ export const onCommentSlideHapticFeedback = () => {
     trigger("effectHeavyClick");
   }
 };
+
+export const onGenericHapticFeedback = () => {
+  if (Platform.OS === "ios") {
+    trigger("impactHeavy");
+  } else {
+    trigger("effectClick");
+  }
+};
