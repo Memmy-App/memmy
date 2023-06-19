@@ -2,6 +2,7 @@ import { extendTheme } from "native-base";
 
 const darkTheme = extendTheme({
   colors: {
+    accentColor: "#1A91FF",
     screen: {
       50: "#fafaf9",
       100: "#f5f5f4",
