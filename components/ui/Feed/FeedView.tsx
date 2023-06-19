@@ -176,10 +176,19 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
       return <LoadingFooter message="Loading more posts..." />;
     }
     if (feed.postsError) {
+      if (!feed.posts || feed.posts.length < 1) {
+        return (
+          <LoadingErrorFooter
+            message="Failed to load posts"
+            onRetryPress={feed.doLoad}
+          />
+        );
+      }
+
       return (
         <LoadingErrorFooter
-          message="Failed to load posts"
-          onRetryPress={feed.doLoad}
+          onRetryPress={() => feed.doLoad(true)}
+          message="Failed to load posts :("
         />
       );
     }

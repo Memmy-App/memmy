@@ -416,6 +416,7 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                     ) : (
                       <RenderMarkdown
                         text={nestedComment.comment.comment.content}
+                        addImages
                       />
                     )}
                   </VStack>

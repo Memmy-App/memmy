@@ -123,6 +123,7 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
               : undefined,
         });
 
+        // @ts-ignore
         if (res.error && res.error === "couldnt_find_community") {
           setCommunityNotFound(true);
           return;
@@ -184,7 +185,6 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
         setPostsLoading(false);
       } catch (e) {
         setPosts(null);
-        setPostsError(false);
         setPostsError(true);
       }
     };

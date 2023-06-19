@@ -4,7 +4,11 @@ import { Alert } from "react-native";
 import FeedView from "../../ui/Feed/FeedView";
 import FeedHeaderDropdown from "../../ui/Feed/FeedHeaderDropdown";
 import { useFeed } from "../../hooks/feeds/feedsHooks";
-import { initialize, lemmyInstance } from "../../../lemmy/LemmyInstance";
+import {
+  initialize,
+  lemmyInstance,
+  resetInstance,
+} from "../../../lemmy/LemmyInstance";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import {
   getAllCommunities,
@@ -17,6 +21,7 @@ import {
 } from "../../../slices/accounts/accountsSlice";
 import { loadBookmarks } from "../../../slices/bookmarks/bookmarksActions";
 import { Account } from "../../../types/Account";
+import LoadingView from "../../ui/Loading/LoadingView";
 
 function FeedsIndexScreen({
   navigation,
@@ -54,6 +59,7 @@ function FeedsIndexScreen({
 
     if (currentAccount === previousAccount.current) return;
 
+    resetInstance();
     load().then();
   }, [currentAccount]);
 
@@ -80,6 +86,8 @@ function FeedsIndexScreen({
     feed.doLoad(true);
     feed.setLoaded(true);
   };
+
+  if (!lemmyInstance) return <LoadingView />;
 
   return <FeedView feed={feed} />;
 }

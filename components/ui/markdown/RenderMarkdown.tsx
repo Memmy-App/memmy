@@ -143,8 +143,8 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
   };
 
   const markdown = useMemo(() => {
-    const src = findImages(text);
-    text = text.replace(
+    const cleanedText = findImages(text);
+    text = cleanedText.cleanedText.replace(
       /(^|[^[\]])\b(https?:\/\/[^\s]+)\b(?![\]]|\()/g,
       (match, prefix, url) => `${prefix}[${url}](${url})`
     );
@@ -158,7 +158,9 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
         >
           {text ?? ""}
         </Markdown>
-        {addImages && src && <ImageButton src={src} />}
+        {addImages && cleanedText.imageLinks.length > 0 && (
+          <ImageButton src={cleanedText.imageLinks[0]} />
+        )}
       </VStack>
     );
   }, [text]);
