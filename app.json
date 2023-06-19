@@ -15,6 +15,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#292524"
     },
+    "jsEngine": "hermes",
     "extra": {
       "eas": {
         "projectId": "ca1ac1e0-c9da-48fc-8cf7-befc49c49d30"
