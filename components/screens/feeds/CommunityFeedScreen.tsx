@@ -1,20 +1,24 @@
-import React, { useEffect } from "react";
-import { HStack, InfoIcon, Text, useTheme, VStack } from "native-base";
+import React, { useEffect, useRef } from "react";
+import { HStack, Text, useTheme, useToast, VStack } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import FastImage from "react-native-fast-image";
 import {
   IconEye,
   IconHeart,
+  IconHeartFilled,
   IconInfoCircle,
-  IconStar,
+  IconPlus,
   IconUserHeart,
 } from "tabler-icons-react-native";
-import { SearchBar } from "react-native-screens";
+import { trigger } from "react-native-haptic-feedback";
 import FeedView from "../../ui/Feed/FeedView";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { useFeed } from "../../hooks/feeds/feedsHooks";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import ButtonOne from "../../ui/buttons/ButtonOne";
+import { subscribeToCommunity } from "../../../slices/communities/communitiesActions";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { selectPost } from "../../../slices/post/postSlice";
 
 function FeedsCommunityScreen({
   route,
@@ -23,11 +27,27 @@ function FeedsCommunityScreen({
   route: any;
   navigation: NativeStackNavigationProp<any>;
 }) {
+  const { post } = useAppSelector(selectPost);
+
+  const creatingPost = useRef(false);
+  const lastPost = useRef(0);
+
   const { communityFullName, communityName, actorId } = route.params;
 
   const feed = useFeed(communityFullName);
 
   const theme = useTheme();
+  const toast = useToast();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (creatingPost.current && post && lastPost.current !== post.post.id) {
+      creatingPost.current = false;
+      setTimeout(() => {
+        navigation.push("Post");
+      }, 500);
+    }
+  }, [post]);
 
   const headerTitle = () => (
     <VStack alignItems="center">
@@ -50,6 +70,45 @@ function FeedsCommunityScreen({
   if (feed.communityError || feed.postsError) {
     return <LoadingErrorView onRetryPress={feed.doLoad} />;
   }
+
+  const onSubscribePress = () => {
+    trigger("impactMedium");
+
+    toast.show({
+      title: `${!feed.subscribed ? "Subscribed to" : "Unsubscribed from"} ${
+        feed.community.community.name
+      }`,
+      duration: 3000,
+    });
+
+    dispatch(
+      subscribeToCommunity({
+        communityId: feed.community.community.id,
+        subscribe: !feed.subscribed,
+      })
+    );
+
+    feed.setSubscribed((prev) => !prev);
+  };
+
+  const onAboutPress = () => {
+    navigation.push("CommunityAbout", {
+      name: feed.community.community.name,
+      banner: feed.community.community.banner,
+      description: feed.community.community.description,
+      title: feed.community.community.title,
+    });
+  };
+
+  const onPostPress = () => {
+    creatingPost.current = true;
+    lastPost.current = post ? post.post.id : 0;
+
+    navigation.push("NewPost", {
+      communityId: feed.community.community.id,
+      communityName: feed.community.community.name,
+    });
+  };
 
   const header = () => {
     if (feed.communityLoading || !feed.community) return null;
@@ -92,9 +151,17 @@ function FeedsCommunityScreen({
         </HStack>
         <VStack pt={8}>
           <HStack justifyContent="space-between" alignItems="center" space={3}>
-            <ButtonOne onPress={() => {}} icon={IconHeart} text="Subscribe" />
-            <ButtonOne onPress={() => {}} icon={IconInfoCircle} text="About" />
-            <ButtonOne onPress={() => {}} icon={IconStar} text="Favorite" />
+            <ButtonOne
+              onPress={onSubscribePress}
+              icon={feed.subscribed ? IconHeartFilled : IconHeart}
+              text={feed.subscribed ? "Subscribed" : "Subscribe"}
+            />
+            <ButtonOne
+              onPress={onAboutPress}
+              icon={IconInfoCircle}
+              text="About"
+            />
+            <ButtonOne onPress={onPostPress} icon={IconPlus} text="Post" />
           </HStack>
         </VStack>
       </VStack>

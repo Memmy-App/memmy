@@ -26,6 +26,7 @@ import { addAccount, loadAccounts } from "./slices/accounts/accountsActions";
 import { getServers } from "./helpers/SettingsHelper";
 import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
 import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen";
+import CommunityAboutScreen from "./components/screens/feeds/CommunityAboutScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -71,6 +72,11 @@ function FeedStackScreen() {
           name="NewPost"
           component={NewPostScreen}
           options={{ title: "New Post" }}
+        />
+        <FeedStack.Screen
+          name="CommunityAbout"
+          component={CommunityAboutScreen}
+          options={{ title: "About" }}
         />
       </FeedStack.Group>
     </FeedStack.Navigator>

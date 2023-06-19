@@ -26,7 +26,7 @@ import { selectPost } from "../../../slices/post/postSlice";
 interface FeedViewProps {
   feed: UseFeed;
   community?: boolean;
-  header?: JSX.Element | null;
+  header?: () => JSX.Element | null;
 }
 
 function FeedView({ feed, community = false, header }: FeedViewProps) {
@@ -42,9 +42,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   // Refs
   const communityId = useRef(0);
   const communityName = useRef("");
-  const lastPost = useRef(0);
   const flashList = useRef<FlashList<any>>();
-  const creatingPost = useRef(false);
 
   // Other Hooks
   const toast = useToast();
@@ -64,15 +62,6 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     communityId.current = feed.posts[0].community.id;
     communityName.current = feed.posts[0].community.name;
   }, [feed.posts]);
-
-  useEffect(() => {
-    if (creatingPost.current && post && lastPost.current !== post.post.id) {
-      creatingPost.current = false;
-      setTimeout(() => {
-        navigation.push("Post");
-      }, 500);
-    }
-  }, [post]);
 
   const onSortPress = () => {
     const options = [
@@ -112,18 +101,8 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
 
   const onEllipsisButtonPress = () => {
     if (community) {
-      const subscribed = isSubscribed(
-        communityId.current,
-        subscribedCommunities
-      );
-
-      const options = [
-        "New Post",
-        subscribed ? "Unsubscribe" : "Subscribe",
-        "Block Community",
-        "Cancel",
-      ];
-      const cancelButtonIndex = 3;
+      const options = ["Block Community", "Cancel"];
+      const cancelButtonIndex = 1;
 
       showActionSheetWithOptions(
         {
@@ -134,31 +113,6 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
           if (index === cancelButtonIndex) return;
 
           if (index === 0) {
-            creatingPost.current = true;
-            lastPost.current = post ? post.post.id : 0;
-
-            navigation.push("NewPost", {
-              communityId: communityId.current,
-              communityName: communityName.current,
-            });
-          }
-
-          if (index === 1) {
-            trigger("impactMedium");
-            toast.show({
-              title: `${!subscribed ? "Subscribed to" : "Unsubscribed from"} ${
-                communityName.current
-              }`,
-              duration: 3000,
-            });
-
-            dispatch(
-              subscribeToCommunity({
-                communityId: communityId.current,
-                subscribe: !subscribed,
-              })
-            );
-          } else if (index === 2) {
             trigger("impactMedium");
             toast.show({
               title: `Blocked ${communityName.current}`,

@@ -19,6 +19,10 @@ const darkTheme = extendTheme({
     darkText: "#ffffff",
 
     app: {
+      header: "#1c1917",
+      backgroundPrimary: "#1c1917",
+      backgroundSecondary: "#292524",
+
       upvoteColor: "#EE923D",
       downvoteColor: "#1A84E5",
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -10,7 +10,6 @@ import {
   Spinner,
   Text,
   useTheme,
-  View,
   VStack,
 } from "native-base";
 import { RefreshControl, StyleSheet } from "react-native";
@@ -21,21 +20,17 @@ import { FlashList } from "@shopify/flash-list";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import LoadingView from "../../ui/Loading/LoadingView";
-import ILemmyComment from "../../../lemmy/types/ILemmyComment";
-import CommentItem from "../../ui/CommentItem";
 import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
 import ContentView from "../../ui/ContentView";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import CommunityLink from "../../ui/CommunityLink";
 import { shareLink } from "../../../helpers/ShareHelper";
 import usePost from "../../hooks/post/postHooks";
-import { useAppDispatch, useAppSelector } from "../../../store";
+import { useAppDispatch } from "../../../store";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
-import { selectPost } from "../../../slices/post/postSlice";
 import CommentItem2 from "../../ui/CommentItem2";
 
 function PostScreen() {
-  const { post: realPost } = useAppSelector(selectPost);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const theme = useTheme();
   const post = usePost();

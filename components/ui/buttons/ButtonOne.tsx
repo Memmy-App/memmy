@@ -38,13 +38,13 @@ function ButtonOne({
       opacity={selected ? 0.7 : 1}
       shadow={selected ? 3 : 0}
       py={2}
-      px={3}
       mx={mx}
       my={my}
       borderRadius={10}
       backgroundColor={theme.colors.app.buttonOne}
+      flexGrow={1}
     >
-      <HStack space={1.5}>
+      <HStack space={1.5} alignItems="center" justifyContent="center">
         <IconComponent size={24} color={theme.colors.app.buttonOneIcon} />
         <Text fontSize="md" color={theme.colors.app.buttonOneText}>
           {text}

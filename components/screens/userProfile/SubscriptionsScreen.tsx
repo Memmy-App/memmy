@@ -7,6 +7,7 @@ import CTable from "../../ui/table/CTable";
 import CSection from "../../ui/table/CSection";
 import CCell from "../../ui/table/CCell";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
+import { getCommunityFullName } from "../../../lemmy/LemmyHelpers";
 
 function SubscriptionsScreen({
   navigation,
@@ -30,6 +31,7 @@ function SubscriptionsScreen({
                 navigation.navigate("Community", {
                   communityId: community.community.id,
                   communityName: community.community.name,
+                  communityFullName: getCommunityFullName(community),
                   actorId: community.community.actor_id,
                 });
               }}
