@@ -14,7 +14,6 @@ import {
   removeNsfwPosts,
 } from "../../../lemmy/LemmyHelpers";
 import { clearUpdateVote, selectFeed } from "../../../slices/feed/feedSlice";
-import CommunityLink from "../../ui/CommunityLink";
 import { selectCommunities } from "../../../slices/communities/communitiesSlice";
 
 export interface UseFeed {
@@ -76,7 +75,7 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!loaded) return;
+    if (!posts || posts.length < 1) return;
 
     if (lemmyInstance) {
       doLoad(true).then();
