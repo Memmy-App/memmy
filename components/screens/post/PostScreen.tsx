@@ -33,6 +33,7 @@ import { useAppDispatch, useAppSelector } from "../../../store";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import { selectPost } from "../../../slices/post/postSlice";
 import CommentItem2 from "../../ui/CommentItem2";
+import PostActionBar from "./PostActionBar";
 
 function PostScreen() {
   const { post: realPost } = useAppSelector(selectPost);
@@ -50,9 +51,6 @@ function PostScreen() {
   }, []);
 
   const commentItem = ({ item }) => <CommentItem2 nestedComment={item} />;
-  const onVotePress = (value: -1 | 0 | 1) => {
-    post.doVote(value);
-  };
 
   const onCommentPress = () => {
     dispatch(
@@ -130,55 +128,7 @@ function PostScreen() {
         </HStack>
       </HStack>
       <Divider my={1} />
-      <HStack justifyContent="center" space={10} mb={2}>
-        <IconButton
-          icon={
-            <Icon
-              as={Ionicons}
-              name="arrow-up-outline"
-              size={6}
-              onPress={() => onVotePress(1)}
-              color={post.currentPost?.my_vote === 1 ? "white" : "blue.500"}
-            />
-          }
-          backgroundColor={
-            post.currentPost?.my_vote !== 1 ? "screen.800" : "green.500"
-          }
-          padding={2}
-        />
-        <IconButton
-          icon={
-            <Icon
-              as={Ionicons}
-              name="arrow-down-outline"
-              size={6}
-              onPress={() => onVotePress(-1)}
-              color={post.currentPost?.my_vote === -1 ? "white" : "blue.500"}
-            />
-          }
-          backgroundColor={
-            post.currentPost?.my_vote !== -1 ? "screen.800" : "orange.500"
-          }
-          padding={2}
-        />
-        <IconButton
-          icon={
-            <Icon
-              as={Ionicons}
-              name={post.bookmarked ? "bookmark" : "bookmark-outline"}
-              onPress={post.doBookmark}
-            />
-          }
-        />
-        <IconButton
-          icon={<Icon as={Ionicons} name="arrow-undo-outline" />}
-          onPress={onCommentPress}
-        />
-        <IconButton
-          icon={<Icon as={Ionicons} name="share-outline" />}
-          onPress={onSharePress}
-        />
-      </HStack>
+      <PostActionBar />
       <Divider />
     </VStack>
   );
