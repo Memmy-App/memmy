@@ -1,4 +1,3 @@
-import React, { useCallback, useEffect, useState } from "react";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -6,33 +5,28 @@ import {
   Divider,
   HStack,
   Icon,
-  IconButton,
   Spinner,
   Text,
-  useTheme,
-  View,
   VStack,
+  useTheme,
 } from "native-base";
+import React, { useEffect } from "react";
 import { RefreshControl, StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
-import moment from "moment/moment";
-import { FlashList } from "@shopify/flash-list";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import LoadingView from "../../ui/Loading/LoadingView";
-import ILemmyComment from "../../../lemmy/types/ILemmyComment";
-import CommentItem from "../../ui/CommentItem";
-import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
-import ContentView from "../../ui/ContentView";
+import { FlashList } from "@shopify/flash-list";
+import moment from "moment/moment";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
-import CommunityLink from "../../ui/CommunityLink";
-import { shareLink } from "../../../helpers/ShareHelper";
-import usePost from "../../hooks/post/postHooks";
-import { useAppDispatch, useAppSelector } from "../../../store";
-import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import { selectPost } from "../../../slices/post/postSlice";
+import { useAppSelector } from "../../../store";
+import usePost from "../../hooks/post/postHooks";
 import CommentItem2 from "../../ui/CommentItem2";
+import CommunityLink from "../../ui/CommunityLink";
+import ContentView from "../../ui/ContentView";
+import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
+import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
 
 function PostScreen() {
@@ -40,7 +34,6 @@ function PostScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const theme = useTheme();
   const post = usePost();
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     navigation.setOptions({
@@ -51,23 +44,6 @@ function PostScreen() {
   }, []);
 
   const commentItem = ({ item }) => <CommentItem2 nestedComment={item} />;
-
-  const onCommentPress = () => {
-    dispatch(
-      setResponseTo({
-        post: post.currentPost,
-      })
-    );
-
-    navigation.push("NewComment");
-  };
-
-  const onSharePress = () => {
-    shareLink({
-      link: post.currentPost.post.ap_id,
-      title: post.currentPost.post.name,
-    });
-  };
 
   const refreshControl = (
     <RefreshControl
