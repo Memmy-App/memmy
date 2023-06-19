@@ -84,9 +84,6 @@ const usePost = () => {
         sort: CommentSortType.Top,
       });
 
-      // const helper = new LemmyCommentsHelper(commentsRes.comments);
-      // const parsed = helper.getParsed();
-
       const ordered = commentsRes.comments.sort((a, b) =>
         a.comment.path.localeCompare(b.comment.path)
       );

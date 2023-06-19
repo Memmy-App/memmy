@@ -1,7 +1,7 @@
 import moment from "moment";
 
 export const timeFromNowShort = (time: string): string => {
-  const locMom = moment.locale("en", {
+  moment.locale("en", {
     relativeTime: {
       future: "in %s",
       past: "%s ago",
