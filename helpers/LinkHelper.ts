@@ -57,9 +57,16 @@ export const getLinkInfo = (link?: string): LinkInfo => {
 export const openLink = (
   link: string,
   navigation: NativeStackNavigationProp<any, string, undefined>
-): void => {
-  const pattern = /https:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+\/[cm]\/[A-Za-z]+/;
-  const isFed = link.match(pattern);
+): Promise<void> => {
+  const urlPattern =
+    /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
+
+  link = link.match(urlPattern)[0];
+
+  const fedPattern = /https:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+\/[cm]\/[A-Za-z]+/;
+  const isFed = link.match(fedPattern);
+
+  writeToLog(`Trying to open link: ${link}`);
 
   try {
     if (isFed) {
@@ -86,6 +93,8 @@ export const openLink = (
         dismissButtonStyle: "close",
         presentationStyle: WebBrowserPresentationStyle.FULL_SCREEN,
         toolbarColor: "#000",
+      }).catch((e) => {
+        writeToLog(e.toString());
       });
     }
   } catch (e) {
