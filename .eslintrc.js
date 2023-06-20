@@ -35,5 +35,6 @@ module.exports = {
     "no-param-reassign": "warn",
     "no-nested-ternary": "off",
     "import/no-extraneous-dependencies": "off",
+    "prefer-destructuring": ["error", { object: true, array: false }],
   },
 };
