@@ -1,32 +1,32 @@
-import React from "react";
-import { StyleSheet } from "react-native";
+import { PostView } from "lemmy-js-client";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
   HStack,
   Icon,
-  IconButton,
   Pressable,
   Text,
   useToast,
   View,
   VStack,
 } from "native-base";
-import { PostView } from "lemmy-js-client";
+import React from "react";
+import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
-import moment from "moment";
-import { useDispatch } from "react-redux";
-import FastImage from "react-native-fast-image";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
-import { setPost } from "../../../slices/post/postSlice";
-import ContentView from "../ContentView";
-import { setUpdateVote } from "../../../slices/feed/feedSlice";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
-import CommunityLink from "../CommunityLink";
+import moment from "moment";
+import FastImage from "react-native-fast-image";
+import { useDispatch } from "react-redux";
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
+import { getBaseUrl } from "../../../helpers/LinkHelper";
+import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
+import { setUpdateVote } from "../../../slices/feed/feedSlice";
+import { setPost } from "../../../slices/post/postSlice";
+import VoteButton from "../common/VoteButton";
+import CommunityLink from "../CommunityLink";
+import ContentView from "../ContentView";
 
 interface FeedItemProps {
   post: PostView;
@@ -77,6 +77,9 @@ function FeedItem({ post }: FeedItemProps) {
     navigation.push("Post");
   };
 
+  const isUpvoted = post.my_vote === 1;
+  const isDownvoted = post.my_vote === -1;
+
   return (
     <VStack flex={1} my={1.5} backgroundColor="screen.800" shadow={2}>
       <View mx={4} mt={2}>
@@ -90,7 +93,7 @@ function FeedItem({ post }: FeedItemProps) {
               <FastImage source={{ uri: post.community.icon }} />
             )}
           </View>
-          <Text fontSize="xl" fontWeight="semibold" mx={4} my={2}>
+          <Text fontSize="lg" mx={4} my={2}>
             {post.post.name}
           </Text>
         </>
@@ -134,35 +137,15 @@ function FeedItem({ post }: FeedItemProps) {
             </HStack>
 
             <HStack space={3} alignContent="center" justifyContent="flex-end">
-              <IconButton
-                icon={
-                  <Icon
-                    as={Ionicons}
-                    name="arrow-up-outline"
-                    size={6}
-                    onPress={() => onVotePress(1)}
-                    color={post.my_vote === 1 ? "white" : "blue.500"}
-                  />
-                }
-                backgroundColor={
-                  post.my_vote !== 1 ? "screen.800" : "green.500"
-                }
-                padding={1}
+              <VoteButton
+                onPressHandler={() => onVotePress(1)}
+                type="upvote"
+                isVoted={isUpvoted}
               />
-              <IconButton
-                icon={
-                  <Icon
-                    as={Ionicons}
-                    name="arrow-down-outline"
-                    size={6}
-                    onPress={() => onVotePress(-1)}
-                    color={post.my_vote === -1 ? "white" : "blue.500"}
-                  />
-                }
-                backgroundColor={
-                  post.my_vote !== -1 ? "screen.800" : "orange.500"
-                }
-                padding={1}
+              <VoteButton
+                onPressHandler={() => onVotePress(-1)}
+                type="downvote"
+                isVoted={isDownvoted}
               />
             </HStack>
           </HStack>

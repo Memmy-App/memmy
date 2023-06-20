@@ -96,7 +96,7 @@ function ContentView({
         )}
 
         {showTitle && (
-          <Text fontSize="xl" fontWeight="semibold" mt={5} mx={4} mb={4}>
+          <Text fontSize="lg" mt={3} mx={4} mb={1}>
             {post.post.name}
           </Text>
         )}
@@ -106,7 +106,6 @@ function ContentView({
             <RenderMarkdown text={body} addImages={showTitle} />
           </VStack>
         )}
-
         {(linkInfo.extType === ExtensionType.VIDEO && (
           <LinkButton link={linkInfo.link} />
         )) ||
