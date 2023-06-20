@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ListingType } from "lemmy-js-client";
 import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
+import { writeToLog } from "../../helpers/LogHelper";
 
 export const getAllCommunities = createAsyncThunk(
   "communities/getAllCommunities",
@@ -14,6 +15,8 @@ export const getAllCommunities = createAsyncThunk(
 
       return res.communities;
     } catch (e) {
+      writeToLog("Error getting all communities.");
+      writeToLog(e.toString());
       return thunkAPI.rejectWithValue(e);
     }
   }
@@ -35,6 +38,8 @@ export const getSubscribedCommunities = createAsyncThunk(
         a.community.name.localeCompare(b.community.name)
       );
     } catch (e) {
+      writeToLog("Error getting subscribed communities.");
+      writeToLog(e.toString());
       return thunkAPI.rejectWithValue(e);
     }
   }
@@ -57,6 +62,8 @@ export const subscribeToCommunity = createAsyncThunk(
 
       thunkAPI.dispatch(getSubscribedCommunities());
     } catch (e) {
+      writeToLog("Error subscribing to community.");
+      writeToLog(e.toString());
       thunkAPI.rejectWithValue(e);
     }
   }

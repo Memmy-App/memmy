@@ -48,6 +48,7 @@ import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 import { NestedComment } from "../hooks/post/postHooks";
 import { getBaseUrl } from "../../helpers/LinkHelper";
+import { writeToLog } from "../../helpers/LogHelper";
 
 function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
   const theme = useTheme();
@@ -116,6 +117,9 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
         score: value,
       });
     } catch (e) {
+      writeToLog("Error submitting vote.");
+      writeToLog(e.toString());
+
       toast.show({
         title: "Error submitting vote...",
         duration: 3000,

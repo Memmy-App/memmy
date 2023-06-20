@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, useTheme, VStack } from "native-base";
-import { StyleSheet, Switch } from "react-native";
+import { Alert, StyleSheet, Switch } from "react-native";
 import { Cell, Section, TableView } from "react-native-tableview-simple";
 import { getBuildNumber, getVersion } from "react-native-device-info";
 import { useActionSheet } from "@expo/react-native-action-sheet";
@@ -10,6 +10,8 @@ import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { setSetting } from "../../../slices/settings/settingsActions";
 import { selectAccounts } from "../../../slices/accounts/accountsSlice";
 import CCell from "../../ui/table/CCell";
+import CSection from "../../ui/table/CSection";
+import { deleteLog, sendLog } from "../../../helpers/LogHelper";
 
 function SettingsIndexScreen({
   navigation,
@@ -180,7 +182,38 @@ function SettingsIndexScreen({
           />
         </Section>
 
-        <Section header="DEBUG" roundedCorners hideSurroundingSeparators />
+        <CSection header="DEBUG">
+          <CCell
+            cellStyle="Basic"
+            title="Email Debug Log"
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              sendLog()
+                .then()
+                .catch((e) => {
+                  if (e.toString() === "Error: no_file") {
+                    Alert.alert("No debug file exists.");
+                  } else {
+                    console.log(e);
+                    Alert.alert(e.toString());
+                  }
+                });
+            }}
+          />
+          <CCell
+            cellStyle="Basic"
+            title="Clear Debug Log"
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              try {
+                deleteLog();
+                Alert.alert("Debug file cleared.");
+              } catch (e) {
+                console.log(e.toString());
+              }
+            }}
+          />
+        </CSection>
       </TableView>
     </ScrollView>
   );

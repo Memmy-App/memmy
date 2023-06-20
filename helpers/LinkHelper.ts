@@ -1,6 +1,8 @@
 import * as WebBrowser from "expo-web-browser";
 import { WebBrowserPresentationStyle } from "expo-web-browser";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Alert } from "react-native";
+import { writeToLog } from "./LogHelper";
 
 const imageExtensions = [
   "webp",
@@ -59,31 +61,37 @@ export const openLink = (
   const pattern = /https:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+\/[cm]\/[A-Za-z]+/;
   const isFed = link.match(pattern);
 
-  if (isFed) {
-    const communityOnEnd = link.includes("@");
+  try {
+    if (isFed) {
+      const communityOnEnd = link.includes("@");
 
-    let baseUrl;
-    let community;
+      let baseUrl;
+      let community;
 
-    if (communityOnEnd) {
-      baseUrl = link.split("@").pop();
-      community = link.split("c/").pop().split("@")[0];
+      if (communityOnEnd) {
+        baseUrl = link.split("@").pop();
+        community = link.split("c/").pop().split("@")[0];
+      } else {
+        baseUrl = getBaseUrl(link);
+        community = link.split("/").pop();
+      }
+
+      navigation.push("Community", {
+        communityFullName: `${community}@${baseUrl}`,
+        communityName: community,
+        actorId: baseUrl,
+      });
     } else {
-      baseUrl = getBaseUrl(link);
-      community = link.split("/").pop();
+      WebBrowser.openBrowserAsync(link, {
+        dismissButtonStyle: "close",
+        presentationStyle: WebBrowserPresentationStyle.FULL_SCREEN,
+        toolbarColor: "#000",
+      });
     }
-
-    navigation.push("Community", {
-      communityFullName: `${community}@${baseUrl}`,
-      communityName: community,
-      actorId: baseUrl,
-    });
-  } else {
-    WebBrowser.openBrowserAsync(link, {
-      dismissButtonStyle: "close",
-      presentationStyle: WebBrowserPresentationStyle.FULL_SCREEN,
-      toolbarColor: "#000",
-    });
+  } catch (e) {
+    writeToLog("Error opening link.");
+    writeToLog(e.toString());
+    Alert.alert("Error.", e.toString());
   }
 };
 

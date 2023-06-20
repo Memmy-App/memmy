@@ -9,6 +9,7 @@ import LoadingModal from "../../ui/Loading/LoadingModal";
 import { useAppDispatch } from "../../../store";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { addAccount } from "../../../slices/accounts/accountsActions";
+import { writeToLog } from "../../../helpers/LogHelper";
 
 function AddAccountScreen() {
   const [form, setForm] = useState<ILemmyServer>({
@@ -58,6 +59,9 @@ function AddAccountScreen() {
 
       await initialize(server);
     } catch (e) {
+      writeToLog("Error adding account.");
+      writeToLog(e.toString());
+
       if (e === "missing_totp_token") {
         setShowTotpToken(true);
       } else {

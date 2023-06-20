@@ -5,6 +5,7 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { selectImage } from "../../helpers/ImageHelper";
 import LoadingModal from "./Loading/LoadingModal";
 import uploadToImgur from "../../helpers/ImgurHelper";
+import { writeToLog } from "../../helpers/LogHelper";
 
 function KeyboardAccessory({
   setText,
@@ -67,6 +68,9 @@ function KeyboardAccessory({
     try {
       path = await selectImage();
     } catch (e) {
+      writeToLog("Error getting images.");
+      writeToLog(e.toString());
+
       if (e.toString() === "permissions") {
         Alert.alert(
           "Permissions Error",
@@ -84,7 +88,10 @@ function KeyboardAccessory({
       imgurLink = await uploadToImgur(path);
     } catch (e) {
       setUploading(false);
-      console.log(e);
+
+      writeToLog("Error uploading image.");
+      writeToLog(e.toString());
+
       Alert.alert("Error uploading to Imgur.");
     }
 

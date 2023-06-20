@@ -14,6 +14,7 @@ import { selectImage } from "../../../helpers/ImageHelper";
 import uploadToImgur from "../../../helpers/ImgurHelper";
 import { setPost } from "../../../slices/post/postSlice";
 import { useAppDispatch } from "../../../store";
+import { writeToLog } from "../../../helpers/LogHelper";
 
 function NewPostScreen({
   route,
@@ -90,6 +91,9 @@ function NewPostScreen({
     try {
       imgurLink = await uploadToImgur(path);
     } catch (e) {
+      writeToLog("Erorr uploading image.");
+      writeToLog(e.toString());
+
       Alert.alert("Error", "Error uploading image to Imgur.");
     }
 
@@ -116,6 +120,9 @@ function NewPostScreen({
 
       navigation.pop();
     } catch (e) {
+      writeToLog("Error submitting post.");
+      writeToLog(e.toString());
+
       setLoading(false);
       Alert.alert(e.toString());
     }

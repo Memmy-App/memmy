@@ -22,6 +22,7 @@ import {
 import { loadBookmarks } from "../../../slices/bookmarks/bookmarksActions";
 import { Account } from "../../../types/Account";
 import LoadingView from "../../ui/Loading/LoadingView";
+import { writeToLog } from "../../../helpers/LogHelper";
 
 function FeedsIndexScreen({
   navigation,
@@ -74,6 +75,9 @@ function FeedsIndexScreen({
         });
       }
     } catch (e) {
+      writeToLog("Error getting feed.");
+      writeToLog(e.toString());
+
       Alert.alert(e.toString());
     }
 
