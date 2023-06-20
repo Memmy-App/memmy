@@ -57,30 +57,32 @@ export const getLinkInfo = (link?: string): LinkInfo => {
 export const openLink = (
   link: string,
   navigation: NativeStackNavigationProp<any, string, undefined>
-): Promise<void> => {
+): void => {
   const urlPattern =
     /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
 
-  link = link.match(urlPattern)[0];
+  let fixedLink = decodeURIComponent(link);
+  fixedLink = fixedLink.match(urlPattern)[0];
+  fixedLink = fixedLink.replace("%5D", "");
 
   const fedPattern = /https:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+\/[cm]\/[A-Za-z]+/;
-  const isFed = link.match(fedPattern);
+  const isFed = fixedLink.match(fedPattern);
 
-  writeToLog(`Trying to open link: ${link}`);
+  writeToLog(`Trying to open link: ${fixedLink}`);
 
   try {
     if (isFed) {
-      const communityOnEnd = link.includes("@");
+      const communityOnEnd = fixedLink.includes("@");
 
       let baseUrl;
       let community;
 
       if (communityOnEnd) {
-        baseUrl = link.split("@").pop();
-        community = link.split("c/").pop().split("@")[0];
+        baseUrl = fixedLink.split("@").pop();
+        community = fixedLink.split("c/").pop().split("@")[0];
       } else {
-        baseUrl = getBaseUrl(link);
-        community = link.split("/").pop();
+        baseUrl = getBaseUrl(fixedLink);
+        community = fixedLink.split("/").pop();
       }
 
       navigation.push("Community", {
@@ -89,7 +91,7 @@ export const openLink = (
         actorId: baseUrl,
       });
     } else {
-      WebBrowser.openBrowserAsync(link, {
+      WebBrowser.openBrowserAsync(fixedLink, {
         dismissButtonStyle: "close",
         presentationStyle: WebBrowserPresentationStyle.FULL_SCREEN,
         toolbarColor: "#000",
