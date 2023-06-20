@@ -23,8 +23,11 @@ const darkTheme = extendTheme({
 
     app: {
       header: "#1c1917",
+      headerTitle: "#fff",
       backgroundPrimary: "#1c1917",
       backgroundSecondary: "#292524",
+
+      inputBackground: "#44403c",
 
       upvoteColor: "#EE923D",
       downvoteColor: "#1A84E5",
@@ -39,7 +42,7 @@ const darkTheme = extendTheme({
         5: "#4BA9FF",
       },
 
-      primaryText: "",
+      primaryText: "#fff",
       secondaryText: "#999999",
 
       buttonOneIcon: "#007AFF",
@@ -65,9 +68,3 @@ declare module "native-base" {
 }
 
 export default darkTheme;
-
-/*
-Background: warmGray.500
-Card: warmGray.700
-
- */
