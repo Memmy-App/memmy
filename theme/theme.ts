@@ -2,6 +2,7 @@ import { extendTheme } from "native-base";
 
 const darkTheme = extendTheme({
   colors: {
+    accentColor: "#1A91FF",
     screen: {
       50: "#fafaf9",
       100: "#f5f5f4",
@@ -17,6 +18,8 @@ const darkTheme = extendTheme({
 
     lightText: "#ffffff",
     darkText: "#ffffff",
+
+    secondaryText: "#C7C7C7",
 
     app: {
       upvoteColor: "#EE923D",

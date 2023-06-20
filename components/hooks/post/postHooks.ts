@@ -6,10 +6,8 @@ import {
   PostView,
 } from "lemmy-js-client";
 import { useToast } from "native-base";
-import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../../slices/post/postSlice";
-import LemmyCommentsHelper from "../../../lemmy/LemmyCommentsHelper";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { setUpdateVote } from "../../../slices/feed/feedSlice";
 import { selectBookmarks } from "../../../slices/bookmarks/bookmarksSlice";
@@ -20,7 +18,23 @@ import {
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import findAndAddComment from "../../../lemmy/LemmyCommentsHelper";
 
-const usePost = () => {
+export interface UsePost {
+  comments: NestedComment[];
+  commentsLoading: boolean;
+  commentsError: boolean;
+  doLoad: () => Promise<void>;
+
+  refreshList: boolean;
+
+  currentPost: PostView;
+
+  bookmarked: boolean;
+  doBookmark: () => void;
+
+  doVote: (value: -1 | 0 | 1) => Promise<void>;
+}
+
+const usePost = (): UsePost => {
   // Global State
   const { post, newComment } = useAppSelector(selectPost);
   const bookmarks = useAppSelector(selectBookmarks);
@@ -34,7 +48,6 @@ const usePost = () => {
   const [bookmarked, setBookmarked] = useState<boolean>(
     bookmarks?.findIndex((b) => b.postId === currentPost.post.id) !== -1
   );
-  const [collapsed, setCollapsed] = useState<number[]>([]);
 
   // Other Hooks
   const dispatch = useAppDispatch();
@@ -178,9 +191,6 @@ const usePost = () => {
 
     bookmarked,
     doBookmark,
-
-    collapsed,
-    setCollapsed,
 
     doVote,
   };

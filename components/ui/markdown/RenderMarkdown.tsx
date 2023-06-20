@@ -5,6 +5,12 @@ import { openLink } from "../../../helpers/LinkHelper";
 import { findImages } from "../../../helpers/MarkdownHelper";
 import ImageButton from "../ImageButton";
 
+const FONT_SIZE = 14;
+const HEADING_1_SIZE = 32;
+const HEADING_2_SIZE = 26;
+const HEADING_3_SIZE = 22;
+const HEADING_4_SIZE = 18;
+
 interface MarkdownProps {
   text: string;
   addImages?: boolean;
@@ -24,24 +30,34 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
 
   const styles = {
     span: {
-      fontSize: 16,
+      fontSize: FONT_SIZE,
       color: "white",
     },
     inline: {
-      fontSize: 16,
+      fontSize: FONT_SIZE,
       color: "white",
     },
     paragraph: {
-      fontSize: 16,
+      fontSize: FONT_SIZE,
       color: "white",
     },
     heading1: {
-      fontSize: 32,
+      fontSize: HEADING_1_SIZE,
       fontWeight: "bold",
       color: "white",
     },
     heading2: {
-      fontSize: 26,
+      fontSize: HEADING_2_SIZE,
+      fontWeight: "bold",
+      color: "white",
+    },
+    heading3: {
+      fontSize: HEADING_3_SIZE,
+      fontWeight: "bold",
+      color: "white",
+    },
+    heading4: {
+      fontSize: HEADING_4_SIZE,
       fontWeight: "bold",
       color: "white",
     },
@@ -53,18 +69,18 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
       marginVertical: 10,
     },
     code_inline: {
-      fontSize: 16,
+      fontSize: FONT_SIZE,
       color: "white",
       backgroundColor: theme.colors.screen[700],
     },
     code_block: {
-      fontSize: 16,
+      fontSize: FONT_SIZE,
       color: "white",
       backgroundColor: theme.colors.screen[700],
       borderRadius: 5,
     },
     pre: {
-      fontSize: 16,
+      fontSize: FONT_SIZE,
       color: "white",
       backgroundColor: theme.colors.screen[700],
       borderRadius: 5,
@@ -75,11 +91,11 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
     },
     link: {
       color: "rgba(0,176,255,0.63)",
-      fontSize: 16,
+      fontSize: FONT_SIZE,
     },
     table: {
       color: "white",
-      fontSize: 16,
+      fontSize: FONT_SIZE,
       borderColor: theme.colors.screen[500],
       marginVertical: 10,
     },
@@ -97,7 +113,7 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
     },
     list_item: {
       color: "white",
-      fontSize: 16,
+      fontSize: FONT_SIZE,
     },
     textgroup: {
       paddingVertical: 1,
@@ -106,36 +122,26 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
       backgroundColor: theme.colors.screen[700],
       borderColor: theme.colors.screen[700],
       color: "white",
-      fontSize: 16,
+      fontSize: FONT_SIZE,
     },
     em: {
       fontStyle: "italic",
       color: "white",
-      fontSize: 16,
+      fontSize: FONT_SIZE,
     },
     strong: {
       fontWeight: "bold",
       color: "white",
-      fontSize: 16,
+      fontSize: FONT_SIZE,
     },
     s: {
       textDecorationLine: "line-through",
       color: "white",
-      fontSize: 16,
-    },
-    heading3: {
-      fontSize: 22,
-      fontWeight: "bold",
-      color: "white",
-    },
-    heading4: {
-      fontSize: 18,
-      fontWeight: "bold",
-      color: "white",
+      fontSize: FONT_SIZE,
     },
     body: {
       color: "white",
-      fontSize: 16,
+      fontSize: FONT_SIZE,
     },
     hr: {
       color: theme.colors.screen[600],

@@ -1,4 +1,3 @@
-import React, { useCallback, useEffect, useState } from "react";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -6,40 +5,32 @@ import {
   Divider,
   HStack,
   Icon,
-  IconButton,
   Spinner,
   Text,
-  useTheme,
-  View,
   VStack,
+  useTheme,
 } from "native-base";
-import { RefreshControl, StyleSheet } from "react-native";
+import React, { useEffect } from "react";
+import { RefreshControl } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
-import moment from "moment/moment";
-import { FlashList } from "@shopify/flash-list";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import LoadingView from "../../ui/Loading/LoadingView";
-import ILemmyComment from "../../../lemmy/types/ILemmyComment";
-import CommentItem from "../../ui/CommentItem";
-import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
-import ContentView from "../../ui/ContentView";
+import { FlashList } from "@shopify/flash-list";
+import moment from "moment/moment";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
-import CommunityLink from "../../ui/CommunityLink";
-import { shareLink } from "../../../helpers/ShareHelper";
 import usePost from "../../hooks/post/postHooks";
-import { useAppDispatch, useAppSelector } from "../../../store";
-import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
-import { selectPost } from "../../../slices/post/postSlice";
 import CommentItem2 from "../../ui/CommentItem2";
+import CommunityLink from "../../ui/CommunityLink";
+import ContentView from "../../ui/ContentView";
+import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
+import LoadingView from "../../ui/Loading/LoadingView";
+import PostActionBar from "./PostActionBar";
 
 function PostScreen() {
-  const { post: realPost } = useAppSelector(selectPost);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const theme = useTheme();
   const post = usePost();
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     navigation.setOptions({
@@ -50,26 +41,6 @@ function PostScreen() {
   }, []);
 
   const commentItem = ({ item }) => <CommentItem2 nestedComment={item} />;
-  const onVotePress = (value: -1 | 0 | 1) => {
-    post.doVote(value);
-  };
-
-  const onCommentPress = () => {
-    dispatch(
-      setResponseTo({
-        post: post.currentPost,
-      })
-    );
-
-    navigation.push("NewComment");
-  };
-
-  const onSharePress = () => {
-    shareLink({
-      link: post.currentPost.post.ap_id,
-      title: post.currentPost.post.name,
-    });
-  };
 
   const refreshControl = (
     <RefreshControl
@@ -130,55 +101,7 @@ function PostScreen() {
         </HStack>
       </HStack>
       <Divider my={1} />
-      <HStack justifyContent="center" space={10} mb={2}>
-        <IconButton
-          icon={
-            <Icon
-              as={Ionicons}
-              name="arrow-up-outline"
-              size={6}
-              onPress={() => onVotePress(1)}
-              color={post.currentPost?.my_vote === 1 ? "white" : "blue.500"}
-            />
-          }
-          backgroundColor={
-            post.currentPost?.my_vote !== 1 ? "screen.800" : "green.500"
-          }
-          padding={2}
-        />
-        <IconButton
-          icon={
-            <Icon
-              as={Ionicons}
-              name="arrow-down-outline"
-              size={6}
-              onPress={() => onVotePress(-1)}
-              color={post.currentPost?.my_vote === -1 ? "white" : "blue.500"}
-            />
-          }
-          backgroundColor={
-            post.currentPost?.my_vote !== -1 ? "screen.800" : "orange.500"
-          }
-          padding={2}
-        />
-        <IconButton
-          icon={
-            <Icon
-              as={Ionicons}
-              name={post.bookmarked ? "bookmark" : "bookmark-outline"}
-              onPress={post.doBookmark}
-            />
-          }
-        />
-        <IconButton
-          icon={<Icon as={Ionicons} name="arrow-undo-outline" />}
-          onPress={onCommentPress}
-        />
-        <IconButton
-          icon={<Icon as={Ionicons} name="share-outline" />}
-          onPress={onSharePress}
-        />
-      </HStack>
+      <PostActionBar post={post} />
       <Divider />
     </VStack>
   );
@@ -217,12 +140,7 @@ function PostScreen() {
 
   if (post.currentPost) {
     return (
-      <VStack
-        style={[
-          styles.commentContainer,
-          { backgroundColor: theme.colors.screen["800"] },
-        ]}
-      >
+      <VStack flex={1} backgroundColor={theme.colors.screen["800"]}>
         <FlashList
           ListFooterComponent={footer}
           ListHeaderComponent={header}
@@ -238,11 +156,5 @@ function PostScreen() {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  commentContainer: {
-    flex: 1,
-  },
-});
 
 export default PostScreen;
