@@ -32,7 +32,7 @@ function ButtonOne({
   };
 
   const onPressBefore = () => {
-    setSelected((prev) => !prev);
+    if (selectable) setSelected((prev) => !prev);
 
     onPress();
   };
