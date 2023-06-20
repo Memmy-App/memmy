@@ -54,6 +54,7 @@ const darkTheme = extendTheme({
       buttonThreeText: "",
 
       buttonOne: "#44403c",
+      buttonOneSelected: "",
     },
   },
   config: {
