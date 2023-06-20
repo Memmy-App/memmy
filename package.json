@@ -5,7 +5,19 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "buildProd": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive",
-    "buildAndSubmit": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive && eas submit -p ios --path build.ipa --non-interactive"
+    "buildPrev": "rm -rf preview.ipa && eas build -p ios --profile preview --output preview.ipa --local --non-interactive",
+    "buildDev": "rm -rf dev.ipa && eas build -p ios --profile preview --output dev.ipa --local --non-interactive",
+    "buildSim": "rm -rf simulator.tar.gz && eas build -p ios --profile simulator --output simulator.tar.gz --non-interactive",
+    "runSim": "eas build:run -p ios --path simulator.tar.gz",
+    "startDev": "npx expo start --dev-client",
+    "startNoDev": "npx expo start --no-dev --minify",
+
+    "buildProdAnd": "rm -rf build.aab && eas build -p android --profile production --output build.aab --local --non-interactive",
+    "buildDevAnd": "rm -rf dev.apk && eas build -p android --profile development --output dev.apk --local --non-interactive",
+    "buildPrevAnd": "rm -rf prev.apk && eas build -p android --profile preview --output prev.apk --local --non-interactive",
+    "runAnd": "eas build:run -p android --path dev.apk",
+    "buildAndSubmit": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive && eas submit -p ios --path build.ipa --non-interactive",
+    "buildAndSubmitAll": "yarn run buildProd && yarn run buildProdAnd && eas submit -p ios --path build.iap && eas submit -p android build.aab"
   },
   "dependencies": {
     "@dreamwalk-os/react-native-image-modal": "^2.2.0",

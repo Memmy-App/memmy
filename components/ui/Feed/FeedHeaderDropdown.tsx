@@ -35,7 +35,7 @@ function FeedHeaderDropdown({ title, enabled }: HeaderDropdownProps) {
             {currentAccount ? currentAccount.username : accounts[0].username}
           </Text>
           <Text fontSize="12">
-            {currentAccount ? currentAccount.username : accounts[0].instance}
+            {currentAccount ? currentAccount.instance : accounts[0].instance}
           </Text>
         </VStack>
         <Icon

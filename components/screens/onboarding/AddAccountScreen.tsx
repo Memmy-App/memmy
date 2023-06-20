@@ -74,6 +74,8 @@ function AddAccountScreen() {
     if (!lemmyAuthToken) {
       Alert.alert("Error", "Did not receive authentication response.");
     }
+
+    setLoading(false);
   };
 
   const onPress = () => {

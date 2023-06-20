@@ -91,8 +91,6 @@ function FeedsIndexScreen({
     feed.setLoaded(true);
   };
 
-  if (!lemmyInstance) return <LoadingView />;
-
   return <FeedView feed={feed} />;
 }
 

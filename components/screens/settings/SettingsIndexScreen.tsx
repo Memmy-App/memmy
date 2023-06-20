@@ -62,7 +62,7 @@ function SettingsIndexScreen({
         </Section>
 
         <Section
-          header="NSWF CONTENT"
+          header="NSFW CONTENT"
           footer="This toggle does not affect your Lemmy account NSFW settings. This local setting will apply only to the app and will apply to all accounts."
           roundedCorners
           hideSurroundingSeparators
