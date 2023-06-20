@@ -58,47 +58,50 @@ export const openLink = (
   link: string,
   navigation: NativeStackNavigationProp<any, string, undefined>
 ): void => {
+  const fedPattern =
+    /^(?:https?:\/\/\w+\.\w+)?\/c\/\w+(?:@\w+(?:\.\w+)?(?:\.\w+)?)?$/;
+  const isFed = link.match(fedPattern);
+
+  if (isFed) {
+    const communityOnEnd = link.includes("@");
+
+    let baseUrl;
+    let community;
+
+    if (communityOnEnd) {
+      baseUrl = link.split("@").pop();
+      community = link.split("c/").pop().split("@")[0];
+    } else {
+      baseUrl = getBaseUrl(link);
+      community = link.split("/").pop();
+    }
+
+    navigation.push("Community", {
+      communityFullName: `${community}@${baseUrl}`,
+      communityName: community,
+      actorId: baseUrl,
+    });
+
+    return;
+  }
+
   const urlPattern =
     /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
 
-  let fixedLink = decodeURIComponent(link);
-  fixedLink = fixedLink.match(urlPattern)[0];
-  fixedLink = fixedLink.replace("%5D", "");
-
-  const fedPattern = /https:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+\/[cm]\/[A-Za-z]+/;
-  const isFed = fixedLink.match(fedPattern);
-
-  writeToLog(`Trying to open link: ${fixedLink}`);
-
   try {
-    if (isFed) {
-      const communityOnEnd = fixedLink.includes("@");
+    writeToLog(`Trying to open link: ${link}`);
 
-      let baseUrl;
-      let community;
+    let fixedLink = decodeURIComponent(link);
+    fixedLink = fixedLink.match(urlPattern)[0];
+    fixedLink = fixedLink.replace("%5D", "");
 
-      if (communityOnEnd) {
-        baseUrl = fixedLink.split("@").pop();
-        community = fixedLink.split("c/").pop().split("@")[0];
-      } else {
-        baseUrl = getBaseUrl(fixedLink);
-        community = fixedLink.split("/").pop();
-      }
-
-      navigation.push("Community", {
-        communityFullName: `${community}@${baseUrl}`,
-        communityName: community,
-        actorId: baseUrl,
-      });
-    } else {
-      WebBrowser.openBrowserAsync(fixedLink, {
-        dismissButtonStyle: "close",
-        presentationStyle: WebBrowserPresentationStyle.FULL_SCREEN,
-        toolbarColor: "#000",
-      }).catch((e) => {
-        writeToLog(e.toString());
-      });
-    }
+    WebBrowser.openBrowserAsync(fixedLink, {
+      dismissButtonStyle: "close",
+      presentationStyle: WebBrowserPresentationStyle.FULL_SCREEN,
+      toolbarColor: "#000",
+    }).catch((e) => {
+      writeToLog(e.toString());
+    });
   } catch (e) {
     writeToLog("Error opening link.");
     writeToLog(e.toString());
