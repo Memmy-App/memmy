@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { TouchableOpacity } from "react-native";
 import { HStack, Pressable, Text, useTheme } from "native-base";
 import { TablerIcon } from "tabler-icons-react-native";
 
@@ -12,7 +11,7 @@ function ButtonOne({
   selectable = false,
 }: {
   onPress: () => void;
-  icon: TablerIcon;
+  icon?: TablerIcon;
   text: string;
   mx?: number;
   my?: number;
@@ -58,7 +57,9 @@ function ButtonOne({
       flexGrow={1}
     >
       <HStack space={1.5} alignItems="center" justifyContent="center">
-        <IconComponent size={24} color={theme.colors.app.buttonOneIcon} />
+        {icon && (
+          <IconComponent size={24} color={theme.colors.app.buttonOneIcon} />
+        )}
         <Text fontSize="md" color={theme.colors.app.buttonOneText}>
           {text}
         </Text>
