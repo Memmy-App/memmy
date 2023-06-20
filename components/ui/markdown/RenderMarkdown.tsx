@@ -158,7 +158,7 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
         >
           {text ?? ""}
         </Markdown>
-        {addImages && cleanedText.imageLinks.length > 0 && (
+        {addImages && cleanedText && cleanedText.imageLinks.length > 0 && (
           <ImageButton src={cleanedText.imageLinks[0]} />
         )}
       </VStack>
