@@ -18,6 +18,7 @@ import { UseFeed } from "../../hooks/feeds/feedsHooks";
 import LoadingFooter from "../Loading/LoadingFooter";
 import LoadingErrorFooter from "../Loading/LoadingErrorFooter";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
+import LoadingErrorView from "../Loading/LoadingErrorView";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -177,12 +178,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     }
     if (feed.postsError) {
       if (!feed.posts || feed.posts.length < 1) {
-        return (
-          <LoadingErrorFooter
-            message="Failed to load posts"
-            onRetryPress={feed.doLoad}
-          />
-        );
+        return <LoadingErrorView onRetryPress={feed.doLoad} />;
       }
 
       return (
