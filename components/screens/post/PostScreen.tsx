@@ -140,12 +140,7 @@ function PostScreen() {
 
   if (post.currentPost) {
     return (
-      <VStack
-        style={[
-          styles.commentContainer,
-          { backgroundColor: theme.colors.screen["800"] },
-        ]}
-      >
+      <VStack flex={1} backgroundColor={theme.colors.screen["800"]}>
         <FlashList
           ListFooterComponent={footer}
           ListHeaderComponent={header}
@@ -161,11 +156,5 @@ function PostScreen() {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  commentContainer: {
-    flex: 1,
-  },
-});
 
 export default PostScreen;
