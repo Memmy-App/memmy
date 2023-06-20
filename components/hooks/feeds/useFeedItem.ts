@@ -1,0 +1,83 @@
+import { PostView } from "lemmy-js-client";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useToast } from "native-base";
+import React, { SetStateAction, useState } from "react";
+import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
+import { useAppDispatch } from "../../../store";
+import { setUpdateVote } from "../../../slices/feed/feedSlice";
+import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
+import { writeToLog } from "../../../helpers/LogHelper";
+import { setPost } from "../../../slices/post/postSlice";
+import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
+
+interface UseFeedItem {
+  myVote: ILemmyVote;
+  setMyVote: React.Dispatch<SetStateAction<ILemmyVote>>;
+
+  onVotePress: (value: ILemmyVote) => Promise<void>;
+  onPress: () => void;
+}
+
+const useFeedItem = (post: PostView): UseFeedItem => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const dispatch = useAppDispatch();
+  const toast = useToast();
+  const [myVote, setMyVote] = useState<ILemmyVote>(post.my_vote as ILemmyVote);
+
+  const onVotePress = async (value: ILemmyVote) => {
+    onVoteHapticFeedback();
+
+    if (value === post.my_vote && value !== 0) value = 0;
+
+    const oldValue: ILemmyVote = post.my_vote as ILemmyVote;
+
+    setMyVote(value);
+    dispatch(
+      setUpdateVote({
+        postId: post.post.id,
+        vote: value,
+      })
+    );
+
+    try {
+      await lemmyInstance.likePost({
+        auth: lemmyAuthToken,
+        post_id: post.post.id,
+        score: value,
+      });
+    } catch (e) {
+      writeToLog("Error submitting vote.");
+      writeToLog(e.toString());
+
+      toast.show({
+        title: "Error submitting vote...",
+        duration: 3000,
+      });
+
+      setMyVote(oldValue);
+      dispatch(
+        setUpdateVote({
+          postId: post.post.id,
+          vote: oldValue,
+        })
+      );
+    }
+  };
+
+  const onPress = () => {
+    dispatch(setPost(post));
+    navigation.push("Post");
+  };
+
+  return {
+    myVote,
+    setMyVote,
+
+    onVotePress,
+
+    onPress,
+  };
+};
+
+export default useFeedItem;
