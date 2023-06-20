@@ -13,7 +13,7 @@ function WebLink({ href, children }: WebLinkProps) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onPress = () => {
-    openLink(href, navigation).then();
+    openLink(href, navigation);
   };
 
   return (

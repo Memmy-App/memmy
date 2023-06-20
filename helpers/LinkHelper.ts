@@ -52,10 +52,10 @@ export const getLinkInfo = (link?: string): LinkInfo => {
   };
 };
 
-export const openLink = async (
+export const openLink = (
   link: string,
   navigation: NativeStackNavigationProp<any, string, undefined>
-): Promise<WebBrowser.WebBrowserResult | void> => {
+): void => {
   const pattern = /https:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+\/[cm]\/[A-Za-z]+/;
   const isFed = link.match(pattern);
 
@@ -69,7 +69,6 @@ export const openLink = async (
       baseUrl = link.split("@").pop();
       community = link.split("c/").pop().split("@")[0];
     } else {
-      console.log("there");
       baseUrl = getBaseUrl(link);
       community = link.split("/").pop();
     }

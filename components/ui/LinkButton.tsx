@@ -22,7 +22,7 @@ function LinkButton({ link }: LinkButtonProps) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onPress = () => {
-    openLink(link, navigation).then();
+    openLink(link, navigation);
   };
 
   return (
