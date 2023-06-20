@@ -9,23 +9,32 @@ function ButtonOne({
   text,
   my,
   mx,
+  selectable = false,
 }: {
   onPress: () => void;
   icon: TablerIcon;
   text: string;
   mx?: number;
   my?: number;
+  selectable?: boolean;
 }) {
+  const [pressedIn, setPressedIn] = useState(false);
   const [selected, setSelected] = useState(false);
 
   const theme = useTheme();
 
   const onPressIn = () => {
-    setSelected(true);
+    setPressedIn(true);
   };
 
   const onPressOut = () => {
-    setSelected(false);
+    setPressedIn(false);
+  };
+
+  const onPressBefore = () => {
+    setSelected((prev) => !prev);
+
+    onPress();
   };
 
   const IconComponent = icon;
@@ -34,14 +43,18 @@ function ButtonOne({
     <Pressable
       onPressIn={onPressIn}
       onPressOut={onPressOut}
-      onPress={onPress}
-      opacity={selected ? 0.7 : 1}
-      shadow={selected ? 3 : 0}
+      onPress={onPressBefore}
+      opacity={pressedIn ? 0.7 : 1}
+      shadow={pressedIn ? 3 : 0}
       py={2}
       mx={mx}
       my={my}
       borderRadius={10}
-      backgroundColor={theme.colors.app.buttonOne}
+      backgroundColor={
+        !selected
+          ? theme.colors.app.buttonOne
+          : theme.colors.app.buttonOneSelected
+      }
       flexGrow={1}
     >
       <HStack space={1.5} alignItems="center" justifyContent="center">
