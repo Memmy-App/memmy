@@ -7,6 +7,7 @@ import { useAppSelector } from "../../../store";
 import { selectNewComment } from "../../../slices/newComment/newCommentSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { setPostNewComment } from "../../../slices/post/postSlice";
+import { writeToLog } from "../../../helpers/LogHelper";
 
 const useNewComment = () => {
   const [content, setContent] = useState("");
@@ -46,6 +47,9 @@ const useNewComment = () => {
 
       navigation.pop();
     } catch (e) {
+      writeToLog("Error submitting comment.");
+      writeToLog(e.toString());
+
       setLoading(false);
 
       if (e.toString() === "rate_limit_error") {

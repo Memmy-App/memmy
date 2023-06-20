@@ -27,6 +27,7 @@ import { setPost } from "../../../slices/post/postSlice";
 import VoteButton from "../common/VoteButton";
 import CommunityLink from "../CommunityLink";
 import ContentView from "../ContentView";
+import { writeToLog } from "../../../helpers/LogHelper";
 
 interface FeedItemProps {
   post: PostView;
@@ -59,6 +60,9 @@ function FeedItem({ post }: FeedItemProps) {
         score: value,
       });
     } catch (e) {
+      writeToLog("Error submitting vote.");
+      writeToLog(e.toString());
+
       toast.show({
         title: "Error submitting vote...",
         duration: 3000,

@@ -6,6 +6,7 @@ import * as Permissions from "expo-permissions";
 import * as MediaLibrary from "expo-media-library";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as ImagePicker from "expo-image-picker";
+import { writeToLog } from "./LogHelper";
 
 const downloadAndSaveImage = async (src: string): Promise<boolean> => {
   const fileName = src.split("/").pop();
@@ -24,7 +25,8 @@ const downloadAndSaveImage = async (src: string): Promise<boolean> => {
 
     return false;
   } catch (e) {
-    console.log(e);
+    writeToLog("Error downloading image.");
+    writeToLog(e.toString());
     return false;
   }
 };
@@ -33,7 +35,8 @@ const saveImage = async (filePath: string) => {
   try {
     MediaLibrary.saveToLibraryAsync(filePath).then();
   } catch (e) {
-    console.log("Error: ", e);
+    writeToLog("Error saving image.");
+    writeToLog(e.toString());
   }
 };
 

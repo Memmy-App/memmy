@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GetSiteResponse } from "lemmy-js-client";
 import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
+import { writeToLog } from "../../helpers/LogHelper";
 
 export const getSiteInfo = createAsyncThunk(
   "site/getSiteInfo",
@@ -16,6 +17,9 @@ export const getSiteInfo = createAsyncThunk(
           auth: lemmyAuthToken,
         });
       } catch (e) {
+        writeToLog("Error getting site info.");
+        writeToLog(e.toString());
+
         if (tries < 3) {
           return get();
         }
@@ -45,6 +49,8 @@ export const unblockCommunity = createAsyncThunk(
         block: false,
       });
     } catch (e) {
+      writeToLog("Error unblocking community.");
+      writeToLog(e.toString());
       return thunkAPI.rejectWithValue(e.toString());
     }
   }

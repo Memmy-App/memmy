@@ -17,6 +17,7 @@ import {
 } from "../../../slices/bookmarks/bookmarksActions";
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import findAndAddComment from "../../../lemmy/LemmyCommentsHelper";
+import { writeToLog } from "../../../helpers/LogHelper";
 
 export interface UsePost {
   comments: NestedComment[];
@@ -105,7 +106,9 @@ const usePost = (): UsePost => {
       setComments(parsed);
       setCommentsLoading(false);
     } catch (e) {
-      console.log(e);
+      writeToLog("Error loading post.");
+      writeToLog(e.toString());
+
       setCommentsLoading(false);
       setCommentsError(true);
     }
@@ -147,6 +150,9 @@ const usePost = (): UsePost => {
         score: value,
       });
     } catch (e) {
+      writeToLog("Error liking post.");
+      writeToLog(e.toString());
+
       // If there was an error, reset the value and show a notification
       toast.show({
         title: "Error saving vote",

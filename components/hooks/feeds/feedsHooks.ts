@@ -15,6 +15,7 @@ import {
 } from "../../../lemmy/LemmyHelpers";
 import { clearUpdateVote, selectFeed } from "../../../slices/feed/feedSlice";
 import { selectCommunities } from "../../../slices/communities/communitiesSlice";
+import { writeToLog } from "../../../helpers/LogHelper";
 
 export interface UseFeed {
   posts: PostView[] | null;
@@ -135,7 +136,8 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
           isSubscribed(res.community_view.community.id, subscribedCommunities)
         );
       } catch (e) {
-        console.log(e.toString());
+        writeToLog("Error getting community feed.");
+        writeToLog(e.toString());
 
         if (e.toString() === "couldnt_find_community") {
           setCommunityNotFound(true);
@@ -184,6 +186,9 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
 
         setPostsLoading(false);
       } catch (e) {
+        writeToLog("Error getting feed.");
+        writeToLog(e.toString());
+
         setPosts(null);
         setPostsError(true);
       }

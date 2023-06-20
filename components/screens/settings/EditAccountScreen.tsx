@@ -11,6 +11,7 @@ import {
   addAccount,
   editAccount,
 } from "../../../slices/accounts/accountsActions";
+import { writeToLog } from "../../../helpers/LogHelper";
 
 function EditAccountScreen({
   route,
@@ -88,6 +89,9 @@ function EditAccountScreen({
 
       await initialize(form);
     } catch (e) {
+      writeToLog("Error editing account.");
+      writeToLog(e.toString());
+
       setLoading(false);
 
       if (e === "missing_totp_token") {

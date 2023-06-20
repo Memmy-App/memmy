@@ -1,6 +1,8 @@
 import * as WebBrowser from "expo-web-browser";
 import { WebBrowserPresentationStyle } from "expo-web-browser";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Alert } from "react-native";
+import { writeToLog } from "./LogHelper";
 
 const imageExtensions = [
   "webp",
@@ -52,39 +54,53 @@ export const getLinkInfo = (link?: string): LinkInfo => {
   };
 };
 
-export const openLink = async (
+export const openLink = (
   link: string,
   navigation: NativeStackNavigationProp<any, string, undefined>
-): Promise<WebBrowser.WebBrowserResult | void> => {
-  const pattern = /https:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+\/[cm]\/[A-Za-z]+/;
-  const isFed = link.match(pattern);
+): Promise<void> => {
+  const urlPattern =
+    /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
 
-  if (isFed) {
-    const communityOnEnd = link.includes("@");
+  link = link.match(urlPattern)[0];
 
-    let baseUrl;
-    let community;
+  const fedPattern = /https:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+\/[cm]\/[A-Za-z]+/;
+  const isFed = link.match(fedPattern);
 
-    if (communityOnEnd) {
-      baseUrl = link.split("@").pop();
-      community = link.split("c/").pop().split("@")[0];
+  writeToLog(`Trying to open link: ${link}`);
+
+  try {
+    if (isFed) {
+      const communityOnEnd = link.includes("@");
+
+      let baseUrl;
+      let community;
+
+      if (communityOnEnd) {
+        baseUrl = link.split("@").pop();
+        community = link.split("c/").pop().split("@")[0];
+      } else {
+        baseUrl = getBaseUrl(link);
+        community = link.split("/").pop();
+      }
+
+      navigation.push("Community", {
+        communityFullName: `${community}@${baseUrl}`,
+        communityName: community,
+        actorId: baseUrl,
+      });
     } else {
-      console.log("there");
-      baseUrl = getBaseUrl(link);
-      community = link.split("/").pop();
+      WebBrowser.openBrowserAsync(link, {
+        dismissButtonStyle: "close",
+        presentationStyle: WebBrowserPresentationStyle.FULL_SCREEN,
+        toolbarColor: "#000",
+      }).catch((e) => {
+        writeToLog(e.toString());
+      });
     }
-
-    navigation.push("Community", {
-      communityFullName: `${community}@${baseUrl}`,
-      communityName: community,
-      actorId: baseUrl,
-    });
-  } else {
-    WebBrowser.openBrowserAsync(link, {
-      dismissButtonStyle: "close",
-      presentationStyle: WebBrowserPresentationStyle.FULL_SCREEN,
-      toolbarColor: "#000",
-    });
+  } catch (e) {
+    writeToLog("Error opening link.");
+    writeToLog(e.toString());
+    Alert.alert("Error.", e.toString());
   }
 };
 

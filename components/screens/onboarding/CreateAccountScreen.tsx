@@ -11,12 +11,14 @@ import {
 import { Alert, Linking } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { LemmyHttp } from "lemmy-js-client";
+import { write } from "react-native-fs";
 import ILemmyServer from "../../../lemmy/types/ILemmyServer";
 import { initialize, lemmyAuthToken } from "../../../lemmy/LemmyInstance";
 import CTextInput from "../../ui/CTextInput";
 import LoadingModal from "../../ui/Loading/LoadingModal";
 import { useAppDispatch } from "../../../store";
 import { addAccount } from "../../../slices/accounts/accountsActions";
+import { writeToLog } from "../../../helpers/LogHelper";
 
 interface RegisterForm {
   server: string;
@@ -116,7 +118,9 @@ function CreateAccountScreen() {
         setReady(true);
       }
     } catch (e) {
-      console.log(e);
+      writeToLog("Error creating account.");
+      writeToLog(e.toString());
+
       setLoading(false);
       Alert.alert("Error", e.toString());
     }
@@ -137,6 +141,9 @@ function CreateAccountScreen() {
     try {
       await initialize(server);
     } catch (e) {
+      writeToLog("Error initializing server.");
+      writeToLog(e.toString());
+
       Alert.alert("Error", e.toString());
       setLoading(false);
       return;

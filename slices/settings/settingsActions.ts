@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SettingsState } from "./settingsSlice";
 import { RootState } from "../../store";
+import { writeToLog } from "../../helpers/LogHelper";
 
 export const loadSettings = createAsyncThunk(
   "settings/loadSettings",
@@ -11,6 +12,8 @@ export const loadSettings = createAsyncThunk(
     try {
       settingsStr = await AsyncStorage.getItem("@settings");
     } catch (e) {
+      writeToLog("Error getting settings.");
+      writeToLog(e.toString());
       return null;
     }
 
