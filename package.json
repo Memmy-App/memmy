@@ -6,7 +6,7 @@
     "web": "expo start --web",
     "buildProd": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive",
     "buildPrev": "rm -rf preview.ipa && eas build -p ios --profile preview --output preview.ipa --local --non-interactive",
-    "buildDev": "rm -rf dev.ipa && eas build -p ios --profile preview --output dev.ipa --local --non-interactive",
+    "buildDev": "rm -rf dev.ipa && eas build -p ios --profile development --output dev.ipa --local --non-interactive",
     "buildSim": "rm -rf simulator.tar.gz && eas build -p ios --profile simulator --output simulator.tar.gz --non-interactive",
     "runSim": "eas build:run -p ios --path simulator.tar.gz",
     "startDev": "npx expo start --dev-client",
