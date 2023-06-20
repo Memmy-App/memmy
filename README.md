@@ -15,21 +15,65 @@ This is a work in progress and is not in a functional state - yet. I intend to r
 
 ## Building
 If you wish to build on your own, you may do so. You will need to follow the instructions found
-[here](https://docs.expo.dev/get-started/installation/) to install Expo first. Then, you can simply run the following
-to create your own builds.
+[here](https://docs.expo.dev/get-started/installation/) to install Expo first. Next, you will need to create an Expo
+account at [https://expo.dev/](https://expo.dev).
+
+Clone the repo to your computer and open app.json. You should remove the `eas` block from this file and save.
+
+You are now ready to create a build. Run `yarn install` then run the build command the OS you are targeting.
 
 ```shell
-git clone https://github.com/gkasdorf/memmy.git
-cd memmy
+yarn install
 
 # IOS
-eas build -p ios --profile preview --local --output memmy-build.ipa
+
+# To run on an iOS simulator
+eas build -p ios --profile simulator --local --output simulator.tar.gz
+# OR #
+yarn run buildSim
+
+# To run a development build on-device
+eas build -p ios --profile development --local --output dev.ipa
+# OR #
+yarn run buildDev
+
+# To build for personal use without Expo development tools
+eas build -p ios --profile preview --local --output preview.ipa
+# OR #
+yarn run buildPrev
 
 # Android
-eas build -p android --profile preview --local --output memmy-build.apk
+
+# To run on an emulator or run on device
+eas build -p android --profile development --local --output dev.apk
+# OR #
+yarn run buildDevAnd
+
+# TO build for personal use without Expo development tools
+eas build -p android --profile preview --local --output preview.aab
+# OR #
+yan run buildPrevAnd
 ```
 
-Install the application through Xcode devices or however else you wish to install.
+Note: For iOS builds that you wish to deploy to a device, it seems that you do require an Apple developer account.
+
+Lastly, to use a development build, start the Expo development server. There are two ways to do this depending on what
+you are trying to test.
+
+```shell
+# For debugging and error reporting
+npx expo start --dev-client
+# OR #
+yarn run startDev
+
+# To use a development build but achieve a more production-like environment
+npx expo start --no-dev --minify
+# OR #
+yarn run startNoDev
+```
+
+You now can connect to the development server via `localhost:8081` for the development server or `localhost:19000` for
+the no-dev server.
 
 ## Info
 This application uses Expo. The various pluses to using Expo/React Native are the following:
