@@ -8,6 +8,7 @@ function ButtonOne({
   text,
   my,
   mx,
+  py = 2,
   selectable = false,
 }: {
   onPress: () => void;
@@ -15,6 +16,7 @@ function ButtonOne({
   text: string;
   mx?: number;
   my?: number;
+  py?: number;
   selectable?: boolean;
 }) {
   const [pressedIn, setPressedIn] = useState(false);
@@ -45,7 +47,7 @@ function ButtonOne({
       onPress={onPressBefore}
       opacity={pressedIn ? 0.7 : 1}
       shadow={pressedIn ? 3 : 0}
-      py={2}
+      py={py}
       mx={mx}
       my={my}
       borderRadius={10}
