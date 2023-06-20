@@ -15,7 +15,8 @@
     "buildProdAnd": "rm -rf build.aab && eas build -p android --profile production --output build.aab --local --non-interactive",
     "buildDevAnd": "rm -rf dev.apk && eas build -p android --profile development --output dev.apk --local --non-interactive",
     "runAnd": "eas build:run -p android --path dev.apk",
-    "buildAndSubmit": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive && eas submit -p ios --path build.ipa --non-interactive"
+    "buildAndSubmit": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive && eas submit -p ios --path build.ipa --non-interactive",
+    "buildAndSubmitAll": "yarn run buildProd && yarn run buildProdAnd && eas submit -p ios --path build.iap && eas submit -p android build.aab"
   },
   "dependencies": {
     "@dreamwalk-os/react-native-image-modal": "^2.2.0",
