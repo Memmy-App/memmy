@@ -11,7 +11,7 @@ import {
   useTheme,
 } from "native-base";
 import React, { useEffect } from "react";
-import { RefreshControl, StyleSheet } from "react-native";
+import { RefreshControl } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -101,7 +101,7 @@ function PostScreen() {
         </HStack>
       </HStack>
       <Divider my={1} />
-      <PostActionBar />
+      <PostActionBar post={post} />
       <Divider />
     </VStack>
   );

@@ -11,14 +11,13 @@ import {
 import { shareLink } from "../../../helpers/ShareHelper";
 import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
 import { useAppDispatch } from "../../../store";
-import usePost from "../../hooks/post/postHooks";
+import { UsePost } from "../../hooks/post/postHooks";
 import IconButtonWithText from "../../ui/common/IconButtonWithText";
 import VoteButton from "../../ui/common/VoteButton";
 
-function PostActionBar() {
+function PostActionBar({ post }: { post: UsePost }) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { colors } = useTheme();
-  const post = usePost();
   const dispatch = useAppDispatch();
 
   const onVotePress = (value: -1 | 0 | 1) => {
