@@ -1,21 +1,36 @@
-import React, { SetStateAction, useEffect, useState } from "react";
-import { ListingType, PostView, SortType } from "lemmy-js-client";
+import React, { SetStateAction, useEffect, useRef, useState } from "react";
+import {
+  CommunityView,
+  ListingType,
+  PostView,
+  SortType,
+} from "lemmy-js-client";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import {
+  isSubscribed,
   removeDuplicatePosts,
   removeNsfwPosts,
 } from "../../../lemmy/LemmyHelpers";
 import { clearUpdateVote, selectFeed } from "../../../slices/feed/feedSlice";
+import { selectCommunities } from "../../../slices/communities/communitiesSlice";
 
 export interface UseFeed {
   posts: PostView[] | null;
   postsLoading: boolean;
   postsError: boolean;
 
+  community: CommunityView | null;
+  communityLoading: boolean;
+  communityError: boolean;
+  communityNotFound: boolean;
+
   sort: SortType;
   setSort: (sort: SortType) => void;
+
+  subscribed: boolean;
+  setSubscribed: React.Dispatch<SetStateAction<boolean>>;
 
   refreshList: boolean;
   setRefreshList: React.Dispatch<SetStateAction<boolean>>;
@@ -24,18 +39,29 @@ export interface UseFeed {
   setListingType: (listingType: ListingType) => void;
 
   doLoad: (refresh?: boolean) => void;
+
+  loaded: boolean;
+  setLoaded: React.Dispatch<SetStateAction<any>>;
 }
 
-export const useFeed = (communityId?: number): UseFeed => {
+export const useFeed = (communityIdOrName?: number | string): UseFeed => {
   // Global State
   const { defaultSort, defaultListingType, hideNsfw } =
     useAppSelector(selectSettings);
   const { updateVote } = useAppSelector(selectFeed);
+  const { subscribedCommunities } = useAppSelector(selectCommunities);
 
   // State
   const [posts, setPosts] = useState<PostView[] | null>(null);
   const [postsLoading, setPostsLoading] = useState<boolean>(false);
   const [postsError, setPostsError] = useState<boolean>(false);
+
+  const [community, setCommunity] = useState<CommunityView | null>(null);
+  const [communityLoading, setCommunityLoading] = useState<boolean>(false);
+  const [communityError, setCommunityError] = useState<boolean>(false);
+  const [communityNotFound, setCommunityNotFound] = useState<boolean>(false);
+
+  const [subscribed, setSubscribed] = useState<boolean>(false);
 
   const [sort, setSort] = useState<SortType>(defaultSort);
   const [listingType, setListingType] =
@@ -43,6 +69,7 @@ export const useFeed = (communityId?: number): UseFeed => {
   const [nextPage, setNextPage] = useState(1);
 
   const [refreshList, setRefreshList] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   // Refs
 
@@ -50,6 +77,8 @@ export const useFeed = (communityId?: number): UseFeed => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    if (!posts || posts.length < 1) return;
+
     if (lemmyInstance) {
       doLoad(true).then();
     }
@@ -77,37 +106,91 @@ export const useFeed = (communityId?: number): UseFeed => {
   }, [updateVote]);
 
   const doLoad = async (refresh = false) => {
-    setPostsLoading(true);
-    setPostsError(false);
+    const loadCommunity = async () => {
+      setCommunityLoading(true);
+      setCommunityError(false);
 
-    try {
-      const res = await lemmyInstance.getPosts({
-        auth: lemmyAuthToken,
-        community_id: communityId ?? undefined,
-        limit: 20,
-        page: refresh ? 1 : nextPage,
-        sort,
-        type_: listingType,
-      });
+      try {
+        const res = await lemmyInstance.getCommunity({
+          auth: lemmyAuthToken,
+          id:
+            typeof communityIdOrName === "number"
+              ? (communityIdOrName as number)
+              : undefined,
+          name:
+            typeof communityIdOrName === "string"
+              ? (communityIdOrName as string)
+              : undefined,
+        });
 
-      const newPosts = hideNsfw ? removeNsfwPosts(res.posts) : res.posts;
+        // @ts-ignore
+        if (res.error && res.error === "couldnt_find_community") {
+          setCommunityNotFound(true);
+          return;
+        }
 
-      if (!posts || refresh) {
-        setPosts(newPosts);
-        setNextPage(2);
-      } else {
-        // TODO Revisit this once hopeful changes are made to Lemmy. I don't like having to actually iterate through
-        // all of the posts to remove duplicates, seems hacky
-        setPosts((prev) => [...prev, ...removeDuplicatePosts(prev, newPosts)]);
-        setNextPage((prev) => prev + 1);
+        setCommunity(res.community_view);
+        setCommunityLoading(false);
+        setSubscribed(
+          isSubscribed(res.community_view.community.id, subscribedCommunities)
+        );
+      } catch (e) {
+        console.log(e.toString());
+
+        if (e.toString() === "couldnt_find_community") {
+          setCommunityNotFound(true);
+        }
+
+        setCommunityLoading(false);
+        setCommunityError(true);
       }
+    };
 
-      setPostsLoading(false);
-    } catch (e) {
-      setPosts(null);
+    const loadPosts = async () => {
+      setPostsLoading(true);
       setPostsError(false);
-      setPostsError(true);
-    }
+
+      try {
+        const res = await lemmyInstance.getPosts({
+          auth: lemmyAuthToken,
+          community_id:
+            typeof communityIdOrName === "number"
+              ? (communityIdOrName as number)
+              : undefined,
+          community_name:
+            typeof communityIdOrName === "string"
+              ? (communityIdOrName as string)
+              : undefined,
+          limit: 20,
+          page: refresh ? 1 : nextPage,
+          sort,
+          type_: listingType,
+        });
+
+        const newPosts = hideNsfw ? removeNsfwPosts(res.posts) : res.posts;
+
+        if (!posts || refresh) {
+          setPosts(newPosts);
+          setNextPage(2);
+        } else {
+          // TODO Revisit this once hopeful changes are made to Lemmy. I don't like having to actually iterate through
+          // all of the posts to remove duplicates, seems hacky
+          setPosts((prev) => [
+            ...prev,
+            ...removeDuplicatePosts(prev, newPosts),
+          ]);
+          setNextPage((prev) => prev + 1);
+        }
+
+        setPostsLoading(false);
+      } catch (e) {
+        setPosts(null);
+        setPostsError(true);
+      }
+    };
+
+    if (communityIdOrName && (refresh || !community)) loadCommunity().then();
+    loadPosts().then();
   };
 
   return {
@@ -115,8 +198,16 @@ export const useFeed = (communityId?: number): UseFeed => {
     postsLoading,
     postsError,
 
+    community,
+    communityLoading,
+    communityError,
+    communityNotFound,
+
     refreshList,
     setRefreshList,
+
+    subscribed,
+    setSubscribed,
 
     sort,
     setSort,
@@ -125,5 +216,8 @@ export const useFeed = (communityId?: number): UseFeed => {
     setListingType,
 
     doLoad,
+
+    loaded,
+    setLoaded,
   };
 };

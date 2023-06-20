@@ -14,36 +14,29 @@ import CIconButton from "../CIconButton";
 import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectFeed, setDropdownVisible } from "../../../slices/feed/feedSlice";
-import { subscribeToCommunity } from "../../../slices/communities/communitiesActions";
-import { isSubscribed } from "../../../lemmy/LemmyHelpers";
-import { selectCommunities } from "../../../slices/communities/communitiesSlice";
 import { UseFeed } from "../../hooks/feeds/feedsHooks";
 import LoadingFooter from "../Loading/LoadingFooter";
 import LoadingErrorFooter from "../Loading/LoadingErrorFooter";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
-import { selectPost } from "../../../slices/post/postSlice";
 
 interface FeedViewProps {
   feed: UseFeed;
   community?: boolean;
+  header?: () => JSX.Element | null;
 }
 
-function FeedView({ feed, community = false }: FeedViewProps) {
+function FeedView({ feed, community = false, header }: FeedViewProps) {
   // State Props
   const [endReached, setEndReached] = useState(false);
   const [, setSortIcon] = useState(SortIconType[feed.sort]);
 
   // Global state props
   const { dropdownVisible } = useAppSelector(selectFeed);
-  const { subscribedCommunities } = useAppSelector(selectCommunities);
-  const { post } = useAppSelector(selectPost);
 
   // Refs
   const communityId = useRef(0);
   const communityName = useRef("");
-  const lastPost = useRef(0);
   const flashList = useRef<FlashList<any>>();
-  const creatingPost = useRef(false);
 
   // Other Hooks
   const toast = useToast();
@@ -63,15 +56,6 @@ function FeedView({ feed, community = false }: FeedViewProps) {
     communityId.current = feed.posts[0].community.id;
     communityName.current = feed.posts[0].community.name;
   }, [feed.posts]);
-
-  useEffect(() => {
-    if (creatingPost.current && post && lastPost.current !== post.post.id) {
-      creatingPost.current = false;
-      setTimeout(() => {
-        navigation.push("Post");
-      }, 500);
-    }
-  }, [post]);
 
   const onSortPress = () => {
     const options = [
@@ -111,18 +95,8 @@ function FeedView({ feed, community = false }: FeedViewProps) {
 
   const onEllipsisButtonPress = () => {
     if (community) {
-      const subscribed = isSubscribed(
-        communityId.current,
-        subscribedCommunities
-      );
-
-      const options = [
-        "New Post",
-        subscribed ? "Unsubscribe" : "Subscribe",
-        "Block Community",
-        "Cancel",
-      ];
-      const cancelButtonIndex = 3;
+      const options = ["Block Community", "Cancel"];
+      const cancelButtonIndex = 1;
 
       showActionSheetWithOptions(
         {
@@ -133,31 +107,6 @@ function FeedView({ feed, community = false }: FeedViewProps) {
           if (index === cancelButtonIndex) return;
 
           if (index === 0) {
-            creatingPost.current = true;
-            lastPost.current = post ? post.post.id : 0;
-
-            navigation.push("NewPost", {
-              communityId: communityId.current,
-              communityName: communityName.current,
-            });
-          }
-
-          if (index === 1) {
-            trigger("impactMedium");
-            toast.show({
-              title: `${!subscribed ? "Subscribed to" : "Unsubscribed from"} ${
-                communityName.current
-              }`,
-              duration: 3000,
-            });
-
-            dispatch(
-              subscribeToCommunity({
-                communityId: communityId.current,
-                subscribe: !subscribed,
-              })
-            );
-          } else if (index === 2) {
             trigger("impactMedium");
             toast.show({
               title: `Blocked ${communityName.current}`,
@@ -227,10 +176,19 @@ function FeedView({ feed, community = false }: FeedViewProps) {
       return <LoadingFooter message="Loading more posts..." />;
     }
     if (feed.postsError) {
+      if (!feed.posts || feed.posts.length < 1) {
+        return (
+          <LoadingErrorFooter
+            message="Failed to load posts"
+            onRetryPress={feed.doLoad}
+          />
+        );
+      }
+
       return (
         <LoadingErrorFooter
-          message="Failed to load posts"
-          onRetryPress={feed.doLoad}
+          onRetryPress={() => feed.doLoad(true)}
+          message="Failed to load posts :("
         />
       );
     }
@@ -245,6 +203,7 @@ function FeedView({ feed, community = false }: FeedViewProps) {
         <LoadingView />
       ) : (
         <FlashList
+          ListHeaderComponent={header}
           data={feed.posts}
           extraData={feed.refreshList}
           renderItem={feedItem}

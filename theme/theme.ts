@@ -22,6 +22,10 @@ const darkTheme = extendTheme({
     secondaryText: "#C7C7C7",
 
     app: {
+      header: "#1c1917",
+      backgroundPrimary: "#1c1917",
+      backgroundSecondary: "#292524",
+
       upvoteColor: "#EE923D",
       downvoteColor: "#1A84E5",
 
@@ -34,6 +38,19 @@ const darkTheme = extendTheme({
         4: "#36CF3C",
         5: "#4BA9FF",
       },
+
+      primaryText: "",
+      secondaryText: "#999999",
+
+      buttonOneIcon: "#007AFF",
+      buttonTwoIcon: "",
+      buttonThreeIcon: "",
+
+      buttonOneText: "#fff",
+      buttonTwoText: "",
+      buttonThreeText: "",
+
+      buttonOne: "#44403c",
     },
   },
   config: {

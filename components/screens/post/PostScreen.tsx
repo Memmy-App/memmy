@@ -1,3 +1,5 @@
+import React, { useEffect } from "react";
+
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -10,7 +12,6 @@ import {
   VStack,
   useTheme,
 } from "native-base";
-import React, { useEffect } from "react";
 import { RefreshControl } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
@@ -18,13 +19,13 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import moment from "moment/moment";
+import LoadingView from "../../ui/Loading/LoadingView";
+import ContentView from "../../ui/ContentView";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import usePost from "../../hooks/post/postHooks";
+import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import CommentItem2 from "../../ui/CommentItem2";
 import CommunityLink from "../../ui/CommunityLink";
-import ContentView from "../../ui/ContentView";
-import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
-import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
 
 function PostScreen() {

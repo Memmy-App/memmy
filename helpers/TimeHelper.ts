@@ -5,20 +5,20 @@ export const timeFromNowShort = (time: string): string => {
     relativeTime: {
       future: "in %s",
       past: "%s ago",
-      s: "seconds",
+      s: "1s",
       ss: "%ss",
-      m: "a minute",
+      m: "1m",
       mm: "%dm",
       h: "an hour",
       hh: "%dh",
-      d: "a day",
+      d: "1d",
       dd: "%dd",
-      M: "a month",
+      M: "1m",
       MM: "%dM",
-      y: "a year",
+      y: "1y",
       yy: "%dY",
     },
   });
 
-  return moment(time).fromNow(true);
+  return moment(time).utc(true).fromNow(true);
 };

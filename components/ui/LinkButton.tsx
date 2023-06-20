@@ -9,6 +9,8 @@ import {
 } from "native-base";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { openLink } from "../../helpers/LinkHelper";
 import { truncateLink } from "../../helpers/TextHelper";
 
@@ -17,8 +19,10 @@ interface LinkButtonProps {
 }
 
 function LinkButton({ link }: LinkButtonProps) {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   const onPress = () => {
-    openLink(link).then();
+    openLink(link, navigation).then();
   };
 
   return (

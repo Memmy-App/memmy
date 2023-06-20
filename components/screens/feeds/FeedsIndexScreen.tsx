@@ -1,14 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { current } from "@reduxjs/toolkit";
 import { Alert } from "react-native";
 import FeedView from "../../ui/Feed/FeedView";
 import FeedHeaderDropdown from "../../ui/Feed/FeedHeaderDropdown";
 import { useFeed } from "../../hooks/feeds/feedsHooks";
 import {
   initialize,
-  lemmyAuthToken,
   lemmyInstance,
+  resetInstance,
 } from "../../../lemmy/LemmyInstance";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import {
@@ -22,6 +21,7 @@ import {
 } from "../../../slices/accounts/accountsSlice";
 import { loadBookmarks } from "../../../slices/bookmarks/bookmarksActions";
 import { Account } from "../../../types/Account";
+import LoadingView from "../../ui/Loading/LoadingView";
 
 function FeedsIndexScreen({
   navigation,
@@ -31,13 +31,16 @@ function FeedsIndexScreen({
   const feed = useFeed();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const accounts = useAppSelector(selectAccounts);
   const previousAccount = useRef<Account | null>(null);
 
   const dispatch = useAppDispatch();
 
   const headerTitle = () => (
     <FeedHeaderDropdown
-      title={`${currentAccount.username}@${currentAccount.instance}`}
+      title={`${
+        currentAccount ? currentAccount.username : accounts[0].username
+      }@${currentAccount ? currentAccount.instance : accounts[0].instance}`}
       enabled
     />
   );
@@ -56,19 +59,20 @@ function FeedsIndexScreen({
 
     if (currentAccount === previousAccount.current) return;
 
+    resetInstance();
     load().then();
   }, [currentAccount]);
 
   const load = async () => {
     try {
-      await initialize({
-        username: currentAccount.username,
-        password: currentAccount.password,
-        auth: currentAccount.token,
-        server: currentAccount.instance,
-      });
-
-      feed.doLoad(false);
+      if (!lemmyInstance) {
+        await initialize({
+          username: currentAccount.username,
+          password: currentAccount.password,
+          auth: currentAccount.token,
+          server: currentAccount.instance,
+        });
+      }
     } catch (e) {
       Alert.alert(e.toString());
     }
@@ -80,7 +84,10 @@ function FeedsIndexScreen({
     dispatch(loadBookmarks());
 
     feed.doLoad(true);
+    feed.setLoaded(true);
   };
+
+  if (!lemmyInstance) return <LoadingView />;
 
   return <FeedView feed={feed} />;
 }

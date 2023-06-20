@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo } from "react";
 import { useTheme, VStack } from "native-base";
 import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { openLink } from "../../../helpers/LinkHelper";
 import { findImages } from "../../../helpers/MarkdownHelper";
 import ImageButton from "../ImageButton";
@@ -17,12 +19,10 @@ interface MarkdownProps {
 }
 
 const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
-  useEffect(() => {
-    findImages(text);
-  }, []);
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onLinkPress = (url): boolean => {
-    openLink(url).then();
+    openLink(url, navigation);
     return false;
   };
 
@@ -149,7 +149,12 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
   };
 
   const markdown = useMemo(() => {
-    const src = findImages(text);
+    const cleanedText = findImages(text);
+    text = cleanedText.cleanedText.replace(
+      /(^|[^[\]])\b(https?:\/\/[^\s]+)\b(?![\]]|\()/g,
+      (match, prefix, url) => `${prefix}[${url}](${url})`
+    );
+
     return (
       <VStack flex={1}>
         <Markdown
@@ -159,7 +164,9 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
         >
           {text ?? ""}
         </Markdown>
-        {addImages && src && <ImageButton src={src} />}
+        {addImages && cleanedText && cleanedText.imageLinks.length > 0 && (
+          <ImageButton src={cleanedText.imageLinks[0]} />
+        )}
       </VStack>
     );
   }, [text]);
