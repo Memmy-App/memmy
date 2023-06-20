@@ -3,7 +3,7 @@ import * as MailComposer from "expo-mail-composer";
 import { getReadableVersion } from "react-native-device-info";
 import moment from "moment";
 
-const logFile = `${FileSystem.DocumentDirectoryPath}lemmy-debug.log`;
+const logFile = `${FileSystem.DocumentDirectoryPath}/lemmy-debug.log`;
 
 const writeToLog = (text: string) => {
   console.log(text);
