@@ -189,6 +189,7 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
         writeToLog("Error getting feed.");
         writeToLog(e.toString());
 
+        setPostsLoading(false);
         setPosts(null);
         setPostsError(true);
       }

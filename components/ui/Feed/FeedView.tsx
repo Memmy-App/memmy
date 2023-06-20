@@ -195,30 +195,31 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     <View style={styles.container} backgroundColor="screen.900">
       <FeedHeaderDropdownDrawer />
 
-      {feed.postsLoading && !feed.posts ? (
-        <LoadingView />
-      ) : (
-        <FlashList
-          ListHeaderComponent={header}
-          data={feed.posts}
-          extraData={feed.refreshList}
-          renderItem={feedItem}
-          keyExtractor={keyExtractor}
-          refreshControl={refreshControl}
-          onEndReachedThreshold={0.8}
-          estimatedItemSize={500}
-          estimatedListSize={{ height: 50, width: 1 }}
-          ListFooterComponent={footer}
-          onEndReached={() => setEndReached(true)}
-          ref={flashList}
-          onMomentumScrollEnd={() => {
-            if (endReached) {
-              feed.doLoad();
-              setEndReached(false);
-            }
-          }}
-        />
-      )}
+      {(feed.postsLoading && !feed.posts && <LoadingView />) ||
+        (feed.postsError && !feed.posts && (
+          <LoadingErrorView onRetryPress={() => feed.doLoad(true)} />
+        )) || (
+          <FlashList
+            ListHeaderComponent={header}
+            data={feed.posts}
+            extraData={feed.refreshList}
+            renderItem={feedItem}
+            keyExtractor={keyExtractor}
+            refreshControl={refreshControl}
+            onEndReachedThreshold={0.8}
+            estimatedItemSize={500}
+            estimatedListSize={{ height: 50, width: 1 }}
+            ListFooterComponent={footer}
+            onEndReached={() => setEndReached(true)}
+            ref={flashList}
+            onMomentumScrollEnd={() => {
+              if (endReached) {
+                feed.doLoad();
+                setEndReached(false);
+              }
+            }}
+          />
+        )}
     </View>
   );
 }

@@ -1,18 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Button,
-  InputAccessoryView,
-  Keyboard,
-  Platform,
-  StyleSheet,
-  TextInput,
-} from "react-native";
+import { Button, StyleSheet, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   HStack,
   Icon,
-  KeyboardAvoidingView,
-  ScrollView,
   Text,
   useColorMode,
   useTheme,
@@ -26,9 +17,7 @@ import { useAppSelector } from "../../../store";
 import { selectNewComment } from "../../../slices/newComment/newCommentSlice";
 import LoadingView from "../../ui/Loading/LoadingView";
 import useNewComment from "../../hooks/newComment/newCommentHooks";
-import CommentItem from "../../ui/CommentItem";
 import { truncateName } from "../../../helpers/TextHelper";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
 import RenderMarkdown from "../../ui/markdown/RenderMarkdown";
 import KeyboardAccessory from "../../ui/KeyboardAccessory";
 
