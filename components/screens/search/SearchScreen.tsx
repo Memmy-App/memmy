@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { HStack, ScrollView, Text, useTheme, VStack } from "native-base";
-import { SearchType } from "lemmy-js-client";
+import { PostView, SearchType } from "lemmy-js-client";
 import useSearch from "../../hooks/search/useSearch";
 import SearchBar from "../../ui/search/SearchBar";
 import ButtonTwo from "../../ui/buttons/ButtonTwo";
@@ -10,6 +10,8 @@ import GenericSearchResult from "../../ui/search/GenericSearchResult";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import LoadingView from "../../ui/Loading/LoadingView";
 import { getCommunityFullName } from "../../../lemmy/LemmyHelpers";
+import { setPost } from "../../../slices/post/postSlice";
+import { useAppDispatch } from "../../../store";
 
 function SearchScreen({
   navigation,
@@ -18,11 +20,14 @@ function SearchScreen({
 }) {
   const search = useSearch();
   const theme = useTheme();
+  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    console.log(search.searchType);
-    console.log(search.result);
-  }, [search]);
+  const onPostPress = (post: PostView) => {
+    console.log("here");
+
+    dispatch(setPost(post));
+    navigation.push("Post");
+  };
 
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
@@ -113,7 +118,9 @@ function SearchScreen({
                           header={r.post.name}
                           footer={getBaseUrl(r.post.ap_id)}
                           image={r.community.icon}
-                          onPress={() => {}}
+                          onPress={() => {
+                            onPostPress(r);
+                          }}
                         />
                       ))}
                   </>
