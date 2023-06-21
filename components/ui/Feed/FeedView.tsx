@@ -1,16 +1,10 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ListingType, SortType } from "lemmy-js-client";
 import { useTheme, useToast, View } from "native-base";
 import { Button, RefreshControl, StyleSheet } from "react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { FlashList } from "@shopify/flash-list";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { trigger } from "react-native-haptic-feedback";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import FeedItem from "./FeedItem";
@@ -54,6 +48,8 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { showActionSheetWithOptions } = useActionSheet();
   const dispatch = useAppDispatch();
+
+  useScrollToTop(flashList);
 
   useEffect(() => {
     navigation.setOptions({

@@ -9,8 +9,8 @@ import {
   Icon,
   Spinner,
   Text,
-  VStack,
   useTheme,
+  VStack,
 } from "native-base";
 import { RefreshControl } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies

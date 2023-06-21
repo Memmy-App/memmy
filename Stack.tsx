@@ -1,3 +1,5 @@
+/* eslint react/no-unstable-nested-components: 0 */
+
 import React, { useState } from "react";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -5,7 +7,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon, useTheme } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Button } from "react-native";
+import { IconSearch } from "tabler-icons-react-native";
 import FeedsIndexScreen from "./components/screens/feeds/FeedsIndexScreen";
 import CommunityFeedScreen from "./components/screens/feeds/CommunityFeedScreen";
 import PostScreen from "./components/screens/post/PostScreen";
@@ -27,6 +29,7 @@ import { getServers } from "./helpers/SettingsHelper";
 import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
 import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen";
 import CommunityAboutScreen from "./components/screens/feeds/CommunityAboutScreen";
+import SearchScreen from "./components/screens/search/SearchScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -109,13 +112,39 @@ function ProfileStackScreen() {
         name="Subscriptions"
         component={SubscriptionsScreen}
       />
-      <ProfileStack.Screen name="Community" component={CommunityFeedScreen} />
       <ProfileStack.Screen
         name="BlockedCommunities"
         component={BlockedCommunitiesScreen}
         options={{ title: "Blocked Communities" }}
       />
     </ProfileStack.Navigator>
+  );
+}
+
+const SearchStack = createNativeStackNavigator();
+
+function SearchStackScreen() {
+  const theme = useTheme();
+
+  return (
+    <SearchStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: theme.colors.app.header,
+        },
+        headerTitleStyle: {
+          color: theme.colors.app.headerTitle,
+        },
+      }}
+    >
+      <SearchStack.Screen
+        name="Search"
+        component={SearchScreen}
+        options={{
+          title: "Search",
+        }}
+      />
+    </SearchStack.Navigator>
   );
 }
 
@@ -182,6 +211,15 @@ function Tabs() {
         }}
       />
       <Tab.Screen
+        name="SearchStack"
+        component={SearchStackScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => <IconSearch color={color} />,
+          tabBarLabel: "Search",
+        }}
+      />
+      <Tab.Screen
         name="UserProfileStack"
         component={ProfileStackScreen}
         options={{
@@ -216,6 +254,7 @@ function Stack() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useAppDispatch();
 
+  // TODO Remove this fix
   const tempFix = async () => {
     const servers = await getServers();
 
