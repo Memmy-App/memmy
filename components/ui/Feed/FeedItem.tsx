@@ -130,6 +130,7 @@ function FeedItem({ post }: FeedItemProps) {
           </HStack>
 
           <HStack space={1} alignItems="center" justifyContent="flex-end">
+            {/* // TODO: add functionality for bookmark and menu buttons
             <IconButtonWithText
               icon={
                 <IconDots size={25} color={theme.colors.app.secondaryText} />
@@ -146,7 +147,7 @@ function FeedItem({ post }: FeedItemProps) {
               }
               iconBgColor={theme.colors.screen[800]}
               onPressHandler={() => {}}
-            />
+            /> */}
             <VoteButton
               onPressHandler={() => feedItem.onVotePress(1)}
               type="upvote"

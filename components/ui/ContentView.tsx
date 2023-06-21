@@ -111,10 +111,16 @@ function ContentView({
           </VStack>
         )}
         {(linkInfo.extType === ExtensionType.VIDEO && (
-          <LinkButton link={linkInfo.link} />
+          <LinkButton
+            link={linkInfo.link}
+            thumbnail={post.post.thumbnail_url}
+          />
         )) ||
           (linkInfo.extType === ExtensionType.GENERIC && (
-            <LinkButton link={linkInfo.link} />
+            <LinkButton
+              link={linkInfo.link}
+              thumbnail={post.post.thumbnail_url}
+            />
           ))}
       </>
     ),
