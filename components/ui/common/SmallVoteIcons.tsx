@@ -16,7 +16,7 @@ function SmallVoteIcons({
 
   return useMemo(
     () => (
-      <HStack space={2}>
+      <HStack space={1}>
         <HStack alignItems="center">
           <IconArrowUp
             color={

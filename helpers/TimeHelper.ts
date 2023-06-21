@@ -9,7 +9,7 @@ export const timeFromNowShort = (time: string): string => {
       ss: "%ss",
       m: "1m",
       mm: "%dm",
-      h: "an hour",
+      h: "1h",
       hh: "%dh",
       d: "1d",
       dd: "%dd",
