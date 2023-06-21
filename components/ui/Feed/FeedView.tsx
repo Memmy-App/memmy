@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { ListingType, SortType } from "lemmy-js-client";
 import { useTheme, useToast, View } from "native-base";
 import { Button, RefreshControl, StyleSheet } from "react-native";
@@ -146,16 +152,13 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     }
   };
 
-  const feedItem = useCallback(
-    ({ item }) => {
-      if (compactView) {
-        return <CompactFeedItem post={item} />;
-      }
+  const feedItem = ({ item }) => {
+    if (compactView) {
+      return <CompactFeedItem post={item} />;
+    }
 
-      return <FeedItem post={item} />;
-    },
-    [compactView]
-  );
+    return <FeedItem post={item} />;
+  };
 
   const headerRight = () => {
     if (dropdownVisible) {
@@ -219,8 +222,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             keyExtractor={keyExtractor}
             refreshControl={refreshControl}
             onEndReachedThreshold={0.8}
-            estimatedItemSize={compactView ? 200 : 500}
-            estimatedListSize={{ height: 50, width: 1 }}
+            estimatedItemSize={compactView ? 100 : 500}
             ListFooterComponent={footer}
             onEndReached={() => setEndReached(true)}
             ref={flashList}

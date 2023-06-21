@@ -23,3 +23,11 @@ export const truncatePost = (post: string, truncLength = 500): string => {
 
   return `${post.slice(0, truncLength)}...`;
 };
+
+export const truncateCompactFeedItem = (text: string): string => {
+  if (!text) return "";
+
+  if (text.length <= 60) return text;
+
+  return `${text.slice(0, 60)}...`;
+};

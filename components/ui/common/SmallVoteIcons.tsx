@@ -16,7 +16,7 @@ function SmallVoteIcons({
 
   return useMemo(
     () => (
-      <>
+      <HStack space={2}>
         <HStack alignItems="center">
           <IconArrowUp
             color={
@@ -39,7 +39,7 @@ function SmallVoteIcons({
           />
           <Text>{myVote === -1 ? downvotes + 1 : downvotes}</Text>
         </HStack>
-      </>
+      </HStack>
     ),
     [upvotes, downvotes, myVote]
   );

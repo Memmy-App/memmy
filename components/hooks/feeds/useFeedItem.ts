@@ -2,7 +2,7 @@ import { PostView } from "lemmy-js-client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useToast } from "native-base";
-import React, { SetStateAction, useState } from "react";
+import React, { SetStateAction, useMemo, useState } from "react";
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { useAppDispatch } from "../../../store";
 import { setUpdateVote } from "../../../slices/feed/feedSlice";
@@ -10,6 +10,7 @@ import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { setPost } from "../../../slices/post/postSlice";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
+import { getLinkInfo, LinkInfo } from "../../../helpers/LinkHelper";
 
 interface UseFeedItem {
   myVote: ILemmyVote;
@@ -17,6 +18,8 @@ interface UseFeedItem {
 
   onVotePress: (value: ILemmyVote) => Promise<void>;
   onPress: () => void;
+
+  linkInfo: LinkInfo;
 }
 
 const useFeedItem = (post: PostView): UseFeedItem => {
@@ -24,6 +27,8 @@ const useFeedItem = (post: PostView): UseFeedItem => {
   const dispatch = useAppDispatch();
   const toast = useToast();
   const [myVote, setMyVote] = useState<ILemmyVote>(post.my_vote as ILemmyVote);
+
+  const linkInfo = useMemo(() => getLinkInfo(post.post.url), []);
 
   const onVotePress = async (value: ILemmyVote) => {
     onVoteHapticFeedback();
@@ -77,6 +82,8 @@ const useFeedItem = (post: PostView): UseFeedItem => {
     onVotePress,
 
     onPress,
+
+    linkInfo,
   };
 };
 
