@@ -34,7 +34,7 @@ function AvatarUsername({
         <IconUser color={colors.app.iconColor} />
       )}
       <VStack>
-        <Text fontWeight="semibold">{username}</Text>
+        <Text fontWeight="medium">{username}</Text>
         {showInstance && <Text fontSize="xs">{getBaseUrl(instanceName)}</Text>}
       </VStack>
       {children}
