@@ -58,7 +58,8 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   }, [feed.sort]);
 
   useEffect(() => {
-    if (!feed.posts || communityId.current !== 0) return;
+    if (!feed.posts || feed.posts.length < 1 || communityId.current !== 0)
+      return;
     communityId.current = feed.posts[0].community.id;
     communityName.current = feed.posts[0].community.name;
   }, [feed.posts]);
