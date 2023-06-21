@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-filename-extension */
+/* eslint-disable  global-require */
 import { StatusBar } from "expo-status-bar";
 import { Provider } from "react-redux";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -7,7 +8,6 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import React from "react";
 
 import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
 import Stack from "./Stack";
 import darkTheme from "./theme/theme";
 import store from "./store";
@@ -38,22 +38,14 @@ export default function App() {
     return null;
   }
 
-import darkTheme from "./theme/theme";
-import store from "./store";
-import Stack from "./Stack";
-import { createIfDontExist } from "./helpers/LogHelper";
-
-// eslint-disable-next-line no-undef
-if (__DEV__) {
-  import("./ReactotronConfig").then(() => console.log("Reactotron Enabled."));
-}
-
-export default function App() {
-  createIfDontExist().then();
-
+  // eslint-disable-next-line no-undef
+  if (__DEV__) {
+    import("./ReactotronConfig").then(() => console.log("Reactotron Enabled."));
+  }
 
   return (
     <>
+      {/* eslint-disable-next-line react/style-prop-object */}
       <StatusBar style="light" />
       <Provider store={store}>
         <GestureHandlerRootView style={{ flex: 1 }}>
