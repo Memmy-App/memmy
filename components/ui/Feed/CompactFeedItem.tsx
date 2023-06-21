@@ -3,6 +3,7 @@ import { PostView } from "lemmy-js-client";
 import {
   Box,
   HStack,
+  Icon,
   Pressable,
   Text,
   useTheme,
@@ -10,17 +11,27 @@ import {
   VStack,
 } from "native-base";
 import FastImage from "react-native-fast-image";
-import { IconLink, IconMessages, IconUser } from "tabler-icons-react-native";
+import {
+  IconLink,
+  IconMessage,
+  IconMessages,
+  IconPlanet,
+  IconUser,
+} from "tabler-icons-react-native";
+import moment from "moment";
+import { BlurView } from "expo-blur";
+import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet } from "react-native";
 import useFeedItem from "../../hooks/feeds/useFeedItem";
 import { ExtensionType } from "../../../helpers/LinkHelper";
 import {
   truncateCompactFeedItem,
-  truncateLink,
   truncateName,
 } from "../../../helpers/TextHelper";
 import VoteButton from "../common/VoteButton";
 import SmallVoteIcons from "../common/SmallVoteIcons";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
+import { timeFromNowShort } from "../../../helpers/TimeHelper";
 
 function CompactFeedItem({ post }: { post: PostView }) {
   const feedItem = useFeedItem(post);
@@ -33,7 +44,7 @@ function CompactFeedItem({ post }: { post: PostView }) {
     <Pressable onPress={feedItem.onPress}>
       <HStack
         flex={1}
-        my={1}
+        my={0.5}
         px={3}
         py={4}
         backgroundColor={theme.colors.app.backgroundSecondary}
@@ -49,21 +60,50 @@ function CompactFeedItem({ post }: { post: PostView }) {
           alignSelf="center"
         >
           {(feedItem.linkInfo.extType === ExtensionType.IMAGE && (
-            <FastImage
-              source={{ uri: post.post.url }}
-              style={{
-                height: 75,
-                width: 75,
-                borderRadius: 10,
-              }}
-              resizeMode="cover"
-            />
+            <>
+              {post.post.nsfw ? (
+                <View style={styles.blurContainer}>
+                  <BlurView style={styles.blurView} intensity={100} tint="dark">
+                    <VStack
+                      flex={1}
+                      alignItems="center"
+                      justifyContent="center"
+                      space={2}
+                    >
+                      <Icon
+                        as={Ionicons}
+                        name="alert-circle"
+                        color="white"
+                        size={12}
+                        alignSelf="center"
+                        style={styles.nsfwIcon}
+                      />
+                    </VStack>
+                  </BlurView>
+                  <FastImage
+                    resizeMode="cover"
+                    style={styles.image}
+                    source={{
+                      uri: post.post.url,
+                    }}
+                  />
+                </View>
+              ) : (
+                <FastImage
+                  resizeMode="cover"
+                  style={styles.image}
+                  source={{
+                    uri: post.post.url,
+                  }}
+                />
+              )}
+            </>
           )) ||
             (feedItem.linkInfo.extType === ExtensionType.NONE && (
               <IconMessages size={40} color={theme.colors.app.iconColor} />
             )) || <IconLink size={40} color={theme.colors.app.iconColor} />}
         </Box>
-        <VStack flex={1} space={1}>
+        <VStack flex={1}>
           <Text flex={1} fontSize={17}>
             {truncateCompactFeedItem(post.post.name)}
           </Text>
@@ -76,28 +116,29 @@ function CompactFeedItem({ post }: { post: PostView }) {
                 style={{ height: 19, width: 19, borderRadius: 100 }}
               />
             )) || <IconUser size={19} color={theme.colors.app.iconColor} />}
-            <Text fontWeight="semibold">{post.creator.name}</Text>
+            <Text fontWeight="semibold">{truncateName(post.creator.name)}</Text>
+            <Text color={theme.colors.app.secondaryText}>•</Text>
+            <Text color={theme.colors.app.secondaryText}>
+              {timeFromNowShort(post.post.published)}
+            </Text>
           </HStack>
-          <HStack flex={1}>
+          <HStack flex={1} alignItems="center" space={2}>
             <SmallVoteIcons
               upvotes={post.counts.upvotes}
               downvotes={post.counts.downvotes}
               myVote={post.my_vote as ILemmyVote}
             />
-            <View alignSelf="flex-end">
-              <Text>
-                to{"  "}
-                {post.community.name}
-              </Text>
-            </View>
+            <HStack alignItems="center" space={1}>
+              <IconMessage color={theme.colors.app.iconColor} size={16} />
+              <Text>{post.counts.comments}</Text>
+            </HStack>
+            <HStack alignItems="center" space={1}>
+              <IconPlanet color={theme.colors.app.iconColor} size={16} />
+              <Text>{truncateName(post.community.name)}</Text>
+            </HStack>
           </HStack>
         </VStack>
-        <VStack
-          justifyContent="center"
-          alignItems="center"
-          justifyItems="center"
-          space={5}
-        >
+        <VStack justifyContent="flex-start" alignItems="center" space={3}>
           <VoteButton
             onPressHandler={() => feedItem.onVotePress(1)}
             type="upvote"
@@ -113,5 +154,31 @@ function CompactFeedItem({ post }: { post: PostView }) {
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  image: {
+    height: 75,
+    width: 75,
+    borderRadius: 10,
+  },
+
+  blurView: {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    zIndex: 1,
+  },
+
+  blurContainer: {
+    flex: 1,
+    bottom: 0,
+    overflow: "hidden",
+    borderRadius: 10,
+  },
+
+  nsfwIcon: {
+    marginLeft: 5,
+  },
+});
 
 export default CompactFeedItem;

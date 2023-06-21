@@ -1,4 +1,6 @@
 import { LemmyHttp } from "lemmy-js-client";
+import { Platform } from "react-native";
+import { getReadableVersion } from "react-native-device-info";
 import ILemmyServer from "./types/ILemmyServer";
 import { writeToLog } from "../helpers/LogHelper";
 
@@ -11,7 +13,10 @@ export const resetInstance = () => {
 };
 
 export const initialize = async (server: ILemmyServer) => {
-  lemmyInstance = new LemmyHttp(`https://${server.server}`);
+  const os = Platform.OS;
+  lemmyInstance = new LemmyHttp(`https://${server.server}`, {
+    "User-Agent": `Memmy ${os} ${getReadableVersion()}`,
+  });
 
   writeToLog(`Attempting to initialize instance. ${server.server}`);
 
