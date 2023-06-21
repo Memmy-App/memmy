@@ -67,16 +67,19 @@ const darkTheme = extendTheme({
 
     app: {
       header: "#1c1917",
+      headerTitle: "#fff",
       backgroundPrimary: "#1c1917",
       backgroundSecondary: "#292524",
       backgroundTricondary: "#44403c",
 
       accentColor: "#1A91FF",
+      inputBackground: "#44403c",
 
       upvoteColor: "#EE923D",
       downvoteColor: "#1A84E5",
 
       iconColor: "#9A9A9A",
+      iconColor2: "#007AFF",
 
       commentChain: {
         1: "#FA6969",
@@ -86,7 +89,7 @@ const darkTheme = extendTheme({
         5: "#4BA9FF",
       },
 
-      primaryText: "",
+      primaryText: "#fff",
       secondaryText: "#999999",
 
       buttonOneIcon: "#007AFF",
@@ -98,6 +101,7 @@ const darkTheme = extendTheme({
       buttonThreeText: "",
 
       buttonOne: "#44403c",
+      buttonOneSelected: "#292524",
     },
   },
   config: {
@@ -112,9 +116,3 @@ declare module "native-base" {
 }
 
 export default darkTheme;
-
-/*
-Background: warmGray.500
-Card: warmGray.700
-
- */

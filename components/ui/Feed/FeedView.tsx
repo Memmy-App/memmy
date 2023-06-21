@@ -1,16 +1,10 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ListingType, SortType } from "lemmy-js-client";
 import { useTheme, useToast, View } from "native-base";
 import { Button, RefreshControl, StyleSheet } from "react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { FlashList } from "@shopify/flash-list";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { trigger } from "react-native-haptic-feedback";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import FeedItem from "./FeedItem";
@@ -27,6 +21,7 @@ import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import LoadingErrorView from "../Loading/LoadingErrorView";
 import CompactFeedItem from "./CompactFeedItem";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
+import NoPostsView from "./NoPostsView";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -55,6 +50,8 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   const { showActionSheetWithOptions } = useActionSheet();
   const dispatch = useAppDispatch();
 
+  useScrollToTop(flashList);
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => headerRight(),
@@ -62,7 +59,8 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   }, [feed.sort]);
 
   useEffect(() => {
-    if (!feed.posts || communityId.current !== 0) return;
+    if (!feed.posts || feed.posts.length < 1 || communityId.current !== 0)
+      return;
     communityId.current = feed.posts[0].community.id;
     communityName.current = feed.posts[0].community.name;
   }, [feed.posts]);
@@ -153,6 +151,10 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   };
 
   const feedItem = ({ item }) => {
+    if (feed.community && feed.community.counts.posts < 1) {
+      return <NoPostsView />;
+    }
+
     if (compactView) {
       return <CompactFeedItem post={item} />;
     }
@@ -206,6 +208,8 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     return null;
   };
 
+  const HeaderComponent = header;
+
   return (
     <View style={styles.container} backgroundColor="screen.900">
       <FeedHeaderDropdownDrawer />
@@ -213,6 +217,12 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
       {(feed.postsLoading && !feed.posts && <LoadingView />) ||
         (feed.postsError && !feed.posts && (
           <LoadingErrorView onRetryPress={() => feed.doLoad(true)} />
+        )) ||
+        (feed.community && feed.community.counts.posts < 1 && (
+          <>
+            <HeaderComponent />
+            <NoPostsView />
+          </>
         )) || (
           <FlashList
             ListHeaderComponent={header}
