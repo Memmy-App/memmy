@@ -16,7 +16,11 @@ function Link({ screen, params, children }: LinkProps) {
     navigation.push(screen, params);
   };
 
-  return <Pressable onPress={onPress}>{children}</Pressable>;
+  return (
+    <Pressable onPress={onPress} hitSlop={5}>
+      {children}
+    </Pressable>
+  );
 }
 
 export default Link;

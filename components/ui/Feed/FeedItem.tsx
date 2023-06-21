@@ -20,6 +20,7 @@ import VoteButton from "../common/VoteButton";
 import CommunityLink from "../CommunityLink";
 import ContentView from "../ContentView";
 import useFeedItem from "../../hooks/feeds/useFeedItem";
+import UserLink from "../UserLink";
 
 interface FeedItemProps {
   post: PostView;
@@ -54,7 +55,12 @@ function FeedItem({ post }: FeedItemProps) {
         <>
           <HStack mx={4} mb={1}>
             <Text>by </Text>
-            <Text fontWeight="bold">{post.creator.name}</Text>
+            <UserLink
+              username={post.creator.name}
+              fullUsername={`${post.creator.name}@${getBaseUrl(
+                post.creator.actor_id
+              )}`}
+            />
 
             <Text
               fontSize="sm"
