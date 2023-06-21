@@ -1,6 +1,6 @@
 import React from "react";
 import { CommunitySafe } from "lemmy-js-client";
-import { Text } from "native-base";
+import { Text, useTheme } from "native-base";
 import Link from "./Link";
 import { getBaseUrl } from "../../helpers/LinkHelper";
 
@@ -10,6 +10,7 @@ interface CommunityLinkProps {
 }
 
 function CommunityLink({ community, isFeedItem }: CommunityLinkProps) {
+  const theme = useTheme();
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <Link
@@ -23,7 +24,7 @@ function CommunityLink({ community, isFeedItem }: CommunityLinkProps) {
         )}`,
       }}
     >
-      <Text color={isFeedItem && "gray.400"} fontWeight="bold">
+      <Text color={isFeedItem && theme.colors.secondaryText}>
         {community.name}
       </Text>
     </Link>

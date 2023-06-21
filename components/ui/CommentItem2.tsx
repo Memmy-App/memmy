@@ -320,7 +320,7 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                 <VStack
                   flex={1}
                   pr={2}
-                  py={2}
+                  pb={1}
                   space={2}
                   backgroundColor="screen.800"
                   style={{
@@ -335,11 +335,13 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                     }
                     borderLeftRadius={1}
                     pl={depth > 2 ? 2 : 0}
+                    mt={0}
                   >
                     <HStack
                       space={2}
                       justifyContent="space-between"
                       alignItems="center"
+                      mb={-3}
                     >
                       <HStack space={2} alignItems="center">
                         {nestedComment.comment.creator.avatar ? (
@@ -396,7 +398,7 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                       />
                     )}
                   </VStack>
-                  <Divider ml={4} mt={-1} />
+                  <Divider ml={0} mt={-1} />
                 </VStack>
               </Pressable>
             </Animated.View>
