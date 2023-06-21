@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 
 import {
   ArrowDownIcon,
@@ -41,7 +41,10 @@ function PostScreen() {
     });
   }, []);
 
-  const commentItem = ({ item }) => <CommentItem2 nestedComment={item} />;
+  const commentItem = useCallback(
+    ({ item }) => <CommentItem2 nestedComment={item} />,
+    []
+  );
 
   const refreshControl = (
     <RefreshControl

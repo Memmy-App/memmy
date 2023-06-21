@@ -25,6 +25,7 @@ const darkTheme = extendTheme({
       header: "#1c1917",
       backgroundPrimary: "#1c1917",
       backgroundSecondary: "#292524",
+      backgroundTricondary: "#44403c",
 
       upvoteColor: "#EE923D",
       downvoteColor: "#1A84E5",
