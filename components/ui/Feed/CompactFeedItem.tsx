@@ -18,7 +18,6 @@ import {
   IconPlanet,
   IconUser,
 } from "tabler-icons-react-native";
-import moment from "moment";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
