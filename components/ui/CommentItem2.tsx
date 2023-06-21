@@ -1,4 +1,7 @@
-import React, { useRef, useState } from "react";
+import { useActionSheet } from "@expo/react-native-action-sheet";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
   Divider,
   HStack,
@@ -6,18 +9,17 @@ import {
   IconButton,
   Pressable,
   Text,
+  VStack,
+  View,
   useTheme,
   useToast,
-  View,
-  VStack,
 } from "native-base";
-import { IconDots, IconUser } from "tabler-icons-react-native";
-import FastImage from "react-native-fast-image";
+import React, { useRef, useState } from "react";
+import { Dimensions, StyleSheet } from "react-native";
 import {
   GestureHandlerRootView,
   PanGestureHandler,
 } from "react-native-gesture-handler";
-import { Dimensions, StyleSheet } from "react-native";
 import Animated, {
   runOnJS,
   useAnimatedGestureHandler,
@@ -25,27 +27,24 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Ionicons } from "@expo/vector-icons";
-import { useActionSheet } from "@expo/react-native-action-sheet";
+import { IconDots } from "tabler-icons-react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Clipboard from "@react-native-community/clipboard";
-import RenderMarkdown from "./markdown/RenderMarkdown";
-import { timeFromNowShort } from "../../helpers/TimeHelper";
 import {
   onCommentSlideHapticFeedback,
   onGenericHapticFeedback,
 } from "../../helpers/HapticFeedbackHelpers";
-import { setResponseTo } from "../../slices/newComment/newCommentSlice";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
-import { selectSettings } from "../../slices/settings/settingsSlice";
-import { NestedComment } from "../hooks/post/postHooks";
-import { getBaseUrl } from "../../helpers/LinkHelper";
 import { writeToLog } from "../../helpers/LogHelper";
-import SmallVoteIcons from "./common/SmallVoteIcons";
+import { timeFromNowShort } from "../../helpers/TimeHelper";
+import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
 import { ILemmyVote } from "../../lemmy/types/ILemmyVote";
+import { setResponseTo } from "../../slices/newComment/newCommentSlice";
+import { selectSettings } from "../../slices/settings/settingsSlice";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { NestedComment } from "../hooks/post/postHooks";
+import AvatarUsername from "./common/AvatarUsername";
+import SmallVoteIcons from "./common/SmallVoteIcons";
+import RenderMarkdown from "./markdown/RenderMarkdown";
 
 function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
   const theme = useTheme();
@@ -65,7 +64,7 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
 
   const [collapsed, setCollapsed] = useState(false);
 
-  const [showAll, setShowAll] = useState(false);
+  const [showAll] = useState(false);
 
   const { showActionSheetWithOptions } = useActionSheet();
 
@@ -343,35 +342,18 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                       alignItems="center"
                       mb={-3}
                     >
-                      <HStack space={2} alignItems="center">
-                        {nestedComment.comment.creator.avatar ? (
-                          <FastImage
-                            source={{
-                              uri: nestedComment.comment.creator.avatar,
-                            }}
-                            style={{ height: 24, width: 24, borderRadius: 100 }}
-                          />
-                        ) : (
-                          <IconUser color={theme.colors.app.iconColor} />
-                        )}
-                        <VStack>
-                          <Text fontWeight="semibold">
-                            {nestedComment.comment.creator.name}
-                          </Text>
-                          {showInstanceForUsernames && (
-                            <Text fontSize="xs">
-                              {getBaseUrl(
-                                nestedComment.comment.creator.actor_id
-                              )}
-                            </Text>
-                          )}
-                        </VStack>
+                      <AvatarUsername
+                        avatar={nestedComment.comment.creator.avatar}
+                        username={nestedComment.comment.creator.name}
+                        instanceName={nestedComment.comment.creator.actor_id}
+                        showInstance={showInstanceForUsernames}
+                      >
                         <SmallVoteIcons
                           upvotes={nestedComment.comment.counts.upvotes}
                           downvotes={nestedComment.comment.counts.upvotes}
                           myVote={myVote as ILemmyVote}
                         />
-                      </HStack>
+                      </AvatarUsername>
                       <HStack alignItems="center" space={2}>
                         <IconButton
                           icon={

@@ -19,6 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import moment from "moment/moment";
+import { IconClockHour5 } from "tabler-icons-react-native";
 import LoadingView from "../../ui/Loading/LoadingView";
 import ContentView from "../../ui/ContentView";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
@@ -27,6 +28,8 @@ import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import CommentItem2 from "../../ui/CommentItem2";
 import CommunityLink from "../../ui/CommunityLink";
 import PostActionBar from "./PostActionBar";
+import PostBody from "./PostBody";
+import AvatarUsername from "../../ui/common/AvatarUsername";
 
 function PostScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -59,50 +62,37 @@ function PostScreen() {
   }
 
   const header = () => (
-    <VStack flex={1} backgroundColor="screen.800">
-      <ContentView post={post.currentPost} showBody showTitle />
+    <VStack flex={1} backgroundColor={theme.colors.screen[800]}>
+      <PostBody post={post.currentPost} />
 
-      <HStack mx={4} mb={1}>
-        <Text>in </Text>
+      <HStack mx={4} mb={2} alignItems="center">
+        <AvatarUsername
+          username={post.currentPost?.creator.name}
+          avatar={post.currentPost?.creator.avatar}
+        />
+        <Text> to </Text>
         <CommunityLink community={post.currentPost?.community} />
-        <Text> by </Text>
-        <Text fontWeight="bold">{post.currentPost?.creator.name}</Text>
+        {post.currentPost?.post.url && (
+          <Text
+            fontSize="sm"
+            fontStyle="italic"
+            mx={4}
+            mt={-1}
+            color="screen.400"
+            alignSelf="flex-end"
+          >
+            @{getBaseUrl(post.currentPost?.post.url)}
+          </Text>
+        )}
 
-        <Text
-          fontSize="sm"
-          fontStyle="italic"
-          mx={4}
-          mt={-1}
-          color="screen.400"
-          alignSelf="flex-end"
-        >
-          {post.currentPost?.post.url && getBaseUrl(post.currentPost?.post.url)}
+        <IconClockHour5 color={theme.colors.app.secondaryText} />
+        <Text>
+          {moment(post.currentPost?.post.published).utc(true).fromNow()}
         </Text>
       </HStack>
+
       <HStack mx={3} space={2} alignItems="center" mb={3}>
-        <HStack space={1} alignItems="center">
-          {post.currentPost.counts.upvotes -
-            post.currentPost.counts.downvotes >=
-          0 ? (
-            <ArrowUpIcon />
-          ) : (
-            <ArrowDownIcon />
-          )}
-          <Text>
-            {post.currentPost.counts.upvotes -
-              post.currentPost.counts.downvotes}
-          </Text>
-        </HStack>
-        <HStack space={1} alignItems="center">
-          <Icon as={Ionicons} name="chatbubble-outline" />
-          <Text>{post.currentPost?.counts.comments}</Text>
-        </HStack>
-        <HStack space={1} alignItems="center">
-          <Icon as={Ionicons} name="time-outline" />
-          <Text>
-            {moment(post.currentPost?.post.published).utc(true).fromNow()}
-          </Text>
-        </HStack>
+        <HStack space={1} alignItems="center" />
       </HStack>
       <Divider my={1} />
       <PostActionBar post={post} />
