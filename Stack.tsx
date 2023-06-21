@@ -59,6 +59,13 @@ function FeedStackScreen() {
           name="Subscriptions"
           component={SubscriptionsScreen}
         />
+        <FeedStack.Screen
+          name="UserProfile"
+          component={UserProfileScreen}
+          options={{
+            title: "Your Profile",
+          }}
+        />
       </FeedStack.Group>
 
       <FeedStack.Group

@@ -24,7 +24,7 @@ function CommunityLink({ community, isFeedItem }: CommunityLinkProps) {
         )}`,
       }}
     >
-      <Text color={isFeedItem && theme.colors.secondaryText}>
+      <Text fontWeight="bold" color={isFeedItem && theme.colors.secondaryText}>
         {community.name}
       </Text>
     </Link>

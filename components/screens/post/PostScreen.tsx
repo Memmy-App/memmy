@@ -27,6 +27,7 @@ import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import CommentItem2 from "../../ui/CommentItem2";
 import CommunityLink from "../../ui/CommunityLink";
 import PostActionBar from "./PostActionBar";
+import UserLink from "../../ui/UserLink";
 
 function PostScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -42,7 +43,9 @@ function PostScreen() {
   }, []);
 
   const commentItem = useCallback(
-    ({ item }) => <CommentItem2 nestedComment={item} />,
+    ({ item }) => (
+      <CommentItem2 nestedComment={item} opId={post.currentPost.creator.id} />
+    ),
     []
   );
 
@@ -66,7 +69,12 @@ function PostScreen() {
         <Text>in </Text>
         <CommunityLink community={post.currentPost?.community} />
         <Text> by </Text>
-        <Text fontWeight="bold">{post.currentPost?.creator.name}</Text>
+        <UserLink
+          username={post.currentPost?.creator.name}
+          fullUsername={`${post.currentPost?.creator.name}@${getBaseUrl(
+            post.currentPost?.creator.actor_id
+          )}`}
+        />
 
         <Text
           fontSize="sm"

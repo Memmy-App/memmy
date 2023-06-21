@@ -28,7 +28,7 @@ const useFeedItem = (post: PostView): UseFeedItem => {
   const toast = useToast();
   const [myVote, setMyVote] = useState<ILemmyVote>(post.my_vote as ILemmyVote);
 
-  const linkInfo = useMemo(() => getLinkInfo(post.post.url), []);
+  const linkInfo = useMemo(() => getLinkInfo(post.post.url), [post]);
 
   const onVotePress = async (value: ILemmyVote) => {
     onVoteHapticFeedback();
