@@ -28,7 +28,7 @@ function AvatarUsername({
           source={{
             uri: avatar,
           }}
-          style={{ height: 24, width: 24, borderRadius: 100 }}
+          style={{ height: 20, width: 20, borderRadius: 100 }}
         />
       ) : (
         <IconUser color={colors.app.iconColor} />
