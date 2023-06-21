@@ -4,6 +4,7 @@ import {
   ArrowUpIcon,
   HStack,
   Icon,
+  IconButton,
   Pressable,
   Text,
   useTheme,
@@ -16,7 +17,16 @@ import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 import FastImage from "react-native-fast-image";
-import { IconClockHour5, IconPlanet } from "tabler-icons-react-native";
+import {
+  IconArrowDown,
+  IconArrowUp,
+  IconBookmark,
+  IconClockHour5,
+  IconDots,
+  IconMessageCircle,
+  IconMessageDots,
+  IconPlanet,
+} from "tabler-icons-react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import VoteButton from "../common/VoteButton";
 import CommunityLink from "../CommunityLink";
@@ -24,6 +34,8 @@ import ContentView from "../ContentView";
 import useFeedItem from "../../hooks/feeds/useFeedItem";
 import AvatarUsername from "../common/AvatarUsername";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
+import IconButtonWithText from "../common/IconButtonWithText";
+import usePost from "../../hooks/post/postHooks";
 
 interface FeedItemProps {
   post: PostView;
@@ -38,7 +50,13 @@ function FeedItem({ post }: FeedItemProps) {
 
   return (
     <VStack flex={1} my={1.5} backgroundColor="screen.800" shadow={2}>
-      <HStack mx={4} mt={2} justifyContent="space-between" alignItems="center">
+      <HStack
+        mx={4}
+        mt={2}
+        mb={2}
+        justifyContent="space-between"
+        alignItems="center"
+      >
         <AvatarUsername
           username={post.creator.name}
           avatar={post.creator.avatar}
@@ -60,45 +78,75 @@ function FeedItem({ post }: FeedItemProps) {
             <FastImage source={{ uri: post.community.icon }} />
           )}
         </View>
-        <Text fontSize="lg" mx={4} my={1}>
+        <Text fontSize="md" mx={4}>
           {post.post.name}
         </Text>
 
         <ContentView post={post} truncate />
 
-        <HStack mx={4} mb={1}>
-          <Text
-            fontSize="sm"
-            fontStyle="italic"
-            mx={4}
-            mt={-1}
-            color="screen.400"
-            alignSelf="flex-end"
-          >
-            {post.post.url && getBaseUrl(post.post.url)}
-          </Text>
-        </HStack>
+        {post.post.url && (
+          <HStack>
+            <Text
+              fontSize="sm"
+              fontStyle="italic"
+              mx={4}
+              mt={-1}
+              color="screen.400"
+              alignSelf="flex-end"
+            >
+              {getBaseUrl(post.post.url)}
+            </Text>
+          </HStack>
+        )}
+
         <HStack mx={4} alignItems="center" mb={3}>
           <HStack flex={1} space={2}>
-            <HStack space={1} alignItems="center">
-              {post.counts.upvotes - post.counts.downvotes >= 0 ? (
-                <ArrowUpIcon />
-              ) : (
-                <ArrowDownIcon />
-              )}
-              <Text>{post.counts.upvotes - post.counts.downvotes}</Text>
+            <HStack space={1}>
+              <HStack alignItems="center">
+                <IconArrowUp color={theme.colors.app.upvoteColor} size={20} />
+                <Text color={theme.colors.app.upvoteColor} fontSize="sm">
+                  {post.counts.upvotes}
+                </Text>
+              </HStack>
+              <HStack alignItems="center">
+                <IconArrowDown
+                  color={theme.colors.app.downvoteColor}
+                  size={20}
+                />
+                <Text color={theme.colors.app.downvoteColor} fontSize="sm">
+                  {post.counts.downvotes}
+                </Text>
+              </HStack>
             </HStack>
-            <HStack space={1} alignItems="center">
-              <Icon as={Ionicons} name="chatbubble-outline" />
-              <Text>{post.counts.comments}</Text>
-            </HStack>
-            <HStack space={1} alignItems="center">
-              <Icon as={Ionicons} name="time-outline" />
-              <Text>{moment(post.post.published).utc(true).fromNow()}</Text>
+            <HStack alignItems="center">
+              <IconMessageCircle
+                color={theme.colors.app.secondaryText}
+                size={20}
+              />
+              <Text color={theme.colors.app.secondaryText} fontSize="sm">
+                {post.counts.comments}
+              </Text>
             </HStack>
           </HStack>
 
-          <HStack space={3} alignContent="center" justifyContent="flex-end">
+          <HStack space={1} alignItems="center" justifyContent="flex-end">
+            <IconButtonWithText
+              icon={
+                <IconDots size={25} color={theme.colors.app.secondaryText} />
+              }
+              iconBgColor={theme.colors.screen[800]}
+              onPressHandler={() => {}}
+            />
+            <IconButtonWithText
+              icon={
+                <IconBookmark
+                  size={25}
+                  color={theme.colors.app.secondaryText}
+                />
+              }
+              iconBgColor={theme.colors.screen[800]}
+              onPressHandler={() => {}}
+            />
             <VoteButton
               onPressHandler={() => feedItem.onVotePress(1)}
               type="upvote"

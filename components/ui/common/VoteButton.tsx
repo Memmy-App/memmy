@@ -20,12 +20,12 @@ function VoteButton({ onPressHandler, type, isVoted, text }: VoteButtonProps) {
   const icon =
     type === "upvote" ? (
       <IconArrowUp
-        color={isVoted ? colors.white : colors.accentColor}
+        color={isVoted ? colors.white : colors.app.secondaryText}
         size={25}
       />
     ) : (
       <IconArrowDown
-        color={isVoted ? colors.white : colors.accentColor}
+        color={isVoted ? colors.white : colors.app.secondaryText}
         size={25}
       />
     );
@@ -36,7 +36,7 @@ function VoteButton({ onPressHandler, type, isVoted, text }: VoteButtonProps) {
       icon={icon}
       iconBgColor={isVoted ? voteColor : colors.screen[800]}
       text={text}
-      textColor={isVoted ? voteColor : colors.accentColor}
+      textColor={isVoted ? voteColor : colors.app.secondaryText}
     />
   );
 }

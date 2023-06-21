@@ -47,7 +47,6 @@ const darkTheme = extendTheme({
     mono: "Inter",
   },
   colors: {
-    accentColor: "#1A91FF",
     screen: {
       50: "#fafaf9",
       100: "#f5f5f4",
@@ -71,6 +70,8 @@ const darkTheme = extendTheme({
       backgroundPrimary: "#1c1917",
       backgroundSecondary: "#292524",
       backgroundTricondary: "#44403c",
+
+      accentColor: "#1A91FF",
 
       upvoteColor: "#EE923D",
       downvoteColor: "#1A84E5",
