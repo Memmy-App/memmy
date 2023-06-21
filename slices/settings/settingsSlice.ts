@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { ListingType, SortType } from "lemmy-js-client";
 import { RootState } from "../../store";
 import { loadSettings, setSetting } from "./settingsActions";
-import { ListingType, SortType } from "lemmy-js-client";
 
 export interface SettingsState {
   swipeGestures: boolean;
@@ -12,6 +12,7 @@ export interface SettingsState {
   loaded: boolean;
   blurNsfw: boolean;
   hideNsfw: boolean;
+  compactView: boolean;
 }
 
 const initialState: SettingsState = {
@@ -23,6 +24,7 @@ const initialState: SettingsState = {
   loaded: false,
   blurNsfw: true,
   hideNsfw: false,
+  compactView: false,
 };
 
 const settingsSlice = createSlice({

@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { ListingType, SortType } from "lemmy-js-client";
 import { useTheme, useToast, View } from "native-base";
 import { Button, RefreshControl, StyleSheet } from "react-native";
@@ -19,6 +25,8 @@ import LoadingFooter from "../Loading/LoadingFooter";
 import LoadingErrorFooter from "../Loading/LoadingErrorFooter";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import LoadingErrorView from "../Loading/LoadingErrorView";
+import CompactFeedItem from "./CompactFeedItem";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -33,6 +41,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
 
   // Global state props
   const { dropdownVisible } = useAppSelector(selectFeed);
+  const { compactView } = useAppSelector(selectSettings);
 
   // Refs
   const communityId = useRef(0);
@@ -143,7 +152,13 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     }
   };
 
-  const feedItem = useCallback(({ item }) => <FeedItem post={item} />, []);
+  const feedItem = ({ item }) => {
+    if (compactView) {
+      return <CompactFeedItem post={item} />;
+    }
+
+    return <FeedItem post={item} />;
+  };
 
   const headerRight = () => {
     if (dropdownVisible) {
@@ -207,8 +222,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             keyExtractor={keyExtractor}
             refreshControl={refreshControl}
             onEndReachedThreshold={0.8}
-            estimatedItemSize={500}
-            estimatedListSize={{ height: 50, width: 1 }}
+            estimatedItemSize={compactView ? 100 : 500}
             ListFooterComponent={footer}
             onEndReached={() => setEndReached(true)}
             ref={flashList}
