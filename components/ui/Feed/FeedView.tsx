@@ -21,6 +21,7 @@ import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import LoadingErrorView from "../Loading/LoadingErrorView";
 import CompactFeedItem from "./CompactFeedItem";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
+import NoPostsView from "./NoPostsView";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -150,6 +151,10 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   };
 
   const feedItem = ({ item }) => {
+    if (feed.community && feed.community.counts.posts < 1) {
+      return <NoPostsView />;
+    }
+
     if (compactView) {
       return <CompactFeedItem post={item} />;
     }
@@ -203,6 +208,11 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     return null;
   };
 
+  if (feed.community && feed.community.counts.posts < 1) {
+  }
+
+  const HeaderComponent = header;
+
   return (
     <View style={styles.container} backgroundColor="screen.900">
       <FeedHeaderDropdownDrawer />
@@ -210,6 +220,12 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
       {(feed.postsLoading && !feed.posts && <LoadingView />) ||
         (feed.postsError && !feed.posts && (
           <LoadingErrorView onRetryPress={() => feed.doLoad(true)} />
+        )) ||
+        (feed.community && feed.community.counts.posts < 1 && (
+          <>
+            <HeaderComponent />
+            <NoPostsView />
+          </>
         )) || (
           <FlashList
             ListHeaderComponent={header}
