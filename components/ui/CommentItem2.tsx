@@ -368,7 +368,7 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                         </VStack>
                         <SmallVoteIcons
                           upvotes={nestedComment.comment.counts.upvotes}
-                          downvotes={nestedComment.comment.counts.upvotes}
+                          downvotes={nestedComment.comment.counts.downvotes}
                           myVote={myVote as ILemmyVote}
                         />
                       </HStack>
