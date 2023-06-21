@@ -6,16 +6,19 @@ import { IconSearch } from "tabler-icons-react-native";
 function SearchBar({
   searchValue,
   onSearchChange,
+  onSubmitSearch,
 }: {
   searchValue: string;
   onSearchChange: React.Dispatch<SetStateAction<string>>;
+  onSubmitSearch: () => Promise<void>;
 }) {
   const theme = useTheme();
 
   return (
     <VStack
       backgroundColor={theme.colors.app.backgroundSecondary}
-      py={5}
+      pt={3}
+      pb={2}
       px={4}
     >
       <HStack
@@ -35,6 +38,10 @@ function SearchBar({
             width: "100%",
           }}
           placeholderTextColor={theme.colors.app.secondaryText}
+          returnKeyType="search"
+          returnKeyLabel="search"
+          keyboardAppearance="dark"
+          onSubmitEditing={onSubmitSearch}
         />
       </HStack>
     </VStack>

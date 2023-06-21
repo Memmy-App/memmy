@@ -112,7 +112,6 @@ function ProfileStackScreen() {
         name="Subscriptions"
         component={SubscriptionsScreen}
       />
-      <ProfileStack.Screen name="Community" component={CommunityFeedScreen} />
       <ProfileStack.Screen
         name="BlockedCommunities"
         component={BlockedCommunitiesScreen}
