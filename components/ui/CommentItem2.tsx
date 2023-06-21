@@ -46,28 +46,37 @@ import { getBaseUrl } from "../../helpers/LinkHelper";
 import { writeToLog } from "../../helpers/LogHelper";
 import SmallVoteIcons from "./common/SmallVoteIcons";
 import { ILemmyVote } from "../../lemmy/types/ILemmyVote";
+import UserLink from "./UserLink";
+import NamePill from "./NamePill";
+import { selectCurrentAccount } from "../../slices/accounts/accountsSlice";
 
-function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
-  const theme = useTheme();
-
+function CommentItem2({
+  nestedComment,
+  opId,
+}: {
+  nestedComment: NestedComment;
+  opId: number;
+}) {
   const depth = nestedComment.comment.comment.path.split(".").length;
 
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
-  const lastCommentId = useRef(nestedComment.comment.comment.id);
-
-  const [myVote, setMyVote] = useState(nestedComment.comment.my_vote);
-
-  const dispatch = useAppDispatch();
-  const toast = useToast();
-
+  // Global state
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
+  // State
+  const [myVote, setMyVote] = useState(nestedComment.comment.my_vote);
   const [collapsed, setCollapsed] = useState(false);
-
   const [showAll, setShowAll] = useState(false);
 
+  // Refs
+  const lastCommentId = useRef(nestedComment.comment.comment.id);
+
+  // Other hooks
+  const theme = useTheme();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const dispatch = useAppDispatch();
   const { showActionSheetWithOptions } = useActionSheet();
+  const toast = useToast();
 
   if (nestedComment.comment.comment.id !== lastCommentId.current) {
     setCollapsed(false);
@@ -355,9 +364,28 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                           <IconUser color={theme.colors.app.iconColor} />
                         )}
                         <VStack>
-                          <Text fontWeight="semibold">
-                            {nestedComment.comment.creator.name}
-                          </Text>
+                          <HStack space={2}>
+                            <UserLink
+                              username={nestedComment.comment.creator.name}
+                              fullUsername={`${nestedComment.comment.creator.name}@${nestedComment.comment.creator.actor_id}`}
+                            />
+                            {(nestedComment.comment.creator.name ===
+                              currentAccount.username &&
+                              getBaseUrl(
+                                nestedComment.comment.creator.actor_id
+                              ) === currentAccount.instance && (
+                                <NamePill
+                                  text="me"
+                                  color={theme.colors.app.selfColor}
+                                />
+                              )) ||
+                              (nestedComment.comment.creator.id === opId && (
+                                <NamePill
+                                  text="OP"
+                                  color={theme.colors.app.opColor}
+                                />
+                              ))}
+                          </HStack>
                           {showInstanceForUsernames && (
                             <Text fontSize="xs">
                               {getBaseUrl(
@@ -410,12 +438,20 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
         nestedComment.replies
           .slice(0, 5)
           .map((r) => (
-            <CommentItem2 key={r.comment.comment.id} nestedComment={r} />
+            <CommentItem2
+              key={r.comment.comment.id}
+              nestedComment={r}
+              opId={opId}
+            />
           ))) ||
         (!collapsed &&
           showAll &&
           nestedComment.replies.map((r) => (
-            <CommentItem2 key={r.comment.comment.id} nestedComment={r} />
+            <CommentItem2
+              key={r.comment.comment.id}
+              nestedComment={r}
+              opId={opId}
+            />
           )))}
     </>
   );

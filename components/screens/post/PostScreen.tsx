@@ -43,7 +43,9 @@ function PostScreen() {
   }, []);
 
   const commentItem = useCallback(
-    ({ item }) => <CommentItem2 nestedComment={item} />,
+    ({ item }) => (
+      <CommentItem2 nestedComment={item} opId={post.currentPost.creator.id} />
+    ),
     []
   );
 
