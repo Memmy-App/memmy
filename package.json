@@ -11,7 +11,6 @@
     "runSim": "eas build:run -p ios --path simulator.tar.gz",
     "startDev": "npx expo start --dev-client",
     "startNoDev": "npx expo start --no-dev --minify",
-
     "buildProdAnd": "rm -rf build.aab && eas build -p android --profile production --output build.aab --local --non-interactive",
     "buildDevAnd": "rm -rf dev.apk && eas build -p android --profile development --output dev.apk --local --non-interactive",
     "buildPrevAnd": "rm -rf prev.apk && eas build -p android --profile preview --output prev.apk --local --non-interactive",
@@ -42,6 +41,7 @@
     "expo-constants": "~14.2.1",
     "expo-dev-client": "~2.2.1",
     "expo-file-system": "~15.2.2",
+    "expo-font": "~11.1.1",
     "expo-image-picker": "~14.1.1",
     "expo-linking": "~4.0.1",
     "expo-mail-composer": "~12.1.1",
