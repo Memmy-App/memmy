@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 
 import {
   ArrowDownIcon,
@@ -15,7 +15,7 @@ import {
 import { RefreshControl } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import moment from "moment/moment";
@@ -155,6 +155,7 @@ function PostScreen() {
           estimatedItemSize={200}
           refreshControl={refreshControl}
           refreshing={post.commentsLoading}
+          ref={flashList}
         />
       </VStack>
     );

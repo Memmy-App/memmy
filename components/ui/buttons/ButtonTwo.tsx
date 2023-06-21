@@ -10,6 +10,7 @@ function ButtonTwo({
   mx,
   py = 1,
   selectable = false,
+  selected = false,
 }: {
   onPress: () => void;
   icon?: TablerIcon;
@@ -18,9 +19,9 @@ function ButtonTwo({
   my?: number;
   py?: number;
   selectable?: boolean;
+  selected?: boolean;
 }) {
   const [pressedIn, setPressedIn] = useState(false);
-  const [selected, setSelected] = useState(false);
 
   const theme = useTheme();
 
@@ -32,25 +33,19 @@ function ButtonTwo({
     setPressedIn(false);
   };
 
-  const onPressBefore = () => {
-    if (selectable) setSelected((prev) => !prev);
-
-    onPress();
-  };
-
   const IconComponent = icon;
 
   return (
     <Pressable
       onPressIn={onPressIn}
       onPressOut={onPressOut}
-      onPress={onPressBefore}
+      onPress={onPress}
       opacity={pressedIn ? 0.7 : 1}
       shadow={pressedIn ? 3 : 0}
       py={py}
       mx={mx}
       my={my}
-      borderRadius={10}
+      borderRadius={20}
       backgroundColor={
         !selected
           ? theme.colors.app.buttonOne
