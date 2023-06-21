@@ -79,6 +79,7 @@ const darkTheme = extendTheme({
       downvoteColor: "#1A84E5",
 
       iconColor: "#9A9A9A",
+      iconColor2: "#007AFF",
 
       commentChain: {
         1: "#FA6969",

@@ -158,6 +158,13 @@ function SearchStackScreen() {
           name="Subscriptions"
           component={SubscriptionsScreen}
         />
+        <SearchStack.Screen
+          name="UserProfile"
+          component={UserProfileScreen}
+          options={{
+            title: "Your Profile",
+          }}
+        />
       </SearchStack.Group>
 
       <SearchStack.Group

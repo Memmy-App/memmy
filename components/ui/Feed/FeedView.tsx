@@ -208,9 +208,6 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     return null;
   };
 
-  if (feed.community && feed.community.counts.posts < 1) {
-  }
-
   const HeaderComponent = header;
 
   return (

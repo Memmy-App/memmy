@@ -22,3 +22,13 @@ export const timeFromNowShort = (time: string): string => {
 
   return moment(time).utc(true).fromNow(true);
 };
+
+export const getCakeDay = (time: string): string => {
+  const start = moment(time);
+  const current = moment();
+  const age = current.year() - start.year();
+  const next = start.clone().add(age + 1, "years");
+  const formatted = next.format("Do MMMM YYYY");
+
+  return formatted;
+};
