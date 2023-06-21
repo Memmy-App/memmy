@@ -42,6 +42,8 @@ function SearchBar({
           returnKeyLabel="search"
           keyboardAppearance="dark"
           onSubmitEditing={onSubmitSearch}
+          autoCorrect={false}
+          autoCapitalize="none"
         />
       </HStack>
     </VStack>

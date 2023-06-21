@@ -20,7 +20,6 @@ import { subscribeToCommunity } from "../../../slices/communities/communitiesAct
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../../slices/post/postSlice";
 import NotFoundView from "../../ui/Loading/NotFoundView";
-import NoPostsView from "../../ui/Feed/NoPostsView";
 
 function FeedsCommunityScreen({
   route,

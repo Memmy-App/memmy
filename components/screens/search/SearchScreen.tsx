@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { HStack, ScrollView, Text, useTheme, VStack } from "native-base";
-import { SearchType } from "lemmy-js-client";
+import { PersonViewSafe, PostView, SearchType } from "lemmy-js-client";
 import useSearch from "../../hooks/search/useSearch";
 import SearchBar from "../../ui/search/SearchBar";
 import ButtonTwo from "../../ui/buttons/ButtonTwo";
@@ -10,6 +10,8 @@ import GenericSearchResult from "../../ui/search/GenericSearchResult";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import LoadingView from "../../ui/Loading/LoadingView";
 import { getCommunityFullName } from "../../../lemmy/LemmyHelpers";
+import { setPost } from "../../../slices/post/postSlice";
+import { useAppDispatch } from "../../../store";
 
 function SearchScreen({
   navigation,
@@ -18,11 +20,20 @@ function SearchScreen({
 }) {
   const search = useSearch();
   const theme = useTheme();
+  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    console.log(search.searchType);
-    console.log(search.result);
-  }, [search]);
+  const onPostPress = (post: PostView) => {
+    dispatch(setPost(post));
+    navigation.push("Post");
+  };
+
+  const onUserPress = (person: PersonViewSafe) => {
+    navigation.push("UserProfile", {
+      fullUsername: `${person.person.name}@${getBaseUrl(
+        person.person.actor_id
+      )}`,
+    });
+  };
 
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
@@ -33,17 +44,20 @@ function SearchScreen({
       />
       <HStack px={4} py={4} space={2}>
         <ButtonTwo
-          onPress={() => search.doSearch(SearchType.Communities)}
+          // onPress={() => search.doSearch(SearchType.Communities)}
+          onPress={() => {}}
           text="Communities"
           selectable
         />
         <ButtonTwo
-          onPress={() => search.doSearch(SearchType.Posts)}
+          // onPress={() => search.doSearch(SearchType.Posts)}
+          onPress={() => {}}
           text="Posts"
           selectable
         />
         <ButtonTwo
-          onPress={() => search.doSearch(SearchType.Users)}
+          // onPress={() => search.doSearch(SearchType.Users)}
+          onPress={() => {}}
           text="Users"
           selectable
         />
@@ -74,6 +88,7 @@ function SearchScreen({
                     <SearchResultTypeHeader type={SearchType.Communities} />
                     {search.result.communities.map((r) => (
                       <GenericSearchResult
+                        key={r.community.id}
                         header={r.community.name}
                         footer={getBaseUrl(r.community.actor_id)}
                         side={`${r.counts.subscribers} subscribers`}
@@ -95,11 +110,14 @@ function SearchScreen({
                     {search.result.users.length > 0 &&
                       search.result.users.map((r) => (
                         <GenericSearchResult
+                          key={r.person.id}
                           header={r.person.name}
                           footer={getBaseUrl(r.person.actor_id)}
                           side={`${r.counts.post_count} posts`}
                           image={r.person.avatar}
-                          onPress={() => {}}
+                          onPress={() => {
+                            onUserPress(r);
+                          }}
                         />
                       ))}
                   </>
@@ -110,16 +128,23 @@ function SearchScreen({
                     {search.result.posts.length > 0 &&
                       search.result.posts.map((r) => (
                         <GenericSearchResult
+                          key={r.post.id}
                           header={r.post.name}
                           footer={getBaseUrl(r.post.ap_id)}
                           image={r.community.icon}
-                          onPress={() => {}}
+                          onPress={() => {
+                            onPostPress(r);
+                          }}
                         />
                       ))}
                   </>
                 )}
               </>
-            )) || <Text>Somethjing went wrong.</Text>}
+            )) || (
+              <Text fontSize="xl" fontWeight="semibold" textAlign="center">
+                Please enter a search term.
+              </Text>
+            )}
         </VStack>
       </ScrollView>
     </VStack>

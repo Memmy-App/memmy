@@ -4,7 +4,7 @@ import { Button, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-function LoadingErrorView() {
+function NotFoundView() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   return (
@@ -25,4 +25,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoadingErrorView;
+export default NotFoundView;
