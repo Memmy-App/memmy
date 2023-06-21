@@ -11,7 +11,7 @@ import { truncateLink } from "../../helpers/TextHelper";
 
 interface LinkButtonProps {
   link: string;
-  thumbnail: string;
+  thumbnail?: string;
 }
 
 function LinkButton({ link, thumbnail }: LinkButtonProps) {

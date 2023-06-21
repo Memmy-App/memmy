@@ -15,7 +15,11 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { IconClockHour5 } from "tabler-icons-react-native";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
+import {
+  ExtensionType,
+  getBaseUrl,
+  getLinkInfo,
+} from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import usePost from "../../hooks/post/postHooks";
 import CommentItem2 from "../../ui/CommentItem2";
@@ -66,17 +70,16 @@ function PostScreen() {
             username={post.currentPost?.creator.name}
             avatar={post.currentPost?.creator.avatar}
           />
-          <Text> to </Text>
-          <CommunityLink community={post.currentPost?.community} />
-          {post.currentPost?.post.url && (
-            <Text
-              fontSize="sm"
-              fontStyle="italic"
-              mx={4}
-              mt={-1}
-              color="screen.400"
-              alignSelf="flex-end"
-            >
+          <Text color={theme.colors.app.secondaryText}> to </Text>
+          <CommunityLink
+            community={post.currentPost?.community}
+            color={theme.colors.app.secondaryText}
+          />
+          {
+            // TODO: Need a way to check if the post url is an instance or not
+          }
+          {!post.currentPost?.post.local && (
+            <Text color={theme.colors.app.secondaryText}>
               @{getBaseUrl(post.currentPost?.post.url)}
             </Text>
           )}

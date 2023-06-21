@@ -6,11 +6,10 @@ import { getBaseUrl } from "../../helpers/LinkHelper";
 
 interface CommunityLinkProps {
   community: CommunitySafe;
-  isFeedItem?: boolean;
+  color?: string;
 }
 
-function CommunityLink({ community, isFeedItem }: CommunityLinkProps) {
-  const theme = useTheme();
+function CommunityLink({ community, color }: CommunityLinkProps) {
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <Link
@@ -24,9 +23,7 @@ function CommunityLink({ community, isFeedItem }: CommunityLinkProps) {
         )}`,
       }}
     >
-      <Text color={isFeedItem && theme.colors.app.secondaryText}>
-        {community.name}
-      </Text>
+      <Text color={color}>{community.name}</Text>
     </Link>
   );
 }

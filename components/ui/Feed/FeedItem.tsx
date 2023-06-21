@@ -68,7 +68,10 @@ function FeedItem({ post }: FeedItemProps) {
             {timeFromNowShort(post.post.published)}
           </Text>
           <IconPlanet color={theme.colors.app.secondaryText} size={15} />
-          <CommunityLink community={post.community} isFeedItem />
+          <CommunityLink
+            community={post.community}
+            color={theme.colors.app.secondaryText}
+          />
         </HStack>
       </HStack>
 
