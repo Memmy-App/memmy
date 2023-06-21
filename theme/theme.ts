@@ -1,6 +1,51 @@
 import { extendTheme } from "native-base";
 
 const darkTheme = extendTheme({
+  fontConfig: {
+    Inter: {
+      100: {
+        normal: "Inter-Thin",
+        italic: "Inter-ThinItalic",
+      },
+      200: {
+        normal: "Inter-ExtraLight",
+        italic: "Inter-ExtraLightItalic",
+      },
+      300: {
+        normal: "Inter-Light",
+        italic: "Inter-LightItalic",
+      },
+      400: {
+        normal: "Inter-Regular",
+        italic: "Inter-Italic",
+      },
+      500: {
+        normal: "Inter-Medium",
+        italic: "Inter-MediumItalic",
+      },
+      600: {
+        normal: "Inter-SemiBold",
+        italic: "Inter-SemiBoldItalic",
+      },
+      700: {
+        normal: "Inter-Bold",
+        italic: "Inter-BoldItalic",
+      },
+      800: {
+        normal: "Inter-ExtraBold",
+        italic: "Inter-ExtraBoldItalic",
+      },
+      900: {
+        normal: "Inter-Black",
+        italic: "Inter-BlackItalic",
+      },
+    },
+  },
+  fonts: {
+    heading: "Inter",
+    body: "Inter",
+    mono: "Inter",
+  },
   colors: {
     accentColor: "#1A91FF",
     screen: {
@@ -26,6 +71,7 @@ const darkTheme = extendTheme({
       headerTitle: "#fff",
       backgroundPrimary: "#1c1917",
       backgroundSecondary: "#292524",
+      backgroundTricondary: "#44403c",
 
       inputBackground: "#44403c",
 

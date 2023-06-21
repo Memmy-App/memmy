@@ -172,6 +172,16 @@ function SettingsIndexScreen({
               );
             }}
           />
+          <CCell
+            cellStyle="RightDetail"
+            title="Compact View"
+            cellAccessoryView={
+              <Switch
+                value={settings.compactView}
+                onValueChange={(v) => onChange("compactView", v)}
+              />
+            }
+          />
         </Section>
 
         <Section header="ABOUT" roundedCorners hideSurroundingSeparators>

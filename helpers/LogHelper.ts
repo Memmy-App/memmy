@@ -3,7 +3,17 @@ import * as MailComposer from "expo-mail-composer";
 import { getReadableVersion } from "react-native-device-info";
 import moment from "moment";
 
-const logFile = `\n${FileSystem.DocumentDirectoryPath}/lemmy-debug.log`;
+const logFile = `${FileSystem.LibraryDirectoryPath}/lemmy-debug.log`;
+
+const createIfDontExist = async () => {
+  console.log("Checking...");
+  if (!(await FileSystem.exists(logFile))) {
+    console.log("Doesn't exist...");
+    await FileSystem.touch(logFile)
+      .then()
+      .catch((e) => console.log(e.toString()));
+  }
+};
 
 const writeToLog = (text: string) => {
   console.log(text);
@@ -39,4 +49,4 @@ const sendLog = async () => {
   MailComposer.composeAsync(options).then();
 };
 
-export { writeToLog, readLog, deleteLog, sendLog };
+export { createIfDontExist, writeToLog, readLog, deleteLog, sendLog };

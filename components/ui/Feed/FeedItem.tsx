@@ -6,7 +6,6 @@ import {
   Icon,
   Pressable,
   Text,
-  useToast,
   View,
   VStack,
 } from "native-base";
@@ -14,72 +13,20 @@ import React from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import moment from "moment";
 import FastImage from "react-native-fast-image";
-import { useDispatch } from "react-redux";
-import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
-import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
-import { setUpdateVote } from "../../../slices/feed/feedSlice";
-import { setPost } from "../../../slices/post/postSlice";
 import VoteButton from "../common/VoteButton";
 import CommunityLink from "../CommunityLink";
 import ContentView from "../ContentView";
-import { writeToLog } from "../../../helpers/LogHelper";
+import useFeedItem from "../../hooks/feeds/useFeedItem";
 
 interface FeedItemProps {
   post: PostView;
 }
 
 function FeedItem({ post }: FeedItemProps) {
-  const dispatch = useDispatch();
-
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const toast = useToast();
-
-  const onVotePress = async (value: -1 | 0 | 1) => {
-    onVoteHapticFeedback();
-
-    if (value === post.my_vote && value !== 0) value = 0;
-
-    const oldValue = post.my_vote;
-
-    dispatch(
-      setUpdateVote({
-        postId: post.post.id,
-        vote: value,
-      })
-    );
-
-    try {
-      await lemmyInstance.likePost({
-        auth: lemmyAuthToken,
-        post_id: post.post.id,
-        score: value,
-      });
-    } catch (e) {
-      writeToLog("Error submitting vote.");
-      writeToLog(e.toString());
-
-      toast.show({
-        title: "Error submitting vote...",
-        duration: 3000,
-      });
-      dispatch(
-        setUpdateVote({
-          postId: post.post.id,
-          vote: oldValue as -1 | 0 | 1,
-        })
-      );
-    }
-  };
-
-  const onPress = () => {
-    dispatch(setPost(post));
-    navigation.push("Post");
-  };
+  const feedItem = useFeedItem(post);
 
   const isUpvoted = post.my_vote === 1;
   const isDownvoted = post.my_vote === -1;
@@ -90,7 +37,7 @@ function FeedItem({ post }: FeedItemProps) {
         <CommunityLink community={post.community} isFeedItem />
       </View>
 
-      <Pressable onPress={onPress}>
+      <Pressable onPress={feedItem.onPress}>
         <>
           <View style={styles.community}>
             {post.community.icon && (
@@ -106,7 +53,7 @@ function FeedItem({ post }: FeedItemProps) {
 
         <>
           <HStack mx={4} mb={1}>
-            <Text> by </Text>
+            <Text>by </Text>
             <Text fontWeight="bold">{post.creator.name}</Text>
 
             <Text
@@ -142,12 +89,12 @@ function FeedItem({ post }: FeedItemProps) {
 
             <HStack space={3} alignContent="center" justifyContent="flex-end">
               <VoteButton
-                onPressHandler={() => onVotePress(1)}
+                onPressHandler={() => feedItem.onVotePress(1)}
                 type="upvote"
                 isVoted={isUpvoted}
               />
               <VoteButton
-                onPressHandler={() => onVotePress(-1)}
+                onPressHandler={() => feedItem.onVotePress(-1)}
                 type="downvote"
                 isVoted={isDownvoted}
               />

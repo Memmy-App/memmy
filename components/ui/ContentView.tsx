@@ -103,7 +103,11 @@ function ContentView({
 
         {(linkInfo.extType === ExtensionType.NONE || showBody) && (
           <VStack px={4}>
-            <RenderMarkdown text={body} addImages={showTitle} />
+            <RenderMarkdown
+              text={body}
+              addImages={showTitle}
+              truncate={truncate}
+            />
           </VStack>
         )}
         {(linkInfo.extType === ExtensionType.VIDEO && (

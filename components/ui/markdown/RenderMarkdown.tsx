@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { useTheme, VStack } from "native-base";
 import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
 import { useNavigation } from "@react-navigation/native";
@@ -16,9 +16,14 @@ const HEADING_4_SIZE = 18;
 interface MarkdownProps {
   text: string;
   addImages?: boolean;
+  truncate?: boolean;
 }
 
-const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
+const RenderMarkdown = ({
+  text,
+  addImages = false,
+  truncate = false,
+}: MarkdownProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onLinkPress = (url): boolean => {
@@ -28,38 +33,40 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
 
   const theme = useTheme();
 
+  const fontColor = truncate ? theme.colors.secondaryText : theme.colors.white;
+
   const styles = {
     span: {
       fontSize: FONT_SIZE,
-      color: "white",
+      color: fontColor,
     },
     inline: {
       fontSize: FONT_SIZE,
-      color: "white",
+      color: fontColor,
     },
     paragraph: {
       fontSize: FONT_SIZE,
-      color: "white",
+      color: fontColor,
     },
     heading1: {
       fontSize: HEADING_1_SIZE,
       fontWeight: "bold",
-      color: "white",
+      color: fontColor,
     },
     heading2: {
       fontSize: HEADING_2_SIZE,
       fontWeight: "bold",
-      color: "white",
+      color: fontColor,
     },
     heading3: {
       fontSize: HEADING_3_SIZE,
       fontWeight: "bold",
-      color: "white",
+      color: fontColor,
     },
     heading4: {
       fontSize: HEADING_4_SIZE,
       fontWeight: "bold",
-      color: "white",
+      color: fontColor,
     },
     blockquote: {
       backgroundColor: theme.colors.screen[700],
@@ -70,18 +77,18 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
     },
     code_inline: {
       fontSize: FONT_SIZE,
-      color: "white",
+      color: fontColor,
       backgroundColor: theme.colors.screen[700],
     },
     code_block: {
       fontSize: FONT_SIZE,
-      color: "white",
+      color: fontColor,
       backgroundColor: theme.colors.screen[700],
       borderRadius: 5,
     },
     pre: {
       fontSize: FONT_SIZE,
-      color: "white",
+      color: fontColor,
       backgroundColor: theme.colors.screen[700],
       borderRadius: 5,
     },
@@ -94,7 +101,7 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
       fontSize: FONT_SIZE,
     },
     table: {
-      color: "white",
+      color: fontColor,
       fontSize: FONT_SIZE,
       borderColor: theme.colors.screen[500],
       marginVertical: 10,
@@ -112,7 +119,7 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
       borderColor: theme.colors.screen[500],
     },
     list_item: {
-      color: "white",
+      color: fontColor,
       fontSize: FONT_SIZE,
     },
     textgroup: {
@@ -121,26 +128,26 @@ const RenderMarkdown = ({ text, addImages = false }: MarkdownProps) => {
     fence: {
       backgroundColor: theme.colors.screen[700],
       borderColor: theme.colors.screen[700],
-      color: "white",
+      color: fontColor,
       fontSize: FONT_SIZE,
     },
     em: {
       fontStyle: "italic",
-      color: "white",
+      color: fontColor,
       fontSize: FONT_SIZE,
     },
     strong: {
       fontWeight: "bold",
-      color: "white",
+      color: fontColor,
       fontSize: FONT_SIZE,
     },
     s: {
       textDecorationLine: "line-through",
-      color: "white",
+      color: fontColor,
       fontSize: FONT_SIZE,
     },
     body: {
-      color: "white",
+      color: fontColor,
       fontSize: FONT_SIZE,
     },
     hr: {

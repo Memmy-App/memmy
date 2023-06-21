@@ -11,18 +11,13 @@ import {
   View,
   VStack,
 } from "native-base";
-import {
-  IconArrowDown,
-  IconArrowUp,
-  IconDots,
-  IconUser,
-} from "tabler-icons-react-native";
+import { IconDots, IconUser } from "tabler-icons-react-native";
 import FastImage from "react-native-fast-image";
 import {
   GestureHandlerRootView,
   PanGestureHandler,
 } from "react-native-gesture-handler";
-import { Alert, Dimensions, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import Animated, {
   runOnJS,
   useAnimatedGestureHandler,
@@ -49,6 +44,8 @@ import { selectSettings } from "../../slices/settings/settingsSlice";
 import { NestedComment } from "../hooks/post/postHooks";
 import { getBaseUrl } from "../../helpers/LinkHelper";
 import { writeToLog } from "../../helpers/LogHelper";
+import SmallVoteIcons from "./common/SmallVoteIcons";
+import { ILemmyVote } from "../../lemmy/types/ILemmyVote";
 
 function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
   const theme = useTheme();
@@ -323,7 +320,7 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                 <VStack
                   flex={1}
                   pr={2}
-                  py={2}
+                  pb={1}
                   space={2}
                   backgroundColor="screen.800"
                   style={{
@@ -338,11 +335,13 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                     }
                     borderLeftRadius={1}
                     pl={depth > 2 ? 2 : 0}
+                    mt={0}
                   >
                     <HStack
                       space={2}
                       justifyContent="space-between"
                       alignItems="center"
+                      mb={-3}
                     >
                       <HStack space={2} alignItems="center">
                         {nestedComment.comment.creator.avatar ? (
@@ -367,36 +366,11 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                             </Text>
                           )}
                         </VStack>
-                        <HStack alignItems="center">
-                          <IconArrowUp
-                            color={
-                              myVote === 1
-                                ? theme.colors.app.upvoteColor
-                                : theme.colors.app.iconColor
-                            }
-                            size={18}
-                          />
-                          <Text>
-                            {myVote === 1
-                              ? nestedComment.comment.counts.upvotes + 1
-                              : nestedComment.comment.counts.upvotes}
-                          </Text>
-                        </HStack>
-                        <HStack alignItems="center">
-                          <IconArrowDown
-                            color={
-                              myVote === -1
-                                ? theme.colors.app.downvoteColor
-                                : theme.colors.app.iconColor
-                            }
-                            size={18}
-                          />
-                          <Text>
-                            {myVote === -1
-                              ? nestedComment.comment.counts.downvotes + 1
-                              : nestedComment.comment.counts.downvotes}
-                          </Text>
-                        </HStack>
+                        <SmallVoteIcons
+                          upvotes={nestedComment.comment.counts.upvotes}
+                          downvotes={nestedComment.comment.counts.upvotes}
+                          myVote={myVote as ILemmyVote}
+                        />
                       </HStack>
                       <HStack alignItems="center" space={2}>
                         <IconButton
@@ -424,7 +398,7 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                       />
                     )}
                   </VStack>
-                  <Divider ml={4} mt={-1} />
+                  <Divider ml={0} mt={-1} />
                 </VStack>
               </Pressable>
             </Animated.View>
