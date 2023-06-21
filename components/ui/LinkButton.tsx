@@ -15,7 +15,7 @@ interface LinkButtonProps {
 }
 
 function LinkButton({ link, thumbnail }: LinkButtonProps) {
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [imgHeight, setImgHeight] = useState(0);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const theme = useTheme();
 
@@ -29,7 +29,7 @@ function LinkButton({ link, thumbnail }: LinkButtonProps) {
         const screenWidth = Dimensions.get("window").width;
         const scaleFactor = width / screenWidth;
         const imageHeight = height / scaleFactor;
-        setDimensions({ width: screenWidth, height: imageHeight });
+        setImgHeight(imageHeight);
       });
     }
   }, [thumbnail]);
@@ -46,7 +46,7 @@ function LinkButton({ link, thumbnail }: LinkButtonProps) {
         <FastImage
           style={{
             width: "100%",
-            height: dimensions.height,
+            height: imgHeight,
             borderTopLeftRadius: 5,
             borderTopRightRadius: 5,
           }}
