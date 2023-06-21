@@ -398,6 +398,7 @@ function CommentItem2({
                           upvotes={nestedComment.comment.counts.upvotes}
                           downvotes={nestedComment.comment.counts.downvotes}
                           myVote={myVote as ILemmyVote}
+                          initialVote={nestedComment.comment.my_vote}
                         />
                       </HStack>
                       <HStack alignItems="center" space={2}>
