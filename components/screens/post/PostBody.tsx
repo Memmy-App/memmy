@@ -1,6 +1,5 @@
 import { PostView } from "lemmy-js-client";
 import {
-  Flex,
   HStack,
   Icon,
   Pressable,
@@ -16,8 +15,8 @@ import { BlurView } from "expo-blur";
 import FastImage from "react-native-fast-image";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
-import { IconClockHour5 } from "tabler-icons-react-native";
 import moment from "moment";
+import { IconClockHour5 } from "tabler-icons-react-native";
 import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppSelector } from "../../../store";
@@ -45,6 +44,13 @@ function PostBody({ post }: PostBodyProps) {
   };
 
   const onImageLongPress = () => {};
+
+  moment.updateLocale("en", {
+    relativeTime: {
+      hh: "%dh",
+      dd: "%dd",
+    },
+  });
 
   // memoize component instead?
   const view = useMemo(
@@ -100,19 +106,9 @@ function PostBody({ post }: PostBodyProps) {
           </VStack>
         )}
 
-        <Flex
-          mt={3}
-          mx={4}
-          mb={1}
-          justifyContent="space-between"
-          direction="row"
-        >
-          <Text fontSize="lg">{post.post.name}</Text>
-          <HStack>
-            <IconClockHour5 color={theme.colors.app.secondaryText} />
-            <Text>{moment(post.post.published).utc(true).fromNow()}</Text>
-          </HStack>
-        </Flex>
+        <Text flex={4} fontSize="lg">
+          {post.post.name}
+        </Text>
 
         {linkInfo.extType === ExtensionType.NONE && (
           <VStack px={4}>

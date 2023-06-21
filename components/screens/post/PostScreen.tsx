@@ -1,12 +1,9 @@
 import React, { useCallback, useEffect } from "react";
 
 import {
-  ArrowDownIcon,
-  ArrowUpIcon,
   Center,
   Divider,
   HStack,
-  Icon,
   Spinner,
   Text,
   VStack,
@@ -14,22 +11,20 @@ import {
 } from "native-base";
 import { RefreshControl } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
-import moment from "moment/moment";
 import { IconClockHour5 } from "tabler-icons-react-native";
-import LoadingView from "../../ui/Loading/LoadingView";
-import ContentView from "../../ui/ContentView";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
+import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import usePost from "../../hooks/post/postHooks";
-import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import CommentItem2 from "../../ui/CommentItem2";
 import CommunityLink from "../../ui/CommunityLink";
-import PostActionBar from "./PostActionBar";
-import PostBody from "./PostBody";
+import ContentView from "../../ui/ContentView";
+import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
+import LoadingView from "../../ui/Loading/LoadingView";
 import AvatarUsername from "../../ui/common/AvatarUsername";
+import PostActionBar from "./PostActionBar";
 
 function PostScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -63,37 +58,36 @@ function PostScreen() {
 
   const header = () => (
     <VStack flex={1} backgroundColor={theme.colors.screen[800]}>
-      <PostBody post={post.currentPost} />
+      <ContentView post={post.currentPost} showTitle showBody />
 
-      <HStack mx={4} mb={2} alignItems="center">
-        <AvatarUsername
-          username={post.currentPost?.creator.name}
-          avatar={post.currentPost?.creator.avatar}
-        />
-        <Text> to </Text>
-        <CommunityLink community={post.currentPost?.community} />
-        {post.currentPost?.post.url && (
-          <Text
-            fontSize="sm"
-            fontStyle="italic"
-            mx={4}
-            mt={-1}
-            color="screen.400"
-            alignSelf="flex-end"
-          >
-            @{getBaseUrl(post.currentPost?.post.url)}
-          </Text>
-        )}
+      <HStack mb={2} mx={4} space={2}>
+        <HStack alignItems="center">
+          <AvatarUsername
+            username={post.currentPost?.creator.name}
+            avatar={post.currentPost?.creator.avatar}
+          />
+          <Text> to </Text>
+          <CommunityLink community={post.currentPost?.community} />
+          {post.currentPost?.post.url && (
+            <Text
+              fontSize="sm"
+              fontStyle="italic"
+              mx={4}
+              mt={-1}
+              color="screen.400"
+              alignSelf="flex-end"
+            >
+              @{getBaseUrl(post.currentPost?.post.url)}
+            </Text>
+          )}
+        </HStack>
 
-        <IconClockHour5 color={theme.colors.app.secondaryText} />
-        <Text>
-          {moment(post.currentPost?.post.published).utc(true).fromNow()}
-        </Text>
+        <HStack space={1} alignItems="center">
+          <IconClockHour5 size={14} color={theme.colors.app.secondaryText} />
+          <Text>{timeFromNowShort(post.currentPost?.post.published)}</Text>
+        </HStack>
       </HStack>
 
-      <HStack mx={3} space={2} alignItems="center" mb={3}>
-        <HStack space={1} alignItems="center" />
-      </HStack>
       <Divider my={1} />
       <PostActionBar post={post} />
       <Divider />

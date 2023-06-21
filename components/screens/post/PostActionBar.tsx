@@ -6,6 +6,8 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
   IconBookmark,
   IconMessageCircle,
+  IconMessageCirclePlus,
+  IconMessagePlus,
   IconShare2,
 } from "tabler-icons-react-native";
 import { shareLink } from "../../../helpers/ShareHelper";
@@ -46,7 +48,7 @@ function PostActionBar({ post }: { post: UsePost }) {
 
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    <HStack justifyContent="center" alignItems="center" space={6} mb={2}>
+    <HStack justifyContent="center" alignItems="center" space={6} mb={2} mx={4}>
       <VoteButton
         onPressHandler={() => onVotePress(1)}
         type="upvote"
@@ -59,6 +61,13 @@ function PostActionBar({ post }: { post: UsePost }) {
         type="downvote"
         isVoted={isDownvoted}
         text={post.currentPost.counts.downvotes}
+      />
+
+      <IconButtonWithText
+        onPressHandler={onCommentPress}
+        icon={<IconMessageCirclePlus color={colors.accentColor} size={25} />}
+        text={post.currentPost.counts.comments}
+        textColor={colors.accentColor}
       />
 
       <IconButton
@@ -78,13 +87,6 @@ function PostActionBar({ post }: { post: UsePost }) {
       <IconButton
         icon={<IconShare2 size={25} color={colors.accentColor} />}
         onPress={onSharePress}
-      />
-
-      <IconButtonWithText
-        onPressHandler={onCommentPress}
-        icon={<IconMessageCircle color={colors.accentColor} size={25} />}
-        text={post.currentPost.counts.comments}
-        textColor={colors.accentColor}
       />
     </HStack>
   );
