@@ -137,13 +137,50 @@ function SearchStackScreen() {
         },
       }}
     >
-      <SearchStack.Screen
-        name="Search"
-        component={SearchScreen}
-        options={{
-          title: "Search",
+      <SearchStack.Group>
+        <SearchStack.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{
+            title: "Search",
+          }}
+        />
+        <SearchStack.Screen
+          name="FeedScreen"
+          component={FeedsIndexScreen}
+          options={{
+            title: "Feed",
+          }}
+        />
+        <SearchStack.Screen name="Post" component={PostScreen} />
+        <SearchStack.Screen name="Community" component={CommunityFeedScreen} />
+        <SearchStack.Screen
+          name="Subscriptions"
+          component={SubscriptionsScreen}
+        />
+      </SearchStack.Group>
+
+      <SearchStack.Group
+        screenOptions={{
+          presentation: "modal",
         }}
-      />
+      >
+        <SearchStack.Screen
+          name="NewComment"
+          component={NewCommentScreen}
+          options={{ title: "New Comment" }}
+        />
+        <SearchStack.Screen
+          name="NewPost"
+          component={NewPostScreen}
+          options={{ title: "New Post" }}
+        />
+        <SearchStack.Screen
+          name="CommunityAbout"
+          component={CommunityAboutScreen}
+          options={{ title: "About" }}
+        />
+      </SearchStack.Group>
     </SearchStack.Navigator>
   );
 }
