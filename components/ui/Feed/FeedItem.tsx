@@ -106,7 +106,7 @@ function FeedItem({ post }: FeedItemProps) {
 
         <>
           <HStack mx={4} mb={1}>
-            <Text> by </Text>
+            <Text>by </Text>
             <Text fontWeight="bold">{post.creator.name}</Text>
 
             <Text
