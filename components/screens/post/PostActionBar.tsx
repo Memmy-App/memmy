@@ -48,12 +48,13 @@ function PostActionBar({ post }: { post: UsePost }) {
 
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    <HStack justifyContent="center" alignItems="center" space={6} mb={2} mx={4}>
+    <HStack justifyContent="space-between" alignItems="center" mb={2} mx={4}>
       <VoteButton
         onPressHandler={() => onVotePress(1)}
         type="upvote"
         isVoted={isUpvoted}
         text={post.currentPost.counts.upvotes}
+        isAccented
       />
 
       <VoteButton
@@ -61,6 +62,7 @@ function PostActionBar({ post }: { post: UsePost }) {
         type="downvote"
         isVoted={isDownvoted}
         text={post.currentPost.counts.downvotes}
+        isAccented
       />
 
       <IconButtonWithText
