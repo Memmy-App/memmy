@@ -1,47 +1,48 @@
-import React, { useMemo, useState } from "react";
 import { PostView } from "lemmy-js-client";
-import { Icon, Pressable, Text, View, VStack } from "native-base";
+import { Icon, Pressable, Text, VStack, View, useTheme } from "native-base";
+import React, { useMemo, useState } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { BlurView } from "expo-blur";
 import FastImage from "react-native-fast-image";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
-import { ExtensionType, getLinkInfo } from "../../helpers/LinkHelper";
-import { truncatePost } from "../../helpers/TextHelper";
-import LinkButton from "./LinkButton";
-import RenderMarkdown from "./markdown/RenderMarkdown";
-import { useAppSelector } from "../../store";
-import { selectSettings } from "../../slices/settings/settingsSlice";
-import ImageView from "./image/ImageView";
+import moment from "moment";
+import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
+import { useAppSelector } from "../../../store";
+import LinkButton from "../../ui/LinkButton";
+import ImageView from "../../ui/image/ImageView";
+import RenderMarkdown from "../../ui/markdown/RenderMarkdown";
 
-interface ContentViewProps {
+interface PostBodyProps {
   post: PostView;
-  truncate?: boolean;
-  showBody?: boolean;
-  showTitle?: boolean;
 }
 
-function ContentView({
-  post,
-  truncate = false,
-  showBody = false,
-  showTitle = false,
-}: ContentViewProps) {
+function PostBody({ post }: PostBodyProps) {
   const { blurNsfw } = useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
+  const showLink =
+    linkInfo.extType === ExtensionType.VIDEO ||
+    linkInfo.extType === ExtensionType.GENERIC;
 
-  const body = truncate ? truncatePost(post.post.body, 100) : post.post.body;
+  const { body } = post.post;
   const [imageViewOpen, setImageViewOpen] = useState(false);
-  const [imageUri, setImageUri] = useState("");
-
   const onImagePress = () => {
     setImageViewOpen(true);
   };
 
   const onImageLongPress = () => {};
 
+  moment.updateLocale("en", {
+    relativeTime: {
+      hh: "%dh",
+      dd: "%dd",
+    },
+  });
+
+  // memoize component instead?
   const view = useMemo(
     () => (
       <>
@@ -95,33 +96,17 @@ function ContentView({
           </VStack>
         )}
 
-        {showTitle && (
-          <Text fontSize="lg" mt={3} mx={4} mb={1}>
-            {post.post.name}
-          </Text>
-        )}
+        <Text flex={4} fontSize="lg">
+          {post.post.name}
+        </Text>
 
-        {(linkInfo.extType === ExtensionType.NONE || showBody) && (
+        {linkInfo.extType === ExtensionType.NONE && (
           <VStack px={4}>
-            <RenderMarkdown
-              text={body}
-              addImages={showTitle}
-              truncate={truncate}
-            />
+            <RenderMarkdown text={body} />
           </VStack>
         )}
-        {(linkInfo.extType === ExtensionType.VIDEO && (
-          <LinkButton
-            link={linkInfo.link}
-            thumbnail={post.post.thumbnail_url}
-          />
-        )) ||
-          (linkInfo.extType === ExtensionType.GENERIC && (
-            <LinkButton
-              link={linkInfo.link}
-              thumbnail={post.post.thumbnail_url}
-            />
-          ))}
+
+        {showLink && <LinkButton link={linkInfo.link} />}
       </>
     ),
     [post, imageViewOpen]
@@ -149,4 +134,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ContentView;
+export default PostBody;

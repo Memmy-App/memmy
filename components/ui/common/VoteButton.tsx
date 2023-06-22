@@ -9,25 +9,28 @@ interface VoteButtonProps {
   type: "upvote" | "downvote";
   isVoted: boolean;
   text?: string | number;
+  isAccented?: boolean;
 }
 
-function VoteButton({ onPressHandler, type, isVoted, text }: VoteButtonProps) {
+function VoteButton({
+  onPressHandler,
+  type,
+  isVoted,
+  text,
+  isAccented,
+}: VoteButtonProps) {
   const { colors } = useTheme();
+
+  const color = isAccented ? colors.app.accentColor : colors.app.secondaryText;
 
   const voteColor =
     type === "upvote" ? colors.app.upvoteColor : colors.app.downvoteColor;
 
   const icon =
     type === "upvote" ? (
-      <IconArrowUp
-        color={isVoted ? colors.white : colors.accentColor}
-        size={25}
-      />
+      <IconArrowUp color={isVoted ? colors.white : color} size={25} />
     ) : (
-      <IconArrowDown
-        color={isVoted ? colors.white : colors.accentColor}
-        size={25}
-      />
+      <IconArrowDown color={isVoted ? colors.white : color} size={25} />
     );
 
   return (
@@ -36,7 +39,7 @@ function VoteButton({ onPressHandler, type, isVoted, text }: VoteButtonProps) {
       icon={icon}
       iconBgColor={isVoted ? voteColor : colors.screen[800]}
       text={text}
-      textColor={isVoted ? voteColor : colors.accentColor}
+      textColor={isVoted ? voteColor : color}
     />
   );
 }

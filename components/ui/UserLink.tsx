@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, useTheme } from "native-base";
+import { Text } from "native-base";
 import Link from "./Link";
 
 function UserLink({
@@ -17,7 +17,7 @@ function UserLink({
         fullUsername,
       }}
     >
-      <Text fontWeight="bold">{username}</Text>
+      <Text fontWeight="medium">{username}</Text>
     </Link>
   );
 }

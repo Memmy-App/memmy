@@ -109,7 +109,7 @@ export const openLink = (
   }
 };
 
-export const getBaseUrl = (link: string): string => {
+export const getBaseUrl = (link?: string): string => {
   const regex = /^(?:https?:\/\/)?([^/]+)/;
-  return link.match(regex)[1];
+  return link ? link.match(regex)[1] : null;
 };
