@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { HStack, ScrollView, Text, useTheme, VStack } from "native-base";
-import { PersonViewSafe, PostView, SearchType } from "lemmy-js-client";
+import { PersonView, PostView } from "lemmy-js-client";
 import useSearch from "../../hooks/search/useSearch";
 import SearchBar from "../../ui/search/SearchBar";
 import ButtonTwo from "../../ui/buttons/ButtonTwo";
@@ -27,7 +27,7 @@ function SearchScreen({
     navigation.push("Post");
   };
 
-  const onUserPress = (person: PersonViewSafe) => {
+  const onUserPress = (person: PersonView) => {
     navigation.push("UserProfile", {
       fullUsername: `${person.person.name}@${getBaseUrl(
         person.person.actor_id
@@ -40,7 +40,7 @@ function SearchScreen({
       <SearchBar
         searchValue={search.query}
         onSearchChange={search.setQuery}
-        onSubmitSearch={() => search.doSearch(SearchType.All)}
+        onSubmitSearch={() => search.doSearch("All")}
       />
       <HStack px={4} py={4} space={2}>
         <ButtonTwo
@@ -62,7 +62,7 @@ function SearchScreen({
           selectable
         />
         <ButtonTwo
-          onPress={() => search.doSearch(SearchType.All)}
+          onPress={() => search.doSearch("All")}
           text="All"
           selectable
         />
@@ -85,7 +85,7 @@ function SearchScreen({
               <>
                 {search.result.communities.length > 0 && (
                   <>
-                    <SearchResultTypeHeader type={SearchType.Communities} />
+                    <SearchResultTypeHeader type="Communities" />
                     {search.result.communities.map((r) => (
                       <GenericSearchResult
                         key={r.community.id}
@@ -106,7 +106,7 @@ function SearchScreen({
                 )}
                 {search.result.users.length > 0 && (
                   <>
-                    <SearchResultTypeHeader type={SearchType.Users} />
+                    <SearchResultTypeHeader type="Users" />
                     {search.result.users.length > 0 &&
                       search.result.users.map((r) => (
                         <GenericSearchResult
@@ -124,7 +124,7 @@ function SearchScreen({
                 )}
                 {search.result.posts.length > 0 && (
                   <>
-                    <SearchResultTypeHeader type={SearchType.Posts} />
+                    <SearchResultTypeHeader type="Posts" />
                     {search.result.posts.length > 0 &&
                       search.result.posts.map((r) => (
                         <GenericSearchResult
