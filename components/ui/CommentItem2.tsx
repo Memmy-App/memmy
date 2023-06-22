@@ -312,7 +312,7 @@ function CommentItem2({
                 as={Ionicons}
                 name={iconName}
                 size={8}
-                color="white"
+                color={theme.colors.app.primaryText}
                 ml={3}
                 alignSelf="flex-start"
               />
@@ -327,7 +327,7 @@ function CommentItem2({
                 as={Ionicons}
                 name="arrow-undo"
                 size={8}
-                color="white"
+                color={theme.colors.app.primaryText}
                 mr={3}
                 alignSelf="flex-end"
               />
@@ -349,7 +349,7 @@ function CommentItem2({
                   pr={2}
                   pb={1}
                   space={2}
-                  backgroundColor="screen.800"
+                  backgroundColor={theme.colors.app.backgroundSecondary}
                   style={{
                     paddingLeft: depth * 8,
                   }}
@@ -380,8 +380,11 @@ function CommentItem2({
                         showInstance={showInstanceForUsernames}
                       >
                         <>
-                          {(nestedComment.comment.creator.name ===
-                            currentAccount?.username &&
+                          {(currentAccount &&
+                            currentAccount.username &&
+                            currentAccount.instance &&
+                            nestedComment.comment.creator.name ===
+                              currentAccount?.username &&
                             getBaseUrl(
                               nestedComment.comment.creator.actor_id
                             ) === currentAccount?.instance && (

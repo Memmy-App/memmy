@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { ScrollView } from "native-base";
+import { ScrollView, useTheme } from "native-base";
 import { useFocusEffect } from "@react-navigation/native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { trigger } from "react-native-haptic-feedback";
@@ -16,6 +16,8 @@ import CCell from "../../ui/table/CCell";
 
 function BlockedCommunitiesScreen() {
   const { communityBlocks, loaded } = useAppSelector(selectSite);
+
+  const theme = useTheme();
 
   const dispatch = useAppDispatch();
   const { showActionSheetWithOptions } = useActionSheet();
@@ -49,7 +51,7 @@ function BlockedCommunitiesScreen() {
   }
 
   return (
-    <ScrollView flex={1} backgroundColor="screen.800">
+    <ScrollView flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
       <CTable>
         <CSection header="BLOCKED COMMUNITIES">
           {communityBlocks.length === 0 ? (

@@ -79,7 +79,7 @@ function CompactFeedItem({ post }: { post: PostView }) {
                         <Icon
                           as={Ionicons}
                           name="alert-circle"
-                          color="white"
+                          color={theme.colors.app.primaryText}
                           size={12}
                           alignSelf="center"
                           style={styles.nsfwIcon}

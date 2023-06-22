@@ -37,7 +37,12 @@ function FeedItem({ post }: FeedItemProps) {
     : theme.colors.app.secondaryText;
 
   return (
-    <VStack flex={1} my={1.5} backgroundColor="screen.800" shadow={2}>
+    <VStack
+      flex={1}
+      my={1.5}
+      backgroundColor={theme.colors.app.backgroundSecondary}
+      shadow={2}
+    >
       <HStack
         mx={4}
         mt={2}
@@ -85,7 +90,7 @@ function FeedItem({ post }: FeedItemProps) {
               fontStyle="italic"
               mx={4}
               mt={-1}
-              color="screen.400"
+              color={theme.colors.app.secondaryText}
               alignSelf="flex-end"
             >
               {getBaseUrl(post.post.url)}
@@ -124,7 +129,7 @@ function FeedItem({ post }: FeedItemProps) {
               icon={
                 <IconDots size={25} color={theme.colors.app.secondaryText} />
               }
-              iconBgColor={theme.colors.screen[800]}
+              iconBgColor={theme.colors.app.backgroundSecondary}
               onPressHandler={() => {}}
             />
             <IconButtonWithText
@@ -134,7 +139,7 @@ function FeedItem({ post }: FeedItemProps) {
                   color={theme.colors.app.secondaryText}
                 />
               }
-              iconBgColor={theme.colors.screen[800]}
+              iconBgColor={theme.colors.app.backgroundSecondary}
               onPressHandler={() => {}}
             /> */}
             <VoteButton

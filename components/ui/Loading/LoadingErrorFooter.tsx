@@ -1,5 +1,5 @@
 import React from "react";
-import { Center, Pressable, Text } from "native-base";
+import { Center, Pressable, Text, useTheme } from "native-base";
 
 interface LoadingErrorFooterProps {
   onRetryPress: () => void | Promise<void>;
@@ -10,9 +10,11 @@ function LoadingErrorFooter({
   onRetryPress,
   message,
 }: LoadingErrorFooterProps) {
+  const theme = useTheme();
+
   return (
     <Center flex={1} my={4}>
-      <Text fontStyle="italic" color="gray.500">
+      <Text fontStyle="italic" color={theme.colors.app.secondaryText}>
         {`${message || "Error loading content :("}`}
       </Text>
       <Pressable

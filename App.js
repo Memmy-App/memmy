@@ -1,20 +1,12 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable  global-require */
-import { StatusBar } from "expo-status-bar";
 import { Provider } from "react-redux";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { NativeBaseProvider } from "native-base";
-import { ActionSheetProvider } from "@expo/react-native-action-sheet";
-import React, { useState } from "react";
+import React from "react";
 
 import { useFonts } from "expo-font";
-import { ErrorBoundary } from "react-error-boundary";
-import { Alert } from "react-native";
-import Stack from "./Stack";
-import darkTheme from "./theme/theme";
 import store from "./store";
 import { writeToLog } from "./helpers/LogHelper";
-import MemmyErrorView from "./components/ui/Loading/MemmyErrorView";
+import Start from "./Start";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -47,26 +39,9 @@ export default function App() {
     import("./ReactotronConfig").then(() => console.log("Reactotron Enabled."));
   }
 
-  const logError = (e, info) => {
-    writeToLog(e.toString());
-    writeToLog(
-      info && info.componentStack ? info.componentStack.toString() : "No stack."
-    );
-  };
-
   return (
-    <NativeBaseProvider theme={darkTheme}>
-      <ErrorBoundary onError={logError} FallbackComponent={MemmyErrorView}>
-        {/* eslint-disable-next-line react/style-prop-object */}
-        <StatusBar style="light" />
-        <Provider store={store}>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <ActionSheetProvider>
-              <Stack />
-            </ActionSheetProvider>
-          </GestureHandlerRootView>
-        </Provider>
-      </ErrorBoundary>
-    </NativeBaseProvider>
+    <Provider store={store}>
+      <Start />
+    </Provider>
   );
 }

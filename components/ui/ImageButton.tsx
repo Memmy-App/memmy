@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { ChevronRightIcon, HStack, Pressable, Spacer, Text } from "native-base";
+import {
+  ChevronRightIcon,
+  HStack,
+  Pressable,
+  Spacer,
+  Text,
+  useTheme,
+} from "native-base";
 import { ImageDetail } from "@dreamwalk-os/react-native-image-modal";
 import FastImage from "react-native-fast-image";
 import { Dimensions, Share } from "react-native";
@@ -13,6 +20,8 @@ interface ImageButtonProps {
 
 function ImageButton({ src }: ImageButtonProps) {
   const [visible, setVisible] = useState(false);
+
+  const theme = useTheme();
 
   const onPress = () => {
     setVisible(true);
@@ -33,7 +42,7 @@ function ImageButton({ src }: ImageButtonProps) {
     <>
       <Pressable onPress={onPress}>
         <HStack
-          backgroundColor="screen.700"
+          backgroundColor={theme.colors.app.backgroundTricondary}
           borderRadius={5}
           padding={2}
           flexDirection="row"
@@ -52,7 +61,9 @@ function ImageButton({ src }: ImageButtonProps) {
             }}
           />
           <Spacer />
-          <Text color="white">{truncateImageLink(src)}</Text>
+          <Text color={theme.colors.app.primaryText}>
+            {truncateImageLink(src)}
+          </Text>
           <Spacer />
           <ChevronRightIcon />
         </HStack>

@@ -13,6 +13,7 @@ export interface SettingsState {
   blurNsfw: boolean;
   hideNsfw: boolean;
   compactView: boolean;
+  theme: "Dark" | "Brown" | "Purple" | "Light";
 }
 
 const initialState: SettingsState = {
@@ -25,6 +26,7 @@ const initialState: SettingsState = {
   blurNsfw: true,
   hideNsfw: false,
   compactView: false,
+  theme: "Brown",
 };
 
 const settingsSlice = createSlice({

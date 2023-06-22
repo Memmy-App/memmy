@@ -30,24 +30,24 @@ function SettingsIndexScreen({
   };
 
   return (
-    <ScrollView backgroundColor="screen.800" flex={1}>
+    <ScrollView backgroundColor={theme.colors.app.backgroundSecondary} flex={1}>
       <TableView style={styles.table}>
         <Section header="ACCOUNT" roundedCorners hideSurroundingSeparators>
           <Cell
             cellStyle="RightDetail"
             title="Server"
             detail={accounts[0].instance}
-            backgroundColor={theme.colors.screen["700"]}
+            backgroundColor={theme.colors.app.backgroundTricondary}
             titleTextColor={theme.colors.lightText}
-            rightDetailColor={theme.colors.screen["400"]}
+            rightDetailColor={theme.colors.app.iconColor}
           />
           <Cell
             cellStyle="RightDetail"
             title="Username"
             detail={accounts[0].username}
-            backgroundColor={theme.colors.screen["700"]}
+            backgroundColor={theme.colors.app.backgroundTricondary}
             titleTextColor={theme.colors.lightText}
-            rightDetailColor={theme.colors.screen["400"]}
+            rightDetailColor={theme.colors.app.iconColor}
           />
 
           <Cell
@@ -55,9 +55,9 @@ function SettingsIndexScreen({
             title="Change Account Settings"
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("ViewAccounts")}
-            backgroundColor={theme.colors.screen["700"]}
+            backgroundColor={theme.colors.app.backgroundTricondary}
             titleTextColor={theme.colors.lightText}
-            rightDetailColor={theme.colors.screen["400"]}
+            rightDetailColor={theme.colors.app.iconColor}
           />
         </Section>
 
@@ -90,6 +90,33 @@ function SettingsIndexScreen({
         </Section>
 
         <Section header="APPEARANCE" roundedCorners hideSurroundingSeparators>
+          <CCell
+            cellStyle="RightDetail"
+            title="Theme"
+            detail={settings.theme}
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              const options = ["Brown", "Light", "Dark", "Purple", "Cancel"];
+              const cancelButtonIndex = 4;
+
+              showActionSheetWithOptions(
+                {
+                  options,
+                  cancelButtonIndex,
+                },
+                (index: number) => {
+                  if (index === cancelButtonIndex) return;
+
+                  dispatch(setSetting({ theme: options[index] }));
+
+                  Alert.alert(
+                    "Please Restart",
+                    "Some components may not re-render with the new theme. Please restart the app to get the full effect."
+                  );
+                }
+              );
+            }}
+          />
           <CCell
             title="Swipe Gestures"
             cellAccessoryView={

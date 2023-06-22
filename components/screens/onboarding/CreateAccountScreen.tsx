@@ -163,7 +163,7 @@ function CreateAccountScreen() {
 
   return (
     <KeyboardAwareScrollView
-      style={{ backgroundColor: theme.colors.screen[800] }}
+      style={{ backgroundColor: theme.colors.app.backgroundSecondary }}
     >
       <LoadingModal loading={loading} />
       <VStack flex={1} pt={10} mb={5} space="md" justifyContent="center">

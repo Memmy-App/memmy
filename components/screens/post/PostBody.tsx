@@ -21,6 +21,7 @@ interface PostBodyProps {
 
 function PostBody({ post }: PostBodyProps) {
   const { blurNsfw } = useAppSelector(selectSettings);
+  const theme = useTheme();
 
   const linkInfo = getLinkInfo(post.post.url);
   const showLink =
@@ -61,7 +62,7 @@ function PostBody({ post }: PostBodyProps) {
                       <Icon
                         as={Ionicons}
                         name="alert-circle"
-                        color="white"
+                        color={theme.colors.app.primaryText}
                         size={16}
                       />
                       <Text fontSize="xl">NSFW</Text>

@@ -97,7 +97,7 @@ function AddAccountScreen() {
 
   return (
     <KeyboardAwareScrollView
-      style={{ backgroundColor: theme.colors.screen[800] }}
+      style={{ backgroundColor: theme.colors.app.backgroundSecondary }}
     >
       <LoadingModal loading={loading} />
 

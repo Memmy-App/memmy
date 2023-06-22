@@ -1,6 +1,6 @@
 import React, { SetStateAction, useState } from "react";
 import { Alert, InputAccessoryView, TextInput } from "react-native";
-import { HStack, Icon, IconButton } from "native-base";
+import { HStack, Icon, IconButton, useTheme } from "native-base";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { selectImage } from "../../helpers/ImageHelper";
 import LoadingModal from "./Loading/LoadingModal";
@@ -22,6 +22,8 @@ function KeyboardAccessory({
   inputRef: React.MutableRefObject<TextInput>;
 }) {
   const [uploading, setUploading] = useState(false);
+
+  const theme = useTheme();
 
   const replace = (newText: string) =>
     text.substring(0, selection.start) +
@@ -104,7 +106,7 @@ function KeyboardAccessory({
   return (
     <InputAccessoryView nativeID="accessory">
       <HStack
-        backgroundColor="screen.900"
+        backgroundColor={theme.colors.app.backgroundPrimary}
         height={12}
         justifyContent="space-between"
         alignItems="center"

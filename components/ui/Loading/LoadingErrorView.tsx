@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "native-base";
+import { Text, useTheme, View } from "native-base";
 import { Button, StyleSheet } from "react-native";
 
 interface LoadingViewProps {
@@ -7,8 +7,13 @@ interface LoadingViewProps {
 }
 
 function LoadingErrorView({ onRetryPress }: LoadingViewProps) {
+  const theme = useTheme();
+
   return (
-    <View style={styles.container} backgroundColor="screen.800">
+    <View
+      style={styles.container}
+      backgroundColor={theme.colors.app.backgroundSecondary}
+    >
       <Text fontStyle="italic" color="gray.500">
         Error loading content :(
       </Text>
