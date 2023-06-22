@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { PostView } from "lemmy-js-client";
-import { Icon, Pressable, Text, View, VStack } from "native-base";
+import { Icon, Pressable, Text, useTheme, View, VStack } from "native-base";
 import { Dimensions, StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { BlurView } from "expo-blur";
@@ -28,6 +28,8 @@ function ContentView({
   showBody = false,
   showTitle = false,
 }: ContentViewProps) {
+  const theme = useTheme();
+
   const { blurNsfw } = useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
@@ -60,7 +62,7 @@ function ContentView({
                       <Icon
                         as={Ionicons}
                         name="alert-circle"
-                        color="white"
+                        color={theme.colors.app.primaryText}
                         size={16}
                       />
                       <Text fontSize="xl">NSFW</Text>

@@ -213,7 +213,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   return (
     <View
       style={styles.container}
-      backgroundColor={theme.colors.app.backgroundSecondary}
+      backgroundColor={theme.colors.app.backgroundPrimary}
     >
       <FeedHeaderDropdownDrawer />
 

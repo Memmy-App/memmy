@@ -109,7 +109,7 @@ function PostScreen() {
       return (
         <Center my={4}>
           <Spinner />
-          <Text fontStyle="italic" color="gray.500">
+          <Text fontStyle="italic" color={theme.colors.app.secondaryText}>
             Loading comments...
           </Text>
         </Center>
@@ -126,7 +126,7 @@ function PostScreen() {
     if (post.comments && post.comments.length === 0 && !post.commentsError) {
       return (
         <Center my={4}>
-          <Text fontStyle="italic" color="gray.500">
+          <Text fontStyle="italic" color={theme.colors.app.secondaryText}>
             No comments yet. Time to do your part 🫡
           </Text>
         </Center>

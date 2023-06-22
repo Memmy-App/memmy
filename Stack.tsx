@@ -42,10 +42,10 @@ function FeedStackScreen() {
     <FeedStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: theme.colors.app.backgroundPrimary,
+          backgroundColor: theme.colors.app.nativeHeader,
         },
         headerTitleStyle: {
-          color: "white",
+          color: theme.colors.app.primaryText,
         },
       }}
     >
@@ -105,10 +105,10 @@ function ProfileStackScreen() {
     <ProfileStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: theme.colors.app.backgroundPrimary,
+          backgroundColor: theme.colors.app.nativeHeader,
         },
         headerTitleStyle: {
-          color: "white",
+          color: theme.colors.app.primaryText,
         },
       }}
     >
@@ -142,10 +142,10 @@ function SearchStackScreen() {
     <SearchStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: theme.colors.app.header,
+          backgroundColor: theme.colors.app.nativeHeader,
         },
         headerTitleStyle: {
-          color: theme.colors.app.headerTitle,
+          color: theme.colors.app.nativeHeaderTitle,
         },
       }}
     >
@@ -213,10 +213,10 @@ function SettingsStackScreen() {
     <SettingsStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: theme.colors.app.backgroundPrimary,
+          backgroundColor: theme.colors.app.nativeHeader,
         },
         headerTitleStyle: {
-          color: "white",
+          color: theme.colors.app.primaryText,
         },
       }}
     >
@@ -254,7 +254,7 @@ function Tabs() {
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: theme.colors.app.backgroundPrimary,
+          backgroundColor: theme.colors.app.nativeHeader,
         },
         tabBarLabel: "Feed",
       }}
@@ -326,7 +326,7 @@ function Stack() {
       <MainStack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: theme.colors.app.backgroundPrimary,
+            backgroundColor: theme.colors.app.nativeHeader,
           },
         }}
       >

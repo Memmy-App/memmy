@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { Text, View } from "native-base";
+import { Text, useTheme, View } from "native-base";
 
 interface FeedHeaderDropdownHeaderComponentProps {
   text: string;
@@ -9,9 +9,11 @@ interface FeedHeaderDropdownHeaderComponentProps {
 function FeedHeaderDropdownHeaderComponent({
   text,
 }: FeedHeaderDropdownHeaderComponentProps) {
+  const theme = useTheme();
+
   return (
     <View style={styles.container}>
-      <Text color="gray.600" ml={2}>
+      <Text color={theme.colors.app.secondaryText} ml={2}>
         {text}
       </Text>
     </View>

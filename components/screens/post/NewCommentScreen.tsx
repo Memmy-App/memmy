@@ -83,7 +83,10 @@ function NewCommentScreen({
             autoCapitalize="sentences"
             style={[
               styles.input,
-              { backgroundColor: theme.colors.app.backgroundTricondary },
+              {
+                backgroundColor: theme.colors.app.backgroundTricondary,
+                color: theme.colors.app.primaryText,
+              },
             ]}
             numberOfLines={20}
             value={newComment.content}
@@ -135,7 +138,7 @@ function NewCommentScreen({
               </HStack>
               <HStack space={1} alignItems="center">
                 <Icon as={Ionicons} name="time-outline" />
-                <Text color="gray.500">
+                <Text color={theme.colors.app.secondaryText}>
                   {moment(
                     responseTo.post
                       ? responseTo.post.post.published
@@ -183,7 +186,6 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     height: 200,
     fontSize: 16,
-    color: "#fff",
   },
 });
 

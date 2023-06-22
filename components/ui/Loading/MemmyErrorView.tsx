@@ -1,10 +1,12 @@
 import React from "react";
-import { Text, VStack } from "native-base";
+import { Text, useTheme, VStack } from "native-base";
 import { Button } from "react-native";
 import { IconMoodSad } from "tabler-icons-react-native";
 import { sendLog } from "../../../helpers/LogHelper";
 
 function MemmyErrorView() {
+  const theme = useTheme();
+
   return (
     <VStack
       flex={1}
@@ -14,7 +16,7 @@ function MemmyErrorView() {
       backgroundColor="app.backgroundSecondary"
       space={2}
     >
-      <IconMoodSad size={150} color="#9A9A9A" />
+      <IconMoodSad size={150} color={theme.colors.app.secondaryText} />
       <Text textAlign="center">
         Well that&apos;s awkward. Memmy encountered an error. Please restart the
         app...

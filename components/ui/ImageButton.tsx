@@ -61,7 +61,9 @@ function ImageButton({ src }: ImageButtonProps) {
             }}
           />
           <Spacer />
-          <Text color="white">{truncateImageLink(src)}</Text>
+          <Text color={theme.colors.app.primaryText}>
+            {truncateImageLink(src)}
+          </Text>
           <Spacer />
           <ChevronRightIcon />
         </HStack>

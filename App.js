@@ -10,10 +10,10 @@ import React from "react";
 import { useFonts } from "expo-font";
 import { ErrorBoundary } from "react-error-boundary";
 import Stack from "./Stack";
-import darkTheme from "./theme/theme";
 import store from "./store";
 import { writeToLog } from "./helpers/LogHelper";
 import MemmyErrorView from "./components/ui/Loading/MemmyErrorView";
+import { darkTheme, lightTheme, purpleTheme } from "./theme/theme";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -55,7 +55,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <NativeBaseProvider theme={darkTheme}>
+      <NativeBaseProvider theme={lightTheme}>
         <ErrorBoundary onError={logError} FallbackComponent={MemmyErrorView}>
           {/* eslint-disable-next-line react/style-prop-object */}
           <StatusBar style="light" />

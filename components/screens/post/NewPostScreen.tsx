@@ -165,7 +165,7 @@ function NewPostScreen({
                     style={{
                       fontSize: 16,
                       flex: 1,
-                      color: theme.colors.lightText,
+                      color: theme.colors.app.primaryText,
                     }}
                     placeholderTextColor={theme.colors.app.iconColor}
                     placeholder="Link"
@@ -227,7 +227,6 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     height: 200,
     fontSize: 16,
-    color: "#fff",
   },
 });
 
