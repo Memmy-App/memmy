@@ -19,7 +19,7 @@ const writeToLog = (text: string) => {
   console.log(text);
 
   const time = moment().utc(true);
-  FileSystem.appendFile(logFile, `[${time}] ${text}`).then();
+  FileSystem.appendFile(logFile, `\n[${time}] ${text}`).then();
 };
 
 const readLog = async (): Promise<string> => FileSystem.readFile(logFile);
