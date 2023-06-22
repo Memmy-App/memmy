@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
   IconBookmark,
-  IconMessageCircle,
+  IconMessageCirclePlus,
   IconShare2,
 } from "tabler-icons-react-native";
 import { shareLink } from "../../../helpers/ShareHelper";
@@ -46,12 +46,13 @@ function PostActionBar({ post }: { post: UsePost }) {
 
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    <HStack justifyContent="center" alignItems="center" space={6} mb={2}>
+    <HStack justifyContent="space-between" alignItems="center" mb={2} mx={4}>
       <VoteButton
         onPressHandler={() => onVotePress(1)}
         type="upvote"
         isVoted={isUpvoted}
         text={post.currentPost.counts.upvotes}
+        isAccented
       />
 
       <VoteButton
@@ -59,13 +60,14 @@ function PostActionBar({ post }: { post: UsePost }) {
         type="downvote"
         isVoted={isDownvoted}
         text={post.currentPost.counts.downvotes}
+        isAccented
       />
 
       <IconButton
         icon={
           <IconBookmark
             size={25}
-            color={post.bookmarked ? colors.white : colors.accentColor}
+            color={post.bookmarked ? colors.white : colors.app.accentColor}
           />
         }
         onPress={post.doBookmark}
@@ -75,16 +77,16 @@ function PostActionBar({ post }: { post: UsePost }) {
         padding={2}
       />
 
-      <IconButton
-        icon={<IconShare2 size={25} color={colors.accentColor} />}
-        onPress={onSharePress}
-      />
-
       <IconButtonWithText
         onPressHandler={onCommentPress}
-        icon={<IconMessageCircle color={colors.accentColor} size={25} />}
-        text={post.currentPost.counts.comments}
-        textColor={colors.accentColor}
+        icon={
+          <IconMessageCirclePlus color={colors.app.accentColor} size={25} />
+        }
+      />
+
+      <IconButton
+        icon={<IconShare2 size={25} color={colors.app.accentColor} />}
+        onPress={onSharePress}
       />
     </HStack>
   );
