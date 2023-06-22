@@ -28,7 +28,13 @@ function FeedItem({ post }: FeedItemProps) {
   const theme = useTheme();
 
   const isUpvoted = post.my_vote === 1;
+  const upvoteColor = isUpvoted
+    ? theme.colors.app.upvoteColor
+    : theme.colors.app.secondaryText;
   const isDownvoted = post.my_vote === -1;
+  const downvoteColor = isDownvoted
+    ? theme.colors.app.downvoteColor
+    : theme.colors.app.secondaryText;
 
   return (
     <VStack flex={1} my={1.5} backgroundColor="screen.800" shadow={2}>
@@ -88,25 +94,20 @@ function FeedItem({ post }: FeedItemProps) {
         )}
 
         <HStack mx={4} alignItems="center" mb={3}>
-          <HStack flex={1} space={2}>
-            <HStack space={1}>
-              <HStack alignItems="center">
-                <IconArrowUp color={theme.colors.app.upvoteColor} size={20} />
-                <Text color={theme.colors.app.upvoteColor} fontSize="sm">
-                  {post.counts.upvotes}
-                </Text>
-              </HStack>
-              <HStack alignItems="center">
-                <IconArrowDown
-                  color={theme.colors.app.downvoteColor}
-                  size={20}
-                />
-                <Text color={theme.colors.app.downvoteColor} fontSize="sm">
-                  {post.counts.downvotes}
-                </Text>
-              </HStack>
+          <HStack flex={1} space={1}>
+            <HStack alignItems="center">
+              <IconArrowUp color={upvoteColor} size={20} />
+              <Text color={upvoteColor} fontSize="sm">
+                {post.counts.upvotes}
+              </Text>
             </HStack>
             <HStack alignItems="center">
+              <IconArrowDown color={downvoteColor} size={20} />
+              <Text color={downvoteColor} fontSize="sm">
+                {post.counts.downvotes}
+              </Text>
+            </HStack>
+            <HStack alignItems="center" ml={1} space={0.5}>
               <IconMessageCircle
                 color={theme.colors.app.secondaryText}
                 size={20}
