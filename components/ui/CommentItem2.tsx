@@ -30,7 +30,6 @@ import Animated, {
 import { IconDots } from "tabler-icons-react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Clipboard from "@react-native-community/clipboard";
-import { current } from "@reduxjs/toolkit";
 import {
   onCommentSlideHapticFeedback,
   onGenericHapticFeedback,
@@ -362,27 +361,30 @@ function CommentItem2({
                         instanceName={nestedComment.comment.creator.actor_id}
                         showInstance={showInstanceForUsernames}
                       >
-                        {(nestedComment.comment.creator.name ===
-                          currentAccount.username &&
-                          getBaseUrl(nestedComment.comment.creator.actor_id) ===
-                            currentAccount.instance && (
-                            <NamePill
-                              text="me"
-                              color={theme.colors.app.selfColor}
-                            />
-                          )) ||
-                          (nestedComment.comment.creator.id === opId && (
-                            <NamePill
-                              text="OP"
-                              color={theme.colors.app.opColor}
-                            />
-                          ))}
-                        <SmallVoteIcons
-                          upvotes={nestedComment.comment.counts.upvotes}
-                          downvotes={nestedComment.comment.counts.downvotes}
-                          myVote={myVote as ILemmyVote}
-                          initialVote={nestedComment.comment.my_vote}
-                        />
+                        <>
+                          {(nestedComment.comment.creator.name ===
+                            currentAccount.username &&
+                            getBaseUrl(
+                              nestedComment.comment.creator.actor_id
+                            ) === currentAccount.instance && (
+                              <NamePill
+                                text="me"
+                                color={theme.colors.app.selfColor}
+                              />
+                            )) ||
+                            (nestedComment.comment.creator.id === opId && (
+                              <NamePill
+                                text="OP"
+                                color={theme.colors.app.opColor}
+                              />
+                            ))}
+                          <SmallVoteIcons
+                            upvotes={nestedComment.comment.counts.upvotes}
+                            downvotes={nestedComment.comment.counts.downvotes}
+                            myVote={myVote as ILemmyVote}
+                            initialVote={nestedComment.comment.my_vote}
+                          />
+                        </>
                       </AvatarUsername>
                       <HStack alignItems="center" space={2}>
                         <IconButton
@@ -402,12 +404,39 @@ function CommentItem2({
                       </HStack>
                     </HStack>
                     {collapsed ? (
-                      <Text>Comment collapsed</Text>
+                      <Text
+                        py={3}
+                        color={theme.colors.app.secondaryText}
+                        fontStyle="italic"
+                      >
+                        Comment collapsed
+                      </Text>
                     ) : (
-                      <RenderMarkdown
-                        text={nestedComment.comment.comment.content}
-                        addImages
-                      />
+                      <>
+                        {(nestedComment.comment.comment.deleted && (
+                          <Text
+                            py={3}
+                            color={theme.colors.app.secondaryText}
+                            fontStyle="italic"
+                          >
+                            Comment deleted by user :(
+                          </Text>
+                        )) ||
+                          (nestedComment.comment.comment.removed && (
+                            <Text
+                              py={3}
+                              color={theme.colors.app.secondaryText}
+                              fontStyle="italic"
+                            >
+                              Comment removed by moderator :(
+                            </Text>
+                          )) || (
+                            <RenderMarkdown
+                              text={nestedComment.comment.comment.content}
+                              addImages
+                            />
+                          )}
+                      </>
                     )}
                   </VStack>
                   <Divider ml={0} mt={-1} />
