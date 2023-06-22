@@ -1,6 +1,5 @@
-import { HStack, Pressable, Spacer, Text, VStack, useTheme } from "native-base";
-import React, { useEffect, useState } from "react";
-import { Dimensions, Image } from "react-native";
+import { HStack, Pressable, Text, VStack, useTheme } from "native-base";
+import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -15,24 +14,12 @@ interface LinkButtonProps {
 }
 
 function LinkButton({ link, thumbnail }: LinkButtonProps) {
-  const [imgHeight, setImgHeight] = useState(0);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const theme = useTheme();
 
   const onPress = () => {
     openLink(link, navigation);
   };
-
-  useEffect(() => {
-    if (thumbnail) {
-      Image.getSize(thumbnail, (width, height) => {
-        const screenWidth = Dimensions.get("window").width;
-        const scaleFactor = width / screenWidth;
-        const imageHeight = height / scaleFactor;
-        setImgHeight(imageHeight);
-      });
-    }
-  }, [thumbnail]);
 
   return (
     <Pressable onPress={onPress}>
@@ -43,24 +30,26 @@ function LinkButton({ link, thumbnail }: LinkButtonProps) {
         backgroundColor={theme.colors.app.backgroundTricondary}
         justifyContent="flex-start"
       >
-        <FastImage
-          style={{
-            width: "100%",
-            height: imgHeight,
-            borderTopLeftRadius: 5,
-            borderTopRightRadius: 5,
-          }}
-          source={{
-            uri: thumbnail,
-          }}
-        />
-        <HStack flexDirection="row" alignItems="center" space={2} mx={4} my={2}>
+        {thumbnail && (
+          <FastImage
+            resizeMode="cover"
+            style={{
+              width: "100%",
+              height: 172,
+              borderTopLeftRadius: 5,
+              borderTopRightRadius: 5,
+            }}
+            source={{
+              uri: thumbnail,
+            }}
+          />
+        )}
+
+        <HStack flexDirection="row" alignItems="center" space={3} mx={4} my={2}>
           <IconUnlink color={theme.colors.app.secondaryText} />
-          <Spacer />
           <Text color={theme.colors.app.secondaryText}>
             {truncateLink(link)}
           </Text>
-          <Spacer />
         </HStack>
       </VStack>
     </Pressable>
