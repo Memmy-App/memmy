@@ -24,7 +24,7 @@ module.exports = {
       "error",
       {
         props: true,
-        ignorePropertyModificationsFor: ["state"],
+        ignorePropertyModificationsFor: ["state", "ref"],
       },
     ],
     "react/require-default-props": "off",
@@ -32,7 +32,6 @@ module.exports = {
     "no-restricted-syntax": "off",
     "no-continue": "off",
     "import/no-cycle": "off",
-    "no-param-reassign": "warn",
     "no-nested-ternary": "off",
     "import/no-extraneous-dependencies": "off",
     "prefer-destructuring": ["error", { object: true, array: false }],
