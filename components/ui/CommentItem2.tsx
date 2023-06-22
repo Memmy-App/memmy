@@ -381,10 +381,10 @@ function CommentItem2({
                       >
                         <>
                           {(nestedComment.comment.creator.name ===
-                            currentAccount.username &&
+                            currentAccount?.username &&
                             getBaseUrl(
                               nestedComment.comment.creator.actor_id
-                            ) === currentAccount.instance && (
+                            ) === currentAccount?.instance && (
                               <NamePill
                                 text="me"
                                 color={theme.colors.app.selfColor}
