@@ -34,7 +34,6 @@ import {
   onCommentSlideHapticFeedback,
   onGenericHapticFeedback,
 } from "../../helpers/HapticFeedbackHelpers";
-import { getBaseUrl } from "../../helpers/LinkHelper";
 import { writeToLog } from "../../helpers/LogHelper";
 import { timeFromNowShort } from "../../helpers/TimeHelper";
 import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
@@ -47,6 +46,7 @@ import { NestedComment } from "../hooks/post/postHooks";
 import AvatarUsername from "./common/AvatarUsername";
 import SmallVoteIcons from "./common/SmallVoteIcons";
 import RenderMarkdown from "./markdown/RenderMarkdown";
+import { getUserFullName } from "../../lemmy/LemmyHelpers";
 
 function CommentItem2({
   nestedComment,
@@ -64,7 +64,7 @@ function CommentItem2({
   // State
   const [myVote, setMyVote] = useState(nestedComment.comment.my_vote);
   const [collapsed, setCollapsed] = useState(false);
-  const [showAll, setShowAll] = useState(false);
+  const [showAll] = useState(false);
 
   // Refs
   const lastCommentId = useRef(nestedComment.comment.comment.id);
@@ -353,11 +353,9 @@ function CommentItem2({
                       <AvatarUsername
                         avatar={nestedComment.comment.creator.avatar}
                         username={nestedComment.comment.creator.name}
-                        fullUsername={`${
-                          nestedComment.comment.creator.name
-                        }@${getBaseUrl(
-                          nestedComment.comment.creator.actor_id
-                        )}`}
+                        fullUsername={getUserFullName(
+                          nestedComment.comment.creator
+                        )}
                         instanceName={nestedComment.comment.creator.actor_id}
                         showInstance={showInstanceForUsernames}
                       >
