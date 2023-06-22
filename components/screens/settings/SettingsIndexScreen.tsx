@@ -108,6 +108,11 @@ function SettingsIndexScreen({
                   if (index === cancelButtonIndex) return;
 
                   dispatch(setSetting({ theme: options[index] }));
+
+                  Alert.alert(
+                    "Please Restart",
+                    "Some components may not re-render with the new theme. Please restart the app to get the full effect."
+                  );
                 }
               );
             }}
