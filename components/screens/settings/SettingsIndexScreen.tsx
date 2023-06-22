@@ -30,24 +30,24 @@ function SettingsIndexScreen({
   };
 
   return (
-    <ScrollView backgroundColor="screen.800" flex={1}>
+    <ScrollView backgroundColor={theme.colors.app.backgroundSecondary} flex={1}>
       <TableView style={styles.table}>
         <Section header="ACCOUNT" roundedCorners hideSurroundingSeparators>
           <Cell
             cellStyle="RightDetail"
             title="Server"
             detail={accounts[0].instance}
-            backgroundColor={theme.colors.screen["700"]}
+            backgroundColor={theme.colors.app.backgroundTricondary}
             titleTextColor={theme.colors.lightText}
-            rightDetailColor={theme.colors.screen["400"]}
+            rightDetailColor={theme.colors.app.iconColor}
           />
           <Cell
             cellStyle="RightDetail"
             title="Username"
             detail={accounts[0].username}
-            backgroundColor={theme.colors.screen["700"]}
+            backgroundColor={theme.colors.app.backgroundTricondary}
             titleTextColor={theme.colors.lightText}
-            rightDetailColor={theme.colors.screen["400"]}
+            rightDetailColor={theme.colors.app.iconColor}
           />
 
           <Cell
@@ -55,9 +55,9 @@ function SettingsIndexScreen({
             title="Change Account Settings"
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("ViewAccounts")}
-            backgroundColor={theme.colors.screen["700"]}
+            backgroundColor={theme.colors.app.backgroundTricondary}
             titleTextColor={theme.colors.lightText}
-            rightDetailColor={theme.colors.screen["400"]}
+            rightDetailColor={theme.colors.app.iconColor}
           />
         </Section>
 

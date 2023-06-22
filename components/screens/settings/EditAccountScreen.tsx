@@ -133,7 +133,7 @@ function EditAccountScreen({
   };
 
   return (
-    <VStack flex={1} backgroundColor="screen.800">
+    <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
       <TableView style={styles.table}>
         <Section
           header="SERVER ADDRESS"
@@ -151,7 +151,7 @@ function EditAccountScreen({
                     ? theme.colors.lightText
                     : theme.colors.gray[400],
                 }}
-                placeholderTextColor={theme.colors.screen["400"]}
+                placeholderTextColor={theme.colors.app.iconColor}
                 placeholder="Server Address"
                 value={form.server}
                 onChangeText={(text) => onFormChange("server", text)}
@@ -160,9 +160,9 @@ function EditAccountScreen({
                 editable={!edit.current}
               />
             }
-            backgroundColor={theme.colors.screen["700"]}
+            backgroundColor={theme.colors.app.backgroundTricondary}
             titleTextColor={theme.colors.lightText}
-            rightDetailColor={theme.colors.screen["400"]}
+            rightDetailColor={theme.colors.app.iconColor}
           />
         </Section>
 
@@ -182,7 +182,7 @@ function EditAccountScreen({
                     ? theme.colors.lightText
                     : theme.colors.gray[400],
                 }}
-                placeholderTextColor={theme.colors.screen["400"]}
+                placeholderTextColor={theme.colors.app.iconColor}
                 placeholder="Username"
                 value={form.username}
                 onChangeText={(text) => onFormChange("username", text)}
@@ -191,15 +191,15 @@ function EditAccountScreen({
                 editable={!edit.current}
               />
             }
-            backgroundColor={theme.colors.screen["700"]}
+            backgroundColor={theme.colors.app.backgroundTricondary}
             titleTextColor={theme.colors.lightText}
-            rightDetailColor={theme.colors.screen["400"]}
+            rightDetailColor={theme.colors.app.iconColor}
           />
           <Cell
             cellContentView={
               <TextInput
                 style={{ fontSize: 16, flex: 1, color: theme.colors.lightText }}
-                placeholderTextColor={theme.colors.screen["400"]}
+                placeholderTextColor={theme.colors.app.iconColor}
                 placeholder="Password"
                 value={form.password}
                 onChangeText={(text) => onFormChange("password", text)}
@@ -208,9 +208,9 @@ function EditAccountScreen({
                 secureTextEntry
               />
             }
-            backgroundColor={theme.colors.screen["700"]}
+            backgroundColor={theme.colors.app.backgroundTricondary}
             titleTextColor={theme.colors.lightText}
-            rightDetailColor={theme.colors.screen["400"]}
+            rightDetailColor={theme.colors.app.iconColor}
           />
           {showTotpToken && (
             <Cell
@@ -221,7 +221,7 @@ function EditAccountScreen({
                     flex: 1,
                     color: theme.colors.lightText,
                   }}
-                  placeholderTextColor={theme.colors.screen["400"]}
+                  placeholderTextColor={theme.colors.app.iconColor}
                   placeholder="2FA Token"
                   value={form.totpToken}
                   onChangeText={(text) => onFormChange("totpToken", text)}
@@ -231,9 +231,9 @@ function EditAccountScreen({
                   autoFocus={showTotpToken}
                 />
               }
-              backgroundColor={theme.colors.screen["700"]}
+              backgroundColor={theme.colors.app.backgroundTricondary}
               titleTextColor={theme.colors.lightText}
-              rightDetailColor={theme.colors.screen["400"]}
+              rightDetailColor={theme.colors.app.iconColor}
             />
           )}
         </Section>

@@ -70,12 +70,12 @@ function NewCommentScreen({
   return (
     <>
       <KeyboardAwareScrollView
-        style={{ backgroundColor: theme.colors.screen[800] }}
+        style={{ backgroundColor: theme.colors.app.backgroundSecondary }}
       >
         <View
           flex={1}
           flexDirection="column"
-          backgroundColor="screen.800"
+          backgroundColor={theme.colors.app.backgroundSecondary}
           justifyContent="space-between"
         >
           <TextInput
@@ -83,7 +83,7 @@ function NewCommentScreen({
             autoCapitalize="sentences"
             style={[
               styles.input,
-              { backgroundColor: theme.colors.screen["700"] },
+              { backgroundColor: theme.colors.app.backgroundTricondary },
             ]}
             numberOfLines={20}
             value={newComment.content}

@@ -5,11 +5,10 @@ import { Provider } from "react-redux";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { NativeBaseProvider } from "native-base";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
-import React, { useState } from "react";
+import React from "react";
 
 import { useFonts } from "expo-font";
 import { ErrorBoundary } from "react-error-boundary";
-import { Alert } from "react-native";
 import Stack from "./Stack";
 import darkTheme from "./theme/theme";
 import store from "./store";
@@ -55,18 +54,18 @@ export default function App() {
   };
 
   return (
-    <NativeBaseProvider theme={darkTheme}>
-      <ErrorBoundary onError={logError} FallbackComponent={MemmyErrorView}>
-        {/* eslint-disable-next-line react/style-prop-object */}
-        <StatusBar style="light" />
-        <Provider store={store}>
+    <Provider store={store}>
+      <NativeBaseProvider theme={darkTheme}>
+        <ErrorBoundary onError={logError} FallbackComponent={MemmyErrorView}>
+          {/* eslint-disable-next-line react/style-prop-object */}
+          <StatusBar style="light" />
           <GestureHandlerRootView style={{ flex: 1 }}>
             <ActionSheetProvider>
               <Stack />
             </ActionSheetProvider>
           </GestureHandlerRootView>
-        </Provider>
-      </ErrorBoundary>
-    </NativeBaseProvider>
+        </ErrorBoundary>
+      </NativeBaseProvider>
+    </Provider>
   );
 }

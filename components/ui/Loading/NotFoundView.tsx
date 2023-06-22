@@ -1,14 +1,18 @@
 import React from "react";
-import { Text, View } from "native-base";
+import { Text, useTheme, View } from "native-base";
 import { Button, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 function NotFoundView() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const theme = useTheme();
 
   return (
-    <View style={styles.container} backgroundColor="screen.800">
+    <View
+      style={styles.container}
+      backgroundColor={theme.colors.app.backgroundSecondary}
+    >
       <Text fontStyle="italic" color="gray.500">
         🤨That content or community was not found🧐
       </Text>

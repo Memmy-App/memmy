@@ -37,7 +37,7 @@ function VoteButton({
     <IconButtonWithText
       onPressHandler={onPressHandler}
       icon={icon}
-      iconBgColor={isVoted ? voteColor : colors.screen[800]}
+      iconBgColor={isVoted ? voteColor : colors.app.backgroundSecondary}
       text={text}
       textColor={isVoted ? voteColor : color}
     />

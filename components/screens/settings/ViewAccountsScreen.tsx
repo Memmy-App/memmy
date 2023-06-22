@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { ScrollView } from "native-base";
+import { ScrollView, useTheme } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button } from "react-native";
 import { useAppSelector } from "../../../store";
@@ -15,6 +15,8 @@ interface ViewAccountsScreenProps {
 
 function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   const accounts = useAppSelector(selectAccounts);
+
+  const theme = useTheme();
 
   const headerRight = () => (
     <Button title="Add" onPress={() => navigation.push("EditAccount")} />
@@ -34,7 +36,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   };
 
   return (
-    <ScrollView backgroundColor="screen.800">
+    <ScrollView backgroundColor={theme.colors.app.backgroundSecondary}>
       <CTable>
         <CSection header="ACCOUNTS">
           {accounts.map((a, i) => (

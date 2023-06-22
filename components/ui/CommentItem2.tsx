@@ -349,7 +349,7 @@ function CommentItem2({
                   pr={2}
                   pb={1}
                   space={2}
-                  backgroundColor="screen.800"
+                  backgroundColor={theme.colors.app.backgroundSecondary}
                   style={{
                     paddingLeft: depth * 8,
                   }}

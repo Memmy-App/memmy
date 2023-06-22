@@ -1,6 +1,6 @@
 import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ScrollView } from "native-base";
+import { ScrollView, useTheme } from "native-base";
 import { useAppSelector } from "../../../store";
 import { selectCommunities } from "../../../slices/communities/communitiesSlice";
 import CTable from "../../ui/table/CTable";
@@ -16,8 +16,10 @@ function SubscriptionsScreen({
 }) {
   const { subscribedCommunities } = useAppSelector(selectCommunities);
 
+  const theme = useTheme();
+
   return (
-    <ScrollView flex={1} backgroundColor="screen.800">
+    <ScrollView flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
       <CTable>
         <CSection header="SUBSCRIPTIONS">
           {subscribedCommunities?.map((community) => (

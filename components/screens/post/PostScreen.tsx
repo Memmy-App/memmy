@@ -55,7 +55,7 @@ function PostScreen() {
     <RefreshControl
       refreshing={post.commentsLoading}
       onRefresh={post.doLoad}
-      tintColor={theme.colors.screen[300]}
+      tintColor={theme.colors.app.refreshWheel}
     />
   );
 
@@ -66,7 +66,7 @@ function PostScreen() {
   const instanceBaseUrl = getBaseUrl(post.currentPost.creator.actor_id);
 
   const header = () => (
-    <VStack flex={1} backgroundColor={theme.colors.screen[800]}>
+    <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
       <ContentView post={post.currentPost} showTitle showBody />
 
       <HStack mb={2} mx={4} space={2}>
@@ -138,7 +138,7 @@ function PostScreen() {
 
   if (post.currentPost) {
     return (
-      <VStack flex={1} backgroundColor={theme.colors.screen["800"]}>
+      <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
         <FlashList
           ListFooterComponent={footer}
           ListHeaderComponent={header}

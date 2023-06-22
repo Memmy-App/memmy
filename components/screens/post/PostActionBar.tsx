@@ -72,7 +72,7 @@ function PostActionBar({ post }: { post: UsePost }) {
         }
         onPress={post.doBookmark}
         backgroundColor={
-          post.bookmarked ? colors.green[500] : colors.screen[800]
+          post.bookmarked ? colors.green[500] : colors.app.backgroundSecondary
         }
         padding={2}
       />

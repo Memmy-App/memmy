@@ -36,11 +36,13 @@ import LoadingView from "./components/ui/Loading/LoadingView";
 const FeedStack = createNativeStackNavigator();
 
 function FeedStackScreen() {
+  const theme = useTheme();
+
   return (
     <FeedStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#1c1917",
+          backgroundColor: theme.colors.app.backgroundPrimary,
         },
         headerTitleStyle: {
           color: "white",
@@ -98,11 +100,12 @@ function FeedStackScreen() {
 const ProfileStack = createNativeStackNavigator();
 
 function ProfileStackScreen() {
+  const theme = useTheme();
   return (
     <ProfileStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#1c1917",
+          backgroundColor: theme.colors.app.backgroundPrimary,
         },
         headerTitleStyle: {
           color: "white",
@@ -204,11 +207,13 @@ function SearchStackScreen() {
 const SettingsStack = createNativeStackNavigator();
 
 function SettingsStackScreen() {
+  const theme = useTheme();
+
   return (
     <SettingsStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#1c1917",
+          backgroundColor: theme.colors.app.backgroundPrimary,
         },
         headerTitleStyle: {
           color: "white",
@@ -243,11 +248,13 @@ function SettingsStackScreen() {
 const Tab = createBottomTabNavigator();
 
 function Tabs() {
+  const theme = useTheme();
+
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: "#1c1917",
+          backgroundColor: theme.colors.app.backgroundPrimary,
         },
         tabBarLabel: "Feed",
       }}
@@ -319,7 +326,7 @@ function Stack() {
       <MainStack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: theme.colors.screen[900],
+            backgroundColor: theme.colors.app.backgroundPrimary,
           },
         }}
       >

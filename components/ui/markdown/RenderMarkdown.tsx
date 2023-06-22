@@ -69,7 +69,7 @@ const RenderMarkdown = ({
       color: fontColor,
     },
     blockquote: {
-      backgroundColor: theme.colors.screen[700],
+      backgroundColor: theme.colors.app.backgroundTricondary,
       borderRadius: 5,
       borderLeftWidth: 3,
       borderLeftColor: theme.colors.orange["500"],
@@ -78,18 +78,18 @@ const RenderMarkdown = ({
     code_inline: {
       fontSize: FONT_SIZE,
       color: fontColor,
-      backgroundColor: theme.colors.screen[700],
+      backgroundColor: theme.colors.app.backgroundTricondary,
     },
     code_block: {
       fontSize: FONT_SIZE,
       color: fontColor,
-      backgroundColor: theme.colors.screen[700],
+      backgroundColor: theme.colors.app.backgroundTricondary,
       borderRadius: 5,
     },
     pre: {
       fontSize: FONT_SIZE,
       color: fontColor,
-      backgroundColor: theme.colors.screen[700],
+      backgroundColor: theme.colors.app.backgroundTricondary,
       borderRadius: 5,
     },
     image: {
@@ -103,20 +103,20 @@ const RenderMarkdown = ({
     table: {
       color: fontColor,
       fontSize: FONT_SIZE,
-      borderColor: theme.colors.screen[500],
+      borderColor: theme.colors.app.tableBorder,
       marginVertical: 10,
     },
     th: {
-      borderColor: theme.colors.screen[500],
+      borderColor: theme.colors.app.tableBorder,
       padding: 8,
       fontWeight: "bold",
     },
     td: {
-      borderColor: theme.colors.screen[500],
+      borderColor: theme.colors.app.tableBorder,
       padding: 8,
     },
     tr: {
-      borderColor: theme.colors.screen[500],
+      borderColor: theme.colors.app.tableBorder,
     },
     list_item: {
       color: fontColor,
@@ -126,8 +126,8 @@ const RenderMarkdown = ({
       paddingVertical: 1,
     },
     fence: {
-      backgroundColor: theme.colors.screen[700],
-      borderColor: theme.colors.screen[700],
+      backgroundColor: theme.colors.app.backgroundTricondary,
+      borderColor: theme.colors.app.backgroundTricondary,
       color: fontColor,
       fontSize: FONT_SIZE,
     },
@@ -151,7 +151,7 @@ const RenderMarkdown = ({
       fontSize: FONT_SIZE,
     },
     hr: {
-      color: theme.colors.screen[600],
+      color: theme.colors.app.backgroundTricondary,
     },
   };
 

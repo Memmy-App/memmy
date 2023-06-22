@@ -14,7 +14,7 @@ function OnboardingScreen({
   return (
     <VStack
       flex={1}
-      backgroundColor={theme.colors.screen[800]}
+      backgroundColor={theme.colors.app.backgroundSecondary}
       justifyContent="center"
       alignItems="center"
       space="md"

@@ -131,9 +131,9 @@ function NewPostScreen({
   return (
     <>
       <KeyboardAwareScrollView
-        style={{ backgroundColor: theme.colors.screen[800] }}
+        style={{ backgroundColor: theme.colors.app.backgroundSecondary }}
       >
-        <VStack flex={1} backgroundColor="screen.800">
+        <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
           <TableView>
             <Section header="POST INFO">
               <CCell
@@ -144,7 +144,7 @@ function NewPostScreen({
                       flex: 1,
                       color: theme.colors.lightText,
                     }}
-                    placeholderTextColor={theme.colors.screen["400"]}
+                    placeholderTextColor={theme.colors.app.iconColor}
                     placeholder="Title"
                     value={form.name}
                     onChangeText={(text) => onFormChange("name", text)}
@@ -167,7 +167,7 @@ function NewPostScreen({
                       flex: 1,
                       color: theme.colors.lightText,
                     }}
-                    placeholderTextColor={theme.colors.screen["400"]}
+                    placeholderTextColor={theme.colors.app.iconColor}
                     placeholder="Link"
                     value={form.url}
                     onChangeText={(text) => onFormChange("url", text)}
@@ -191,11 +191,11 @@ function NewPostScreen({
           <TextInput
             multiline
             placeholder="Type away!"
-            placeholderTextColor={theme.colors.screen["400"]}
+            placeholderTextColor={theme.colors.app.iconColor}
             autoCapitalize="sentences"
             style={[
               styles.input,
-              { backgroundColor: theme.colors.screen["700"] },
+              { backgroundColor: theme.colors.app.backgroundTricondary },
             ]}
             numberOfLines={20}
             value={form.body}
