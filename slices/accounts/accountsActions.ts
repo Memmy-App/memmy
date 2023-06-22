@@ -1,15 +1,23 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Account } from "../../types/Account";
+import { writeToLog } from "../../helpers/LogHelper";
 
 export const loadAccounts = createAsyncThunk(
   "accounts/loadAccounts",
-  async () => {
-    const accountsStr = await AsyncStorage.getItem("@accounts");
+  async (_, thunkAPI) => {
+    try {
+      const accountsStr = await AsyncStorage.getItem("@accounts");
 
-    if (!accountsStr) return null;
+      if (!accountsStr) return null;
 
-    return JSON.parse(accountsStr) as Account[];
+      return JSON.parse(accountsStr) as Account[];
+    } catch (e) {
+      writeToLog("Error loading accounts.");
+      writeToLog(e.toString());
+
+      thunkAPI.rejectWithValue("Error loading accounts.");
+    }
   }
 );
 

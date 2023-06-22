@@ -6,7 +6,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon, useTheme } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { IconSearch } from "tabler-icons-react-native";
 import FeedsIndexScreen from "./components/screens/feeds/FeedsIndexScreen";
 import CommunityFeedScreen from "./components/screens/feeds/CommunityFeedScreen";
@@ -23,13 +22,16 @@ import UserProfileScreen from "./components/screens/userProfile/UserProfileScree
 import SubscriptionsScreen from "./components/screens/userProfile/SubscriptionsScreen";
 import { useAppDispatch, useAppSelector } from "./store";
 import { loadSettings } from "./slices/settings/settingsActions";
-import { selectAccounts } from "./slices/accounts/accountsSlice";
-import { addAccount, loadAccounts } from "./slices/accounts/accountsActions";
-import { getServers } from "./helpers/SettingsHelper";
+import {
+  selectAccounts,
+  selectAccountsLoaded,
+} from "./slices/accounts/accountsSlice";
+import { loadAccounts } from "./slices/accounts/accountsActions";
 import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
 import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen";
 import CommunityAboutScreen from "./components/screens/feeds/CommunityAboutScreen";
 import SearchScreen from "./components/screens/search/SearchScreen";
+import LoadingView from "./components/ui/Loading/LoadingView";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -302,35 +304,14 @@ function Stack() {
   const theme = useTheme();
 
   const accounts = useAppSelector(selectAccounts);
+  const accountsLoaded = useAppSelector(selectAccountsLoaded);
   const [loaded, setLoaded] = useState(false);
   const dispatch = useAppDispatch();
-
-  // TODO Remove this fix
-  const tempFix = async () => {
-    const servers = await getServers();
-
-    if (servers && servers.length > 0) {
-      dispatch(
-        addAccount({
-          username: servers[0].username,
-          password: servers[0].password,
-          token: servers[0].auth,
-          instance: servers[0].server,
-        })
-      );
-    }
-
-    await AsyncStorage.removeItem("@servers");
-  };
 
   if (!loaded) {
     dispatch(loadSettings());
     dispatch(loadAccounts());
     setLoaded(true);
-  }
-
-  if (loaded && accounts.length === 0) {
-    tempFix();
   }
 
   return (
@@ -342,31 +323,38 @@ function Stack() {
           },
         }}
       >
-        {accounts.length > 0 ? (
+        {(!accountsLoaded && (
           <MainStack.Screen
-            name="Tabs"
-            component={Tabs}
-            options={{ headerShown: false }}
+            name="AppLoading"
+            component={LoadingView}
+            options={{ title: "Loading..." }}
           />
-        ) : (
-          <>
+        )) ||
+          (accounts && accounts.length > 0 && (
             <MainStack.Screen
-              name="Onboarding"
-              component={OnboardingIndexScreen}
-              options={{ title: "Welcome" }}
+              name="Tabs"
+              component={Tabs}
+              options={{ headerShown: false }}
             />
-            <MainStack.Screen
-              name="AddAccount"
-              component={AddAccountScreen}
-              options={{ title: "Add Account" }}
-            />
-            <MainStack.Screen
-              name="CreateAccount"
-              component={CreateAccountScreen}
-              options={{ title: "Create Account" }}
-            />
-          </>
-        )}
+          )) || (
+            <>
+              <MainStack.Screen
+                name="Onboarding"
+                component={OnboardingIndexScreen}
+                options={{ title: "Welcome" }}
+              />
+              <MainStack.Screen
+                name="AddAccount"
+                component={AddAccountScreen}
+                options={{ title: "Add Account" }}
+              />
+              <MainStack.Screen
+                name="CreateAccount"
+                component={CreateAccountScreen}
+                options={{ title: "Create Account" }}
+              />
+            </>
+          )}
       </MainStack.Navigator>
     </NavigationContainer>
   );
