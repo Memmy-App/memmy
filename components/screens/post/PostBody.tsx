@@ -1,13 +1,5 @@
 import { PostView } from "lemmy-js-client";
-import {
-  HStack,
-  Icon,
-  Pressable,
-  Text,
-  VStack,
-  View,
-  useTheme,
-} from "native-base";
+import { Icon, Pressable, Text, VStack, View, useTheme } from "native-base";
 import React, { useMemo, useState } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -16,7 +8,6 @@ import FastImage from "react-native-fast-image";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
-import { IconClockHour5 } from "tabler-icons-react-native";
 import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppSelector } from "../../../store";
@@ -30,7 +21,6 @@ interface PostBodyProps {
 
 function PostBody({ post }: PostBodyProps) {
   const { blurNsfw } = useAppSelector(selectSettings);
-  const theme = useTheme();
 
   const linkInfo = getLinkInfo(post.post.url);
   const showLink =

@@ -1,6 +1,6 @@
 import React from "react";
 import { CommunitySafe } from "lemmy-js-client";
-import { Text, useTheme } from "native-base";
+import { Text } from "native-base";
 import Link from "./Link";
 import { getBaseUrl } from "../../helpers/LinkHelper";
 

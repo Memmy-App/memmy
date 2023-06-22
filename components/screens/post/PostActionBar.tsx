@@ -5,9 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
   IconBookmark,
-  IconMessageCircle,
   IconMessageCirclePlus,
-  IconMessagePlus,
   IconShare2,
 } from "tabler-icons-react-native";
 import { shareLink } from "../../../helpers/ShareHelper";

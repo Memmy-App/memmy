@@ -15,19 +15,15 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { IconClockHour5 } from "tabler-icons-react-native";
-import {
-  ExtensionType,
-  getBaseUrl,
-  getLinkInfo,
-} from "../../../helpers/LinkHelper";
+import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import usePost from "../../hooks/post/postHooks";
 import CommentItem2 from "../../ui/CommentItem2";
+import AvatarUsername from "../../ui/common/AvatarUsername";
 import CommunityLink from "../../ui/CommunityLink";
 import ContentView from "../../ui/ContentView";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import LoadingView from "../../ui/Loading/LoadingView";
-import AvatarUsername from "../../ui/common/AvatarUsername";
 import PostActionBar from "./PostActionBar";
 
 function PostScreen() {

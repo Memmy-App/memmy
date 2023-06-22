@@ -4,7 +4,7 @@ import { Icon, Pressable, Text, View, VStack } from "native-base";
 import { Dimensions, StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { BlurView } from "expo-blur";
-import FastImage, { OnLoadEvent } from "react-native-fast-image";
+import FastImage from "react-native-fast-image";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
 import { ExtensionType, getLinkInfo } from "../../helpers/LinkHelper";

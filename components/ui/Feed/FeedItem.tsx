@@ -14,7 +14,6 @@ import {
 import React from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 import FastImage from "react-native-fast-image";
 import {
