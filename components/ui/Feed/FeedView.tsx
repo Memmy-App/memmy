@@ -86,11 +86,11 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
         if (index === cancelButtonIndex) return;
 
         if (index === 0) {
-          feed.setSort(SortType.TopDay);
+          feed.setSort("TopDay");
         } else if (index === 1) {
-          feed.setSort(SortType.TopWeek);
+          feed.setSort("TopWeek");
         } else if (index === 5) {
-          feed.setSort(SortType.MostComments);
+          feed.setSort("MostComments");
         } else {
           feed.setSort(options[index] as SortType);
         }

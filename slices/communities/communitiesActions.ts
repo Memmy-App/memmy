@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ListingType } from "lemmy-js-client";
 import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
 import { writeToLog } from "../../helpers/LogHelper";
 
@@ -9,7 +8,7 @@ export const getAllCommunities = createAsyncThunk(
     try {
       const res = await lemmyInstance.listCommunities({
         auth: lemmyAuthToken,
-        type_: ListingType.All,
+        type_: "All",
         limit: 50,
       });
 
@@ -30,7 +29,7 @@ export const getSubscribedCommunities = createAsyncThunk(
     try {
       const res = await lemmyInstance.listCommunities({
         auth: lemmyAuthToken,
-        type_: ListingType.Subscribed,
+        type_: "Subscribed",
         limit: 50,
       });
 

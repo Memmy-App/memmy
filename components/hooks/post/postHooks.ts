@@ -101,8 +101,8 @@ const usePost = (): UsePost => {
         auth: lemmyAuthToken,
         post_id: currentPost.post.id,
         max_depth: 10,
-        type_: ListingType.All,
-        sort: CommentSortType.Top,
+        type_: "All",
+        sort: "Top",
       });
 
       const ordered = commentsRes.comments.sort((a, b) =>

@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  CommentView,
-  PersonViewSafe,
-  PostView,
-  SortType,
-} from "lemmy-js-client";
+import { CommentView, PersonView, PostView } from "lemmy-js-client";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { useAppSelector } from "../../../store";
@@ -13,7 +8,7 @@ import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 interface UseProfile {
   loading: boolean;
   error: boolean;
-  profile: PersonViewSafe;
+  profile: PersonView;
   posts: PostView[];
   comments: CommentView[];
   doLoad: () => Promise<void>;
@@ -25,7 +20,7 @@ const useProfile = (fullUsername?: string): UseProfile => {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
-  const [profile, setProfile] = useState<PersonViewSafe>(null);
+  const [profile, setProfile] = useState<PersonView>(null);
   const [posts, setPosts] = useState<PostView[]>(null);
   const [comments, setComments] = useState<CommentView[]>(null);
   const [self] = useState(!fullUsername);
@@ -48,7 +43,7 @@ const useProfile = (fullUsername?: string): UseProfile => {
       const res = await lemmyInstance.getPersonDetails({
         auth: lemmyAuthToken,
         username: searchUsername,
-        sort: SortType.New,
+        sort: "New",
         limit: 20,
       });
 

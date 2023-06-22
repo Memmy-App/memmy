@@ -19,8 +19,8 @@ export interface SettingsState {
 const initialState: SettingsState = {
   swipeGestures: true,
   displayImagesInFeed: "true",
-  defaultSort: SortType.Hot,
-  defaultListingType: ListingType.All,
+  defaultSort: "Hot",
+  defaultListingType: "All",
   showInstanceForUsernames: false,
   loaded: false,
   blurNsfw: true,
