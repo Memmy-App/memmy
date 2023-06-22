@@ -1,9 +1,4 @@
-import {
-  CommunityView,
-  PersonSafe,
-  PersonViewSafe,
-  PostView,
-} from "lemmy-js-client";
+import { CommunityView, Person, PostView } from "lemmy-js-client";
 import { getBaseUrl } from "../helpers/LinkHelper";
 
 export const isSubscribed = (
@@ -29,5 +24,5 @@ export const removeNsfwPosts = (list: PostView[]) =>
 export const getCommunityFullName = (community: CommunityView) =>
   `${community.community.name}@${getBaseUrl(community.community.actor_id)}`;
 
-export const getUserFullName = (profile: PersonSafe) =>
+export const getUserFullName = (profile: Person) =>
   `${profile.name}@${getBaseUrl(profile.actor_id)}`;
