@@ -9,10 +9,10 @@ import {
   IconButton,
   Pressable,
   Text,
-  VStack,
-  View,
   useTheme,
   useToast,
+  View,
+  VStack,
 } from "native-base";
 import React, { useRef, useState } from "react";
 import { Dimensions, StyleSheet } from "react-native";
@@ -53,9 +53,11 @@ import NamePill from "./NamePill";
 function CommentItem2({
   nestedComment,
   opId,
+  recycled,
 }: {
   nestedComment: NestedComment;
   opId: number;
+  recycled: React.MutableRefObject<{}>;
 }) {
   const depth = nestedComment.comment.comment.path.split(".").length;
 
@@ -79,8 +81,24 @@ function CommentItem2({
   const toast = useToast();
 
   if (nestedComment.comment.comment.id !== lastCommentId.current) {
-    setCollapsed(false);
-    setMyVote(nestedComment.comment.my_vote);
+    if (recycled.current[nestedComment.comment.comment.id]) {
+      setCollapsed(
+        recycled.current[nestedComment.comment.comment.id].collapsed
+      );
+      setMyVote(recycled.current[nestedComment.comment.comment.id].myVote);
+      delete recycled.current[lastCommentId.current];
+    } else {
+      setCollapsed(false);
+      setMyVote(nestedComment.comment.my_vote);
+    }
+
+    recycled.current = {
+      ...recycled.current,
+      [lastCommentId.current]: {
+        collapsed,
+        myVote,
+      },
+    };
 
     lastCommentId.current = nestedComment.comment.comment.id;
   }
@@ -455,6 +473,7 @@ function CommentItem2({
               key={r.comment.comment.id}
               nestedComment={r}
               opId={opId}
+              recycled={recycled}
             />
           ))) ||
         (!collapsed &&
@@ -464,6 +483,7 @@ function CommentItem2({
               key={r.comment.comment.id}
               nestedComment={r}
               opId={opId}
+              recycled={recycled}
             />
           )))}
     </>

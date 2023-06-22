@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   CommentSortType,
   CommentView,
@@ -18,6 +18,7 @@ import {
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import findAndAddComment from "../../../lemmy/LemmyCommentsHelper";
 import { writeToLog } from "../../../helpers/LogHelper";
+import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 
 export interface UsePost {
   comments: NestedComment[];
@@ -33,6 +34,8 @@ export interface UsePost {
   doBookmark: () => void;
 
   doVote: (value: -1 | 0 | 1) => Promise<void>;
+
+  recycled: React.MutableRefObject<{}>;
 }
 
 const usePost = (): UsePost => {
@@ -49,6 +52,7 @@ const usePost = (): UsePost => {
   const [bookmarked, setBookmarked] = useState<boolean>(
     bookmarks?.findIndex((b) => b.postId === currentPost.post.id) !== -1
   );
+  const recycled = useRef({});
 
   // Other Hooks
   const dispatch = useAppDispatch();
@@ -58,6 +62,10 @@ const usePost = (): UsePost => {
   useEffect(() => {
     // Set the post to the one set in the store
     doLoad().then();
+
+    return () => {
+      recycled.current = null;
+    };
   }, []);
 
   useEffect(() => {
@@ -66,15 +74,14 @@ const usePost = (): UsePost => {
       const lComment: NestedComment = {
         comment: newComment.comment,
         replies: [],
+        collapsed: false,
+        myVote: newComment.comment.my_vote as ILemmyVote,
       };
       // If it's a top comment, add it to top of current chain
       if (newComment.isTopComment) {
         setComments([lComment, ...comments]);
       } else {
-        const newChain = findAndAddComment(comments, {
-          comment: newComment.comment,
-          replies: [],
-        });
+        const newChain = findAndAddComment(comments, lComment);
 
         setComments(newChain);
         setRefreshList(!refreshList);
@@ -199,12 +206,16 @@ const usePost = (): UsePost => {
     doBookmark,
 
     doVote,
+
+    recycled,
   };
 };
 
 export interface NestedComment {
   comment: CommentView;
   replies: NestedComment[];
+  collapsed: boolean;
+  myVote: ILemmyVote;
 }
 
 function buildComments(comments: CommentView[]): NestedComment[] {
@@ -214,9 +225,7 @@ function buildComments(comments: CommentView[]): NestedComment[] {
 
   for (const comment of comments) {
     const { path } = comment.comment;
-
     const pathIds = path.split(".").map(Number);
-
     const parentId = pathIds[pathIds.length - 2];
 
     const currentComment = {

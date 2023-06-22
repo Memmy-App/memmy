@@ -1,6 +1,14 @@
 import { extendTheme } from "native-base";
 
 const darkTheme = extendTheme({
+  components: {
+    Text: {
+      defaultProps: {
+        allowFontScaling: false,
+      },
+    },
+  },
+
   fontConfig: {
     Inter: {
       100: {
