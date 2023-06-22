@@ -30,6 +30,7 @@ import Animated, {
 import { IconDots } from "tabler-icons-react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Clipboard from "@react-native-community/clipboard";
+import { current } from "@reduxjs/toolkit";
 import {
   onCommentSlideHapticFeedback,
   onGenericHapticFeedback,
@@ -47,6 +48,8 @@ import AvatarUsername from "./common/AvatarUsername";
 import SmallVoteIcons from "./common/SmallVoteIcons";
 import RenderMarkdown from "./markdown/RenderMarkdown";
 import { getUserFullName } from "../../lemmy/LemmyHelpers";
+import { getBaseUrl } from "../../helpers/LinkHelper";
+import NamePill from "./NamePill";
 
 function CommentItem2({
   nestedComment,
@@ -359,6 +362,21 @@ function CommentItem2({
                         instanceName={nestedComment.comment.creator.actor_id}
                         showInstance={showInstanceForUsernames}
                       >
+                        {(nestedComment.comment.creator.name ===
+                          currentAccount.username &&
+                          getBaseUrl(nestedComment.comment.creator.actor_id) ===
+                            currentAccount.instance && (
+                            <NamePill
+                              text="me"
+                              color={theme.colors.app.selfColor}
+                            />
+                          )) ||
+                          (nestedComment.comment.creator.id === opId && (
+                            <NamePill
+                              text="OP"
+                              color={theme.colors.app.opColor}
+                            />
+                          ))}
                         <SmallVoteIcons
                           upvotes={nestedComment.comment.counts.upvotes}
                           downvotes={nestedComment.comment.counts.downvotes}
