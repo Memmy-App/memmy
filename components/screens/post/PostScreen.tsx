@@ -25,6 +25,7 @@ import ContentView from "../../ui/ContentView";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
+import { getUserFullName } from "../../../lemmy/LemmyHelpers";
 
 function PostScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -67,7 +68,7 @@ function PostScreen() {
       <HStack mb={2} mx={4} space={2}>
         <AvatarUsername
           username={post.currentPost?.creator.name}
-          fullUsername={`${post.currentPost?.creator.name}@${instanceBaseUrl}`}
+          fullUsername={getUserFullName(post.currentPost?.creator)}
           avatar={post.currentPost?.creator.avatar}
         />
       </HStack>
