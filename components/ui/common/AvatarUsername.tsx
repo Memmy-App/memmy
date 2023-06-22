@@ -3,10 +3,12 @@ import React from "react";
 import FastImage from "react-native-fast-image";
 import { IconUser } from "tabler-icons-react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
+import UserLink from "../UserLink";
 
 interface AvatarUsernameProps {
   avatar: string;
   username: string;
+  fullUsername: string;
   instanceName?: string;
   showInstance?: boolean;
   children?: JSX.Element;
@@ -15,6 +17,7 @@ interface AvatarUsernameProps {
 function AvatarUsername({
   avatar,
   username,
+  fullUsername,
   instanceName,
   showInstance,
   children,
@@ -34,7 +37,7 @@ function AvatarUsername({
         <IconUser color={colors.app.iconColor} />
       )}
       <VStack>
-        <Text fontWeight="medium">{username}</Text>
+        <UserLink username={username} fullUsername={fullUsername} />
         {showInstance && <Text fontSize="xs">{getBaseUrl(instanceName)}</Text>}
       </VStack>
       {children}

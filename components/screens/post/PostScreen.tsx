@@ -25,7 +25,6 @@ import ContentView from "../../ui/ContentView";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
-import UserLink from "../../ui/UserLink";
 
 function PostScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -59,6 +58,8 @@ function PostScreen() {
     return <LoadingView />;
   }
 
+  const instanceBaseUrl = getBaseUrl(post.currentPost.creator.actor_id);
+
   const header = () => (
     <VStack flex={1} backgroundColor={theme.colors.screen[800]}>
       <ContentView post={post.currentPost} showTitle showBody />
@@ -67,6 +68,7 @@ function PostScreen() {
         <HStack alignItems="center">
           <AvatarUsername
             username={post.currentPost?.creator.name}
+            fullUsername={`${post.currentPost?.creator.name}@${instanceBaseUrl}`}
             avatar={post.currentPost?.creator.avatar}
           />
           <Text color={theme.colors.app.secondaryText}> to </Text>
@@ -74,12 +76,9 @@ function PostScreen() {
             community={post.currentPost?.community}
             color={theme.colors.app.secondaryText}
           />
-          {
-            // TODO: Need a way to check if the post url is an instance or not
-          }
-          {!post.currentPost?.post.local && (
+          {!post.currentPost?.post.local && instanceBaseUrl && (
             <Text color={theme.colors.app.secondaryText}>
-              @{getBaseUrl(post.currentPost?.post.url)}
+              @{instanceBaseUrl}
             </Text>
           )}
         </HStack>

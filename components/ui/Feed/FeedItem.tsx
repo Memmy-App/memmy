@@ -41,6 +41,9 @@ function FeedItem({ post }: FeedItemProps) {
       >
         <AvatarUsername
           username={post.creator.name}
+          fullUsername={`${post.creator.name}@${getBaseUrl(
+            post.creator.actor_id
+          )}`}
           avatar={post.creator.avatar}
         />
 
