@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { PostView } from "lemmy-js-client";
 import {
   Box,
@@ -18,12 +18,11 @@ import {
   IconPlanet,
   IconUser,
 } from "tabler-icons-react-native";
-import moment from "moment";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 import useFeedItem from "../../hooks/feeds/useFeedItem";
-import { ExtensionType } from "../../../helpers/LinkHelper";
+import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
 import {
   truncateCompactFeedItem,
   truncateName,
@@ -40,46 +39,62 @@ function CompactFeedItem({ post }: { post: PostView }) {
   const isUpvoted = post.my_vote === 1;
   const isDownvoted = post.my_vote === -1;
 
-  return (
-    <Pressable onPress={feedItem.onPress}>
-      <HStack
-        flex={1}
-        my={0.5}
-        px={3}
-        py={4}
-        backgroundColor={theme.colors.app.backgroundSecondary}
-        space={2}
-      >
-        <Box
-          width={75}
-          height={75}
-          backgroundColor={theme.colors.app.backgroundTricondary}
-          borderRadius={10}
-          justifyContent="center"
-          alignItems="center"
-          alignSelf="center"
+  useEffect(() => {}, []);
+
+  return useMemo(
+    () => (
+      <Pressable onPress={feedItem.onPress}>
+        <HStack
+          flex={1}
+          my={0.5}
+          px={3}
+          py={4}
+          backgroundColor={theme.colors.app.backgroundSecondary}
+          space={2}
         >
-          {(feedItem.linkInfo.extType === ExtensionType.IMAGE && (
-            <>
-              {post.post.nsfw ? (
-                <View style={styles.blurContainer}>
-                  <BlurView style={styles.blurView} intensity={100} tint="dark">
-                    <VStack
-                      flex={1}
-                      alignItems="center"
-                      justifyContent="center"
-                      space={2}
+          <Box
+            width={75}
+            height={75}
+            backgroundColor={theme.colors.app.backgroundTricondary}
+            borderRadius={10}
+            justifyContent="center"
+            alignItems="center"
+            alignSelf="center"
+          >
+            {(feedItem.linkInfo.extType === ExtensionType.IMAGE && (
+              <>
+                {post.post.nsfw ? (
+                  <View style={styles.blurContainer}>
+                    <BlurView
+                      style={styles.blurView}
+                      intensity={100}
+                      tint="dark"
                     >
-                      <Icon
-                        as={Ionicons}
-                        name="alert-circle"
-                        color="white"
-                        size={12}
-                        alignSelf="center"
-                        style={styles.nsfwIcon}
-                      />
-                    </VStack>
-                  </BlurView>
+                      <VStack
+                        flex={1}
+                        alignItems="center"
+                        justifyContent="center"
+                        space={2}
+                      >
+                        <Icon
+                          as={Ionicons}
+                          name="alert-circle"
+                          color="white"
+                          size={12}
+                          alignSelf="center"
+                          style={styles.nsfwIcon}
+                        />
+                      </VStack>
+                    </BlurView>
+                    <FastImage
+                      resizeMode="cover"
+                      style={styles.image}
+                      source={{
+                        uri: post.post.url,
+                      }}
+                    />
+                  </View>
+                ) : (
                   <FastImage
                     resizeMode="cover"
                     style={styles.image}
@@ -87,71 +102,66 @@ function CompactFeedItem({ post }: { post: PostView }) {
                       uri: post.post.url,
                     }}
                   />
-                </View>
-              ) : (
-                <FastImage
-                  resizeMode="cover"
-                  style={styles.image}
-                  source={{
-                    uri: post.post.url,
-                  }}
-                />
-              )}
-            </>
-          )) ||
-            (feedItem.linkInfo.extType === ExtensionType.NONE && (
-              <IconMessages size={40} color={theme.colors.app.iconColor} />
-            )) || <IconLink size={40} color={theme.colors.app.iconColor} />}
-        </Box>
-        <VStack flex={1}>
-          <Text flex={1} fontSize={17}>
-            {truncateCompactFeedItem(post.post.name)}
-          </Text>
-          <HStack alignItems="center" space={2}>
-            {(post.creator.avatar && (
-              <FastImage
-                source={{
-                  uri: post.creator.avatar,
-                }}
-                style={{ height: 19, width: 19, borderRadius: 100 }}
-              />
-            )) || <IconUser size={19} color={theme.colors.app.iconColor} />}
-            <Text fontWeight="semibold">{truncateName(post.creator.name)}</Text>
-            <Text color={theme.colors.app.secondaryText}>•</Text>
-            <Text color={theme.colors.app.secondaryText}>
-              {timeFromNowShort(post.post.published)}
+                )}
+              </>
+            )) ||
+              (feedItem.linkInfo.extType === ExtensionType.NONE && (
+                <IconMessages size={40} color={theme.colors.app.iconColor} />
+              )) || <IconLink size={40} color={theme.colors.app.iconColor} />}
+          </Box>
+          <VStack flex={1}>
+            <Text flex={1} fontSize={17}>
+              {truncateCompactFeedItem(post.post.name)}
             </Text>
-          </HStack>
-          <HStack flex={1} alignItems="center" space={2}>
-            <SmallVoteIcons
-              upvotes={post.counts.upvotes}
-              downvotes={post.counts.downvotes}
-              myVote={post.my_vote as ILemmyVote}
+            <HStack alignItems="center" space={2}>
+              {(post.creator.avatar && (
+                <FastImage
+                  source={{
+                    uri: post.creator.avatar,
+                  }}
+                  style={{ height: 19, width: 19, borderRadius: 100 }}
+                />
+              )) || <IconUser size={19} color={theme.colors.app.iconColor} />}
+              <Text fontWeight="semibold">
+                {truncateName(post.creator.name)}
+              </Text>
+              <Text color={theme.colors.app.secondaryText}>•</Text>
+              <Text color={theme.colors.app.secondaryText}>
+                {timeFromNowShort(post.post.published)}
+              </Text>
+            </HStack>
+            <HStack flex={1} alignItems="center" space={2}>
+              <SmallVoteIcons
+                upvotes={post.counts.upvotes}
+                downvotes={post.counts.downvotes}
+                myVote={post.my_vote as ILemmyVote}
+              />
+              <HStack alignItems="center" space={1}>
+                <IconMessage color={theme.colors.app.iconColor} size={16} />
+                <Text>{post.counts.comments}</Text>
+              </HStack>
+              <HStack alignItems="center" space={1}>
+                <IconPlanet color={theme.colors.app.iconColor} size={16} />
+                <Text>{truncateName(post.community.name)}</Text>
+              </HStack>
+            </HStack>
+          </VStack>
+          <VStack justifyContent="flex-start" alignItems="center" space={3}>
+            <VoteButton
+              onPressHandler={() => feedItem.onVotePress(1)}
+              type="upvote"
+              isVoted={isUpvoted}
             />
-            <HStack alignItems="center" space={1}>
-              <IconMessage color={theme.colors.app.iconColor} size={16} />
-              <Text>{post.counts.comments}</Text>
-            </HStack>
-            <HStack alignItems="center" space={1}>
-              <IconPlanet color={theme.colors.app.iconColor} size={16} />
-              <Text>{truncateName(post.community.name)}</Text>
-            </HStack>
-          </HStack>
-        </VStack>
-        <VStack justifyContent="flex-start" alignItems="center" space={3}>
-          <VoteButton
-            onPressHandler={() => feedItem.onVotePress(1)}
-            type="upvote"
-            isVoted={feedItem.myVote === 1}
-          />
-          <VoteButton
-            onPressHandler={() => feedItem.onVotePress(-1)}
-            type="downvote"
-            isVoted={feedItem.myVote === -1}
-          />
-        </VStack>
-      </HStack>
-    </Pressable>
+            <VoteButton
+              onPressHandler={() => feedItem.onVotePress(-1)}
+              type="downvote"
+              isVoted={isDownvoted}
+            />
+          </VStack>
+        </HStack>
+      </Pressable>
+    ),
+    [post]
   );
 }
 

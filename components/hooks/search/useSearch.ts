@@ -1,4 +1,4 @@
-import { ListingType, SearchType } from "lemmy-js-client";
+import { ListingType, SearchType, SortType } from "lemmy-js-client";
 import { SetStateAction, useState } from "react";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import ILemmySearchResult from "../../../lemmy/types/ILemmySearchResult";
@@ -39,6 +39,7 @@ const useSearch = () => {
         limit: 15,
         page: 1,
         listing_type: listingType,
+        sort: SortType.Active,
       });
 
       setResult({

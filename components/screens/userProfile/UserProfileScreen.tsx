@@ -72,6 +72,7 @@ function BookmarksScreen({
               zIndex={1}
               px={2}
               py={3.5}
+              space={4}
             >
               {profile.profile.person.avatar ? (
                 <FastImage

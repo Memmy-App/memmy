@@ -22,7 +22,7 @@ function IconButtonWithText({
   textSize = "lg",
 }: IconButtonWithTextProps) {
   return (
-    <Pressable onPress={onPressHandler}>
+    <Pressable onPress={onPressHandler} hitSlop={5}>
       <HStack space={2} alignItems="center">
         <Box borderRadius={5} backgroundColor={iconBgColor} padding={0.5}>
           {icon}

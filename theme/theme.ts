@@ -102,6 +102,9 @@ const darkTheme = extendTheme({
 
       buttonOne: "#44403c",
       buttonOneSelected: "#292524",
+
+      opColor: "#54CB60",
+      selfColor: "#DEA435",
     },
   },
   config: {

@@ -1,40 +1,23 @@
 import { PostView } from "lemmy-js-client";
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  HStack,
-  Icon,
-  IconButton,
-  Pressable,
-  Text,
-  useTheme,
-  View,
-  VStack,
-} from "native-base";
+import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
 import React from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import moment from "moment";
 import FastImage from "react-native-fast-image";
 import {
   IconArrowDown,
   IconArrowUp,
-  IconBookmark,
   IconClockHour5,
-  IconDots,
   IconMessageCircle,
-  IconMessageDots,
   IconPlanet,
 } from "tabler-icons-react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
+import { timeFromNowShort } from "../../../helpers/TimeHelper";
+import useFeedItem from "../../hooks/feeds/useFeedItem";
+import AvatarUsername from "../common/AvatarUsername";
 import VoteButton from "../common/VoteButton";
 import CommunityLink from "../CommunityLink";
 import ContentView from "../ContentView";
-import useFeedItem from "../../hooks/feeds/useFeedItem";
-import AvatarUsername from "../common/AvatarUsername";
-import { timeFromNowShort } from "../../../helpers/TimeHelper";
-import IconButtonWithText from "../common/IconButtonWithText";
-import usePost from "../../hooks/post/postHooks";
 
 interface FeedItemProps {
   post: PostView;

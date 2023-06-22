@@ -45,28 +45,37 @@ import { NestedComment } from "../hooks/post/postHooks";
 import AvatarUsername from "./common/AvatarUsername";
 import SmallVoteIcons from "./common/SmallVoteIcons";
 import RenderMarkdown from "./markdown/RenderMarkdown";
+import UserLink from "./UserLink";
+import NamePill from "./NamePill";
+import { selectCurrentAccount } from "../../slices/accounts/accountsSlice";
 
-function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
-  const theme = useTheme();
-
+function CommentItem2({
+  nestedComment,
+  opId,
+}: {
+  nestedComment: NestedComment;
+  opId: number;
+}) {
   const depth = nestedComment.comment.comment.path.split(".").length;
 
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  // Global state
+  const { showInstanceForUsernames } = useAppSelector(selectSettings);
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
+  // State
+  const [myVote, setMyVote] = useState(nestedComment.comment.my_vote);
+  const [collapsed, setCollapsed] = useState(false);
+  const [showAll, setShowAll] = useState(false);
+
+  // Refs
   const lastCommentId = useRef(nestedComment.comment.comment.id);
 
-  const [myVote, setMyVote] = useState(nestedComment.comment.my_vote);
-
+  // Other hooks
+  const theme = useTheme();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
-  const toast = useToast();
-
-  const { showInstanceForUsernames } = useAppSelector(selectSettings);
-
-  const [collapsed, setCollapsed] = useState(false);
-
-  const [showAll] = useState(false);
-
   const { showActionSheetWithOptions } = useActionSheet();
+  const toast = useToast();
 
   if (nestedComment.comment.comment.id !== lastCommentId.current) {
     setCollapsed(false);
@@ -350,8 +359,9 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
                       >
                         <SmallVoteIcons
                           upvotes={nestedComment.comment.counts.upvotes}
-                          downvotes={nestedComment.comment.counts.upvotes}
+                          downvotes={nestedComment.comment.counts.downvotes}
                           myVote={myVote as ILemmyVote}
+                          initialVote={nestedComment.comment.my_vote}
                         />
                       </AvatarUsername>
                       <HStack alignItems="center" space={2}>
@@ -392,12 +402,20 @@ function CommentItem2({ nestedComment }: { nestedComment: NestedComment }) {
         nestedComment.replies
           .slice(0, 5)
           .map((r) => (
-            <CommentItem2 key={r.comment.comment.id} nestedComment={r} />
+            <CommentItem2
+              key={r.comment.comment.id}
+              nestedComment={r}
+              opId={opId}
+            />
           ))) ||
         (!collapsed &&
           showAll &&
           nestedComment.replies.map((r) => (
-            <CommentItem2 key={r.comment.comment.id} nestedComment={r} />
+            <CommentItem2
+              key={r.comment.comment.id}
+              nestedComment={r}
+              opId={opId}
+            />
           )))}
     </>
   );

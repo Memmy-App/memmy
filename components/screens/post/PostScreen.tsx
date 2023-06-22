@@ -25,6 +25,7 @@ import ContentView from "../../ui/ContentView";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
+import UserLink from "../../ui/UserLink";
 
 function PostScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -40,7 +41,9 @@ function PostScreen() {
   }, []);
 
   const commentItem = useCallback(
-    ({ item }) => <CommentItem2 nestedComment={item} />,
+    ({ item }) => (
+      <CommentItem2 nestedComment={item} opId={post.currentPost.creator.id} />
+    ),
     []
   );
 
