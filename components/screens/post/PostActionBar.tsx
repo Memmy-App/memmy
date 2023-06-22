@@ -63,15 +63,6 @@ function PostActionBar({ post }: { post: UsePost }) {
         isAccented
       />
 
-      <IconButtonWithText
-        onPressHandler={onCommentPress}
-        icon={
-          <IconMessageCirclePlus color={colors.app.accentColor} size={25} />
-        }
-        text={post.currentPost.counts.comments}
-        textColor={colors.app.accentColor}
-      />
-
       <IconButton
         icon={
           <IconBookmark
@@ -84,6 +75,13 @@ function PostActionBar({ post }: { post: UsePost }) {
           post.bookmarked ? colors.green[500] : colors.screen[800]
         }
         padding={2}
+      />
+
+      <IconButtonWithText
+        onPressHandler={onCommentPress}
+        icon={
+          <IconMessageCirclePlus color={colors.app.accentColor} size={25} />
+        }
       />
 
       <IconButton

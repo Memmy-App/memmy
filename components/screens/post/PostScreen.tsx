@@ -14,7 +14,7 @@ import { RefreshControl } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
-import { IconClockHour5 } from "tabler-icons-react-native";
+import { IconClockHour5, IconMessageCircle } from "tabler-icons-react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import usePost from "../../hooks/post/postHooks";
@@ -65,27 +65,40 @@ function PostScreen() {
       <ContentView post={post.currentPost} showTitle showBody />
 
       <HStack mb={2} mx={4} space={2}>
+        <AvatarUsername
+          username={post.currentPost?.creator.name}
+          fullUsername={`${post.currentPost?.creator.name}@${instanceBaseUrl}`}
+          avatar={post.currentPost?.creator.avatar}
+        />
+      </HStack>
+      {/* <HStack mx={4} mb={2}>
+        <Text color={theme.colors.app.secondaryText}>To </Text>
+        <CommunityLink
+          community={post.currentPost?.community}
+          instanceBaseUrl={!post.currentPost?.post.local && instanceBaseUrl}
+          color={theme.colors.app.secondaryText}
+        />
+      </HStack> */}
+
+      <HStack space={2} mx={4} mb={2}>
         <HStack alignItems="center">
-          <AvatarUsername
-            username={post.currentPost?.creator.name}
-            fullUsername={`${post.currentPost?.creator.name}@${instanceBaseUrl}`}
-            avatar={post.currentPost?.creator.avatar}
-          />
-          <Text color={theme.colors.app.secondaryText}> to </Text>
           <CommunityLink
             community={post.currentPost?.community}
+            instanceBaseUrl={!post.currentPost?.post.local && instanceBaseUrl}
             color={theme.colors.app.secondaryText}
           />
-          {!post.currentPost?.post.local && instanceBaseUrl && (
-            <Text color={theme.colors.app.secondaryText}>
-              @{instanceBaseUrl}
-            </Text>
-          )}
         </HStack>
-
-        <HStack space={1} alignItems="center">
+        <HStack alignItems="center" space={1}>
+          <IconMessageCircle size={14} color={theme.colors.app.secondaryText} />
+          <Text color={theme.colors.app.secondaryText}>
+            {post.currentPost.counts.comments}
+          </Text>
+        </HStack>
+        <HStack alignItems="center" space={1}>
           <IconClockHour5 size={14} color={theme.colors.app.secondaryText} />
-          <Text>{timeFromNowShort(post.currentPost?.post.published)}</Text>
+          <Text color={theme.colors.app.secondaryText}>
+            {timeFromNowShort(post.currentPost?.post.published)}
+          </Text>
         </HStack>
       </HStack>
 

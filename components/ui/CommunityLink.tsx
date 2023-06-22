@@ -1,15 +1,20 @@
 import React from "react";
 import { CommunitySafe } from "lemmy-js-client";
-import { Text } from "native-base";
+import { HStack, Text } from "native-base";
 import Link from "./Link";
 import { getBaseUrl } from "../../helpers/LinkHelper";
 
 interface CommunityLinkProps {
   community: CommunitySafe;
+  instanceBaseUrl?: string;
   color?: string;
 }
 
-function CommunityLink({ community, color }: CommunityLinkProps) {
+function CommunityLink({
+  community,
+  instanceBaseUrl,
+  color,
+}: CommunityLinkProps) {
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <Link
@@ -23,7 +28,16 @@ function CommunityLink({ community, color }: CommunityLinkProps) {
         )}`,
       }}
     >
-      <Text color={color}>{community.name}</Text>
+      <HStack>
+        <Text color={color} fontWeight="medium">
+          {community.name}
+        </Text>
+        {instanceBaseUrl && (
+          <Text color={color} fontWeight="medium">
+            @{instanceBaseUrl}
+          </Text>
+        )}
+      </HStack>
     </Link>
   );
 }
