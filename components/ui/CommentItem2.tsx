@@ -380,8 +380,11 @@ function CommentItem2({
                         showInstance={showInstanceForUsernames}
                       >
                         <>
-                          {(nestedComment.comment.creator.name ===
-                            currentAccount?.username &&
+                          {(currentAccount &&
+                            currentAccount.username &&
+                            currentAccount.instance &&
+                            nestedComment.comment.creator.name ===
+                              currentAccount?.username &&
                             getBaseUrl(
                               nestedComment.comment.creator.actor_id
                             ) === currentAccount?.instance && (
