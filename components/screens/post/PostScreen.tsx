@@ -71,15 +71,6 @@ function PostScreen() {
           avatar={post.currentPost?.creator.avatar}
         />
       </HStack>
-      {/* <HStack mx={4} mb={2}>
-        <Text color={theme.colors.app.secondaryText}>To </Text>
-        <CommunityLink
-          community={post.currentPost?.community}
-          instanceBaseUrl={!post.currentPost?.post.local && instanceBaseUrl}
-          color={theme.colors.app.secondaryText}
-        />
-      </HStack> */}
-
       <HStack space={2} mx={4} mb={2}>
         <HStack alignItems="center">
           <CommunityLink
