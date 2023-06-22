@@ -169,6 +169,11 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
           type_: listingType,
         });
 
+        if (!res.posts || res.posts.length === 0) {
+          setPostsLoading(false);
+          return;
+        }
+
         const newPosts = hideNsfw ? removeNsfwPosts(res.posts) : res.posts;
 
         if (!posts || refresh) {
