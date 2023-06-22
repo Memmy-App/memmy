@@ -91,6 +91,28 @@ function SettingsIndexScreen({
 
         <Section header="APPEARANCE" roundedCorners hideSurroundingSeparators>
           <CCell
+            cellStyle="RightDetail"
+            title="Theme"
+            detail={settings.theme}
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              const options = ["Brown", "Light", "Dark", "Purple", "Cancel"];
+              const cancelButtonIndex = 4;
+
+              showActionSheetWithOptions(
+                {
+                  options,
+                  cancelButtonIndex,
+                },
+                (index: number) => {
+                  if (index === cancelButtonIndex) return;
+
+                  dispatch(setSetting({ theme: options[index] }));
+                }
+              );
+            }}
+          />
+          <CCell
             title="Swipe Gestures"
             cellAccessoryView={
               <Switch

@@ -312,14 +312,6 @@ function Stack() {
 
   const accounts = useAppSelector(selectAccounts);
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
-  const [loaded, setLoaded] = useState(false);
-  const dispatch = useAppDispatch();
-
-  if (!loaded) {
-    dispatch(loadSettings());
-    dispatch(loadAccounts());
-    setLoaded(true);
-  }
 
   return (
     <NavigationContainer theme={DarkTheme}>
