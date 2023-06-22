@@ -4,7 +4,11 @@ import { Alert } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import CTextInput from "../../ui/CTextInput";
 import ILemmyServer from "../../../lemmy/types/ILemmyServer";
-import { initialize, lemmyAuthToken } from "../../../lemmy/LemmyInstance";
+import {
+  getInstanceError,
+  initialize,
+  lemmyAuthToken,
+} from "../../../lemmy/LemmyInstance";
 import LoadingModal from "../../ui/Loading/LoadingModal";
 import { useAppDispatch } from "../../../store";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
@@ -54,28 +58,24 @@ function AddAccountScreen() {
       totpToken: form.totpToken,
     };
 
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      await initialize(server);
-    } catch (e) {
-      writeToLog("Error adding account.");
-      writeToLog(e.toString());
+    const success = await initialize(server);
 
-      if (e === "missing_totp_token") {
-        setShowTotpToken(true);
-      } else {
-        Alert.alert("Error", e.toString());
-      }
-      setLoading(false);
+    setLoading(false);
+
+    if (success) return;
+
+    writeToLog("Error adding account.");
+
+    const error = getInstanceError();
+
+    if (error === "missing_totp_token") {
+      setShowTotpToken(true);
       return;
     }
 
-    if (!lemmyAuthToken) {
-      Alert.alert("Error", "Did not receive authentication response.");
-    }
-
-    setLoading(false);
+    Alert.alert("Error", getInstanceError());
   };
 
   const onPress = () => {
