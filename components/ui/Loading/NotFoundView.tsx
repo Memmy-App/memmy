@@ -13,7 +13,7 @@ function NotFoundView() {
       style={styles.container}
       backgroundColor={theme.colors.app.backgroundSecondary}
     >
-      <Text fontStyle="italic" color={theme.colors.app.secondaryText}>
+      <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
         🤨That content or community was not found🧐
       </Text>
       <Button title="Go Back" onPress={() => navigation.pop()} />

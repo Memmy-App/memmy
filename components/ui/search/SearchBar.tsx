@@ -37,7 +37,7 @@ function SearchBar({
             color: theme.colors.app.textPrimary,
             width: "100%",
           }}
-          placeholderTextColor={theme.colors.app.secondaryText}
+          placeholderTextColor={theme.colors.app.textSecondary}
           returnKeyType="search"
           returnKeyLabel="search"
           keyboardAppearance="dark"

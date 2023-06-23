@@ -7,7 +7,7 @@ function CommunityAboutScreen({ route }: { route: any }) {
   const theme = useTheme();
 
   return (
-    <ScrollView flex={1} backgroundColor={theme.colors.app.backgroundPrimary}>
+    <ScrollView flex={1} backgroundColor={theme.colors.app.bg}>
       <VStack>
         {route.params.banner && (
           <FastImage

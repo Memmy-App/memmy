@@ -138,7 +138,7 @@ function NewCommentScreen({
               </HStack>
               <HStack space={1} alignItems="center">
                 <Icon as={Ionicons} name="time-outline" />
-                <Text color={theme.colors.app.secondaryText}>
+                <Text color={theme.colors.app.textSecondary}>
                   {moment(
                     responseTo.post
                       ? responseTo.post.post.published

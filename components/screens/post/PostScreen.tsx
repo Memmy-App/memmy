@@ -81,18 +81,18 @@ function PostScreen() {
           <CommunityLink
             community={post.currentPost?.community}
             instanceBaseUrl={!post.currentPost?.post.local && instanceBaseUrl}
-            color={theme.colors.app.secondaryText}
+            color={theme.colors.app.textSecondary}
           />
         </HStack>
         <HStack alignItems="center" space={1}>
-          <IconMessageCircle size={14} color={theme.colors.app.secondaryText} />
-          <Text color={theme.colors.app.secondaryText}>
+          <IconMessageCircle size={14} color={theme.colors.app.textSecondary} />
+          <Text color={theme.colors.app.textSecondary}>
             {post.currentPost.counts.comments}
           </Text>
         </HStack>
         <HStack alignItems="center" space={1}>
-          <IconClockHour5 size={14} color={theme.colors.app.secondaryText} />
-          <Text color={theme.colors.app.secondaryText}>
+          <IconClockHour5 size={14} color={theme.colors.app.textSecondary} />
+          <Text color={theme.colors.app.textSecondary}>
             {timeFromNowShort(post.currentPost?.post.published)}
           </Text>
         </HStack>
@@ -109,7 +109,7 @@ function PostScreen() {
       return (
         <Center my={4}>
           <Spinner />
-          <Text fontStyle="italic" color={theme.colors.app.secondaryText}>
+          <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
             Loading comments...
           </Text>
         </Center>
@@ -126,7 +126,7 @@ function PostScreen() {
     if (post.comments && post.comments.length === 0 && !post.commentsError) {
       return (
         <Center my={4}>
-          <Text fontStyle="italic" color={theme.colors.app.secondaryText}>
+          <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
             No comments yet. Time to do your part 🫡
           </Text>
         </Center>

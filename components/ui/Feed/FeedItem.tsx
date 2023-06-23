@@ -30,11 +30,11 @@ function FeedItem({ post }: FeedItemProps) {
   const isUpvoted = post.my_vote === 1;
   const upvoteColor = isUpvoted
     ? theme.colors.app.upvoteColor
-    : theme.colors.app.secondaryText;
+    : theme.colors.app.textSecondary;
   const isDownvoted = post.my_vote === -1;
   const downvoteColor = isDownvoted
     ? theme.colors.app.downvoteColor
-    : theme.colors.app.secondaryText;
+    : theme.colors.app.textSecondary;
 
   return (
     <VStack
@@ -59,14 +59,14 @@ function FeedItem({ post }: FeedItemProps) {
         />
 
         <HStack alignItems="center" space={1}>
-          <IconClockHour5 size={14} color={theme.colors.app.secondaryText} />
-          <Text color={theme.colors.app.secondaryText}>
+          <IconClockHour5 size={14} color={theme.colors.app.textSecondary} />
+          <Text color={theme.colors.app.textSecondary}>
             {timeFromNowShort(post.post.published)}
           </Text>
-          <IconPlanet color={theme.colors.app.secondaryText} size={15} />
+          <IconPlanet color={theme.colors.app.textSecondary} size={15} />
           <CommunityLink
             community={post.community}
-            color={theme.colors.app.secondaryText}
+            color={theme.colors.app.textSecondary}
           />
         </HStack>
       </HStack>
@@ -90,7 +90,7 @@ function FeedItem({ post }: FeedItemProps) {
               fontStyle="italic"
               mx={4}
               mt={-1}
-              color={theme.colors.app.secondaryText}
+              color={theme.colors.app.textSecondary}
               alignSelf="flex-end"
             >
               {getBaseUrl(post.post.url)}
@@ -114,10 +114,10 @@ function FeedItem({ post }: FeedItemProps) {
             </HStack>
             <HStack alignItems="center" ml={1} space={0.5}>
               <IconMessageCircle
-                color={theme.colors.app.secondaryText}
+                color={theme.colors.app.textSecondary}
                 size={20}
               />
-              <Text color={theme.colors.app.secondaryText} fontSize="sm">
+              <Text color={theme.colors.app.textSecondary} fontSize="sm">
                 {post.counts.comments}
               </Text>
             </HStack>
@@ -127,7 +127,7 @@ function FeedItem({ post }: FeedItemProps) {
             {/* // TODO: add functionality for bookmark and menu buttons
             <IconButtonWithText
               icon={
-                <IconDots size={25} color={theme.colors.app.secondaryText} />
+                <IconDots size={25} color={theme.colors.app.textSecondary} />
               }
               iconBgColor={theme.colors.app.backgroundSecondary}
               onPressHandler={() => {}}
@@ -136,7 +136,7 @@ function FeedItem({ post }: FeedItemProps) {
               icon={
                 <IconBookmark
                   size={25}
-                  color={theme.colors.app.secondaryText}
+                  color={theme.colors.app.textSecondary}
                 />
               }
               iconBgColor={theme.colors.app.backgroundSecondary}

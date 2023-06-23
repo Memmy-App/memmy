@@ -125,8 +125,8 @@ function CompactFeedItem({ post }: { post: PostView }) {
               <Text fontWeight="semibold">
                 {truncateName(post.creator.name)}
               </Text>
-              <Text color={theme.colors.app.secondaryText}>•</Text>
-              <Text color={theme.colors.app.secondaryText}>
+              <Text color={theme.colors.app.textSecondary}>•</Text>
+              <Text color={theme.colors.app.textSecondary}>
                 {timeFromNowShort(post.post.published)}
               </Text>
             </HStack>

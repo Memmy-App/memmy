@@ -16,7 +16,7 @@ function MemmyErrorView() {
       backgroundColor="app.backgroundSecondary"
       space={2}
     >
-      <IconMoodSad size={150} color={theme.colors.app.secondaryText} />
+      <IconMoodSad size={150} color={theme.colors.app.textSecondary} />
       <Text textAlign="center">
         Well that&apos;s awkward. Memmy encountered an error. Please restart the
         app...

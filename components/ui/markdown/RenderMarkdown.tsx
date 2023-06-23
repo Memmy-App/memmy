@@ -34,7 +34,7 @@ const RenderMarkdown = ({
   const theme = useTheme();
 
   const fontColor = truncate
-    ? theme.colors.app.secondaryText
+    ? theme.colors.app.textSecondary
     : theme.colors.app.textPrimary;
 
   const styles = {

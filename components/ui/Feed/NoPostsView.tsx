@@ -8,7 +8,7 @@ function NoPostsView() {
     <VStack flex={1} justifyContent="center" alignItems="center">
       <Text
         fontStyle="italic"
-        color={theme.colors.app.secondaryText}
+        color={theme.colors.app.textSecondary}
         textAlign="center"
       >
         No posts found. Maybe you should get a conversation started?

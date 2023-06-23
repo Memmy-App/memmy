@@ -427,7 +427,7 @@ function CommentItem2({
                     {collapsed ? (
                       <Text
                         py={3}
-                        color={theme.colors.app.secondaryText}
+                        color={theme.colors.app.textSecondary}
                         fontStyle="italic"
                       >
                         Comment collapsed
@@ -437,7 +437,7 @@ function CommentItem2({
                         {(nestedComment.comment.comment.deleted && (
                           <Text
                             py={3}
-                            color={theme.colors.app.secondaryText}
+                            color={theme.colors.app.textSecondary}
                             fontStyle="italic"
                           >
                             Comment deleted by user :(
@@ -446,7 +446,7 @@ function CommentItem2({
                           (nestedComment.comment.comment.removed && (
                             <Text
                               py={3}
-                              color={theme.colors.app.secondaryText}
+                              color={theme.colors.app.textSecondary}
                               fontStyle="italic"
                             >
                               Comment removed by moderator :(

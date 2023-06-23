@@ -106,7 +106,7 @@ function KeyboardAccessory({
   return (
     <InputAccessoryView nativeID="accessory">
       <HStack
-        backgroundColor={theme.colors.app.backgroundPrimary}
+        backgroundColor={theme.colors.app.bg}
         height={12}
         justifyContent="space-between"
         alignItems="center"

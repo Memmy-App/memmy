@@ -46,8 +46,8 @@ function LinkButton({ link, thumbnail }: LinkButtonProps) {
         )}
 
         <HStack flexDirection="row" alignItems="center" space={3} mx={4} my={2}>
-          <IconUnlink color={theme.colors.app.secondaryText} />
-          <Text color={theme.colors.app.secondaryText}>
+          <IconUnlink color={theme.colors.app.textSecondary} />
+          <Text color={theme.colors.app.textSecondary}>
             {truncateLink(link)}
           </Text>
         </HStack>

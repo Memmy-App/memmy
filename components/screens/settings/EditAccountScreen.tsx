@@ -162,7 +162,7 @@ function EditAccountScreen({
                   flex: 1,
                   color: !edit.current
                     ? theme.colors.app.textPrimary
-                    : theme.colors.app.secondaryText,
+                    : theme.colors.app.textSecondary,
                 }}
                 placeholderTextColor={theme.colors.app.iconColor}
                 placeholder="Server Address"
@@ -193,7 +193,7 @@ function EditAccountScreen({
                   flex: 1,
                   color: !edit.current
                     ? theme.colors.app.textPrimary
-                    : theme.colors.app.secondaryText,
+                    : theme.colors.app.textSecondary,
                 }}
                 placeholderTextColor={theme.colors.app.iconColor}
                 placeholder="Username"

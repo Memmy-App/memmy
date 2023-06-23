@@ -30,10 +30,10 @@ function GenericSearchResult({
         </Box>
         <VStack>
           <Text>{header}</Text>
-          <Text color={theme.colors.app.secondaryText}>{footer}</Text>
+          <Text color={theme.colors.app.textSecondary}>{footer}</Text>
         </VStack>
         <Text
-          color={theme.colors.app.secondaryText}
+          color={theme.colors.app.textSecondary}
           ml="auto"
           alignSelf="flex-start"
         >
