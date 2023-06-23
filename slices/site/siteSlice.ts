@@ -30,7 +30,14 @@ const initialState: SiteState = {
 const siteSlice = createSlice({
   name: "site",
   initialState,
-  reducers: {},
+  reducers: {
+    setUnread: (state, action) => {
+      state.unread = {
+        ...state.unread,
+        [action.payload.type]: action.payload.amount,
+      };
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getSiteInfo.fulfilled, (state, action) => {
       state.communityBlocks = action.payload.my_user.community_blocks;
