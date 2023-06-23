@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ListingType } from "lemmy-js-client";
 import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
 import { writeToLog } from "../../helpers/LogHelper";
 
