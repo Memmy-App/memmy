@@ -64,4 +64,5 @@ const siteSlice = createSlice({
 
 export const selectSite = (state: RootState) => state.site;
 
+export const { setUnread } = siteSlice.actions;
 export default siteSlice.reducer;

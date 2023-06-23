@@ -47,25 +47,18 @@ function SearchScreen({
           // onPress={() => search.doSearch(SearchType.Communities)}
           onPress={() => {}}
           text="Communities"
-          selectable
         />
         <ButtonTwo
           // onPress={() => search.doSearch(SearchType.Posts)}
           onPress={() => {}}
           text="Posts"
-          selectable
         />
         <ButtonTwo
           // onPress={() => search.doSearch(SearchType.Users)}
           onPress={() => {}}
           text="Users"
-          selectable
         />
-        <ButtonTwo
-          onPress={() => search.doSearch("All")}
-          text="All"
-          selectable
-        />
+        <ButtonTwo onPress={() => search.doSearch("All")} text="All" />
       </HStack>
       <ScrollView>
         <VStack px={6}>

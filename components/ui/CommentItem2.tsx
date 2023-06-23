@@ -27,9 +27,10 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { IconDots } from "tabler-icons-react-native";
+import { IconDots, IconMail, IconMailOpened } from "tabler-icons-react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Clipboard from "@react-native-community/clipboard";
+import { CommentReplyView } from "lemmy-js-client";
 import {
   onCommentSlideHapticFeedback,
   onGenericHapticFeedback,
@@ -49,25 +50,34 @@ import RenderMarkdown from "./markdown/RenderMarkdown";
 import { getUserFullName } from "../../lemmy/LemmyHelpers";
 import { getBaseUrl } from "../../helpers/LinkHelper";
 import NamePill from "./NamePill";
+import { selectSite, setUnread } from "../../slices/site/siteSlice";
 
 function CommentItem2({
   nestedComment,
   opId,
   recycled,
   depth = 2,
+  isReply = false,
+  onPressOverride = null,
+  read = false,
 }: {
   nestedComment: NestedComment;
   opId: number;
   recycled: React.MutableRefObject<{}>;
   depth?: number;
+  isReply?: boolean;
+  onPressOverride?: () => void | Promise<void>;
+  read?: boolean;
 }) {
   // Global state
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const { unread } = useAppSelector(selectSite);
 
   // State
   const [myVote, setMyVote] = useState(nestedComment.comment.my_vote);
   const [collapsed, setCollapsed] = useState(false);
+  const [isRead, setIsRead] = useState<boolean>(read);
   const [showAll] = useState(false);
 
   // Refs
@@ -106,6 +116,13 @@ function CommentItem2({
   const onCommentPress = () => {
     onGenericHapticFeedback();
 
+    if (isReply) return;
+
+    if (onPressOverride) {
+      onPressOverride();
+      return;
+    }
+
     setCollapsed(!collapsed);
   };
 
@@ -125,6 +142,32 @@ function CommentItem2({
         Clipboard.setString(nestedComment.comment.comment.content);
       }
     );
+  };
+
+  const onReadPress = async () => {
+    onGenericHapticFeedback();
+
+    try {
+      setIsRead(true);
+
+      await lemmyInstance.markCommentReplyAsRead({
+        auth: lemmyAuthToken,
+        comment_reply_id: (nestedComment.comment as CommentReplyView)
+          .comment_reply.id,
+        read: true,
+      });
+
+      dispatch(
+        setUnread({
+          type: "replies",
+          amount: unread.replies - 1,
+        })
+      );
+    } catch (e) {
+      setIsRead(false);
+      writeToLog("Error marking comment as read.");
+      writeToLog(e.toString());
+    }
   };
 
   const onVote = async (value: -1 | 0 | 1) => {
@@ -408,15 +451,37 @@ function CommentItem2({
                         </>
                       </AvatarUsername>
                       <HStack alignItems="center" space={2}>
-                        <IconButton
-                          icon={
-                            <IconDots
-                              size={24}
-                              color={theme.colors.app.iconColor}
-                            />
-                          }
-                          onPress={onCommentLongPress}
-                        />
+                        {isReply && (
+                          <>
+                            {!isRead ? (
+                              <IconButton
+                                icon={
+                                  <IconMail
+                                    size={24}
+                                    color={theme.colors.app.iconColor}
+                                  />
+                                }
+                                onPress={onReadPress}
+                              />
+                            ) : (
+                              <IconMailOpened
+                                size={24}
+                                color={theme.colors.app.iconColor}
+                              />
+                            )}
+                          </>
+                        )}
+                        {!isReply && (
+                          <IconButton
+                            icon={
+                              <IconDots
+                                size={24}
+                                color={theme.colors.app.iconColor}
+                              />
+                            }
+                            onPress={onCommentLongPress}
+                          />
+                        )}
                         <Text>
                           {timeFromNowShort(
                             nestedComment.comment.comment.published

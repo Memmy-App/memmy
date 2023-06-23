@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
+  CommentReplyView,
   CommentSortType,
   CommentView,
   ListingType,
@@ -212,7 +213,7 @@ const usePost = (): UsePost => {
 };
 
 export interface NestedComment {
-  comment: CommentView;
+  comment: CommentView | CommentReplyView;
   replies: NestedComment[];
   collapsed: boolean;
   myVote: ILemmyVote;
