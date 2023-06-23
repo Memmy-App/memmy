@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { HStack, ScrollView, Text, useTheme, VStack } from "native-base";
-import { PersonViewSafe, PostView, SearchType } from "lemmy-js-client";
+import { PersonView, PostView, SearchType } from "lemmy-js-client";
 import useSearch from "../../hooks/search/useSearch";
 import SearchBar from "../../ui/search/SearchBar";
 import ButtonTwo from "../../ui/buttons/ButtonTwo";
@@ -27,7 +27,7 @@ function SearchScreen({
     navigation.push("Post");
   };
 
-  const onUserPress = (person: PersonViewSafe) => {
+  const onUserPress = (person: PersonView) => {
     navigation.push("UserProfile", {
       fullUsername: `${person.person.name}@${getBaseUrl(
         person.person.actor_id
