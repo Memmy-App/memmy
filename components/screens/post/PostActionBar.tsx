@@ -67,7 +67,9 @@ function PostActionBar({ post }: { post: UsePost }) {
         icon={
           <IconBookmark
             size={25}
-            color={post.bookmarked ? colors.white : colors.app.accentColor}
+            color={
+              post.bookmarked ? colors.app.primaryText : colors.app.accentColor
+            }
           />
         }
         onPress={post.doBookmark}

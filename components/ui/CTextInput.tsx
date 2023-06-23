@@ -61,6 +61,7 @@ function CTextInput({
 const styles = StyleSheet.create({
   input: {
     alignSelf: "stretch",
+    // TODO change so not hardcoded white
     backgroundColor: "white",
     marginHorizontal: 10,
     padding: 10,
