@@ -1,4 +1,4 @@
-import { CommunityView, Person, PersonView, PostView } from "lemmy-js-client";
+import { CommunityView, Person, PostView } from "lemmy-js-client";
 import { getBaseUrl } from "../helpers/LinkHelper";
 
 export const isSubscribed = (

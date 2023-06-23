@@ -1,4 +1,4 @@
-import { ListingType, SearchType, SortType } from "lemmy-js-client";
+import { ListingType, SearchType } from "lemmy-js-client";
 import { SetStateAction, useState } from "react";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import ILemmySearchResult from "../../../lemmy/types/ILemmySearchResult";
@@ -7,14 +7,14 @@ import { writeToLog } from "../../../helpers/LogHelper";
 interface UseSearch {
   query: string;
   setQuery: React.Dispatch<SetStateAction<string>>;
-  doSearch: () => void;
+  doSearch: (type: SearchType, listingType?: ListingType) => Promise<void>;
   loading: boolean;
   error: boolean;
   result: ILemmySearchResult | null;
   searchType: SearchType | null;
 }
 
-const useSearch = () => {
+const useSearch = (): UseSearch => {
   const [query, setQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);

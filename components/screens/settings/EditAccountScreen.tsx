@@ -4,7 +4,11 @@ import { useTheme, useToast, VStack } from "native-base";
 import { Cell, Section, TableView } from "react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import ILemmyServer from "../../../lemmy/types/ILemmyServer";
-import { initialize, lemmyAuthToken } from "../../../lemmy/LemmyInstance";
+import {
+  getInstanceError,
+  initialize,
+  lemmyAuthToken,
+} from "../../../lemmy/LemmyInstance";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectAccounts } from "../../../slices/accounts/accountsSlice";
 import {
@@ -12,6 +16,7 @@ import {
   editAccount,
 } from "../../../slices/accounts/accountsActions";
 import { writeToLog } from "../../../helpers/LogHelper";
+import { getBaseUrl } from "../../../helpers/LinkHelper";
 
 function EditAccountScreen({
   route,
@@ -84,22 +89,30 @@ function EditAccountScreen({
       return;
     }
 
-    try {
-      setLoading(true);
+    setLoading(true);
+    const serverParsed = getBaseUrl(form.server);
 
-      await initialize(form);
-    } catch (e) {
+    const server: ILemmyServer = {
+      username: form.username,
+      password: form.password,
+      server: serverParsed,
+      totpToken: form.totpToken,
+    };
+
+    const success = await initialize(server);
+
+    setLoading(false);
+
+    if (!success) {
       writeToLog("Error editing account.");
-      writeToLog(e.toString());
+      writeToLog(getInstanceError());
 
-      setLoading(false);
-
-      if (e === "missing_totp_token") {
+      if (getInstanceError() === "missing_totp_token") {
         setShowTotpToken(true);
-      } else {
-        Alert.alert("Error authenticating with server.");
+        return;
       }
 
+      Alert.alert("Error", getInstanceError());
       return;
     }
 
