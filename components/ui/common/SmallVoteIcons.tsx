@@ -23,7 +23,7 @@ function SmallVoteIcons({
           <IconArrowUp
             color={
               myVote === 1
-                ? theme.colors.app.upvoteColor
+                ? theme.colors.app.upvote
                 : theme.colors.app.iconColor
             }
             size={18}
@@ -36,7 +36,7 @@ function SmallVoteIcons({
           <IconArrowDown
             color={
               myVote === -1
-                ? theme.colors.app.downvoteColor
+                ? theme.colors.app.downvote
                 : theme.colors.app.iconColor
             }
             size={18}

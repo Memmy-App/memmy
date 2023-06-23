@@ -29,11 +29,11 @@ function FeedItem({ post }: FeedItemProps) {
 
   const isUpvoted = post.my_vote === 1;
   const upvoteColor = isUpvoted
-    ? theme.colors.app.upvoteColor
+    ? theme.colors.app.upvote
     : theme.colors.app.textSecondary;
   const isDownvoted = post.my_vote === -1;
   const downvoteColor = isDownvoted
-    ? theme.colors.app.downvoteColor
+    ? theme.colors.app.downvote
     : theme.colors.app.textSecondary;
 
   return (

@@ -23,14 +23,16 @@ function VoteButton({
 
   const color = isAccented ? colors.app.accent : colors.app.textSecondary;
 
-  const voteColor =
-    type === "upvote" ? colors.app.upvoteColor : colors.app.downvoteColor;
+  const voteColor = type === "upvote" ? colors.app.upvote : colors.app.downvote;
 
   const icon =
     type === "upvote" ? (
-      <IconArrowUp color={isVoted ? colors.white : color} size={25} />
+      <IconArrowUp color={isVoted ? colors.app.upvoteText : color} size={25} />
     ) : (
-      <IconArrowDown color={isVoted ? colors.white : color} size={25} />
+      <IconArrowDown
+        color={isVoted ? colors.app.downvoteText : color}
+        size={25}
+      />
     );
 
   return (
