@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   Center,
@@ -11,7 +11,7 @@ import {
 } from "native-base";
 import { RefreshControl } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { IconClockHour5, IconMessageCircle } from "tabler-icons-react-native";
@@ -39,6 +39,16 @@ function PostScreen() {
       }`,
     });
   }, []);
+  //
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     setShouldRender(true);
+  //
+  //     return () => {
+  //       setShouldRender(false);
+  //     };
+  //   }, [])
+  // );
 
   const commentItem = useCallback(
     ({ item }) => (
