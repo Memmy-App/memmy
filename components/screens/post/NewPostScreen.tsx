@@ -195,7 +195,10 @@ function NewPostScreen({
             autoCapitalize="sentences"
             style={[
               styles.input,
-              { backgroundColor: theme.colors.app.backgroundTricondary },
+              {
+                backgroundColor: theme.colors.app.backgroundTricondary,
+                color: theme.colors.app.primaryText,
+              },
             ]}
             numberOfLines={20}
             value={form.body}
