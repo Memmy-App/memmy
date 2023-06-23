@@ -52,7 +52,7 @@
     "expo-system-ui": "~2.2.1",
     "expo-web-browser": "^12.1.1",
     "flash-list": "^0.0.1-security",
-    "lemmy-js-client": "^0.17.2-rc.24",
+    "lemmy-js-client": "0.17.2-rc.24",
     "moment": "^2.29.4",
     "native-base": "^3.4.28",
     "react": "18.2.0",

@@ -48,7 +48,7 @@ const useProfile = (fullUsername?: string): UseProfile => {
       const res = await lemmyInstance.getPersonDetails({
         auth: lemmyAuthToken,
         username: searchUsername,
-        sort: SortType.New,
+        sort: "New",
         limit: 20,
       });
 

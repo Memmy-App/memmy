@@ -16,7 +16,7 @@ interface UpdateVote {
 const initialState: FeedState = {
   updateVote: null,
   dropdownVisible: false,
-  listingType: ListingType.All,
+  listingType: "All",
 };
 
 const feedSlice = createSlice({

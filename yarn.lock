@@ -6682,12 +6682,13 @@ language-tags@=1.0.5:
   dependencies:
     language-subtag-registry "~0.3.2"
 
-lemmy-js-client@^0.17.2-rc.24:
-  version "0.17.2"
-  resolved "https://registry.yarnpkg.com/lemmy-js-client/-/lemmy-js-client-0.17.2.tgz#b4cf0beac3b3e1b23186726c98bfaeb04cec4bfb"
-  integrity sha512-Yyy4Vdj9ftOMByeR+F8cpgBMPglO+bNp/J1/eBZEgX8FU6lQ81om9uYrvTXfLSxPNl+ExBO2JDjB7RSYepwWDg==
+lemmy-js-client@0.17.2-rc.24:
+  version "0.17.2-rc.24"
+  resolved "https://registry.yarnpkg.com/lemmy-js-client/-/lemmy-js-client-0.17.2-rc.24.tgz#3b09233a6d89286e559be2e840d81c0c549562ad"
+  integrity sha512-aSHz7UTcwnwnNd9poY8tEXP7RA9ieZm9MAfSljcbCNU5ds9CASXYNodmraUVJiqCmT4HWnj7IeVmBC9r7nTHnw==
   dependencies:
-    node-fetch "2.6.6"
+    cross-fetch "^3.1.5"
+    form-data "^4.0.0"
 
 leven@^3.1.0:
   version "3.1.0"
@@ -7636,13 +7637,6 @@ node-dir@^0.1.17:
   integrity sha512-tmPX422rYgofd4epzrNoOXiE8XFZYOcCq1vD7MAXCDO+O+zndlA2ztdKKMa+EeuBG5tHETpr4ml4RGgpqDCCAg==
   dependencies:
     minimatch "^3.0.2"
-
-node-fetch@2.6.6:
-  version "2.6.6"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.6.tgz#1751a7c01834e8e1697758732e9efb6eeadfaf89"
-  integrity sha512-Z8/6vRlTUChSdIgMa51jxQ4lrw/Jy5SOW10ObaA47/RElsAN2c5Pn8bTgFGWn/ibwzXTE8qwr1Yzx28vsecXEA==
-  dependencies:
-    whatwg-url "^5.0.0"
 
 node-fetch@^2.2.0, node-fetch@^2.6.0, node-fetch@^2.6.1, node-fetch@^2.6.11, node-fetch@^2.6.7:
   version "2.6.11"

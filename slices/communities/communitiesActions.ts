@@ -9,7 +9,7 @@ export const getAllCommunities = createAsyncThunk(
     try {
       const res = await lemmyInstance.listCommunities({
         auth: lemmyAuthToken,
-        type_: ListingType.All,
+        type_: "All",
         limit: 50,
       });
 
@@ -30,7 +30,7 @@ export const getSubscribedCommunities = createAsyncThunk(
     try {
       const res = await lemmyInstance.listCommunities({
         auth: lemmyAuthToken,
-        type_: ListingType.Subscribed,
+        type_: "Subscribed",
         limit: 50,
       });
 

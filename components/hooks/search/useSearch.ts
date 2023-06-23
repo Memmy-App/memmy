@@ -23,7 +23,7 @@ const useSearch = () => {
 
   const doSearch = async (
     type: SearchType,
-    listingType: ListingType = ListingType.All
+    listingType: ListingType = "All"
   ) => {
     if (!query) return;
 
@@ -39,7 +39,7 @@ const useSearch = () => {
         limit: 15,
         page: 1,
         listing_type: listingType,
-        sort: SortType.Active,
+        sort: "Active",
       });
 
       setResult({
