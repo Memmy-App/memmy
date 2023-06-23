@@ -116,8 +116,6 @@ function CommentItem2({
   const onCommentPress = () => {
     onGenericHapticFeedback();
 
-    if (isReply) return;
-
     if (onPressOverride) {
       onPressOverride();
       return;

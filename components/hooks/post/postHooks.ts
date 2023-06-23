@@ -25,7 +25,7 @@ export interface UsePost {
   comments: NestedComment[];
   commentsLoading: boolean;
   commentsError: boolean;
-  doLoad: () => Promise<void>;
+  doLoad: (ignoreCommentId?: boolean) => Promise<void>;
 
   refreshList: boolean;
 
@@ -39,7 +39,7 @@ export interface UsePost {
   recycled: React.MutableRefObject<{}>;
 }
 
-const usePost = (): UsePost => {
+const usePost = (commentId: string | null): UsePost => {
   // Global State
   const { post, newComment } = useAppSelector(selectPost);
   const bookmarks = useAppSelector(selectBookmarks);
@@ -93,7 +93,7 @@ const usePost = (): UsePost => {
   /**
    * Load the comments for the current post
    */
-  const doLoad = async () => {
+  const doLoad = async (ignoreCommentId = false) => {
     setCommentsLoading(true);
     setCommentsError(false);
 
@@ -104,6 +104,8 @@ const usePost = (): UsePost => {
         max_depth: 10,
         type_: "All",
         sort: "Top",
+        parent_id:
+          commentId && !ignoreCommentId ? Number(commentId) : undefined,
       });
 
       const ordered = commentsRes.comments.sort((a, b) =>

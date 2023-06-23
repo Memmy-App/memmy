@@ -4,8 +4,12 @@ import {
   PersonMentionView,
   PrivateMessageView,
 } from "lemmy-js-client";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
+import { useAppDispatch } from "../../../store";
+import { setPost } from "../../../slices/post/postSlice";
 
 interface UseInbox {
   doLoad: (type: string, unread: boolean) => void;
@@ -21,9 +25,17 @@ interface UseInbox {
   setSelected: React.Dispatch<
     SetStateAction<"replies" | "mentions" | "message">
   >;
+
+  onCommentReplyPress: (
+    postId: number,
+    commentId: number | undefined
+  ) => Promise<void>;
 }
 
 const useInbox = (): UseInbox => {
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -38,6 +50,33 @@ const useInbox = (): UseInbox => {
   useEffect(() => {
     doLoad("replies", true);
   }, []);
+
+  const onCommentReplyPress = async (
+    postId: number,
+    commentId: number | undefined = undefined
+  ) => {
+    setLoading(true);
+
+    try {
+      const res = await lemmyInstance.getPost({
+        auth: lemmyAuthToken,
+        id: postId,
+      });
+
+      dispatch(setPost(res.post_view));
+      setLoading(false);
+
+      navigation.push("Post", {
+        commentId: commentId.toString(),
+      });
+    } catch (e) {
+      writeToLog("Failed to get post for comment push.");
+      writeToLog(e.toString());
+
+      setLoading(false);
+      setError(true);
+    }
+  };
 
   const doLoad = (type: string, unread: boolean) => {
     setLoading(true);
@@ -117,6 +156,8 @@ const useInbox = (): UseInbox => {
 
     loading,
     error,
+
+    onCommentReplyPress,
   };
 };
 

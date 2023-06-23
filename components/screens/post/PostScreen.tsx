@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   Center,
   Divider,
   HStack,
+  Pressable,
   Spinner,
   Text,
   useTheme,
@@ -11,7 +12,6 @@ import {
 } from "native-base";
 import { RefreshControl } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { IconClockHour5, IconMessageCircle } from "tabler-icons-react-native";
@@ -27,10 +27,19 @@ import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
 import { getUserFullName } from "../../../lemmy/LemmyHelpers";
 
-function PostScreen() {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+function PostScreen({
+  route,
+  navigation,
+}: {
+  route: any;
+  navigation: NativeStackNavigationProp<any>;
+}) {
   const theme = useTheme();
-  const post = usePost();
+  const post = usePost(
+    route.params && route.params.commentId ? route.params.commentId : null
+  );
+
+  const [showLoadAll, setShowLoadAll] = useState(true);
 
   useEffect(() => {
     navigation.setOptions({
@@ -101,6 +110,21 @@ function PostScreen() {
       <Divider my={1} />
       <PostActionBar post={post} />
       <Divider />
+      {route.params && route.params.commentId && showLoadAll && (
+        <Pressable
+          backgroundColor="#1A91FF"
+          onPress={() => {
+            setShowLoadAll(false);
+            post.doLoad(true);
+          }}
+        >
+          <VStack>
+            <Text fontSize="md" fontStyle="italic" px={2} py={3}>
+              Load all comments...
+            </Text>
+          </VStack>
+        </Pressable>
+      )}
     </VStack>
   );
 

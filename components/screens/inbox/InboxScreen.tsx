@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { HStack, ScrollView, Text, useTheme, VStack } from "native-base";
+import { HStack, Text, useTheme, VStack } from "native-base";
 import { FlashList } from "@shopify/flash-list";
-import { CommentReplyView, CommentView } from "lemmy-js-client";
+import { CommentReplyView } from "lemmy-js-client";
 import useInbox from "../../hooks/inbox/useInbox";
 import ButtonTwo from "../../ui/buttons/ButtonTwo";
-import { useAppDispatch, useAppSelector } from "../../../store";
+import { useAppSelector } from "../../../store";
 import { selectSite } from "../../../slices/site/siteSlice";
 import LoadingView from "../../ui/Loading/LoadingView";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
@@ -40,6 +40,20 @@ function InboxScreen({
         recycled={recycled}
         depth={2}
         isReply
+        onPressOverride={() => {
+          const commentPathArr = item.comment.path.split(".");
+
+          if (commentPathArr.length === 2) {
+            inbox.onCommentReplyPress(item.post.id, item.comment.id).then();
+          } else {
+            inbox
+              .onCommentReplyPress(
+                item.post.id,
+                Number(commentPathArr[commentPathArr.length - 2])
+              )
+              .then();
+          }
+        }}
       />
     );
   };
