@@ -35,7 +35,7 @@ const RenderMarkdown = ({
 
   const fontColor = truncate
     ? theme.colors.app.secondaryText
-    : theme.colors.app.primaryText;
+    : theme.colors.app.textPrimary;
 
   const styles = {
     span: {

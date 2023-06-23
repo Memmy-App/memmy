@@ -85,7 +85,7 @@ function NewCommentScreen({
               styles.input,
               {
                 backgroundColor: theme.colors.app.backgroundTricondary,
-                color: theme.colors.app.primaryText,
+                color: theme.colors.app.textPrimary,
               },
             ]}
             numberOfLines={20}

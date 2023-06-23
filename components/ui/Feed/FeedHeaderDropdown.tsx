@@ -51,7 +51,7 @@ function FeedHeaderDropdown({ title, enabled }: HeaderDropdownProps) {
         <Icon
           as={Ionicons}
           name={dropdownVisible ? "caret-up-outline" : "caret-down-outline"}
-          color={theme.colors.app.primaryText}
+          color={theme.colors.app.textPrimary}
         />
       </HStack>
     </Pressable>

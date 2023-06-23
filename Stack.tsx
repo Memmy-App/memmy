@@ -45,7 +45,7 @@ function FeedStackScreen() {
           backgroundColor: theme.colors.app.nativeHeader,
         },
         headerTitleStyle: {
-          color: theme.colors.app.primaryText,
+          color: theme.colors.app.textPrimary,
         },
       }}
     >
@@ -108,7 +108,7 @@ function ProfileStackScreen() {
           backgroundColor: theme.colors.app.nativeHeader,
         },
         headerTitleStyle: {
-          color: theme.colors.app.primaryText,
+          color: theme.colors.app.textPrimary,
         },
       }}
     >
@@ -216,7 +216,7 @@ function SettingsStackScreen() {
           backgroundColor: theme.colors.app.nativeHeader,
         },
         headerTitleStyle: {
-          color: theme.colors.app.primaryText,
+          color: theme.colors.app.textPrimary,
         },
       }}
     >

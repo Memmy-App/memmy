@@ -34,7 +34,7 @@ function SearchBar({
           placeholder="Search"
           onChangeText={onSearchChange}
           style={{
-            color: theme.colors.app.primaryText,
+            color: theme.colors.app.textPrimary,
             width: "100%",
           }}
           placeholderTextColor={theme.colors.app.secondaryText}

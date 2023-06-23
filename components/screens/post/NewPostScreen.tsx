@@ -142,7 +142,7 @@ function NewPostScreen({
                     style={{
                       fontSize: 16,
                       flex: 1,
-                      color: theme.colors.app.primaryText,
+                      color: theme.colors.app.textPrimary,
                     }}
                     placeholderTextColor={theme.colors.app.iconColor}
                     placeholder="Title"
@@ -165,7 +165,7 @@ function NewPostScreen({
                     style={{
                       fontSize: 16,
                       flex: 1,
-                      color: theme.colors.app.primaryText,
+                      color: theme.colors.app.textPrimary,
                     }}
                     placeholderTextColor={theme.colors.app.iconColor}
                     placeholder="Link"
@@ -197,7 +197,7 @@ function NewPostScreen({
               styles.input,
               {
                 backgroundColor: theme.colors.app.backgroundTricondary,
-                color: theme.colors.app.primaryText,
+                color: theme.colors.app.textPrimary,
               },
             ]}
             numberOfLines={20}

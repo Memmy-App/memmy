@@ -312,7 +312,7 @@ function CommentItem2({
                 as={Ionicons}
                 name={iconName}
                 size={8}
-                color={theme.colors.app.primaryText}
+                color={theme.colors.app.textPrimary}
                 ml={3}
                 alignSelf="flex-start"
               />
@@ -327,7 +327,7 @@ function CommentItem2({
                 as={Ionicons}
                 name="arrow-undo"
                 size={8}
-                color={theme.colors.app.primaryText}
+                color={theme.colors.app.textPrimary}
                 mr={3}
                 alignSelf="flex-end"
               />

@@ -61,7 +61,7 @@ function ImageButton({ src }: ImageButtonProps) {
             }}
           />
           <Spacer />
-          <Text color={theme.colors.app.primaryText}>
+          <Text color={theme.colors.app.textPrimary}>
             {truncateImageLink(src)}
           </Text>
           <Spacer />

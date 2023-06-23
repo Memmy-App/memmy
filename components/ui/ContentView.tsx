@@ -62,7 +62,7 @@ function ContentView({
                       <Icon
                         as={Ionicons}
                         name="alert-circle"
-                        color={theme.colors.app.primaryText}
+                        color={theme.colors.app.textPrimary}
                         size={16}
                       />
                       <Text fontSize="xl">NSFW</Text>

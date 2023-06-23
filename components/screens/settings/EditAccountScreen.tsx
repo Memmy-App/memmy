@@ -161,7 +161,7 @@ function EditAccountScreen({
                   fontSize: 16,
                   flex: 1,
                   color: !edit.current
-                    ? theme.colors.app.primaryText
+                    ? theme.colors.app.textPrimary
                     : theme.colors.app.secondaryText,
                 }}
                 placeholderTextColor={theme.colors.app.iconColor}
@@ -174,7 +174,7 @@ function EditAccountScreen({
               />
             }
             backgroundColor={theme.colors.app.backgroundTricondary}
-            titleTextColor={theme.colors.app.primaryText}
+            titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.iconColor}
           />
         </Section>
@@ -192,7 +192,7 @@ function EditAccountScreen({
                   fontSize: 16,
                   flex: 1,
                   color: !edit.current
-                    ? theme.colors.app.primaryText
+                    ? theme.colors.app.textPrimary
                     : theme.colors.app.secondaryText,
                 }}
                 placeholderTextColor={theme.colors.app.iconColor}
@@ -205,7 +205,7 @@ function EditAccountScreen({
               />
             }
             backgroundColor={theme.colors.app.backgroundTricondary}
-            titleTextColor={theme.colors.app.primaryText}
+            titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.iconColor}
           />
           <Cell
@@ -214,7 +214,7 @@ function EditAccountScreen({
                 style={{
                   fontSize: 16,
                   flex: 1,
-                  color: theme.colors.app.primaryText,
+                  color: theme.colors.app.textPrimary,
                 }}
                 placeholderTextColor={theme.colors.app.iconColor}
                 placeholder="Password"
@@ -226,7 +226,7 @@ function EditAccountScreen({
               />
             }
             backgroundColor={theme.colors.app.backgroundTricondary}
-            titleTextColor={theme.colors.app.primaryText}
+            titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.iconColor}
           />
           {showTotpToken && (
@@ -236,7 +236,7 @@ function EditAccountScreen({
                   style={{
                     fontSize: 16,
                     flex: 1,
-                    color: theme.colors.app.primaryText,
+                    color: theme.colors.app.textPrimary,
                   }}
                   placeholderTextColor={theme.colors.app.iconColor}
                   placeholder="2FA Token"
@@ -249,7 +249,7 @@ function EditAccountScreen({
                 />
               }
               backgroundColor={theme.colors.app.backgroundTricondary}
-              titleTextColor={theme.colors.app.primaryText}
+              titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.iconColor}
             />
           )}
