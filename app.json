@@ -7,7 +7,7 @@
     },
     "name": "Memmy App",
     "slug": "memmyapp",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.gkasdorf.memmyapp",
-      "buildNumber": "57",
+      "buildNumber": "1",
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "Allow Memmy App to access your photos.",
         "NSPhotoLibraryAddUsageDescription": "Allow Memmy App to save photos."
