@@ -1,6 +1,6 @@
 import { extendTheme } from "native-base";
 
-const brownTheme = extendTheme({
+const commonSettings = {
   components: {
     Text: {
       defaultProps: {
@@ -8,7 +8,6 @@ const brownTheme = extendTheme({
       },
     },
   },
-
   fontConfig: {
     Inter: {
       100: {
@@ -54,26 +53,14 @@ const brownTheme = extendTheme({
     body: "Inter",
     mono: "Inter",
   },
+  config: {
+    initialColorMode: "dark",
+  },
+};
+
+const brownTheme = extendTheme({
+  ...commonSettings,
   colors: {
-    screen: {
-      50: "#fafaf9",
-      100: "#f5f5f4",
-      200: "#e7e5e4",
-      300: "#d6d3d1",
-      400: "#a8a29e",
-      500: "#78716c",
-      600: "#57534e",
-      700: "#44403c",
-      800: "#292524",
-      900: "#1c1917",
-    },
-
-    lightText: "#ffffff",
-    darkText: "#ffffff",
-
-    secondaryText: "#C7C7C7",
-    primaryText: "#fff",
-
     app: {
       nativeHeader: "#1c1917",
       nativeHeaderTitle: "#fff",
@@ -120,84 +107,11 @@ const brownTheme = extendTheme({
       refreshWheel: "#d6d3d1",
     },
   },
-  config: {
-    initialColorMode: "dark",
-  },
 });
 
 const purpleTheme = extendTheme({
-  components: {
-    Text: {
-      defaultProps: {
-        allowFontScaling: false,
-      },
-    },
-  },
-
-  fontConfig: {
-    Inter: {
-      100: {
-        normal: "Inter-Thin",
-        italic: "Inter-ThinItalic",
-      },
-      200: {
-        normal: "Inter-ExtraLight",
-        italic: "Inter-ExtraLightItalic",
-      },
-      300: {
-        normal: "Inter-Light",
-        italic: "Inter-LightItalic",
-      },
-      400: {
-        normal: "Inter-Regular",
-        italic: "Inter-Italic",
-      },
-      500: {
-        normal: "Inter-Medium",
-        italic: "Inter-MediumItalic",
-      },
-      600: {
-        normal: "Inter-SemiBold",
-        italic: "Inter-SemiBoldItalic",
-      },
-      700: {
-        normal: "Inter-Bold",
-        italic: "Inter-BoldItalic",
-      },
-      800: {
-        normal: "Inter-ExtraBold",
-        italic: "Inter-ExtraBoldItalic",
-      },
-      900: {
-        normal: "Inter-Black",
-        italic: "Inter-BlackItalic",
-      },
-    },
-  },
-  fonts: {
-    heading: "Inter",
-    body: "Inter",
-    mono: "Inter",
-  },
+  ...commonSettings,
   colors: {
-    screen: {
-      50: "#fafaf9",
-      100: "#f5f5f4",
-      200: "#e7e5e4",
-      300: "#d6d3d1",
-      400: "#a8a29e",
-      500: "#78716c",
-      600: "#57534e",
-      700: "#44403c",
-      800: "#292524",
-      900: "#1c1917",
-    },
-
-    lightText: "#ffffff",
-    darkText: "#ffffff",
-
-    secondaryText: "#C7C7C7",
-
     app: {
       nativeHeader: "#1A1726",
       nativeHeaderTitle: "#fff",
@@ -244,84 +158,11 @@ const purpleTheme = extendTheme({
       refreshWheel: "#d6d3d1",
     },
   },
-  config: {
-    initialColorMode: "dark",
-  },
 });
 
 const darkTheme = extendTheme({
-  components: {
-    Text: {
-      defaultProps: {
-        allowFontScaling: false,
-      },
-    },
-  },
-
-  fontConfig: {
-    Inter: {
-      100: {
-        normal: "Inter-Thin",
-        italic: "Inter-ThinItalic",
-      },
-      200: {
-        normal: "Inter-ExtraLight",
-        italic: "Inter-ExtraLightItalic",
-      },
-      300: {
-        normal: "Inter-Light",
-        italic: "Inter-LightItalic",
-      },
-      400: {
-        normal: "Inter-Regular",
-        italic: "Inter-Italic",
-      },
-      500: {
-        normal: "Inter-Medium",
-        italic: "Inter-MediumItalic",
-      },
-      600: {
-        normal: "Inter-SemiBold",
-        italic: "Inter-SemiBoldItalic",
-      },
-      700: {
-        normal: "Inter-Bold",
-        italic: "Inter-BoldItalic",
-      },
-      800: {
-        normal: "Inter-ExtraBold",
-        italic: "Inter-ExtraBoldItalic",
-      },
-      900: {
-        normal: "Inter-Black",
-        italic: "Inter-BlackItalic",
-      },
-    },
-  },
-  fonts: {
-    heading: "Inter",
-    body: "Inter",
-    mono: "Inter",
-  },
+  ...commonSettings,
   colors: {
-    screen: {
-      50: "#fafaf9",
-      100: "#f5f5f4",
-      200: "#e7e5e4",
-      300: "#d6d3d1",
-      400: "#a8a29e",
-      500: "#78716c",
-      600: "#57534e",
-      700: "#44403c",
-      800: "#292524",
-      900: "#1c1917",
-    },
-
-    lightText: "#ffffff",
-    darkText: "#ffffff",
-
-    secondaryText: "#C7C7C7",
-
     app: {
       nativeHeader: "#000000",
       nativeHeaderTitle: "#fff",
@@ -368,88 +209,11 @@ const darkTheme = extendTheme({
       refreshWheel: "#d6d3d1",
     },
   },
-  config: {
-    initialColorMode: "dark",
-  },
 });
 
 const lightTheme = extendTheme({
-  components: {
-    Text: {
-      defaultProps: {
-        allowFontScaling: false,
-      },
-      baseStyle: {
-        color: "#000",
-      },
-    },
-  },
-
-  fontConfig: {
-    Inter: {
-      100: {
-        normal: "Inter-Thin",
-        italic: "Inter-ThinItalic",
-      },
-      200: {
-        normal: "Inter-ExtraLight",
-        italic: "Inter-ExtraLightItalic",
-      },
-      300: {
-        normal: "Inter-Light",
-        italic: "Inter-LightItalic",
-      },
-      400: {
-        normal: "Inter-Regular",
-        italic: "Inter-Italic",
-      },
-      500: {
-        normal: "Inter-Medium",
-        italic: "Inter-MediumItalic",
-      },
-      600: {
-        normal: "Inter-SemiBold",
-        italic: "Inter-SemiBoldItalic",
-      },
-      700: {
-        normal: "Inter-Bold",
-        italic: "Inter-BoldItalic",
-      },
-      800: {
-        normal: "Inter-ExtraBold",
-        italic: "Inter-ExtraBoldItalic",
-      },
-      900: {
-        normal: "Inter-Black",
-        italic: "Inter-BlackItalic",
-      },
-    },
-  },
-  fonts: {
-    heading: "Inter",
-    body: "Inter",
-    mono: "Inter",
-  },
+  ...commonSettings,
   colors: {
-    screen: {
-      50: "#fafaf9",
-      100: "#f5f5f4",
-      200: "#e7e5e4",
-      300: "#d6d3d1",
-      400: "#a8a29e",
-      500: "#78716c",
-      600: "#57534e",
-      700: "#44403c",
-      800: "#292524",
-      900: "#1c1917",
-    },
-
-    lightText: "#000",
-    darkText: "#000",
-
-    secondaryText: "#C7C7C7",
-    primary: "#000",
-
     app: {
       nativeHeader: "#f3f3f3",
       nativeHeaderTitle: "#000",
@@ -495,9 +259,6 @@ const lightTheme = extendTheme({
 
       refreshWheel: "#d6d3d1",
     },
-  },
-  config: {
-    initialColorMode: "light",
   },
 });
 

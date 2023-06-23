@@ -161,8 +161,8 @@ function EditAccountScreen({
                   fontSize: 16,
                   flex: 1,
                   color: !edit.current
-                    ? theme.colors.lightText
-                    : theme.colors.gray[400],
+                    ? theme.colors.app.primaryText
+                    : theme.colors.app.secondaryText,
                 }}
                 placeholderTextColor={theme.colors.app.iconColor}
                 placeholder="Server Address"
@@ -174,7 +174,7 @@ function EditAccountScreen({
               />
             }
             backgroundColor={theme.colors.app.backgroundTricondary}
-            titleTextColor={theme.colors.lightText}
+            titleTextColor={theme.colors.app.primaryText}
             rightDetailColor={theme.colors.app.iconColor}
           />
         </Section>
@@ -192,8 +192,8 @@ function EditAccountScreen({
                   fontSize: 16,
                   flex: 1,
                   color: !edit.current
-                    ? theme.colors.lightText
-                    : theme.colors.gray[400],
+                    ? theme.colors.app.primaryText
+                    : theme.colors.app.secondaryText,
                 }}
                 placeholderTextColor={theme.colors.app.iconColor}
                 placeholder="Username"
@@ -205,13 +205,17 @@ function EditAccountScreen({
               />
             }
             backgroundColor={theme.colors.app.backgroundTricondary}
-            titleTextColor={theme.colors.lightText}
+            titleTextColor={theme.colors.app.primaryText}
             rightDetailColor={theme.colors.app.iconColor}
           />
           <Cell
             cellContentView={
               <TextInput
-                style={{ fontSize: 16, flex: 1, color: theme.colors.lightText }}
+                style={{
+                  fontSize: 16,
+                  flex: 1,
+                  color: theme.colors.app.primaryText,
+                }}
                 placeholderTextColor={theme.colors.app.iconColor}
                 placeholder="Password"
                 value={form.password}
@@ -222,7 +226,7 @@ function EditAccountScreen({
               />
             }
             backgroundColor={theme.colors.app.backgroundTricondary}
-            titleTextColor={theme.colors.lightText}
+            titleTextColor={theme.colors.app.primaryText}
             rightDetailColor={theme.colors.app.iconColor}
           />
           {showTotpToken && (
@@ -232,7 +236,7 @@ function EditAccountScreen({
                   style={{
                     fontSize: 16,
                     flex: 1,
-                    color: theme.colors.lightText,
+                    color: theme.colors.app.primaryText,
                   }}
                   placeholderTextColor={theme.colors.app.iconColor}
                   placeholder="2FA Token"
@@ -245,7 +249,7 @@ function EditAccountScreen({
                 />
               }
               backgroundColor={theme.colors.app.backgroundTricondary}
-              titleTextColor={theme.colors.lightText}
+              titleTextColor={theme.colors.app.primaryText}
               rightDetailColor={theme.colors.app.iconColor}
             />
           )}

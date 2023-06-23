@@ -28,7 +28,7 @@ function BookmarksScreen({
               }}
               accessory="DisclosureIndicator"
               backgroundColor={theme.colors.app.backgroundTricondary}
-              titleTextColor={theme.colors.lightText}
+              titleTextColor={theme.colors.app.primaryText}
               rightDetailColor={theme.colors.app.iconColor}
             />
           ))}

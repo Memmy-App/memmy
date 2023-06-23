@@ -38,7 +38,7 @@ function SettingsIndexScreen({
             title="Server"
             detail={accounts[0].instance}
             backgroundColor={theme.colors.app.backgroundTricondary}
-            titleTextColor={theme.colors.lightText}
+            titleTextColor={theme.colors.app.primaryText}
             rightDetailColor={theme.colors.app.iconColor}
           />
           <Cell
@@ -46,7 +46,7 @@ function SettingsIndexScreen({
             title="Username"
             detail={accounts[0].username}
             backgroundColor={theme.colors.app.backgroundTricondary}
-            titleTextColor={theme.colors.lightText}
+            titleTextColor={theme.colors.app.primaryText}
             rightDetailColor={theme.colors.app.iconColor}
           />
 
@@ -56,7 +56,7 @@ function SettingsIndexScreen({
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("ViewAccounts")}
             backgroundColor={theme.colors.app.backgroundTricondary}
-            titleTextColor={theme.colors.lightText}
+            titleTextColor={theme.colors.app.primaryText}
             rightDetailColor={theme.colors.app.iconColor}
           />
         </Section>

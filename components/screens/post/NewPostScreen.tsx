@@ -142,7 +142,7 @@ function NewPostScreen({
                     style={{
                       fontSize: 16,
                       flex: 1,
-                      color: theme.colors.lightText,
+                      color: theme.colors.app.primaryText,
                     }}
                     placeholderTextColor={theme.colors.app.iconColor}
                     placeholder="Title"
