@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { CommunityBlockView, PersonBlockView } from "lemmy-js-client";
-import { getSiteInfo, unblockCommunity } from "./siteActions";
+import { getSiteInfo, getUnreadCount, unblockCommunity } from "./siteActions";
 import { RootState } from "../../store";
 
 interface SiteState {
@@ -8,6 +8,11 @@ interface SiteState {
   personBlocks: PersonBlockView[];
   loaded: boolean;
   error: boolean;
+  unread: {
+    mentions: number;
+    privateMessage: number;
+    replies: number;
+  };
 }
 
 const initialState: SiteState = {
@@ -15,6 +20,11 @@ const initialState: SiteState = {
   personBlocks: [],
   loaded: false,
   error: false,
+  unread: {
+    mentions: 0,
+    privateMessage: 0,
+    replies: 0,
+  },
 };
 
 const siteSlice = createSlice({
@@ -32,6 +42,15 @@ const siteSlice = createSlice({
       state.communityBlocks = state.communityBlocks.filter(
         (b) => b.community.id !== action.payload.community_view.community.id
       );
+    });
+
+    builder.addCase(getUnreadCount.fulfilled, (state, action) => {
+      state.unread = {
+        ...state.unread,
+        mentions: action.payload.mentions,
+        privateMessage: action.payload.private_messages,
+        replies: action.payload.replies,
+      };
     });
   },
 });

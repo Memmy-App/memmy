@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon, useTheme } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
-import { IconSearch } from "tabler-icons-react-native";
+import { IconBell, IconSearch } from "tabler-icons-react-native";
 import FeedsIndexScreen from "./components/screens/feeds/FeedsIndexScreen";
 import CommunityFeedScreen from "./components/screens/feeds/CommunityFeedScreen";
 import PostScreen from "./components/screens/post/PostScreen";
@@ -32,6 +32,8 @@ import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen
 import CommunityAboutScreen from "./components/screens/feeds/CommunityAboutScreen";
 import SearchScreen from "./components/screens/search/SearchScreen";
 import LoadingView from "./components/ui/Loading/LoadingView";
+import InboxScreen from "./components/screens/inbox/InboxScreen";
+import { selectSite } from "./slices/site/siteSlice";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -94,6 +96,78 @@ function FeedStackScreen() {
         />
       </FeedStack.Group>
     </FeedStack.Navigator>
+  );
+}
+
+const InboxStack = createNativeStackNavigator();
+
+function InboxStackScreen() {
+  const theme = useTheme();
+
+  return (
+    <InboxStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: theme.colors.app.nativeHeader,
+        },
+        headerTitleStyle: {
+          color: theme.colors.app.nativeHeaderTitle,
+        },
+        freezeOnBlur: true,
+      }}
+    >
+      <InboxStack.Group>
+        <InboxStack.Screen
+          name="Inbox"
+          component={InboxScreen}
+          options={{
+            title: "Inbox",
+          }}
+        />
+        <InboxStack.Screen
+          name="FeedScreen"
+          component={FeedsIndexScreen}
+          options={{
+            title: "Feed",
+          }}
+        />
+        <InboxStack.Screen name="Post" component={PostScreen} />
+        <InboxStack.Screen name="Community" component={CommunityFeedScreen} />
+        <InboxStack.Screen
+          name="Subscriptions"
+          component={SubscriptionsScreen}
+        />
+        <InboxStack.Screen
+          name="UserProfile"
+          component={UserProfileScreen}
+          options={{
+            title: "Your Profile",
+          }}
+        />
+      </InboxStack.Group>
+
+      <InboxStack.Group
+        screenOptions={{
+          presentation: "modal",
+        }}
+      >
+        <InboxStack.Screen
+          name="NewComment"
+          component={NewCommentScreen}
+          options={{ title: "New Comment" }}
+        />
+        <InboxStack.Screen
+          name="NewPost"
+          component={NewPostScreen}
+          options={{ title: "New Post" }}
+        />
+        <InboxStack.Screen
+          name="CommunityAbout"
+          component={CommunityAboutScreen}
+          options={{ title: "About" }}
+        />
+      </InboxStack.Group>
+    </InboxStack.Navigator>
   );
 }
 
@@ -249,6 +323,7 @@ const Tab = createBottomTabNavigator();
 
 function Tabs() {
   const theme = useTheme();
+  const { unread } = useAppSelector(selectSite);
 
   return (
     <Tab.Navigator
@@ -268,6 +343,16 @@ function Tabs() {
             <Icon as={Ionicons} name="list-outline" size={6} color={color} />
           ),
           tabBarLabel: "Feed",
+        }}
+      />
+      <Tab.Screen
+        name="InboxStack"
+        component={InboxStackScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => <IconBell color={color} />,
+          tabBarLabel: "Inbox",
+          tabBarBadge: unread.replies + unread.mentions + unread.privateMessage,
         }}
       />
       <Tab.Screen
