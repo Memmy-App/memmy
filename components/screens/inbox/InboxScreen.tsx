@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { HStack, Text, useTheme, VStack } from "native-base";
 import { FlashList } from "@shopify/flash-list";
 import { CommentReplyView } from "lemmy-js-client";
+import { RefreshControl } from "react-native";
 import useInbox from "../../hooks/inbox/useInbox";
 import ButtonTwo from "../../ui/buttons/ButtonTwo";
 import { useAppSelector } from "../../../store";
@@ -12,6 +13,7 @@ import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import CommentItem2 from "../../ui/CommentItem2";
 import { NestedComment } from "../../hooks/post/postHooks";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
+import LoadingModal from "../../ui/Loading/LoadingModal";
 
 function InboxScreen({
   navigation,
@@ -58,10 +60,6 @@ function InboxScreen({
     );
   };
 
-  if (inbox.loading) {
-    return <LoadingView />;
-  }
-
   if (inbox.error) {
     return (
       <LoadingErrorView
@@ -74,6 +72,7 @@ function InboxScreen({
 
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
+      <LoadingModal loading={inbox.loading} />
       <HStack px={4} py={4} space={2}>
         <ButtonTwo
           onPress={() => {}}
@@ -105,11 +104,19 @@ function InboxScreen({
       </HStack>
       {inbox.selected === "replies" && (
         <>
-          {(inbox.replies.length === 0 && <Text>No replies found.</Text>) || (
+          {(inbox.replies && inbox.replies.length === 0 && (
+            <Text>No replies found.</Text>
+          )) || (
             <FlashList
               renderItem={replyItem}
               data={inbox.replies}
               estimatedItemSize={100}
+              refreshControl={
+                <RefreshControl
+                  refreshing={inbox.refreshing}
+                  onRefresh={() => inbox.doLoad("replies", true)}
+                />
+              }
             />
           )}
         </>

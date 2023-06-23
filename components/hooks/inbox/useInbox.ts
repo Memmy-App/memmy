@@ -16,6 +16,7 @@ interface UseInbox {
 
   loading: boolean;
   error: boolean;
+  refreshing: boolean;
 
   replies: CommentReplyView[];
   mentions: PersonMentionView[];
@@ -42,6 +43,7 @@ const useInbox = (): UseInbox => {
   const [replies, setReplies] = useState<CommentReplyView[]>(null);
   const [mentions, setMentions] = useState<PersonMentionView[]>(null);
   const [messages, setMessages] = useState<PrivateMessageView[]>(null);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const [selected, setSelected] = useState<"replies" | "mentions" | "message">(
     "replies"
@@ -78,8 +80,13 @@ const useInbox = (): UseInbox => {
     }
   };
 
-  const doLoad = (type: string, unread: boolean) => {
+  const doLoad = (
+    type: string,
+    refresh: boolean = false,
+    unread: boolean = true
+  ) => {
     setLoading(true);
+    setRefreshing(refresh);
 
     switch (type) {
       case "replies":
@@ -108,6 +115,7 @@ const useInbox = (): UseInbox => {
     }
 
     setLoading(false);
+    setRefreshing(false);
   };
 
   const doLoadMentions = async (unread: boolean) => {
@@ -156,6 +164,7 @@ const useInbox = (): UseInbox => {
 
     loading,
     error,
+    refreshing,
 
     onCommentReplyPress,
   };
