@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { ScrollView, useTheme } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button } from "react-native";

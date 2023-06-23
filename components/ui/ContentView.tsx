@@ -36,7 +36,6 @@ function ContentView({
 
   const body = truncate ? truncatePost(post.post.body, 100) : post.post.body;
   const [imageViewOpen, setImageViewOpen] = useState(false);
-  const [imageUri, setImageUri] = useState("");
 
   const onImagePress = () => {
     setImageViewOpen(true);

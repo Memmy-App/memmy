@@ -66,6 +66,7 @@ function Start() {
   }, [loaded]);
 
   const startInterval = () => {
+    console.log("starting an interval.");
     refreshInterval = setInterval(() => {
       console.log("Looking for updates...");
       if (lemmyInstance && lemmyAuthToken) {

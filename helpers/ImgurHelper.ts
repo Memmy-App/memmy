@@ -1,4 +1,3 @@
-import * as FileSystem from "expo-file-system";
 import moment from "moment";
 import axios from "axios";
 

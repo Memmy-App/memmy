@@ -47,14 +47,8 @@ function SearchScreen({
           onPress={() => search.doSearch("Communities")}
           text="Communities"
         />
-        <ButtonTwo
-          onPress={() => search.doSearch("Posts")}
-          text="Posts"
-        />
-        <ButtonTwo
-          onPress={() => search.doSearch("Users")}
-          text="Users"
-        />
+        <ButtonTwo onPress={() => search.doSearch("Posts")} text="Posts" />
+        <ButtonTwo onPress={() => search.doSearch("Users")} text="Users" />
         <ButtonTwo onPress={() => search.doSearch("All")} text="All" />
       </HStack>
       <ScrollView px={6}>

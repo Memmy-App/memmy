@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  HStack,
-  Icon,
-  IconButton,
-  Pressable,
-  Text,
-  useTheme,
-  VStack,
-} from "native-base";
+import { HStack, Icon, Pressable, Text, useTheme, VStack } from "native-base";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
 import { selectFeed, setDropdownVisible } from "../../../slices/feed/feedSlice";

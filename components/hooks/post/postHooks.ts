@@ -1,15 +1,7 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
-import {
-  CommentReplyView,
-  CommentSortType,
-  CommentView,
-  ListingType,
-  PostView,
-} from "lemmy-js-client";
-
+import React, { useEffect, useRef, useState } from "react";
+import { CommentReplyView, CommentView, PostView } from "lemmy-js-client";
 
 import { useToast } from "native-base";
-import { useFocusEffect } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../../slices/post/postSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";

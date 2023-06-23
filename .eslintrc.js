@@ -20,13 +20,7 @@ module.exports = {
   rules: {
     "prettier/prettier": ["error"],
     "@typescript-eslint/no-use-before-define": "off",
-    "no-param-reassign": [
-      "error",
-      {
-        props: true,
-        ignorePropertyModificationsFor: ["state", "ref"],
-      },
-    ],
+    "no-param-reassign": "off",
     "react/require-default-props": "off",
     "react/jsx-props-no-spreading": "off",
     "no-restricted-syntax": "off",

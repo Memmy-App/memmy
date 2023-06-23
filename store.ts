@@ -1,7 +1,7 @@
-import {configureStore} from "@reduxjs/toolkit";
-import {postSlice} from "./slices/post/postSlice";
-import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
-import {newCommentSlice} from "./slices/newComment/newCommentSlice";
+import { configureStore } from "@reduxjs/toolkit";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { postSlice } from "./slices/post/postSlice";
+import { newCommentSlice } from "./slices/newComment/newCommentSlice";
 import feedSlice from "./slices/feed/feedSlice";
 import communitiesSlice from "./slices/communities/communitiesSlice";
 import settingsSlice from "./slices/settings/settingsSlice";
@@ -10,16 +10,16 @@ import bookmarksSlice from "./slices/bookmarks/bookmarksSlice";
 import siteSlice from "./slices/site/siteSlice";
 
 const store = configureStore({
-    reducer: {
-        post: postSlice.reducer,
-        newComment: newCommentSlice.reducer,
-        feed: feedSlice,
-        communities: communitiesSlice,
-        settings: settingsSlice,
-        accounts: accountsSlice,
-        bookmarks: bookmarksSlice,
-        site: siteSlice
-    }
+  reducer: {
+    post: postSlice.reducer,
+    newComment: newCommentSlice.reducer,
+    feed: feedSlice,
+    communities: communitiesSlice,
+    settings: settingsSlice,
+    accounts: accountsSlice,
+    bookmarks: bookmarksSlice,
+    site: siteSlice,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -22,7 +22,7 @@ import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 import useFeedItem from "../../hooks/feeds/useFeedItem";
-import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
+import { ExtensionType } from "../../../helpers/LinkHelper";
 import {
   truncateCompactFeedItem,
   truncateName,
