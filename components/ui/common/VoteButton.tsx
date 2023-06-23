@@ -21,7 +21,7 @@ function VoteButton({
 }: VoteButtonProps) {
   const { colors } = useTheme();
 
-  const color = isAccented ? colors.app.accentColor : colors.app.textSecondary;
+  const color = isAccented ? colors.app.accent : colors.app.textSecondary;
 
   const voteColor =
     type === "upvote" ? colors.app.upvoteColor : colors.app.downvoteColor;
