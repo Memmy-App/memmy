@@ -107,61 +107,61 @@ const commonSettings = {
   },
 };
 
-const brownThemeColors = {
-  nativeHeader: "#1c1917",
-  nativeHeaderTitle: "#fff",
-  backgroundPrimary: "#1c1917",
-  backgroundSecondary: "#292524",
-  backgroundTricondary: "#44403c",
+// const brownThemeColors = {
+//   nativeHeader: "#1c1917",
+//   nativeHeaderTitle: "#fff",
+//   backgroundPrimary: "#1c1917",
+//   backgroundSecondary: "#292524",
+//   backgroundTricondary: "#44403c",
 
-  accentColor: "#1A91FF",
-  inputBackground: "#44403c",
+//   accentColor: "#1A91FF",
+//   inputBackground: "#44403c",
 
-  upvoteColor: "#EE923D",
-  downvoteColor: "#1A84E5",
+//   upvoteColor: "#EE923D",
+//   downvoteColor: "#1A84E5",
 
-  iconColor: "#9A9A9A",
-  iconColor2: "#007AFF",
+//   iconColor: "#9A9A9A",
+//   iconColor2: "#007AFF",
 
-  commentChain: {
-    1: "#FA6969",
-    2: "#FFB800",
-    3: "#FFE500",
-    4: "#36CF3C",
-    5: "#4BA9FF",
-  },
+//   commentChain: {
+//     1: "#FA6969",
+//     2: "#FFB800",
+//     3: "#FFE500",
+//     4: "#36CF3C",
+//     5: "#4BA9FF",
+//   },
 
-  primaryText: "#fff",
-  secondaryText: "#999999",
+//   primaryText: "#fff",
+//   secondaryText: "#999999",
 
-  buttonOneIcon: "#007AFF",
-  buttonTwoIcon: "",
-  buttonThreeIcon: "",
+//   buttonOneIcon: "#007AFF",
+//   buttonTwoIcon: "",
+//   buttonThreeIcon: "",
 
-  buttonOneText: "#fff",
-  buttonTwoText: "",
-  buttonThreeText: "",
+//   buttonOneText: "#fff",
+//   buttonTwoText: "",
+//   buttonThreeText: "",
 
-  buttonOne: "#44403c",
-  buttonOneSelected: "#292524",
+//   buttonOne: "#44403c",
+//   buttonOneSelected: "#292524",
 
-  opColor: "#54CB60",
-  selfColor: "#DEA435",
+//   opColor: "#54CB60",
+//   selfColor: "#DEA435",
 
-  tableBorder: "#78716c",
+//   tableBorder: "#78716c",
 
-  refreshWheel: "#d6d3d1",
-};
+//   refreshWheel: "#d6d3d1",
+// };
 
-const brownTheme = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: brownThemeColors,
-  },
-  config: {
-    initialColorMode: "dark",
-  },
-});
+// const brownTheme = extendTheme({
+//   ...commonSettings,
+//   colors: {
+//     app: brownThemeColors,
+//   },
+//   config: {
+//     initialColorMode: "dark",
+//   },
+// });
 
 // const purpleThemeColors: IAppColors = {
 //   nativeHeader: "#000000",
@@ -335,10 +335,10 @@ const lightTheme = extendTheme({
   },
 });
 
-export type DarkThemeType = typeof brownTheme;
+export type ThemeType = typeof lightTheme;
 
 declare module "native-base" {
-  interface ICustomTheme extends DarkThemeType {}
+  interface ICustomTheme extends ThemeType {}
 }
 
-export { brownTheme, lightTheme };
+export { lightTheme };
