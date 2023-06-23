@@ -53,9 +53,6 @@ const commonSettings = {
     body: "Inter",
     mono: "Inter",
   },
-  config: {
-    initialColorMode: "dark",
-  },
 };
 
 const brownTheme = extendTheme({
@@ -106,6 +103,9 @@ const brownTheme = extendTheme({
 
       refreshWheel: "#d6d3d1",
     },
+  },
+  config: {
+    initialColorMode: "dark",
   },
 });
 
@@ -158,6 +158,9 @@ const purpleTheme = extendTheme({
       refreshWheel: "#d6d3d1",
     },
   },
+  config: {
+    initialColorMode: "dark",
+  },
 });
 
 const darkTheme = extendTheme({
@@ -209,6 +212,9 @@ const darkTheme = extendTheme({
       refreshWheel: "#d6d3d1",
     },
   },
+  config: {
+    initialColorMode: "dark",
+  },
 });
 
 const lightTheme = extendTheme({
@@ -259,6 +265,10 @@ const lightTheme = extendTheme({
 
       refreshWheel: "#d6d3d1",
     },
+  },
+
+  config: {
+    initialColorMode: "light",
   },
 });
 
