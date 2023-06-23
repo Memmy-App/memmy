@@ -16,7 +16,7 @@ function SearchBar({
 
   return (
     <VStack
-      backgroundColor={theme.colors.app.backgroundSecondary}
+      backgroundColor={theme.colors.app.bgSecondary}
       pt={3}
       pb={2}
       px={4}

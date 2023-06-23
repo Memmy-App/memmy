@@ -49,7 +49,7 @@ function CompactFeedItem({ post }: { post: PostView }) {
           my={0.5}
           px={3}
           py={4}
-          backgroundColor={theme.colors.app.backgroundSecondary}
+          backgroundColor={theme.colors.app.bgSecondary}
           space={2}
         >
           <Box

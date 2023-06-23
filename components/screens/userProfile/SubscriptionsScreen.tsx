@@ -19,7 +19,7 @@ function SubscriptionsScreen({
   const theme = useTheme();
 
   return (
-    <ScrollView flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
+    <ScrollView flex={1} backgroundColor={theme.colors.app.bgSecondary}>
       <CTable>
         <CSection header="SUBSCRIPTIONS">
           {subscribedCommunities?.map((community) => (

@@ -11,7 +11,7 @@ function NotFoundView() {
   return (
     <View
       style={styles.container}
-      backgroundColor={theme.colors.app.backgroundSecondary}
+      backgroundColor={theme.colors.app.bgSecondary}
     >
       <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
         🤨That content or community was not found🧐

@@ -52,52 +52,6 @@ interface IColors {
   comments: ICommentChainColors;
 }
 
-interface IAppColors {
-  nativeHeader: string;
-  nativeHeaderTitle: string;
-  backgroundPrimary: string;
-  backgroundSecondary: string;
-  backgroundTricondary: string;
-
-  accentColor: string;
-  inputBackground: string;
-
-  upvoteColor: string;
-  downvoteColor: string;
-
-  iconColor: string;
-  iconColor2: string;
-
-  commentChain: {
-    1: string;
-    2: string;
-    3: string;
-    4: string;
-    5: string;
-  };
-
-  primaryText: string;
-  secondaryText: string;
-
-  buttonOneIcon: string;
-  buttonTwoIcon: string;
-  buttonThreeIcon: string;
-
-  buttonOneText: string;
-  buttonTwoText: string;
-  buttonThreeText: string;
-
-  buttonOne: string;
-  buttonOneSelected: string;
-
-  opColor: string;
-  selfColor: string;
-
-  tableBorder: string;
-
-  refreshWheel: string;
-}
-
 const commonSettings = {
   components: {
     Text: {
@@ -153,7 +107,7 @@ const commonSettings = {
   },
 };
 
-const brownThemeColors: IAppColors = {
+const brownThemeColors = {
   nativeHeader: "#1c1917",
   nativeHeaderTitle: "#fff",
   backgroundPrimary: "#1c1917",

@@ -58,9 +58,9 @@ function BookmarksScreen({
   return (
     <ScrollView
       refreshControl={refreshControl}
-      backgroundColor={theme.colors.app.backgroundSecondary}
+      backgroundColor={theme.colors.app.bgSecondary}
     >
-      <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
+      <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
         <VStack>
           <View style={styles.bannerContainer}>
             {/* <VStack alignItems="flex-start"> */}

@@ -146,7 +146,7 @@ function EditAccountScreen({
   };
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
+    <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
       <TableView style={styles.table}>
         <Section
           header="SERVER ADDRESS"

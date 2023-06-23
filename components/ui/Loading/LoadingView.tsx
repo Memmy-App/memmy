@@ -8,7 +8,7 @@ function LoadingView() {
     <VStack
       flex={1}
       justifyContent="center"
-      backgroundColor={theme.colors.app.backgroundSecondary}
+      backgroundColor={theme.colors.app.bgSecondary}
     >
       <Spinner size="large" />
     </VStack>

@@ -40,7 +40,7 @@ function FeedItem({ post }: FeedItemProps) {
     <VStack
       flex={1}
       my={1.5}
-      backgroundColor={theme.colors.app.backgroundSecondary}
+      backgroundColor={theme.colors.app.bgSecondary}
       shadow={2}
     >
       <HStack
@@ -129,7 +129,7 @@ function FeedItem({ post }: FeedItemProps) {
               icon={
                 <IconDots size={25} color={theme.colors.app.textSecondary} />
               }
-              iconBgColor={theme.colors.app.backgroundSecondary}
+              iconBgColor={theme.colors.app.bgSecondary}
               onPressHandler={() => {}}
             />
             <IconButtonWithText
@@ -139,7 +139,7 @@ function FeedItem({ post }: FeedItemProps) {
                   color={theme.colors.app.textSecondary}
                 />
               }
-              iconBgColor={theme.colors.app.backgroundSecondary}
+              iconBgColor={theme.colors.app.bgSecondary}
               onPressHandler={() => {}}
             /> */}
             <VoteButton

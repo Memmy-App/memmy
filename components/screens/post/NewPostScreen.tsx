@@ -131,9 +131,9 @@ function NewPostScreen({
   return (
     <>
       <KeyboardAwareScrollView
-        style={{ backgroundColor: theme.colors.app.backgroundSecondary }}
+        style={{ backgroundColor: theme.colors.app.bgSecondary }}
       >
-        <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
+        <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
           <TableView>
             <Section header="POST INFO">
               <CCell

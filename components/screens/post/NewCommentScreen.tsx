@@ -70,12 +70,12 @@ function NewCommentScreen({
   return (
     <>
       <KeyboardAwareScrollView
-        style={{ backgroundColor: theme.colors.app.backgroundSecondary }}
+        style={{ backgroundColor: theme.colors.app.bgSecondary }}
       >
         <View
           flex={1}
           flexDirection="column"
-          backgroundColor={theme.colors.app.backgroundSecondary}
+          backgroundColor={theme.colors.app.bgSecondary}
           justifyContent="space-between"
         >
           <TextInput

@@ -30,7 +30,7 @@ function SettingsIndexScreen({
   };
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.backgroundSecondary} flex={1}>
+    <ScrollView backgroundColor={theme.colors.app.bgSecondary} flex={1}>
       <TableView style={styles.table}>
         <Section header="ACCOUNT" roundedCorners hideSurroundingSeparators>
           <Cell
