@@ -1,5 +1,57 @@
 import { extendTheme } from "native-base";
 
+interface ICommentChainColors {
+  1: string;
+  2: string;
+  3: string;
+  4: string;
+  5: string;
+}
+
+interface IUserColors {
+  mod: string;
+  admin: string;
+  dev: string;
+  op: string;
+}
+
+interface IColors {
+  accent: string;
+  accentHighlight: string;
+
+  textPrimary: string;
+  textSecondary: string;
+  textTertiary: string;
+
+  fg: string;
+  bg: string;
+  bgSecondary: string;
+  bgTertiary: string;
+
+  border: string; // color for border and divider
+
+  upvote: string; // upvote color
+  upvoteText: string; // icon color for when upvote button is selected
+  downvote: string; // downvote color
+  downvoteText: string; // icon color for when downvote button is selected
+
+  success: string;
+  successBg: string;
+  successBorder: string;
+  error: string;
+  errorBg: string;
+  errorBorder: string;
+  warn: string;
+  warnBg: string;
+  warnBorder: string;
+  info: string;
+  infoBg: string;
+  infoBorder: string;
+
+  users: IUserColors;
+  comments: ICommentChainColors;
+}
+
 interface IAppColors {
   nativeHeader: string;
   nativeHeaderTitle: string;
@@ -157,162 +209,165 @@ const brownTheme = extendTheme({
   },
 });
 
-const purpleThemeColors: IAppColors = {
-  nativeHeader: "#000000",
-  nativeHeaderTitle: "#fff",
-  backgroundPrimary: "#000000",
-  backgroundSecondary: "#151515",
-  backgroundTricondary: "#292929",
+// const purpleThemeColors: IAppColors = {
+//   nativeHeader: "#000000",
+//   nativeHeaderTitle: "#fff",
+//   backgroundPrimary: "#000000",
+//   backgroundSecondary: "#151515",
+//   backgroundTricondary: "#292929",
 
-  accentColor: "#1A91FF",
-  inputBackground: "#292929",
+//   accentColor: "#1A91FF",
+//   inputBackground: "#292929",
 
-  upvoteColor: "#EE923D",
-  downvoteColor: "#1A84E5",
+//   upvoteColor: "#EE923D",
+//   downvoteColor: "#1A84E5",
 
-  iconColor: "#9A9A9A",
-  iconColor2: "#007AFF",
+//   iconColor: "#9A9A9A",
+//   iconColor2: "#007AFF",
 
-  commentChain: {
+//   commentChain: {
+//     1: "#FA6969",
+//     2: "#FFB800",
+//     3: "#FFE500",
+//     4: "#36CF3C",
+//     5: "#4BA9FF",
+//   },
+
+//   primaryText: "#fff",
+//   secondaryText: "#999999",
+
+//   buttonOneIcon: "#007AFF",
+//   buttonTwoIcon: "",
+//   buttonThreeIcon: "",
+
+//   buttonOneText: "#fff",
+//   buttonTwoText: "",
+//   buttonThreeText: "",
+
+//   buttonOne: "#292929",
+//   buttonOneSelected: "#201929",
+
+//   opColor: "#54CB60",
+//   selfColor: "#DEA435",
+
+//   tableBorder: "#78716c",
+
+//   refreshWheel: "#d6d3d1",
+// };
+
+// const purpleTheme = extendTheme({
+//   ...commonSettings,
+//   colors: {
+//     app: purpleThemeColors,
+//   },
+//   config: {
+//     initialColorMode: "dark",
+//   },
+// });
+
+// const darkThemeColors: IAppColors = {
+//   nativeHeader: "#000000",
+//   nativeHeaderTitle: "#fff",
+//   backgroundPrimary: "#000000",
+//   backgroundSecondary: "#151515",
+//   backgroundTricondary: "#292929",
+
+//   accentColor: "#1A91FF",
+//   inputBackground: "#292929",
+
+//   upvoteColor: "#EE923D",
+//   downvoteColor: "#1A84E5",
+
+//   iconColor: "#9A9A9A",
+//   iconColor2: "#007AFF",
+
+//   commentChain: {
+//     1: "#FA6969",
+//     2: "#FFB800",
+//     3: "#FFE500",
+//     4: "#36CF3C",
+//     5: "#4BA9FF",
+//   },
+
+//   primaryText: "#fff",
+//   secondaryText: "#999999",
+
+//   buttonOneIcon: "#007AFF",
+//   buttonTwoIcon: "",
+//   buttonThreeIcon: "",
+
+//   buttonOneText: "#fff",
+//   buttonTwoText: "",
+//   buttonThreeText: "",
+
+//   buttonOne: "#292929",
+//   buttonOneSelected: "#201929",
+
+//   opColor: "#54CB60",
+//   selfColor: "#DEA435",
+
+//   tableBorder: "#78716c",
+
+//   refreshWheel: "#d6d3d1",
+// };
+
+// const darkTheme = extendTheme({
+//   ...commonSettings,
+//   colors: {
+//     app: darkThemeColors,
+//   },
+//   config: {
+//     initialColorMode: "dark",
+//   },
+// });
+
+const lightThemeColors: IColors = {
+  accent: "#1A91FF",
+  accentHighlight: "#E7F2FF",
+
+  textPrimary: "#303030",
+  textSecondary: "#979BA2",
+  textTertiary: "#DEDEDE",
+
+  fg: "#FFFFFF",
+  bg: "#F4F4F4",
+  bgSecondary: "#ECECEC",
+  bgTertiary: "#DEDEDE",
+
+  border: "#C8C8CA",
+
+  upvote: "#EE923D",
+  upvoteText: "#FFF",
+  downvote: "#1A84E5",
+  downvoteText: "#FFF",
+
+  success: "#48C10F",
+  successBg: "#D7F8DA",
+  successBorder: "#2B8302",
+  error: "#F8372B",
+  errorBg: "#FFC6C2",
+  errorBorder: "#A62525",
+  warn: "#DEA435",
+  warnBg: "#FFEDD9",
+  warnBorder: "#CB6A11",
+  info: "",
+  infoBg: "#CAE6FF",
+  infoBorder: "#316677",
+
+  users: {
+    mod: "#54CB60",
+    admin: "#FF4848",
+    dev: "#CB66FA",
+    op: "",
+  },
+
+  comments: {
     1: "#FA6969",
     2: "#FFB800",
     3: "#FFE500",
     4: "#36CF3C",
     5: "#4BA9FF",
   },
-
-  primaryText: "#fff",
-  secondaryText: "#999999",
-
-  buttonOneIcon: "#007AFF",
-  buttonTwoIcon: "",
-  buttonThreeIcon: "",
-
-  buttonOneText: "#fff",
-  buttonTwoText: "",
-  buttonThreeText: "",
-
-  buttonOne: "#292929",
-  buttonOneSelected: "#201929",
-
-  opColor: "#54CB60",
-  selfColor: "#DEA435",
-
-  tableBorder: "#78716c",
-
-  refreshWheel: "#d6d3d1",
-};
-
-const purpleTheme = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: purpleThemeColors,
-  },
-  config: {
-    initialColorMode: "dark",
-  },
-});
-
-const darkThemeColors: IAppColors = {
-  nativeHeader: "#000000",
-  nativeHeaderTitle: "#fff",
-  backgroundPrimary: "#000000",
-  backgroundSecondary: "#151515",
-  backgroundTricondary: "#292929",
-
-  accentColor: "#1A91FF",
-  inputBackground: "#292929",
-
-  upvoteColor: "#EE923D",
-  downvoteColor: "#1A84E5",
-
-  iconColor: "#9A9A9A",
-  iconColor2: "#007AFF",
-
-  commentChain: {
-    1: "#FA6969",
-    2: "#FFB800",
-    3: "#FFE500",
-    4: "#36CF3C",
-    5: "#4BA9FF",
-  },
-
-  primaryText: "#fff",
-  secondaryText: "#999999",
-
-  buttonOneIcon: "#007AFF",
-  buttonTwoIcon: "",
-  buttonThreeIcon: "",
-
-  buttonOneText: "#fff",
-  buttonTwoText: "",
-  buttonThreeText: "",
-
-  buttonOne: "#292929",
-  buttonOneSelected: "#201929",
-
-  opColor: "#54CB60",
-  selfColor: "#DEA435",
-
-  tableBorder: "#78716c",
-
-  refreshWheel: "#d6d3d1",
-};
-
-const darkTheme = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: darkThemeColors,
-  },
-  config: {
-    initialColorMode: "dark",
-  },
-});
-
-const lightThemeColors: IAppColors = {
-  nativeHeader: "#f3f3f3",
-  nativeHeaderTitle: "#000",
-  backgroundPrimary: "#fafafa",
-  backgroundSecondary: "#fff",
-  backgroundTricondary: "#dcdcdc",
-
-  accentColor: "#1A91FF",
-  inputBackground: "#dcdcdc",
-
-  upvoteColor: "#EE923D",
-  downvoteColor: "#1A84E5",
-
-  iconColor: "#9A9A9A",
-  iconColor2: "#007AFF",
-
-  commentChain: {
-    1: "#FA6969",
-    2: "#FFB800",
-    3: "#FFE500",
-    4: "#36CF3C",
-    5: "#4BA9FF",
-  },
-
-  primaryText: "#000",
-  secondaryText: "#2a2a2a",
-
-  buttonOneIcon: "#007AFF",
-  buttonTwoIcon: "",
-  buttonThreeIcon: "",
-
-  buttonOneText: "#000",
-  buttonTwoText: "",
-  buttonThreeText: "",
-
-  buttonOne: "#dcdcdc",
-  buttonOneSelected: "#201929",
-
-  opColor: "#54CB60",
-  selfColor: "#DEA435",
-
-  tableBorder: "#78716c",
-
-  refreshWheel: "#d6d3d1",
 };
 
 const lightTheme = extendTheme({
@@ -326,10 +381,10 @@ const lightTheme = extendTheme({
   },
 });
 
-export type DarkThemeType = typeof darkTheme;
+export type DarkThemeType = typeof brownTheme;
 
 declare module "native-base" {
   interface ICustomTheme extends DarkThemeType {}
 }
 
-export { darkTheme, purpleTheme, brownTheme, lightTheme };
+export { brownTheme, lightTheme };
