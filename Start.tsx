@@ -62,7 +62,7 @@ function Start() {
     <NativeBaseProvider theme={selectedTheme}>
       <ErrorBoundary onError={logError} FallbackComponent={MemmyErrorView}>
         {/* eslint-disable-next-line react/style-prop-object */}
-        <StatusBar style={selectedTheme === "Light" ? "light" : "dark"} />
+        <StatusBar style={theme === "Light" ? "dark" : "light"} />
         <GestureHandlerRootView style={{ flex: 1 }}>
           <ActionSheetProvider>
             <Stack />
