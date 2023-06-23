@@ -1,11 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-  CommentSortType,
-  CommentView,
-  ListingType,
-  PostView,
-} from "lemmy-js-client";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { CommentView, PostView } from "lemmy-js-client";
 import { useToast } from "native-base";
+import { useFocusEffect } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../../slices/post/postSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
@@ -52,6 +48,7 @@ const usePost = (): UsePost => {
   const [bookmarked, setBookmarked] = useState<boolean>(
     bookmarks?.findIndex((b) => b.postId === currentPost.post.id) !== -1
   );
+
   const recycled = useRef({});
 
   // Other Hooks

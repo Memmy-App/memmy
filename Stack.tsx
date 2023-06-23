@@ -1,6 +1,6 @@
 /* eslint react/no-unstable-nested-components: 0 */
 
-import React, { useState } from "react";
+import React from "react";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -20,13 +20,11 @@ import CreateAccountScreen from "./components/screens/onboarding/CreateAccountSc
 import BookmarksScreen from "./components/screens/userProfile/BookmarksScreen";
 import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
 import SubscriptionsScreen from "./components/screens/userProfile/SubscriptionsScreen";
-import { useAppDispatch, useAppSelector } from "./store";
-import { loadSettings } from "./slices/settings/settingsActions";
+import { useAppSelector } from "./store";
 import {
   selectAccounts,
   selectAccountsLoaded,
 } from "./slices/accounts/accountsSlice";
-import { loadAccounts } from "./slices/accounts/accountsActions";
 import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
 import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen";
 import CommunityAboutScreen from "./components/screens/feeds/CommunityAboutScreen";
@@ -47,6 +45,7 @@ function FeedStackScreen() {
         headerTitleStyle: {
           color: theme.colors.app.primaryText,
         },
+        freezeOnBlur: true,
       }}
     >
       <FeedStack.Group>
@@ -110,6 +109,7 @@ function ProfileStackScreen() {
         headerTitleStyle: {
           color: theme.colors.app.primaryText,
         },
+        freezeOnBlur: true,
       }}
     >
       <ProfileStack.Screen
@@ -147,6 +147,7 @@ function SearchStackScreen() {
         headerTitleStyle: {
           color: theme.colors.app.nativeHeaderTitle,
         },
+        freezeOnBlur: true,
       }}
     >
       <SearchStack.Group>
@@ -257,6 +258,7 @@ function Tabs() {
           backgroundColor: theme.colors.app.nativeHeader,
         },
         tabBarLabel: "Feed",
+        freezeOnBlur: true,
       }}
     >
       <Tab.Screen
