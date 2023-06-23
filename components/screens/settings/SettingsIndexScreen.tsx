@@ -37,7 +37,7 @@ function SettingsIndexScreen({
             cellStyle="RightDetail"
             title="Server"
             detail={accounts[0].instance}
-            backgroundColor={theme.colors.app.backgroundTricondary}
+            backgroundColor={theme.colors.app.bgTertiary}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.iconColor}
           />
@@ -45,7 +45,7 @@ function SettingsIndexScreen({
             cellStyle="RightDetail"
             title="Username"
             detail={accounts[0].username}
-            backgroundColor={theme.colors.app.backgroundTricondary}
+            backgroundColor={theme.colors.app.bgTertiary}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.iconColor}
           />
@@ -55,7 +55,7 @@ function SettingsIndexScreen({
             title="Change Account Settings"
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("ViewAccounts")}
-            backgroundColor={theme.colors.app.backgroundTricondary}
+            backgroundColor={theme.colors.app.bgTertiary}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.iconColor}
           />

@@ -42,7 +42,7 @@ function ImageButton({ src }: ImageButtonProps) {
     <>
       <Pressable onPress={onPress}>
         <HStack
-          backgroundColor={theme.colors.app.backgroundTricondary}
+          backgroundColor={theme.colors.app.bgTertiary}
           borderRadius={5}
           padding={2}
           flexDirection="row"

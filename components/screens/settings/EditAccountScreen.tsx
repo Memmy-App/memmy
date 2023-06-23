@@ -173,7 +173,7 @@ function EditAccountScreen({
                 editable={!edit.current}
               />
             }
-            backgroundColor={theme.colors.app.backgroundTricondary}
+            backgroundColor={theme.colors.app.bgTertiary}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.iconColor}
           />
@@ -204,7 +204,7 @@ function EditAccountScreen({
                 editable={!edit.current}
               />
             }
-            backgroundColor={theme.colors.app.backgroundTricondary}
+            backgroundColor={theme.colors.app.bgTertiary}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.iconColor}
           />
@@ -225,7 +225,7 @@ function EditAccountScreen({
                 secureTextEntry
               />
             }
-            backgroundColor={theme.colors.app.backgroundTricondary}
+            backgroundColor={theme.colors.app.bgTertiary}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.iconColor}
           />
@@ -248,7 +248,7 @@ function EditAccountScreen({
                   autoFocus={showTotpToken}
                 />
               }
-              backgroundColor={theme.colors.app.backgroundTricondary}
+              backgroundColor={theme.colors.app.bgTertiary}
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.iconColor}
             />

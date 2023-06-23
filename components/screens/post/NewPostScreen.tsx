@@ -196,7 +196,7 @@ function NewPostScreen({
             style={[
               styles.input,
               {
-                backgroundColor: theme.colors.app.backgroundTricondary,
+                backgroundColor: theme.colors.app.bgTertiary,
                 color: theme.colors.app.textPrimary,
               },
             ]}

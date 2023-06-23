@@ -55,7 +55,7 @@ function CompactFeedItem({ post }: { post: PostView }) {
           <Box
             width={75}
             height={75}
-            backgroundColor={theme.colors.app.backgroundTricondary}
+            backgroundColor={theme.colors.app.bgTertiary}
             borderRadius={10}
             justifyContent="center"
             alignItems="center"
