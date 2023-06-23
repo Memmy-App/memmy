@@ -352,7 +352,10 @@ function Tabs() {
           headerShown: false,
           tabBarIcon: ({ color }) => <IconBell color={color} />,
           tabBarLabel: "Inbox",
-          tabBarBadge: unread.replies + unread.mentions + unread.privateMessage,
+          tabBarBadge:
+            unread.replies + unread.mentions + unread.privateMessage > 0
+              ? unread.replies + unread.mentions + unread.privateMessage
+              : null,
         }}
       />
       <Tab.Screen
