@@ -1,4 +1,4 @@
-import { ListingType, PersonView, PostView, SearchType } from "lemmy-js-client";
+import { ListingType, SearchType } from "lemmy-js-client";
 import { SetStateAction, useState } from "react";
 import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -6,10 +6,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import ILemmySearchResult from "../../../lemmy/types/ILemmySearchResult";
 import { writeToLog } from "../../../helpers/LogHelper";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
-import { getCommunityFullName } from "../../../lemmy/LemmyHelpers";
-import { setPost } from "../../../slices/post/postSlice";
-import { useAppDispatch } from "../../../store";
 
 interface UseSearch {
   query: string;
@@ -23,7 +19,6 @@ interface UseSearch {
 
 const useSearch = (): UseSearch => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const dispatch = useAppDispatch();
 
   const [query, setQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
