@@ -124,17 +124,11 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
               : undefined,
         });
 
-        // @ts-ignore
-        if (res.error && res.error === "couldnt_find_community") {
-          setCommunityNotFound(true);
-          return;
-        }
-
         setCommunity(res.community_view);
-        setCommunityLoading(false);
         setSubscribed(
           isSubscribed(res.community_view.community.id, subscribedCommunities)
         );
+        setCommunityLoading(false);
       } catch (e) {
         writeToLog("Error getting community feed.");
         writeToLog(e.toString());

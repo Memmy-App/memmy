@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { openLink } from "../../../helpers/LinkHelper";
 import { findImages } from "../../../helpers/MarkdownHelper";
-import ImageButton from "../ImageButton";
+import ImageButton from "../buttons/ImageButton";
 
 const FONT_SIZE = 14;
 const HEADING_1_SIZE = 32;

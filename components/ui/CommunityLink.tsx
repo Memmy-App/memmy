@@ -1,7 +1,7 @@
 import React from "react";
 import { CommunitySafe } from "lemmy-js-client";
 import { HStack, Text } from "native-base";
-import Link from "./Link";
+import Link from "./buttons/Link";
 import { getBaseUrl } from "../../helpers/LinkHelper";
 
 interface CommunityLinkProps {

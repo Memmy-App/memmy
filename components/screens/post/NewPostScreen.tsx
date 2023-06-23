@@ -1,20 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Alert, Button, StyleSheet, Switch, TextInput } from "react-native";
+import { Button, StyleSheet, Switch, TextInput } from "react-native";
 import { Icon, IconButton, useColorMode, useTheme, VStack } from "native-base";
-import { CreatePost } from "lemmy-js-client";
 import { Section, TableView } from "react-native-tableview-simple";
 import { Ionicons } from "@expo/vector-icons";
 import CCell from "../../ui/table/CCell";
-import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import LoadingModal from "../../ui/Loading/LoadingModal";
 import KeyboardAccessory from "../../ui/KeyboardAccessory";
-import { selectImage } from "../../../helpers/ImageHelper";
-import uploadToImgur from "../../../helpers/ImgurHelper";
-import { setPost } from "../../../slices/post/postSlice";
-import { useAppDispatch } from "../../../store";
-import { writeToLog } from "../../../helpers/LogHelper";
+import useNewPost from "../../hooks/post/useNewPost";
 
 function NewPostScreen({
   route,
@@ -23,109 +17,34 @@ function NewPostScreen({
   route: any;
   navigation: NativeStackNavigationProp<any>;
 }) {
-  const [form, setForm] = useState({
-    body: "",
-    name: "",
-    url: "",
-    nsfw: false,
-    auth: lemmyAuthToken,
-    community_id: route.params.communityId,
-    language_id: 37,
-  } as CreatePost);
-
   const [selection, setSelection] = useState({
     start: 0,
     end: 0,
   });
 
-  const [loading, setLoading] = useState(false);
+  // Hooks
+  const newPost = useNewPost(Number(route.params.communityId));
 
-  const inputRef = useRef<TextInput>();
-
+  // Other hooks
   const theme = useTheme();
   const colorMode = useColorMode();
-  const dispatch = useAppDispatch();
 
   const headerLeft = () => (
     <Button title="Cancel" onPress={() => navigation.pop()} />
   );
-  const headerRight = () => <Button title="Submit" onPress={doSubmit} />;
+  const headerRight = () => (
+    <Button title="Submit" onPress={newPost.doSubmit} />
+  );
 
   useEffect(() => {
     navigation.setOptions({
       headerLeft,
       headerRight,
     });
-  }, [form]);
-
-  const onFormChange = (name: string, value: string | boolean) => {
-    setForm({
-      ...form,
-      [name]: value,
-    });
-  };
+  }, [newPost.form]);
 
   const setBody = (text: string) => {
-    onFormChange("body", text);
-  };
-
-  const doUpload = async () => {
-    let path;
-
-    try {
-      path = await selectImage();
-    } catch (e) {
-      if (e === "permissions") {
-        Alert.alert(
-          "Permissions Error",
-          "Please allow Memmy App to access your camera roll."
-        );
-        return;
-      }
-    }
-
-    setLoading(true);
-
-    let imgurLink;
-
-    try {
-      imgurLink = await uploadToImgur(path);
-    } catch (e) {
-      writeToLog("Erorr uploading image.");
-      writeToLog(e.toString());
-
-      Alert.alert("Error", "Error uploading image to Imgur.");
-    }
-
-    onFormChange("url", imgurLink);
-    setLoading(false);
-  };
-
-  const doSubmit = async () => {
-    try {
-      setLoading(true);
-
-      const prepared: CreatePost = {
-        ...form,
-        name: form.name !== "" ? form.name : undefined,
-        body: form.body !== "" ? form.body : undefined,
-        url: form.url !== "" ? form.url : undefined,
-      };
-
-      const res = await lemmyInstance.createPost(prepared);
-
-      setLoading(false);
-
-      dispatch(setPost(res.post_view));
-
-      navigation.pop();
-    } catch (e) {
-      writeToLog("Error submitting post.");
-      writeToLog(e.toString());
-
-      setLoading(false);
-      Alert.alert(e.toString());
-    }
+    newPost.onFormChange("body", text);
   };
 
   return (
@@ -146,8 +65,8 @@ function NewPostScreen({
                     }}
                     placeholderTextColor={theme.colors.app.iconColor}
                     placeholder="Title"
-                    value={form.name}
-                    onChangeText={(text) => onFormChange("name", text)}
+                    value={newPost.form.name}
+                    onChangeText={(text) => newPost.onFormChange("name", text)}
                     autoFocus
                   />
                 }
@@ -157,7 +76,7 @@ function NewPostScreen({
                 cellAccessoryView={
                   <IconButton
                     icon={<Icon as={Ionicons} name="camera" size={6} />}
-                    onPress={doUpload}
+                    onPress={newPost.doUpload}
                   />
                 }
                 cellContentView={
@@ -169,8 +88,8 @@ function NewPostScreen({
                     }}
                     placeholderTextColor={theme.colors.app.iconColor}
                     placeholder="Link"
-                    value={form.url}
-                    onChangeText={(text) => onFormChange("url", text)}
+                    value={newPost.form.url}
+                    onChangeText={(text) => newPost.onFormChange("url", text)}
                     autoCapitalize="none"
                     autoCorrect={false}
                   />
@@ -181,8 +100,8 @@ function NewPostScreen({
                 title="NSFW"
                 cellAccessoryView={
                   <Switch
-                    value={form.nsfw}
-                    onValueChange={(v) => onFormChange("nsfw", v)}
+                    value={newPost.form.nsfw}
+                    onValueChange={(v) => newPost.onFormChange("nsfw", v)}
                   />
                 }
               />
@@ -201,23 +120,23 @@ function NewPostScreen({
               },
             ]}
             numberOfLines={20}
-            value={form.body}
+            value={newPost.form.body}
             onSelectionChange={(e) => {
               setSelection(e.nativeEvent.selection);
             }}
-            onChangeText={(text) => onFormChange("body", text)}
+            onChangeText={(text) => newPost.onFormChange("body", text)}
             keyboardAppearance={colorMode.colorMode}
             inputAccessoryViewID="accessory"
-            ref={inputRef}
+            ref={newPost.inputRef}
           />
         </VStack>
-        <LoadingModal loading={loading} />
+        <LoadingModal loading={newPost.loading} />
       </KeyboardAwareScrollView>
       <KeyboardAccessory
         setText={setBody}
-        text={form.body}
+        text={newPost.form.body}
         selection={selection}
-        inputRef={inputRef}
+        inputRef={newPost.inputRef}
       />
     </>
   );

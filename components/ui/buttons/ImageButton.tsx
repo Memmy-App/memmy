@@ -10,9 +10,9 @@ import {
 import { ImageDetail } from "@dreamwalk-os/react-native-image-modal";
 import FastImage from "react-native-fast-image";
 import { Dimensions, Share } from "react-native";
-import { truncateImageLink } from "../../helpers/TextHelper";
-import ImageViewFooter from "./image/ImageViewFooter";
-import downloadAndSaveImage from "../../helpers/ImageHelper";
+import { truncateImageLink } from "../../../helpers/TextHelper";
+import ImageViewFooter from "../image/ImageViewFooter";
+import downloadAndSaveImage from "../../../helpers/ImageHelper";
 
 interface ImageButtonProps {
   src: string;

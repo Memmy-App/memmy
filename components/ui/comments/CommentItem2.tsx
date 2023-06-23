@@ -34,23 +34,23 @@ import { CommentReplyView } from "lemmy-js-client";
 import {
   onCommentSlideHapticFeedback,
   onGenericHapticFeedback,
-} from "../../helpers/HapticFeedbackHelpers";
-import { writeToLog } from "../../helpers/LogHelper";
-import { timeFromNowShort } from "../../helpers/TimeHelper";
-import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
-import { ILemmyVote } from "../../lemmy/types/ILemmyVote";
-import { selectCurrentAccount } from "../../slices/accounts/accountsSlice";
-import { setResponseTo } from "../../slices/newComment/newCommentSlice";
-import { selectSettings } from "../../slices/settings/settingsSlice";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { NestedComment } from "../hooks/post/postHooks";
-import AvatarUsername from "./common/AvatarUsername";
-import SmallVoteIcons from "./common/SmallVoteIcons";
-import RenderMarkdown from "./markdown/RenderMarkdown";
-import { getUserFullName } from "../../lemmy/LemmyHelpers";
-import { getBaseUrl } from "../../helpers/LinkHelper";
-import NamePill from "./NamePill";
-import { selectSite, setUnread } from "../../slices/site/siteSlice";
+} from "../../../helpers/HapticFeedbackHelpers";
+import { writeToLog } from "../../../helpers/LogHelper";
+import { timeFromNowShort } from "../../../helpers/TimeHelper";
+import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
+import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
+import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
+import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import AvatarUsername from "../common/AvatarUsername";
+import SmallVoteIcons from "../common/SmallVoteIcons";
+import RenderMarkdown from "../markdown/RenderMarkdown";
+import { getUserFullName } from "../../../lemmy/LemmyHelpers";
+import { getBaseUrl } from "../../../helpers/LinkHelper";
+import NamePill from "../NamePill";
+import { selectSite, setUnread } from "../../../slices/site/siteSlice";
+import NestedComment from "../../../lemmy/comments/NestedComment";
 
 function CommentItem2({
   nestedComment,

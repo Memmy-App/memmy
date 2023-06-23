@@ -9,7 +9,7 @@ import FastImage from "react-native-fast-image";
 import { Ionicons } from "@expo/vector-icons";
 import { ExtensionType, getLinkInfo } from "../../helpers/LinkHelper";
 import { truncatePost } from "../../helpers/TextHelper";
-import LinkButton from "./LinkButton";
+import LinkButton from "./buttons/LinkButton";
 import RenderMarkdown from "./markdown/RenderMarkdown";
 import { useAppSelector } from "../../store";
 import { selectSettings } from "../../slices/settings/settingsSlice";

@@ -3,7 +3,7 @@ import React from "react";
 import FastImage from "react-native-fast-image";
 import { IconUser } from "tabler-icons-react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
-import UserLink from "../UserLink";
+import UserLink from "../buttons/UserLink";
 
 interface AvatarUsernameProps {
   avatar: string;

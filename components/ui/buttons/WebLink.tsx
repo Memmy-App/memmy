@@ -2,7 +2,7 @@ import React from "react";
 import { Pressable, Text } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { openLink } from "../../helpers/LinkHelper";
+import { openLink } from "../../../helpers/LinkHelper";
 
 interface WebLinkProps {
   href: string;

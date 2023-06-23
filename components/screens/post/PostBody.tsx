@@ -11,7 +11,7 @@ import moment from "moment";
 import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppSelector } from "../../../store";
-import LinkButton from "../../ui/LinkButton";
+import LinkButton from "../../ui/buttons/LinkButton";
 import ImageView from "../../ui/image/ImageView";
 import RenderMarkdown from "../../ui/markdown/RenderMarkdown";
 

@@ -12,9 +12,13 @@ import {
   removeBookmark,
 } from "../../../slices/bookmarks/bookmarksActions";
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
-import findAndAddComment from "../../../lemmy/LemmyCommentsHelper";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
+import {
+  buildComments,
+  findAndAddComment,
+} from "../../../lemmy/comments/LemmyCommentsHelper";
+import NestedComment from "../../../lemmy/comments/NestedComment";
 
 export interface UsePost {
   comments: NestedComment[];
@@ -209,43 +213,5 @@ const usePost = (commentId: string | null): UsePost => {
     recycled,
   };
 };
-
-export interface NestedComment {
-  comment: CommentView | CommentReplyView;
-  replies: NestedComment[];
-  collapsed: boolean;
-  myVote: ILemmyVote;
-}
-
-function buildComments(comments: CommentView[]): NestedComment[] {
-  const nestedComments = [];
-
-  const commentDict = {};
-
-  for (const comment of comments) {
-    const { path } = comment.comment;
-    const pathIds = path.split(".").map(Number);
-    const parentId = pathIds[pathIds.length - 2];
-
-    const currentComment = {
-      comment,
-      replies: [],
-    };
-
-    commentDict[comment.comment.id] = currentComment;
-
-    if (parentId !== 0) {
-      const parentComment = commentDict[parentId];
-
-      try {
-        parentComment.replies.push(currentComment);
-      } catch (e) {}
-    } else {
-      nestedComments.push(currentComment);
-    }
-  }
-
-  return nestedComments;
-}
 
 export default usePost;

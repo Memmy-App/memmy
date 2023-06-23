@@ -20,28 +20,52 @@ import useNewComment from "../../hooks/newComment/newCommentHooks";
 import { truncateName } from "../../../helpers/TextHelper";
 import RenderMarkdown from "../../ui/markdown/RenderMarkdown";
 import KeyboardAccessory from "../../ui/KeyboardAccessory";
+import SmallVoteIcons from "../../ui/common/SmallVoteIcons";
+import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 
 function NewCommentScreen({
   navigation,
 }: {
   navigation: NativeStackNavigationProp<any>;
 }) {
+  // Global state
+  const { responseTo } = useAppSelector(selectNewComment);
+
+  // State
   const [selection, setSelection] = useState({
     start: 0,
     end: 0,
   });
 
+  // Refs
   const inputRef = useRef<TextInput>();
 
+  // Hooks
   const newComment = useNewComment();
+
+  // Other hooks
   const theme = useTheme();
   const colorMode = useColorMode();
 
-  const { responseTo } = useAppSelector(selectNewComment);
-
+  // Other
   const myVote = responseTo.post
     ? responseTo.post.my_vote
     : responseTo.comment.my_vote;
+
+  const upvotes = responseTo.post
+    ? responseTo.post.counts.upvotes
+    : responseTo.comment.counts.upvotes;
+  const downvotes = responseTo.post
+    ? responseTo.post.counts.downvotes
+    : responseTo.comment.counts.downvotes;
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => headerLeft(),
+      headerRight: () => headerRight(),
+      title: responseTo.post ? "Replying to Post" : "Replying to Comment",
+    });
+  }, [newComment.content]);
 
   const headerLeft = () => (
     <Button title="Cancel" onPress={() => navigation.pop()} />
@@ -54,14 +78,6 @@ function NewCommentScreen({
       disabled={newComment.loading}
     />
   );
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => headerLeft(),
-      headerRight: () => headerRight(),
-      title: responseTo.post ? "Replying to Post" : "Replying to Comment",
-    });
-  }, [newComment.content]);
 
   if (newComment.loading) {
     return <LoadingView />;
@@ -109,32 +125,12 @@ function NewCommentScreen({
             </Text>
             <HStack space={3} alignItems="center">
               <HStack space={0} alignItems="center">
-                <Icon
-                  as={Ionicons}
-                  name={
-                    myVote !== -1 ? "arrow-up-outline" : "arrow-down-outline"
-                  }
-                  color={
-                    myVote === -1
-                      ? "orange.500"
-                      : myVote === 1
-                      ? "green.500"
-                      : "gray.500"
-                  }
+                <SmallVoteIcons
+                  upvotes={upvotes}
+                  downvotes={downvotes}
+                  myVote={myVote as ILemmyVote}
+                  initialVote={0}
                 />
-                <Text
-                  color={
-                    myVote === -1
-                      ? "orange.500"
-                      : myVote === 1
-                      ? "green.500"
-                      : "gray.500"
-                  }
-                >
-                  {(responseTo.post
-                    ? responseTo.post.counts.score
-                    : responseTo.comment.counts.score) + myVote}
-                </Text>
               </HStack>
               <HStack space={1} alignItems="center">
                 <Icon as={Ionicons} name="time-outline" />

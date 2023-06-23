@@ -361,15 +361,6 @@ function Tabs() {
         }}
       />
       <Tab.Screen
-        name="SearchStack"
-        component={SearchStackScreen}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => <IconSearch color={color} />,
-          tabBarLabel: "Search",
-        }}
-      />
-      <Tab.Screen
         name="UserProfileStack"
         component={ProfileStackScreen}
         options={{
@@ -378,6 +369,15 @@ function Tabs() {
             <Icon as={Ionicons} name="person-outline" size={6} color={color} />
           ),
           tabBarLabel: "Profile",
+        }}
+      />
+      <Tab.Screen
+        name="SearchStack"
+        component={SearchStackScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => <IconSearch color={color} />,
+          tabBarLabel: "Search",
         }}
       />
       <Tab.Screen

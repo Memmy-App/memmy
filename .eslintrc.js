@@ -29,5 +29,7 @@ module.exports = {
     "no-nested-ternary": "off",
     "import/no-extraneous-dependencies": "off",
     "prefer-destructuring": ["error", { object: true, array: false }],
+    "import/no-named-as-default": "off",
+    "react/jsx-no-useless-fragment": "off",
   },
 };
