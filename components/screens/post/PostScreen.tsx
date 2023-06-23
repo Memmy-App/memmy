@@ -12,6 +12,8 @@ import {
 } from "native-base";
 import { RefreshControl } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
+
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { IconClockHour5, IconMessageCircle } from "tabler-icons-react-native";

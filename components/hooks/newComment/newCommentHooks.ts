@@ -36,6 +36,7 @@ const useNewComment = () => {
         parent_id: responseTo.comment
           ? responseTo.comment.comment.id
           : undefined,
+        language_id: 37,
       });
 
       dispatch(
