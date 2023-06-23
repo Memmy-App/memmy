@@ -1,4 +1,4 @@
-import { HStack, Text, VStack, useTheme } from "native-base";
+import { HStack, Text, useTheme, VStack } from "native-base";
 import React from "react";
 import FastImage from "react-native-fast-image";
 import { IconUser } from "tabler-icons-react-native";

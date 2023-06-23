@@ -46,23 +46,10 @@ function SearchScreen({
         <ButtonTwo
           onPress={() => search.doSearch("Communities")}
           text="Communities"
-          selectable
         />
-        <ButtonTwo
-          onPress={() => search.doSearch("Posts")}
-          text="Posts"
-          selectable
-        />
-        <ButtonTwo
-          onPress={() => search.doSearch("Users")}
-          text="Users"
-          selectable
-        />
-        <ButtonTwo
-          onPress={() => search.doSearch("All")}
-          text="All"
-          selectable
-        />
+        <ButtonTwo onPress={() => search.doSearch("Posts")} text="Posts" />
+        <ButtonTwo onPress={() => search.doSearch("Users")} text="Users" />
+        <ButtonTwo onPress={() => search.doSearch("All")} text="All" />
       </HStack>
       <ScrollView px={6}>
         {(search.error && <Text>Search Error</Text>) ||

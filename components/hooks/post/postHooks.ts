@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { CommentView, PostView } from "lemmy-js-client";
+import React, { useEffect, useRef, useState } from "react";
+import { CommentReplyView, CommentView, PostView } from "lemmy-js-client";
+
 import { useToast } from "native-base";
-import { useFocusEffect } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../../slices/post/postSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
@@ -20,7 +20,7 @@ export interface UsePost {
   comments: NestedComment[];
   commentsLoading: boolean;
   commentsError: boolean;
-  doLoad: () => Promise<void>;
+  doLoad: (ignoreCommentId?: boolean) => Promise<void>;
 
   refreshList: boolean;
 
@@ -34,7 +34,7 @@ export interface UsePost {
   recycled: React.MutableRefObject<{}>;
 }
 
-const usePost = (): UsePost => {
+const usePost = (commentId: string | null): UsePost => {
   // Global State
   const { post, newComment } = useAppSelector(selectPost);
   const bookmarks = useAppSelector(selectBookmarks);
@@ -89,7 +89,7 @@ const usePost = (): UsePost => {
   /**
    * Load the comments for the current post
    */
-  const doLoad = async () => {
+  const doLoad = async (ignoreCommentId = false) => {
     setCommentsLoading(true);
     setCommentsError(false);
 
@@ -100,6 +100,8 @@ const usePost = (): UsePost => {
         max_depth: 10,
         type_: "All",
         sort: "Top",
+        parent_id:
+          commentId && !ignoreCommentId ? Number(commentId) : undefined,
       });
 
       const ordered = commentsRes.comments.sort((a, b) =>
@@ -209,7 +211,7 @@ const usePost = (): UsePost => {
 };
 
 export interface NestedComment {
-  comment: CommentView;
+  comment: CommentView | CommentReplyView;
   replies: NestedComment[];
   collapsed: boolean;
   myVote: ILemmyVote;

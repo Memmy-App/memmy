@@ -11,7 +11,6 @@ import {
 import { Alert, Linking } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { LemmyHttp } from "lemmy-js-client";
-import { write } from "react-native-fs";
 import ILemmyServer from "../../../lemmy/types/ILemmyServer";
 import { initialize, lemmyAuthToken } from "../../../lemmy/LemmyInstance";
 import CTextInput from "../../ui/CTextInput";

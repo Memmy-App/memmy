@@ -1,4 +1,4 @@
-import { HStack, Pressable, Text, VStack, useTheme } from "native-base";
+import { HStack, Pressable, Text, useTheme, VStack } from "native-base";
 import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";

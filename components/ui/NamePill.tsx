@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "native-base";
+import { Text } from "native-base";
 
 function NamePill({ text, color }: { text: string; color: string }) {
   return (

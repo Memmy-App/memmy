@@ -10,10 +10,7 @@ import {
   resetInstance,
 } from "../../../lemmy/LemmyInstance";
 import { useAppDispatch, useAppSelector } from "../../../store";
-import {
-  getAllCommunities,
-  getSubscribedCommunities,
-} from "../../../slices/communities/communitiesActions";
+import { getSubscribedCommunities } from "../../../slices/communities/communitiesActions";
 import CIconButton from "../../ui/CIconButton";
 import {
   selectAccounts,
@@ -21,8 +18,8 @@ import {
 } from "../../../slices/accounts/accountsSlice";
 import { loadBookmarks } from "../../../slices/bookmarks/bookmarksActions";
 import { Account } from "../../../types/Account";
-import LoadingView from "../../ui/Loading/LoadingView";
 import { writeToLog } from "../../../helpers/LogHelper";
+import { getUnreadCount } from "../../../slices/site/siteActions";
 
 function FeedsIndexScreen({
   navigation,
@@ -84,7 +81,7 @@ function FeedsIndexScreen({
     previousAccount.current = currentAccount;
 
     dispatch(getSubscribedCommunities());
-    dispatch(getAllCommunities());
+    dispatch(getUnreadCount());
     dispatch(loadBookmarks());
 
     feed.doLoad(true);
