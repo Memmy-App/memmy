@@ -54,13 +54,13 @@ function CommentItem2({
   nestedComment,
   opId,
   recycled,
+  depth = 2,
 }: {
   nestedComment: NestedComment;
   opId: number;
   recycled: React.MutableRefObject<{}>;
+  depth?: number;
 }) {
-  const depth = nestedComment.comment.comment.path.split(".").length;
-
   // Global state
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
   const currentAccount = useAppSelector(selectCurrentAccount);
@@ -477,6 +477,7 @@ function CommentItem2({
               nestedComment={r}
               opId={opId}
               recycled={recycled}
+              depth={depth + 1}
             />
           ))) ||
         (!collapsed &&
@@ -487,6 +488,7 @@ function CommentItem2({
               nestedComment={r}
               opId={opId}
               recycled={recycled}
+              depth={depth + 1}
             />
           )))}
     </>
