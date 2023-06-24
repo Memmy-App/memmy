@@ -87,6 +87,7 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
   }, [sort, listingType]);
 
   useEffect(() => {
+    console.log("rendering");
     if (updateVote) {
       if (!posts) return;
 
@@ -103,9 +104,6 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
 
           return p;
         });
-
-        setRefreshList(!refreshList);
-        dispatch(clearUpdateVote());
       });
     }
   }, [updateVote]);

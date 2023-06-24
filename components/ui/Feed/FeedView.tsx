@@ -178,7 +178,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
       return "thumbnail_link";
     }
     if (linkType.extType === ExtensionType.IMAGE) {
-      return item.post.id.toString();
+      return "image";
     }
     return undefined;
   };
