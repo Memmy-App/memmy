@@ -4,7 +4,6 @@ import { Icon, Pressable, Text, useTheme, View, VStack } from "native-base";
 import { Dimensions, StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { BlurView } from "expo-blur";
-import FastImage from "react-native-fast-image";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
 import { ExtensionType, getLinkInfo } from "../../helpers/LinkHelper";
@@ -14,7 +13,7 @@ import RenderMarkdown from "./markdown/RenderMarkdown";
 import { useAppSelector } from "../../store";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 import ImageModal from "./image/ImageModal";
-import { getRatio } from "../../helpers/ImageHelper";
+import MemoizedFastImage from "./image/MemoizedFastImage";
 
 interface ContentViewProps {
   post: PostView;
@@ -92,26 +91,12 @@ function ContentView({
                       <Text>Sensitive content ahead</Text>
                     </VStack>
                   </BlurView>
-                  <FastImage
-                    resizeMode={FastImage.resizeMode.contain}
-                    source={{
-                      uri: post.post.url,
-                    }}
-                    style={{
-                      height,
-                      width,
-                    }}
-                    onLoad={(e) => {
-                      const { imageHeight, imageWidth } = getRatio(
-                        e.nativeEvent.height,
-                        e.nativeEvent.width
-                      );
-
-                      setHeight(imageHeight);
-                      setWidth(imageWidth);
-                    }}
-                  />
                 </View>
+                <MemoizedFastImage
+                  postId={post.post.id}
+                  source={post.post.url}
+                  recycled={recycled}
+                />
               </Pressable>
             ) : (
               <Pressable
@@ -120,24 +105,10 @@ function ContentView({
                 alignItems="center"
                 justifyContent="center"
               >
-                <FastImage
-                  resizeMode={FastImage.resizeMode.contain}
-                  source={{
-                    uri: post.post.url,
-                  }}
-                  style={{
-                    height,
-                    width,
-                  }}
-                  onLoad={(e) => {
-                    const { imageHeight, imageWidth } = getRatio(
-                      e.nativeEvent.height,
-                      e.nativeEvent.width
-                    );
-
-                    setHeight(imageHeight);
-                    setWidth(imageWidth);
-                  }}
+                <MemoizedFastImage
+                  postId={post.post.id}
+                  source={post.post.url}
+                  recycled={recycled}
                 />
               </Pressable>
             )}
@@ -182,7 +153,7 @@ function ContentView({
           ))}
       </>
     ),
-    [post, height, imageViewOpen]
+    [post.post.id, imageViewOpen]
   );
 }
 
