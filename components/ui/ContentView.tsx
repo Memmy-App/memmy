@@ -1,11 +1,9 @@
 import React, { useMemo, useState } from "react";
 import { PostView } from "lemmy-js-client";
-import { Icon, Pressable, Text, useTheme, View, VStack } from "native-base";
-import { Dimensions, StyleSheet } from "react-native";
+import { Pressable, Text, VStack } from "native-base";
+import { Dimensions } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { BlurView } from "expo-blur";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Ionicons } from "@expo/vector-icons";
 import { ExtensionType, getLinkInfo } from "../../helpers/LinkHelper";
 import { truncatePost } from "../../helpers/TextHelper";
 import LinkButton from "./buttons/LinkButton";
@@ -30,8 +28,6 @@ function ContentView({
   showTitle = false,
   recycled,
 }: ContentViewProps) {
-  const theme = useTheme();
-
   const { blurNsfw } = useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
@@ -52,29 +48,11 @@ function ContentView({
           <VStack mb={3}>
             {post.post.nsfw && blurNsfw ? (
               <Pressable onPress={onImagePress} onLongPress={onImageLongPress}>
-                <View style={styles.blurContainer}>
-                  <BlurView style={styles.blurView} intensity={100} tint="dark">
-                    <VStack
-                      flex={1}
-                      alignItems="center"
-                      justifyContent="center"
-                      space={2}
-                    >
-                      <Icon
-                        as={Ionicons}
-                        name="alert-circle"
-                        color={theme.colors.app.primaryText}
-                        size={16}
-                      />
-                      <Text fontSize="xl">NSFW</Text>
-                      <Text>Sensitive content ahead</Text>
-                    </VStack>
-                  </BlurView>
-                </View>
                 <MemoizedFastImage
                   postId={post.post.id}
                   source={post.post.url}
                   recycled={recycled}
+                  nsfw
                 />
               </Pressable>
             ) : (
@@ -135,20 +113,5 @@ function ContentView({
     [post.post.id, imageViewOpen]
   );
 }
-
-const styles = StyleSheet.create({
-  blurView: {
-    position: "absolute",
-    height: "100%",
-    width: "100%",
-    zIndex: 1,
-  },
-
-  blurContainer: {
-    flex: 1,
-    bottom: 0,
-    overflow: "hidden",
-  },
-});
 
 export default ContentView;
