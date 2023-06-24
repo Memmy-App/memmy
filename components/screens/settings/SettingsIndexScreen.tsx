@@ -96,7 +96,7 @@ function SettingsIndexScreen({
             detail={settings.theme}
             accessory="DisclosureIndicator"
             onPress={() => {
-              const options = ["Brown", "Light", "Dark", "Purple", "Cancel"];
+              const options = ["Brown", "Light", "Dark", "Dracula", "Purple", "Cancel"];
               const cancelButtonIndex = 4;
 
               showActionSheetWithOptions(

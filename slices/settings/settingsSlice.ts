@@ -13,7 +13,7 @@ export interface SettingsState {
   blurNsfw: boolean;
   hideNsfw: boolean;
   compactView: boolean;
-  theme: "Dark" | "Brown" | "Purple" | "Light";
+  theme: "Dark" | "Dracula" | "Brown" | "Purple" | "Light";
 }
 
 const initialState: SettingsState = {
