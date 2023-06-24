@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { SetStateAction, useCallback, useEffect, useState } from "react";
 
 import {
   Center,
@@ -15,9 +15,10 @@ import { RefreshControl } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { IconClockHour5, IconMessageCircle } from "tabler-icons-react-native";
+import { PostView } from "lemmy-js-client";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
-import usePost from "../../hooks/post/postHooks";
+import usePost, { UsePost } from "../../hooks/post/postHooks";
 import CommentItem2 from "../../ui/comments/CommentItem2";
 import AvatarUsername from "../../ui/common/AvatarUsername";
 import CommunityLink from "../../ui/CommunityLink";
@@ -74,7 +75,7 @@ function PostScreen({
 
   const instanceBaseUrl = getBaseUrl(post.currentPost.creator.actor_id);
 
-  const header = () => (
+  const header = (
     <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
       <ContentView post={post.currentPost} showTitle showBody />
 
@@ -147,7 +148,7 @@ function PostScreen({
         />
       );
     }
-    if (post.comments && post.comments.length === 0 && !post.commentsError) {
+    if (post.comments.length === 0 && !post.commentsError) {
       return (
         <Center my={4}>
           <Text fontStyle="italic" color={theme.colors.app.secondaryText}>
@@ -167,7 +168,7 @@ function PostScreen({
       <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
         <FlashList
           ListFooterComponent={footer()}
-          ListHeaderComponent={header()}
+          ListHeaderComponent={header}
           extraData={post.refreshList}
           data={post.comments}
           renderItem={commentItem}
