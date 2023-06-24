@@ -26,6 +26,8 @@ function MemoizedFastImage({ postId, source, recycled }) {
   }
 
   const onLoad = (e) => {
+    if (height !== 0) return;
+
     const { imageHeight, imageWidth } = getRatio(
       e.nativeEvent.height,
       e.nativeEvent.width

@@ -160,16 +160,18 @@ function PostScreen({
     return null;
   };
 
+  const keyExtractor = (item) => item.comment.comment.id.toString();
+
   if (post.currentPost) {
     return (
       <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
         <FlashList
-          ListFooterComponent={footer}
-          ListHeaderComponent={header}
+          ListFooterComponent={footer()}
+          ListHeaderComponent={header()}
           extraData={post.refreshList}
           data={post.comments}
           renderItem={commentItem}
-          keyExtractor={(item) => item.comment.comment.id.toString()}
+          keyExtractor={keyExtractor}
           estimatedItemSize={200}
           refreshControl={refreshControl}
           refreshing={post.commentsLoading}
