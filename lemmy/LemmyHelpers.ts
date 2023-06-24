@@ -26,3 +26,6 @@ export const getCommunityFullName = (community: CommunityView) =>
 
 export const getUserFullName = (profile: Person) =>
   `${profile.name}@${getBaseUrl(profile.actor_id)}`;
+
+export const createUserFullName = (name: string, actor: string) =>
+  `${name}@${getBaseUrl(actor)}`;
