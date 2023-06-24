@@ -19,7 +19,6 @@
     "buildAndSubmitAll": "yarn run buildProd && yarn run buildProdAnd && eas submit -p ios --path build.iap && eas submit -p android build.aab"
   },
   "dependencies": {
-    "@dreamwalk-os/react-native-image-modal": "^2.2.0",
     "@expo/react-native-action-sheet": "^4.0.1",
     "@expo/vector-icons": "^13.0.0",
     "@react-native-async-storage/async-storage": "^1.18.2",
