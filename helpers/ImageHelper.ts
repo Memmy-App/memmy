@@ -68,9 +68,19 @@ export const preloadImages = async (posts: PostView[]): Promise<void> => {
   const images = [];
 
   for (const post of posts) {
-    if (getLinkInfo(post.post.url).extType === ExtensionType.IMAGE) {
+    const info = getLinkInfo(post.post.url);
+
+    if (info.extType === ExtensionType.IMAGE) {
       images.push({
         uri: post.post.url,
+      });
+    } else if (
+      (info.extType === ExtensionType.VIDEO ||
+        info.extType === ExtensionType.GENERIC) &&
+      post.post.thumbnail_url
+    ) {
+      images.push({
+        uri: post.post.thumbnail_url,
       });
     }
   }
