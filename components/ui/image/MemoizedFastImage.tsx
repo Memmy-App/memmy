@@ -9,11 +9,6 @@ function MemoizedFastImage({ postId, source, recycled }) {
   const lastPostId = useRef(postId);
 
   if (postId !== lastPostId.current) {
-    if (recycled.current[postId]) {
-      setHeight(recycled.current[postId].height);
-      setWidth(recycled.current[postId].width);
-    }
-
     recycled.current = {
       ...recycled.current,
       [lastPostId.current]: {
@@ -21,6 +16,11 @@ function MemoizedFastImage({ postId, source, recycled }) {
         width,
       },
     };
+
+    if (recycled.current[postId]) {
+      setHeight(recycled.current[postId].height);
+      setWidth(recycled.current[postId].width);
+    }
 
     lastPostId.current = postId;
   }

@@ -38,27 +38,23 @@ function ContentView({
 
   const body = truncate ? truncatePost(post.post.body, 100) : post.post.body;
   const [imageViewOpen, setImageViewOpen] = useState(false);
-  const [height, setHeight] = useState<string | number>(0);
-  const [width, setWidth] = useState<string | number>(0);
 
-  const lastPostId = useRef(post.post.id);
-
-  if (post.post.id !== lastPostId.current) {
-    if (recycled.current[post.post.id]) {
-      setHeight(recycled.current[post.post.id].height);
-      setWidth(recycled.current[post.post.id].width);
-    }
-
-    recycled.current = {
-      ...recycled.current,
-      [lastPostId.current]: {
-        height,
-        width,
-      },
-    };
-
-    lastPostId.current = post.post.id;
-  }
+  // if (post.post.id !== lastPostId.current) {
+  //   if (recycled.current[post.post.id]) {
+  //     setHeight(recycled.current[post.post.id].height);
+  //     setWidth(recycled.current[post.post.id].width);
+  //   }
+  //
+  //   recycled.current = {
+  //     ...recycled.current,
+  //     [lastPostId.current]: {
+  //       height,
+  //       width,
+  //     },
+  //   };
+  //
+  //   lastPostId.current = post.post.id;
+  // }
 
   const onImagePress = () => {
     setImageViewOpen(true);

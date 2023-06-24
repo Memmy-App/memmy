@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { CommentReplyView, CommentView, PostView } from "lemmy-js-client";
+import { PostView } from "lemmy-js-client";
 
 import { useToast } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../../store";
@@ -44,7 +44,7 @@ const usePost = (commentId: string | null): UsePost => {
   const bookmarks = useAppSelector(selectBookmarks);
 
   // State
-  const [comments, setComments] = useState<NestedComment[] | null>(null);
+  const [comments, setComments] = useState<NestedComment[]>([]);
   const [commentsLoading, setCommentsLoading] = useState<boolean>(true);
   const [commentsError, setCommentsError] = useState<boolean>(false);
   const [refreshList, setRefreshList] = useState(false);
@@ -84,7 +84,7 @@ const usePost = (commentId: string | null): UsePost => {
       } else {
         const newChain = findAndAddComment(comments, lComment);
 
-        setComments(newChain);
+        setComments([...newChain]);
         setRefreshList(!refreshList);
       }
     }
