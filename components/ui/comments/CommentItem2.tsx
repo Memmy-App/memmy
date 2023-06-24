@@ -46,7 +46,10 @@ import { useAppDispatch, useAppSelector } from "../../../store";
 import AvatarUsername from "../common/AvatarUsername";
 import SmallVoteIcons from "../common/SmallVoteIcons";
 import RenderMarkdown from "../markdown/RenderMarkdown";
-import { getUserFullName } from "../../../lemmy/LemmyHelpers";
+import {
+  createUserFullName,
+  getUserFullName,
+} from "../../../lemmy/LemmyHelpers";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import NamePill from "../NamePill";
 import { selectSite, setUnread } from "../../../slices/site/siteSlice";
@@ -79,6 +82,7 @@ function CommentItem2({
   const [collapsed, setCollapsed] = useState(false);
   const [isRead, setIsRead] = useState<boolean>(read);
   const [showAll] = useState(false);
+  const [content, setContent] = useState(nestedComment.comment.comment.content);
 
   // Refs
   const lastCommentId = useRef(nestedComment.comment.comment.id);
@@ -100,6 +104,7 @@ function CommentItem2({
     } else {
       setCollapsed(false);
       setMyVote(nestedComment.comment.my_vote);
+      setContent(nestedComment.comment.comment.content);
     }
 
     recycled.current = {
@@ -127,17 +132,62 @@ function CommentItem2({
   const onCommentLongPress = () => {
     onGenericHapticFeedback();
 
-    const options = ["Copy", "Cancel"];
-    const cancelButtonIndex = 1;
+    let options = ["Copy Text", "Copy Link"];
+
+    if (
+      getUserFullName(nestedComment.comment.creator) ===
+      createUserFullName(currentAccount.username, currentAccount.instance)
+    ) {
+      if (!nestedComment.comment.comment.deleted)
+        options = [...options, "Delete"];
+    }
+
+    options.push("Cancel");
+
+    const cancelButtonIndex = options.length - 1;
 
     showActionSheetWithOptions(
       {
         options,
         cancelButtonIndex,
       },
-      (index: number) => {
+      async (index: number) => {
+        onGenericHapticFeedback();
+
         if (index === cancelButtonIndex) return;
-        Clipboard.setString(nestedComment.comment.comment.content);
+
+        if (index === 0) {
+          Clipboard.setString(nestedComment.comment.comment.content);
+        }
+
+        if (index === 1) {
+          Clipboard.setString(nestedComment.comment.comment.ap_id);
+        }
+
+        if (index === 2) {
+          try {
+            await lemmyInstance.deleteComment({
+              auth: lemmyAuthToken,
+              comment_id: nestedComment.comment.comment.id,
+              deleted: true,
+            });
+
+            toast.show({
+              title: "Comment deleted",
+              duration: 3000,
+            });
+
+            setContent("Comment deleted by user :(");
+          } catch (e) {
+            writeToLog("Failed to delete comment.");
+            writeToLog(e.toString());
+
+            toast.show({
+              title: "Failed to delete comment",
+              duration: 3000,
+            });
+          }
+        }
       }
     );
   };
@@ -514,12 +564,7 @@ function CommentItem2({
                             >
                               Comment removed by moderator :(
                             </Text>
-                          )) || (
-                            <RenderMarkdown
-                              text={nestedComment.comment.comment.content}
-                              addImages
-                            />
-                          )}
+                          )) || <RenderMarkdown text={content} addImages />}
                       </>
                     )}
                   </VStack>

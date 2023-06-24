@@ -1,5 +1,6 @@
 import { CommentView } from "lemmy-js-client";
 import NestedComment from "./NestedComment";
+import { newCommentSlice } from "../../slices/newComment/newCommentSlice";
 
 const findAndAddComment = (
   chain: NestedComment[],
@@ -18,6 +19,43 @@ const findAndAddComment = (
         comment.replies = findAndAddComment(
           comment.replies,
           newComment,
+          depth + 1
+        );
+      }
+
+      break;
+    }
+  }
+
+  return chain;
+};
+
+const findAndReplaceComment = (
+  chain: NestedComment[],
+  newText: string,
+  commentPath: string,
+  depth = 1
+): NestedComment[] => {
+  const pathArr = commentPath.split(".");
+
+  for (let comment of chain) {
+    if (comment.comment.comment.path.includes(pathArr[depth])) {
+      if (comment.comment.comment.id.toString() === pathArr[pathArr.length]) {
+        comment = {
+          ...comment,
+          comment: {
+            ...comment.comment,
+            comment: {
+              ...comment.comment.comment,
+              content: "Comment deleted by user :(",
+            },
+          },
+        };
+      } else {
+        comment.replies = findAndReplaceComment(
+          comment.replies,
+          newText,
+          commentPath,
           depth + 1
         );
       }
@@ -60,4 +98,4 @@ function buildComments(comments: CommentView[]): NestedComment[] {
   return nestedComments;
 }
 
-export { findAndAddComment, buildComments };
+export { findAndAddComment, findAndReplaceComment, buildComments };
