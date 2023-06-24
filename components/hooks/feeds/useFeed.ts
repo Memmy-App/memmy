@@ -16,6 +16,7 @@ import {
 import { clearUpdateVote, selectFeed } from "../../../slices/feed/feedSlice";
 import { selectCommunities } from "../../../slices/communities/communitiesSlice";
 import { writeToLog } from "../../../helpers/LogHelper";
+import { preloadImages } from "../../../helpers/ImageHelper";
 
 export interface UseFeed {
   posts: PostView[] | null;
@@ -169,6 +170,8 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
         }
 
         const newPosts = hideNsfw ? removeNsfwPosts(res.posts) : res.posts;
+
+        preloadImages(newPosts);
 
         if (!posts || refresh) {
           setPosts(newPosts);

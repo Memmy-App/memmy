@@ -6,7 +6,10 @@ import * as Permissions from "expo-permissions";
 import * as MediaLibrary from "expo-media-library";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as ImagePicker from "expo-image-picker";
+import { PostView } from "lemmy-js-client";
+import FastImage from "react-native-fast-image";
 import { writeToLog } from "./LogHelper";
+import { ExtensionType, getLinkInfo } from "./LinkHelper";
 
 const downloadAndSaveImage = async (src: string): Promise<boolean> => {
   const fileName = src.split("/").pop();
@@ -59,6 +62,20 @@ export const selectImage = async (): Promise<string> => {
     return localUri;
   }
   throw Error("permissions");
+};
+
+export const preloadImages = async (posts: PostView[]): Promise<void> => {
+  const images = [];
+
+  for (const post of posts) {
+    if (getLinkInfo(post.post.url).extType === ExtensionType.IMAGE) {
+      images.push({
+        uri: post.post.url,
+      });
+    }
+  }
+
+  FastImage.preload(images);
 };
 
 export default downloadAndSaveImage;
