@@ -6,7 +6,11 @@ import * as Permissions from "expo-permissions";
 import * as MediaLibrary from "expo-media-library";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as ImagePicker from "expo-image-picker";
+import { PostView } from "lemmy-js-client";
+import FastImage from "react-native-fast-image";
+import { Dimensions } from "react-native";
 import { writeToLog } from "./LogHelper";
+import { ExtensionType, getLinkInfo } from "./LinkHelper";
 
 const downloadAndSaveImage = async (src: string): Promise<boolean> => {
   const fileName = src.split("/").pop();
@@ -59,6 +63,51 @@ export const selectImage = async (): Promise<string> => {
     return localUri;
   }
   throw Error("permissions");
+};
+
+export const preloadImages = async (posts: PostView[]): Promise<void> => {
+  const images = [];
+
+  for (const post of posts) {
+    const info = getLinkInfo(post.post.url);
+
+    if (info.extType === ExtensionType.IMAGE) {
+      images.push({
+        uri: post.post.url,
+      });
+    } else if (
+      (info.extType === ExtensionType.VIDEO ||
+        info.extType === ExtensionType.GENERIC) &&
+      post.post.thumbnail_url
+    ) {
+      images.push({
+        uri: post.post.thumbnail_url,
+      });
+    }
+  }
+
+  FastImage.preload(images);
+};
+
+export const getRatio = (
+  realHeight: number,
+  realWidth: number
+): { imageHeight: number; imageWidth: number } => {
+  const screenHeight = Dimensions.get("screen").height * 0.6;
+  const screenWidth = Dimensions.get("screen").width;
+
+  const heightRatio = screenHeight / realHeight;
+  const widthRatio = screenWidth / realWidth;
+
+  const ratio = Math.min(widthRatio, heightRatio);
+
+  const imageHeight = realHeight * ratio;
+  const imageWidth = realWidth * ratio;
+
+  return {
+    imageHeight,
+    imageWidth,
+  };
 };
 
 export default downloadAndSaveImage;

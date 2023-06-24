@@ -21,9 +21,10 @@ import ContentView from "../ContentView";
 
 interface FeedItemProps {
   post: PostView;
+  recycled: React.MutableRefObject<{}>;
 }
 
-function FeedItem({ post }: FeedItemProps) {
+function FeedItem({ post, recycled }: FeedItemProps) {
   const feedItem = useFeedItem(post);
   const theme = useTheme();
 
@@ -77,11 +78,11 @@ function FeedItem({ post }: FeedItemProps) {
             <FastImage source={{ uri: post.community.icon }} />
           )}
         </View>
-        <Text fontSize="md" mx={4}>
+        <Text fontSize="md" mx={4} mb={3}>
           {post.post.name}
         </Text>
 
-        <ContentView post={post} truncate />
+        <ContentView post={post} recycled={recycled} truncate />
 
         {post.post.url && (
           <HStack>
