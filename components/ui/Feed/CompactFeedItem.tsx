@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { PostView } from "lemmy-js-client";
 import {
   Box,
@@ -22,7 +22,7 @@ import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 import useFeedItem from "../../hooks/feeds/useFeedItem";
-import { ExtensionType } from "../../../helpers/LinkHelper";
+import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
 import {
   truncateCompactFeedItem,
   truncateName,
@@ -31,6 +31,7 @@ import VoteButton from "../common/VoteButton";
 import SmallVoteIcons from "../common/SmallVoteIcons";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
+import ImageView from "../image/ImageView";
 
 function CompactFeedItem({ post }: { post: PostView }) {
   const feedItem = useFeedItem(post);
@@ -40,6 +41,15 @@ function CompactFeedItem({ post }: { post: PostView }) {
   const isDownvoted = post.my_vote === -1;
 
   useEffect(() => {}, []);
+
+  const [imageViewOpen, setImageViewOpen] = useState(false);
+  const [imageUri, setImageUri] = useState("");
+
+  const onImagePress = () => {
+    setImageViewOpen(true);
+  };
+
+  const onImageLongPress = () => {};
 
   return useMemo(
     () => (
@@ -64,28 +74,40 @@ function CompactFeedItem({ post }: { post: PostView }) {
             {(feedItem.linkInfo.extType === ExtensionType.IMAGE && (
               <>
                 {post.post.nsfw ? (
-                  <View style={styles.blurContainer}>
-                    <BlurView
-                      style={styles.blurView}
-                      intensity={100}
-                      tint="dark"
-                    >
-                      <VStack
-                        flex={1}
-                        alignItems="center"
-                        justifyContent="center"
-                        space={2}
+                  <Pressable onPress={onImagePress} onLongPress={onImageLongPress}>
+                    <View style={styles.blurContainer}>
+                      <BlurView
+                        style={styles.blurView}
+                        intensity={100}
+                        tint="dark"
                       >
-                        <Icon
-                          as={Ionicons}
-                          name="alert-circle"
-                          color={theme.colors.app.primaryText}
-                          size={12}
-                          alignSelf="center"
-                          style={styles.nsfwIcon}
-                        />
-                      </VStack>
-                    </BlurView>
+                        <VStack
+                          flex={1}
+                          alignItems="center"
+                          justifyContent="center"
+                          space={2}
+                        >
+                          <Icon
+                            as={Ionicons}
+                            name="alert-circle"
+                            color={theme.colors.app.primaryText}
+                            size={12}
+                            alignSelf="center"
+                            style={styles.nsfwIcon}
+                          />
+                        </VStack>
+                      </BlurView>
+                      <FastImage
+                        resizeMode="cover"
+                        style={styles.image}
+                        source={{
+                          uri: post.post.url,
+                        }}
+                      />
+                    </View>
+                  </Pressable>
+                ) : (
+                  <Pressable onPress={onImagePress} onLongPress={onImageLongPress}>
                     <FastImage
                       resizeMode="cover"
                       style={styles.image}
@@ -93,16 +115,13 @@ function CompactFeedItem({ post }: { post: PostView }) {
                         uri: post.post.url,
                       }}
                     />
-                  </View>
-                ) : (
-                  <FastImage
-                    resizeMode="cover"
-                    style={styles.image}
-                    source={{
-                      uri: post.post.url,
-                    }}
-                  />
+                  </Pressable>
                 )}
+                <ImageView
+                  source={post.post.url}
+                  setIsOpen={setImageViewOpen}
+                  isOpen={imageViewOpen}
+                />
               </>
             )) ||
               (feedItem.linkInfo.extType === ExtensionType.NONE && (
@@ -161,7 +180,7 @@ function CompactFeedItem({ post }: { post: PostView }) {
         </HStack>
       </Pressable>
     ),
-    [post]
+    [post, imageViewOpen]
   );
 }
 
