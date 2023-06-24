@@ -88,8 +88,12 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
 
   useEffect(() => {
     if (updateVote) {
-      setPosts((prev) =>
-        prev.map((p) => {
+      if (!posts) return;
+
+      setPosts((prev) => {
+        if (!prev) return null;
+
+        return prev.map((p) => {
           if (p.post.id === updateVote.postId) {
             return {
               ...p,
@@ -98,12 +102,11 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
           }
 
           return p;
-        })
-      );
+        });
 
-      setRefreshList(!refreshList);
-
-      dispatch(clearUpdateVote());
+        setRefreshList(!refreshList);
+        dispatch(clearUpdateVote());
+      });
     }
   }, [updateVote]);
 
