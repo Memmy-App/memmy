@@ -1,10 +1,5 @@
 import React, { useMemo } from "react";
-import {
-  Dimensions,
-  Modal,
-  StyleSheet,
-  useWindowDimensions,
-} from "react-native";
+import { Modal, useWindowDimensions } from "react-native";
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -162,6 +157,15 @@ function ImageModal({
             event.translationY > 200
           ) {
             runOnJS(onRequestClose)();
+
+            scale.value = 1;
+            savedScale.value = 1;
+
+            translateY.value = 0;
+            savedTranslateY.value = 0;
+
+            translateX.value = 0;
+            savedTranslateX.value = 0;
 
             return;
           }
