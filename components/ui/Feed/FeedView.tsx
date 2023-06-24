@@ -247,12 +247,6 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             ListFooterComponent={footer}
             onEndReached={() => feed.doLoad()}
             ref={flashList}
-            // onMomentumScrollEnd={() => {
-            //   if (endReached) {
-            //     feed.doLoad();
-            //     setEndReached(false);
-            //   }
-            // }}
           />
         )}
     </View>
