@@ -167,7 +167,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
       return <CompactFeedItem post={item} />;
     }
 
-    return <FeedItem post={item} />;
+    return <FeedItem post={item} recycled={recycled} />;
   };
 
   const headerRight = () => {

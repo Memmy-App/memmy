@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { PostView } from "lemmy-js-client";
 import { Icon, Pressable, Text, useTheme, View, VStack } from "native-base";
 import { Dimensions, StyleSheet } from "react-native";
@@ -14,12 +14,15 @@ import RenderMarkdown from "./markdown/RenderMarkdown";
 import { useAppSelector } from "../../store";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 import ImageModal from "./image/ImageModal";
+import nestedComment from "../../lemmy/comments/NestedComment";
+import { getRatio } from "../../helpers/ImageHelper";
 
 interface ContentViewProps {
   post: PostView;
   truncate?: boolean;
   showBody?: boolean;
   showTitle?: boolean;
+  recycled: React.MutableRefObject<{}>;
 }
 
 function ContentView({
@@ -27,6 +30,7 @@ function ContentView({
   truncate = false,
   showBody = false,
   showTitle = false,
+  recycled,
 }: ContentViewProps) {
   const theme = useTheme();
 
@@ -36,6 +40,27 @@ function ContentView({
 
   const body = truncate ? truncatePost(post.post.body, 100) : post.post.body;
   const [imageViewOpen, setImageViewOpen] = useState(false);
+  const [height, setHeight] = useState<string | number>(0);
+  const [width, setWidth] = useState<string | number>(0);
+
+  const lastPostId = useRef(post.post.id);
+
+  if (post.post.id !== lastPostId.current) {
+    if (recycled.current[post.post.id]) {
+      setHeight(recycled.current[post.post.id].height);
+      setWidth(recycled.current[post.post.id].width);
+    }
+
+    recycled.current = {
+      ...recycled.current,
+      [lastPostId.current]: {
+        height,
+        width,
+      },
+    };
+
+    lastPostId.current = post.post.id;
+  }
 
   const onImagePress = () => {
     setImageViewOpen(true);
@@ -69,20 +94,50 @@ function ContentView({
                     </VStack>
                   </BlurView>
                   <FastImage
-                    resizeMode="contain"
+                    resizeMode={FastImage.resizeMode.contain}
                     source={{
                       uri: post.post.url,
+                    }}
+                    style={{
+                      height,
+                      width,
+                    }}
+                    onLoad={(e) => {
+                      const { imageHeight, imageWidth } = getRatio(
+                        e.nativeEvent.height,
+                        e.nativeEvent.width
+                      );
+
+                      setHeight(imageHeight);
+                      setWidth(imageWidth);
                     }}
                   />
                 </View>
               </Pressable>
             ) : (
-              <Pressable onPress={onImagePress} onLongPress={onImageLongPress}>
+              <Pressable
+                onPress={onImagePress}
+                onLongPress={onImageLongPress}
+                alignItems="center"
+                justifyContent="center"
+              >
                 <FastImage
-                  resizeMode="contain"
-                  style={styles.image}
+                  resizeMode={FastImage.resizeMode.contain}
                   source={{
                     uri: post.post.url,
+                  }}
+                  style={{
+                    height,
+                    width,
+                  }}
+                  onLoad={(e) => {
+                    const { imageHeight, imageWidth } = getRatio(
+                      e.nativeEvent.height,
+                      e.nativeEvent.width
+                    );
+
+                    setHeight(imageHeight);
+                    setWidth(imageWidth);
                   }}
                 />
               </Pressable>
@@ -131,17 +186,12 @@ function ContentView({
           ))}
       </>
     ),
-    [post, imageViewOpen]
+    [post, imageViewOpen, height]
   );
   return view;
 }
 
 const styles = StyleSheet.create({
-  image: {
-    height: 350,
-    width: Dimensions.get("screen").width,
-  },
-
   blurView: {
     position: "absolute",
     height: "100%",
