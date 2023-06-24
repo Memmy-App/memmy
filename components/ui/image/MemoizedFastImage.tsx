@@ -2,13 +2,21 @@ import React, { useMemo, useRef, useState } from "react";
 import FastImage from "react-native-fast-image";
 import { getRatio } from "../../../helpers/ImageHelper";
 
-function MemoizedFastImage({ postId, source, recycled }) {
+function MemoizedFastImage({
+  postId,
+  source,
+  recycled,
+}: {
+  postId: number;
+  source: string;
+  recycled?: React.MutableRefObject<{}> | undefined;
+}) {
   const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
 
   const lastPostId = useRef(postId);
 
-  if (postId !== lastPostId.current) {
+  if (recycled && postId !== lastPostId.current) {
     recycled.current = {
       ...recycled.current,
       [lastPostId.current]: {

@@ -1,4 +1,4 @@
-import React, { SetStateAction, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   Center,
@@ -15,10 +15,9 @@ import { RefreshControl } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { IconClockHour5, IconMessageCircle } from "tabler-icons-react-native";
-import { PostView } from "lemmy-js-client";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
-import usePost, { UsePost } from "../../hooks/post/postHooks";
+import usePost from "../../hooks/post/postHooks";
 import CommentItem2 from "../../ui/comments/CommentItem2";
 import AvatarUsername from "../../ui/common/AvatarUsername";
 import CommunityLink from "../../ui/CommunityLink";

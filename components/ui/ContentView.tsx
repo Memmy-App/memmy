@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { PostView } from "lemmy-js-client";
 import { Icon, Pressable, Text, useTheme, View, VStack } from "native-base";
 import { Dimensions, StyleSheet } from "react-native";
@@ -20,7 +20,7 @@ interface ContentViewProps {
   truncate?: boolean;
   showBody?: boolean;
   showTitle?: boolean;
-  recycled: React.MutableRefObject<{}>;
+  recycled?: React.MutableRefObject<{}>;
 }
 
 function ContentView({
@@ -38,23 +38,6 @@ function ContentView({
 
   const body = truncate ? truncatePost(post.post.body, 100) : post.post.body;
   const [imageViewOpen, setImageViewOpen] = useState(false);
-
-  // if (post.post.id !== lastPostId.current) {
-  //   if (recycled.current[post.post.id]) {
-  //     setHeight(recycled.current[post.post.id].height);
-  //     setWidth(recycled.current[post.post.id].width);
-  //   }
-  //
-  //   recycled.current = {
-  //     ...recycled.current,
-  //     [lastPostId.current]: {
-  //       height,
-  //       width,
-  //     },
-  //   };
-  //
-  //   lastPostId.current = post.post.id;
-  // }
 
   const onImagePress = () => {
     setImageViewOpen(true);
