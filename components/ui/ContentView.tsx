@@ -14,7 +14,6 @@ import RenderMarkdown from "./markdown/RenderMarkdown";
 import { useAppSelector } from "../../store";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 import ImageModal from "./image/ImageModal";
-import nestedComment from "../../lemmy/comments/NestedComment";
 import { getRatio } from "../../helpers/ImageHelper";
 
 interface ContentViewProps {
