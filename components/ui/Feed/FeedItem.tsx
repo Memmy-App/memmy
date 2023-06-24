@@ -18,6 +18,7 @@ import AvatarUsername from "../common/AvatarUsername";
 import VoteButton from "../common/VoteButton";
 import CommunityLink from "../CommunityLink";
 import ContentView from "../ContentView";
+import nestedComment from "../../../lemmy/comments/NestedComment";
 
 interface FeedItemProps {
   post: PostView;

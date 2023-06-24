@@ -70,7 +70,6 @@ function ContentView({
                   </BlurView>
                   <FastImage
                     resizeMode="contain"
-                    style={styles.image}
                     source={{
                       uri: post.post.url,
                     }}

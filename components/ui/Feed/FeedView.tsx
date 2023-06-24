@@ -42,6 +42,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   const communityId = useRef(0);
   const communityName = useRef("");
   const flashList = useRef<FlashList<any>>();
+  const recycled = useRef({});
 
   // Other Hooks
   const toast = useToast();
@@ -51,6 +52,13 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   const dispatch = useAppDispatch();
 
   useScrollToTop(flashList);
+
+  useEffect(
+    () => () => {
+      recycled.current = null;
+    },
+    []
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -234,17 +242,17 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             renderItem={feedItem}
             keyExtractor={keyExtractor}
             refreshControl={refreshControl}
-            onEndReachedThreshold={0.8}
+            onEndReachedThreshold={0.5}
             estimatedItemSize={compactView ? 100 : 500}
             ListFooterComponent={footer}
-            onEndReached={() => setEndReached(true)}
+            onEndReached={() => feed.doLoad()}
             ref={flashList}
-            onMomentumScrollEnd={() => {
-              if (endReached) {
-                feed.doLoad();
-                setEndReached(false);
-              }
-            }}
+            // onMomentumScrollEnd={() => {
+            //   if (endReached) {
+            //     feed.doLoad();
+            //     setEndReached(false);
+            //   }
+            // }}
           />
         )}
     </View>
