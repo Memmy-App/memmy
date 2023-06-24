@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ListingType, SortType } from "lemmy-js-client";
+import { ListingType, PostView, SortType } from "lemmy-js-client";
 import { useTheme, useToast, View } from "native-base";
 import { Button, RefreshControl, StyleSheet } from "react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
@@ -22,6 +22,7 @@ import LoadingErrorView from "../Loading/LoadingErrorView";
 import CompactFeedItem from "./CompactFeedItem";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import NoPostsView from "./NoPostsView";
+import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -170,6 +171,18 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     return <FeedItem post={item} recycled={recycled} />;
   };
 
+  const getItemType = (item: PostView, index: number): string | undefined => {
+    const linkType = getLinkInfo(item.post.url);
+
+    if (linkType.extType === ExtensionType.GENERIC && item.post.thumbnail_url) {
+      return "thumbnail_link";
+    }
+    if (linkType.extType === ExtensionType.IMAGE) {
+      return item.post.id.toString();
+    }
+    return undefined;
+  };
+
   const headerRight = () => {
     if (dropdownVisible) {
       return (
@@ -247,6 +260,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             ListFooterComponent={footer}
             onEndReached={() => feed.doLoad()}
             ref={flashList}
+            getItemType={getItemType}
           />
         )}
     </View>
