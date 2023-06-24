@@ -8442,11 +8442,6 @@ react-native-keyboard-aware-scroll-view@^0.9.5:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
 
-react-native-reanimated-image-viewer@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-native-reanimated-image-viewer/-/react-native-reanimated-image-viewer-1.0.2.tgz#05b6e6e1a4dc5dff8c3dae25f2f5f634088aa84c"
-  integrity sha512-XLWwmzzHy2gD+IA7AC5wBqs+gmyl/i7dEGkuHOkMjczcJFlQqVe9sHM44ZlrRsTf2+5X9+wxavQb/2H+ezrLiw==
-
 react-native-reanimated@~2.14.4:
   version "2.14.4"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.14.4.tgz#3fa3da4e7b99f5dfb28f86bcf24d9d1024d38836"
