@@ -13,7 +13,7 @@ import LinkButton from "./buttons/LinkButton";
 import RenderMarkdown from "./markdown/RenderMarkdown";
 import { useAppSelector } from "../../store";
 import { selectSettings } from "../../slices/settings/settingsSlice";
-import ImageView from "./image/ImageView";
+import ImageModal from "./image/ImageModal";
 
 interface ContentViewProps {
   post: PostView;
@@ -88,10 +88,17 @@ function ContentView({
                 />
               </Pressable>
             )}
-            <ImageView
+            {/* <ImageView */}
+            {/*  source={post.post.url} */}
+            {/*  setIsOpen={setImageViewOpen} */}
+            {/*  isOpen={imageViewOpen} */}
+            {/* /> */}
+            <ImageModal
               source={post.post.url}
-              setIsOpen={setImageViewOpen}
+              width={Dimensions.get("screen").width}
+              height={Dimensions.get("screen").height}
               isOpen={imageViewOpen}
+              onRequestClose={() => setImageViewOpen(false)}
             />
           </VStack>
         )}

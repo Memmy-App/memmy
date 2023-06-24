@@ -67,6 +67,7 @@
     "react-native-ionicons": "^4.6.5",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-reanimated": "~2.14.4",
+    "react-native-reanimated-image-viewer": "^1.0.2",
     "react-native-render-html": "^6.3.4",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "~3.20.0",
