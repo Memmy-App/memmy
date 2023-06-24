@@ -14,6 +14,7 @@ import { useAppSelector } from "../../../store";
 import LinkButton from "../../ui/buttons/LinkButton";
 import ImageView from "../../ui/image/ImageView";
 import RenderMarkdown from "../../ui/markdown/RenderMarkdown";
+import ImageModal from "../../ui/image/ImageModal";
 
 interface PostBodyProps {
   post: PostView;
@@ -89,10 +90,12 @@ function PostBody({ post }: PostBodyProps) {
                 />
               </Pressable>
             )}
-            <ImageView
+            <ImageModal
               source={post.post.url}
-              setIsOpen={setImageViewOpen}
+              onRequestClose={() => setImageViewOpen(false)}
               isOpen={imageViewOpen}
+              width={Dimensions.get("screen").width}
+              height={Dimensions.get("screen").height}
             />
           </VStack>
         )}

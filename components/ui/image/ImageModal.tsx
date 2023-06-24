@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
-import { Modal, useWindowDimensions } from "react-native";
+import { Share, useWindowDimensions } from "react-native";
+import { Modal, useToast, View } from "native-base";
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -7,12 +8,10 @@ import Animated, {
   withDecay,
   withTiming,
 } from "react-native-reanimated";
-import {
-  Gesture,
-  GestureDetector,
-  GestureHandlerRootView,
-} from "react-native-gesture-handler";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import FastImage from "react-native-fast-image";
+import ImageViewFooter from "./ImageViewFooter";
+import downloadAndSaveImage from "../../../helpers/ImageHelper";
 
 function ImageModal({
   source,
@@ -27,6 +26,21 @@ function ImageModal({
   isOpen: boolean;
   onRequestClose?: () => void;
 }) {
+  const toast = useToast();
+  const onSave = () => {
+    toast.show({
+      title: "Image saved",
+      duration: 3000,
+    });
+
+    downloadAndSaveImage(source);
+  };
+  const onShare = () => {
+    Share.share({
+      url: source,
+    });
+  };
+
   const dimensions = useWindowDimensions();
 
   const scale = useSharedValue(1);
@@ -297,6 +311,7 @@ function ImageModal({
   const composedGestures = Gesture.Simultaneous(pinchGesture, panGesture);
   const allGestures = Gesture.Exclusive(composedGestures, doubleTap);
 
+  // @ts-ignore
   const AnimatedFastImage = Animated.createAnimatedComponent(FastImage);
 
   const image = (
@@ -327,17 +342,12 @@ function ImageModal({
   );
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <Modal
-        hardwareAccelerated
-        transparent
-        visible={isOpen}
-        onRequestClose={onRequestClose}
-        supportedOrientations={["portrait"]}
-      >
-        {image}
-      </Modal>
-    </GestureHandlerRootView>
+    <Modal isOpen={isOpen} onClose={onRequestClose}>
+      {image}
+      <View position="absolute" bottom={0} width="100%">
+        <ImageViewFooter onSave={onSave} onShare={onShare} />
+      </View>
+    </Modal>
   );
 }
 

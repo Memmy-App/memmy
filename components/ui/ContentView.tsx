@@ -67,7 +67,7 @@ function ContentView({
 
   const onImageLongPress = () => {};
 
-  const view = useMemo(
+  return useMemo(
     () => (
       <>
         {linkInfo.extType === ExtensionType.IMAGE && (
@@ -141,17 +141,14 @@ function ContentView({
                 />
               </Pressable>
             )}
-            {/* <ImageView */}
-            {/*  source={post.post.url} */}
-            {/*  setIsOpen={setImageViewOpen} */}
-            {/*  isOpen={imageViewOpen} */}
-            {/* /> */}
             <ImageModal
               source={post.post.url}
               width={Dimensions.get("screen").width}
               height={Dimensions.get("screen").height}
               isOpen={imageViewOpen}
-              onRequestClose={() => setImageViewOpen(false)}
+              onRequestClose={() => {
+                setImageViewOpen(false);
+              }}
             />
           </VStack>
         )}
@@ -185,9 +182,8 @@ function ContentView({
           ))}
       </>
     ),
-    [post, imageViewOpen, height]
+    [post, height, imageViewOpen]
   );
-  return view;
 }
 
 const styles = StyleSheet.create({

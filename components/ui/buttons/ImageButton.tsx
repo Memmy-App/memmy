@@ -75,9 +75,6 @@ function ImageButton({ src }: ImageButtonProps) {
         isOpen={visible}
         width={Dimensions.get("screen").width}
         height={Dimensions.get("screen").height}
-        // renderFooter={() => (
-        //   <ImageViewFooter onShare={onShare} onSave={onSave} />
-        // )}
       />
     </>
   );
