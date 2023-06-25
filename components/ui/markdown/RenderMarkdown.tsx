@@ -33,7 +33,7 @@ const RenderMarkdown = ({
 
   const { fontScale } = useWindowDimensions();
 
-  const FONT_SIZE = 16 / fontScale;
+  const FONT_SIZE = 14 / fontScale;
   const HEADING_1_SIZE = 32 / fontScale;
   const HEADING_2_SIZE = 26 / fontScale;
   const HEADING_3_SIZE = 22 / fontScale;
