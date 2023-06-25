@@ -189,45 +189,86 @@ function ProfileStackScreen() {
         freezeOnBlur: true,
       }}
     >
-      <ProfileStack.Screen
-        name="UserProfile"
-        component={UserProfileScreen}
-        options={{
-          title: "Your Profile",
-        }}
-      />
-      <ProfileStack.Screen name="Bookmarks" component={BookmarksScreen} />
-      <ProfileStack.Screen
-        name="Subscriptions"
-        component={SubscriptionsScreen}
-      />
-      <ProfileStack.Screen
-        name="BlockedCommunities"
-        component={BlockedCommunitiesScreen}
-        options={{ title: "Blocked Communities" }}
-      />
+      <ProfileStack.Group>
+        <ProfileStack.Screen
+          name="UserProfile"
+          component={UserProfileScreen}
+          options={{
+            title: "Your Profile",
+          }}
+        />
+        <ProfileStack.Screen name="Bookmarks" component={BookmarksScreen} />
+        <ProfileStack.Screen
+          name="BlockedCommunities"
+          component={BlockedCommunitiesScreen}
+          options={{ title: "Blocked Communities" }}
+        />
 
-      <ProfileStack.Screen
-        name="Settings"
-        component={SettingsIndexScreen}
-        options={{
-          title: "Settings",
+        <ProfileStack.Screen
+          name="Settings"
+          component={SettingsIndexScreen}
+          options={{
+            title: "Settings",
+          }}
+        />
+        <ProfileStack.Screen
+          name="ViewAccounts"
+          component={ViewAccountsScreen}
+          options={{
+            title: "Manage Accounts",
+          }}
+        />
+        <ProfileStack.Screen
+          name="EditAccount"
+          component={EditAccountScreen}
+          options={{
+            title: "Edit Account",
+          }}
+        />
+
+        <ProfileStack.Screen
+          name="FeedScreen"
+          component={FeedsIndexScreen}
+          options={{
+            title: "Feed",
+          }}
+        />
+        <ProfileStack.Screen name="Post" component={PostScreen} />
+        <ProfileStack.Screen name="Community" component={CommunityFeedScreen} />
+        <ProfileStack.Screen
+          name="Subscriptions"
+          component={SubscriptionsScreen}
+        />
+        <ProfileStack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            title: "Your Profile",
+          }}
+        />
+      </ProfileStack.Group>
+
+      <ProfileStack.Group
+        screenOptions={{
+          presentation: "modal",
         }}
-      />
-      <ProfileStack.Screen
-        name="ViewAccounts"
-        component={ViewAccountsScreen}
-        options={{
-          title: "Manage Accounts",
-        }}
-      />
-      <ProfileStack.Screen
-        name="EditAccount"
-        component={EditAccountScreen}
-        options={{
-          title: "Edit Account",
-        }}
-      />
+      >
+        <ProfileStack.Screen
+          name="NewComment"
+          component={NewCommentScreen}
+          options={{ title: "New Comment" }}
+        />
+        <ProfileStack.Screen
+          name="NewPost"
+          component={NewPostScreen}
+          options={{ title: "New Post" }}
+        />
+        <ProfileStack.Screen
+          name="CommunityAbout"
+          component={CommunityAboutScreen}
+          options={{ title: "About" }}
+        />
+      </ProfileStack.Group>
     </ProfileStack.Navigator>
   );
 }

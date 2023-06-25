@@ -147,8 +147,8 @@ const brownThemeColors: IColors = {
     mod: "#54CB60",
     admin: "#FF4848",
     dev: "#CB66FA",
-    op: "",
-    me: "",
+    op: "#54CB60",
+    me: "#FFB800",
   },
 
   comments: {
@@ -209,8 +209,8 @@ const purpleThemeColors: IColors = {
     mod: "#54CB60",
     admin: "#FF4848",
     dev: "#CB66FA",
-    op: "",
-    me: "",
+    op: "#54CB60",
+    me: "#FFB800",
   },
 
   comments: {
@@ -271,8 +271,8 @@ const darkThemeColors: IColors = {
     mod: "#54CB60",
     admin: "#FF4848",
     dev: "#CB66FA",
-    op: "",
-    me: "",
+    op: "#54CB60",
+    me: "#FFB800",
   },
 
   comments: {
@@ -333,8 +333,8 @@ const lightThemeColors: IColors = {
     mod: "#54CB60",
     admin: "#FF4848",
     dev: "#CB66FA",
-    op: "",
-    me: "",
+    op: "#54CB60",
+    me: "#FFB800",
   },
 
   comments: {

@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
   loaderContainer: {
     width: 90,
     height: 90,
-    backgroundColor: "white",
     borderRadius: 15,
     position: "absolute",
     left: "50%",
