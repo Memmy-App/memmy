@@ -308,6 +308,71 @@ const darkTheme = extendTheme({
   },
 });
 
+const draculaThemeColors: IColors = {
+  accent: "#bd93f9",
+  accentHighlight: "#E7F2FF",
+
+  textPrimary: "#F8F8F2",
+  textSecondary: "#ececec",
+  textTertiary: "#e7e7e7",
+
+  fg: "#282A36",
+  bg: "#21222B",
+  bgSecondary: "#000000",
+  bgTertiary: "#0c0c0c",
+
+  border: "#C8C8CA",
+
+  upvote: "#EE923D",
+  upvoteText: "#FFF",
+  downvote: "#1A84E5",
+  downvoteText: "#FFF",
+
+  success: "#48C10F",
+  successBg: "#D7F8DA",
+  successBorder: "#2B8302",
+  error: "#F8372B",
+  errorBg: "#FFC6C2",
+  errorBorder: "#A62525",
+  warn: "#DEA435",
+  warnBg: "#FFEDD9",
+  warnBorder: "#CB6A11",
+  info: "",
+  infoBg: "#CAE6FF",
+  infoBorder: "#316677",
+
+  users: {
+    mod: "#54CB60",
+    admin: "#FF4848",
+    dev: "#CB66FA",
+    op: "#54CB60",
+    me: "#FFB800",
+  },
+
+  comments: {
+    1: "#FA6969",
+    2: "#FFB800",
+    3: "#FFE500",
+    4: "#36CF3C",
+    5: "#4BA9FF",
+  },
+
+  inputBg: "#3C3C3C",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
+};
+
+const draculaTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: draculaThemeColors,
+  },
+  config: {
+    initialColorMode: "dark",
+  },
+});
+
 const lightThemeColors: IColors = {
   accent: "#1A91FF",
   accentHighlight: "#E7F2FF",
@@ -380,4 +445,4 @@ declare module "native-base" {
   interface ICustomTheme extends ThemeType {}
 }
 
-export { lightTheme, darkTheme, brownTheme, purpleTheme };
+export { lightTheme, darkTheme, brownTheme, purpleTheme, draculaTheme };

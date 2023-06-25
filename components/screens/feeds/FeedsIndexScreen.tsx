@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Alert } from "react-native";
+import { Text, useTheme } from "native-base";
+import { IconStar } from "tabler-icons-react-native";
 import FeedView from "../../ui/Feed/FeedView";
 import FeedHeaderDropdown from "../../ui/Feed/FeedHeaderDropdown";
 import { useFeed } from "../../hooks/feeds/useFeed";
@@ -11,7 +13,7 @@ import {
 } from "../../../lemmy/LemmyInstance";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { getSubscribedCommunities } from "../../../slices/communities/communitiesActions";
-import CIconButton from "../../ui/buttons/CIconButton";
+import HeaderIconButton from "../../ui/buttons/HeaderIconButton";
 import {
   selectAccounts,
   selectCurrentAccount,
@@ -35,6 +37,7 @@ function FeedsIndexScreen({
 
   // Hooks
   const feed = useFeed();
+  const theme = useTheme();
 
   // Other hooks
   const dispatch = useAppDispatch();
@@ -87,9 +90,9 @@ function FeedsIndexScreen({
     />
   );
   const headerLeft = () => (
-    <CIconButton
-      name="star-outline"
+    <HeaderIconButton
       onPress={() => navigation.navigate("Subscriptions")}
+      icon={<IconStar color={theme.colors.app.accent} />}
     />
   );
 

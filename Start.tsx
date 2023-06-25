@@ -13,7 +13,13 @@ import { loadSettings } from "./slices/settings/settingsActions";
 import { loadAccounts } from "./slices/accounts/accountsActions";
 import { selectAccountsLoaded } from "./slices/accounts/accountsSlice";
 import { selectSettings } from "./slices/settings/settingsSlice";
-import { brownTheme, darkTheme, lightTheme, purpleTheme } from "./theme/theme";
+import {
+  brownTheme,
+  darkTheme,
+  draculaTheme,
+  lightTheme,
+  purpleTheme,
+} from "./theme/theme";
 import { getUnreadCount } from "./slices/site/siteActions";
 import { lemmyAuthToken, lemmyInstance } from "./lemmy/LemmyInstance";
 
@@ -88,6 +94,9 @@ function Start() {
         break;
       case "Brown":
         setSelectedTheme(brownTheme);
+        break;
+      case "Dracula":
+        setSelectedTheme(draculaTheme);
         break;
       default:
         setSelectedTheme(brownTheme);
