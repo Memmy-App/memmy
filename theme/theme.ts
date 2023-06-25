@@ -179,11 +179,11 @@ const brownTheme = extendTheme({
 });
 
 const purpleThemeColors: IColors = {
-  accent: "#1A91FF",
+  accent: "#8877F1",
   accentHighlight: "#E7F2FF",
 
-  textPrimary: "#FFF",
-  textSecondary: "#B8B9C1",
+  textPrimary: "#EDE1FF",
+  textSecondary: "#AEB5ED",
   textTertiary: "#a1a2a9",
 
   fg: "#1E1529",
@@ -227,7 +227,7 @@ const purpleThemeColors: IColors = {
     5: "#4BA9FF",
   },
 
-  inputBg: "#151515",
+  inputBg: "#32294D",
 
   bookmark: "#48C10F",
   bookmarkText: "#fff",

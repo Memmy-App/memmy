@@ -389,7 +389,7 @@ function CommentItem2({
                             onPress={onCommentLongPress}
                           />
                         )}
-                        <Text>
+                        <Text color={theme.colors.app.textSecondary}>
                           {timeFromNowShort(
                             nestedComment.comment.comment.published
                           )}
