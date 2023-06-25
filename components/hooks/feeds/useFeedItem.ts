@@ -16,7 +16,7 @@ interface UseFeedItem {
   myVote: ILemmyVote;
   setMyVote: React.Dispatch<SetStateAction<ILemmyVote>>;
 
-  onVotePress: (value: ILemmyVote) => Promise<void>;
+  onVotePress: (value: ILemmyVote, haptic?: boolean) => Promise<void>;
   onPress: () => void;
 
   linkInfo: LinkInfo;
@@ -30,8 +30,8 @@ const useFeedItem = (post: PostView): UseFeedItem => {
 
   const linkInfo = useMemo(() => getLinkInfo(post.post.url), [post]);
 
-  const onVotePress = async (value: ILemmyVote) => {
-    onVoteHapticFeedback();
+  const onVotePress = async (value: ILemmyVote, haptic = true) => {
+    if (haptic) onVoteHapticFeedback();
 
     if (value === post.my_vote && value !== 0) value = 0;
 

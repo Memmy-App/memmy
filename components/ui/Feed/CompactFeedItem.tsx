@@ -52,8 +52,8 @@ function CompactFeedItem({ post }: { post: PostView }) {
 
   useEffect(() => {}, []);
 
-  const onLeftRightOne = () => feedItem.onVotePress(1);
-  const onLeftRightTwo = () => feedItem.onVotePress(-1);
+  const onLeftRightOne = () => feedItem.onVotePress(1, false);
+  const onLeftRightTwo = () => feedItem.onVotePress(-1, false);
   const onRightLeftOne = () => {
     dispatch(
       setResponseTo({

@@ -222,12 +222,12 @@ function FeedItem({ post, recycled }: FeedItemProps) {
               onPressHandler={() => {}}
             /> */}
                     <VoteButton
-                      onPressHandler={() => feedItem.onVotePress(1)}
+                      onPressHandler={() => feedItem.onVotePress(1, false)}
                       type="upvote"
                       isVoted={isUpvoted}
                     />
                     <VoteButton
-                      onPressHandler={() => feedItem.onVotePress(-1)}
+                      onPressHandler={() => feedItem.onVotePress(-1, false)}
                       type="downvote"
                       isVoted={isDownvoted}
                     />
