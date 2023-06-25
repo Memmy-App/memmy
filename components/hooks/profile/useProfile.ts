@@ -1,9 +1,12 @@
 import React, { SetStateAction, useEffect, useMemo, useState } from "react";
 import { CommentView, PersonView, PostView } from "lemmy-js-client";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
-import { useAppSelector } from "../../../store";
+import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
+import { setPost } from "../../../slices/post/postSlice";
 
 interface UseProfile {
   loading: boolean;
@@ -17,6 +20,10 @@ interface UseProfile {
   selectedTab?: "comments" | "posts";
   setSelectedTab?: React.Dispatch<SetStateAction<"comments" | "posts">>;
   itemsLoading: boolean;
+  onCommentPress: (
+    postId: number,
+    commentId: number | undefined
+  ) => Promise<void>;
 }
 
 const useProfile = (fullUsername?: string): UseProfile => {
@@ -37,6 +44,9 @@ const useProfile = (fullUsername?: string): UseProfile => {
   const [selectedTab, setSelectedTab] = useState<"posts" | "comments">(
     "comments"
   );
+
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   useEffect(() => {
     doLoad().then();
@@ -106,6 +116,33 @@ const useProfile = (fullUsername?: string): UseProfile => {
     }
   };
 
+  const onCommentPress = async (
+    postId: number,
+    commentId: number | undefined = undefined
+  ) => {
+    setLoading(true);
+
+    try {
+      const res = await lemmyInstance.getPost({
+        auth: lemmyAuthToken,
+        id: postId,
+      });
+
+      dispatch(setPost(res.post_view));
+      setLoading(false);
+
+      navigation.push("Post", {
+        commentId: commentId.toString(),
+      });
+    } catch (e) {
+      writeToLog("Failed to get post for comment push.");
+      writeToLog(e.toString());
+
+      setLoading(false);
+      setError(true);
+    }
+  };
+
   return {
     loading,
     error,
@@ -120,6 +157,8 @@ const useProfile = (fullUsername?: string): UseProfile => {
     doLoad,
     doLoadItems,
     itemsLoading,
+
+    onCommentPress,
   };
 };
 

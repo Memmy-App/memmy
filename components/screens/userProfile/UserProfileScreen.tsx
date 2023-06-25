@@ -77,6 +77,21 @@ function UserProfileScreen({
             myVote: (item as CommentView).my_vote as ILemmyVote,
           }}
           opId={0}
+          onPressOverride={() => {
+            const comment = item as CommentView;
+            const commentPathArr = comment.comment.path.split(".");
+
+            if (commentPathArr.length === 2) {
+              profile.onCommentPress(item.post.id, comment.comment.id).then();
+            } else {
+              profile
+                .onCommentPress(
+                  item.post.id,
+                  Number(commentPathArr[commentPathArr.length - 2])
+                )
+                .then();
+            }
+          }}
         />
       );
     }
