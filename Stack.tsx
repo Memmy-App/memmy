@@ -53,7 +53,7 @@ function FeedStackScreen() {
           name="FeedScreen"
           component={FeedsIndexScreen}
           options={{
-            title: "Feed2",
+            title: "Feed",
           }}
         />
         <FeedStack.Screen name="Post" component={PostScreen} />
@@ -426,6 +426,9 @@ function Stack() {
       ...DarkTheme.colors,
       primary: theme.colors.app.accent,
       background: theme.colors.app.bgTertiary,
+      card: theme.colors.app.bgTertiary,
+      text: theme.colors.app.textSecondary,
+      border: theme.colors.app.border,
     },
   };
 

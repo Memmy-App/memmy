@@ -121,10 +121,10 @@ const brownThemeColors: IColors = {
   textSecondary: "#B8B9C1",
   textTertiary: "#a1a2a9",
 
-  fg: "#101010",
-  bg: "#101010",
-  bgSecondary: "#1B1B1B",
-  bgTertiary: "#101010",
+  fg: "#1c1917",
+  bg: "#292524",
+  bgSecondary: "#1c1917",
+  bgTertiary: "#1c1917",
 
   border: "#C8C8CA",
 
