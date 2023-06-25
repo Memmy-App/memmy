@@ -63,7 +63,7 @@ function NewPostScreen({
                       flex: 1,
                       color: theme.colors.app.textPrimary,
                     }}
-                    placeholderTextColor={theme.colors.app.iconColor}
+                    placeholderTextColor={theme.colors.app.textSecondary}
                     placeholder="Title"
                     value={newPost.form.name}
                     onChangeText={(text) => newPost.onFormChange("name", text)}
@@ -86,7 +86,7 @@ function NewPostScreen({
                       flex: 1,
                       color: theme.colors.app.textPrimary,
                     }}
-                    placeholderTextColor={theme.colors.app.iconColor}
+                    placeholderTextColor={theme.colors.app.textSecondary}
                     placeholder="Link"
                     value={newPost.form.url}
                     onChangeText={(text) => newPost.onFormChange("url", text)}
@@ -110,7 +110,7 @@ function NewPostScreen({
           <TextInput
             multiline
             placeholder="Type away!"
-            placeholderTextColor={theme.colors.app.iconColor}
+            placeholderTextColor={theme.colors.app.textSecondary}
             autoCapitalize="sentences"
             style={[
               styles.input,

@@ -10,7 +10,7 @@ function CCell(props: CellInterface) {
     <Cell
       backgroundColor={theme.colors.app.bgTertiary}
       titleTextColor={theme.colors.app.textPrimary}
-      rightDetailColor={theme.colors.app.iconColor}
+      rightDetailColor={theme.colors.app.textSecondary}
       {...props}
     />
   );

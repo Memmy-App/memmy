@@ -34,7 +34,7 @@ function AvatarUsername({
           style={{ height: 20, width: 20, borderRadius: 100 }}
         />
       ) : (
-        <IconUser color={colors.app.iconColor} />
+        <IconUser color={colors.app.textSecondary} />
       )}
       <VStack>
         <UserLink username={username} fullUsername={fullUsername} />

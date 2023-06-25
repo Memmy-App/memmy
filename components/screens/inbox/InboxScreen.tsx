@@ -70,7 +70,7 @@ function InboxScreen({
   }
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
+    <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
       <LoadingModal loading={inbox.loading} />
       <HStack px={4} py={4} space={2}>
         <ButtonTwo

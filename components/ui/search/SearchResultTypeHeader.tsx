@@ -7,7 +7,7 @@ function SearchResultTypeHeader({ type }: { type: string }) {
   return (
     <HStack alignItems="center">
       <Text fontSize="lg">{type}</Text>
-      <IconChevronRight size={32} color={theme.colors.app.iconColor} />
+      <IconChevronRight size={32} color={theme.colors.app.textSecondary} />
     </HStack>
   );
 }

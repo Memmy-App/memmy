@@ -164,7 +164,7 @@ function EditAccountScreen({
                     ? theme.colors.app.textPrimary
                     : theme.colors.app.textSecondary,
                 }}
-                placeholderTextColor={theme.colors.app.iconColor}
+                placeholderTextColor={theme.colors.app.textSecondary}
                 placeholder="Server Address"
                 value={form.server}
                 onChangeText={(text) => onFormChange("server", text)}
@@ -175,7 +175,7 @@ function EditAccountScreen({
             }
             backgroundColor={theme.colors.app.bgTertiary}
             titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.iconColor}
+            rightDetailColor={theme.colors.app.textSecondary}
           />
         </Section>
 
@@ -195,7 +195,7 @@ function EditAccountScreen({
                     ? theme.colors.app.textPrimary
                     : theme.colors.app.textSecondary,
                 }}
-                placeholderTextColor={theme.colors.app.iconColor}
+                placeholderTextColor={theme.colors.app.textSecondary}
                 placeholder="Username"
                 value={form.username}
                 onChangeText={(text) => onFormChange("username", text)}
@@ -206,7 +206,7 @@ function EditAccountScreen({
             }
             backgroundColor={theme.colors.app.bgTertiary}
             titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.iconColor}
+            rightDetailColor={theme.colors.app.textSecondary}
           />
           <Cell
             cellContentView={
@@ -216,7 +216,7 @@ function EditAccountScreen({
                   flex: 1,
                   color: theme.colors.app.textPrimary,
                 }}
-                placeholderTextColor={theme.colors.app.iconColor}
+                placeholderTextColor={theme.colors.app.textSecondary}
                 placeholder="Password"
                 value={form.password}
                 onChangeText={(text) => onFormChange("password", text)}
@@ -227,7 +227,7 @@ function EditAccountScreen({
             }
             backgroundColor={theme.colors.app.bgTertiary}
             titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.iconColor}
+            rightDetailColor={theme.colors.app.textSecondary}
           />
           {showTotpToken && (
             <Cell
@@ -238,7 +238,7 @@ function EditAccountScreen({
                     flex: 1,
                     color: theme.colors.app.textPrimary,
                   }}
-                  placeholderTextColor={theme.colors.app.iconColor}
+                  placeholderTextColor={theme.colors.app.textSecondary}
                   placeholder="2FA Token"
                   value={form.totpToken}
                   onChangeText={(text) => onFormChange("totpToken", text)}
@@ -250,7 +250,7 @@ function EditAccountScreen({
               }
               backgroundColor={theme.colors.app.bgTertiary}
               titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.iconColor}
+              rightDetailColor={theme.colors.app.textSecondary}
             />
           )}
         </Section>

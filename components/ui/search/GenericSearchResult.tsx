@@ -25,7 +25,7 @@ function GenericSearchResult({
           {image ? (
             <FastImage source={{ uri: image }} style={styles.image} />
           ) : (
-            <IconUser size={31} color={theme.colors.app.iconColor} />
+            <IconUser size={31} color={theme.colors.app.textSecondary} />
           )}
         </Box>
         <VStack>

@@ -109,20 +109,20 @@ const RenderMarkdown = ({
     table: {
       color: fontColor,
       fontSize: FONT_SIZE,
-      borderColor: theme.colors.app.tableBorder,
+      borderColor: theme.colors.app.border,
       marginVertical: 10,
     },
     th: {
-      borderColor: theme.colors.app.tableBorder,
+      borderColor: theme.colors.app.border,
       padding: 8,
       fontWeight: "bold",
     },
     td: {
-      borderColor: theme.colors.app.tableBorder,
+      borderColor: theme.colors.app.border,
       padding: 8,
     },
     tr: {
-      borderColor: theme.colors.app.tableBorder,
+      borderColor: theme.colors.app.border,
     },
     list_item: {
       color: fontColor,

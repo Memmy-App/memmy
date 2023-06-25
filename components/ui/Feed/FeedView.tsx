@@ -206,7 +206,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     <RefreshControl
       refreshing={feed.postsLoading}
       onRefresh={() => feed.doLoad(true)}
-      tintColor={theme.colors.app.refreshWheel}
+      tintColor={theme.colors.app.textSecondary}
     />
   );
 
@@ -232,10 +232,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   const HeaderComponent = header;
 
   return (
-    <View
-      style={styles.container}
-      backgroundColor={theme.colors.app.bg}
-    >
+    <View style={styles.container} backgroundColor={theme.colors.app.bg}>
       <FeedHeaderDropdownDrawer />
 
       {(feed.postsLoading && !feed.posts && <LoadingView />) ||

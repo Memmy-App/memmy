@@ -39,7 +39,7 @@ function SettingsIndexScreen({
             detail={accounts[0].instance}
             backgroundColor={theme.colors.app.bgTertiary}
             titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.iconColor}
+            rightDetailColor={theme.colors.app.textSecondary}
           />
           <Cell
             cellStyle="RightDetail"
@@ -47,7 +47,7 @@ function SettingsIndexScreen({
             detail={accounts[0].username}
             backgroundColor={theme.colors.app.bgTertiary}
             titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.iconColor}
+            rightDetailColor={theme.colors.app.textSecondary}
           />
 
           <Cell
@@ -57,7 +57,7 @@ function SettingsIndexScreen({
             onPress={() => navigation.push("ViewAccounts")}
             backgroundColor={theme.colors.app.bgTertiary}
             titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.iconColor}
+            rightDetailColor={theme.colors.app.textSecondary}
           />
         </Section>
 

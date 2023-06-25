@@ -42,7 +42,7 @@ function FeedStackScreen() {
     <FeedStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: theme.colors.app.nativeHeader,
+          backgroundColor: theme.colors.app.bgTertiary,
         },
         headerTitleStyle: {
           color: theme.colors.app.textPrimary,
@@ -107,10 +107,10 @@ function InboxStackScreen() {
     <InboxStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: theme.colors.app.nativeHeader,
+          backgroundColor: theme.colors.app.bgTertiary,
         },
         headerTitleStyle: {
-          color: theme.colors.app.nativeHeaderTitle,
+          color: theme.colors.app.textPrimary,
         },
         freezeOnBlur: true,
       }}
@@ -178,7 +178,7 @@ function ProfileStackScreen() {
     <ProfileStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: theme.colors.app.nativeHeader,
+          backgroundColor: theme.colors.app.bgTertiary,
         },
         headerTitleStyle: {
           color: theme.colors.app.textPrimary,
@@ -216,10 +216,10 @@ function SearchStackScreen() {
     <SearchStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: theme.colors.app.nativeHeader,
+          backgroundColor: theme.colors.app.bgTertiary,
         },
         headerTitleStyle: {
-          color: theme.colors.app.nativeHeaderTitle,
+          color: theme.colors.app.textPrimary,
         },
         freezeOnBlur: true,
       }}
@@ -288,7 +288,7 @@ function SettingsStackScreen() {
     <SettingsStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: theme.colors.app.nativeHeader,
+          backgroundColor: theme.colors.app.bgTertiary,
         },
         headerTitleStyle: {
           color: theme.colors.app.textPrimary,
@@ -330,7 +330,7 @@ function Tabs() {
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: theme.colors.app.nativeHeader,
+          backgroundColor: theme.colors.app.bgTertiary,
         },
         tabBarLabel: "Feed",
         freezeOnBlur: true,
@@ -408,7 +408,7 @@ function Stack() {
       <MainStack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: theme.colors.app.nativeHeader,
+            backgroundColor: theme.colors.app.bgTertiary,
           },
         }}
       >

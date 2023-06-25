@@ -87,7 +87,7 @@ function BookmarksScreen({
                   style={styles.avatar}
                 />
               ) : (
-                <IconUser color={theme.colors.app.iconColor} size={64} />
+                <IconUser color={theme.colors.app.textSecondary} size={64} />
               )}
               <VStack>
                 <Text fontWeight="semibold" fontSize="2xl">
@@ -114,11 +114,14 @@ function BookmarksScreen({
           <VStack py={3.5} px={5}>
             <HStack space={3}>
               <HStack alignItems="center" space={1}>
-                <IconNotes size={26} color={theme.colors.app.iconColor2} />
+                <IconNotes size={26} color={theme.colors.app.textSecondary} />
                 <Text fontSize="md">{profile.profile.counts.post_count}</Text>
               </HStack>
               <HStack alignItems="center" space={1}>
-                <IconMessage2 size={26} color={theme.colors.app.iconColor2} />
+                <IconMessage2
+                  size={26}
+                  color={theme.colors.app.textSecondary}
+                />
                 <Text fontSize="md">
                   {profile.profile.counts.comment_count}
                 </Text>
@@ -128,14 +131,14 @@ function BookmarksScreen({
               <HStack alignItems="center" space={1}>
                 <IconCalendarStar
                   size={26}
-                  color={theme.colors.app.iconColor2}
+                  color={theme.colors.app.textSecondary}
                 />
                 <Text fontSize="md">
                   {moment(profile.profile.person.published).utc(true).fromNow()}
                 </Text>
               </HStack>
               <HStack alignItems="center" space={1}>
-                <IconCake size={26} color={theme.colors.app.iconColor2} />
+                <IconCake size={26} color={theme.colors.app.textSecondary} />
                 <Text fontSize="md">
                   {getCakeDay(profile.profile.person.published)}
                 </Text>

@@ -51,6 +51,8 @@ interface IColors {
 
   users: IUserColors;
   comments: ICommentChainColors;
+
+  inputBg: string;
 }
 
 const commonSettings = {
@@ -324,6 +326,8 @@ const lightThemeColors: IColors = {
     4: "#36CF3C",
     5: "#4BA9FF",
   },
+
+  inputBg: "#FAFAFA",
 };
 
 const lightTheme = extendTheme({
