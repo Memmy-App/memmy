@@ -298,7 +298,7 @@ function CommentItem2({
                   pr={2}
                   pb={1}
                   space={2}
-                  backgroundColor={theme.colors.app.bgSecondary}
+                  backgroundColor={theme.colors.app.fg}
                   style={{
                     paddingLeft: depth * 8,
                   }}
@@ -326,7 +326,7 @@ function CommentItem2({
                         fullUsername={getUserFullName(
                           nestedComment.comment.creator
                         )}
-                        instanceName={nestedComment.comment.creator.actor_id}
+                        creatorActorId={nestedComment.comment.creator.actor_id}
                         showInstance={showInstanceForUsernames}
                       >
                         <>
@@ -389,7 +389,7 @@ function CommentItem2({
                             onPress={onCommentLongPress}
                           />
                         )}
-                        <Text>
+                        <Text color={theme.colors.app.textSecondary}>
                           {timeFromNowShort(
                             nestedComment.comment.comment.published
                           )}

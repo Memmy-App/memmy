@@ -1,16 +1,19 @@
 import React, { useEffect, useMemo } from "react";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { FlashList } from "@shopify/flash-list";
+import { CommentView, PostView } from "lemmy-js-client";
+import moment from "moment";
 import {
   Box,
   HStack,
   Spinner,
   Text,
-  useTheme,
-  View,
   VStack,
+  View,
+  useTheme,
 } from "native-base";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import FastImage from "react-native-fast-image";
 import { RefreshControl, StyleSheet } from "react-native";
+import FastImage from "react-native-fast-image";
 import {
   IconCake,
   IconCalendarStar,
@@ -20,21 +23,19 @@ import {
   IconSettings,
   IconUser,
 } from "tabler-icons-react-native";
-import moment from "moment";
-import { FlashList } from "@shopify/flash-list";
-import { CommentView, PostView } from "lemmy-js-client";
-import useProfile from "../../hooks/profile/useProfile";
-import LoadingView from "../../ui/Loading/LoadingView";
-import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
+import CTablerButton from "../../ui/buttons/CTablerButton";
+import LoadingModalTransparent from "../../ui/Loading/LoadingModalTransparent";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { getCakeDay } from "../../../helpers/TimeHelper";
-import NotFoundView from "../../ui/Loading/NotFoundView";
-import CTablerButton from "../../ui/buttons/CTablerButton";
-import ProfileTabs from "./ProfileTabs";
-import CommentItem2 from "../../ui/comments/CommentItem2";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
+import useProfile from "../../hooks/profile/useProfile";
 import CompactFeedItem from "../../ui/Feed/CompactFeedItem";
-import LoadingModalTransparent from "../../ui/Loading/LoadingModalTransparent";
+import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
+import LoadingView from "../../ui/Loading/LoadingView";
+import NotFoundView from "../../ui/Loading/NotFoundView";
+import HeaderIconButton from "../../ui/buttons/HeaderIconButton";
+import CommentItem2 from "../../ui/comments/CommentItem2";
+import ProfileTabs from "./ProfileTabs";
 
 function UserProfileScreen({
   route,
@@ -48,8 +49,9 @@ function UserProfileScreen({
 
   useEffect(() => {
     navigation.setOptions({
+      // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
-        <CTablerButton
+        <HeaderIconButton
           icon={<IconSettings size={24} color={theme.colors.app.accent} />}
           onPress={() => navigation.push("Settings")}
         />
@@ -105,7 +107,7 @@ function UserProfileScreen({
   const header = useMemo(() => {
     if (!profile.profile) return null;
     return (
-      <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
+      <VStack flex={1} backgroundColor={theme.colors.app.bg}>
         <View style={styles.bannerContainer}>
           <HStack
             alignItems="flex-end"
@@ -157,7 +159,7 @@ function UserProfileScreen({
                 size={26}
                 color={theme.colors.app.textSecondary}
               />
-              <Text fontSize="md">{profile.profile.counts.post_score}</Text>
+              <Text fontSize="md">{profile.profile.counts.post_score}</Text
             </HStack>
             <HStack alignItems="center" space={1}>
               <IconMessage2 size={26} color={theme.colors.app.textSecondary} />
@@ -218,11 +220,7 @@ function UserProfileScreen({
   }
 
   return (
-    <VStack
-      flex={1}
-      backgroundColor={theme.colors.app.bgSecondary}
-      display="flex"
-    >
+    <VStack flex={1} backgroundColor={theme.colors.app.bg} display="flex">
       <FlashList
         renderItem={renderItem}
         ListHeaderComponent={header}

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { PostView } from "lemmy-js-client";
-import { Pressable, Text, VStack } from "native-base";
+import { Pressable, Text, VStack, useTheme } from "native-base";
 import { Dimensions } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -28,6 +28,7 @@ function ContentView({
   showTitle = false,
   recycled,
 }: ContentViewProps) {
+  const theme = useTheme();
   const { blurNsfw } = useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
@@ -82,7 +83,13 @@ function ContentView({
         )}
 
         {showTitle && (
-          <Text fontSize="lg" mt={3} mx={4} mb={1}>
+          <Text
+            fontSize="lg"
+            mt={3}
+            mx={4}
+            mb={1}
+            color={theme.colors.app.textPrimary}
+          >
             {post.post.name}
           </Text>
         )}

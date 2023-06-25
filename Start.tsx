@@ -13,9 +13,17 @@ import { loadSettings } from "./slices/settings/settingsActions";
 import { loadAccounts } from "./slices/accounts/accountsActions";
 import { selectAccountsLoaded } from "./slices/accounts/accountsSlice";
 import { selectSettings } from "./slices/settings/settingsSlice";
-import { brownTheme, darkTheme, lightTheme, purpleTheme } from "./theme/theme";
+import {
+  brownTheme,
+  darkTheme,
+  draculaTheme,
+  draculaThemePurple,
+  lightTheme,
+  purpleTheme,
+} from "./theme/theme";
 import { getUnreadCount } from "./slices/site/siteActions";
 import { lemmyAuthToken, lemmyInstance } from "./lemmy/LemmyInstance";
+import { ThemeOptionsMap } from "./theme/themeOptions";
 
 const logError = (e, info) => {
   writeToLog(e.toString());
@@ -76,23 +84,7 @@ function Start() {
   };
 
   useEffect(() => {
-    switch (theme) {
-      case "Light":
-        setSelectedTheme(lightTheme);
-        break;
-      case "Dark":
-        setSelectedTheme(darkTheme);
-        break;
-      case "Purple":
-        setSelectedTheme(purpleTheme);
-        break;
-      case "Brown":
-        setSelectedTheme(brownTheme);
-        break;
-      default:
-        setSelectedTheme(brownTheme);
-        break;
-    }
+    setSelectedTheme(ThemeOptionsMap[theme] || ThemeOptionsMap.Brown);
   }, [theme]);
 
   if (!loaded) {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "native-base";
+import { Text, useTheme } from "native-base";
 import Link from "./Link";
 
 function UserLink({
@@ -9,6 +9,7 @@ function UserLink({
   username: string;
   fullUsername: string;
 }) {
+  const theme = useTheme();
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <Link
@@ -17,7 +18,9 @@ function UserLink({
         fullUsername,
       }}
     >
-      <Text fontWeight="medium">{username}</Text>
+      <Text fontWeight="normal" color={theme.colors.app.textSecondary}>
+        {username}
+      </Text>
     </Link>
   );
 }

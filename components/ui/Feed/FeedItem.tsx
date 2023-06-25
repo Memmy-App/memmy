@@ -108,7 +108,7 @@ function FeedItem({ post, recycled }: FeedItemProps) {
           hitSlop={{ left: -25 }}
         >
           <Animated.View style={[swipeAnimation.animatedStyle]}>
-            <VStack backgroundColor={theme.colors.app.bgSecondary}>
+            <VStack backgroundColor={theme.colors.app.fg}>
               <HStack
                 mx={4}
                 mt={2}

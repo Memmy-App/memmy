@@ -9,7 +9,7 @@ interface AvatarUsernameProps {
   avatar: string;
   username: string;
   fullUsername: string;
-  instanceName?: string;
+  creatorActorId?: string;
   showInstance?: boolean;
   children?: JSX.Element;
 }
@@ -18,7 +18,7 @@ function AvatarUsername({
   avatar,
   username,
   fullUsername,
-  instanceName,
+  creatorActorId,
   showInstance,
   children,
 }: AvatarUsernameProps) {
@@ -31,14 +31,16 @@ function AvatarUsername({
           source={{
             uri: avatar,
           }}
-          style={{ height: 20, width: 20, borderRadius: 100 }}
+          style={{ height: 18, width: 18, borderRadius: 100 }}
         />
       ) : (
         <IconUser color={colors.app.textSecondary} />
       )}
       <VStack>
         <UserLink username={username} fullUsername={fullUsername} />
-        {showInstance && <Text fontSize="xs">{getBaseUrl(instanceName)}</Text>}
+        {showInstance && (
+          <Text fontSize="xs">{getBaseUrl(creatorActorId)}</Text>
+        )}
       </VStack>
       {children}
     </HStack>

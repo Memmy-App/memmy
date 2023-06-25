@@ -53,6 +53,9 @@ interface IColors {
   comments: ICommentChainColors;
 
   inputBg: string;
+
+  bookmark: string;
+  bookmarkText: string;
 }
 
 const commonSettings = {
@@ -117,11 +120,10 @@ const brownThemeColors: IColors = {
   textPrimary: "#FFF",
   textSecondary: "#B8B9C1",
   textTertiary: "#a1a2a9",
-
-  fg: "#101010",
-  bg: "#101010",
-  bgSecondary: "#1B1B1B",
-  bgTertiary: "#101010",
+  fg: "#1c1917",
+  bg: "#292524",
+  bgSecondary: "#1c1917",
+  bgTertiary: "#1c1917",
 
   border: "#C8C8CA",
 
@@ -160,6 +162,9 @@ const brownThemeColors: IColors = {
   },
 
   inputBg: "#3C3C3C",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
 };
 
 const brownTheme = extendTheme({
@@ -173,14 +178,14 @@ const brownTheme = extendTheme({
 });
 
 const purpleThemeColors: IColors = {
-  accent: "#1A91FF",
+  accent: "#8877F1",
   accentHighlight: "#E7F2FF",
 
-  textPrimary: "#FFF",
-  textSecondary: "#B8B9C1",
+  textPrimary: "#EDE1FF",
+  textSecondary: "#AEB5ED",
   textTertiary: "#a1a2a9",
 
-  fg: "#48C10F",
+  fg: "#1E1529",
   bg: "#120E1D",
   bgSecondary: "#1E1529",
   bgTertiary: "#120E1D",
@@ -221,7 +226,10 @@ const purpleThemeColors: IColors = {
     5: "#4BA9FF",
   },
 
-  inputBg: "#151515",
+  inputBg: "#32294D",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
 };
 
 const purpleTheme = extendTheme({
@@ -241,8 +249,7 @@ const darkThemeColors: IColors = {
   textPrimary: "#FFF",
   textSecondary: "#ececec",
   textTertiary: "#e7e7e7",
-
-  fg: "#48C10F",
+  fg: "#1B1B1B",
   bg: "#070707",
   bgSecondary: "#000000",
   bgTertiary: "#0c0c0c",
@@ -283,7 +290,10 @@ const darkThemeColors: IColors = {
     5: "#4BA9FF",
   },
 
-  inputBg: "#171717",
+  inputBg: "#3C3C3C",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
 };
 
 const darkTheme = extendTheme({
@@ -296,13 +306,91 @@ const darkTheme = extendTheme({
   },
 });
 
+const draculaThemeColors: IColors = {
+  accent: "#ff79c6",
+  accentHighlight: "#bd93f9",
+
+  textPrimary: "#F8F8F2",
+  textSecondary: "#ececec",
+  textTertiary: "#e7e7e7",
+
+  fg: "#232635",
+  bg: "#1B1D29",
+  bgSecondary: "#282a36",
+  bgTertiary: "#10141C",
+
+  border: "#44475a",
+
+  upvote: "#FF9580",
+  upvoteText: "#FFF",
+  downvote: "#9580FF",
+  downvoteText: "#FFF",
+
+  success: "#48C10F",
+  successBg: "#D7F8DA",
+  successBorder: "#2B8302",
+  error: "#F8372B",
+  errorBg: "#FFC6C2",
+  errorBorder: "#A62525",
+  warn: "#DEA435",
+  warnBg: "#FFEDD9",
+  warnBorder: "#CB6A11",
+  info: "",
+  infoBg: "#CAE6FF",
+  infoBorder: "#316677",
+
+  users: {
+    mod: "#50fa7b",
+    admin: "#ff5555",
+    dev: "#bd93f9",
+    op: "#8be9fd",
+    me: "#ffb86c",
+  },
+
+  comments: {
+    1: "#ff79c6",
+    2: "#ffb86c",
+    3: "#f1fa8c",
+    4: "#50fa7b",
+    5: "#8be9fd",
+  },
+
+  inputBg: "#252837",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
+};
+
+const draculaTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: draculaThemeColors,
+  },
+  config: {
+    initialColorMode: "dark",
+  },
+});
+
+const draculaThemePurple = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: {
+      ...draculaThemeColors,
+      accent: "#bd93f9",
+    },
+  },
+  config: {
+    initialColorMode: "dark",
+  },
+});
+
 const lightThemeColors: IColors = {
   accent: "#1A91FF",
   accentHighlight: "#E7F2FF",
 
   textPrimary: "#303030",
-  textSecondary: "#979BA2",
-  textTertiary: "#DEDEDE",
+  textSecondary: "#5C5C5C",
+  textTertiary: "#979BA2",
 
   fg: "#FFFFFF",
   bg: "#F4F4F4",
@@ -346,6 +434,9 @@ const lightThemeColors: IColors = {
   },
 
   inputBg: "#FAFAFA",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
 };
 
 const lightTheme = extendTheme({
@@ -365,4 +456,11 @@ declare module "native-base" {
   interface ICustomTheme extends ThemeType {}
 }
 
-export { lightTheme, darkTheme, brownTheme, purpleTheme };
+export {
+  lightTheme,
+  darkTheme,
+  brownTheme,
+  purpleTheme,
+  draculaTheme,
+  draculaThemePurple,
+};

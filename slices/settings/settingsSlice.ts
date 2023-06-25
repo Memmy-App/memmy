@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ListingType, SortType } from "lemmy-js-client";
 import { RootState } from "../../store";
 import { loadSettings, setSetting } from "./settingsActions";
+import { ThemeOptions } from "../../theme/themeOptions";
 
 export interface SettingsState {
   swipeGestures: boolean;
@@ -13,7 +14,7 @@ export interface SettingsState {
   blurNsfw: boolean;
   hideNsfw: boolean;
   compactView: boolean;
-  theme: "Dark" | "Brown" | "Purple" | "Light";
+  theme: ThemeOptions;
 }
 
 const initialState: SettingsState = {

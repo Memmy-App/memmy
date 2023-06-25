@@ -16,32 +16,24 @@ function SmallVoteIcons({
 }) {
   const theme = useTheme();
 
+  const upvoteColor =
+    myVote === 1 ? theme.colors.app.upvote : theme.colors.app.textSecondary;
+
+  const downvoteColor =
+    myVote === -1 ? theme.colors.app.downvote : theme.colors.app.textSecondary;
+
   return useMemo(
     () => (
       <HStack space={1}>
         <HStack alignItems="center">
-          <IconArrowUp
-            color={
-              myVote === 1
-                ? theme.colors.app.upvote
-                : theme.colors.app.textSecondary
-            }
-            size={18}
-          />
-          <Text>
+          <IconArrowUp color={upvoteColor} size={18} />
+          <Text color={upvoteColor}>
             {myVote === 1 && initialVote !== 1 ? upvotes + 1 : upvotes}
           </Text>
         </HStack>
         <HStack alignItems="center">
-          <IconArrowDown
-            color={
-              myVote === -1
-                ? theme.colors.app.downvote
-                : theme.colors.app.textSecondary
-            }
-            size={18}
-          />
-          <Text>
+          <IconArrowDown color={downvoteColor} size={18} />
+          <Text color={downvoteColor}>
             {myVote === -1 && initialVote !== -1 ? downvotes + 1 : downvotes}
           </Text>
         </HStack>

@@ -12,6 +12,7 @@ import { selectAccounts } from "../../../slices/accounts/accountsSlice";
 import CCell from "../../ui/table/CCell";
 import CSection from "../../ui/table/CSection";
 import { deleteLog, sendLog } from "../../../helpers/LogHelper";
+import { ThemeOptionsArr } from "../../../theme/themeOptions";
 
 function SettingsIndexScreen({
   navigation,
@@ -30,14 +31,14 @@ function SettingsIndexScreen({
   };
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.bgSecondary} flex={1}>
+    <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
         <Section header="ACCOUNT" roundedCorners hideSurroundingSeparators>
           <Cell
             cellStyle="RightDetail"
             title="Server"
             detail={accounts[0].instance}
-            backgroundColor={theme.colors.app.bgTertiary}
+            backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
@@ -45,7 +46,7 @@ function SettingsIndexScreen({
             cellStyle="RightDetail"
             title="Username"
             detail={accounts[0].username}
-            backgroundColor={theme.colors.app.bgTertiary}
+            backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
@@ -55,7 +56,7 @@ function SettingsIndexScreen({
             title="Change Account Settings"
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("ViewAccounts")}
-            backgroundColor={theme.colors.app.bgTertiary}
+            backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
@@ -70,6 +71,9 @@ function SettingsIndexScreen({
           <CCell
             cellStyle="RightDetail"
             title="Blur NSFW"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.blurNsfw}
@@ -80,6 +84,9 @@ function SettingsIndexScreen({
           <CCell
             cellStyle="RightDetail"
             title="Hide NSFW"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.hideNsfw}
@@ -94,10 +101,13 @@ function SettingsIndexScreen({
             cellStyle="RightDetail"
             title="Theme"
             detail={settings.theme}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => {
-              const options = ["Brown", "Light", "Dark", "Purple", "Cancel"];
-              const cancelButtonIndex = 4;
+              const options = [...ThemeOptionsArr, "Cancel"];
+              const cancelButtonIndex = options.length - 1;
 
               showActionSheetWithOptions(
                 {
@@ -119,6 +129,9 @@ function SettingsIndexScreen({
           />
           <CCell
             title="Swipe Gestures"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.swipeGestures}
@@ -129,6 +142,9 @@ function SettingsIndexScreen({
           <CCell
             cellStyle="RightDetail"
             title="Show Instance For Usernames"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.showInstanceForUsernames}
@@ -140,6 +156,9 @@ function SettingsIndexScreen({
             cellStyle="RightDetail"
             title="Default Sort"
             detail={settings.defaultSort}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => {
               const options = [
@@ -181,6 +200,9 @@ function SettingsIndexScreen({
             cellStyle="RightDetail"
             title="Default Listing Type"
             detail={settings.defaultListingType}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => {
               const options = ["All", "Local", "Subscribed", "Cancel"];
@@ -202,6 +224,9 @@ function SettingsIndexScreen({
           <CCell
             cellStyle="RightDetail"
             title="Compact View"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.compactView}
@@ -223,6 +248,9 @@ function SettingsIndexScreen({
           <CCell
             cellStyle="Basic"
             title="Email Debug Log"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => {
               sendLog()
@@ -240,6 +268,9 @@ function SettingsIndexScreen({
           <CCell
             cellStyle="Basic"
             title="Clear Debug Log"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => {
               try {
