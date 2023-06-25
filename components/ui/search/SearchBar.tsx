@@ -15,7 +15,7 @@ function SearchBar({
   const theme = useTheme();
 
   return (
-    <VStack backgroundColor={theme.colors.app.bgSecondary} pt={3} pb={2} px={4}>
+    <VStack backgroundColor={theme.colors.app.bg} pt={3} pb={2} px={4}>
       <HStack
         backgroundColor={theme.colors.app.inputBg}
         borderRadius={12}

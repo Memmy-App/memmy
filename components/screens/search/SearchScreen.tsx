@@ -36,7 +36,7 @@ function SearchScreen({
   };
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
+    <VStack flex={1} backgroundColor={theme.colors.app.bg}>
       <SearchBar
         searchValue={search.query}
         onSearchChange={search.setQuery}

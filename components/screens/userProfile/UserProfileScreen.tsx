@@ -105,7 +105,7 @@ function UserProfileScreen({
   const header = useMemo(() => {
     if (!profile.profile) return null;
     return (
-      <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
+      <VStack flex={1} backgroundColor={theme.colors.app.bg}>
         <View style={styles.bannerContainer}>
           <HStack
             alignItems="flex-end"
@@ -218,11 +218,7 @@ function UserProfileScreen({
   }
 
   return (
-    <VStack
-      flex={1}
-      backgroundColor={theme.colors.app.bgSecondary}
-      display="flex"
-    >
+    <VStack flex={1} backgroundColor={theme.colors.app.bg} display="flex">
       <FlashList
         renderItem={renderItem}
         ListHeaderComponent={header}

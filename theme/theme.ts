@@ -309,23 +309,23 @@ const darkTheme = extendTheme({
 });
 
 const draculaThemeColors: IColors = {
-  accent: "#bd93f9",
-  accentHighlight: "#E7F2FF",
+  accent: "#ff79c6",
+  accentHighlight: "#bd93f9",
 
   textPrimary: "#F8F8F2",
   textSecondary: "#ececec",
   textTertiary: "#e7e7e7",
 
-  fg: "#282A36",
-  bg: "#21222B",
-  bgSecondary: "#000000",
-  bgTertiary: "#0c0c0c",
+  fg: "#232635",
+  bg: "#1B1D29",
+  bgSecondary: "#282a36",
+  bgTertiary: "#10141C",
 
-  border: "#C8C8CA",
+  border: "#44475a",
 
-  upvote: "#EE923D",
+  upvote: "#bd93f9",
   upvoteText: "#FFF",
-  downvote: "#1A84E5",
+  downvote: "#8be9fd",
   downvoteText: "#FFF",
 
   success: "#48C10F",
@@ -342,22 +342,22 @@ const draculaThemeColors: IColors = {
   infoBorder: "#316677",
 
   users: {
-    mod: "#54CB60",
-    admin: "#FF4848",
-    dev: "#CB66FA",
-    op: "#54CB60",
-    me: "#FFB800",
+    mod: "#50fa7b",
+    admin: "#ff5555",
+    dev: "#bd93f9",
+    op: "#8be9fd",
+    me: "#ffb86c",
   },
 
   comments: {
-    1: "#FA6969",
-    2: "#FFB800",
-    3: "#FFE500",
-    4: "#36CF3C",
-    5: "#4BA9FF",
+    1: "#ff5555",
+    2: "#ffb86c",
+    3: "#f1fa8c",
+    4: "#50fa7b",
+    5: "#8be9fd",
   },
 
-  inputBg: "#3C3C3C",
+  inputBg: "#252837",
 
   bookmark: "#48C10F",
   bookmarkText: "#fff",

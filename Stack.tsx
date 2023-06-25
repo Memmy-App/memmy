@@ -42,17 +42,9 @@ import { useAppSelector } from "./store";
 const FeedStack = createNativeStackNavigator();
 
 function FeedStackScreen() {
-  const theme = useTheme();
-
   return (
     <FeedStack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: theme.colors.app.bgTertiary,
-        },
-        headerTitleStyle: {
-          color: theme.colors.app.textPrimary,
-        },
         freezeOnBlur: true,
       }}
     >
@@ -61,7 +53,7 @@ function FeedStackScreen() {
           name="FeedScreen"
           component={FeedsIndexScreen}
           options={{
-            title: "Feed",
+            title: "Feed2",
           }}
         />
         <FeedStack.Screen name="Post" component={PostScreen} />
@@ -107,17 +99,9 @@ function FeedStackScreen() {
 const InboxStack = createNativeStackNavigator();
 
 function InboxStackScreen() {
-  const theme = useTheme();
-
   return (
     <InboxStack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: theme.colors.app.bgTertiary,
-        },
-        headerTitleStyle: {
-          color: theme.colors.app.textPrimary,
-        },
         freezeOnBlur: true,
       }}
     >
@@ -179,16 +163,9 @@ function InboxStackScreen() {
 const ProfileStack = createNativeStackNavigator();
 
 function ProfileStackScreen() {
-  const theme = useTheme();
   return (
     <ProfileStack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: theme.colors.app.bgTertiary,
-        },
-        headerTitleStyle: {
-          color: theme.colors.app.textPrimary,
-        },
         freezeOnBlur: true,
       }}
     >
@@ -279,17 +256,9 @@ function ProfileStackScreen() {
 const SearchStack = createNativeStackNavigator();
 
 function SearchStackScreen() {
-  const theme = useTheme();
-
   return (
     <SearchStack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: theme.colors.app.bgTertiary,
-        },
-        headerTitleStyle: {
-          color: theme.colors.app.textPrimary,
-        },
         freezeOnBlur: true,
       }}
     >
@@ -351,19 +320,8 @@ function SearchStackScreen() {
 const CommunityStack = createNativeStackNavigator();
 
 function CommunityStackScreen() {
-  const theme = useTheme();
-
   return (
-    <CommunityStack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: theme.colors.app.bgTertiary,
-        },
-        headerTitleStyle: {
-          color: theme.colors.app.textPrimary,
-        },
-      }}
-    >
+    <CommunityStack.Navigator>
       <CommunityStack.Screen
         name="Settings"
         component={SettingsIndexScreen}
@@ -392,18 +350,11 @@ function CommunityStackScreen() {
 const Tab = createBottomTabNavigator();
 
 function Tabs() {
-  const theme = useTheme();
   const { unread } = useAppSelector(selectSite);
 
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarStyle: {
-          backgroundColor: theme.colors.app.bgTertiary,
-        },
-        tabBarIcon: ({ focused }) =>
-          focused ? theme.colors.app.accent : theme.colors.app.textSecondary,
-        tabBarActiveTintColor: theme.colors.app.accent,
         tabBarLabel: "Feed",
         freezeOnBlur: true,
       }}
@@ -473,19 +424,14 @@ function Stack() {
     ...DarkTheme,
     colors: {
       ...DarkTheme.colors,
-      primary: "rgb(255, 45, 85)",
+      primary: theme.colors.app.accent,
+      background: theme.colors.app.bgTertiary,
     },
   };
 
   return (
-    <NavigationContainer theme={DarkTheme}>
-      <MainStack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: theme.colors.app.bgTertiary,
-          },
-        }}
-      >
+    <NavigationContainer theme={MyTheme}>
+      <MainStack.Navigator>
         {(!accountsLoaded && (
           <MainStack.Screen
             name="AppLoading"
