@@ -69,7 +69,7 @@ function PostScreen({
     return <LoadingView />;
   }
 
-  const instanceBaseUrl = getBaseUrl(post.currentPost.creator.actor_id);
+  const instanceBaseUrl = getBaseUrl(post.currentPost.community.actor_id);
 
   const header = (
     <VStack flex={1} backgroundColor={theme.colors.app.fg}>
@@ -79,6 +79,8 @@ function PostScreen({
         <AvatarUsername
           username={post.currentPost?.creator.name}
           fullUsername={getUserFullName(post.currentPost?.creator)}
+          showInstance
+          instanceName={post.currentPost.creator.actor_id}
           avatar={post.currentPost?.creator.avatar}
         />
       </HStack>
