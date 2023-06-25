@@ -1,11 +1,9 @@
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
   Divider,
   HStack,
-  Icon,
   IconButton,
   Pressable,
   Text,
@@ -14,27 +12,25 @@ import {
   View,
   VStack,
 } from "native-base";
-import React, { useRef, useState } from "react";
-import { Dimensions, StyleSheet } from "react-native";
+import React, { useMemo, useRef, useState } from "react";
+import { StyleSheet } from "react-native";
 import {
   GestureHandlerRootView,
   PanGestureHandler,
 } from "react-native-gesture-handler";
-import Animated, {
-  runOnJS,
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
-import { IconDots, IconMail, IconMailOpened } from "tabler-icons-react-native";
+import Animated from "react-native-reanimated";
+import {
+  IconArrowDown,
+  IconArrowUp,
+  IconDots,
+  IconMail,
+  IconMailOpened,
+  IconMessage,
+} from "tabler-icons-react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Clipboard from "@react-native-community/clipboard";
 import { CommentReplyView } from "lemmy-js-client";
-import {
-  onCommentSlideHapticFeedback,
-  onGenericHapticFeedback,
-} from "../../../helpers/HapticFeedbackHelpers";
+import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
@@ -54,6 +50,7 @@ import { getBaseUrl } from "../../../helpers/LinkHelper";
 import NamePill from "../NamePill";
 import { selectSite, setUnread } from "../../../slices/site/siteSlice";
 import NestedComment from "../../../lemmy/comments/NestedComment";
+import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
 
 function CommentItem2({
   nestedComment,
@@ -243,363 +240,230 @@ function CommentItem2({
     }
   };
 
-  const { width } = Dimensions.get("screen");
-
-  const [color, setColor] = useState("#1abd3e");
-  const [iconName, setIconName] = useState("");
-
-  const translateX = useSharedValue(0);
-  const ranFeedbackUpvote = useSharedValue(false);
-  const ranFeedbackDownvote = useSharedValue(false);
-  const ranFeedbackComment = useSharedValue(false);
-  const startPos = useSharedValue(0);
-  const action = useSharedValue<
-    null | "upvote" | "downvote" | "comment" | "back"
-  >(null);
-
-  const gestureHandler = useAnimatedGestureHandler({
-    onStart: (event, ctx) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      // eslint-disable-next-line no-param-reassign
-      ctx.startX = translateX.value;
-      startPos.value = event.absoluteX;
+  const swipeAnimation = useSwipeAnimation({
+    onLeftRightOne: () => onVote(1),
+    onLeftRightTwo: () => onVote(-1),
+    onRightLeftOne: () => {
+      dispatch(
+        setResponseTo({
+          comment: nestedComment.comment,
+        })
+      );
+      navigation.push("NewComment");
     },
-    onActive: (event, ctx) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      translateX.value = ctx.startX + event.translationX;
-
-      if (event.translationX > 0) {
-        if (event.translationX < width * 0.3) {
-          runOnJS(setStyles)("upvote");
-        } else {
-          runOnJS(setStyles)("downvote");
-        }
-      } else {
-        runOnJS(setStyles)("comment");
-      }
-
-      if (event.translationX >= width * 0.15 && !ranFeedbackUpvote.value) {
-        runOnJS(onCommentSlideHapticFeedback)();
-        ranFeedbackUpvote.value = true;
-      } else if (
-        event.translationX >= width * 0.3 &&
-        !ranFeedbackDownvote.value
-      ) {
-        runOnJS(onCommentSlideHapticFeedback)();
-        ranFeedbackDownvote.value = true;
-      } else if (
-        event.translationX >= width * 0.15 &&
-        event.translationX < width * 0.3 &&
-        ranFeedbackUpvote.value &&
-        ranFeedbackDownvote.value
-      ) {
-        runOnJS(onCommentSlideHapticFeedback)();
-        ranFeedbackDownvote.value = false;
-      } else if (
-        event.translationX <= -(width * 0.15) &&
-        ranFeedbackComment.value
-      ) {
-        runOnJS(onCommentSlideHapticFeedback)();
-        ranFeedbackComment.value = true;
-      }
-    },
-    onEnd: (event) => {
-      ranFeedbackUpvote.value = false;
-      ranFeedbackDownvote.value = false;
-      ranFeedbackComment.value = false;
-
-      runOnJS(setStyles)("upvote");
-
-      if (startPos.value < 10) {
-        runOnJS(onDone)("back");
-        action.value = "back";
-      } else if (
-        event.translationX >= width * 0.15 &&
-        event.translationX < width * 0.3
-      ) {
-        runOnJS(onDone)("upvote");
-      } else if (event.translationX >= width * 0.3) {
-        runOnJS(onDone)("downvote");
-      } else if (event.translationX <= -(width * 0.15)) {
-        runOnJS(onDone)("comment");
-      }
-
-      translateX.value = withSpring(0, {
-        damping: 30,
-      });
-    },
+    onRightLeftTwo: () => {},
+    leftRightOneIcon: () => <IconArrowUp size={32} color="#fff" />,
+    leftRightTwoIcon: () => <IconArrowDown size={32} color="#fff" />,
+    rightLeftOneIcon: () => <IconMessage size={32} color="#fff" />,
+    rightLeftTwoIcon: () => <IconMessage size={20} />,
   });
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateX.value }],
-  }));
-
-  function setStyles(actionType: "upvote" | "downvote" | "comment") {
-    switch (actionType) {
-      case "upvote": {
-        setColor("#1abd3e");
-        setIconName("arrow-up-outline");
-        break;
-      }
-      case "downvote": {
-        setColor("#e36919");
-        setIconName("arrow-down-outline");
-        break;
-      }
-      case "comment": {
-        setColor("#007AFF");
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-  }
-
-  function onDone(
-    actionType: null | "upvote" | "downvote" | "comment" | "back"
-  ) {
-    switch (actionType) {
-      case "upvote": {
-        onVote(1).then();
-        break;
-      }
-      case "downvote": {
-        onVote(-1);
-        break;
-      }
-      case "comment": {
-        dispatch(
-          setResponseTo({
-            comment: nestedComment.comment,
-          })
-        );
-        navigation.push("NewComment");
-        break;
-      }
-      case "back": {
-        navigation.pop();
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-  }
-
-  return (
-    <>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <View>
-          <View style={styles.backgroundContainer}>
-            <View
-              style={styles.backgroundLeft}
-              justifyContent="center"
-              backgroundColor={color}
-            >
-              <Icon
-                as={Ionicons}
-                name={iconName}
-                size={8}
-                color={theme.colors.app.primaryText}
-                ml={3}
-                alignSelf="flex-start"
-              />
-            </View>
-            <View style={styles.backgroundLeft} backgroundColor={color} />
-            <View
-              style={styles.backgroundRight}
-              justifyContent="center"
-              backgroundColor="#007AFF"
-            >
-              <Icon
-                as={Ionicons}
-                name="arrow-undo"
-                size={8}
-                color={theme.colors.app.primaryText}
-                mr={3}
-                alignSelf="flex-end"
-              />
-            </View>
-          </View>
-          <PanGestureHandler
-            onGestureEvent={gestureHandler}
-            minPointers={1}
-            activeOffsetX={[-20, 20]}
-            hitSlop={{ left: -25 }}
-          >
-            <Animated.View style={[animatedStyle]}>
-              <Pressable
-                onPress={onCommentPress}
-                onLongPress={onCommentLongPress}
+  return useMemo(
+    () => (
+      <>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <View>
+            <View style={styles.backgroundContainer}>
+              <View
+                style={styles.backgroundLeft}
+                justifyContent="center"
+                backgroundColor={swipeAnimation.color}
+                pl={4}
               >
-                <VStack
-                  flex={1}
-                  pr={2}
-                  pb={1}
-                  space={2}
-                  backgroundColor={theme.colors.app.backgroundSecondary}
-                  style={{
-                    paddingLeft: depth * 8,
-                  }}
+                {swipeAnimation.leftIcon}
+              </View>
+              <View
+                style={styles.backgroundLeft}
+                backgroundColor={swipeAnimation.color}
+              />
+              <View
+                style={styles.backgroundRight}
+                justifyContent="center"
+                backgroundColor="#007AFF"
+                alignItems="flex-end"
+                pr={4}
+              >
+                {swipeAnimation.rightIcon}
+              </View>
+            </View>
+            <PanGestureHandler
+              onGestureEvent={swipeAnimation.gestureHandler}
+              minPointers={1}
+              activeOffsetX={[-20, 20]}
+              hitSlop={{ left: -25 }}
+            >
+              <Animated.View style={[swipeAnimation.animatedStyle]}>
+                <Pressable
+                  onPress={onCommentPress}
+                  onLongPress={onCommentLongPress}
                 >
                   <VStack
-                    borderLeftWidth={depth > 2 ? 2 : 0}
-                    borderLeftColor={
-                      theme.colors.app.commentChain[depth - 2] ??
-                      theme.colors.app.commentChain[5]
-                    }
-                    borderLeftRadius={1}
-                    pl={depth > 2 ? 2 : 0}
-                    mt={0}
+                    flex={1}
+                    pr={2}
+                    pb={1}
+                    space={2}
+                    backgroundColor={theme.colors.app.backgroundSecondary}
+                    style={{
+                      paddingLeft: depth * 8,
+                    }}
                   >
-                    <HStack
-                      space={2}
-                      justifyContent="space-between"
-                      alignItems="center"
-                      mb={-3}
+                    <VStack
+                      borderLeftWidth={depth > 2 ? 2 : 0}
+                      borderLeftColor={
+                        theme.colors.app.commentChain[depth - 2] ??
+                        theme.colors.app.commentChain[5]
+                      }
+                      borderLeftRadius={1}
+                      pl={depth > 2 ? 2 : 0}
+                      mt={0}
                     >
-                      <AvatarUsername
-                        avatar={nestedComment.comment.creator.avatar}
-                        username={nestedComment.comment.creator.name}
-                        fullUsername={getUserFullName(
-                          nestedComment.comment.creator
-                        )}
-                        instanceName={nestedComment.comment.creator.actor_id}
-                        showInstance={showInstanceForUsernames}
+                      <HStack
+                        space={2}
+                        justifyContent="space-between"
+                        alignItems="center"
+                        mb={-3}
                       >
-                        <>
-                          {(currentAccount &&
-                            currentAccount.username &&
-                            currentAccount.instance &&
-                            nestedComment.comment.creator.name ===
-                              currentAccount?.username &&
-                            getBaseUrl(
-                              nestedComment.comment.creator.actor_id
-                            ) === currentAccount?.instance && (
-                              <NamePill
-                                text="me"
-                                color={theme.colors.app.selfColor}
-                              />
-                            )) ||
-                            (nestedComment.comment.creator.id === opId && (
-                              <NamePill
-                                text="OP"
-                                color={theme.colors.app.opColor}
-                              />
-                            ))}
-                          <SmallVoteIcons
-                            upvotes={nestedComment.comment.counts.upvotes}
-                            downvotes={nestedComment.comment.counts.downvotes}
-                            myVote={myVote as ILemmyVote}
-                            initialVote={nestedComment.comment.my_vote}
-                          />
-                        </>
-                      </AvatarUsername>
-                      <HStack alignItems="center" space={2}>
-                        {isReply && (
-                          <>
-                            {!isRead ? (
-                              <IconButton
-                                icon={
-                                  <IconMail
-                                    size={24}
-                                    color={theme.colors.app.iconColor}
-                                  />
-                                }
-                                onPress={onReadPress}
-                              />
-                            ) : (
-                              <IconMailOpened
-                                size={24}
-                                color={theme.colors.app.iconColor}
-                              />
-                            )}
-                          </>
-                        )}
-                        {!isReply && (
-                          <IconButton
-                            icon={
-                              <IconDots
-                                size={24}
-                                color={theme.colors.app.iconColor}
-                              />
-                            }
-                            onPress={onCommentLongPress}
-                          />
-                        )}
-                        <Text>
-                          {timeFromNowShort(
-                            nestedComment.comment.comment.published
+                        <AvatarUsername
+                          avatar={nestedComment.comment.creator.avatar}
+                          username={nestedComment.comment.creator.name}
+                          fullUsername={getUserFullName(
+                            nestedComment.comment.creator
                           )}
-                        </Text>
-                      </HStack>
-                    </HStack>
-                    {collapsed ? (
-                      <Text
-                        py={3}
-                        color={theme.colors.app.secondaryText}
-                        fontStyle="italic"
-                      >
-                        Comment collapsed
-                      </Text>
-                    ) : (
-                      <>
-                        {(nestedComment.comment.comment.deleted && (
-                          <Text
-                            py={3}
-                            color={theme.colors.app.secondaryText}
-                            fontStyle="italic"
-                          >
-                            Comment deleted by user :(
+                          instanceName={nestedComment.comment.creator.actor_id}
+                          showInstance={showInstanceForUsernames}
+                        >
+                          <>
+                            {(currentAccount &&
+                              currentAccount.username &&
+                              currentAccount.instance &&
+                              nestedComment.comment.creator.name ===
+                                currentAccount?.username &&
+                              getBaseUrl(
+                                nestedComment.comment.creator.actor_id
+                              ) === currentAccount?.instance && (
+                                <NamePill
+                                  text="me"
+                                  color={theme.colors.app.selfColor}
+                                />
+                              )) ||
+                              (nestedComment.comment.creator.id === opId && (
+                                <NamePill
+                                  text="OP"
+                                  color={theme.colors.app.opColor}
+                                />
+                              ))}
+                            <SmallVoteIcons
+                              upvotes={nestedComment.comment.counts.upvotes}
+                              downvotes={nestedComment.comment.counts.downvotes}
+                              myVote={myVote as ILemmyVote}
+                              initialVote={nestedComment.comment.my_vote}
+                            />
+                          </>
+                        </AvatarUsername>
+                        <HStack alignItems="center" space={2}>
+                          {isReply && (
+                            <>
+                              {!isRead ? (
+                                <IconButton
+                                  icon={
+                                    <IconMail
+                                      size={24}
+                                      color={theme.colors.app.iconColor}
+                                    />
+                                  }
+                                  onPress={onReadPress}
+                                />
+                              ) : (
+                                <IconMailOpened
+                                  size={24}
+                                  color={theme.colors.app.iconColor}
+                                />
+                              )}
+                            </>
+                          )}
+                          {!isReply && (
+                            <IconButton
+                              icon={
+                                <IconDots
+                                  size={24}
+                                  color={theme.colors.app.iconColor}
+                                />
+                              }
+                              onPress={onCommentLongPress}
+                            />
+                          )}
+                          <Text>
+                            {timeFromNowShort(
+                              nestedComment.comment.comment.published
+                            )}
                           </Text>
-                        )) ||
-                          (nestedComment.comment.comment.removed && (
+                        </HStack>
+                      </HStack>
+                      {collapsed ? (
+                        <Text
+                          py={3}
+                          color={theme.colors.app.secondaryText}
+                          fontStyle="italic"
+                        >
+                          Comment collapsed
+                        </Text>
+                      ) : (
+                        <>
+                          {(nestedComment.comment.comment.deleted && (
                             <Text
                               py={3}
                               color={theme.colors.app.secondaryText}
                               fontStyle="italic"
                             >
-                              Comment removed by moderator :(
+                              Comment deleted by user :(
                             </Text>
-                          )) || <RenderMarkdown text={content} addImages />}
-                      </>
-                    )}
+                          )) ||
+                            (nestedComment.comment.comment.removed && (
+                              <Text
+                                py={3}
+                                color={theme.colors.app.secondaryText}
+                                fontStyle="italic"
+                              >
+                                Comment removed by moderator :(
+                              </Text>
+                            )) || <RenderMarkdown text={content} addImages />}
+                        </>
+                      )}
+                    </VStack>
+                    <Divider ml={0} mt={-1} />
                   </VStack>
-                  <Divider ml={0} mt={-1} />
-                </VStack>
-              </Pressable>
-            </Animated.View>
-          </PanGestureHandler>
-        </View>
-      </GestureHandlerRootView>
-      {(!collapsed &&
-        !showAll &&
-        nestedComment.replies
-          .slice(0, 5)
-          .map((r) => (
-            <CommentItem2
-              key={r.comment.comment.id}
-              nestedComment={r}
-              opId={opId}
-              recycled={recycled}
-              depth={depth + 1}
-            />
-          ))) ||
-        (!collapsed &&
-          showAll &&
-          nestedComment.replies.map((r) => (
-            <CommentItem2
-              key={r.comment.comment.id}
-              nestedComment={r}
-              opId={opId}
-              recycled={recycled}
-              depth={depth + 1}
-            />
-          )))}
-    </>
+                </Pressable>
+              </Animated.View>
+            </PanGestureHandler>
+          </View>
+        </GestureHandlerRootView>
+        {(!collapsed &&
+          !showAll &&
+          nestedComment.replies
+            .slice(0, 5)
+            .map((r) => (
+              <CommentItem2
+                key={r.comment.comment.id}
+                nestedComment={r}
+                opId={opId}
+                recycled={recycled}
+                depth={depth + 1}
+              />
+            ))) ||
+          (!collapsed &&
+            showAll &&
+            nestedComment.replies.map((r) => (
+              <CommentItem2
+                key={r.comment.comment.id}
+                nestedComment={r}
+                opId={opId}
+                recycled={recycled}
+                depth={depth + 1}
+              />
+            )))}
+      </>
+    ),
+    [swipeAnimation, nestedComment]
   );
 }
 

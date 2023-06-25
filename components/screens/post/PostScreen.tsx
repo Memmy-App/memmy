@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Center,
@@ -49,15 +49,12 @@ function PostScreen({
     });
   }, []);
 
-  const commentItem = useCallback(
-    ({ item }) => (
-      <CommentItem2
-        nestedComment={item}
-        opId={post.currentPost.creator.id}
-        recycled={post.recycled}
-      />
-    ),
-    []
+  const commentItem = ({ item }) => (
+    <CommentItem2
+      nestedComment={item}
+      opId={post.currentPost.creator.id}
+      recycled={post.recycled}
+    />
   );
 
   const refreshControl = (
