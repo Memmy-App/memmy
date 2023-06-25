@@ -71,6 +71,11 @@ const useFeedItem = (post: PostView): UseFeedItem => {
   };
 
   const onPress = () => {
+    lemmyInstance.markPostAsRead({
+      auth: lemmyAuthToken,
+      post_id: post.post.id,
+      read: true,
+    });
     dispatch(setPost(post));
     navigation.push("Post");
   };
