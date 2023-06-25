@@ -12,7 +12,7 @@ import { selectAccounts } from "../../../slices/accounts/accountsSlice";
 import CCell from "../../ui/table/CCell";
 import CSection from "../../ui/table/CSection";
 import { deleteLog, sendLog } from "../../../helpers/LogHelper";
-import { ThemeOptionsArr } from "../../../theme/ThemeOptions";
+import { ThemeOptionsArr } from "../../../theme/themeOptions";
 
 function SettingsIndexScreen({
   navigation,

@@ -1,21 +1,29 @@
-import { ActionSheetProvider } from "@expo/react-native-action-sheet";
-import { StatusBar } from "expo-status-bar";
-import { NativeBaseProvider } from "native-base";
 import React, { useEffect, useRef, useState } from "react";
+import { NativeBaseProvider } from "native-base";
 import { ErrorBoundary } from "react-error-boundary";
-import { AppState } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Stack from "./Stack";
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import { AppState } from "react-native";
 import MemmyErrorView from "./components/ui/Loading/MemmyErrorView";
+import Stack from "./Stack";
 import { writeToLog } from "./helpers/LogHelper";
-import { lemmyAuthToken, lemmyInstance } from "./lemmy/LemmyInstance";
+import { useAppDispatch, useAppSelector } from "./store";
+import { loadSettings } from "./slices/settings/settingsActions";
 import { loadAccounts } from "./slices/accounts/accountsActions";
 import { selectAccountsLoaded } from "./slices/accounts/accountsSlice";
-import { loadSettings } from "./slices/settings/settingsActions";
 import { selectSettings } from "./slices/settings/settingsSlice";
+import {
+  brownTheme,
+  darkTheme,
+  draculaTheme,
+  draculaThemePurple,
+  lightTheme,
+  purpleTheme,
+} from "./theme/theme";
 import { getUnreadCount } from "./slices/site/siteActions";
-import { useAppDispatch, useAppSelector } from "./store";
-import { ThemeOptionsMap } from "./theme/ThemeOptions";
+import { lemmyAuthToken, lemmyInstance } from "./lemmy/LemmyInstance";
+import { ThemeOptionsMap } from "./theme/themeOptions";
 
 const logError = (e, info) => {
   writeToLog(e.toString());
@@ -29,9 +37,7 @@ function Start() {
   const dispatch = useAppDispatch();
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
   const { theme } = useAppSelector(selectSettings);
-  const [selectedTheme, setSelectedTheme] = useState<any>(
-    ThemeOptionsMap.Brown
-  );
+  const [selectedTheme, setSelectedTheme] = useState<any>(brownTheme);
 
   const appState = useRef(AppState.currentState);
 

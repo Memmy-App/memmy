@@ -97,15 +97,9 @@ The codebase is a bit wild right now and needs some refactoring. It was written 
 3 days) to get something off the ground quickly. I'll be going through and refactoring it in the coming days.
 
 ### Themes
-Currently, I have thrown together a dark theme for the app given user preference. I will also work on a light theme to
-complement that theme. If you are interested in working on themes, you can contribute as well! I will offer support for
-multiple themes once we have a few different ones to pick from.
-
-You can view `theme.js` for an example of a theme. Most of the items use one of the `screen` colors. Those are the base
-colors for the whole app. I plan to actually name each of these items so that you can easily contribute to themes.
-
-For information, you can view the [NativeBase docs](https://docs.nativebase.io/getting-started) for information about
-how themes work. You are more than welcome to submit a PR that includes code modifications to make use of themes better.
+To contribute to themes, you can create a new theme object in `theme/theme.ts`. Once you create it with all the proper colors 
+and extend it with `extendTheme()`, you must then add it to `EThemeOptions` and `ThemeOptionsMap` in `theme/themeOptions.ts`.
+This will automatically add it to the theme selector in the settings page.
 
 ## Acknowledgements
 Thanks to [Interstellar_1@lemmy.world](https://lemmy.world/u/Interstellar_1) for creating app graphics.
