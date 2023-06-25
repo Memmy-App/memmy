@@ -1,5 +1,5 @@
 import { PostView } from "lemmy-js-client";
-import { Icon, Pressable, Text, VStack, View, useTheme } from "native-base";
+import { Icon, Pressable, Text, useTheme, View, VStack } from "native-base";
 import React, { useMemo, useState } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -11,9 +11,10 @@ import moment from "moment";
 import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppSelector } from "../../../store";
-import LinkButton from "../../ui/LinkButton";
+import LinkButton from "../../ui/buttons/LinkButton";
 import ImageView from "../../ui/image/ImageView";
 import RenderMarkdown from "../../ui/markdown/RenderMarkdown";
+import ImageModal from "../../ui/image/ImageModal";
 
 interface PostBodyProps {
   post: PostView;
@@ -89,10 +90,12 @@ function PostBody({ post }: PostBodyProps) {
                 />
               </Pressable>
             )}
-            <ImageView
+            <ImageModal
               source={post.post.url}
-              setIsOpen={setImageViewOpen}
+              onRequestClose={() => setImageViewOpen(false)}
               isOpen={imageViewOpen}
+              width={Dimensions.get("screen").width}
+              height={Dimensions.get("screen").height}
             />
           </VStack>
         )}

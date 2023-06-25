@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NativeBaseProvider } from "native-base";
 import { ErrorBoundary } from "react-error-boundary";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import { AppState } from "react-native";
 import MemmyErrorView from "./components/ui/Loading/MemmyErrorView";
 import Stack from "./Stack";
 import { writeToLog } from "./helpers/LogHelper";
@@ -13,6 +14,8 @@ import { loadAccounts } from "./slices/accounts/accountsActions";
 import { selectAccountsLoaded } from "./slices/accounts/accountsSlice";
 import { selectSettings } from "./slices/settings/settingsSlice";
 import { brownTheme, darkTheme, lightTheme, purpleTheme } from "./theme/theme";
+import { getUnreadCount } from "./slices/site/siteActions";
+import { lemmyAuthToken, lemmyInstance } from "./lemmy/LemmyInstance";
 
 const logError = (e, info) => {
   writeToLog(e.toString());
@@ -27,6 +30,50 @@ function Start() {
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
   const { theme } = useAppSelector(selectSettings);
   const [selectedTheme, setSelectedTheme] = useState<any>(brownTheme);
+
+  const appState = useRef(AppState.currentState);
+
+  let refreshInterval;
+
+  useEffect(() => {
+    if (!loaded) return;
+
+    startInterval();
+
+    const subscription = AppState.addEventListener("change", (nextAppState) => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === "active" &&
+        !refreshInterval
+      ) {
+        writeToLog("Starting refresh interval.");
+        startInterval();
+      } else if (
+        appState.current === "active" &&
+        nextAppState.match(/inactive|background/)
+      ) {
+        writeToLog("Ending refresh interval.");
+        clearInterval(refreshInterval);
+        refreshInterval = null;
+      }
+
+      appState.current = nextAppState;
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, [loaded]);
+
+  const startInterval = () => {
+    console.log("starting an interval.");
+    refreshInterval = setInterval(() => {
+      console.log("Looking for updates...");
+      if (lemmyInstance && lemmyAuthToken) {
+        dispatch(getUnreadCount());
+      }
+    }, 30000);
+  };
 
   useEffect(() => {
     switch (theme) {

@@ -11,7 +11,6 @@ import CTable from "../table/CTable";
 import CSection from "../table/CSection";
 import { Account } from "../../../types/Account";
 import CCell from "../table/CCell";
-import { resetInstance } from "../../../lemmy/LemmyInstance";
 
 function FeedHeaderDropdownDrawer() {
   const { dropdownVisible } = useAppSelector(selectFeed);

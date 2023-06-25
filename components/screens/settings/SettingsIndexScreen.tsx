@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, useTheme, VStack } from "native-base";
+import { ScrollView, useTheme } from "native-base";
 import { Alert, StyleSheet, Switch } from "react-native";
 import { Cell, Section, TableView } from "react-native-tableview-simple";
 import { getBuildNumber, getVersion } from "react-native-device-info";

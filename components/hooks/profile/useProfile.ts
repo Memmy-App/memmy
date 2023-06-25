@@ -8,6 +8,7 @@ import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 interface UseProfile {
   loading: boolean;
   error: boolean;
+  notFound: boolean;
   profile: PersonView;
   posts: PostView[];
   comments: CommentView[];
@@ -23,6 +24,7 @@ const useProfile = (fullUsername?: string): UseProfile => {
   const [profile, setProfile] = useState<PersonView>(null);
   const [posts, setPosts] = useState<PostView[]>(null);
   const [comments, setComments] = useState<CommentView[]>(null);
+  const [notFound, setNotFound] = useState<boolean>(false);
   const [self] = useState(!fullUsername);
 
   useEffect(() => {
@@ -56,6 +58,11 @@ const useProfile = (fullUsername?: string): UseProfile => {
       writeToLog(e.toString());
 
       setLoading(false);
+
+      if (e.toString() === "couldnt_find_that_username_or_email") {
+        setNotFound(true);
+        return;
+      }
       setError(true);
     }
   };
@@ -63,6 +70,7 @@ const useProfile = (fullUsername?: string): UseProfile => {
   return {
     loading,
     error,
+    notFound,
     profile,
     posts,
     comments,

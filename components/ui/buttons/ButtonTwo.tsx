@@ -9,8 +9,8 @@ function ButtonTwo({
   my,
   mx,
   py = 1,
-  selectable = false,
   selected = false,
+  badge = undefined,
 }: {
   onPress: () => void;
   icon?: TablerIcon;
@@ -18,8 +18,8 @@ function ButtonTwo({
   mx?: number;
   my?: number;
   py?: number;
-  selectable?: boolean;
   selected?: boolean;
+  badge?: string | undefined;
 }) {
   const [pressedIn, setPressedIn] = useState(false);
 
@@ -60,6 +60,15 @@ function ButtonTwo({
         <Text fontSize="sm" color={theme.colors.app.buttonOneText}>
           {text}
         </Text>
+        {badge && (
+          <Text
+            fontSize="sm"
+            color={theme.colors.app.buttonOneText}
+            backgroundColor="#999999"
+          >
+            {badge}
+          </Text>
+        )}
       </HStack>
     </Pressable>
   );

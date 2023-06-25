@@ -58,8 +58,10 @@ export const openLink = (
   link: string,
   navigation: NativeStackNavigationProp<any, string, undefined>
 ): void => {
+  link = decodeURIComponent(link);
+
   const fedPattern =
-    /^(?:https?:\/\/\w+\.\w+)?\/c\/\w+(?:@\w+(?:\.\w+)?(?:\.\w+)?)?$/;
+    /^(?:https?:\/\/\w+\.\w+)?\/[?:c|m|u|post]\/\w+(?:@\w+(?:\.\w+)?(?:\.\w+)?)?$/;
   const isFed = link.match(fedPattern);
 
   if (isFed) {
@@ -70,17 +72,23 @@ export const openLink = (
 
     if (communityOnEnd) {
       baseUrl = link.split("@").pop();
-      community = link.split("c/").pop().split("@")[0];
+      community = link.split(/[cmu]/).pop().split("@")[0];
     } else {
       baseUrl = getBaseUrl(link);
       community = link.split("/").pop();
     }
 
-    navigation.push("Community", {
-      communityFullName: `${community}@${baseUrl}`,
-      communityName: community,
-      actorId: baseUrl,
-    });
+    if (link.includes("/u/")) {
+      navigation.push("UserProfile", {
+        fullUsername: `${community}@${baseUrl}`,
+      });
+    } else {
+      navigation.push("Community", {
+        communityFullName: `${community}@${baseUrl}`,
+        communityName: community,
+        actorId: baseUrl,
+      });
+    }
 
     return;
   }
@@ -99,9 +107,13 @@ export const openLink = (
       dismissButtonStyle: "close",
       presentationStyle: WebBrowserPresentationStyle.FULL_SCREEN,
       toolbarColor: "#000",
-    }).catch((e) => {
-      writeToLog(e.toString());
-    });
+    })
+      .then(() => {
+        WebBrowser.dismissBrowser();
+      })
+      .catch((e) => {
+        writeToLog(e.toString());
+      });
   } catch (e) {
     writeToLog("Error opening link.");
     writeToLog(e.toString());

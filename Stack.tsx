@@ -1,12 +1,12 @@
 /* eslint react/no-unstable-nested-components: 0 */
 
-import React, { useState } from "react";
+import React from "react";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon, useTheme } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
-import { IconSearch } from "tabler-icons-react-native";
+import { IconBell, IconSearch } from "tabler-icons-react-native";
 import FeedsIndexScreen from "./components/screens/feeds/FeedsIndexScreen";
 import CommunityFeedScreen from "./components/screens/feeds/CommunityFeedScreen";
 import PostScreen from "./components/screens/post/PostScreen";
@@ -20,18 +20,18 @@ import CreateAccountScreen from "./components/screens/onboarding/CreateAccountSc
 import BookmarksScreen from "./components/screens/userProfile/BookmarksScreen";
 import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
 import SubscriptionsScreen from "./components/screens/userProfile/SubscriptionsScreen";
-import { useAppDispatch, useAppSelector } from "./store";
-import { loadSettings } from "./slices/settings/settingsActions";
+import { useAppSelector } from "./store";
 import {
   selectAccounts,
   selectAccountsLoaded,
 } from "./slices/accounts/accountsSlice";
-import { loadAccounts } from "./slices/accounts/accountsActions";
 import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
 import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen";
 import CommunityAboutScreen from "./components/screens/feeds/CommunityAboutScreen";
 import SearchScreen from "./components/screens/search/SearchScreen";
 import LoadingView from "./components/ui/Loading/LoadingView";
+import InboxScreen from "./components/screens/inbox/InboxScreen";
+import { selectSite } from "./slices/site/siteSlice";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -47,6 +47,7 @@ function FeedStackScreen() {
         headerTitleStyle: {
           color: theme.colors.app.textPrimary,
         },
+        freezeOnBlur: true,
       }}
     >
       <FeedStack.Group>
@@ -97,6 +98,78 @@ function FeedStackScreen() {
   );
 }
 
+const InboxStack = createNativeStackNavigator();
+
+function InboxStackScreen() {
+  const theme = useTheme();
+
+  return (
+    <InboxStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: theme.colors.app.nativeHeader,
+        },
+        headerTitleStyle: {
+          color: theme.colors.app.nativeHeaderTitle,
+        },
+        freezeOnBlur: true,
+      }}
+    >
+      <InboxStack.Group>
+        <InboxStack.Screen
+          name="Inbox"
+          component={InboxScreen}
+          options={{
+            title: "Inbox",
+          }}
+        />
+        <InboxStack.Screen
+          name="FeedScreen"
+          component={FeedsIndexScreen}
+          options={{
+            title: "Feed",
+          }}
+        />
+        <InboxStack.Screen name="Post" component={PostScreen} />
+        <InboxStack.Screen name="Community" component={CommunityFeedScreen} />
+        <InboxStack.Screen
+          name="Subscriptions"
+          component={SubscriptionsScreen}
+        />
+        <InboxStack.Screen
+          name="UserProfile"
+          component={UserProfileScreen}
+          options={{
+            title: "Your Profile",
+          }}
+        />
+      </InboxStack.Group>
+
+      <InboxStack.Group
+        screenOptions={{
+          presentation: "modal",
+        }}
+      >
+        <InboxStack.Screen
+          name="NewComment"
+          component={NewCommentScreen}
+          options={{ title: "New Comment" }}
+        />
+        <InboxStack.Screen
+          name="NewPost"
+          component={NewPostScreen}
+          options={{ title: "New Post" }}
+        />
+        <InboxStack.Screen
+          name="CommunityAbout"
+          component={CommunityAboutScreen}
+          options={{ title: "About" }}
+        />
+      </InboxStack.Group>
+    </InboxStack.Navigator>
+  );
+}
+
 const ProfileStack = createNativeStackNavigator();
 
 function ProfileStackScreen() {
@@ -110,6 +183,7 @@ function ProfileStackScreen() {
         headerTitleStyle: {
           color: theme.colors.app.textPrimary,
         },
+        freezeOnBlur: true,
       }}
     >
       <ProfileStack.Screen
@@ -147,6 +221,7 @@ function SearchStackScreen() {
         headerTitleStyle: {
           color: theme.colors.app.nativeHeaderTitle,
         },
+        freezeOnBlur: true,
       }}
     >
       <SearchStack.Group>
@@ -249,6 +324,7 @@ const Tab = createBottomTabNavigator();
 
 function Tabs() {
   const theme = useTheme();
+  const { unread } = useAppSelector(selectSite);
 
   return (
     <Tab.Navigator
@@ -257,6 +333,7 @@ function Tabs() {
           backgroundColor: theme.colors.app.nativeHeader,
         },
         tabBarLabel: "Feed",
+        freezeOnBlur: true,
       }}
     >
       <Tab.Screen
@@ -271,12 +348,16 @@ function Tabs() {
         }}
       />
       <Tab.Screen
-        name="SearchStack"
-        component={SearchStackScreen}
+        name="InboxStack"
+        component={InboxStackScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => <IconSearch color={color} />,
-          tabBarLabel: "Search",
+          tabBarIcon: ({ color }) => <IconBell color={color} />,
+          tabBarLabel: "Inbox",
+          tabBarBadge:
+            unread.replies + unread.mentions + unread.privateMessage > 0
+              ? unread.replies + unread.mentions + unread.privateMessage
+              : null,
         }}
       />
       <Tab.Screen
@@ -288,6 +369,15 @@ function Tabs() {
             <Icon as={Ionicons} name="person-outline" size={6} color={color} />
           ),
           tabBarLabel: "Profile",
+        }}
+      />
+      <Tab.Screen
+        name="SearchStack"
+        component={SearchStackScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => <IconSearch color={color} />,
+          tabBarLabel: "Search",
         }}
       />
       <Tab.Screen

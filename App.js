@@ -5,7 +5,6 @@ import React from "react";
 
 import { useFonts } from "expo-font";
 import store from "./store";
-import { writeToLog } from "./helpers/LogHelper";
 import Start from "./Start";
 
 export default function App() {

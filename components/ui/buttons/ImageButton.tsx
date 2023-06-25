@@ -7,12 +7,12 @@ import {
   Text,
   useTheme,
 } from "native-base";
-import { ImageDetail } from "@dreamwalk-os/react-native-image-modal";
 import FastImage from "react-native-fast-image";
 import { Dimensions, Share } from "react-native";
-import { truncateImageLink } from "../../helpers/TextHelper";
-import ImageViewFooter from "./image/ImageViewFooter";
-import downloadAndSaveImage from "../../helpers/ImageHelper";
+import { truncateImageLink } from "../../../helpers/TextHelper";
+import ImageViewFooter from "../image/ImageViewFooter";
+import downloadAndSaveImage from "../../../helpers/ImageHelper";
+import ImageModal from "../image/ImageModal";
 
 interface ImageButtonProps {
   src: string;
@@ -69,21 +69,12 @@ function ImageButton({ src }: ImageButtonProps) {
         </HStack>
       </Pressable>
 
-      <ImageDetail
-        source={{ uri: src }}
-        origin={{
-          x: Dimensions.get("window").width / 2,
-          y: Dimensions.get("window").height / 2,
-          width: 100,
-          height: 100,
-        }}
-        resizeMode="contain"
-        swipeToDismiss
-        onClose={() => setVisible(false)}
+      <ImageModal
+        source={src}
+        onRequestClose={() => setVisible(false)}
         isOpen={visible}
-        renderFooter={() => (
-          <ImageViewFooter onShare={onShare} onSave={onSave} />
-        )}
+        width={Dimensions.get("screen").width}
+        height={Dimensions.get("screen").height}
       />
     </>
   );

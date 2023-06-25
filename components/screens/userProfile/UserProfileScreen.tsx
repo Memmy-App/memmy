@@ -28,6 +28,7 @@ import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { getCakeDay } from "../../../helpers/TimeHelper";
 import ButtonOne from "../../ui/buttons/ButtonOne";
+import NotFoundView from "../../ui/Loading/NotFoundView";
 
 function BookmarksScreen({
   route,
@@ -46,6 +47,10 @@ function BookmarksScreen({
   const refreshControl = (
     <RefreshControl refreshing={profile.loading} onRefresh={profile.doLoad} />
   );
+
+  if (profile.notFound) {
+    return <NotFoundView />;
+  }
 
   if (profile.loading || !profile.profile) {
     return <LoadingView />;

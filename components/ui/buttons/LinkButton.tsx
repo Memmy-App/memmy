@@ -1,12 +1,12 @@
-import { HStack, Pressable, Text, VStack, useTheme } from "native-base";
+import { HStack, Pressable, Text, useTheme, VStack } from "native-base";
 import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import FastImage from "react-native-fast-image";
 import { IconUnlink } from "tabler-icons-react-native";
-import { openLink } from "../../helpers/LinkHelper";
-import { truncateLink } from "../../helpers/TextHelper";
+import { openLink } from "../../../helpers/LinkHelper";
+import { truncateLink } from "../../../helpers/TextHelper";
 
 interface LinkButtonProps {
   link: string;

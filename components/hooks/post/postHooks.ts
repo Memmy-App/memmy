@@ -1,10 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  CommentSortType,
-  CommentView,
-  ListingType,
-  PostView,
-} from "lemmy-js-client";
+import { PostView } from "lemmy-js-client";
+
 import { useToast } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../../slices/post/postSlice";
@@ -16,15 +12,19 @@ import {
   removeBookmark,
 } from "../../../slices/bookmarks/bookmarksActions";
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
-import findAndAddComment from "../../../lemmy/LemmyCommentsHelper";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
+import {
+  buildComments,
+  findAndAddComment,
+} from "../../../lemmy/comments/LemmyCommentsHelper";
+import NestedComment from "../../../lemmy/comments/NestedComment";
 
 export interface UsePost {
   comments: NestedComment[];
   commentsLoading: boolean;
   commentsError: boolean;
-  doLoad: () => Promise<void>;
+  doLoad: (ignoreCommentId?: boolean) => Promise<void>;
 
   refreshList: boolean;
 
@@ -38,13 +38,13 @@ export interface UsePost {
   recycled: React.MutableRefObject<{}>;
 }
 
-const usePost = (): UsePost => {
+const usePost = (commentId: string | null): UsePost => {
   // Global State
   const { post, newComment } = useAppSelector(selectPost);
   const bookmarks = useAppSelector(selectBookmarks);
 
   // State
-  const [comments, setComments] = useState<NestedComment[] | null>(null);
+  const [comments, setComments] = useState<NestedComment[]>([]);
   const [commentsLoading, setCommentsLoading] = useState<boolean>(true);
   const [commentsError, setCommentsError] = useState<boolean>(false);
   const [refreshList, setRefreshList] = useState(false);
@@ -52,6 +52,7 @@ const usePost = (): UsePost => {
   const [bookmarked, setBookmarked] = useState<boolean>(
     bookmarks?.findIndex((b) => b.postId === currentPost.post.id) !== -1
   );
+
   const recycled = useRef({});
 
   // Other Hooks
@@ -83,7 +84,7 @@ const usePost = (): UsePost => {
       } else {
         const newChain = findAndAddComment(comments, lComment);
 
-        setComments(newChain);
+        setComments([...newChain]);
         setRefreshList(!refreshList);
       }
     }
@@ -92,7 +93,7 @@ const usePost = (): UsePost => {
   /**
    * Load the comments for the current post
    */
-  const doLoad = async () => {
+  const doLoad = async (ignoreCommentId = false) => {
     setCommentsLoading(true);
     setCommentsError(false);
 
@@ -103,6 +104,8 @@ const usePost = (): UsePost => {
         max_depth: 10,
         type_: "All",
         sort: "Top",
+        parent_id:
+          commentId && !ignoreCommentId ? Number(commentId) : undefined,
       });
 
       const ordered = commentsRes.comments.sort((a, b) =>
@@ -210,43 +213,5 @@ const usePost = (): UsePost => {
     recycled,
   };
 };
-
-export interface NestedComment {
-  comment: CommentView;
-  replies: NestedComment[];
-  collapsed: boolean;
-  myVote: ILemmyVote;
-}
-
-function buildComments(comments: CommentView[]): NestedComment[] {
-  const nestedComments = [];
-
-  const commentDict = {};
-
-  for (const comment of comments) {
-    const { path } = comment.comment;
-    const pathIds = path.split(".").map(Number);
-    const parentId = pathIds[pathIds.length - 2];
-
-    const currentComment = {
-      comment,
-      replies: [],
-    };
-
-    commentDict[comment.comment.id] = currentComment;
-
-    if (parentId !== 0) {
-      const parentComment = commentDict[parentId];
-
-      try {
-        parentComment.replies.push(currentComment);
-      } catch (e) {}
-    } else {
-      nestedComments.push(currentComment);
-    }
-  }
-
-  return nestedComments;
-}
 
 export default usePost;

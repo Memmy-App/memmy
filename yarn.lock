@@ -1180,11 +1180,6 @@
     "@babel/helper-validator-identifier" "^7.22.5"
     to-fast-properties "^2.0.0"
 
-"@dreamwalk-os/react-native-image-modal@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@dreamwalk-os/react-native-image-modal/-/react-native-image-modal-2.2.0.tgz#eee0d764d45aedbade0b8af43bf594d19b7b8ad0"
-  integrity sha512-YS5FFTto91fmteQ/p2xnCrgiOj/KR96JmkBjqwMTlCF2qKiQGjDYCtmWYKF0rtl0AJLb0kI27EUJSOlJ7ZSb9A==
-
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"

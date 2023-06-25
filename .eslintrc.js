@@ -20,13 +20,7 @@ module.exports = {
   rules: {
     "prettier/prettier": ["error"],
     "@typescript-eslint/no-use-before-define": "off",
-    "no-param-reassign": [
-      "error",
-      {
-        props: true,
-        ignorePropertyModificationsFor: ["state", "ref"],
-      },
-    ],
+    "no-param-reassign": "off",
     "react/require-default-props": "off",
     "react/jsx-props-no-spreading": "off",
     "no-restricted-syntax": "off",
@@ -35,5 +29,7 @@ module.exports = {
     "no-nested-ternary": "off",
     "import/no-extraneous-dependencies": "off",
     "prefer-destructuring": ["error", { object: true, array: false }],
+    "import/no-named-as-default": "off",
+    "react/jsx-no-useless-fragment": "off",
   },
 };

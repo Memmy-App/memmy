@@ -1,11 +1,9 @@
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
   Divider,
   HStack,
-  Icon,
   IconButton,
   Pressable,
   Text,
@@ -14,61 +12,71 @@ import {
   View,
   VStack,
 } from "native-base";
-import React, { useRef, useState } from "react";
-import { Dimensions, StyleSheet } from "react-native";
+import React, { useMemo, useRef, useState } from "react";
+import { StyleSheet } from "react-native";
+import { PanGestureHandler } from "react-native-gesture-handler";
+import Animated from "react-native-reanimated";
 import {
-  GestureHandlerRootView,
-  PanGestureHandler,
-} from "react-native-gesture-handler";
-import Animated, {
-  runOnJS,
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
-import { IconDots } from "tabler-icons-react-native";
+  IconArrowDown,
+  IconArrowUp,
+  IconDots,
+  IconMail,
+  IconMailOpened,
+  IconMessage,
+} from "tabler-icons-react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Clipboard from "@react-native-community/clipboard";
+import { CommentReplyView } from "lemmy-js-client";
+import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
+import { writeToLog } from "../../../helpers/LogHelper";
+import { timeFromNowShort } from "../../../helpers/TimeHelper";
+import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
+import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
+import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
+import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import AvatarUsername from "../common/AvatarUsername";
+import SmallVoteIcons from "../common/SmallVoteIcons";
+import RenderMarkdown from "../markdown/RenderMarkdown";
 import {
-  onCommentSlideHapticFeedback,
-  onGenericHapticFeedback,
-} from "../../helpers/HapticFeedbackHelpers";
-import { writeToLog } from "../../helpers/LogHelper";
-import { timeFromNowShort } from "../../helpers/TimeHelper";
-import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
-import { ILemmyVote } from "../../lemmy/types/ILemmyVote";
-import { selectCurrentAccount } from "../../slices/accounts/accountsSlice";
-import { setResponseTo } from "../../slices/newComment/newCommentSlice";
-import { selectSettings } from "../../slices/settings/settingsSlice";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { NestedComment } from "../hooks/post/postHooks";
-import AvatarUsername from "./common/AvatarUsername";
-import SmallVoteIcons from "./common/SmallVoteIcons";
-import RenderMarkdown from "./markdown/RenderMarkdown";
-import { getUserFullName } from "../../lemmy/LemmyHelpers";
-import { getBaseUrl } from "../../helpers/LinkHelper";
-import NamePill from "./NamePill";
+  createUserFullName,
+  getUserFullName,
+} from "../../../lemmy/LemmyHelpers";
+import { getBaseUrl } from "../../../helpers/LinkHelper";
+import NamePill from "../NamePill";
+import { selectSite, setUnread } from "../../../slices/site/siteSlice";
+import NestedComment from "../../../lemmy/comments/NestedComment";
+import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
 
 function CommentItem2({
   nestedComment,
   opId,
   recycled,
+  depth = 2,
+  isReply = false,
+  onPressOverride = null,
+  read = false,
 }: {
   nestedComment: NestedComment;
   opId: number;
   recycled: React.MutableRefObject<{}>;
+  depth?: number;
+  isReply?: boolean;
+  onPressOverride?: () => void | Promise<void>;
+  read?: boolean;
 }) {
-  const depth = nestedComment.comment.comment.path.split(".").length;
-
   // Global state
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const { unread } = useAppSelector(selectSite);
 
   // State
   const [myVote, setMyVote] = useState(nestedComment.comment.my_vote);
   const [collapsed, setCollapsed] = useState(false);
+  const [isRead, setIsRead] = useState<boolean>(read);
   const [showAll] = useState(false);
+  const [content, setContent] = useState(nestedComment.comment.comment.content);
 
   // Refs
   const lastCommentId = useRef(nestedComment.comment.comment.id);
@@ -90,6 +98,7 @@ function CommentItem2({
     } else {
       setCollapsed(false);
       setMyVote(nestedComment.comment.my_vote);
+      setContent(nestedComment.comment.comment.content);
     }
 
     recycled.current = {
@@ -106,25 +115,101 @@ function CommentItem2({
   const onCommentPress = () => {
     onGenericHapticFeedback();
 
+    if (onPressOverride) {
+      onPressOverride();
+      return;
+    }
+
     setCollapsed(!collapsed);
   };
 
   const onCommentLongPress = () => {
     onGenericHapticFeedback();
 
-    const options = ["Copy", "Cancel"];
-    const cancelButtonIndex = 1;
+    let options = ["Copy Text", "Copy Link"];
+
+    if (
+      getUserFullName(nestedComment.comment.creator) ===
+      createUserFullName(currentAccount.username, currentAccount.instance)
+    ) {
+      if (!nestedComment.comment.comment.deleted)
+        options = [...options, "Delete"];
+    }
+
+    options.push("Cancel");
+
+    const cancelButtonIndex = options.length - 1;
 
     showActionSheetWithOptions(
       {
         options,
         cancelButtonIndex,
       },
-      (index: number) => {
+      async (index: number) => {
+        onGenericHapticFeedback();
+
         if (index === cancelButtonIndex) return;
-        Clipboard.setString(nestedComment.comment.comment.content);
+
+        if (index === 0) {
+          Clipboard.setString(nestedComment.comment.comment.content);
+        }
+
+        if (index === 1) {
+          Clipboard.setString(nestedComment.comment.comment.ap_id);
+        }
+
+        if (index === 2) {
+          try {
+            await lemmyInstance.deleteComment({
+              auth: lemmyAuthToken,
+              comment_id: nestedComment.comment.comment.id,
+              deleted: true,
+            });
+
+            toast.show({
+              title: "Comment deleted",
+              duration: 3000,
+            });
+
+            setContent("Comment deleted by user :(");
+          } catch (e) {
+            writeToLog("Failed to delete comment.");
+            writeToLog(e.toString());
+
+            toast.show({
+              title: "Failed to delete comment",
+              duration: 3000,
+            });
+          }
+        }
       }
     );
+  };
+
+  const onReadPress = async () => {
+    onGenericHapticFeedback();
+
+    try {
+      setIsRead(true);
+
+      await lemmyInstance.markCommentReplyAsRead({
+        auth: lemmyAuthToken,
+        comment_reply_id: (nestedComment.comment as CommentReplyView)
+          .comment_reply.id,
+        read: true,
+      });
+
+      dispatch(
+        setUnread({
+          type: "replies",
+          amount: unread.replies - 1,
+        })
+      );
+    } catch (e) {
+      setIsRead(false);
+      writeToLog("Error marking comment as read.");
+      writeToLog(e.toString());
+    }
   };
 
   const onVote = async (value: -1 | 0 | 1) => {
@@ -152,194 +237,58 @@ function CommentItem2({
     }
   };
 
-  const { width } = Dimensions.get("screen");
-
-  const [color, setColor] = useState("#1abd3e");
-  const [iconName, setIconName] = useState("");
-
-  const translateX = useSharedValue(0);
-  const ranFeedbackUpvote = useSharedValue(false);
-  const ranFeedbackDownvote = useSharedValue(false);
-  const ranFeedbackComment = useSharedValue(false);
-  const startPos = useSharedValue(0);
-  const action = useSharedValue<
-    null | "upvote" | "downvote" | "comment" | "back"
-  >(null);
-
-  const gestureHandler = useAnimatedGestureHandler({
-    onStart: (event, ctx) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      // eslint-disable-next-line no-param-reassign
-      ctx.startX = translateX.value;
-      startPos.value = event.absoluteX;
+  const swipeAnimation = useSwipeAnimation({
+    onLeftRightOne: () => onVote(1),
+    onLeftRightTwo: () => onVote(-1),
+    onRightLeftOne: () => {
+      dispatch(
+        setResponseTo({
+          comment: nestedComment.comment,
+        })
+      );
+      navigation.push("NewComment");
     },
-    onActive: (event, ctx) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      translateX.value = ctx.startX + event.translationX;
-
-      if (event.translationX > 0) {
-        if (event.translationX < width * 0.3) {
-          runOnJS(setStyles)("upvote");
-        } else {
-          runOnJS(setStyles)("downvote");
-        }
-      } else {
-        runOnJS(setStyles)("comment");
-      }
-
-      if (event.translationX >= width * 0.15 && !ranFeedbackUpvote.value) {
-        runOnJS(onCommentSlideHapticFeedback)();
-        ranFeedbackUpvote.value = true;
-      } else if (
-        event.translationX >= width * 0.3 &&
-        !ranFeedbackDownvote.value
-      ) {
-        runOnJS(onCommentSlideHapticFeedback)();
-        ranFeedbackDownvote.value = true;
-      } else if (
-        event.translationX >= width * 0.15 &&
-        event.translationX < width * 0.3 &&
-        ranFeedbackUpvote.value &&
-        ranFeedbackDownvote.value
-      ) {
-        runOnJS(onCommentSlideHapticFeedback)();
-        ranFeedbackDownvote.value = false;
-      } else if (
-        event.translationX <= -(width * 0.15) &&
-        ranFeedbackComment.value
-      ) {
-        runOnJS(onCommentSlideHapticFeedback)();
-        ranFeedbackComment.value = true;
-      }
-    },
-    onEnd: (event) => {
-      ranFeedbackUpvote.value = false;
-      ranFeedbackDownvote.value = false;
-      ranFeedbackComment.value = false;
-
-      runOnJS(setStyles)("upvote");
-
-      if (startPos.value < 10) {
-        runOnJS(onDone)("back");
-        action.value = "back";
-      } else if (
-        event.translationX >= width * 0.15 &&
-        event.translationX < width * 0.3
-      ) {
-        runOnJS(onDone)("upvote");
-      } else if (event.translationX >= width * 0.3) {
-        runOnJS(onDone)("downvote");
-      } else if (event.translationX <= -(width * 0.15)) {
-        runOnJS(onDone)("comment");
-      }
-
-      translateX.value = withSpring(0, {
-        damping: 30,
-      });
-    },
+    onRightLeftTwo: () => {},
+    leftRightOneIcon: () => <IconArrowUp size={32} color="#fff" />,
+    leftRightTwoIcon: () => <IconArrowDown size={32} color="#fff" />,
+    rightLeftOneIcon: () => <IconMessage size={32} color="#fff" />,
+    rightLeftTwoIcon: () => <IconMessage size={20} />,
   });
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateX.value }],
-  }));
-
-  function setStyles(actionType: "upvote" | "downvote" | "comment") {
-    switch (actionType) {
-      case "upvote": {
-        setColor("#1abd3e");
-        setIconName("arrow-up-outline");
-        break;
-      }
-      case "downvote": {
-        setColor("#e36919");
-        setIconName("arrow-down-outline");
-        break;
-      }
-      case "comment": {
-        setColor("#007AFF");
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-  }
-
-  function onDone(
-    actionType: null | "upvote" | "downvote" | "comment" | "back"
-  ) {
-    switch (actionType) {
-      case "upvote": {
-        onVote(1).then();
-        break;
-      }
-      case "downvote": {
-        onVote(-1);
-        break;
-      }
-      case "comment": {
-        dispatch(
-          setResponseTo({
-            comment: nestedComment.comment,
-          })
-        );
-        navigation.push("NewComment");
-        break;
-      }
-      case "back": {
-        navigation.pop();
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-  }
-
-  return (
-    <>
-      <GestureHandlerRootView style={{ flex: 1 }}>
+  return useMemo(
+    () => (
+      <>
         <View>
           <View style={styles.backgroundContainer}>
             <View
               style={styles.backgroundLeft}
               justifyContent="center"
-              backgroundColor={color}
+              backgroundColor={swipeAnimation.color}
+              pl={4}
             >
-              <Icon
-                as={Ionicons}
-                name={iconName}
-                size={8}
-                color={theme.colors.app.textPrimary}
-                ml={3}
-                alignSelf="flex-start"
-              />
+              {swipeAnimation.leftIcon}
             </View>
-            <View style={styles.backgroundLeft} backgroundColor={color} />
+            <View
+              style={styles.backgroundLeft}
+              backgroundColor={swipeAnimation.color}
+            />
             <View
               style={styles.backgroundRight}
               justifyContent="center"
               backgroundColor="#007AFF"
+              alignItems="flex-end"
+              pr={4}
             >
-              <Icon
-                as={Ionicons}
-                name="arrow-undo"
-                size={8}
-                color={theme.colors.app.textPrimary}
-                mr={3}
-                alignSelf="flex-end"
-              />
+              {swipeAnimation.rightIcon}
             </View>
           </View>
           <PanGestureHandler
-            onGestureEvent={gestureHandler}
+            onGestureEvent={swipeAnimation.gestureHandler}
             minPointers={1}
             activeOffsetX={[-20, 20]}
             hitSlop={{ left: -25 }}
           >
-            <Animated.View style={[animatedStyle]}>
+            <Animated.View style={[swipeAnimation.animatedStyle]}>
               <Pressable
                 onPress={onCommentPress}
                 onLongPress={onCommentLongPress}
@@ -357,8 +306,8 @@ function CommentItem2({
                   <VStack
                     borderLeftWidth={depth > 2 ? 2 : 0}
                     borderLeftColor={
-                      theme.colors.app.commentChain[depth - 2] ??
-                      theme.colors.app.commentChain[5]
+                      theme.colors.app.comments[depth - 2] ??
+                      theme.colors.app.comments[5]
                     }
                     borderLeftRadius={1}
                     pl={depth > 2 ? 2 : 0}
@@ -390,13 +339,13 @@ function CommentItem2({
                             ) === currentAccount?.instance && (
                               <NamePill
                                 text="me"
-                                color={theme.colors.app.selfColor}
+                                color={theme.colors.app.users.me}
                               />
                             )) ||
                             (nestedComment.comment.creator.id === opId && (
                               <NamePill
                                 text="OP"
-                                color={theme.colors.app.opColor}
+                                color={theme.colors.app.users.op}
                               />
                             ))}
                           <SmallVoteIcons
@@ -408,15 +357,37 @@ function CommentItem2({
                         </>
                       </AvatarUsername>
                       <HStack alignItems="center" space={2}>
-                        <IconButton
-                          icon={
-                            <IconDots
-                              size={24}
-                              color={theme.colors.app.iconColor}
-                            />
-                          }
-                          onPress={onCommentLongPress}
-                        />
+                        {isReply && (
+                          <>
+                            {!isRead ? (
+                              <IconButton
+                                icon={
+                                  <IconMail
+                                    size={24}
+                                    color={theme.colors.app.textSecondary}
+                                  />
+                                }
+                                onPress={onReadPress}
+                              />
+                            ) : (
+                              <IconMailOpened
+                                size={24}
+                                color={theme.colors.app.textSecondary}
+                              />
+                            )}
+                          </>
+                        )}
+                        {!isReply && (
+                          <IconButton
+                            icon={
+                              <IconDots
+                                size={24}
+                                color={theme.colors.app.textSecondary}
+                              />
+                            }
+                            onPress={onCommentLongPress}
+                          />
+                        )}
                         <Text>
                           {timeFromNowShort(
                             nestedComment.comment.comment.published
@@ -451,12 +422,7 @@ function CommentItem2({
                             >
                               Comment removed by moderator :(
                             </Text>
-                          )) || (
-                            <RenderMarkdown
-                              text={nestedComment.comment.comment.content}
-                              addImages
-                            />
-                          )}
+                          )) || <RenderMarkdown text={content} addImages />}
                       </>
                     )}
                   </VStack>
@@ -466,30 +432,33 @@ function CommentItem2({
             </Animated.View>
           </PanGestureHandler>
         </View>
-      </GestureHandlerRootView>
-      {(!collapsed &&
-        !showAll &&
-        nestedComment.replies
-          .slice(0, 5)
-          .map((r) => (
-            <CommentItem2
-              key={r.comment.comment.id}
-              nestedComment={r}
-              opId={opId}
-              recycled={recycled}
-            />
-          ))) ||
-        (!collapsed &&
-          showAll &&
-          nestedComment.replies.map((r) => (
-            <CommentItem2
-              key={r.comment.comment.id}
-              nestedComment={r}
-              opId={opId}
-              recycled={recycled}
-            />
-          )))}
-    </>
+        {(!collapsed &&
+          !showAll &&
+          nestedComment.replies
+            .slice(0, 5)
+            .map((r) => (
+              <CommentItem2
+                key={r.comment.comment.id}
+                nestedComment={r}
+                opId={opId}
+                recycled={recycled}
+                depth={depth + 1}
+              />
+            ))) ||
+          (!collapsed &&
+            showAll &&
+            nestedComment.replies.map((r) => (
+              <CommentItem2
+                key={r.comment.comment.id}
+                nestedComment={r}
+                opId={opId}
+                recycled={recycled}
+                depth={depth + 1}
+              />
+            )))}
+      </>
+    ),
+    [swipeAnimation.leftIcon, swipeAnimation.rightIcon, nestedComment, myVote]
   );
 }
 

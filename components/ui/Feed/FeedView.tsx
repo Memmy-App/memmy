@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ListingType, SortType } from "lemmy-js-client";
+import { ListingType, PostView, SortType } from "lemmy-js-client";
 import { useTheme, useToast, View } from "native-base";
 import { Button, RefreshControl, StyleSheet } from "react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
@@ -10,11 +10,11 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import FeedItem from "./FeedItem";
 import LoadingView from "../Loading/LoadingView";
 import SortIconType from "../../../types/SortIconType";
-import CIconButton from "../CIconButton";
+import CIconButton from "../buttons/CIconButton";
 import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectFeed, setDropdownVisible } from "../../../slices/feed/feedSlice";
-import { UseFeed } from "../../hooks/feeds/feedsHooks";
+import { UseFeed } from "../../hooks/feeds/useFeed";
 import LoadingFooter from "../Loading/LoadingFooter";
 import LoadingErrorFooter from "../Loading/LoadingErrorFooter";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
@@ -22,6 +22,7 @@ import LoadingErrorView from "../Loading/LoadingErrorView";
 import CompactFeedItem from "./CompactFeedItem";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import NoPostsView from "./NoPostsView";
+import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -42,6 +43,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   const communityId = useRef(0);
   const communityName = useRef("");
   const flashList = useRef<FlashList<any>>();
+  const recycled = useRef({});
 
   // Other Hooks
   const toast = useToast();
@@ -51,6 +53,13 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   const dispatch = useAppDispatch();
 
   useScrollToTop(flashList);
+
+  useEffect(
+    () => () => {
+      recycled.current = null;
+    },
+    []
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -159,7 +168,19 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
       return <CompactFeedItem post={item} />;
     }
 
-    return <FeedItem post={item} />;
+    return <FeedItem post={item} recycled={recycled} />;
+  };
+
+  const getItemType = (item: PostView, index: number): string | undefined => {
+    const linkType = getLinkInfo(item.post.url);
+
+    if (linkType.extType === ExtensionType.GENERIC && item.post.thumbnail_url) {
+      return "thumbnail_link";
+    }
+    if (linkType.extType === ExtensionType.IMAGE) {
+      return "image";
+    }
+    return undefined;
   };
 
   const headerRight = () => {
@@ -234,17 +255,12 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             renderItem={feedItem}
             keyExtractor={keyExtractor}
             refreshControl={refreshControl}
-            onEndReachedThreshold={0.8}
+            onEndReachedThreshold={0.5}
             estimatedItemSize={compactView ? 100 : 500}
             ListFooterComponent={footer}
-            onEndReached={() => setEndReached(true)}
+            onEndReached={() => feed.doLoad()}
             ref={flashList}
-            onMomentumScrollEnd={() => {
-              if (endReached) {
-                feed.doLoad();
-                setEndReached(false);
-              }
-            }}
+            getItemType={getItemType}
           />
         )}
     </View>

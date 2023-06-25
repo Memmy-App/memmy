@@ -1,25 +1,24 @@
 import React, { useMemo, useState } from "react";
 import { PostView } from "lemmy-js-client";
-import { Icon, Pressable, Text, useTheme, View, VStack } from "native-base";
-import { Dimensions, StyleSheet } from "react-native";
+import { Pressable, Text, VStack } from "native-base";
+import { Dimensions } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { BlurView } from "expo-blur";
-import FastImage from "react-native-fast-image";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Ionicons } from "@expo/vector-icons";
 import { ExtensionType, getLinkInfo } from "../../helpers/LinkHelper";
 import { truncatePost } from "../../helpers/TextHelper";
-import LinkButton from "./LinkButton";
+import LinkButton from "./buttons/LinkButton";
 import RenderMarkdown from "./markdown/RenderMarkdown";
 import { useAppSelector } from "../../store";
 import { selectSettings } from "../../slices/settings/settingsSlice";
-import ImageView from "./image/ImageView";
+import ImageModal from "./image/ImageModal";
+import MemoizedFastImage from "./image/MemoizedFastImage";
 
 interface ContentViewProps {
   post: PostView;
   truncate?: boolean;
   showBody?: boolean;
   showTitle?: boolean;
+  recycled?: React.MutableRefObject<{}>;
 }
 
 function ContentView({
@@ -27,16 +26,14 @@ function ContentView({
   truncate = false,
   showBody = false,
   showTitle = false,
+  recycled,
 }: ContentViewProps) {
-  const theme = useTheme();
-
   const { blurNsfw } = useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
 
   const body = truncate ? truncatePost(post.post.body, 100) : post.post.body;
   const [imageViewOpen, setImageViewOpen] = useState(false);
-  const [imageUri, setImageUri] = useState("");
 
   const onImagePress = () => {
     setImageViewOpen(true);
@@ -44,55 +41,42 @@ function ContentView({
 
   const onImageLongPress = () => {};
 
-  const view = useMemo(
+  return useMemo(
     () => (
       <>
         {linkInfo.extType === ExtensionType.IMAGE && (
           <VStack mb={3}>
             {post.post.nsfw && blurNsfw ? (
               <Pressable onPress={onImagePress} onLongPress={onImageLongPress}>
-                <View style={styles.blurContainer}>
-                  <BlurView style={styles.blurView} intensity={100} tint="dark">
-                    <VStack
-                      flex={1}
-                      alignItems="center"
-                      justifyContent="center"
-                      space={2}
-                    >
-                      <Icon
-                        as={Ionicons}
-                        name="alert-circle"
-                        color={theme.colors.app.textPrimary}
-                        size={16}
-                      />
-                      <Text fontSize="xl">NSFW</Text>
-                      <Text>Sensitive content ahead</Text>
-                    </VStack>
-                  </BlurView>
-                  <FastImage
-                    resizeMode="contain"
-                    style={styles.image}
-                    source={{
-                      uri: post.post.url,
-                    }}
-                  />
-                </View>
+                <MemoizedFastImage
+                  postId={post.post.id}
+                  source={post.post.url}
+                  recycled={recycled}
+                  nsfw
+                />
               </Pressable>
             ) : (
-              <Pressable onPress={onImagePress} onLongPress={onImageLongPress}>
-                <FastImage
-                  resizeMode="contain"
-                  style={styles.image}
-                  source={{
-                    uri: post.post.url,
-                  }}
+              <Pressable
+                onPress={onImagePress}
+                onLongPress={onImageLongPress}
+                alignItems="center"
+                justifyContent="center"
+              >
+                <MemoizedFastImage
+                  postId={post.post.id}
+                  source={post.post.url}
+                  recycled={recycled}
                 />
               </Pressable>
             )}
-            <ImageView
+            <ImageModal
               source={post.post.url}
-              setIsOpen={setImageViewOpen}
+              width={Dimensions.get("screen").width}
+              height={Dimensions.get("screen").height}
               isOpen={imageViewOpen}
+              onRequestClose={() => {
+                setImageViewOpen(false);
+              }}
             />
           </VStack>
         )}
@@ -126,29 +110,8 @@ function ContentView({
           ))}
       </>
     ),
-    [post, imageViewOpen]
+    [post.post.id, imageViewOpen]
   );
-  return view;
 }
-
-const styles = StyleSheet.create({
-  image: {
-    height: 350,
-    width: Dimensions.get("screen").width,
-  },
-
-  blurView: {
-    position: "absolute",
-    height: "100%",
-    width: "100%",
-    zIndex: 1,
-  },
-
-  blurContainer: {
-    flex: 1,
-    bottom: 0,
-    overflow: "hidden",
-  },
-});
 
 export default ContentView;

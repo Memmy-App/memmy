@@ -39,6 +39,23 @@ export const getSiteInfo = createAsyncThunk(
   }
 );
 
+export const getUnreadCount = createAsyncThunk(
+  "site/getUnreadCount",
+  async (_, thunkAPI) => {
+    try {
+      const res = await lemmyInstance.getUnreadCount({
+        auth: lemmyAuthToken,
+      });
+
+      return res;
+    } catch (e) {
+      writeToLog("Error getting unread count.");
+      writeToLog(e.toString());
+      return thunkAPI.rejectWithValue(e.toString());
+    }
+  }
+);
+
 export const unblockCommunity = createAsyncThunk(
   "site/unblockCommunity",
   async (communityId: number, thunkAPI) => {

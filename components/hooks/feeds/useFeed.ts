@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useRef, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import {
   CommunityView,
   ListingType,
@@ -16,6 +16,7 @@ import {
 import { clearUpdateVote, selectFeed } from "../../../slices/feed/feedSlice";
 import { selectCommunities } from "../../../slices/communities/communitiesSlice";
 import { writeToLog } from "../../../helpers/LogHelper";
+import { preloadImages } from "../../../helpers/ImageHelper";
 
 export interface UseFeed {
   posts: PostView[] | null;
@@ -87,8 +88,12 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
 
   useEffect(() => {
     if (updateVote) {
-      setPosts((prev) =>
-        prev.map((p) => {
+      if (!posts) return;
+
+      setPosts((prev) => {
+        if (!prev) return null;
+
+        return prev.map((p) => {
           if (p.post.id === updateVote.postId) {
             return {
               ...p,
@@ -97,12 +102,8 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
           }
 
           return p;
-        })
-      );
-
-      setRefreshList(!refreshList);
-
-      dispatch(clearUpdateVote());
+        });
+      });
     }
   }, [updateVote]);
 
@@ -124,17 +125,11 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
               : undefined,
         });
 
-        // @ts-ignore
-        if (res.error && res.error === "couldnt_find_community") {
-          setCommunityNotFound(true);
-          return;
-        }
-
         setCommunity(res.community_view);
-        setCommunityLoading(false);
         setSubscribed(
           isSubscribed(res.community_view.community.id, subscribedCommunities)
         );
+        setCommunityLoading(false);
       } catch (e) {
         writeToLog("Error getting community feed.");
         writeToLog(e.toString());
@@ -175,6 +170,8 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
         }
 
         const newPosts = hideNsfw ? removeNsfwPosts(res.posts) : res.posts;
+
+        preloadImages(newPosts);
 
         if (!posts || refresh) {
           setPosts(newPosts);

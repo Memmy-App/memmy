@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Center,
   Divider,
   HStack,
+  Pressable,
   Spinner,
   Text,
   useTheme,
@@ -11,14 +12,13 @@ import {
 } from "native-base";
 import { RefreshControl } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { IconClockHour5, IconMessageCircle } from "tabler-icons-react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import usePost from "../../hooks/post/postHooks";
-import CommentItem2 from "../../ui/CommentItem2";
+import CommentItem2 from "../../ui/comments/CommentItem2";
 import AvatarUsername from "../../ui/common/AvatarUsername";
 import CommunityLink from "../../ui/CommunityLink";
 import ContentView from "../../ui/ContentView";
@@ -27,10 +27,19 @@ import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
 import { getUserFullName } from "../../../lemmy/LemmyHelpers";
 
-function PostScreen() {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+function PostScreen({
+  route,
+  navigation,
+}: {
+  route: any;
+  navigation: NativeStackNavigationProp<any>;
+}) {
   const theme = useTheme();
-  const post = usePost();
+  const post = usePost(
+    route.params && route.params.commentId ? route.params.commentId : null
+  );
+
+  const [showLoadAll, setShowLoadAll] = useState(true);
 
   useEffect(() => {
     navigation.setOptions({
@@ -40,22 +49,19 @@ function PostScreen() {
     });
   }, []);
 
-  const commentItem = useCallback(
-    ({ item }) => (
-      <CommentItem2
-        nestedComment={item}
-        opId={post.currentPost.creator.id}
-        recycled={post.recycled}
-      />
-    ),
-    []
+  const commentItem = ({ item }) => (
+    <CommentItem2
+      nestedComment={item}
+      opId={post.currentPost.creator.id}
+      recycled={post.recycled}
+    />
   );
 
   const refreshControl = (
     <RefreshControl
       refreshing={post.commentsLoading}
       onRefresh={post.doLoad}
-      tintColor={theme.colors.app.refreshWheel}
+      tintColor={theme.colors.app.textSecondary}
     />
   );
 
@@ -65,7 +71,7 @@ function PostScreen() {
 
   const instanceBaseUrl = getBaseUrl(post.currentPost.creator.actor_id);
 
-  const header = () => (
+  const header = (
     <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
       <ContentView post={post.currentPost} showTitle showBody />
 
@@ -101,6 +107,21 @@ function PostScreen() {
       <Divider my={1} />
       <PostActionBar post={post} />
       <Divider />
+      {route.params && route.params.commentId && showLoadAll && (
+        <Pressable
+          backgroundColor="#1A91FF"
+          onPress={() => {
+            setShowLoadAll(false);
+            post.doLoad(true);
+          }}
+        >
+          <VStack>
+            <Text fontSize="md" fontStyle="italic" px={2} py={3}>
+              Load all comments...
+            </Text>
+          </VStack>
+        </Pressable>
+      )}
     </VStack>
   );
 
@@ -123,7 +144,7 @@ function PostScreen() {
         />
       );
     }
-    if (post.comments && post.comments.length === 0 && !post.commentsError) {
+    if (post.comments.length === 0 && !post.commentsError) {
       return (
         <Center my={4}>
           <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
@@ -136,16 +157,18 @@ function PostScreen() {
     return null;
   };
 
+  const keyExtractor = (item) => item.comment.comment.id.toString();
+
   if (post.currentPost) {
     return (
       <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
         <FlashList
-          ListFooterComponent={footer}
+          ListFooterComponent={footer()}
           ListHeaderComponent={header}
           extraData={post.refreshList}
           data={post.comments}
           renderItem={commentItem}
-          keyExtractor={(item) => item.comment.comment.id.toString()}
+          keyExtractor={keyExtractor}
           estimatedItemSize={200}
           refreshControl={refreshControl}
           refreshing={post.commentsLoading}
