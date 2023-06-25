@@ -3,17 +3,18 @@ import { useTheme, VStack } from "native-base";
 import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useWindowDimensions } from "react-native";
 import { openLink } from "../../../helpers/LinkHelper";
 import { findImages, replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
 import ImageButton from "../buttons/ImageButton";
 import { useAppSelector } from "../../../store";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 
-const FONT_SIZE = 14;
-const HEADING_1_SIZE = 32;
-const HEADING_2_SIZE = 26;
-const HEADING_3_SIZE = 22;
-const HEADING_4_SIZE = 18;
+// const FONT_SIZE = 14;
+// const HEADING_1_SIZE = 32;
+// const HEADING_2_SIZE = 26;
+// const HEADING_3_SIZE = 22;
+// const HEADING_4_SIZE = 18;
 
 interface MarkdownProps {
   text: string;
@@ -29,6 +30,14 @@ const RenderMarkdown = ({
   const currentAccount = useAppSelector(selectCurrentAccount);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+  const { fontScale } = useWindowDimensions();
+
+  const FONT_SIZE = 16 / fontScale;
+  const HEADING_1_SIZE = 32 / fontScale;
+  const HEADING_2_SIZE = 26 / fontScale;
+  const HEADING_3_SIZE = 22 / fontScale;
+  const HEADING_4_SIZE = 18 / fontScale;
 
   const onLinkPress = (url): boolean => {
     openLink(url, navigation);

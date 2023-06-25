@@ -318,6 +318,7 @@ function CommentItem2({
                       justifyContent="space-between"
                       alignItems="center"
                       mb={-3}
+                      pb={2}
                     >
                       <AvatarUsername
                         avatar={nestedComment.comment.creator.avatar}
