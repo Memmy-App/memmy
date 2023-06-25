@@ -452,7 +452,7 @@ function Tabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => <IconPlanet color={color} size={28} />,
-          tabBarLabel: "Community",
+          tabBarLabel: "Settings",
         }}
       />
     </Tab.Navigator>

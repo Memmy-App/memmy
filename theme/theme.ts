@@ -163,6 +163,9 @@ const brownThemeColors: IColors = {
   },
 
   inputBg: "#3C3C3C",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
 };
 
 const brownTheme = extendTheme({
@@ -183,7 +186,7 @@ const purpleThemeColors: IColors = {
   textSecondary: "#B8B9C1",
   textTertiary: "#a1a2a9",
 
-  fg: "#48C10F",
+  fg: "#1E1529",
   bg: "#120E1D",
   bgSecondary: "#1E1529",
   bgTertiary: "#120E1D",
@@ -225,6 +228,9 @@ const purpleThemeColors: IColors = {
   },
 
   inputBg: "#151515",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
 };
 
 const purpleTheme = extendTheme({
@@ -245,7 +251,7 @@ const darkThemeColors: IColors = {
   textSecondary: "#ececec",
   textTertiary: "#e7e7e7",
 
-  fg: "#48C10F",
+  fg: "#1B1B1B",
   bg: "#070707",
   bgSecondary: "#000000",
   bgTertiary: "#0c0c0c",
@@ -286,7 +292,10 @@ const darkThemeColors: IColors = {
     5: "#4BA9FF",
   },
 
-  inputBg: "#171717",
+  inputBg: "#3C3C3C",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
 };
 
 const darkTheme = extendTheme({
