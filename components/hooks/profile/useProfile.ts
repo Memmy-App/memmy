@@ -52,25 +52,28 @@ const useProfile = (fullUsername?: string): UseProfile => {
     doLoad().then();
   }, []);
 
-  const doLoad = async (refresh = false) => {
+  useEffect(() => {
+    console.log("render");
+  });
+
+  const doLoad = async () => {
     setLoading(true);
     setError(false);
-
-    console.log("test");
+    setItems([]);
+    setSelectedTab("comments");
+    setNextPage(2);
 
     try {
       const res = await lemmyInstance.getPersonDetails({
         auth: lemmyAuthToken,
         username: searchUsername,
         sort: "New",
-        limit: 20,
+        limit: 50,
         page: 1,
       });
 
       setProfile(res.person_view);
-      if (!refresh) {
-        setItems(res.comments);
-      }
+      setItems(res.comments);
       setLoading(false);
     } catch (e) {
       writeToLog("Error getting person.");
@@ -87,8 +90,10 @@ const useProfile = (fullUsername?: string): UseProfile => {
   };
 
   const doLoadItems = async (type: "comments" | "posts", refresh = false) => {
-    setItems([]);
-    setSelectedTab(type);
+    if (refresh) {
+      setItems([]);
+      setSelectedTab(type);
+    }
     setItemsLoading(true);
     setError(false);
 
@@ -98,15 +103,14 @@ const useProfile = (fullUsername?: string): UseProfile => {
         username: searchUsername,
         page: refresh ? 1 : nextPage,
         sort: "New",
-        limit: 20,
+        limit: 50,
       });
 
       setNextPage((prev) => (refresh ? 2 : prev + 1));
 
-      console.log(type);
-
-      if (type === "comments") setItems([...res.comments]);
-      if (type === "posts") setItems([...res.posts]);
+      if (type === "comments")
+        setItems([...(items as CommentView[]), ...res.comments]);
+      if (type === "posts") setItems([...(items as PostView[]), ...res.posts]);
     } catch (e) {
       writeToLog("Failed to get user.");
       writeToLog(e.toString());

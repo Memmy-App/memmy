@@ -223,7 +223,6 @@ function UserProfileScreen({
       backgroundColor={theme.colors.app.bgSecondary}
       display="flex"
     >
-      <LoadingModalTransparent loading={profile.loading} />
       <FlashList
         renderItem={renderItem}
         ListHeaderComponent={header}
@@ -231,6 +230,9 @@ function UserProfileScreen({
         data={profile.items}
         keyExtractor={keyExtractor}
         ListEmptyComponent={<Spinner pt={10} />}
+        refreshing={profile.loading}
+        refreshControl={refreshControl}
+        // onEndReached={() => profile.doLoadItems(profile.selectedTab)}
       />
     </VStack>
   );

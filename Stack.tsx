@@ -360,7 +360,29 @@ function CommunityStackScreen() {
           color: theme.colors.app.textPrimary,
         },
       }}
-    />
+    >
+      <CommunityStack.Screen
+        name="Settings"
+        component={SettingsIndexScreen}
+        options={{
+          title: "Settings",
+        }}
+      />
+      <CommunityStack.Screen
+        name="ViewAccounts"
+        component={ViewAccountsScreen}
+        options={{
+          title: "Manage Accounts",
+        }}
+      />
+      <CommunityStack.Screen
+        name="EditAccount"
+        component={EditAccountScreen}
+        options={{
+          title: "Edit Account",
+        }}
+      />
+    </CommunityStack.Navigator>
   );
 }
 
