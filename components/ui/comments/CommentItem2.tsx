@@ -458,7 +458,13 @@ function CommentItem2({
             )))}
       </>
     ),
-    [swipeAnimation.leftIcon, swipeAnimation.rightIcon, nestedComment, myVote]
+    [
+      swipeAnimation.leftIcon,
+      swipeAnimation.rightIcon,
+      nestedComment,
+      myVote,
+      collapsed,
+    ]
   );
 }
 

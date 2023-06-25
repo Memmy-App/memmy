@@ -38,8 +38,8 @@ function FeedItem({ post, recycled }: FeedItemProps) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
 
-  const onLeftRightOne = () => feedItem.onVotePress(1);
-  const onLeftRightTwo = () => feedItem.onVotePress(-1);
+  const onLeftRightOne = () => feedItem.onVotePress(1, false);
+  const onLeftRightTwo = () => feedItem.onVotePress(-1, false);
   const onRightLeftOne = () => {
     dispatch(
       setResponseTo({
@@ -222,12 +222,12 @@ function FeedItem({ post, recycled }: FeedItemProps) {
               onPressHandler={() => {}}
             /> */}
                     <VoteButton
-                      onPressHandler={() => feedItem.onVotePress(1, false)}
+                      onPressHandler={() => feedItem.onVotePress(1)}
                       type="upvote"
                       isVoted={isUpvoted}
                     />
                     <VoteButton
-                      onPressHandler={() => feedItem.onVotePress(-1, false)}
+                      onPressHandler={() => feedItem.onVotePress(-1)}
                       type="downvote"
                       isVoted={isDownvoted}
                     />
