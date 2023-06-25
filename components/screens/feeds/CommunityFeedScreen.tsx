@@ -91,14 +91,17 @@ function FeedsCommunityScreen({
           <VStack alignContent="center">
             <HStack space={2}>
               <HStack space={1}>
-                <IconUserHeart color={theme.colors.app.iconColor} size={20} />
-                <Text color={theme.colors.app.secondaryText}>
+                <IconUserHeart
+                  color={theme.colors.app.textSecondary}
+                  size={20}
+                />
+                <Text color={theme.colors.app.textSecondary}>
                   {communityFeed.feed.community.counts.subscribers}
                 </Text>
               </HStack>
               <HStack space={1}>
-                <IconEye color={theme.colors.app.iconColor} size={20} />
-                <Text color={theme.colors.app.secondaryText}>
+                <IconEye color={theme.colors.app.textSecondary} size={20} />
+                <Text color={theme.colors.app.textSecondary}>
                   {communityFeed.feed.community.counts.users_active_month}
                 </Text>
               </HStack>
@@ -106,7 +109,7 @@ function FeedsCommunityScreen({
             <Text fontSize="3xl" fontWeight="bold">
               {communityFeed.feed.community.community.name}
             </Text>
-            <Text fontSize="md" color={theme.colors.app.secondaryText} mt={-2}>
+            <Text fontSize="md" color={theme.colors.app.textSecondary} mt={-2}>
               {getBaseUrl(communityFeed.feed.community.community.actor_id)}
             </Text>
           </VStack>

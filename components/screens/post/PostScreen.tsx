@@ -61,7 +61,7 @@ function PostScreen({
     <RefreshControl
       refreshing={post.commentsLoading}
       onRefresh={post.doLoad}
-      tintColor={theme.colors.app.refreshWheel}
+      tintColor={theme.colors.app.textSecondary}
     />
   );
 
@@ -72,7 +72,7 @@ function PostScreen({
   const instanceBaseUrl = getBaseUrl(post.currentPost.creator.actor_id);
 
   const header = (
-    <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
+    <VStack flex={1} backgroundColor={theme.colors.app.fg}>
       <ContentView post={post.currentPost} showTitle showBody />
 
       <HStack mb={2} mx={4} space={2}>
@@ -87,18 +87,18 @@ function PostScreen({
           <CommunityLink
             community={post.currentPost?.community}
             instanceBaseUrl={!post.currentPost?.post.local && instanceBaseUrl}
-            color={theme.colors.app.secondaryText}
+            color={theme.colors.app.textSecondary}
           />
         </HStack>
         <HStack alignItems="center" space={1}>
-          <IconMessageCircle size={14} color={theme.colors.app.secondaryText} />
-          <Text color={theme.colors.app.secondaryText}>
+          <IconMessageCircle size={14} color={theme.colors.app.textSecondary} />
+          <Text color={theme.colors.app.textSecondary}>
             {post.currentPost.counts.comments}
           </Text>
         </HStack>
         <HStack alignItems="center" space={1}>
-          <IconClockHour5 size={14} color={theme.colors.app.secondaryText} />
-          <Text color={theme.colors.app.secondaryText}>
+          <IconClockHour5 size={14} color={theme.colors.app.textSecondary} />
+          <Text color={theme.colors.app.textSecondary}>
             {timeFromNowShort(post.currentPost?.post.published)}
           </Text>
         </HStack>
@@ -130,7 +130,7 @@ function PostScreen({
       return (
         <Center my={4}>
           <Spinner />
-          <Text fontStyle="italic" color={theme.colors.app.secondaryText}>
+          <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
             Loading comments...
           </Text>
         </Center>
@@ -147,7 +147,7 @@ function PostScreen({
     if (post.comments.length === 0 && !post.commentsError) {
       return (
         <Center my={4}>
-          <Text fontStyle="italic" color={theme.colors.app.secondaryText}>
+          <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
             No comments yet. Time to do your part 🫡
           </Text>
         </Center>
@@ -161,7 +161,7 @@ function PostScreen({
 
   if (post.currentPost) {
     return (
-      <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
+      <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
         <FlashList
           ListFooterComponent={footer()}
           ListHeaderComponent={header}

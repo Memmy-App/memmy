@@ -3,17 +3,18 @@ import { useTheme, VStack } from "native-base";
 import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useWindowDimensions } from "react-native";
 import { openLink } from "../../../helpers/LinkHelper";
 import { findImages, replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
 import ImageButton from "../buttons/ImageButton";
 import { useAppSelector } from "../../../store";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 
-const FONT_SIZE = 14;
-const HEADING_1_SIZE = 32;
-const HEADING_2_SIZE = 26;
-const HEADING_3_SIZE = 22;
-const HEADING_4_SIZE = 18;
+// const FONT_SIZE = 14;
+// const HEADING_1_SIZE = 32;
+// const HEADING_2_SIZE = 26;
+// const HEADING_3_SIZE = 22;
+// const HEADING_4_SIZE = 18;
 
 interface MarkdownProps {
   text: string;
@@ -30,6 +31,14 @@ const RenderMarkdown = ({
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
+  const { fontScale } = useWindowDimensions();
+
+  const FONT_SIZE = 16 / fontScale;
+  const HEADING_1_SIZE = 32 / fontScale;
+  const HEADING_2_SIZE = 26 / fontScale;
+  const HEADING_3_SIZE = 22 / fontScale;
+  const HEADING_4_SIZE = 18 / fontScale;
+
   const onLinkPress = (url): boolean => {
     openLink(url, navigation);
     return false;
@@ -38,8 +47,8 @@ const RenderMarkdown = ({
   const theme = useTheme();
 
   const fontColor = truncate
-    ? theme.colors.app.secondaryText
-    : theme.colors.app.primaryText;
+    ? theme.colors.app.textSecondary
+    : theme.colors.app.textPrimary;
 
   const styles = {
     span: {
@@ -75,7 +84,7 @@ const RenderMarkdown = ({
       color: fontColor,
     },
     blockquote: {
-      backgroundColor: theme.colors.app.backgroundTricondary,
+      backgroundColor: theme.colors.app.bgTertiary,
       borderRadius: 5,
       borderLeftWidth: 3,
       borderLeftColor: theme.colors.orange["500"],
@@ -84,18 +93,18 @@ const RenderMarkdown = ({
     code_inline: {
       fontSize: FONT_SIZE,
       color: fontColor,
-      backgroundColor: theme.colors.app.backgroundTricondary,
+      backgroundColor: theme.colors.app.bgTertiary,
     },
     code_block: {
       fontSize: FONT_SIZE,
       color: fontColor,
-      backgroundColor: theme.colors.app.backgroundTricondary,
+      backgroundColor: theme.colors.app.bgTertiary,
       borderRadius: 5,
     },
     pre: {
       fontSize: FONT_SIZE,
       color: fontColor,
-      backgroundColor: theme.colors.app.backgroundTricondary,
+      backgroundColor: theme.colors.app.bgTertiary,
       borderRadius: 5,
     },
     image: {
@@ -109,20 +118,20 @@ const RenderMarkdown = ({
     table: {
       color: fontColor,
       fontSize: FONT_SIZE,
-      borderColor: theme.colors.app.tableBorder,
+      borderColor: theme.colors.app.border,
       marginVertical: 10,
     },
     th: {
-      borderColor: theme.colors.app.tableBorder,
+      borderColor: theme.colors.app.border,
       padding: 8,
       fontWeight: "bold",
     },
     td: {
-      borderColor: theme.colors.app.tableBorder,
+      borderColor: theme.colors.app.border,
       padding: 8,
     },
     tr: {
-      borderColor: theme.colors.app.tableBorder,
+      borderColor: theme.colors.app.border,
     },
     list_item: {
       color: fontColor,
@@ -132,8 +141,8 @@ const RenderMarkdown = ({
       paddingVertical: 1,
     },
     fence: {
-      backgroundColor: theme.colors.app.backgroundTricondary,
-      borderColor: theme.colors.app.backgroundTricondary,
+      backgroundColor: theme.colors.app.bgTertiary,
+      borderColor: theme.colors.app.bgTertiary,
       color: fontColor,
       fontSize: FONT_SIZE,
     },
@@ -157,7 +166,7 @@ const RenderMarkdown = ({
       fontSize: FONT_SIZE,
     },
     hr: {
-      color: theme.colors.app.backgroundTricondary,
+      color: theme.colors.app.bgTertiary,
     },
   };
 

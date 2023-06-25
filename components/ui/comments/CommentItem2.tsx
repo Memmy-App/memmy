@@ -14,10 +14,7 @@ import {
 } from "native-base";
 import React, { useMemo, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
-import {
-  GestureHandlerRootView,
-  PanGestureHandler,
-} from "react-native-gesture-handler";
+import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import {
   IconArrowDown,
@@ -55,7 +52,7 @@ import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
 function CommentItem2({
   nestedComment,
   opId,
-  recycled,
+  recycled = undefined,
   depth = 2,
   isReply = false,
   onPressOverride = null,
@@ -63,7 +60,7 @@ function CommentItem2({
 }: {
   nestedComment: NestedComment;
   opId: number;
-  recycled: React.MutableRefObject<{}>;
+  recycled?: React.MutableRefObject<{}> | undefined;
   depth?: number;
   isReply?: boolean;
   onPressOverride?: () => void | Promise<void>;
@@ -91,7 +88,7 @@ function CommentItem2({
   const { showActionSheetWithOptions } = useActionSheet();
   const toast = useToast();
 
-  if (nestedComment.comment.comment.id !== lastCommentId.current) {
+  if (recycled && nestedComment.comment.comment.id !== lastCommentId.current) {
     if (recycled.current[nestedComment.comment.comment.id]) {
       setCollapsed(
         recycled.current[nestedComment.comment.comment.id].collapsed
@@ -301,7 +298,7 @@ function CommentItem2({
                   pr={2}
                   pb={1}
                   space={2}
-                  backgroundColor={theme.colors.app.backgroundSecondary}
+                  backgroundColor={theme.colors.app.fg}
                   style={{
                     paddingLeft: depth * 8,
                   }}
@@ -309,8 +306,8 @@ function CommentItem2({
                   <VStack
                     borderLeftWidth={depth > 2 ? 2 : 0}
                     borderLeftColor={
-                      theme.colors.app.commentChain[depth - 2] ??
-                      theme.colors.app.commentChain[5]
+                      theme.colors.app.comments[depth - 2] ??
+                      theme.colors.app.comments[5]
                     }
                     borderLeftRadius={1}
                     pl={depth > 2 ? 2 : 0}
@@ -321,6 +318,7 @@ function CommentItem2({
                       justifyContent="space-between"
                       alignItems="center"
                       mb={-3}
+                      pb={2}
                     >
                       <AvatarUsername
                         avatar={nestedComment.comment.creator.avatar}
@@ -342,13 +340,13 @@ function CommentItem2({
                             ) === currentAccount?.instance && (
                               <NamePill
                                 text="me"
-                                color={theme.colors.app.selfColor}
+                                color={theme.colors.app.users.me}
                               />
                             )) ||
                             (nestedComment.comment.creator.id === opId && (
                               <NamePill
                                 text="OP"
-                                color={theme.colors.app.opColor}
+                                color={theme.colors.app.users.op}
                               />
                             ))}
                           <SmallVoteIcons
@@ -367,7 +365,7 @@ function CommentItem2({
                                 icon={
                                   <IconMail
                                     size={24}
-                                    color={theme.colors.app.iconColor}
+                                    color={theme.colors.app.textSecondary}
                                   />
                                 }
                                 onPress={onReadPress}
@@ -375,7 +373,7 @@ function CommentItem2({
                             ) : (
                               <IconMailOpened
                                 size={24}
-                                color={theme.colors.app.iconColor}
+                                color={theme.colors.app.textSecondary}
                               />
                             )}
                           </>
@@ -385,13 +383,13 @@ function CommentItem2({
                             icon={
                               <IconDots
                                 size={24}
-                                color={theme.colors.app.iconColor}
+                                color={theme.colors.app.textSecondary}
                               />
                             }
                             onPress={onCommentLongPress}
                           />
                         )}
-                        <Text>
+                        <Text color={theme.colors.app.textSecondary}>
                           {timeFromNowShort(
                             nestedComment.comment.comment.published
                           )}
@@ -401,7 +399,7 @@ function CommentItem2({
                     {collapsed ? (
                       <Text
                         py={3}
-                        color={theme.colors.app.secondaryText}
+                        color={theme.colors.app.textSecondary}
                         fontStyle="italic"
                       >
                         Comment collapsed
@@ -411,7 +409,7 @@ function CommentItem2({
                         {(nestedComment.comment.comment.deleted && (
                           <Text
                             py={3}
-                            color={theme.colors.app.secondaryText}
+                            color={theme.colors.app.textSecondary}
                             fontStyle="italic"
                           >
                             Comment deleted by user :(
@@ -420,7 +418,7 @@ function CommentItem2({
                           (nestedComment.comment.comment.removed && (
                             <Text
                               py={3}
-                              color={theme.colors.app.secondaryText}
+                              color={theme.colors.app.textSecondary}
                               fontStyle="italic"
                             >
                               Comment removed by moderator :(
@@ -465,6 +463,7 @@ function CommentItem2({
       swipeAnimation.leftIcon,
       swipeAnimation.rightIcon,
       nestedComment,
+      nestedComment.replies,
       myVote,
       collapsed,
     ]

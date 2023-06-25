@@ -11,7 +11,7 @@ function LoadingFooter({ message = "Loading..." }: LoadingFooterProps) {
   return (
     <Center my={4}>
       <Spinner />
-      <Text fontStyle="italic" color={theme.colors.app.secondaryText}>
+      <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
         {message}
       </Text>
     </Center>

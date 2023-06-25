@@ -8,9 +8,9 @@ function CCell(props: CellInterface) {
 
   return (
     <Cell
-      backgroundColor={theme.colors.app.backgroundTricondary}
-      titleTextColor={theme.colors.lightText}
-      rightDetailColor={theme.colors.app.iconColor}
+      backgroundColor={theme.colors.app.fg}
+      titleTextColor={theme.colors.app.textPrimary}
+      rightDetailColor={theme.colors.app.textSecondary}
       {...props}
     />
   );

@@ -118,13 +118,13 @@ function CompactFeedItem({ post }: { post: PostView }) {
                 flex={1}
                 px={3}
                 py={4}
-                backgroundColor={theme.colors.app.backgroundSecondary}
+                backgroundColor={theme.colors.app.bgSecondary}
                 space={2}
               >
                 <Box
                   width={75}
                   height={75}
-                  backgroundColor={theme.colors.app.backgroundTricondary}
+                  backgroundColor={theme.colors.app.bgTertiary}
                   borderRadius={10}
                   justifyContent="center"
                   alignItems="center"
@@ -148,7 +148,7 @@ function CompactFeedItem({ post }: { post: PostView }) {
                               <Icon
                                 as={Ionicons}
                                 name="alert-circle"
-                                color={theme.colors.app.primaryText}
+                                color={theme.colors.app.textPrimary}
                                 size={12}
                                 alignSelf="center"
                                 style={styles.nsfwIcon}
@@ -177,10 +177,13 @@ function CompactFeedItem({ post }: { post: PostView }) {
                     (feedItem.linkInfo.extType === ExtensionType.NONE && (
                       <IconMessages
                         size={40}
-                        color={theme.colors.app.iconColor}
+                        color={theme.colors.app.textSecondary}
                       />
                     )) || (
-                      <IconLink size={40} color={theme.colors.app.iconColor} />
+                      <IconLink
+                        size={40}
+                        color={theme.colors.app.textSecondary}
+                      />
                     )}
                 </Box>
                 <VStack flex={1}>
@@ -196,13 +199,16 @@ function CompactFeedItem({ post }: { post: PostView }) {
                         style={{ height: 19, width: 19, borderRadius: 100 }}
                       />
                     )) || (
-                      <IconUser size={19} color={theme.colors.app.iconColor} />
+                      <IconUser
+                        size={19}
+                        color={theme.colors.app.textSecondary}
+                      />
                     )}
                     <Text fontWeight="semibold">
                       {truncateName(post.creator.name)}
                     </Text>
-                    <Text color={theme.colors.app.secondaryText}>•</Text>
-                    <Text color={theme.colors.app.secondaryText}>
+                    <Text color={theme.colors.app.textSecondary}>•</Text>
+                    <Text color={theme.colors.app.textSecondary}>
                       {timeFromNowShort(post.post.published)}
                     </Text>
                   </HStack>
@@ -214,14 +220,14 @@ function CompactFeedItem({ post }: { post: PostView }) {
                     />
                     <HStack alignItems="center" space={1}>
                       <IconMessage
-                        color={theme.colors.app.iconColor}
+                        color={theme.colors.app.textSecondary}
                         size={16}
                       />
                       <Text>{post.counts.comments}</Text>
                     </HStack>
                     <HStack alignItems="center" space={1}>
                       <IconPlanet
-                        color={theme.colors.app.iconColor}
+                        color={theme.colors.app.textSecondary}
                         size={16}
                       />
                       <Text>{truncateName(post.community.name)}</Text>
@@ -250,7 +256,7 @@ function CompactFeedItem({ post }: { post: PostView }) {
         </PanGestureHandler>
       </View>
     ),
-    [post]
+    [post, swipeAnimation.leftIcon, swipeAnimation.rightIcon]
   );
 }
 

@@ -67,12 +67,12 @@ function FeedItem({ post, recycled }: FeedItemProps) {
 
   const isUpvoted = post.my_vote === 1;
   const upvoteColor = isUpvoted
-    ? theme.colors.app.upvoteColor
-    : theme.colors.app.secondaryText;
+    ? theme.colors.app.upvote
+    : theme.colors.app.textSecondary;
   const isDownvoted = post.my_vote === -1;
   const downvoteColor = isDownvoted
-    ? theme.colors.app.downvoteColor
-    : theme.colors.app.secondaryText;
+    ? theme.colors.app.downvote
+    : theme.colors.app.textSecondary;
 
   return useMemo(
     () => (
@@ -108,7 +108,7 @@ function FeedItem({ post, recycled }: FeedItemProps) {
           hitSlop={{ left: -25 }}
         >
           <Animated.View style={[swipeAnimation.animatedStyle]}>
-            <VStack backgroundColor={theme.colors.app.backgroundSecondary}>
+            <VStack backgroundColor={theme.colors.app.fg}>
               <HStack
                 mx={4}
                 mt={2}
@@ -127,18 +127,18 @@ function FeedItem({ post, recycled }: FeedItemProps) {
                 <HStack alignItems="center" space={1}>
                   <IconClockHour5
                     size={14}
-                    color={theme.colors.app.secondaryText}
+                    color={theme.colors.app.textSecondary}
                   />
-                  <Text color={theme.colors.app.secondaryText}>
+                  <Text color={theme.colors.app.textSecondary}>
                     {timeFromNowShort(post.post.published)}
                   </Text>
                   <IconPlanet
-                    color={theme.colors.app.secondaryText}
+                    color={theme.colors.app.textSecondary}
                     size={15}
                   />
                   <CommunityLink
                     community={post.community}
-                    color={theme.colors.app.secondaryText}
+                    color={theme.colors.app.textSecondary}
                   />
                 </HStack>
               </HStack>
@@ -162,7 +162,7 @@ function FeedItem({ post, recycled }: FeedItemProps) {
                       fontStyle="italic"
                       mx={4}
                       mt={-1}
-                      color={theme.colors.app.secondaryText}
+                      color={theme.colors.app.textSecondary}
                       alignSelf="flex-end"
                     >
                       {getBaseUrl(post.post.url)}
@@ -186,11 +186,11 @@ function FeedItem({ post, recycled }: FeedItemProps) {
                     </HStack>
                     <HStack alignItems="center" ml={1} space={0.5}>
                       <IconMessageCircle
-                        color={theme.colors.app.secondaryText}
+                        color={theme.colors.app.textSecondary}
                         size={20}
                       />
                       <Text
-                        color={theme.colors.app.secondaryText}
+                        color={theme.colors.app.textSecondary}
                         fontSize="sm"
                       >
                         {post.counts.comments}
@@ -206,19 +206,19 @@ function FeedItem({ post, recycled }: FeedItemProps) {
                     {/* // TODO: add functionality for bookmark and menu buttons
             <IconButtonWithText
               icon={
-                <IconDots size={25} color={theme.colors.app.secondaryText} />
+                <IconDots size={25} color={theme.colors.app.textSecondary} />
               }
-              iconBgColor={theme.colors.app.backgroundSecondary}
+              iconBgColor={theme.colors.app.bgSecondary}
               onPressHandler={() => {}}
             />
             <IconButtonWithText
               icon={
                 <IconBookmark
                   size={25}
-                  color={theme.colors.app.secondaryText}
+                  color={theme.colors.app.textSecondary}
                 />
               }
-              iconBgColor={theme.colors.app.backgroundSecondary}
+              iconBgColor={theme.colors.app.bgSecondary}
               onPressHandler={() => {}}
             /> */}
                     <VoteButton

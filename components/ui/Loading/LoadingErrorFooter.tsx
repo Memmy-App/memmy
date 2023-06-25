@@ -14,7 +14,7 @@ function LoadingErrorFooter({
 
   return (
     <Center flex={1} my={4}>
-      <Text fontStyle="italic" color={theme.colors.app.secondaryText}>
+      <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
         {`${message || "Error loading content :("}`}
       </Text>
       <Pressable

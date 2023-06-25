@@ -27,7 +27,6 @@ function NewPostScreen({
 
   // Other hooks
   const theme = useTheme();
-  const colorMode = useColorMode();
 
   const headerLeft = () => (
     <Button title="Cancel" onPress={() => navigation.pop()} />
@@ -50,9 +49,9 @@ function NewPostScreen({
   return (
     <>
       <KeyboardAwareScrollView
-        style={{ backgroundColor: theme.colors.app.backgroundSecondary }}
+        style={{ backgroundColor: theme.colors.app.bgSecondary }}
       >
-        <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
+        <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
           <TableView>
             <Section header="POST INFO">
               <CCell
@@ -61,13 +60,14 @@ function NewPostScreen({
                     style={{
                       fontSize: 16,
                       flex: 1,
-                      color: theme.colors.lightText,
+                      color: theme.colors.app.textPrimary,
                     }}
-                    placeholderTextColor={theme.colors.app.iconColor}
+                    placeholderTextColor={theme.colors.app.textSecondary}
                     placeholder="Title"
                     value={newPost.form.name}
                     onChangeText={(text) => newPost.onFormChange("name", text)}
                     autoFocus
+                    keyboardAppearance={theme.config.initialColorMode}
                   />
                 }
               />
@@ -84,14 +84,15 @@ function NewPostScreen({
                     style={{
                       fontSize: 16,
                       flex: 1,
-                      color: theme.colors.app.primaryText,
+                      color: theme.colors.app.textPrimary,
                     }}
-                    placeholderTextColor={theme.colors.app.iconColor}
+                    placeholderTextColor={theme.colors.app.textSecondary}
                     placeholder="Link"
                     value={newPost.form.url}
                     onChangeText={(text) => newPost.onFormChange("url", text)}
                     autoCapitalize="none"
                     autoCorrect={false}
+                    keyboardAppearance={theme.config.initialColorMode}
                   />
                 }
               />
@@ -110,13 +111,13 @@ function NewPostScreen({
           <TextInput
             multiline
             placeholder="Type away!"
-            placeholderTextColor={theme.colors.app.iconColor}
+            placeholderTextColor={theme.colors.app.textSecondary}
             autoCapitalize="sentences"
             style={[
               styles.input,
               {
-                backgroundColor: theme.colors.app.backgroundTricondary,
-                color: theme.colors.app.primaryText,
+                backgroundColor: theme.colors.app.bgTertiary,
+                color: theme.colors.app.textPrimary,
               },
             ]}
             numberOfLines={20}
@@ -125,7 +126,7 @@ function NewPostScreen({
               setSelection(e.nativeEvent.selection);
             }}
             onChangeText={(text) => newPost.onFormChange("body", text)}
-            keyboardAppearance={colorMode.colorMode}
+            keyboardAppearance={theme.config.initialColorMode}
             inputAccessoryViewID="accessory"
             ref={newPost.inputRef}
           />

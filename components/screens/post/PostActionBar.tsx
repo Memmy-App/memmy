@@ -67,25 +67,23 @@ function PostActionBar({ post }: { post: UsePost }) {
         icon={
           <IconBookmark
             size={25}
-            color={post.bookmarked ? colors.white : colors.app.accentColor}
+            color={
+              post.bookmarked ? colors.app.bookmarkText : colors.app.accent
+            }
           />
         }
         onPress={post.doBookmark}
-        backgroundColor={
-          post.bookmarked ? colors.green[500] : colors.app.backgroundSecondary
-        }
+        backgroundColor={post.bookmarked ? colors.app.bookmark : "transparent"}
         padding={2}
       />
 
       <IconButtonWithText
         onPressHandler={onCommentPress}
-        icon={
-          <IconMessageCirclePlus color={colors.app.accentColor} size={25} />
-        }
+        icon={<IconMessageCirclePlus color={colors.app.accent} size={25} />}
       />
 
       <IconButton
-        icon={<IconShare2 size={25} color={colors.app.accentColor} />}
+        icon={<IconShare2 size={25} color={colors.app.accent} />}
         onPress={onSharePress}
       />
     </HStack>

@@ -31,10 +31,10 @@ function AvatarUsername({
           source={{
             uri: avatar,
           }}
-          style={{ height: 20, width: 20, borderRadius: 100 }}
+          style={{ height: 18, width: 18, borderRadius: 100 }}
         />
       ) : (
-        <IconUser color={colors.app.iconColor} />
+        <IconUser color={colors.app.textSecondary} />
       )}
       <VStack>
         <UserLink username={username} fullUsername={fullUsername} />

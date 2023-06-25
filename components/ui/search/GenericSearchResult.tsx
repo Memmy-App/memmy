@@ -25,15 +25,15 @@ function GenericSearchResult({
           {image ? (
             <FastImage source={{ uri: image }} style={styles.image} />
           ) : (
-            <IconUser size={31} color={theme.colors.app.iconColor} />
+            <IconUser size={31} color={theme.colors.app.textSecondary} />
           )}
         </Box>
         <VStack>
           <Text>{header}</Text>
-          <Text color={theme.colors.app.secondaryText}>{footer}</Text>
+          <Text color={theme.colors.app.textSecondary}>{footer}</Text>
         </VStack>
         <Text
-          color={theme.colors.app.secondaryText}
+          color={theme.colors.app.textSecondary}
           ml="auto"
           alignSelf="flex-start"
         >

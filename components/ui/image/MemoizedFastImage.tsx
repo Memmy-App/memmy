@@ -81,7 +81,7 @@ function MemoizedFastImage({
               <Icon
                 as={Ionicons}
                 name="alert-circle"
-                color={theme.colors.app.primaryText}
+                color={theme.colors.app.textSecondary}
                 size={16}
               />
               <Text fontSize="xl">NSFW</Text>

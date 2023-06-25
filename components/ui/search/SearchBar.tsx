@@ -15,32 +15,27 @@ function SearchBar({
   const theme = useTheme();
 
   return (
-    <VStack
-      backgroundColor={theme.colors.app.backgroundSecondary}
-      pt={3}
-      pb={2}
-      px={4}
-    >
+    <VStack backgroundColor={theme.colors.app.bg} pt={3} pb={2} px={4}>
       <HStack
-        backgroundColor={theme.colors.app.inputBackground}
+        backgroundColor={theme.colors.app.inputBg}
         borderRadius={12}
         py={1.5}
         px={2.5}
         space={2}
       >
-        <IconSearch color={theme.colors.app.iconColor} size={20} />
+        <IconSearch color={theme.colors.app.textSecondary} size={20} />
         <TextInput
           value={searchValue}
           placeholder="Search"
           onChangeText={onSearchChange}
           style={{
-            color: theme.colors.app.primaryText,
+            color: theme.colors.app.textPrimary,
             width: "100%",
           }}
-          placeholderTextColor={theme.colors.app.secondaryText}
+          placeholderTextColor={theme.colors.app.textSecondary}
           returnKeyType="search"
           returnKeyLabel="search"
-          keyboardAppearance="dark"
+          keyboardAppearance={theme.config.initialColorMode}
           onSubmitEditing={onSubmitSearch}
           autoCorrect={false}
           autoCapitalize="none"

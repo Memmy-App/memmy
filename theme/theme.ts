@@ -1,6 +1,64 @@
 import { extendTheme } from "native-base";
 
-const brownTheme = extendTheme({
+interface ICommentChainColors {
+  1: string;
+  2: string;
+  3: string;
+  4: string;
+  5: string;
+}
+
+interface IUserColors {
+  mod: string;
+  admin: string;
+  dev: string;
+  op: string;
+  me: string;
+}
+
+interface IColors {
+  accent: string;
+  accentHighlight: string;
+
+  textPrimary: string;
+  textSecondary: string;
+  textTertiary: string;
+
+  fg: string;
+  bg: string;
+  bgSecondary: string;
+  bgTertiary: string;
+
+  border: string; // color for border and divider
+
+  upvote: string; // upvote color
+  upvoteText: string; // icon color for when upvote button is selected
+  downvote: string; // downvote color
+  downvoteText: string; // icon color for when downvote button is selected
+
+  success: string;
+  successBg: string;
+  successBorder: string;
+  error: string;
+  errorBg: string;
+  errorBorder: string;
+  warn: string;
+  warnBg: string;
+  warnBorder: string;
+  info: string;
+  infoBg: string;
+  infoBorder: string;
+
+  users: IUserColors;
+  comments: ICommentChainColors;
+
+  inputBg: string;
+
+  bookmark: string;
+  bookmarkText: string;
+}
+
+const commonSettings = {
   components: {
     Text: {
       defaultProps: {
@@ -8,7 +66,6 @@ const brownTheme = extendTheme({
       },
     },
   },
-
   fontConfig: {
     Inter: {
       100: {
@@ -54,318 +111,274 @@ const brownTheme = extendTheme({
     body: "Inter",
     mono: "Inter",
   },
+};
+
+const brownThemeColors: IColors = {
+  accent: "#1A91FF",
+  accentHighlight: "#E7F2FF",
+
+  textPrimary: "#FFF",
+  textSecondary: "#B8B9C1",
+  textTertiary: "#a1a2a9",
+
+  fg: "#1c1917",
+  bg: "#292524",
+  bgSecondary: "#1c1917",
+  bgTertiary: "#1c1917",
+
+  border: "#C8C8CA",
+
+  upvote: "#EE923D",
+  upvoteText: "#FFF",
+  downvote: "#1A84E5",
+  downvoteText: "#FFF",
+
+  success: "#48C10F",
+  successBg: "#D7F8DA",
+  successBorder: "#2B8302",
+  error: "#F8372B",
+  errorBg: "#FFC6C2",
+  errorBorder: "#A62525",
+  warn: "#DEA435",
+  warnBg: "#FFEDD9",
+  warnBorder: "#CB6A11",
+  info: "",
+  infoBg: "#CAE6FF",
+  infoBorder: "#316677",
+
+  users: {
+    mod: "#54CB60",
+    admin: "#FF4848",
+    dev: "#CB66FA",
+    op: "#54CB60",
+    me: "#FFB800",
+  },
+
+  comments: {
+    1: "#FA6969",
+    2: "#FFB800",
+    3: "#FFE500",
+    4: "#36CF3C",
+    5: "#4BA9FF",
+  },
+
+  inputBg: "#3C3C3C",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
+};
+
+const brownTheme = extendTheme({
+  ...commonSettings,
   colors: {
-    screen: {
-      50: "#fafaf9",
-      100: "#f5f5f4",
-      200: "#e7e5e4",
-      300: "#d6d3d1",
-      400: "#a8a29e",
-      500: "#78716c",
-      600: "#57534e",
-      700: "#44403c",
-      800: "#292524",
-      900: "#1c1917",
-    },
-
-    lightText: "#ffffff",
-    darkText: "#ffffff",
-
-    secondaryText: "#C7C7C7",
-    primaryText: "#fff",
-
-    app: {
-      nativeHeader: "#1c1917",
-      nativeHeaderTitle: "#fff",
-      backgroundPrimary: "#1c1917",
-      backgroundSecondary: "#292524",
-      backgroundTricondary: "#44403c",
-
-      accentColor: "#1A91FF",
-      inputBackground: "#44403c",
-
-      upvoteColor: "#EE923D",
-      downvoteColor: "#1A84E5",
-
-      iconColor: "#9A9A9A",
-      iconColor2: "#007AFF",
-
-      commentChain: {
-        1: "#FA6969",
-        2: "#FFB800",
-        3: "#FFE500",
-        4: "#36CF3C",
-        5: "#4BA9FF",
-      },
-
-      primaryText: "#fff",
-      secondaryText: "#999999",
-
-      buttonOneIcon: "#007AFF",
-      buttonTwoIcon: "",
-      buttonThreeIcon: "",
-
-      buttonOneText: "#fff",
-      buttonTwoText: "",
-      buttonThreeText: "",
-
-      buttonOne: "#44403c",
-      buttonOneSelected: "#292524",
-
-      opColor: "#54CB60",
-      selfColor: "#DEA435",
-
-      tableBorder: "#78716c",
-
-      refreshWheel: "#d6d3d1",
-    },
+    app: brownThemeColors,
   },
   config: {
     initialColorMode: "dark",
   },
 });
+
+const purpleThemeColors: IColors = {
+  accent: "#8877F1",
+  accentHighlight: "#E7F2FF",
+
+  textPrimary: "#EDE1FF",
+  textSecondary: "#AEB5ED",
+  textTertiary: "#a1a2a9",
+
+  fg: "#1E1529",
+  bg: "#120E1D",
+  bgSecondary: "#1E1529",
+  bgTertiary: "#120E1D",
+
+  border: "#C8C8CA",
+
+  upvote: "#EE923D",
+  upvoteText: "#FFF",
+  downvote: "#1A84E5",
+  downvoteText: "#FFF",
+
+  success: "#48C10F",
+  successBg: "#D7F8DA",
+  successBorder: "#2B8302",
+  error: "#F8372B",
+  errorBg: "#FFC6C2",
+  errorBorder: "#A62525",
+  warn: "#DEA435",
+  warnBg: "#FFEDD9",
+  warnBorder: "#CB6A11",
+  info: "",
+  infoBg: "#CAE6FF",
+  infoBorder: "#316677",
+
+  users: {
+    mod: "#54CB60",
+    admin: "#FF4848",
+    dev: "#CB66FA",
+    op: "#54CB60",
+    me: "#FFB800",
+  },
+
+  comments: {
+    1: "#FA6969",
+    2: "#FFB800",
+    3: "#FFE500",
+    4: "#36CF3C",
+    5: "#4BA9FF",
+  },
+
+  inputBg: "#32294D",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
+};
 
 const purpleTheme = extendTheme({
-  components: {
-    Text: {
-      defaultProps: {
-        allowFontScaling: false,
-      },
-    },
-  },
-
-  fontConfig: {
-    Inter: {
-      100: {
-        normal: "Inter-Thin",
-        italic: "Inter-ThinItalic",
-      },
-      200: {
-        normal: "Inter-ExtraLight",
-        italic: "Inter-ExtraLightItalic",
-      },
-      300: {
-        normal: "Inter-Light",
-        italic: "Inter-LightItalic",
-      },
-      400: {
-        normal: "Inter-Regular",
-        italic: "Inter-Italic",
-      },
-      500: {
-        normal: "Inter-Medium",
-        italic: "Inter-MediumItalic",
-      },
-      600: {
-        normal: "Inter-SemiBold",
-        italic: "Inter-SemiBoldItalic",
-      },
-      700: {
-        normal: "Inter-Bold",
-        italic: "Inter-BoldItalic",
-      },
-      800: {
-        normal: "Inter-ExtraBold",
-        italic: "Inter-ExtraBoldItalic",
-      },
-      900: {
-        normal: "Inter-Black",
-        italic: "Inter-BlackItalic",
-      },
-    },
-  },
-  fonts: {
-    heading: "Inter",
-    body: "Inter",
-    mono: "Inter",
-  },
+  ...commonSettings,
   colors: {
-    screen: {
-      50: "#fafaf9",
-      100: "#f5f5f4",
-      200: "#e7e5e4",
-      300: "#d6d3d1",
-      400: "#a8a29e",
-      500: "#78716c",
-      600: "#57534e",
-      700: "#44403c",
-      800: "#292524",
-      900: "#1c1917",
-    },
-
-    lightText: "#ffffff",
-    darkText: "#ffffff",
-
-    secondaryText: "#C7C7C7",
-
-    app: {
-      nativeHeader: "#1A1726",
-      nativeHeaderTitle: "#fff",
-      backgroundPrimary: "#1A1726",
-      backgroundSecondary: "#271C37",
-      backgroundTricondary: "#2F253C",
-
-      accentColor: "#1A91FF",
-      inputBackground: "#201929",
-
-      upvoteColor: "#EE923D",
-      downvoteColor: "#1A84E5",
-
-      iconColor: "#9A9A9A",
-      iconColor2: "#007AFF",
-
-      commentChain: {
-        1: "#FA6969",
-        2: "#FFB800",
-        3: "#FFE500",
-        4: "#36CF3C",
-        5: "#4BA9FF",
-      },
-
-      primaryText: "#fff",
-      secondaryText: "#999999",
-
-      buttonOneIcon: "#007AFF",
-      buttonTwoIcon: "",
-      buttonThreeIcon: "",
-
-      buttonOneText: "#fff",
-      buttonTwoText: "",
-      buttonThreeText: "",
-
-      buttonOne: "#2F253C",
-      buttonOneSelected: "#201929",
-
-      opColor: "#54CB60",
-      selfColor: "#DEA435",
-
-      tableBorder: "#78716c",
-
-      refreshWheel: "#d6d3d1",
-    },
+    app: purpleThemeColors,
   },
   config: {
     initialColorMode: "dark",
   },
 });
+
+const darkThemeColors: IColors = {
+  accent: "#1A91FF",
+  accentHighlight: "#E7F2FF",
+
+  textPrimary: "#FFF",
+  textSecondary: "#ececec",
+  textTertiary: "#e7e7e7",
+
+  fg: "#1B1B1B",
+  bg: "#070707",
+  bgSecondary: "#000000",
+  bgTertiary: "#0c0c0c",
+
+  border: "#C8C8CA",
+
+  upvote: "#EE923D",
+  upvoteText: "#FFF",
+  downvote: "#1A84E5",
+  downvoteText: "#FFF",
+
+  success: "#48C10F",
+  successBg: "#D7F8DA",
+  successBorder: "#2B8302",
+  error: "#F8372B",
+  errorBg: "#FFC6C2",
+  errorBorder: "#A62525",
+  warn: "#DEA435",
+  warnBg: "#FFEDD9",
+  warnBorder: "#CB6A11",
+  info: "",
+  infoBg: "#CAE6FF",
+  infoBorder: "#316677",
+
+  users: {
+    mod: "#54CB60",
+    admin: "#FF4848",
+    dev: "#CB66FA",
+    op: "#54CB60",
+    me: "#FFB800",
+  },
+
+  comments: {
+    1: "#FA6969",
+    2: "#FFB800",
+    3: "#FFE500",
+    4: "#36CF3C",
+    5: "#4BA9FF",
+  },
+
+  inputBg: "#3C3C3C",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
+};
 
 const darkTheme = extendTheme({
-  components: {
-    Text: {
-      defaultProps: {
-        allowFontScaling: false,
-      },
-    },
-  },
-
-  fontConfig: {
-    Inter: {
-      100: {
-        normal: "Inter-Thin",
-        italic: "Inter-ThinItalic",
-      },
-      200: {
-        normal: "Inter-ExtraLight",
-        italic: "Inter-ExtraLightItalic",
-      },
-      300: {
-        normal: "Inter-Light",
-        italic: "Inter-LightItalic",
-      },
-      400: {
-        normal: "Inter-Regular",
-        italic: "Inter-Italic",
-      },
-      500: {
-        normal: "Inter-Medium",
-        italic: "Inter-MediumItalic",
-      },
-      600: {
-        normal: "Inter-SemiBold",
-        italic: "Inter-SemiBoldItalic",
-      },
-      700: {
-        normal: "Inter-Bold",
-        italic: "Inter-BoldItalic",
-      },
-      800: {
-        normal: "Inter-ExtraBold",
-        italic: "Inter-ExtraBoldItalic",
-      },
-      900: {
-        normal: "Inter-Black",
-        italic: "Inter-BlackItalic",
-      },
-    },
-  },
-  fonts: {
-    heading: "Inter",
-    body: "Inter",
-    mono: "Inter",
-  },
+  ...commonSettings,
   colors: {
-    screen: {
-      50: "#fafaf9",
-      100: "#f5f5f4",
-      200: "#e7e5e4",
-      300: "#d6d3d1",
-      400: "#a8a29e",
-      500: "#78716c",
-      600: "#57534e",
-      700: "#44403c",
-      800: "#292524",
-      900: "#1c1917",
-    },
+    app: darkThemeColors,
+  },
+  config: {
+    initialColorMode: "dark",
+  },
+});
 
-    lightText: "#ffffff",
-    darkText: "#ffffff",
+const draculaThemeColors: IColors = {
+  accent: "#ff79c6",
+  accentHighlight: "#bd93f9",
 
-    secondaryText: "#C7C7C7",
+  textPrimary: "#F8F8F2",
+  textSecondary: "#ececec",
+  textTertiary: "#e7e7e7",
 
+  fg: "#232635",
+  bg: "#1B1D29",
+  bgSecondary: "#282a36",
+  bgTertiary: "#10141C",
+
+  border: "#44475a",
+
+  upvote: "#FF9580",
+  upvoteText: "#FFF",
+  downvote: "#9580FF",
+  downvoteText: "#FFF",
+
+  success: "#48C10F",
+  successBg: "#D7F8DA",
+  successBorder: "#2B8302",
+  error: "#F8372B",
+  errorBg: "#FFC6C2",
+  errorBorder: "#A62525",
+  warn: "#DEA435",
+  warnBg: "#FFEDD9",
+  warnBorder: "#CB6A11",
+  info: "",
+  infoBg: "#CAE6FF",
+  infoBorder: "#316677",
+
+  users: {
+    mod: "#50fa7b",
+    admin: "#ff5555",
+    dev: "#bd93f9",
+    op: "#8be9fd",
+    me: "#ffb86c",
+  },
+
+  comments: {
+    1: "#ff79c6",
+    2: "#ffb86c",
+    3: "#f1fa8c",
+    4: "#50fa7b",
+    5: "#8be9fd",
+  },
+
+  inputBg: "#252837",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
+};
+
+const draculaTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: draculaThemeColors,
+  },
+  config: {
+    initialColorMode: "dark",
+  },
+});
+
+const draculaThemePurple = extendTheme({
+  ...commonSettings,
+  colors: {
     app: {
-      nativeHeader: "#000000",
-      nativeHeaderTitle: "#fff",
-      backgroundPrimary: "#000000",
-      backgroundSecondary: "#151515",
-      backgroundTricondary: "#292929",
-
-      accentColor: "#1A91FF",
-      inputBackground: "#292929",
-
-      upvoteColor: "#EE923D",
-      downvoteColor: "#1A84E5",
-
-      iconColor: "#9A9A9A",
-      iconColor2: "#007AFF",
-
-      commentChain: {
-        1: "#FA6969",
-        2: "#FFB800",
-        3: "#FFE500",
-        4: "#36CF3C",
-        5: "#4BA9FF",
-      },
-
-      primaryText: "#fff",
-      secondaryText: "#999999",
-
-      buttonOneIcon: "#007AFF",
-      buttonTwoIcon: "",
-      buttonThreeIcon: "",
-
-      buttonOneText: "#fff",
-      buttonTwoText: "",
-      buttonThreeText: "",
-
-      buttonOne: "#292929",
-      buttonOneSelected: "#201929",
-
-      opColor: "#54CB60",
-      selfColor: "#DEA435",
-
-      tableBorder: "#78716c",
-
-      refreshWheel: "#d6d3d1",
+      ...draculaThemeColors,
+      accent: "#bd93f9",
     },
   },
   config: {
@@ -373,138 +386,83 @@ const darkTheme = extendTheme({
   },
 });
 
+const lightThemeColors: IColors = {
+  accent: "#1A91FF",
+  accentHighlight: "#E7F2FF",
+
+  textPrimary: "#303030",
+  textSecondary: "#5C5C5C",
+  textTertiary: "#979BA2",
+
+  fg: "#FFFFFF",
+  bg: "#F4F4F4",
+  bgSecondary: "#ECECEC",
+  bgTertiary: "#DEDEDE",
+
+  border: "#C8C8CA",
+
+  upvote: "#EE923D",
+  upvoteText: "#FFF",
+  downvote: "#1A84E5",
+  downvoteText: "#FFF",
+
+  success: "#48C10F",
+  successBg: "#D7F8DA",
+  successBorder: "#2B8302",
+  error: "#F8372B",
+  errorBg: "#FFC6C2",
+  errorBorder: "#A62525",
+  warn: "#DEA435",
+  warnBg: "#FFEDD9",
+  warnBorder: "#CB6A11",
+  info: "",
+  infoBg: "#CAE6FF",
+  infoBorder: "#316677",
+
+  users: {
+    mod: "#54CB60",
+    admin: "#FF4848",
+    dev: "#CB66FA",
+    op: "#54CB60",
+    me: "#FFB800",
+  },
+
+  comments: {
+    1: "#FA6969",
+    2: "#FFB800",
+    3: "#FFE500",
+    4: "#36CF3C",
+    5: "#4BA9FF",
+  },
+
+  inputBg: "#FAFAFA",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
+};
+
 const lightTheme = extendTheme({
-  components: {
-    Text: {
-      defaultProps: {
-        allowFontScaling: false,
-      },
-      baseStyle: {
-        color: "#000",
-      },
-    },
-  },
-
-  fontConfig: {
-    Inter: {
-      100: {
-        normal: "Inter-Thin",
-        italic: "Inter-ThinItalic",
-      },
-      200: {
-        normal: "Inter-ExtraLight",
-        italic: "Inter-ExtraLightItalic",
-      },
-      300: {
-        normal: "Inter-Light",
-        italic: "Inter-LightItalic",
-      },
-      400: {
-        normal: "Inter-Regular",
-        italic: "Inter-Italic",
-      },
-      500: {
-        normal: "Inter-Medium",
-        italic: "Inter-MediumItalic",
-      },
-      600: {
-        normal: "Inter-SemiBold",
-        italic: "Inter-SemiBoldItalic",
-      },
-      700: {
-        normal: "Inter-Bold",
-        italic: "Inter-BoldItalic",
-      },
-      800: {
-        normal: "Inter-ExtraBold",
-        italic: "Inter-ExtraBoldItalic",
-      },
-      900: {
-        normal: "Inter-Black",
-        italic: "Inter-BlackItalic",
-      },
-    },
-  },
-  fonts: {
-    heading: "Inter",
-    body: "Inter",
-    mono: "Inter",
-  },
+  ...commonSettings,
   colors: {
-    screen: {
-      50: "#fafaf9",
-      100: "#f5f5f4",
-      200: "#e7e5e4",
-      300: "#d6d3d1",
-      400: "#a8a29e",
-      500: "#78716c",
-      600: "#57534e",
-      700: "#44403c",
-      800: "#292524",
-      900: "#1c1917",
-    },
-
-    lightText: "#000",
-    darkText: "#000",
-
-    secondaryText: "#C7C7C7",
-    primary: "#000",
-
-    app: {
-      nativeHeader: "#f3f3f3",
-      nativeHeaderTitle: "#000",
-      backgroundPrimary: "#fafafa",
-      backgroundSecondary: "#fff",
-      backgroundTricondary: "#dcdcdc",
-
-      accentColor: "#1A91FF",
-      inputBackground: "#dcdcdc",
-
-      upvoteColor: "#EE923D",
-      downvoteColor: "#1A84E5",
-
-      iconColor: "#9A9A9A",
-      iconColor2: "#007AFF",
-
-      commentChain: {
-        1: "#FA6969",
-        2: "#FFB800",
-        3: "#FFE500",
-        4: "#36CF3C",
-        5: "#4BA9FF",
-      },
-
-      primaryText: "#000",
-      secondaryText: "#2a2a2a",
-
-      buttonOneIcon: "#007AFF",
-      buttonTwoIcon: "",
-      buttonThreeIcon: "",
-
-      buttonOneText: "#000",
-      buttonTwoText: "",
-      buttonThreeText: "",
-
-      buttonOne: "#dcdcdc",
-      buttonOneSelected: "#201929",
-
-      opColor: "#54CB60",
-      selfColor: "#DEA435",
-
-      tableBorder: "#78716c",
-
-      refreshWheel: "#d6d3d1",
-    },
+    app: lightThemeColors,
   },
+
   config: {
     initialColorMode: "light",
   },
 });
 
-export type DarkThemeType = typeof darkTheme;
+export type ThemeType = typeof lightTheme;
 
 declare module "native-base" {
-  interface ICustomTheme extends DarkThemeType {}
+  interface ICustomTheme extends ThemeType {}
 }
 
-export { darkTheme, purpleTheme, brownTheme, lightTheme };
+export {
+  lightTheme,
+  darkTheme,
+  brownTheme,
+  purpleTheme,
+  draculaTheme,
+  draculaThemePurple,
+};

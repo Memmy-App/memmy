@@ -1,52 +1,50 @@
 /* eslint react/no-unstable-nested-components: 0 */
 
-import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Icon, useTheme } from "native-base";
-import { Ionicons } from "@expo/vector-icons";
-import { IconBell, IconSearch } from "tabler-icons-react-native";
-import FeedsIndexScreen from "./components/screens/feeds/FeedsIndexScreen";
+import { useTheme } from "native-base";
+import React from "react";
+import {
+  IconBell,
+  IconNotes,
+  IconPlanet,
+  IconSearch,
+  IconUserCircle,
+} from "tabler-icons-react-native";
+import CommunityAboutScreen from "./components/screens/feeds/CommunityAboutScreen";
 import CommunityFeedScreen from "./components/screens/feeds/CommunityFeedScreen";
-import PostScreen from "./components/screens/post/PostScreen";
-import NewPostScreen from "./components/screens/post/NewPostScreen";
-import SettingsIndexScreen from "./components/screens/settings/SettingsIndexScreen";
-import EditAccountScreen from "./components/screens/settings/EditAccountScreen";
-import NewCommentScreen from "./components/screens/post/NewCommentScreen";
-import OnboardingIndexScreen from "./components/screens/onboarding/OnboardingIndexScreen";
+import FeedsIndexScreen from "./components/screens/feeds/FeedsIndexScreen";
+import InboxScreen from "./components/screens/inbox/InboxScreen";
 import AddAccountScreen from "./components/screens/onboarding/AddAccountScreen";
 import CreateAccountScreen from "./components/screens/onboarding/CreateAccountScreen";
+import OnboardingIndexScreen from "./components/screens/onboarding/OnboardingIndexScreen";
+import NewCommentScreen from "./components/screens/post/NewCommentScreen";
+import NewPostScreen from "./components/screens/post/NewPostScreen";
+import PostScreen from "./components/screens/post/PostScreen";
+import SearchScreen from "./components/screens/search/SearchScreen";
+import EditAccountScreen from "./components/screens/settings/EditAccountScreen";
+import SettingsIndexScreen from "./components/screens/settings/SettingsIndexScreen";
+import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen";
+import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
 import BookmarksScreen from "./components/screens/userProfile/BookmarksScreen";
-import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
+import ProfileScreen from "./components/screens/userProfile/ProfileScreen";
 import SubscriptionsScreen from "./components/screens/userProfile/SubscriptionsScreen";
-import { useAppSelector } from "./store";
+import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
+import LoadingView from "./components/ui/Loading/LoadingView";
 import {
   selectAccounts,
   selectAccountsLoaded,
 } from "./slices/accounts/accountsSlice";
-import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
-import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen";
-import CommunityAboutScreen from "./components/screens/feeds/CommunityAboutScreen";
-import SearchScreen from "./components/screens/search/SearchScreen";
-import LoadingView from "./components/ui/Loading/LoadingView";
-import InboxScreen from "./components/screens/inbox/InboxScreen";
 import { selectSite } from "./slices/site/siteSlice";
+import { useAppSelector } from "./store";
 
 const FeedStack = createNativeStackNavigator();
 
 function FeedStackScreen() {
-  const theme = useTheme();
-
   return (
     <FeedStack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: theme.colors.app.nativeHeader,
-        },
-        headerTitleStyle: {
-          color: theme.colors.app.primaryText,
-        },
         freezeOnBlur: true,
       }}
     >
@@ -66,7 +64,7 @@ function FeedStackScreen() {
         />
         <FeedStack.Screen
           name="UserProfile"
-          component={UserProfileScreen}
+          component={ProfileScreen}
           options={{
             title: "Your Profile",
           }}
@@ -101,17 +99,9 @@ function FeedStackScreen() {
 const InboxStack = createNativeStackNavigator();
 
 function InboxStackScreen() {
-  const theme = useTheme();
-
   return (
     <InboxStack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: theme.colors.app.nativeHeader,
-        },
-        headerTitleStyle: {
-          color: theme.colors.app.nativeHeaderTitle,
-        },
         freezeOnBlur: true,
       }}
     >
@@ -138,7 +128,7 @@ function InboxStackScreen() {
         />
         <InboxStack.Screen
           name="UserProfile"
-          component={UserProfileScreen}
+          component={ProfileScreen}
           options={{
             title: "Your Profile",
           }}
@@ -173,36 +163,92 @@ function InboxStackScreen() {
 const ProfileStack = createNativeStackNavigator();
 
 function ProfileStackScreen() {
-  const theme = useTheme();
   return (
     <ProfileStack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: theme.colors.app.nativeHeader,
-        },
-        headerTitleStyle: {
-          color: theme.colors.app.primaryText,
-        },
         freezeOnBlur: true,
       }}
     >
-      <ProfileStack.Screen
-        name="UserProfile"
-        component={UserProfileScreen}
-        options={{
-          title: "Your Profile",
+      <ProfileStack.Group>
+        <ProfileStack.Screen
+          name="UserProfile"
+          component={UserProfileScreen}
+          options={{
+            title: "Your Profile",
+          }}
+        />
+        <ProfileStack.Screen name="Bookmarks" component={BookmarksScreen} />
+        <ProfileStack.Screen
+          name="BlockedCommunities"
+          component={BlockedCommunitiesScreen}
+          options={{ title: "Blocked Communities" }}
+        />
+
+        <ProfileStack.Screen
+          name="Settings"
+          component={SettingsIndexScreen}
+          options={{
+            title: "Settings",
+          }}
+        />
+        <ProfileStack.Screen
+          name="ViewAccounts"
+          component={ViewAccountsScreen}
+          options={{
+            title: "Manage Accounts",
+          }}
+        />
+        <ProfileStack.Screen
+          name="EditAccount"
+          component={EditAccountScreen}
+          options={{
+            title: "Edit Account",
+          }}
+        />
+
+        <ProfileStack.Screen
+          name="FeedScreen"
+          component={FeedsIndexScreen}
+          options={{
+            title: "Feed",
+          }}
+        />
+        <ProfileStack.Screen name="Post" component={PostScreen} />
+        <ProfileStack.Screen name="Community" component={CommunityFeedScreen} />
+        <ProfileStack.Screen
+          name="Subscriptions"
+          component={SubscriptionsScreen}
+        />
+        <ProfileStack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            title: "Your Profile",
+          }}
+        />
+      </ProfileStack.Group>
+
+      <ProfileStack.Group
+        screenOptions={{
+          presentation: "modal",
         }}
-      />
-      <ProfileStack.Screen name="Bookmarks" component={BookmarksScreen} />
-      <ProfileStack.Screen
-        name="Subscriptions"
-        component={SubscriptionsScreen}
-      />
-      <ProfileStack.Screen
-        name="BlockedCommunities"
-        component={BlockedCommunitiesScreen}
-        options={{ title: "Blocked Communities" }}
-      />
+      >
+        <ProfileStack.Screen
+          name="NewComment"
+          component={NewCommentScreen}
+          options={{ title: "New Comment" }}
+        />
+        <ProfileStack.Screen
+          name="NewPost"
+          component={NewPostScreen}
+          options={{ title: "New Post" }}
+        />
+        <ProfileStack.Screen
+          name="CommunityAbout"
+          component={CommunityAboutScreen}
+          options={{ title: "About" }}
+        />
+      </ProfileStack.Group>
     </ProfileStack.Navigator>
   );
 }
@@ -210,17 +256,9 @@ function ProfileStackScreen() {
 const SearchStack = createNativeStackNavigator();
 
 function SearchStackScreen() {
-  const theme = useTheme();
-
   return (
     <SearchStack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: theme.colors.app.nativeHeader,
-        },
-        headerTitleStyle: {
-          color: theme.colors.app.nativeHeaderTitle,
-        },
         freezeOnBlur: true,
       }}
     >
@@ -247,7 +285,7 @@ function SearchStackScreen() {
         />
         <SearchStack.Screen
           name="UserProfile"
-          component={UserProfileScreen}
+          component={ProfileScreen}
           options={{
             title: "Your Profile",
           }}
@@ -279,59 +317,44 @@ function SearchStackScreen() {
   );
 }
 
-const SettingsStack = createNativeStackNavigator();
+const CommunityStack = createNativeStackNavigator();
 
-function SettingsStackScreen() {
-  const theme = useTheme();
-
+function CommunityStackScreen() {
   return (
-    <SettingsStack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: theme.colors.app.nativeHeader,
-        },
-        headerTitleStyle: {
-          color: theme.colors.app.primaryText,
-        },
-      }}
-    >
-      <SettingsStack.Screen
-        name="SettingsScreen"
+    <CommunityStack.Navigator>
+      <CommunityStack.Screen
+        name="Settings"
         component={SettingsIndexScreen}
         options={{
           title: "Settings",
         }}
       />
-      <SettingsStack.Screen
+      <CommunityStack.Screen
         name="ViewAccounts"
         component={ViewAccountsScreen}
         options={{
           title: "Manage Accounts",
         }}
       />
-      <SettingsStack.Screen
+      <CommunityStack.Screen
         name="EditAccount"
         component={EditAccountScreen}
         options={{
           title: "Edit Account",
         }}
       />
-    </SettingsStack.Navigator>
+    </CommunityStack.Navigator>
   );
 }
 
 const Tab = createBottomTabNavigator();
 
 function Tabs() {
-  const theme = useTheme();
   const { unread } = useAppSelector(selectSite);
 
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarStyle: {
-          backgroundColor: theme.colors.app.nativeHeader,
-        },
         tabBarLabel: "Feed",
         freezeOnBlur: true,
       }}
@@ -341,9 +364,7 @@ function Tabs() {
         component={FeedStackScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <Icon as={Ionicons} name="list-outline" size={6} color={color} />
-          ),
+          tabBarIcon: ({ color }) => <IconNotes color={color} />,
           tabBarLabel: "Feed",
         }}
       />
@@ -365,9 +386,7 @@ function Tabs() {
         component={ProfileStackScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <Icon as={Ionicons} name="person-outline" size={6} color={color} />
-          ),
+          tabBarIcon: ({ color }) => <IconUserCircle color={color} />,
           tabBarLabel: "Profile",
         }}
       />
@@ -381,13 +400,11 @@ function Tabs() {
         }}
       />
       <Tab.Screen
-        name="SettingsStack"
-        component={SettingsStackScreen}
+        name="CommunityStack"
+        component={CommunityStackScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <Icon as={Ionicons} name="cog-outline" size={6} color={color} />
-          ),
+          tabBarIcon: ({ color }) => <IconPlanet color={color} />,
           tabBarLabel: "Settings",
         }}
       />
@@ -403,15 +420,21 @@ function Stack() {
   const accounts = useAppSelector(selectAccounts);
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
 
+  const MyTheme = {
+    ...DarkTheme,
+    colors: {
+      ...DarkTheme.colors,
+      primary: theme.colors.app.accent,
+      background: theme.colors.app.bgTertiary,
+      card: theme.colors.app.bgTertiary,
+      text: theme.colors.app.textSecondary,
+      border: theme.colors.app.border,
+    },
+  };
+
   return (
-    <NavigationContainer theme={DarkTheme}>
-      <MainStack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: theme.colors.app.nativeHeader,
-          },
-        }}
-      >
+    <NavigationContainer theme={MyTheme}>
+      <MainStack.Navigator>
         {(!accountsLoaded && (
           <MainStack.Screen
             name="AppLoading"

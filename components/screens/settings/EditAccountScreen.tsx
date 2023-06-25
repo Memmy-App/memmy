@@ -146,7 +146,7 @@ function EditAccountScreen({
   };
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
+    <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
       <TableView style={styles.table}>
         <Section
           header="SERVER ADDRESS"
@@ -161,21 +161,22 @@ function EditAccountScreen({
                   fontSize: 16,
                   flex: 1,
                   color: !edit.current
-                    ? theme.colors.lightText
-                    : theme.colors.gray[400],
+                    ? theme.colors.app.textPrimary
+                    : theme.colors.app.textSecondary,
                 }}
-                placeholderTextColor={theme.colors.app.iconColor}
+                placeholderTextColor={theme.colors.app.textSecondary}
                 placeholder="Server Address"
                 value={form.server}
                 onChangeText={(text) => onFormChange("server", text)}
                 autoCapitalize="none"
                 autoCorrect={false}
                 editable={!edit.current}
+                keyboardAppearance={theme.config.initialColorMode}
               />
             }
-            backgroundColor={theme.colors.app.backgroundTricondary}
-            titleTextColor={theme.colors.lightText}
-            rightDetailColor={theme.colors.app.iconColor}
+            backgroundColor={theme.colors.app.bgTertiary}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
           />
         </Section>
 
@@ -192,38 +193,44 @@ function EditAccountScreen({
                   fontSize: 16,
                   flex: 1,
                   color: !edit.current
-                    ? theme.colors.lightText
-                    : theme.colors.gray[400],
+                    ? theme.colors.app.textPrimary
+                    : theme.colors.app.textSecondary,
                 }}
-                placeholderTextColor={theme.colors.app.iconColor}
+                placeholderTextColor={theme.colors.app.textSecondary}
                 placeholder="Username"
                 value={form.username}
                 onChangeText={(text) => onFormChange("username", text)}
                 autoCapitalize="none"
                 autoCorrect={false}
                 editable={!edit.current}
+                keyboardAppearance={theme.config.initialColorMode}
               />
             }
-            backgroundColor={theme.colors.app.backgroundTricondary}
-            titleTextColor={theme.colors.lightText}
-            rightDetailColor={theme.colors.app.iconColor}
+            backgroundColor={theme.colors.app.bgTertiary}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
           />
           <Cell
             cellContentView={
               <TextInput
-                style={{ fontSize: 16, flex: 1, color: theme.colors.lightText }}
-                placeholderTextColor={theme.colors.app.iconColor}
+                style={{
+                  fontSize: 16,
+                  flex: 1,
+                  color: theme.colors.app.textPrimary,
+                }}
+                placeholderTextColor={theme.colors.app.textSecondary}
                 placeholder="Password"
                 value={form.password}
                 onChangeText={(text) => onFormChange("password", text)}
                 autoCorrect={false}
                 autoCapitalize="none"
                 secureTextEntry
+                keyboardAppearance={theme.config.initialColorMode}
               />
             }
-            backgroundColor={theme.colors.app.backgroundTricondary}
-            titleTextColor={theme.colors.lightText}
-            rightDetailColor={theme.colors.app.iconColor}
+            backgroundColor={theme.colors.app.bgTertiary}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
           />
           {showTotpToken && (
             <Cell
@@ -232,9 +239,9 @@ function EditAccountScreen({
                   style={{
                     fontSize: 16,
                     flex: 1,
-                    color: theme.colors.lightText,
+                    color: theme.colors.app.textPrimary,
                   }}
-                  placeholderTextColor={theme.colors.app.iconColor}
+                  placeholderTextColor={theme.colors.app.textSecondary}
                   placeholder="2FA Token"
                   value={form.totpToken}
                   onChangeText={(text) => onFormChange("totpToken", text)}
@@ -242,11 +249,12 @@ function EditAccountScreen({
                   autoCapitalize="none"
                   secureTextEntry
                   autoFocus={showTotpToken}
+                  keyboardAppearance={theme.config.initialColorMode}
                 />
               }
-              backgroundColor={theme.colors.app.backgroundTricondary}
-              titleTextColor={theme.colors.lightText}
-              rightDetailColor={theme.colors.app.iconColor}
+              backgroundColor={theme.colors.app.bgTertiary}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
             />
           )}
         </Section>

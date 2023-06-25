@@ -15,7 +15,7 @@ function BookmarksScreen({
   const theme = useTheme();
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.backgroundSecondary}>
+    <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
       <TableView style={styles.table}>
         <Section header="BOOKMARKS" roundedCorners hideSurroundingSeparators>
           {bookmarks.map((b) => (
@@ -27,9 +27,9 @@ function BookmarksScreen({
                 navigation.push("Post", {});
               }}
               accessory="DisclosureIndicator"
-              backgroundColor={theme.colors.app.backgroundTricondary}
-              titleTextColor={theme.colors.lightText}
-              rightDetailColor={theme.colors.app.iconColor}
+              backgroundColor={theme.colors.app.bgTertiary}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
             />
           ))}
         </Section>

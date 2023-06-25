@@ -45,7 +45,6 @@ function NewCommentScreen({
 
   // Other hooks
   const theme = useTheme();
-  const colorMode = useColorMode();
 
   // Other
   const myVote = responseTo.post
@@ -86,12 +85,12 @@ function NewCommentScreen({
   return (
     <>
       <KeyboardAwareScrollView
-        style={{ backgroundColor: theme.colors.app.backgroundSecondary }}
+        style={{ backgroundColor: theme.colors.app.bgSecondary }}
       >
         <View
           flex={1}
           flexDirection="column"
-          backgroundColor={theme.colors.app.backgroundSecondary}
+          backgroundColor={theme.colors.app.bgSecondary}
           justifyContent="space-between"
         >
           <TextInput
@@ -100,8 +99,8 @@ function NewCommentScreen({
             style={[
               styles.input,
               {
-                backgroundColor: theme.colors.app.backgroundTricondary,
-                color: theme.colors.app.primaryText,
+                backgroundColor: theme.colors.app.bgTertiary,
+                color: theme.colors.app.textPrimary,
               },
             ]}
             numberOfLines={20}
@@ -110,7 +109,7 @@ function NewCommentScreen({
               setSelection(e.nativeEvent.selection);
             }}
             onChangeText={newComment.setContent}
-            keyboardAppearance={colorMode.colorMode}
+            keyboardAppearance={theme.config.initialColorMode}
             inputAccessoryViewID="accessory"
             autoFocus
             ref={inputRef}
@@ -134,7 +133,7 @@ function NewCommentScreen({
               </HStack>
               <HStack space={1} alignItems="center">
                 <Icon as={Ionicons} name="time-outline" />
-                <Text color={theme.colors.app.secondaryText}>
+                <Text color={theme.colors.app.textSecondary}>
                   {moment(
                     responseTo.post
                       ? responseTo.post.post.published

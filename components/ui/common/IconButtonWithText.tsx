@@ -9,7 +9,7 @@ interface IconButtonWithTextProps {
   icon: JSX.Element;
   iconBgColor?: ColorType;
   text?: string | number;
-  textColor?: ColorType;
+  textColor?: string;
   textSize?: IFontSize;
 }
 

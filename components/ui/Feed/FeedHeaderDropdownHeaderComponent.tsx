@@ -13,7 +13,7 @@ function FeedHeaderDropdownHeaderComponent({
 
   return (
     <View style={styles.container}>
-      <Text color={theme.colors.app.secondaryText} ml={2}>
+      <Text color={theme.colors.app.textSecondary} ml={2}>
         {text}
       </Text>
     </View>

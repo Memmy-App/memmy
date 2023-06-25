@@ -36,7 +36,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   };
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.backgroundSecondary}>
+    <ScrollView backgroundColor={theme.colors.app.bgSecondary}>
       <CTable>
         <CSection header="ACCOUNTS">
           {accounts.map((a, i) => (

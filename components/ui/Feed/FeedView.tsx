@@ -1,16 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ListingType, PostView, SortType } from "lemmy-js-client";
-import { useTheme, useToast, View } from "native-base";
+import { HStack, useTheme, useToast, View } from "native-base";
 import { Button, RefreshControl, StyleSheet } from "react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { FlashList } from "@shopify/flash-list";
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { trigger } from "react-native-haptic-feedback";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import {
+  IconBolt,
+  IconCalendar,
+  IconClockHour4,
+  IconDots,
+  IconFlame,
+  IconMessage,
+} from "tabler-icons-react-native";
 import FeedItem from "./FeedItem";
 import LoadingView from "../Loading/LoadingView";
-import SortIconType from "../../../types/SortIconType";
-import CIconButton from "../buttons/CIconButton";
 import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectFeed, setDropdownVisible } from "../../../slices/feed/feedSlice";
@@ -23,12 +29,22 @@ import CompactFeedItem from "./CompactFeedItem";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import NoPostsView from "./NoPostsView";
 import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
+import HeaderIconButton from "../buttons/HeaderIconButton";
 
 interface FeedViewProps {
   feed: UseFeed;
   community?: boolean;
   header?: () => JSX.Element | null;
 }
+
+const SortIconType = {
+  TopDay: <IconCalendar />,
+  TopWeek: <IconCalendar />,
+  Hot: <IconFlame />,
+  Active: <IconBolt />,
+  New: <IconClockHour4 />,
+  MostComments: <IconMessage />,
+};
 
 function FeedView({ feed, community = false, header }: FeedViewProps) {
   // State Props
@@ -191,13 +207,13 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     }
 
     return (
-      <>
-        <CIconButton name={SortIconType[feed.sort]} onPress={onSortPress} />
-        <CIconButton
-          name="ellipsis-horizontal-outline"
-          onPress={onEllipsisButtonPress}
+      <HStack space={1}>
+        <HeaderIconButton
+          icon={SortIconType[feed.sort]}
+          onPress={onSortPress}
         />
-      </>
+        <HeaderIconButton icon={<IconDots />} onPress={onEllipsisButtonPress} />
+      </HStack>
     );
   };
 
@@ -206,7 +222,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     <RefreshControl
       refreshing={feed.postsLoading}
       onRefresh={() => feed.doLoad(true)}
-      tintColor={theme.colors.app.refreshWheel}
+      tintColor={theme.colors.app.textSecondary}
     />
   );
 
@@ -232,10 +248,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   const HeaderComponent = header;
 
   return (
-    <View
-      style={styles.container}
-      backgroundColor={theme.colors.app.backgroundPrimary}
-    >
+    <View style={styles.container} backgroundColor={theme.colors.app.bg}>
       <FeedHeaderDropdownDrawer />
 
       {(feed.postsLoading && !feed.posts && <LoadingView />) ||
