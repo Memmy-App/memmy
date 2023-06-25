@@ -463,7 +463,13 @@ function CommentItem2({
             )))}
       </>
     ),
-    [swipeAnimation, nestedComment]
+    [
+      swipeAnimation.color,
+      swipeAnimation.leftIcon,
+      swipeAnimation.rightIcon,
+      nestedComment,
+      myVote,
+    ]
   );
 }
 

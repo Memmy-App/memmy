@@ -127,16 +127,19 @@ const useSwipeAnimation = (
   function setStyles(actionType) {
     switch (actionType) {
       case "leftRightOne": {
+        if (color === "#1abd3e") return;
         setColor("#1abd3e");
         setLeftIcon(options.leftRightOneIcon);
         break;
       }
       case "leftRightTwo": {
+        if (color === "#e36919") return;
         setColor("#e36919");
         setLeftIcon(options.leftRightTwoIcon);
         break;
       }
       case "rightLeftOne": {
+        if (color === "#007AFF") return;
         setColor("#007AFF");
         setRightIcon(options.rightLeftOneIcon);
         break;
