@@ -74,9 +74,8 @@ function FeedItem({ post, recycled }: FeedItemProps) {
     ? theme.colors.app.downvoteColor
     : theme.colors.app.secondaryText;
 
-  return useMemo(() => {
-    console.log("render");
-    return (
+  return useMemo(
+    () => (
       <View flex={1} my={1.5}>
         <View style={styles.backgroundContainer}>
           <View
@@ -239,8 +238,9 @@ function FeedItem({ post, recycled }: FeedItemProps) {
           </Animated.View>
         </PanGestureHandler>
       </View>
-    );
-  }, [post, swipeAnimation.leftIcon, swipeAnimation.rightIcon]);
+    ),
+    [post, swipeAnimation.leftIcon, swipeAnimation.rightIcon]
+  );
 }
 
 const styles = StyleSheet.create({
