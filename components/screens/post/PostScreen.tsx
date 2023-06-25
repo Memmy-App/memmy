@@ -80,7 +80,7 @@ function PostScreen({
           username={post.currentPost?.creator.name}
           fullUsername={getUserFullName(post.currentPost?.creator)}
           showInstance
-          instanceName={post.currentPost.creator.actor_id}
+          creatorActorId={post.currentPost.creator.actor_id}
           avatar={post.currentPost?.creator.avatar}
         />
       </HStack>
