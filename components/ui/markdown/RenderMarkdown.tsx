@@ -87,7 +87,7 @@ const RenderMarkdown = ({
       backgroundColor: theme.colors.app.bgTertiary,
       borderRadius: 5,
       borderLeftWidth: 3,
-      borderLeftColor: theme.colors.orange["500"],
+      borderLeftColor: theme.colors.app.accent,
       marginVertical: 10,
     },
     code_inline: {

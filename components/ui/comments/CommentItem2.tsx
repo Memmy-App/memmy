@@ -326,7 +326,7 @@ function CommentItem2({
                         fullUsername={getUserFullName(
                           nestedComment.comment.creator
                         )}
-                        instanceName={nestedComment.comment.creator.actor_id}
+                        creatorActorId={nestedComment.comment.creator.actor_id}
                         showInstance={showInstanceForUsernames}
                       >
                         <>
