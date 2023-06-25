@@ -323,9 +323,9 @@ const draculaThemeColors: IColors = {
 
   border: "#44475a",
 
-  upvote: "#bd93f9",
+  upvote: "#FF9580",
   upvoteText: "#FFF",
-  downvote: "#8be9fd",
+  downvote: "#9580FF",
   downvoteText: "#FFF",
 
   success: "#48C10F",
@@ -350,7 +350,7 @@ const draculaThemeColors: IColors = {
   },
 
   comments: {
-    1: "#ff5555",
+    1: "#ff79c6",
     2: "#ffb86c",
     3: "#f1fa8c",
     4: "#50fa7b",
@@ -367,6 +367,19 @@ const draculaTheme = extendTheme({
   ...commonSettings,
   colors: {
     app: draculaThemeColors,
+  },
+  config: {
+    initialColorMode: "dark",
+  },
+});
+
+const draculaThemePurple = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: {
+      ...draculaThemeColors,
+      accent: "#bd93f9",
+    },
   },
   config: {
     initialColorMode: "dark",
@@ -445,4 +458,11 @@ declare module "native-base" {
   interface ICustomTheme extends ThemeType {}
 }
 
-export { lightTheme, darkTheme, brownTheme, purpleTheme, draculaTheme };
+export {
+  lightTheme,
+  darkTheme,
+  brownTheme,
+  purpleTheme,
+  draculaTheme,
+  draculaThemePurple,
+};

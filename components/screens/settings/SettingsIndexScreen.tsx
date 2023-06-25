@@ -12,6 +12,7 @@ import { selectAccounts } from "../../../slices/accounts/accountsSlice";
 import CCell from "../../ui/table/CCell";
 import CSection from "../../ui/table/CSection";
 import { deleteLog, sendLog } from "../../../helpers/LogHelper";
+import { ThemeOptionsArr } from "../../../theme/ThemeOptions";
 
 function SettingsIndexScreen({
   navigation,
@@ -105,15 +106,8 @@ function SettingsIndexScreen({
             rightDetailColor={theme.colors.app.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => {
-              const options = [
-                "Brown",
-                "Light",
-                "Dark",
-                "Purple",
-                "Dracula",
-                "Cancel",
-              ];
-              const cancelButtonIndex = 5;
+              const options = [...ThemeOptionsArr, "Cancel"];
+              const cancelButtonIndex = options.length - 1;
 
               showActionSheetWithOptions(
                 {

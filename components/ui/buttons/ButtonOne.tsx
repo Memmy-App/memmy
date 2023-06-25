@@ -57,9 +57,7 @@ function ButtonOne({
       flexGrow={1}
     >
       <HStack space={1.5} alignItems="center" justifyContent="center">
-        {icon && (
-          <IconComponent size={24} color={theme.colors.app.textSecondary} />
-        )}
+        {icon && <IconComponent size={24} color={theme.colors.app.accent} />}
         <Text fontSize="md" color={theme.colors.app.textSecondary}>
           {text}
         </Text>

@@ -1,27 +1,21 @@
-import React, { useEffect, useRef, useState } from "react";
-import { NativeBaseProvider } from "native-base";
-import { ErrorBoundary } from "react-error-boundary";
-import { StatusBar } from "expo-status-bar";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import { StatusBar } from "expo-status-bar";
+import { NativeBaseProvider } from "native-base";
+import React, { useEffect, useRef, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { AppState } from "react-native";
-import MemmyErrorView from "./components/ui/Loading/MemmyErrorView";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Stack from "./Stack";
+import MemmyErrorView from "./components/ui/Loading/MemmyErrorView";
 import { writeToLog } from "./helpers/LogHelper";
-import { useAppDispatch, useAppSelector } from "./store";
-import { loadSettings } from "./slices/settings/settingsActions";
+import { lemmyAuthToken, lemmyInstance } from "./lemmy/LemmyInstance";
 import { loadAccounts } from "./slices/accounts/accountsActions";
 import { selectAccountsLoaded } from "./slices/accounts/accountsSlice";
+import { loadSettings } from "./slices/settings/settingsActions";
 import { selectSettings } from "./slices/settings/settingsSlice";
-import {
-  brownTheme,
-  darkTheme,
-  draculaTheme,
-  lightTheme,
-  purpleTheme,
-} from "./theme/theme";
 import { getUnreadCount } from "./slices/site/siteActions";
-import { lemmyAuthToken, lemmyInstance } from "./lemmy/LemmyInstance";
+import { useAppDispatch, useAppSelector } from "./store";
+import { ThemeOptionsMap } from "./theme/ThemeOptions";
 
 const logError = (e, info) => {
   writeToLog(e.toString());
@@ -35,7 +29,9 @@ function Start() {
   const dispatch = useAppDispatch();
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
   const { theme } = useAppSelector(selectSettings);
-  const [selectedTheme, setSelectedTheme] = useState<any>(brownTheme);
+  const [selectedTheme, setSelectedTheme] = useState<any>(
+    ThemeOptionsMap.Brown
+  );
 
   const appState = useRef(AppState.currentState);
 
@@ -82,26 +78,7 @@ function Start() {
   };
 
   useEffect(() => {
-    switch (theme) {
-      case "Light":
-        setSelectedTheme(lightTheme);
-        break;
-      case "Dark":
-        setSelectedTheme(darkTheme);
-        break;
-      case "Purple":
-        setSelectedTheme(purpleTheme);
-        break;
-      case "Brown":
-        setSelectedTheme(brownTheme);
-        break;
-      case "Dracula":
-        setSelectedTheme(draculaTheme);
-        break;
-      default:
-        setSelectedTheme(brownTheme);
-        break;
-    }
+    setSelectedTheme(ThemeOptionsMap[theme] || ThemeOptionsMap.Brown);
   }, [theme]);
 
   if (!loaded) {
