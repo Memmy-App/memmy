@@ -89,8 +89,8 @@ const useSwipeAnimation = (
         runOnJS(onCommentSlideHapticFeedback)();
         ranFeedbackDownvote.value = false;
       } else if (
-        event.translationX <= -(width * 0.15) &&
-        ranFeedbackComment.value
+        event.translationX >= -(width * 0.15) &&
+        !ranFeedbackComment.value
       ) {
         runOnJS(onCommentSlideHapticFeedback)();
         ranFeedbackComment.value = true;
