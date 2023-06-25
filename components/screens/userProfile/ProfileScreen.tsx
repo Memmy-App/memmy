@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Box,
   HStack,
@@ -19,7 +19,6 @@ import {
   IconMessage2,
   IconMessageChatbot,
   IconNotes,
-  IconSettings,
   IconUser,
 } from "tabler-icons-react-native";
 import moment from "moment";
@@ -30,9 +29,8 @@ import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { getCakeDay } from "../../../helpers/TimeHelper";
 import ButtonOne from "../../ui/buttons/ButtonOne";
 import NotFoundView from "../../ui/Loading/NotFoundView";
-import CTablerButton from "../../ui/buttons/CTablerButton";
 
-function UserProfileScreen({
+function ProfileScreen({
   route,
   navigation,
 }: {
@@ -45,17 +43,6 @@ function UserProfileScreen({
       : undefined
   );
   const theme = useTheme();
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <CTablerButton
-          icon={<IconSettings size={24} color={theme.colors.app.accent} />}
-          onPress={() => navigation.push("Settings")}
-        />
-      ),
-    });
-  }, []);
 
   const refreshControl = (
     <RefreshControl refreshing={profile.loading} onRefresh={profile.doLoad} />
@@ -212,4 +199,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UserProfileScreen;
+export default ProfileScreen;

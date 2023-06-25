@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon, useTheme } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
-import { IconBell, IconSearch } from "tabler-icons-react-native";
+import { IconBell, IconPlanet, IconSearch } from "tabler-icons-react-native";
 import FeedsIndexScreen from "./components/screens/feeds/FeedsIndexScreen";
 import CommunityFeedScreen from "./components/screens/feeds/CommunityFeedScreen";
 import PostScreen from "./components/screens/post/PostScreen";
@@ -32,6 +32,9 @@ import SearchScreen from "./components/screens/search/SearchScreen";
 import LoadingView from "./components/ui/Loading/LoadingView";
 import InboxScreen from "./components/screens/inbox/InboxScreen";
 import { selectSite } from "./slices/site/siteSlice";
+import ProfileScreen from "./components/screens/userProfile/ProfileScreen";
+import CIconButton from "./components/ui/buttons/CIconButton";
+import CTablerButton from "./components/ui/buttons/CTablerButton";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -66,7 +69,7 @@ function FeedStackScreen() {
         />
         <FeedStack.Screen
           name="UserProfile"
-          component={UserProfileScreen}
+          component={ProfileScreen}
           options={{
             title: "Your Profile",
           }}
@@ -138,7 +141,7 @@ function InboxStackScreen() {
         />
         <InboxStack.Screen
           name="UserProfile"
-          component={UserProfileScreen}
+          component={ProfileScreen}
           options={{
             title: "Your Profile",
           }}
@@ -203,6 +206,28 @@ function ProfileStackScreen() {
         component={BlockedCommunitiesScreen}
         options={{ title: "Blocked Communities" }}
       />
+
+      <ProfileStack.Screen
+        name="Settings"
+        component={SettingsIndexScreen}
+        options={{
+          title: "Settings",
+        }}
+      />
+      <ProfileStack.Screen
+        name="ViewAccounts"
+        component={ViewAccountsScreen}
+        options={{
+          title: "Manage Accounts",
+        }}
+      />
+      <ProfileStack.Screen
+        name="EditAccount"
+        component={EditAccountScreen}
+        options={{
+          title: "Edit Account",
+        }}
+      />
     </ProfileStack.Navigator>
   );
 }
@@ -247,7 +272,7 @@ function SearchStackScreen() {
         />
         <SearchStack.Screen
           name="UserProfile"
-          component={UserProfileScreen}
+          component={ProfileScreen}
           options={{
             title: "Your Profile",
           }}
@@ -279,13 +304,13 @@ function SearchStackScreen() {
   );
 }
 
-const SettingsStack = createNativeStackNavigator();
+const CommunityStack = createNativeStackNavigator();
 
-function SettingsStackScreen() {
+function CommunityStackScreen() {
   const theme = useTheme();
 
   return (
-    <SettingsStack.Navigator
+    <CommunityStack.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: theme.colors.app.bgTertiary,
@@ -294,29 +319,7 @@ function SettingsStackScreen() {
           color: theme.colors.app.textPrimary,
         },
       }}
-    >
-      <SettingsStack.Screen
-        name="SettingsScreen"
-        component={SettingsIndexScreen}
-        options={{
-          title: "Settings",
-        }}
-      />
-      <SettingsStack.Screen
-        name="ViewAccounts"
-        component={ViewAccountsScreen}
-        options={{
-          title: "Manage Accounts",
-        }}
-      />
-      <SettingsStack.Screen
-        name="EditAccount"
-        component={EditAccountScreen}
-        options={{
-          title: "Edit Account",
-        }}
-      />
-    </SettingsStack.Navigator>
+    />
   );
 }
 
@@ -381,14 +384,12 @@ function Tabs() {
         }}
       />
       <Tab.Screen
-        name="SettingsStack"
-        component={SettingsStackScreen}
+        name="CommunityStack"
+        component={CommunityStackScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <Icon as={Ionicons} name="cog-outline" size={6} color={color} />
-          ),
-          tabBarLabel: "Settings",
+          tabBarIcon: ({ color }) => <IconPlanet color={color} size={28} />,
+          tabBarLabel: "Community",
         }}
       />
     </Tab.Navigator>
