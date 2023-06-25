@@ -107,9 +107,13 @@ export const openLink = (
       dismissButtonStyle: "close",
       presentationStyle: WebBrowserPresentationStyle.FULL_SCREEN,
       toolbarColor: "#000",
-    }).catch((e) => {
-      writeToLog(e.toString());
-    });
+    })
+      .then(() => {
+        WebBrowser.dismissBrowser();
+      })
+      .catch((e) => {
+        writeToLog(e.toString());
+      });
   } catch (e) {
     writeToLog("Error opening link.");
     writeToLog(e.toString());
