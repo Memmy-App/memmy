@@ -40,6 +40,7 @@ const accountsSlice = createSlice({
     });
     builder.addCase(addAccount.fulfilled, (state, action) => {
       if (action.payload) state.accounts = action.payload;
+      state.currentAccount = action.payload[action.payload.length - 1];
     });
     builder.addCase(editAccount.fulfilled, (state, action) => {
       if (action.payload) state.accounts = action.payload;
