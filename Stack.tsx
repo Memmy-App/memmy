@@ -2,7 +2,7 @@
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useTheme } from "native-base";
 import React from "react";
 import {

@@ -159,7 +159,7 @@ function UserProfileScreen({
                 size={26}
                 color={theme.colors.app.textSecondary}
               />
-              <Text fontSize="md">{profile.profile.counts.post_score}</Text
+              <Text fontSize="md">{profile.profile.counts.post_score}</Text>
             </HStack>
             <HStack alignItems="center" space={1}>
               <IconMessage2 size={26} color={theme.colors.app.textSecondary} />
