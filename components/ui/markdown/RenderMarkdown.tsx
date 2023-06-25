@@ -4,8 +4,10 @@ import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { openLink } from "../../../helpers/LinkHelper";
-import { findImages } from "../../../helpers/MarkdownHelper";
+import { findImages, replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
 import ImageButton from "../buttons/ImageButton";
+import { useAppSelector } from "../../../store";
+import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 
 const FONT_SIZE = 14;
 const HEADING_1_SIZE = 32;
@@ -24,6 +26,8 @@ const RenderMarkdown = ({
   addImages = false,
   truncate = false,
 }: MarkdownProps) => {
+  const currentAccount = useAppSelector(selectCurrentAccount);
+
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onLinkPress = (url): boolean => {
@@ -163,6 +167,7 @@ const RenderMarkdown = ({
       /(^|[^[\]])\b(https?:\/\/[^\s]+)\b(?![\]]|\()/g,
       (match, prefix, url) => `${prefix}[${url}](${url})`
     );
+    text = replaceNoMarkdown(text, currentAccount.instance);
 
     return (
       <VStack flex={1}>
