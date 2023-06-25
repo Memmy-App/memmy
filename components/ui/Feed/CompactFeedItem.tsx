@@ -256,7 +256,7 @@ function CompactFeedItem({ post }: { post: PostView }) {
         </PanGestureHandler>
       </View>
     ),
-    [post]
+    [post, swipeAnimation.leftIcon, swipeAnimation.rightIcon]
   );
 }
 

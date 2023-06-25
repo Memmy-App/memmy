@@ -13,7 +13,7 @@ function MemmyErrorView() {
       px={3}
       justifyContent="center"
       alignItems="center"
-      backgroundColor="app.backgroundSecondary"
+      backgroundColor="app.bg"
       space={2}
     >
       <IconMoodSad size={150} color={theme.colors.app.textSecondary} />

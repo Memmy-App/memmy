@@ -52,7 +52,7 @@ import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
 function CommentItem2({
   nestedComment,
   opId,
-  recycled,
+  recycled = undefined,
   depth = 2,
   isReply = false,
   onPressOverride = null,
@@ -60,7 +60,7 @@ function CommentItem2({
 }: {
   nestedComment: NestedComment;
   opId: number;
-  recycled: React.MutableRefObject<{}>;
+  recycled?: React.MutableRefObject<{}> | undefined;
   depth?: number;
   isReply?: boolean;
   onPressOverride?: () => void | Promise<void>;
@@ -88,7 +88,7 @@ function CommentItem2({
   const { showActionSheetWithOptions } = useActionSheet();
   const toast = useToast();
 
-  if (nestedComment.comment.comment.id !== lastCommentId.current) {
+  if (recycled && nestedComment.comment.comment.id !== lastCommentId.current) {
     if (recycled.current[nestedComment.comment.comment.id]) {
       setCollapsed(
         recycled.current[nestedComment.comment.comment.id].collapsed
@@ -318,6 +318,7 @@ function CommentItem2({
                       justifyContent="space-between"
                       alignItems="center"
                       mb={-3}
+                      pb={2}
                     >
                       <AvatarUsername
                         avatar={nestedComment.comment.creator.avatar}
@@ -458,7 +459,14 @@ function CommentItem2({
             )))}
       </>
     ),
-    [swipeAnimation.leftIcon, swipeAnimation.rightIcon, nestedComment, myVote]
+    [
+      swipeAnimation.leftIcon,
+      swipeAnimation.rightIcon,
+      nestedComment,
+      nestedComment.replies,
+      myVote,
+      collapsed,
+    ]
   );
 }
 

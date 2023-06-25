@@ -165,10 +165,10 @@ function ImageModal({
       if (scale.value === 1) {
         if (event.translationY < -50 || event.translationY > 50) {
           if (
-            event.velocityY < -2000 ||
+            event.velocityY < -600 ||
             event.translationY < -200 ||
-            event.velocityY > 2000 ||
-            event.translationY > 200
+            event.velocityY > 600 ||
+            event.translationY > 1300
           ) {
             runOnJS(onRequestClose)();
 

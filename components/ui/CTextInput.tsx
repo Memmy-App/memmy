@@ -29,8 +29,6 @@ function CTextInput({
 }: TextInputProps) {
   let focused = false;
 
-  const colorMode = useColorMode();
-
   const ref = useCallback((node) => {
     if (!node) return;
 
@@ -52,7 +50,7 @@ function CTextInput({
         autoCorrect={autoCorrect}
         secureTextEntry={secure}
         ref={autoFocus ? ref : null}
-        keyboardAppearance={colorMode.colorMode}
+        keyboardAppearance={theme.config.initialColorMode}
       />
     </VStack>
   );
