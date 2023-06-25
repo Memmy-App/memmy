@@ -120,7 +120,6 @@ const brownThemeColors: IColors = {
   textPrimary: "#FFF",
   textSecondary: "#B8B9C1",
   textTertiary: "#a1a2a9",
-
   fg: "#1c1917",
   bg: "#292524",
   bgSecondary: "#1c1917",
@@ -250,7 +249,6 @@ const darkThemeColors: IColors = {
   textPrimary: "#FFF",
   textSecondary: "#ececec",
   textTertiary: "#e7e7e7",
-
   fg: "#1B1B1B",
   bg: "#070707",
   bgSecondary: "#000000",

@@ -1,3 +1,4 @@
+import React, { useEffect, useMemo } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { CommentView, PostView } from "lemmy-js-client";
@@ -11,7 +12,6 @@ import {
   View,
   useTheme,
 } from "native-base";
-import React, { useEffect, useMemo } from "react";
 import { RefreshControl, StyleSheet } from "react-native";
 import FastImage from "react-native-fast-image";
 import {
@@ -23,6 +23,8 @@ import {
   IconSettings,
   IconUser,
 } from "tabler-icons-react-native";
+import CTablerButton from "../../ui/buttons/CTablerButton";
+import LoadingModalTransparent from "../../ui/Loading/LoadingModalTransparent";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { getCakeDay } from "../../../helpers/TimeHelper";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
