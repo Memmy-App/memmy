@@ -47,23 +47,21 @@ function ButtonTwo({
       my={my}
       borderRadius={20}
       backgroundColor={
-        !selected
-          ? theme.colors.app.buttonOne
-          : theme.colors.app.buttonOneSelected
+        !selected ? theme.colors.app.inputBg : theme.colors.app.accentHighlight
       }
       flexGrow={1}
     >
       <HStack space={1.5} alignItems="center" justifyContent="center">
         {icon && (
-          <IconComponent size={24} color={theme.colors.app.buttonOneIcon} />
+          <IconComponent size={24} color={theme.colors.app.accentHighlight} />
         )}
-        <Text fontSize="sm" color={theme.colors.app.buttonOneText}>
+        <Text fontSize="sm" color={theme.colors.app.textSecondary}>
           {text}
         </Text>
         {badge && (
           <Text
             fontSize="sm"
-            color={theme.colors.app.buttonOneText}
+            color={theme.colors.app.textSecondary}
             backgroundColor="#999999"
           >
             {badge}

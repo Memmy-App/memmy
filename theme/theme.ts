@@ -110,173 +110,191 @@ const commonSettings = {
   },
 };
 
-// const brownThemeColors = {
-//   nativeHeader: "#1c1917",
-//   nativeHeaderTitle: "#fff",
-//   backgroundPrimary: "#1c1917",
-//   backgroundSecondary: "#292524",
-//   backgroundTricondary: "#44403c",
+const brownThemeColors: IColors = {
+  accent: "#1A91FF",
+  accentHighlight: "#E7F2FF",
 
-//   accentColor: "#1A91FF",
-//   inputBackground: "#44403c",
+  textPrimary: "#FFF",
+  textSecondary: "#B8B9C1",
+  textTertiary: "#a1a2a9",
 
-//   upvoteColor: "#EE923D",
-//   downvoteColor: "#1A84E5",
+  fg: "#101010",
+  bg: "#101010",
+  bgSecondary: "#1B1B1B",
+  bgTertiary: "#101010",
 
-//   iconColor: "#9A9A9A",
-//   iconColor2: "#007AFF",
+  border: "#C8C8CA",
 
-//   commentChain: {
-//     1: "#FA6969",
-//     2: "#FFB800",
-//     3: "#FFE500",
-//     4: "#36CF3C",
-//     5: "#4BA9FF",
-//   },
+  upvote: "#EE923D",
+  upvoteText: "#FFF",
+  downvote: "#1A84E5",
+  downvoteText: "#FFF",
 
-//   primaryText: "#fff",
-//   secondaryText: "#999999",
+  success: "#48C10F",
+  successBg: "#D7F8DA",
+  successBorder: "#2B8302",
+  error: "#F8372B",
+  errorBg: "#FFC6C2",
+  errorBorder: "#A62525",
+  warn: "#DEA435",
+  warnBg: "#FFEDD9",
+  warnBorder: "#CB6A11",
+  info: "",
+  infoBg: "#CAE6FF",
+  infoBorder: "#316677",
 
-//   buttonOneIcon: "#007AFF",
-//   buttonTwoIcon: "",
-//   buttonThreeIcon: "",
+  users: {
+    mod: "#54CB60",
+    admin: "#FF4848",
+    dev: "#CB66FA",
+    op: "",
+    me: "",
+  },
 
-//   buttonOneText: "#fff",
-//   buttonTwoText: "",
-//   buttonThreeText: "",
+  comments: {
+    1: "#FA6969",
+    2: "#FFB800",
+    3: "#FFE500",
+    4: "#36CF3C",
+    5: "#4BA9FF",
+  },
 
-//   buttonOne: "#44403c",
-//   buttonOneSelected: "#292524",
+  inputBg: "#3C3C3C",
+};
 
-//   opColor: "#54CB60",
-//   selfColor: "#DEA435",
+const brownTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: brownThemeColors,
+  },
+  config: {
+    initialColorMode: "dark",
+  },
+});
 
-//   tableBorder: "#78716c",
+const purpleThemeColors: IColors = {
+  accent: "#1A91FF",
+  accentHighlight: "#E7F2FF",
 
-//   refreshWheel: "#d6d3d1",
-// };
+  textPrimary: "#FFF",
+  textSecondary: "#B8B9C1",
+  textTertiary: "#a1a2a9",
 
-// const brownTheme = extendTheme({
-//   ...commonSettings,
-//   colors: {
-//     app: brownThemeColors,
-//   },
-//   config: {
-//     initialColorMode: "dark",
-//   },
-// });
+  fg: "#48C10F",
+  bg: "#120E1D",
+  bgSecondary: "#1E1529",
+  bgTertiary: "#120E1D",
 
-// const purpleThemeColors: IAppColors = {
-//   nativeHeader: "#000000",
-//   nativeHeaderTitle: "#fff",
-//   backgroundPrimary: "#000000",
-//   backgroundSecondary: "#151515",
-//   backgroundTricondary: "#292929",
+  border: "#C8C8CA",
 
-//   accentColor: "#1A91FF",
-//   inputBackground: "#292929",
+  upvote: "#EE923D",
+  upvoteText: "#FFF",
+  downvote: "#1A84E5",
+  downvoteText: "#FFF",
 
-//   upvoteColor: "#EE923D",
-//   downvoteColor: "#1A84E5",
+  success: "#48C10F",
+  successBg: "#D7F8DA",
+  successBorder: "#2B8302",
+  error: "#F8372B",
+  errorBg: "#FFC6C2",
+  errorBorder: "#A62525",
+  warn: "#DEA435",
+  warnBg: "#FFEDD9",
+  warnBorder: "#CB6A11",
+  info: "",
+  infoBg: "#CAE6FF",
+  infoBorder: "#316677",
 
-//   iconColor: "#9A9A9A",
-//   iconColor2: "#007AFF",
+  users: {
+    mod: "#54CB60",
+    admin: "#FF4848",
+    dev: "#CB66FA",
+    op: "",
+    me: "",
+  },
 
-//   commentChain: {
-//     1: "#FA6969",
-//     2: "#FFB800",
-//     3: "#FFE500",
-//     4: "#36CF3C",
-//     5: "#4BA9FF",
-//   },
+  comments: {
+    1: "#FA6969",
+    2: "#FFB800",
+    3: "#FFE500",
+    4: "#36CF3C",
+    5: "#4BA9FF",
+  },
 
-//   primaryText: "#fff",
-//   secondaryText: "#999999",
+  inputBg: "#151515",
+};
 
-//   buttonOneIcon: "#007AFF",
-//   buttonTwoIcon: "",
-//   buttonThreeIcon: "",
+const purpleTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: purpleThemeColors,
+  },
+  config: {
+    initialColorMode: "dark",
+  },
+});
 
-//   buttonOneText: "#fff",
-//   buttonTwoText: "",
-//   buttonThreeText: "",
+const darkThemeColors: IColors = {
+  accent: "#1A91FF",
+  accentHighlight: "#E7F2FF",
 
-//   buttonOne: "#292929",
-//   buttonOneSelected: "#201929",
+  textPrimary: "#FFF",
+  textSecondary: "#ececec",
+  textTertiary: "#e7e7e7",
 
-//   opColor: "#54CB60",
-//   selfColor: "#DEA435",
+  fg: "#48C10F",
+  bg: "#070707",
+  bgSecondary: "#000000",
+  bgTertiary: "#0c0c0c",
 
-//   tableBorder: "#78716c",
+  border: "#C8C8CA",
 
-//   refreshWheel: "#d6d3d1",
-// };
+  upvote: "#EE923D",
+  upvoteText: "#FFF",
+  downvote: "#1A84E5",
+  downvoteText: "#FFF",
 
-// const purpleTheme = extendTheme({
-//   ...commonSettings,
-//   colors: {
-//     app: purpleThemeColors,
-//   },
-//   config: {
-//     initialColorMode: "dark",
-//   },
-// });
+  success: "#48C10F",
+  successBg: "#D7F8DA",
+  successBorder: "#2B8302",
+  error: "#F8372B",
+  errorBg: "#FFC6C2",
+  errorBorder: "#A62525",
+  warn: "#DEA435",
+  warnBg: "#FFEDD9",
+  warnBorder: "#CB6A11",
+  info: "",
+  infoBg: "#CAE6FF",
+  infoBorder: "#316677",
 
-// const darkThemeColors: IAppColors = {
-//   nativeHeader: "#000000",
-//   nativeHeaderTitle: "#fff",
-//   backgroundPrimary: "#000000",
-//   backgroundSecondary: "#151515",
-//   backgroundTricondary: "#292929",
+  users: {
+    mod: "#54CB60",
+    admin: "#FF4848",
+    dev: "#CB66FA",
+    op: "",
+    me: "",
+  },
 
-//   accentColor: "#1A91FF",
-//   inputBackground: "#292929",
+  comments: {
+    1: "#FA6969",
+    2: "#FFB800",
+    3: "#FFE500",
+    4: "#36CF3C",
+    5: "#4BA9FF",
+  },
 
-//   upvoteColor: "#EE923D",
-//   downvoteColor: "#1A84E5",
+  inputBg: "#171717",
+};
 
-//   iconColor: "#9A9A9A",
-//   iconColor2: "#007AFF",
-
-//   commentChain: {
-//     1: "#FA6969",
-//     2: "#FFB800",
-//     3: "#FFE500",
-//     4: "#36CF3C",
-//     5: "#4BA9FF",
-//   },
-
-//   primaryText: "#fff",
-//   secondaryText: "#999999",
-
-//   buttonOneIcon: "#007AFF",
-//   buttonTwoIcon: "",
-//   buttonThreeIcon: "",
-
-//   buttonOneText: "#fff",
-//   buttonTwoText: "",
-//   buttonThreeText: "",
-
-//   buttonOne: "#292929",
-//   buttonOneSelected: "#201929",
-
-//   opColor: "#54CB60",
-//   selfColor: "#DEA435",
-
-//   tableBorder: "#78716c",
-
-//   refreshWheel: "#d6d3d1",
-// };
-
-// const darkTheme = extendTheme({
-//   ...commonSettings,
-//   colors: {
-//     app: darkThemeColors,
-//   },
-//   config: {
-//     initialColorMode: "dark",
-//   },
-// });
+const darkTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: darkThemeColors,
+  },
+  config: {
+    initialColorMode: "dark",
+  },
+});
 
 const lightThemeColors: IColors = {
   accent: "#1A91FF",
@@ -347,4 +365,4 @@ declare module "native-base" {
   interface ICustomTheme extends ThemeType {}
 }
 
-export { lightTheme };
+export { lightTheme, darkTheme, brownTheme, purpleTheme };

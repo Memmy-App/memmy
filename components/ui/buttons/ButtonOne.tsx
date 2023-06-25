@@ -52,17 +52,15 @@ function ButtonOne({
       my={my}
       borderRadius={10}
       backgroundColor={
-        !selected
-          ? theme.colors.app.buttonOne
-          : theme.colors.app.buttonOneSelected
+        !selected ? theme.colors.app.inputBg : theme.colors.app.accentHighlight
       }
       flexGrow={1}
     >
       <HStack space={1.5} alignItems="center" justifyContent="center">
         {icon && (
-          <IconComponent size={24} color={theme.colors.app.buttonOneIcon} />
+          <IconComponent size={24} color={theme.colors.app.accentHighlight} />
         )}
-        <Text fontSize="md" color={theme.colors.app.buttonOneText}>
+        <Text fontSize="md" color={theme.colors.app.textSecondary}>
           {text}
         </Text>
       </HStack>
