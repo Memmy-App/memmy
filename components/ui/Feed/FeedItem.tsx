@@ -14,6 +14,8 @@ import {
 } from "tabler-icons-react-native";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import useFeedItem from "../../hooks/feeds/useFeedItem";
@@ -22,6 +24,8 @@ import VoteButton from "../common/VoteButton";
 import CommunityLink from "../CommunityLink";
 import ContentView from "../ContentView";
 import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
+import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
+import { useAppDispatch } from "../../../store";
 
 interface FeedItemProps {
   post: PostView;
@@ -31,10 +35,19 @@ interface FeedItemProps {
 function FeedItem({ post, recycled }: FeedItemProps) {
   const feedItem = useFeedItem(post);
   const theme = useTheme();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const dispatch = useAppDispatch();
 
   const onLeftRightOne = () => feedItem.onVotePress(1);
   const onLeftRightTwo = () => feedItem.onVotePress(-1);
-  const onRightLeftOne = () => {};
+  const onRightLeftOne = () => {
+    dispatch(
+      setResponseTo({
+        post,
+      })
+    );
+    navigation.push("NewComment");
+  };
   const onRightLeftTwo = () => {};
   const leftRightOneIcon = <IconArrowUp size={32} color="#fff" />;
   const leftRightTwoIcon = <IconArrowDown size={32} color="#fff" />;
