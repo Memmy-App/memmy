@@ -24,7 +24,7 @@ function SmallVoteIcons({
             color={
               myVote === 1
                 ? theme.colors.app.upvote
-                : theme.colors.app.iconColor
+                : theme.colors.app.textSecondary
             }
             size={18}
           />
@@ -37,7 +37,7 @@ function SmallVoteIcons({
             color={
               myVote === -1
                 ? theme.colors.app.downvote
-                : theme.colors.app.iconColor
+                : theme.colors.app.textSecondary
             }
             size={18}
           />

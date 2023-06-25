@@ -13,6 +13,7 @@ interface IUserColors {
   admin: string;
   dev: string;
   op: string;
+  me: string;
 }
 
 interface IColors {
@@ -313,6 +314,7 @@ const lightThemeColors: IColors = {
     admin: "#FF4848",
     dev: "#CB66FA",
     op: "",
+    me: "",
   },
 
   comments: {
