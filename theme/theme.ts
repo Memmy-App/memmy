@@ -53,6 +53,9 @@ interface IColors {
   comments: ICommentChainColors;
 
   inputBg: string;
+
+  bookmark: string;
+  bookmarkText: string;
 }
 
 const commonSettings = {
@@ -283,8 +286,8 @@ const lightThemeColors: IColors = {
   accentHighlight: "#E7F2FF",
 
   textPrimary: "#303030",
-  textSecondary: "#979BA2",
-  textTertiary: "#DEDEDE",
+  textSecondary: "#5C5C5C",
+  textTertiary: "#979BA2",
 
   fg: "#FFFFFF",
   bg: "#F4F4F4",
@@ -328,6 +331,9 @@ const lightThemeColors: IColors = {
   },
 
   inputBg: "#FAFAFA",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
 };
 
 const lightTheme = extendTheme({

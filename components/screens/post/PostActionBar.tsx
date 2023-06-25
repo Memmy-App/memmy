@@ -68,22 +68,18 @@ function PostActionBar({ post }: { post: UsePost }) {
           <IconBookmark
             size={25}
             color={
-              post.bookmarked ? colors.app.textPrimary : colors.app.accent
+              post.bookmarked ? colors.app.bookmarkText : colors.app.accent
             }
           />
         }
         onPress={post.doBookmark}
-        backgroundColor={
-          post.bookmarked ? colors.green[500] : colors.app.bgSecondary
-        }
+        backgroundColor={post.bookmarked ? colors.app.bookmark : "transparent"}
         padding={2}
       />
 
       <IconButtonWithText
         onPressHandler={onCommentPress}
-        icon={
-          <IconMessageCirclePlus color={colors.app.accent} size={25} />
-        }
+        icon={<IconMessageCirclePlus color={colors.app.accent} size={25} />}
       />
 
       <IconButton
