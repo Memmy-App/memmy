@@ -33,7 +33,7 @@ export const removeBookmark = createAsyncThunk(
       [];
     const index = bookmarks.findIndex((b) => b.postId === postId);
     bookmarks.splice(index, 1);
-    await AsyncStorage.setItem("@accounts", JSON.stringify(bookmarks));
+    await AsyncStorage.setItem("@bookmarks", JSON.stringify(bookmarks));
     return bookmarks;
   }
 );
