@@ -171,6 +171,7 @@ function EditAccountScreen({
                 autoCapitalize="none"
                 autoCorrect={false}
                 editable={!edit.current}
+                keyboardAppearance={theme.config.initialColorMode}
               />
             }
             backgroundColor={theme.colors.app.bgTertiary}
@@ -202,6 +203,7 @@ function EditAccountScreen({
                 autoCapitalize="none"
                 autoCorrect={false}
                 editable={!edit.current}
+                keyboardAppearance={theme.config.initialColorMode}
               />
             }
             backgroundColor={theme.colors.app.bgTertiary}
@@ -223,6 +225,7 @@ function EditAccountScreen({
                 autoCorrect={false}
                 autoCapitalize="none"
                 secureTextEntry
+                keyboardAppearance={theme.config.initialColorMode}
               />
             }
             backgroundColor={theme.colors.app.bgTertiary}
@@ -246,6 +249,7 @@ function EditAccountScreen({
                   autoCapitalize="none"
                   secureTextEntry
                   autoFocus={showTotpToken}
+                  keyboardAppearance={theme.config.initialColorMode}
                 />
               }
               backgroundColor={theme.colors.app.bgTertiary}

@@ -463,6 +463,7 @@ function CommentItem2({
       swipeAnimation.leftIcon,
       swipeAnimation.rightIcon,
       nestedComment,
+      nestedComment.replies,
       myVote,
       collapsed,
     ]

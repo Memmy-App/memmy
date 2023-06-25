@@ -35,7 +35,7 @@ function SearchBar({
           placeholderTextColor={theme.colors.app.textSecondary}
           returnKeyType="search"
           returnKeyLabel="search"
-          keyboardAppearance="dark"
+          keyboardAppearance={theme.config.initialColorMode}
           onSubmitEditing={onSubmitSearch}
           autoCorrect={false}
           autoCapitalize="none"

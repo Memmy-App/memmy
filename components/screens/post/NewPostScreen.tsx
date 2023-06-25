@@ -27,7 +27,6 @@ function NewPostScreen({
 
   // Other hooks
   const theme = useTheme();
-  const colorMode = useColorMode();
 
   const headerLeft = () => (
     <Button title="Cancel" onPress={() => navigation.pop()} />
@@ -68,6 +67,7 @@ function NewPostScreen({
                     value={newPost.form.name}
                     onChangeText={(text) => newPost.onFormChange("name", text)}
                     autoFocus
+                    keyboardAppearance={theme.config.initialColorMode}
                   />
                 }
               />
@@ -92,6 +92,7 @@ function NewPostScreen({
                     onChangeText={(text) => newPost.onFormChange("url", text)}
                     autoCapitalize="none"
                     autoCorrect={false}
+                    keyboardAppearance={theme.config.initialColorMode}
                   />
                 }
               />
@@ -125,7 +126,7 @@ function NewPostScreen({
               setSelection(e.nativeEvent.selection);
             }}
             onChangeText={(text) => newPost.onFormChange("body", text)}
-            keyboardAppearance={colorMode.colorMode}
+            keyboardAppearance={theme.config.initialColorMode}
             inputAccessoryViewID="accessory"
             ref={newPost.inputRef}
           />

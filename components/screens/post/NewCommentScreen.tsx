@@ -45,7 +45,6 @@ function NewCommentScreen({
 
   // Other hooks
   const theme = useTheme();
-  const colorMode = useColorMode();
 
   // Other
   const myVote = responseTo.post
@@ -110,7 +109,7 @@ function NewCommentScreen({
               setSelection(e.nativeEvent.selection);
             }}
             onChangeText={newComment.setContent}
-            keyboardAppearance={colorMode.colorMode}
+            keyboardAppearance={theme.config.initialColorMode}
             inputAccessoryViewID="accessory"
             autoFocus
             ref={inputRef}
