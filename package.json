@@ -45,6 +45,7 @@
     "expo-linking": "~4.0.1",
     "expo-mail-composer": "~12.1.1",
     "expo-media-library": "~15.2.3",
+    "expo-notifications": "^0.18.1",
     "expo-permissions": "~14.1.1",
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.2",
