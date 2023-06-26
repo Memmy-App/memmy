@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import { PostView } from "lemmy-js-client";
 
 import { useToast } from "native-base";
@@ -19,9 +19,11 @@ import {
   findAndAddComment,
 } from "../../../lemmy/comments/LemmyCommentsHelper";
 import NestedComment from "../../../lemmy/comments/NestedComment";
+import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 
 export interface UsePost {
-  comments: NestedComment[];
+  comments: ILemmyComment[];
+  setComments: React.Dispatch<SetStateAction<ILemmyComment[]>>;
   commentsLoading: boolean;
   commentsError: boolean;
   doLoad: (ignoreCommentId?: boolean) => Promise<void>;
@@ -44,7 +46,7 @@ const usePost = (commentId: string | null): UsePost => {
   const bookmarks = useAppSelector(selectBookmarks);
 
   // State
-  const [comments, setComments] = useState<NestedComment[]>([]);
+  const [comments, setComments] = useState<ILemmyComment[]>([]);
   const [commentsLoading, setCommentsLoading] = useState<boolean>(true);
   const [commentsError, setCommentsError] = useState<boolean>(false);
   const [refreshList, setRefreshList] = useState(false);
@@ -111,9 +113,20 @@ const usePost = (commentId: string | null): UsePost => {
       const ordered = commentsRes.comments.sort((a, b) =>
         a.comment.path.localeCompare(b.comment.path)
       );
-      const parsed = buildComments(ordered);
+      // const parsed = buildComments(ordered);
 
-      setComments(parsed);
+      const betterComments: ILemmyComment[] = [];
+
+      for (const item of ordered) {
+        betterComments.push({
+          comment: item,
+          myVote: item.my_vote as ILemmyVote,
+          collapsed: false,
+          hidden: false,
+        });
+      }
+
+      setComments(betterComments);
       setCommentsLoading(false);
     } catch (e) {
       writeToLog("Error loading post.");
@@ -197,6 +210,8 @@ const usePost = (commentId: string | null): UsePost => {
 
   return {
     comments,
+    setComments,
+
     commentsLoading,
     commentsError,
     doLoad,

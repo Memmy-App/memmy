@@ -26,6 +26,7 @@ import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
 import { getUserFullName } from "../../../lemmy/LemmyHelpers";
+import CommentItem from "../../ui/comments/CommentItem";
 
 function PostScreen({
   route,
@@ -50,12 +51,7 @@ function PostScreen({
   }, []);
 
   const commentItem = ({ item }) => (
-    <CommentItem2
-      nestedComment={item}
-      opId={post.currentPost.creator.id}
-      recycled={post.recycled}
-      refresh={post.refreshList}
-    />
+    <CommentItem comment={item} setComments={post.setComments} />
   );
 
   const refreshControl = (
