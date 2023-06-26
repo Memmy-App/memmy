@@ -15,28 +15,30 @@ function OnboardingScreen({
     <VStack
       flex={1}
       backgroundColor={theme.colors.app.bgSecondary}
-      justifyContent="center"
+      justifyContent="space-between"
       alignItems="center"
       space="md"
       px={5}
     >
-      <Text fontSize={32}>Welcome to Lemmy!</Text>
-      <FastImage
-        source={require("../../../assets/splash.png")}
-        style={styles.image}
-      />
-      <Text fontSize={18} textAlign="center">
-        New to Lemmy? We&apos;ll help you find an instance and create an
-        account.
-      </Text>
-      <HStack space="md">
-        <Button onPress={() => navigation.push("AddAccount")}>
-          I Already Have an Account
-        </Button>
-        <Button onPress={() => navigation.push("CreateAccount")}>
+      <VStack space={2} justifyContent={"center"} alignItems={"center"}>
+        <FastImage
+          source={require("../../../assets/splash.png")}
+          style={styles.image}
+        />
+        <Text fontSize={24} fontWeight={"bold"}>Welcome to Lemmy!</Text>
+        <Text fontSize={18} textAlign="center" opacity={0.6}>
+          New to Lemmy? We&apos;ll help you find an instance and create an
+          account.
+        </Text>
+      </VStack>
+      <VStack mb={10} space="md" w="full">
+        <Button size={"lg"} colorScheme={"blue"} onPress={() => navigation.push("CreateAccount")}>
           Get Started
         </Button>
-      </HStack>
+        <Button size={"lg"} colorScheme={"blue"} variant={"ghost"} onPress={() => navigation.push("AddAccount")}>
+          I Already Have an Account
+        </Button>
+      </VStack>
     </VStack>
   );
 }
