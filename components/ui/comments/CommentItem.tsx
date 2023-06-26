@@ -49,7 +49,9 @@ function CommentItem({
   isReply,
 }: {
   comment: ILemmyComment;
-  setComments: React.Dispatch<SetStateAction<ILemmyComment[]>>;
+  setComments:
+    | React.Dispatch<SetStateAction<ILemmyComment[]>>
+    | ((comments: ILemmyComment[]) => void);
   onPressOverride?: () => Promise<void> | void;
   setRead?: React.Dispatch<SetStateAction<boolean>>;
   isRead?: boolean;

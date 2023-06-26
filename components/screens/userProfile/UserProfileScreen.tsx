@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
-import { CommentView, PostView } from "lemmy-js-client";
+import { PostView } from "lemmy-js-client";
 import moment from "moment";
 import {
   Box,
@@ -23,25 +23,21 @@ import {
   IconSettings,
   IconUser,
 } from "tabler-icons-react-native";
-import CTablerButton from "../../ui/buttons/CTablerButton";
-import LoadingModalTransparent from "../../ui/Loading/LoadingModalTransparent";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { getCakeDay } from "../../../helpers/TimeHelper";
-import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 import useProfile from "../../hooks/profile/useProfile";
 import CompactFeedItem from "../../ui/Feed/CompactFeedItem";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import LoadingView from "../../ui/Loading/LoadingView";
 import NotFoundView from "../../ui/Loading/NotFoundView";
 import HeaderIconButton from "../../ui/buttons/HeaderIconButton";
-import CommentItem2 from "../../ui/comments/CommentItem2";
 import ProfileTabs from "./ProfileTabs";
+import ILemmyComment from "../../../lemmy/types/ILemmyComment";
+import CommentItem from "../../ui/comments/CommentItem";
 
 function UserProfileScreen({
-  route,
   navigation,
 }: {
-  route: any;
   navigation: NativeStackNavigationProp<any>;
 }) {
   const profile = useProfile();
@@ -68,27 +64,29 @@ function UserProfileScreen({
     />
   );
 
-  const renderItem = ({ item }: { item: CommentView | PostView }) => {
+  const renderItem = ({ item }: { item: ILemmyComment | PostView }) => {
     if (profile.selectedTab === "comments") {
+      const comment = item as ILemmyComment;
       return (
-        <CommentItem2
-          nestedComment={{
-            comment: item as CommentView,
-            replies: [],
-            collapsed: false,
-            myVote: (item as CommentView).my_vote as ILemmyVote,
-          }}
+        <CommentItem
+          comment={comment}
+          setComments={profile.setItems}
           opId={0}
+          depth={2}
           onPressOverride={() => {
-            const comment = item as CommentView;
-            const commentPathArr = comment.comment.path.split(".");
+            const commentPathArr = comment.comment.comment.path.split(".");
 
             if (commentPathArr.length === 2) {
-              profile.onCommentPress(item.post.id, comment.comment.id).then();
+              profile
+                .onCommentPress(
+                  comment.comment.post.id,
+                  comment.comment.comment.id
+                )
+                .then();
             } else {
               profile
                 .onCommentPress(
-                  item.post.id,
+                  comment.comment.post.id,
                   Number(commentPathArr[commentPathArr.length - 2])
                 )
                 .then();
@@ -198,9 +196,9 @@ function UserProfileScreen({
     );
   }, [profile.profile, profile.selectedTab]);
 
-  const keyExtractor = (item: CommentView | PostView) => {
+  const keyExtractor = (item: ILemmyComment | PostView) => {
     if (profile.selectedTab === "comments") {
-      return (item as CommentView).comment.id.toString();
+      return (item as ILemmyComment).comment.comment.id.toString();
     }
     if (profile.selectedTab === "posts") {
       return (item as PostView).post.id.toString();

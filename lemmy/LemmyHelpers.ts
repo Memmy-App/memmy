@@ -1,5 +1,7 @@
-import { CommunityView, Person, PostView } from "lemmy-js-client";
+import { CommentView, CommunityView, Person, PostView } from "lemmy-js-client";
 import { getBaseUrl } from "../helpers/LinkHelper";
+import ILemmyComment from "./types/ILemmyComment";
+import { ILemmyVote } from "./types/ILemmyVote";
 
 export const isSubscribed = (
   communityId: number,
@@ -29,3 +31,18 @@ export const getUserFullName = (profile: Person) =>
 
 export const createUserFullName = (name: string, actor: string) =>
   `${name}@${getBaseUrl(actor)}`;
+
+export const buildComments = (comments: CommentView[]) => {
+  const betterComments: ILemmyComment[] = [];
+
+  for (const comment of comments) {
+    betterComments.push({
+      comment,
+      myVote: comment.my_vote as ILemmyVote,
+      hidden: false,
+      collapsed: false,
+    });
+  }
+
+  return betterComments;
+};
