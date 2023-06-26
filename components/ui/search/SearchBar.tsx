@@ -21,6 +21,7 @@ function SearchBar({
         borderRadius={12}
         py={1.5}
         px={2.5}
+        pr={9}
         space={2}
       >
         <IconSearch color={theme.colors.app.textSecondary} size={20} />
@@ -39,6 +40,7 @@ function SearchBar({
           onSubmitEditing={onSubmitSearch}
           autoCorrect={false}
           autoCapitalize="none"
+          clearButtonMode="always"
         />
       </HStack>
     </VStack>
