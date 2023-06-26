@@ -20,7 +20,7 @@ interface UseComment {
   onCommentPress: () => void;
   onCommentLongPress: () => void;
   onReadPress: () => Promise<void>;
-  onVote: () => Promise<void>;
+  onVote: (value: ILemmyVote) => Promise<void>;
 }
 
 const useComment = ({
@@ -33,7 +33,7 @@ const useComment = ({
   setComments: React.Dispatch<SetStateAction<ILemmyComment[]>>;
   onPressOverride: () => Promise<void> | void;
   setRead?: React.Dispatch<SetStateAction<boolean>>;
-}) => {
+}): UseComment => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { unread } = useAppSelector(selectSite);
 
@@ -48,6 +48,7 @@ const useComment = ({
 
     if (onPressOverride) {
       onPressOverride();
+      return;
     }
 
     setComments((prev) =>

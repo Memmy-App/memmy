@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { HStack, Text, useTheme, VStack } from "native-base";
 import { FlashList } from "@shopify/flash-list";
@@ -9,10 +9,10 @@ import ButtonTwo from "../../ui/buttons/ButtonTwo";
 import { useAppSelector } from "../../../store";
 import { selectSite } from "../../../slices/site/siteSlice";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
-import CommentItem2 from "../../ui/comments/CommentItem2";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 import LoadingModal from "../../ui/Loading/LoadingModal";
-import NestedComment from "../../../lemmy/comments/NestedComment";
+import ILemmyComment from "../../../lemmy/types/ILemmyComment";
+import CommentItem from "../../ui/comments/CommentItem";
 
 function InboxScreen({
   navigation,
@@ -22,42 +22,32 @@ function InboxScreen({
   const theme = useTheme();
   const inbox = useInbox();
 
-  const recycled = useRef({});
-
   const { unread } = useAppSelector(selectSite);
 
-  const replyItem = ({ item }: { item: CommentReplyView }) => {
-    const reply: NestedComment = {
-      comment: item,
-      replies: [],
-      collapsed: false,
-      myVote: item.my_vote as ILemmyVote,
-    };
+  const replyItem = ({ item }: { item: ILemmyComment }) => (
+    <CommentItem
+      comment={item}
+      setComments={inbox.setReplies}
+      isReply
+      onPressOverride={() => {
+        const commentPathArr = item.comment.comment.path.split(".");
 
-    return (
-      <CommentItem2
-        nestedComment={reply}
-        opId={0}
-        recycled={recycled}
-        depth={2}
-        isReply
-        onPressOverride={() => {
-          const commentPathArr = item.comment.path.split(".");
-
-          if (commentPathArr.length === 2) {
-            inbox.onCommentReplyPress(item.post.id, item.comment.id).then();
-          } else {
-            inbox
-              .onCommentReplyPress(
-                item.post.id,
-                Number(commentPathArr[commentPathArr.length - 2])
-              )
-              .then();
-          }
-        }}
-      />
-    );
-  };
+        if (commentPathArr.length === 2) {
+          inbox
+            .onCommentReplyPress(item.comment.post.id, item.comment.comment.id)
+            .then();
+        } else {
+          inbox
+            .onCommentReplyPress(
+              item.comment.post.id,
+              Number(commentPathArr[commentPathArr.length - 2])
+            )
+            .then();
+        }
+      }}
+      depth={2}
+    />
+  );
 
   if (inbox.error) {
     return (

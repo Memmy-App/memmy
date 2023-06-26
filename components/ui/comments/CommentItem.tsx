@@ -45,6 +45,7 @@ function CommentItem({
   setRead,
   isRead = false,
   opId,
+  depth,
   isReply,
 }: {
   comment: ILemmyComment;
@@ -62,7 +63,9 @@ function CommentItem({
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
   const currentAccount = useAppSelector(selectCurrentAccount);
 
-  const depth = comment.comment.comment.path.split(".").length;
+  if (!depth) {
+    depth = comment.comment.comment.path.split(".").length;
+  }
 
   const commentHook = useComment({
     comment,
