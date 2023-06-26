@@ -16,7 +16,8 @@
     "buildPrevAnd": "rm -rf prev.apk && eas build -p android --profile preview --output prev.apk --local --non-interactive",
     "runAnd": "eas build:run -p android --path dev.apk",
     "buildAndSubmit": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive && eas submit -p ios --path build.ipa --non-interactive",
-    "buildAndSubmitAll": "yarn run buildProd && yarn run buildProdAnd && eas submit -p ios --path build.iap && eas submit -p android build.aab"
+    "buildAndSubmitAll": "yarn run buildProd && yarn run buildProdAnd && eas submit -p ios --path build.iap && eas submit -p android build.aab",
+    "generate-license": "license-report --only=prod,dev,peer --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author --output=html > assets/license.html"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^4.0.1",
