@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { PostView } from "lemmy-js-client";
 import {
   Box,
@@ -22,7 +22,7 @@ import {
 } from "tabler-icons-react-native";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { PanGestureHandler } from "react-native-gesture-handler";
@@ -40,8 +40,11 @@ import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
 import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
 import { useAppDispatch } from "../../../store";
+import ImageModal from "../image/ImageModal";
 
 function CompactFeedItem({ post }: { post: PostView }) {
+  const [imageViewOpen, setImageViewOpen] = useState(false);
+
   const feedItem = useFeedItem(post);
   const theme = useTheme();
   const dispatch = useAppDispatch();
@@ -78,6 +81,12 @@ function CompactFeedItem({ post }: { post: PostView }) {
     rightLeftOneIcon,
     rightLeftTwoIcon,
   });
+
+  const onImagePress = () => {
+    setImageViewOpen(true);
+  };
+
+  const onImageLongPress = () => {};
 
   return useMemo(
     () => (
@@ -133,28 +142,46 @@ function CompactFeedItem({ post }: { post: PostView }) {
                   {(feedItem.linkInfo.extType === ExtensionType.IMAGE && (
                     <>
                       {post.post.nsfw ? (
-                        <View style={styles.blurContainer}>
-                          <BlurView
-                            style={styles.blurView}
-                            intensity={100}
-                            tint="dark"
-                          >
-                            <VStack
-                              flex={1}
-                              alignItems="center"
-                              justifyContent="center"
-                              space={2}
+                        <Pressable
+                          onPress={onImagePress}
+                          onLongPress={onImageLongPress}
+                        >
+                          <View style={styles.blurContainer}>
+                            <BlurView
+                              style={styles.blurView}
+                              intensity={100}
+                              tint="dark"
                             >
-                              <Icon
-                                as={Ionicons}
-                                name="alert-circle"
-                                color={theme.colors.app.textPrimary}
-                                size={12}
-                                alignSelf="center"
-                                style={styles.nsfwIcon}
-                              />
-                            </VStack>
-                          </BlurView>
+                              <VStack
+                                flex={1}
+                                alignItems="center"
+                                justifyContent="center"
+                                space={2}
+                              >
+                                <Icon
+                                  as={Ionicons}
+                                  name="alert-circle"
+                                  color={theme.colors.app.textPrimary}
+                                  size={12}
+                                  alignSelf="center"
+                                  style={styles.nsfwIcon}
+                                />
+                              </VStack>
+                            </BlurView>
+                            <FastImage
+                              resizeMode="cover"
+                              style={styles.image}
+                              source={{
+                                uri: post.post.url,
+                              }}
+                            />
+                          </View>
+                        </Pressable>
+                      ) : (
+                        <Pressable
+                          onPress={onImagePress}
+                          onLongPress={onImageLongPress}
+                        >
                           <FastImage
                             resizeMode="cover"
                             style={styles.image}
@@ -162,16 +189,17 @@ function CompactFeedItem({ post }: { post: PostView }) {
                               uri: post.post.url,
                             }}
                           />
-                        </View>
-                      ) : (
-                        <FastImage
-                          resizeMode="cover"
-                          style={styles.image}
-                          source={{
-                            uri: post.post.url,
-                          }}
-                        />
+                        </Pressable>
                       )}
+                      <ImageModal
+                        source={post.post.url}
+                        width={Dimensions.get("screen").width}
+                        height={Dimensions.get("screen").height}
+                        isOpen={imageViewOpen}
+                        onRequestClose={() => {
+                          setImageViewOpen(false);
+                        }}
+                      />
                     </>
                   )) ||
                     (feedItem.linkInfo.extType === ExtensionType.NONE && (
@@ -256,7 +284,7 @@ function CompactFeedItem({ post }: { post: PostView }) {
         </PanGestureHandler>
       </View>
     ),
-    [post, swipeAnimation.leftIcon, swipeAnimation.rightIcon]
+    [post, swipeAnimation.leftIcon, swipeAnimation.rightIcon, imageViewOpen]
   );
 }
 
