@@ -14,8 +14,6 @@ import {
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
-import { findAndAddComment } from "../../../lemmy/comments/LemmyCommentsHelper";
-import NestedComment from "../../../lemmy/comments/NestedComment";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 
 export interface UsePost {
@@ -24,8 +22,6 @@ export interface UsePost {
   commentsLoading: boolean;
   commentsError: boolean;
   doLoad: (ignoreCommentId?: boolean) => Promise<void>;
-
-  refreshList: boolean;
 
   currentPost: PostView;
 
@@ -46,7 +42,6 @@ const usePost = (commentId: string | null): UsePost => {
   const [comments, setComments] = useState<ILemmyComment[]>([]);
   const [commentsLoading, setCommentsLoading] = useState<boolean>(true);
   const [commentsError, setCommentsError] = useState<boolean>(false);
-  const [refreshList, setRefreshList] = useState(false);
   const [currentPost, setCurrentPost] = useState<PostView>(post);
   const [bookmarked, setBookmarked] = useState<boolean>(
     bookmarks?.findIndex((b) => b.postId === currentPost.post.id) !== -1
@@ -219,8 +214,6 @@ const usePost = (commentId: string | null): UsePost => {
     commentsLoading,
     commentsError,
     doLoad,
-
-    refreshList,
 
     currentPost,
 

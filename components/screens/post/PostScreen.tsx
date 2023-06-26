@@ -163,7 +163,6 @@ function PostScreen({
         <FlashList
           ListFooterComponent={footer()}
           ListHeaderComponent={header}
-          extraData={post.refreshList}
           data={post.comments}
           renderItem={commentItem}
           keyExtractor={keyExtractor}
