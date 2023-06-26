@@ -13,7 +13,7 @@ import {
   removeDuplicatePosts,
   removeNsfwPosts,
 } from "../../../lemmy/LemmyHelpers";
-import { clearUpdateVote, selectFeed } from "../../../slices/feed/feedSlice";
+import { selectFeed } from "../../../slices/feed/feedSlice";
 import { selectCommunities } from "../../../slices/communities/communitiesSlice";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { preloadImages } from "../../../helpers/ImageHelper";

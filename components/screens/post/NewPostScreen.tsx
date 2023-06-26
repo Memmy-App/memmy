@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button, StyleSheet, Switch, TextInput } from "react-native";
-import { Icon, IconButton, useColorMode, useTheme, VStack } from "native-base";
+import { Icon, IconButton, useTheme, VStack } from "native-base";
 import { Section, TableView } from "react-native-tableview-simple";
 import { Ionicons } from "@expo/vector-icons";
 import CCell from "../../ui/table/CCell";
