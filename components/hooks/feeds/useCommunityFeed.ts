@@ -59,6 +59,8 @@ const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
         subscribe: !feed.subscribed,
       })
     );
+
+    feed.setSubscribed(!feed.subscribed);
   };
 
   const onAboutPress = () => {
