@@ -59,7 +59,11 @@ function NewCommentScreen({
   }, [newComment.content]);
 
   const headerLeft = () => (
-    <Button title="Cancel" onPress={() => navigation.pop()} />
+    <Button
+      title="Cancel"
+      onPress={() => navigation.pop()}
+      color={theme.colors.app.accent}
+    />
   );
 
   const headerRight = () => (
@@ -67,6 +71,7 @@ function NewCommentScreen({
       title="Submit"
       onPress={newComment.doSubmit}
       disabled={newComment.loading}
+      color={theme.colors.app.accent}
     />
   );
 
