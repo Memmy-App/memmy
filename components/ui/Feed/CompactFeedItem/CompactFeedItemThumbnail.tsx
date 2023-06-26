@@ -95,7 +95,24 @@ function CompactFeedItemThumbnail({
       )) ||
         (feedItem.linkInfo.extType === ExtensionType.NONE && (
           <IconMessages size={40} color={theme.colors.app.textSecondary} />
-        )) || <IconLink size={40} color={theme.colors.app.textSecondary} />}
+        )) || (
+          <>
+            {(post.post.thumbnail_url && (
+              <>
+                <FastImage
+                  resizeMode="cover"
+                  style={[styles.image, { opacity: 0.4 }]}
+                  source={{
+                    uri: post.post.thumbnail_url,
+                  }}
+                />
+                <View zIndex={1} position="absolute">
+                  <IconLink size={40} color={theme.colors.app.textSecondary} />
+                </View>
+              </>
+            )) || <IconLink size={40} color={theme.colors.app.textSecondary} />}
+          </>
+        )}
     </Box>
   );
 }
