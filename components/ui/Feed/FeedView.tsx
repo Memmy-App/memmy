@@ -25,7 +25,7 @@ import LoadingFooter from "../Loading/LoadingFooter";
 import LoadingErrorFooter from "../Loading/LoadingErrorFooter";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import LoadingErrorView from "../Loading/LoadingErrorView";
-import CompactFeedItem from "./CompactFeedItem";
+import CompactFeedItem from "./CompactFeedItem/CompactFeedItem";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import NoPostsView from "./NoPostsView";
 import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";

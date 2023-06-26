@@ -237,6 +237,31 @@ function SettingsIndexScreen({
               />
             }
           />
+
+          <CCell
+            cellStyle="RightDetail"
+            title="Compact Thumbnails Position"
+            detail={settings.compactThumbnailPosition}
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              const options = ["Left", "Right", "Cancel"];
+              const cancelButtonIndex = 2;
+
+              showActionSheetWithOptions(
+                {
+                  options,
+                  cancelButtonIndex,
+                },
+                (index: number) => {
+                  if (index === cancelButtonIndex) return;
+
+                  dispatch(
+                    setSetting({ compactThumbnailPosition: options[index] })
+                  );
+                }
+              );
+            }}
+          />
         </Section>
 
         <Section header="ABOUT" roundedCorners hideSurroundingSeparators>

@@ -16,6 +16,7 @@ export interface SettingsState {
   compactView: boolean;
   theme: ThemeOptions;
   pushEnabled: string;
+  compactThumbnailPosition: "Left" | "Right";
 }
 
 const initialState: SettingsState = {
@@ -28,6 +29,7 @@ const initialState: SettingsState = {
   blurNsfw: true,
   hideNsfw: false,
   compactView: false,
+  compactThumbnailPosition: "Left",
   theme: "Brown",
   pushEnabled: "[]",
 };
