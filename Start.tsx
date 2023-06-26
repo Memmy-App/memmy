@@ -5,6 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { AppState } from "react-native";
+import * as Notifications from "expo-notifications";
 import MemmyErrorView from "./components/ui/Loading/MemmyErrorView";
 import Stack from "./Stack";
 import { writeToLog } from "./helpers/LogHelper";
@@ -24,6 +25,14 @@ const logError = (e, info) => {
     info && info.componentStack ? info.componentStack.toString() : "No stack."
   );
 };
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 function Start() {
   const [loaded, setLoaded] = useState(false);
