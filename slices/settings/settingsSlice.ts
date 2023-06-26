@@ -15,6 +15,7 @@ export interface SettingsState {
   hideNsfw: boolean;
   compactView: boolean;
   theme: ThemeOptions;
+  pushEnabled: string;
 }
 
 const initialState: SettingsState = {
@@ -28,6 +29,7 @@ const initialState: SettingsState = {
   hideNsfw: false,
   compactView: false,
   theme: "Brown",
+  pushEnabled: "[]",
 };
 
 const settingsSlice = createSlice({
