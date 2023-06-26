@@ -113,6 +113,7 @@ function SettingsIndexScreen({
                 {
                   options,
                   cancelButtonIndex,
+                  userInterfaceStyle: theme.config.initialColorMode,
                 },
                 (index: number) => {
                   if (index === cancelButtonIndex) return;
@@ -175,6 +176,7 @@ function SettingsIndexScreen({
                 {
                   options,
                   cancelButtonIndex,
+                  userInterfaceStyle: theme.config.initialColorMode,
                 },
                 (index: number) => {
                   if (index === cancelButtonIndex) return;
@@ -212,6 +214,7 @@ function SettingsIndexScreen({
                 {
                   options,
                   cancelButtonIndex,
+                  userInterfaceStyle: theme.config.initialColorMode,
                 },
                 (index: number) => {
                   if (index === cancelButtonIndex) return;

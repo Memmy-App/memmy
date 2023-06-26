@@ -144,6 +144,7 @@ function CommentItem2({
       {
         options,
         cancelButtonIndex,
+        userInterfaceStyle: theme.config.initialColorMode,
       },
       async (index: number) => {
         onGenericHapticFeedback();

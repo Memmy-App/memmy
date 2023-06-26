@@ -106,6 +106,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
       {
         options,
         cancelButtonIndex,
+        userInterfaceStyle: theme.config.initialColorMode,
       },
       (index: number) => {
         if (index === cancelButtonIndex) return;
@@ -135,6 +136,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
         {
           options,
           cancelButtonIndex,
+          userInterfaceStyle: theme.config.initialColorMode,
         },
         (index: number) => {
           if (index === cancelButtonIndex) return;
@@ -164,6 +166,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
         {
           options,
           cancelButtonIndex,
+          userInterfaceStyle: theme.config.initialColorMode,
         },
         (index: number) => {
           if (index === cancelButtonIndex) return;
