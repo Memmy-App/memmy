@@ -237,10 +237,12 @@ function SettingsIndexScreen({
               />
             }
           />
+        </Section>
 
+        <Section header="COMPACT" roundedCorners hideSurroundingSeparators>
           <CCell
             cellStyle="RightDetail"
-            title="Compact Thumbnails Position"
+            title="Thumbnails Position"
             detail={settings.compactThumbnailPosition}
             accessory="DisclosureIndicator"
             onPress={() => {
@@ -261,6 +263,19 @@ function SettingsIndexScreen({
                 }
               );
             }}
+          />
+          <CCell
+            cellStyle="RightDetail"
+            title="Show Voting Buttons"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.compactShowVotingButtons}
+                onValueChange={(v) => onChange("compactShowVotingButtons", v)}
+              />
+            }
           />
         </Section>
 

@@ -23,7 +23,8 @@ import CompactFeedItemFooter from "./CompactFeedItemFooter";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 
 function CompactFeedItem({ post }: { post: PostView }) {
-  const { compactThumbnailPosition } = useAppSelector(selectSettings);
+  const { compactThumbnailPosition, compactShowVotingButtons } =
+    useAppSelector(selectSettings);
   const [imageViewOpen, setImageViewOpen] = useState(false);
 
   const feedItem = useFeedItem(post);
@@ -128,10 +129,12 @@ function CompactFeedItem({ post }: { post: PostView }) {
                   </VStack>
                 )}
 
-                <CompactFeedItemVote
-                  myVote={post.my_vote as ILemmyVote}
-                  post={post}
-                />
+                {compactShowVotingButtons && (
+                  <CompactFeedItemVote
+                    myVote={post.my_vote as ILemmyVote}
+                    post={post}
+                  />
+                )}
               </HStack>
             </Pressable>
           </Animated.View>
