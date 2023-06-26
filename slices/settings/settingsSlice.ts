@@ -29,7 +29,7 @@ const initialState: SettingsState = {
   blurNsfw: true,
   hideNsfw: false,
   compactView: false,
-  compactThumbnailPosition: "Right",
+  compactThumbnailPosition: "Left",
   theme: "Brown",
   pushEnabled: "[]",
 };
