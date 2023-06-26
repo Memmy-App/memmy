@@ -55,13 +55,11 @@ export const deleteAccount = createAsyncThunk(
     const accounts =
       (JSON.parse(await AsyncStorage.getItem("@accounts")) as Account[]) ?? [];
 
-    const index = accounts.findIndex(
-      (a) => a.username === account.username && a.instance === account.instance
+    const updatedAccounts = accounts.filter(
+      (a) => a.username !== account.username || a.instance !== account.instance
     );
 
-    delete accounts[index];
-
-    await AsyncStorage.setItem("@accounts", JSON.stringify(accounts));
-    return { deletedAccount: account, updatedAccounts: accounts };
+    await AsyncStorage.setItem("@accounts", JSON.stringify(updatedAccounts));
+    return { deletedAccount: account, updatedAccounts };
   }
 );

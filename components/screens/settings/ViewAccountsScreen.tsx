@@ -164,12 +164,14 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
               accessory="DisclosureIndicator"
               onPress={() => onAccountPress(a)}
             />
-            <CCell
-              cellStyle="Basic"
-              title="Delete Account"
-              accessory="DisclosureIndicator"
-              onPress={() => onAccountDeletePress(a)}
-            />
+            {accounts.length > 1 && (
+              <CCell
+                cellStyle="Basic"
+                title="Delete Account"
+                accessory="DisclosureIndicator"
+                onPress={() => onAccountDeletePress(a)}
+              />
+            )}
             <CCell
               title="Push Notifications"
               backgroundColor={theme.colors.app.fg}
