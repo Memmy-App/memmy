@@ -141,7 +141,7 @@ const brownThemeColors: IColors = {
   warn: "#DEA435",
   warnBg: "#FFEDD9",
   warnBorder: "#CB6A11",
-  info: "",
+  info: "#3398f2",
   infoBg: "#CAE6FF",
   infoBorder: "#316677",
 
@@ -206,7 +206,7 @@ const purpleThemeColors: IColors = {
   warn: "#DEA435",
   warnBg: "#FFEDD9",
   warnBorder: "#CB6A11",
-  info: "",
+  info: "#3398f2",
   infoBg: "#CAE6FF",
   infoBorder: "#316677",
 
@@ -270,7 +270,7 @@ const darkThemeColors: IColors = {
   warn: "#DEA435",
   warnBg: "#FFEDD9",
   warnBorder: "#CB6A11",
-  info: "",
+  info: "#3398f2",
   infoBg: "#CAE6FF",
   infoBorder: "#316677",
 
@@ -335,7 +335,7 @@ const draculaThemeColors: IColors = {
   warn: "#DEA435",
   warnBg: "#FFEDD9",
   warnBorder: "#CB6A11",
-  info: "",
+  info: "#3398f2",
   infoBg: "#CAE6FF",
   infoBorder: "#316677",
 
@@ -413,7 +413,7 @@ const lightThemeColors: IColors = {
   warn: "#DEA435",
   warnBg: "#FFEDD9",
   warnBorder: "#CB6A11",
-  info: "",
+  info: "#3398f2",
   infoBg: "#CAE6FF",
   infoBorder: "#316677",
 
