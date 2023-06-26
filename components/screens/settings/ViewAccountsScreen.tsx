@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { ScrollView, useTheme } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Button } from "react-native";
-import { useAppSelector } from "../../../store";
+import { Alert, Button, Switch } from "react-native";
+import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectAccounts } from "../../../slices/accounts/accountsSlice";
 import CTable from "../../ui/table/CTable";
 import CSection from "../../ui/table/CSection";
 import CCell from "../../ui/table/CCell";
 import { Account } from "../../../types/Account";
+import { deleteAccount } from "../../../slices/accounts/accountsActions";
 
 interface ViewAccountsScreenProps {
   navigation: NativeStackNavigationProp<any>;
@@ -15,6 +16,8 @@ interface ViewAccountsScreenProps {
 
 function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   const accounts = useAppSelector(selectAccounts);
+
+  const dispatch = useAppDispatch();
 
   const theme = useTheme();
 
@@ -35,20 +38,52 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
     });
   };
 
+  const onAccountDeletePress = (account: Account) => {
+    Alert.alert(
+      "Are you sure?",
+      `Are you sure you want to delete ${account.username}@${account.instance}?`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => {
+            dispatch(deleteAccount(account));
+          },
+        },
+      ]
+    );
+  };
+
   return (
-    <ScrollView backgroundColor={theme.colors.app.bgSecondary}>
+    <ScrollView backgroundColor={theme.colors.app.bg}>
       <CTable>
-        <CSection header="ACCOUNTS">
-          {accounts.map((a, i) => (
+        {accounts.map((a, i) => (
+          <CSection header={`${a.username}@${a.instance}`} key={i}>
             <CCell
-              key={i}
               cellStyle="Basic"
-              title={`${a.username}@${a.instance}`}
+              title="Edit Account"
               accessory="DisclosureIndicator"
               onPress={() => onAccountPress(a)}
             />
-          ))}
-        </CSection>
+            <CCell
+              cellStyle="Basic"
+              title="Delete Account"
+              accessory="DisclosureIndicator"
+              onPress={() => onAccountDeletePress(a)}
+            />
+            <CCell
+              title="Push Notifications"
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+              cellAccessoryView={<Switch />}
+            />
+          </CSection>
+        ))}
       </CTable>
     </ScrollView>
   );
