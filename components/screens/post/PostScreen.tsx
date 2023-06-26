@@ -18,7 +18,6 @@ import { IconClockHour5, IconMessageCircle } from "tabler-icons-react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import usePost from "../../hooks/post/postHooks";
-import CommentItem2 from "../../ui/comments/CommentItem2";
 import AvatarUsername from "../../ui/common/AvatarUsername";
 import CommunityLink from "../../ui/CommunityLink";
 import ContentView from "../../ui/ContentView";

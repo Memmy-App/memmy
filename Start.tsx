@@ -13,14 +13,7 @@ import { loadSettings } from "./slices/settings/settingsActions";
 import { loadAccounts } from "./slices/accounts/accountsActions";
 import { selectAccountsLoaded } from "./slices/accounts/accountsSlice";
 import { selectSettings } from "./slices/settings/settingsSlice";
-import {
-  brownTheme,
-  darkTheme,
-  draculaTheme,
-  draculaThemePurple,
-  lightTheme,
-  purpleTheme,
-} from "./theme/theme";
+import { brownTheme } from "./theme/theme";
 import { getUnreadCount } from "./slices/site/siteActions";
 import { lemmyAuthToken, lemmyInstance } from "./lemmy/LemmyInstance";
 import { ThemeOptionsMap } from "./theme/themeOptions";

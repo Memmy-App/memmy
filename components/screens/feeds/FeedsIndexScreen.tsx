@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Alert } from "react-native";
-import { Text, useTheme } from "native-base";
+import { useTheme } from "native-base";
 import { IconStar } from "tabler-icons-react-native";
 import FeedView from "../../ui/Feed/FeedView";
 import FeedHeaderDropdown from "../../ui/Feed/FeedHeaderDropdown";

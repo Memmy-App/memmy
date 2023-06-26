@@ -14,10 +14,7 @@ import {
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
-import {
-  buildComments,
-  findAndAddComment,
-} from "../../../lemmy/comments/LemmyCommentsHelper";
+import { findAndAddComment } from "../../../lemmy/comments/LemmyCommentsHelper";
 import NestedComment from "../../../lemmy/comments/NestedComment";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 

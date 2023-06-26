@@ -8,9 +8,9 @@ import {
   HStack,
   Spinner,
   Text,
-  VStack,
-  View,
   useTheme,
+  View,
+  VStack,
 } from "native-base";
 import { RefreshControl, StyleSheet } from "react-native";
 import FastImage from "react-native-fast-image";

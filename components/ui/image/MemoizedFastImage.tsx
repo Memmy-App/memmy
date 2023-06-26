@@ -1,16 +1,9 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import FastImage from "react-native-fast-image";
 import { Icon, Text, useTheme, View, VStack } from "native-base";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
-import { useModeManager } from "native-base/lib/typescript/core/color-mode/hooks";
 import { getRatio } from "../../../helpers/ImageHelper";
 
 function MemoizedFastImage({

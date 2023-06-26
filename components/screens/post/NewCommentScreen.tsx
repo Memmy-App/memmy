@@ -1,15 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, StyleSheet, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import {
-  HStack,
-  Icon,
-  Text,
-  useColorMode,
-  useTheme,
-  View,
-  VStack,
-} from "native-base";
+import { HStack, Icon, Text, useTheme, View, VStack } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment/moment";

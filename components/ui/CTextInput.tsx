@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { StyleSheet, TextInput } from "react-native";
-import { Text, useColorMode, VStack } from "native-base";
+import { Text, VStack } from "native-base";
 
 interface TextInputProps {
   name: string;
