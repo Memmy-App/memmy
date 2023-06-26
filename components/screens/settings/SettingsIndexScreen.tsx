@@ -240,7 +240,7 @@ function SettingsIndexScreen({
 
           <CCell
             cellStyle="RightDetail"
-            title="Compact thumbnails position"
+            title="Compact Thumbnails Position"
             detail={settings.compactThumbnailPosition}
             accessory="DisclosureIndicator"
             onPress={() => {
