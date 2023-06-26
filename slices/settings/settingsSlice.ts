@@ -15,6 +15,8 @@ export interface SettingsState {
   hideNsfw: boolean;
   compactView: boolean;
   theme: ThemeOptions;
+  useSystemTextSize: boolean;
+  fontSize: number;
 }
 
 const initialState: SettingsState = {
@@ -28,6 +30,8 @@ const initialState: SettingsState = {
   hideNsfw: false,
   compactView: false,
   theme: "Brown",
+  useSystemTextSize: true,
+  fontSize: 2,
 };
 
 const settingsSlice = createSlice({

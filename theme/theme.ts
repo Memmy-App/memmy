@@ -1,4 +1,5 @@
 import { extendTheme } from "native-base";
+import getFontScale from "./fontFuck";
 
 interface ICommentChainColors {
   1: string;
@@ -62,7 +63,7 @@ const commonSettings = {
   components: {
     Text: {
       defaultProps: {
-        allowFontScaling: false,
+        allowFontScaling: true,
       },
     },
   },
@@ -170,6 +171,7 @@ const brownThemeColors: IColors = {
 
 const brownTheme = extendTheme({
   ...commonSettings,
+  fontSizes: getFontScale(),
   colors: {
     app: brownThemeColors,
   },
@@ -371,6 +373,7 @@ const draculaTheme = extendTheme({
   config: {
     initialColorMode: "dark",
   },
+  fontSizes: getFontScale(),
 });
 
 const draculaThemePurple = extendTheme({

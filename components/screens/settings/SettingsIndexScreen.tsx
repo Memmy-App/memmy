@@ -1,11 +1,12 @@
 import React from "react";
-import { ScrollView, useTheme } from "native-base";
-import { Alert, StyleSheet, Switch } from "react-native";
+import { ScrollView, Text, VStack, View, useTheme } from "native-base";
+import Slider from "@react-native-community/slider";
+import { Alert, StyleSheet, Switch, useWindowDimensions } from "react-native";
 import { Cell, Section, TableView } from "react-native-tableview-simple";
 import { getBuildNumber, getVersion } from "react-native-device-info";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useAppDispatch, useAppSelector } from "../../../store";
+import store, { useAppDispatch, useAppSelector } from "../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { setSetting } from "../../../slices/settings/settingsActions";
 import { selectAccounts } from "../../../slices/accounts/accountsSlice";
@@ -97,6 +98,40 @@ function SettingsIndexScreen({
         </Section>
 
         <Section header="APPEARANCE" roundedCorners hideSurroundingSeparators>
+          <CCell
+            title="Use System Text Size"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.useSystemTextSize}
+                onValueChange={(v) => onChange("useSystemTextSize", v)}
+              />
+            }
+          />
+          <Cell
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellContentView={
+              <View width="100%" margin={2}>
+                <Text>Font Size</Text>
+                <Slider
+                  style={{ width: "100%", height: 40 }}
+                  minimumValue={1}
+                  maximumValue={3}
+                  minimumTrackTintColor="#FFFFFF"
+                  maximumTrackTintColor="#000000"
+                  step={1}
+                  disabled={settings.useSystemTextSize}
+                  value={settings.fontSize}
+                  onValueChange={(v) => onChange("fontSize", v)}
+                />
+              </View>
+            }
+          />
+
           <CCell
             cellStyle="RightDetail"
             title="Theme"
