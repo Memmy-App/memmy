@@ -243,18 +243,19 @@ const purpleTheme = extendTheme({
 });
 
 const darkThemeColors: IColors = {
-  accent: "#1A91FF",
-  accentHighlight: "#E7F2FF",
+  accent: "#2C9AFF",
+  accentHighlight: "#1F2E45",
 
-  textPrimary: "#FFF",
-  textSecondary: "#ececec",
-  textTertiary: "#e7e7e7",
+  textPrimary: "#FFFFFF",
+  textSecondary: "#B8B9C1",
+  textTertiary: "#B8B9C1",
+
   fg: "#1B1B1B",
-  bg: "#070707",
-  bgSecondary: "#000000",
-  bgTertiary: "#0c0c0c",
+  bg: "#101010",
+  bgSecondary: "#1B1B1B",
+  bgTertiary: "#3C3C3C",
 
-  border: "#C8C8CA",
+  border: "#242424",
 
   upvote: "#EE923D",
   upvoteText: "#FFF",
@@ -290,7 +291,7 @@ const darkThemeColors: IColors = {
     5: "#4BA9FF",
   },
 
-  inputBg: "#3C3C3C",
+  inputBg: "#2F2F2F",
 
   bookmark: "#48C10F",
   bookmarkText: "#fff",
@@ -301,6 +302,7 @@ const darkTheme = extendTheme({
   colors: {
     app: darkThemeColors,
   },
+
   config: {
     initialColorMode: "dark",
   },
@@ -385,15 +387,15 @@ const draculaThemePurple = extendTheme({
 });
 
 const lightThemeColors: IColors = {
-  accent: "#1A91FF",
+  accent: "#2092FB",
   accentHighlight: "#E7F2FF",
 
-  textPrimary: "#303030",
-  textSecondary: "#5C5C5C",
-  textTertiary: "#979BA2",
+  textPrimary: "#393939",
+  textSecondary: "#979BA2",
+  textTertiary: "#5C5C5C",
 
   fg: "#FFFFFF",
-  bg: "#F4F4F4",
+  bg: "#F2F2F2",
   bgSecondary: "#ECECEC",
   bgTertiary: "#DEDEDE",
 
@@ -450,6 +452,72 @@ const lightTheme = extendTheme({
   },
 });
 
+const nightOwlThemeColors: IColors = {
+  accent: "#544AC6",
+  accentHighlight: "#1F1932",
+
+  textPrimary: "#C2B8DF",
+  textSecondary: "#8B7C92",
+  textTertiary: "#8B7C92",
+
+  fg: "#090909",
+  bg: "#000000",
+  bgSecondary: "#130F1B",
+  bgTertiary: "#130F1B",
+
+  border: "#241543",
+
+  upvote: "#EE923D",
+  upvoteText: "#FFF",
+  downvote: "#1A84E5",
+  downvoteText: "#FFF",
+
+  success: "#48C10F",
+  successBg: "#D7F8DA",
+  successBorder: "#2B8302",
+  error: "#F8372B",
+  errorBg: "#FFC6C2",
+  errorBorder: "#A62525",
+  warn: "#DEA435",
+  warnBg: "#FFEDD9",
+  warnBorder: "#CB6A11",
+  info: "",
+  infoBg: "#CAE6FF",
+  infoBorder: "#316677",
+
+  users: {
+    mod: "#54CB60",
+    admin: "#FF4848",
+    dev: "#CB66FA",
+    op: "#54CB60",
+    me: "#FFB800",
+  },
+
+  comments: {
+    1: "#FA6969",
+    2: "#FFB800",
+    3: "#FFE500",
+    4: "#36CF3C",
+    5: "#4BA9FF",
+  },
+
+  inputBg: "#221C2F",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
+};
+
+const nightOwlTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: nightOwlThemeColors,
+  },
+
+  config: {
+    initialColorMode: "dark",
+  },
+});
+
 export type ThemeType = typeof lightTheme;
 
 declare module "native-base" {
@@ -463,4 +531,5 @@ export {
   purpleTheme,
   draculaTheme,
   draculaThemePurple,
+  nightOwlTheme,
 };
