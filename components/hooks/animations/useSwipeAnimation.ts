@@ -7,6 +7,7 @@ import {
   withSpring,
 } from "react-native-reanimated";
 import { Dimensions } from "react-native";
+import { useTheme } from "native-base";
 import { onCommentSlideHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 
 interface UseSwipeAnimationOptions {
@@ -31,8 +32,9 @@ interface UseSwipeAnimation {
 const useSwipeAnimation = (
   options: UseSwipeAnimationOptions
 ): UseSwipeAnimation => {
+  const theme = useTheme();
   // State
-  const [color, setColor] = useState("#1abd3e");
+  const [color, setColor] = useState(theme.colors.app.upvote);
   const [rightIcon, setRightIcon] = useState<any>(options.rightLeftOneIcon);
   const [leftIcon, setLeftIcon] = useState<any>(options.leftRightOneIcon);
 
@@ -128,20 +130,20 @@ const useSwipeAnimation = (
   function setStyles(actionType) {
     switch (actionType) {
       case "leftRightOne": {
-        if (color === "#1abd3e") return;
-        setColor("#1abd3e");
+        if (color === theme.colors.app.upvote) return;
+        setColor(theme.colors.app.upvote);
         setLeftIcon(options.leftRightOneIcon);
         break;
       }
       case "leftRightTwo": {
-        if (color === "#e36919") return;
-        setColor("#e36919");
+        if (color === theme.colors.app.downvote) return;
+        setColor(theme.colors.app.downvote);
         setLeftIcon(options.leftRightTwoIcon);
         break;
       }
       case "rightLeftOne": {
-        if (color === "#007AFF") return;
-        setColor("#007AFF");
+        if (color === theme.colors.app.success) return;
+        setColor(theme.colors.app.success);
         setRightIcon(options.rightLeftOneIcon);
         break;
       }
