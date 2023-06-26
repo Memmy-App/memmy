@@ -26,7 +26,7 @@ import {
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { getCakeDay } from "../../../helpers/TimeHelper";
 import useProfile from "../../hooks/profile/useProfile";
-import CompactFeedItem from "../../ui/Feed/CompactFeedItem";
+import CompactFeedItem from "../../ui/Feed/CompactFeedItem/CompactFeedItem";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import LoadingView from "../../ui/Loading/LoadingView";
 import NotFoundView from "../../ui/Loading/NotFoundView";
