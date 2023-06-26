@@ -54,6 +54,7 @@ function PostScreen({
       nestedComment={item}
       opId={post.currentPost.creator.id}
       recycled={post.recycled}
+      refresh={post.refreshList}
     />
   );
 

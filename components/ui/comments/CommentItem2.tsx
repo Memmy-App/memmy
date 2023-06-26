@@ -57,6 +57,7 @@ function CommentItem2({
   isReply = false,
   onPressOverride = null,
   read = false,
+  refresh,
 }: {
   nestedComment: NestedComment;
   opId: number;
@@ -65,6 +66,7 @@ function CommentItem2({
   isReply?: boolean;
   onPressOverride?: () => void | Promise<void>;
   read?: boolean;
+  refresh?: boolean;
 }) {
   // Global state
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
@@ -88,29 +90,34 @@ function CommentItem2({
   const { showActionSheetWithOptions } = useActionSheet();
   const toast = useToast();
 
-  if (recycled && nestedComment.comment.comment.id !== lastCommentId.current) {
-    if (recycled.current[nestedComment.comment.comment.id]) {
-      setCollapsed(
-        recycled.current[nestedComment.comment.comment.id].collapsed
-      );
-      setMyVote(recycled.current[nestedComment.comment.comment.id].myVote);
-      delete recycled.current[lastCommentId.current];
-    } else {
-      setCollapsed(false);
-      setMyVote(nestedComment.comment.my_vote);
-      setContent(nestedComment.comment.comment.content);
+  try {
+    if (
+      recycled.current &&
+      nestedComment.comment.comment.id !== lastCommentId.current
+    ) {
+      if (recycled.current[nestedComment.comment.comment.id]) {
+        setCollapsed(
+          recycled.current[nestedComment.comment.comment.id].collapsed
+        );
+        setMyVote(recycled.current[nestedComment.comment.comment.id].myVote);
+        delete recycled.current[lastCommentId.current];
+      } else {
+        setCollapsed(false);
+        setMyVote(nestedComment.comment.my_vote);
+        setContent(nestedComment.comment.comment.content);
+      }
+
+      recycled.current = {
+        ...recycled.current,
+        [lastCommentId.current]: {
+          collapsed,
+          myVote,
+        },
+      };
+
+      lastCommentId.current = nestedComment.comment.comment.id;
     }
-
-    recycled.current = {
-      ...recycled.current,
-      [lastCommentId.current]: {
-        collapsed,
-        myVote,
-      },
-    };
-
-    lastCommentId.current = nestedComment.comment.comment.id;
-  }
+  } catch (e) {}
 
   const onCommentPress = () => {
     onGenericHapticFeedback();
@@ -464,9 +471,9 @@ function CommentItem2({
       swipeAnimation.leftIcon,
       swipeAnimation.rightIcon,
       nestedComment,
-      nestedComment.replies,
       myVote,
       collapsed,
+      refresh,
     ]
   );
 }
