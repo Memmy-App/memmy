@@ -1,14 +1,14 @@
-import React, { useMemo } from "react";
-import { useTheme, VStack } from "native-base";
-import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useWindowDimensions } from "react-native";
-import { openLink } from "../../../helpers/LinkHelper";
-import { findImages, replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
+import React, {useMemo} from "react";
+import {useTheme, VStack} from "native-base";
+import Markdown, {MarkdownIt} from "@ronradtke/react-native-markdown-display";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {useWindowDimensions} from "react-native";
+import {openLink} from "../../../helpers/LinkHelper";
+import {findImages, replaceNoMarkdown} from "../../../helpers/MarkdownHelper";
 import ImageButton from "../buttons/ImageButton";
-import { useAppSelector } from "../../../store";
-import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
+import {useAppSelector} from "../../../store";
+import {selectCurrentAccount} from "../../../slices/accounts/accountsSlice";
 
 // const FONT_SIZE = 14;
 // const HEADING_1_SIZE = 32;

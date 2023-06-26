@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import { PostView } from "lemmy-js-client";
 
 import { useToast } from "native-base";
@@ -14,19 +14,14 @@ import {
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
-import {
-  buildComments,
-  findAndAddComment,
-} from "../../../lemmy/comments/LemmyCommentsHelper";
-import NestedComment from "../../../lemmy/comments/NestedComment";
+import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 
 export interface UsePost {
-  comments: NestedComment[];
+  comments: ILemmyComment[];
+  setComments: React.Dispatch<SetStateAction<ILemmyComment[]>>;
   commentsLoading: boolean;
   commentsError: boolean;
   doLoad: (ignoreCommentId?: boolean) => Promise<void>;
-
-  refreshList: boolean;
 
   currentPost: PostView;
 
@@ -44,10 +39,9 @@ const usePost = (commentId: string | null): UsePost => {
   const bookmarks = useAppSelector(selectBookmarks);
 
   // State
-  const [comments, setComments] = useState<NestedComment[]>([]);
+  const [comments, setComments] = useState<ILemmyComment[]>([]);
   const [commentsLoading, setCommentsLoading] = useState<boolean>(true);
   const [commentsError, setCommentsError] = useState<boolean>(false);
-  const [refreshList, setRefreshList] = useState(false);
   const [currentPost, setCurrentPost] = useState<PostView>(post);
   const [bookmarked, setBookmarked] = useState<boolean>(
     bookmarks?.findIndex((b) => b.postId === currentPost.post.id) !== -1
@@ -72,20 +66,27 @@ const usePost = (commentId: string | null): UsePost => {
   useEffect(() => {
     if (newComment) {
       // Create a new comment chain
-      const lComment: NestedComment = {
+      const lComment: ILemmyComment = {
         comment: newComment.comment,
-        replies: [],
         collapsed: false,
+        hidden: false,
         myVote: newComment.comment.my_vote as ILemmyVote,
       };
       // If it's a top comment, add it to top of current chain
       if (newComment.isTopComment) {
         setComments([lComment, ...comments]);
       } else {
-        const newChain = findAndAddComment(comments, lComment);
+        const pathArr = newComment.comment.comment.path.split(".");
+        const searchId = Number(pathArr[pathArr.length - 2]);
+        const index = comments.findIndex(
+          (c) => c.comment.comment.id === searchId
+        );
 
-        setComments([...newChain]);
-        setRefreshList(!refreshList);
+        setComments((prev) => [
+          ...prev.slice(0, index + 1),
+          lComment,
+          ...prev.slice(index + 1),
+        ]);
       }
     }
   }, [newComment]);
@@ -111,9 +112,20 @@ const usePost = (commentId: string | null): UsePost => {
       const ordered = commentsRes.comments.sort((a, b) =>
         a.comment.path.localeCompare(b.comment.path)
       );
-      const parsed = buildComments(ordered);
+      // const parsed = buildComments(ordered);
 
-      setComments(parsed);
+      const betterComments: ILemmyComment[] = [];
+
+      for (const item of ordered) {
+        betterComments.push({
+          comment: item,
+          myVote: item.my_vote as ILemmyVote,
+          collapsed: false,
+          hidden: false,
+        });
+      }
+
+      setComments(betterComments);
       setCommentsLoading(false);
     } catch (e) {
       writeToLog("Error loading post.");
@@ -197,11 +209,11 @@ const usePost = (commentId: string | null): UsePost => {
 
   return {
     comments,
+    setComments,
+
     commentsLoading,
     commentsError,
     doLoad,
-
-    refreshList,
 
     currentPost,
 

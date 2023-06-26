@@ -1,15 +1,13 @@
-import { SetStateAction, useEffect, useState } from "react";
-import {
-  CommentReplyView,
-  PersonMentionView,
-  PrivateMessageView,
-} from "lemmy-js-client";
+import React, { SetStateAction, useEffect, useState } from "react";
+import { PersonMentionView, PrivateMessageView } from "lemmy-js-client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { useAppDispatch } from "../../../store";
 import { setPost } from "../../../slices/post/postSlice";
+import ILemmyComment from "../../../lemmy/types/ILemmyComment";
+import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 
 interface UseInbox {
   doLoad: (type: string, unread: boolean) => void;
@@ -18,7 +16,8 @@ interface UseInbox {
   error: boolean;
   refreshing: boolean;
 
-  replies: CommentReplyView[];
+  replies: ILemmyComment[];
+  setReplies: React.Dispatch<SetStateAction<ILemmyComment[]>>;
   mentions: PersonMentionView[];
   messages: PrivateMessageView[];
 
@@ -40,7 +39,7 @@ const useInbox = (): UseInbox => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const [replies, setReplies] = useState<CommentReplyView[]>(null);
+  const [replies, setReplies] = useState<ILemmyComment[]>(null);
   const [mentions, setMentions] = useState<PersonMentionView[]>(null);
   const [messages, setMessages] = useState<PrivateMessageView[]>(null);
   const [refreshing, setRefreshing] = useState<boolean>(false);
@@ -108,7 +107,18 @@ const useInbox = (): UseInbox => {
         unread_only: unread,
       });
 
-      setReplies(res.replies);
+      const betterComments: ILemmyComment[] = [];
+
+      for (const item of res.replies) {
+        betterComments.push({
+          comment: item,
+          hidden: false,
+          collapsed: false,
+          myVote: item.my_vote as ILemmyVote,
+        });
+      }
+
+      setReplies(betterComments);
     } catch (e) {
       writeToLog("Error getting replies.");
       writeToLog(e.toString());
@@ -156,6 +166,8 @@ const useInbox = (): UseInbox => {
     doLoad,
 
     replies,
+    setReplies,
+
     mentions,
     messages,
 
