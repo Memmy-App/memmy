@@ -71,20 +71,27 @@ const usePost = (commentId: string | null): UsePost => {
   useEffect(() => {
     if (newComment) {
       // Create a new comment chain
-      const lComment: NestedComment = {
+      const lComment: ILemmyComment = {
         comment: newComment.comment,
-        replies: [],
         collapsed: false,
+        hidden: false,
         myVote: newComment.comment.my_vote as ILemmyVote,
       };
       // If it's a top comment, add it to top of current chain
       if (newComment.isTopComment) {
         setComments([lComment, ...comments]);
       } else {
-        const newChain = findAndAddComment(comments, lComment);
+        const pathArr = newComment.comment.comment.path.split(".");
+        const searchId = Number(pathArr[pathArr.length - 2]);
+        const index = comments.findIndex(
+          (c) => c.comment.comment.id === searchId
+        );
 
-        setComments([...newChain]);
-        setRefreshList(!refreshList);
+        setComments((prev) => [
+          ...prev.slice(0, index + 1),
+          lComment,
+          ...prev.slice(index + 1),
+        ]);
       }
     }
   }, [newComment]);
