@@ -582,6 +582,69 @@ const oksolarDarkTheme = extendTheme({
   },
 });
 
+const oksolarLightColors: IColors = {
+  accent: "#F23749",
+  accentHighlight: "#E7F2FF",
+
+  textPrimary: "#FFF",
+  textSecondary: "#8FAAAB",
+  textTertiary: "#8FAAAB",
+  fg: "#657377",
+  bg: "#FBF7EF",
+  bgSecondary: "#F1E9D2",
+  bgTertiary: "#FCF7E8",
+
+  border: "#FFF",
+
+  upvote: "#D56500",
+  upvoteText: "#FFF",
+  downvote: "#7D80D1",
+  downvoteText: "#FFF",
+
+  success: "#819500",
+  successBg: "#D7F8DA",
+  successBorder: "#2B8302",
+  error: "#F23749",
+  errorBg: "#FFC6C2",
+  errorBorder: "#A62525",
+  warn: "#AC8300",
+  warnBg: "#FFEDD9",
+  warnBorder: "#CB6A11",
+  info: "#2B90D8",
+  infoBg: "#CAE6FF",
+  infoBorder: "#316677",
+
+  users: {
+    mod: "#819500",
+    admin: "#FF4848",
+    dev: "#7D80D1",
+    op: "#2B90D8",
+    me: "#AC8300",
+  },
+
+  comments: {
+    1: "#F23749",
+    2: "#D56500",
+    3: "#AC8300",
+    4: "#819500",
+    5: "#259D94",
+  },
+
+  inputBg: "#093946",
+
+  bookmark: "#819500",
+  bookmarkText: "#fff",
+};
+
+const oksolarLightTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: oksolarLightColors,
+  },
+  config: {
+    initialColorMode: "light",
+  },
+});
 
 export type ThemeType = typeof lightTheme;
 
@@ -598,4 +661,5 @@ export {
   draculaThemePurple,
   nightOwlTheme,
   oksolarDarkTheme,
+  oksolarLightTheme,
 };
