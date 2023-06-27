@@ -12,7 +12,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import useFeedItem from "../../../hooks/feeds/useFeedItem";
-import { truncateCompactFeedItem } from "../../../../helpers/TextHelper";
 import { ILemmyVote } from "../../../../lemmy/types/ILemmyVote";
 import useSwipeAnimation from "../../../hooks/animations/useSwipeAnimation";
 import { setResponseTo } from "../../../../slices/newComment/newCommentSlice";
@@ -122,12 +121,14 @@ function CompactFeedItem({
                 <VStack flex={1}>
                   <Text
                     flex={1}
-                    fontSize={17}
-                    style={
-                      post.read ? { color: theme.colors.app.textTertiary } : {}
+                    fontSize="md"
+                    color={
+                      post.read
+                        ? theme.colors.app.textSecondary
+                        : theme.colors.app.textPrimary
                     }
                   >
-                    {truncateCompactFeedItem(post.post.name)}
+                    {post.post.name}
                   </Text>
 
                   <CompactFeedItemFooter post={post} />
