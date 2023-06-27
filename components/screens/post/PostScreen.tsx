@@ -72,13 +72,7 @@ function PostScreen({
       <ContentView post={post.currentPost} />
 
       <HStack mb={2} mx={4} space={2}>
-        <AvatarUsername
-          username={post.currentPost?.creator.name}
-          fullUsername={getUserFullName(post.currentPost?.creator)}
-          showInstance
-          creatorActorId={post.currentPost.creator.actor_id}
-          avatar={post.currentPost?.creator.avatar}
-        />
+        <AvatarUsername creator={post.currentPost?.creator} showInstance />
       </HStack>
       <HStack space={2} mx={4} mb={2}>
         <HStack alignItems="center">

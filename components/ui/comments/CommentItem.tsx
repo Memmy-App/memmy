@@ -162,10 +162,7 @@ function CommentItem({
                       pb={2}
                     >
                       <AvatarUsername
-                        avatar={comment.comment.creator.avatar}
-                        username={comment.comment.creator.name}
-                        fullUsername={getUserFullName(comment.comment.creator)}
-                        creatorActorId={comment.comment.creator.actor_id}
+                        creator={comment.comment.creator}
                         showInstance={showInstanceForUsernames}
                       >
                         <>

@@ -3,29 +3,28 @@ import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
 import React, { SetStateAction, useMemo } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import FastImage from "react-native-fast-image";
+import { PanGestureHandler } from "react-native-gesture-handler";
+import Animated from "react-native-reanimated";
 import {
   IconArrowDown,
   IconArrowUp,
   IconClockHour5,
   IconMessage,
-  IconMessageCircle,
   IconPlanet,
 } from "tabler-icons-react-native";
-import { PanGestureHandler } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
+import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
+import { useAppDispatch } from "../../../store";
+import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
 import useFeedItem from "../../hooks/feeds/useFeedItem";
 import AvatarUsername from "../common/AvatarUsername";
 import VoteButton from "../common/VoteButton";
 import CommunityLink from "../CommunityLink";
 import ContentView from "../ContentView";
-import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
-import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
-import { useAppDispatch } from "../../../store";
 
 interface FeedItemProps {
   post: PostView;
@@ -118,26 +117,16 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <AvatarUsername
-                  username={post.creator.name}
-                  fullUsername={`${post.creator.name}@${getBaseUrl(
-                    post.creator.actor_id
-                  )}`}
-                  avatar={post.creator.avatar}
-                />
+                <AvatarUsername creator={post.creator} />
 
                 <HStack alignItems="center" space={1}>
                   <IconClockHour5
-                    size={14}
+                    size={16}
                     color={theme.colors.app.textSecondary}
                   />
                   <Text color={theme.colors.app.textSecondary}>
                     {timeFromNowShort(post.post.published)}
                   </Text>
-                  <IconPlanet
-                    color={theme.colors.app.textSecondary}
-                    size={15}
-                  />
                   <CommunityLink
                     community={post.community}
                     color={theme.colors.app.textSecondary}
@@ -155,8 +144,10 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                   fontSize="md"
                   mx={4}
                   mb={3}
-                  style={
-                    post.read ? { color: theme.colors.app.textSecondary } : {}
+                  color={
+                    post.read
+                      ? theme.colors.app.textSecondary
+                      : theme.colors.app.textPrimary
                   }
                 >
                   {post.post.name}
@@ -198,7 +189,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                       </Text>
                     </HStack>
                     <HStack alignItems="center" ml={1} space={0.5}>
-                      <IconMessageCircle
+                      <IconMessage
                         color={theme.colors.app.textSecondary}
                         size={20}
                       />
