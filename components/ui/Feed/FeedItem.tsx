@@ -45,6 +45,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
     dispatch(
       setResponseTo({
         post,
+        languageId: post.post.language_id,
       })
     );
     navigation.push("NewComment");

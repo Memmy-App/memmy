@@ -1,11 +1,17 @@
 /* eslint react/no-unstable-nested-components: 0 */
 
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {DarkTheme, NavigationContainer} from "@react-navigation/native";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {useTheme} from "native-base";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { DarkTheme, NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useTheme } from "native-base";
 import React from "react";
-import {IconBell, IconNotes, IconPlanet, IconSearch, IconUserCircle,} from "tabler-icons-react-native";
+import {
+  IconBell,
+  IconNotes,
+  IconPlanet,
+  IconSearch,
+  IconUserCircle,
+} from "tabler-icons-react-native";
 import CommunityAboutScreen from "./components/screens/feeds/CommunityAboutScreen";
 import CommunityFeedScreen from "./components/screens/feeds/CommunityFeedScreen";
 import FeedsIndexScreen from "./components/screens/feeds/FeedsIndexScreen";
@@ -26,9 +32,12 @@ import ProfileScreen from "./components/screens/userProfile/ProfileScreen";
 import SubscriptionsScreen from "./components/screens/userProfile/SubscriptionsScreen";
 import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
 import LoadingView from "./components/ui/Loading/LoadingView";
-import {selectAccounts, selectAccountsLoaded,} from "./slices/accounts/accountsSlice";
-import {selectSite} from "./slices/site/siteSlice";
-import {useAppSelector} from "./store";
+import {
+  selectAccounts,
+  selectAccountsLoaded,
+} from "./slices/accounts/accountsSlice";
+import { selectSite } from "./slices/site/siteSlice";
+import { useAppSelector } from "./store";
 
 const FeedStack = createNativeStackNavigator();
 
