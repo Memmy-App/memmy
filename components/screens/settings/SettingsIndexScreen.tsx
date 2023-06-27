@@ -13,6 +13,7 @@ import CCell from "../../ui/table/CCell";
 import CSection from "../../ui/table/CSection";
 import { deleteLog, sendLog } from "../../../helpers/LogHelper";
 import { ThemeOptionsArr } from "../../../theme/themeOptions";
+import { HapticOptionsArr } from "../../../haptics/hapticOptions";
 
 function SettingsIndexScreen({
   navigation,
@@ -280,6 +281,35 @@ function SettingsIndexScreen({
             />
           </Section>
         )}
+
+        <Section header="HAPTICS" roundedCorners hideSurroundingSeparators>
+          <CCell
+            cellStyle="RightDetail"
+            title="Strength"
+            detail={settings.theme}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              const options = [...HapticOptionsArr, "Cancel"];
+              const cancelButtonIndex = options.length - 1;
+
+              showActionSheetWithOptions(
+                {
+                  options,
+                  cancelButtonIndex,
+                  userInterfaceStyle: theme.config.initialColorMode,
+                },
+                (index: number) => {
+                  if (index === cancelButtonIndex) return;
+
+                  dispatch(setSetting({ haptic: options[index] }));
+                }
+              );
+            }}
+          />
+        </Section>
 
         <Section header="ABOUT" roundedCorners hideSurroundingSeparators>
           <CCell
