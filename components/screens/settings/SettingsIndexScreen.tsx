@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, useTheme } from "native-base";
-import { Alert, StyleSheet, Switch } from "react-native";
+import { Alert, LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { Cell, Section, TableView } from "react-native-tableview-simple";
 import { getBuildNumber, getVersion } from "react-native-device-info";
 import { useActionSheet } from "@expo/react-native-action-sheet";
@@ -233,7 +233,10 @@ function SettingsIndexScreen({
             cellAccessoryView={
               <Switch
                 value={settings.compactView}
-                onValueChange={(v) => onChange("compactView", v)}
+                onValueChange={(v) => {
+                  LayoutAnimation.easeInEaseOut();
+                  onChange("compactView", v);
+                }}
               />
             }
           />

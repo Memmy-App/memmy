@@ -2,6 +2,7 @@ import React, { SetStateAction, useEffect, useMemo, useState } from "react";
 import { PersonView, PostView } from "lemmy-js-client";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import { LayoutAnimation } from "react-native";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { useAppDispatch, useAppSelector } from "../../../store";
@@ -55,10 +56,6 @@ const useProfile = (fullUsername?: string): UseProfile => {
     doLoad().then();
   }, []);
 
-  useEffect(() => {
-    console.log("render");
-  });
-
   const doLoad = async () => {
     setLoading(true);
     setError(false);
@@ -77,6 +74,7 @@ const useProfile = (fullUsername?: string): UseProfile => {
 
       const betterComments = buildComments(res.comments);
 
+      LayoutAnimation.linear();
       setProfile(res.person_view);
       setItems(betterComments);
       setLoading(false);
@@ -99,6 +97,8 @@ const useProfile = (fullUsername?: string): UseProfile => {
       setItems([]);
       setSelectedTab(type);
     }
+    LayoutAnimation.linear();
+
     setItemsLoading(true);
     setError(false);
 
@@ -113,6 +113,7 @@ const useProfile = (fullUsername?: string): UseProfile => {
 
       setNextPage((prev) => (refresh ? 2 : prev + 1));
 
+      LayoutAnimation.linear();
       if (type === "comments") {
         const betterComments = buildComments(res.comments);
         setItems([...(items as ILemmyComment[]), ...betterComments]);
