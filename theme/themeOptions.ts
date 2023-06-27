@@ -7,7 +7,6 @@ import {
   nightOwlTheme,
   purpleTheme,
   oksolarDarkTheme,
-  oksolarLightTheme,
 } from "./theme";
 
 enum EThemeOptions {
@@ -19,7 +18,6 @@ enum EThemeOptions {
   DRACULA_PURPLE = "Dracula (Purple)",
   NIGHT_OWL = "Night Owl",
   OKSOLAR_DARK = "Oksolar Dark",
-  OKSOLAR_LIGHT = "Oksolar Light"
 }
 
 export type ThemeOptions = `${EThemeOptions}`;
@@ -36,5 +34,4 @@ export const ThemeOptionsMap: Record<ThemeOptions, any> = {
   "Dracula (Purple)": draculaThemePurple,
   "Night Owl": nightOwlTheme,
   "Oksolar Dark" : oksolarDarkTheme,
-  "Oksolar Light" : oksolarLightTheme,
 };
