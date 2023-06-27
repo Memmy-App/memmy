@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, useTheme } from "native-base";
 import { ErrorBoundary } from "react-error-boundary";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -36,7 +36,7 @@ function Start() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useAppDispatch();
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
-  const { theme } = useAppSelector(selectSettings);
+  const { theme, fontSize } = useAppSelector(selectSettings);
   const [selectedTheme, setSelectedTheme] = useState<any>(brownTheme);
 
   const appState = useRef(AppState.currentState);
@@ -104,7 +104,7 @@ function Start() {
         <StatusBar style={theme === "Light" ? "dark" : "light"} />
         <GestureHandlerRootView style={{ flex: 1 }}>
           <ActionSheetProvider>
-            <Stack />
+            <Stack themeOption={theme} fontSize={fontSize} />
           </ActionSheetProvider>
         </GestureHandlerRootView>
       </ErrorBoundary>
