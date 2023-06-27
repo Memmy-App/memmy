@@ -5,6 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { AppState } from "react-native";
+import * as Notifications from "expo-notifications";
 import MemmyErrorView from "./components/ui/Loading/MemmyErrorView";
 import Stack from "./Stack";
 import { writeToLog } from "./helpers/LogHelper";
@@ -13,14 +14,7 @@ import { loadSettings } from "./slices/settings/settingsActions";
 import { loadAccounts } from "./slices/accounts/accountsActions";
 import { selectAccountsLoaded } from "./slices/accounts/accountsSlice";
 import { selectSettings } from "./slices/settings/settingsSlice";
-import {
-  brownTheme,
-  darkTheme,
-  draculaTheme,
-  draculaThemePurple,
-  lightTheme,
-  purpleTheme,
-} from "./theme/theme";
+import { brownTheme } from "./theme/theme";
 import { getUnreadCount } from "./slices/site/siteActions";
 import { lemmyAuthToken, lemmyInstance } from "./lemmy/LemmyInstance";
 import { ThemeOptionsMap } from "./theme/themeOptions";
@@ -31,6 +25,14 @@ const logError = (e, info) => {
     info && info.componentStack ? info.componentStack.toString() : "No stack."
   );
 };
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 function Start() {
   const [loaded, setLoaded] = useState(false);

@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable  global-require */
-import { Provider } from "react-redux";
+import {Provider} from "react-redux";
 import React from "react";
 
-import { useFonts } from "expo-font";
+import {useFonts} from "expo-font";
 import store from "./store";
 import Start from "./Start";
 

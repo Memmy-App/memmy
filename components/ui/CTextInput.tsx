@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { StyleSheet, TextInput } from "react-native";
-import { Text, useColorMode, VStack } from "native-base";
+import { Text, useColorMode, useTheme, VStack } from "native-base";
 
 interface TextInputProps {
   name: string;
@@ -28,6 +28,8 @@ function CTextInput({
   autoFocus = false,
 }: TextInputProps) {
   let focused = false;
+
+  const theme = useTheme();
 
   const ref = useCallback((node) => {
     if (!node) return;

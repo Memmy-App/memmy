@@ -1,5 +1,5 @@
 import React, { SetStateAction, useEffect, useMemo, useState } from "react";
-import { CommentView, PersonView, PostView } from "lemmy-js-client";
+import { PersonView, PostView } from "lemmy-js-client";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
@@ -7,13 +7,16 @@ import { writeToLog } from "../../../helpers/LogHelper";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { setPost } from "../../../slices/post/postSlice";
+import ILemmyComment from "../../../lemmy/types/ILemmyComment";
+import { buildComments } from "../../../lemmy/LemmyHelpers";
 
 interface UseProfile {
   loading: boolean;
   error: boolean;
   notFound: boolean;
   profile: PersonView;
-  items: CommentView[] | PostView[];
+  items: ILemmyComment[] | PostView[];
+  setItems: React.Dispatch<SetStateAction<ILemmyComment[] | PostView[]>>;
   doLoad: (refresh?: boolean) => Promise<void>;
   doLoadItems: (type: "comments" | "posts", refresh?: boolean) => Promise<void>;
   self: boolean;
@@ -36,7 +39,7 @@ const useProfile = (fullUsername?: string): UseProfile => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const [profile, setProfile] = useState<PersonView>(null);
-  const [items, setItems] = useState<CommentView[] | PostView[]>([]);
+  const [items, setItems] = useState<ILemmyComment[] | PostView[]>([]);
   const [itemsLoading, setItemsLoading] = useState<boolean>(true);
   const [notFound, setNotFound] = useState<boolean>(false);
   const [nextPage, setNextPage] = useState<number>(2);
@@ -72,8 +75,10 @@ const useProfile = (fullUsername?: string): UseProfile => {
         page: 1,
       });
 
+      const betterComments = buildComments(res.comments);
+
       setProfile(res.person_view);
-      setItems(res.comments);
+      setItems(betterComments);
       setLoading(false);
     } catch (e) {
       writeToLog("Error getting person.");
@@ -108,8 +113,10 @@ const useProfile = (fullUsername?: string): UseProfile => {
 
       setNextPage((prev) => (refresh ? 2 : prev + 1));
 
-      if (type === "comments")
-        setItems([...(items as CommentView[]), ...res.comments]);
+      if (type === "comments") {
+        const betterComments = buildComments(res.comments);
+        setItems([...(items as ILemmyComment[]), ...betterComments]);
+      }
       if (type === "posts") setItems([...(items as PostView[]), ...res.posts]);
     } catch (e) {
       writeToLog("Failed to get user.");
@@ -153,6 +160,7 @@ const useProfile = (fullUsername?: string): UseProfile => {
     notFound,
     profile,
     items,
+    setItems,
     self,
 
     selectedTab,

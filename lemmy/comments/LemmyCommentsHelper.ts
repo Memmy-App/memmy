@@ -1,6 +1,5 @@
 import { CommentView } from "lemmy-js-client";
 import NestedComment from "./NestedComment";
-import { newCommentSlice } from "../../slices/newComment/newCommentSlice";
 
 const findAndAddComment = (
   chain: NestedComment[],

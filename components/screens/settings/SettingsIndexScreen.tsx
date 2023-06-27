@@ -148,6 +148,7 @@ function SettingsIndexScreen({
                 {
                   options,
                   cancelButtonIndex,
+                  userInterfaceStyle: theme.config.initialColorMode,
                 },
                 (index: number) => {
                   if (index === cancelButtonIndex) return;
@@ -210,6 +211,7 @@ function SettingsIndexScreen({
                 {
                   options,
                   cancelButtonIndex,
+                  userInterfaceStyle: theme.config.initialColorMode,
                 },
                 (index: number) => {
                   if (index === cancelButtonIndex) return;
@@ -247,6 +249,7 @@ function SettingsIndexScreen({
                 {
                   options,
                   cancelButtonIndex,
+                  userInterfaceStyle: theme.config.initialColorMode,
                 },
                 (index: number) => {
                   if (index === cancelButtonIndex) return;
@@ -270,6 +273,48 @@ function SettingsIndexScreen({
             }
           />
         </Section>
+
+        {settings.compactView && (
+          <Section header="COMPACT" roundedCorners hideSurroundingSeparators>
+            <CCell
+              cellStyle="RightDetail"
+              title="Thumbnails Position"
+              detail={settings.compactThumbnailPosition}
+              accessory="DisclosureIndicator"
+              onPress={() => {
+                const options = ["Left", "Right", "Cancel"];
+                const cancelButtonIndex = 2;
+
+                showActionSheetWithOptions(
+                  {
+                    options,
+                    cancelButtonIndex,
+                  },
+                  (index: number) => {
+                    if (index === cancelButtonIndex) return;
+
+                    dispatch(
+                      setSetting({ compactThumbnailPosition: options[index] })
+                    );
+                  }
+                );
+              }}
+            />
+            <CCell
+              cellStyle="RightDetail"
+              title="Show Voting Buttons"
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+              cellAccessoryView={
+                <Switch
+                  value={settings.compactShowVotingButtons}
+                  onValueChange={(v) => onChange("compactShowVotingButtons", v)}
+                />
+              }
+            />
+          </Section>
+        )}
 
         <Section header="ABOUT" roundedCorners hideSurroundingSeparators>
           <CCell

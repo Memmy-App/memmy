@@ -18,7 +18,6 @@ import { IconClockHour5, IconMessageCircle } from "tabler-icons-react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import usePost from "../../hooks/post/postHooks";
-import CommentItem2 from "../../ui/comments/CommentItem2";
 import AvatarUsername from "../../ui/common/AvatarUsername";
 import CommunityLink from "../../ui/CommunityLink";
 import ContentView from "../../ui/ContentView";
@@ -26,6 +25,7 @@ import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
 import { getUserFullName } from "../../../lemmy/LemmyHelpers";
+import CommentItem from "../../ui/comments/CommentItem";
 
 function PostScreen({
   route,
@@ -50,11 +50,7 @@ function PostScreen({
   }, []);
 
   const commentItem = ({ item }) => (
-    <CommentItem2
-      nestedComment={item}
-      opId={post.currentPost.creator.id}
-      recycled={post.recycled}
-    />
+    <CommentItem comment={item} setComments={post.setComments} />
   );
 
   const refreshControl = (
@@ -167,7 +163,6 @@ function PostScreen({
         <FlashList
           ListFooterComponent={footer()}
           ListHeaderComponent={header}
-          extraData={post.refreshList}
           data={post.comments}
           renderItem={commentItem}
           keyExtractor={keyExtractor}

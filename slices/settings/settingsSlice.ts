@@ -17,6 +17,9 @@ export interface SettingsState {
   theme: ThemeOptions;
   useSystemTextSize: boolean;
   fontSize: number;
+  pushEnabled: string;
+  compactThumbnailPosition: "Left" | "Right";
+  compactShowVotingButtons: boolean;
 }
 
 const initialState: SettingsState = {
@@ -29,9 +32,12 @@ const initialState: SettingsState = {
   blurNsfw: true,
   hideNsfw: false,
   compactView: false,
+  compactThumbnailPosition: "Left",
+  compactShowVotingButtons: true,
   theme: "Brown",
   useSystemTextSize: true,
   fontSize: 2,
+  pushEnabled: "[]",
 };
 
 const settingsSlice = createSlice({

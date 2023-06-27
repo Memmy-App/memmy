@@ -16,7 +16,8 @@
     "buildPrevAnd": "rm -rf prev.apk && eas build -p android --profile preview --output prev.apk --local --non-interactive",
     "runAnd": "eas build:run -p android --path dev.apk",
     "buildAndSubmit": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive && eas submit -p ios --path build.ipa --non-interactive",
-    "buildAndSubmitAll": "yarn run buildProd && yarn run buildProdAnd && eas submit -p ios --path build.iap && eas submit -p android build.aab"
+    "buildAndSubmitAll": "yarn run buildProd && yarn run buildProdAnd && eas submit -p ios --path build.iap && eas submit -p android build.aab",
+    "generate-license": "license-report --only=prod,dev,peer --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author --output=html > assets/license.html"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^4.0.1",
@@ -38,14 +39,16 @@
     "expo-av": "~13.2.1",
     "expo-blur": "~12.2.2",
     "expo-build-properties": "~0.6.0",
-    "expo-constants": "~14.2.1",
+    "expo-constants": "^14.2.1",
     "expo-dev-client": "~2.2.1",
+    "expo-device": "^5.2.1",
     "expo-file-system": "~15.2.2",
     "expo-font": "~11.1.1",
     "expo-image-picker": "~14.1.1",
     "expo-linking": "~4.0.1",
     "expo-mail-composer": "~12.1.1",
     "expo-media-library": "~15.2.3",
+    "expo-notifications": "^0.18.1",
     "expo-permissions": "~14.1.1",
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.2",

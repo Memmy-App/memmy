@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addAccount, editAccount, loadAccounts } from "./accountsActions";
+import {
+  addAccount,
+  deleteAccount,
+  editAccount,
+  loadAccounts,
+} from "./accountsActions";
 import { RootState } from "../../store";
 import { Account } from "../../types/Account";
 import { writeToLog } from "../../helpers/LogHelper";
@@ -44,6 +49,17 @@ const accountsSlice = createSlice({
     });
     builder.addCase(editAccount.fulfilled, (state, action) => {
       if (action.payload) state.accounts = action.payload;
+    });
+    builder.addCase(deleteAccount.fulfilled, (state, action) => {
+      state.accounts = action.payload.updatedAccounts;
+
+      if (
+        action.payload.deletedAccount.username ===
+          state.currentAccount.username &&
+        action.payload.deletedAccount.instance === state.currentAccount.instance
+      ) {
+        state.currentAccount = state.accounts[0];
+      }
     });
   },
 });

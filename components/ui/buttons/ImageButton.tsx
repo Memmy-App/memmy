@@ -10,7 +10,6 @@ import {
 import FastImage from "react-native-fast-image";
 import { Dimensions, Share } from "react-native";
 import { truncateImageLink } from "../../../helpers/TextHelper";
-import ImageViewFooter from "../image/ImageViewFooter";
 import downloadAndSaveImage from "../../../helpers/ImageHelper";
 import ImageModal from "../image/ImageModal";
 
