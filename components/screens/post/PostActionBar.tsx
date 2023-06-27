@@ -4,6 +4,7 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
+  IconBook,
   IconBookmark,
   IconMessageCirclePlus,
   IconShare2,
@@ -47,7 +48,13 @@ function PostActionBar({ post }: { post: UsePost }) {
 
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    <HStack justifyContent="space-between" alignItems="center" mb={2} mx={4}>
+    <HStack
+      justifyContent="space-between"
+      alignItems="center"
+      mb={2}
+      mx={4}
+      py={1}
+    >
       <VoteButton
         onPressHandler={() => onVotePress(1)}
         type="upvote"
@@ -72,7 +79,8 @@ function PostActionBar({ post }: { post: UsePost }) {
         isAccented
       />
 
-      <IconButton
+      <IconButtonWithText
+        onPressHandler={post.doBookmark}
         icon={
           <IconBookmark
             size={25}
@@ -81,9 +89,7 @@ function PostActionBar({ post }: { post: UsePost }) {
             }
           />
         }
-        onPress={post.doBookmark}
-        backgroundColor={post.bookmarked ? colors.app.bookmark : "transparent"}
-        padding={2}
+        iconBgColor={post.bookmarked ? colors.app.bookmark : "transparent"}
       />
 
       <IconButtonWithText
@@ -91,9 +97,9 @@ function PostActionBar({ post }: { post: UsePost }) {
         icon={<IconMessageCirclePlus color={colors.app.accent} size={25} />}
       />
 
-      <IconButton
+      <IconButtonWithText
         icon={<IconShare2 size={25} color={colors.app.accent} />}
-        onPress={onSharePress}
+        onPressHandler={onSharePress}
       />
     </HStack>
   );
