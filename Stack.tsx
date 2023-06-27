@@ -3,8 +3,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ITheme, useTheme } from "native-base";
-import React, { memo } from "react";
+import { useTheme } from "native-base";
+import React from "react";
 import {
   IconBell,
   IconNotes,
@@ -38,7 +38,6 @@ import {
 } from "./slices/accounts/accountsSlice";
 import { selectSite } from "./slices/site/siteSlice";
 import { useAppSelector } from "./store";
-import { ThemeOptions, ThemeOptionsMap } from "./theme/themeOptions";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -416,7 +415,7 @@ function Tabs() {
 const MainStack = createNativeStackNavigator();
 
 function Stack() {
-  const theme = ThemeOptionsMap[themeOption];
+  const theme = useTheme();
   const accounts = useAppSelector(selectAccounts);
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
 

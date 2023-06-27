@@ -1,19 +1,19 @@
-import React from "react";
-import { ScrollView, Text, VStack, View, useTheme } from "native-base";
-import Slider from "@react-native-community/slider";
-import { Alert, StyleSheet, Switch, useWindowDimensions } from "react-native";
-import { Cell, Section, TableView } from "react-native-tableview-simple";
-import { getBuildNumber, getVersion } from "react-native-device-info";
 import { useActionSheet } from "@expo/react-native-action-sheet";
+import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import store, { useAppDispatch, useAppSelector } from "../../../store";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
-import { setSetting } from "../../../slices/settings/settingsActions";
+import { Badge, Box, HStack, ScrollView, Text, useTheme } from "native-base";
+import React from "react";
+import { Alert, StyleSheet, Switch } from "react-native";
+import { getBuildNumber, getVersion } from "react-native-device-info";
+import { Section, TableView } from "react-native-tableview-simple";
+import { deleteLog, sendLog } from "../../../helpers/LogHelper";
 import { selectAccounts } from "../../../slices/accounts/accountsSlice";
+import { setSetting } from "../../../slices/settings/settingsActions";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { ThemeOptionsArr } from "../../../theme/themeOptions";
 import CCell from "../../ui/table/CCell";
 import CSection from "../../ui/table/CSection";
-import { deleteLog, sendLog } from "../../../helpers/LogHelper";
-import { ThemeOptionsArr } from "../../../theme/themeOptions";
 
 function SettingsIndexScreen({
   navigation,
@@ -35,7 +35,7 @@ function SettingsIndexScreen({
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
         <Section header="ACCOUNT" roundedCorners hideSurroundingSeparators>
-          <Cell
+          <CCell
             cellStyle="RightDetail"
             title="Server"
             detail={accounts[0].instance}
@@ -43,7 +43,7 @@ function SettingsIndexScreen({
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
-          <Cell
+          <CCell
             cellStyle="RightDetail"
             title="Username"
             detail={accounts[0].username}
@@ -52,7 +52,7 @@ function SettingsIndexScreen({
             rightDetailColor={theme.colors.app.textSecondary}
           />
 
-          <Cell
+          <CCell
             cellStyle="Basic"
             title="Change Account Settings"
             accessory="DisclosureIndicator"
@@ -97,7 +97,7 @@ function SettingsIndexScreen({
           />
         </Section>
 
-        <Section header="APPEARANCE" roundedCorners hideSurroundingSeparators>
+        <Section header="Text Size" roundedCorners hideSurroundingSeparators>
           <CCell
             title="Use System Text Size"
             backgroundColor={theme.colors.app.fg}
@@ -105,33 +105,47 @@ function SettingsIndexScreen({
             rightDetailColor={theme.colors.app.textSecondary}
             cellAccessoryView={
               <Switch
-                value={settings.useSystemTextSize}
-                onValueChange={(v) => onChange("useSystemTextSize", v)}
+                value={settings.isSystemTextSize}
+                onValueChange={(v) => onChange("isSystemTextSize", v)}
               />
             }
           />
-          <Cell
+          <CCell
+            isDisabled={settings.isSystemTextSize}
+            title={
+              <Text>
+                Text Size{"  "}
+                <Badge colorScheme="info" variant="outline">
+                  Alpha
+                </Badge>
+              </Text>
+            }
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
-            cellContentView={
-              <View width="100%" margin={2}>
-                <Text>Font Size</Text>
+          >
+            <HStack width="100%" alignItems="center" px={6}>
+              <Text fontSize={13}>A</Text>
+              <Box flex={1}>
                 <Slider
-                  style={{ width: "100%", height: 40 }}
+                  disabled={settings.isSystemTextSize}
+                  style={{ height: 40, marginHorizontal: 20, marginBottom: 5 }}
                   minimumValue={1}
-                  maximumValue={3}
-                  minimumTrackTintColor="#FFFFFF"
-                  maximumTrackTintColor="#000000"
+                  maximumValue={7}
+                  thumbTintColor={theme.colors.app.textPrimary}
+                  minimumTrackTintColor={theme.colors.app.textPrimary}
+                  maximumTrackTintColor={theme.colors.app.textPrimary}
                   step={1}
-                  disabled={settings.useSystemTextSize}
                   value={settings.fontSize}
-                  onValueChange={(v) => onChange("fontSize", v)}
+                  onSlidingComplete={(v) => onChange("fontSize", v)}
                 />
-              </View>
-            }
-          />
+              </Box>
+              <Text fontSize={19}>A</Text>
+            </HStack>
+          </CCell>
+        </Section>
 
+        <Section header="APPEARANCE" roundedCorners hideSurroundingSeparators>
           <CCell
             cellStyle="RightDetail"
             title="Theme"

@@ -15,7 +15,7 @@ export interface SettingsState {
   hideNsfw: boolean;
   compactView: boolean;
   theme: ThemeOptions;
-  useSystemTextSize: boolean;
+  isSystemTextSize: boolean;
   fontSize: number;
   pushEnabled: string;
   compactThumbnailPosition: "Left" | "Right";
@@ -35,7 +35,7 @@ const initialState: SettingsState = {
   compactThumbnailPosition: "Left",
   compactShowVotingButtons: true,
   theme: "Brown",
-  useSystemTextSize: true,
+  isSystemTextSize: true,
   fontSize: 2,
   pushEnabled: "[]",
 };

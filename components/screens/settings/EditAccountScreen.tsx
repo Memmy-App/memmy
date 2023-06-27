@@ -1,22 +1,23 @@
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { VStack, useTheme, useToast } from "native-base";
 import React, { useEffect, useRef, useState } from "react";
 import { Alert, Button, StyleSheet, TextInput } from "react-native";
-import { useTheme, useToast, VStack } from "native-base";
-import { Cell, Section, TableView } from "react-native-tableview-simple";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import ILemmyServer from "../../../lemmy/types/ILemmyServer";
+import { Section, TableView } from "react-native-tableview-simple";
+import { getBaseUrl } from "../../../helpers/LinkHelper";
+import { writeToLog } from "../../../helpers/LogHelper";
 import {
   getInstanceError,
   initialize,
   lemmyAuthToken,
 } from "../../../lemmy/LemmyInstance";
-import { useAppDispatch, useAppSelector } from "../../../store";
-import { selectAccounts } from "../../../slices/accounts/accountsSlice";
+import ILemmyServer from "../../../lemmy/types/ILemmyServer";
 import {
   addAccount,
   editAccount,
 } from "../../../slices/accounts/accountsActions";
-import { writeToLog } from "../../../helpers/LogHelper";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
+import { selectAccounts } from "../../../slices/accounts/accountsSlice";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import CCell from "../../ui/table/CCell";
 
 function EditAccountScreen({
   route,
@@ -154,7 +155,7 @@ function EditAccountScreen({
           hideSurroundingSeparators
           footer="URL for the server you wish to connect"
         >
-          <Cell
+          <CCell
             cellContentView={
               <TextInput
                 style={{
@@ -186,7 +187,7 @@ function EditAccountScreen({
           hideSurroundingSeparators
           footer="Credentials for the server you are connecting."
         >
-          <Cell
+          <CCell
             cellContentView={
               <TextInput
                 style={{
@@ -210,7 +211,7 @@ function EditAccountScreen({
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
-          <Cell
+          <CCell
             cellContentView={
               <TextInput
                 style={{
@@ -233,7 +234,7 @@ function EditAccountScreen({
             rightDetailColor={theme.colors.app.textSecondary}
           />
           {showTotpToken && (
-            <Cell
+            <CCell
               cellContentView={
                 <TextInput
                   style={{
@@ -266,7 +267,7 @@ function EditAccountScreen({
         {/*            roundedCorners={true} */}
         {/*            hideSurroundingSeparators={true} */}
         {/*        > */}
-        {/*            <Cell cellContentView={ */}
+        {/*            <CCell cellContentView={ */}
         {/*                <Button title={"Delete Server"} color={"red"} onPress={onDeletePress} /> */}
         {/*            } /> */}
         {/*        </Section> */}
