@@ -184,10 +184,12 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     }
 
     if (compactView) {
-      return <CompactFeedItem post={item} />;
+      return <CompactFeedItem post={item} setPosts={feed.setPosts} />;
     }
 
-    return <FeedItem post={item} recycled={recycled} />;
+    return (
+      <FeedItem post={item} setPosts={feed.setPosts} recycled={recycled} />
+    );
   };
 
   const getItemType = (item: PostView, index: number): string | undefined => {
