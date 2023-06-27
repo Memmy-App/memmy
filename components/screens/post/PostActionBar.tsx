@@ -52,7 +52,11 @@ function PostActionBar({ post }: { post: UsePost }) {
         onPressHandler={() => onVotePress(1)}
         type="upvote"
         isVoted={isUpvoted}
-        text={post.currentPost.counts.upvotes}
+        text={
+          post.currentPost.my_vote === 1
+            ? post.currentPost.counts.upvotes + 1
+            : post.currentPost.counts.upvotes
+        }
         isAccented
       />
 
@@ -60,7 +64,11 @@ function PostActionBar({ post }: { post: UsePost }) {
         onPressHandler={() => onVotePress(-1)}
         type="downvote"
         isVoted={isDownvoted}
-        text={post.currentPost.counts.downvotes}
+        text={
+          post.currentPost.my_vote === -1
+            ? post.currentPost.counts.downvotes + 1
+            : post.currentPost.counts.downvotes
+        }
         isAccented
       />
 
