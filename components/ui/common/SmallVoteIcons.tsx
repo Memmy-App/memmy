@@ -16,10 +16,6 @@ function SmallVoteIcons({
 }) {
   const theme = useTheme();
 
-  useEffect(() => {
-    console.log(myVote);
-  }, [myVote]);
-
   const upvoteColor =
     myVote === 1 ? theme.colors.app.upvote : theme.colors.app.textSecondary;
 
