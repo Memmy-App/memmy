@@ -156,13 +156,13 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                   mx={4}
                   mb={3}
                   style={
-                    post.read ? { color: theme.colors.app.textTertiary } : {}
+                    post.read ? { color: theme.colors.app.textSecondary } : {}
                   }
                 >
                   {post.post.name}
                 </Text>
 
-                <ContentView post={post} recycled={recycled} truncate />
+                <ContentView post={post} recycled={recycled} isPreview />
 
                 {post.post.url && (
                   <HStack>
@@ -179,7 +179,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                   </HStack>
                 )}
 
-                <HStack mx={4} alignItems="center" mb={3}>
+                <HStack mx={4} alignItems="center" mb={3} mt={1}>
                   <HStack flex={1} space={1}>
                     <HStack alignItems="center">
                       <IconArrowUp color={upvoteColor} size={20} />

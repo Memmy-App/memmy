@@ -69,7 +69,7 @@ function PostScreen({
 
   const header = (
     <VStack flex={1} backgroundColor={theme.colors.app.fg}>
-      <ContentView post={post.currentPost} showTitle showBody />
+      <ContentView post={post.currentPost} />
 
       <HStack mb={2} mx={4} space={2}>
         <AvatarUsername

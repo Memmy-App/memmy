@@ -1,7 +1,14 @@
 import React, { useMemo, useState } from "react";
 import { PostView } from "lemmy-js-client";
-import { Pressable, Text, useTheme, VStack } from "native-base";
-import { Dimensions } from "react-native";
+import {
+  Container,
+  Pressable,
+  Text,
+  useTheme,
+  VStack,
+  View,
+} from "native-base";
+import { Dimensions, StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ExtensionType, getLinkInfo } from "../../helpers/LinkHelper";
@@ -15,25 +22,17 @@ import MemoizedFastImage from "./image/MemoizedFastImage";
 
 interface ContentViewProps {
   post: PostView;
-  truncate?: boolean;
-  showBody?: boolean;
-  showTitle?: boolean;
   recycled?: React.MutableRefObject<{}>;
+  isPreview?: boolean;
 }
 
-function ContentView({
-  post,
-  truncate = false,
-  showBody = false,
-  showTitle = false,
-  recycled,
-}: ContentViewProps) {
+function ContentView({ post, isPreview = false, recycled }: ContentViewProps) {
   const theme = useTheme();
   const { blurNsfw } = useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
 
-  const body = truncate ? truncatePost(post.post.body, 100) : post.post.body;
+  const body = isPreview ? truncatePost(post.post.body, 100) : post.post.body;
   const [imageViewOpen, setImageViewOpen] = useState(false);
 
   const onImagePress = () => {
@@ -82,7 +81,7 @@ function ContentView({
           </VStack>
         )}
 
-        {showTitle && (
+        {!isPreview && (
           <Text
             fontSize="lg"
             mt={3}
@@ -94,27 +93,28 @@ function ContentView({
           </Text>
         )}
 
-        {(linkInfo.extType === ExtensionType.NONE || showBody) && (
+        {linkInfo.extType === ExtensionType.NONE && (
           <VStack px={4}>
-            <RenderMarkdown
-              text={body}
-              addImages={showTitle}
-              truncate={truncate}
-            />
+            {isPreview ? (
+              <Text color={theme.colors.app.textSecondary}>{body}</Text>
+            ) : (
+              <RenderMarkdown
+                text={body}
+                addImages={!isPreview}
+                truncate={false}
+              />
+            )}
           </VStack>
         )}
-        {(linkInfo.extType === ExtensionType.VIDEO && (
-          <LinkButton
-            link={linkInfo.link}
-            thumbnail={post.post.thumbnail_url}
-          />
-        )) ||
-          (linkInfo.extType === ExtensionType.GENERIC && (
+        {linkInfo.extType === ExtensionType.VIDEO ||
+          // eslint-disable-next-line prettier/prettier
+          linkInfo.extType === ExtensionType.GENERIC && (
             <LinkButton
               link={linkInfo.link}
               thumbnail={post.post.thumbnail_url}
             />
-          ))}
+            // eslint-disable-next-line prettier/prettier
+          )}
       </>
     ),
     [post.post.id, imageViewOpen]
