@@ -184,13 +184,17 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                     <HStack alignItems="center">
                       <IconArrowUp color={upvoteColor} size={20} />
                       <Text color={upvoteColor} fontSize="sm">
-                        {post.counts.upvotes}
+                        {post.my_vote === 1
+                          ? post.counts.upvotes + 1
+                          : post.counts.upvotes}
                       </Text>
                     </HStack>
                     <HStack alignItems="center">
                       <IconArrowDown color={downvoteColor} size={20} />
                       <Text color={downvoteColor} fontSize="sm">
-                        {post.counts.downvotes}
+                        {post.my_vote === -1
+                          ? post.counts.downvotes + 1
+                          : post.counts.downvotes}
                       </Text>
                     </HStack>
                     <HStack alignItems="center" ml={1} space={0.5}>
