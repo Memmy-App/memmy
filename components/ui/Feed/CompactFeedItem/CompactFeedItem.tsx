@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { SetStateAction, useEffect, useMemo, useState } from "react";
 import { PostView } from "lemmy-js-client";
 import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
 import {
@@ -22,12 +22,18 @@ import CompactFeedItemVote from "./CompactFeedItemVote";
 import CompactFeedItemFooter from "./CompactFeedItemFooter";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 
-function CompactFeedItem({ post }: { post: PostView }) {
+function CompactFeedItem({
+  post,
+  setPosts,
+}: {
+  post: PostView;
+  setPosts: React.Dispatch<SetStateAction<PostView[]>>;
+}) {
   const { compactThumbnailPosition, compactShowVotingButtons } =
     useAppSelector(selectSettings);
   const [imageViewOpen, setImageViewOpen] = useState(false);
 
-  const feedItem = useFeedItem(post);
+  const feedItem = useFeedItem(post, setPosts);
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -112,7 +118,13 @@ function CompactFeedItem({ post }: { post: PostView }) {
                 )}
 
                 <VStack flex={1}>
-                  <Text flex={1} fontSize={17} style={post.read ? {color:theme.colors.app.textTertiary} : {} }>
+                  <Text
+                    flex={1}
+                    fontSize={17}
+                    style={
+                      post.read ? { color: theme.colors.app.textTertiary } : {}
+                    }
+                  >
                     {truncateCompactFeedItem(post.post.name)}
                   </Text>
 

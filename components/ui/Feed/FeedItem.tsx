@@ -1,6 +1,6 @@
 import { PostView } from "lemmy-js-client";
 import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
-import React, { useMemo } from "react";
+import React, { SetStateAction, useMemo } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import FastImage from "react-native-fast-image";
@@ -29,11 +29,12 @@ import { useAppDispatch } from "../../../store";
 
 interface FeedItemProps {
   post: PostView;
+  setPosts: React.Dispatch<SetStateAction<PostView[]>>;
   recycled: React.MutableRefObject<{}>;
 }
 
-function FeedItem({ post, recycled }: FeedItemProps) {
-  const feedItem = useFeedItem(post);
+function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
+  const feedItem = useFeedItem(post, setPosts);
   const theme = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
@@ -149,7 +150,14 @@ function FeedItem({ post, recycled }: FeedItemProps) {
                     <FastImage source={{ uri: post.community.icon }} />
                   )}
                 </View>
-                <Text fontSize="md" mx={4} mb={3} style={post.read ? {color:theme.colors.app.textTertiary} : {} }>
+                <Text
+                  fontSize="md"
+                  mx={4}
+                  mb={3}
+                  style={
+                    post.read ? { color: theme.colors.app.textTertiary } : {}
+                  }
+                >
                   {post.post.name}
                 </Text>
 
