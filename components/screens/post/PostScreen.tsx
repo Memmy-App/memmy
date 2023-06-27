@@ -18,14 +18,13 @@ import { IconClockHour5, IconMessageCircle } from "tabler-icons-react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import usePost from "../../hooks/post/postHooks";
+import CommentItem from "../../ui/comments/CommentItem";
 import AvatarUsername from "../../ui/common/AvatarUsername";
 import CommunityLink from "../../ui/CommunityLink";
 import ContentView from "../../ui/ContentView";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
-import { getUserFullName } from "../../../lemmy/LemmyHelpers";
-import CommentItem from "../../ui/comments/CommentItem";
 
 function PostScreen({
   route,
