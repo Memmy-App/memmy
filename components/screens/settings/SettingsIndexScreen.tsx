@@ -356,7 +356,7 @@ function SettingsIndexScreen({
                 (index: number) => {
                   if (index === cancelButtonIndex) return;
 
-                  dispatch(setSetting({ haptic: options[index] }));
+                  dispatch(setSetting({ haptics: options[index] }));
                 }
               );
             }}
