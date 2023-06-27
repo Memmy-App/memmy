@@ -286,7 +286,7 @@ function SettingsIndexScreen({
           <CCell
             cellStyle="RightDetail"
             title="Strength"
-            detail={settings.theme}
+            detail={settings.haptics}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
