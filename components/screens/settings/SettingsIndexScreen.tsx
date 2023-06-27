@@ -13,7 +13,7 @@ import CCell from "../../ui/table/CCell";
 import CSection from "../../ui/table/CSection";
 import { deleteLog, sendLog } from "../../../helpers/LogHelper";
 import { ThemeOptionsArr } from "../../../theme/themeOptions";
-import { HapticOptionsArr } from "../../../haptics/hapticOptions";
+import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
 
 function SettingsIndexScreen({
   navigation,

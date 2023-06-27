@@ -3,7 +3,7 @@ import { ListingType, SortType } from "lemmy-js-client";
 import { RootState } from "../../store";
 import { loadSettings, setSetting } from "./settingsActions";
 import { ThemeOptions } from "../../theme/themeOptions";
-import { HapticOptions } from "../../haptics/hapticOptions";
+import { HapticOptions } from "../../types/haptics/hapticOptions";
 
 export interface SettingsState {
   swipeGestures: boolean;
