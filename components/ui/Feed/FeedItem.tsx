@@ -13,7 +13,6 @@ import {
   IconArrowUp,
   IconClockHour5,
   IconMessage,
-  IconPlanet,
 } from "tabler-icons-react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
@@ -77,7 +76,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
 
   return useMemo(
     () => (
-      <View flex={1} my={1.5}>
+      <View flex={1} mb={2}>
         <View style={styles.backgroundContainer}>
           <View
             style={styles.backgroundLeft}
