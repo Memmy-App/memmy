@@ -2,6 +2,8 @@ import React, { useMemo } from "react";
 import { Share, useWindowDimensions } from "react-native";
 import { Modal, useToast, View } from "native-base";
 import Animated, {
+  FadeIn,
+  FadeOut,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
@@ -349,8 +351,8 @@ function ImageModal({
     <AnimatedModal
       isOpen={isOpen}
       onClose={onRequestClose}
-      entering={ZoomIn.duration(200)}
-      exiting={ZoomOut.duration(200)}
+      entering={FadeIn.duration(200)}
+      exiting={FadeOut.duration(200)}
     >
       {image}
       <View position="absolute" bottom={0} width="100%">
