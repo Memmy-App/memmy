@@ -149,7 +149,7 @@ function FeedItem({ post, recycled }: FeedItemProps) {
                     <FastImage source={{ uri: post.community.icon }} />
                   )}
                 </View>
-                <Text fontSize="md" mx={4} mb={3}>
+                <Text fontSize="md" mx={4} mb={3} style={post.read ? {color:theme.colors.app.textTertiary} : {} }>
                   {post.post.name}
                 </Text>
 

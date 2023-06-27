@@ -112,7 +112,7 @@ function CompactFeedItem({ post }: { post: PostView }) {
                 )}
 
                 <VStack flex={1}>
-                  <Text flex={1} fontSize={17}>
+                  <Text flex={1} fontSize={17} style={post.read ? {color:theme.colors.app.textTertiary} : {} }>
                     {truncateCompactFeedItem(post.post.name)}
                   </Text>
 
