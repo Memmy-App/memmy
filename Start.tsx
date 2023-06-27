@@ -99,6 +99,8 @@ function Start() {
     return null;
   }
 
+  console.log({ theme, fontSize });
+
   return (
     <NativeBaseProvider theme={selectedTheme}>
       <ErrorBoundary onError={logError} FallbackComponent={MemmyErrorView}>
@@ -106,7 +108,7 @@ function Start() {
         <StatusBar style={theme === "Light" ? "dark" : "light"} />
         <GestureHandlerRootView style={{ flex: 1 }}>
           <ActionSheetProvider>
-            <Stack themeOption={theme} fontSize={fontSize} />
+            <Stack />
           </ActionSheetProvider>
         </GestureHandlerRootView>
       </ErrorBoundary>

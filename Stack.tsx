@@ -415,13 +415,7 @@ function Tabs() {
 
 const MainStack = createNativeStackNavigator();
 
-function Stack({
-  themeOption,
-  fontSize,
-}: {
-  themeOption: ThemeOptions;
-  fontSize: number;
-}) {
+function Stack() {
   const theme = ThemeOptionsMap[themeOption];
   const accounts = useAppSelector(selectAccounts);
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
@@ -478,6 +472,4 @@ function Stack({
   );
 }
 
-const MemoizedStack = memo(Stack);
-
-export default MemoizedStack;
+export default Stack;
