@@ -114,6 +114,7 @@ function CompactFeedItem({
                     post={post}
                     setImageViewOpen={setImageViewOpen}
                     imageViewOpen={imageViewOpen}
+                    linkInfo={feedItem.linkInfo}
                   />
                 )}
 
@@ -137,6 +138,7 @@ function CompactFeedItem({
                       post={post}
                       setImageViewOpen={setImageViewOpen}
                       imageViewOpen={imageViewOpen}
+                      linkInfo={feedItem.linkInfo}
                     />
                   </VStack>
                 )}
@@ -144,7 +146,7 @@ function CompactFeedItem({
                 {compactShowVotingButtons && (
                   <CompactFeedItemVote
                     myVote={post.my_vote as ILemmyVote}
-                    post={post}
+                    onVotePress={feedItem.onVotePress}
                   />
                 )}
               </HStack>
