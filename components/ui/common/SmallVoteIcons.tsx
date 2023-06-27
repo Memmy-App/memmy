@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { HStack, Text, useTheme } from "native-base";
 import { IconArrowDown, IconArrowUp } from "tabler-icons-react-native";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
@@ -16,6 +16,10 @@ function SmallVoteIcons({
 }) {
   const theme = useTheme();
 
+  useEffect(() => {
+    console.log(myVote);
+  }, [myVote]);
+
   const upvoteColor =
     myVote === 1 ? theme.colors.app.upvote : theme.colors.app.textSecondary;
 
@@ -28,13 +32,13 @@ function SmallVoteIcons({
         <HStack alignItems="center">
           <IconArrowUp color={upvoteColor} size={18} />
           <Text color={upvoteColor}>
-            {myVote === 1 && initialVote !== 1 ? upvotes + 1 : upvotes}
+            {myVote === 1 ? upvotes + 1 : upvotes}
           </Text>
         </HStack>
         <HStack alignItems="center">
           <IconArrowDown color={downvoteColor} size={18} />
           <Text color={downvoteColor}>
-            {myVote === -1 && initialVote !== -1 ? downvotes + 1 : downvotes}
+            {myVote === -1 ? downvotes + 1 : downvotes}
           </Text>
         </HStack>
       </HStack>

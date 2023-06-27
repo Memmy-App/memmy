@@ -190,8 +190,8 @@ function CommentItem({
                           <SmallVoteIcons
                             upvotes={comment.comment.counts.upvotes}
                             downvotes={comment.comment.counts.downvotes}
-                            myVote={comment.myVote as ILemmyVote}
-                            initialVote={comment.comment.my_vote}
+                            myVote={comment.comment.my_vote as ILemmyVote}
+                            initialVote={comment.myVote}
                           />
                         </>
                       </AvatarUsername>
