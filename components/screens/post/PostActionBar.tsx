@@ -4,6 +4,7 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
+  IconBook,
   IconBookmark,
   IconMessageCirclePlus,
   IconShare2,
@@ -28,6 +29,7 @@ function PostActionBar({ post }: { post: UsePost }) {
     dispatch(
       setResponseTo({
         post: post.currentPost,
+        languageId: post.currentPost.post.language_id,
       })
     );
 
@@ -46,12 +48,22 @@ function PostActionBar({ post }: { post: UsePost }) {
 
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    <HStack justifyContent="space-between" alignItems="center" mb={2} mx={4}>
+    <HStack
+      justifyContent="space-between"
+      alignItems="center"
+      mb={2}
+      mx={4}
+      py={1}
+    >
       <VoteButton
         onPressHandler={() => onVotePress(1)}
         type="upvote"
         isVoted={isUpvoted}
-        text={post.currentPost.counts.upvotes}
+        text={
+          post.currentPost.my_vote === 1
+            ? post.currentPost.counts.upvotes + 1
+            : post.currentPost.counts.upvotes
+        }
         isAccented
       />
 
@@ -59,11 +71,16 @@ function PostActionBar({ post }: { post: UsePost }) {
         onPressHandler={() => onVotePress(-1)}
         type="downvote"
         isVoted={isDownvoted}
-        text={post.currentPost.counts.downvotes}
+        text={
+          post.currentPost.my_vote === -1
+            ? post.currentPost.counts.downvotes + 1
+            : post.currentPost.counts.downvotes
+        }
         isAccented
       />
 
-      <IconButton
+      <IconButtonWithText
+        onPressHandler={post.doBookmark}
         icon={
           <IconBookmark
             size={25}
@@ -72,9 +89,7 @@ function PostActionBar({ post }: { post: UsePost }) {
             }
           />
         }
-        onPress={post.doBookmark}
-        backgroundColor={post.bookmarked ? colors.app.bookmark : "transparent"}
-        padding={2}
+        iconBgColor={post.bookmarked ? colors.app.bookmark : "transparent"}
       />
 
       <IconButtonWithText
@@ -82,9 +97,9 @@ function PostActionBar({ post }: { post: UsePost }) {
         icon={<IconMessageCirclePlus color={colors.app.accent} size={25} />}
       />
 
-      <IconButton
+      <IconButtonWithText
         icon={<IconShare2 size={25} color={colors.app.accent} />}
-        onPress={onSharePress}
+        onPressHandler={onSharePress}
       />
     </HStack>
   );

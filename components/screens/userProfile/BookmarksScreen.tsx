@@ -1,10 +1,11 @@
 import React from "react";
 import { useTheme, VStack } from "native-base";
-import { Cell, Section, TableView } from "react-native-tableview-simple";
+import { Section, TableView } from "react-native-tableview-simple";
 import { StyleSheet } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppSelector } from "../../../store";
 import { selectBookmarks } from "../../../slices/bookmarks/bookmarksSlice";
+import CCell from "../../ui/table/CCell";
 
 function BookmarksScreen({
   navigation,
@@ -19,7 +20,7 @@ function BookmarksScreen({
       <TableView style={styles.table}>
         <Section header="BOOKMARKS" roundedCorners hideSurroundingSeparators>
           {bookmarks.map((b) => (
-            <Cell
+            <CCell
               key={b.postId}
               cellStyle="Basic"
               title={b.postName}

@@ -1,6 +1,6 @@
 import { PostView } from "lemmy-js-client";
 import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
-import React, { useMemo } from "react";
+import React, { SetStateAction, useMemo } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import FastImage from "react-native-fast-image";
@@ -29,11 +29,12 @@ import { useAppDispatch } from "../../../store";
 
 interface FeedItemProps {
   post: PostView;
+  setPosts: React.Dispatch<SetStateAction<PostView[]>>;
   recycled: React.MutableRefObject<{}>;
 }
 
-function FeedItem({ post, recycled }: FeedItemProps) {
-  const feedItem = useFeedItem(post);
+function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
+  const feedItem = useFeedItem(post, setPosts);
   const theme = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
@@ -44,6 +45,7 @@ function FeedItem({ post, recycled }: FeedItemProps) {
     dispatch(
       setResponseTo({
         post,
+        languageId: post.post.language_id,
       })
     );
     navigation.push("NewComment");
@@ -149,7 +151,14 @@ function FeedItem({ post, recycled }: FeedItemProps) {
                     <FastImage source={{ uri: post.community.icon }} />
                   )}
                 </View>
-                <Text fontSize="md" mx={4} mb={3}>
+                <Text
+                  fontSize="md"
+                  mx={4}
+                  mb={3}
+                  style={
+                    post.read ? { color: theme.colors.app.textTertiary } : {}
+                  }
+                >
                   {post.post.name}
                 </Text>
 
@@ -175,13 +184,17 @@ function FeedItem({ post, recycled }: FeedItemProps) {
                     <HStack alignItems="center">
                       <IconArrowUp color={upvoteColor} size={20} />
                       <Text color={upvoteColor} fontSize="sm">
-                        {post.counts.upvotes}
+                        {post.my_vote === 1
+                          ? post.counts.upvotes + 1
+                          : post.counts.upvotes}
                       </Text>
                     </HStack>
                     <HStack alignItems="center">
                       <IconArrowDown color={downvoteColor} size={20} />
                       <Text color={downvoteColor} fontSize="sm">
-                        {post.counts.downvotes}
+                        {post.my_vote === -1
+                          ? post.counts.downvotes + 1
+                          : post.counts.downvotes}
                       </Text>
                     </HStack>
                     <HStack alignItems="center" ml={1} space={0.5}>

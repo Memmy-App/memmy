@@ -29,7 +29,10 @@ interface UseNewPost {
   doSubmit: () => Promise<void>;
 }
 
-const useNewPost = (communityId: number): UseNewPost => {
+const useNewPost = (
+  communityId: number,
+  languageId: number | undefined
+): UseNewPost => {
   // State
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>(undefined);

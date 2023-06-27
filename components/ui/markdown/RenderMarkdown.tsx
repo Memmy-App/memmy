@@ -1,14 +1,16 @@
-import React, {useMemo} from "react";
-import {useTheme, VStack} from "native-base";
-import Markdown, {MarkdownIt} from "@ronradtke/react-native-markdown-display";
-import {useNavigation} from "@react-navigation/native";
-import {NativeStackNavigationProp} from "@react-navigation/native-stack";
-import {useWindowDimensions} from "react-native";
-import {openLink} from "../../../helpers/LinkHelper";
-import {findImages, replaceNoMarkdown} from "../../../helpers/MarkdownHelper";
+import React, { useMemo } from "react";
+import { useTheme, VStack } from "native-base";
+import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useWindowDimensions } from "react-native";
+import { openLink } from "../../../helpers/LinkHelper";
+import { findImages, replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
 import ImageButton from "../buttons/ImageButton";
-import {useAppSelector} from "../../../store";
-import {selectCurrentAccount} from "../../../slices/accounts/accountsSlice";
+import { useAppSelector } from "../../../store";
+import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
+import { fontSizeMap } from "../../../theme/fontSize";
 
 // const FONT_SIZE = 14;
 // const HEADING_1_SIZE = 32;
@@ -28,16 +30,17 @@ const RenderMarkdown = ({
   truncate = false,
 }: MarkdownProps) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { fontScale } = useWindowDimensions();
-
-  const FONT_SIZE = 15 / fontScale;
-  const HEADING_1_SIZE = 32 / fontScale;
-  const HEADING_2_SIZE = 26 / fontScale;
-  const HEADING_3_SIZE = 22 / fontScale;
-  const HEADING_4_SIZE = 18 / fontScale;
+  const fontModifier = fontSizeMap[fontSize];
+  const FONT_SIZE = isSystemTextSize ? 14 / fontScale : 15 + fontModifier;
+  const HEADING_1_SIZE = isSystemTextSize ? 32 / fontScale : 15 + fontModifier;
+  const HEADING_2_SIZE = isSystemTextSize ? 26 / fontScale : 15 + fontModifier;
+  const HEADING_3_SIZE = isSystemTextSize ? 22 / fontScale : 15 + fontModifier;
+  const HEADING_4_SIZE = isSystemTextSize ? 18 / fontScale : 15 + fontModifier;
 
   const onLinkPress = (url): boolean => {
     openLink(url, navigation);

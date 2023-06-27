@@ -1,18 +1,20 @@
 import React from "react";
-import { ScrollView, useTheme } from "native-base";
-import { Alert, StyleSheet, Switch } from "react-native";
-import { Cell, Section, TableView } from "react-native-tableview-simple";
+import { Alert, LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { getBuildNumber, getVersion } from "react-native-device-info";
 import { useActionSheet } from "@expo/react-native-action-sheet";
+import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useAppDispatch, useAppSelector } from "../../../store";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
-import { setSetting } from "../../../slices/settings/settingsActions";
+import { Badge, Box, HStack, ScrollView, Text, useTheme } from "native-base";
+import { Section, TableView } from "react-native-tableview-simple";
+import { deleteLog, sendLog } from "../../../helpers/LogHelper";
 import { selectAccounts } from "../../../slices/accounts/accountsSlice";
+import { setSetting } from "../../../slices/settings/settingsActions";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { ThemeOptionsArr } from "../../../theme/themeOptions";
 import CCell from "../../ui/table/CCell";
 import CSection from "../../ui/table/CSection";
-import { deleteLog, sendLog } from "../../../helpers/LogHelper";
-import { ThemeOptionsArr } from "../../../theme/themeOptions";
+import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
 
 function SettingsIndexScreen({
   navigation,
@@ -34,7 +36,7 @@ function SettingsIndexScreen({
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
         <Section header="ACCOUNT" roundedCorners hideSurroundingSeparators>
-          <Cell
+          <CCell
             cellStyle="RightDetail"
             title="Server"
             detail={accounts[0].instance}
@@ -42,7 +44,7 @@ function SettingsIndexScreen({
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
-          <Cell
+          <CCell
             cellStyle="RightDetail"
             title="Username"
             detail={accounts[0].username}
@@ -51,7 +53,7 @@ function SettingsIndexScreen({
             rightDetailColor={theme.colors.app.textSecondary}
           />
 
-          <Cell
+          <CCell
             cellStyle="Basic"
             title="Change Account Settings"
             accessory="DisclosureIndicator"
@@ -94,6 +96,54 @@ function SettingsIndexScreen({
               />
             }
           />
+        </Section>
+
+        <Section header="Text Size" roundedCorners hideSurroundingSeparators>
+          <CCell
+            title="Use System Text Size"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.isSystemTextSize}
+                onValueChange={(v) => onChange("isSystemTextSize", v)}
+              />
+            }
+          />
+          <CCell
+            isDisabled={settings.isSystemTextSize}
+            title={
+              <Text>
+                Text Size{"  "}
+                <Badge colorScheme="info" variant="outline">
+                  Alpha
+                </Badge>
+              </Text>
+            }
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+          >
+            <HStack width="100%" alignItems="center" px={6}>
+              <Text fontSize={13}>A</Text>
+              <Box flex={1}>
+                <Slider
+                  disabled={settings.isSystemTextSize}
+                  style={{ height: 40, marginHorizontal: 20, marginBottom: 5 }}
+                  minimumValue={1}
+                  maximumValue={7}
+                  thumbTintColor={theme.colors.app.textPrimary}
+                  minimumTrackTintColor={theme.colors.app.textPrimary}
+                  maximumTrackTintColor={theme.colors.app.textPrimary}
+                  step={1}
+                  value={settings.fontSize}
+                  onSlidingComplete={(v) => onChange("fontSize", v)}
+                />
+              </Box>
+              <Text fontSize={19}>A</Text>
+            </HStack>
+          </CCell>
         </Section>
 
         <Section header="APPEARANCE" roundedCorners hideSurroundingSeparators>
@@ -233,7 +283,10 @@ function SettingsIndexScreen({
             cellAccessoryView={
               <Switch
                 value={settings.compactView}
-                onValueChange={(v) => onChange("compactView", v)}
+                onValueChange={(v) => {
+                  LayoutAnimation.easeInEaseOut();
+                  onChange("compactView", v);
+                }}
               />
             }
           />
@@ -280,6 +333,35 @@ function SettingsIndexScreen({
             />
           </Section>
         )}
+
+        <Section header="HAPTICS" roundedCorners hideSurroundingSeparators>
+          <CCell
+            cellStyle="RightDetail"
+            title="Strength"
+            detail={settings.haptics}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              const options = [...HapticOptionsArr, "Cancel"];
+              const cancelButtonIndex = options.length - 1;
+
+              showActionSheetWithOptions(
+                {
+                  options,
+                  cancelButtonIndex,
+                  userInterfaceStyle: theme.config.initialColorMode,
+                },
+                (index: number) => {
+                  if (index === cancelButtonIndex) return;
+
+                  dispatch(setSetting({ haptic: options[index] }));
+                }
+              );
+            }}
+          />
+        </Section>
 
         <Section header="ABOUT" roundedCorners hideSurroundingSeparators>
           <CCell

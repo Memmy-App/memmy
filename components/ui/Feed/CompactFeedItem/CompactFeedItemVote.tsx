@@ -1,28 +1,27 @@
 import { VStack } from "native-base";
 import React from "react";
-import { PostView } from "lemmy-js-client";
 import VoteButton from "../../common/VoteButton";
-import useFeedItem from "../../../hooks/feeds/useFeedItem";
+import { ILemmyVote } from "../../../../lemmy/types/ILemmyVote";
 
-interface CompactFeedItemVoteProps {
+function CompactFeedItemVote({
+  myVote,
+  onVotePress,
+}: {
   myVote: number;
-  post: PostView;
-}
-
-function CompactFeedItemVote({ myVote, post }: CompactFeedItemVoteProps) {
-  const feedItem = useFeedItem(post);
+  onVotePress: (value: ILemmyVote) => void;
+}) {
   const isUpvoted = myVote === 1;
   const isDownvoted = myVote === -1;
 
   return (
     <VStack justifyContent="flex-start" alignItems="center" space={3}>
       <VoteButton
-        onPressHandler={() => feedItem.onVotePress(1)}
+        onPressHandler={() => onVotePress(1)}
         type="upvote"
         isVoted={isUpvoted}
       />
       <VoteButton
-        onPressHandler={() => feedItem.onVotePress(-1)}
+        onPressHandler={() => onVotePress(-1)}
         type="downvote"
         isVoted={isDownvoted}
       />

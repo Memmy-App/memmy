@@ -59,13 +59,6 @@ interface IColors {
 }
 
 const commonSettings = {
-  components: {
-    Text: {
-      defaultProps: {
-        allowFontScaling: false,
-      },
-    },
-  },
   fontConfig: {
     Inter: {
       100: {
@@ -313,8 +306,8 @@ const draculaThemeColors: IColors = {
   accentHighlight: "#bd93f9",
 
   textPrimary: "#F8F8F2",
-  textSecondary: "#ececec",
-  textTertiary: "#e7e7e7",
+  textSecondary: "#b8b8bf",
+  textTertiary: "#808080",
 
   fg: "#232635",
   bg: "#1B1D29",
