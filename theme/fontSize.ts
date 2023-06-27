@@ -17,7 +17,7 @@ interface IFontSizes {
   "9xl": number;
 }
 
-function createFontSizes(modifier: number): IFontSizes {
+export function createFontSizes(modifier: number): IFontSizes {
   return {
     "2xs": 10 + modifier,
     xs: 12 + modifier,
@@ -36,7 +36,7 @@ function createFontSizes(modifier: number): IFontSizes {
   };
 }
 
-const fontSizeMap: Record<number, number> = {
+export const fontSizeMap: Record<number, number> = {
   1: -3,
   2: -2,
   3: -1,
