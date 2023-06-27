@@ -28,6 +28,7 @@ function PostActionBar({ post }: { post: UsePost }) {
     dispatch(
       setResponseTo({
         post: post.currentPost,
+        languageId: post.currentPost.post.language_id,
       })
     );
 

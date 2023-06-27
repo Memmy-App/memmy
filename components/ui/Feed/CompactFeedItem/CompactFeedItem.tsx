@@ -46,6 +46,7 @@ function CompactFeedItem({
     dispatch(
       setResponseTo({
         post,
+        languageId: post.post.language_id,
       })
     );
     navigation.push("NewComment");

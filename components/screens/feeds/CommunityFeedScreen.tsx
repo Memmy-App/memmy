@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { HStack, Text, useTheme, VStack } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import FastImage from "react-native-fast-image";
@@ -14,8 +14,6 @@ import FeedView from "../../ui/Feed/FeedView";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import ButtonOne from "../../ui/buttons/ButtonOne";
-import { useAppSelector } from "../../../store";
-import { selectPost } from "../../../slices/post/postSlice";
 import NotFoundView from "../../ui/Loading/NotFoundView";
 import useCommunityFeed from "../../hooks/feeds/useCommunityFeed";
 
@@ -26,24 +24,10 @@ function FeedsCommunityScreen({
   route: any;
   navigation: NativeStackNavigationProp<any>;
 }) {
-  const { post } = useAppSelector(selectPost);
-
-  const creatingPost = useRef(false);
-  const lastPost = useRef(0);
-
   const { communityFullName, communityName, actorId } = route.params;
 
   const communityFeed = useCommunityFeed(communityFullName);
   const theme = useTheme();
-
-  useEffect(() => {
-    if (creatingPost.current && post && lastPost.current !== post.post.id) {
-      creatingPost.current = false;
-      setTimeout(() => {
-        navigation.push("Post");
-      }, 500);
-    }
-  }, [post]);
 
   const headerTitle = () => (
     <VStack alignItems="center">

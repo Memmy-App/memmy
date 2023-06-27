@@ -83,6 +83,7 @@ function CommentItem({
       dispatch(
         setResponseTo({
           comment: comment.comment,
+          languageId: comment.comment.post.language_id,
         })
       );
       navigation.push("NewComment");
