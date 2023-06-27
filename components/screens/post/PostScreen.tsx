@@ -96,9 +96,9 @@ function PostScreen({
         </HStack>
       </HStack>
 
-      <Divider my={1} />
+      <Divider my={1} bg={theme.colors.app.border} />
       <PostActionBar post={post} />
-      <Divider />
+      <Divider bg={theme.colors.app.border} />
       {route.params && route.params.commentId && showLoadAll && (
         <Pressable
           backgroundColor="#1A91FF"

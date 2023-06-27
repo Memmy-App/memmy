@@ -7,6 +7,7 @@ import {
   useTheme,
   VStack,
   View,
+  Box,
 } from "native-base";
 import { Dimensions, StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -43,7 +44,7 @@ function ContentView({ post, isPreview = false, recycled }: ContentViewProps) {
 
   return useMemo(
     () => (
-      <>
+      <Box mt={isPreview ? 0 : 3}>
         {linkInfo.extType === ExtensionType.IMAGE && (
           <VStack mb={3}>
             {post.post.nsfw && blurNsfw ? (
@@ -81,17 +82,18 @@ function ContentView({ post, isPreview = false, recycled }: ContentViewProps) {
           </VStack>
         )}
 
-        {!isPreview && (
-          <Text
-            fontSize="lg"
-            mt={3}
-            mx={4}
-            mb={1}
-            color={theme.colors.app.textPrimary}
-          >
-            {post.post.name}
-          </Text>
-        )}
+        <Text
+          fontSize={isPreview ? "md" : "lg"}
+          mx={4}
+          mb={3}
+          color={
+            post.read && isPreview
+              ? theme.colors.app.textSecondary
+              : theme.colors.app.textPrimary
+          }
+        >
+          {post.post.name}
+        </Text>
 
         {linkInfo.extType === ExtensionType.NONE && (
           <VStack px={4}>
@@ -115,7 +117,7 @@ function ContentView({ post, isPreview = false, recycled }: ContentViewProps) {
             />
             // eslint-disable-next-line prettier/prettier
           )}
-      </>
+      </Box>
     ),
     [post.post.id, imageViewOpen]
   );

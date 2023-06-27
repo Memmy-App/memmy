@@ -139,7 +139,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                     <FastImage source={{ uri: post.community.icon }} />
                   )}
                 </View>
-                <Text
+                {/* <Text
                   fontSize="md"
                   mx={4}
                   mb={3}
@@ -150,7 +150,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                   }
                 >
                   {post.post.name}
-                </Text>
+                </Text> */}
 
                 <ContentView post={post} recycled={recycled} isPreview />
 
