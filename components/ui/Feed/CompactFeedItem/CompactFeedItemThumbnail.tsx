@@ -1,28 +1,30 @@
 import React from "react";
 import { Dimensions, StyleSheet } from "react-native";
-import { Box, Icon, Pressable, VStack, View, useTheme } from "native-base";
+import { Box, Icon, Pressable, useTheme, View, VStack } from "native-base";
 import { PostView } from "lemmy-js-client";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import FastImage from "react-native-fast-image";
 import { IconLink, IconMessages } from "tabler-icons-react-native";
-import { ExtensionType } from "../../../../helpers/LinkHelper";
-import useFeedItem from "../../../hooks/feeds/useFeedItem";
+import { ExtensionType, LinkInfo } from "../../../../helpers/LinkHelper";
 import ImageModal from "../../image/ImageModal";
-
-interface CompactFeedItemThumbnailProps {
-  post: PostView;
-  setImageViewOpen: (open: boolean) => void;
-  imageViewOpen: boolean;
-}
+import { useAppSelector } from "../../../../store";
+import { selectSettings } from "../../../../slices/settings/settingsSlice";
 
 function CompactFeedItemThumbnail({
   post,
+  linkInfo,
   setImageViewOpen,
   imageViewOpen,
-}: CompactFeedItemThumbnailProps) {
+}: {
+  post: PostView;
+  linkInfo: LinkInfo;
+  setImageViewOpen: (open: boolean) => void;
+  imageViewOpen: boolean;
+}) {
   const theme = useTheme();
-  const feedItem = useFeedItem(post);
+
+  const { blurNsfw } = useAppSelector(selectSettings);
 
   const onImagePress = () => {
     setImageViewOpen(true);
@@ -40,9 +42,9 @@ function CompactFeedItemThumbnail({
       alignItems="center"
       alignSelf="center"
     >
-      {(feedItem.linkInfo.extType === ExtensionType.IMAGE && (
+      {(linkInfo.extType === ExtensionType.IMAGE && (
         <>
-          {post.post.nsfw ? (
+          {(post.post.nsfw || post.community.nsfw) && blurNsfw ? (
             <Pressable onPress={onImagePress} onLongPress={onImageLongPress}>
               <View style={styles.blurContainer}>
                 <BlurView style={styles.blurView} intensity={100} tint="dark">
@@ -93,7 +95,7 @@ function CompactFeedItemThumbnail({
           />
         </>
       )) ||
-        (feedItem.linkInfo.extType === ExtensionType.NONE && (
+        (linkInfo.extType === ExtensionType.NONE && (
           <IconMessages size={40} color={theme.colors.app.textSecondary} />
         )) || (
           <>
