@@ -307,7 +307,7 @@ const draculaThemeColors: IColors = {
 
   textPrimary: "#F8F8F2",
   textSecondary: "#b8b8bf",
-  textTertiary: "#e7e7e7",
+  textTertiary: "#808080",
 
   fg: "#232635",
   bg: "#1B1D29",

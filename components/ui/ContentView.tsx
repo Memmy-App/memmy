@@ -4,6 +4,7 @@ import { Pressable, Text, useTheme, VStack } from "native-base";
 import { Dimensions } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 // eslint-disable-next-line import/no-extraneous-dependencies
+import Animated from "react-native-reanimated";
 import { ExtensionType, getLinkInfo } from "../../helpers/LinkHelper";
 import { truncatePost } from "../../helpers/TextHelper";
 import LinkButton from "./buttons/LinkButton";

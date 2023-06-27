@@ -1,10 +1,10 @@
+import React from "react";
+import { Alert, LayoutAnimation, StyleSheet, Switch } from "react-native";
+import { getBuildNumber, getVersion } from "react-native-device-info";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Badge, Box, HStack, ScrollView, Text, useTheme } from "native-base";
-import React from "react";
-import { Alert, StyleSheet, Switch } from "react-native";
-import { getBuildNumber, getVersion } from "react-native-device-info";
 import { Section, TableView } from "react-native-tableview-simple";
 import { deleteLog, sendLog } from "../../../helpers/LogHelper";
 import { selectAccounts } from "../../../slices/accounts/accountsSlice";
@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "../../../store";
 import { ThemeOptionsArr } from "../../../theme/themeOptions";
 import CCell from "../../ui/table/CCell";
 import CSection from "../../ui/table/CSection";
+import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
 
 function SettingsIndexScreen({
   navigation,
@@ -282,7 +283,10 @@ function SettingsIndexScreen({
             cellAccessoryView={
               <Switch
                 value={settings.compactView}
-                onValueChange={(v) => onChange("compactView", v)}
+                onValueChange={(v) => {
+                  LayoutAnimation.easeInEaseOut();
+                  onChange("compactView", v);
+                }}
               />
             }
           />
@@ -329,6 +333,35 @@ function SettingsIndexScreen({
             />
           </Section>
         )}
+
+        <Section header="HAPTICS" roundedCorners hideSurroundingSeparators>
+          <CCell
+            cellStyle="RightDetail"
+            title="Strength"
+            detail={settings.haptics}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              const options = [...HapticOptionsArr, "Cancel"];
+              const cancelButtonIndex = options.length - 1;
+
+              showActionSheetWithOptions(
+                {
+                  options,
+                  cancelButtonIndex,
+                  userInterfaceStyle: theme.config.initialColorMode,
+                },
+                (index: number) => {
+                  if (index === cancelButtonIndex) return;
+
+                  dispatch(setSetting({ haptic: options[index] }));
+                }
+              );
+            }}
+          />
+        </Section>
 
         <Section header="ABOUT" roundedCorners hideSurroundingSeparators>
           <CCell

@@ -3,6 +3,7 @@ import { useTheme, useToast } from "native-base";
 import React, { SetStateAction } from "react";
 import Clipboard from "@react-native-community/clipboard";
 import { CommentReplyView } from "lemmy-js-client";
+import { LayoutAnimation } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { selectSite, setUnread } from "../../../slices/site/siteSlice";
@@ -50,6 +51,8 @@ const useComment = ({
       onPressOverride();
       return;
     }
+
+    LayoutAnimation.easeInEaseOut();
 
     setComments((prev) =>
       prev.map((c) => {
