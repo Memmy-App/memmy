@@ -22,7 +22,10 @@ interface UseFeedItem {
   linkInfo: LinkInfo;
 }
 
-const useFeedItem = (post: PostView): UseFeedItem => {
+const useFeedItem = (
+  post: PostView,
+  setPosts: React.Dispatch<SetStateAction<PostView[]>>
+): UseFeedItem => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
   const toast = useToast();
@@ -76,6 +79,20 @@ const useFeedItem = (post: PostView): UseFeedItem => {
       post_id: post.post.id,
       read: true,
     });
+
+    setPosts((prev) =>
+      prev.map((p) => {
+        if (p.post.id === post.post.id) {
+          return {
+            ...p,
+            read: true,
+          };
+        }
+
+        return p;
+      })
+    );
+
     dispatch(setPost(post));
     navigation.push("Post");
   };

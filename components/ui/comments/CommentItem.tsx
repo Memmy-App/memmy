@@ -1,4 +1,19 @@
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import {
+  Divider,
+  HStack,
+  IconButton,
+  Pressable,
+  Text,
+  VStack,
+  View,
+  useTheme,
+} from "native-base";
 import React, { SetStateAction, useMemo } from "react";
+import { StyleSheet } from "react-native";
+import { PanGestureHandler } from "react-native-gesture-handler";
+import Animated from "react-native-reanimated";
 import {
   IconArrowDown,
   IconArrowUp,
@@ -7,36 +22,20 @@ import {
   IconMailOpened,
   IconMessage,
 } from "tabler-icons-react-native";
-import {
-  Divider,
-  HStack,
-  IconButton,
-  Pressable,
-  Text,
-  useTheme,
-  View,
-  VStack,
-} from "native-base";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
-import { PanGestureHandler } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
-import { StyleSheet } from "react-native";
-import ILemmyComment from "../../../lemmy/types/ILemmyComment";
-import useComment from "../../hooks/post/useComment";
-import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
-import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
-import { useAppDispatch, useAppSelector } from "../../../store";
-import AvatarUsername from "../common/AvatarUsername";
-import { getUserFullName } from "../../../lemmy/LemmyHelpers";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
-import NamePill from "../NamePill";
-import SmallVoteIcons from "../common/SmallVoteIcons";
-import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
-import RenderMarkdown from "../markdown/RenderMarkdown";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
+import ILemmyComment from "../../../lemmy/types/ILemmyComment";
+import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
+import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
+import useComment from "../../hooks/post/useComment";
+import NamePill from "../NamePill";
+import AvatarUsername from "../common/AvatarUsername";
+import SmallVoteIcons from "../common/SmallVoteIcons";
+import RenderMarkdown from "../markdown/RenderMarkdown";
 
 function CommentItem({
   comment,
@@ -83,6 +82,7 @@ function CommentItem({
       dispatch(
         setResponseTo({
           comment: comment.comment,
+          languageId: comment.comment.post.language_id,
         })
       );
       navigation.push("NewComment");
@@ -161,10 +161,7 @@ function CommentItem({
                       pb={2}
                     >
                       <AvatarUsername
-                        avatar={comment.comment.creator.avatar}
-                        username={comment.comment.creator.name}
-                        fullUsername={getUserFullName(comment.comment.creator)}
-                        creatorActorId={comment.comment.creator.actor_id}
+                        creator={comment.comment.creator}
                         showInstance={showInstanceForUsernames}
                       >
                         <>
@@ -189,8 +186,8 @@ function CommentItem({
                           <SmallVoteIcons
                             upvotes={comment.comment.counts.upvotes}
                             downvotes={comment.comment.counts.downvotes}
-                            myVote={comment.myVote as ILemmyVote}
-                            initialVote={comment.comment.my_vote}
+                            myVote={comment.comment.my_vote as ILemmyVote}
+                            initialVote={comment.myVote}
                           />
                         </>
                       </AvatarUsername>
@@ -267,7 +264,7 @@ function CommentItem({
                       </>
                     )}
                   </VStack>
-                  <Divider ml={0} mt={-1} />
+                  <Divider ml={0} mt={-1} bg={theme.colors.app.border} />
                 </VStack>
               </Pressable>
             </Animated.View>

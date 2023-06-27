@@ -10,6 +10,7 @@ interface NewCommentState {
 export interface ResponseTo {
   post?: PostView;
   comment?: CommentView;
+  languageId: number;
 }
 
 const initialState: NewCommentState = {

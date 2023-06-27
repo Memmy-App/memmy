@@ -7,7 +7,6 @@ function SmallVoteIcons({
   upvotes,
   downvotes,
   myVote,
-  initialVote,
 }: {
   upvotes: number;
   downvotes: number;
@@ -28,13 +27,13 @@ function SmallVoteIcons({
         <HStack alignItems="center">
           <IconArrowUp color={upvoteColor} size={18} />
           <Text color={upvoteColor}>
-            {myVote === 1 && initialVote !== 1 ? upvotes + 1 : upvotes}
+            {myVote === 1 ? upvotes + 1 : upvotes}
           </Text>
         </HStack>
         <HStack alignItems="center">
           <IconArrowDown color={downvoteColor} size={18} />
           <Text color={downvoteColor}>
-            {myVote === -1 && initialVote !== -1 ? downvotes + 1 : downvotes}
+            {myVote === -1 ? downvotes + 1 : downvotes}
           </Text>
         </HStack>
       </HStack>

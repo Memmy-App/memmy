@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { SetStateAction, useEffect, useMemo, useState } from "react";
 import { PostView } from "lemmy-js-client";
 import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
 import {
@@ -12,7 +12,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import useFeedItem from "../../../hooks/feeds/useFeedItem";
-import { truncateCompactFeedItem } from "../../../../helpers/TextHelper";
 import { ILemmyVote } from "../../../../lemmy/types/ILemmyVote";
 import useSwipeAnimation from "../../../hooks/animations/useSwipeAnimation";
 import { setResponseTo } from "../../../../slices/newComment/newCommentSlice";
@@ -22,12 +21,18 @@ import CompactFeedItemVote from "./CompactFeedItemVote";
 import CompactFeedItemFooter from "./CompactFeedItemFooter";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 
-function CompactFeedItem({ post }: { post: PostView }) {
+function CompactFeedItem({
+  post,
+  setPosts,
+}: {
+  post: PostView;
+  setPosts: React.Dispatch<SetStateAction<PostView[]>>;
+}) {
   const { compactThumbnailPosition, compactShowVotingButtons } =
     useAppSelector(selectSettings);
   const [imageViewOpen, setImageViewOpen] = useState(false);
 
-  const feedItem = useFeedItem(post);
+  const feedItem = useFeedItem(post, setPosts);
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -40,6 +45,7 @@ function CompactFeedItem({ post }: { post: PostView }) {
     dispatch(
       setResponseTo({
         post,
+        languageId: post.post.language_id,
       })
     );
     navigation.push("NewComment");
@@ -108,12 +114,21 @@ function CompactFeedItem({ post }: { post: PostView }) {
                     post={post}
                     setImageViewOpen={setImageViewOpen}
                     imageViewOpen={imageViewOpen}
+                    linkInfo={feedItem.linkInfo}
                   />
                 )}
 
                 <VStack flex={1}>
-                  <Text flex={1} fontSize={17}>
-                    {truncateCompactFeedItem(post.post.name)}
+                  <Text
+                    flex={1}
+                    fontSize="md"
+                    color={
+                      post.read
+                        ? theme.colors.app.textSecondary
+                        : theme.colors.app.textPrimary
+                    }
+                  >
+                    {post.post.name}
                   </Text>
 
                   <CompactFeedItemFooter post={post} />
@@ -125,6 +140,7 @@ function CompactFeedItem({ post }: { post: PostView }) {
                       post={post}
                       setImageViewOpen={setImageViewOpen}
                       imageViewOpen={imageViewOpen}
+                      linkInfo={feedItem.linkInfo}
                     />
                   </VStack>
                 )}
@@ -132,7 +148,7 @@ function CompactFeedItem({ post }: { post: PostView }) {
                 {compactShowVotingButtons && (
                   <CompactFeedItemVote
                     myVote={post.my_vote as ILemmyVote}
-                    post={post}
+                    onVotePress={feedItem.onVotePress}
                   />
                 )}
               </HStack>

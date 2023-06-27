@@ -79,6 +79,10 @@ const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
     navigation.push("NewPost", {
       communityId: feed.community.community.id,
       communityName: feed.community.community.name,
+      communityLanguageId:
+        feed.posts && feed.posts.length > 0
+          ? feed.posts[0].post.language_id
+          : undefined,
     });
   };
 

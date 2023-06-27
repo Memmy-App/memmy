@@ -2,11 +2,15 @@ import React, { useMemo } from "react";
 import { Share, useWindowDimensions } from "react-native";
 import { Modal, useToast, View } from "native-base";
 import Animated, {
+  FadeIn,
+  FadeOut,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withDecay,
   withTiming,
+  ZoomIn,
+  ZoomOut,
 } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import FastImage from "react-native-fast-image";
@@ -53,6 +57,19 @@ function ImageModal({
   const savedTranslateX = useSharedValue(0);
 
   const MAX_ZOOM_SCALE = 3;
+
+  function reset() {
+    setTimeout(() => {
+      scale.value = 1;
+      savedScale.value = 1;
+
+      translateY.value = 0;
+      savedTranslateY.value = 0;
+
+      translateX.value = 0;
+      savedTranslateX.value = 0;
+    }, 1000);
+  }
 
   const { width: finalWidth, height: finalHeight } = useMemo(() => {
     function ruleOfThree(
@@ -163,7 +180,7 @@ function ImageModal({
     })
     .onEnd((event) => {
       if (scale.value === 1) {
-        if (event.translationY < -50 || event.translationY > 50) {
+        if (event.translationY < -30 || event.translationY > 30) {
           if (
             event.velocityY < -600 ||
             event.translationY < -200 ||
@@ -172,16 +189,7 @@ function ImageModal({
           ) {
             runOnJS(onRequestClose)();
 
-            scale.value = 1;
-            savedScale.value = 1;
-
-            translateY.value = 0;
-            savedTranslateY.value = 0;
-
-            translateX.value = 0;
-            savedTranslateX.value = 0;
-
-            return;
+            runOnJS(reset)();
           }
         }
 
@@ -299,11 +307,7 @@ function ImageModal({
 
   const imageAnimatedStyle = useAnimatedStyle(
     () => ({
-      transform: [
-        {
-          scale: scale.value,
-        },
-      ],
+      transform: [{ scale: scale.value }],
     }),
     []
   );
@@ -341,13 +345,20 @@ function ImageModal({
     </GestureDetector>
   );
 
+  const AnimatedModal = Animated.createAnimatedComponent(Modal);
+
   return (
-    <Modal isOpen={isOpen} onClose={onRequestClose}>
+    <AnimatedModal
+      isOpen={isOpen}
+      onClose={onRequestClose}
+      entering={FadeIn.duration(200)}
+      exiting={FadeOut.duration(200)}
+    >
       {image}
       <View position="absolute" bottom={0} width="100%">
         <ImageViewFooter onSave={onSave} onShare={onShare} />
       </View>
-    </Modal>
+    </AnimatedModal>
   );
 }
 

@@ -3,6 +3,7 @@ import { ListingType, SortType } from "lemmy-js-client";
 import { RootState } from "../../store";
 import { loadSettings, setSetting } from "./settingsActions";
 import { ThemeOptions } from "../../theme/themeOptions";
+import { HapticOptions } from "../../types/haptics/hapticOptions";
 
 export interface SettingsState {
   swipeGestures: boolean;
@@ -15,6 +16,9 @@ export interface SettingsState {
   hideNsfw: boolean;
   compactView: boolean;
   theme: ThemeOptions;
+  isSystemTextSize: boolean;
+  fontSize: number;
+  haptics: HapticOptions;
   pushEnabled: string;
   compactThumbnailPosition: "Left" | "Right";
   compactShowVotingButtons: boolean;
@@ -33,6 +37,9 @@ const initialState: SettingsState = {
   compactThumbnailPosition: "Left",
   compactShowVotingButtons: true,
   theme: "Brown",
+  isSystemTextSize: true,
+  fontSize: 2,
+  haptics: "Medium",
   pushEnabled: "[]",
 };
 

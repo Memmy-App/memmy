@@ -20,6 +20,7 @@ import { preloadImages } from "../../../helpers/ImageHelper";
 
 export interface UseFeed {
   posts: PostView[] | null;
+  setPosts: React.Dispatch<SetStateAction<PostView[]>>;
   postsLoading: boolean;
   postsError: boolean;
 
@@ -202,6 +203,8 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
 
   return {
     posts,
+    setPosts,
+
     postsLoading,
     postsError,
 

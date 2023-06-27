@@ -49,7 +49,7 @@ function PostBody({ post }: PostBodyProps) {
       <>
         {linkInfo.extType === ExtensionType.IMAGE && (
           <VStack mb={3}>
-            {post.post.nsfw && blurNsfw ? (
+            {(post.post.nsfw || post.community.nsfw) && blurNsfw ? (
               <Pressable onPress={onImagePress} onLongPress={onImageLongPress}>
                 <View style={styles.blurContainer}>
                   <BlurView style={styles.blurView} intensity={100} tint="dark">

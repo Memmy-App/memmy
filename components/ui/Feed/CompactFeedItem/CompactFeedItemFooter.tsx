@@ -1,12 +1,12 @@
 import { PostView } from "lemmy-js-client";
 import { HStack, Text, useTheme } from "native-base";
 import React from "react";
-import FastImage from "react-native-fast-image";
-import { IconMessage, IconPlanet, IconUser } from "tabler-icons-react-native";
-import { truncateName } from "../../../../helpers/TextHelper";
+import { IconMessage } from "tabler-icons-react-native";
 import { timeFromNowShort } from "../../../../helpers/TimeHelper";
-import SmallVoteIcons from "../../common/SmallVoteIcons";
 import { ILemmyVote } from "../../../../lemmy/types/ILemmyVote";
+import CommunityLink from "../../CommunityLink";
+import AvatarUsername from "../../common/AvatarUsername";
+import SmallVoteIcons from "../../common/SmallVoteIcons";
 
 interface CompactFeedItemFooterProps {
   post: PostView;
@@ -18,15 +18,7 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
   return (
     <>
       <HStack alignItems="center" space={2}>
-        {(post.creator.avatar && (
-          <FastImage
-            source={{
-              uri: post.creator.avatar,
-            }}
-            style={{ height: 19, width: 19, borderRadius: 100 }}
-          />
-        )) || <IconUser size={19} color={colors.app.textSecondary} />}
-        <Text fontWeight="semibold">{truncateName(post.creator.name)}</Text>
+        <AvatarUsername creator={post.creator} showAvatar={false} />
         <Text color={colors.app.textSecondary}>•</Text>
         <Text color={colors.app.textSecondary}>
           {timeFromNowShort(post.post.published)}
@@ -37,15 +29,16 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
           upvotes={post.counts.upvotes}
           downvotes={post.counts.downvotes}
           myVote={post.my_vote as ILemmyVote}
+          initialVote={post.my_vote}
         />
         <HStack alignItems="center" space={1}>
           <IconMessage color={colors.app.textSecondary} size={16} />
-          <Text>{post.counts.comments}</Text>
+          <Text color={colors.app.textSecondary}>{post.counts.comments}</Text>
         </HStack>
-        <HStack alignItems="center" space={1}>
-          <IconPlanet color={colors.app.textSecondary} size={16} />
-          <Text>{truncateName(post.community.name)}</Text>
-        </HStack>
+        <CommunityLink
+          community={post.community}
+          color={colors.app.textSecondary}
+        />
       </HStack>
     </>
   );

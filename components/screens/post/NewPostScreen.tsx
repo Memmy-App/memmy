@@ -23,7 +23,12 @@ function NewPostScreen({
   });
 
   // Hooks
-  const newPost = useNewPost(Number(route.params.communityId));
+  const newPost = useNewPost(
+    Number(route.params.communityId),
+    route.params.communityLanguageId
+      ? Number(route.params.communityLanguageId)
+      : undefined
+  );
 
   // Other hooks
   const theme = useTheme();
