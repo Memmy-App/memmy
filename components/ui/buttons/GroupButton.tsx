@@ -33,7 +33,7 @@ function GroupButton({
       py={1}
       px={5}
       m={1}
-      backgroundColor={selected ? theme.colors.app.inputBg : undefined}
+      backgroundColor={selected ? theme.colors.app.navBarBg : undefined}
     >
       <HStack space={1.5} alignItems="center" justifyContent="center">
         <Text fontSize="sm" color={theme.colors.app.textSecondary}>

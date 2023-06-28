@@ -50,21 +50,17 @@ function CompactFeedItem({
     );
     navigation.push("NewComment");
   };
-  const onRightLeftTwo = () => {};
   const leftRightOneIcon = <IconArrowUp size={32} color="#fff" />;
   const leftRightTwoIcon = <IconArrowDown size={32} color="#fff" />;
   const rightLeftOneIcon = <IconMessage size={32} color="#fff" />;
-  const rightLeftTwoIcon = <IconMessage size={32} color="#fff" />;
 
   const swipeAnimation = useSwipeAnimation({
     onLeftRightOne,
     onLeftRightTwo,
     onRightLeftOne,
-    onRightLeftTwo,
     leftRightOneIcon,
     leftRightTwoIcon,
     rightLeftOneIcon,
-    rightLeftTwoIcon,
   });
 
   return useMemo(
