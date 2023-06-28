@@ -21,7 +21,6 @@ function InboxScreen({
   navigation: NativeStackNavigationProp<any>;
 }) {
   const theme = useTheme();
-  e;
   const inbox = useInbox();
 
   useEffect(() => {
