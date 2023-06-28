@@ -26,7 +26,7 @@ function CompactFeedItem({
   setPosts,
 }: {
   post: PostView;
-  setPosts: React.Dispatch<SetStateAction<PostView[]>>;
+  setPosts?: React.Dispatch<SetStateAction<PostView[]>>;
 }) {
   const { compactThumbnailPosition, compactShowVotingButtons } =
     useAppSelector(selectSettings);

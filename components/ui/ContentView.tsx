@@ -1,6 +1,6 @@
-import { PostView } from "lemmy-js-client";
-import { Pressable, Text, VStack, useTheme } from "native-base";
 import React, { useMemo, useState } from "react";
+import { PostView } from "lemmy-js-client";
+import { Pressable, Text, useTheme, VStack, Box } from "native-base";
 import { Dimensions } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 // eslint-disable-next-line import/no-extraneous-dependencies
