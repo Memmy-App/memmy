@@ -32,8 +32,6 @@ function LinkButton({ link, thumbnail }: LinkButtonProps) {
     <Pressable onPress={onPress}>
       <VStack
         borderRadius={5}
-        mx={5}
-        mb={2}
         backgroundColor={theme.colors.app.bg}
         justifyContent="flex-start"
       >
