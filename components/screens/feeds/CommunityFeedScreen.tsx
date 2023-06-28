@@ -5,8 +5,8 @@ import FastImage from "react-native-fast-image";
 import {
   IconEye,
   IconHeart,
-  IconHeartFilled,
   IconInfoCircle,
+  IconPlanet,
   IconPlus,
   IconUserHeart,
 } from "tabler-icons-react-native";
@@ -62,16 +62,21 @@ function FeedsCommunityScreen({
     return (
       <VStack pt={10} pb={5} px={5}>
         <HStack alignItems="center" space={5}>
-          <FastImage
-            source={{
-              uri: communityFeed.feed.community.community.icon,
-            }}
-            style={{
-              height: 96,
-              width: 96,
-              borderRadius: 100,
-            }}
-          />
+          {communityFeed.feed.community.community.icon ? (
+            <FastImage
+              source={{
+                uri: communityFeed.feed.community.community.icon,
+              }}
+              style={{
+                height: 96,
+                width: 96,
+                borderRadius: 100,
+              }}
+            />
+          ) : (
+            <IconPlanet color={theme.colors.app.textSecondary} size={64} />
+          )}
+
           <VStack alignContent="center">
             <HStack space={2}>
               <HStack space={1}>
@@ -102,7 +107,8 @@ function FeedsCommunityScreen({
           <HStack justifyContent="space-between" alignItems="center" space={3}>
             <CustomButton
               onPress={communityFeed.onSubscribePress}
-              icon={communityFeed.feed.subscribed ? IconHeartFilled : IconHeart}
+              icon={IconHeart}
+              iconFill={communityFeed.feed.subscribed}
               text={communityFeed.feed.subscribed ? "Subscribed" : "Subscribe"}
             />
             <CustomButton
