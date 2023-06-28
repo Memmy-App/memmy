@@ -17,7 +17,7 @@ import { selectSettings } from "./slices/settings/settingsSlice";
 import { getUnreadCount } from "./slices/site/siteActions";
 import { useAppDispatch, useAppSelector } from "./store";
 import getFontScale from "./theme/fontSize";
-import { brownTheme } from "./theme/theme";
+import { darkTheme } from "./theme/theme";
 import { ThemeOptionsMap } from "./theme/themeOptions";
 
 const logError = (e, info) => {
@@ -40,7 +40,7 @@ function Start() {
   const dispatch = useAppDispatch();
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
   const { theme, fontSize, isSystemTextSize } = useAppSelector(selectSettings);
-  const [selectedTheme, setSelectedTheme] = useState<any>(brownTheme);
+  const [selectedTheme, setSelectedTheme] = useState<any>(darkTheme);
 
   const appState = useRef(AppState.currentState);
 

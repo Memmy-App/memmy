@@ -148,6 +148,15 @@ function SettingsIndexScreen({
 
         <Section header="APPEARANCE" roundedCorners hideSurroundingSeparators>
           <CCell
+            cellStyle="Basic"
+            title="Themes"
+            accessory="DisclosureIndicator"
+            onPress={() => navigation.push("ThemeSelection")}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+          />
+          <CCell
             cellStyle="RightDetail"
             title="Theme"
             detail={settings.theme}
