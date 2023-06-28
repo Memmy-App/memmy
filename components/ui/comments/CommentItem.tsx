@@ -1,9 +1,6 @@
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
   Divider,
   HStack,
-  IconButton,
   Pressable,
   Text,
   VStack,
@@ -22,6 +19,8 @@ import {
   IconMailOpened,
   IconMessage,
 } from "tabler-icons-react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
@@ -36,23 +35,21 @@ import NamePill from "../NamePill";
 import AvatarUsername from "../common/AvatarUsername";
 import SmallVoteIcons from "../common/SmallVoteIcons";
 import RenderMarkdown from "../markdown/RenderMarkdown";
+import IconButtonWithText from "../common/IconButtonWithText";
+import { selectSite, setUnread } from "../../../slices/site/siteSlice";
 
 function CommentItem({
   comment,
   setComments,
   onPressOverride,
-  setRead,
   isRead = false,
   opId,
   depth,
   isReply,
 }: {
   comment: ILemmyComment;
-  setComments:
-    | React.Dispatch<SetStateAction<ILemmyComment[]>>
-    | ((comments: ILemmyComment[]) => void);
+  setComments: any;
   onPressOverride?: () => Promise<void> | void;
-  setRead?: React.Dispatch<SetStateAction<boolean>>;
   isRead?: boolean;
   depth?: number;
   opId?: number;
@@ -63,6 +60,7 @@ function CommentItem({
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const { unread } = useAppSelector(selectSite);
 
   if (!depth) {
     depth = comment.comment.comment.path.split(".").length;
@@ -72,7 +70,6 @@ function CommentItem({
     comment,
     setComments,
     onPressOverride,
-    setRead,
   });
 
   const swipeAnimation = useSwipeAnimation({
@@ -87,11 +84,25 @@ function CommentItem({
       );
       navigation.push("NewComment");
     },
-    onRightLeftTwo: () => {},
+    onRightLeftTwo: isReply
+      ? () => {
+          setComments(
+            (prev) => prev.comment.comment.id !== comment.comment.comment.id
+          );
+
+          dispatch(
+            setUnread({
+              type: "replies",
+              amount: unread.replies - 1,
+            })
+          );
+        }
+      : undefined,
     leftRightOneIcon: () => <IconArrowUp size={32} color="#fff" />,
     leftRightTwoIcon: () => <IconArrowDown size={32} color="#fff" />,
     rightLeftOneIcon: () => <IconMessage size={32} color="#fff" />,
-    rightLeftTwoIcon: () => <IconMessage size={20} />,
+    rightLeftTwoIcon: () =>
+      isReply ? <IconMailOpened size={32} color="#fff" /> : undefined,
   });
 
   return useMemo(() => {
@@ -103,19 +114,15 @@ function CommentItem({
             <View
               style={styles.backgroundLeft}
               justifyContent="center"
-              backgroundColor={swipeAnimation.color}
+              backgroundColor={swipeAnimation.color ?? theme.colors.app.upvote}
               pl={4}
             >
               {swipeAnimation.leftIcon}
             </View>
             <View
-              style={styles.backgroundLeft}
-              backgroundColor={swipeAnimation.color}
-            />
-            <View
               style={styles.backgroundRight}
               justifyContent="center"
-              backgroundColor="#007AFF"
+              backgroundColor={swipeAnimation.color ?? "#007AFF"}
               alignItems="flex-end"
               pr={4}
             >
@@ -192,37 +199,15 @@ function CommentItem({
                         </>
                       </AvatarUsername>
                       <HStack alignItems="center" space={2}>
-                        {isReply && (
-                          <>
-                            {!isRead ? (
-                              <IconButton
-                                icon={
-                                  <IconMail
-                                    size={24}
-                                    color={theme.colors.app.textSecondary}
-                                  />
-                                }
-                                onPress={commentHook.onReadPress}
-                              />
-                            ) : (
-                              <IconMailOpened
-                                size={24}
-                                color={theme.colors.app.textSecondary}
-                              />
-                            )}
-                          </>
-                        )}
-                        {!isReply && (
-                          <IconButton
-                            icon={
-                              <IconDots
-                                size={24}
-                                color={theme.colors.app.textSecondary}
-                              />
-                            }
-                            onPress={commentHook.onCommentLongPress}
-                          />
-                        )}
+                        <IconButtonWithText
+                          onPressHandler={commentHook.onCommentLongPress}
+                          icon={
+                            <IconDots
+                              size={24}
+                              color={theme.colors.app.textSecondary}
+                            />
+                          }
+                        />
                         <Text color={theme.colors.app.textSecondary}>
                           {timeFromNowShort(comment.comment.comment.published)}
                         </Text>

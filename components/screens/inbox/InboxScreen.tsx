@@ -1,5 +1,4 @@
 import React from "react";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { HStack, Text, useTheme, VStack } from "native-base";
 import { FlashList } from "@shopify/flash-list";
 import { RefreshControl } from "react-native";
@@ -8,15 +7,11 @@ import ButtonTwo from "../../ui/buttons/ButtonTwo";
 import { useAppSelector } from "../../../store";
 import { selectSite } from "../../../slices/site/siteSlice";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
-import LoadingModal from "../../ui/Loading/LoadingModal";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import CommentItem from "../../ui/comments/CommentItem";
+import LoadingModalTransparent from "../../ui/Loading/LoadingModalTransparent";
 
-function InboxScreen({
-  navigation,
-}: {
-  navigation: NativeStackNavigationProp<any>;
-}) {
+function InboxScreen() {
   const theme = useTheme();
   const inbox = useInbox();
 
@@ -59,7 +54,7 @@ function InboxScreen({
 
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.bg}>
-      <LoadingModal loading={inbox.loading} />
+      <LoadingModalTransparent loading={inbox.loading} />
       <HStack px={4} py={4} space={2}>
         <ButtonTwo
           onPress={() => {}}
