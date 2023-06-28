@@ -37,6 +37,7 @@ import {
 import { selectSite } from "./slices/site/siteSlice";
 import { useAppSelector } from "./store";
 import ThemeSelectionScreen from "./components/screens/settings/Appearance/ThemeSelectionScreen";
+import ViewerScreen from "./components/screens/ViewerScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -185,6 +186,20 @@ function ProfileStackScreen() {
             title: "Edit Account",
           }}
         />
+        <ProfileStack.Screen
+          name="Viewer"
+          component={ViewerScreen}
+          options={{
+            title: "View",
+          }}
+        />
+        <ProfileStack.Screen
+          name="ThemeSelection"
+          component={ThemeSelectionScreen}
+          options={{
+            title: "Theme",
+          }}
+        />
 
         <ProfileStack.Screen
           name="FeedScreen"
@@ -315,6 +330,13 @@ function CommunityStackScreen() {
         component={ThemeSelectionScreen}
         options={{
           title: "Theme",
+        }}
+      />
+      <CommunityStack.Screen
+        name="Viewer"
+        component={ViewerScreen}
+        options={{
+          title: "View",
         }}
       />
     </CommunityStack.Navigator>
