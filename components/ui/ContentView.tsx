@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from "react";
 import { PostView } from "lemmy-js-client";
-import { Pressable, Text, useTheme, VStack, Box } from "native-base";
+import { Pressable, Text, VStack, useTheme } from "native-base";
+import React, { useMemo, useState } from "react";
 import { Dimensions } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -12,6 +12,10 @@ import LinkButton from "./buttons/LinkButton";
 import ImageModal from "./image/ImageModal";
 import MemoizedFastImage from "./image/MemoizedFastImage";
 import RenderMarkdown from "./markdown/RenderMarkdown";
+
+import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
+import { setPost } from "../../slices/post/postSlice";
+import { useAppDispatch } from "../../store";
 
 function Content({
   postTitle,
@@ -66,6 +70,7 @@ interface ContentViewProps {
 
 function ContentView({ post, isPreview = false, recycled }: ContentViewProps) {
   const theme = useTheme();
+  const dispatch = useAppDispatch();
   const { blurNsfw } = useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
@@ -75,6 +80,13 @@ function ContentView({ post, isPreview = false, recycled }: ContentViewProps) {
 
   const onImagePress = () => {
     setImageViewOpen(true);
+    lemmyInstance.markPostAsRead({
+      auth: lemmyAuthToken,
+      post_id: post.post.id,
+      read: true,
+    });
+    post.read = true;
+    dispatch(setPost(post));
   };
 
   const onImageLongPress = () => {};

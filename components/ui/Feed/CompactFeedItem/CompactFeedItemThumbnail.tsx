@@ -11,6 +11,10 @@ import ImageModal from "../../image/ImageModal";
 import { useAppSelector } from "../../../../store";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 
+import { lemmyAuthToken, lemmyInstance } from "../../../../lemmy/LemmyInstance";
+import { setPost } from "../../../../slices/post/postSlice";
+import { useAppDispatch } from "../../../../store";
+
 function CompactFeedItemThumbnail({
   post,
   linkInfo,
@@ -23,11 +27,19 @@ function CompactFeedItemThumbnail({
   imageViewOpen: boolean;
 }) {
   const theme = useTheme();
+  const dispatch = useAppDispatch();
 
   const { blurNsfw } = useAppSelector(selectSettings);
 
   const onImagePress = () => {
     setImageViewOpen(true);
+    lemmyInstance.markPostAsRead({
+      auth: lemmyAuthToken,
+      post_id: post.post.id,
+      read: true,
+    });
+    post.read = true;
+    dispatch(setPost(post));
   };
 
   const onImageLongPress = () => {};
