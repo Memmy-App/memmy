@@ -157,12 +157,12 @@ function CommentItem({
                 <VStack
                   flex={1}
                   pr={2}
-                  pb={1}
                   space={2}
                   backgroundColor={theme.colors.app.fg}
                   style={{
                     paddingLeft: depth * 8,
                   }}
+                  py={1}
                 >
                   <VStack
                     borderLeftWidth={depth > 2 ? 2 : 0}
@@ -263,11 +263,18 @@ function CommentItem({
                       </>
                     )}
                   </VStack>
-                  <Divider ml={0} mt={-1} bg={theme.colors.app.border} />
                 </VStack>
               </Pressable>
             </Animated.View>
           </PanGestureHandler>
+        </View>
+        <View
+          style={{
+            paddingLeft: depth * 8,
+          }}
+          backgroundColor={theme.colors.app.fg}
+        >
+          <Divider bg={theme.colors.app.border} />
         </View>
       </>
     );
