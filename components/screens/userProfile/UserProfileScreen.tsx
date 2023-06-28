@@ -37,8 +37,10 @@ import LoadingView from "../../ui/Loading/LoadingView";
 import NotFoundView from "../../ui/Loading/NotFoundView";
 
 function UserProfileScreen({
+  route,
   navigation,
 }: {
+  route: any;
   navigation: NativeStackNavigationProp<any>;
 }) {
   const profile = useProfile();
@@ -47,14 +49,23 @@ function UserProfileScreen({
   const pagerView = useRef<PagerView>();
 
   useEffect(() => {
+    if (!route.params || !route.params.fullUsername) {
+      navigation.setOptions({
+        // eslint-disable-next-line react/no-unstable-nested-components
+        headerRight: () => (
+          <HeaderIconButton
+            icon={<IconSettings size={24} color={theme.colors.app.accent} />}
+            onPress={() => navigation.push("Settings")}
+          />
+        ),
+      });
+    }
+
     navigation.setOptions({
-      // eslint-disable-next-line react/no-unstable-nested-components
-      headerRight: () => (
-        <HeaderIconButton
-          icon={<IconSettings size={24} color={theme.colors.app.accent} />}
-          onPress={() => navigation.push("Settings")}
-        />
-      ),
+      title:
+        route.params && route.params.fullUsername
+          ? route.params.fullUsername
+          : "My Profile",
     });
   }, []);
 

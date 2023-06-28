@@ -28,7 +28,6 @@ import SettingsIndexScreen from "./components/screens/settings/SettingsIndexScre
 import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen";
 import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
 import BookmarksScreen from "./components/screens/userProfile/BookmarksScreen";
-import ProfileScreen from "./components/screens/userProfile/ProfileScreen";
 import SubscriptionsScreen from "./components/screens/userProfile/SubscriptionsScreen";
 import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
 import LoadingView from "./components/ui/Loading/LoadingView";
@@ -63,13 +62,7 @@ function FeedStackScreen() {
           name="Subscriptions"
           component={SubscriptionsScreen}
         />
-        <FeedStack.Screen
-          name="UserProfile"
-          component={ProfileScreen}
-          options={{
-            title: "Your Profile",
-          }}
-        />
+        <FeedStack.Screen name="Profile" component={UserProfileScreen} />
       </FeedStack.Group>
 
       <FeedStack.Group
@@ -127,13 +120,7 @@ function InboxStackScreen() {
           name="Subscriptions"
           component={SubscriptionsScreen}
         />
-        <InboxStack.Screen
-          name="UserProfile"
-          component={ProfileScreen}
-          options={{
-            title: "Your Profile",
-          }}
-        />
+        <InboxStack.Screen name="Profile" component={UserProfileScreen} />
       </InboxStack.Group>
 
       <InboxStack.Group
@@ -171,13 +158,6 @@ function ProfileStackScreen() {
       }}
     >
       <ProfileStack.Group>
-        <ProfileStack.Screen
-          name="UserProfile"
-          component={UserProfileScreen}
-          options={{
-            title: "Your Profile",
-          }}
-        />
         <ProfileStack.Screen name="Bookmarks" component={BookmarksScreen} />
         <ProfileStack.Screen
           name="BlockedCommunities"
@@ -220,13 +200,7 @@ function ProfileStackScreen() {
           name="Subscriptions"
           component={SubscriptionsScreen}
         />
-        <ProfileStack.Screen
-          name="Profile"
-          component={ProfileScreen}
-          options={{
-            title: "Your Profile",
-          }}
-        />
+        <ProfileStack.Screen name="Profile" component={UserProfileScreen} />
       </ProfileStack.Group>
 
       <ProfileStack.Group
@@ -284,13 +258,7 @@ function SearchStackScreen() {
           name="Subscriptions"
           component={SubscriptionsScreen}
         />
-        <SearchStack.Screen
-          name="UserProfile"
-          component={ProfileScreen}
-          options={{
-            title: "Your Profile",
-          }}
-        />
+        <SearchStack.Screen name="Profile" component={UserProfileScreen} />
       </SearchStack.Group>
 
       <SearchStack.Group
