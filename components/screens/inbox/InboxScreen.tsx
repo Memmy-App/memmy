@@ -72,7 +72,6 @@ function InboxScreen({
   };
   const onAllPress = () => {
     inbox.setTopSelected("all");
-    console.log("pressed");
   };
   const onRepliesPress = () => {
     inbox.setBottomSelected("replies");
