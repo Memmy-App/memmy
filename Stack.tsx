@@ -27,7 +27,6 @@ import EditAccountScreen from "./components/screens/settings/EditAccountScreen";
 import SettingsIndexScreen from "./components/screens/settings/SettingsIndexScreen";
 import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen";
 import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
-import BookmarksScreen from "./components/screens/userProfile/BookmarksScreen";
 import SubscriptionsScreen from "./components/screens/userProfile/SubscriptionsScreen";
 import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
 import LoadingView from "./components/ui/Loading/LoadingView";
@@ -158,7 +157,7 @@ function ProfileStackScreen() {
       }}
     >
       <ProfileStack.Group>
-        <ProfileStack.Screen name="Bookmarks" component={BookmarksScreen} />
+        <ProfileStack.Screen name="Profile" component={UserProfileScreen} />
         <ProfileStack.Screen
           name="BlockedCommunities"
           component={BlockedCommunitiesScreen}
@@ -200,7 +199,6 @@ function ProfileStackScreen() {
           name="Subscriptions"
           component={SubscriptionsScreen}
         />
-        <ProfileStack.Screen name="Profile" component={UserProfileScreen} />
       </ProfileStack.Group>
 
       <ProfileStack.Group
@@ -342,6 +340,7 @@ function Tabs() {
           headerShown: false,
           tabBarIcon: ({ color }) => <IconNotes color={color} />,
           tabBarLabel: "Feed",
+          freezeOnBlur: true,
         }}
       />
       <Tab.Screen
@@ -355,15 +354,17 @@ function Tabs() {
             unread.replies + unread.mentions + unread.privateMessage > 0
               ? unread.replies + unread.mentions + unread.privateMessage
               : null,
+          freezeOnBlur: true,
         }}
       />
       <Tab.Screen
-        name="UserProfileStack"
+        name="ProfileStack"
         component={ProfileStackScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => <IconUserCircle color={color} />,
           tabBarLabel: "Profile",
+          freezeOnBlur: true,
         }}
       />
       <Tab.Screen
@@ -373,6 +374,7 @@ function Tabs() {
           headerShown: false,
           tabBarIcon: ({ color }) => <IconSearch color={color} />,
           tabBarLabel: "Search",
+          freezeOnBlur: true,
         }}
       />
       <Tab.Screen

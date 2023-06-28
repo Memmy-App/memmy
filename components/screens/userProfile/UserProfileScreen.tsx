@@ -43,7 +43,11 @@ function UserProfileScreen({
   route: any;
   navigation: NativeStackNavigationProp<any>;
 }) {
-  const profile = useProfile();
+  const profile = useProfile(
+    route.params && route.params.fullUsername
+      ? route.params.fullUsername
+      : undefined
+  );
   const theme = useTheme();
 
   const pagerView = useRef<PagerView>();

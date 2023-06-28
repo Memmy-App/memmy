@@ -46,7 +46,8 @@ interface IProps {
 const useProfile = (fullUsername?: string): IProps => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const searchUsername = useMemo(
-    () => `${currentAccount.username}@${currentAccount.instance}`,
+    () =>
+      fullUsername ?? `${currentAccount.username}@${currentAccount.instance}`,
     [currentAccount]
   );
 
