@@ -36,7 +36,7 @@ const initialState: SettingsState = {
   compactView: false,
   compactThumbnailPosition: "Left",
   compactShowVotingButtons: true,
-  theme: "Brown",
+  theme: "Dark",
   isSystemTextSize: true,
   fontSize: 2,
   haptics: "Medium",

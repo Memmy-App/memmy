@@ -12,13 +12,13 @@ import { writeToLog } from "./helpers/LogHelper";
 import { lemmyAuthToken, lemmyInstance } from "./lemmy/LemmyInstance";
 import { loadAccounts } from "./slices/accounts/accountsActions";
 import { selectAccountsLoaded } from "./slices/accounts/accountsSlice";
-import { loadSettings } from "./slices/settings/settingsActions";
+import { loadSettings, setSetting } from "./slices/settings/settingsActions";
 import { selectSettings } from "./slices/settings/settingsSlice";
 import { getUnreadCount } from "./slices/site/siteActions";
 import { useAppDispatch, useAppSelector } from "./store";
 import getFontScale from "./theme/fontSize";
 import { darkTheme } from "./theme/theme";
-import { ThemeOptionsMap } from "./theme/themeOptions";
+import { ThemeOptionsArr, ThemeOptionsMap } from "./theme/themeOptions";
 
 const logError = (e, info) => {
   writeToLog(e.toString());
@@ -87,8 +87,17 @@ function Start() {
   };
 
   useEffect(() => {
+    let usedTheme = theme;
+
+    // @ts-ignore
+    if (!ThemeOptionsArr.includes(usedTheme)) {
+      usedTheme = "Dark";
+
+      dispatch(setSetting({ theme: usedTheme }));
+    }
+
     const newTheme = extendTheme({
-      ...ThemeOptionsMap[theme],
+      ...ThemeOptionsMap[usedTheme],
       ...(isSystemTextSize
         ? {
             components: {
