@@ -7,7 +7,7 @@ import {
   View,
   useTheme,
 } from "native-base";
-import React, { SetStateAction, useMemo } from "react";
+import React, { useMemo } from "react";
 import { StyleSheet } from "react-native";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
@@ -15,7 +15,6 @@ import {
   IconArrowDown,
   IconArrowUp,
   IconDots,
-  IconMail,
   IconMailOpened,
   IconMessage,
 } from "tabler-icons-react-native";
@@ -37,15 +36,16 @@ import SmallVoteIcons from "../common/SmallVoteIcons";
 import RenderMarkdown from "../markdown/RenderMarkdown";
 import IconButtonWithText from "../common/IconButtonWithText";
 import { selectSite, setUnread } from "../../../slices/site/siteSlice";
+import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 
 function CommentItem({
   comment,
   setComments,
   onPressOverride,
-  isRead = false,
   opId,
   depth,
   isReply,
+  isUnreadReply,
 }: {
   comment: ILemmyComment;
   setComments: any;
@@ -54,6 +54,7 @@ function CommentItem({
   depth?: number;
   opId?: number;
   isReply?: boolean;
+  isUnreadReply?: boolean;
 }) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
@@ -84,20 +85,29 @@ function CommentItem({
       );
       navigation.push("NewComment");
     },
-    onRightLeftTwo: isReply
-      ? () => {
-          setComments(
-            (prev) => prev.comment.comment.id !== comment.comment.comment.id
-          );
+    onRightLeftTwo:
+      isReply && isUnreadReply
+        ? () => {
+            setComments((prev) =>
+              prev.filter(
+                (c) => c.comment.comment.id !== comment.comment.comment.id
+              )
+            );
 
-          dispatch(
-            setUnread({
-              type: "replies",
-              amount: unread.replies - 1,
-            })
-          );
-        }
-      : undefined,
+            lemmyInstance.markCommentReplyAsRead({
+              auth: lemmyAuthToken,
+              comment_reply_id: comment.comment.comment_reply.id,
+              read: true,
+            });
+
+            dispatch(
+              setUnread({
+                type: "replies",
+                amount: unread.replies - 1,
+              })
+            );
+          }
+        : undefined,
     leftRightOneIcon: () => <IconArrowUp size={32} color="#fff" />,
     leftRightTwoIcon: () => <IconArrowDown size={32} color="#fff" />,
     rightLeftOneIcon: () => <IconMessage size={32} color="#fff" />,
@@ -257,7 +267,12 @@ function CommentItem({
         </View>
       </>
     );
-  }, [swipeAnimation.leftIcon, swipeAnimation.rightIcon, comment]);
+  }, [
+    swipeAnimation.color,
+    swipeAnimation.leftIcon,
+    swipeAnimation.rightIcon,
+    comment,
+  ]);
 }
 
 const styles = StyleSheet.create({

@@ -1,15 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { PostView } from "lemmy-js-client";
-import {
-  Container,
-  Pressable,
-  Text,
-  useTheme,
-  VStack,
-  View,
-  Box,
-} from "native-base";
-import { Dimensions, StyleSheet } from "react-native";
+import { Pressable, Text, useTheme, VStack, Box } from "native-base";
+import { Dimensions } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ExtensionType, getLinkInfo } from "../../helpers/LinkHelper";
@@ -110,13 +102,13 @@ function ContentView({ post, isPreview = false, recycled }: ContentViewProps) {
         )}
         {linkInfo.extType === ExtensionType.VIDEO ||
           // eslint-disable-next-line prettier/prettier
-          linkInfo.extType === ExtensionType.GENERIC && (
+          (linkInfo.extType === ExtensionType.GENERIC && (
             <LinkButton
               link={linkInfo.link}
               thumbnail={post.post.thumbnail_url}
             />
             // eslint-disable-next-line prettier/prettier
-          )}
+          ))}
       </Box>
     ),
     [post.post.id, imageViewOpen]

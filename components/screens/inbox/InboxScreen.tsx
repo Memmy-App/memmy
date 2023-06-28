@@ -1,7 +1,11 @@
 import React from "react";
 import { HStack, Text, useTheme, VStack } from "native-base";
-import { FlashList } from "@shopify/flash-list";
+import { AnimatedFlashList, FlashList } from "@shopify/flash-list";
 import { RefreshControl } from "react-native";
+import Animated, {
+  SlideOutUp,
+  useAnimatedStyle,
+} from "react-native-reanimated";
 import useInbox from "../../hooks/inbox/useInbox";
 import ButtonTwo from "../../ui/buttons/ButtonTwo";
 import { useAppSelector } from "../../../store";
@@ -18,28 +22,34 @@ function InboxScreen() {
   const { unread } = useAppSelector(selectSite);
 
   const replyItem = ({ item }: { item: ILemmyComment }) => (
-    <CommentItem
-      comment={item}
-      setComments={inbox.setReplies}
-      isReply
-      onPressOverride={() => {
-        const commentPathArr = item.comment.comment.path.split(".");
+    <Animated.View exiting={SlideOutUp}>
+      <CommentItem
+        comment={item}
+        setComments={inbox.setReplies}
+        isReply
+        isUnreadReply
+        onPressOverride={() => {
+          const commentPathArr = item.comment.comment.path.split(".");
 
-        if (commentPathArr.length === 2) {
-          inbox
-            .onCommentReplyPress(item.comment.post.id, item.comment.comment.id)
-            .then();
-        } else {
-          inbox
-            .onCommentReplyPress(
-              item.comment.post.id,
-              Number(commentPathArr[commentPathArr.length - 2])
-            )
-            .then();
-        }
-      }}
-      depth={2}
-    />
+          if (commentPathArr.length === 2) {
+            inbox
+              .onCommentReplyPress(
+                item.comment.post.id,
+                item.comment.comment.id
+              )
+              .then();
+          } else {
+            inbox
+              .onCommentReplyPress(
+                item.comment.post.id,
+                Number(commentPathArr[commentPathArr.length - 2])
+              )
+              .then();
+          }
+        }}
+        depth={2}
+      />
+    </Animated.View>
   );
 
   if (inbox.error) {

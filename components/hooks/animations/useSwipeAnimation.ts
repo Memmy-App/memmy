@@ -58,6 +58,7 @@ const useSwipeAnimation = (
       // eslint-disable-next-line no-param-reassign
       ctx.startX = translateX.value;
       startPos.value = event.absoluteX;
+      color.value = theme.colors.app.upvote;
     },
     onActive: (event, ctx) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
