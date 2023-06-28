@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Share, useWindowDimensions } from "react-native";
-import { Modal, useToast, View } from "native-base";
+import { Modal, Text, useTheme, useToast, View } from "native-base";
 import Animated, {
   FadeIn,
   FadeOut,
@@ -16,6 +16,7 @@ import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import FastImage from "react-native-fast-image";
 import ImageViewFooter from "./ImageViewFooter";
 import downloadAndSaveImage from "../../../helpers/ImageHelper";
+import { getBaseUrl } from "../../../helpers/LinkHelper";
 
 function ImageModal({
   source,
@@ -30,6 +31,7 @@ function ImageModal({
   isOpen: boolean;
   onRequestClose?: () => void;
 }) {
+  const theme = useTheme();
   const toast = useToast();
   const onSave = () => {
     toast.show({
