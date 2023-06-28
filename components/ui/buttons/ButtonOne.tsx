@@ -52,7 +52,7 @@ function ButtonOne({
       my={my}
       borderRadius={10}
       backgroundColor={
-        !selected ? theme.colors.app.inputBg : theme.colors.app.accentHighlight
+        !selected ? theme.colors.app.inputBg : theme.colors.app.accent
       }
       flexGrow={1}
     >

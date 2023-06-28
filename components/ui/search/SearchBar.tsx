@@ -19,6 +19,7 @@ function SearchBar({
       <HStack
         backgroundColor={theme.colors.app.inputBg}
         borderRadius={12}
+        borderColor={theme.colors.app.border}
         py={1.5}
         px={2.5}
         pr={9}
