@@ -148,35 +148,13 @@ function SettingsIndexScreen({
 
         <Section header="APPEARANCE" roundedCorners hideSurroundingSeparators>
           <CCell
-            cellStyle="RightDetail"
-            title="Theme"
-            detail={settings.theme}
+            cellStyle="Basic"
+            title="Themes"
+            accessory="DisclosureIndicator"
+            onPress={() => navigation.push("ThemeSelection")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              const options = [...ThemeOptionsArr, "Cancel"];
-              const cancelButtonIndex = options.length - 1;
-
-              showActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex,
-                  userInterfaceStyle: theme.config.initialColorMode,
-                },
-                (index: number) => {
-                  if (index === cancelButtonIndex) return;
-
-                  dispatch(setSetting({ theme: options[index] }));
-
-                  Alert.alert(
-                    "Please Restart",
-                    "Some components may not re-render with the new theme. Please restart the app to get the full effect."
-                  );
-                }
-              );
-            }}
           />
           <CCell
             title="Swipe Gestures"

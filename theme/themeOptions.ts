@@ -8,6 +8,7 @@ import {
   sleepyRainforestTheme,
   goldenHourTheme,
   nauticalTheme,
+  sunsetTheme,
 } from "./theme";
 
 enum EThemeOptions {
@@ -20,6 +21,7 @@ enum EThemeOptions {
   SLEEPY_RAINFOREST = "Sleepy Rainforest",
   GOLDEN_HOUR = "Golden Hour",
   NAUTICAL = "Nautical",
+  SUNSET = "Sunset",
 }
 
 export type ThemeOptions = `${EThemeOptions}`;
@@ -37,4 +39,5 @@ export const ThemeOptionsMap: Record<ThemeOptions, any> = {
   "Sleepy Rainforest": sleepyRainforestTheme,
   "Golden Hour": goldenHourTheme,
   Nautical: nauticalTheme,
+  Sunset: sunsetTheme,
 };

@@ -59,13 +59,10 @@ export const moodyPurpleThemeColors: IColors = {
 
   textPrimary: "#EDE1FF",
   textSecondary: "#AEB5ED",
-  // textTertiary: "#AEB5ED",
 
   fg: "#1E1529",
   bg: "#120E1D",
   navBarBg: "#1D1528",
-  // bgSecondary: "#1E1529",
-  // bgTertiary: "#392B4A",
 
   border: "#3C2B3D",
 
@@ -119,8 +116,6 @@ export const draculaThemeColors: IColors = {
   fg: "#232635",
   bg: "#1B1D29",
   navBarBg: "#10141C",
-  // bgSecondary: "#282a36",
-  // bgTertiary: "#10141C",
 
   border: "#44475a",
 
@@ -371,6 +366,59 @@ export const nauticalThemeColors: IColors = {
   },
 
   inputBg: "#2A314A",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
+};
+
+export const sunsetThemeColors: IColors = {
+  accent: "#ED8432",
+  accentHighlight: "#D6772B",
+
+  textPrimary: "#D3D4D8",
+  textSecondary: "#b0aeae",
+
+  fg: "#020E28",
+  bg: "#16213B",
+  navBarBg: "#010B1E",
+
+  border: "#242424",
+
+  upvote: "#EE923D",
+  upvoteText: "#FFF",
+  downvote: "#1A84E5",
+  downvoteText: "#FFF",
+
+  success: "#48C10F",
+  successBg: "#D7F8DA",
+  successBorder: "#2B8302",
+  error: "#F8372B",
+  errorBg: "#FFC6C2",
+  errorBorder: "#A62525",
+  warn: "#DEA435",
+  warnBg: "#FFEDD9",
+  warnBorder: "#CB6A11",
+  info: "#3398f2",
+  infoBg: "#CAE6FF",
+  infoBorder: "#316677",
+
+  users: {
+    mod: "#54CB60",
+    admin: "#FF4848",
+    dev: "#CB66FA",
+    op: "#54CB60",
+    me: "#FFB800",
+  },
+
+  comments: {
+    1: "#FA6969",
+    2: "#FFB800",
+    3: "#FFE500",
+    4: "#36CF3C",
+    5: "#4BA9FF",
+  },
+
+  inputBg: "#0B1A3C",
 
   bookmark: "#48C10F",
   bookmarkText: "#fff",

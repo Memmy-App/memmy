@@ -106,7 +106,7 @@ function CompactFeedItem({
                 flex={1}
                 px={3}
                 py={4}
-                backgroundColor={theme.colors.app.bgSecondary}
+                backgroundColor={theme.colors.app.fg}
                 space={2}
               >
                 {compactThumbnailPosition === "Left" && (
