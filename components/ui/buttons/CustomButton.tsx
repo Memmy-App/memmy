@@ -6,6 +6,7 @@ function CustomButton({
   onPress,
   text,
   icon,
+  iconFill = false,
   selectable = false,
   size = "md",
   badge,
@@ -13,6 +14,7 @@ function CustomButton({
   onPress: () => void;
   text: string;
   icon?: TablerIcon;
+  iconFill?: boolean;
   selectable?: boolean;
   size?: "md" | "sm";
   badge?: string;
@@ -57,6 +59,7 @@ function CustomButton({
           <IconComponent
             size={size === "md" ? 24 : 20}
             color={theme.colors.app.accent}
+            fill={iconFill ? theme.colors.app.accent : undefined}
           />
         )}
         <Text fontSize={size} color={theme.colors.app.textPrimary}>
