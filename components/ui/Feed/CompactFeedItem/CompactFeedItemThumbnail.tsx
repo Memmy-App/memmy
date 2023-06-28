@@ -36,7 +36,7 @@ function CompactFeedItemThumbnail({
     <Box
       width={75}
       height={75}
-      backgroundColor={theme.colors.app.bgTertiary}
+      backgroundColor={theme.colors.app.bg}
       borderRadius={10}
       justifyContent="center"
       alignItems="center"

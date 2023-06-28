@@ -34,7 +34,7 @@ function LinkButton({ link, thumbnail }: LinkButtonProps) {
         borderRadius={5}
         mx={5}
         mb={2}
-        backgroundColor={theme.colors.app.bgTertiary}
+        backgroundColor={theme.colors.app.bg}
         justifyContent="flex-start"
       >
         {thumbnail && (
