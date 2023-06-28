@@ -9,10 +9,7 @@ function NotFoundView() {
   const theme = useTheme();
 
   return (
-    <View
-      style={styles.container}
-      backgroundColor={theme.colors.app.bgSecondary}
-    >
+    <View style={styles.container} backgroundColor={theme.colors.app.bg}>
       <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
         🤨That content or community was not found🧐
       </Text>

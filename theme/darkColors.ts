@@ -59,13 +59,10 @@ export const moodyPurpleThemeColors: IColors = {
 
   textPrimary: "#EDE1FF",
   textSecondary: "#AEB5ED",
-  // textTertiary: "#AEB5ED",
 
   fg: "#1E1529",
   bg: "#120E1D",
   navBarBg: "#1D1528",
-  // bgSecondary: "#1E1529",
-  // bgTertiary: "#392B4A",
 
   border: "#3C2B3D",
 
@@ -119,8 +116,6 @@ export const draculaThemeColors: IColors = {
   fg: "#232635",
   bg: "#1B1D29",
   navBarBg: "#10141C",
-  // bgSecondary: "#282a36",
-  // bgTertiary: "#10141C",
 
   border: "#44475a",
 

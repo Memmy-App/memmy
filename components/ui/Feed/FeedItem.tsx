@@ -184,7 +184,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
               icon={
                 <IconDots size={25} color={theme.colors.app.textSecondary} />
               }
-              iconBgColor={theme.colors.app.bgSecondary}
+              iconBgColor={theme.colors.app.bg}
               onPressHandler={() => {}}
             />
             <IconButtonWithText
@@ -194,7 +194,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                   color={theme.colors.app.textSecondary}
                 />
               }
-              iconBgColor={theme.colors.app.bgSecondary}
+              iconBgColor={theme.colors.app.bg}
               onPressHandler={() => {}}
             /> */}
                     <VoteButton

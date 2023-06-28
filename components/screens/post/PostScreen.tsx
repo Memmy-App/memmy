@@ -152,7 +152,7 @@ function PostScreen({
 
   if (post.currentPost) {
     return (
-      <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
+      <VStack flex={1} backgroundColor={theme.colors.app.bg}>
         <FlashList
           ListFooterComponent={footer()}
           ListHeaderComponent={header}

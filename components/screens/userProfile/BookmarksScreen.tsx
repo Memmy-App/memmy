@@ -16,7 +16,7 @@ function BookmarksScreen({
   const theme = useTheme();
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
+    <VStack flex={1} backgroundColor={theme.colors.app.bg}>
       <TableView style={styles.table}>
         <Section header="BOOKMARKS" roundedCorners hideSurroundingSeparators>
           {bookmarks.map((b) => (

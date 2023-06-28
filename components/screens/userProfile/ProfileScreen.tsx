@@ -63,9 +63,9 @@ function ProfileScreen({
   return (
     <ScrollView
       refreshControl={refreshControl}
-      backgroundColor={theme.colors.app.bgSecondary}
+      backgroundColor={theme.colors.app.bg}
     >
-      <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
+      <VStack flex={1} backgroundColor={theme.colors.app.bg}>
         <VStack>
           <View style={styles.bannerContainer}>
             {/* <VStack alignItems="flex-start"> */}
