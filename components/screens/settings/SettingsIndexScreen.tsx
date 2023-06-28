@@ -7,6 +7,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Badge, Box, HStack, ScrollView, Text, useTheme } from "native-base";
 import { Section, TableView } from "react-native-tableview-simple";
 import * as WebBrowser from "expo-web-browser";
+import FastImage from "react-native-fast-image";
 import { deleteLog, sendLog } from "../../../helpers/LogHelper";
 import { selectAccounts } from "../../../slices/accounts/accountsSlice";
 import { setSetting } from "../../../slices/settings/settingsActions";
@@ -414,6 +415,16 @@ function SettingsIndexScreen({
                 console.log(e.toString());
               }
             }}
+          />
+          <CCell
+            cellStyle="Basic"
+            title="Clear Cache"
+            accessory="DisclosureIndicator"
+            onPress={() =>
+              FastImage.clearDiskCache().then(
+                Alert.alert("Success", "Cache has been cleared.")
+              )
+            }
           />
         </CSection>
       </TableView>
