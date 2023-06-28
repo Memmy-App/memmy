@@ -36,7 +36,7 @@ function InboxScreen({
       comment={item}
       setComments={inbox.setItems}
       isReply
-      isUnreadReply
+      isUnreadReply={inbox.topSelected === "unread"}
       onPressOverride={() => {
         const commentPathArr = item.comment.comment.path.split(".");
 
