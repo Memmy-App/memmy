@@ -142,21 +142,6 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
 
                 <ContentView post={post} recycled={recycled} isPreview />
 
-                {post.post.url && (
-                  <HStack>
-                    <Text
-                      fontSize="sm"
-                      fontStyle="italic"
-                      mx={4}
-                      mt={-1}
-                      color={theme.colors.app.textSecondary}
-                      alignSelf="flex-end"
-                    >
-                      {getBaseUrl(post.post.url)}
-                    </Text>
-                  </HStack>
-                )}
-
                 <HStack mx={4} alignItems="center" mb={3} mt={1}>
                   <HStack flex={1} space={1}>
                     <HStack alignItems="center">

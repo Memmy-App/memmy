@@ -1,3 +1,5 @@
+import { PostView } from "lemmy-js-client";
+import { Pressable, Text, VStack, useTheme } from "native-base";
 import React, { useMemo, useState } from "react";
 import { PostView } from "lemmy-js-client";
 import { Pressable, Text, useTheme, VStack, Box } from "native-base";
@@ -6,12 +8,57 @@ import { Dimensions } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ExtensionType, getLinkInfo } from "../../helpers/LinkHelper";
 import { truncatePost } from "../../helpers/TextHelper";
-import LinkButton from "./buttons/LinkButton";
-import RenderMarkdown from "./markdown/RenderMarkdown";
-import { useAppSelector } from "../../store";
 import { selectSettings } from "../../slices/settings/settingsSlice";
+import { useAppSelector } from "../../store";
+import LinkButton from "./buttons/LinkButton";
 import ImageModal from "./image/ImageModal";
 import MemoizedFastImage from "./image/MemoizedFastImage";
+import RenderMarkdown from "./markdown/RenderMarkdown";
+
+function Content({
+  postTitle,
+  isRead,
+  isPreview,
+  children,
+  isImage,
+}: {
+  postTitle: string;
+  isRead: boolean;
+  isPreview: boolean;
+  children: JSX.Element;
+  isImage?: boolean;
+}) {
+  const theme = useTheme();
+
+  const title = (
+    <Text
+      fontSize={isPreview ? "md" : "lg"}
+      color={
+        isRead && isPreview
+          ? theme.colors.app.textSecondary
+          : theme.colors.app.textPrimary
+      }
+    >
+      {postTitle}
+    </Text>
+  );
+
+  if (isImage && !isPreview) {
+    return (
+      <VStack space={1}>
+        {children}
+        {title}
+      </VStack>
+    );
+  }
+
+  return (
+    <VStack space={2}>
+      {title}
+      {children}
+    </VStack>
+  );
+}
 
 interface ContentViewProps {
   post: PostView;
@@ -34,21 +81,19 @@ function ContentView({ post, isPreview = false, recycled }: ContentViewProps) {
 
   const onImageLongPress = () => {};
 
-  return useMemo(
-    () => (
-      <Box mt={isPreview ? 0 : 3}>
-        {linkInfo.extType === ExtensionType.IMAGE && (
-          <VStack mb={3}>
-            {post.post.nsfw && blurNsfw ? (
-              <Pressable onPress={onImagePress} onLongPress={onImageLongPress}>
-                <MemoizedFastImage
-                  postId={post.post.id}
-                  source={post.post.url}
-                  recycled={recycled}
-                  nsfw
-                />
-              </Pressable>
-            ) : (
+  const isImage = linkInfo.extType === ExtensionType.IMAGE;
+
+  const renderContent = () => {
+    if (isImage) {
+      return (
+        <>
+          <Content
+            postTitle={post.post.name}
+            isPreview={isPreview}
+            isRead={post.read}
+            isImage
+          >
+            <>
               <Pressable
                 onPress={onImagePress}
                 onLongPress={onImageLongPress}
@@ -59,36 +104,32 @@ function ContentView({ post, isPreview = false, recycled }: ContentViewProps) {
                   postId={post.post.id}
                   source={post.post.url}
                   recycled={recycled}
+                  nsfw={post.post.nsfw && blurNsfw}
                 />
               </Pressable>
-            )}
-            <ImageModal
-              source={post.post.url}
-              width={Dimensions.get("screen").width}
-              height={Dimensions.get("screen").height}
-              isOpen={imageViewOpen}
-              onRequestClose={() => {
-                setImageViewOpen(false);
-              }}
-            />
-          </VStack>
-        )}
+              <ImageModal
+                source={post.post.url}
+                width={Dimensions.get("screen").width}
+                height={Dimensions.get("screen").height}
+                isOpen={imageViewOpen}
+                onRequestClose={() => {
+                  setImageViewOpen(false);
+                }}
+              />
+            </>
+          </Content>
+        </>
+      );
+    }
 
-        <Text
-          fontSize={isPreview ? "md" : "lg"}
-          mx={4}
-          mb={3}
-          color={
-            post.read && isPreview
-              ? theme.colors.app.textSecondary
-              : theme.colors.app.textPrimary
-          }
-        >
-          {post.post.name}
-        </Text>
-
-        {linkInfo.extType === ExtensionType.NONE && (
-          <VStack px={4}>
+    if (linkInfo.extType === ExtensionType.NONE) {
+      return (
+        <>
+          <Content
+            postTitle={post.post.name}
+            isPreview={isPreview}
+            isRead={post.read}
+          >
             {isPreview ? (
               <Text color={theme.colors.app.textSecondary}>{body}</Text>
             ) : (
@@ -98,18 +139,37 @@ function ContentView({ post, isPreview = false, recycled }: ContentViewProps) {
                 truncate={false}
               />
             )}
-          </VStack>
-        )}
-        {linkInfo.extType === ExtensionType.VIDEO ||
-          // eslint-disable-next-line prettier/prettier
-          (linkInfo.extType === ExtensionType.GENERIC && (
-            <LinkButton
-              link={linkInfo.link}
-              thumbnail={post.post.thumbnail_url}
-            />
-            // eslint-disable-next-line prettier/prettier
-          ))}
-      </Box>
+          </Content>
+        </>
+      );
+    }
+
+    if (
+      linkInfo.extType === ExtensionType.VIDEO ||
+      linkInfo.extType === ExtensionType.GENERIC
+    ) {
+      return (
+        <Content
+          postTitle={post.post.name}
+          isPreview={isPreview}
+          isRead={post.read}
+        >
+          <LinkButton
+            link={linkInfo.link}
+            thumbnail={post.post.thumbnail_url}
+          />
+        </Content>
+      );
+    }
+
+    return null;
+  };
+
+  return useMemo(
+    () => (
+      <VStack mt={isPreview || isImage ? 0 : 3} mx={4} mb={1}>
+        {renderContent()}
+      </VStack>
     ),
     [post.post.id, imageViewOpen]
   );
