@@ -6,6 +6,7 @@ import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Badge, Box, HStack, ScrollView, Text, useTheme } from "native-base";
 import { Section, TableView } from "react-native-tableview-simple";
+import * as WebBrowser from "expo-web-browser";
 import { deleteLog, sendLog } from "../../../helpers/LogHelper";
 import { selectAccounts } from "../../../slices/accounts/accountsSlice";
 import { setSetting } from "../../../slices/settings/settingsActions";
@@ -346,6 +347,34 @@ function SettingsIndexScreen({
             cellStyle="RightDetail"
             title="Version"
             detail={`${getVersion()} (${getBuildNumber()})`}
+          />
+          <CCell
+            cellStyle="Basic"
+            title="License"
+            accessory="DisclosureIndicator"
+            onPress={() =>
+              navigation.push("Viewer", {
+                type: "license",
+              })
+            }
+          />
+          <CCell
+            cellStyle="Basic"
+            title="License Acknowledgements"
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              navigation.push("Viewer", {
+                type: "acknowledgements",
+              });
+            }}
+          />
+          <CCell
+            cellStyle="Basic"
+            title="Privacy Policy"
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              WebBrowser.openBrowserAsync("https://memmy.app/privacy.txt");
+            }}
           />
         </Section>
 
