@@ -1,9 +1,7 @@
 import React from "react";
-import { HStack, View } from "native-base";
+import { HStack } from "native-base";
 import ButtonGroup from "../../ui/buttons/ButtonGroup";
 import GroupButton from "../../ui/buttons/GroupButton";
-import ButtonTwo from "../../ui/buttons/ButtonTwo";
-import ButtonOne from "../../ui/buttons/ButtonOne";
 
 function InboxTabs({
   onUnreadPress,
@@ -14,11 +12,11 @@ function InboxTabs({
   topSelected,
   bottomSelected,
 }: {
-  onUnreadPress: () => Promise<void>;
-  onAllPress: () => Promise<void>;
-  onRepliesPress: () => Promise<void>;
-  onMentionsPress: () => Promise<void>;
-  onMessagesPress: () => Promise<void>;
+  onUnreadPress: () => void;
+  onAllPress: () => void;
+  onRepliesPress: () => void;
+  onMentionsPress: () => void;
+  onMessagesPress: () => void;
   topSelected: "unread" | "all";
   bottomSelected: "replies" | "mentions" | "messages";
 }) {

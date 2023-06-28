@@ -1,5 +1,4 @@
 import React, { SetStateAction, useEffect, useState } from "react";
-import { PersonMentionView, PrivateMessageView } from "lemmy-js-client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
@@ -8,22 +7,25 @@ import { useAppDispatch } from "../../../store";
 import { setPost } from "../../../slices/post/postSlice";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
+import { setUnread } from "../../../slices/site/siteSlice";
 
 interface UseInbox {
-  doLoad: (type: string, unread: boolean) => void;
+  doLoad: (refresh: boolean) => void;
+  doReadAll: () => Promise<void>;
 
   loading: boolean;
   error: boolean;
   refreshing: boolean;
 
-  replies: ILemmyComment[];
-  setReplies: React.Dispatch<SetStateAction<ILemmyComment[]>>;
-  mentions: PersonMentionView[];
-  messages: PrivateMessageView[];
+  items: ILemmyComment[];
+  setItems: React.Dispatch<SetStateAction<ILemmyComment[]>>;
 
-  selected: "replies" | "mentions" | "message";
-  setSelected: React.Dispatch<
-    SetStateAction<"replies" | "mentions" | "message">
+  topSelected: "unread" | "all";
+  setTopSelected: React.Dispatch<"unread" | "all">;
+
+  bottomSelected: "replies" | "mentions" | "messages";
+  setBottomSelected: React.Dispatch<
+    SetStateAction<"replies" | "mentions" | "messages">
   >;
 
   onCommentReplyPress: (
@@ -39,18 +41,17 @@ const useInbox = (): UseInbox => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const [replies, setReplies] = useState<ILemmyComment[]>(null);
-  const [mentions, setMentions] = useState<PersonMentionView[]>(null);
-  const [messages, setMessages] = useState<PrivateMessageView[]>(null);
+  const [items, setItems] = useState<ILemmyComment[]>(null);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
-  const [selected, setSelected] = useState<"replies" | "mentions" | "message">(
-    "replies"
-  );
+  const [topSelected, setTopSelected] = useState<"all" | "unread">("unread");
+  const [bottomSelected, setBottomSelected] = useState<
+    "replies" | "mentions" | "messages"
+  >("replies");
 
   useEffect(() => {
-    doLoad("replies", true);
-  }, []);
+    doLoad().then();
+  }, [topSelected, bottomSelected]);
 
   const onCommentReplyPress = async (
     postId: number,
@@ -79,31 +80,28 @@ const useInbox = (): UseInbox => {
     }
   };
 
-  const doLoad = (
-    type: string,
-    refresh: boolean = false,
-    unread: boolean = true
-  ) => {
+  const doLoad = (refresh = false) => {
     setRefreshing(refresh);
+    setLoading(!refresh);
 
-    switch (type) {
+    switch (bottomSelected) {
       case "replies":
-        return doLoadReplies(unread);
+        return doLoadReplies();
       case "mentions":
-        return doLoadMentions(unread);
-      case "message":
-        return doLoadMessage(unread);
+        return doLoadMentions(topSelected === "unread");
+      case "messages":
+        return doLoadMessage(topSelected === "unread");
       default:
-        return doLoadReplies(true);
+        return doLoadReplies();
     }
   };
 
-  const doLoadReplies = async (unread: boolean) => {
+  const doLoadReplies = async () => {
     try {
       const res = await lemmyInstance.getReplies({
         auth: lemmyAuthToken,
         limit: 50,
-        unread_only: unread,
+        unread_only: topSelected === "unread",
       });
 
       const betterComments: ILemmyComment[] = [];
@@ -117,7 +115,7 @@ const useInbox = (): UseInbox => {
         });
       }
 
-      setReplies(betterComments);
+      setItems(betterComments);
     } catch (e) {
       writeToLog("Error getting replies.");
       writeToLog(e.toString());
@@ -135,7 +133,7 @@ const useInbox = (): UseInbox => {
         unread_only: unread,
       });
 
-      setMentions(res.mentions);
+      setItems(res.mentions);
     } catch (e) {
       writeToLog("Error getting mentions.");
       writeToLog(e.toString());
@@ -152,7 +150,7 @@ const useInbox = (): UseInbox => {
         unread_only: unread,
       });
 
-      setMessages(res.private_messages);
+      setItems(res.private_messages);
     } catch (e) {
       writeToLog("Error getting messages.");
       writeToLog(e.toString());
@@ -161,17 +159,39 @@ const useInbox = (): UseInbox => {
     setLoading(false);
   };
 
+  const doReadAll = async () => {
+    setLoading(true);
+
+    try {
+      await lemmyInstance.markAllAsRead({
+        auth: lemmyAuthToken,
+      });
+
+      if (topSelected === "unread") {
+        setItems([]);
+      }
+
+      dispatch(setUnread({ type: "all", amount: 0 }));
+
+      setLoading(false);
+    } catch (e) {
+      writeToLog("Error marking all read.");
+      writeToLog(e.toString());
+    }
+  };
+
   return {
     doLoad,
+    doReadAll,
 
-    replies,
-    setReplies,
+    items,
+    setItems,
 
-    mentions,
-    messages,
+    topSelected,
+    setTopSelected,
 
-    selected,
-    setSelected,
+    bottomSelected,
+    setBottomSelected,
 
     loading,
     error,

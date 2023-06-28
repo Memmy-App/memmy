@@ -1,11 +1,9 @@
 import React, { useEffect, useMemo } from "react";
-import { HStack, Text, useTheme, VStack } from "native-base";
+import { Text, useTheme, VStack } from "native-base";
 import { FlashList } from "@shopify/flash-list";
 import { Button, RefreshControl } from "react-native";
-import Animated, { SlideOutUp } from "react-native-reanimated";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import useInbox from "../../hooks/inbox/useInbox";
-import ButtonTwo from "../../ui/buttons/ButtonTwo";
 import { useAppSelector } from "../../../store";
 import { selectSite } from "../../../slices/site/siteSlice";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
@@ -14,7 +12,6 @@ import CommentItem from "../../ui/comments/CommentItem";
 import LoadingModalTransparent from "../../ui/Loading/LoadingModalTransparent";
 import InboxTabs from "./InboxTabs";
 import LoadingView from "../../ui/Loading/LoadingView";
-import NoPostsView from "../../ui/Feed/NoPostsView";
 
 function InboxScreen({
   navigation,
@@ -28,73 +25,76 @@ function InboxScreen({
 
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => <Button title="Mark All Read" onPress={() => {}} />,
+      headerRight: () => (
+        <Button title="Mark All Read" onPress={inbox.doReadAll} />
+      ),
     });
   }, []);
 
   const replyItem = ({ item }: { item: ILemmyComment }) => (
-    <Animated.View exiting={SlideOutUp}>
-      <CommentItem
-        comment={item}
-        setComments={inbox.setReplies}
-        isReply
-        isUnreadReply
-        onPressOverride={() => {
-          const commentPathArr = item.comment.comment.path.split(".");
+    <CommentItem
+      comment={item}
+      setComments={inbox.setItems}
+      isReply
+      isUnreadReply
+      onPressOverride={() => {
+        const commentPathArr = item.comment.comment.path.split(".");
 
-          if (commentPathArr.length === 2) {
-            inbox
-              .onCommentReplyPress(
-                item.comment.post.id,
-                item.comment.comment.id
-              )
-              .then();
-          } else {
-            inbox
-              .onCommentReplyPress(
-                item.comment.post.id,
-                Number(commentPathArr[commentPathArr.length - 2])
-              )
-              .then();
-          }
-        }}
-        depth={2}
-      />
-    </Animated.View>
+        if (commentPathArr.length === 2) {
+          inbox
+            .onCommentReplyPress(item.comment.post.id, item.comment.comment.id)
+            .then();
+        } else {
+          inbox
+            .onCommentReplyPress(
+              item.comment.post.id,
+              Number(commentPathArr[commentPathArr.length - 2])
+            )
+            .then();
+        }
+      }}
+      depth={2}
+    />
   );
 
   if (inbox.error) {
     return (
       <LoadingErrorView
         onRetryPress={() => {
-          inbox.doLoad(inbox.selected, true);
+          inbox.doLoad(true);
         }}
       />
     );
   }
 
-  const onUnreadPress = () => {};
-  const onAllPress = () => {};
-  const onRepliesPress = () => {};
+  const onUnreadPress = () => {
+    inbox.setTopSelected("unread");
+  };
+  const onAllPress = () => {
+    inbox.setTopSelected("all");
+    console.log("pressed");
+  };
+  const onRepliesPress = () => {
+    inbox.setBottomSelected("replies");
+  };
   const onMentionsPress = () => {};
   const onMessagesPress = () => {};
 
   const header = useMemo(
     () => (
       <>
-        <LoadingModalTransparent loading={inbox.loading} />
         <InboxTabs
           onUnreadPress={onUnreadPress}
           onAllPress={onAllPress}
           onRepliesPress={onRepliesPress}
           onMentionsPress={onMentionsPress}
           onMessagesPress={onMessagesPress}
-          topSelected="unread"
-          bottomSelected="replies"
+          topSelected={inbox.topSelected}
+          bottomSelected={inbox.bottomSelected}
         />
       </>
     ),
-    []
+    [inbox.topSelected, inbox.bottomSelected]
   );
 
   const empty = useMemo(() => {
@@ -104,36 +104,40 @@ function InboxScreen({
     if (!inbox.loading && inbox.error) {
       return <LoadingErrorView onRetryPress={() => {}} />;
     }
-    return <NoPostsView />;
+
+    return (
+      <VStack p={4} alignItems="center" justifyContent="center">
+        <Text fontStyle="italic">Nothing found in your inbox.</Text>
+      </VStack>
+    );
   }, []);
 
   return useMemo(
     () => (
       <VStack flex={1} backgroundColor={theme.colors.app.bg}>
-        {inbox.selected === "replies" && (
-          <>
-            {(inbox.replies && inbox.replies.length === 0 && (
-              <Text>No replies found.</Text>
-            )) || (
-              <FlashList
-                renderItem={replyItem}
-                data={inbox.replies}
-                estimatedItemSize={100}
-                refreshControl={
-                  <RefreshControl
-                    refreshing={inbox.refreshing}
-                    onRefresh={() => inbox.doLoad("replies", true)}
-                  />
-                }
-                ListHeaderComponent={header}
-                ListEmptyComponent={empty}
-              />
-            )}
-          </>
-        )}
+        <LoadingModalTransparent loading={inbox.loading} />
+        <FlashList
+          renderItem={replyItem}
+          data={inbox.items}
+          estimatedItemSize={100}
+          refreshControl={
+            <RefreshControl
+              refreshing={inbox.refreshing}
+              onRefresh={() => inbox.doLoad(true)}
+            />
+          }
+          ListHeaderComponent={header}
+          ListEmptyComponent={empty}
+        />
       </VStack>
     ),
-    [inbox.replies, inbox.refreshing]
+    [
+      inbox.items,
+      inbox.loading,
+      inbox.refreshing,
+      inbox.topSelected,
+      inbox.bottomSelected,
+    ]
   );
 }
 

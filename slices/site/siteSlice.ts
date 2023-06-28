@@ -32,6 +32,17 @@ const siteSlice = createSlice({
   initialState,
   reducers: {
     setUnread: (state, action) => {
+      if (action.payload.type === "all") {
+        state.unread = {
+          ...state.unread,
+          mentions: action.payload.amount,
+          privateMessage: action.payload.amount,
+          replies: action.payload.amount,
+        };
+
+        return;
+      }
+
       state.unread = {
         ...state.unread,
         [action.payload.type]: action.payload.amount,
