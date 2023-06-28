@@ -109,7 +109,7 @@ function InboxScreen({
         <Text fontStyle="italic">Nothing found in your inbox.</Text>
       </VStack>
     );
-  }, []);
+  }, [inbox.loading]);
 
   return useMemo(
     () => (
