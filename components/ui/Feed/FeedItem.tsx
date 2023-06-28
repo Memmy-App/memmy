@@ -3,29 +3,26 @@ import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
 import React, { SetStateAction, useMemo } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import FastImage from "react-native-fast-image";
+import { PanGestureHandler } from "react-native-gesture-handler";
+import Animated from "react-native-reanimated";
 import {
   IconArrowDown,
   IconArrowUp,
   IconClockHour5,
   IconMessage,
-  IconMessageCircle,
-  IconPlanet,
 } from "tabler-icons-react-native";
-import { PanGestureHandler } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
+import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
+import { useAppDispatch } from "../../../store";
+import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
 import useFeedItem from "../../hooks/feeds/useFeedItem";
 import AvatarUsername from "../common/AvatarUsername";
 import VoteButton from "../common/VoteButton";
 import CommunityLink from "../CommunityLink";
 import ContentView from "../ContentView";
-import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
-import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
-import { useAppDispatch } from "../../../store";
 
 interface FeedItemProps {
   post: PostView;
@@ -50,21 +47,17 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
     );
     navigation.push("NewComment");
   };
-  const onRightLeftTwo = () => {};
   const leftRightOneIcon = <IconArrowUp size={32} color="#fff" />;
   const leftRightTwoIcon = <IconArrowDown size={32} color="#fff" />;
   const rightLeftOneIcon = <IconMessage size={32} color="#fff" />;
-  const rightLeftTwoIcon = <IconMessage size={32} color="#fff" />;
 
   const swipeAnimation = useSwipeAnimation({
     onLeftRightOne,
     onLeftRightTwo,
     onRightLeftOne,
-    onRightLeftTwo,
     leftRightOneIcon,
     leftRightTwoIcon,
     rightLeftOneIcon,
-    rightLeftTwoIcon,
   });
 
   const isUpvoted = post.my_vote === 1;
@@ -78,7 +71,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
 
   return useMemo(
     () => (
-      <View flex={1} my={1.5}>
+      <View flex={1} mb={2}>
         <View style={styles.backgroundContainer}>
           <View
             style={styles.backgroundLeft}
@@ -118,26 +111,16 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <AvatarUsername
-                  username={post.creator.name}
-                  fullUsername={`${post.creator.name}@${getBaseUrl(
-                    post.creator.actor_id
-                  )}`}
-                  avatar={post.creator.avatar}
-                />
+                <AvatarUsername creator={post.creator} />
 
                 <HStack alignItems="center" space={1}>
                   <IconClockHour5
-                    size={14}
+                    size={16}
                     color={theme.colors.app.textSecondary}
                   />
                   <Text color={theme.colors.app.textSecondary}>
                     {timeFromNowShort(post.post.published)}
                   </Text>
-                  <IconPlanet
-                    color={theme.colors.app.textSecondary}
-                    size={15}
-                  />
                   <CommunityLink
                     community={post.community}
                     color={theme.colors.app.textSecondary}
@@ -151,35 +134,10 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                     <FastImage source={{ uri: post.community.icon }} />
                   )}
                 </View>
-                <Text
-                  fontSize="md"
-                  mx={4}
-                  mb={3}
-                  style={
-                    post.read ? { color: theme.colors.app.textTertiary } : {}
-                  }
-                >
-                  {post.post.name}
-                </Text>
 
-                <ContentView post={post} recycled={recycled} truncate />
+                <ContentView post={post} recycled={recycled} isPreview />
 
-                {post.post.url && (
-                  <HStack>
-                    <Text
-                      fontSize="sm"
-                      fontStyle="italic"
-                      mx={4}
-                      mt={-1}
-                      color={theme.colors.app.textSecondary}
-                      alignSelf="flex-end"
-                    >
-                      {getBaseUrl(post.post.url)}
-                    </Text>
-                  </HStack>
-                )}
-
-                <HStack mx={4} alignItems="center" mb={3}>
+                <HStack mx={4} alignItems="center" mb={3} mt={1}>
                   <HStack flex={1} space={1}>
                     <HStack alignItems="center">
                       <IconArrowUp color={upvoteColor} size={20} />
@@ -198,7 +156,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                       </Text>
                     </HStack>
                     <HStack alignItems="center" ml={1} space={0.5}>
-                      <IconMessageCircle
+                      <IconMessage
                         color={theme.colors.app.textSecondary}
                         size={20}
                       />
@@ -221,7 +179,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
               icon={
                 <IconDots size={25} color={theme.colors.app.textSecondary} />
               }
-              iconBgColor={theme.colors.app.bgSecondary}
+              iconBgColor={theme.colors.app.bg}
               onPressHandler={() => {}}
             />
             <IconButtonWithText
@@ -231,7 +189,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                   color={theme.colors.app.textSecondary}
                 />
               }
-              iconBgColor={theme.colors.app.bgSecondary}
+              iconBgColor={theme.colors.app.bg}
               onPressHandler={() => {}}
             /> */}
                     <VoteButton

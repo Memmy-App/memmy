@@ -18,14 +18,13 @@ import { IconClockHour5, IconMessageCircle } from "tabler-icons-react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import usePost from "../../hooks/post/postHooks";
+import CommentItem from "../../ui/comments/CommentItem";
 import AvatarUsername from "../../ui/common/AvatarUsername";
 import CommunityLink from "../../ui/CommunityLink";
 import ContentView from "../../ui/ContentView";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
-import { getUserFullName } from "../../../lemmy/LemmyHelpers";
-import CommentItem from "../../ui/comments/CommentItem";
 
 function PostScreen({
   route,
@@ -69,16 +68,10 @@ function PostScreen({
 
   const header = (
     <VStack flex={1} backgroundColor={theme.colors.app.fg}>
-      <ContentView post={post.currentPost} showTitle showBody />
+      <ContentView post={post.currentPost} />
 
       <HStack mb={2} mx={4} space={2}>
-        <AvatarUsername
-          username={post.currentPost?.creator.name}
-          fullUsername={getUserFullName(post.currentPost?.creator)}
-          showInstance
-          creatorActorId={post.currentPost.creator.actor_id}
-          avatar={post.currentPost?.creator.avatar}
-        />
+        <AvatarUsername creator={post.currentPost?.creator} showInstance />
       </HStack>
       <HStack space={2} mx={4} mb={2}>
         <HStack alignItems="center">
@@ -102,9 +95,9 @@ function PostScreen({
         </HStack>
       </HStack>
 
-      <Divider my={1} />
+      <Divider my={1} bg={theme.colors.app.border} />
       <PostActionBar post={post} />
-      <Divider />
+      <Divider bg={theme.colors.app.border} />
       {route.params && route.params.commentId && showLoadAll && (
         <Pressable
           backgroundColor="#1A91FF"
@@ -159,7 +152,7 @@ function PostScreen({
 
   if (post.currentPost) {
     return (
-      <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
+      <VStack flex={1} backgroundColor={theme.colors.app.bg}>
         <FlashList
           ListFooterComponent={footer()}
           ListHeaderComponent={header}

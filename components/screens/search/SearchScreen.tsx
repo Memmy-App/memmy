@@ -1,17 +1,17 @@
-import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { HStack, ScrollView, Text, useTheme, VStack } from "native-base";
 import { PersonView, PostView } from "lemmy-js-client";
-import useSearch from "../../hooks/search/useSearch";
-import SearchBar from "../../ui/search/SearchBar";
-import ButtonTwo from "../../ui/buttons/ButtonTwo";
-import SearchResultTypeHeader from "../../ui/search/SearchResultTypeHeader";
-import GenericSearchResult from "../../ui/search/GenericSearchResult";
+import { HStack, ScrollView, Text, useTheme, VStack } from "native-base";
+import React from "react";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
-import LoadingView from "../../ui/Loading/LoadingView";
 import { getCommunityFullName } from "../../../lemmy/LemmyHelpers";
 import { setPost } from "../../../slices/post/postSlice";
 import { useAppDispatch } from "../../../store";
+import useSearch from "../../hooks/search/useSearch";
+import CustomButton from "../../ui/buttons/CustomButton";
+import LoadingView from "../../ui/Loading/LoadingView";
+import GenericSearchResult from "../../ui/search/GenericSearchResult";
+import SearchBar from "../../ui/search/SearchBar";
+import SearchResultTypeHeader from "../../ui/search/SearchResultTypeHeader";
 
 function SearchScreen({
   navigation,
@@ -28,7 +28,7 @@ function SearchScreen({
   };
 
   const onUserPress = (person: PersonView) => {
-    navigation.push("UserProfile", {
+    navigation.push("Profile", {
       fullUsername: `${person.person.name}@${getBaseUrl(
         person.person.actor_id
       )}`,
@@ -43,13 +43,26 @@ function SearchScreen({
         onSubmitSearch={() => search.doSearch("All")}
       />
       <HStack px={4} py={4} space={2}>
-        <ButtonTwo
+        <CustomButton
           onPress={() => search.doSearch("Communities")}
           text="Communities"
+          size="sm"
         />
-        <ButtonTwo onPress={() => search.doSearch("Posts")} text="Posts" />
-        <ButtonTwo onPress={() => search.doSearch("Users")} text="Users" />
-        <ButtonTwo onPress={() => search.doSearch("All")} text="All" />
+        <CustomButton
+          onPress={() => search.doSearch("Posts")}
+          text="Posts"
+          size="sm"
+        />
+        <CustomButton
+          onPress={() => search.doSearch("Users")}
+          text="Users"
+          size="sm"
+        />
+        <CustomButton
+          onPress={() => search.doSearch("All")}
+          text="All"
+          size="sm"
+        />
       </HStack>
       <ScrollView px={6}>
         {(search.error && <Text>Search Error</Text>) ||

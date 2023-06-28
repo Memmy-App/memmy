@@ -9,13 +9,12 @@ import Animated, {
   useSharedValue,
   withDecay,
   withTiming,
-  ZoomIn,
-  ZoomOut,
 } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import FastImage from "react-native-fast-image";
 import ImageViewFooter from "./ImageViewFooter";
 import downloadAndSaveImage from "../../../helpers/ImageHelper";
+import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 
 function ImageModal({
   source,
@@ -30,13 +29,8 @@ function ImageModal({
   isOpen: boolean;
   onRequestClose?: () => void;
 }) {
-  const toast = useToast();
   const onSave = () => {
-    toast.show({
-      title: "Image saved",
-      duration: 3000,
-    });
-
+    onGenericHapticFeedback();
     downloadAndSaveImage(source);
   };
   const onShare = () => {

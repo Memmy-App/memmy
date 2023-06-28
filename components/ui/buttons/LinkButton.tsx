@@ -1,4 +1,11 @@
-import { HStack, Pressable, Text, useTheme, VStack } from "native-base";
+import {
+  Factory,
+  HStack,
+  Pressable,
+  Text,
+  useTheme,
+  VStack,
+} from "native-base";
 import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
@@ -25,9 +32,7 @@ function LinkButton({ link, thumbnail }: LinkButtonProps) {
     <Pressable onPress={onPress}>
       <VStack
         borderRadius={5}
-        my={4}
-        mx={5}
-        backgroundColor={theme.colors.app.bgTertiary}
+        backgroundColor={theme.colors.app.bg}
         justifyContent="flex-start"
       >
         {thumbnail && (

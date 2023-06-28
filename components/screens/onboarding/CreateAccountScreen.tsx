@@ -161,9 +161,7 @@ function CreateAccountScreen() {
   };
 
   return (
-    <KeyboardAwareScrollView
-      style={{ backgroundColor: theme.colors.app.bgSecondary }}
-    >
+    <KeyboardAwareScrollView style={{ backgroundColor: theme.colors.app.bg }}>
       <LoadingModal loading={loading} />
       <VStack flex={1} pt={10} mb={5} space="md" justifyContent="center">
         {sentEmail ? (

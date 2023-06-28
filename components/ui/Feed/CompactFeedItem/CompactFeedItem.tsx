@@ -12,7 +12,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import useFeedItem from "../../../hooks/feeds/useFeedItem";
-import { truncateCompactFeedItem } from "../../../../helpers/TextHelper";
 import { ILemmyVote } from "../../../../lemmy/types/ILemmyVote";
 import useSwipeAnimation from "../../../hooks/animations/useSwipeAnimation";
 import { setResponseTo } from "../../../../slices/newComment/newCommentSlice";
@@ -27,7 +26,7 @@ function CompactFeedItem({
   setPosts,
 }: {
   post: PostView;
-  setPosts: React.Dispatch<SetStateAction<PostView[]>>;
+  setPosts?: React.Dispatch<SetStateAction<PostView[]>>;
 }) {
   const { compactThumbnailPosition, compactShowVotingButtons } =
     useAppSelector(selectSettings);
@@ -51,21 +50,17 @@ function CompactFeedItem({
     );
     navigation.push("NewComment");
   };
-  const onRightLeftTwo = () => {};
   const leftRightOneIcon = <IconArrowUp size={32} color="#fff" />;
   const leftRightTwoIcon = <IconArrowDown size={32} color="#fff" />;
   const rightLeftOneIcon = <IconMessage size={32} color="#fff" />;
-  const rightLeftTwoIcon = <IconMessage size={32} color="#fff" />;
 
   const swipeAnimation = useSwipeAnimation({
     onLeftRightOne,
     onLeftRightTwo,
     onRightLeftOne,
-    onRightLeftTwo,
     leftRightOneIcon,
     leftRightTwoIcon,
     rightLeftOneIcon,
-    rightLeftTwoIcon,
   });
 
   return useMemo(
@@ -107,7 +102,7 @@ function CompactFeedItem({
                 flex={1}
                 px={3}
                 py={4}
-                backgroundColor={theme.colors.app.bgSecondary}
+                backgroundColor={theme.colors.app.fg}
                 space={2}
               >
                 {compactThumbnailPosition === "Left" && (
@@ -122,12 +117,14 @@ function CompactFeedItem({
                 <VStack flex={1}>
                   <Text
                     flex={1}
-                    fontSize={17}
-                    style={
-                      post.read ? { color: theme.colors.app.textTertiary } : {}
+                    fontSize="md"
+                    color={
+                      post.read
+                        ? theme.colors.app.textSecondary
+                        : theme.colors.app.textPrimary
                     }
                   >
-                    {truncateCompactFeedItem(post.post.name)}
+                    {post.post.name}
                   </Text>
 
                   <CompactFeedItemFooter post={post} />

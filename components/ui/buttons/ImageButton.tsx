@@ -27,21 +27,11 @@ function ImageButton({ src }: ImageButtonProps) {
     console.log("sup");
   };
 
-  const onShare = () => {
-    Share.share({
-      url: src,
-    });
-  };
-
-  const onSave = () => {
-    downloadAndSaveImage(src).then();
-  };
-
   return (
     <>
       <Pressable onPress={onPress}>
         <HStack
-          backgroundColor={theme.colors.app.bgTertiary}
+          backgroundColor={theme.colors.app.bg}
           borderRadius={5}
           padding={2}
           flexDirection="row"

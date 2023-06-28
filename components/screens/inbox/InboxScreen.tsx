@@ -1,16 +1,19 @@
-import React from "react";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { HStack, Text, useTheme, VStack } from "native-base";
+import React, { useEffect, useMemo } from "react";
+import { Text, useTheme, VStack } from "native-base";
 import { FlashList } from "@shopify/flash-list";
-import { RefreshControl } from "react-native";
+import { Button, RefreshControl } from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { IconMailOpened, IconSettings } from "tabler-icons-react-native";
 import useInbox from "../../hooks/inbox/useInbox";
-import ButtonTwo from "../../ui/buttons/ButtonTwo";
 import { useAppSelector } from "../../../store";
 import { selectSite } from "../../../slices/site/siteSlice";
-import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
-import LoadingModal from "../../ui/Loading/LoadingModal";
-import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import CommentItem from "../../ui/comments/CommentItem";
+import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
+import ILemmyComment from "../../../lemmy/types/ILemmyComment";
+import LoadingModalTransparent from "../../ui/Loading/LoadingModalTransparent";
+import InboxTabs from "./InboxTabs";
+import LoadingView from "../../ui/Loading/LoadingView";
+import HeaderIconButton from "../../ui/buttons/HeaderIconButton";
 
 function InboxScreen({
   navigation,
@@ -18,15 +21,26 @@ function InboxScreen({
   navigation: NativeStackNavigationProp<any>;
 }) {
   const theme = useTheme();
+  e;
   const inbox = useInbox();
 
-  const { unread } = useAppSelector(selectSite);
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderIconButton
+          icon={<IconMailOpened size={24} color={theme.colors.app.accent} />}
+          onPress={inbox.doReadAll}
+        />
+      ),
+    });
+  }, []);
 
   const replyItem = ({ item }: { item: ILemmyComment }) => (
     <CommentItem
       comment={item}
-      setComments={inbox.setReplies}
+      setComments={inbox.setItems}
       isReply
+      isUnreadReply={inbox.topSelected === "unread"}
       onPressOverride={() => {
         const commentPathArr = item.comment.comment.path.split(".");
 
@@ -51,64 +65,82 @@ function InboxScreen({
     return (
       <LoadingErrorView
         onRetryPress={() => {
-          inbox.doLoad(inbox.selected, true);
+          inbox.doLoad(true);
         }}
       />
     );
   }
 
-  return (
-    <VStack flex={1} backgroundColor={theme.colors.app.bg}>
-      <LoadingModal loading={inbox.loading} />
-      <HStack px={4} py={4} space={2}>
-        <ButtonTwo
-          onPress={() => {}}
-          text="Unread"
-          badge={(
-            unread.replies +
-            unread.privateMessage +
-            unread.mentions
-          ).toString()}
+  const onUnreadPress = () => {
+    inbox.setTopSelected("unread");
+  };
+  const onAllPress = () => {
+    inbox.setTopSelected("all");
+  };
+  const onRepliesPress = () => {
+    inbox.setBottomSelected("replies");
+  };
+  const onMentionsPress = () => {};
+  const onMessagesPress = () => {};
+
+  const header = useMemo(
+    () => (
+      <>
+        <InboxTabs
+          onUnreadPress={onUnreadPress}
+          onAllPress={onAllPress}
+          onRepliesPress={onRepliesPress}
+          onMentionsPress={onMentionsPress}
+          onMessagesPress={onMessagesPress}
+          topSelected={inbox.topSelected}
+          bottomSelected={inbox.bottomSelected}
         />
-        <ButtonTwo onPress={() => {}} text="All" />
-      </HStack>
-      <HStack px={4} py={2} space={2}>
-        <ButtonTwo
-          onPress={() => {}}
-          text="Replies"
-          badge={unread.replies.toString()}
-        />
-        <ButtonTwo
-          onPress={() => {}}
-          text="Mentions"
-          badge={unread.mentions.toString()}
-        />
-        <ButtonTwo
-          onPress={() => {}}
-          text="Messages"
-          badge={unread.privateMessage.toString()}
-        />
-      </HStack>
-      {inbox.selected === "replies" && (
-        <>
-          {(inbox.replies && inbox.replies.length === 0 && (
-            <Text>No replies found.</Text>
-          )) || (
-            <FlashList
-              renderItem={replyItem}
-              data={inbox.replies}
-              estimatedItemSize={100}
-              refreshControl={
-                <RefreshControl
-                  refreshing={inbox.refreshing}
-                  onRefresh={() => inbox.doLoad("replies", true)}
-                />
-              }
+      </>
+    ),
+    [inbox.topSelected, inbox.bottomSelected]
+  );
+
+  const empty = useMemo(() => {
+    if (inbox.loading) {
+      return <LoadingView />;
+    }
+    if (!inbox.loading && inbox.error) {
+      return <LoadingErrorView onRetryPress={() => {}} />;
+    }
+
+    return (
+      <VStack p={4} alignItems="center" justifyContent="center">
+        <Text fontStyle="italic">Nothing found in your inbox.</Text>
+      </VStack>
+    );
+  }, [inbox.loading]);
+
+  return useMemo(
+    () => (
+      <VStack flex={1} backgroundColor={theme.colors.app.bg}>
+        <LoadingModalTransparent loading={inbox.loading} />
+        <FlashList
+          renderItem={replyItem}
+          data={inbox.items}
+          estimatedItemSize={100}
+          refreshControl={
+            <RefreshControl
+              refreshing={inbox.refreshing}
+              onRefresh={() => inbox.doLoad(true)}
             />
-          )}
-        </>
-      )}
-    </VStack>
+          }
+          ListHeaderComponent={header}
+          ListEmptyComponent={empty}
+        />
+      </VStack>
+    ),
+    [
+      inbox.items,
+      inbox.loading,
+      inbox.refreshing,
+      inbox.topSelected,
+      inbox.bottomSelected,
+    ]
   );
 }
 

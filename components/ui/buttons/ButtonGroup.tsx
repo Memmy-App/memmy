@@ -5,7 +5,12 @@ function ButtonGroup({ children }: { children: React.ReactNode }) {
   const theme = useTheme();
 
   return (
-    <HStack backgroundColor={theme.colors.app.bg} borderRadius={20} mx={4}>
+    <HStack
+      backgroundColor={theme.colors.app.fg}
+      borderRadius={20}
+      mx={4}
+      mb={2}
+    >
       {children}
     </HStack>
   );
