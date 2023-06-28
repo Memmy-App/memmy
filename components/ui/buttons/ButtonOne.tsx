@@ -58,7 +58,7 @@ function ButtonOne({
     >
       <HStack space={1.5} alignItems="center" justifyContent="center">
         {icon && <IconComponent size={24} color={theme.colors.app.accent} />}
-        <Text fontSize="md" color={theme.colors.app.textSecondary}>
+        <Text fontSize="md" color={theme.colors.app.textPrimary}>
           {text}
         </Text>
       </HStack>

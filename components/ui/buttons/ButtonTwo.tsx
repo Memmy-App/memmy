@@ -53,15 +53,11 @@ function ButtonTwo({
     >
       <HStack space={1.5} alignItems="center" justifyContent="center">
         {icon && <IconComponent size={24} color={theme.colors.app.accent} />}
-        <Text fontSize="sm" color={theme.colors.app.textSecondary}>
+        <Text fontSize="sm" color={theme.colors.app.textPrimary}>
           {text}
         </Text>
         {badge && (
-          <Text
-            fontSize="sm"
-            color={theme.colors.app.textSecondary}
-            backgroundColor="#999999"
-          >
+          <Text fontSize="sm" color={theme.colors.app.textPrimary}>
             {badge}
           </Text>
         )}
