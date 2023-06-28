@@ -1,42 +1,20 @@
-import React from "react";
-import { Alert, LayoutAnimation, StyleSheet, Switch } from "react-native";
-import { getBuildNumber, getVersion } from "react-native-device-info";
-import { useActionSheet } from "@expo/react-native-action-sheet";
-import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Badge, Box, HStack, ScrollView, Text, useTheme } from "native-base";
+import { ScrollView, Text, useTheme } from "native-base";
+import React from "react";
+import { Alert, StyleSheet } from "react-native";
 import { Section, TableView } from "react-native-tableview-simple";
 import { IconCheck } from "tabler-icons-react-native";
-import { deleteLog, sendLog } from "../../../../helpers/LogHelper";
-import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import { ThemeOptionsArr } from "../../../../theme/themeOptions";
 import CCell from "../../../ui/table/CCell";
-import CSection from "../../../ui/table/CSection";
-import { HapticOptionsArr } from "../../../../types/haptics/hapticOptions";
 
-function ThemeSelectionScreen({
-  navigation,
-}: {
-  navigation: NativeStackNavigationProp<any>;
-}) {
-  const accounts = useAppSelector(selectAccounts);
-
+function ThemeSelectionScreen() {
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const { showActionSheetWithOptions } = useActionSheet();
 
-  const {
-    theme: currentTheme,
-    fontSize,
-    isSystemTextSize,
-  } = useAppSelector(selectSettings);
-
-  const onChange = (key: string, value: any) => {
-    dispatch(setSetting({ [key]: value }));
-  };
+  const { theme: currentTheme } = useAppSelector(selectSettings);
 
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
@@ -46,7 +24,6 @@ function ThemeSelectionScreen({
             <CCell
               cellStyle="RightDetail"
               title={themeName}
-              subti
               cellAccessoryView={
                 currentTheme === themeName && (
                   <IconCheck color={theme.colors.app.accent} />
@@ -55,7 +32,27 @@ function ThemeSelectionScreen({
               backgroundColor={theme.colors.app.fg}
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.textSecondary}
-            />
+              onPress={() => {
+                dispatch(setSetting({ theme: themeName }));
+
+                Alert.alert(
+                  "Please Restart",
+                  "Some components may not re-render with the new theme. Please restart the app to get the full effect."
+                );
+              }}
+            >
+              {themeName === "Sunset" ? (
+                <Text
+                  ml={4}
+                  mb={2}
+                  mt={-4}
+                  fontSize="xs"
+                  color={theme.colors.app.textSecondary}
+                >
+                  Credit to Christian Selig for this one
+                </Text>
+              ) : null}
+            </CCell>
           ))}
         </Section>
       </TableView>
