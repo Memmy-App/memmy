@@ -40,7 +40,7 @@ const useSearch = (): UseSearch => {
           {
             text: "User",
             onPress: () => {
-              navigation.push("UserProfile", {
+              navigation.push("Profile", {
                 fullUsername: query,
               });
             },

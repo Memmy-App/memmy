@@ -28,7 +28,7 @@ function SearchScreen({
   };
 
   const onUserPress = (person: PersonView) => {
-    navigation.push("UserProfile", {
+    navigation.push("Profile", {
       fullUsername: `${person.person.name}@${getBaseUrl(
         person.person.actor_id
       )}`,
