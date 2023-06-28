@@ -5,7 +5,7 @@ import { IconSearch } from "tabler-icons-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 
-interface SearchBarProps {
+interface IProps {
   searchValue: string;
   onSearchChange: React.Dispatch<SetStateAction<string>>;
   onSubmitSearch: () => Promise<void>;
@@ -15,7 +15,7 @@ function SearchBar({
   searchValue,
   onSearchChange,
   onSubmitSearch,
-}: SearchBarProps) {
+}: IProps) {
   const theme = useTheme();
   const navigation = useNavigation();
   const searchInput = useRef<TextInput>();
