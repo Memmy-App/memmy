@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
@@ -23,17 +23,18 @@ import {
   IconSettings,
   IconUser,
 } from "tabler-icons-react-native";
+import PagerView from "react-native-pager-view";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { getCakeDay } from "../../../helpers/TimeHelper";
 import useProfile from "../../hooks/profile/useProfile";
 import CompactFeedItem from "../../ui/Feed/CompactFeedItem/CompactFeedItem";
-import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
-import LoadingView from "../../ui/Loading/LoadingView";
-import NotFoundView from "../../ui/Loading/NotFoundView";
 import HeaderIconButton from "../../ui/buttons/HeaderIconButton";
 import ProfileTabs from "./ProfileTabs";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import CommentItem from "../../ui/comments/CommentItem";
+import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
+import LoadingView from "../../ui/Loading/LoadingView";
+import NotFoundView from "../../ui/Loading/NotFoundView";
 
 function UserProfileScreen({
   navigation,
@@ -42,6 +43,8 @@ function UserProfileScreen({
 }) {
   const profile = useProfile();
   const theme = useTheme();
+
+  const pagerView = useRef<PagerView>();
 
   useEffect(() => {
     navigation.setOptions({
@@ -57,50 +60,41 @@ function UserProfileScreen({
 
   const refreshControl = (
     <RefreshControl
-      refreshing={profile.loading}
+      refreshing={profile.refreshing}
       onRefresh={() => {
-        profile.doLoad(true);
+        profile.doLoad(true).then();
       }}
     />
   );
 
-  const renderItem = ({ item }: { item: ILemmyComment | PostView }) => {
-    if (profile.selectedTab === "comments") {
-      const comment = item as ILemmyComment;
-      return (
-        <CommentItem
-          comment={comment}
-          setComments={profile.setItems}
-          opId={0}
-          depth={2}
-          onPressOverride={() => {
-            const commentPathArr = comment.comment.comment.path.split(".");
+  const renderComment = ({ item }: { item: ILemmyComment }) => (
+    <CommentItem
+      comment={item}
+      setComments={profile.setComments}
+      opId={0}
+      depth={2}
+      onPressOverride={() => {
+        const commentPathArr = item.comment.comment.path.split(".");
 
-            if (commentPathArr.length === 2) {
-              profile
-                .onCommentPress(
-                  comment.comment.post.id,
-                  comment.comment.comment.id
-                )
-                .then();
-            } else {
-              profile
-                .onCommentPress(
-                  comment.comment.post.id,
-                  Number(commentPathArr[commentPathArr.length - 2])
-                )
-                .then();
-            }
-          }}
-        />
-      );
-    }
-    if (profile.selectedTab === "posts") {
-      return <CompactFeedItem post={item as PostView} />;
-    }
+        if (commentPathArr.length === 2) {
+          profile
+            .onCommentPress(item.comment.post.id, item.comment.comment.id)
+            .then();
+        } else {
+          profile
+            .onCommentPress(
+              item.comment.post.id,
+              Number(commentPathArr[commentPathArr.length - 2])
+            )
+            .then();
+        }
+      }}
+    />
+  );
 
-    return null;
-  };
+  const renderPost = ({ item }: { item: PostView }) => (
+    <CompactFeedItem post={item as PostView} />
+  );
 
   const header = useMemo(() => {
     if (!profile.profile) return null;
@@ -188,50 +182,92 @@ function UserProfileScreen({
           </HStack>
         </VStack>
         <ProfileTabs
-          selected={profile.selectedTab}
-          onCommentsPress={() => profile.doLoadItems("comments", true)}
-          onPostsPress={() => profile.doLoadItems("posts", true)}
+          selected={profile.selected}
+          onCommentsPress={() => {
+            profile.setSelected("comments");
+            pagerView.current.setPageWithoutAnimation(0);
+          }}
+          onPostsPress={() => {
+            profile.setSelected("posts");
+            pagerView.current.setPageWithoutAnimation(1);
+          }}
         />
       </VStack>
     );
-  }, [profile.profile, profile.selectedTab]);
+  }, [profile.profile, profile.selected]);
 
-  const keyExtractor = (item: ILemmyComment | PostView) => {
-    if (profile.selectedTab === "comments") {
-      return (item as ILemmyComment).comment.comment.id.toString();
-    }
-    if (profile.selectedTab === "posts") {
-      return (item as PostView).post.id.toString();
-    }
-  };
+  const commentKeyExtractor = (item: ILemmyComment) =>
+    (item as ILemmyComment).comment.comment.id.toString();
 
-  if (profile.notFound) {
-    return <NotFoundView />;
-  }
+  const postKeyExtractor = (item: PostView) =>
+    (item as PostView).post.id.toString();
 
-  if (!profile.profile) {
-    return <LoadingView />;
-  }
-
-  if (profile.error) {
-    return <LoadingErrorView onRetryPress={profile.doLoad} />;
-  }
-
-  return (
-    <VStack flex={1} backgroundColor={theme.colors.app.bg} display="flex">
+  const commentList = useMemo(
+    () => (
       <FlashList
-        renderItem={renderItem}
+        renderItem={renderComment}
         ListHeaderComponent={header}
         estimatedItemSize={100}
-        data={profile.items}
-        keyExtractor={keyExtractor}
+        data={profile.comments}
+        keyExtractor={commentKeyExtractor}
         ListEmptyComponent={<Spinner pt={10} />}
         refreshing={profile.loading}
         refreshControl={refreshControl}
-        // onEndReached={() => profile.doLoadItems(profile.selectedTab)}
       />
-    </VStack>
+    ),
+    [profile.comments, profile.loading, profile.refreshing, profile.selected]
   );
+
+  const postList = useMemo(
+    () => (
+      <FlashList
+        renderItem={renderPost}
+        ListHeaderComponent={header}
+        estimatedItemSize={100}
+        data={profile.posts}
+        keyExtractor={postKeyExtractor}
+        ListEmptyComponent={<Spinner pt={10} />}
+        refreshing={profile.loading}
+        refreshControl={refreshControl}
+      />
+    ),
+    [profile.posts, profile.loading, profile.refreshing, profile.selected]
+  );
+
+  return useMemo(() => {
+    if (profile.notFound) {
+      return <NotFoundView />;
+    }
+
+    if (!profile.profile) {
+      return <LoadingView />;
+    }
+
+    if (profile.error) {
+      return <LoadingErrorView onRetryPress={() => profile.doLoad(true)} />;
+    }
+
+    return (
+      <VStack flex={1} backgroundColor={theme.colors.app.bg}>
+        <PagerView
+          initialPage={0}
+          style={{ flex: 1 }}
+          scrollEnabled={false}
+          ref={pagerView}
+        >
+          <View key="1">{commentList}</View>
+          <View key="2">{postList}</View>
+        </PagerView>
+      </VStack>
+    );
+  }, [
+    profile.error,
+    profile.selected,
+    profile.notFound,
+    profile.profile,
+    profile.loading,
+    profile.refreshing,
+  ]);
 }
 
 const styles = StyleSheet.create({

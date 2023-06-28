@@ -3,15 +3,13 @@ import { HStack } from "native-base";
 import ButtonGroup from "../../ui/buttons/ButtonGroup";
 import GroupButton from "../../ui/buttons/GroupButton";
 
-function ProfileTabs({
-  selected,
-  onCommentsPress,
-  onPostsPress,
-}: {
+interface IProps {
   selected: string;
-  onCommentsPress: () => Promise<void>;
-  onPostsPress: () => Promise<void>;
-}) {
+  onCommentsPress: () => void;
+  onPostsPress: () => void;
+}
+
+function ProfileTabs({ selected, onCommentsPress, onPostsPress }: IProps) {
   return (
     <HStack>
       <ButtonGroup>
