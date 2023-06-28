@@ -27,7 +27,7 @@ import LoadingView from "../../ui/Loading/LoadingView";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { getCakeDay } from "../../../helpers/TimeHelper";
-import ButtonOne from "../../ui/buttons/ButtonOne";
+import CustomButton from "../../ui/buttons/CustomButton";
 import NotFoundView from "../../ui/Loading/NotFoundView";
 
 function ProfileScreen({
@@ -150,19 +150,19 @@ function ProfileScreen({
                 alignItems="center"
                 space={3}
               >
-                <ButtonOne
+                <CustomButton
                   onPress={() => {}}
                   icon={IconMessageChatbot}
                   text="Message"
                 />
-                <ButtonOne
+                <CustomButton
                   onPress={() => {
                     navigation.navigate("BlockedCommunities");
                   }}
                   icon={IconHandStop}
                   text="Block"
                 />
-                <ButtonOne onPress={() => {}} icon={IconBook} text="Bio" />
+                <CustomButton onPress={() => {}} icon={IconBook} text="Bio" />
               </HStack>
             </VStack>
           </VStack>

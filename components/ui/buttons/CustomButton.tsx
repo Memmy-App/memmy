@@ -2,26 +2,23 @@ import React, { useState } from "react";
 import { HStack, Pressable, Text, useTheme } from "native-base";
 import { TablerIcon } from "tabler-icons-react-native";
 
-function ButtonTwo({
+function CustomButton({
   onPress,
-  icon,
   text,
-  my,
-  mx,
-  py = 1,
-  selected = false,
-  badge = undefined,
+  icon,
+  selectable = false,
+  size = "md",
+  badge,
 }: {
   onPress: () => void;
-  icon?: TablerIcon;
   text: string;
-  mx?: number;
-  my?: number;
-  py?: number;
-  selected?: boolean;
-  badge?: string | undefined;
+  icon?: TablerIcon;
+  selectable?: boolean;
+  size?: "md" | "sm";
+  badge?: string;
 }) {
   const [pressedIn, setPressedIn] = useState(false);
+  const [selected, setSelected] = useState(false);
 
   const theme = useTheme();
 
@@ -33,31 +30,40 @@ function ButtonTwo({
     setPressedIn(false);
   };
 
+  const onPressBefore = () => {
+    if (selectable) setSelected((prev) => !prev);
+
+    onPress();
+  };
+
   const IconComponent = icon;
 
   return (
     <Pressable
       onPressIn={onPressIn}
       onPressOut={onPressOut}
-      onPress={onPress}
+      onPress={onPressBefore}
       opacity={pressedIn ? 0.7 : 1}
       shadow={pressedIn ? 3 : 0}
-      py={py}
-      mx={mx}
-      my={my}
-      borderRadius={20}
+      py={size === "md" ? 2 : 1}
+      borderRadius={size === "md" ? 10 : 20}
       backgroundColor={
         !selected ? theme.colors.app.inputBg : theme.colors.app.accent
       }
       flexGrow={1}
     >
       <HStack space={1.5} alignItems="center" justifyContent="center">
-        {icon && <IconComponent size={24} color={theme.colors.app.accent} />}
-        <Text fontSize="sm" color={theme.colors.app.textPrimary}>
+        {icon && (
+          <IconComponent
+            size={size === "md" ? 24 : 20}
+            color={theme.colors.app.accent}
+          />
+        )}
+        <Text fontSize={size} color={theme.colors.app.textPrimary}>
           {text}
         </Text>
         {badge && (
-          <Text fontSize="sm" color={theme.colors.app.textPrimary}>
+          <Text fontSize={size} color={theme.colors.app.textPrimary}>
             {badge}
           </Text>
         )}
@@ -66,4 +72,4 @@ function ButtonTwo({
   );
 }
 
-export default ButtonTwo;
+export default CustomButton;

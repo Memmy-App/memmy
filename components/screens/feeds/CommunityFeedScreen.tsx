@@ -13,7 +13,7 @@ import {
 import FeedView from "../../ui/Feed/FeedView";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
-import ButtonOne from "../../ui/buttons/ButtonOne";
+import CustomButton from "../../ui/buttons/CustomButton";
 import NotFoundView from "../../ui/Loading/NotFoundView";
 import useCommunityFeed from "../../hooks/feeds/useCommunityFeed";
 
@@ -100,17 +100,17 @@ function FeedsCommunityScreen({
         </HStack>
         <VStack pt={8}>
           <HStack justifyContent="space-between" alignItems="center" space={3}>
-            <ButtonOne
+            <CustomButton
               onPress={communityFeed.onSubscribePress}
               icon={communityFeed.feed.subscribed ? IconHeartFilled : IconHeart}
               text={communityFeed.feed.subscribed ? "Subscribed" : "Subscribe"}
             />
-            <ButtonOne
+            <CustomButton
               onPress={communityFeed.onAboutPress}
               icon={IconInfoCircle}
               text="About"
             />
-            <ButtonOne
+            <CustomButton
               onPress={communityFeed.onPostPress}
               icon={IconPlus}
               text="Post"

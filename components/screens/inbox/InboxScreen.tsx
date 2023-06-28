@@ -1,16 +1,16 @@
-import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { HStack, Text, useTheme, VStack } from "native-base";
 import { FlashList } from "@shopify/flash-list";
+import { HStack, Text, useTheme, VStack } from "native-base";
+import React from "react";
 import { RefreshControl } from "react-native";
-import useInbox from "../../hooks/inbox/useInbox";
-import ButtonTwo from "../../ui/buttons/ButtonTwo";
-import { useAppSelector } from "../../../store";
+import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import { selectSite } from "../../../slices/site/siteSlice";
+import { useAppSelector } from "../../../store";
+import useInbox from "../../hooks/inbox/useInbox";
+import CustomButton from "../../ui/buttons/CustomButton";
+import CommentItem from "../../ui/comments/CommentItem";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import LoadingModal from "../../ui/Loading/LoadingModal";
-import ILemmyComment from "../../../lemmy/types/ILemmyComment";
-import CommentItem from "../../ui/comments/CommentItem";
 
 function InboxScreen({
   navigation,
@@ -61,7 +61,8 @@ function InboxScreen({
     <VStack flex={1} backgroundColor={theme.colors.app.bg}>
       <LoadingModal loading={inbox.loading} />
       <HStack px={4} py={4} space={2}>
-        <ButtonTwo
+        <CustomButton
+          size="sm"
           onPress={() => {}}
           text="Unread"
           badge={(
@@ -70,20 +71,23 @@ function InboxScreen({
             unread.mentions
           ).toString()}
         />
-        <ButtonTwo onPress={() => {}} text="All" />
+        <CustomButton size="sm" onPress={() => {}} text="All" />
       </HStack>
       <HStack px={4} py={2} space={2}>
-        <ButtonTwo
+        <CustomButton
+          size="sm"
           onPress={() => {}}
           text="Replies"
           badge={unread.replies.toString()}
         />
-        <ButtonTwo
+        <CustomButton
+          size="sm"
           onPress={() => {}}
           text="Mentions"
           badge={unread.mentions.toString()}
         />
-        <ButtonTwo
+        <CustomButton
+          size="sm"
           onPress={() => {}}
           text="Messages"
           badge={unread.privateMessage.toString()}
