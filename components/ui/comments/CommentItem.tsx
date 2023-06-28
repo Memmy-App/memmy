@@ -20,6 +20,7 @@ import {
 } from "tabler-icons-react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import { CommentReplyView } from "lemmy-js-client";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
@@ -94,11 +95,14 @@ function CommentItem({
               )
             );
 
-            lemmyInstance.markCommentReplyAsRead({
-              auth: lemmyAuthToken,
-              comment_reply_id: comment.comment.comment_reply.id,
-              read: true,
-            });
+            lemmyInstance
+              .markCommentReplyAsRead({
+                auth: lemmyAuthToken,
+                comment_reply_id: (comment.comment as CommentReplyView)
+                  .comment_reply.id,
+                read: true,
+              })
+              .then();
 
             dispatch(
               setUnread({
