@@ -96,7 +96,7 @@ function NewCommentScreen({
             style={[
               styles.input,
               {
-                backgroundColor: theme.colors.app.bgTertiary,
+                backgroundColor: theme.colors.app.bg,
                 color: theme.colors.app.textPrimary,
               },
             ]}

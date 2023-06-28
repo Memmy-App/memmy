@@ -175,7 +175,7 @@ function EditAccountScreen({
                 keyboardAppearance={theme.config.initialColorMode}
               />
             }
-            backgroundColor={theme.colors.app.bgTertiary}
+            backgroundColor={theme.colors.app.bg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
@@ -207,7 +207,7 @@ function EditAccountScreen({
                 keyboardAppearance={theme.config.initialColorMode}
               />
             }
-            backgroundColor={theme.colors.app.bgTertiary}
+            backgroundColor={theme.colors.app.bg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
@@ -229,7 +229,7 @@ function EditAccountScreen({
                 keyboardAppearance={theme.config.initialColorMode}
               />
             }
-            backgroundColor={theme.colors.app.bgTertiary}
+            backgroundColor={theme.colors.app.bg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
@@ -253,7 +253,7 @@ function EditAccountScreen({
                   keyboardAppearance={theme.config.initialColorMode}
                 />
               }
-              backgroundColor={theme.colors.app.bgTertiary}
+              backgroundColor={theme.colors.app.bg}
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.textSecondary}
             />

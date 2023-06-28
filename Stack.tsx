@@ -424,8 +424,8 @@ function Stack() {
     colors: {
       ...DarkTheme.colors,
       primary: theme.colors.app.accent,
-      background: theme.colors.app.bgTertiary,
-      card: theme.colors.app.bgTertiary,
+      background: theme.colors.app.navBarBg,
+      card: theme.colors.app.navBarBg,
       text: theme.colors.app.textSecondary,
       border: theme.colors.app.border,
     },
