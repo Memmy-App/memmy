@@ -1,8 +1,8 @@
-import { CommentView } from "lemmy-js-client";
+import { CommentReplyView, CommentView } from "lemmy-js-client";
 import { ILemmyVote } from "./ILemmyVote";
 
 interface ILemmyComment {
-  comment: CommentView;
+  comment: CommentView | CommentReplyView;
   collapsed: boolean;
   hidden: boolean;
   myVote: ILemmyVote;
