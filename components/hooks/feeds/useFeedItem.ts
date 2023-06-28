@@ -19,6 +19,8 @@ interface UseFeedItem {
   onVotePress: (value: ILemmyVote, haptic?: boolean) => Promise<void>;
   onPress: () => void;
 
+  setPostRead: () => void;
+
   linkInfo: LinkInfo;
 }
 
@@ -89,24 +91,28 @@ const useFeedItem = (
         read: true,
       });
 
-      if (setPosts) {
-        setPosts((prev) =>
-          prev.map((p) => {
-            if (p.post.id === post.post.id) {
-              return {
-                ...p,
-                read: true,
-              };
-            }
-
-            return p;
-          })
-        );
-      }
+      setPostRead();
     }
 
     dispatch(setPost(post));
     navigation.push("Post");
+  };
+
+  const setPostRead = () => {
+    if (setPosts) {
+      setPosts((prev) =>
+        prev.map((p) => {
+          if (p.post.id === post.post.id) {
+            return {
+              ...p,
+              read: true,
+            };
+          }
+
+          return p;
+        })
+      );
+    }
   };
 
   return {
@@ -116,6 +122,8 @@ const useFeedItem = (
     onVotePress,
 
     onPress,
+
+    setPostRead,
 
     linkInfo,
   };
