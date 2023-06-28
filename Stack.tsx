@@ -38,6 +38,7 @@ import {
 } from "./slices/accounts/accountsSlice";
 import { selectSite } from "./slices/site/siteSlice";
 import { useAppSelector } from "./store";
+import ReadSettingsScreen from "./components/screens/settings/ReadSettingsScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -205,6 +206,13 @@ function ProfileStackScreen() {
             title: "Edit Account",
           }}
         />
+        <ProfileStack.Screen
+          name="ReadSettings"
+          component={ReadSettingsScreen}
+          options={{
+            title: "Mark Post Read On...",
+          }}
+        />
 
         <ProfileStack.Screen
           name="FeedScreen"
@@ -341,6 +349,13 @@ function CommunityStackScreen() {
         component={EditAccountScreen}
         options={{
           title: "Edit Account",
+        }}
+      />
+      <CommunityStack.Screen
+        name="ReadSettings"
+        component={ReadSettingsScreen}
+        options={{
+          title: "Mark Post Read On...",
         }}
       />
     </CommunityStack.Navigator>
