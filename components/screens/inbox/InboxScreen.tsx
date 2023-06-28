@@ -1,11 +1,9 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { HStack, Text, useTheme, VStack } from "native-base";
-import { AnimatedFlashList, FlashList } from "@shopify/flash-list";
-import { RefreshControl } from "react-native";
-import Animated, {
-  SlideOutUp,
-  useAnimatedStyle,
-} from "react-native-reanimated";
+import { FlashList } from "@shopify/flash-list";
+import { Button, RefreshControl } from "react-native";
+import Animated, { SlideOutUp } from "react-native-reanimated";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import useInbox from "../../hooks/inbox/useInbox";
 import ButtonTwo from "../../ui/buttons/ButtonTwo";
 import { useAppSelector } from "../../../store";
@@ -14,12 +12,25 @@ import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import CommentItem from "../../ui/comments/CommentItem";
 import LoadingModalTransparent from "../../ui/Loading/LoadingModalTransparent";
+import InboxTabs from "./InboxTabs";
+import LoadingView from "../../ui/Loading/LoadingView";
+import NoPostsView from "../../ui/Feed/NoPostsView";
 
-function InboxScreen() {
+function InboxScreen({
+  navigation,
+}: {
+  navigation: NativeStackNavigationProp<any>;
+}) {
   const theme = useTheme();
   const inbox = useInbox();
 
   const { unread } = useAppSelector(selectSite);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <Button title="Mark All Read" onPress={() => {}} />,
+    });
+  }, []);
 
   const replyItem = ({ item }: { item: ILemmyComment }) => (
     <Animated.View exiting={SlideOutUp}>
@@ -62,58 +73,67 @@ function InboxScreen() {
     );
   }
 
-  return (
-    <VStack flex={1} backgroundColor={theme.colors.app.bg}>
-      <LoadingModalTransparent loading={inbox.loading} />
-      <HStack px={4} py={4} space={2}>
-        <ButtonTwo
-          onPress={() => {}}
-          text="Unread"
-          badge={(
-            unread.replies +
-            unread.privateMessage +
-            unread.mentions
-          ).toString()}
+  const onUnreadPress = () => {};
+  const onAllPress = () => {};
+  const onRepliesPress = () => {};
+  const onMentionsPress = () => {};
+  const onMessagesPress = () => {};
+
+  const header = useMemo(
+    () => (
+      <>
+        <LoadingModalTransparent loading={inbox.loading} />
+        <InboxTabs
+          onUnreadPress={onUnreadPress}
+          onAllPress={onAllPress}
+          onRepliesPress={onRepliesPress}
+          onMentionsPress={onMentionsPress}
+          onMessagesPress={onMessagesPress}
+          topSelected="unread"
+          bottomSelected="replies"
         />
-        <ButtonTwo onPress={() => {}} text="All" />
-      </HStack>
-      <HStack px={4} py={2} space={2}>
-        <ButtonTwo
-          onPress={() => {}}
-          text="Replies"
-          badge={unread.replies.toString()}
-        />
-        <ButtonTwo
-          onPress={() => {}}
-          text="Mentions"
-          badge={unread.mentions.toString()}
-        />
-        <ButtonTwo
-          onPress={() => {}}
-          text="Messages"
-          badge={unread.privateMessage.toString()}
-        />
-      </HStack>
-      {inbox.selected === "replies" && (
-        <>
-          {(inbox.replies && inbox.replies.length === 0 && (
-            <Text>No replies found.</Text>
-          )) || (
-            <FlashList
-              renderItem={replyItem}
-              data={inbox.replies}
-              estimatedItemSize={100}
-              refreshControl={
-                <RefreshControl
-                  refreshing={inbox.refreshing}
-                  onRefresh={() => inbox.doLoad("replies", true)}
-                />
-              }
-            />
-          )}
-        </>
-      )}
-    </VStack>
+      </>
+    ),
+    []
+  );
+
+  const empty = useMemo(() => {
+    if (inbox.loading) {
+      return <LoadingView />;
+    }
+    if (!inbox.loading && inbox.error) {
+      return <LoadingErrorView onRetryPress={() => {}} />;
+    }
+    return <NoPostsView />;
+  }, []);
+
+  return useMemo(
+    () => (
+      <VStack flex={1} backgroundColor={theme.colors.app.bg}>
+        {inbox.selected === "replies" && (
+          <>
+            {(inbox.replies && inbox.replies.length === 0 && (
+              <Text>No replies found.</Text>
+            )) || (
+              <FlashList
+                renderItem={replyItem}
+                data={inbox.replies}
+                estimatedItemSize={100}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={inbox.refreshing}
+                    onRefresh={() => inbox.doLoad("replies", true)}
+                  />
+                }
+                ListHeaderComponent={header}
+                ListEmptyComponent={empty}
+              />
+            )}
+          </>
+        )}
+      </VStack>
+    ),
+    [inbox.replies, inbox.refreshing]
   );
 }
 

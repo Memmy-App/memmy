@@ -6,7 +6,7 @@ function ButtonGroup({ children }: { children: React.ReactNode }) {
 
   return (
     <HStack
-      backgroundColor={theme.colors.app.bg}
+      backgroundColor={theme.colors.app.bgSecondary}
       borderRadius={20}
       mx={4}
       mb={2}

@@ -84,7 +84,6 @@ const useInbox = (): UseInbox => {
     refresh: boolean = false,
     unread: boolean = true
   ) => {
-    setLoading(true);
     setRefreshing(refresh);
 
     switch (type) {
