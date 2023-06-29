@@ -99,6 +99,18 @@ function SettingsIndexScreen({
           />
         </Section>
 
+        <Section
+          header="FUNCTIONALITY"
+          roundedCorners
+          hideSurroundingSeparators
+        >
+          <CCell
+            title="Mark Post Read On..."
+            accessory="DisclosureIndicator"
+            onPress={() => navigation.push("ReadSettings")}
+          />
+        </Section>
+
         <Section header="Text Size" roundedCorners hideSurroundingSeparators>
           <CCell
             title="Use System Text Size"

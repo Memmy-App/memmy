@@ -22,6 +22,9 @@ export interface SettingsState {
   pushEnabled: string;
   compactThumbnailPosition: "Left" | "Right";
   compactShowVotingButtons: boolean;
+  markReadOnPostView: boolean;
+  markReadOnPostImageView: boolean;
+  markReadOnPostVote: boolean;
 }
 
 const initialState: SettingsState = {
@@ -41,6 +44,9 @@ const initialState: SettingsState = {
   fontSize: 2,
   haptics: "Medium",
   pushEnabled: "[]",
+  markReadOnPostView: true,
+  markReadOnPostImageView: true,
+  markReadOnPostVote: true,
 };
 
 const settingsSlice = createSlice({

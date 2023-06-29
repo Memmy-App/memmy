@@ -139,7 +139,12 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                   )}
                 </View>
 
-                <ContentView post={post} recycled={recycled} isPreview />
+                <ContentView
+                  post={post}
+                  recycled={recycled}
+                  isPreview
+                  setPostRead={feedItem.setPostRead}
+                />
 
                 <HStack mx={4} alignItems="center" mb={3} mt={1}>
                   <HStack flex={1} space={1}>
