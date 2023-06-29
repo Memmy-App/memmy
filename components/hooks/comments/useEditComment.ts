@@ -1,23 +1,28 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useState } from "react";
+import React, { SetStateAction, useState } from "react";
 import { Alert } from "react-native";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
-import { selectEditComment } from "../../../slices/comments/editCommentSlice";
-import { useAppSelector } from "../../../store";
 
-const useEditComment = () => {
-  const [content, setContent] = useState("");
+interface UseEditComment {
+  content: string;
+  loading: boolean;
+
+  setContent: React.Dispatch<SetStateAction<string>>;
+
+  doSubmit: () => Promise<void>;
+}
+
+const useEditComment = (
+  commentId: number,
+  initialContent: string,
+  languageId: number
+): UseEditComment => {
+  const [content, setContent] = useState(initialContent);
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
-  const {
-    commentId,
-    content: stateContent,
-    languageId,
-  } = useAppSelector(selectEditComment);
 
   const doSubmit = async () => {
     if (!content) {
@@ -29,7 +34,7 @@ const useEditComment = () => {
 
       await lemmyInstance.editComment({
         auth: lemmyAuthToken,
-        content: stateContent,
+        content,
         comment_id: commentId,
         language_id: languageId,
       });
@@ -51,8 +56,8 @@ const useEditComment = () => {
   };
 
   return {
-    content,
     loading,
+    content,
     doSubmit,
     setContent,
   };
