@@ -185,7 +185,7 @@ function ContentView({
         {renderContent()}
       </VStack>
     ),
-    [post.post.id, imageViewOpen]
+    [post.post.id, post.read, imageViewOpen]
   );
 }
 
