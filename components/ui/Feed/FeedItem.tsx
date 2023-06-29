@@ -14,7 +14,6 @@ import {
   IconClockHour5,
   IconMessage,
 } from "tabler-icons-react-native";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
 import { useAppDispatch } from "../../../store";
@@ -48,21 +47,17 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
     );
     navigation.push("NewComment");
   };
-  const onRightLeftTwo = () => {};
   const leftRightOneIcon = <IconArrowUp size={32} color="#fff" />;
   const leftRightTwoIcon = <IconArrowDown size={32} color="#fff" />;
   const rightLeftOneIcon = <IconMessage size={32} color="#fff" />;
-  const rightLeftTwoIcon = <IconMessage size={32} color="#fff" />;
 
   const swipeAnimation = useSwipeAnimation({
     onLeftRightOne,
     onLeftRightTwo,
     onRightLeftOne,
-    onRightLeftTwo,
     leftRightOneIcon,
     leftRightTwoIcon,
     rightLeftOneIcon,
-    rightLeftTwoIcon,
   });
 
   const isUpvoted = post.my_vote === 1;
@@ -184,7 +179,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
               icon={
                 <IconDots size={25} color={theme.colors.app.textSecondary} />
               }
-              iconBgColor={theme.colors.app.bgSecondary}
+              iconBgColor={theme.colors.app.bg}
               onPressHandler={() => {}}
             />
             <IconButtonWithText
@@ -194,7 +189,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                   color={theme.colors.app.textSecondary}
                 />
               }
-              iconBgColor={theme.colors.app.bgSecondary}
+              iconBgColor={theme.colors.app.bg}
               onPressHandler={() => {}}
             /> */}
                     <VoteButton

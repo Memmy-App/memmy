@@ -7,7 +7,7 @@ import {
   View,
   useTheme,
 } from "native-base";
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import { StyleSheet } from "react-native";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
@@ -63,6 +63,8 @@ function CommentItem({
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { unread } = useAppSelector(selectSite);
+
+  const initialVote = useRef(comment.myVote);
 
   if (!depth) {
     depth = comment.comment.comment.path.split(".").length;
@@ -208,7 +210,7 @@ function CommentItem({
                             upvotes={comment.comment.counts.upvotes}
                             downvotes={comment.comment.counts.downvotes}
                             myVote={comment.comment.my_vote as ILemmyVote}
-                            initialVote={comment.myVote}
+                            initialVote={initialVote.current}
                           />
                         </>
                       </AvatarUsername>

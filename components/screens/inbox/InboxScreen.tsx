@@ -3,15 +3,17 @@ import { Text, useTheme, VStack } from "native-base";
 import { FlashList } from "@shopify/flash-list";
 import { Button, RefreshControl } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { IconMailOpened, IconSettings } from "tabler-icons-react-native";
 import useInbox from "../../hooks/inbox/useInbox";
 import { useAppSelector } from "../../../store";
 import { selectSite } from "../../../slices/site/siteSlice";
+import CommentItem from "../../ui/comments/CommentItem";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
-import CommentItem from "../../ui/comments/CommentItem";
 import LoadingModalTransparent from "../../ui/Loading/LoadingModalTransparent";
 import InboxTabs from "./InboxTabs";
 import LoadingView from "../../ui/Loading/LoadingView";
+import HeaderIconButton from "../../ui/buttons/HeaderIconButton";
 
 function InboxScreen({
   navigation,
@@ -21,12 +23,13 @@ function InboxScreen({
   const theme = useTheme();
   const inbox = useInbox();
 
-  const { unread } = useAppSelector(selectSite);
-
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Button title="Mark All Read" onPress={inbox.doReadAll} />
+        <HeaderIconButton
+          icon={<IconMailOpened size={24} color={theme.colors.app.accent} />}
+          onPress={inbox.doReadAll}
+        />
       ),
     });
   }, []);
@@ -109,7 +112,7 @@ function InboxScreen({
         <Text fontStyle="italic">Nothing found in your inbox.</Text>
       </VStack>
     );
-  }, []);
+  }, [inbox.loading]);
 
   return useMemo(
     () => (

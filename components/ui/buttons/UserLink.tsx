@@ -13,7 +13,7 @@ function UserLink({
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <Link
-      screen="UserProfile"
+      screen="Profile"
       params={{
         fullUsername,
       }}

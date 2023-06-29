@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Share, useWindowDimensions } from "react-native";
-import { Modal, Text, useTheme, useToast, View } from "native-base";
+import { Modal, useToast, View } from "native-base";
 import Animated, {
   FadeIn,
   FadeOut,
@@ -9,14 +9,12 @@ import Animated, {
   useSharedValue,
   withDecay,
   withTiming,
-  ZoomIn,
-  ZoomOut,
 } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import FastImage from "react-native-fast-image";
 import ImageViewFooter from "./ImageViewFooter";
 import downloadAndSaveImage from "../../../helpers/ImageHelper";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
+import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 
 function ImageModal({
   source,
@@ -31,14 +29,8 @@ function ImageModal({
   isOpen: boolean;
   onRequestClose?: () => void;
 }) {
-  const theme = useTheme();
-  const toast = useToast();
   const onSave = () => {
-    toast.show({
-      title: "Image saved",
-      duration: 3000,
-    });
-
+    onGenericHapticFeedback();
     downloadAndSaveImage(source);
   };
   const onShare = () => {

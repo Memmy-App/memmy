@@ -27,16 +27,6 @@ function ImageButton({ src }: ImageButtonProps) {
     console.log("sup");
   };
 
-  const onShare = () => {
-    Share.share({
-      url: src,
-    });
-  };
-
-  const onSave = () => {
-    downloadAndSaveImage(src).then();
-  };
-
   return (
     <>
       <Pressable onPress={onPress}>

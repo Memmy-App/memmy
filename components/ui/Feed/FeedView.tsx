@@ -30,6 +30,7 @@ import { selectSettings } from "../../../slices/settings/settingsSlice";
 import NoPostsView from "./NoPostsView";
 import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
 import HeaderIconButton from "../buttons/HeaderIconButton";
+import { IconCalendarWeek } from "../customIcons";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -39,7 +40,7 @@ interface FeedViewProps {
 
 const SortIconType = {
   TopDay: <IconCalendar />,
-  TopWeek: <IconCalendar />,
+  TopWeek: <IconCalendarWeek />,
   Hot: <IconFlame />,
   Active: <IconBolt />,
   New: <IconClockHour4 />,

@@ -52,7 +52,7 @@ function BlockedCommunitiesScreen() {
   }
 
   return (
-    <ScrollView flex={1} backgroundColor={theme.colors.app.bgSecondary}>
+    <ScrollView flex={1} backgroundColor={theme.colors.app.bg}>
       <CTable>
         <CSection header="BLOCKED COMMUNITIES">
           {communityBlocks.length === 0 ? (

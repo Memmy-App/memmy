@@ -1,7 +1,8 @@
 import React from "react";
-import { HStack, Icon, IconButton } from "native-base";
+import { HStack, useTheme } from "native-base";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Ionicons } from "@expo/vector-icons";
+import { IconDeviceFloppy, IconShare2 } from "tabler-icons-react-native";
+import IconButtonWithText from "../common/IconButtonWithText";
 
 interface ImageViewFooterProps {
   onSave: () => void | Promise<void>;
@@ -9,6 +10,8 @@ interface ImageViewFooterProps {
 }
 
 function ImageViewFooter({ onSave, onShare }: ImageViewFooterProps) {
+  const theme = useTheme();
+
   return (
     <HStack
       flex={1}
@@ -18,15 +21,15 @@ function ImageViewFooter({ onSave, onShare }: ImageViewFooterProps) {
       alignItems="center"
       justifyContent="space-between"
     >
-      <IconButton
+      <IconButtonWithText
+        onPressHandler={onSave}
         icon={
-          <Icon as={Ionicons} name="save-outline" size={6} onPress={onSave} />
+          <IconDeviceFloppy size={38} color={theme.colors.app.textSecondary} />
         }
       />
-      <IconButton
-        icon={
-          <Icon as={Ionicons} name="share-outline" size={6} onPress={onShare} />
-        }
+      <IconButtonWithText
+        onPressHandler={onShare}
+        icon={<IconShare2 size={38} color={theme.colors.app.textSecondary} />}
       />
     </HStack>
   );

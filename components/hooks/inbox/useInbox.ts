@@ -41,7 +41,7 @@ const useInbox = (): UseInbox => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const [items, setItems] = useState<ILemmyComment[]>(null);
+  const [items, setItems] = useState<ILemmyComment[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const [topSelected, setTopSelected] = useState<"all" | "unread">("unread");
