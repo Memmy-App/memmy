@@ -13,6 +13,7 @@ import {
   IconArrowUp,
   IconClockHour5,
   IconMessage,
+  IconPin,
 } from "tabler-icons-react-native";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
@@ -111,7 +112,19 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <AvatarUsername creator={post.creator} />
+                <HStack>
+                  <AvatarUsername creator={post.creator} />
+                  {(post.post.featured_local ||
+                    post.post.featured_community) && (
+                    <HStack mx="2" alignItems="center">
+                      <IconPin
+                        size={16}
+                        color={theme.colors.app.accent}
+                        fill={theme.colors.app.accent}
+                      />
+                    </HStack>
+                  )}
+                </HStack>
 
                 <HStack alignItems="center" space={1}>
                   <IconClockHour5

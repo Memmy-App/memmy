@@ -1,7 +1,7 @@
 import { PostView } from "lemmy-js-client";
 import { HStack, Text, useTheme } from "native-base";
 import React, { useRef } from "react";
-import { IconMessage } from "tabler-icons-react-native";
+import { IconMessage, IconPin } from "tabler-icons-react-native";
 import { timeFromNowShort } from "../../../../helpers/TimeHelper";
 import { ILemmyVote } from "../../../../lemmy/types/ILemmyVote";
 import CommunityLink from "../../CommunityLink";
@@ -20,6 +20,13 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
   return (
     <>
       <HStack alignItems="center" space={2}>
+        {(post.post.featured_local || post.post.featured_community) && (
+          <IconPin
+            size={16}
+            color={colors.app.accent}
+            fill={colors.app.accent}
+          />
+        )}
         <AvatarUsername creator={post.creator} showAvatar={false} />
         <Text color={colors.app.textSecondary}>•</Text>
         <Text color={colors.app.textSecondary}>
