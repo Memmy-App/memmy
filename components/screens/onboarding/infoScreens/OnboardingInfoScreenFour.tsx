@@ -1,7 +1,7 @@
 import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button, HStack, Text, View, VStack } from "native-base";
-import { ImageBackground, StyleSheet } from "react-native";
+import { Dimensions, ImageBackground, StyleSheet } from "react-native";
 
 const background = require("../../../../assets/onboard-bg2.jpg");
 
@@ -17,7 +17,7 @@ function OnboardingInfoScreenFour({ navigation }: IProps) {
         style={styles.background}
         resizeMode="cover"
       >
-        <VStack px={6} pt={32} pb={20} space={4} flex={1}>
+        <VStack px={6} pt={12} pb={20} space={4} flex={1}>
           <Text
             fontSize="3xl"
             color="white"

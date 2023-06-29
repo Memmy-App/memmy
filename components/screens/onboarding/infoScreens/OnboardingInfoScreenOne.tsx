@@ -17,7 +17,7 @@ function OnboardingInfoScreenOne({ navigation }: IProps) {
         style={styles.background}
         resizeMode="cover"
       >
-        <VStack px={6} pt={32} pb={20} space={4} flex={1}>
+        <VStack px={6} pt={12} pb={20} space={4} flex={1}>
           <Text
             fontSize="6xl"
             color="white"

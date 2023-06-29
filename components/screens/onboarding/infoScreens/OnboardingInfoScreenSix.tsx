@@ -17,7 +17,7 @@ function OnboardingInfoScreenSix({ navigation }: IProps) {
         style={styles.background}
         resizeMode="cover"
       >
-        <VStack px={6} pt={32} pb={20} space={4} flex={1}>
+        <VStack px={6} pt={12} pb={20} space={4} flex={1}>
           <Text
             fontSize="3xl"
             color="white"
@@ -32,12 +32,11 @@ function OnboardingInfoScreenSix({ navigation }: IProps) {
             fontWeight="semibold"
             textAlign="left"
           >
-            Initially, this can feel complex.
+            This can feel complex.
             <Text color="lightBlue.500">
               {" "}
               But you have already used the Fediverse before.
             </Text>
-            .
           </Text>
 
           <Text
