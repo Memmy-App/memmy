@@ -23,6 +23,7 @@ import {
 } from "tabler-icons-react-native";
 import MTable from "../table/MTable";
 import MCell from "../table/MCell";
+import { getBaseUrl } from "../../../helpers/LinkHelper";
 
 interface IProps {
   route: any;
@@ -69,7 +70,11 @@ function InstanceScreen({ route, navigation }: IProps) {
           <Button
             size="lg"
             colorScheme="lightBlue"
-            onPress={() => navigation.push("CreateAccount")}
+            onPress={() =>
+              navigation.push("CreateAccount", {
+                server: getBaseUrl(site.actor_id),
+              })
+            }
             mt="auto"
             borderRadius="15"
             py={1.5}
@@ -86,7 +91,11 @@ function InstanceScreen({ route, navigation }: IProps) {
           <Button
             size="lg"
             colorScheme="lightBlue"
-            onPress={() => navigation.push("CreateAccount")}
+            onPress={() =>
+              navigation.push("AddAccount", {
+                server: getBaseUrl(site.actor_id),
+              })
+            }
             mt="auto"
             borderRadius="15"
             py={1.5}

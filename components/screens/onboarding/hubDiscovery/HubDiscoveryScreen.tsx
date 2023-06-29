@@ -51,7 +51,7 @@ function HubDiscoveryScreen({ navigation }: IProps) {
         <Button
           size="lg"
           colorScheme="lightBlue"
-          onPress={() => navigation.push("CreateAccount")}
+          onPress={() => navigation.push("AddAccount")}
           mt="auto"
           borderRadius="15"
           py={2.5}
