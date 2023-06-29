@@ -21,6 +21,14 @@ function EditCommentScreen({
     route.params.languageId
   );
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => headerLeft(),
+      headerRight: () => headerRight(),
+      title: "Edit Comment",
+    });
+  }, [editComment.content]);
+
   // State
   const [selection, setSelection] = useState({
     start: 0,
@@ -33,14 +41,6 @@ function EditCommentScreen({
   // Other hooks
   const theme = useTheme();
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => headerLeft(),
-      headerRight: () => headerRight(),
-      title: "Edit Comment",
-    });
-  }, []);
-
   const headerLeft = () => (
     <Button
       title="Cancel"
@@ -52,7 +52,7 @@ function EditCommentScreen({
   const headerRight = () => (
     <Button
       title="Submit"
-      onPress={editComment.doSubmit}
+      onPress={() => editComment.doSubmit()}
       disabled={editComment.loading}
       color={theme.colors.app.accent}
     />

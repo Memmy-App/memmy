@@ -19,7 +19,6 @@ import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 import { showToast } from "../../../slices/toast/toastSlice";
-import { editComment } from "../../../slices/comments/editCommentSlice";
 
 interface UseComment {
   onCommentPress: () => void;
