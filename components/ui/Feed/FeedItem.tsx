@@ -15,7 +15,7 @@ import {
   IconMessage,
 } from "tabler-icons-react-native";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
-import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
+import { setResponseTo } from "../../../slices/comments/newCommentSlice";
 import { useAppDispatch } from "../../../store";
 import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
 import useFeedItem from "../../hooks/feeds/useFeedItem";

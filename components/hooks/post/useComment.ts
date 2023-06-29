@@ -4,6 +4,8 @@ import React, { SetStateAction } from "react";
 import Clipboard from "@react-native-community/clipboard";
 import { CommentReplyView } from "lemmy-js-client";
 import { LayoutAnimation } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { selectSite, setUnread } from "../../../slices/site/siteSlice";
@@ -38,6 +40,7 @@ const useComment = ({
 }): UseComment => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { unread } = useAppSelector(selectSite);
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const dispatch = useAppDispatch();
 
@@ -76,39 +79,54 @@ const useComment = ({
   const onCommentLongPress = () => {
     onGenericHapticFeedback();
 
-    let options = ["Copy Text", "Copy Link"];
-
-    if (
+    const isOwnComment =
       getUserFullName(comment.comment.creator) ===
-      createUserFullName(currentAccount.username, currentAccount.instance)
-    ) {
-      if (!comment.comment.comment.deleted) options = [...options, "Delete"];
-    }
+        createUserFullName(currentAccount.username, currentAccount.instance) &&
+      !comment.comment.comment.deleted;
 
-    options.push("Cancel");
+    // const options = [
+    //   "Copy Text",
+    //   "Copy Link",
+    //   isOwnComment && "Edit Comment",
+    //   isOwnComment && "Delete Comment",
+    // ];
 
-    const cancelButtonIndex = options.length - 1;
+    // TODO: make this a set bc im too lazy to do it rn
+    const options = {
+      "Copy Text": "Copy Text",
+      "Copy Link": "Copy Link",
+      ...(isOwnComment && {
+        "Edit Comment": "Edit Comment",
+        "Delete Comment": "Delete Comment",
+      }),
+      Cancel: "Cancel",
+    };
+
+    const optionsArr = Object.values(options);
+    const cancelButtonIndex = optionsArr.indexOf(options.Cancel);
 
     showActionSheetWithOptions(
       {
-        options,
+        options: optionsArr,
         cancelButtonIndex,
         userInterfaceStyle: theme.config.initialColorMode,
       },
       async (index: number) => {
         onGenericHapticFeedback();
 
+        const option = optionsArr[index];
+
         if (index === cancelButtonIndex) return;
 
-        if (index === 0) {
+        if (option === options["Copy Text"]) {
           Clipboard.setString(comment.comment.comment.content);
         }
 
-        if (index === 1) {
+        if (option === options["Copy Link"]) {
           Clipboard.setString(comment.comment.comment.ap_id);
         }
 
-        if (index === 2) {
+        if (option === options["Delete Comment"]) {
           try {
             await lemmyInstance.deleteComment({
               auth: lemmyAuthToken,
@@ -154,6 +172,14 @@ const useComment = ({
               })
             );
           }
+        }
+
+        if (option === options["Edit Comment"]) {
+          navigation.push("EditComment", {
+            commentId: comment.comment.comment.id,
+            content: comment.comment.comment.content,
+            languageId: comment.comment.comment.language_id,
+          });
         }
       }
     );
