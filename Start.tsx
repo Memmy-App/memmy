@@ -71,15 +71,14 @@ function Start() {
       appState.current = nextAppState;
     });
 
+    // eslint-disable-next-line consistent-return
     return () => {
       subscription.remove();
     };
   }, [loaded]);
 
   const startInterval = () => {
-    console.log("starting an interval.");
     refreshInterval = setInterval(() => {
-      console.log("Looking for updates...");
       if (lemmyInstance && lemmyAuthToken) {
         dispatch(getUnreadCount());
       }
