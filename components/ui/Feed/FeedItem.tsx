@@ -112,7 +112,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <HStack>
+                <HStack space={2}>
                   <AvatarUsername creator={post.creator} />
                   <FeaturedIndicator post={post} />
                 </HStack>

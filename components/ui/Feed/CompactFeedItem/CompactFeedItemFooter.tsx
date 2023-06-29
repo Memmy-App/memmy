@@ -21,7 +21,7 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
   return (
     <>
       <HStack alignItems="center" space={2}>
-        <FeaturedIndicator post={post} isCompact />
+        <FeaturedIndicator post={post} />
         <AvatarUsername creator={post.creator} showAvatar={false} />
         <Text color={colors.app.textSecondary}>•</Text>
         <Text color={colors.app.textSecondary}>
