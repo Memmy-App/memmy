@@ -12,13 +12,13 @@ function FeaturedIndicator({ post }: IProps) {
 
   if (post.post.featured_local || post.post.featured_community) {
     return (
-      <HStack alignItems="center">
+      <HStack alignItems="center" mr={2}>
         <IconPin size={16} color={colors.app.accent} fill={colors.app.accent} />
       </HStack>
     );
   }
 
-  return null;
+  return false;
 }
 
 export default FeaturedIndicator;
