@@ -3,7 +3,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button, HStack, Text, useTheme, VStack } from "native-base";
 import { FlashList } from "@shopify/flash-list";
 import { GetSiteResponse } from "lemmy-js-client";
-import { IconDoorEnter } from "tabler-icons-react-native";
+import { IconDoorEnter, IconUser } from "tabler-icons-react-native";
 import useHubDiscovery from "../../../hooks/hubDiscovery/useHubDiscovery";
 import InstanceItem from "../../../ui/hubDiscovery/InstanceItem";
 
@@ -21,6 +21,15 @@ function HubDiscoveryScreen({ navigation }: IProps) {
 
   const header = () => (
     <VStack my={6} mx={6}>
+      <Text
+        fontSize="md"
+        color={theme.colors.app.textSecondary}
+        fontStyle="italic"
+        textAlign="center"
+        pb={2}
+      >
+        Already have a server?
+      </Text>
       <HStack space="4">
         <Button
           size="lg"
@@ -49,7 +58,7 @@ function HubDiscoveryScreen({ navigation }: IProps) {
           flexGrow={1}
         >
           <HStack space={2} alignItems="center">
-            <IconDoorEnter size={24} color="white" />
+            <IconUser size={24} color="white" />
 
             <Text fontWeight="semibold" fontSize="lg">
               Login
