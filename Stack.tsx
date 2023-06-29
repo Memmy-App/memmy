@@ -27,8 +27,6 @@ import EditAccountScreen from "./components/screens/settings/EditAccountScreen";
 import SettingsIndexScreen from "./components/screens/settings/SettingsIndexScreen";
 import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen";
 import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
-import BookmarksScreen from "./components/screens/userProfile/BookmarksScreen";
-import ProfileScreen from "./components/screens/userProfile/ProfileScreen";
 import SubscriptionsScreen from "./components/screens/userProfile/SubscriptionsScreen";
 import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
 import LoadingView from "./components/ui/Loading/LoadingView";
@@ -38,6 +36,8 @@ import {
 } from "./slices/accounts/accountsSlice";
 import { selectSite } from "./slices/site/siteSlice";
 import { useAppSelector } from "./store";
+import ThemeSelectionScreen from "./components/screens/settings/Appearance/ThemeSelectionScreen";
+import ViewerScreen from "./components/screens/ViewerScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -62,13 +62,7 @@ function FeedStackScreen() {
           name="Subscriptions"
           component={SubscriptionsScreen}
         />
-        <FeedStack.Screen
-          name="UserProfile"
-          component={ProfileScreen}
-          options={{
-            title: "Your Profile",
-          }}
-        />
+        <FeedStack.Screen name="Profile" component={UserProfileScreen} />
       </FeedStack.Group>
 
       <FeedStack.Group
@@ -126,13 +120,7 @@ function InboxStackScreen() {
           name="Subscriptions"
           component={SubscriptionsScreen}
         />
-        <InboxStack.Screen
-          name="UserProfile"
-          component={ProfileScreen}
-          options={{
-            title: "Your Profile",
-          }}
-        />
+        <InboxStack.Screen name="Profile" component={UserProfileScreen} />
       </InboxStack.Group>
 
       <InboxStack.Group
@@ -170,14 +158,7 @@ function ProfileStackScreen() {
       }}
     >
       <ProfileStack.Group>
-        <ProfileStack.Screen
-          name="UserProfile"
-          component={UserProfileScreen}
-          options={{
-            title: "Your Profile",
-          }}
-        />
-        <ProfileStack.Screen name="Bookmarks" component={BookmarksScreen} />
+        <ProfileStack.Screen name="Profile" component={UserProfileScreen} />
         <ProfileStack.Screen
           name="BlockedCommunities"
           component={BlockedCommunitiesScreen}
@@ -205,6 +186,20 @@ function ProfileStackScreen() {
             title: "Edit Account",
           }}
         />
+        <ProfileStack.Screen
+          name="Viewer"
+          component={ViewerScreen}
+          options={{
+            title: "View",
+          }}
+        />
+        <ProfileStack.Screen
+          name="ThemeSelection"
+          component={ThemeSelectionScreen}
+          options={{
+            title: "Theme",
+          }}
+        />
 
         <ProfileStack.Screen
           name="FeedScreen"
@@ -218,13 +213,6 @@ function ProfileStackScreen() {
         <ProfileStack.Screen
           name="Subscriptions"
           component={SubscriptionsScreen}
-        />
-        <ProfileStack.Screen
-          name="Profile"
-          component={ProfileScreen}
-          options={{
-            title: "Your Profile",
-          }}
         />
       </ProfileStack.Group>
 
@@ -283,13 +271,7 @@ function SearchStackScreen() {
           name="Subscriptions"
           component={SubscriptionsScreen}
         />
-        <SearchStack.Screen
-          name="UserProfile"
-          component={ProfileScreen}
-          options={{
-            title: "Your Profile",
-          }}
-        />
+        <SearchStack.Screen name="Profile" component={UserProfileScreen} />
       </SearchStack.Group>
 
       <SearchStack.Group
@@ -343,6 +325,20 @@ function CommunityStackScreen() {
           title: "Edit Account",
         }}
       />
+      <CommunityStack.Screen
+        name="ThemeSelection"
+        component={ThemeSelectionScreen}
+        options={{
+          title: "Theme",
+        }}
+      />
+      <CommunityStack.Screen
+        name="Viewer"
+        component={ViewerScreen}
+        options={{
+          title: "View",
+        }}
+      />
     </CommunityStack.Navigator>
   );
 }
@@ -366,6 +362,7 @@ function Tabs() {
           headerShown: false,
           tabBarIcon: ({ color }) => <IconNotes color={color} />,
           tabBarLabel: "Feed",
+          freezeOnBlur: true,
         }}
       />
       <Tab.Screen
@@ -379,15 +376,17 @@ function Tabs() {
             unread.replies + unread.mentions + unread.privateMessage > 0
               ? unread.replies + unread.mentions + unread.privateMessage
               : null,
+          freezeOnBlur: true,
         }}
       />
       <Tab.Screen
-        name="UserProfileStack"
+        name="ProfileStack"
         component={ProfileStackScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => <IconUserCircle color={color} />,
           tabBarLabel: "Profile",
+          freezeOnBlur: true,
         }}
       />
       <Tab.Screen
@@ -397,6 +396,7 @@ function Tabs() {
           headerShown: false,
           tabBarIcon: ({ color }) => <IconSearch color={color} />,
           tabBarLabel: "Search",
+          freezeOnBlur: true,
         }}
       />
       <Tab.Screen
@@ -424,8 +424,8 @@ function Stack() {
     colors: {
       ...DarkTheme.colors,
       primary: theme.colors.app.accent,
-      background: theme.colors.app.bgTertiary,
-      card: theme.colors.app.bgTertiary,
+      background: theme.colors.app.bg,
+      card: theme.colors.app.navBarBg,
       text: theme.colors.app.textSecondary,
       border: theme.colors.app.border,
     },

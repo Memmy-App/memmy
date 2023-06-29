@@ -79,7 +79,7 @@ export const openLink = (
     }
 
     if (link.includes("/u/")) {
-      navigation.push("UserProfile", {
+      navigation.push("Profile", {
         fullUsername: `${community}@${baseUrl}`,
       });
     } else {

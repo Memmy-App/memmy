@@ -6,6 +6,8 @@ import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Badge, Box, HStack, ScrollView, Text, useTheme } from "native-base";
 import { Section, TableView } from "react-native-tableview-simple";
+import * as WebBrowser from "expo-web-browser";
+import FastImage from "react-native-fast-image";
 import { deleteLog, sendLog } from "../../../helpers/LogHelper";
 import { selectAccounts } from "../../../slices/accounts/accountsSlice";
 import { setSetting } from "../../../slices/settings/settingsActions";
@@ -148,35 +150,13 @@ function SettingsIndexScreen({
 
         <Section header="APPEARANCE" roundedCorners hideSurroundingSeparators>
           <CCell
-            cellStyle="RightDetail"
-            title="Theme"
-            detail={settings.theme}
+            cellStyle="Basic"
+            title="Themes"
+            accessory="DisclosureIndicator"
+            onPress={() => navigation.push("ThemeSelection")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              const options = [...ThemeOptionsArr, "Cancel"];
-              const cancelButtonIndex = options.length - 1;
-
-              showActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex,
-                  userInterfaceStyle: theme.config.initialColorMode,
-                },
-                (index: number) => {
-                  if (index === cancelButtonIndex) return;
-
-                  dispatch(setSetting({ theme: options[index] }));
-
-                  Alert.alert(
-                    "Please Restart",
-                    "Some components may not re-render with the new theme. Please restart the app to get the full effect."
-                  );
-                }
-              );
-            }}
           />
           <CCell
             title="Swipe Gestures"
@@ -369,6 +349,34 @@ function SettingsIndexScreen({
             title="Version"
             detail={`${getVersion()} (${getBuildNumber()})`}
           />
+          <CCell
+            cellStyle="Basic"
+            title="License"
+            accessory="DisclosureIndicator"
+            onPress={() =>
+              navigation.push("Viewer", {
+                type: "license",
+              })
+            }
+          />
+          <CCell
+            cellStyle="Basic"
+            title="License Acknowledgements"
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              navigation.push("Viewer", {
+                type: "acknowledgements",
+              });
+            }}
+          />
+          <CCell
+            cellStyle="Basic"
+            title="Privacy Policy"
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              WebBrowser.openBrowserAsync("https://memmy.app/privacy.txt");
+            }}
+          />
         </Section>
 
         <CSection header="DEBUG">
@@ -407,6 +415,16 @@ function SettingsIndexScreen({
                 console.log(e.toString());
               }
             }}
+          />
+          <CCell
+            cellStyle="Basic"
+            title="Clear Cache"
+            accessory="DisclosureIndicator"
+            onPress={() =>
+              FastImage.clearDiskCache().then(
+                Alert.alert("Success", "Cache has been cleared.")
+              )
+            }
           />
         </CSection>
       </TableView>
