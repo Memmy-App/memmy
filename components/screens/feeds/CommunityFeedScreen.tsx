@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { HStack, Text, useTheme, VStack } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { HStack, Text, useTheme, VStack } from "native-base";
+import React, { useEffect } from "react";
 import FastImage from "react-native-fast-image";
 import {
   IconEye,
@@ -10,12 +10,12 @@ import {
   IconPlus,
   IconUserHeart,
 } from "tabler-icons-react-native";
-import FeedView from "../../ui/Feed/FeedView";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
-import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
-import CustomButton from "../../ui/buttons/CustomButton";
-import NotFoundView from "../../ui/Loading/NotFoundView";
 import useCommunityFeed from "../../hooks/feeds/useCommunityFeed";
+import CustomButton from "../../ui/buttons/CustomButton";
+import FeedView from "../../ui/Feed/FeedView";
+import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
+import NotFoundView from "../../ui/Loading/NotFoundView";
 
 function FeedsCommunityScreen({
   route,

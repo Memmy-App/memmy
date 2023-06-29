@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Share, useWindowDimensions } from "react-native";
-import { Modal, useToast, View } from "native-base";
+import { Modal, View } from "native-base";
 import Animated, {
   FadeIn,
   FadeOut,
