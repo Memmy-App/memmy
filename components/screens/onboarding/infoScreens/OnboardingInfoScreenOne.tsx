@@ -1,17 +1,15 @@
 import React from "react";
-import { ImageBackground, StyleSheet } from "react-native";
-import { Button, HStack, Text, useTheme, View, VStack } from "native-base";
-import FastImage from "react-native-fast-image";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import LinearGradient from "react-native-linear-gradient";
+import { Button, HStack, Text, View, VStack } from "native-base";
+import { ImageBackground, StyleSheet } from "react-native";
 
-const background = require("../../../assets/onboard-bg.jpg");
+const background = require("../../../../assets/onboard-bg2.jpg");
 
-function OnboardingScreen({
-  navigation,
-}: {
+interface IProps {
   navigation: NativeStackNavigationProp<any>;
-}) {
+}
+
+function OnboardingInfoScreenOne({ navigation }: IProps) {
   return (
     <VStack flex={1}>
       <ImageBackground
@@ -19,46 +17,26 @@ function OnboardingScreen({
         style={styles.background}
         resizeMode="cover"
       >
-        <VStack px={6} pt={32} pb={20} space={12} flex={1}>
+        <VStack px={6} pt={32} pb={20} space={4} flex={1}>
           <Text
             fontSize="6xl"
             color="white"
             fontWeight="semibold"
             textAlign="left"
           >
-            Hello 👋
+            First,
           </Text>
           <View>
             <Text
-              fontSize="5xl"
+              fontSize="3xl"
               color="white"
               fontWeight="semibold"
               textAlign="left"
             >
-              Welcome to
-            </Text>
-            <Text
-              fontSize="5xl"
-              color="white"
-              fontWeight="semibold"
-              textAlign="left"
-            >
-              Memmy
+              Do you already know about the Fediverse?
             </Text>
           </View>
-          <VStack marginTop="auto" space="4">
-            <Button
-              size="lg"
-              colorScheme="lightBlue"
-              onPress={() => navigation.push("OnboardingInfoOne")}
-              mt="auto"
-              borderRadius="20"
-              py={2.5}
-            >
-              <Text fontWeight="semibold" fontSize="lg">
-                Get Started
-              </Text>
-            </Button>
+          <HStack marginTop="auto" space="4">
             <Button
               size="lg"
               colorScheme="blueGray"
@@ -66,12 +44,26 @@ function OnboardingScreen({
               mt="auto"
               borderRadius="20"
               py={2.5}
+              width="50%"
             >
               <Text fontWeight="semibold" fontSize="lg">
-                I Have an Account
+                Yes
               </Text>
             </Button>
-          </VStack>
+            <Button
+              size="lg"
+              colorScheme="lightBlue"
+              onPress={() => navigation.push("OnboardingInfoTwo")}
+              mt="auto"
+              borderRadius="20"
+              py={2.5}
+              flexGrow={1}
+            >
+              <Text fontWeight="semibold" fontSize="lg">
+                No
+              </Text>
+            </Button>
+          </HStack>
         </VStack>
       </ImageBackground>
     </VStack>
@@ -92,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OnboardingScreen;
+export default OnboardingInfoScreenOne;

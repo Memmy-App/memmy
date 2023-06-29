@@ -38,6 +38,13 @@ import { selectSite } from "./slices/site/siteSlice";
 import { useAppSelector } from "./store";
 import ThemeSelectionScreen from "./components/screens/settings/Appearance/ThemeSelectionScreen";
 import ViewerScreen from "./components/screens/ViewerScreen";
+import OnboardingInfoScreenOne from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenOne";
+import OnboardingInfoScreenTwo from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenTwo";
+import OnboardingInfoScreenThree from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenThree";
+import OnboardingInfoScreenFour from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenFour";
+import OnboardingInfoScreenFive from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenFive";
+import OnboardingInfoScreenSix from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenSix";
+import OnboardingInfoScreenSeven from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenSeven";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -452,7 +459,42 @@ function Stack() {
               <MainStack.Screen
                 name="Onboarding"
                 component={OnboardingIndexScreen}
-                options={{ title: "Welcome" }}
+                options={{ title: "Welcome", headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoOne"
+                component={OnboardingInfoScreenOne}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoTwo"
+                component={OnboardingInfoScreenTwo}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoThree"
+                component={OnboardingInfoScreenThree}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoFour"
+                component={OnboardingInfoScreenFour}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoFive"
+                component={OnboardingInfoScreenFive}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoSix"
+                component={OnboardingInfoScreenSix}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoSeven"
+                component={OnboardingInfoScreenSeven}
+                options={{ headerShown: false }}
               />
               <MainStack.Screen
                 name="AddAccount"
