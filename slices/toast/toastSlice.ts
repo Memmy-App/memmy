@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 
-export type ToastVariant = "success" | "error" | "warn" | "info";
+type ToastVariant = "success" | "error" | "warn" | "info";
 
 interface ShowToast {
   message: string;
