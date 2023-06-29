@@ -23,7 +23,7 @@ export const editCommentSlice = createSlice({
   name: "editComment",
   initialState,
   reducers: {
-    editComment: (
+    setEditComment: (
       state: EditCommentState,
       action: PayloadAction<EditCommentAction>
     ) => {
@@ -32,11 +32,11 @@ export const editCommentSlice = createSlice({
       state.languageId = action.payload.languageId;
     },
 
-    // clearNewComment: () => initialState,
+    clearEditComment: () => initialState,
   },
 });
 
 export const selectEditComment = (state: RootState) => state.editComment;
 
-export const { editComment } = editCommentSlice.actions;
+export const { setEditComment } = editCommentSlice.actions;
 export default editCommentSlice.reducer;
