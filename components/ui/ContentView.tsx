@@ -66,11 +66,11 @@ interface ContentViewProps {
   post: PostView;
   recycled?: React.MutableRefObject<{}>;
   isPreview?: boolean;
+  setPostRead?: () => void;
 }
 
-function ContentView({ post, isPreview = false, recycled }: ContentViewProps) {
+function ContentView({ post, isPreview = false, recycled, setPostRead }: ContentViewProps) {
   const theme = useTheme();
-  const dispatch = useAppDispatch();
   const { blurNsfw } = useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
@@ -85,8 +85,9 @@ function ContentView({ post, isPreview = false, recycled }: ContentViewProps) {
       post_id: post.post.id,
       read: true,
     });
-    post.read = true;
-    dispatch(setPost(post));
+    if(setPostRead) {
+      setPostRead();
+    }
   };
 
   const onImageLongPress = () => {};

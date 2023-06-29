@@ -12,7 +12,6 @@ import { useAppSelector } from "../../../../store";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 
 import { lemmyAuthToken, lemmyInstance } from "../../../../lemmy/LemmyInstance";
-import { setPost } from "../../../../slices/post/postSlice";
 import { useAppDispatch } from "../../../../store";
 
 function CompactFeedItemThumbnail({
@@ -20,11 +19,13 @@ function CompactFeedItemThumbnail({
   linkInfo,
   setImageViewOpen,
   imageViewOpen,
+  setPostRead,
 }: {
   post: PostView;
   linkInfo: LinkInfo;
   setImageViewOpen: (open: boolean) => void;
   imageViewOpen: boolean;
+  setPostRead: () => void;
 }) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
@@ -38,8 +39,12 @@ function CompactFeedItemThumbnail({
       post_id: post.post.id,
       read: true,
     });
-    post.read = true;
-    dispatch(setPost(post));
+    // post.read = true;
+    // dispatch(setPost(post));
+    if(setPostRead) {
+      setPostRead();
+    }
+
   };
 
   const onImageLongPress = () => {};

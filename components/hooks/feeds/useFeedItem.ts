@@ -56,8 +56,8 @@ const useFeedItem = (
         post_id: post.post.id,
         read: true,
       });
-      post.read = true;
-      dispatch(setPost(post));
+      
+      setPostRead();
 
       await lemmyInstance.likePost({
         auth: lemmyAuthToken,
