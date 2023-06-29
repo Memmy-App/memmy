@@ -54,21 +54,23 @@ const useFeedItem = (
     );
 
     try {
-      lemmyInstance.markPostAsRead({
-        auth: lemmyAuthToken,
-        post_id: post.post.id,
-        read: true,
-      });
-
-      if (markReadOnPostVote) {
-        setPostRead();
-      }
-
       await lemmyInstance.likePost({
         auth: lemmyAuthToken,
         post_id: post.post.id,
         score: value,
       });
+
+      if (markReadOnPostVote) {
+        lemmyInstance
+          .markPostAsRead({
+            auth: lemmyAuthToken,
+            post_id: post.post.id,
+            read: true,
+          })
+          .then();
+
+        setPostRead();
+      }
     } catch (e) {
       writeToLog("Error submitting vote.");
       writeToLog(e.toString());
