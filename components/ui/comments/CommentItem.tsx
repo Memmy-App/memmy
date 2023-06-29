@@ -26,7 +26,7 @@ import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
-import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
+import { setResponseTo } from "../../../slices/comments/newCommentSlice";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";

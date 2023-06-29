@@ -10,7 +10,7 @@ import {
   IconShare2,
 } from "tabler-icons-react-native";
 import { shareLink } from "../../../helpers/ShareHelper";
-import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
+import { setResponseTo } from "../../../slices/comments/newCommentSlice";
 import { useAppDispatch } from "../../../store";
 import { UsePost } from "../../hooks/post/postHooks";
 import IconButtonWithText from "../../ui/common/IconButtonWithText";
