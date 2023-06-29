@@ -28,7 +28,7 @@ function CompactFeedItemThumbnail({
 }) {
   const theme = useTheme();
 
-  const { blurNsfw } = useAppSelector(selectSettings);
+  const { blurNsfw, markReadOnPostImageView } = useAppSelector(selectSettings);
 
   const onImagePress = () => {
     setImageViewOpen(true);
@@ -37,7 +37,7 @@ function CompactFeedItemThumbnail({
       post_id: post.post.id,
       read: true,
     });
-    if(setPostRead) {
+    if(setPostRead && markReadOnPostImageView) {
       setPostRead();
     }
 

@@ -69,7 +69,7 @@ interface ContentViewProps {
 
 function ContentView({ post, isPreview = false, recycled, setPostRead }: ContentViewProps) {
   const theme = useTheme();
-  const { blurNsfw } = useAppSelector(selectSettings);
+  const { blurNsfw, markReadOnPostImageView } = useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
 
@@ -83,7 +83,7 @@ function ContentView({ post, isPreview = false, recycled, setPostRead }: Content
       post_id: post.post.id,
       read: true,
     });
-    if(setPostRead) {
+    if(setPostRead && markReadOnPostImageView) {
       setPostRead();
     }
   };
