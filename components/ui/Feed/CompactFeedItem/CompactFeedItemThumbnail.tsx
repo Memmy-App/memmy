@@ -12,7 +12,6 @@ import { useAppSelector } from "../../../../store";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 
 import { lemmyAuthToken, lemmyInstance } from "../../../../lemmy/LemmyInstance";
-import { useAppDispatch } from "../../../../store";
 
 function CompactFeedItemThumbnail({
   post,
@@ -28,7 +27,6 @@ function CompactFeedItemThumbnail({
   setPostRead: () => void;
 }) {
   const theme = useTheme();
-  const dispatch = useAppDispatch();
 
   const { blurNsfw } = useAppSelector(selectSettings);
 
@@ -39,8 +37,6 @@ function CompactFeedItemThumbnail({
       post_id: post.post.id,
       read: true,
     });
-    // post.read = true;
-    // dispatch(setPost(post));
     if(setPostRead) {
       setPostRead();
     }

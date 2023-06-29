@@ -25,14 +25,40 @@ function ReadSettingsScreen() {
         <CSection header="MARK READ SETTINGS">
           <CCell
             cellStyle="RightDetail"
-            title="Some Setting"
+            title="Mark Read on Post Open"
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
             cellAccessoryView={
               <Switch
-                value={settings.compactShowVotingButtons}
-                onValueChange={(v) => onChange("someSetting", v)}
+                value={settings.markReadOnPostView}
+                onValueChange={(v) => onChange("markReadOnPostView", v)}
+              />
+            }
+          />
+          <CCell
+            cellStyle="RightDetail"
+            title="Mark Read on Image View"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.markReadOnPostImageView}
+                onValueChange={(v) => onChange("markReadOnPostImageView", v)}
+              />
+            }
+          />
+          <CCell
+            cellStyle="RightDetail"
+            title="Mark Read on Vote"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.markReadOnPostVote}
+                onValueChange={(v) => onChange("markReadOnPostVote", v)}
               />
             }
           />

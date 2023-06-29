@@ -14,8 +14,6 @@ import MemoizedFastImage from "./image/MemoizedFastImage";
 import RenderMarkdown from "./markdown/RenderMarkdown";
 
 import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
-import { setPost } from "../../slices/post/postSlice";
-import { useAppDispatch } from "../../store";
 
 function Content({
   postTitle,
