@@ -3,14 +3,13 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { SetStateAction, useMemo, useState } from "react";
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
-import { useAppDispatch } from "../../../store";
+import { useAppDispatch, useAppSelector } from "../../../store";
 import { setUpdateVote } from "../../../slices/feed/feedSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { setPost } from "../../../slices/post/postSlice";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 import { getLinkInfo, LinkInfo } from "../../../helpers/LinkHelper";
-import { useAppSelector } from "../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { showToast } from "../../../slices/toast/toastSlice";
 
@@ -36,7 +35,8 @@ const useFeedItem = (
 
   const linkInfo = useMemo(() => getLinkInfo(post.post.url), [post]);
 
-  const { markReadOnPostVote, markReadOnPostView } = useAppSelector(selectSettings);
+  const { markReadOnPostVote, markReadOnPostView } =
+    useAppSelector(selectSettings);
 
   const onVotePress = async (value: ILemmyVote, haptic = true) => {
     if (haptic) onVoteHapticFeedback();
@@ -59,8 +59,8 @@ const useFeedItem = (
         post_id: post.post.id,
         read: true,
       });
-      
-      if( markReadOnPostVote ) {
+
+      if (markReadOnPostVote) {
         setPostRead();
       }
 
@@ -99,7 +99,7 @@ const useFeedItem = (
         read: true,
       });
 
-      if( markReadOnPostView ) {
+      if (markReadOnPostView) {
         setPostRead();
       }
     }
