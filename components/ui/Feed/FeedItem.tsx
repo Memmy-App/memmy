@@ -13,7 +13,6 @@ import {
   IconArrowUp,
   IconClockHour5,
   IconMessage,
-  IconPin,
 } from "tabler-icons-react-native";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
@@ -24,6 +23,7 @@ import AvatarUsername from "../common/AvatarUsername";
 import VoteButton from "../common/VoteButton";
 import CommunityLink from "../CommunityLink";
 import ContentView from "../ContentView";
+import FeaturedIndicator from "../common/FeaturedIndicator";
 
 interface FeedItemProps {
   post: PostView;
@@ -114,16 +114,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
               >
                 <HStack>
                   <AvatarUsername creator={post.creator} />
-                  {(post.post.featured_local ||
-                    post.post.featured_community) && (
-                    <HStack mx="2" alignItems="center">
-                      <IconPin
-                        size={16}
-                        color={theme.colors.app.accent}
-                        fill={theme.colors.app.accent}
-                      />
-                    </HStack>
-                  )}
+                  <FeaturedIndicator post={post} />
                 </HStack>
 
                 <HStack alignItems="center" space={1}>
