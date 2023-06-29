@@ -1,9 +1,11 @@
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { useTheme, useToast } from "native-base";
+import { useTheme } from "native-base";
 import React, { SetStateAction } from "react";
 import Clipboard from "@react-native-community/clipboard";
 import { CommentReplyView } from "lemmy-js-client";
 import { LayoutAnimation } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { selectSite, setUnread } from "../../../slices/site/siteSlice";
@@ -16,6 +18,7 @@ import {
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
+import { showToast } from "../../../slices/toast/toastSlice";
 
 interface UseComment {
   onCommentPress: () => void;
@@ -37,11 +40,11 @@ const useComment = ({
 }): UseComment => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { unread } = useAppSelector(selectSite);
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const dispatch = useAppDispatch();
 
   const { showActionSheetWithOptions } = useActionSheet();
-  const toast = useToast();
   const theme = useTheme();
 
   const onCommentPress = () => {
@@ -76,39 +79,54 @@ const useComment = ({
   const onCommentLongPress = () => {
     onGenericHapticFeedback();
 
-    let options = ["Copy Text", "Copy Link"];
-
-    if (
+    const isOwnComment =
       getUserFullName(comment.comment.creator) ===
-      createUserFullName(currentAccount.username, currentAccount.instance)
-    ) {
-      if (!comment.comment.comment.deleted) options = [...options, "Delete"];
-    }
+        createUserFullName(currentAccount.username, currentAccount.instance) &&
+      !comment.comment.comment.deleted;
 
-    options.push("Cancel");
+    // const options = [
+    //   "Copy Text",
+    //   "Copy Link",
+    //   isOwnComment && "Edit Comment",
+    //   isOwnComment && "Delete Comment",
+    // ];
 
-    const cancelButtonIndex = options.length - 1;
+    // TODO: make this a set bc im too lazy to do it rn
+    const options = {
+      "Copy Text": "Copy Text",
+      "Copy Link": "Copy Link",
+      ...(isOwnComment && {
+        "Edit Comment": "Edit Comment",
+        "Delete Comment": "Delete Comment",
+      }),
+      Cancel: "Cancel",
+    };
+
+    const optionsArr = Object.values(options);
+    const cancelButtonIndex = optionsArr.indexOf(options.Cancel);
 
     showActionSheetWithOptions(
       {
-        options,
+        options: optionsArr,
         cancelButtonIndex,
         userInterfaceStyle: theme.config.initialColorMode,
       },
       async (index: number) => {
         onGenericHapticFeedback();
 
+        const option = optionsArr[index];
+
         if (index === cancelButtonIndex) return;
 
-        if (index === 0) {
+        if (option === options["Copy Text"]) {
           Clipboard.setString(comment.comment.comment.content);
         }
 
-        if (index === 1) {
+        if (option === options["Copy Link"]) {
           Clipboard.setString(comment.comment.comment.ap_id);
         }
 
-        if (index === 2) {
+        if (option === options["Delete Comment"]) {
           try {
             await lemmyInstance.deleteComment({
               auth: lemmyAuthToken,
@@ -116,10 +134,13 @@ const useComment = ({
               deleted: true,
             });
 
-            toast.show({
-              title: "Comment deleted",
-              duration: 3000,
-            });
+            dispatch(
+              showToast({
+                message: "Comment deleted",
+                duration: 3000,
+                variant: "info",
+              })
+            );
 
             setComments((prev) =>
               prev.map((c) => {
@@ -143,11 +164,22 @@ const useComment = ({
             writeToLog("Failed to delete comment.");
             writeToLog(e.toString());
 
-            toast.show({
-              title: "Failed to delete comment",
-              duration: 3000,
-            });
+            dispatch(
+              showToast({
+                message: "Error deleting comment",
+                duration: 3000,
+                variant: "error",
+              })
+            );
           }
+        }
+
+        if (option === options["Edit Comment"]) {
+          navigation.push("EditComment", {
+            commentId: comment.comment.comment.id,
+            content: comment.comment.comment.content,
+            languageId: comment.comment.comment.language_id,
+          });
         }
       }
     );
@@ -210,10 +242,13 @@ const useComment = ({
       writeToLog("Error submitting vote.");
       writeToLog(e.toString());
 
-      toast.show({
-        title: "Error submitting vote...",
-        duration: 3000,
-      });
+      dispatch(
+        showToast({
+          message: "Error submitting vote...",
+          duration: 3000,
+          variant: "error",
+        })
+      );
 
       setComments((prev) =>
         prev.map((c) => {

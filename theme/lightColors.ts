@@ -20,17 +20,13 @@ export const lightThemeColors: IColors = {
   downvoteText: "#FFF",
 
   success: "#48C10F",
-  successBg: "#D7F8DA",
-  successBorder: "#2B8302",
+  successText: "#fff",
   error: "#F8372B",
-  errorBg: "#FFC6C2",
-  errorBorder: "#A62525",
+  errorText: "#fff",
   warn: "#DEA435",
-  warnBg: "#FFEDD9",
-  warnBorder: "#CB6A11",
+  warnText: "#fff",
   info: "#3398f2",
-  infoBg: "#CAE6FF",
-  infoBorder: "#316677",
+  infoText: "#fff",
 
   users: {
     mod: "#54CB60",

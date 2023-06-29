@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Alert } from "react-native";
 import { useAppSelector } from "../../../store";
-import { selectNewComment } from "../../../slices/newComment/newCommentSlice";
+import { selectNewComment } from "../../../slices/comments/newCommentSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { setPostNewComment } from "../../../slices/post/postSlice";
 import { writeToLog } from "../../../helpers/LogHelper";

@@ -1,55 +1,79 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { Button, HStack, Text, useTheme, VStack } from "native-base";
+import { ImageBackground, StyleSheet } from "react-native";
+import { Button, HStack, Text, useTheme, View, VStack } from "native-base";
 import FastImage from "react-native-fast-image";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import LinearGradient from "react-native-linear-gradient";
+
+const background = require("../../../assets/onboard-bg.jpg");
 
 function OnboardingScreen({
   navigation,
 }: {
   navigation: NativeStackNavigationProp<any>;
 }) {
-  const theme = useTheme();
-
   return (
-    <VStack
-      flex={1}
-      backgroundColor={theme.colors.app.bg}
-      justifyContent="space-between"
-      alignItems="center"
-      space="md"
-      px={5}
-    >
-      <VStack space={2} justifyContent="center" alignItems="center">
-        <FastImage
-          source={require("../../../assets/splash.png")}
-          style={styles.image}
-        />
-        <Text fontSize={24} fontWeight="bold">
-          Welcome to Lemmy!
-        </Text>
-        <Text fontSize={18} textAlign="center" opacity={0.6}>
-          New to Lemmy? We&apos;ll help you find an instance and create an
-          account.
-        </Text>
-      </VStack>
-      <VStack mb={10} space="md" w="full">
-        <Button
-          size="lg"
-          colorScheme="blue"
-          onPress={() => navigation.push("CreateAccount")}
-        >
-          Get Started
-        </Button>
-        <Button
-          size="lg"
-          colorScheme="blue"
-          variant="ghost"
-          onPress={() => navigation.push("AddAccount")}
-        >
-          I Already Have an Account
-        </Button>
-      </VStack>
+    <VStack flex={1}>
+      <ImageBackground
+        source={background}
+        style={styles.background}
+        resizeMode="cover"
+      >
+        <VStack px={6} pt={32} pb={20} space={12} flex={1}>
+          <Text
+            fontSize="6xl"
+            color="white"
+            fontWeight="semibold"
+            textAlign="left"
+          >
+            Hello 👋
+          </Text>
+          <View>
+            <Text
+              fontSize="5xl"
+              color="white"
+              fontWeight="semibold"
+              textAlign="left"
+            >
+              Welcome to
+            </Text>
+            <Text
+              fontSize="5xl"
+              color="white"
+              fontWeight="semibold"
+              textAlign="left"
+            >
+              Memmy
+            </Text>
+          </View>
+          <VStack marginTop="auto" space="4">
+            <Button
+              size="lg"
+              colorScheme="lightBlue"
+              onPress={() => navigation.push("OnboardingInfoOne")}
+              mt="auto"
+              borderRadius="20"
+              py={2.5}
+            >
+              <Text fontWeight="semibold" fontSize="lg">
+                Get Started
+              </Text>
+            </Button>
+            <Button
+              size="lg"
+              colorScheme="blueGray"
+              onPress={() => navigation.push("HubDiscovery")}
+              mt="auto"
+              borderRadius="20"
+              py={2.5}
+            >
+              <Text fontWeight="semibold" fontSize="lg">
+                I Have an Account
+              </Text>
+            </Button>
+          </VStack>
+        </VStack>
+      </ImageBackground>
     </VStack>
   );
 }
@@ -57,6 +81,10 @@ function OnboardingScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  background: {
+    flex: 1,
+    width: "100%",
   },
   image: {
     width: 200,

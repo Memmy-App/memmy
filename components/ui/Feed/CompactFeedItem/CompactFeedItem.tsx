@@ -14,7 +14,7 @@ import Animated from "react-native-reanimated";
 import useFeedItem from "../../../hooks/feeds/useFeedItem";
 import { ILemmyVote } from "../../../../lemmy/types/ILemmyVote";
 import useSwipeAnimation from "../../../hooks/animations/useSwipeAnimation";
-import { setResponseTo } from "../../../../slices/newComment/newCommentSlice";
+import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import CompactFeedItemThumbnail from "./CompactFeedItemThumbnail";
 import CompactFeedItemVote from "./CompactFeedItemVote";
@@ -111,6 +111,7 @@ function CompactFeedItem({
                     setImageViewOpen={setImageViewOpen}
                     imageViewOpen={imageViewOpen}
                     linkInfo={feedItem.linkInfo}
+                    setPostRead={feedItem.setPostRead}
                   />
                 )}
 
@@ -137,6 +138,7 @@ function CompactFeedItem({
                       setImageViewOpen={setImageViewOpen}
                       imageViewOpen={imageViewOpen}
                       linkInfo={feedItem.linkInfo}
+                      setPostRead={feedItem.setPostRead}
                     />
                   </VStack>
                 )}

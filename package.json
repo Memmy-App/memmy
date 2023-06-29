@@ -69,6 +69,7 @@
     "react-native-haptic-feedback": "^2.0.3",
     "react-native-ionicons": "^4.6.5",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-linear-gradient": "^2.7.3",
     "react-native-pager-view": "6.1.2",
     "react-native-reanimated": "~2.14.4",
     "react-native-render-html": "^6.3.4",
