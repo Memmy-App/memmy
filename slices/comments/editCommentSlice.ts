@@ -29,5 +29,5 @@ export const editCommentSlice = createSlice({
 
 export const selectEditComment = (state: RootState) => state.editComment;
 
-export const { setEditComment } = editCommentSlice.actions;
+export const { setEditComment, clearEditComment } = editCommentSlice.actions;
 export default editCommentSlice.reducer;
