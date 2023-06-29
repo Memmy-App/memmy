@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Text, useTheme, useToast, VStack } from "native-base";
+import { Button, Text, useTheme, VStack } from "native-base";
 import { Alert } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import CTextInput from "../../ui/CTextInput";
@@ -14,6 +14,7 @@ import { useAppDispatch } from "../../../store";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { addAccount } from "../../../slices/accounts/accountsActions";
 import { writeToLog } from "../../../helpers/LogHelper";
+import { showToast } from "../../../slices/toast/toastSlice";
 
 function AddAccountScreen() {
   const [form, setForm] = useState<ILemmyServer>({
@@ -26,7 +27,6 @@ function AddAccountScreen() {
   const [loading, setLoading] = useState(false);
   const [showTotpToken, setShowTotpToken] = useState(false);
 
-  const toast = useToast();
   const theme = useTheme();
   const dispatch = useAppDispatch();
 
@@ -39,10 +39,14 @@ function AddAccountScreen() {
 
   const doLogin = async () => {
     if (!form.server || !form.username || !form.password) {
-      toast.show({
-        description: "All fields are required.",
-        duration: 3000,
-      });
+      dispatch(
+        showToast({
+          message: "All fields are required",
+          duration: 3000,
+          variant: "warn",
+        })
+      );
+
       return;
     }
 

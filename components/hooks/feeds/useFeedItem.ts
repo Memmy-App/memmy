@@ -1,7 +1,6 @@
 import { PostView } from "lemmy-js-client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useToast } from "native-base";
 import React, { SetStateAction, useMemo, useState } from "react";
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { useAppDispatch } from "../../../store";
@@ -13,6 +12,7 @@ import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 import { getLinkInfo, LinkInfo } from "../../../helpers/LinkHelper";
 import { useAppSelector } from "../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
+import { showToast } from "../../../slices/toast/toastSlice";
 
 interface UseFeedItem {
   myVote: ILemmyVote;
@@ -32,7 +32,6 @@ const useFeedItem = (
 ): UseFeedItem => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
-  const toast = useToast();
   const [myVote, setMyVote] = useState<ILemmyVote>(post.my_vote as ILemmyVote);
 
   const linkInfo = useMemo(() => getLinkInfo(post.post.url), [post]);
@@ -74,10 +73,13 @@ const useFeedItem = (
       writeToLog("Error submitting vote.");
       writeToLog(e.toString());
 
-      toast.show({
-        title: "Error submitting vote...",
-        duration: 3000,
-      });
+      dispatch(
+        showToast({
+          message: "Error submitting vote",
+          duration: 3000,
+          variant: "error",
+        })
+      );
 
       setMyVote(oldValue);
       dispatch(

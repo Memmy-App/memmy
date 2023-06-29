@@ -81,17 +81,13 @@ export interface IColors {
   downvoteText: string; // icon color for when downvote button is selected
 
   success: string;
-  successBg: string;
-  successBorder: string;
+  successText: string;
   error: string;
-  errorBg: string;
-  errorBorder: string;
+  errorText: string;
   warn: string;
-  warnBg: string;
-  warnBorder: string;
+  warnText: string;
   info: string;
-  infoBg: string;
-  infoBorder: string;
+  infoText: string;
 
   users: IUserColors;
   comments: ICommentChainColors;

@@ -1,22 +1,21 @@
-import React from "react";
-import { Alert, LayoutAnimation, StyleSheet, Switch } from "react-native";
-import { getBuildNumber, getVersion } from "react-native-device-info";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Badge, Box, HStack, ScrollView, Text, useTheme } from "native-base";
-import { Section, TableView } from "react-native-tableview-simple";
 import * as WebBrowser from "expo-web-browser";
+import { Badge, Box, HStack, ScrollView, Text, useTheme } from "native-base";
+import React from "react";
+import { Alert, LayoutAnimation, StyleSheet, Switch } from "react-native";
+import { getBuildNumber, getVersion } from "react-native-device-info";
 import FastImage from "react-native-fast-image";
+import { Section, TableView } from "react-native-tableview-simple";
 import { deleteLog, sendLog } from "../../../helpers/LogHelper";
 import { selectAccounts } from "../../../slices/accounts/accountsSlice";
 import { setSetting } from "../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../store";
-import { ThemeOptionsArr } from "../../../theme/themeOptions";
+import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
 import CCell from "../../ui/table/CCell";
 import CSection from "../../ui/table/CSection";
-import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
 
 function SettingsIndexScreen({
   navigation,
