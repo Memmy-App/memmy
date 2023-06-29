@@ -111,6 +111,7 @@ function CompactFeedItem({
                     setImageViewOpen={setImageViewOpen}
                     imageViewOpen={imageViewOpen}
                     linkInfo={feedItem.linkInfo}
+                    setPostRead={feedItem.setPostRead}
                   />
                 )}
 
@@ -137,6 +138,7 @@ function CompactFeedItem({
                       setImageViewOpen={setImageViewOpen}
                       imageViewOpen={imageViewOpen}
                       linkInfo={feedItem.linkInfo}
+                      setPostRead={feedItem.setPostRead}
                     />
                   </VStack>
                 )}

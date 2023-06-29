@@ -23,6 +23,7 @@ import AvatarUsername from "../common/AvatarUsername";
 import VoteButton from "../common/VoteButton";
 import CommunityLink from "../CommunityLink";
 import ContentView from "../ContentView";
+import FeaturedIndicator from "../common/FeaturedIndicator";
 
 interface FeedItemProps {
   post: PostView;
@@ -111,7 +112,10 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <AvatarUsername creator={post.creator} />
+                <HStack space={2}>
+                  <AvatarUsername creator={post.creator} />
+                  <FeaturedIndicator post={post} />
+                </HStack>
 
                 <HStack alignItems="center" space={1}>
                   <IconClockHour5
@@ -135,7 +139,12 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                   )}
                 </View>
 
-                <ContentView post={post} recycled={recycled} isPreview />
+                <ContentView
+                  post={post}
+                  recycled={recycled}
+                  isPreview
+                  setPostRead={feedItem.setPostRead}
+                />
 
                 <HStack mx={4} alignItems="center" mb={3} mt={1}>
                   <HStack flex={1} space={1}>

@@ -99,9 +99,21 @@ function SettingsIndexScreen({
           />
         </Section>
 
-        <Section header="Text Size" roundedCorners hideSurroundingSeparators>
+        <Section
+          header="FUNCTIONALITY"
+          roundedCorners
+          hideSurroundingSeparators
+        >
           <CCell
-            title="Use System Text Size"
+            title="Mark Post Read On..."
+            accessory="DisclosureIndicator"
+            onPress={() => navigation.push("ReadSettings")}
+          />
+        </Section>
+
+        <Section header="FONT SIZE" roundedCorners hideSurroundingSeparators>
+          <CCell
+            title="Use System Font Size"
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -157,15 +169,31 @@ function SettingsIndexScreen({
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
+          {/* <CCell */}
+          {/*  title="Swipe Gestures" */}
+          {/*  backgroundColor={theme.colors.app.fg} */}
+          {/*  titleTextColor={theme.colors.app.textPrimary} */}
+          {/*  rightDetailColor={theme.colors.app.textSecondary} */}
+          {/*  cellAccessoryView={ */}
+          {/*    <Switch */}
+          {/*      value={settings.swipeGestures} */}
+          {/*      onValueChange={(v) => onChange("swipeGestures", v)} */}
+          {/*    /> */}
+          {/*  } */}
+          {/* /> */}
           <CCell
-            title="Swipe Gestures"
+            cellStyle="Basic"
+            title="Images Ignore Screen Height"
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
             cellAccessoryView={
               <Switch
-                value={settings.swipeGestures}
-                onValueChange={(v) => onChange("swipeGestures", v)}
+                value={settings.ignoreScreenHeightInFeed}
+                onValueChange={(v) => {
+                  LayoutAnimation.easeInEaseOut();
+                  onChange("ignoreScreenHeightInFeed", v);
+                }}
               />
             }
           />
@@ -342,6 +370,40 @@ function SettingsIndexScreen({
           />
         </Section>
 
+        <Section
+          header="NSFW CONTENT"
+          footer="This toggle does not affect your Lemmy account NSFW settings. This local setting will apply only to the app and will apply to all accounts."
+          roundedCorners
+          hideSurroundingSeparators
+        >
+          <CCell
+            cellStyle="RightDetail"
+            title="Blur NSFW"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.blurNsfw}
+                onValueChange={(v) => onChange("blurNsfw", v)}
+              />
+            }
+          />
+          <CCell
+            cellStyle="RightDetail"
+            title="Hide NSFW"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.hideNsfw}
+                onValueChange={(v) => onChange("hideNsfw", v)}
+              />
+            }
+          />
+        </Section>
+
         <Section header="ABOUT" roundedCorners hideSurroundingSeparators>
           <CCell
             cellStyle="RightDetail"
@@ -378,7 +440,7 @@ function SettingsIndexScreen({
           />
         </Section>
 
-        <CSection header="DEBUG">
+        <Section header="DEBUG" roundedCorners hideSurroundingSeparators>
           <CCell
             cellStyle="Basic"
             title="Email Debug Log"
@@ -425,7 +487,7 @@ function SettingsIndexScreen({
               )
             }
           />
-        </CSection>
+        </Section>
       </TableView>
     </ScrollView>
   );

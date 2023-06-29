@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { Alert, Image } from "react-native";
 import { Button, Text, useTheme, VStack } from "native-base";
-import { Alert } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import CTextInput from "../../ui/CTextInput";
 import ILemmyServer from "../../../lemmy/types/ILemmyServer";
@@ -15,6 +15,8 @@ import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { addAccount } from "../../../slices/accounts/accountsActions";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { showToast } from "../../../slices/toast/toastSlice";
+
+const header = require("../../../assets/header.jpg");
 
 function AddAccountScreen() {
   const [form, setForm] = useState<ILemmyServer>({
@@ -103,55 +105,73 @@ function AddAccountScreen() {
     <KeyboardAwareScrollView style={{ backgroundColor: theme.colors.app.bg }}>
       <LoadingModal loading={loading} />
 
-      <VStack pt={10} mb={5} space="md" justifyContent="center">
-        <Text fontSize={32} textAlign="center">
-          Existing Account
-        </Text>
-        <CTextInput
-          name="server"
-          value={form.server}
-          placeholder="Server"
-          label="Server"
-          onChange={onFormChange}
-          autoCapitalize="none"
-          autoCorrect={false}
-          autoFocus
-        />
-        <CTextInput
-          name="username"
-          value={form.username}
-          placeholder="Username"
-          label="Username"
-          onChange={onFormChange}
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-        <CTextInput
-          name="password"
-          value={form.password}
-          placeholder="Password"
-          label="Password"
-          onChange={onFormChange}
-          autoCapitalize="none"
-          autoCorrect={false}
-          secure
-        />
-        {showTotpToken && (
+      <VStack flex={1} mb={5} space="md" justifyContent="center">
+        <VStack mx={3}>
+          <Image
+            source={header}
+            style={{
+              height: 175,
+              borderBottomWidth: 1,
+              borderColor: "white",
+              marginBottom: 10,
+            }}
+            resizeMode="cover"
+          />
           <CTextInput
-            name="totpToken"
-            value={form.totpToken}
-            placeholder="2FA Token"
-            label="2FA Token"
+            name="server"
+            value={form.server}
+            placeholder="Server"
+            label="Server"
             onChange={onFormChange}
             autoCapitalize="none"
             autoCorrect={false}
-            autoFocus={showTotpToken}
+            autoFocus
+          />
+          <CTextInput
+            name="username"
+            value={form.username}
+            placeholder="Username"
+            label="Username"
+            onChange={onFormChange}
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+          <CTextInput
+            name="password"
+            value={form.password}
+            placeholder="Password"
+            label="Password"
+            onChange={onFormChange}
+            autoCapitalize="none"
+            autoCorrect={false}
             secure
           />
-        )}
-        <Button mx={2} disabled={loading} onPress={onPress}>
-          Add Account
-        </Button>
+          {showTotpToken && (
+            <CTextInput
+              name="totpToken"
+              value={form.totpToken}
+              placeholder="2FA Token"
+              label="2FA Token"
+              onChange={onFormChange}
+              autoCapitalize="none"
+              autoCorrect={false}
+              autoFocus={showTotpToken}
+              secure
+            />
+          )}
+          <Button
+            size="sm"
+            colorScheme="lightBlue"
+            onPress={onPress}
+            borderRadius="20"
+            mt={3}
+            mx={2}
+          >
+            <Text fontWeight="semibold" fontSize="lg">
+              Login
+            </Text>
+          </Button>
+        </VStack>
       </VStack>
     </KeyboardAwareScrollView>
   );
