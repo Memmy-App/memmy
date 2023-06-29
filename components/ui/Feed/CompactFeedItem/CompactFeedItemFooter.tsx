@@ -7,6 +7,7 @@ import { ILemmyVote } from "../../../../lemmy/types/ILemmyVote";
 import CommunityLink from "../../CommunityLink";
 import AvatarUsername from "../../common/AvatarUsername";
 import SmallVoteIcons from "../../common/SmallVoteIcons";
+import FeaturedIndicator from "../../common/FeaturedIndicator";
 
 interface CompactFeedItemFooterProps {
   post: PostView;
@@ -20,6 +21,7 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
   return (
     <>
       <HStack alignItems="center" space={2}>
+        <FeaturedIndicator post={post} />
         <AvatarUsername creator={post.creator} showAvatar={false} />
         <Text color={colors.app.textSecondary}>•</Text>
         <Text color={colors.app.textSecondary}>
