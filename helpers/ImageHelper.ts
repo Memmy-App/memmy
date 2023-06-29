@@ -91,9 +91,10 @@ export const preloadImages = async (posts: PostView[]): Promise<void> => {
 
 export const getRatio = (
   realHeight: number,
-  realWidth: number
+  realWidth: number,
+  modifier: number = 0.6
 ): { imageHeight: number; imageWidth: number } => {
-  const screenHeight = Dimensions.get("screen").height * 0.6;
+  const screenHeight = Dimensions.get("screen").height * modifier;
   const screenWidth = Dimensions.get("screen").width;
 
   const heightRatio = screenHeight / realHeight;

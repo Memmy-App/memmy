@@ -36,6 +36,7 @@ import {
 } from "./slices/accounts/accountsSlice";
 import { selectSite } from "./slices/site/siteSlice";
 import { useAppSelector } from "./store";
+import ReadSettingsScreen from "./components/screens/settings/ReadSettingsScreen";
 import ThemeSelectionScreen from "./components/screens/settings/Appearance/ThemeSelectionScreen";
 import ViewerScreen from "./components/screens/ViewerScreen";
 import OnboardingInfoScreenOne from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenOne";
@@ -196,6 +197,13 @@ function ProfileStackScreen() {
           }}
         />
         <ProfileStack.Screen
+          name="ReadSettings"
+          component={ReadSettingsScreen}
+          options={{
+            title: "Mark Post Read On...",
+          }}
+        />
+        <ProfileStack.Screen
           name="Viewer"
           component={ViewerScreen}
           options={{
@@ -332,6 +340,13 @@ function CommunityStackScreen() {
         component={EditAccountScreen}
         options={{
           title: "Edit Account",
+        }}
+      />
+      <CommunityStack.Screen
+        name="ReadSettings"
+        component={ReadSettingsScreen}
+        options={{
+          title: "Mark Post Read On...",
         }}
       />
       <CommunityStack.Screen

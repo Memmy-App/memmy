@@ -1,5 +1,5 @@
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { useTheme, useToast } from "native-base";
+import { useTheme } from "native-base";
 import React, { SetStateAction } from "react";
 import Clipboard from "@react-native-community/clipboard";
 import { CommentReplyView } from "lemmy-js-client";
@@ -16,6 +16,7 @@ import {
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
+import { showToast } from "../../../slices/toast/toastSlice";
 
 interface UseComment {
   onCommentPress: () => void;
@@ -41,7 +42,6 @@ const useComment = ({
   const dispatch = useAppDispatch();
 
   const { showActionSheetWithOptions } = useActionSheet();
-  const toast = useToast();
   const theme = useTheme();
 
   const onCommentPress = () => {
@@ -116,10 +116,13 @@ const useComment = ({
               deleted: true,
             });
 
-            toast.show({
-              title: "Comment deleted",
-              duration: 3000,
-            });
+            dispatch(
+              showToast({
+                message: "Comment deleted",
+                duration: 3000,
+                variant: "info",
+              })
+            );
 
             setComments((prev) =>
               prev.map((c) => {
@@ -143,10 +146,13 @@ const useComment = ({
             writeToLog("Failed to delete comment.");
             writeToLog(e.toString());
 
-            toast.show({
-              title: "Failed to delete comment",
-              duration: 3000,
-            });
+            dispatch(
+              showToast({
+                message: "Error deleting comment",
+                duration: 3000,
+                variant: "error",
+              })
+            );
           }
         }
       }
@@ -210,10 +216,13 @@ const useComment = ({
       writeToLog("Error submitting vote.");
       writeToLog(e.toString());
 
-      toast.show({
-        title: "Error submitting vote...",
-        duration: 3000,
-      });
+      dispatch(
+        showToast({
+          message: "Error submitting vote...",
+          duration: 3000,
+          variant: "error",
+        })
+      );
 
       setComments((prev) =>
         prev.map((c) => {

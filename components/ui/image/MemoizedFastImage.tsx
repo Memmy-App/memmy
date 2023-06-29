@@ -5,6 +5,8 @@ import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 import { getRatio } from "../../../helpers/ImageHelper";
+import { useAppSelector } from "../../../store";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
 
 function MemoizedFastImage({
   postId,
@@ -18,6 +20,8 @@ function MemoizedFastImage({
   nsfw?: boolean;
 }) {
   const theme = useTheme();
+
+  const { ignoreScreenHeightInFeed } = useAppSelector(selectSettings);
 
   const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
@@ -49,7 +53,8 @@ function MemoizedFastImage({
   const onLoad = (e) => {
     const { imageHeight, imageWidth } = getRatio(
       e.nativeEvent.height,
-      e.nativeEvent.width
+      e.nativeEvent.width,
+      ignoreScreenHeightInFeed ? 0.9 : 0.6
     );
 
     setHeight(imageHeight);

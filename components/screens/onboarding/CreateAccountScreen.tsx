@@ -1,28 +1,17 @@
+import { LemmyHttp } from "lemmy-js-client";
+import { Button, Text, VStack, useTheme } from "native-base";
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  HStack,
-  Switch,
-  Text,
-  useTheme,
-  useToast,
-  VStack,
-} from "native-base";
 import { Alert, Image, Linking } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { LemmyHttp } from "lemmy-js-client";
+import { getBaseUrl } from "../../../helpers/LinkHelper";
+import { writeToLog } from "../../../helpers/LogHelper";
+import { initialize, lemmyAuthToken } from "../../../lemmy/LemmyInstance";
 import ILemmyServer from "../../../lemmy/types/ILemmyServer";
-import {
-  initialize,
-  lemmyAuthToken,
-  lemmyInstance,
-} from "../../../lemmy/LemmyInstance";
+import { addAccount } from "../../../slices/accounts/accountsActions";
+import { useAppDispatch } from "../../../store";
 import CTextInput from "../../ui/CTextInput";
 import LoadingModal from "../../ui/Loading/LoadingModal";
-import { useAppDispatch } from "../../../store";
-import { addAccount } from "../../../slices/accounts/accountsActions";
-import { writeToLog } from "../../../helpers/LogHelper";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
+import { showToast } from "../../../slices/toast/toastSlice";
 
 const header = require("../../../assets/header.jpg");
 
@@ -54,7 +43,6 @@ function CreateAccountScreen({ route }: { route: any }) {
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [png, setPng] = useState(undefined);
 
-  const toast = useToast();
   const theme = useTheme();
   const dispatch = useAppDispatch();
 
@@ -85,18 +73,25 @@ function CreateAccountScreen({ route }: { route: any }) {
       !form.password ||
       !form.passwordAgain
     ) {
-      toast.show({
-        description: "All fields are required.",
-        duration: 3000,
-      });
+      dispatch(
+        showToast({
+          message: "All fields are required.",
+          duration: 3000,
+          variant: "warn",
+        })
+      );
+
       return;
     }
 
     if (form.password !== form.passwordAgain) {
-      toast.show({
-        description: "Passwords do not match.",
-        duration: 3000,
-      });
+      dispatch(
+        showToast({
+          message: "Passwords do not match.",
+          duration: 3000,
+          variant: "warn",
+        })
+      );
 
       return;
     }
