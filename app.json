@@ -5,7 +5,7 @@
     "web": {
       "bundler": "metro"
     },
-    "name": "Memmy App",
+    "name": "Memmy",
     "slug": "memmyapp",
     "version": "0.0.1",
     "icon": "./assets/icon.png",
@@ -21,8 +21,8 @@
       "bundleIdentifier": "com.gkasdorf.memmyapp",
       "buildNumber": "75",
       "infoPlist": {
-        "NSPhotoLibraryUsageDescription": "Allow Memmy App to access your photos.",
-        "NSPhotoLibraryAddUsageDescription": "Allow Memmy App to save photos."
+        "NSPhotoLibraryUsageDescription": "Allow Memmy to access your photos.",
+        "NSPhotoLibraryAddUsageDescription": "Allow Memmy to save photos."
       }
     },
     "plugins": [
