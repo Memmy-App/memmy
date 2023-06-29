@@ -19,7 +19,7 @@ import InboxScreen from "./components/screens/inbox/InboxScreen";
 import AddAccountScreen from "./components/screens/onboarding/AddAccountScreen";
 import CreateAccountScreen from "./components/screens/onboarding/CreateAccountScreen";
 import OnboardingIndexScreen from "./components/screens/onboarding/OnboardingIndexScreen";
-import NewCommentScreen from "./components/screens/post/NewCommentScreen";
+import NewCommentScreen from "./components/screens/comments/NewCommentScreen";
 import NewPostScreen from "./components/screens/post/NewPostScreen";
 import PostScreen from "./components/screens/post/PostScreen";
 import SearchScreen from "./components/screens/search/SearchScreen";
@@ -38,6 +38,7 @@ import { selectSite } from "./slices/site/siteSlice";
 import { useAppSelector } from "./store";
 import ThemeSelectionScreen from "./components/screens/settings/Appearance/ThemeSelectionScreen";
 import ViewerScreen from "./components/screens/ViewerScreen";
+import EditCommentScreen from "./components/screens/comments/EditCommentScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -74,6 +75,11 @@ function FeedStackScreen() {
           name="NewComment"
           component={NewCommentScreen}
           options={{ title: "New Comment" }}
+        />
+        <SearchStack.Screen
+          name="EditComment"
+          component={EditCommentScreen}
+          options={{ title: "Edit Comment" }}
         />
         <FeedStack.Screen
           name="NewPost"
@@ -132,6 +138,11 @@ function InboxStackScreen() {
           name="NewComment"
           component={NewCommentScreen}
           options={{ title: "New Comment" }}
+        />
+        <SearchStack.Screen
+          name="EditComment"
+          component={EditCommentScreen}
+          options={{ title: "Edit Comment" }}
         />
         <InboxStack.Screen
           name="NewPost"
@@ -226,6 +237,11 @@ function ProfileStackScreen() {
           component={NewCommentScreen}
           options={{ title: "New Comment" }}
         />
+        <SearchStack.Screen
+          name="EditComment"
+          component={EditCommentScreen}
+          options={{ title: "Edit Comment" }}
+        />
         <ProfileStack.Screen
           name="NewPost"
           component={NewPostScreen}
@@ -283,6 +299,11 @@ function SearchStackScreen() {
           name="NewComment"
           component={NewCommentScreen}
           options={{ title: "New Comment" }}
+        />
+        <SearchStack.Screen
+          name="EditComment"
+          component={EditCommentScreen}
+          options={{ title: "Edit Comment" }}
         />
         <SearchStack.Screen
           name="NewPost"
