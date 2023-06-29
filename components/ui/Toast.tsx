@@ -5,12 +5,17 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { useTheme, Text, HStack } from "native-base";
-import { IconCheck } from "tabler-icons-react-native";
+import { IconAlertCircle, IconCheck } from "tabler-icons-react-native";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { hideToast, selectToast } from "../../slices/toast/toastSlice";
+import {
+  ToastVariant,
+  hideToast,
+  selectToast,
+} from "../../slices/toast/toastSlice";
 
 function Toast(): JSX.Element {
-  const { isOpen, message, duration, variant } = useAppSelector(selectToast);
+  const { isOpen, message, duration, variant, icon } =
+    useAppSelector(selectToast);
   const dispatch = useAppDispatch();
   const theme = useTheme();
 
@@ -18,6 +23,12 @@ function Toast(): JSX.Element {
 
   const bgColor = theme.colors.app[variant];
   const textColor = theme.colors.app[`${variant}Text`];
+  const iconMap: Record<ToastVariant, JSX.Element> = {
+    info: <IconCheck color={textColor} />,
+    success: <IconCheck color={textColor} />,
+    error: <IconAlertCircle color={textColor} />,
+    warn: <IconAlertCircle color={textColor} />,
+  };
 
   useEffect(() => {
     if (!isOpen) return;
@@ -72,7 +83,7 @@ function Toast(): JSX.Element {
       ]}
     >
       <HStack justifyContent="center" alignItems="center" space={1}>
-        <IconCheck color={textColor} />
+        {icon || iconMap[variant]}
         <Text color={textColor} fontWeight="semibold" alignContent="center">
           {message}
         </Text>

@@ -1,12 +1,13 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 
-type ToastVariant = "success" | "error" | "warn" | "info";
+export type ToastVariant = "success" | "error" | "warn" | "info";
 
 interface ShowToast {
   message: string;
   duration?: number;
   variant?: ToastVariant;
+  icon?: JSX.Element;
 }
 
 interface ToastState {
@@ -14,6 +15,7 @@ interface ToastState {
   message: string;
   duration?: number;
   variant?: ToastVariant;
+  icon?: JSX.Element;
 }
 
 const initialState: ToastState = {
@@ -32,6 +34,7 @@ const toastSlice = createSlice({
       state.message = action.payload.message;
       state.duration = action.payload.duration;
       state.variant = action.payload.variant;
+      state.icon = action.payload.icon;
     },
     hideToast: () => initialState,
   },
