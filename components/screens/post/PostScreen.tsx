@@ -11,7 +11,6 @@ import {
   VStack,
 } from "native-base";
 import { RefreshControl } from "react-native";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { IconClockHour5, IconMessageCircle } from "tabler-icons-react-native";
@@ -25,6 +24,7 @@ import ContentView from "../../ui/ContentView";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
+import NoCommensView from "../../ui/comments/NoCommentsView";
 
 function PostScreen({
   route,
@@ -140,13 +140,7 @@ function PostScreen({
       );
     }
     if (post.comments.length === 0 && !post.commentsError) {
-      return (
-        <Center my={4}>
-          <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
-            No comments yet. Time to do your part 🫡
-          </Text>
-        </Center>
-      );
+      return <NoCommensView my={4} />;
     }
 
     return null;

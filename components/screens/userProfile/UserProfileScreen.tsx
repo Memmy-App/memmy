@@ -3,15 +3,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import moment from "moment";
-import {
-  Box,
-  HStack,
-  Spinner,
-  Text,
-  useTheme,
-  View,
-  VStack,
-} from "native-base";
+import { Box, HStack, Text, useTheme, View, VStack } from "native-base";
 import { RefreshControl, StyleSheet } from "react-native";
 import FastImage from "react-native-fast-image";
 import {
@@ -35,6 +27,8 @@ import CommentItem from "../../ui/comments/CommentItem";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import LoadingView from "../../ui/Loading/LoadingView";
 import NotFoundView from "../../ui/Loading/NotFoundView";
+import NoPostsView from "../../ui/Feed/NoPostsView";
+import NoCommensView from "../../ui/comments/NoCommentsView";
 
 function UserProfileScreen({
   route,
@@ -225,7 +219,7 @@ function UserProfileScreen({
         estimatedItemSize={100}
         data={profile.comments}
         keyExtractor={commentKeyExtractor}
-        ListEmptyComponent={<Spinner pt={10} />}
+        ListEmptyComponent={<NoCommensView />}
         refreshing={profile.loading}
         refreshControl={refreshControl}
       />
@@ -241,7 +235,7 @@ function UserProfileScreen({
         estimatedItemSize={100}
         data={profile.posts}
         keyExtractor={postKeyExtractor}
-        ListEmptyComponent={<Spinner pt={10} />}
+        ListEmptyComponent={<NoPostsView />}
         refreshing={profile.loading}
         refreshControl={refreshControl}
       />

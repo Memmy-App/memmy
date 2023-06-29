@@ -1,13 +1,13 @@
 import React from "react";
 import NoResultView, { INoResultViewProps } from "../common/NoResultView";
 
-function NoPostsView({ ...props }: INoResultViewProps) {
+function NoCommensView({ ...props }: INoResultViewProps) {
   return (
     <NoResultView
-      message="No posts found. Maybe you should get a conversation started?"
+      message="No comments yet. Time to do your part 🫡"
       {...props}
     />
   );
 }
 
-export default NoPostsView;
+export default NoCommensView;
