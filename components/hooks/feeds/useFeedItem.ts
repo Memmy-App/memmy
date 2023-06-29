@@ -95,11 +95,13 @@ const useFeedItem = (
 
   const onPress = () => {
     if (setPosts) {
-      lemmyInstance.markPostAsRead({
-        auth: lemmyAuthToken,
-        post_id: post.post.id,
-        read: true,
-      });
+      lemmyInstance
+        .markPostAsRead({
+          auth: lemmyAuthToken,
+          post_id: post.post.id,
+          read: true,
+        })
+        .then();
 
       if (markReadOnPostView) {
         setPostRead();
