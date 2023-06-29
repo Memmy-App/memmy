@@ -26,7 +26,7 @@ function CompactFeedItem({
   setPosts,
 }: {
   post: PostView;
-  setPosts: React.Dispatch<SetStateAction<PostView[]>>;
+  setPosts?: React.Dispatch<SetStateAction<PostView[]>>;
 }) {
   const { compactThumbnailPosition, compactShowVotingButtons } =
     useAppSelector(selectSettings);
@@ -50,21 +50,17 @@ function CompactFeedItem({
     );
     navigation.push("NewComment");
   };
-  const onRightLeftTwo = () => {};
   const leftRightOneIcon = <IconArrowUp size={32} color="#fff" />;
   const leftRightTwoIcon = <IconArrowDown size={32} color="#fff" />;
   const rightLeftOneIcon = <IconMessage size={32} color="#fff" />;
-  const rightLeftTwoIcon = <IconMessage size={32} color="#fff" />;
 
   const swipeAnimation = useSwipeAnimation({
     onLeftRightOne,
     onLeftRightTwo,
     onRightLeftOne,
-    onRightLeftTwo,
     leftRightOneIcon,
     leftRightTwoIcon,
     rightLeftOneIcon,
-    rightLeftTwoIcon,
   });
 
   return useMemo(
@@ -106,7 +102,7 @@ function CompactFeedItem({
                 flex={1}
                 px={3}
                 py={4}
-                backgroundColor={theme.colors.app.bgSecondary}
+                backgroundColor={theme.colors.app.fg}
                 space={2}
               >
                 {compactThumbnailPosition === "Left" && (

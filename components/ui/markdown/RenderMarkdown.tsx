@@ -87,7 +87,7 @@ const RenderMarkdown = ({
       color: fontColor,
     },
     blockquote: {
-      backgroundColor: theme.colors.app.bgTertiary,
+      backgroundColor: theme.colors.app.bg,
       borderRadius: 5,
       borderLeftWidth: 3,
       borderLeftColor: theme.colors.app.accent,
@@ -96,18 +96,18 @@ const RenderMarkdown = ({
     code_inline: {
       fontSize: FONT_SIZE,
       color: fontColor,
-      backgroundColor: theme.colors.app.bgTertiary,
+      backgroundColor: theme.colors.app.bg,
     },
     code_block: {
       fontSize: FONT_SIZE,
       color: fontColor,
-      backgroundColor: theme.colors.app.bgTertiary,
+      backgroundColor: theme.colors.app.bg,
       borderRadius: 5,
     },
     pre: {
       fontSize: FONT_SIZE,
       color: fontColor,
-      backgroundColor: theme.colors.app.bgTertiary,
+      backgroundColor: theme.colors.app.bg,
       borderRadius: 5,
     },
     image: {
@@ -144,8 +144,8 @@ const RenderMarkdown = ({
       paddingVertical: 1,
     },
     fence: {
-      backgroundColor: theme.colors.app.bgTertiary,
-      borderColor: theme.colors.app.bgTertiary,
+      backgroundColor: theme.colors.app.bg,
+      borderColor: theme.colors.app.bg,
       color: fontColor,
       fontSize: FONT_SIZE,
     },
@@ -169,7 +169,7 @@ const RenderMarkdown = ({
       fontSize: FONT_SIZE,
     },
     hr: {
-      color: theme.colors.app.bgTertiary,
+      color: theme.colors.app.bg,
     },
   };
 

@@ -14,28 +14,39 @@ function OnboardingScreen({
   return (
     <VStack
       flex={1}
-      backgroundColor={theme.colors.app.bgSecondary}
+      backgroundColor={theme.colors.app.bg}
       justifyContent="space-between"
       alignItems="center"
       space="md"
       px={5}
     >
-      <VStack space={2} justifyContent={"center"} alignItems={"center"}>
+      <VStack space={2} justifyContent="center" alignItems="center">
         <FastImage
           source={require("../../../assets/splash.png")}
           style={styles.image}
         />
-        <Text fontSize={24} fontWeight={"bold"}>Welcome to Lemmy!</Text>
+        <Text fontSize={24} fontWeight="bold">
+          Welcome to Lemmy!
+        </Text>
         <Text fontSize={18} textAlign="center" opacity={0.6}>
           New to Lemmy? We&apos;ll help you find an instance and create an
           account.
         </Text>
       </VStack>
       <VStack mb={10} space="md" w="full">
-        <Button size={"lg"} colorScheme={"blue"} onPress={() => navigation.push("CreateAccount")}>
+        <Button
+          size="lg"
+          colorScheme="blue"
+          onPress={() => navigation.push("CreateAccount")}
+        >
           Get Started
         </Button>
-        <Button size={"lg"} colorScheme={"blue"} variant={"ghost"} onPress={() => navigation.push("AddAccount")}>
+        <Button
+          size="lg"
+          colorScheme="blue"
+          variant="ghost"
+          onPress={() => navigation.push("AddAccount")}
+        >
           I Already Have an Account
         </Button>
       </VStack>

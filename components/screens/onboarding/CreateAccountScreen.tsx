@@ -8,16 +8,21 @@ import {
   useToast,
   VStack,
 } from "native-base";
-import { Alert, Linking } from "react-native";
+import { Alert, Image, Linking } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { LemmyHttp } from "lemmy-js-client";
 import ILemmyServer from "../../../lemmy/types/ILemmyServer";
-import { initialize, lemmyAuthToken } from "../../../lemmy/LemmyInstance";
+import {
+  initialize,
+  lemmyAuthToken,
+  lemmyInstance,
+} from "../../../lemmy/LemmyInstance";
 import CTextInput from "../../ui/CTextInput";
 import LoadingModal from "../../ui/Loading/LoadingModal";
 import { useAppDispatch } from "../../../store";
 import { addAccount } from "../../../slices/accounts/accountsActions";
 import { writeToLog } from "../../../helpers/LogHelper";
+import { getBaseUrl } from "../../../helpers/LinkHelper";
 
 interface RegisterForm {
   server: string;
@@ -26,6 +31,8 @@ interface RegisterForm {
   password: string;
   passwordAgain: string;
   showNsfw: boolean;
+  captchaUuid: string | undefined;
+  captchaAnswer: string | undefined;
 }
 
 function CreateAccountScreen() {
@@ -36,10 +43,14 @@ function CreateAccountScreen() {
     password: "",
     passwordAgain: "",
     showNsfw: false,
+    captchaUuid: undefined,
+    captchaAnswer: undefined,
   });
   const [loading, setLoading] = useState(false);
   const [sentEmail, setSentEmail] = useState(false);
   const [ready, setReady] = useState(false);
+  const [showCaptcha, setShowCaptcha] = useState(false);
+  const [png, setPng] = useState(undefined);
 
   const toast = useToast();
   const theme = useTheme();
@@ -55,13 +66,6 @@ function CreateAccountScreen() {
     setForm({
       ...form,
       [name]: value,
-    });
-  };
-
-  const onSwitchChange = (value: boolean) => {
-    setForm({
-      ...form,
-      showNsfw: value,
     });
   };
 
@@ -101,7 +105,9 @@ function CreateAccountScreen() {
         password: form.password,
         password_verify: form.passwordAgain,
         email: form.email,
-        show_nsfw: form.showNsfw,
+        show_nsfw: true,
+        captcha_uuid: form.captchaUuid,
+        captcha_answer: form.captchaAnswer,
       });
 
       setLoading(false);
@@ -120,9 +126,26 @@ function CreateAccountScreen() {
       writeToLog("Error creating account.");
       writeToLog(e.toString());
 
-      setLoading(false);
-      Alert.alert("Error", e.toString());
+      if (e.toString() === "captcha_incorrect") {
+        loadCaptcha();
+      } else {
+        Alert.alert("Error", e.toString());
+        setLoading(false);
+      }
     }
+  };
+
+  const loadCaptcha = async () => {
+    try {
+      const tempInstance = new LemmyHttp(`https://${getBaseUrl(form.server)}`);
+
+      const res = await tempInstance.getCaptcha({});
+
+      setPng(res.ok.png);
+      onFormChange("captchaUuid", res.ok.uuid);
+      setShowCaptcha(true);
+      setLoading(false);
+    } catch (e) {}
   };
 
   const onReady = async () => {
@@ -161,9 +184,7 @@ function CreateAccountScreen() {
   };
 
   return (
-    <KeyboardAwareScrollView
-      style={{ backgroundColor: theme.colors.app.bgSecondary }}
-    >
+    <KeyboardAwareScrollView style={{ backgroundColor: theme.colors.app.bg }}>
       <LoadingModal loading={loading} />
       <VStack flex={1} pt={10} mb={5} space="md" justifyContent="center">
         {sentEmail ? (
@@ -239,15 +260,33 @@ function CreateAccountScreen() {
               autoCorrect={false}
               secure
             />
-            <HStack mx={3}>
-              <Text alignSelf="center">Show NSFW</Text>
-              <Switch
-                ml="auto"
-                alignSelf="flex-end"
-                value={form.showNsfw}
-                onValueChange={onSwitchChange}
-              />
-            </HStack>
+            {/* <HStack mx={3}> */}
+            {/*  <Text alignSelf="center">Show NSFW</Text> */}
+            {/*  <Switch */}
+            {/*    ml="auto" */}
+            {/*    alignSelf="flex-end" */}
+            {/*    value={form.showNsfw} */}
+            {/*    onValueChange={onSwitchChange} */}
+            {/*  /> */}
+            {/* </HStack> */}
+            {showCaptcha && (
+              <>
+                <Image
+                  source={{ uri: `data:image/png;base64,${png}` }}
+                  style={{ height: 100 }}
+                  resizeMode="contain"
+                />
+                <CTextInput
+                  name="captchaAnswer"
+                  value={form.captchaAnswer}
+                  placeholder="Captcah Answer"
+                  label="Captcha Answer"
+                  onChange={onFormChange}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+              </>
+            )}
             <Button mx={2} disabled={loading} onPress={onPress}>
               Add Account
             </Button>

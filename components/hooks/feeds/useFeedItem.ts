@@ -24,7 +24,7 @@ interface UseFeedItem {
 
 const useFeedItem = (
   post: PostView,
-  setPosts: React.Dispatch<SetStateAction<PostView[]>>
+  setPosts?: React.Dispatch<SetStateAction<PostView[]>>
 ): UseFeedItem => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
@@ -74,24 +74,28 @@ const useFeedItem = (
   };
 
   const onPress = () => {
-    lemmyInstance.markPostAsRead({
-      auth: lemmyAuthToken,
-      post_id: post.post.id,
-      read: true,
-    });
+    if (setPosts) {
+      lemmyInstance.markPostAsRead({
+        auth: lemmyAuthToken,
+        post_id: post.post.id,
+        read: true,
+      });
 
-    setPosts((prev) =>
-      prev.map((p) => {
-        if (p.post.id === post.post.id) {
-          return {
-            ...p,
-            read: true,
-          };
-        }
+      if (setPosts) {
+        setPosts((prev) =>
+          prev.map((p) => {
+            if (p.post.id === post.post.id) {
+              return {
+                ...p,
+                read: true,
+              };
+            }
 
-        return p;
-      })
-    );
+            return p;
+          })
+        );
+      }
+    }
 
     dispatch(setPost(post));
     navigation.push("Post");

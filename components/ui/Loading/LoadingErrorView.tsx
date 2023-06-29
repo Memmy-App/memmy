@@ -12,7 +12,7 @@ function LoadingErrorView({ onRetryPress }: LoadingViewProps) {
   return (
     <View
       style={styles.container}
-      backgroundColor={theme.colors.app.bgSecondary}
+      backgroundColor={theme.colors.app.bg}
     >
       <Text fontStyle="italic" color="gray.500">
         Error loading content :(
