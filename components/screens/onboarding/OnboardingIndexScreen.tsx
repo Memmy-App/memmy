@@ -62,7 +62,7 @@ function OnboardingScreen({
             <Button
               size="lg"
               colorScheme="blueGray"
-              onPress={() => navigation.push("CreateAccount")}
+              onPress={() => navigation.push("HubDiscovery")}
               mt="auto"
               borderRadius="20"
               py={2.5}

@@ -57,7 +57,7 @@ function OnboardingInfoScreenSeven({ navigation }: IProps) {
           <Button
             size="lg"
             colorScheme="lightBlue"
-            onPress={() => navigation.push("OnboardingInfoThree")}
+            onPress={() => navigation.push("HubDiscovery")}
             borderRadius="20"
             mt="auto"
           >

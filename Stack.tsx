@@ -45,6 +45,8 @@ import OnboardingInfoScreenFour from "./components/screens/onboarding/infoScreen
 import OnboardingInfoScreenFive from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenFive";
 import OnboardingInfoScreenSix from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenSix";
 import OnboardingInfoScreenSeven from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenSeven";
+import HubDiscoveryScreen from "./components/screens/onboarding/hubDiscovery/HubDiscoveryScreen";
+import InstanceScreen from "./components/ui/hubDiscovery/InstanceScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -495,6 +497,16 @@ function Stack() {
                 name="OnboardingInfoSeven"
                 component={OnboardingInfoScreenSeven}
                 options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="HubDiscovery"
+                component={HubDiscoveryScreen}
+                options={{ title: "Hubs" }}
+              />
+              <MainStack.Screen
+                name="Instance"
+                component={InstanceScreen}
+                options={{ title: "Instance" }}
               />
               <MainStack.Screen
                 name="AddAccount"
