@@ -33,12 +33,16 @@ jobs:
 workflows:
   lint:
     jobs:
-      - lint
+      - lint:
+          filters:
+            branches:
+              ignore: main
   build_app:
     jobs:
+      - lint
       - eas_build:
-          requires:
-            - lint
           filters:
+            requires:
+              - lint
             branches:
               only: main
