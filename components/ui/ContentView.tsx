@@ -2,15 +2,7 @@ import { PostView } from "lemmy-js-client";
 import { Box, Pressable, Text, VStack, useTheme } from "native-base";
 import React, { useMemo, useState } from "react";
 import { Dimensions } from "react-native";
-import { LinkPreview } from "@flyerhq/react-native-link-preview";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import {
-  ExtensionType,
-  LinkInfo,
-  getLinkInfo,
-  openLink,
-} from "../../helpers/LinkHelper";
+import { ExtensionType, getLinkInfo } from "../../helpers/LinkHelper";
 import { truncatePost } from "../../helpers/TextHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 import { useAppSelector } from "../../store";
@@ -19,32 +11,7 @@ import MemoizedFastImage from "./image/MemoizedFastImage";
 import RenderMarkdown from "./markdown/RenderMarkdown";
 
 import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
-
-function LinkPreviewContainer({ linkInfo }: { linkInfo: LinkInfo }) {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const theme = useTheme();
-
-  return (
-    <LinkPreview
-      text={linkInfo.link}
-      containerStyle={{
-        backgroundColor: theme.colors.app.bg,
-      }}
-      renderText={() => false}
-      renderTitle={(linkTitle: string) => (
-        <Text color={theme.colors.app.textPrimary}>{linkTitle}</Text>
-      )}
-      renderDescription={(linkDescription: string) => (
-        <Text color={theme.colors.app.textSecondary}>{linkDescription}</Text>
-      )}
-      touchableWithoutFeedbackProps={{
-        onPress: () => {
-          openLink(linkInfo.link, navigation);
-        },
-      }}
-    />
-  );
-}
+import LinkPreviewContainer from "./linkPreviewer/LinkPreviewer";
 
 function Title({
   title,
