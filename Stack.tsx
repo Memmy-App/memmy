@@ -49,6 +49,7 @@ import OnboardingInfoScreenSix from "./components/screens/onboarding/infoScreens
 import OnboardingInfoScreenSeven from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenSeven";
 import HubDiscoveryScreen from "./components/screens/onboarding/hubDiscovery/HubDiscoveryScreen";
 import InstanceScreen from "./components/ui/hubDiscovery/InstanceScreen";
+import NewPostBodyScreen from "./components/screens/post/NewPostBodyScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -94,6 +95,11 @@ function FeedStackScreen() {
         <FeedStack.Screen
           name="NewPost"
           component={NewPostScreen}
+          options={{ title: "New Post" }}
+        />
+        <FeedStack.Screen
+          name="NewPostBody"
+          component={NewPostBodyScreen}
           options={{ title: "New Post" }}
         />
         <FeedStack.Screen
@@ -157,6 +163,11 @@ function InboxStackScreen() {
         <InboxStack.Screen
           name="NewPost"
           component={NewPostScreen}
+          options={{ title: "New Post" }}
+        />
+        <InboxStack.Screen
+          name="NewPostBody"
+          component={NewPostBodyScreen}
           options={{ title: "New Post" }}
         />
         <InboxStack.Screen
@@ -265,6 +276,11 @@ function ProfileStackScreen() {
           options={{ title: "New Post" }}
         />
         <ProfileStack.Screen
+          name="NewPostBody"
+          component={NewPostBodyScreen}
+          options={{ title: "New Post" }}
+        />
+        <ProfileStack.Screen
           name="CommunityAbout"
           component={CommunityAboutScreen}
           options={{ title: "About" }}
@@ -325,6 +341,11 @@ function SearchStackScreen() {
         <SearchStack.Screen
           name="NewPost"
           component={NewPostScreen}
+          options={{ title: "New Post" }}
+        />
+        <SearchStack.Screen
+          name="NewPostBody"
+          component={NewPostBodyScreen}
           options={{ title: "New Post" }}
         />
         <SearchStack.Screen
