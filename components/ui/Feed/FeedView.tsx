@@ -3,7 +3,7 @@ import { ListingType, PostView, SortType } from "lemmy-js-client";
 import { HStack, useTheme, View } from "native-base";
 import { Button, RefreshControl, StyleSheet } from "react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { FlashList } from "@shopify/flash-list";
+import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { trigger } from "react-native-haptic-feedback";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -193,32 +193,45 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     }
   };
 
-  const feedItem = ({ item }) => {
-    if (feed.community && feed.community.counts.posts < 1) {
-      return <NoResultView type="posts" />;
-    }
+  const renderItem = React.useCallback(
+    ({ item }: ListRenderItemInfo<PostView>) => {
+      if (feed.community && feed.community.counts.posts < 1) {
+        return <NoResultView type="posts" />;
+      }
 
-    if (compactView) {
-      return <CompactFeedItem post={item} setPosts={feed.setPosts} />;
-    }
+      if (compactView) {
+        return <CompactFeedItem post={item} setPosts={feed.setPosts} />;
+      }
 
-    return (
-      <FeedItem post={item} setPosts={feed.setPosts} recycled={recycled} />
-    );
-  };
+      return (
+        <FeedItem post={item} setPosts={feed.setPosts} recycled={recycled} />
+      );
+    },
+    [feed.community, compactView]
+  );
 
-  const getItemType = (item: PostView): string | undefined => {
-    const linkType = getLinkInfo(item.post.url);
+  const onEndReached = React.useCallback(
+    () => feed.posts && feed.doLoad(),
+    [feed]
+  );
 
-    if (linkType.extType === ExtensionType.GENERIC && item.post.thumbnail_url) {
-      return "thumbnail_link";
-    }
-    if (linkType.extType === ExtensionType.IMAGE) {
-      return "image";
-    }
-    return undefined;
-  };
+  const getItemType = React.useCallback(
+    (item: PostView): string | undefined => {
+      const linkType = getLinkInfo(item.post.url);
 
+      if (
+        linkType.extType === ExtensionType.GENERIC &&
+        item.post.thumbnail_url
+      ) {
+        return "thumbnail_link";
+      }
+      if (linkType.extType === ExtensionType.IMAGE) {
+        return "image";
+      }
+      return undefined;
+    },
+    []
+  );
   const headerRight = () => {
     if (dropdownVisible) {
       return (
@@ -292,14 +305,14 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             ListHeaderComponent={header}
             data={feed.posts}
             extraData={feed.refreshList}
-            renderItem={feedItem}
+            renderItem={renderItem}
             keyExtractor={keyExtractor}
             refreshControl={refreshControl}
             onEndReachedThreshold={0.5}
             estimatedItemSize={compactView ? 100 : 500}
             ListFooterComponent={footer}
             ListEmptyComponent={<NoResultView type="posts" />}
-            onEndReached={() => feed.posts && feed.doLoad()}
+            onEndReached={onEndReached}
             ref={flashList}
             getItemType={getItemType}
           />
