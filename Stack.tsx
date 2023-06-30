@@ -515,7 +515,8 @@ function Tabs() {
           tabBarLabel: "Inbox",
           tabBarBadge:
             unread.replies + unread.mentions + unread.privateMessage > 0
-              ? unread.replies + unread.mentions + unread.privateMessage
+              ? // ? unread.replies + unread.mentions + unread.privateMessage
+                unread.replies
               : null,
           freezeOnBlur: true,
         }}
