@@ -20,7 +20,7 @@ import RenderMarkdown from "./markdown/RenderMarkdown";
 
 import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
 
-function LinkPreviewComponent({ linkInfo }: { linkInfo: LinkInfo }) {
+function LinkPreviewContainer({ linkInfo }: { linkInfo: LinkInfo }) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const theme = useTheme();
 
@@ -226,7 +226,7 @@ function ContentView({
             isPreview={isPreview}
             isRead={isRead}
           />
-          <LinkPreviewComponent linkInfo={linkInfo} />
+          <LinkPreviewContainer linkInfo={linkInfo} />
         </VStack>
       );
     }
