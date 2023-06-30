@@ -1,0 +1,39 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.0.2
+
+jobs:
+  lint:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run:
+          name: "Run Lint"
+          command: "./node_modules/eslint/bin/eslint.js --quiet --exit-on-fatal-error --ext .tsx,.ts ."
+
+  eas_build:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run:
+          name: "Trigger build"
+          command: "npx eas-cli build --platform ios --profile production --non-interactive"
+
+workflows:
+  lint:
+    jobs:
+      - lint
+  build_app:
+    jobs:
+      - lint
+      - eas_build:
+          requires:
+            - lint
+          filters:
+            branches:
+              only: main
