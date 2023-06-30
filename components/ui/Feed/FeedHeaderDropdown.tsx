@@ -10,11 +10,10 @@ import {
 } from "../../../slices/accounts/accountsSlice";
 
 interface HeaderDropdownProps {
-  title: string;
   enabled: boolean;
 }
 
-function FeedHeaderDropdown({ title, enabled }: HeaderDropdownProps) {
+function FeedHeaderDropdown({ enabled }: HeaderDropdownProps) {
   const { dropdownVisible } = useAppSelector(selectFeed);
   const currentAccount = useAppSelector(selectCurrentAccount);
   const accounts = useAppSelector(selectAccounts);

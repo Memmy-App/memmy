@@ -127,13 +127,13 @@ const useInbox = (): UseInbox => {
 
   const doLoadMentions = async (unread: boolean) => {
     try {
-      const res = await lemmyInstance.getPersonMentions({
+      await lemmyInstance.getPersonMentions({
         auth: lemmyAuthToken,
         limit: 50,
         unread_only: unread,
       });
 
-      setItems(res.mentions);
+      // setItems(res.mentions);
     } catch (e) {
       writeToLog("Error getting mentions.");
       writeToLog(e.toString());
@@ -144,13 +144,13 @@ const useInbox = (): UseInbox => {
 
   const doLoadMessage = async (unread: boolean) => {
     try {
-      const res = await lemmyInstance.getPrivateMessages({
+      await lemmyInstance.getPrivateMessages({
         auth: lemmyAuthToken,
         limit: 50,
         unread_only: unread,
       });
 
-      setItems(res.private_messages);
+      // setItems(res.private_messages);
     } catch (e) {
       writeToLog("Error getting messages.");
       writeToLog(e.toString());

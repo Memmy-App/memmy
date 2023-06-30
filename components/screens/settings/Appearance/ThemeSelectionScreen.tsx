@@ -1,4 +1,3 @@
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView, Text, useTheme } from "native-base";
 import React from "react";
 import { Alert, StyleSheet } from "react-native";

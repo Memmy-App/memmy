@@ -17,7 +17,6 @@ import {
   IconHammer,
   IconHome,
   IconPlanet,
-  IconRefresh,
   IconUserPlus,
   IconX,
 } from "tabler-icons-react-native";

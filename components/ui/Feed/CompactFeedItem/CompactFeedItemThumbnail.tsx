@@ -37,10 +37,9 @@ function CompactFeedItemThumbnail({
       post_id: post.post.id,
       read: true,
     });
-    if(setPostRead && markReadOnPostImageView) {
+    if (setPostRead && markReadOnPostImageView) {
       setPostRead();
     }
-
   };
 
   const onImageLongPress = () => {};

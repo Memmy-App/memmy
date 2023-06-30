@@ -1,0 +1,36 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.0.2
+  
+executors:
+  gen2_medium:
+    macos:
+      xcode: 14.2.0
+    resource_class: macos.x86.medium.gen2
+    
+jobs:
+  lint:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run:
+          name: "Run Lint"
+          command: "./node_modules/eslint/bin/eslint.js --quiet --exit-on-fatal-error --ext .tsx,.ts ."
+
+  eas_build:
+    executor: gen2_medium
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run:
+          name: "Trigger build"
+          command: "npx eas-cli build --platform ios --profile production --non-interactive --local"
+
+workflows:
+  lint:
+    jobs:
+      - lint

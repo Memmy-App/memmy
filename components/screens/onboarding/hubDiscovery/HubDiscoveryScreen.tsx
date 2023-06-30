@@ -78,6 +78,7 @@ function HubDiscoveryScreen({ navigation }: IProps) {
         contentContainerStyle={{
           paddingBottom: 30,
         }}
+        estimatedItemSize={200}
       />
     </VStack>
   );
