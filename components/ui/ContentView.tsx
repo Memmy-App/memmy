@@ -1,5 +1,5 @@
 import { PostView } from "lemmy-js-client";
-import { Pressable, Text, VStack, useTheme } from "native-base";
+import { Box, Pressable, Text, VStack, useTheme } from "native-base";
 import React, { useMemo, useState } from "react";
 import { Dimensions } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -15,23 +15,24 @@ import RenderMarkdown from "./markdown/RenderMarkdown";
 
 import { lemmyAuthToken, lemmyInstance } from "../../lemmy/LemmyInstance";
 
-function Content({
-  postTitle,
-  isRead,
+function Title({
+  title,
+  mt,
+  mb,
   isPreview,
-  children,
-  isImage,
+  isRead,
 }: {
-  postTitle: string;
-  isRead: boolean;
-  isPreview: boolean;
-  children: JSX.Element;
-  isImage?: boolean;
+  title: string;
+  mt: number;
+  mb: number;
+  isPreview?: boolean;
+  isRead?: boolean;
 }) {
   const theme = useTheme();
-
-  const title = (
+  return (
     <Text
+      mt={mt}
+      mb={mb}
       fontSize={isPreview ? "md" : "lg"}
       color={
         isRead && isPreview
@@ -39,24 +40,8 @@ function Content({
           : theme.colors.app.textPrimary
       }
     >
-      {postTitle}
-    </Text>
-  );
-
-  if (isImage && !isPreview) {
-    return (
-      <VStack space={1}>
-        {children}
-        {title}
-      </VStack>
-    );
-  }
-
-  return (
-    <VStack space={2}>
       {title}
-      {children}
-    </VStack>
+    </Text>
   );
 }
 
@@ -79,6 +64,7 @@ function ContentView({
   const linkInfo = getLinkInfo(post.post.url);
 
   const body = isPreview ? truncatePost(post.post.body, 100) : post.post.body;
+  const title = post.post.name;
   const [imageViewOpen, setImageViewOpen] = useState(false);
 
   const onImagePress = () => {
@@ -96,65 +82,103 @@ function ContentView({
   const onImageLongPress = () => {};
 
   const isImage = linkInfo.extType === ExtensionType.IMAGE;
+  const isRead = post.read;
 
   const renderContent = () => {
     if (isImage) {
       return (
-        <>
-          <Content
-            postTitle={post.post.name}
-            isPreview={isPreview}
-            isRead={post.read}
-            isImage
+        <VStack>
+          {isPreview && (
+            <Title
+              title={title}
+              mt={0}
+              mb={2}
+              isPreview={isPreview}
+              isRead={isRead}
+            />
+          )}
+          <Pressable
+            onPress={onImagePress}
+            onLongPress={onImageLongPress}
+            alignItems="center"
+            justifyContent="center"
           >
-            <>
-              <Pressable
-                onPress={onImagePress}
-                onLongPress={onImageLongPress}
-                alignItems="center"
-                justifyContent="center"
-              >
-                <MemoizedFastImage
-                  postId={post.post.id}
-                  source={post.post.url}
-                  recycled={recycled}
-                  nsfw={post.post.nsfw && blurNsfw}
-                />
-              </Pressable>
-              <ImageModal
-                source={post.post.url}
-                width={Dimensions.get("screen").width}
-                height={Dimensions.get("screen").height}
-                isOpen={imageViewOpen}
-                onRequestClose={() => {
-                  setImageViewOpen(false);
-                }}
-              />
-            </>
-          </Content>
-        </>
+            <MemoizedFastImage
+              postId={post.post.id}
+              source={post.post.url}
+              recycled={recycled}
+              nsfw={post.post.nsfw && blurNsfw}
+            />
+          </Pressable>
+          {!isPreview && body && (
+            <Title
+              title={title}
+              mt={2}
+              mb={0}
+              isPreview={isPreview}
+              isRead={isRead}
+            />
+          )}
+          {body && (
+            <RenderMarkdown
+              text={body}
+              addImages={!isPreview}
+              truncate={false}
+            />
+          )}
+          {!isPreview && !body && (
+            <Title
+              title={title}
+              mt={2}
+              mb={0}
+              isPreview={isPreview}
+              isRead={isRead}
+            />
+          )}
+          <ImageModal
+            source={post.post.url}
+            width={Dimensions.get("screen").width}
+            height={Dimensions.get("screen").height}
+            isOpen={imageViewOpen}
+            onRequestClose={() => {
+              setImageViewOpen(false);
+            }}
+          />
+        </VStack>
       );
     }
 
     if (linkInfo.extType === ExtensionType.NONE) {
       return (
-        <>
-          <Content
-            postTitle={post.post.name}
-            isPreview={isPreview}
-            isRead={post.read}
-          >
-            {isPreview ? (
+        <VStack space={2}>
+          {isPreview ? (
+            <>
+              <Title
+                title={title}
+                mt={0}
+                mb={2}
+                isPreview={isPreview}
+                isRead={isRead}
+              />
               <Text color={theme.colors.app.textSecondary}>{body}</Text>
-            ) : (
+            </>
+          ) : (
+            <>
+              <Title
+                title={title}
+                mt={2}
+                mb={0}
+                isPreview={isPreview}
+                isRead={isRead}
+              />
               <RenderMarkdown
                 text={body}
                 addImages={!isPreview}
                 truncate={false}
               />
-            )}
-          </Content>
-        </>
+            </>
+          )}
+        </VStack>
       );
     }
 
@@ -163,16 +187,19 @@ function ContentView({
       linkInfo.extType === ExtensionType.GENERIC
     ) {
       return (
-        <Content
-          postTitle={post.post.name}
-          isPreview={isPreview}
-          isRead={post.read}
-        >
+        <VStack space={2}>
+          <Title
+            title={title}
+            mt={2}
+            mb={0}
+            isPreview={isPreview}
+            isRead={isRead}
+          />
           <LinkButton
             link={linkInfo.link}
             thumbnail={post.post.thumbnail_url}
           />
-        </Content>
+        </VStack>
       );
     }
 
@@ -181,9 +208,9 @@ function ContentView({
 
   return useMemo(
     () => (
-      <VStack mt={isPreview || isImage ? 0 : 3} mx={4} mb={1}>
+      <Box mx={4} mb={1}>
         {renderContent()}
-      </VStack>
+      </Box>
     ),
     [post.post.id, post.read, imageViewOpen]
   );
