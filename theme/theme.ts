@@ -8,6 +8,7 @@ import {
   nightOwlThemeColors,
   sleepyRainforestThemeColors,
   sunsetThemeColors,
+  oksolarDarkThemeColors,
 } from "./darkColors";
 import { lightThemeColors } from "./lightColors";
 import { commonSettings } from "./common";
