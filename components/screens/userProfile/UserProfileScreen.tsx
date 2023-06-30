@@ -193,11 +193,16 @@ function UserProfileScreen({
           selected={profile.selected}
           onCommentsPress={() => {
             profile.setSelected("comments");
-            pagerView.current.setPageWithoutAnimation(0);
+            pagerView.current.setPage(0);
           }}
           onPostsPress={() => {
             profile.setSelected("posts");
-            pagerView.current.setPageWithoutAnimation(1);
+            pagerView.current.setPage(1);
+          }}
+          showSaved={profile.self}
+          onSavedPostsPress={() => {
+            profile.setSelected("savedposts");
+            pagerView.current.setPage(2);
           }}
         />
       </VStack>
@@ -242,6 +247,22 @@ function UserProfileScreen({
     [profile.posts, profile.loading, profile.refreshing, profile.selected]
   );
 
+  const savedPostList = useMemo(
+    () => (
+      <FlashList
+        renderItem={renderPost}
+        ListHeaderComponent={header}
+        estimatedItemSize={100}
+        data={profile.savedPosts}
+        keyExtractor={postKeyExtractor}
+        ListEmptyComponent={<NoResultView type="posts" />}
+        refreshing={profile.loading}
+        refreshControl={refreshControl}
+      />
+    ),
+    [profile.posts, profile.loading, profile.refreshing, profile.selected]
+  );
+
   return useMemo(() => {
     if (profile.notFound) {
       return <NotFoundView />;
@@ -265,6 +286,7 @@ function UserProfileScreen({
         >
           <View key="1">{commentList}</View>
           <View key="2">{postList}</View>
+          {profile.savedPosts && <View key="3">{savedPostList}</View>}
         </PagerView>
       </VStack>
     );

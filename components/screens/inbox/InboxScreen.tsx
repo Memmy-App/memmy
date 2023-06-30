@@ -60,16 +60,6 @@ function InboxScreen({
     />
   );
 
-  if (inbox.error) {
-    return (
-      <LoadingErrorView
-        onRetryPress={() => {
-          inbox.doLoad(true);
-        }}
-      />
-    );
-  }
-
   const onUnreadPress = () => {
     inbox.setTopSelected("unread");
   };
@@ -103,8 +93,15 @@ function InboxScreen({
     if (inbox.loading) {
       return <LoadingView />;
     }
-    if (!inbox.loading && inbox.error) {
-      return <LoadingErrorView onRetryPress={() => {}} />;
+
+    if (inbox.error) {
+      return (
+        <LoadingErrorView
+          onRetryPress={() => {
+            inbox.doLoad(true);
+          }}
+        />
+      );
     }
 
     return (
