@@ -16,13 +16,15 @@ jobs:
 
   eas_build:
     executor: node/default
+    macos:
+      xcode: 14.2.0
     steps:
       - checkout
       - node/install-packages:
           pkg-manager: yarn
       - run:
           name: "Trigger build"
-          command: "npx eas-cli build --platform ios --profile production --non-interactive"
+          command: "npx eas-cli build --platform ios --profile production --non-interactive --local"
 
 workflows:
   lint:
