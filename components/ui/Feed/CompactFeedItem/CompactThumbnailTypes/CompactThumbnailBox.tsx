@@ -1,7 +1,11 @@
 import React from "react";
 import { Box, useTheme } from "native-base";
 
-function ThumbnailBox({ children }: { children: React.ReactNode }) {
+interface IProps {
+  children: React.ReactNode;
+}
+
+function ThumbnailBox({ children }: IProps) {
   const { colors } = useTheme();
   return (
     <Box

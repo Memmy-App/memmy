@@ -12,7 +12,7 @@ import {
 import ImageModal from "../../../image/ImageModal";
 import ThumbnailBox from "./CompactThumbnailBox";
 
-interface ImageThumbnailProps {
+interface IProps {
   post: PostView;
   setImageViewOpen: (open: boolean) => void;
   imageViewOpen: boolean;
@@ -29,7 +29,7 @@ function ImageThumbnail({
   setPostRead,
   blurNsfw,
   markReadOnPostImageView,
-}: ImageThumbnailProps) {
+}: IProps) {
   const { colors } = useTheme();
 
   const onImagePress = () => {
