@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  yarn: itinerisltd/yarn@2.1.1
+
 executors:
   default:
     docker:
