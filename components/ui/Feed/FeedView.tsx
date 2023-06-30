@@ -9,14 +9,14 @@ import { trigger } from "react-native-haptic-feedback";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
   IconBolt,
+  IconBookmark,
   IconCalendar,
   IconClockHour4,
   IconDots,
   IconFlame,
-  IconMessage,
   IconMapPin,
-  IconBookmark,
-  IconWorld
+  IconMessage,
+  IconWorld,
 } from "tabler-icons-react-native";
 import FeedItem from "./FeedItem";
 import LoadingView from "../Loading/LoadingView";
@@ -55,7 +55,7 @@ const ContextualMenuIconType = {
   Ellipses: <IconDots />,
   All: <IconWorld />,
   Local: <IconMapPin />,
-  Subscribed: <IconBookmark />
+  Subscribed: <IconBookmark />,
 };
 
 function FeedView({ feed, community = false, header }: FeedViewProps) {
@@ -232,12 +232,13 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
           icon={SortIconType[feed.sort]}
           onPress={onSortPress}
         />
-        <HeaderIconButton 
-          icon={community 
-            ? ContextualMenuIconType['Ellipses'] 
-            : ContextualMenuIconType[feed.listingType]
-          } 
-          onPress={onContextualMenuButtonPress} 
+        <HeaderIconButton
+          icon={
+            community
+              ? ContextualMenuIconType.Ellipses
+              : ContextualMenuIconType[feed.listingType]
+          }
+          onPress={onContextualMenuButtonPress}
         />
       </HStack>
     );
