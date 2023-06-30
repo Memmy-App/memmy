@@ -36,7 +36,6 @@ workflows:
       - lint
   build_app:
     jobs:
-      - lint
       - eas_build:
           filters:
             branches:
