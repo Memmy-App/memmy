@@ -2,17 +2,17 @@ import React, { useEffect } from "react";
 import { HStack, Icon, Pressable, Text, useTheme, VStack } from "native-base";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 import { selectFeed, setDropdownVisible } from "../../../slices/feed/feedSlice";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import {
   selectAccounts,
   selectCurrentAccount,
 } from "../../../slices/accounts/accountsSlice";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
 
 interface HeaderDropdownProps {
   enabled: boolean;
@@ -38,11 +38,9 @@ function FeedHeaderDropdown({ enabled }: HeaderDropdownProps) {
     dispatch(setDropdownVisible());
   };
 
-  const caretRotation = useAnimatedStyle(() => {
-    return {
-      transform: [{ rotate: `${timer.value * 180}deg` }],
-    };
-  });
+  const caretRotation = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${timer.value * 180}deg` }],
+  }));
 
   return (
     <Pressable onPress={onPress}>

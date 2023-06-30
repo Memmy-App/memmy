@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Pressable, ScrollView, View } from "native-base";
+import Animated, { FadeOutUp, FadeInUp } from "react-native-reanimated";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectFeed, setDropdownVisible } from "../../../slices/feed/feedSlice";
 import {
@@ -11,7 +12,6 @@ import CTable from "../table/CTable";
 import CSection from "../table/CSection";
 import { Account } from "../../../types/Account";
 import CCell from "../table/CCell";
-import Animated, { FadeOutUp, FadeInUp } from "react-native-reanimated";
 
 function FeedHeaderDropdownDrawer() {
   const { dropdownVisible } = useAppSelector(selectFeed);
