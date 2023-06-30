@@ -144,10 +144,10 @@ export {
   draculaTheme,
   draculaThemePurple,
   nightOwlTheme,
-  oksolarDarkTheme,
   moodyPurpleTheme,
   sleepyRainforestTheme,
   goldenHourTheme,
   nauticalTheme,
   sunsetTheme,
+  oksolarDarkTheme,
 };

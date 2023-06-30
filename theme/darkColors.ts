@@ -396,7 +396,7 @@ const oksolarDarkThemeColors: IColors = {
   accentHighlight: "#E7F2FF",
 
   textPrimary: "#FFF",
-  textSecondary: "#8FAAAB",
+  textSecondary: "#98a8a8",
   textTertiary: "#8FAAAB",
   fg: "#002D38",
   bg: "#093946",
