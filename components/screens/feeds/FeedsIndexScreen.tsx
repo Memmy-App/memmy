@@ -81,14 +81,7 @@ function FeedsIndexScreen({
     feed.setLoaded(true);
   };
 
-  const headerTitle = () => (
-    <FeedHeaderDropdown
-      title={`${
-        currentAccount ? currentAccount.username : accounts[0].username
-      }@${currentAccount ? currentAccount.instance : accounts[0].instance}`}
-      enabled
-    />
-  );
+  const headerTitle = () => <FeedHeaderDropdown enabled />;
   const headerLeft = () => (
     <HeaderIconButton
       onPress={() => navigation.navigate("Subscriptions")}

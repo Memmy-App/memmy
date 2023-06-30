@@ -8,9 +8,8 @@ import {
   useTheme,
 } from "native-base";
 import FastImage from "react-native-fast-image";
-import { Dimensions, Share } from "react-native";
+import { Dimensions } from "react-native";
 import { truncateImageLink } from "../../../helpers/TextHelper";
-import downloadAndSaveImage from "../../../helpers/ImageHelper";
 import ImageModal from "../image/ImageModal";
 
 interface ImageButtonProps {
@@ -24,7 +23,6 @@ function ImageButton({ src }: ImageButtonProps) {
 
   const onPress = () => {
     setVisible(true);
-    console.log("sup");
   };
 
   return (

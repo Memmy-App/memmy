@@ -34,9 +34,9 @@ function FeedHeaderDropdownDrawer() {
         <ScrollView>
           <CTable>
             <CSection>
-              {accounts.map((a, i) => (
+              {accounts.map((a) => (
                 <CCell
-                  key={i}
+                  key={a.username}
                   cellStyle="Basic"
                   title={`${a.username}@${a.instance}`}
                   accessory="DisclosureIndicator"

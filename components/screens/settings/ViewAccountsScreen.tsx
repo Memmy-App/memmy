@@ -153,10 +153,10 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
     <ScrollView backgroundColor={theme.colors.app.bg}>
       <LoadingModalTransparent loading={notifications.loading} />
       <CTable>
-        {accounts.map((a, i) => (
+        {accounts.map((a) => (
           <CSection
             header={`${a.username}@${a.instance}`.toUpperCase()}
-            key={i}
+            key={`${a.username}${a.instance}`}
           >
             <CCell
               cellStyle="Basic"

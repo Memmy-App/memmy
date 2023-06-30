@@ -1,9 +1,7 @@
 import React from "react";
 import { ImageBackground, StyleSheet } from "react-native";
-import { Button, HStack, Text, useTheme, View, VStack } from "native-base";
-import FastImage from "react-native-fast-image";
+import { Button, Text, View, VStack } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import LinearGradient from "react-native-linear-gradient";
 
 const background = require("../../../assets/onboard-bg.jpg");
 

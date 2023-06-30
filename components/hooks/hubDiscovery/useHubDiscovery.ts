@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
-import { GetSiteResponse, SiteView } from "lemmy-js-client";
+import { GetSiteResponse } from "lemmy-js-client";
 import getInstanceList from "../../../helpers/InstanceHelper";
 
 interface UseHubDiscovery {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   runOnJS,
   useAnimatedGestureHandler,
@@ -173,8 +173,8 @@ const useSwipeAnimation = (
       case "rightLeftTwo": {
         if (!options.onRightLeftTwo) return;
 
-        if (color.value === theme.colors.app.infoBorder) return;
-        color.value = theme.colors.app.infoBorder;
+        if (color.value === theme.colors.app.success) return;
+        color.value = theme.colors.app.success;
         setRightIcon(options.rightLeftTwoIcon);
         break;
       }

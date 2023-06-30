@@ -11,24 +11,20 @@ interface IProps {
   onSubmitSearch: () => Promise<void>;
 }
 
-function SearchBar({
-  searchValue,
-  onSearchChange,
-  onSubmitSearch,
-}: IProps) {
+function SearchBar({ searchValue, onSearchChange, onSubmitSearch }: IProps) {
   const theme = useTheme();
   const navigation = useNavigation();
   const searchInput = useRef<TextInput>();
 
-  useEffect(() => {
-    const unsubscribe = navigation
-      .getParent<BottomTabNavigationProp<any>>()
-      ?.addListener("tabPress", () => {
-        searchInput.current?.focus();
-      });
-
-    return unsubscribe;
-  }, [navigation]);
+  useEffect(
+    () =>
+      navigation
+        .getParent<BottomTabNavigationProp<any>>()
+        ?.addListener("tabPress", () => {
+          searchInput.current?.focus();
+        }),
+    [navigation]
+  );
 
   return (
     <VStack backgroundColor={theme.colors.app.bg} pt={3} pb={2} px={4}>

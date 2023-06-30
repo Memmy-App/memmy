@@ -50,6 +50,8 @@ const SortIconType = {
 
 function FeedView({ feed, community = false, header }: FeedViewProps) {
   // State Props
+  // TODO Handle this
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [endReached, setEndReached] = useState(false);
   const [, setSortIcon] = useState(SortIconType[feed.sort]);
 
@@ -197,7 +199,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     );
   };
 
-  const getItemType = (item: PostView, index: number): string | undefined => {
+  const getItemType = (item: PostView): string | undefined => {
     const linkType = getLinkInfo(item.post.url);
 
     if (linkType.extType === ExtensionType.GENERIC && item.post.thumbnail_url) {

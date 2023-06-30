@@ -1,6 +1,6 @@
 import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Button, HStack, Text, View, VStack } from "native-base";
+import { Button, Text, VStack } from "native-base";
 import { ImageBackground, StyleSheet } from "react-native";
 
 const background = require("../../../../assets/onboard-bg2.jpg");
