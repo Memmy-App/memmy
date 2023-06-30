@@ -109,10 +109,6 @@ const useProfile = (fullUsername?: string): IProps => {
 
       const betterComments = buildComments(res.comments);
 
-      setProfile(res.person_view);
-      setComments(betterComments);
-      setPosts(res.posts);
-
       if (self.current) {
         const savedRes = await lemmyInstance.getPersonDetails({
           auth: lemmyAuthToken,
@@ -123,6 +119,10 @@ const useProfile = (fullUsername?: string): IProps => {
 
         setSavedPosts([...savedRes.posts]);
       }
+
+      setProfile(res.person_view);
+      setComments(betterComments);
+      setPosts(res.posts);
 
       if (refresh) setRefreshing(false);
       else setLoading(false);
