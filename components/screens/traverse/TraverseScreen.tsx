@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView, useTheme } from "native-base";
 import { CommunityView } from "lemmy-js-client";
 import useTraverse from "../../hooks/traverse/useTraverse";
