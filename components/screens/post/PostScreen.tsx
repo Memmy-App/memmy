@@ -24,7 +24,7 @@ import ContentView from "../../ui/ContentView";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
-import NoCommensView from "../../ui/comments/NoCommentsView";
+import NoResultView from "../../ui/common/NoResultView";
 
 function PostScreen({
   route,
@@ -140,7 +140,7 @@ function PostScreen({
       );
     }
     if (post.comments.length === 0 && !post.commentsError) {
-      return <NoCommensView my={4} />;
+      return <NoResultView my={4} type="comments" />;
     }
 
     return null;

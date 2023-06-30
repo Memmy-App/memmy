@@ -2,11 +2,18 @@ import React from "react";
 import { Text, useTheme, VStack } from "native-base";
 import { InterfaceVStackProps } from "native-base/lib/typescript/components/primitives/Stack/VStack";
 
+type MessageType = "comments" | "posts" | "default";
+
+const NoResultMessageMap: Record<MessageType, string> = {
+  comments: "No comments yet. Time to do your part 🫡",
+  posts: "No posts found. Maybe you should get a conversation started?",
+  default: "No result found :(",
+};
 export interface INoResultViewProps extends InterfaceVStackProps {
-  message?: string;
+  type?: MessageType;
 }
 
-function NoResultView({ message, ...rest }: INoResultViewProps) {
+function NoResultView({ type, ...rest }: INoResultViewProps) {
   const theme = useTheme();
 
   return (
@@ -16,7 +23,7 @@ function NoResultView({ message, ...rest }: INoResultViewProps) {
         color={theme.colors.app.textSecondary}
         textAlign="center"
       >
-        {message || "No results found :("}
+        {NoResultMessageMap[type || "default"]}
       </Text>
     </VStack>
   );

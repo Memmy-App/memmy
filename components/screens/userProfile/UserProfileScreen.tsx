@@ -27,8 +27,7 @@ import CommentItem from "../../ui/comments/CommentItem";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import LoadingView from "../../ui/Loading/LoadingView";
 import NotFoundView from "../../ui/Loading/NotFoundView";
-import NoPostsView from "../../ui/Feed/NoPostsView";
-import NoCommensView from "../../ui/comments/NoCommentsView";
+import NoResultView from "../../ui/common/NoResultView";
 
 function UserProfileScreen({
   route,
@@ -219,7 +218,7 @@ function UserProfileScreen({
         estimatedItemSize={100}
         data={profile.comments}
         keyExtractor={commentKeyExtractor}
-        ListEmptyComponent={<NoCommensView />}
+        ListEmptyComponent={<NoResultView type="comments" />}
         refreshing={profile.loading}
         refreshControl={refreshControl}
       />
@@ -235,7 +234,7 @@ function UserProfileScreen({
         estimatedItemSize={100}
         data={profile.posts}
         keyExtractor={postKeyExtractor}
-        ListEmptyComponent={<NoPostsView />}
+        ListEmptyComponent={<NoResultView type="posts" />}
         refreshing={profile.loading}
         refreshControl={refreshControl}
       />
