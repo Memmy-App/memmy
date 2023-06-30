@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ListingType, PostView, SortType } from "lemmy-js-client";
 import { HStack, useTheme, View } from "native-base";
 import { Button, RefreshControl, StyleSheet } from "react-native";
@@ -35,6 +35,8 @@ import HeaderIconButton from "../buttons/HeaderIconButton";
 import { IconCalendarWeek } from "../customIcons";
 import { showToast } from "../../../slices/toast/toastSlice";
 import NoResultView from "../common/NoResultView";
+import { Community, FeedOverflowButton } from "./FeedOverflowButton";
+import { FeedSortButton } from "./FeedSortButton";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -69,15 +71,12 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   const { compactView } = useAppSelector(selectSettings);
 
   // Refs
-  const communityId = useRef(0);
-  const communityName = useRef("");
   const flashList = useRef<FlashList<any>>();
   const recycled = useRef({});
 
   // Other Hooks
   const theme = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const { showActionSheetWithOptions } = useActionSheet();
   const dispatch = useAppDispatch();
 
   useScrollToTop(flashList);
@@ -95,103 +94,55 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     });
   }, [feed.sort, feed.listingType]);
 
+  const firstPost = (feed.posts?.length ?? 0) > 0 ? feed.posts[0] : undefined;
+
+  const postCommunity: Community = useMemo(() => {
+    if (!firstPost || !community) return undefined;
+
+    return {
+      id: firstPost.community.id,
+      name: firstPost.community.name,
+    };
+  }, [firstPost, community]);
+
   useEffect(() => {
-    if (!feed.posts || feed.posts.length < 1 || communityId.current !== 0)
-      return;
-    communityId.current = feed.posts[0].community.id;
-    communityName.current = feed.posts[0].community.name;
-  }, [feed.posts]);
+    navigation.setOptions({
+      headerRight: () => {
+        if (dropdownVisible) {
+          return (
+            <Button
+              title="Cancel"
+              onPress={() => dispatch(setDropdownVisible())}
+            />
+          );
+        }
 
-  const onSortPress = () => {
-    const options = [
-      "Top Day",
-      "Top Week",
-      "Hot",
-      "Active",
-      "New",
-      "Most Comments",
-      "Cancel",
-    ];
-    const cancelButtonIndex = 6;
-
-    showActionSheetWithOptions(
-      {
-        options,
-        cancelButtonIndex,
-        userInterfaceStyle: theme.config.initialColorMode,
+        return (
+          <HStack space={1}>
+            <FeedSortButton
+              feed={feed}
+              onSortUpdate={() =>
+                flashList?.current?.scrollToOffset({
+                  animated: true,
+                  offset: 0,
+                })
+              }
+            />
+            <FeedOverflowButton
+              feed={feed}
+              community={postCommunity}
+              onPress={() =>
+                flashList?.current?.scrollToOffset({
+                  animated: true,
+                  offset: 0,
+                })
+              }
+            />
+          </HStack>
+        );
       },
-      (index: number) => {
-        if (index === cancelButtonIndex) return;
-
-        if (index === 0) {
-          feed.setSort("TopDay");
-        } else if (index === 1) {
-          feed.setSort("TopWeek");
-        } else if (index === 5) {
-          feed.setSort("MostComments");
-        } else {
-          feed.setSort(options[index] as SortType);
-        }
-
-        flashList?.current?.scrollToOffset({ animated: true, offset: 0 });
-      }
-    );
-  };
-
-  const onContextualMenuButtonPress = () => {
-    if (community) {
-      const options = ["Block Community", "Cancel"];
-      const cancelButtonIndex = 1;
-
-      showActionSheetWithOptions(
-        {
-          options,
-          cancelButtonIndex,
-          userInterfaceStyle: theme.config.initialColorMode,
-        },
-        (index: number) => {
-          if (index === cancelButtonIndex) return;
-
-          if (index === 0) {
-            trigger("impactMedium");
-
-            dispatch(
-              showToast({
-                message: `Blocked ${communityName.current}`,
-                duration: 3000,
-                variant: "info",
-              })
-            );
-
-            lemmyInstance
-              .blockCommunity({
-                auth: lemmyAuthToken,
-                community_id: communityId.current,
-                block: true,
-              })
-              .then();
-          }
-        }
-      );
-    } else {
-      const options = ["All", "Local", "Subscribed", "Cancel"];
-      const cancelButtonIndex = 3;
-
-      showActionSheetWithOptions(
-        {
-          options,
-          cancelButtonIndex,
-          userInterfaceStyle: theme.config.initialColorMode,
-        },
-        (index: number) => {
-          if (index === cancelButtonIndex) return;
-
-          feed.setListingType(options[index] as ListingType);
-          flashList?.current?.scrollToOffset({ animated: true, offset: 0 });
-        }
-      );
-    }
-  };
+    });
+  }, [feed, postCommunity, dropdownVisible]);
 
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<PostView>) => {
