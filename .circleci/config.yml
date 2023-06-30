@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  yarn: itinerisltd/yarn@2.1.1
+  node: circleci/node@5.0.2
 
 executors:
   default:
@@ -15,9 +15,8 @@ jobs:
       - image: cimg/base:2023.03
     steps:
       - checkout
-      - run:
-          name: "Install Deps"
-          command: "yarn install"
+      - node/install-packages:
+          pkg-manager: yarn
       - run:
           name: "Run Lint"
           command: "./node_modules/eslint/bin/eslint.js --quiet --exit-on-fatal-error --ext .tsx,.ts ."
@@ -26,9 +25,8 @@ jobs:
     executor: default
     steps:
       - checkout
-      - run:
-          name: "Install Deps"
-          command: "yarn install"
+      - node/install-packages:
+          pkg-manager: yarn
       - run:
           name: "Trigger build"
           command: "npx eas-cli build --platform ios --profile production --non-interactive"
