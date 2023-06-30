@@ -18,6 +18,7 @@ jobs:
     executor: node/default
     macos:
       xcode: 14.2.0
+    resource_class: macos.x86.medium.gen2
     steps:
       - checkout
       - node/install-packages:
