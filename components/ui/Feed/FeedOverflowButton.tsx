@@ -1,4 +1,9 @@
-import { IconDots } from "tabler-icons-react-native";
+import {
+  IconBookmark,
+  IconDots,
+  IconMapPin,
+  IconWorld,
+} from "tabler-icons-react-native";
 import HeaderIconButton from "../buttons/HeaderIconButton";
 import { useTheme } from "native-base";
 import { useActionSheet } from "@expo/react-native-action-sheet";
@@ -13,6 +18,12 @@ import { ListingType } from "lemmy-js-client";
 export type Community = {
   id: number;
   name: string;
+};
+
+const ContextualMenuIconType = {
+  All: <IconWorld />,
+  Local: <IconMapPin />,
+  Subscribed: <IconBookmark />,
 };
 
 interface Props {
@@ -100,5 +111,10 @@ export const MainFeedOverflowButton = ({
     );
   };
 
-  return <HeaderIconButton icon={<IconDots />} onPress={_onPress} />;
+  return (
+    <HeaderIconButton
+      icon={ContextualMenuIconType[feed.listingType]}
+      onPress={_onPress}
+    />
+  );
 };
