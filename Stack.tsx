@@ -28,7 +28,7 @@ import EditAccountScreen from "./components/screens/settings/EditAccountScreen";
 import SettingsIndexScreen from "./components/screens/settings/SettingsIndexScreen";
 import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen";
 import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
-import SubscriptionsScreen from "./components/screens/community/SubscriptionsScreen";
+import SubscriptionsScreen from "./components/screens/traverse/TraverseScreen";
 import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
 import LoadingView from "./components/ui/Loading/LoadingView";
 import {
@@ -51,6 +51,7 @@ import OnboardingInfoScreenSeven from "./components/screens/onboarding/infoScree
 import HubDiscoveryScreen from "./components/screens/onboarding/hubDiscovery/HubDiscoveryScreen";
 import InstanceScreen from "./components/ui/hubDiscovery/InstanceScreen";
 import NewPostBodyScreen from "./components/screens/post/NewPostBodyScreen";
+import TraverseScreen from "./components/screens/traverse/TraverseScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -359,10 +360,18 @@ function SearchStackScreen() {
   );
 }
 
-const CommunityStack = createNativeStackNavigator();
+const TraverseStack = createNativeStackNavigator();
 
-function CommunityStackScreen() {
-  return <CommunityStack.Navigator />;
+function TraverseStackScreen() {
+  return (
+    <TraverseStack.Navigator>
+      <TraverseStack.Screen
+        name="Traverse"
+        component={TraverseScreen}
+        options={{ title: "Traverse" }}
+      />
+    </TraverseStack.Navigator>
+  );
 }
 
 const SettingsStack = createNativeStackNavigator();
@@ -439,16 +448,12 @@ function Tabs() {
         }}
       />
       <Tab.Screen
-        name="InboxStack"
-        component={InboxStackScreen}
+        name="TraverseStack"
+        component={TraverseStackScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => <IconBell color={color} />,
-          tabBarLabel: "Inbox",
-          tabBarBadge:
-            unread.replies + unread.mentions + unread.privateMessage > 0
-              ? unread.replies + unread.mentions + unread.privateMessage
-              : null,
+          tabBarIcon: ({ color }) => <IconPlanet color={color} />,
+          tabBarLabel: "Traverse",
           freezeOnBlur: true,
         }}
       />
@@ -473,12 +478,16 @@ function Tabs() {
         }}
       />
       <Tab.Screen
-        name="CommunityStack"
-        component={CommunityStackScreen}
+        name="InboxStack"
+        component={InboxStackScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => <IconPlanet color={color} />,
-          tabBarLabel: "Community",
+          tabBarIcon: ({ color }) => <IconBell color={color} />,
+          tabBarLabel: "Inbox",
+          tabBarBadge:
+            unread.replies + unread.mentions + unread.privateMessage > 0
+              ? unread.replies + unread.mentions + unread.privateMessage
+              : null,
           freezeOnBlur: true,
         }}
       />

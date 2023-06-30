@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Alert } from "react-native";
-import { useTheme } from "native-base";
-import { IconStar } from "tabler-icons-react-native";
 import FeedView from "../../ui/Feed/FeedView";
 import FeedHeaderDropdown from "../../ui/Feed/FeedHeaderDropdown";
 import { useFeed } from "../../hooks/feeds/useFeed";
@@ -12,7 +10,6 @@ import {
   resetInstance,
 } from "../../../lemmy/LemmyInstance";
 import { useAppDispatch, useAppSelector } from "../../../store";
-import HeaderIconButton from "../../ui/buttons/HeaderIconButton";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { Account } from "../../../types/Account";
 import { writeToLog } from "../../../helpers/LogHelper";
@@ -31,14 +28,12 @@ function FeedsIndexScreen({
 
   // Hooks
   const feed = useFeed();
-  const theme = useTheme();
 
   // Other hooks
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => headerLeft(),
       headerTitle: () => headerTitle(),
     });
 
@@ -74,12 +69,6 @@ function FeedsIndexScreen({
   };
 
   const headerTitle = () => <FeedHeaderDropdown enabled />;
-  const headerLeft = () => (
-    <HeaderIconButton
-      onPress={() => navigation.navigate("Subscriptions")}
-      icon={<IconStar color={theme.colors.app.accent} />}
-    />
-  );
 
   return <FeedView feed={feed} />;
 }
