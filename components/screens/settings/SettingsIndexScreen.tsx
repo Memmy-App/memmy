@@ -72,40 +72,6 @@ function SettingsIndexScreen({
         </Section>
 
         <Section
-          header="NSFW CONTENT"
-          footer="This toggle does not affect your Lemmy account NSFW settings. This local setting will apply only to the app and will apply to all accounts."
-          roundedCorners
-          hideSurroundingSeparators
-        >
-          <CCell
-            cellStyle="RightDetail"
-            title="Blur NSFW"
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.blurNsfw}
-                onValueChange={(v) => onChange("blurNsfw", v)}
-              />
-            }
-          />
-          <CCell
-            cellStyle="RightDetail"
-            title="Hide NSFW"
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.hideNsfw}
-                onValueChange={(v) => onChange("hideNsfw", v)}
-              />
-            }
-          />
-        </Section>
-
-        <Section
           header="FUNCTIONALITY"
           roundedCorners
           hideSurroundingSeparators
