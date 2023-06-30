@@ -230,6 +230,7 @@ function CreateAccountScreen({ route }: { route: any }) {
                 autoCapitalize="none"
                 autoCorrect={false}
                 autoFocus={!route.params || !route.params.server}
+                keyboardType="web-search"
               />
               <CTextInput
                 name="username"

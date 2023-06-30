@@ -108,8 +108,16 @@ function FeedsCommunityScreen({
             <CustomButton
               onPress={communityFeed.onSubscribePress}
               icon={IconHeart}
-              iconFill={communityFeed.feed.subscribed}
-              text={communityFeed.feed.subscribed ? "Subscribed" : "Subscribe"}
+              iconFill={
+                communityFeed.feed.community.subscribed === "Subscribed" ||
+                communityFeed.feed.community.subscribed === "Pending"
+              }
+              text={
+                communityFeed.feed.community.subscribed === "Subscribed" ||
+                communityFeed.feed.community.subscribed === "Pending"
+                  ? "Subscribed"
+                  : "Subscribe"
+              }
             />
             <CustomButton
               onPress={communityFeed.onAboutPress}

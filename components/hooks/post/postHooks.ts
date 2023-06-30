@@ -3,12 +3,7 @@ import { PostView } from "lemmy-js-client";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../../slices/post/postSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
-import { setUpdateVote } from "../../../slices/feed/feedSlice";
-import { selectBookmarks } from "../../../slices/bookmarks/bookmarksSlice";
-import {
-  addBookmark,
-  removeBookmark,
-} from "../../../slices/bookmarks/bookmarksActions";
+import { setUpdateSaved, setUpdateVote } from "../../../slices/feed/feedSlice";
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
@@ -18,6 +13,7 @@ import {
   clearEditComment,
   selectEditComment,
 } from "../../../slices/comments/editCommentSlice";
+import { savePost } from "../../../lemmy/LemmyHelpers";
 
 export interface UsePost {
   comments: ILemmyComment[];
@@ -28,8 +24,7 @@ export interface UsePost {
 
   currentPost: PostView;
 
-  bookmarked: boolean;
-  doBookmark: () => void;
+  doSave: () => Promise<void>;
 
   doVote: (value: -1 | 0 | 1) => Promise<void>;
 
@@ -39,7 +34,6 @@ export interface UsePost {
 const usePost = (commentId: string | null): UsePost => {
   // Global State
   const { post, newComment } = useAppSelector(selectPost);
-  const bookmarks = useAppSelector(selectBookmarks);
   const { commentId: editedCommentId, content: editedContent } =
     useAppSelector(selectEditComment);
 
@@ -48,9 +42,6 @@ const usePost = (commentId: string | null): UsePost => {
   const [commentsLoading, setCommentsLoading] = useState<boolean>(true);
   const [commentsError, setCommentsError] = useState<boolean>(false);
   const [currentPost, setCurrentPost] = useState<PostView>(post);
-  const [bookmarked, setBookmarked] = useState<boolean>(
-    bookmarks?.findIndex((b) => b.postId === currentPost.post.id) !== -1
-  );
 
   const recycled = useRef({});
 
@@ -218,22 +209,29 @@ const usePost = (commentId: string | null): UsePost => {
     }
   };
 
-  /**
-   * Bookmark the current post
-   */
-  const doBookmark = () => {
-    if (bookmarked) {
-      dispatch(removeBookmark(post.post.id));
-      setBookmarked(false);
-    } else {
+  const doSave = async () => {
+    setCurrentPost((prev) => ({
+      ...prev,
+      saved: !currentPost.saved,
+    }));
+
+    const res = await savePost(currentPost.post.id, !currentPost.saved);
+
+    if (!res) {
+      setCurrentPost((prev) => ({
+        ...prev,
+        saved: !currentPost.saved,
+      }));
+
       dispatch(
-        addBookmark({
-          postId: post.post.id,
-          postName: post.post.name,
-          postLink: post.post.ap_id,
+        showToast({
+          message: "Failed to save post.",
+          variant: "error",
+          duration: 2000,
         })
       );
-      setBookmarked(true);
+    } else {
+      dispatch(setUpdateSaved(post.post.id));
     }
   };
 
@@ -247,8 +245,7 @@ const usePost = (commentId: string | null): UsePost => {
 
     currentPost,
 
-    bookmarked,
-    doBookmark,
+    doSave,
 
     doVote,
 

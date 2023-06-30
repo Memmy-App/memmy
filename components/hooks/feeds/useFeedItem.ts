@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { SetStateAction, useMemo, useState } from "react";
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { useAppDispatch, useAppSelector } from "../../../store";
-import { setUpdateVote } from "../../../slices/feed/feedSlice";
+import { setUpdateSaved, setUpdateVote } from "../../../slices/feed/feedSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { setPost } from "../../../slices/post/postSlice";
@@ -12,6 +12,7 @@ import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 import { getLinkInfo, LinkInfo } from "../../../helpers/LinkHelper";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { showToast } from "../../../slices/toast/toastSlice";
+import { savePost } from "../../../lemmy/LemmyHelpers";
 
 interface UseFeedItem {
   myVote: ILemmyVote;
@@ -19,6 +20,7 @@ interface UseFeedItem {
 
   onVotePress: (value: ILemmyVote, haptic?: boolean) => Promise<void>;
   onPress: () => void;
+  doSave: () => Promise<void>;
 
   setPostRead: () => void;
 
@@ -129,11 +131,31 @@ const useFeedItem = (
     }
   };
 
+  const doSave = async () => {
+    dispatch(setUpdateSaved(post.post.id));
+
+    const res = await savePost(post.post.id, !post.saved);
+
+    if (!res) {
+      dispatch(
+        showToast({
+          message: "Failed to save post.",
+          variant: "error",
+          duration: 2000,
+        })
+      );
+
+      dispatch(setUpdateSaved(post.post.id));
+    }
+  };
+
   return {
     myVote,
     setMyVote,
 
     onVotePress,
+
+    doSave,
 
     onPress,
 
