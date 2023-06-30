@@ -1,5 +1,11 @@
 version: 2.1
 
+executors:
+  default:
+    docker:
+      - image: cimg/node:lts
+    working_directory: "~/"
+
 jobs:
   lint:
     docker:
