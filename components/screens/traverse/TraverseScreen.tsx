@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { ScrollView, useTheme } from "native-base";
+import { ScrollView, Text, useTheme } from "native-base";
 import { CommunityView } from "lemmy-js-client";
 import { RefreshControl } from "react-native";
 import useTraverse from "../../hooks/traverse/useTraverse";
@@ -47,7 +47,18 @@ function TraverseScreen() {
         }
       >
         {header}
-        {traverse.subscriptions.map((c) => item(c))}
+        {traverse.subscriptions.length === 0 ? (
+          <Text
+            fontStyle="italic"
+            textAlign="center"
+            justifyContent="center"
+            alignSelf="center"
+          >
+            You don&apos;t have any subscriptions.
+          </Text>
+        ) : (
+          traverse.subscriptions.map((c) => item(c))
+        )}
       </ScrollView>
     );
   }, [
