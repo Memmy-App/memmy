@@ -101,12 +101,14 @@ const useSwipeAnimation = (
           runOnJS(onCommentSlideHapticFeedback)();
           ranFeedbackComment.value = true;
         } else if (
+          options.onRightLeftTwo &&
           -event.translationX >= width * 0.32 &&
           !ranFeedbackMarkRead.value
         ) {
           runOnJS(onCommentSlideHapticFeedback)();
           ranFeedbackMarkRead.value = true;
         } else if (
+          options.onRightLeftTwo &&
           -event.translationX >= width * 0.17 &&
           -event.translationX < width * 0.32 &&
           ranFeedbackComment.value &&
@@ -136,6 +138,8 @@ const useSwipeAnimation = (
         ) {
           runOnJS(onDone)("rightLeftOne");
         } else if (-event.translationX >= width * 0.32) {
+          if (!options.onRightLeftTwo) runOnJS(onDone)("rightLeftOne");
+
           runOnJS(onDone)("rightLeftTwo");
         }
       }
