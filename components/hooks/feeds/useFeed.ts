@@ -9,12 +9,10 @@ import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import {
-  isSubscribed,
   removeDuplicatePosts,
   removeNsfwPosts,
 } from "../../../lemmy/LemmyHelpers";
 import { clearUpdateSaved, selectFeed } from "../../../slices/feed/feedSlice";
-import { selectCommunities } from "../../../slices/communities/communitiesSlice";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { preloadImages } from "../../../helpers/ImageHelper";
 
@@ -25,15 +23,13 @@ export interface UseFeed {
   postsError: boolean;
 
   community: CommunityView | null;
+  setCommunity: React.Dispatch<SetStateAction<CommunityView>>;
   communityLoading: boolean;
   communityError: boolean;
   communityNotFound: boolean;
 
   sort: SortType;
   setSort: (sort: SortType) => void;
-
-  subscribed: boolean;
-  setSubscribed: React.Dispatch<SetStateAction<boolean>>;
 
   refreshList: boolean;
   setRefreshList: React.Dispatch<SetStateAction<boolean>>;
@@ -52,7 +48,6 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
   const { defaultSort, defaultListingType, hideNsfw } =
     useAppSelector(selectSettings);
   const { updateVote, updateSaved } = useAppSelector(selectFeed);
-  const { subscribedCommunities } = useAppSelector(selectCommunities);
 
   // State
   const [posts, setPosts] = useState<PostView[] | null>(null);
@@ -63,8 +58,6 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
   const [communityLoading, setCommunityLoading] = useState<boolean>(false);
   const [communityError, setCommunityError] = useState<boolean>(false);
   const [communityNotFound, setCommunityNotFound] = useState<boolean>(false);
-
-  const [subscribed, setSubscribed] = useState<boolean>(false);
 
   const [sort, setSort] = useState<SortType>(defaultSort);
   const [listingType, setListingType] =
@@ -148,9 +141,6 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
         });
 
         setCommunity(res.community_view);
-        setSubscribed(
-          isSubscribed(res.community_view.community.id, subscribedCommunities)
-        );
         setCommunityLoading(false);
       } catch (e) {
         writeToLog("Error getting community feed.");
@@ -230,15 +220,14 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
     postsError,
 
     community,
+    setCommunity,
+
     communityLoading,
     communityError,
     communityNotFound,
 
     refreshList,
     setRefreshList,
-
-    subscribed,
-    setSubscribed,
 
     sort,
     setSort,

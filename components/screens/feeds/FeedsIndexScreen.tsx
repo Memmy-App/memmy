@@ -12,7 +12,6 @@ import {
   resetInstance,
 } from "../../../lemmy/LemmyInstance";
 import { useAppDispatch, useAppSelector } from "../../../store";
-import { getSubscribedCommunities } from "../../../slices/communities/communitiesActions";
 import HeaderIconButton from "../../ui/buttons/HeaderIconButton";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { Account } from "../../../types/Account";
@@ -68,7 +67,6 @@ function FeedsIndexScreen({
 
     previousAccount.current = currentAccount;
 
-    dispatch(getSubscribedCommunities());
     dispatch(getUnreadCount());
 
     feed.doLoad(true);

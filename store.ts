@@ -3,7 +3,6 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { postSlice } from "./slices/post/postSlice";
 import { newCommentSlice } from "./slices/comments/newCommentSlice";
 import feedSlice from "./slices/feed/feedSlice";
-import communitiesSlice from "./slices/communities/communitiesSlice";
 import settingsSlice from "./slices/settings/settingsSlice";
 import accountsSlice from "./slices/accounts/accountsSlice";
 import siteSlice from "./slices/site/siteSlice";
@@ -15,7 +14,6 @@ const store = configureStore({
     post: postSlice.reducer,
     newComment: newCommentSlice.reducer,
     feed: feedSlice,
-    communities: communitiesSlice,
     settings: settingsSlice,
     accounts: accountsSlice,
     site: siteSlice,
