@@ -33,7 +33,4 @@ jobs:
 workflows:
   lint:
     jobs:
-      - lint:
-          filters:
-            branches:
-              ignore: main
+      - lint
