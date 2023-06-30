@@ -25,7 +25,7 @@ function NewPostBodyScreen({ route, navigation }: IProps) {
     () => (
       <Button title="Back" color={theme.colors.app.accent} onPress={goBack} />
     ),
-    []
+    [body]
   );
 
   useEffect(() => {
