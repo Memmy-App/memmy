@@ -10,6 +10,7 @@ import {
   IconNotes,
   IconPlanet,
   IconSearch,
+  IconSettings,
   IconUserCircle,
 } from "tabler-icons-react-native";
 import CommunityAboutScreen from "./components/screens/feeds/CommunityAboutScreen";
@@ -27,7 +28,7 @@ import EditAccountScreen from "./components/screens/settings/EditAccountScreen";
 import SettingsIndexScreen from "./components/screens/settings/SettingsIndexScreen";
 import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen";
 import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
-import SubscriptionsScreen from "./components/screens/userProfile/SubscriptionsScreen";
+import SubscriptionsScreen from "./components/screens/community/SubscriptionsScreen";
 import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
 import LoadingView from "./components/ui/Loading/LoadingView";
 import {
@@ -361,51 +362,57 @@ function SearchStackScreen() {
 const CommunityStack = createNativeStackNavigator();
 
 function CommunityStackScreen() {
+  return <CommunityStack.Navigator />;
+}
+
+const SettingsStack = createNativeStackNavigator();
+
+function SettingsStackScreen() {
   return (
-    <CommunityStack.Navigator>
-      <CommunityStack.Screen
+    <SettingsStack.Navigator>
+      <SettingsStack.Screen
         name="Settings"
         component={SettingsIndexScreen}
         options={{
           title: "Settings",
         }}
       />
-      <CommunityStack.Screen
+      <SettingsStack.Screen
         name="ViewAccounts"
         component={ViewAccountsScreen}
         options={{
           title: "Manage Accounts",
         }}
       />
-      <CommunityStack.Screen
+      <SettingsStack.Screen
         name="EditAccount"
         component={EditAccountScreen}
         options={{
           title: "Edit Account",
         }}
       />
-      <CommunityStack.Screen
+      <SettingsStack.Screen
         name="ReadSettings"
         component={ReadSettingsScreen}
         options={{
           title: "Mark Post Read On...",
         }}
       />
-      <CommunityStack.Screen
+      <SettingsStack.Screen
         name="ThemeSelection"
         component={ThemeSelectionScreen}
         options={{
           title: "Theme",
         }}
       />
-      <CommunityStack.Screen
+      <SettingsStack.Screen
         name="Viewer"
         component={ViewerScreen}
         options={{
           title: "View",
         }}
       />
-    </CommunityStack.Navigator>
+    </SettingsStack.Navigator>
   );
 }
 
@@ -471,7 +478,8 @@ function Tabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => <IconPlanet color={color} />,
-          tabBarLabel: "Settings",
+          tabBarLabel: "Community",
+          freezeOnBlur: true,
         }}
       />
     </Tab.Navigator>
