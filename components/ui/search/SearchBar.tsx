@@ -9,22 +9,27 @@ interface IProps {
   searchValue: string;
   onSearchChange: React.Dispatch<SetStateAction<string>>;
   onSubmitSearch?: () => Promise<void>;
+  autoFocus?: boolean;
 }
 
-function SearchBar({ searchValue, onSearchChange, onSubmitSearch }: IProps) {
+function SearchBar({
+  searchValue,
+  onSearchChange,
+  onSubmitSearch,
+  autoFocus = true,
+}: IProps) {
   const theme = useTheme();
   const navigation = useNavigation();
   const searchInput = useRef<TextInput>();
 
-  useEffect(
-    () =>
-      navigation
-        .getParent<BottomTabNavigationProp<any>>()
-        ?.addListener("tabPress", () => {
-          searchInput.current?.focus();
-        }),
-    [navigation]
-  );
+  useEffect(() => {
+    if (!autoFocus) return;
+    navigation
+      .getParent<BottomTabNavigationProp<any>>()
+      ?.addListener("tabPress", () => {
+        searchInput.current?.focus();
+      });
+  }, [navigation]);
 
   return (
     <VStack backgroundColor={theme.colors.app.bg} pt={3} pb={2} px={4}>
@@ -51,7 +56,6 @@ function SearchBar({ searchValue, onSearchChange, onSubmitSearch }: IProps) {
           returnKeyType="search"
           returnKeyLabel="search"
           keyboardAppearance={theme.config.initialColorMode}
-          keyboardType="twitter"
           onSubmitEditing={onSubmitSearch}
           autoCorrect={false}
           autoCapitalize="none"
