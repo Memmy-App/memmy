@@ -25,12 +25,16 @@ jobs:
           name: "Trigger build"
           command: "npx eas-cli build -p ios --profile production --non-interactive"
 
-# Orchestrate jobs using workflows
-# See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
+  lint:
+    jobs:
+      - lint
   build_app:
     jobs:
+      - lint
       - eas_build:
+          requires:
+            - lint
           filiters:
             branches:
               only: main
