@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useMemo } from "react";
 import { useTheme, VStack } from "native-base";
 import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
@@ -173,7 +174,7 @@ const RenderMarkdown = ({
     },
   };
 
-  const markdown = useMemo(() => {
+  return useMemo(() => {
     const cleanedText = findImages(text);
     text = cleanedText.cleanedText.replace(
       /(^|[^[\]])\b(https?:\/\/[^\s]+)\b(?![\]]|\()/g,
@@ -196,8 +197,6 @@ const RenderMarkdown = ({
       </VStack>
     );
   }, [text]);
-
-  return markdown;
 };
 
 export default RenderMarkdown;
