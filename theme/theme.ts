@@ -8,7 +8,6 @@ import {
   nightOwlThemeColors,
   sleepyRainforestThemeColors,
   sunsetThemeColors,
-  oksolarDarkThemeColors,
 } from "./darkColors";
 import { lightThemeColors } from "./lightColors";
 import { commonSettings } from "./common";
@@ -74,6 +73,49 @@ const nightOwlTheme = extendTheme({
     app: nightOwlThemeColors,
   },
 
+  config: {
+    initialColorMode: "dark",
+  },
+});
+
+const sleepyRainforestTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: sleepyRainforestThemeColors,
+  },
+
+  config: {
+    initialColorMode: "dark",
+  },
+});
+
+const goldenHourTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: goldenHourThemeColors,
+  },
+
+  config: {
+    initialColorMode: "dark",
+  },
+});
+
+const nauticalTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: nauticalThemeColors,
+  },
+
+  config: {
+    initialColorMode: "dark",
+  },
+});
+
+const sunsetTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: sunsetThemeColors,
+  },
   config: {
     initialColorMode: "dark",
   },
