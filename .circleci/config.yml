@@ -34,6 +34,6 @@ workflows:
       - eas_build:
           requires:
             - lint
-          filiters:
+          filters:
             branches:
               only: main
