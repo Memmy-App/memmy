@@ -3,16 +3,9 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.2
 
-executors:
-  default:
-    docker:
-      - image: cimg/node:lts
-    working_directory: "~/"
-
 jobs:
   lint:
-    docker:
-      - image: cimg/base:2023.03
+    executor: node/default
     steps:
       - checkout
       - node/install-packages:
@@ -22,7 +15,7 @@ jobs:
           command: "./node_modules/eslint/bin/eslint.js --quiet --exit-on-fatal-error --ext .tsx,.ts ."
 
   eas_build:
-    executor: default
+    executor: node/default
     steps:
       - checkout
       - node/install-packages:
