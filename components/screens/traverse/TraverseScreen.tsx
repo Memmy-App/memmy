@@ -30,44 +30,36 @@ function TraverseScreen() {
     return <TraverseItem community={community} key={community.community.id} />;
   };
 
-  return useMemo(() => {
-    if (traverse.loading) {
-      return <LoadingView />;
-    }
+  if (traverse.loading) {
+    return <LoadingView />;
+  }
 
-    return (
-      <ScrollView
-        flex={1}
-        backgroundColor={theme.colors.app.bg}
-        refreshControl={
-          <RefreshControl
-            refreshing={traverse.refreshing}
-            onRefresh={() => traverse.doLoad(true)}
-          />
-        }
-      >
-        {header}
-        {traverse.subscriptions.length === 0 ? (
-          <Text
-            fontStyle="italic"
-            textAlign="center"
-            justifyContent="center"
-            alignSelf="center"
-          >
-            You don&apos;t have any subscriptions.
-          </Text>
-        ) : (
-          traverse.subscriptions.map((c) => item(c))
-        )}
-      </ScrollView>
-    );
-  }, [
-    traverse.subscriptions,
-    traverse.loading,
-    traverse.error,
-    traverse.refreshing,
-    term,
-  ]);
+  return (
+    <ScrollView
+      flex={1}
+      backgroundColor={theme.colors.app.bg}
+      refreshControl={
+        <RefreshControl
+          refreshing={traverse.refreshing}
+          onRefresh={() => traverse.doLoad(true)}
+        />
+      }
+    >
+      {header}
+      {traverse.subscriptions.length === 0 ? (
+        <Text
+          fontStyle="italic"
+          textAlign="center"
+          justifyContent="center"
+          alignSelf="center"
+        >
+          You don&apos;t have any subscriptions.
+        </Text>
+      ) : (
+        traverse.subscriptions.map((c) => item(c))
+      )}
+    </ScrollView>
+  );
 }
 
 export default TraverseScreen;
