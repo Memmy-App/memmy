@@ -424,7 +424,7 @@ export const sunsetThemeColors: IColors = {
   bookmarkText: "#fff",
 };
 
-const oksolarDarkColors: IColors = {
+const oksolarDarkThemeColors: IColors = {
   accent: "#F23749",
   accentHighlight: "#E7F2FF",
 

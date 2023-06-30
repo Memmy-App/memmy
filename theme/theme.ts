@@ -8,6 +8,7 @@ import {
   nightOwlThemeColors,
   sleepyRainforestThemeColors,
   sunsetThemeColors,
+  oksolarDarkThemeColors,
 } from "./darkColors";
 import { lightThemeColors } from "./lightColors";
 import { commonSettings } from "./common";
@@ -81,7 +82,7 @@ const nightOwlTheme = extendTheme({
 const oksolarDarkTheme = extendTheme({
   ...commonSettings,
   colors: {
-    app: oksolarDarkColors,
+    app: oksolarDarkThemeColors,
   },
   config: {
     initialColorMode: "dark",
@@ -101,7 +102,6 @@ export {
   draculaThemePurple,
   nightOwlTheme,
   oksolarDarkTheme,
-  oksolarLightTheme,
   moodyPurpleTheme,
   sleepyRainforestTheme,
   goldenHourTheme,
