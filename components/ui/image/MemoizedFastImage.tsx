@@ -86,17 +86,19 @@ function MemoizedFastImage({
               <Text>Sensitive content ahead</Text>
             </VStack>
           </BlurView>
-          <FastImage
-            resizeMode={FastImage.resizeMode.contain}
-            source={{
-              uri: source,
-            }}
-            style={{
-              height,
-              width,
-            }}
-            onLoad={onLoad}
-          />
+          {!source.includes(".gif") && (
+            <FastImage
+              resizeMode={FastImage.resizeMode.contain}
+              source={{
+                uri: source,
+              }}
+              style={{
+                height,
+                width,
+              }}
+              onLoad={onLoad}
+            />
+          )}
         </View>
       ),
       [height, source]
