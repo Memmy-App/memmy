@@ -7,13 +7,12 @@ import LoadingView from "../../ui/Loading/LoadingView";
 import KeyboardAccessory from "../../ui/KeyboardAccessory";
 import useEditComment from "../../hooks/comments/useEditComment";
 
-function EditCommentScreen({
-  route,
-  navigation,
-}: {
+interface IProps {
   route: any;
   navigation: NativeStackNavigationProp<any>;
-}) {
+}
+
+function EditCommentScreen({ route, navigation }: IProps) {
   // Hooks
   const editComment = useEditComment(
     route.params.commentId,

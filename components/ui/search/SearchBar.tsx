@@ -8,7 +8,7 @@ import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 interface IProps {
   searchValue: string;
   onSearchChange: React.Dispatch<SetStateAction<string>>;
-  onSubmitSearch: () => Promise<void>;
+  onSubmitSearch?: () => Promise<void>;
 }
 
 function SearchBar({ searchValue, onSearchChange, onSubmitSearch }: IProps) {
@@ -51,6 +51,7 @@ function SearchBar({ searchValue, onSearchChange, onSubmitSearch }: IProps) {
           returnKeyType="search"
           returnKeyLabel="search"
           keyboardAppearance={theme.config.initialColorMode}
+          keyboardType="twitter"
           onSubmitEditing={onSubmitSearch}
           autoCorrect={false}
           autoCapitalize="none"

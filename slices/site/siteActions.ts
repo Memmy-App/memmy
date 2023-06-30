@@ -66,7 +66,7 @@ export const unblockCommunity = createAsyncThunk(
         block: false,
       });
     } catch (e) {
-      writeToLog("Error unblocking community.");
+      writeToLog("Error unblocking traverse.");
       writeToLog(e.toString());
       return thunkAPI.rejectWithValue(e.toString());
     }

@@ -3,15 +3,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import moment from "moment";
-import {
-  Box,
-  HStack,
-  Spinner,
-  Text,
-  useTheme,
-  View,
-  VStack,
-} from "native-base";
+import { Box, HStack, Text, useTheme, View, VStack } from "native-base";
 import { RefreshControl, StyleSheet } from "react-native";
 import FastImage from "react-native-fast-image";
 import {
@@ -35,6 +27,7 @@ import CommentItem from "../../ui/comments/CommentItem";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import LoadingView from "../../ui/Loading/LoadingView";
 import NotFoundView from "../../ui/Loading/NotFoundView";
+import NoResultView from "../../ui/common/NoResultView";
 
 function UserProfileScreen({
   route,
@@ -200,11 +193,16 @@ function UserProfileScreen({
           selected={profile.selected}
           onCommentsPress={() => {
             profile.setSelected("comments");
-            pagerView.current.setPageWithoutAnimation(0);
+            pagerView.current.setPage(0);
           }}
           onPostsPress={() => {
             profile.setSelected("posts");
-            pagerView.current.setPageWithoutAnimation(1);
+            pagerView.current.setPage(1);
+          }}
+          showSaved={profile.self}
+          onSavedPostsPress={() => {
+            profile.setSelected("savedposts");
+            pagerView.current.setPage(2);
           }}
         />
       </VStack>
@@ -225,7 +223,7 @@ function UserProfileScreen({
         estimatedItemSize={100}
         data={profile.comments}
         keyExtractor={commentKeyExtractor}
-        ListEmptyComponent={<Spinner pt={10} />}
+        ListEmptyComponent={<NoResultView type="comments" />}
         refreshing={profile.loading}
         refreshControl={refreshControl}
       />
@@ -241,7 +239,23 @@ function UserProfileScreen({
         estimatedItemSize={100}
         data={profile.posts}
         keyExtractor={postKeyExtractor}
-        ListEmptyComponent={<Spinner pt={10} />}
+        ListEmptyComponent={<NoResultView type="posts" />}
+        refreshing={profile.loading}
+        refreshControl={refreshControl}
+      />
+    ),
+    [profile.posts, profile.loading, profile.refreshing, profile.selected]
+  );
+
+  const savedPostList = useMemo(
+    () => (
+      <FlashList
+        renderItem={renderPost}
+        ListHeaderComponent={header}
+        estimatedItemSize={100}
+        data={profile.savedPosts}
+        keyExtractor={postKeyExtractor}
+        ListEmptyComponent={<NoResultView type="posts" />}
         refreshing={profile.loading}
         refreshControl={refreshControl}
       />
@@ -272,6 +286,7 @@ function UserProfileScreen({
         >
           <View key="1">{commentList}</View>
           <View key="2">{postList}</View>
+          {profile.savedPosts && <View key="3">{savedPostList}</View>}
         </PagerView>
       </VStack>
     );
