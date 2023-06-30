@@ -2,10 +2,15 @@ import { useEffect, useState } from "react";
 import { CommunityView } from "lemmy-js-client";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
+import { useAppSelector } from "../../../store";
+import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 
 interface UseTraverse {
   loading: boolean;
   error: boolean;
+  refreshing: boolean;
+
+  doLoad: (refresh?: boolean) => Promise<void>;
 
   subscriptions: CommunityView[];
 }
@@ -13,17 +18,24 @@ interface UseTraverse {
 const useTraverse = (): UseTraverse => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const [subscriptions, setSubscriptions] = useState<CommunityView[]>([]);
 
+  const currentAccount = useAppSelector(selectCurrentAccount);
+
   useEffect(() => {
     doLoad().then();
-  }, []);
+  }, [currentAccount]);
 
-  const doLoad = async () => {
+  const doLoad = async (refresh = false) => {
+    if (refresh) setRefreshing(true);
+    else setLoading(true);
+
     const res = await getAllCommunities();
 
     setLoading(false);
+    setRefreshing(false);
 
     if (!res) {
       setError(true);
@@ -77,6 +89,10 @@ const useTraverse = (): UseTraverse => {
   return {
     loading,
     error,
+    refreshing,
+
+    doLoad,
+
     subscriptions,
   };
 };
