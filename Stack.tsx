@@ -347,11 +347,58 @@ const TraverseStack = createNativeStackNavigator();
 function TraverseStackScreen() {
   return (
     <TraverseStack.Navigator>
-      <TraverseStack.Screen
-        name="Traverse"
-        component={TraverseScreen}
-        options={{ title: "Traverse" }}
-      />
+      <TraverseStack.Group>
+        <TraverseStack.Screen
+          name="Traverse"
+          component={TraverseScreen}
+          options={{ title: "Traverse" }}
+        />
+        <TraverseStack.Screen
+          name="FeedScreen"
+          component={FeedsIndexScreen}
+          options={{
+            title: "Feed",
+          }}
+        />
+        <TraverseStack.Screen name="Post" component={PostScreen} />
+        <TraverseStack.Screen
+          name="Community"
+          component={CommunityFeedScreen}
+        />
+        <TraverseStack.Screen name="Profile" component={UserProfileScreen} />
+      </TraverseStack.Group>
+
+      <TraverseStack.Group
+        screenOptions={{
+          presentation: "modal",
+        }}
+      >
+        <TraverseStack.Screen
+          name="NewComment"
+          component={NewCommentScreen}
+          options={{ title: "New Comment" }}
+        />
+        <TraverseStack.Screen
+          name="EditComment"
+          component={EditCommentScreen}
+          options={{ title: "Edit Comment" }}
+        />
+        <TraverseStack.Screen
+          name="NewPost"
+          component={NewPostScreen}
+          options={{ title: "New Post" }}
+        />
+        <TraverseStack.Screen
+          name="NewPostBody"
+          component={NewPostBodyScreen}
+          options={{ title: "New Post" }}
+        />
+        <TraverseStack.Screen
+          name="CommunityAbout"
+          component={CommunityAboutScreen}
+          options={{ title: "About" }}
+        />
+      </TraverseStack.Group>
     </TraverseStack.Navigator>
   );
 }
