@@ -51,6 +51,7 @@ function SearchBar({ searchValue, onSearchChange, onSubmitSearch }: IProps) {
           returnKeyType="search"
           returnKeyLabel="search"
           keyboardAppearance={theme.config.initialColorMode}
+          keyboardType="twitter"
           onSubmitEditing={onSubmitSearch}
           autoCorrect={false}
           autoCapitalize="none"

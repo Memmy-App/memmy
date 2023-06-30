@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { StyleSheet, TextInput } from "react-native";
+import { KeyboardTypeOptions, StyleSheet, TextInput } from "react-native";
 import { Text, useTheme, VStack } from "native-base";
 
 interface TextInputProps {
@@ -13,6 +13,7 @@ interface TextInputProps {
   autoCapitalize?: "none" | "sentences" | "words" | "characters";
   autoCorrect?: boolean;
   autoFocus?: boolean;
+  keyboardType?: KeyboardTypeOptions;
 }
 
 function CTextInput({
@@ -26,6 +27,7 @@ function CTextInput({
   autoCapitalize = "sentences",
   autoCorrect = true,
   autoFocus = false,
+  keyboardType = "default",
 }: TextInputProps) {
   let focused = false;
 
@@ -64,6 +66,7 @@ function CTextInput({
         secureTextEntry={secure}
         ref={autoFocus ? ref : null}
         keyboardAppearance={theme.config.initialColorMode}
+        keyboardType={keyboardType}
       />
     </VStack>
   );
