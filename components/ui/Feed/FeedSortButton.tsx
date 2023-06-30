@@ -1,7 +1,6 @@
+import React from "react";
 import { useTheme } from "native-base";
-import HeaderIconButton from "../buttons/HeaderIconButton";
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { UseFeed } from "../../hooks/feeds/useFeed";
 import { SortType } from "lemmy-js-client";
 import {
   IconBolt,
@@ -10,6 +9,8 @@ import {
   IconFlame,
   IconMessage,
 } from "tabler-icons-react-native";
+import { UseFeed } from "../../hooks/feeds/useFeed";
+import HeaderIconButton from "../buttons/HeaderIconButton";
 import { IconCalendarWeek } from "../customIcons";
 
 type SortOption = [key: SortType, display: string];
@@ -28,7 +29,7 @@ interface Props {
   onSortUpdate?: (key: SortType) => void;
 }
 
-export const FeedSortButton = ({ feed, onSortUpdate }: Props) => {
+function FeedSortButton({ feed, onSortUpdate }: Props) {
   const theme = useTheme();
   const { showActionSheetWithOptions } = useActionSheet();
 
@@ -50,7 +51,7 @@ export const FeedSortButton = ({ feed, onSortUpdate }: Props) => {
     );
   };
   return <HeaderIconButton icon={SortIconType[feed.sort]} onPress={onPress} />;
-};
+}
 
 const SortIconType = {
   TopDay: <IconCalendar />,
@@ -60,3 +61,5 @@ const SortIconType = {
   New: <IconClockHour4 />,
   MostComments: <IconMessage />,
 };
+
+export default FeedSortButton;

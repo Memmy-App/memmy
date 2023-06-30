@@ -1,3 +1,4 @@
+import React from "react";
 import LoadingErrorFooter from "../Loading/LoadingErrorFooter";
 import LoadingErrorView from "../Loading/LoadingErrorView";
 import LoadingFooter from "../Loading/LoadingFooter";
@@ -9,7 +10,7 @@ interface Props {
   onRetry: (refresh?: boolean) => void;
 }
 
-export const Footer = ({ loading, error, empty, onRetry }: Props) => {
+function Footer({ loading, error, empty, onRetry }: Props) {
   if (loading) {
     return <LoadingFooter message="Loading more posts..." />;
   }
@@ -26,4 +27,6 @@ export const Footer = ({ loading, error, empty, onRetry }: Props) => {
   }
 
   return null;
-};
+}
+
+export default Footer;

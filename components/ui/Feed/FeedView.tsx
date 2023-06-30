@@ -16,8 +16,8 @@ import CompactFeedItem from "./CompactFeedItem/CompactFeedItem";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
 import NoResultView from "../common/NoResultView";
-import { Footer } from "./Footer";
-import { FeedSortButton } from "./FeedSortButton";
+import Footer from "./Footer";
+import FeedSortButton from "./FeedSortButton";
 import { Community, FeedOverflowButton } from "./FeedOverflowButton";
 
 interface FeedViewProps {
@@ -67,6 +67,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
 
   useEffect(() => {
     navigation.setOptions({
+      // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => {
         if (dropdownVisible) {
           return (
