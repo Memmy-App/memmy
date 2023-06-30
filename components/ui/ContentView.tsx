@@ -150,7 +150,7 @@ function ContentView({
 
     if (linkInfo.extType === ExtensionType.NONE) {
       return (
-        <VStack space={2}>
+        <VStack>
           {isPreview ? (
             <>
               <Title
@@ -187,11 +187,11 @@ function ContentView({
       linkInfo.extType === ExtensionType.GENERIC
     ) {
       return (
-        <VStack space={2}>
+        <VStack>
           <Title
             title={title}
             mt={2}
-            mb={0}
+            mb={2}
             isPreview={isPreview}
             isRead={isRead}
           />
