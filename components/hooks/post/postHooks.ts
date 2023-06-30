@@ -3,7 +3,7 @@ import { PostView } from "lemmy-js-client";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../../slices/post/postSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
-import { setUpdateVote } from "../../../slices/feed/feedSlice";
+import { setUpdateSaved, setUpdateVote } from "../../../slices/feed/feedSlice";
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
@@ -210,18 +210,28 @@ const usePost = (commentId: string | null): UsePost => {
   };
 
   const doSave = async () => {
-    setCurrentPost({
-      ...currentPost,
-      saved: true,
-    });
+    setCurrentPost((prev) => ({
+      ...prev,
+      saved: !currentPost.saved,
+    }));
 
-    const res = await savePost(currentPost.post.id);
+    const res = await savePost(currentPost.post.id, !currentPost.saved);
 
     if (!res) {
-      setCurrentPost({
-        ...currentPost,
-        saved: false,
-      });
+      setCurrentPost((prev) => ({
+        ...prev,
+        saved: !currentPost.saved,
+      }));
+
+      dispatch(
+        showToast({
+          message: "Failed to save post.",
+          variant: "error",
+          duration: 2000,
+        })
+      );
+    } else {
+      dispatch(setUpdateSaved(post.post.id));
     }
   };
 
