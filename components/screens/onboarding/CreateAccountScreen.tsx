@@ -179,6 +179,8 @@ function CreateAccountScreen({ route }: { route: any }) {
 
     server.auth = lemmyAuthToken;
 
+    setLoading(false);
+
     dispatch(
       addAccount({
         username: form.username,
@@ -221,7 +223,7 @@ function CreateAccountScreen({ route }: { route: any }) {
                 Open Email App
               </Button>
               <Button onPress={() => setReady(true)} disabled={loading}>
-                Log In Now
+                Get Started
               </Button>
             </VStack>
           ) : (
@@ -303,7 +305,7 @@ function CreateAccountScreen({ route }: { route: any }) {
                 mx={2}
               >
                 <Text fontWeight="semibold" fontSize="lg">
-                  Login
+                  Create Account
                 </Text>
               </Button>
             </>
