@@ -16,7 +16,7 @@ export const loadAccounts = createAsyncThunk(
       writeToLog("Error loading accounts.");
       writeToLog(e.toString());
 
-      thunkAPI.rejectWithValue("Error loading accounts.");
+      return thunkAPI.rejectWithValue("Error loading accounts.");
     }
   }
 );

@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from "./store";
 import getFontScale from "./theme/fontSize";
 import { darkTheme } from "./theme/theme";
 import { ThemeOptionsArr, ThemeOptionsMap } from "./theme/themeOptions";
+import Toast from "./components/ui/Toast";
 
 const logError = (e, info) => {
   writeToLog(e.toString());
@@ -71,15 +72,14 @@ function Start() {
       appState.current = nextAppState;
     });
 
+    // eslint-disable-next-line consistent-return
     return () => {
       subscription.remove();
     };
   }, [loaded]);
 
   const startInterval = () => {
-    console.log("starting an interval.");
     refreshInterval = setInterval(() => {
-      console.log("Looking for updates...");
       if (lemmyInstance && lemmyAuthToken) {
         dispatch(getUnreadCount());
       }
@@ -132,7 +132,10 @@ function Start() {
         <StatusBar style={theme === "Light" ? "dark" : "light"} />
         <GestureHandlerRootView style={{ flex: 1 }}>
           <ActionSheetProvider>
-            <Stack />
+            <>
+              <Toast />
+              <Stack />
+            </>
           </ActionSheetProvider>
         </GestureHandlerRootView>
       </ErrorBoundary>

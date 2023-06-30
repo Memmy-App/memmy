@@ -49,7 +49,11 @@ function PostScreen({
   }, []);
 
   const commentItem = ({ item }) => (
-    <CommentItem comment={item} setComments={post.setComments} opId={post.currentPost.creator.id} />
+    <CommentItem
+      comment={item}
+      setComments={post.setComments}
+      opId={post.currentPost.creator.id}
+    />
   );
 
   const refreshControl = (

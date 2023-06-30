@@ -1,12 +1,12 @@
 import React from "react";
-import { CommunitySafe } from "lemmy-js-client";
+import { Community } from "lemmy-js-client";
 import { HStack, Text } from "native-base";
 import { IconPlanet } from "tabler-icons-react-native";
 import Link from "./buttons/Link";
 import { getBaseUrl } from "../../helpers/LinkHelper";
 
 interface CommunityLinkProps {
-  community: CommunitySafe;
+  community: Community;
   instanceBaseUrl?: string;
   color?: string;
   hideIcon?: boolean;

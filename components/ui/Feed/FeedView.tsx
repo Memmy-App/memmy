@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ListingType, PostView, SortType } from "lemmy-js-client";
-import { HStack, useTheme, useToast, View } from "native-base";
+import { HStack, useTheme, View } from "native-base";
 import { Button, RefreshControl, StyleSheet } from "react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { FlashList } from "@shopify/flash-list";
@@ -31,6 +31,7 @@ import NoPostsView from "./NoPostsView";
 import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
 import HeaderIconButton from "../buttons/HeaderIconButton";
 import { IconCalendarWeek } from "../customIcons";
+import { showToast } from "../../../slices/toast/toastSlice";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -49,6 +50,8 @@ const SortIconType = {
 
 function FeedView({ feed, community = false, header }: FeedViewProps) {
   // State Props
+  // TODO Handle this
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [endReached, setEndReached] = useState(false);
   const [, setSortIcon] = useState(SortIconType[feed.sort]);
 
@@ -63,7 +66,6 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   const recycled = useRef({});
 
   // Other Hooks
-  const toast = useToast();
   const theme = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { showActionSheetWithOptions } = useActionSheet();
@@ -144,10 +146,14 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
 
           if (index === 0) {
             trigger("impactMedium");
-            toast.show({
-              title: `Blocked ${communityName.current}`,
-              duration: 3000,
-            });
+
+            dispatch(
+              showToast({
+                message: `Blocked ${communityName.current}`,
+                duration: 3000,
+                variant: "info",
+              })
+            );
 
             lemmyInstance
               .blockCommunity({
@@ -193,7 +199,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     );
   };
 
-  const getItemType = (item: PostView, index: number): string | undefined => {
+  const getItemType = (item: PostView): string | undefined => {
     const linkType = getLinkInfo(item.post.url);
 
     if (linkType.extType === ExtensionType.GENERIC && item.post.thumbnail_url) {

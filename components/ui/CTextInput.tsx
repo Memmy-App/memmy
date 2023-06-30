@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { StyleSheet, TextInput } from "react-native";
-import { Text, useColorMode, useTheme, VStack } from "native-base";
+import { Text, useTheme, VStack } from "native-base";
 
 interface TextInputProps {
   name: string;
@@ -41,11 +41,22 @@ function CTextInput({
   }, []);
 
   return (
-    <VStack>
-      <Text mx={3}>{label}</Text>
+    <VStack my={2}>
+      <Text mx={3} pb={1} fontSize={13}>
+        {label}
+      </Text>
       <TextInput
         placeholder={placeholder}
-        style={[styles.input, style]}
+        style={[
+          styles.input,
+          style,
+          {
+            backgroundColor: theme.colors.app.fg,
+            borderColor: theme.colors.app.border,
+            color: theme.colors.app.textPrimary,
+          },
+        ]}
+        placeholderTextColor={theme.colors.app.textSecondary}
         value={value}
         onChangeText={(v) => onChange(name, v)}
         autoCapitalize={autoCapitalize}

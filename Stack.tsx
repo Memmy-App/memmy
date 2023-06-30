@@ -19,7 +19,7 @@ import InboxScreen from "./components/screens/inbox/InboxScreen";
 import AddAccountScreen from "./components/screens/onboarding/AddAccountScreen";
 import CreateAccountScreen from "./components/screens/onboarding/CreateAccountScreen";
 import OnboardingIndexScreen from "./components/screens/onboarding/OnboardingIndexScreen";
-import NewCommentScreen from "./components/screens/post/NewCommentScreen";
+import NewCommentScreen from "./components/screens/comments/NewCommentScreen";
 import NewPostScreen from "./components/screens/post/NewPostScreen";
 import PostScreen from "./components/screens/post/PostScreen";
 import SearchScreen from "./components/screens/search/SearchScreen";
@@ -36,8 +36,19 @@ import {
 } from "./slices/accounts/accountsSlice";
 import { selectSite } from "./slices/site/siteSlice";
 import { useAppSelector } from "./store";
+import ReadSettingsScreen from "./components/screens/settings/ReadSettingsScreen";
 import ThemeSelectionScreen from "./components/screens/settings/Appearance/ThemeSelectionScreen";
 import ViewerScreen from "./components/screens/ViewerScreen";
+import EditCommentScreen from "./components/screens/comments/EditCommentScreen";
+import OnboardingInfoScreenOne from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenOne";
+import OnboardingInfoScreenTwo from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenTwo";
+import OnboardingInfoScreenThree from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenThree";
+import OnboardingInfoScreenFour from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenFour";
+import OnboardingInfoScreenFive from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenFive";
+import OnboardingInfoScreenSix from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenSix";
+import OnboardingInfoScreenSeven from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenSeven";
+import HubDiscoveryScreen from "./components/screens/onboarding/hubDiscovery/HubDiscoveryScreen";
+import InstanceScreen from "./components/ui/hubDiscovery/InstanceScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -74,6 +85,11 @@ function FeedStackScreen() {
           name="NewComment"
           component={NewCommentScreen}
           options={{ title: "New Comment" }}
+        />
+        <SearchStack.Screen
+          name="EditComment"
+          component={EditCommentScreen}
+          options={{ title: "Edit Comment" }}
         />
         <FeedStack.Screen
           name="NewPost"
@@ -133,6 +149,11 @@ function InboxStackScreen() {
           component={NewCommentScreen}
           options={{ title: "New Comment" }}
         />
+        <SearchStack.Screen
+          name="EditComment"
+          component={EditCommentScreen}
+          options={{ title: "Edit Comment" }}
+        />
         <InboxStack.Screen
           name="NewPost"
           component={NewPostScreen}
@@ -187,6 +208,13 @@ function ProfileStackScreen() {
           }}
         />
         <ProfileStack.Screen
+          name="ReadSettings"
+          component={ReadSettingsScreen}
+          options={{
+            title: "Mark Post Read On...",
+          }}
+        />
+        <ProfileStack.Screen
           name="Viewer"
           component={ViewerScreen}
           options={{
@@ -225,6 +253,11 @@ function ProfileStackScreen() {
           name="NewComment"
           component={NewCommentScreen}
           options={{ title: "New Comment" }}
+        />
+        <SearchStack.Screen
+          name="EditComment"
+          component={EditCommentScreen}
+          options={{ title: "Edit Comment" }}
         />
         <ProfileStack.Screen
           name="NewPost"
@@ -285,6 +318,11 @@ function SearchStackScreen() {
           options={{ title: "New Comment" }}
         />
         <SearchStack.Screen
+          name="EditComment"
+          component={EditCommentScreen}
+          options={{ title: "Edit Comment" }}
+        />
+        <SearchStack.Screen
           name="NewPost"
           component={NewPostScreen}
           options={{ title: "New Post" }}
@@ -323,6 +361,13 @@ function CommunityStackScreen() {
         component={EditAccountScreen}
         options={{
           title: "Edit Account",
+        }}
+      />
+      <CommunityStack.Screen
+        name="ReadSettings"
+        component={ReadSettingsScreen}
+        options={{
+          title: "Mark Post Read On...",
         }}
       />
       <CommunityStack.Screen
@@ -452,7 +497,52 @@ function Stack() {
               <MainStack.Screen
                 name="Onboarding"
                 component={OnboardingIndexScreen}
-                options={{ title: "Welcome" }}
+                options={{ title: "Welcome", headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoOne"
+                component={OnboardingInfoScreenOne}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoTwo"
+                component={OnboardingInfoScreenTwo}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoThree"
+                component={OnboardingInfoScreenThree}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoFour"
+                component={OnboardingInfoScreenFour}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoFive"
+                component={OnboardingInfoScreenFive}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoSix"
+                component={OnboardingInfoScreenSix}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoSeven"
+                component={OnboardingInfoScreenSeven}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="HubDiscovery"
+                component={HubDiscoveryScreen}
+                options={{ title: "Hubs" }}
+              />
+              <MainStack.Screen
+                name="Instance"
+                component={InstanceScreen}
+                options={{ title: "Instance" }}
               />
               <MainStack.Screen
                 name="AddAccount"

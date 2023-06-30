@@ -1,22 +1,20 @@
-import React from "react";
-import { Alert, LayoutAnimation, StyleSheet, Switch } from "react-native";
-import { getBuildNumber, getVersion } from "react-native-device-info";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Badge, Box, HStack, ScrollView, Text, useTheme } from "native-base";
-import { Section, TableView } from "react-native-tableview-simple";
 import * as WebBrowser from "expo-web-browser";
+import { Badge, Box, HStack, ScrollView, Text, useTheme } from "native-base";
+import React from "react";
+import { Alert, LayoutAnimation, StyleSheet, Switch } from "react-native";
+import { getBuildNumber, getVersion } from "react-native-device-info";
 import FastImage from "react-native-fast-image";
+import { Section, TableView } from "react-native-tableview-simple";
 import { deleteLog, sendLog } from "../../../helpers/LogHelper";
 import { selectAccounts } from "../../../slices/accounts/accountsSlice";
 import { setSetting } from "../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../store";
-import { ThemeOptionsArr } from "../../../theme/themeOptions";
-import CCell from "../../ui/table/CCell";
-import CSection from "../../ui/table/CSection";
 import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
+import CCell from "../../ui/table/CCell";
 
 function SettingsIndexScreen({
   navigation,
@@ -34,6 +32,13 @@ function SettingsIndexScreen({
     dispatch(setSetting({ [key]: value }));
   };
 
+  const onCacheClear = async () => {
+    await FastImage.clearDiskCache();
+    Alert.alert("Success", "Cache has been cleared.");
+  };
+
+  // @ts-ignore
+  // @ts-ignore
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
@@ -100,9 +105,21 @@ function SettingsIndexScreen({
           />
         </Section>
 
-        <Section header="Text Size" roundedCorners hideSurroundingSeparators>
+        <Section
+          header="FUNCTIONALITY"
+          roundedCorners
+          hideSurroundingSeparators
+        >
           <CCell
-            title="Use System Text Size"
+            title="Mark Post Read On..."
+            accessory="DisclosureIndicator"
+            onPress={() => navigation.push("ReadSettings")}
+          />
+        </Section>
+
+        <Section header="FONT SIZE" roundedCorners hideSurroundingSeparators>
+          <CCell
+            title="Use System Font Size"
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -158,15 +175,31 @@ function SettingsIndexScreen({
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
+          {/* <CCell */}
+          {/*  title="Swipe Gestures" */}
+          {/*  backgroundColor={theme.colors.app.fg} */}
+          {/*  titleTextColor={theme.colors.app.textPrimary} */}
+          {/*  rightDetailColor={theme.colors.app.textSecondary} */}
+          {/*  cellAccessoryView={ */}
+          {/*    <Switch */}
+          {/*      value={settings.swipeGestures} */}
+          {/*      onValueChange={(v) => onChange("swipeGestures", v)} */}
+          {/*    /> */}
+          {/*  } */}
+          {/* /> */}
           <CCell
-            title="Swipe Gestures"
+            cellStyle="Basic"
+            title="Images Ignore Screen Height"
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
             cellAccessoryView={
               <Switch
-                value={settings.swipeGestures}
-                onValueChange={(v) => onChange("swipeGestures", v)}
+                value={settings.ignoreScreenHeightInFeed}
+                onValueChange={(v) => {
+                  LayoutAnimation.easeInEaseOut();
+                  onChange("ignoreScreenHeightInFeed", v);
+                }}
               />
             }
           />
@@ -287,6 +320,7 @@ function SettingsIndexScreen({
                   {
                     options,
                     cancelButtonIndex,
+                    userInterfaceStyle: theme.config.initialColorMode,
                   },
                   (index: number) => {
                     if (index === cancelButtonIndex) return;
@@ -343,6 +377,40 @@ function SettingsIndexScreen({
           />
         </Section>
 
+        <Section
+          header="NSFW CONTENT"
+          footer="This toggle does not affect your Lemmy account NSFW settings. This local setting will apply only to the app and will apply to all accounts."
+          roundedCorners
+          hideSurroundingSeparators
+        >
+          <CCell
+            cellStyle="RightDetail"
+            title="Blur NSFW"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.blurNsfw}
+                onValueChange={(v) => onChange("blurNsfw", v)}
+              />
+            }
+          />
+          <CCell
+            cellStyle="RightDetail"
+            title="Hide NSFW"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.hideNsfw}
+                onValueChange={(v) => onChange("hideNsfw", v)}
+              />
+            }
+          />
+        </Section>
+
         <Section header="ABOUT" roundedCorners hideSurroundingSeparators>
           <CCell
             cellStyle="RightDetail"
@@ -379,7 +447,7 @@ function SettingsIndexScreen({
           />
         </Section>
 
-        <CSection header="DEBUG">
+        <Section header="DEBUG" roundedCorners hideSurroundingSeparators>
           <CCell
             cellStyle="Basic"
             title="Email Debug Log"
@@ -394,7 +462,6 @@ function SettingsIndexScreen({
                   if (e.toString() === "Error: no_file") {
                     Alert.alert("No debug file exists.");
                   } else {
-                    console.log(e);
                     Alert.alert(e.toString());
                   }
                 });
@@ -420,13 +487,13 @@ function SettingsIndexScreen({
             cellStyle="Basic"
             title="Clear Cache"
             accessory="DisclosureIndicator"
-            onPress={() =>
-              FastImage.clearDiskCache().then(
-                Alert.alert("Success", "Cache has been cleared.")
-              )
-            }
+            onPress={() => {
+              // TODO this is a hack to shut eslint up. PR was merged to accept promises here, so we can upgrade to the
+              // version on git or just remove this table stuff and use the new MTable
+              onCacheClear();
+            }}
           />
-        </CSection>
+        </Section>
       </TableView>
     </ScrollView>
   );

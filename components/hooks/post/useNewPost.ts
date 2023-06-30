@@ -105,7 +105,7 @@ const useNewPost = (
         body: form.body !== "" ? form.body : undefined,
         url: form.url !== "" ? form.url : undefined,
         auth: lemmyAuthToken,
-        language_id: 37,
+        language_id: languageId,
         community_id: communityId,
         nsfw: form.nsfw,
       };

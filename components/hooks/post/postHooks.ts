@@ -1,7 +1,5 @@
 import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import { PostView } from "lemmy-js-client";
-
-import { useToast } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../../slices/post/postSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
@@ -15,6 +13,11 @@ import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
+import { showToast } from "../../../slices/toast/toastSlice";
+import {
+  clearEditComment,
+  selectEditComment,
+} from "../../../slices/comments/editCommentSlice";
 
 export interface UsePost {
   comments: ILemmyComment[];
@@ -37,6 +40,8 @@ const usePost = (commentId: string | null): UsePost => {
   // Global State
   const { post, newComment } = useAppSelector(selectPost);
   const bookmarks = useAppSelector(selectBookmarks);
+  const { commentId: editedCommentId, content: editedContent } =
+    useAppSelector(selectEditComment);
 
   // State
   const [comments, setComments] = useState<ILemmyComment[]>([]);
@@ -51,7 +56,6 @@ const usePost = (commentId: string | null): UsePost => {
 
   // Other Hooks
   const dispatch = useAppDispatch();
-  const toast = useToast();
 
   // Check if a post is saved
   useEffect(() => {
@@ -91,6 +95,29 @@ const usePost = (commentId: string | null): UsePost => {
     }
   }, [newComment]);
 
+  useEffect(() => {
+    if (editedCommentId) {
+      setComments((prev) =>
+        prev.map((c) => {
+          if (c.comment.comment.id === editedCommentId) {
+            return {
+              ...c,
+              comment: {
+                ...c.comment,
+                comment: {
+                  ...c.comment.comment,
+                  content: editedContent,
+                },
+              },
+            };
+          }
+          return c;
+        })
+      );
+
+      dispatch(clearEditComment());
+    }
+  }, [editedContent]);
   /**
    * Load the comments for the current post
    */
@@ -176,10 +203,13 @@ const usePost = (commentId: string | null): UsePost => {
       writeToLog(e.toString());
 
       // If there was an error, reset the value and show a notification
-      toast.show({
-        title: "Error saving vote",
-        duration: 3000,
-      });
+      dispatch(
+        showToast({
+          message: "Error saving vote",
+          duration: 3000,
+          variant: "error",
+        })
+      );
 
       setCurrentPost({
         ...currentPost,
