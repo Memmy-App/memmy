@@ -27,11 +27,11 @@ import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import LoadingErrorView from "../Loading/LoadingErrorView";
 import CompactFeedItem from "./CompactFeedItem/CompactFeedItem";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
-import NoPostsView from "./NoPostsView";
 import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
 import HeaderIconButton from "../buttons/HeaderIconButton";
 import { IconCalendarWeek } from "../customIcons";
 import { showToast } from "../../../slices/toast/toastSlice";
+import NoResultView from "../common/NoResultView";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -187,7 +187,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
 
   const feedItem = ({ item }) => {
     if (feed.community && feed.community.counts.posts < 1) {
-      return <NoPostsView />;
+      return <NoResultView type="posts" />;
     }
 
     if (compactView) {
@@ -270,7 +270,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
         (feed.community && feed.community.counts.posts < 1 && (
           <>
             <HeaderComponent />
-            <NoPostsView />
+            <NoResultView type="posts" />
           </>
         )) || (
           <FlashList
@@ -283,7 +283,8 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             onEndReachedThreshold={0.5}
             estimatedItemSize={compactView ? 100 : 500}
             ListFooterComponent={footer}
-            onEndReached={() => feed.doLoad()}
+            ListEmptyComponent={<NoResultView type="posts" />}
+            onEndReached={() => feed.posts && feed.doLoad()}
             ref={flashList}
             getItemType={getItemType}
           />

@@ -176,6 +176,7 @@ function EditAccountScreen({
                 autoCorrect={false}
                 editable={!edit.current}
                 keyboardAppearance={theme.config.initialColorMode}
+                keyboardType="web-search"
               />
             }
             backgroundColor={theme.colors.app.fg}

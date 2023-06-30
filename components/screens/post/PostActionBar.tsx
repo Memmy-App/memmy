@@ -79,16 +79,20 @@ function PostActionBar({ post }: { post: UsePost }) {
       />
 
       <IconButtonWithText
-        onPressHandler={post.doBookmark}
+        onPressHandler={post.doSave}
         icon={
           <IconBookmark
             size={25}
             color={
-              post.bookmarked ? colors.app.bookmarkText : colors.app.accent
+              post.currentPost.saved
+                ? colors.app.bookmarkText
+                : colors.app.accent
             }
           />
         }
-        iconBgColor={post.bookmarked ? colors.app.bookmark : "transparent"}
+        iconBgColor={
+          post.currentPost.saved ? colors.app.bookmark : "transparent"
+        }
       />
 
       <IconButtonWithText

@@ -195,7 +195,12 @@ function CreateAccountScreen({ route }: { route: any }) {
       <VStack flex={1} mb={5} space="md" justifyContent="center">
         <Image
           source={header}
-          style={{ height: 175, borderBottomWidth: 1, borderColor: "white" }}
+          style={{
+            height: 175,
+            width: "100%",
+            borderBottomWidth: 1,
+            borderColor: "white",
+          }}
           resizeMode="cover"
         />
         <VStack mx={3}>
@@ -230,6 +235,7 @@ function CreateAccountScreen({ route }: { route: any }) {
                 autoCapitalize="none"
                 autoCorrect={false}
                 autoFocus={!route.params || !route.params.server}
+                keyboardType="web-search"
               />
               <CTextInput
                 name="username"
