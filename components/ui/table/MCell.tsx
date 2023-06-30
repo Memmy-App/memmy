@@ -1,6 +1,5 @@
 import React from "react";
 import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
-import { IconDoorEnter } from "tabler-icons-react-native";
 
 interface IProps {
   title: string;

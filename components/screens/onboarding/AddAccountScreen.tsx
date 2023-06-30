@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Image } from "react-native";
 import { Button, Text, useTheme, VStack } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -18,7 +18,11 @@ import { showToast } from "../../../slices/toast/toastSlice";
 
 const header = require("../../../assets/header.jpg");
 
-function AddAccountScreen() {
+interface IProps {
+  route: any;
+}
+
+function AddAccountScreen({ route }: IProps) {
   const [form, setForm] = useState<ILemmyServer>({
     server: "",
     username: "",
@@ -31,6 +35,12 @@ function AddAccountScreen() {
 
   const theme = useTheme();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (route.params && route.params.server) {
+      onFormChange("server", route.params.server);
+    }
+  }, []);
 
   const onFormChange = (name, value) => {
     setForm({
@@ -125,7 +135,7 @@ function AddAccountScreen() {
             onChange={onFormChange}
             autoCapitalize="none"
             autoCorrect={false}
-            autoFocus
+            autoFocus={!route.params || !route.params.server}
           />
           <CTextInput
             name="username"
@@ -135,6 +145,7 @@ function AddAccountScreen() {
             onChange={onFormChange}
             autoCapitalize="none"
             autoCorrect={false}
+            autoFocus={route.params && route.params.server}
           />
           <CTextInput
             name="password"

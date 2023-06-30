@@ -1,12 +1,10 @@
 import React, { useEffect, useMemo } from "react";
 import { Text, useTheme, VStack } from "native-base";
 import { FlashList } from "@shopify/flash-list";
-import { Button, RefreshControl } from "react-native";
+import { RefreshControl } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { IconMailOpened, IconSettings } from "tabler-icons-react-native";
+import { IconMailOpened } from "tabler-icons-react-native";
 import useInbox from "../../hooks/inbox/useInbox";
-import { useAppSelector } from "../../../store";
-import { selectSite } from "../../../slices/site/siteSlice";
 import CommentItem from "../../ui/comments/CommentItem";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
@@ -25,6 +23,8 @@ function InboxScreen({
 
   useEffect(() => {
     navigation.setOptions({
+      // TODO Handle
+      // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
         <HeaderIconButton
           icon={<IconMailOpened size={24} color={theme.colors.app.accent} />}

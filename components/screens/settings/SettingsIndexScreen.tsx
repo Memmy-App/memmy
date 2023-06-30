@@ -15,7 +15,6 @@ import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
 import CCell from "../../ui/table/CCell";
-import CSection from "../../ui/table/CSection";
 
 function SettingsIndexScreen({
   navigation,
@@ -33,6 +32,13 @@ function SettingsIndexScreen({
     dispatch(setSetting({ [key]: value }));
   };
 
+  const onCacheClear = async () => {
+    await FastImage.clearDiskCache();
+    Alert.alert("Success", "Cache has been cleared.");
+  };
+
+  // @ts-ignore
+  // @ts-ignore
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
@@ -314,6 +320,7 @@ function SettingsIndexScreen({
                   {
                     options,
                     cancelButtonIndex,
+                    userInterfaceStyle: theme.config.initialColorMode,
                   },
                   (index: number) => {
                     if (index === cancelButtonIndex) return;
@@ -455,7 +462,6 @@ function SettingsIndexScreen({
                   if (e.toString() === "Error: no_file") {
                     Alert.alert("No debug file exists.");
                   } else {
-                    console.log(e);
                     Alert.alert(e.toString());
                   }
                 });
@@ -481,11 +487,11 @@ function SettingsIndexScreen({
             cellStyle="Basic"
             title="Clear Cache"
             accessory="DisclosureIndicator"
-            onPress={() =>
-              FastImage.clearDiskCache().then(
-                Alert.alert("Success", "Cache has been cleared.")
-              )
-            }
+            onPress={() => {
+              // TODO this is a hack to shut eslint up. PR was merged to accept promises here, so we can upgrade to the
+              // version on git or just remove this table stuff and use the new MTable
+              onCacheClear();
+            }}
           />
         </Section>
       </TableView>

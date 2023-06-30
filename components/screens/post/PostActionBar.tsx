@@ -1,10 +1,9 @@
-import { HStack, IconButton, useTheme } from "native-base";
+import { HStack, useTheme } from "native-base";
 import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
-  IconBook,
   IconBookmark,
   IconMessageCirclePlus,
   IconShare2,

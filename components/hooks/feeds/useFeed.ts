@@ -5,7 +5,7 @@ import {
   PostView,
   SortType,
 } from "lemmy-js-client";
-import { useAppDispatch, useAppSelector } from "../../../store";
+import { useAppSelector } from "../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import {
@@ -73,11 +73,6 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
 
   const [refreshList, setRefreshList] = useState(false);
   const [loaded, setLoaded] = useState(false);
-
-  // Refs
-
-  // Other Hooks
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!posts || posts.length < 1) return;

@@ -148,7 +148,10 @@ function CreateAccountScreen({ route }: { route: any }) {
       onFormChange("captchaUuid", res.ok.uuid);
       setShowCaptcha(true);
       setLoading(false);
-    } catch (e) {}
+    } catch (e) {
+      writeToLog("Error getting captcha.");
+      writeToLog(e.toString());
+    }
   };
 
   const onReady = async () => {

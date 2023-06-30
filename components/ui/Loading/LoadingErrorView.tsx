@@ -10,10 +10,7 @@ function LoadingErrorView({ onRetryPress }: LoadingViewProps) {
   const theme = useTheme();
 
   return (
-    <View
-      style={styles.container}
-      backgroundColor={theme.colors.app.bg}
-    >
+    <View style={styles.container} backgroundColor={theme.colors.app.bg}>
       <Text fontStyle="italic" color="gray.500">
         Error loading content :(
       </Text>

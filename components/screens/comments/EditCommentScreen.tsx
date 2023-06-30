@@ -58,7 +58,7 @@ function EditCommentScreen({
     />
   );
 
-  if (false) {
+  if (editComment.loading) {
     return <LoadingView />;
   }
 
