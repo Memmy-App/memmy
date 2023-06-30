@@ -10,7 +10,6 @@ import {
   IconNotes,
   IconPlanet,
   IconSearch,
-  IconSettings,
   IconUserCircle,
 } from "tabler-icons-react-native";
 import CommunityAboutScreen from "./components/screens/feeds/CommunityAboutScreen";
@@ -28,7 +27,6 @@ import EditAccountScreen from "./components/screens/settings/EditAccountScreen";
 import SettingsIndexScreen from "./components/screens/settings/SettingsIndexScreen";
 import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen";
 import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
-import SubscriptionsScreen from "./components/screens/traverse/TraverseScreen";
 import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
 import LoadingView from "./components/ui/Loading/LoadingView";
 import {
@@ -72,10 +70,6 @@ function FeedStackScreen() {
         />
         <FeedStack.Screen name="Post" component={PostScreen} />
         <FeedStack.Screen name="Community" component={CommunityFeedScreen} />
-        <FeedStack.Screen
-          name="Subscriptions"
-          component={SubscriptionsScreen}
-        />
         <FeedStack.Screen name="Profile" component={UserProfileScreen} />
       </FeedStack.Group>
 
@@ -140,10 +134,6 @@ function InboxStackScreen() {
         />
         <InboxStack.Screen name="Post" component={PostScreen} />
         <InboxStack.Screen name="Community" component={CommunityFeedScreen} />
-        <InboxStack.Screen
-          name="Subscriptions"
-          component={SubscriptionsScreen}
-        />
         <InboxStack.Screen name="Profile" component={UserProfileScreen} />
       </InboxStack.Group>
 
@@ -251,10 +241,6 @@ function ProfileStackScreen() {
         />
         <ProfileStack.Screen name="Post" component={PostScreen} />
         <ProfileStack.Screen name="Community" component={CommunityFeedScreen} />
-        <ProfileStack.Screen
-          name="Subscriptions"
-          component={SubscriptionsScreen}
-        />
       </ProfileStack.Group>
 
       <ProfileStack.Group
@@ -318,10 +304,6 @@ function SearchStackScreen() {
         />
         <SearchStack.Screen name="Post" component={PostScreen} />
         <SearchStack.Screen name="Community" component={CommunityFeedScreen} />
-        <SearchStack.Screen
-          name="Subscriptions"
-          component={SubscriptionsScreen}
-        />
         <SearchStack.Screen name="Profile" component={UserProfileScreen} />
       </SearchStack.Group>
 
@@ -374,56 +356,56 @@ function TraverseStackScreen() {
   );
 }
 
-const SettingsStack = createNativeStackNavigator();
+// const SettingsStack = createNativeStackNavigator();
 
-function SettingsStackScreen() {
-  return (
-    <SettingsStack.Navigator>
-      <SettingsStack.Screen
-        name="Settings"
-        component={SettingsIndexScreen}
-        options={{
-          title: "Settings",
-        }}
-      />
-      <SettingsStack.Screen
-        name="ViewAccounts"
-        component={ViewAccountsScreen}
-        options={{
-          title: "Manage Accounts",
-        }}
-      />
-      <SettingsStack.Screen
-        name="EditAccount"
-        component={EditAccountScreen}
-        options={{
-          title: "Edit Account",
-        }}
-      />
-      <SettingsStack.Screen
-        name="ReadSettings"
-        component={ReadSettingsScreen}
-        options={{
-          title: "Mark Post Read On...",
-        }}
-      />
-      <SettingsStack.Screen
-        name="ThemeSelection"
-        component={ThemeSelectionScreen}
-        options={{
-          title: "Theme",
-        }}
-      />
-      <SettingsStack.Screen
-        name="Viewer"
-        component={ViewerScreen}
-        options={{
-          title: "View",
-        }}
-      />
-    </SettingsStack.Navigator>
-  );
-}
+// function SettingsStackScreen() {
+//   return (
+//     <SettingsStack.Navigator>
+//       <SettingsStack.Screen
+//         name="Settings"
+//         component={SettingsIndexScreen}
+//         options={{
+//           title: "Settings",
+//         }}
+//       />
+//       <SettingsStack.Screen
+//         name="ViewAccounts"
+//         component={ViewAccountsScreen}
+//         options={{
+//           title: "Manage Accounts",
+//         }}
+//       />
+//       <SettingsStack.Screen
+//         name="EditAccount"
+//         component={EditAccountScreen}
+//         options={{
+//           title: "Edit Account",
+//         }}
+//       />
+//       <SettingsStack.Screen
+//         name="ReadSettings"
+//         component={ReadSettingsScreen}
+//         options={{
+//           title: "Mark Post Read On...",
+//         }}
+//       />
+//       <SettingsStack.Screen
+//         name="ThemeSelection"
+//         component={ThemeSelectionScreen}
+//         options={{
+//           title: "Theme",
+//         }}
+//       />
+//       <SettingsStack.Screen
+//         name="Viewer"
+//         component={ViewerScreen}
+//         options={{
+//           title: "View",
+//         }}
+//       />
+//     </SettingsStack.Navigator>
+//   );
+// }
 
 const Tab = createBottomTabNavigator();
 
