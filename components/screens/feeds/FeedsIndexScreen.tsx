@@ -14,10 +14,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { getSubscribedCommunities } from "../../../slices/communities/communitiesActions";
 import HeaderIconButton from "../../ui/buttons/HeaderIconButton";
-import {
-  selectAccounts,
-  selectCurrentAccount,
-} from "../../../slices/accounts/accountsSlice";
+import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { loadBookmarks } from "../../../slices/bookmarks/bookmarksActions";
 import { Account } from "../../../types/Account";
 import { writeToLog } from "../../../helpers/LogHelper";
@@ -30,7 +27,6 @@ function FeedsIndexScreen({
 }) {
   // Global State
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const accounts = useAppSelector(selectAccounts);
 
   // Refs
   const previousAccount = useRef<Account | null>(null);

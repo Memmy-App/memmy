@@ -4,7 +4,9 @@ import { getReadableVersion } from "react-native-device-info";
 import ILemmyServer from "./types/ILemmyServer";
 import { writeToLog } from "../helpers/LogHelper";
 
+// eslint-disable-next-line import/no-mutable-exports
 let lemmyInstance: LemmyHttp | null = null;
+// eslint-disable-next-line import/no-mutable-exports
 let lemmyAuthToken: string | undefined;
 
 let errorMessage: string | undefined;

@@ -88,7 +88,9 @@ function buildComments(comments: CommentView[]): NestedComment[] {
 
       try {
         parentComment.replies.push(currentComment);
-      } catch (e) {}
+      } catch (e) {
+        // TODO Handle
+      }
     } else {
       nestedComments.push(currentComment);
     }
