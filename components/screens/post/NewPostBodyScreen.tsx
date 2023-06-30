@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTheme } from "native-base";
 import { Button, StyleSheet, TextInput } from "react-native";
@@ -21,11 +21,16 @@ function NewPostBodyScreen({ route, navigation }: IProps) {
 
   const textInput = useRef<TextInput>();
 
+  const HeaderLeftButton = useCallback(
+    () => (
+      <Button title="Back" color={theme.colors.app.accent} onPress={goBack} />
+    ),
+    []
+  );
+
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => (
-        <Button title="Back" color={theme.colors.app.accent} onPress={goBack} />
-      ),
+      headerLeft: HeaderLeftButton,
     });
   }, [body]);
 
