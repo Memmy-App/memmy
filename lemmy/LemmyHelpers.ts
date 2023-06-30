@@ -49,9 +49,12 @@ export const buildComments = (comments: CommentView[]) => {
   return betterComments;
 };
 
-export const savePost = (post_id: number, save: true): boolean => {
+export const savePost = async (
+  post_id: number,
+  save = true
+): Promise<boolean> => {
   try {
-    const res = lemmyInstance.savePost({
+    await lemmyInstance.savePost({
       auth: lemmyAuthToken,
       post_id,
       save,
@@ -63,9 +66,12 @@ export const savePost = (post_id: number, save: true): boolean => {
   }
 };
 
-export const saveComment = (comment_id: number, save = true) => {
+export const saveComment = async (
+  comment_id: number,
+  save = true
+): Promise<boolean> => {
   try {
-    const res = lemmyInstance.saveComment({
+    await lemmyInstance.saveComment({
       auth: lemmyAuthToken,
       comment_id,
       save,

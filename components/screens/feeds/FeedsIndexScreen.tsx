@@ -15,7 +15,6 @@ import { useAppDispatch, useAppSelector } from "../../../store";
 import { getSubscribedCommunities } from "../../../slices/communities/communitiesActions";
 import HeaderIconButton from "../../ui/buttons/HeaderIconButton";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
-import { loadBookmarks } from "../../../slices/bookmarks/bookmarksActions";
 import { Account } from "../../../types/Account";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { getUnreadCount } from "../../../slices/site/siteActions";
@@ -71,7 +70,6 @@ function FeedsIndexScreen({
 
     dispatch(getSubscribedCommunities());
     dispatch(getUnreadCount());
-    dispatch(loadBookmarks());
 
     feed.doLoad(true);
     feed.setLoaded(true);
