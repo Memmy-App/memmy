@@ -31,7 +31,7 @@ jobs:
           command: "yarn install"
       - run:
           name: "Trigger build"
-          command: "npx eas-cli build -p ios --profile production --non-interactive"
+          command: "npx eas-cli build --platform ios --profile production --non-interactive"
 
 workflows:
   lint:
