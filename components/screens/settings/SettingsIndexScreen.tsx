@@ -195,11 +195,12 @@ function SettingsIndexScreen({
                 "Top Day",
                 "Top Week",
                 "Hot",
+                "Active",
                 "New",
                 "Most Comments",
                 "Cancel",
               ];
-              const cancelButtonIndex = 5;
+              const cancelButtonIndex = 6;
 
               showActionSheetWithOptions(
                 {
@@ -395,7 +396,7 @@ function SettingsIndexScreen({
           />
           <CCell
             cellStyle="Basic"
-            title="License Acknowledgements"
+            title="Acknowledgements"
             accessory="DisclosureIndicator"
             onPress={() => {
               navigation.push("Viewer", {
@@ -409,6 +410,14 @@ function SettingsIndexScreen({
             accessory="DisclosureIndicator"
             onPress={() => {
               WebBrowser.openBrowserAsync("https://memmy.app/privacy.txt");
+            }}
+          />
+          <CCell
+            cellStyle="Basic"
+            title="GitHub"
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              WebBrowser.openBrowserAsync("https://github.com/gkasdorf/memmy");
             }}
           />
         </Section>
