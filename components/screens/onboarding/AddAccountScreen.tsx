@@ -121,6 +121,7 @@ function AddAccountScreen({ route }: IProps) {
             source={header}
             style={{
               height: 175,
+              width: "100%",
               borderBottomWidth: 1,
               borderColor: "white",
               marginBottom: 10,
