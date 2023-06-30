@@ -1,10 +1,9 @@
 version: 2.1
 
-orbs:
-  eslint: arrai/eslint@7.5.1
-
 jobs:
   lint:
+    docker:
+      - image: cimg/base:2023.03
     steps:
       - checkout
       - run:
