@@ -42,7 +42,7 @@ workflows:
       - lint
       - eas_build:
           filters:
-            branches:
-              only: main
+            tags:
+              only: /v
           requires:
             - lint
