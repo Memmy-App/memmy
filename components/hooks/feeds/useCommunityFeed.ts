@@ -5,8 +5,8 @@ import { trigger } from "react-native-haptic-feedback";
 import { UseFeed, useFeed } from "./useFeed";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../../slices/post/postSlice";
-import { subscribeToCommunity } from "../../../slices/communities/communitiesActions";
 import { showToast } from "../../../slices/toast/toastSlice";
+import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 
 interface UseCommunityFeed {
   feed: UseFeed;
@@ -42,27 +42,43 @@ const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
   }, [post]);
 
   // Events
-  const onSubscribePress = () => {
+  const onSubscribePress = async () => {
     trigger("impactMedium");
 
-    dispatch(
-      subscribeToCommunity({
-        communityId: feed.community.community.id,
-        subscribe: !feed.subscribed,
-      })
+    const subscribing = !(
+      feed.community.subscribed === "Subscribed" ||
+      feed.community.subscribed === "Pending"
     );
 
-    dispatch(
-      showToast({
-        message: `${!feed.subscribed ? "Subscribed to" : "Unsubscribed from"} ${
-          feed.community.community.name
-        }`,
-        duration: 3000,
-        variant: "info",
-      })
-    );
+    feed.setCommunity((prev) => ({
+      ...prev,
+      subscribed: subscribing ? "Subscribed" : "NotSubscribed",
+    }));
 
-    feed.setSubscribed(!feed.subscribed);
+    try {
+      console.log(subscribing);
+
+      await lemmyInstance.followCommunity({
+        auth: lemmyAuthToken,
+        community_id: feed.community.community.id,
+        follow: subscribing,
+      });
+
+      dispatch(
+        showToast({
+          message: `${subscribing ? "Subscribed to" : "Unsubscribed from"} ${
+            feed.community.community.name
+          }`,
+          duration: 3000,
+          variant: "info",
+        })
+      );
+    } catch (e) {
+      feed.setCommunity((prev) => ({
+        ...prev,
+        subscribed: subscribing ? "NotSubscribed" : "Subscribed",
+      }));
+    }
   };
 
   const onAboutPress = () => {

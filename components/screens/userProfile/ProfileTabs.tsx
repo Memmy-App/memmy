@@ -7,9 +7,17 @@ interface IProps {
   selected: string;
   onCommentsPress: () => void;
   onPostsPress: () => void;
+  showSaved?: boolean;
+  onSavedPostsPress?: () => void;
 }
 
-function ProfileTabs({ selected, onCommentsPress, onPostsPress }: IProps) {
+function ProfileTabs({
+  selected,
+  onCommentsPress,
+  onPostsPress,
+  showSaved = false,
+  onSavedPostsPress,
+}: IProps) {
   return (
     <HStack>
       <ButtonGroup>
@@ -23,6 +31,13 @@ function ProfileTabs({ selected, onCommentsPress, onPostsPress }: IProps) {
           text="Posts"
           selected={selected === "posts"}
         />
+        {showSaved && (
+          <GroupButton
+            onPress={onSavedPostsPress}
+            text="Saved Posts"
+            selected={selected === "savedposts"}
+          />
+        )}
       </ButtonGroup>
     </HStack>
   );

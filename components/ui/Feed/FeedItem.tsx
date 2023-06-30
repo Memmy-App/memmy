@@ -11,6 +11,7 @@ import Animated from "react-native-reanimated";
 import {
   IconArrowDown,
   IconArrowUp,
+  IconBookmark,
   IconClockHour5,
   IconMessage,
 } from "tabler-icons-react-native";
@@ -24,6 +25,7 @@ import VoteButton from "../common/VoteButton";
 import CommunityLink from "../CommunityLink";
 import ContentView from "../ContentView";
 import FeaturedIndicator from "../common/FeaturedIndicator";
+import IconButtonWithText from "../common/IconButtonWithText";
 
 interface FeedItemProps {
   post: PostView;
@@ -183,24 +185,20 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                     alignItems="center"
                     justifyContent="flex-end"
                   >
-                    {/* // TODO: add functionality for bookmark and menu buttons
-            <IconButtonWithText
-              icon={
-                <IconDots size={25} color={theme.colors.app.textSecondary} />
-              }
-              iconBgColor={theme.colors.app.bg}
-              onPressHandler={() => {}}
-            />
-            <IconButtonWithText
-              icon={
-                <IconBookmark
-                  size={25}
-                  color={theme.colors.app.textSecondary}
-                />
-              }
-              iconBgColor={theme.colors.app.bg}
-              onPressHandler={() => {}}
-            /> */}
+                    <IconButtonWithText
+                      icon={
+                        <IconBookmark
+                          size={25}
+                          color={theme.colors.app.textSecondary}
+                        />
+                      }
+                      iconBgColor={
+                        post.saved
+                          ? theme.colors.app.bookmark
+                          : theme.colors.app.fg
+                      }
+                      onPressHandler={feedItem.doSave}
+                    />
                     <VoteButton
                       onPressHandler={() => feedItem.onVotePress(1)}
                       type="upvote"

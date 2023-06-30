@@ -32,10 +32,15 @@ interface IProps {
   posts: PostView[];
   setPosts: React.Dispatch<SetStateAction<PostView[]>>;
 
+  savedPosts: PostView[];
+  setSavedPosts: React.Dispatch<SetStateAction<PostView[]>>;
+
   self: boolean;
 
-  selected?: "comments" | "posts";
-  setSelected?: React.Dispatch<SetStateAction<"comments" | "posts">>;
+  selected?: "comments" | "posts" | "savedposts";
+  setSelected?: React.Dispatch<
+    SetStateAction<"comments" | "posts" | "savedposts">
+  >;
 
   onCommentPress: (
     postId: number,
@@ -61,6 +66,7 @@ const useProfile = (fullUsername?: string): IProps => {
   const [profile, setProfile] = useState<PersonView>(null);
   const [comments, setComments] = useState<ILemmyComment[]>([]);
   const [posts, setPosts] = useState<PostView[]>([]);
+  const [savedPosts, setSavedPosts] = useState<PostView[]>([]);
 
   const [notFound, setNotFound] = useState<boolean>(false);
 
@@ -102,6 +108,17 @@ const useProfile = (fullUsername?: string): IProps => {
       }
 
       const betterComments = buildComments(res.comments);
+
+      if (self.current) {
+        const savedRes = await lemmyInstance.getPersonDetails({
+          auth: lemmyAuthToken,
+          limit: 50,
+          saved_only: true,
+          username: searchUsername,
+        });
+
+        setSavedPosts([...savedRes.posts]);
+      }
 
       setProfile(res.person_view);
       setComments(betterComments);
@@ -164,6 +181,9 @@ const useProfile = (fullUsername?: string): IProps => {
 
     posts,
     setPosts,
+
+    savedPosts,
+    setSavedPosts,
 
     selected,
     setSelected,

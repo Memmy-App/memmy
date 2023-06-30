@@ -27,7 +27,6 @@ import EditAccountScreen from "./components/screens/settings/EditAccountScreen";
 import SettingsIndexScreen from "./components/screens/settings/SettingsIndexScreen";
 import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen";
 import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
-import SubscriptionsScreen from "./components/screens/userProfile/SubscriptionsScreen";
 import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
 import LoadingView from "./components/ui/Loading/LoadingView";
 import {
@@ -50,6 +49,7 @@ import OnboardingInfoScreenSeven from "./components/screens/onboarding/infoScree
 import HubDiscoveryScreen from "./components/screens/onboarding/hubDiscovery/HubDiscoveryScreen";
 import InstanceScreen from "./components/ui/hubDiscovery/InstanceScreen";
 import NewPostBodyScreen from "./components/screens/post/NewPostBodyScreen";
+import TraverseScreen from "./components/screens/traverse/TraverseScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -70,10 +70,6 @@ function FeedStackScreen() {
         />
         <FeedStack.Screen name="Post" component={PostScreen} />
         <FeedStack.Screen name="Community" component={CommunityFeedScreen} />
-        <FeedStack.Screen
-          name="Subscriptions"
-          component={SubscriptionsScreen}
-        />
         <FeedStack.Screen name="Profile" component={UserProfileScreen} />
       </FeedStack.Group>
 
@@ -138,10 +134,6 @@ function InboxStackScreen() {
         />
         <InboxStack.Screen name="Post" component={PostScreen} />
         <InboxStack.Screen name="Community" component={CommunityFeedScreen} />
-        <InboxStack.Screen
-          name="Subscriptions"
-          component={SubscriptionsScreen}
-        />
         <InboxStack.Screen name="Profile" component={UserProfileScreen} />
       </InboxStack.Group>
 
@@ -249,10 +241,6 @@ function ProfileStackScreen() {
         />
         <ProfileStack.Screen name="Post" component={PostScreen} />
         <ProfileStack.Screen name="Community" component={CommunityFeedScreen} />
-        <ProfileStack.Screen
-          name="Subscriptions"
-          component={SubscriptionsScreen}
-        />
       </ProfileStack.Group>
 
       <ProfileStack.Group
@@ -316,10 +304,6 @@ function SearchStackScreen() {
         />
         <SearchStack.Screen name="Post" component={PostScreen} />
         <SearchStack.Screen name="Community" component={CommunityFeedScreen} />
-        <SearchStack.Screen
-          name="Subscriptions"
-          component={SubscriptionsScreen}
-        />
         <SearchStack.Screen name="Profile" component={UserProfileScreen} />
       </SearchStack.Group>
 
@@ -358,56 +342,117 @@ function SearchStackScreen() {
   );
 }
 
-const CommunityStack = createNativeStackNavigator();
+const TraverseStack = createNativeStackNavigator();
 
-function CommunityStackScreen() {
+function TraverseStackScreen() {
   return (
-    <CommunityStack.Navigator>
-      <CommunityStack.Screen
-        name="Settings"
-        component={SettingsIndexScreen}
-        options={{
-          title: "Settings",
+    <TraverseStack.Navigator>
+      <TraverseStack.Group>
+        <TraverseStack.Screen
+          name="Traverse"
+          component={TraverseScreen}
+          options={{ title: "Traverse" }}
+        />
+        <TraverseStack.Screen
+          name="FeedScreen"
+          component={FeedsIndexScreen}
+          options={{
+            title: "Feed",
+          }}
+        />
+        <TraverseStack.Screen name="Post" component={PostScreen} />
+        <TraverseStack.Screen
+          name="Community"
+          component={CommunityFeedScreen}
+        />
+        <TraverseStack.Screen name="Profile" component={UserProfileScreen} />
+      </TraverseStack.Group>
+
+      <TraverseStack.Group
+        screenOptions={{
+          presentation: "modal",
         }}
-      />
-      <CommunityStack.Screen
-        name="ViewAccounts"
-        component={ViewAccountsScreen}
-        options={{
-          title: "Manage Accounts",
-        }}
-      />
-      <CommunityStack.Screen
-        name="EditAccount"
-        component={EditAccountScreen}
-        options={{
-          title: "Edit Account",
-        }}
-      />
-      <CommunityStack.Screen
-        name="ReadSettings"
-        component={ReadSettingsScreen}
-        options={{
-          title: "Mark Post Read On...",
-        }}
-      />
-      <CommunityStack.Screen
-        name="ThemeSelection"
-        component={ThemeSelectionScreen}
-        options={{
-          title: "Theme",
-        }}
-      />
-      <CommunityStack.Screen
-        name="Viewer"
-        component={ViewerScreen}
-        options={{
-          title: "View",
-        }}
-      />
-    </CommunityStack.Navigator>
+      >
+        <TraverseStack.Screen
+          name="NewComment"
+          component={NewCommentScreen}
+          options={{ title: "New Comment" }}
+        />
+        <TraverseStack.Screen
+          name="EditComment"
+          component={EditCommentScreen}
+          options={{ title: "Edit Comment" }}
+        />
+        <TraverseStack.Screen
+          name="NewPost"
+          component={NewPostScreen}
+          options={{ title: "New Post" }}
+        />
+        <TraverseStack.Screen
+          name="NewPostBody"
+          component={NewPostBodyScreen}
+          options={{ title: "New Post" }}
+        />
+        <TraverseStack.Screen
+          name="CommunityAbout"
+          component={CommunityAboutScreen}
+          options={{ title: "About" }}
+        />
+      </TraverseStack.Group>
+    </TraverseStack.Navigator>
   );
 }
+
+// const SettingsStack = createNativeStackNavigator();
+
+// function SettingsStackScreen() {
+//   return (
+//     <SettingsStack.Navigator>
+//       <SettingsStack.Screen
+//         name="Settings"
+//         component={SettingsIndexScreen}
+//         options={{
+//           title: "Settings",
+//         }}
+//       />
+//       <SettingsStack.Screen
+//         name="ViewAccounts"
+//         component={ViewAccountsScreen}
+//         options={{
+//           title: "Manage Accounts",
+//         }}
+//       />
+//       <SettingsStack.Screen
+//         name="EditAccount"
+//         component={EditAccountScreen}
+//         options={{
+//           title: "Edit Account",
+//         }}
+//       />
+//       <SettingsStack.Screen
+//         name="ReadSettings"
+//         component={ReadSettingsScreen}
+//         options={{
+//           title: "Mark Post Read On...",
+//         }}
+//       />
+//       <SettingsStack.Screen
+//         name="ThemeSelection"
+//         component={ThemeSelectionScreen}
+//         options={{
+//           title: "Theme",
+//         }}
+//       />
+//       <SettingsStack.Screen
+//         name="Viewer"
+//         component={ViewerScreen}
+//         options={{
+//           title: "View",
+//         }}
+//       />
+//     </SettingsStack.Navigator>
+//   );
+// }
 
 const Tab = createBottomTabNavigator();
 
@@ -432,16 +477,12 @@ function Tabs() {
         }}
       />
       <Tab.Screen
-        name="InboxStack"
-        component={InboxStackScreen}
+        name="TraverseStack"
+        component={TraverseStackScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => <IconBell color={color} />,
-          tabBarLabel: "Inbox",
-          tabBarBadge:
-            unread.replies + unread.mentions + unread.privateMessage > 0
-              ? unread.replies + unread.mentions + unread.privateMessage
-              : null,
+          tabBarIcon: ({ color }) => <IconPlanet color={color} />,
+          tabBarLabel: "Traverse",
           freezeOnBlur: true,
         }}
       />
@@ -466,12 +507,17 @@ function Tabs() {
         }}
       />
       <Tab.Screen
-        name="CommunityStack"
-        component={CommunityStackScreen}
+        name="InboxStack"
+        component={InboxStackScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => <IconPlanet color={color} />,
-          tabBarLabel: "Settings",
+          tabBarIcon: ({ color }) => <IconBell color={color} />,
+          tabBarLabel: "Inbox",
+          tabBarBadge:
+            unread.replies + unread.mentions + unread.privateMessage > 0
+              ? unread.replies + unread.mentions + unread.privateMessage
+              : null,
+          freezeOnBlur: true,
         }}
       />
     </Tab.Navigator>
