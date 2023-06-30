@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { ScrollView, useTheme } from "native-base";
 import { CommunityView } from "lemmy-js-client";
+import { RefreshControl } from "react-native";
 import useTraverse from "../../hooks/traverse/useTraverse";
 import LoadingView from "../../ui/Loading/LoadingView";
 import TraverseItem from "../../ui/traverse/TraverseItem";
@@ -13,7 +14,13 @@ function TraverseScreen() {
   const [term, setTerm] = useState("");
 
   const header = useMemo(
-    () => <SearchBar searchValue={term} onSearchChange={setTerm} />,
+    () => (
+      <SearchBar
+        searchValue={term}
+        onSearchChange={setTerm}
+        autoFocus={false}
+      />
+    ),
     [term]
   );
 
@@ -29,12 +36,27 @@ function TraverseScreen() {
     }
 
     return (
-      <ScrollView flex={1} backgroundColor={theme.colors.app.bg}>
+      <ScrollView
+        flex={1}
+        backgroundColor={theme.colors.app.bg}
+        refreshControl={
+          <RefreshControl
+            refreshing={traverse.refreshing}
+            onRefresh={() => traverse.doLoad(true)}
+          />
+        }
+      >
         {header}
         {traverse.subscriptions.map((c) => item(c))}
       </ScrollView>
     );
-  }, [traverse.subscriptions, traverse.loading, traverse.error, term]);
+  }, [
+    traverse.subscriptions,
+    traverse.loading,
+    traverse.error,
+    traverse.refreshing,
+    term,
+  ]);
 }
 
 export default TraverseScreen;
