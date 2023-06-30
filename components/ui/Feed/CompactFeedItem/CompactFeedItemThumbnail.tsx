@@ -131,15 +131,20 @@ function CompactFeedItemThumbnail({
                   {linkInfo.link && (
                     <LinkPreview
                       text={linkInfo.link}
-                      renderLinkPreview={(image) => (
-                        <FastImage
-                          resizeMode="cover"
-                          style={[styles.image, { opacity: 0.4 }]}
-                          source={{
-                            uri: image.previewData?.image.url,
-                          }}
-                        />
-                      )}
+                      renderLinkPreview={(image) => {
+                        if (image.previewData?.image.url) {
+                          return (
+                            <FastImage
+                              resizeMode="cover"
+                              style={[styles.image, { opacity: 0.4 }]}
+                              source={{
+                                uri: image.previewData.image.url,
+                              }}
+                            />
+                          );
+                        }
+                        return false;
+                      }}
                     />
                   )}
                   <View zIndex={1} position="absolute">
