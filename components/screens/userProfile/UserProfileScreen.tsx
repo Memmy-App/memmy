@@ -17,13 +17,12 @@ import NotFoundView from "../../ui/Loading/NotFoundView";
 import NoResultView from "../../ui/common/NoResultView";
 import UserProfileHeader from "./UserProfileHeader";
 
-function UserProfileScreen({
-  route,
-  navigation,
-}: {
+interface IProps {
   route: any;
   navigation: NativeStackNavigationProp<any>;
-}) {
+}
+
+function UserProfileScreen({ route, navigation }: IProps) {
   // Refs
   const pagerView = useRef<PagerView>();
 

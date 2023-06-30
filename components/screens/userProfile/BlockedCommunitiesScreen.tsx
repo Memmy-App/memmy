@@ -15,10 +15,11 @@ import CSection from "../../ui/table/CSection";
 import CCell from "../../ui/table/CCell";
 
 function BlockedCommunitiesScreen() {
+  // State
   const { communityBlocks, loaded } = useAppSelector(selectSite);
 
+  // Hooks
   const theme = useTheme();
-
   const dispatch = useAppDispatch();
   const { showActionSheetWithOptions } = useActionSheet();
 
