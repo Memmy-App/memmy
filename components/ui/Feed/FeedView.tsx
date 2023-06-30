@@ -9,11 +9,14 @@ import { trigger } from "react-native-haptic-feedback";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
   IconBolt,
+  IconBookmark,
   IconCalendar,
   IconClockHour4,
   IconDots,
   IconFlame,
+  IconMapPin,
   IconMessage,
+  IconWorld,
 } from "tabler-icons-react-native";
 import FeedItem from "./FeedItem";
 import LoadingView from "../Loading/LoadingView";
@@ -48,12 +51,18 @@ const SortIconType = {
   MostComments: <IconMessage />,
 };
 
+const ContextualMenuIconType = {
+  Ellipses: <IconDots />,
+  All: <IconWorld />,
+  Local: <IconMapPin />,
+  Subscribed: <IconBookmark />,
+};
+
 function FeedView({ feed, community = false, header }: FeedViewProps) {
   // State Props
   // TODO Handle this
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [endReached, setEndReached] = useState(false);
-  const [, setSortIcon] = useState(SortIconType[feed.sort]);
 
   // Global state props
   const { dropdownVisible } = useAppSelector(selectFeed);
@@ -84,7 +93,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     navigation.setOptions({
       headerRight: () => headerRight(),
     });
-  }, [feed.sort]);
+  }, [feed.sort, feed.listingType]);
 
   useEffect(() => {
     if (!feed.posts || feed.posts.length < 1 || communityId.current !== 0)
@@ -124,13 +133,12 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
           feed.setSort(options[index] as SortType);
         }
 
-        setSortIcon(SortIconType[index]);
         flashList?.current?.scrollToOffset({ animated: true, offset: 0 });
       }
     );
   };
 
-  const onEllipsisButtonPress = () => {
+  const onContextualMenuButtonPress = () => {
     if (community) {
       const options = ["Block Community", "Cancel"];
       const cancelButtonIndex = 1;
@@ -224,7 +232,14 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
           icon={SortIconType[feed.sort]}
           onPress={onSortPress}
         />
-        <HeaderIconButton icon={<IconDots />} onPress={onEllipsisButtonPress} />
+        <HeaderIconButton
+          icon={
+            community
+              ? ContextualMenuIconType.Ellipses
+              : ContextualMenuIconType[feed.listingType]
+          }
+          onPress={onContextualMenuButtonPress}
+        />
       </HStack>
     );
   };
