@@ -283,7 +283,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             onEndReachedThreshold={0.5}
             estimatedItemSize={compactView ? 100 : 500}
             ListFooterComponent={footer}
-            onEndReached={() => feed.doLoad()}
+            onEndReached={() => feed.posts && feed.doLoad()}
             ref={flashList}
             getItemType={getItemType}
           />
