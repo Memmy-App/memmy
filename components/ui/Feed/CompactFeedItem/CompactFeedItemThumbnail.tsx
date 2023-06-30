@@ -1,4 +1,5 @@
 import React from "react";
+import { LinkPreview } from "@flyerhq/react-native-link-preview";
 import { Dimensions, StyleSheet } from "react-native";
 import { Box, Icon, Pressable, useTheme, View, VStack } from "native-base";
 import { PostView } from "lemmy-js-client";
@@ -124,7 +125,33 @@ function CompactFeedItemThumbnail({
                   <IconLink size={40} color={theme.colors.app.textSecondary} />
                 </View>
               </>
-            )) || <IconLink size={40} color={theme.colors.app.textSecondary} />}
+            )) ||
+              (linkInfo.extType !== ExtensionType.NONE && (
+                <>
+                  {linkInfo.link && (
+                    <LinkPreview
+                      text={linkInfo.link}
+                      renderLinkPreview={(image) => (
+                        <FastImage
+                          resizeMode="cover"
+                          style={[styles.image, { opacity: 0.4 }]}
+                          source={{
+                            uri: image.previewData?.image.url,
+                          }}
+                        />
+                      )}
+                    />
+                  )}
+                  <View zIndex={1} position="absolute">
+                    <IconLink
+                      size={40}
+                      color={theme.colors.app.textSecondary}
+                    />
+                  </View>
+                </>
+              )) || (
+                <IconLink size={40} color={theme.colors.app.textSecondary} />
+              )}
           </>
         )}
     </Box>
