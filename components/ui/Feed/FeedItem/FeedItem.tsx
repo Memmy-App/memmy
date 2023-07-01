@@ -17,13 +17,13 @@ import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
 import { useAppDispatch } from "../../../../store";
 import useSwipeAnimation from "../../../hooks/animations/useSwipeAnimation";
 import useFeedItem from "../../../hooks/feeds/useFeedItem";
-import ContentView from "../../ContentView";
 import { ByLine } from "./ByLine";
 import { Post } from "./Post";
 import { DateLine } from "./DateLine";
 import { Footer, Header } from "./Layout";
 import { Metrics } from "./Metrics";
 import { Actions } from "./Actions";
+import FeedContentPreview from "../FeedContentPreview";
 
 interface FeedItemProps {
   post: PostView;
@@ -106,10 +106,9 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                 )}
               </View>
 
-              <ContentView
+              <FeedContentPreview
                 post={post}
                 recycled={recycled}
-                isPreview
                 setPostRead={feedItem.setPostRead}
               />
 
