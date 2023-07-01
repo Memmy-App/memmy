@@ -5,7 +5,6 @@ import { Dimensions } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
-import { truncatePost } from "../../../helpers/TextHelper";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppSelector } from "../../../store";
 import LinkButton from "../../ui/buttons/LinkButton";
