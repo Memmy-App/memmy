@@ -1,11 +1,18 @@
 import React, { SetStateAction, useState } from "react";
 import { Alert, InputAccessoryView, TextInput } from "react-native";
-import { HStack, Icon, IconButton, useTheme } from "native-base";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { HStack, useTheme } from "native-base";
+import {
+  IconBold,
+  IconItalic,
+  IconLink,
+  IconPhoto,
+  IconQuote,
+} from "tabler-icons-react-native";
 import { selectImage } from "../../helpers/ImageHelper";
 import LoadingModal from "./Loading/LoadingModal";
 import uploadToImgur from "../../helpers/ImgurHelper";
 import { writeToLog } from "../../helpers/LogHelper";
+import IconButtonWithText from "./common/IconButtonWithText";
 
 function KeyboardAccessory({
   setText,
@@ -36,23 +43,24 @@ function KeyboardAccessory({
     const replacement = `*${getSelected()}*`;
     setText(replace(replacement));
     inputRef.current.setNativeProps({
-      selection: { start: selection.end, end: selection.end },
+      selection: { start: selection.start, end: selection.end },
     });
   };
 
   const onBoldPress = () => {
     const replacement = `**${getSelected()}**`;
+
     setText(replace(replacement));
     inputRef.current.setNativeProps({
       selection: { start: selection.end, end: selection.end },
     });
   };
 
-  const onLinkPress = () => {
-    const replacement = `[](${getSelected()})`;
-    setText(replace(replacement));
-    inputRef.current.setNativeProps({
-      selection: { start: selection.start - 3, end: selection.start - 3 },
+  const onLinkPress = async () => {
+    Alert.prompt("Link", "Enter the URL", (link) => {
+      Alert.prompt("Link", "Enter the label", (label) => {
+        setText(replace(`[${label}](${link})`));
+      });
     });
   };
 
@@ -60,7 +68,7 @@ function KeyboardAccessory({
     const replacement = `> ${getSelected()}`;
     setText(replace(replacement));
     inputRef.current.setNativeProps({
-      selection: { start: selection.end, end: selection.end },
+      selection: { start: selection.start - 2, end: selection.start - 2 },
     });
   };
 
@@ -95,6 +103,7 @@ function KeyboardAccessory({
       writeToLog(e.toString());
 
       Alert.alert("Error uploading to Imgur.");
+      return;
     }
 
     setUploading(false);
@@ -112,61 +121,25 @@ function KeyboardAccessory({
         alignItems="center"
         px={4}
       >
-        <IconButton
-          icon={
-            <Icon
-              as={MaterialCommunityIcons}
-              name="format-italic"
-              size={8}
-              onPress={onItalicPress}
-            />
-          }
-          size={8}
+        <IconButtonWithText
+          onPressHandler={onItalicPress}
+          icon={<IconItalic size={24} color={theme.colors.app.accent} />}
         />
-        <IconButton
-          icon={
-            <Icon
-              as={MaterialCommunityIcons}
-              name="format-bold"
-              size={8}
-              onPress={onBoldPress}
-            />
-          }
-          size={8}
+        <IconButtonWithText
+          onPressHandler={onBoldPress}
+          icon={<IconBold size={24} color={theme.colors.app.accent} />}
         />
-        <IconButton
-          icon={
-            <Icon
-              as={MaterialIcons}
-              name="link"
-              size={8}
-              onPress={onLinkPress}
-            />
-          }
-          size={8}
+        <IconButtonWithText
+          onPressHandler={onLinkPress}
+          icon={<IconLink size={24} color={theme.colors.app.accent} />}
         />
-        <IconButton
-          icon={
-            <Icon
-              as={MaterialIcons}
-              name="format-quote"
-              size={8}
-              onPress={onQuotePress}
-            />
-          }
-          size={8}
+        <IconButtonWithText
+          onPressHandler={onQuotePress}
+          icon={<IconQuote size={24} color={theme.colors.app.accent} />}
         />
-
-        <IconButton
-          icon={
-            <Icon
-              as={MaterialIcons}
-              name="photo"
-              size={8}
-              onPress={onImagePress}
-            />
-          }
-          size={8}
+        <IconButtonWithText
+          onPressHandler={onImagePress}
+          icon={<IconPhoto size={24} color={theme.colors.app.accent} />}
         />
       </HStack>
       <LoadingModal loading={uploading} />
