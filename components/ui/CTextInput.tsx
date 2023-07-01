@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
-import { StyleSheet, TextInput } from "react-native";
-import { Text, useColorMode, useTheme, VStack } from "native-base";
+import { KeyboardTypeOptions, StyleSheet, TextInput } from "react-native";
+import { Text, useTheme, VStack } from "native-base";
 
 interface TextInputProps {
   name: string;
@@ -13,6 +13,7 @@ interface TextInputProps {
   autoCapitalize?: "none" | "sentences" | "words" | "characters";
   autoCorrect?: boolean;
   autoFocus?: boolean;
+  keyboardType?: KeyboardTypeOptions;
 }
 
 function CTextInput({
@@ -26,6 +27,7 @@ function CTextInput({
   autoCapitalize = "sentences",
   autoCorrect = true,
   autoFocus = false,
+  keyboardType = "default",
 }: TextInputProps) {
   let focused = false;
 
@@ -41,11 +43,22 @@ function CTextInput({
   }, []);
 
   return (
-    <VStack>
-      <Text mx={3}>{label}</Text>
+    <VStack my={2}>
+      <Text mx={3} pb={1} fontSize={13}>
+        {label}
+      </Text>
       <TextInput
         placeholder={placeholder}
-        style={[styles.input, style]}
+        style={[
+          styles.input,
+          style,
+          {
+            backgroundColor: theme.colors.app.fg,
+            borderColor: theme.colors.app.border,
+            color: theme.colors.app.textPrimary,
+          },
+        ]}
+        placeholderTextColor={theme.colors.app.textSecondary}
         value={value}
         onChangeText={(v) => onChange(name, v)}
         autoCapitalize={autoCapitalize}
@@ -53,6 +66,7 @@ function CTextInput({
         secureTextEntry={secure}
         ref={autoFocus ? ref : null}
         keyboardAppearance={theme.config.initialColorMode}
+        keyboardType={keyboardType}
       />
     </VStack>
   );

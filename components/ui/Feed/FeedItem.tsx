@@ -11,19 +11,21 @@ import Animated from "react-native-reanimated";
 import {
   IconArrowDown,
   IconArrowUp,
+  IconBookmark,
   IconClockHour5,
   IconMessage,
 } from "tabler-icons-react-native";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
-import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
+import { setResponseTo } from "../../../slices/comments/newCommentSlice";
 import { useAppDispatch } from "../../../store";
 import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
 import useFeedItem from "../../hooks/feeds/useFeedItem";
 import AvatarUsername from "../common/AvatarUsername";
 import VoteButton from "../common/VoteButton";
 import CommunityLink from "../CommunityLink";
-import ContentView from "../ContentView";
+import FeaturedIndicator from "../common/FeaturedIndicator";
+import IconButtonWithText from "../common/IconButtonWithText";
+import FeedContentPreview from "./FeedContentPreview";
 
 interface FeedItemProps {
   post: PostView;
@@ -48,21 +50,17 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
     );
     navigation.push("NewComment");
   };
-  const onRightLeftTwo = () => {};
   const leftRightOneIcon = <IconArrowUp size={32} color="#fff" />;
   const leftRightTwoIcon = <IconArrowDown size={32} color="#fff" />;
   const rightLeftOneIcon = <IconMessage size={32} color="#fff" />;
-  const rightLeftTwoIcon = <IconMessage size={32} color="#fff" />;
 
   const swipeAnimation = useSwipeAnimation({
     onLeftRightOne,
     onLeftRightTwo,
     onRightLeftOne,
-    onRightLeftTwo,
     leftRightOneIcon,
     leftRightTwoIcon,
     rightLeftOneIcon,
-    rightLeftTwoIcon,
   });
 
   const isUpvoted = post.my_vote === 1;
@@ -116,7 +114,10 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <AvatarUsername creator={post.creator} />
+                <HStack space={2}>
+                  <AvatarUsername creator={post.creator} />
+                  <FeaturedIndicator post={post} />
+                </HStack>
 
                 <HStack alignItems="center" space={1}>
                   <IconClockHour5
@@ -140,22 +141,11 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                   )}
                 </View>
 
-                <ContentView post={post} recycled={recycled} isPreview />
-
-                {post.post.url && (
-                  <HStack>
-                    <Text
-                      fontSize="sm"
-                      fontStyle="italic"
-                      mx={4}
-                      mt={-1}
-                      color={theme.colors.app.textSecondary}
-                      alignSelf="flex-end"
-                    >
-                      {getBaseUrl(post.post.url)}
-                    </Text>
-                  </HStack>
-                )}
+                <FeedContentPreview
+                  post={post}
+                  recycled={recycled}
+                  setPostRead={feedItem.setPostRead}
+                />
 
                 <HStack mx={4} alignItems="center" mb={3} mt={1}>
                   <HStack flex={1} space={1}>
@@ -194,24 +184,20 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                     alignItems="center"
                     justifyContent="flex-end"
                   >
-                    {/* // TODO: add functionality for bookmark and menu buttons
-            <IconButtonWithText
-              icon={
-                <IconDots size={25} color={theme.colors.app.textSecondary} />
-              }
-              iconBgColor={theme.colors.app.bgSecondary}
-              onPressHandler={() => {}}
-            />
-            <IconButtonWithText
-              icon={
-                <IconBookmark
-                  size={25}
-                  color={theme.colors.app.textSecondary}
-                />
-              }
-              iconBgColor={theme.colors.app.bgSecondary}
-              onPressHandler={() => {}}
-            /> */}
+                    <IconButtonWithText
+                      icon={
+                        <IconBookmark
+                          size={25}
+                          color={theme.colors.app.textSecondary}
+                        />
+                      }
+                      iconBgColor={
+                        post.saved
+                          ? theme.colors.app.bookmark
+                          : theme.colors.app.fg
+                      }
+                      onPressHandler={feedItem.doSave}
+                    />
                     <VoteButton
                       onPressHandler={() => feedItem.onVotePress(1)}
                       type="upvote"

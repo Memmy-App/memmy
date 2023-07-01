@@ -16,10 +16,7 @@ const useNotifications = (): UseNotifications => {
   const [loading, setLoading] = useState(false);
 
   const register = async (): Promise<boolean | string> => {
-    if (!Device.isDevice) {
-      console.log("Not a real device.");
-      return false;
-    }
+    if (!Device.isDevice) return false;
 
     const { status: existingStatus } =
       await Notifications.getPermissionsAsync();

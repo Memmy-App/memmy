@@ -6,6 +6,7 @@ interface FeedState {
   dropdownVisible: boolean;
   updateVote: UpdateVote | null;
   listingType: ListingType;
+  updateSaved: number | null;
 }
 
 interface UpdateVote {
@@ -17,6 +18,7 @@ const initialState: FeedState = {
   updateVote: null,
   dropdownVisible: false,
   listingType: "All",
+  updateSaved: null,
 };
 
 const feedSlice = createSlice({
@@ -29,6 +31,14 @@ const feedSlice = createSlice({
 
     setUpdateVote: (state: FeedState, actions: PayloadAction<UpdateVote>) => {
       state.updateVote = actions.payload;
+    },
+
+    setUpdateSaved: (state: FeedState, actions: PayloadAction<number>) => {
+      state.updateSaved = actions.payload;
+    },
+
+    clearUpdateSaved: (state: FeedState) => {
+      state.updateSaved = null;
     },
 
     setFeedListingType: (
@@ -51,5 +61,7 @@ export const {
   setUpdateVote,
   clearUpdateVote,
   setFeedListingType,
+  setUpdateSaved,
+  clearUpdateSaved,
 } = feedSlice.actions;
 export default feedSlice.reducer;

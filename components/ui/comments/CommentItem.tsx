@@ -1,16 +1,13 @@
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
   Divider,
   HStack,
-  IconButton,
   Pressable,
   Text,
   VStack,
   View,
   useTheme,
 } from "native-base";
-import React, { SetStateAction, useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import { StyleSheet } from "react-native";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
@@ -18,16 +15,18 @@ import {
   IconArrowDown,
   IconArrowUp,
   IconDots,
-  IconMail,
   IconMailOpened,
   IconMessage,
 } from "tabler-icons-react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
+import { CommentReplyView } from "lemmy-js-client";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
-import { setResponseTo } from "../../../slices/newComment/newCommentSlice";
+import { setResponseTo } from "../../../slices/comments/newCommentSlice";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
@@ -36,33 +35,36 @@ import NamePill from "../NamePill";
 import AvatarUsername from "../common/AvatarUsername";
 import SmallVoteIcons from "../common/SmallVoteIcons";
 import RenderMarkdown from "../markdown/RenderMarkdown";
+import IconButtonWithText from "../common/IconButtonWithText";
+import { selectSite, setUnread } from "../../../slices/site/siteSlice";
+import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 
 function CommentItem({
   comment,
   setComments,
   onPressOverride,
-  setRead,
-  isRead = false,
   opId,
   depth,
   isReply,
+  isUnreadReply,
 }: {
   comment: ILemmyComment;
-  setComments:
-    | React.Dispatch<SetStateAction<ILemmyComment[]>>
-    | ((comments: ILemmyComment[]) => void);
+  setComments: any;
   onPressOverride?: () => Promise<void> | void;
-  setRead?: React.Dispatch<SetStateAction<boolean>>;
   isRead?: boolean;
   depth?: number;
   opId?: number;
   isReply?: boolean;
+  isUnreadReply?: boolean;
 }) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const { unread } = useAppSelector(selectSite);
+
+  const initialVote = useRef(comment.myVote);
 
   if (!depth) {
     depth = comment.comment.comment.path.split(".").length;
@@ -72,7 +74,6 @@ function CommentItem({
     comment,
     setComments,
     onPressOverride,
-    setRead,
   });
 
   const swipeAnimation = useSwipeAnimation({
@@ -87,11 +88,37 @@ function CommentItem({
       );
       navigation.push("NewComment");
     },
-    onRightLeftTwo: () => {},
+    onRightLeftTwo:
+      isReply && isUnreadReply
+        ? () => {
+            setComments((prev) =>
+              prev.filter(
+                (c) => c.comment.comment.id !== comment.comment.comment.id
+              )
+            );
+
+            lemmyInstance
+              .markCommentReplyAsRead({
+                auth: lemmyAuthToken,
+                comment_reply_id: (comment.comment as CommentReplyView)
+                  .comment_reply.id,
+                read: true,
+              })
+              .then();
+
+            dispatch(
+              setUnread({
+                type: "replies",
+                amount: unread.replies - 1,
+              })
+            );
+          }
+        : undefined,
     leftRightOneIcon: () => <IconArrowUp size={32} color="#fff" />,
     leftRightTwoIcon: () => <IconArrowDown size={32} color="#fff" />,
     rightLeftOneIcon: () => <IconMessage size={32} color="#fff" />,
-    rightLeftTwoIcon: () => <IconMessage size={20} />,
+    rightLeftTwoIcon: () =>
+      isReply ? <IconMailOpened size={32} color="#fff" /> : undefined,
   });
 
   return useMemo(() => {
@@ -103,19 +130,15 @@ function CommentItem({
             <View
               style={styles.backgroundLeft}
               justifyContent="center"
-              backgroundColor={swipeAnimation.color}
+              backgroundColor={swipeAnimation.color ?? theme.colors.app.upvote}
               pl={4}
             >
               {swipeAnimation.leftIcon}
             </View>
             <View
-              style={styles.backgroundLeft}
-              backgroundColor={swipeAnimation.color}
-            />
-            <View
               style={styles.backgroundRight}
               justifyContent="center"
-              backgroundColor="#007AFF"
+              backgroundColor={swipeAnimation.color ?? "#007AFF"}
               alignItems="flex-end"
               pr={4}
             >
@@ -136,12 +159,12 @@ function CommentItem({
                 <VStack
                   flex={1}
                   pr={2}
-                  pb={1}
                   space={2}
                   backgroundColor={theme.colors.app.fg}
                   style={{
                     paddingLeft: depth * 8,
                   }}
+                  py={1}
                 >
                   <VStack
                     borderLeftWidth={depth > 2 ? 2 : 0}
@@ -187,42 +210,20 @@ function CommentItem({
                             upvotes={comment.comment.counts.upvotes}
                             downvotes={comment.comment.counts.downvotes}
                             myVote={comment.comment.my_vote as ILemmyVote}
-                            initialVote={comment.myVote}
+                            initialVote={initialVote.current}
                           />
                         </>
                       </AvatarUsername>
                       <HStack alignItems="center" space={2}>
-                        {isReply && (
-                          <>
-                            {!isRead ? (
-                              <IconButton
-                                icon={
-                                  <IconMail
-                                    size={24}
-                                    color={theme.colors.app.textSecondary}
-                                  />
-                                }
-                                onPress={commentHook.onReadPress}
-                              />
-                            ) : (
-                              <IconMailOpened
-                                size={24}
-                                color={theme.colors.app.textSecondary}
-                              />
-                            )}
-                          </>
-                        )}
-                        {!isReply && (
-                          <IconButton
-                            icon={
-                              <IconDots
-                                size={24}
-                                color={theme.colors.app.textSecondary}
-                              />
-                            }
-                            onPress={commentHook.onCommentLongPress}
-                          />
-                        )}
+                        <IconButtonWithText
+                          onPressHandler={commentHook.onCommentLongPress}
+                          icon={
+                            <IconDots
+                              size={24}
+                              color={theme.colors.app.textSecondary}
+                            />
+                          }
+                        />
                         <Text color={theme.colors.app.textSecondary}>
                           {timeFromNowShort(comment.comment.comment.published)}
                         </Text>
@@ -264,15 +265,27 @@ function CommentItem({
                       </>
                     )}
                   </VStack>
-                  <Divider ml={0} mt={-1} bg={theme.colors.app.border} />
                 </VStack>
               </Pressable>
             </Animated.View>
           </PanGestureHandler>
         </View>
+        <View
+          style={{
+            paddingLeft: depth * 8,
+          }}
+          backgroundColor={theme.colors.app.fg}
+        >
+          <Divider bg={theme.colors.app.border} />
+        </View>
       </>
     );
-  }, [swipeAnimation.leftIcon, swipeAnimation.rightIcon, comment]);
+  }, [
+    swipeAnimation.color,
+    swipeAnimation.leftIcon,
+    swipeAnimation.rightIcon,
+    comment,
+  ]);
 }
 
 const styles = StyleSheet.create({

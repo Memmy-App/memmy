@@ -11,7 +11,6 @@ import {
   VStack,
 } from "native-base";
 import { RefreshControl } from "react-native";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { IconClockHour5, IconMessageCircle } from "tabler-icons-react-native";
@@ -21,10 +20,11 @@ import usePost from "../../hooks/post/postHooks";
 import CommentItem from "../../ui/comments/CommentItem";
 import AvatarUsername from "../../ui/common/AvatarUsername";
 import CommunityLink from "../../ui/CommunityLink";
-import ContentView from "../../ui/ContentView";
+import PostContentView from "./PostContentView";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
+import NoResultView from "../../ui/common/NoResultView";
 
 function PostScreen({
   route,
@@ -49,7 +49,11 @@ function PostScreen({
   }, []);
 
   const commentItem = ({ item }) => (
-    <CommentItem comment={item} setComments={post.setComments} />
+    <CommentItem
+      comment={item}
+      setComments={post.setComments}
+      opId={post.currentPost.creator.id}
+    />
   );
 
   const refreshControl = (
@@ -68,7 +72,7 @@ function PostScreen({
 
   const header = (
     <VStack flex={1} backgroundColor={theme.colors.app.fg}>
-      <ContentView post={post.currentPost} />
+      <PostContentView post={post.currentPost} />
 
       <HStack mb={2} mx={4} space={2}>
         <AvatarUsername creator={post.currentPost?.creator} showInstance />
@@ -136,13 +140,7 @@ function PostScreen({
       );
     }
     if (post.comments.length === 0 && !post.commentsError) {
-      return (
-        <Center my={4}>
-          <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
-            No comments yet. Time to do your part 🫡
-          </Text>
-        </Center>
-      );
+      return <NoResultView my={4} type="comments" />;
     }
 
     return null;
@@ -152,7 +150,7 @@ function PostScreen({
 
   if (post.currentPost) {
     return (
-      <VStack flex={1} backgroundColor={theme.colors.app.bgSecondary}>
+      <VStack flex={1} backgroundColor={theme.colors.app.bg}>
         <FlashList
           ListFooterComponent={footer()}
           ListHeaderComponent={header}

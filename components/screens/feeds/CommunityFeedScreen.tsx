@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
-import { HStack, Text, useTheme, VStack } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { HStack, Text, useTheme, VStack } from "native-base";
+import React, { useEffect } from "react";
 import FastImage from "react-native-fast-image";
 import {
   IconEye,
   IconHeart,
-  IconHeartFilled,
   IconInfoCircle,
+  IconPlanet,
   IconPlus,
   IconUserHeart,
 } from "tabler-icons-react-native";
-import FeedView from "../../ui/Feed/FeedView";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
-import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
-import ButtonOne from "../../ui/buttons/ButtonOne";
-import NotFoundView from "../../ui/Loading/NotFoundView";
 import useCommunityFeed from "../../hooks/feeds/useCommunityFeed";
+import CustomButton from "../../ui/buttons/CustomButton";
+import FeedView from "../../ui/Feed/FeedView";
+import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
+import NotFoundView from "../../ui/Loading/NotFoundView";
 
 function FeedsCommunityScreen({
   route,
@@ -62,16 +62,21 @@ function FeedsCommunityScreen({
     return (
       <VStack pt={10} pb={5} px={5}>
         <HStack alignItems="center" space={5}>
-          <FastImage
-            source={{
-              uri: communityFeed.feed.community.community.icon,
-            }}
-            style={{
-              height: 96,
-              width: 96,
-              borderRadius: 100,
-            }}
-          />
+          {communityFeed.feed.community.community.icon ? (
+            <FastImage
+              source={{
+                uri: communityFeed.feed.community.community.icon,
+              }}
+              style={{
+                height: 96,
+                width: 96,
+                borderRadius: 100,
+              }}
+            />
+          ) : (
+            <IconPlanet color={theme.colors.app.textSecondary} size={64} />
+          )}
+
           <VStack alignContent="center">
             <HStack space={2}>
               <HStack space={1}>
@@ -100,17 +105,26 @@ function FeedsCommunityScreen({
         </HStack>
         <VStack pt={8}>
           <HStack justifyContent="space-between" alignItems="center" space={3}>
-            <ButtonOne
+            <CustomButton
               onPress={communityFeed.onSubscribePress}
-              icon={communityFeed.feed.subscribed ? IconHeartFilled : IconHeart}
-              text={communityFeed.feed.subscribed ? "Subscribed" : "Subscribe"}
+              icon={IconHeart}
+              iconFill={
+                communityFeed.feed.community.subscribed === "Subscribed" ||
+                communityFeed.feed.community.subscribed === "Pending"
+              }
+              text={
+                communityFeed.feed.community.subscribed === "Subscribed" ||
+                communityFeed.feed.community.subscribed === "Pending"
+                  ? "Subscribed"
+                  : "Subscribe"
+              }
             />
-            <ButtonOne
+            <CustomButton
               onPress={communityFeed.onAboutPress}
               icon={IconInfoCircle}
               text="About"
             />
-            <ButtonOne
+            <CustomButton
               onPress={communityFeed.onPostPress}
               icon={IconPlus}
               text="Post"

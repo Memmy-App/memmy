@@ -1,20 +1,19 @@
 import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import { PostView } from "lemmy-js-client";
-
-import { useToast } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../../slices/post/postSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
-import { setUpdateVote } from "../../../slices/feed/feedSlice";
-import { selectBookmarks } from "../../../slices/bookmarks/bookmarksSlice";
-import {
-  addBookmark,
-  removeBookmark,
-} from "../../../slices/bookmarks/bookmarksActions";
+import { setUpdateSaved, setUpdateVote } from "../../../slices/feed/feedSlice";
 import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
+import { showToast } from "../../../slices/toast/toastSlice";
+import {
+  clearEditComment,
+  selectEditComment,
+} from "../../../slices/comments/editCommentSlice";
+import { savePost } from "../../../lemmy/LemmyHelpers";
 
 export interface UsePost {
   comments: ILemmyComment[];
@@ -25,8 +24,7 @@ export interface UsePost {
 
   currentPost: PostView;
 
-  bookmarked: boolean;
-  doBookmark: () => void;
+  doSave: () => Promise<void>;
 
   doVote: (value: -1 | 0 | 1) => Promise<void>;
 
@@ -36,22 +34,19 @@ export interface UsePost {
 const usePost = (commentId: string | null): UsePost => {
   // Global State
   const { post, newComment } = useAppSelector(selectPost);
-  const bookmarks = useAppSelector(selectBookmarks);
+  const { commentId: editedCommentId, content: editedContent } =
+    useAppSelector(selectEditComment);
 
   // State
   const [comments, setComments] = useState<ILemmyComment[]>([]);
   const [commentsLoading, setCommentsLoading] = useState<boolean>(true);
   const [commentsError, setCommentsError] = useState<boolean>(false);
   const [currentPost, setCurrentPost] = useState<PostView>(post);
-  const [bookmarked, setBookmarked] = useState<boolean>(
-    bookmarks?.findIndex((b) => b.postId === currentPost.post.id) !== -1
-  );
 
   const recycled = useRef({});
 
   // Other Hooks
   const dispatch = useAppDispatch();
-  const toast = useToast();
 
   // Check if a post is saved
   useEffect(() => {
@@ -91,6 +86,29 @@ const usePost = (commentId: string | null): UsePost => {
     }
   }, [newComment]);
 
+  useEffect(() => {
+    if (editedCommentId) {
+      setComments((prev) =>
+        prev.map((c) => {
+          if (c.comment.comment.id === editedCommentId) {
+            return {
+              ...c,
+              comment: {
+                ...c.comment,
+                comment: {
+                  ...c.comment.comment,
+                  content: editedContent,
+                },
+              },
+            };
+          }
+          return c;
+        })
+      );
+
+      dispatch(clearEditComment());
+    }
+  }, [editedContent]);
   /**
    * Load the comments for the current post
    */
@@ -176,10 +194,13 @@ const usePost = (commentId: string | null): UsePost => {
       writeToLog(e.toString());
 
       // If there was an error, reset the value and show a notification
-      toast.show({
-        title: "Error saving vote",
-        duration: 3000,
-      });
+      dispatch(
+        showToast({
+          message: "Error saving vote",
+          duration: 3000,
+          variant: "error",
+        })
+      );
 
       setCurrentPost({
         ...currentPost,
@@ -188,22 +209,29 @@ const usePost = (commentId: string | null): UsePost => {
     }
   };
 
-  /**
-   * Bookmark the current post
-   */
-  const doBookmark = () => {
-    if (bookmarked) {
-      dispatch(removeBookmark(post.post.id));
-      setBookmarked(false);
-    } else {
+  const doSave = async () => {
+    setCurrentPost((prev) => ({
+      ...prev,
+      saved: !currentPost.saved,
+    }));
+
+    const res = await savePost(currentPost.post.id, !currentPost.saved);
+
+    if (!res) {
+      setCurrentPost((prev) => ({
+        ...prev,
+        saved: !currentPost.saved,
+      }));
+
       dispatch(
-        addBookmark({
-          postId: post.post.id,
-          postName: post.post.name,
-          postLink: post.post.ap_id,
+        showToast({
+          message: "Failed to save post.",
+          variant: "error",
+          duration: 2000,
         })
       );
-      setBookmarked(true);
+    } else {
+      dispatch(setUpdateSaved(post.post.id));
     }
   };
 
@@ -217,8 +245,7 @@ const usePost = (commentId: string | null): UsePost => {
 
     currentPost,
 
-    bookmarked,
-    doBookmark,
+    doSave,
 
     doVote,
 

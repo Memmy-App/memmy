@@ -12,13 +12,14 @@ import { writeToLog } from "./helpers/LogHelper";
 import { lemmyAuthToken, lemmyInstance } from "./lemmy/LemmyInstance";
 import { loadAccounts } from "./slices/accounts/accountsActions";
 import { selectAccountsLoaded } from "./slices/accounts/accountsSlice";
-import { loadSettings } from "./slices/settings/settingsActions";
+import { loadSettings, setSetting } from "./slices/settings/settingsActions";
 import { selectSettings } from "./slices/settings/settingsSlice";
 import { getUnreadCount } from "./slices/site/siteActions";
 import { useAppDispatch, useAppSelector } from "./store";
 import getFontScale from "./theme/fontSize";
-import { brownTheme } from "./theme/theme";
-import { ThemeOptionsMap } from "./theme/themeOptions";
+import { darkTheme } from "./theme/theme";
+import { ThemeOptionsArr, ThemeOptionsMap } from "./theme/themeOptions";
+import Toast from "./components/ui/Toast";
 
 const logError = (e, info) => {
   writeToLog(e.toString());
@@ -40,7 +41,7 @@ function Start() {
   const dispatch = useAppDispatch();
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
   const { theme, fontSize, isSystemTextSize } = useAppSelector(selectSettings);
-  const [selectedTheme, setSelectedTheme] = useState<any>(brownTheme);
+  const [selectedTheme, setSelectedTheme] = useState<any>(darkTheme);
 
   const appState = useRef(AppState.currentState);
 
@@ -71,15 +72,14 @@ function Start() {
       appState.current = nextAppState;
     });
 
+    // eslint-disable-next-line consistent-return
     return () => {
       subscription.remove();
     };
   }, [loaded]);
 
   const startInterval = () => {
-    console.log("starting an interval.");
     refreshInterval = setInterval(() => {
-      console.log("Looking for updates...");
       if (lemmyInstance && lemmyAuthToken) {
         dispatch(getUnreadCount());
       }
@@ -87,8 +87,17 @@ function Start() {
   };
 
   useEffect(() => {
+    let usedTheme = theme;
+
+    // @ts-ignore
+    if (!ThemeOptionsArr.includes(usedTheme)) {
+      usedTheme = "Dark";
+
+      dispatch(setSetting({ theme: usedTheme }));
+    }
+
     const newTheme = extendTheme({
-      ...ThemeOptionsMap[theme],
+      ...ThemeOptionsMap[usedTheme],
       ...(isSystemTextSize
         ? {
             components: {
@@ -123,7 +132,10 @@ function Start() {
         <StatusBar style={theme === "Light" ? "dark" : "light"} />
         <GestureHandlerRootView style={{ flex: 1 }}>
           <ActionSheetProvider>
-            <Stack />
+            <>
+              <Toast />
+              <Stack />
+            </>
           </ActionSheetProvider>
         </GestureHandlerRootView>
       </ErrorBoundary>

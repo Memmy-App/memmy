@@ -1,8 +1,13 @@
-import React, { SetStateAction, useEffect, useMemo, useState } from "react";
+import React, {
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { PersonView, PostView } from "lemmy-js-client";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import { LayoutAnimation } from "react-native";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { useAppDispatch, useAppSelector } from "../../../store";
@@ -11,19 +16,32 @@ import { setPost } from "../../../slices/post/postSlice";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import { buildComments } from "../../../lemmy/LemmyHelpers";
 
-interface UseProfile {
+export interface UseProfile {
+  doLoad: (refresh?: boolean) => Promise<void>;
+
   loading: boolean;
   error: boolean;
+  refreshing: boolean;
   notFound: boolean;
+
   profile: PersonView;
-  items: ILemmyComment[] | PostView[];
-  setItems: React.Dispatch<SetStateAction<ILemmyComment[] | PostView[]>>;
-  doLoad: (refresh?: boolean) => Promise<void>;
-  doLoadItems: (type: "comments" | "posts", refresh?: boolean) => Promise<void>;
+
+  comments: ILemmyComment[];
+  setComments: React.Dispatch<SetStateAction<ILemmyComment[]>>;
+
+  posts: PostView[];
+  setPosts: React.Dispatch<SetStateAction<PostView[]>>;
+
+  savedPosts: PostView[];
+  setSavedPosts: React.Dispatch<SetStateAction<PostView[]>>;
+
   self: boolean;
-  selectedTab?: "comments" | "posts";
-  setSelectedTab?: React.Dispatch<SetStateAction<"comments" | "posts">>;
-  itemsLoading: boolean;
+
+  selected?: "comments" | "posts" | "savedposts";
+  setSelected?: React.Dispatch<
+    SetStateAction<"comments" | "posts" | "savedposts">
+  >;
+
   onCommentPress: (
     postId: number,
     commentId: number | undefined
@@ -33,35 +51,43 @@ interface UseProfile {
 const useProfile = (fullUsername?: string): UseProfile => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const searchUsername = useMemo(
-    () => `${currentAccount.username}@${currentAccount.instance}`,
+    () =>
+      fullUsername ?? `${currentAccount.username}@${currentAccount.instance}`,
     [currentAccount]
-  );
-
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<boolean>(false);
-  const [profile, setProfile] = useState<PersonView>(null);
-  const [items, setItems] = useState<ILemmyComment[] | PostView[]>([]);
-  const [itemsLoading, setItemsLoading] = useState<boolean>(true);
-  const [notFound, setNotFound] = useState<boolean>(false);
-  const [nextPage, setNextPage] = useState<number>(2);
-  const [self] = useState(!fullUsername);
-  const [selectedTab, setSelectedTab] = useState<"posts" | "comments">(
-    "comments"
   );
 
   const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+
+  const [profile, setProfile] = useState<PersonView>(null);
+  const [comments, setComments] = useState<ILemmyComment[]>([]);
+  const [posts, setPosts] = useState<PostView[]>([]);
+  const [savedPosts, setSavedPosts] = useState<PostView[]>([]);
+
+  const [notFound, setNotFound] = useState<boolean>(false);
+
+  const commentsNextPage = useRef(1);
+  const postsNextPage = useRef(1);
+
+  const self = useRef(!fullUsername);
+
+  const [selected, setSelected] = useState<"posts" | "comments">("comments");
+
   useEffect(() => {
-    doLoad().then();
+    doLoad(true).then();
   }, []);
 
-  const doLoad = async () => {
-    setLoading(true);
-    setError(false);
-    setItems([]);
-    setSelectedTab("comments");
-    setNextPage(2);
+  const doLoad = async (refresh = false) => {
+    if (refresh) {
+      setRefreshing(true);
+
+      if (selected === "comments") commentsNextPage.current = 1;
+      else postsNextPage.current = 1;
+    } else setLoading(true);
 
     try {
       const res = await lemmyInstance.getPersonDetails({
@@ -69,62 +95,49 @@ const useProfile = (fullUsername?: string): UseProfile => {
         username: searchUsername,
         sort: "New",
         limit: 50,
-        page: 1,
+        page:
+          selected === "comments"
+            ? commentsNextPage.current
+            : postsNextPage.current,
       });
+
+      if (selected === "comments") {
+        commentsNextPage.current = 2;
+      } else {
+        postsNextPage.current = 2;
+      }
 
       const betterComments = buildComments(res.comments);
 
-      LayoutAnimation.linear();
+      if (self.current) {
+        const savedRes = await lemmyInstance.getPersonDetails({
+          auth: lemmyAuthToken,
+          limit: 50,
+          saved_only: true,
+          username: searchUsername,
+        });
+
+        setSavedPosts([...savedRes.posts]);
+      }
+
       setProfile(res.person_view);
-      setItems(betterComments);
-      setLoading(false);
+      setComments(betterComments);
+      setPosts(res.posts);
+
+      if (refresh) setRefreshing(false);
+      else setLoading(false);
     } catch (e) {
       writeToLog("Error getting person.");
       writeToLog(e.toString());
 
-      setLoading(false);
+      if (refresh) setRefreshing(false);
+      else setLoading(false);
 
       if (e.toString() === "couldnt_find_that_username_or_email") {
         setNotFound(true);
         return;
       }
       setError(true);
-    }
-  };
-
-  const doLoadItems = async (type: "comments" | "posts", refresh = false) => {
-    if (refresh) {
-      setItems([]);
-      setSelectedTab(type);
-    }
-    LayoutAnimation.linear();
-
-    setItemsLoading(true);
-    setError(false);
-
-    try {
-      const res = await lemmyInstance.getPersonDetails({
-        auth: lemmyAuthToken,
-        username: searchUsername,
-        page: refresh ? 1 : nextPage,
-        sort: "New",
-        limit: 50,
-      });
-
-      setNextPage((prev) => (refresh ? 2 : prev + 1));
-
-      LayoutAnimation.linear();
-      if (type === "comments") {
-        const betterComments = buildComments(res.comments);
-        setItems([...(items as ILemmyComment[]), ...betterComments]);
-      }
-      if (type === "posts") setItems([...(items as PostView[]), ...res.posts]);
-    } catch (e) {
-      writeToLog("Failed to get user.");
-      writeToLog(e.toString());
-
-      setError(true);
-      setItemsLoading(false);
     }
   };
 
@@ -158,18 +171,26 @@ const useProfile = (fullUsername?: string): UseProfile => {
   return {
     loading,
     error,
+    refreshing,
     notFound,
-    profile,
-    items,
-    setItems,
-    self,
 
-    selectedTab,
-    setSelectedTab,
+    profile,
+
+    comments,
+    setComments,
+
+    posts,
+    setPosts,
+
+    savedPosts,
+    setSavedPosts,
+
+    selected,
+    setSelected,
+
+    self: self.current,
 
     doLoad,
-    doLoadItems,
-    itemsLoading,
 
     onCommentPress,
   };

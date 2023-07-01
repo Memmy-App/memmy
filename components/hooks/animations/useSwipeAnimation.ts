@@ -14,11 +14,11 @@ interface UseSwipeAnimationOptions {
   onLeftRightOne: () => void | Promise<void>;
   onLeftRightTwo: () => void | Promise<void>;
   onRightLeftOne: () => void | Promise<void>;
-  onRightLeftTwo: () => void | Promise<void>;
+  onRightLeftTwo?: () => void | Promise<void>;
   leftRightOneIcon: any;
   leftRightTwoIcon: any;
   rightLeftOneIcon: any;
-  rightLeftTwoIcon: any;
+  rightLeftTwoIcon?: any;
 }
 
 interface UseSwipeAnimation {
@@ -34,9 +34,12 @@ const useSwipeAnimation = (
 ): UseSwipeAnimation => {
   const theme = useTheme();
   // State
-  const [color, setColor] = useState(theme.colors.app.upvote);
-  const [rightIcon, setRightIcon] = useState<any>(options.rightLeftOneIcon);
-  const [leftIcon, setLeftIcon] = useState<any>(options.leftRightOneIcon);
+  const color = useSharedValue(theme.colors.app.upvote);
+  // const rightIcon = useSharedValue(options.rightLeftOneIcon);
+  // const leftIcon = useSharedValue(options.leftRightOneIcon);
+
+  const [rightIcon, setRightIcon] = useState(options.rightLeftTwoIcon);
+  const [leftIcon, setLeftIcon] = useState(options.leftRightOneIcon);
 
   // Other
   const { width } = Dimensions.get("screen");
@@ -45,10 +48,8 @@ const useSwipeAnimation = (
   const ranFeedbackUpvote = useSharedValue(false);
   const ranFeedbackDownvote = useSharedValue(false);
   const ranFeedbackComment = useSharedValue(false);
+  const ranFeedbackMarkRead = useSharedValue(false);
   const startPos = useSharedValue(0);
-  const action = useSharedValue<
-    null | "leftRightOne" | "leftRightTwo" | "rightLeftOne" | "rightLeftTwo"
-  >(null);
 
   const gestureHandler = useAnimatedGestureHandler({
     onStart: (event, ctx) => {
@@ -57,6 +58,7 @@ const useSwipeAnimation = (
       // eslint-disable-next-line no-param-reassign
       ctx.startX = translateX.value;
       startPos.value = event.absoluteX;
+      color.value = theme.colors.app.upvote;
     },
     onActive: (event, ctx) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -64,39 +66,57 @@ const useSwipeAnimation = (
       translateX.value = ctx.startX + event.translationX;
 
       if (event.translationX > 0) {
-        if (event.translationX < width * 0.3) {
+        if (event.translationX < width * 0.32) {
           runOnJS(setStyles)("leftRightOne");
         } else {
           runOnJS(setStyles)("leftRightTwo");
         }
-      } else {
-        runOnJS(setStyles)("rightLeftOne");
+      } else if (event.translationX < 0) {
+        if (-event.translationX < width * 0.3) {
+          runOnJS(setStyles)("rightLeftOne");
+        } else {
+          runOnJS(setStyles)("rightLeftTwo");
+        }
       }
 
-      if (event.translationX >= width * 0.15 && !ranFeedbackUpvote.value) {
+      if (event.translationX >= width * 0.17 && !ranFeedbackUpvote.value) {
         runOnJS(onCommentSlideHapticFeedback)();
         ranFeedbackUpvote.value = true;
       } else if (
-        event.translationX >= width * 0.3 &&
+        event.translationX >= width * 0.32 &&
         !ranFeedbackDownvote.value
       ) {
         runOnJS(onCommentSlideHapticFeedback)();
         ranFeedbackDownvote.value = true;
       } else if (
-        event.translationX >= width * 0.15 &&
-        event.translationX < width * 0.3 &&
+        event.translationX >= width * 0.17 &&
+        event.translationX < width * 0.32 &&
         ranFeedbackUpvote.value &&
         ranFeedbackDownvote.value
       ) {
         runOnJS(onCommentSlideHapticFeedback)();
         ranFeedbackDownvote.value = false;
-      } else if (
-        event.translationX < 0 &&
-        event.translationX <= width * 0.15 &&
-        !ranFeedbackComment.value
-      ) {
-        runOnJS(onCommentSlideHapticFeedback)();
-        ranFeedbackComment.value = true;
+      } else if (event.translationX < 0) {
+        if (-event.translationX >= width * 0.17 && !ranFeedbackComment.value) {
+          runOnJS(onCommentSlideHapticFeedback)();
+          ranFeedbackComment.value = true;
+        } else if (
+          options.onRightLeftTwo &&
+          -event.translationX >= width * 0.32 &&
+          !ranFeedbackMarkRead.value
+        ) {
+          runOnJS(onCommentSlideHapticFeedback)();
+          ranFeedbackMarkRead.value = true;
+        } else if (
+          options.onRightLeftTwo &&
+          -event.translationX >= width * 0.17 &&
+          -event.translationX < width * 0.32 &&
+          ranFeedbackComment.value &&
+          ranFeedbackMarkRead.value
+        ) {
+          runOnJS(onCommentSlideHapticFeedback)();
+          ranFeedbackMarkRead.value = false;
+        }
       }
     },
     onEnd: (event) => {
@@ -104,21 +124,28 @@ const useSwipeAnimation = (
       ranFeedbackDownvote.value = false;
       ranFeedbackComment.value = false;
 
-      runOnJS(setStyles)("upvote");
-
       if (
-        event.translationX >= width * 0.15 &&
-        event.translationX < width * 0.3
+        event.translationX >= width * 0.17 &&
+        event.translationX < width * 0.32
       ) {
         runOnJS(onDone)("leftRightOne");
-      } else if (event.translationX >= width * 0.3) {
+      } else if (event.translationX >= width * 0.32) {
         runOnJS(onDone)("leftRightTwo");
-      } else if (event.translationX <= -(width * 0.15)) {
-        runOnJS(onDone)("rightLeftOne");
+      } else if (event.translationX < 0) {
+        if (
+          -event.translationX >= width * 0.17 &&
+          -event.translationX < width * 0.32
+        ) {
+          runOnJS(onDone)("rightLeftOne");
+        } else if (-event.translationX >= width * 0.32) {
+          if (!options.onRightLeftTwo) runOnJS(onDone)("rightLeftOne");
+
+          runOnJS(onDone)("rightLeftTwo");
+        }
       }
 
       translateX.value = withSpring(0, {
-        damping: 30,
+        damping: 20,
       });
     },
   });
@@ -130,21 +157,29 @@ const useSwipeAnimation = (
   function setStyles(actionType) {
     switch (actionType) {
       case "leftRightOne": {
-        if (color === theme.colors.app.upvote) return;
-        setColor(theme.colors.app.upvote);
+        if (color.value === theme.colors.app.upvote) return;
+        color.value = theme.colors.app.upvote;
         setLeftIcon(options.leftRightOneIcon);
         break;
       }
       case "leftRightTwo": {
-        if (color === theme.colors.app.downvote) return;
-        setColor(theme.colors.app.downvote);
+        if (color.value === theme.colors.app.downvote) return;
+        color.value = theme.colors.app.downvote;
         setLeftIcon(options.leftRightTwoIcon);
         break;
       }
       case "rightLeftOne": {
-        if (color === theme.colors.app.success) return;
-        setColor(theme.colors.app.success);
+        if (color.value === theme.colors.app.info) return;
+        color.value = theme.colors.app.info;
         setRightIcon(options.rightLeftOneIcon);
+        break;
+      }
+      case "rightLeftTwo": {
+        if (!options.onRightLeftTwo) return;
+
+        if (color.value === theme.colors.app.success) return;
+        color.value = theme.colors.app.success;
+        setRightIcon(options.rightLeftTwoIcon);
         break;
       }
       default: {
@@ -175,6 +210,8 @@ const useSwipeAnimation = (
         break;
       }
       case "rightLeftTwo": {
+        if (!options.onRightLeftTwo) return;
+
         options.onRightLeftTwo();
         break;
       }
@@ -187,7 +224,7 @@ const useSwipeAnimation = (
   return {
     leftIcon,
     rightIcon,
-    color,
+    color: color.value,
     gestureHandler,
     animatedStyle,
   };

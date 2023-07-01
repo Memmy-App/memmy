@@ -1,5 +1,5 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { VStack, useTheme, useToast } from "native-base";
+import { VStack, useTheme } from "native-base";
 import React, { useEffect, useRef, useState } from "react";
 import { Alert, Button, StyleSheet, TextInput } from "react-native";
 import { Section, TableView } from "react-native-tableview-simple";
@@ -18,6 +18,7 @@ import {
 import { selectAccounts } from "../../../slices/accounts/accountsSlice";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import CCell from "../../ui/table/CCell";
+import { showToast } from "../../../slices/toast/toastSlice";
 
 function EditAccountScreen({
   route,
@@ -39,7 +40,6 @@ function EditAccountScreen({
 
   const edit = useRef(false);
 
-  const toast = useToast();
   const theme = useTheme();
   const dispatch = useAppDispatch();
 
@@ -83,10 +83,13 @@ function EditAccountScreen({
 
   const onSavePress = async () => {
     if (!form.server || !form.username || !form.password) {
-      toast.show({
-        description: "All fields are required.",
-        duration: 3000,
-      });
+      dispatch(
+        showToast({
+          message: "All fields are required.",
+          duration: 3000,
+          variant: "warn",
+        })
+      );
       return;
     }
 
@@ -173,9 +176,10 @@ function EditAccountScreen({
                 autoCorrect={false}
                 editable={!edit.current}
                 keyboardAppearance={theme.config.initialColorMode}
+                keyboardType="web-search"
               />
             }
-            backgroundColor={theme.colors.app.bgTertiary}
+            backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
@@ -207,7 +211,7 @@ function EditAccountScreen({
                 keyboardAppearance={theme.config.initialColorMode}
               />
             }
-            backgroundColor={theme.colors.app.bgTertiary}
+            backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
@@ -229,7 +233,7 @@ function EditAccountScreen({
                 keyboardAppearance={theme.config.initialColorMode}
               />
             }
-            backgroundColor={theme.colors.app.bgTertiary}
+            backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
@@ -253,7 +257,7 @@ function EditAccountScreen({
                   keyboardAppearance={theme.config.initialColorMode}
                 />
               }
-              backgroundColor={theme.colors.app.bgTertiary}
+              backgroundColor={theme.colors.app.fg}
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.textSecondary}
             />
