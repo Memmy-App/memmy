@@ -102,6 +102,7 @@ function KeyboardAccessory({
       writeToLog(e.toString());
 
       Alert.alert("Error uploading to Imgur.");
+      return;
     }
 
     setUploading(false);
