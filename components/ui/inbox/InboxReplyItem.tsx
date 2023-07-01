@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import CommentItem from "../comments/CommentItem";
 import { UseInbox } from "../../hooks/inbox/useInbox";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
