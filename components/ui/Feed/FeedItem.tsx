@@ -23,9 +23,9 @@ import useFeedItem from "../../hooks/feeds/useFeedItem";
 import AvatarUsername from "../common/AvatarUsername";
 import VoteButton from "../common/VoteButton";
 import CommunityLink from "../CommunityLink";
-import ContentView from "../ContentView";
 import FeaturedIndicator from "../common/FeaturedIndicator";
 import IconButtonWithText from "../common/IconButtonWithText";
+import FeedContentPreview from "./FeedContentPreview";
 
 interface FeedItemProps {
   post: PostView;
@@ -141,10 +141,9 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                   )}
                 </View>
 
-                <ContentView
+                <FeedContentPreview
                   post={post}
                   recycled={recycled}
-                  isPreview
                   setPostRead={feedItem.setPostRead}
                 />
 

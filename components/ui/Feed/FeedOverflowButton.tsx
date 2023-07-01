@@ -1,7 +1,7 @@
 import React from "react";
 import {
-  IconBookmark,
   IconDots,
+  IconHeart,
   IconMapPin,
   IconWorld,
 } from "tabler-icons-react-native";
@@ -24,7 +24,7 @@ export type Community = {
 const ContextualMenuIconType = {
   All: <IconWorld />,
   Local: <IconMapPin />,
-  Subscribed: <IconBookmark />,
+  Subscribed: <IconHeart />,
 };
 
 interface Props {

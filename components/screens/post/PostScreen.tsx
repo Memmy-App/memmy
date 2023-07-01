@@ -20,7 +20,7 @@ import usePost from "../../hooks/post/postHooks";
 import CommentItem from "../../ui/comments/CommentItem";
 import AvatarUsername from "../../ui/common/AvatarUsername";
 import CommunityLink from "../../ui/CommunityLink";
-import ContentView from "../../ui/ContentView";
+import PostContentView from "./PostContentView";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
@@ -72,7 +72,7 @@ function PostScreen({
 
   const header = (
     <VStack flex={1} backgroundColor={theme.colors.app.fg}>
-      <ContentView post={post.currentPost} />
+      <PostContentView post={post.currentPost} />
 
       <HStack mb={2} mx={4} space={2}>
         <AvatarUsername creator={post.currentPost?.creator} showInstance />
