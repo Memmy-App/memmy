@@ -14,6 +14,7 @@ export interface SettingsState {
   loaded: boolean;
   blurNsfw: boolean;
   hideNsfw: boolean;
+  linkPreviews: boolean;
   compactView: boolean;
   theme: ThemeOptions;
   isSystemTextSize: boolean;
@@ -37,6 +38,7 @@ const initialState: SettingsState = {
   loaded: false,
   blurNsfw: true,
   hideNsfw: true,
+  linkPreviews: false,
   compactView: false,
   compactThumbnailPosition: "Left",
   compactShowVotingButtons: true,

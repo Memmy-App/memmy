@@ -2,18 +2,17 @@ import { PostView } from "lemmy-js-client";
 import { Box, Pressable, Text, VStack, useTheme } from "native-base";
 import React, { useMemo, useState } from "react";
 import { Dimensions } from "react-native";
-// eslint-disable-next-line import/no-extraneous-dependencies
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
 import { truncatePost } from "../../../helpers/TextHelper";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppSelector } from "../../../store";
-import LinkButton from "../buttons/LinkButton";
 import ImageModal from "../image/ImageModal";
 import MemoizedFastImage from "../image/MemoizedFastImage";
 
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { findImages } from "../../../helpers/MarkdownHelper";
+import LinkPreviewContainer from "../linkPreviewer/LinkPreviewContainer";
+import LinkButton from "../buttons/LinkButton";
 
 function Title({ title, mt, mb }: { title: string; mt: number; mb: number }) {
   const theme = useTheme();
@@ -40,7 +39,8 @@ interface IProps {
 
 function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
   const theme = useTheme();
-  const { blurNsfw, markReadOnPostImageView } = useAppSelector(selectSettings);
+  const { blurNsfw, markReadOnPostImageView, linkPreviews } =
+    useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
   const { cleanedText, imageLinks } = findImages(post.post.body);
@@ -127,10 +127,14 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
         <VStack>
           <Title title={title} mt={2} mb={2} />
           <Box mx={4}>
-            <LinkButton
-              link={linkInfo.link}
-              thumbnail={post.post.thumbnail_url}
-            />
+            {linkPreviews ? (
+              <LinkPreviewContainer linkInfo={linkInfo} size="minimal" />
+            ) : (
+              <LinkButton
+                link={linkInfo.link}
+                thumbnail={post.post.thumbnail_url}
+              />
+            )}
           </Box>
         </VStack>
       );

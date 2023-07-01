@@ -2,8 +2,6 @@ import { PostView } from "lemmy-js-client";
 import { Box, Pressable, Text, VStack, useTheme } from "native-base";
 import React, { useMemo, useState } from "react";
 import { Dimensions } from "react-native";
-// eslint-disable-next-line import/no-extraneous-dependencies
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppSelector } from "../../../store";
@@ -13,7 +11,8 @@ import MemoizedFastImage from "../../ui/image/MemoizedFastImage";
 import RenderMarkdown from "../../ui/markdown/RenderMarkdown";
 
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
-import LinkPreviewContainer from "../../ui/linkPreviewer/LinkPreviewer";
+import LinkPreviewContainer from "../../ui/linkPreviewer/LinkPreviewContainer";
+import LinkButton from "../../ui/buttons/LinkButton";
 
 function Title({ title, mt, mb }: { title: string; mt: number; mb: number }) {
   const theme = useTheme();
@@ -38,7 +37,8 @@ interface IProps {
 
 function PostContentView({ post, recycled, setPostRead }: IProps) {
   const theme = useTheme();
-  const { blurNsfw, markReadOnPostImageView } = useAppSelector(selectSettings);
+  const { blurNsfw, markReadOnPostImageView, linkPreviews } =
+    useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
 
@@ -122,7 +122,14 @@ function PostContentView({ post, recycled, setPostRead }: IProps) {
         <VStack>
           <Title title={title} mt={2} mb={2} />
           <Box mx={4}>
-            <LinkPreviewContainer linkInfo={linkInfo} />
+            {linkPreviews ? (
+              <LinkPreviewContainer linkInfo={linkInfo} />
+            ) : (
+              <LinkButton
+                link={linkInfo.link}
+                thumbnail={post.post.thumbnail_url}
+              />
+            )}
           </Box>
         </VStack>
       );
