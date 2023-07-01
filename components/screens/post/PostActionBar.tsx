@@ -14,6 +14,7 @@ import { useAppDispatch } from "../../../store";
 import { UsePost } from "../../hooks/post/postHooks";
 import IconButtonWithText from "../../ui/common/IconButtonWithText";
 import VoteButton from "../../ui/common/VoteButton";
+import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 
 function PostActionBar({ post }: { post: UsePost }) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -25,6 +26,8 @@ function PostActionBar({ post }: { post: UsePost }) {
   };
 
   const onCommentPress = () => {
+    onGenericHapticFeedback();
+
     dispatch(
       setResponseTo({
         post: post.currentPost,
@@ -36,6 +39,8 @@ function PostActionBar({ post }: { post: UsePost }) {
   };
 
   const onSharePress = () => {
+    onGenericHapticFeedback();
+
     shareLink({
       link: post.currentPost.post.ap_id,
       title: post.currentPost.post.name,

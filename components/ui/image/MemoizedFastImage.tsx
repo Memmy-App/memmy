@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import FastImage from "react-native-fast-image";
 import { Icon, Text, useTheme, View, VStack } from "native-base";
 import { BlurView } from "expo-blur";
@@ -62,64 +62,58 @@ function MemoizedFastImage({
   };
 
   if (nsfw) {
-    return useMemo(
-      () => (
-        <View style={styles.blurContainer}>
-          <BlurView
-            style={[styles.blurView, { height, width }]}
-            intensity={blurIntensity}
-            tint="dark"
+    return (
+      <View style={styles.blurContainer}>
+        <BlurView
+          style={[styles.blurView, { height, width }]}
+          intensity={blurIntensity}
+          tint="dark"
+        >
+          <VStack
+            flex={1}
+            alignItems="center"
+            justifyContent="center"
+            space={2}
           >
-            <VStack
-              flex={1}
-              alignItems="center"
-              justifyContent="center"
-              space={2}
-            >
-              <Icon
-                as={Ionicons}
-                name="alert-circle"
-                color={theme.colors.app.textSecondary}
-                size={16}
-              />
-              <Text fontSize="xl">NSFW</Text>
-              <Text>Sensitive content ahead</Text>
-            </VStack>
-          </BlurView>
-          {!source.includes(".gif") && (
-            <FastImage
-              resizeMode={FastImage.resizeMode.contain}
-              source={{
-                uri: source,
-              }}
-              style={{
-                height,
-                width,
-              }}
-              onLoad={onLoad}
+            <Icon
+              as={Ionicons}
+              name="alert-circle"
+              color={theme.colors.app.textSecondary}
+              size={16}
             />
-          )}
-        </View>
-      ),
-      [height, source]
+            <Text fontSize="xl">NSFW</Text>
+            <Text>Sensitive content ahead</Text>
+          </VStack>
+        </BlurView>
+        {!source.includes(".gif") && (
+          <FastImage
+            resizeMode={FastImage.resizeMode.contain}
+            source={{
+              uri: source,
+            }}
+            style={{
+              height,
+              width,
+            }}
+            onLoad={onLoad}
+          />
+        )}
+      </View>
     );
   }
 
-  return useMemo(
-    () => (
-      <FastImage
-        resizeMode={FastImage.resizeMode.contain}
-        source={{
-          uri: source,
-        }}
-        style={{
-          height,
-          width,
-        }}
-        onLoad={onLoad}
-      />
-    ),
-    [height, source]
+  return (
+    <FastImage
+      resizeMode={FastImage.resizeMode.contain}
+      source={{
+        uri: source,
+      }}
+      style={{
+        height,
+        width,
+      }}
+      onLoad={onLoad}
+    />
   );
 }
 

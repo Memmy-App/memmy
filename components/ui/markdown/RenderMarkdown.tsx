@@ -23,12 +23,14 @@ interface MarkdownProps {
   text: string;
   addImages?: boolean;
   truncate?: boolean;
+  isNote?: boolean;
 }
 
 const RenderMarkdown = ({
   text,
   addImages = false,
   truncate = false,
+  isNote = false,
 }: MarkdownProps) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
@@ -65,7 +67,8 @@ const RenderMarkdown = ({
     },
     paragraph: {
       fontSize: FONT_SIZE,
-      color: fontColor,
+      color: isNote ? theme.colors.app.textSecondary : fontColor,
+      fontStyle: isNote ? "italic" : "normal",
     },
     heading1: {
       fontSize: HEADING_1_SIZE,

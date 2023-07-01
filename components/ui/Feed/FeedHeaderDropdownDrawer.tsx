@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Pressable, ScrollView, View } from "native-base";
+import Animated, { FadeOutUp, FadeInUp } from "react-native-reanimated";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectFeed, setDropdownVisible } from "../../../slices/feed/feedSlice";
 import {
@@ -34,14 +35,23 @@ function FeedHeaderDropdownDrawer() {
         <ScrollView>
           <CTable>
             <CSection>
-              {accounts.map((a) => (
-                <CCell
-                  key={a.username}
-                  cellStyle="Basic"
-                  title={`${a.username}@${a.instance}`}
-                  accessory="DisclosureIndicator"
-                  onPress={() => onAccountPress(a)}
-                />
+              {accounts.map((account, index) => (
+                <Animated.View
+                  entering={FadeInUp.delay(index * 30)
+                    .duration(200)
+                    .springify()}
+                  exiting={FadeOutUp.delay(
+                    accounts.length - index * 30
+                  ).duration(200)}
+                >
+                  <CCell
+                    key={account.username}
+                    cellStyle="Basic"
+                    title={`${account.username}@${account.instance}`}
+                    accessory="DisclosureIndicator"
+                    onPress={() => onAccountPress(account)}
+                  />
+                </Animated.View>
               ))}
             </CSection>
           </CTable>
