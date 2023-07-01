@@ -1,6 +1,7 @@
+import React from "react";
 import { HStack, useTheme } from "native-base";
-import IconButtonWithText from "../../common/IconButtonWithText";
 import { IconBookmark } from "tabler-icons-react-native";
+import IconButtonWithText from "../../common/IconButtonWithText";
 import VoteButton from "../../common/VoteButton";
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
   onSave: () => void;
   onVotePress: (vote: number) => void;
 }
-export const Actions = ({ vote, saved, onSave, onVotePress }: Props) => {
+export function Actions({ vote, saved, onSave, onVotePress }: Props) {
   const theme = useTheme();
   const upvoted = vote === 1;
   const downvoted = vote === -1;
@@ -33,4 +34,4 @@ export const Actions = ({ vote, saved, onSave, onVotePress }: Props) => {
       />
     </HStack>
   );
-};
+}

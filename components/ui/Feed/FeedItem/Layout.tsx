@@ -1,10 +1,11 @@
+import React from "react";
 import { HStack } from "native-base";
 
 interface Props {
   children: React.ReactNode;
 }
 
-export const Header = ({ children }: Props) => {
+export function Header({ children }: Props) {
   return (
     <HStack
       mx={4}
@@ -16,12 +17,12 @@ export const Header = ({ children }: Props) => {
       {children}
     </HStack>
   );
-};
+}
 
-export const Footer = ({ children }: Props) => {
+export function Footer({ children }: Props) {
   return (
     <HStack mx={4} alignItems="center" mb={3} mt={1}>
       {children}
     </HStack>
   );
-};
+}

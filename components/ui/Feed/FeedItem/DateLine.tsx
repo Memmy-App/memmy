@@ -1,14 +1,15 @@
+import React from "react";
 import { HStack, useTheme, Text } from "native-base";
 import { IconClockHour5 } from "tabler-icons-react-native";
+import { PostView } from "lemmy-js-client";
 import CommunityLink from "../../CommunityLink";
 import { timeFromNowShort } from "../../../../helpers/TimeHelper";
-import { PostView } from "lemmy-js-client";
 
 interface Props {
   post: PostView;
 }
 
-export const DateLine = ({ post }: Props) => {
+export function DateLine({ post }: Props) {
   const theme = useTheme();
 
   return (
@@ -23,4 +24,4 @@ export const DateLine = ({ post }: Props) => {
       />
     </HStack>
   );
-};
+}

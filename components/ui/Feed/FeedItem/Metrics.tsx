@@ -1,3 +1,4 @@
+import React from "react";
 import { PostAggregates } from "lemmy-js-client";
 import { HStack, Text, useTheme } from "native-base";
 import {
@@ -11,7 +12,7 @@ interface Props {
   vote?: number;
 }
 
-export const Metrics = ({ data, vote }: Props) => {
+export function Metrics({ data, vote }: Props) {
   const theme = useTheme();
   const upvoted = vote === 1;
   const downvoted = vote === -1;
@@ -46,4 +47,4 @@ export const Metrics = ({ data, vote }: Props) => {
       </HStack>
     </HStack>
   );
-};
+}
