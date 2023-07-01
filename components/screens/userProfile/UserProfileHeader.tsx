@@ -26,7 +26,7 @@ function UserProfileHeader({ profile, pagerView }: IProps) {
   const theme = useTheme();
 
   return useMemo(() => {
-    if (!profile) return null;
+    if (!profile.profile) return null;
     return (
       <VStack flex={1} backgroundColor={theme.colors.app.bg}>
         <View style={styles.bannerContainer}>
