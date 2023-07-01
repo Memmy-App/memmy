@@ -234,24 +234,18 @@ function CommentItem({
                       fullyCollapsedComment ? (
                           ""
                         ) : (
-                          <Text
-                            py={3}
-                            color={theme.colors.app.textSecondary}
-                            fontStyle="italic"
-                          >
-                            Comment collapsed
-                          </Text>
+                          <RenderMarkdown
+                            text="Comment collapsed"
+                            isNote
+                          />
                         )
                     ) : (
                       <>
                         {(comment.comment.comment.deleted && (
-                          <Text
-                            py={3}
-                            color={theme.colors.app.textSecondary}
-                            fontStyle="italic"
-                          >
-                            Comment deleted by user :(
-                          </Text>
+                          <RenderMarkdown
+                            text="Comment deleted by user :("
+                            isNote
+                          />
                         )) ||
                           (comment.comment.comment.removed && (
                             <Text
