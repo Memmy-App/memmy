@@ -49,7 +49,7 @@ function ProfileCommentList({ profile, pagerView }: IProps) {
       ListHeaderComponent={
         <UserProfileHeader profile={profile} pagerView={pagerView} />
       }
-      estimatedItemSize={100}
+      estimatedItemSize={150}
       data={profile.comments}
       keyExtractor={commentKeyExtractor}
       ListEmptyComponent={<NoResultView type="comments" />}

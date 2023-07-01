@@ -26,7 +26,7 @@ function ProfilePostList({ profile, pagerView }: IProps) {
       ListHeaderComponent={
         <UserProfileHeader profile={profile} pagerView={pagerView} />
       }
-      estimatedItemSize={100}
+      estimatedItemSize={150}
       data={profile.posts}
       keyExtractor={keyExtractor}
       ListEmptyComponent={<NoResultView type="posts" />}
