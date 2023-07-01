@@ -61,7 +61,6 @@ function PostContentView({ post, recycled, setPostRead }: IProps) {
   const onImageLongPress = () => {};
 
   const isImage = linkInfo.extType === ExtensionType.IMAGE;
-  const isRead = post.read;
 
   const renderContent = () => {
     if (isImage) {
