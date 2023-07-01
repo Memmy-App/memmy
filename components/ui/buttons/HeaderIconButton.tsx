@@ -14,7 +14,15 @@ function HeaderIconButton({ icon, onPress }: CIconButtonProps) {
   const newIconElement = React.cloneElement(iconElement, {
     color: theme.colors.app.accent,
   });
-  return <Pressable onPress={onPress}>{newIconElement}</Pressable>;
+  const newPressedIconElement = React.cloneElement(iconElement, {
+    color: theme.colors.app.accentHighlight,
+  });
+
+  return (
+    <Pressable onPress={onPress}>
+      {({ isPressed }) => (isPressed ? newPressedIconElement : newIconElement)}
+    </Pressable>
+  );
 }
 
 export default HeaderIconButton;

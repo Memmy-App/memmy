@@ -101,7 +101,9 @@ export function MainFeedOverflowButton({
     const cancelButtonIndex = overflowOptions.main.length - 1;
     showActionSheetWithOptions(
       {
-        options: overflowOptions.main,
+        options: overflowOptions.main.map((option) =>
+          option === feed.listingType ? `${option} (current)` : option
+        ),
         cancelButtonIndex,
         userInterfaceStyle: theme.config.initialColorMode,
       },
