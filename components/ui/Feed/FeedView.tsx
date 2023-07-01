@@ -5,7 +5,7 @@ import { Button, RefreshControl, StyleSheet } from "react-native";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import FeedItem from "./FeedItem";
+import FeedItem from "./FeedItem/FeedItem";
 import LoadingView from "../Loading/LoadingView";
 import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
 import { useAppDispatch, useAppSelector } from "../../../store";
