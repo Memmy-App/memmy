@@ -80,11 +80,6 @@ function PostScreen({
     return <LoadingView />;
   }
 
-  const onEndReached = React.useCallback(
-    () => post.doLoad(),
-    [sortType]
-  )
-
   const instanceBaseUrl = getBaseUrl(post.currentPost.community.actor_id);
 
   const header = (
