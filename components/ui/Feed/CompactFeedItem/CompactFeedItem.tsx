@@ -63,6 +63,7 @@ function CompactFeedItem({
     rightLeftOneIcon,
   });
 
+  // TODO Memoize this properly
   return useMemo(
     () => (
       <View flex={1} my={0.5}>
