@@ -81,6 +81,19 @@ function SettingsIndexScreen({
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("ReadSettings")}
           />
+          <CCell
+            cellStyle="RightDetail"
+            title="Fully Collapse Comments"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.fullyCollapsedComment}
+                onValueChange={(v) => onChange("fullyCollapsedComment", v)}
+              />
+            }
+          />
         </Section>
 
         <Section header="FONT SIZE" roundedCorners hideSurroundingSeparators>

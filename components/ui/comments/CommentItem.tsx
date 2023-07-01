@@ -63,6 +63,7 @@ function CommentItem({
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { unread } = useAppSelector(selectSite);
+  const { fullyCollapsedComment } = useAppSelector(selectSettings);
 
   const initialVote = useRef(comment.myVote);
 
@@ -230,13 +231,17 @@ function CommentItem({
                       </HStack>
                     </HStack>
                     {comment.collapsed ? (
-                      <Text
-                        py={3}
-                        color={theme.colors.app.textSecondary}
-                        fontStyle="italic"
-                      >
-                        Comment collapsed
-                      </Text>
+                      fullyCollapsedComment ? (
+                          ""
+                        ) : (
+                          <Text
+                            py={3}
+                            color={theme.colors.app.textSecondary}
+                            fontStyle="italic"
+                          >
+                            Comment collapsed
+                          </Text>
+                        )
                     ) : (
                       <>
                         {(comment.comment.comment.deleted && (
