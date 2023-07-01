@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useMemo, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import { PostView } from "lemmy-js-client";
 import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
 import {
