@@ -79,7 +79,7 @@ const useProfile = (fullUsername?: string): UseProfile => {
 
   useEffect(() => {
     doLoad(true).then();
-  }, []);
+  }, [currentAccount]);
 
   const doLoad = async (refresh = false) => {
     if (refresh) {
