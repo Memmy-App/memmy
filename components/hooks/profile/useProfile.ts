@@ -16,7 +16,7 @@ import { setPost } from "../../../slices/post/postSlice";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import { buildComments } from "../../../lemmy/LemmyHelpers";
 
-interface IProps {
+export interface UseProfile {
   doLoad: (refresh?: boolean) => Promise<void>;
 
   loading: boolean;
@@ -48,7 +48,7 @@ interface IProps {
   ) => Promise<void>;
 }
 
-const useProfile = (fullUsername?: string): IProps => {
+const useProfile = (fullUsername?: string): UseProfile => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const searchUsername = useMemo(
     () =>
@@ -79,7 +79,7 @@ const useProfile = (fullUsername?: string): IProps => {
 
   useEffect(() => {
     doLoad(true).then();
-  }, []);
+  }, [currentAccount]);
 
   const doLoad = async (refresh = false) => {
     if (refresh) {

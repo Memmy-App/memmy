@@ -4,7 +4,10 @@ import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../../slices/post/postSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { setUpdateSaved, setUpdateVote } from "../../../slices/feed/feedSlice";
-import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
+import {
+  onGenericHapticFeedback,
+  onVoteHapticFeedback,
+} from "../../../helpers/HapticFeedbackHelpers";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
@@ -210,6 +213,8 @@ const usePost = (commentId: string | null): UsePost => {
   };
 
   const doSave = async () => {
+    onGenericHapticFeedback();
+
     setCurrentPost((prev) => ({
       ...prev,
       saved: !currentPost.saved,

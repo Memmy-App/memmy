@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { HStack, Icon, Pressable, Text, useTheme, VStack } from "native-base";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from "@expo/vector-icons";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 import { selectFeed, setDropdownVisible } from "../../../slices/feed/feedSlice";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import {
@@ -22,11 +27,20 @@ function FeedHeaderDropdown({ enabled }: HeaderDropdownProps) {
 
   const theme = useTheme();
 
+  const timer = useSharedValue(0);
+
+  useEffect(() => {
+    timer.value = withTiming(dropdownVisible ? 1 : 0, { duration: 300 });
+  }, [dropdownVisible]);
+
   const onPress = () => {
     if (!enabled) return;
-
     dispatch(setDropdownVisible());
   };
+
+  const caretRotation = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${timer.value * 180}deg` }],
+  }));
 
   return (
     <Pressable onPress={onPress}>
@@ -39,11 +53,13 @@ function FeedHeaderDropdown({ enabled }: HeaderDropdownProps) {
             {currentAccount ? currentAccount.instance : accounts[0].instance}
           </Text>
         </VStack>
-        <Icon
-          as={Ionicons}
-          name={dropdownVisible ? "caret-up-outline" : "caret-down-outline"}
-          color={theme.colors.app.textPrimary}
-        />
+        <Animated.View style={caretRotation}>
+          <Icon
+            as={Ionicons}
+            name="caret-down-outline"
+            color={theme.colors.app.textPrimary}
+          />
+        </Animated.View>
       </HStack>
     </Pressable>
   );

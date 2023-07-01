@@ -1,7 +1,11 @@
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { CommentReplyView } from "lemmy-js-client";
 import {
   Divider,
   HStack,
   Pressable,
+  Spacer,
   Text,
   VStack,
   View,
@@ -14,30 +18,25 @@ import Animated from "react-native-reanimated";
 import {
   IconArrowDown,
   IconArrowUp,
+  IconChevronDown,
   IconDots,
   IconMailOpened,
   IconMessage,
 } from "tabler-icons-react-native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
-import { CommentReplyView } from "lemmy-js-client";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
+import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
-import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { setResponseTo } from "../../../slices/comments/newCommentSlice";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
+import { selectSite, setUnread } from "../../../slices/site/siteSlice";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
 import useComment from "../../hooks/post/useComment";
-import NamePill from "../NamePill";
 import AvatarUsername from "../common/AvatarUsername";
+import IconButtonWithText from "../common/IconButtonWithText";
 import SmallVoteIcons from "../common/SmallVoteIcons";
 import RenderMarkdown from "../markdown/RenderMarkdown";
-import IconButtonWithText from "../common/IconButtonWithText";
-import { selectSite, setUnread } from "../../../slices/site/siteSlice";
-import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 
 function CommentItem({
   comment,
@@ -61,7 +60,6 @@ function CommentItem({
   const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
-  const currentAccount = useAppSelector(selectCurrentAccount);
   const { unread } = useAppSelector(selectSite);
 
   const initialVote = useRef(comment.myVote);
@@ -186,26 +184,9 @@ function CommentItem({
                       <AvatarUsername
                         creator={comment.comment.creator}
                         showInstance={showInstanceForUsernames}
+                        opId={opId}
                       >
                         <>
-                          {(currentAccount &&
-                            currentAccount.username &&
-                            currentAccount.instance &&
-                            comment.comment.creator.name ===
-                              currentAccount?.username &&
-                            getBaseUrl(comment.comment.creator.actor_id) ===
-                              currentAccount?.instance && (
-                              <NamePill
-                                text="me"
-                                color={theme.colors.app.users.me}
-                              />
-                            )) ||
-                            (comment.comment.creator.id === opId && (
-                              <NamePill
-                                text="OP"
-                                color={theme.colors.app.users.op}
-                              />
-                            ))}
                           <SmallVoteIcons
                             upvotes={comment.comment.counts.upvotes}
                             downvotes={comment.comment.counts.downvotes}
@@ -214,39 +195,39 @@ function CommentItem({
                           />
                         </>
                       </AvatarUsername>
-                      <HStack alignItems="center" space={2}>
-                        <IconButtonWithText
-                          onPressHandler={commentHook.onCommentLongPress}
-                          icon={
-                            <IconDots
-                              size={24}
-                              color={theme.colors.app.textSecondary}
-                            />
-                          }
+                      {!comment.collapsed ? (
+                        <HStack alignItems="center" space={2}>
+                          <IconButtonWithText
+                            onPressHandler={commentHook.onCommentLongPress}
+                            icon={
+                              <IconDots
+                                size={24}
+                                color={theme.colors.app.textSecondary}
+                              />
+                            }
+                          />
+                          <Text color={theme.colors.app.textSecondary}>
+                            {timeFromNowShort(
+                              comment.comment.comment.published
+                            )}
+                          </Text>
+                        </HStack>
+                      ) : (
+                        <IconChevronDown
+                          size={24}
+                          color={theme.colors.app.textSecondary}
                         />
-                        <Text color={theme.colors.app.textSecondary}>
-                          {timeFromNowShort(comment.comment.comment.published)}
-                        </Text>
-                      </HStack>
+                      )}
                     </HStack>
                     {comment.collapsed ? (
-                      <Text
-                        py={3}
-                        color={theme.colors.app.textSecondary}
-                        fontStyle="italic"
-                      >
-                        Comment collapsed
-                      </Text>
+                      <Spacer marginBottom={2} />
                     ) : (
                       <>
                         {(comment.comment.comment.deleted && (
-                          <Text
-                            py={3}
-                            color={theme.colors.app.textSecondary}
-                            fontStyle="italic"
-                          >
-                            Comment deleted by user :(
-                          </Text>
+                          <RenderMarkdown
+                            text="Comment deleted by user :("
+                            isNote
+                          />
                         )) ||
                           (comment.comment.comment.removed && (
                             <Text

@@ -55,6 +55,7 @@ interface ICommentChainColors {
 }
 
 interface IUserColors {
+  text: string;
   mod: string;
   admin: string;
   dev: string;
