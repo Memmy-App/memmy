@@ -8,6 +8,7 @@ import { Alert, LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { getBuildNumber, getVersion } from "react-native-device-info";
 import FastImage from "react-native-fast-image";
 import { Section, TableView } from "react-native-tableview-simple";
+import { SortType } from "lemmy-js-client";
 import { deleteLog, sendLog } from "../../../helpers/LogHelper";
 import { selectAccounts } from "../../../slices/accounts/accountsSlice";
 import { setSetting } from "../../../slices/settings/settingsActions";
@@ -15,6 +16,7 @@ import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
 import CCell from "../../ui/table/CCell";
+import { sortOptions, SortOption } from "../../../types/FeedSortOptions";
 
 function SettingsIndexScreen({
   navigation,
@@ -30,6 +32,16 @@ function SettingsIndexScreen({
 
   const onChange = (key: string, value: any) => {
     dispatch(setSetting({ [key]: value }));
+  };
+
+  const getDefaultSortText = (sortType: SortType): string => {
+    const index = sortOptions.map((x: SortOption) => x[0]).indexOf(sortType);
+    return sortOptions[index][1];
+  };
+
+  const getDefaultSortFromText = (sortType: string): SortType => {
+    const index = sortOptions.map((x: SortOption) => x[1]).indexOf(sortType);
+    return sortOptions[index][0];
   };
 
   const onCacheClear = async () => {
@@ -185,7 +197,7 @@ function SettingsIndexScreen({
           <CCell
             cellStyle="RightDetail"
             title="Default Sort"
-            detail={settings.defaultSort}
+            detail={getDefaultSortText(settings.defaultSort)}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -211,18 +223,7 @@ function SettingsIndexScreen({
                 (index: number) => {
                   if (index === cancelButtonIndex) return;
 
-                  let selection;
-
-                  if (index === 0) {
-                    selection = "TopDay";
-                  } else if (index === 1) {
-                    selection = "TopWeek";
-                  } else if (index === 4) {
-                    selection = "MostComments";
-                  } else {
-                    selection = options[index];
-                  }
-
+                  const selection = getDefaultSortFromText(options[index]);
                   dispatch(setSetting({ defaultSort: selection }));
                 }
               );

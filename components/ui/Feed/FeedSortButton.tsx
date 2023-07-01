@@ -12,17 +12,7 @@ import {
 import { UseFeed } from "../../hooks/feeds/useFeed";
 import HeaderIconButton from "../buttons/HeaderIconButton";
 import { IconCalendarWeek } from "../customIcons";
-
-type SortOption = [key: SortType, display: string];
-
-const sortOptions = [
-  ["TopDay", "Top Day"],
-  ["TopWeek", "Top Week"],
-  ["Hot", "Hot"],
-  ["Active", "Active"],
-  ["New", "New"],
-  ["MostComments", "Most Comments"],
-] satisfies SortOption[];
+import { sortOptions } from "../../../types/FeedSortOptions";
 
 interface Props {
   feed: UseFeed;
