@@ -53,9 +53,9 @@ function LinkPreviewContainer({ linkInfo }: { linkInfo: LinkInfo }) {
       }}
       renderLinkPreview={(data) => {
         if (
-          !data.previewData.image &&
-          !data.previewData.title &&
-          !data.previewData.description
+          !data.previewData?.image &&
+          !data.previewData?.title &&
+          !data.previewData?.description
         ) {
           return <LinkButton link={linkInfo.link} />;
         }
