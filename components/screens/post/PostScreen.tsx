@@ -14,6 +14,7 @@ import { RefreshControl } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { IconClockHour5, IconMessageCircle } from "tabler-icons-react-native";
+import { CommentSortType } from "lemmy-js-client";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import usePost from "../../hooks/post/postHooks";
@@ -25,6 +26,14 @@ import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
 import NoResultView from "../../ui/common/NoResultView";
+import CommentSortButton from "./CommentSortButton";
+
+function getCommentSortButton(
+  sortType: string,
+  setSortType: (type: string) => void
+) {
+  return <CommentSortButton sortType={sortType} setSortType={setSortType} />;
+}
 
 function PostScreen({
   route,
@@ -33,18 +42,21 @@ function PostScreen({
   route: any;
   navigation: NativeStackNavigationProp<any>;
 }) {
+  const [showLoadAll, setShowLoadAll] = useState(true);
+  const [sortType, setSortType] = useState("Top");
+
   const theme = useTheme();
   const post = usePost(
-    route.params && route.params.commentId ? route.params.commentId : null
+    route.params && route.params.commentId ? route.params.commentId : null,
+    sortType as CommentSortType
   );
-
-  const [showLoadAll, setShowLoadAll] = useState(true);
 
   useEffect(() => {
     navigation.setOptions({
       title: `${post.currentPost?.counts.comments} Comment${
         post.currentPost?.counts.comments !== 1 ? "s" : ""
       }`,
+      headerRight: () => getCommentSortButton(sortType, setSortType),
     });
   }, []);
 

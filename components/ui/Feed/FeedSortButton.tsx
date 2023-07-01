@@ -6,6 +6,7 @@ import {
   IconBolt,
   IconCalendar,
   IconClockHour4,
+  IconClockHour8,
   IconFlame,
   IconMessage,
 } from "tabler-icons-react-native";

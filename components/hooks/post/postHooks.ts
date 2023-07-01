@@ -1,5 +1,5 @@
 import React, { SetStateAction, useEffect, useRef, useState } from "react";
-import { PostView } from "lemmy-js-client";
+import { CommentSortType, PostView } from "lemmy-js-client";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../../slices/post/postSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
@@ -31,7 +31,10 @@ export interface UsePost {
   recycled: React.MutableRefObject<{}>;
 }
 
-const usePost = (commentId: string | null): UsePost => {
+const usePost = (
+  commentId: string | null,
+  sortType: CommentSortType
+): UsePost => {
   // Global State
   const { post, newComment } = useAppSelector(selectPost);
   const { commentId: editedCommentId, content: editedContent } =
@@ -122,7 +125,7 @@ const usePost = (commentId: string | null): UsePost => {
         post_id: currentPost.post.id,
         max_depth: 10,
         type_: "All",
-        sort: "Top",
+        sort: sortType,
         parent_id:
           commentId && !ignoreCommentId ? Number(commentId) : undefined,
       });
