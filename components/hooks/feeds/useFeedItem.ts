@@ -2,7 +2,10 @@ import { PostView } from "lemmy-js-client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { SetStateAction, useMemo, useState } from "react";
-import { onVoteHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
+import {
+  onGenericHapticFeedback,
+  onVoteHapticFeedback,
+} from "../../../helpers/HapticFeedbackHelpers";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { setUpdateSaved, setUpdateVote } from "../../../slices/feed/feedSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
@@ -132,6 +135,8 @@ const useFeedItem = (
   };
 
   const doSave = async () => {
+    onGenericHapticFeedback();
+
     dispatch(setUpdateSaved(post.post.id));
 
     const res = await savePost(post.post.id, !post.saved);
