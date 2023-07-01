@@ -31,5 +31,6 @@ module.exports = {
     "prefer-destructuring": ["error", { object: true, array: false }],
     "import/no-named-as-default": "off",
     "react/jsx-no-useless-fragment": "off",
+    "import/prefer-default-export": "off",
   },
 };

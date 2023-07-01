@@ -1,17 +1,17 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { Text, useTheme, VStack } from "native-base";
 import { FlashList } from "@shopify/flash-list";
 import { RefreshControl } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { IconMailOpened } from "tabler-icons-react-native";
 import useInbox from "../../hooks/inbox/useInbox";
-import CommentItem from "../../ui/comments/CommentItem";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import LoadingModalTransparent from "../../ui/Loading/LoadingModalTransparent";
 import InboxTabs from "./InboxTabs";
 import LoadingView from "../../ui/Loading/LoadingView";
 import HeaderIconButton from "../../ui/buttons/HeaderIconButton";
+import InboxReplyItem from "../../ui/inbox/InboxReplyItem";
 
 function InboxScreen({
   navigation,
@@ -34,30 +34,12 @@ function InboxScreen({
     });
   }, []);
 
-  const replyItem = ({ item }: { item: ILemmyComment }) => (
-    <CommentItem
-      comment={item}
-      setComments={inbox.setItems}
-      isReply
-      isUnreadReply={inbox.topSelected === "unread"}
-      onPressOverride={() => {
-        const commentPathArr = item.comment.comment.path.split(".");
+  const onRefresh = () => {
+    inbox.doLoad(true);
+  };
 
-        if (commentPathArr.length === 2) {
-          inbox
-            .onCommentReplyPress(item.comment.post.id, item.comment.comment.id)
-            .then();
-        } else {
-          inbox
-            .onCommentReplyPress(
-              item.comment.post.id,
-              Number(commentPathArr[commentPathArr.length - 2])
-            )
-            .then();
-        }
-      }}
-      depth={2}
-    />
+  const replyItem = ({ item }: { item: ILemmyComment }) => (
+    <InboxReplyItem inbox={inbox} item={item} />
   );
 
   const onUnreadPress = () => {
@@ -72,71 +54,41 @@ function InboxScreen({
   const onMentionsPress = () => {};
   const onMessagesPress = () => {};
 
-  const header = useMemo(
-    () => (
-      <>
-        <InboxTabs
-          onUnreadPress={onUnreadPress}
-          onAllPress={onAllPress}
-          onRepliesPress={onRepliesPress}
-          onMentionsPress={onMentionsPress}
-          onMessagesPress={onMessagesPress}
-          topSelected={inbox.topSelected}
-          bottomSelected={inbox.bottomSelected}
-        />
-      </>
-    ),
-    [inbox.topSelected, inbox.bottomSelected]
+  const header = (
+    <InboxTabs
+      onUnreadPress={onUnreadPress}
+      onAllPress={onAllPress}
+      onRepliesPress={onRepliesPress}
+      onMentionsPress={onMentionsPress}
+      onMessagesPress={onMessagesPress}
+      topSelected={inbox.topSelected}
+      bottomSelected={inbox.bottomSelected}
+    />
   );
 
-  const empty = useMemo(() => {
-    if (inbox.loading) {
-      return <LoadingView />;
-    }
-
-    if (inbox.error) {
-      return (
-        <LoadingErrorView
-          onRetryPress={() => {
-            inbox.doLoad(true);
-          }}
-        />
-      );
-    }
-
-    return (
+  const empty = (inbox.loading && <LoadingView />) ||
+    (inbox.error && (
+      <LoadingErrorView onRetryPress={() => inbox.doLoad(true)} />
+    )) || (
       <VStack p={4} alignItems="center" justifyContent="center">
         <Text fontStyle="italic">Nothing found in your inbox.</Text>
       </VStack>
     );
-  }, [inbox.loading]);
 
-  return useMemo(
-    () => (
-      <VStack flex={1} backgroundColor={theme.colors.app.bg}>
-        <LoadingModalTransparent loading={inbox.loading} />
-        <FlashList
-          renderItem={replyItem}
-          data={inbox.items}
-          estimatedItemSize={100}
-          refreshControl={
-            <RefreshControl
-              refreshing={inbox.refreshing}
-              onRefresh={() => inbox.doLoad(true)}
-            />
-          }
-          ListHeaderComponent={header}
-          ListEmptyComponent={empty}
-        />
-      </VStack>
-    ),
-    [
-      inbox.items,
-      inbox.loading,
-      inbox.refreshing,
-      inbox.topSelected,
-      inbox.bottomSelected,
-    ]
+  return (
+    <VStack flex={1} backgroundColor={theme.colors.app.bg}>
+      <LoadingModalTransparent loading={inbox.loading} />
+      <FlashList
+        renderItem={replyItem}
+        data={inbox.items}
+        estimatedItemSize={100}
+        refreshControl={
+          <RefreshControl refreshing={inbox.refreshing} onRefresh={onRefresh} />
+        }
+        ListHeaderComponent={header}
+        ListEmptyComponent={empty}
+      />
+    </VStack>
   );
 }
 

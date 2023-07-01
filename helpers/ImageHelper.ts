@@ -17,9 +17,7 @@ const downloadAndSaveImage = async (src: string): Promise<boolean> => {
   const filePath = FileSystem.documentDirectory + fileName;
 
   try {
-    const { status } = await Permissions.askAsync(
-      Permissions.MEDIA_LIBRARY_WRITE_ONLY
-    );
+    const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
 
     if (status === "granted") {
       const res = await FileSystem.downloadAsync(src, filePath);
@@ -37,7 +35,7 @@ const downloadAndSaveImage = async (src: string): Promise<boolean> => {
 
 const saveImage = async (filePath: string) => {
   try {
-    MediaLibrary.saveToLibraryAsync(filePath).then();
+    await MediaLibrary.createAssetAsync(filePath);
   } catch (e) {
     writeToLog("Error saving image.");
     writeToLog(e.toString());
