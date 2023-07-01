@@ -154,9 +154,7 @@ const usePost = (
           });
           replyComments.push(...getChildren(item));
         }
-        return [
-          ...replyComments
-        ]
+        return replyComments;
       };
 
       for (const item of ordered) {
