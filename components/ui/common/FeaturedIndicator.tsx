@@ -18,7 +18,7 @@ function FeaturedIndicator({ post }: IProps) {
     );
   }
 
-  return false;
+  return null;
 }
 
 export default FeaturedIndicator;
