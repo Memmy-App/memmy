@@ -43,23 +43,24 @@ function KeyboardAccessory({
     const replacement = `*${getSelected()}*`;
     setText(replace(replacement));
     inputRef.current.setNativeProps({
-      selection: { start: selection.end, end: selection.end },
+      selection: { start: selection.start, end: selection.end },
     });
   };
 
   const onBoldPress = () => {
     const replacement = `**${getSelected()}**`;
+
     setText(replace(replacement));
     inputRef.current.setNativeProps({
       selection: { start: selection.end, end: selection.end },
     });
   };
 
-  const onLinkPress = () => {
-    const replacement = `[](${getSelected()})`;
-    setText(replace(replacement));
-    inputRef.current.setNativeProps({
-      selection: { start: selection.start - 3, end: selection.start - 3 },
+  const onLinkPress = async () => {
+    Alert.prompt("Link", "Enter the URL", (link) => {
+      Alert.prompt("Link", "Enter the label", (label) => {
+        setText(replace(`[${label}](${link})`));
+      });
     });
   };
 
@@ -67,7 +68,7 @@ function KeyboardAccessory({
     const replacement = `> ${getSelected()}`;
     setText(replace(replacement));
     inputRef.current.setNativeProps({
-      selection: { start: selection.end, end: selection.end },
+      selection: { start: selection.start - 2, end: selection.start - 2 },
     });
   };
 
