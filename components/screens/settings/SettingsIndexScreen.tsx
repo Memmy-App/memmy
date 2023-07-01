@@ -39,6 +39,11 @@ function SettingsIndexScreen({
     return sortOptions[index][1];
   };
 
+  const getDefaultSortFromText = (sortType: string): SortType => {
+    const index = sortOptions.map((x: SortOption) => x[1]).indexOf(sortType);
+    return sortOptions[index][0];
+  };
+
   const onCacheClear = async () => {
     await FastImage.clearDiskCache();
     Alert.alert("Success", "Cache has been cleared.");
@@ -218,18 +223,7 @@ function SettingsIndexScreen({
                 (index: number) => {
                   if (index === cancelButtonIndex) return;
 
-                  let selection;
-
-                  if (index === 0) {
-                    selection = "TopDay";
-                  } else if (index === 1) {
-                    selection = "TopWeek";
-                  } else if (index === 5) {
-                    selection = "MostComments";
-                  } else {
-                    selection = options[index];
-                  }
-
+                  const selection = getDefaultSortFromText(options[index]);
                   dispatch(setSetting({ defaultSort: selection }));
                 }
               );
