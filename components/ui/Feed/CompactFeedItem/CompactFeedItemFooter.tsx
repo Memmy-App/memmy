@@ -6,8 +6,8 @@ import { timeFromNowShort } from "../../../../helpers/TimeHelper";
 import { ILemmyVote } from "../../../../lemmy/types/ILemmyVote";
 import CommunityLink from "../../CommunityLink";
 import AvatarUsername from "../../common/AvatarUsername";
-import SmallVoteIcons from "../../common/SmallVoteIcons";
 import FeaturedIndicator from "../../common/FeaturedIndicator";
+import SmallVoteIcons from "../../common/SmallVoteIcons";
 
 interface CompactFeedItemFooterProps {
   post: PostView;

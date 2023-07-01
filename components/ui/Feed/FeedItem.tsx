@@ -1,5 +1,13 @@
 import { PostView } from "lemmy-js-client";
-import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
+import {
+  Box,
+  HStack,
+  Pressable,
+  Text,
+  useTheme,
+  View,
+  VStack,
+} from "native-base";
 import React, { SetStateAction, useMemo } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -26,6 +34,7 @@ import CommunityLink from "../CommunityLink";
 import FeaturedIndicator from "../common/FeaturedIndicator";
 import IconButtonWithText from "../common/IconButtonWithText";
 import FeedContentPreview from "./FeedContentPreview";
+import Chip from "../common/Chip";
 
 interface FeedItemProps {
   post: PostView;
@@ -177,6 +186,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                         {post.counts.comments}
                       </Text>
                     </HStack>
+                    <Box ml={0.5}>{post.read && <Chip text="Read" />}</Box>
                   </HStack>
 
                   <HStack

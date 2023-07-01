@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { FlashList } from "@shopify/flash-list";
 import {
   Center,
   Divider,
@@ -11,20 +13,18 @@ import {
   VStack,
 } from "native-base";
 import { RefreshControl } from "react-native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { FlashList } from "@shopify/flash-list";
 import { IconClockHour5, IconMessageCircle } from "tabler-icons-react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import usePost from "../../hooks/post/postHooks";
 import CommentItem from "../../ui/comments/CommentItem";
 import AvatarUsername from "../../ui/common/AvatarUsername";
+import NoResultView from "../../ui/common/NoResultView";
 import CommunityLink from "../../ui/CommunityLink";
-import PostContentView from "./PostContentView";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
-import NoResultView from "../../ui/common/NoResultView";
+import PostContentView from "./PostContentView";
 
 function PostScreen({
   route,
