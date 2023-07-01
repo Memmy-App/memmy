@@ -343,7 +343,7 @@ export const nauticalThemeColors: IColors = {
 };
 
 export const sunsetThemeColors: IColors = {
-  accent: "#ED8432",
+  accent: "#fe7d00",
   accentHighlight: "#D6772B",
 
   textPrimary: "#D3D4D8",

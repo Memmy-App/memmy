@@ -14,6 +14,7 @@ import {
   IconClockHour4,
   IconDots,
   IconFlame,
+  IconHeart,
   IconMapPin,
   IconMessage,
   IconWorld,
@@ -55,7 +56,7 @@ const ContextualMenuIconType = {
   Ellipses: <IconDots />,
   All: <IconWorld />,
   Local: <IconMapPin />,
-  Subscribed: <IconBookmark />,
+  Subscribed: <IconHeart />,
 };
 
 function FeedView({ feed, community = false, header }: FeedViewProps) {
