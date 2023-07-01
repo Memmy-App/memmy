@@ -1,13 +1,5 @@
 import { PostView } from "lemmy-js-client";
-import {
-  Box,
-  HStack,
-  Pressable,
-  Text,
-  useTheme,
-  View,
-  VStack,
-} from "native-base";
+import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
 import React, { SetStateAction, useMemo } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -29,12 +21,12 @@ import { useAppDispatch } from "../../../store";
 import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
 import useFeedItem from "../../hooks/feeds/useFeedItem";
 import AvatarUsername from "../common/AvatarUsername";
-import VoteButton from "../common/VoteButton";
-import CommunityLink from "../CommunityLink";
 import FeaturedIndicator from "../common/FeaturedIndicator";
 import IconButtonWithText from "../common/IconButtonWithText";
+import VoteButton from "../common/VoteButton";
+import CommunityLink from "../CommunityLink";
+import { IconBookCheck } from "../customIcons/IconBookCheck";
 import FeedContentPreview from "./FeedContentPreview";
-import Chip from "../common/Chip";
 
 interface FeedItemProps {
   post: PostView;
@@ -123,8 +115,11 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <HStack space={2}>
+                <HStack space={1} alignItems="center">
                   <AvatarUsername creator={post.creator} />
+                  {post.read && (
+                    <IconBookCheck color={theme.colors.app.info} size={20} />
+                  )}
                   <FeaturedIndicator post={post} />
                 </HStack>
 
@@ -157,7 +152,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                 />
 
                 <HStack mx={4} alignItems="center" mb={3} mt={1}>
-                  <HStack flex={1} space={1}>
+                  <HStack flex={1} space={1} alignItems="center">
                     <HStack alignItems="center">
                       <IconArrowUp color={upvoteColor} size={20} />
                       <Text color={upvoteColor} fontSize="sm">
@@ -186,7 +181,6 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                         {post.counts.comments}
                       </Text>
                     </HStack>
-                    <Box ml={0.5}>{post.read && <Chip text="Read" />}</Box>
                   </HStack>
 
                   <HStack
