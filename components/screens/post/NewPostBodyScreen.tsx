@@ -13,7 +13,7 @@ interface IProps {
 function NewPostBodyScreen({ route, navigation }: IProps) {
   const theme = useTheme();
 
-  const [body, setBody] = useState(route.params.body);
+  const [body, setBody] = useState(route.params.body ?? "");
   const [selection, setSelection] = useState({
     start: 0,
     end: 0,
