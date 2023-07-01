@@ -9,7 +9,7 @@ interface Props {
   onSave: () => void;
   onVotePress: (vote: number) => void;
 }
-export const Actions = ({ vote, saved, onSave, onVotePress }) => {
+export const Actions = ({ vote, saved, onSave, onVotePress }: Props) => {
   const theme = useTheme();
   const upvoted = vote === 1;
   const downvoted = vote === -1;
