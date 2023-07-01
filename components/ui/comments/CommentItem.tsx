@@ -2,6 +2,7 @@ import {
   Divider,
   HStack,
   Pressable,
+  Spacer,
   Text,
   VStack,
   View,
@@ -63,7 +64,6 @@ function CommentItem({
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { unread } = useAppSelector(selectSite);
-  const { fullyCollapsedComment } = useAppSelector(selectSettings);
 
   const initialVote = useRef(comment.myVote);
 
@@ -231,14 +231,7 @@ function CommentItem({
                       </HStack>
                     </HStack>
                     {comment.collapsed ? (
-                      fullyCollapsedComment ? (
-                          ""
-                        ) : (
-                          <RenderMarkdown
-                            text="Comment collapsed"
-                            isNote
-                          />
-                        )
+                        <Spacer marginBottom={2}/>
                     ) : (
                       <>
                         {(comment.comment.comment.deleted && (
