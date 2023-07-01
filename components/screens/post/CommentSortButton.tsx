@@ -32,7 +32,8 @@ function CommentSortButton({ sortType, setSortType }: Props) {
       },
       (index) => {
         if (index === cancelButtonIndex) return;
-        const [key] = sortOptions[index];
+
+        const key = sortOptions[index];
         setSortType(key);
       }
     );

@@ -133,7 +133,7 @@ const usePost = (
       const ordered = commentsRes.comments.sort((a, b) =>
         a.comment.path.localeCompare(b.comment.path)
       );
-      // const parsed = buildComments(ordered);
+      // const parsed = buildComments(commentsRes);
 
       const betterComments: ILemmyComment[] = [];
 
