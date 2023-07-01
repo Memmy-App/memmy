@@ -28,10 +28,11 @@ export const darkThemeColors: IColors = {
   infoText: "#fff",
 
   users: {
+    text: "#fff",
     mod: "#54CB60",
     admin: "#FF4848",
     dev: "#CB66FA",
-    op: "#54CB60",
+    op: "#2092FB",
     me: "#FFB800",
   },
 
@@ -77,10 +78,11 @@ export const moodyPurpleThemeColors: IColors = {
   infoText: "#fff",
 
   users: {
+    text: "#fff",
     mod: "#54CB60",
     admin: "#FF4848",
     dev: "#CB66FA",
-    op: "#54CB60",
+    op: "#2092FB",
     me: "#FFB800",
   },
 
@@ -126,11 +128,12 @@ export const draculaThemeColors: IColors = {
   infoText: "#fff",
 
   users: {
-    mod: "#50fa7b",
-    admin: "#ff5555",
-    dev: "#bd93f9",
-    op: "#8be9fd",
-    me: "#ffb86c",
+    text: "#fff",
+    mod: "#54CB60",
+    admin: "#FF4848",
+    dev: "#CB66FA",
+    op: "#2092FB",
+    me: "#FFB800",
   },
 
   comments: {
@@ -175,10 +178,11 @@ export const nightOwlThemeColors: IColors = {
   infoText: "#fff",
 
   users: {
+    text: "#fff",
     mod: "#54CB60",
     admin: "#FF4848",
     dev: "#CB66FA",
-    op: "#54CB60",
+    op: "#2092FB",
     me: "#FFB800",
   },
 
@@ -223,10 +227,11 @@ export const sleepyRainforestThemeColors: IColors = {
   info: "#3398f2",
   infoText: "#fff",
   users: {
+    text: "#fff",
     mod: "#54CB60",
     admin: "#FF4848",
     dev: "#CB66FA",
-    op: "#54CB60",
+    op: "#2092FB",
     me: "#FFB800",
   },
 
@@ -272,10 +277,11 @@ export const goldenHourThemeColors: IColors = {
   infoText: "#fff",
 
   users: {
+    text: "#fff",
     mod: "#54CB60",
     admin: "#FF4848",
     dev: "#CB66FA",
-    op: "#54CB60",
+    op: "#2092FB",
     me: "#FFB800",
   },
 
@@ -321,10 +327,11 @@ export const nauticalThemeColors: IColors = {
   infoText: "#fff",
 
   users: {
+    text: "#fff",
     mod: "#54CB60",
     admin: "#FF4848",
     dev: "#CB66FA",
-    op: "#54CB60",
+    op: "#2092FB",
     me: "#FFB800",
   },
 
@@ -370,10 +377,11 @@ export const sunsetThemeColors: IColors = {
   infoText: "#fff",
 
   users: {
+    text: "#fff",
     mod: "#54CB60",
     admin: "#FF4848",
     dev: "#CB66FA",
-    op: "#54CB60",
+    op: "#2092FB",
     me: "#FFB800",
   },
 

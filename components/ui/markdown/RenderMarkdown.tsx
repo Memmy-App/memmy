@@ -67,8 +67,8 @@ const RenderMarkdown = ({
     },
     paragraph: {
       fontSize: FONT_SIZE,
-      color: ( isNote ? theme.colors.app.textSecondary : fontColor),
-      fontStyle: ( isNote ? "italic" : "normal" ),
+      color: isNote ? theme.colors.app.textSecondary : fontColor,
+      fontStyle: isNote ? "italic" : "normal",
     },
     heading1: {
       fontSize: HEADING_1_SIZE,

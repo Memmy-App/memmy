@@ -15,17 +15,7 @@ import MemoizedFastImage from "../image/MemoizedFastImage";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { findImages } from "../../../helpers/MarkdownHelper";
 
-function Title({
-  title,
-  mt,
-  mb,
-  isRead,
-}: {
-  title: string;
-  mt: number;
-  mb: number;
-  isRead?: boolean;
-}) {
+function Title({ title, mt, mb }: { title: string; mt: number; mb: number }) {
   const theme = useTheme();
   return (
     <Text
@@ -33,9 +23,9 @@ function Title({
       mb={mb}
       mx={4}
       fontSize="md"
-      color={
-        isRead ? theme.colors.app.textSecondary : theme.colors.app.textPrimary
-      }
+      color={theme.colors.app.textPrimary}
+      alignItems="center"
+      justifyItems="center"
     >
       {title}
     </Text>
@@ -76,7 +66,6 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
   const onImageLongPress = () => {};
 
   const isImage = linkInfo.extType === ExtensionType.IMAGE;
-  const isRead = post.read;
 
   // handle weird posts where someone just posts a markdown image instead of an image post
   const hasImages = imageLinks.length > 0;
@@ -90,7 +79,7 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
     if (isImage || isImageMarkdownPost) {
       return (
         <VStack>
-          <Title title={title} mt={0} mb={2} isRead={isRead} />
+          <Title title={title} mt={0} mb={2} />
           <Pressable
             onPress={onImagePress}
             onLongPress={onImageLongPress}
@@ -122,7 +111,7 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
     if (linkInfo.extType === ExtensionType.NONE) {
       return (
         <VStack>
-          <Title title={title} mt={0} mb={2} isRead={isRead} />
+          <Title title={title} mt={0} mb={2} />
           <Text color={theme.colors.app.textSecondary} mx={4}>
             {body}
           </Text>
@@ -136,7 +125,7 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
     ) {
       return (
         <VStack>
-          <Title title={title} mt={2} mb={2} isRead={isRead} />
+          <Title title={title} mt={2} mb={2} />
           <Box mx={4}>
             <LinkButton
               link={linkInfo.link}
