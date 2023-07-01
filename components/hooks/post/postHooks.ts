@@ -1,5 +1,5 @@
 import React, { SetStateAction, useEffect, useRef, useState } from "react";
-import { PostView } from "lemmy-js-client";
+import { CommentSortType, PostView } from "lemmy-js-client";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../../slices/post/postSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
@@ -23,6 +23,8 @@ export interface UsePost {
   setComments: React.Dispatch<SetStateAction<ILemmyComment[]>>;
   commentsLoading: boolean;
   commentsError: boolean;
+  commentsSort: CommentSortType;
+  setCommentsSort: React.Dispatch<SetStateAction<CommentSortType>>;
   doLoad: (ignoreCommentId?: boolean) => Promise<void>;
 
   currentPost: PostView;
@@ -42,6 +44,7 @@ const usePost = (commentId: string | null): UsePost => {
 
   // State
   const [comments, setComments] = useState<ILemmyComment[]>([]);
+  const [commentsSort, setCommentsSort] = useState<CommentSortType>("Top");
   const [commentsLoading, setCommentsLoading] = useState<boolean>(true);
   const [commentsError, setCommentsError] = useState<boolean>(false);
   const [currentPost, setCurrentPost] = useState<PostView>(post);
@@ -112,6 +115,13 @@ const usePost = (commentId: string | null): UsePost => {
       dispatch(clearEditComment());
     }
   }, [editedContent]);
+
+  // Sort comments
+  useEffect(() => {
+    setComments([]);
+    doLoad().then();
+  }, [commentsSort]);
+
   /**
    * Load the comments for the current post
    */
@@ -125,19 +135,14 @@ const usePost = (commentId: string | null): UsePost => {
         post_id: currentPost.post.id,
         max_depth: 10,
         type_: "All",
-        sort: "Top",
+        sort: commentsSort,
         parent_id:
           commentId && !ignoreCommentId ? Number(commentId) : undefined,
       });
 
-      const ordered = commentsRes.comments.sort((a, b) =>
-        a.comment.path.localeCompare(b.comment.path)
-      );
-      // const parsed = buildComments(ordered);
-
       const betterComments: ILemmyComment[] = [];
 
-      for (const item of ordered) {
+      for (const item of commentsRes.comments) {
         betterComments.push({
           comment: item,
           myVote: item.my_vote as ILemmyVote,
@@ -246,6 +251,8 @@ const usePost = (commentId: string | null): UsePost => {
 
     commentsLoading,
     commentsError,
+    commentsSort,
+    setCommentsSort,
     doLoad,
 
     currentPost,
