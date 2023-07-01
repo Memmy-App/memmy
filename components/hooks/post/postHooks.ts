@@ -56,16 +56,6 @@ const usePost = (
   // Other Hooks
   const dispatch = useAppDispatch();
 
-  // Check if a post is saved
-  useEffect(() => {
-    // Set the post to the one set in the store
-    doLoad().then();
-
-    return () => {
-      recycled.current = null;
-    };
-  }, []);
-
   useEffect(() => {
     doLoad().then();
   }, [sortType]);
