@@ -64,49 +64,75 @@ function CompactFeedItem({
   });
 
   // TODO Memoize this properly
-  return useMemo(
-    () => (
-      <View flex={1} my={0.5}>
-        <View style={styles.backgroundContainer}>
-          <View
-            style={styles.backgroundLeft}
-            justifyContent="center"
-            backgroundColor={swipeAnimation.color}
-            pl={4}
-          >
-            {swipeAnimation.leftIcon}
-          </View>
-          <View
-            style={styles.backgroundLeft}
-            backgroundColor={swipeAnimation.color}
-          />
-          <View
-            style={styles.backgroundRight}
-            justifyContent="center"
-            backgroundColor="#007AFF"
-            alignItems="flex-end"
-            pr={4}
-          >
-            {swipeAnimation.rightIcon}
-          </View>
-        </View>
-        <PanGestureHandler
-          onGestureEvent={swipeAnimation.gestureHandler}
-          minPointers={1}
-          maxPointers={1}
-          activeOffsetX={[-20, 20]}
-          hitSlop={{ left: -25 }}
+  return (
+    <View flex={1} my={0.5}>
+      <View style={styles.backgroundContainer}>
+        <View
+          style={styles.backgroundLeft}
+          justifyContent="center"
+          backgroundColor={swipeAnimation.color}
+          pl={4}
         >
-          <Animated.View style={[swipeAnimation.animatedStyle]}>
-            <Pressable onPress={feedItem.onPress}>
-              <HStack
-                flex={1}
-                px={3}
-                py={4}
-                backgroundColor={theme.colors.app.fg}
-                space={2}
-              >
-                {compactThumbnailPosition === "Left" && (
+          {swipeAnimation.leftIcon}
+        </View>
+        <View
+          style={styles.backgroundLeft}
+          backgroundColor={swipeAnimation.color}
+        />
+        <View
+          style={styles.backgroundRight}
+          justifyContent="center"
+          backgroundColor="#007AFF"
+          alignItems="flex-end"
+          pr={4}
+        >
+          {swipeAnimation.rightIcon}
+        </View>
+      </View>
+      <PanGestureHandler
+        onGestureEvent={swipeAnimation.gestureHandler}
+        minPointers={1}
+        maxPointers={1}
+        activeOffsetX={[-20, 20]}
+        hitSlop={{ left: -25 }}
+      >
+        <Animated.View style={[swipeAnimation.animatedStyle]}>
+          <Pressable onPress={feedItem.onPress}>
+            <HStack
+              flex={1}
+              px={3}
+              py={4}
+              backgroundColor={theme.colors.app.fg}
+              space={2}
+            >
+              {compactThumbnailPosition === "Left" && (
+                <CompactFeedItemThumbnail
+                  post={post}
+                  setImageViewOpen={setImageViewOpen}
+                  imageViewOpen={imageViewOpen}
+                  linkInfo={feedItem.linkInfo}
+                  setPostRead={feedItem.setPostRead}
+                />
+              )}
+
+              <VStack flex={1}>
+                <Text
+                  flex={1}
+                  fontSize="md"
+                  color={
+                    post.read
+                      ? theme.colors.app.textSecondary
+                      : theme.colors.app.textPrimary
+                  }
+                >
+                  {post.post.name}
+                </Text>
+
+                <CompactFeedItemFooter post={post} />
+              </VStack>
+
+              {compactThumbnailPosition === "Right" && (
+                <VStack alignItems="flex-start">
                   <CompactFeedItemThumbnail
                     post={post}
                     setImageViewOpen={setImageViewOpen}
@@ -114,49 +140,20 @@ function CompactFeedItem({
                     linkInfo={feedItem.linkInfo}
                     setPostRead={feedItem.setPostRead}
                   />
-                )}
-
-                <VStack flex={1}>
-                  <Text
-                    flex={1}
-                    fontSize="md"
-                    color={
-                      post.read
-                        ? theme.colors.app.textSecondary
-                        : theme.colors.app.textPrimary
-                    }
-                  >
-                    {post.post.name}
-                  </Text>
-
-                  <CompactFeedItemFooter post={post} />
                 </VStack>
+              )}
 
-                {compactThumbnailPosition === "Right" && (
-                  <VStack alignItems="flex-start">
-                    <CompactFeedItemThumbnail
-                      post={post}
-                      setImageViewOpen={setImageViewOpen}
-                      imageViewOpen={imageViewOpen}
-                      linkInfo={feedItem.linkInfo}
-                      setPostRead={feedItem.setPostRead}
-                    />
-                  </VStack>
-                )}
-
-                {compactShowVotingButtons && (
-                  <CompactFeedItemVote
-                    myVote={post.my_vote as ILemmyVote}
-                    onVotePress={feedItem.onVotePress}
-                  />
-                )}
-              </HStack>
-            </Pressable>
-          </Animated.View>
-        </PanGestureHandler>
-      </View>
-    ),
-    [post, swipeAnimation.leftIcon, swipeAnimation.rightIcon, imageViewOpen]
+              {compactShowVotingButtons && (
+                <CompactFeedItemVote
+                  myVote={post.my_vote as ILemmyVote}
+                  onVotePress={feedItem.onVotePress}
+                />
+              )}
+            </HStack>
+          </Pressable>
+        </Animated.View>
+      </PanGestureHandler>
+    </View>
   );
 }
 
@@ -206,4 +203,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CompactFeedItem;
+export default React.memo(CompactFeedItem);
