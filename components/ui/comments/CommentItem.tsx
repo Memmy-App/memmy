@@ -2,6 +2,7 @@ import {
   Divider,
   HStack,
   Pressable,
+  Spacer,
   Text,
   VStack,
   View,
@@ -14,6 +15,7 @@ import Animated from "react-native-reanimated";
 import {
   IconArrowDown,
   IconArrowUp,
+  IconChevronDown,
   IconDots,
   IconMailOpened,
   IconMessage,
@@ -214,39 +216,39 @@ function CommentItem({
                           />
                         </>
                       </AvatarUsername>
-                      <HStack alignItems="center" space={2}>
-                        <IconButtonWithText
-                          onPressHandler={commentHook.onCommentLongPress}
-                          icon={
-                            <IconDots
-                              size={24}
-                              color={theme.colors.app.textSecondary}
-                            />
-                          }
+                      {!comment.collapsed ? (
+                        <HStack alignItems="center" space={2}>
+                          <IconButtonWithText
+                            onPressHandler={commentHook.onCommentLongPress}
+                            icon={
+                              <IconDots
+                                size={24}
+                                color={theme.colors.app.textSecondary}
+                              />
+                            }
+                          />
+                          <Text color={theme.colors.app.textSecondary}>
+                            {timeFromNowShort(
+                              comment.comment.comment.published
+                            )}
+                          </Text>
+                        </HStack>
+                      ) : (
+                        <IconChevronDown
+                          size={24}
+                          color={theme.colors.app.textSecondary}
                         />
-                        <Text color={theme.colors.app.textSecondary}>
-                          {timeFromNowShort(comment.comment.comment.published)}
-                        </Text>
-                      </HStack>
+                      )}
                     </HStack>
                     {comment.collapsed ? (
-                      <Text
-                        py={3}
-                        color={theme.colors.app.textSecondary}
-                        fontStyle="italic"
-                      >
-                        Comment collapsed
-                      </Text>
+                      <Spacer marginBottom={2} />
                     ) : (
                       <>
                         {(comment.comment.comment.deleted && (
-                          <Text
-                            py={3}
-                            color={theme.colors.app.textSecondary}
-                            fontStyle="italic"
-                          >
-                            Comment deleted by user :(
-                          </Text>
+                          <RenderMarkdown
+                            text="Comment deleted by user :("
+                            isNote
+                          />
                         )) ||
                           (comment.comment.comment.removed && (
                             <Text

@@ -39,7 +39,12 @@ function FeedSortButton({ feed, onSortUpdate }: Props) {
 
     showActionSheetWithOptions(
       {
-        options: [...sortOptions.map(([, display]) => display), "Cancel"],
+        options: [
+          ...sortOptions.map(([key, display]) =>
+            key === feed.sort ? `${display} (current)` : display
+          ),
+          "Cancel",
+        ],
         cancelButtonIndex,
         userInterfaceStyle: theme.config.initialColorMode,
       },

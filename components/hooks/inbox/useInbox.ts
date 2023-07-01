@@ -9,7 +9,7 @@ import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 import { setUnread } from "../../../slices/site/siteSlice";
 
-interface UseInbox {
+export interface UseInbox {
   doLoad: (refresh: boolean) => void;
   doReadAll: () => Promise<void>;
 
