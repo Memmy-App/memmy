@@ -15,6 +15,7 @@ import Animated from "react-native-reanimated";
 import {
   IconArrowDown,
   IconArrowUp,
+  IconChevronDown,
   IconDots,
   IconMailOpened,
   IconMessage,
@@ -215,23 +216,32 @@ function CommentItem({
                           />
                         </>
                       </AvatarUsername>
-                      <HStack alignItems="center" space={2}>
-                        <IconButtonWithText
-                          onPressHandler={commentHook.onCommentLongPress}
-                          icon={
-                            <IconDots
-                              size={24}
-                              color={theme.colors.app.textSecondary}
-                            />
-                          }
+                      {!comment.collapsed ? (
+                        <HStack alignItems="center" space={2}>
+                          <IconButtonWithText
+                            onPressHandler={commentHook.onCommentLongPress}
+                            icon={
+                              <IconDots
+                                size={24}
+                                color={theme.colors.app.textSecondary}
+                              />
+                            }
+                          />
+                          <Text color={theme.colors.app.textSecondary}>
+                            {timeFromNowShort(
+                              comment.comment.comment.published
+                            )}
+                          </Text>
+                        </HStack>
+                      ) : (
+                        <IconChevronDown
+                          size={24}
+                          color={theme.colors.app.textSecondary}
                         />
-                        <Text color={theme.colors.app.textSecondary}>
-                          {timeFromNowShort(comment.comment.comment.published)}
-                        </Text>
-                      </HStack>
+                      )}
                     </HStack>
                     {comment.collapsed ? (
-                        <Spacer marginBottom={2}/>
+                      <Spacer marginBottom={2} />
                     ) : (
                       <>
                         {(comment.comment.comment.deleted && (
