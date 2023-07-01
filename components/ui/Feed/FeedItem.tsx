@@ -23,7 +23,6 @@ import useFeedItem from "../../hooks/feeds/useFeedItem";
 import AvatarUsername from "../common/AvatarUsername";
 import VoteButton from "../common/VoteButton";
 import CommunityLink from "../CommunityLink";
-import ContentView from "../ContentView";
 import FeaturedIndicator from "../common/FeaturedIndicator";
 import IconButtonWithText from "../common/IconButtonWithText";
 import FeedContentPreview from "./FeedContentPreview";
