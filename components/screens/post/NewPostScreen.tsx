@@ -22,7 +22,7 @@ function NewPostScreen({
     Number(route.params.communityId),
     route.params.communityLanguageId
       ? Number(route.params.communityLanguageId)
-      : undefined
+      : 0
   );
 
   useEffect(() => {
