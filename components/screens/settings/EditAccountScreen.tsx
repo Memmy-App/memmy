@@ -2,7 +2,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { VStack, useTheme } from "native-base";
 import React, { useEffect, useRef, useState } from "react";
 import { Alert, Button, StyleSheet, TextInput } from "react-native";
-import { Section, TableView } from "react-native-tableview-simple";
+import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { writeToLog } from "../../../helpers/LogHelper";
 import {

@@ -1,67 +1,28 @@
-import React, { SetStateAction, useEffect, useRef } from "react";
-import { HStack, useTheme, VStack } from "native-base";
+import React, { SetStateAction, useRef } from "react";
+import { useTheme, VStack } from "native-base";
 import { TextInput } from "react-native";
-import { IconSearch } from "tabler-icons-react-native";
-import { useNavigation } from "@react-navigation/native";
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import SearchBox from "./SearchBox";
 
 interface IProps {
-  searchValue: string;
-  onSearchChange: React.Dispatch<SetStateAction<string>>;
-  onSubmitSearch?: () => Promise<void>;
+  query: string;
+  setQuery: React.Dispatch<SetStateAction<string>>;
+  onSubmit?: () => void | Promise<void>;
   autoFocus?: boolean;
 }
 
-function SearchBar({
-  searchValue,
-  onSearchChange,
-  onSubmitSearch,
-  autoFocus = true,
-}: IProps) {
+function SearchBar({ query, setQuery, onSubmit, autoFocus = true }: IProps) {
   const theme = useTheme();
-  const navigation = useNavigation();
-  const searchInput = useRef<TextInput>();
-
-  useEffect(() => {
-    if (!autoFocus) return;
-    navigation
-      .getParent<BottomTabNavigationProp<any>>()
-      ?.addListener("tabPress", () => {
-        searchInput.current?.focus();
-      });
-  }, [navigation]);
+  const inputRef = useRef<TextInput>();
 
   return (
     <VStack backgroundColor={theme.colors.app.bg} pt={3} pb={2} px={4}>
-      <HStack
-        backgroundColor={theme.colors.app.inputBg}
-        borderRadius={12}
-        borderColor={theme.colors.app.border}
-        py={1.5}
-        px={2.5}
-        pr={9}
-        space={2}
-      >
-        <IconSearch color={theme.colors.app.textSecondary} size={20} />
-        <TextInput
-          ref={searchInput}
-          value={searchValue}
-          placeholder="Search"
-          onChangeText={onSearchChange}
-          style={{
-            color: theme.colors.app.textPrimary,
-            width: "100%",
-          }}
-          placeholderTextColor={theme.colors.app.textSecondary}
-          returnKeyType="search"
-          returnKeyLabel="search"
-          keyboardAppearance={theme.config.initialColorMode}
-          onSubmitEditing={onSubmitSearch}
-          autoCorrect={false}
-          autoCapitalize="none"
-          clearButtonMode="always"
-        />
-      </HStack>
+      <SearchBox
+        query={query}
+        setQuery={setQuery}
+        onSubmit={onSubmit}
+        autoFocus={autoFocus}
+        inputRef={inputRef}
+      />
     </VStack>
   );
 }

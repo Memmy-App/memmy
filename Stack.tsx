@@ -50,6 +50,7 @@ import HubDiscoveryScreen from "./components/screens/onboarding/hubDiscovery/Hub
 import InstanceScreen from "./components/ui/hubDiscovery/InstanceScreen";
 import NewPostBodyScreen from "./components/screens/post/NewPostBodyScreen";
 import TraverseScreen from "./components/screens/traverse/TraverseScreen";
+import SearchResultsScreen from "./components/screens/search/SearchResultsScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -147,7 +148,7 @@ function InboxStackScreen() {
           component={NewCommentScreen}
           options={{ title: "New Comment" }}
         />
-        <SearchStack.Screen
+        <InboxStack.Screen
           name="EditComment"
           component={EditCommentScreen}
           options={{ title: "Edit Comment" }}
@@ -291,6 +292,13 @@ function SearchStackScreen() {
         <SearchStack.Screen
           name="Search"
           component={SearchScreen}
+          options={{
+            title: "Search",
+          }}
+        />
+        <SearchStack.Screen
+          name="Results"
+          component={SearchResultsScreen}
           options={{
             title: "Search",
           }}

@@ -1,6 +1,6 @@
 import React from "react";
-import { Section } from "react-native-tableview-simple";
-import { SectionInterface } from "react-native-tableview-simple/lib/typescript/components/Section";
+import { Section } from "@gkasdorf/react-native-tableview-simple";
+import { SectionInterface } from "@gkasdorf/react-native-tableview-simple/lib/typescript/components/Section";
 
 function CSection({ ...props }: SectionInterface) {
   return (

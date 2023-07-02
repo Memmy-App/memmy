@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
+import { IconChevronRight } from "tabler-icons-react-native";
 
 interface IProps {
   title: string;
@@ -11,7 +12,11 @@ interface IProps {
 
   icon?: any;
 
+  showChevron?: boolean;
+
   onPress?: () => void | Promise<void>;
+
+  py?: number;
 }
 
 function MCell({
@@ -21,34 +26,56 @@ function MCell({
   subtitle,
   icon,
   onPress,
+  showChevron = false,
+  py,
 }: IProps) {
   const theme = useTheme();
+  const [pressedIn, setPressedIn] = useState(false);
+
+  const onPressIn = () => setPressedIn(true);
+  const onPressOut = () => setPressedIn(false);
 
   const cell = (
-    <VStack space={1}>
+    <VStack space={1} py={py}>
       <HStack alignItems="center" space={2}>
         {icon && icon}
-        <Text fontSize="md">{title}</Text>
+        <VStack>
+          <Text fontSize="md">{title}</Text>
+          {subtitle && (
+            <Text fontSize="xs" color={theme.colors.app.textSecondary}>
+              {subtitle}
+            </Text>
+          )}
+        </VStack>
         {(rightAccessory && rightAccessoryEnd && (
           <View ml="auto" alignItems="center">
             {rightAccessory}
           </View>
         )) ||
+          (showChevron && (
+            <View ml="auto" alignItems="center">
+              <IconChevronRight color={theme.colors.app.accent} />
+            </View>
+          )) ||
           (rightAccessory && <>{rightAccessory}</>)}
       </HStack>
-      {subtitle && (
-        <Text fontSize="xs" color={theme.colors.app.textSecondary}>
-          {subtitle}
-        </Text>
-      )}
     </VStack>
   );
 
   if (onPress) {
-    return <Pressable onPress={onPress}>{cell}</Pressable>;
+    return (
+      <Pressable
+        onPress={onPress}
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
+        opacity={pressedIn ? 0.7 : 1}
+      >
+        {cell}
+      </Pressable>
+    );
   }
 
   return cell;
 }
 
-export default MCell;
+export default React.memo(MCell);
