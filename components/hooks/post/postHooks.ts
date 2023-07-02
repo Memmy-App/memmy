@@ -1,5 +1,5 @@
 import React, { SetStateAction, useEffect, useRef, useState } from "react";
-import { PostView } from "lemmy-js-client";
+import { CommentSortType, PostView } from "lemmy-js-client";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../../slices/post/postSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
@@ -17,6 +17,8 @@ import {
   selectEditComment,
 } from "../../../slices/comments/editCommentSlice";
 import { savePost } from "../../../lemmy/LemmyHelpers";
+import { buildComments } from "../../../lemmy/comments/LemmyCommentsHelper";
+import NestedComment from "../../../lemmy/comments/NestedComment";
 
 export interface UsePost {
   comments: ILemmyComment[];
@@ -26,6 +28,9 @@ export interface UsePost {
   doLoad: (ignoreCommentId?: boolean) => Promise<void>;
 
   currentPost: PostView;
+
+  sortType: CommentSortType;
+  setSortType: React.Dispatch<SetStateAction<CommentSortType>>;
 
   doSave: () => Promise<void>;
 
@@ -46,20 +51,16 @@ const usePost = (commentId: string | null): UsePost => {
   const [commentsError, setCommentsError] = useState<boolean>(false);
   const [currentPost, setCurrentPost] = useState<PostView>(post);
 
+  const [sortType, setSortType] = useState<CommentSortType>("Top");
+
   const recycled = useRef({});
 
   // Other Hooks
   const dispatch = useAppDispatch();
 
-  // Check if a post is saved
   useEffect(() => {
-    // Set the post to the one set in the store
     doLoad().then();
-
-    return () => {
-      recycled.current = null;
-    };
-  }, []);
+  }, [sortType]);
 
   useEffect(() => {
     if (newComment) {
@@ -125,25 +126,37 @@ const usePost = (commentId: string | null): UsePost => {
         post_id: currentPost.post.id,
         max_depth: 10,
         type_: "All",
-        sort: "Top",
+        sort: sortType,
         parent_id:
           commentId && !ignoreCommentId ? Number(commentId) : undefined,
       });
 
-      const ordered = commentsRes.comments.sort((a, b) =>
-        a.comment.path.localeCompare(b.comment.path)
-      );
-      // const parsed = buildComments(ordered);
+      const ordered = buildComments(commentsRes.comments);
 
       const betterComments: ILemmyComment[] = [];
 
+      const getChildren = (comment: NestedComment) => {
+        const replyComments: ILemmyComment[] = [];
+        for (const item of comment.replies) {
+          replyComments.push({
+            comment: item.comment,
+            myVote: item.comment.my_vote as ILemmyVote,
+            collapsed: false,
+            hidden: false,
+          });
+          replyComments.push(...getChildren(item));
+        }
+        return replyComments;
+      };
+
       for (const item of ordered) {
         betterComments.push({
-          comment: item,
-          myVote: item.my_vote as ILemmyVote,
+          comment: item.comment,
+          myVote: item.comment.my_vote as ILemmyVote,
           collapsed: false,
           hidden: false,
         });
+        betterComments.push(...getChildren(item));
       }
 
       setComments(betterComments);
@@ -249,6 +262,9 @@ const usePost = (commentId: string | null): UsePost => {
     doLoad,
 
     currentPost,
+
+    sortType,
+    setSortType,
 
     doSave,
 
