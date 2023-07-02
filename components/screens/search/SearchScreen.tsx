@@ -31,6 +31,7 @@ function SearchScreen({
           query={search.query}
           setQuery={search.setQuery}
           autoFocus={false}
+          inHeader
         />
       ),
     });
