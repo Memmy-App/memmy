@@ -2,8 +2,11 @@ import { trigger } from "react-native-haptic-feedback";
 import { Platform } from "react-native";
 import store from "../store";
 
-const getHapticSettings = () => {
+const getHapticFeedbackType = () => {
   const hapticSetting = store.getState().settings.haptics;
+
+  if(hapticSetting === 'Off')
+    return null;
 
   if (Platform.OS === "android") {
     if (hapticSetting === "Heavy") {
@@ -25,12 +28,20 @@ const getHapticSettings = () => {
   }
 };
 
-export const onVoteHapticFeedback = () => {
-  setTimeout(() => {
-    trigger("soft");
-  }, 25);
+const doHapticFeedback = (feedbackType) => {
+  if(feedbackType)
+    trigger(feedbackType);
+}
 
-  trigger(getHapticSettings());
+export const onVoteHapticFeedback = () => {
+  const feedbackType = getHapticFeedbackType();
+  if(feedbackType) {
+    setTimeout(() => {
+      doHapticFeedback("soft");
+    }, 25);
+
+    doHapticFeedback(feedbackType);
+  }
 };
 
 // these two are for if we need a different feedback for upvotes and downvotes
@@ -44,18 +55,21 @@ export const onDownVoteHapticFeedback = () => {
 
 export const onCommentSlideHapticFeedback = () => {
   if (Platform.OS === "ios") {
-    trigger(getHapticSettings());
+    doHapticFeedback(getHapticFeedbackType());
   }
 
   if (Platform.OS === "android") {
-    trigger(getHapticSettings());
+    doHapticFeedback(getHapticFeedbackType());
   }
 };
 
 export const onGenericHapticFeedback = () => {
-  if (Platform.OS === "ios") {
-    trigger(getHapticSettings());
-  } else {
-    trigger("effectClick");
+  const feedbackType = getHapticFeedbackType();
+  if(feedbackType) {
+    if (Platform.OS === "ios") {
+      doHapticFeedback(getHapticFeedbackType());
+    } else {
+      doHapticFeedback("effectClick");
+    }
   }
 };
