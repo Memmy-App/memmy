@@ -1,4 +1,4 @@
-import { HStack, Pressable, useTheme } from "native-base";
+import { Box, HStack, Pressable, Text, useTheme } from "native-base";
 import React, { useState } from "react";
 import { Dimensions, useWindowDimensions } from "react-native";
 import { ResizeMode } from "react-native-fast-image";
@@ -102,7 +102,7 @@ function ImagePreview({
     );
   }
 
-  if (images.length === 2) {
+  if (images.length >= 2) {
     return (
       <HStack space={1}>
         <SingleImage
@@ -123,6 +123,16 @@ function ImagePreview({
           width={windowWidth / 2}
           height={200}
         />
+        <Box position="absolute" right={1} bottom={1}>
+          <Box
+            paddingX={1}
+            margin={0.5}
+            backgroundColor="gray.700"
+            borderRadius={5}
+          >
+            <Text fontSize="2xs">{images.length} IMAGES</Text>
+          </Box>
+        </Box>
       </HStack>
     );
   }

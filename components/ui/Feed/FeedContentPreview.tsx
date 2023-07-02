@@ -1,6 +1,6 @@
 import { PostView } from "lemmy-js-client";
-import { Box, Text, VStack, useTheme } from "native-base";
-import React, { memo } from "react";
+import { Box, Text, useTheme } from "native-base";
+import React, { useMemo } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
@@ -12,23 +12,6 @@ import LinkButton from "../buttons/LinkButton";
 import { findImages } from "../../../helpers/MarkdownHelper";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import ImagePreview from "../common/ImagePreview";
-
-function Title({ title, mt, mb }: { title: string; mt: number; mb: number }) {
-  const theme = useTheme();
-  return (
-    <Text
-      mt={mt}
-      mb={mb}
-      mx={4}
-      fontSize="md"
-      color={theme.colors.app.textPrimary}
-      alignItems="center"
-      justifyItems="center"
-    >
-      {title}
-    </Text>
-  );
-}
 
 interface IProps {
   post: PostView;
@@ -61,9 +44,8 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
   const isImagePost = linkInfo.extType === ExtensionType.IMAGE;
 
   // handle weird posts where someone just posts a markdown image instead of an image post
-  const hasMarkdownImages = imageLinks.length > 0;
-  const isImageMarkdownPost = !cleanedText && hasMarkdownImages;
-  if (hasMarkdownImages) {
+  const isImageMarkdownPost = imageLinks.length > 0;
+  if (isImageMarkdownPost) {
     // incase we have an image post with image markdown in the body?
     if (isImagePost) {
       postUrls = [post.post.url, ...imageLinks];
@@ -72,54 +54,51 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
     }
   }
 
-  const renderContent = () => {
-    if (isImagePost || isImageMarkdownPost) {
-      return (
-        <VStack>
-          <Title title={title} mt={0} mb={2} />
-          <ImagePreview
-            images={postUrls}
-            postId={post.post.id}
-            isNsfw={post.post.nsfw}
-            recycled={recycled}
-            onImagePress={onImagePress}
-          />
-        </VStack>
-      );
-    }
+  const showImage = isImagePost || isImageMarkdownPost;
+  const showLink =
+    linkInfo.extType === ExtensionType.VIDEO ||
+    linkInfo.extType === ExtensionType.GENERIC;
 
-    if (body) {
-      return (
-        <VStack>
-          <Title title={title} mt={0} mb={2} />
-          <Text color={theme.colors.app.textSecondary} mx={4}>
+  return useMemo(
+    () => (
+      <Box mb={1}>
+        <Text
+          mx={4}
+          fontSize="md"
+          color={theme.colors.app.textPrimary}
+          alignItems="center"
+          justifyItems="center"
+        >
+          {title}
+        </Text>
+        {showImage && (
+          <Box mt={2}>
+            <ImagePreview
+              images={postUrls}
+              postId={post.post.id}
+              isNsfw={post.post.nsfw}
+              recycled={recycled}
+              onImagePress={onImagePress}
+            />
+          </Box>
+        )}
+        {!!body && (
+          <Text color={theme.colors.app.textSecondary} mx={4} mt={2}>
             {body}
           </Text>
-        </VStack>
-      );
-    }
-
-    if (
-      linkInfo.extType === ExtensionType.VIDEO ||
-      linkInfo.extType === ExtensionType.GENERIC
-    ) {
-      return (
-        <VStack>
-          <Title title={title} mt={2} mb={2} />
-          <Box mx={4}>
+        )}
+        {showLink && (
+          <Box mx={4} mt={2}>
             <LinkButton
               link={linkInfo.link}
               thumbnail={post.post.thumbnail_url}
             />
           </Box>
-        </VStack>
-      );
-    }
-
-    return null;
-  };
-
-  return <Box mb={1}>{renderContent()}</Box>;
+        )}
+      </Box>
+    ),
+    [post.post.id, post.read]
+  );
 }
 
-export default memo(FeedContentPreview);
+export default FeedContentPreview;
