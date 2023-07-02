@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import {
   Center,
@@ -7,24 +7,24 @@ import {
   Pressable,
   Spinner,
   Text,
-  useTheme,
   VStack,
+  useTheme,
 } from "native-base";
+import React, { useEffect, useState } from "react";
 import { RefreshControl } from "react-native";
-import { IconClockHour5, IconMessageCircle } from "tabler-icons-react-native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { IconClockHour5, IconMessage } from "tabler-icons-react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import usePost from "../../hooks/post/postHooks";
-import CommentItem from "../../ui/comments/CommentItem";
-import AvatarUsername from "../../ui/common/AvatarUsername";
-import NoResultView from "../../ui/common/NoResultView";
 import CommunityLink from "../../ui/CommunityLink";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import LoadingView from "../../ui/Loading/LoadingView";
+import CommentItem from "../../ui/comments/CommentItem";
+import AvatarUsername from "../../ui/common/AvatarUsername";
+import NoResultView from "../../ui/common/NoResultView";
+import CommentSortButton from "../../ui/post/CommentSortButton";
 import PostActionBar from "./PostActionBar";
 import PostContentView from "./PostContentView";
-import CommentSortButton from "../../ui/post/CommentSortButton";
 
 interface IProps {
   route: any;
@@ -87,12 +87,12 @@ function PostScreen({ route, navigation }: IProps) {
         <HStack alignItems="center">
           <CommunityLink
             community={post.currentPost?.community}
-            instanceBaseUrl={!post.currentPost?.post.local && instanceBaseUrl}
+            instanceBaseUrl={instanceBaseUrl}
             color={theme.colors.app.textSecondary}
           />
         </HStack>
         <HStack alignItems="center" space={1}>
-          <IconMessageCircle size={14} color={theme.colors.app.textSecondary} />
+          <IconMessage size={14} color={theme.colors.app.textSecondary} />
           <Text color={theme.colors.app.textSecondary}>
             {post.currentPost.counts.comments}
           </Text>
