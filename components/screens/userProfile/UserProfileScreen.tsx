@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTheme, View, VStack } from "native-base";
 import { IconSettings } from "tabler-icons-react-native";
