@@ -58,7 +58,8 @@ function SearchResultsScreen({ route }: IProps) {
               ))}
             </MTable>
           </ScrollView>
-        )) || (
+        )) ||
+        (type === "Communities" && (
           <ScrollView px={4}>
             <MTable header="Communities">
               {search.result.communities.map((c) => (
@@ -66,7 +67,7 @@ function SearchResultsScreen({ route }: IProps) {
               ))}
             </MTable>
           </ScrollView>
-        )}
+        ))}
     </VStack>
   );
 }
