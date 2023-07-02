@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
+import { IconChevronRight } from "tabler-icons-react-native";
 
 interface IProps {
   title: string;
@@ -11,6 +12,8 @@ interface IProps {
 
   icon?: any;
 
+  showChevron?: boolean;
+
   onPress?: () => void | Promise<void>;
 }
 
@@ -21,6 +24,7 @@ function MCell({
   subtitle,
   icon,
   onPress,
+  showChevron = false,
 }: IProps) {
   const theme = useTheme();
   const [pressedIn, setPressedIn] = useState(false);
@@ -38,6 +42,11 @@ function MCell({
             {rightAccessory}
           </View>
         )) ||
+          (showChevron && (
+            <View ml="auto" alignItems="center">
+              <IconChevronRight color={theme.colors.app.accent} />
+            </View>
+          )) ||
           (rightAccessory && <>{rightAccessory}</>)}
       </HStack>
       {subtitle && (
@@ -64,4 +73,4 @@ function MCell({
   return cell;
 }
 
-export default MCell;
+export default React.memo(MCell);

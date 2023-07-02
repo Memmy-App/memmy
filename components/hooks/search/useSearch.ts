@@ -1,8 +1,9 @@
-import { ListingType, SearchType } from "lemmy-js-client";
-import { SetStateAction, useState } from "react";
+import { CommunityView, ListingType, SearchType } from "lemmy-js-client";
+import { SetStateAction, useCallback, useState } from "react";
 import { Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useFocus } from "native-base/lib/typescript/components/primitives";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import ILemmySearchResult from "../../../lemmy/types/ILemmySearchResult";
 import { writeToLog } from "../../../helpers/LogHelper";
@@ -15,6 +16,7 @@ interface UseSearch {
   error: boolean;
   result: ILemmySearchResult | null;
   searchType: SearchType | null;
+  trending: CommunityView[];
 }
 
 const useSearch = (): UseSearch => {
@@ -25,6 +27,14 @@ const useSearch = (): UseSearch => {
   const [error, setError] = useState<boolean>(false);
   const [result, setResult] = useState<ILemmySearchResult>(null);
   const [searchType, setSearchType] = useState<SearchType | null>(null);
+
+  const [trending, setTrending] = useState<CommunityView[]>([]);
+
+  useFocusEffect(
+    useCallback(() => {
+      doGetTrending().then();
+    }, [])
+  );
 
   const doSearch = async (
     type: SearchType,
@@ -101,6 +111,21 @@ const useSearch = (): UseSearch => {
     }
   };
 
+  const doGetTrending = async () => {
+    try {
+      const res = await lemmyInstance.listCommunities({
+        auth: lemmyAuthToken,
+        sort: "Hot",
+        limit: 5,
+      });
+
+      setTrending(res.communities);
+    } catch (e) {
+      writeToLog("Error getting trending.");
+      writeToLog(e.toString());
+    }
+  };
+
   return {
     query,
     setQuery,
@@ -111,6 +136,8 @@ const useSearch = (): UseSearch => {
     error,
     result,
     searchType,
+
+    trending,
   };
 };
 
