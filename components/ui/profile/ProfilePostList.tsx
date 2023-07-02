@@ -1,19 +1,17 @@
-import React from "react";
-import PagerView from "react-native-pager-view";
+import React, { ReactElement } from "react";
 import { FlashList } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import { UseProfile } from "../../hooks/profile/useProfile";
-import UserProfileHeader from "../../screens/userProfile/UserProfileHeader";
 import NoResultView from "../common/NoResultView";
 import CompactFeedItem from "../Feed/CompactFeedItem/CompactFeedItem";
 import { ProfileRefreshControl } from "./ProfileRefreshControl";
 
 interface IProps {
   profile: UseProfile;
-  pagerView: React.MutableRefObject<PagerView>;
+  header: ReactElement;
 }
 
-function ProfilePostList({ profile, pagerView }: IProps) {
+function ProfilePostList({ profile, header }: IProps) {
   const keyExtractor = (item: PostView) => item.post.id.toString();
 
   const renderItem = ({ item }: { item: PostView }) => (
@@ -23,13 +21,11 @@ function ProfilePostList({ profile, pagerView }: IProps) {
   return (
     <FlashList
       renderItem={renderItem}
-      ListHeaderComponent={
-        <UserProfileHeader profile={profile} pagerView={pagerView} />
-      }
+      ListHeaderComponent={header}
       estimatedItemSize={150}
       data={profile.posts}
       keyExtractor={keyExtractor}
-      ListEmptyComponent={<NoResultView type="posts" />}
+      ListEmptyComponent={<NoResultView type="profilePosts" />}
       refreshing={profile.loading}
       refreshControl={<ProfileRefreshControl profile={profile} />}
     />

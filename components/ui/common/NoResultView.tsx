@@ -2,11 +2,18 @@ import React from "react";
 import { Text, useTheme, VStack } from "native-base";
 import { InterfaceVStackProps } from "native-base/lib/typescript/components/primitives/Stack/VStack";
 
-type MessageType = "comments" | "posts" | "default";
+type MessageType =
+  | "comments"
+  | "posts"
+  | "profileComments"
+  | "profilePosts"
+  | "default";
 
 const NoResultMessageMap: Record<MessageType, string> = {
   comments: "No comments yet. Time to do your part 🫡",
   posts: "No posts found. Maybe you should get a conversation started?",
+  profileComments: "User has no comments.",
+  profilePosts: "User has no posts.",
   default: "No result found :(",
 };
 export interface INoResultViewProps extends InterfaceVStackProps {

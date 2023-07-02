@@ -1,7 +1,5 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { FlashList } from "@shopify/flash-list";
-import PagerView from "react-native-pager-view";
-import UserProfileHeader from "../../screens/userProfile/UserProfileHeader";
 import NoResultView from "../common/NoResultView";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import { UseProfile } from "../../hooks/profile/useProfile";
@@ -10,10 +8,10 @@ import CommentItem from "../comments/CommentItem";
 
 interface IProps {
   profile: UseProfile;
-  pagerView: React.MutableRefObject<PagerView>;
+  header: ReactElement;
 }
 
-function ProfileCommentList({ profile, pagerView }: IProps) {
+function ProfileCommentList({ profile, header }: IProps) {
   const onPressOverride = (item) => {
     const commentPathArr = item.comment.comment.path.split(".");
 
@@ -46,13 +44,11 @@ function ProfileCommentList({ profile, pagerView }: IProps) {
   return (
     <FlashList
       renderItem={renderComment}
-      ListHeaderComponent={
-        <UserProfileHeader profile={profile} pagerView={pagerView} />
-      }
+      ListHeaderComponent={header}
       estimatedItemSize={150}
       data={profile.comments}
       keyExtractor={commentKeyExtractor}
-      ListEmptyComponent={<NoResultView type="comments" />}
+      ListEmptyComponent={<NoResultView type="profileComments" />}
       refreshing={profile.loading}
       refreshControl={<ProfileRefreshControl profile={profile} />}
     />
