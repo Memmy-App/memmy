@@ -399,19 +399,18 @@ export const sunsetThemeColors: IColors = {
   bookmarkText: "#fff",
 };
 
-const oksolarDarkThemeColors: IColors = {
+export const oksolarDarkThemeColors: IColors = {
   accent: "#F23749",
   accentHighlight: "#E7F2FF",
 
   textPrimary: "#FFF",
   textSecondary: "#98a8a8",
-  textTertiary: "#8FAAAB",
+
   fg: "#002D38",
   bg: "#093946",
-  bgSecondary: "#093946",
-  bgTertiary: "#002D38",
+  navBarBg: "#001f26",
 
-  border: "#FFF",
+  border: "#004859",
 
   upvote: "#D56500",
   upvoteText: "#FFF",
@@ -419,19 +418,16 @@ const oksolarDarkThemeColors: IColors = {
   downvoteText: "#FFF",
 
   success: "#819500",
-  successBg: "#D7F8DA",
-  successBorder: "#2B8302",
+  successText: "#fff",
   error: "#F23749",
-  errorBg: "#FFC6C2",
-  errorBorder: "#A62525",
+  errorText: "#fff",
   warn: "#AC8300",
-  warnBg: "#FFEDD9",
-  warnBorder: "#CB6A11",
+  warnText: "#fff",
   info: "#2B90D8",
-  infoBg: "#CAE6FF",
-  infoBorder: "#316677",
+  infoText: "#fff",
 
   users: {
+    text: "#fff",
     mod: "#819500",
     admin: "#FF4848",
     dev: "#7D80D1",
