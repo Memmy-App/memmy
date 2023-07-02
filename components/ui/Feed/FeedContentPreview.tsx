@@ -1,7 +1,6 @@
 import { PostView } from "lemmy-js-client";
-import { Box, Pressable, Text, VStack, useTheme } from "native-base";
-import React, { useMemo, useState } from "react";
-import { Dimensions } from "react-native";
+import { Box, Text, VStack, useTheme } from "native-base";
+import React, { memo } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
@@ -9,11 +8,10 @@ import { truncatePost } from "../../../helpers/TextHelper";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppSelector } from "../../../store";
 import LinkButton from "../buttons/LinkButton";
-import ImageModal from "../image/ImageModal";
-import MemoizedFastImage from "../image/MemoizedFastImage";
 
-import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { findImages } from "../../../helpers/MarkdownHelper";
+import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
+import ImagePreview from "../common/ImagePreview";
 
 function Title({ title, mt, mb }: { title: string; mt: number; mb: number }) {
   const theme = useTheme();
@@ -40,19 +38,16 @@ interface IProps {
 
 function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
   const theme = useTheme();
-  const { blurNsfw, markReadOnPostImageView } = useAppSelector(selectSettings);
+  const { markReadOnPostImageView } = useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
   const { cleanedText, imageLinks } = findImages(post.post.body);
   const body = truncatePost(cleanedText, 100);
 
   const title = post.post.name;
-  let postUrl = post.post.url;
-
-  const [imageViewOpen, setImageViewOpen] = useState(false);
+  let postUrls = [post.post.url];
 
   const onImagePress = () => {
-    setImageViewOpen(true);
     if (setPostRead && markReadOnPostImageView) {
       setPostRead();
       lemmyInstance.markPostAsRead({
@@ -63,52 +58,37 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
     }
   };
 
-  const onImageLongPress = () => {};
-
-  const isImage = linkInfo.extType === ExtensionType.IMAGE;
+  const isImagePost = linkInfo.extType === ExtensionType.IMAGE;
 
   // handle weird posts where someone just posts a markdown image instead of an image post
-  const hasImages = imageLinks.length > 0;
-  const isImageMarkdownPost = !cleanedText && hasImages;
-  if (hasImages) {
-    // TODO: make work with multiple images?
-    postUrl = imageLinks[0];
+  const hasMarkdownImages = imageLinks.length > 0;
+  const isImageMarkdownPost = !cleanedText && hasMarkdownImages;
+  if (hasMarkdownImages) {
+    // incase we have an image post with image markdown in the body?
+    if (isImagePost) {
+      postUrls = [post.post.url, ...imageLinks];
+    } else {
+      postUrls = imageLinks;
+    }
   }
 
   const renderContent = () => {
-    if (isImage || isImageMarkdownPost) {
+    if (isImagePost || isImageMarkdownPost) {
       return (
         <VStack>
           <Title title={title} mt={0} mb={2} />
-          <Pressable
-            onPress={onImagePress}
-            onLongPress={onImageLongPress}
-            alignItems="center"
-            justifyContent="center"
-            // TODO figure out if this is working
-            backgroundColor={theme.colors.app.bg}
-          >
-            <MemoizedFastImage
-              postId={post.post.id}
-              source={postUrl}
-              recycled={recycled}
-              nsfw={post.post.nsfw && blurNsfw}
-            />
-          </Pressable>
-          <ImageModal
-            source={postUrl}
-            width={Dimensions.get("screen").width}
-            height={Dimensions.get("screen").height}
-            isOpen={imageViewOpen}
-            onRequestClose={() => {
-              setImageViewOpen(false);
-            }}
+          <ImagePreview
+            images={postUrls}
+            postId={post.post.id}
+            isNsfw={post.post.nsfw}
+            recycled={recycled}
+            onImagePress={onImagePress}
           />
         </VStack>
       );
     }
 
-    if (linkInfo.extType === ExtensionType.NONE) {
+    if (body) {
       return (
         <VStack>
           <Title title={title} mt={0} mb={2} />
@@ -139,10 +119,7 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
     return null;
   };
 
-  return useMemo(
-    () => <Box mb={1}>{renderContent()}</Box>,
-    [post.post.id, post.read, imageViewOpen]
-  );
+  return <Box mb={1}>{renderContent()}</Box>;
 }
 
-export default FeedContentPreview;
+export default memo(FeedContentPreview);

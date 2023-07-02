@@ -100,7 +100,7 @@ function PostContentView({ post, recycled, setPostRead }: IProps) {
       );
     }
 
-    if (linkInfo.extType === ExtensionType.NONE) {
+    if (body) {
       return (
         <VStack>
           <>
