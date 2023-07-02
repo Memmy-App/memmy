@@ -1,17 +1,10 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { PersonView, PostView } from "lemmy-js-client";
-import { HStack, ScrollView, Text, useTheme, VStack } from "native-base";
-import React from "react";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
-import { getCommunityFullName } from "../../../lemmy/LemmyHelpers";
-import { setPost } from "../../../slices/post/postSlice";
-import { useAppDispatch } from "../../../store";
+import { ScrollView, useTheme, VStack } from "native-base";
+import React, { useEffect } from "react";
 import useSearch from "../../hooks/search/useSearch";
-import CustomButton from "../../ui/buttons/CustomButton";
-import LoadingView from "../../ui/Loading/LoadingView";
-import GenericSearchResult from "../../ui/search/GenericSearchResult";
-import SearchBar from "../../ui/search/SearchBar";
-import SearchResultTypeHeader from "../../ui/search/SearchResultTypeHeader";
+import SearchBox from "../../ui/search/SearchBox";
+import SearchOptionsList from "../../ui/search/SearchOptionsList";
+import SearchTrendingList from "../../ui/search/SearchTrendingList";
 
 function SearchScreen({
   navigation,
@@ -20,123 +13,51 @@ function SearchScreen({
 }) {
   const search = useSearch();
   const theme = useTheme();
-  const dispatch = useAppDispatch();
 
-  const onPostPress = (post: PostView) => {
-    dispatch(setPost(post));
-    navigation.push("Post");
+  useEffect(() => {
+    navigation.setOptions({
+      // eslint-disable-next-line react/no-unstable-nested-components
+      headerTitle: () => (
+        <SearchBox query={search.query} setQuery={search.setQuery} inHeader />
+      ),
+    });
+  }, [search.query]);
+
+  const onCommunitiesPress = () => {
+    navigation.push("Results", {
+      type: "Communities",
+      query: search.query,
+    });
   };
 
-  const onUserPress = (person: PersonView) => {
-    navigation.push("Profile", {
-      fullUsername: `${person.person.name}@${getBaseUrl(
-        person.person.actor_id
-      )}`,
+  const onPostsPress = () => {
+    navigation.push("Results", {
+      type: "Posts",
+      query: search.query,
+    });
+  };
+
+  const onUsersPress = () => {
+    navigation.push("Results", {
+      type: "Users",
+      query: search.query,
     });
   };
 
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.bg}>
-      <SearchBar
-        searchValue={search.query}
-        onSearchChange={search.setQuery}
-        onSubmitSearch={() => search.doSearch("All")}
-      />
-      <HStack px={4} py={4} space={2}>
-        <CustomButton
-          onPress={() => search.doSearch("Communities")}
-          text="Communities"
-          size="sm"
-        />
-        <CustomButton
-          onPress={() => search.doSearch("Posts")}
-          text="Posts"
-          size="sm"
-        />
-        <CustomButton
-          onPress={() => search.doSearch("Users")}
-          text="Users"
-          size="sm"
-        />
-        <CustomButton
-          onPress={() => search.doSearch("All")}
-          text="All"
-          size="sm"
-        />
-      </HStack>
-      <ScrollView px={6}>
-        {(search.error && <Text>Search Error</Text>) ||
-          (search.loading && <LoadingView />) ||
-          (!search.loading &&
-            !search.error &&
-            search.result &&
-            search.result.communities.length === 0 &&
-            search.result.posts.length === 0 &&
-            search.result.users.length === 0 && (
-              <Text fontSize="xl" fontWeight="semibold" textAlign="center">
-                No results found.
-              </Text>
-            )) ||
-          (search.result && (
-            <>
-              {search.result.communities.length > 0 && (
-                <>
-                  <SearchResultTypeHeader type="Communities" />
-                  {search.result.communities.map((r) => (
-                    <GenericSearchResult
-                      key={r.community.id}
-                      header={r.community.name}
-                      footer={getBaseUrl(r.community.actor_id)}
-                      side={`${r.counts.subscribers} subscribers`}
-                      image={r.community.icon}
-                      onPress={() =>
-                        navigation.navigate("Community", {
-                          communityName: r.community.name,
-                          actorId: r.community.actor_id,
-                          communityFullName: getCommunityFullName(r),
-                        })
-                      }
-                    />
-                  ))}
-                </>
-              )}
-              {search.result.users.length > 0 && (
-                <>
-                  <SearchResultTypeHeader type="Users" />
-                  {search.result.users.length > 0 &&
-                    search.result.users.map((r) => (
-                      <GenericSearchResult
-                        key={r.person.id}
-                        header={r.person.name}
-                        footer={getBaseUrl(r.person.actor_id)}
-                        side={`${r.counts.post_count} posts`}
-                        image={r.person.avatar}
-                        onPress={() => {
-                          onUserPress(r);
-                        }}
-                      />
-                    ))}
-                </>
-              )}
-              {search.result.posts.length > 0 && (
-                <>
-                  <SearchResultTypeHeader type="Posts" />
-                  {search.result.posts.length > 0 &&
-                    search.result.posts.map((r) => (
-                      <GenericSearchResult
-                        key={r.post.id}
-                        header={r.post.name}
-                        footer={getBaseUrl(r.post.ap_id)}
-                        image={r.community.icon}
-                        onPress={() => {
-                          onPostPress(r);
-                        }}
-                      />
-                    ))}
-                </>
-              )}
-            </>
-          )) || <Text fontSize="xl" fontWeight="semibold" textAlign="center" />}
+      <ScrollView px={4}>
+        {!search.query ? (
+          <SearchTrendingList communities={search.trending} />
+        ) : (
+          <SearchOptionsList
+            options={{
+              onCommunitiesPress,
+              onPostsPress,
+              onUsersPress,
+            }}
+          />
+        )}
       </ScrollView>
     </VStack>
   );

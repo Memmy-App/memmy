@@ -1,7 +1,7 @@
 import { ScrollView, Text, useTheme } from "native-base";
 import React from "react";
 import { Alert, StyleSheet } from "react-native";
-import { Section, TableView } from "react-native-tableview-simple";
+import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
 import { IconCheck } from "tabler-icons-react-native";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
