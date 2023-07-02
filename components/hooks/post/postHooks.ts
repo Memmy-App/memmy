@@ -29,6 +29,9 @@ export interface UsePost {
 
   currentPost: PostView;
 
+  sortType: CommentSortType;
+  setSortType: React.Dispatch<SetStateAction<CommentSortType>>;
+
   doSave: () => Promise<void>;
 
   doVote: (value: -1 | 0 | 1) => Promise<void>;
@@ -36,10 +39,7 @@ export interface UsePost {
   recycled: React.MutableRefObject<{}>;
 }
 
-const usePost = (
-  commentId: string | null,
-  sortType: CommentSortType
-): UsePost => {
+const usePost = (commentId: string | null): UsePost => {
   // Global State
   const { post, newComment } = useAppSelector(selectPost);
   const { commentId: editedCommentId, content: editedContent } =
@@ -50,6 +50,8 @@ const usePost = (
   const [commentsLoading, setCommentsLoading] = useState<boolean>(true);
   const [commentsError, setCommentsError] = useState<boolean>(false);
   const [currentPost, setCurrentPost] = useState<PostView>(post);
+
+  const [sortType, setSortType] = useState<CommentSortType>("Top");
 
   const recycled = useRef({});
 
@@ -128,12 +130,12 @@ const usePost = (
         parent_id:
           commentId && !ignoreCommentId ? Number(commentId) : undefined,
       });
-      
+
       const ordered = buildComments(commentsRes.comments);
 
       const betterComments: ILemmyComment[] = [];
 
-      function getChildren(comment: NestedComment) {
+      const getChildren = (comment: NestedComment) => {
         const replyComments: ILemmyComment[] = [];
         for (const item of comment.replies) {
           replyComments.push({
@@ -260,6 +262,9 @@ const usePost = (
     doLoad,
 
     currentPost,
+
+    sortType,
+    setSortType,
 
     doSave,
 

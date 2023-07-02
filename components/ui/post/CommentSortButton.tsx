@@ -1,36 +1,35 @@
-import React from "react";
+import React, { SetStateAction } from "react";
 import { useTheme } from "native-base";
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { CommentSortType } from "lemmy-js-client";
 import {
   IconCalendar,
   IconClockHour4,
   IconClockHour8,
   IconFlame,
 } from "tabler-icons-react-native";
-import HeaderIconButton from "../../ui/buttons/HeaderIconButton";
+import { CommentSortType } from "lemmy-js-client";
+import HeaderIconButton from "../buttons/HeaderIconButton";
+import { commentSortOptions } from "../../../types/CommentSortOptions";
 
-const sortOptions = ["Top", "Hot", "New", "Old"] satisfies CommentSortType[];
-
-interface Props {
-  sortType: string;
-  setSortType: (type: string) => void;
+interface IProps {
+  sortType: CommentSortType;
+  setSortType: React.Dispatch<SetStateAction<CommentSortType>>;
 }
 
-function CommentSortButton({ sortType, setSortType }: Props) {
+function CommentSortButton({ sortType, setSortType }: IProps) {
   const theme = useTheme();
   const { showActionSheetWithOptions } = useActionSheet();
 
   const onPress = () => {
-    const cancelButtonIndex = sortOptions.length;
+    const cancelButtonIndex = commentSortOptions.length;
 
     showActionSheetWithOptions(
       {
         options: [
-            ...sortOptions.map((key) =>
-                key == sortType ? `${key} (current)` : key
-            ),
-            "Cancel"
+          ...commentSortOptions.map((key): string =>
+            key === sortType ? `${key} (current)` : key
+          ),
+          "Cancel",
         ],
         cancelButtonIndex,
         userInterfaceStyle: theme.config.initialColorMode,
@@ -38,11 +37,11 @@ function CommentSortButton({ sortType, setSortType }: Props) {
       (index) => {
         if (index === cancelButtonIndex) return;
 
-        const key = sortOptions[index];
-        setSortType(key);
+        setSortType(commentSortOptions[index]);
       }
     );
   };
+
   return <HeaderIconButton icon={SortIconType[sortType]} onPress={onPress} />;
 }
 

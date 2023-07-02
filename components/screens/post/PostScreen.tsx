@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import {
   Center,
@@ -14,7 +12,7 @@ import {
 } from "native-base";
 import { RefreshControl } from "react-native";
 import { IconClockHour5, IconMessageCircle } from "tabler-icons-react-native";
-import { CommentSortType } from "lemmy-js-client";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import usePost from "../../hooks/post/postHooks";
@@ -26,29 +24,19 @@ import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import LoadingView from "../../ui/Loading/LoadingView";
 import PostActionBar from "./PostActionBar";
 import PostContentView from "./PostContentView";
-import CommentSortButton from "./CommentSortButton";
+import CommentSortButton from "../../ui/post/CommentSortButton";
 
-function getCommentSortButton(
-  sortType: string,
-  setSortType: (type: string) => void
-) {
-  return <CommentSortButton sortType={sortType} setSortType={setSortType} />;
-}
-
-function PostScreen({
-  route,
-  navigation,
-}: {
+interface IProps {
   route: any;
   navigation: NativeStackNavigationProp<any>;
-}) {
+}
+
+function PostScreen({ route, navigation }: IProps) {
   const [showLoadAll, setShowLoadAll] = useState(true);
-  const [sortType, setSortType] = useState("Top");
 
   const theme = useTheme();
   const post = usePost(
-    route.params && route.params.commentId ? route.params.commentId : null,
-    sortType as CommentSortType
+    route.params && route.params.commentId ? route.params.commentId : null
   );
 
   useEffect(() => {
@@ -56,9 +44,15 @@ function PostScreen({
       title: `${post.currentPost?.counts.comments} Comment${
         post.currentPost?.counts.comments !== 1 ? "s" : ""
       }`,
-      headerRight: () => getCommentSortButton(sortType, setSortType),
+      // eslint-disable-next-line react/no-unstable-nested-components
+      headerRight: () => (
+        <CommentSortButton
+          sortType={post.sortType}
+          setSortType={post.setSortType}
+        />
+      ),
     });
-  }, [sortType]);
+  }, [post.sortType]);
 
   const commentItem = ({ item }) => (
     <CommentItem
