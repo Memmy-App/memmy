@@ -8,6 +8,7 @@ import {
   nightOwlThemeColors,
   sleepyRainforestThemeColors,
   sunsetThemeColors,
+  oksolarDarkThemeColors,
 } from "./darkColors";
 import { lightThemeColors } from "./lightColors";
 import { commonSettings } from "./common";
@@ -121,6 +122,16 @@ const sunsetTheme = extendTheme({
   },
 });
 
+const oksolarDarkTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: oksolarDarkThemeColors,
+  },
+  config: {
+    initialColorMode: "dark",
+  },
+});
+
 export type ThemeType = typeof lightTheme;
 
 declare module "native-base" {
@@ -138,4 +149,5 @@ export {
   goldenHourTheme,
   nauticalTheme,
   sunsetTheme,
+  oksolarDarkTheme,
 };
