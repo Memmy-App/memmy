@@ -443,7 +443,7 @@ export const oksolarDarkThemeColors: IColors = {
     5: "#259D94",
   },
 
-  inputBg: "#093946",
+  inputBg: "#012933",
 
   bookmark: "#819500",
   bookmarkText: "#fff",
