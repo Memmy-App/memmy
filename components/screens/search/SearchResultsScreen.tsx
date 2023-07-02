@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView, useTheme, VStack } from "native-base";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView, SearchType } from "lemmy-js-client";
@@ -10,16 +9,14 @@ import { useAppSelector } from "../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import LoadingView from "../../ui/Loading/LoadingView";
 import SearchUserItem from "../../ui/search/SearchUserItem";
-import MCell from "../../ui/table/MCell";
 import MTable from "../../ui/table/MTable";
 import SearchCommunityItem from "../../ui/search/SearchCommunityItem";
 
 interface IProps {
   route: any;
-  navigation: NativeStackNavigationProp<any>;
 }
 
-function SearchResultsScreen({ route, navigation }: IProps) {
+function SearchResultsScreen({ route }: IProps) {
   const type = route.params.type as SearchType;
 
   const theme = useTheme();
