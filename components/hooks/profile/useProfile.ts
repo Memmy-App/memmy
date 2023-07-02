@@ -8,6 +8,7 @@ import React, {
 import { PersonView, PostView } from "lemmy-js-client";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import PagerView from "react-native-pager-view";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { useAppDispatch, useAppSelector } from "../../../store";
@@ -46,6 +47,8 @@ export interface UseProfile {
     postId: number,
     commentId: number | undefined
   ) => Promise<void>;
+
+  pagerView: React.MutableRefObject<PagerView>;
 }
 
 const useProfile = (fullUsername?: string): UseProfile => {
@@ -70,12 +73,14 @@ const useProfile = (fullUsername?: string): UseProfile => {
 
   const [notFound, setNotFound] = useState<boolean>(false);
 
+  const [selected, setSelected] = useState<"posts" | "comments">("comments");
+
   const commentsNextPage = useRef(1);
   const postsNextPage = useRef(1);
 
   const self = useRef(!fullUsername);
 
-  const [selected, setSelected] = useState<"posts" | "comments">("comments");
+  const pagerView = useRef<PagerView>();
 
   useEffect(() => {
     doLoad(true).then();
@@ -193,6 +198,8 @@ const useProfile = (fullUsername?: string): UseProfile => {
     doLoad,
 
     onCommentPress,
+
+    pagerView,
   };
 };
 

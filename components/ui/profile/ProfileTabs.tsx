@@ -1,7 +1,7 @@
 import React from "react";
 import { HStack } from "native-base";
-import ButtonGroup from "../../ui/buttons/ButtonGroup";
-import GroupButton from "../../ui/buttons/GroupButton";
+import ButtonGroup from "../buttons/ButtonGroup";
+import GroupButton from "../buttons/GroupButton";
 
 interface IProps {
   selected: string;
