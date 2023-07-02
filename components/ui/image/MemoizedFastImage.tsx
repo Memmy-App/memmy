@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import FastImage from "react-native-fast-image";
 import { Icon, Text, useTheme, View, VStack } from "native-base";
 import { BlurView } from "expo-blur";
@@ -26,10 +26,6 @@ function MemoizedFastImage({
   const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
   const [blurIntensity, setBlurIntensity] = useState(99);
-
-  useEffect(() => {
-    setBlurIntensity(100);
-  }, [height]);
 
   const lastPostId = useRef(postId);
 
@@ -59,6 +55,7 @@ function MemoizedFastImage({
 
     setHeight(imageHeight);
     setWidth(imageWidth);
+    setBlurIntensity((prev) => (prev === 99 ? 100 : 99));
   };
 
   if (nsfw) {
