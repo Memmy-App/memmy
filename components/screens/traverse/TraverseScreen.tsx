@@ -38,6 +38,7 @@ function TraverseScreen() {
           onRefresh={() => traverse.doLoad(true)}
         />
       }
+      keyboardShouldPersistTaps="handled"
     >
       {header}
       {traverse.subscriptions.length === 0 ? (
