@@ -32,6 +32,9 @@ export interface UsePost {
   sortType: CommentSortType;
   setSortType: React.Dispatch<SetStateAction<CommentSortType>>;
 
+  showLoadAll: boolean;
+  setShowLoadAll: React.Dispatch<SetStateAction<boolean>>;
+
   doSave: () => Promise<void>;
 
   doVote: (value: -1 | 0 | 1) => Promise<void>;
@@ -52,6 +55,7 @@ const usePost = (commentId: string | null): UsePost => {
   const [currentPost, setCurrentPost] = useState<PostView>(post);
 
   const [sortType, setSortType] = useState<CommentSortType>("Top");
+  const [showLoadAll, setShowLoadAll] = useState(true);
 
   const recycled = useRef({});
 
@@ -59,7 +63,7 @@ const usePost = (commentId: string | null): UsePost => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    doLoad().then();
+    doLoad(!showLoadAll).then();
   }, [sortType]);
 
   useEffect(() => {
@@ -265,6 +269,9 @@ const usePost = (commentId: string | null): UsePost => {
 
     sortType,
     setSortType,
+
+    showLoadAll,
+    setShowLoadAll,
 
     doSave,
 

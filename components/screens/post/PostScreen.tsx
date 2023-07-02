@@ -32,7 +32,6 @@ interface IProps {
 }
 
 function PostScreen({ route, navigation }: IProps) {
-  const [showLoadAll, setShowLoadAll] = useState(true);
 
   const theme = useTheme();
   const post = usePost(
@@ -108,11 +107,11 @@ function PostScreen({ route, navigation }: IProps) {
       <Divider my={1} bg={theme.colors.app.border} />
       <PostActionBar post={post} />
       <Divider bg={theme.colors.app.border} />
-      {route.params && route.params.commentId && showLoadAll && (
+      {route.params && route.params.commentId && post.showLoadAll && (
         <Pressable
           backgroundColor="#1A91FF"
           onPress={() => {
-            setShowLoadAll(false);
+            post.setShowLoadAll(false);
             post.doLoad(true);
           }}
         >
