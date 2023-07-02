@@ -15,7 +15,7 @@ function MemoizedFastImage({
   nsfw = false,
   imgHeight,
   imgWidth,
-  resizeMode,
+  resizeMode = "contain",
 }: {
   postId: number;
   source: string;
@@ -97,7 +97,7 @@ function MemoizedFastImage({
         </BlurView>
         {!source.includes(".gif") && (
           <FastImage
-            resizeMode={resizeMode || FastImage.resizeMode.contain}
+            resizeMode={resizeMode}
             source={{
               uri: source,
             }}
@@ -114,7 +114,7 @@ function MemoizedFastImage({
 
   return (
     <FastImage
-      resizeMode={resizeMode || FastImage.resizeMode.contain}
+      resizeMode={resizeMode}
       source={{
         uri: source,
       }}
