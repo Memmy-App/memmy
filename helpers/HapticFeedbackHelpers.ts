@@ -33,13 +33,14 @@ const doHapticFeedback = (feedbackType) => {
 
 export const onVoteHapticFeedback = () => {
   const feedbackType = getHapticFeedbackType();
-  if (feedbackType) {
-    setTimeout(() => {
-      doHapticFeedback("soft");
-    }, 25);
 
-    doHapticFeedback(feedbackType);
-  }
+  if (!feedbackType) return;
+
+  setTimeout(() => {
+    doHapticFeedback("soft");
+  }, 25);
+
+  doHapticFeedback(feedbackType);
 };
 
 // these two are for if we need a different feedback for upvotes and downvotes
@@ -63,11 +64,12 @@ export const onCommentSlideHapticFeedback = () => {
 
 export const onGenericHapticFeedback = () => {
   const feedbackType = getHapticFeedbackType();
-  if (feedbackType) {
-    if (Platform.OS === "ios") {
-      doHapticFeedback(getHapticFeedbackType());
-    } else {
-      doHapticFeedback("effectClick");
-    }
+
+  if (!feedbackType) return;
+
+  if (Platform.OS === "ios") {
+    doHapticFeedback(getHapticFeedbackType());
+  } else {
+    doHapticFeedback("effectClick");
   }
 };
