@@ -7,6 +7,7 @@ type MessageType =
   | "posts"
   | "profileComments"
   | "profilePosts"
+  | "search"
   | "default";
 
 const NoResultMessageMap: Record<MessageType, string> = {
@@ -14,6 +15,7 @@ const NoResultMessageMap: Record<MessageType, string> = {
   posts: "No posts found. Maybe you should get a conversation started?",
   profileComments: "User has no comments.",
   profilePosts: "User has no posts.",
+  search: "That search term returned no results.",
   default: "No result found :(",
 };
 export interface INoResultViewProps extends InterfaceVStackProps {
