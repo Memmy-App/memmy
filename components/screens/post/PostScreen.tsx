@@ -12,15 +12,15 @@ import {
 } from "native-base";
 import React, { useEffect, useState } from "react";
 import { RefreshControl } from "react-native";
-import { IconClockHour5, IconMessage } from "tabler-icons-react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
-import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import usePost from "../../hooks/post/postHooks";
 import CommunityLink from "../../ui/CommunityLink";
 import LoadingErrorFooter from "../../ui/Loading/LoadingErrorFooter";
 import LoadingView from "../../ui/Loading/LoadingView";
 import CommentItem from "../../ui/comments/CommentItem";
 import AvatarUsername from "../../ui/common/AvatarUsername";
+import CommentCount from "../../ui/common/CommentCount";
+import DatePublished from "../../ui/common/DatePublished";
 import NoResultView from "../../ui/common/NoResultView";
 import CommentSortButton from "../../ui/post/CommentSortButton";
 import PostActionBar from "./PostActionBar";
@@ -84,25 +84,13 @@ function PostScreen({ route, navigation }: IProps) {
         <AvatarUsername creator={post.currentPost?.creator} showInstance />
       </HStack>
       <HStack space={2} mx={4} mb={2}>
-        <HStack alignItems="center">
-          <CommunityLink
-            community={post.currentPost?.community}
-            instanceBaseUrl={instanceBaseUrl}
-            color={theme.colors.app.textSecondary}
-          />
-        </HStack>
-        <HStack alignItems="center" space={1}>
-          <IconMessage size={14} color={theme.colors.app.textSecondary} />
-          <Text color={theme.colors.app.textSecondary}>
-            {post.currentPost.counts.comments}
-          </Text>
-        </HStack>
-        <HStack alignItems="center" space={1}>
-          <IconClockHour5 size={14} color={theme.colors.app.textSecondary} />
-          <Text color={theme.colors.app.textSecondary}>
-            {timeFromNowShort(post.currentPost?.post.published)}
-          </Text>
-        </HStack>
+        <CommunityLink
+          community={post.currentPost?.community}
+          instanceBaseUrl={instanceBaseUrl}
+          color={theme.colors.app.textSecondary}
+        />
+        <CommentCount commentCount={post.currentPost.counts.comments} />
+        <DatePublished published={post.currentPost?.post.published} />
       </HStack>
 
       <Divider my={1} bg={theme.colors.app.border} />
