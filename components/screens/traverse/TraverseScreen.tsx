@@ -14,13 +14,7 @@ function TraverseScreen() {
   const [term, setTerm] = useState("");
 
   const header = useMemo(
-    () => (
-      <SearchBar
-        searchValue={term}
-        onSearchChange={setTerm}
-        autoFocus={false}
-      />
-    ),
+    () => <SearchBar query={term} setQuery={setTerm} autoFocus={false} />,
     [term]
   );
 

@@ -1607,6 +1607,11 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
+"@gkasdorf/react-native-tableview-simple@^4.4.2":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@gkasdorf/react-native-tableview-simple/-/react-native-tableview-simple-4.4.2.tgz#c248418beb7cc7b995a2f2f6dd2b1b0108e3d09c"
+  integrity sha512-umJBWbZROSLGt6lFPjoSfn3C4/MJU65OlDT7SN7dYyGt07P8RAhAHfhG/MxxokXjQQLoW20NrlkOVj+ZEmmZFQ==
+
 "@graphql-typed-document-node/core@^3.1.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.2.0.tgz#5f3d96ec6b2354ad6d8a28bf216a1d97b5426861"
@@ -5378,9 +5383,9 @@ fast-loops@^1.1.3:
   integrity sha512-8EZzEP0eKkEEVX+drtd9mtuQ+/QrlfW/5MlwcwK5Nds6EkZ/tRzEexkzUY2mIssnAyVLT+TKHuRXmFNNXYUd6g==
 
 fast-xml-parser@^4.0.12:
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-4.2.4.tgz#6e846ede1e56ad9e5ef07d8720809edf0ed07e9b"
-  integrity sha512-fbfMDvgBNIdDJLdLOwacjFAPYt67tr31H9ZhWSm45CDAxvd0I6WTlSOUo7K2P/K5sA5JgMKG64PI3DMcaFdWpQ==
+  version "4.2.5"
+  resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-4.2.5.tgz#a6747a09296a6cb34f2ae634019bf1738f3b421f"
+  integrity sha512-B9/wizE4WngqQftFPmdaMYlXoJlJOYxGQOanC77fq9k8+Z0v5dDSVh+3glErdIROP//s/jgb7ZuxKfB8nVyo0g==
   dependencies:
     strnum "^1.0.5"
 
@@ -8600,11 +8605,6 @@ react-native-svg@^12.1.1:
   dependencies:
     css-select "^5.1.0"
     css-tree "^1.1.3"
-
-react-native-tableview-simple@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/react-native-tableview-simple/-/react-native-tableview-simple-4.4.0.tgz#7318145e9b27934fec8cd41b2a06d773c65d74d7"
-  integrity sha512-b31+2zHrB4ymv/g+iKQRjkVA1qNfVAroRG0z6qDeV1AxL221FUP9Q3XAZrju1sGuJdY4y4JADP0E2fRJwDuBWQ==
 
 react-native-vector-icons@^9.2.0:
   version "9.2.0"

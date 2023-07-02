@@ -1,9 +1,9 @@
-import { Ionicons } from "@expo/vector-icons";
-import { BlurView } from "expo-blur";
-import { Icon, Text, VStack, View, useTheme } from "native-base";
-import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet } from "react-native";
+import React, { useRef, useState } from "react";
 import FastImage, { ResizeMode } from "react-native-fast-image";
+import { Icon, Text, useTheme, View, VStack } from "native-base";
+import { BlurView } from "expo-blur";
+import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet } from "react-native";
 import { getRatio } from "../../../helpers/ImageHelper";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppSelector } from "../../../store";
@@ -32,10 +32,6 @@ function MemoizedFastImage({
   const [height, setHeight] = useState<string | number>(0);
   const [width, setWidth] = useState<string | number>(0);
   const [blurIntensity, setBlurIntensity] = useState(99);
-
-  useEffect(() => {
-    setBlurIntensity(100);
-  }, [height]);
 
   const lastPostId = useRef(postId);
 
@@ -71,6 +67,7 @@ function MemoizedFastImage({
 
       setHeight(imageHeight);
       setWidth(imageWidth);
+      setBlurIntensity((prev) => (prev === 99 ? 100 : 99));
     }
   };
 

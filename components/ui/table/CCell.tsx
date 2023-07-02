@@ -1,7 +1,7 @@
 import React from "react";
-import { Cell } from "react-native-tableview-simple";
+import { Cell } from "@gkasdorf/react-native-tableview-simple";
 import { Text, useTheme } from "native-base";
-import { CellInterface } from "react-native-tableview-simple/lib/typescript/components/Cell";
+import { CellInterface } from "@gkasdorf/react-native-tableview-simple/lib/typescript/components/Cell";
 
 function CCell(props: CellInterface) {
   const { title } = props;
@@ -14,6 +14,9 @@ function CCell(props: CellInterface) {
       rightDetailColor={theme.colors.app.textSecondary}
       {...props}
       title={typeof title === "string" ? <Text>{title}</Text> : title}
+      highlightUnderlayColor={theme.colors.app.fg}
+      leftDetailColor={theme.colors.app.fg}
+      accessoryColor={theme.colors.app.fg}
     />
   );
 }
