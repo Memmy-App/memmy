@@ -5,8 +5,7 @@ import store from "../store";
 const getHapticFeedbackType = () => {
   const hapticSetting = store.getState().settings.haptics;
 
-  if(hapticSetting === 'Off')
-    return null;
+  if (hapticSetting === "Off") return null;
 
   if (Platform.OS === "android") {
     if (hapticSetting === "Heavy") {
@@ -29,13 +28,12 @@ const getHapticFeedbackType = () => {
 };
 
 const doHapticFeedback = (feedbackType) => {
-  if(feedbackType)
-    trigger(feedbackType);
-}
+  if (feedbackType) trigger(feedbackType);
+};
 
 export const onVoteHapticFeedback = () => {
   const feedbackType = getHapticFeedbackType();
-  if(feedbackType) {
+  if (feedbackType) {
     setTimeout(() => {
       doHapticFeedback("soft");
     }, 25);
@@ -65,7 +63,7 @@ export const onCommentSlideHapticFeedback = () => {
 
 export const onGenericHapticFeedback = () => {
   const feedbackType = getHapticFeedbackType();
-  if(feedbackType) {
+  if (feedbackType) {
     if (Platform.OS === "ios") {
       doHapticFeedback(getHapticFeedbackType());
     } else {
