@@ -1,7 +1,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { PersonView, PostView } from "lemmy-js-client";
 import { HStack, ScrollView, Text, useTheme, VStack } from "native-base";
-import React from "react";
+import React, { useEffect } from "react";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { getCommunityFullName } from "../../../lemmy/LemmyHelpers";
 import { setPost } from "../../../slices/post/postSlice";
@@ -12,6 +12,7 @@ import LoadingView from "../../ui/Loading/LoadingView";
 import GenericSearchResult from "../../ui/search/GenericSearchResult";
 import SearchBar from "../../ui/search/SearchBar";
 import SearchResultTypeHeader from "../../ui/search/SearchResultTypeHeader";
+import SearchBox from "../../ui/search/SearchBox";
 
 function SearchScreen({
   navigation,
@@ -21,6 +22,19 @@ function SearchScreen({
   const search = useSearch();
   const theme = useTheme();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    navigation.setOptions({
+      // eslint-disable-next-line react/no-unstable-nested-components
+      headerTitle: () => (
+        <SearchBox
+          query={search.query}
+          setQuery={search.setQuery}
+          autoFocus={false}
+        />
+      ),
+    });
+  }, []);
 
   const onPostPress = (post: PostView) => {
     dispatch(setPost(post));
@@ -38,9 +52,9 @@ function SearchScreen({
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.bg}>
       <SearchBar
-        searchValue={search.query}
-        onSearchChange={search.setQuery}
-        onSubmitSearch={() => search.doSearch("All")}
+        query={search.query}
+        setQuery={search.setQuery}
+        onSubmit={() => search.doSearch("All")}
       />
       <HStack px={4} py={4} space={2}>
         <CustomButton
