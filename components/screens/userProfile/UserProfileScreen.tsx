@@ -11,6 +11,7 @@ import NotFoundView from "../../ui/Loading/NotFoundView";
 import ProfileCommentList from "../../ui/profile/ProfileCommentList";
 import ProfilePostList from "../../ui/profile/ProfilePostList";
 import ProfileSavedPostList from "../../ui/profile/ProfileSavedPostList";
+import ProfileHeader from "../../ui/profile/ProfileHeader";
 
 interface IProps {
   route: any;
@@ -18,9 +19,6 @@ interface IProps {
 }
 
 function UserProfileScreen({ route, navigation }: IProps) {
-  // Refs
-  const pagerView = useRef<PagerView>();
-
   // Hooks
   const profile = useProfile(
     route.params && route.params.fullUsername
@@ -61,23 +59,25 @@ function UserProfileScreen({ route, navigation }: IProps) {
     return <NotFoundView />;
   }
 
+  const header = <ProfileHeader profile={profile} />;
+
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.bg}>
       <PagerView
         initialPage={0}
         style={{ flex: 1 }}
         scrollEnabled={false}
-        ref={pagerView}
+        ref={profile.pagerView}
       >
         <View key="1">
-          <ProfileCommentList profile={profile} pagerView={pagerView} />
+          <ProfileCommentList profile={profile} header={header} />
         </View>
         <View key="2">
-          <ProfilePostList profile={profile} pagerView={pagerView} />
+          <ProfilePostList profile={profile} header={header} />
         </View>
         {profile.savedPosts && (
           <View key="3">
-            <ProfileSavedPostList profile={profile} pagerView={pagerView} />
+            <ProfileSavedPostList profile={profile} header={header} />
           </View>
         )}
       </PagerView>
