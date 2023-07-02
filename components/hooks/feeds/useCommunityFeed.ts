@@ -100,7 +100,7 @@ const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
       communityLanguageId:
         feed.posts && feed.posts.length > 0
           ? feed.posts[0].post.language_id
-          : undefined,
+          : 0,
     });
   };
 
