@@ -22,6 +22,7 @@
   "dependencies": {
     "@expo/react-native-action-sheet": "^4.0.1",
     "@expo/vector-icons": "^13.0.0",
+    "@gkasdorf/react-native-tableview-simple": "^4.4.1",
     "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/slider": "^4.4.2",
@@ -76,7 +77,6 @@
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "~3.20.0",
     "react-native-svg": "^12.1.1",
-    "react-native-tableview-simple": "^4.4.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.7",
     "react-native-webview": "^13.2.2",

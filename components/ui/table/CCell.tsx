@@ -1,5 +1,5 @@
 import React from "react";
-import { Cell } from "react-native-tableview-simple";
+import { Cell } from "@gkasdorf/react-native-tableview-simple";
 import { Text, useTheme } from "native-base";
 import { CellInterface } from "react-native-tableview-simple/lib/typescript/components/Cell";
 

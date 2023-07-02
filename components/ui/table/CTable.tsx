@@ -1,5 +1,5 @@
 import React from "react";
-import { TableView } from "react-native-tableview-simple";
+import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { StyleSheet } from "react-native";
 
 interface CTableProps {
