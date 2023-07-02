@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, useTheme, VStack } from "native-base";
+import { Divider, Text, useTheme, VStack } from "native-base";
 
 interface IProps {
   header?: string;
@@ -21,7 +21,8 @@ function MTable({ header, children }: IProps) {
           backgroundColor={theme.colors.app.fg}
           p={3}
           borderRadius={10}
-          space={4}
+          space={3}
+          divider={<Divider height={0.4} />}
         >
           {children}
         </VStack>
@@ -29,5 +30,11 @@ function MTable({ header, children }: IProps) {
     </>
   );
 }
+
+export const getTableStyles = (color: string) => ({
+  backgroundColor: color,
+  padding: 3,
+  borderRadius: 10,
+});
 
 export default MTable;

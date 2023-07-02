@@ -20,13 +20,11 @@ function SearchTrendingList({ communities }: IProps) {
 
   return (
     <Animated.View entering={SlideInUp} exiting={SlideOutUp}>
-      <View p={4}>
-        <MTable header="Trending">
-          {communities.map((c) => (
-            <SearchCommunityItem community={c} />
-          ))}
-        </MTable>
-      </View>
+      <MTable header="Trending">
+        {communities.map((c) => (
+          <SearchCommunityItem community={c} />
+        ))}
+      </MTable>
     </Animated.View>
   );
 }

@@ -15,6 +15,8 @@ interface IProps {
   showChevron?: boolean;
 
   onPress?: () => void | Promise<void>;
+
+  py?: number;
 }
 
 function MCell({
@@ -25,6 +27,7 @@ function MCell({
   icon,
   onPress,
   showChevron = false,
+  py,
 }: IProps) {
   const theme = useTheme();
   const [pressedIn, setPressedIn] = useState(false);
@@ -33,10 +36,17 @@ function MCell({
   const onPressOut = () => setPressedIn(false);
 
   const cell = (
-    <VStack space={1}>
+    <VStack space={1} py={py}>
       <HStack alignItems="center" space={2}>
         {icon && icon}
-        <Text fontSize="md">{title}</Text>
+        <VStack>
+          <Text fontSize="md">{title}</Text>
+          {subtitle && (
+            <Text fontSize="xs" color={theme.colors.app.textSecondary}>
+              {subtitle}
+            </Text>
+          )}
+        </VStack>
         {(rightAccessory && rightAccessoryEnd && (
           <View ml="auto" alignItems="center">
             {rightAccessory}
@@ -49,11 +59,6 @@ function MCell({
           )) ||
           (rightAccessory && <>{rightAccessory}</>)}
       </HStack>
-      {subtitle && (
-        <Text fontSize="xs" color={theme.colors.app.textSecondary}>
-          {subtitle}
-        </Text>
-      )}
     </VStack>
   );
 

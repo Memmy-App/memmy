@@ -1,43 +1,49 @@
 import React from "react";
-import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
 import {
-  IconArrowDown,
   IconChevronRight,
   IconNote,
   IconPlanet,
   IconUser,
 } from "tabler-icons-react-native";
-import { useTheme, View } from "native-base";
-import CCell from "../table/CCell";
+import { useTheme } from "native-base";
+import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
 import MTable from "../table/MTable";
 import MCell from "../table/MCell";
 
-function SearchOptionsList() {
+interface IProps {
+  options: {
+    onPostsPress: () => void;
+    onUsersPress: () => void;
+    onCommunitiesPress: () => void;
+  };
+}
+
+function SearchOptionsList({ options }: IProps) {
   const theme = useTheme();
 
   return (
-    <View p={4}>
-      <MTable>
+    <Animated.View entering={SlideInDown} exiting={SlideOutDown}>
+      <MTable header="Select An Option">
         <MCell
           title="Search Communities"
-          onPress={() => {}}
+          onPress={options.onCommunitiesPress}
           icon={<IconPlanet color={theme.colors.app.accent} />}
           rightAccessory={<IconChevronRight color={theme.colors.app.accent} />}
         />
         <MCell
           title="Search Users"
-          onPress={() => {}}
+          onPress={options.onUsersPress}
           icon={<IconUser color={theme.colors.app.accent} />}
           rightAccessory={<IconChevronRight color={theme.colors.app.accent} />}
         />
         <MCell
           title="Search Posts"
-          onPress={() => {}}
+          onPress={options.onPostsPress}
           icon={<IconNote color={theme.colors.app.accent} />}
           rightAccessory={<IconChevronRight color={theme.colors.app.accent} />}
         />
       </MTable>
-    </View>
+    </Animated.View>
   );
 }
 
