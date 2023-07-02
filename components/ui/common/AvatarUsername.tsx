@@ -140,28 +140,30 @@ function AvatarUsername({
           <IconUser color={colors.app.textSecondary} />
         ))}
       <VStack>
-        <Link
-          screen="Profile"
-          params={{
-            fullUsername,
-          }}
-        >
-          <Text
-            fontWeight="normal"
-            color={type ? nameProps.bgColor : colors.app.textSecondary}
+        <HStack space={0.5}>
+          <Link
+            screen="Profile"
+            params={{
+              fullUsername,
+            }}
           >
-            {name}
-          </Text>
-        </Link>
+            <Text
+              fontWeight="normal"
+              color={type ? nameProps.bgColor : colors.app.textSecondary}
+            >
+              {name}
+            </Text>
+          </Link>
+          {type && (
+            <Chip
+              text={nameProps.label}
+              bgColor={nameProps.bgColor}
+              textColor={nameProps.textColor}
+            />
+          )}
+        </HStack>
         {showInstance && <Text fontSize="xs">{getBaseUrl(actorId)}</Text>}
       </VStack>
-      {type && (
-        <Chip
-          text={nameProps.label}
-          bgColor={nameProps.bgColor}
-          textColor={nameProps.textColor}
-        />
-      )}
       {children}
     </HStack>
   );
