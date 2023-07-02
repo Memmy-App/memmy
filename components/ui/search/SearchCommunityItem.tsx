@@ -7,6 +7,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { IconPlanet } from "tabler-icons-react-native";
 import MCell from "../table/MCell";
 import { getCommunityFullName } from "../../../lemmy/LemmyHelpers";
+import { getBaseUrl } from "../../../helpers/LinkHelper";
 
 interface IProps {
   community: CommunityView;
@@ -27,7 +28,9 @@ function SearchCommunityItem({ community }: IProps) {
 
   return (
     <MCell
-      title={community.community.name}
+      title={`${community.community.name}@${getBaseUrl(
+        community.community.actor_id
+      )}`}
       icon={
         community.community.icon ? (
           <FastImage
