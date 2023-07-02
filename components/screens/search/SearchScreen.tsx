@@ -51,7 +51,7 @@ function SearchScreen({
 
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.bg}>
-      <ScrollView px={4}>
+      <ScrollView px={4} keyboardShouldPersistTaps="handled">
         {!search.query ? (
           <SearchTrendingList communities={search.trending} />
         ) : (
