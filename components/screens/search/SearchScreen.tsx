@@ -18,7 +18,12 @@ function SearchScreen({
     navigation.setOptions({
       // eslint-disable-next-line react/no-unstable-nested-components
       headerTitle: () => (
-        <SearchBox query={search.query} setQuery={search.setQuery} inHeader />
+        <SearchBox
+          query={search.query}
+          setQuery={search.setQuery}
+          inHeader
+          autoFocus
+        />
       ),
     });
   }, [search.query]);
