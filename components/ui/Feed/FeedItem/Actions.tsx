@@ -18,7 +18,16 @@ export function Actions({ vote, saved, onSave, onVotePress }: Props) {
   return (
     <HStack space={1} alignItems="center" justifyContent="flex-end">
       <IconButtonWithText
-        icon={<IconBookmark size={25} color={theme.colors.app.textSecondary} />}
+        icon={
+          <IconBookmark
+            size={25}
+            color={
+              saved
+                ? theme.colors.app.bookmarkText
+                : theme.colors.app.textSecondary
+            }
+          />
+        }
         iconBgColor={saved ? theme.colors.app.bookmark : theme.colors.app.fg}
         onPressHandler={onSave}
       />
