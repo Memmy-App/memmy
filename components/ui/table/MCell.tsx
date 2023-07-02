@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
 
 interface IProps {
@@ -23,6 +23,10 @@ function MCell({
   onPress,
 }: IProps) {
   const theme = useTheme();
+  const [pressedIn, setPressedIn] = useState(false);
+
+  const onPressIn = () => setPressedIn(true);
+  const onPressOut = () => setPressedIn(false);
 
   const cell = (
     <VStack space={1}>
@@ -45,7 +49,16 @@ function MCell({
   );
 
   if (onPress) {
-    return <Pressable onPress={onPress}>{cell}</Pressable>;
+    return (
+      <Pressable
+        onPress={onPress}
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
+        opacity={pressedIn ? 0.7 : 1}
+      >
+        {cell}
+      </Pressable>
+    );
   }
 
   return cell;
