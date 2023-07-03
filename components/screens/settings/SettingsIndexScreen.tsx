@@ -282,7 +282,7 @@ function SettingsIndexScreen({
               accessory="DisclosureIndicator"
               onPress={() => {
                 const options = ["None", "Left", "Right", "Cancel"];
-                const cancelButtonIndex = 2;
+                const cancelButtonIndex = 3;
 
                 showActionSheetWithOptions(
                   {
