@@ -9,8 +9,12 @@ import {
   sleepyRainforestThemeColors,
   sunsetThemeColors,
   oksolarDarkThemeColors,
+  oceanicNextThemeColors,
 } from "./darkColors";
-import { lightThemeColors } from "./lightColors";
+import {
+  lightThemeColors,
+  oksolarLightThemeColors,
+       } from "./lightColors";
 import { commonSettings } from "./common";
 
 const moodyPurpleTheme = extendTheme({
@@ -145,7 +149,7 @@ const oksolarLightTheme = extendTheme({
 const oceanicNextTheme = extendTheme({
   ...commonSettings,
   colors: {
-    app: oceanicNextColors,
+    app: oceanicNextThemeColors,
   },
   config: {
     initialColorMode: "dark",

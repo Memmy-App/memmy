@@ -449,17 +449,17 @@ export const oksolarDarkThemeColors: IColors = {
   bookmarkText: "#fff",
 };
 
-const oceanicNextThemeColors: IColors = {
+export const oceanicNextThemeColors: IColors = {
   accent: "#EC5f67",
   accentHighlight: "#CDD3DE",
 
   textPrimary: "#98A8A8",
   textSecondary: "#8FAAAB",
   textTertiary: "#657377",
-  fg: "#D8DEE9",
+  fg: "#14232D",
   bg: "#1B2B34",
   bgSecondary: "#14232D",
-  bgTertiary: "#1B2B34",
+  navBarBg: "#1B2B34",
 
   border: "#D8DEE9",
 
@@ -469,17 +469,13 @@ const oceanicNextThemeColors: IColors = {
   downvoteText: "#FFF",
 
   success: "#99C794",
-  successBg: "#D7F8DA",
-  successBorder: "#2B8302",
+  successText: "#fff",
   error: "#EC5f67",
-  errorBg: "#FFC6C2",
-  errorBorder: "#A62525",
+  errorText: "#fff",
   warn: "#FAC863",
-  warnBg: "#FFEDD9",
-  warnBorder: "#CB6A11",
+  warnText: "#fff",
   info: "#6699CC",
-  infoBg: "#CAE6FF",
-  infoBorder: "#316677",
+  infoText: "#fff",
 
   users: {
     mod: "#99C794",

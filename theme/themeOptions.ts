@@ -23,7 +23,7 @@ enum EThemeOptions {
   NIGHT_OWL = "Night Owl",
   OKSOLAR_DARK = "Oksolar Dark",
   OKSOLAR_LIGHT = "Oksolar Light",
-  OCEANIC_NEXT = "Oceanic Next"
+  OCEANIC_NEXT = "Oceanic Next",
   SLEEPY_RAINFOREST = "Sleepy Rainforest",
   GOLDEN_HOUR = "Golden Hour",
   NAUTICAL = "Nautical",
@@ -44,7 +44,7 @@ export const ThemeOptionsMap: Record<ThemeOptions, any> = {
   "Night Owl": nightOwlTheme,
   "Oksolar Dark": oksolarDarkTheme,
   "Oksolar Light" : oksolarLightTheme,
-  "Oceanic Next" : oceanicNextTheme
+  "Oceanic Next" : oceanicNextTheme,
   "Sleepy Rainforest": sleepyRainforestTheme,
   "Golden Hour": goldenHourTheme,
   Nautical: nauticalTheme,

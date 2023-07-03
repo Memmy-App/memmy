@@ -50,17 +50,17 @@ export const lightThemeColors: IColors = {
   bookmarkText: "#fff",
 };
 
-const oksolarLightThemeColors: IColors = {
+export const oksolarLightThemeColors: IColors = {
   accent: "#F23749",
   accentHighlight: "#E7F2FF",
 
-  textPrimary: "#98A8A8",
-  textSecondary: "#8FAAAB",
+  textPrimary: "#657377",
+  textSecondary: "#657377",
   textTertiary: "#657377",
   fg: "#F1E9D2",
-  bg: "#FBF7EF",
-  bgSecondary: "#F1E9D2",
-  bgTertiary: "#FCF7E8",
+  bg: "#FCF7E8",
+  bgSecondary: "#FBF7EF",
+  navBarBg: "#FCF7E8",
 
   border: "#FCF7E8",
 
@@ -70,19 +70,16 @@ const oksolarLightThemeColors: IColors = {
   downvoteText: "#FFF",
 
   success: "#819500",
-  successBg: "#D7F8DA",
-  successBorder: "#2B8302",
+  successText: "#fff",
   error: "#F23749",
-  errorBg: "#FFC6C2",
-  errorBorder: "#A62525",
+  errorText: "#fff",
   warn: "#AC8300",
-  warnBg: "#FFEDD9",
-  warnBorder: "#CB6A11",
+  warnText: "#fff",
   info: "#2B90D8",
-  infoBg: "#CAE6FF",
-  infoBorder: "#316677",
+  infoText: "#fff",
 
   users: {
+    text: "#fff",
     mod: "#819500",
     admin: "#FF4848",
     dev: "#7D80D1",
@@ -98,7 +95,7 @@ const oksolarLightThemeColors: IColors = {
     5: "#259D94",
   },
 
-  inputBg: "#093946",
+  inputBg: "#F1E9D2",
 
   bookmark: "#819500",
   bookmarkText: "#fff",
