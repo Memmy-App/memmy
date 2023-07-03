@@ -16,6 +16,9 @@ export interface SettingsState {
   hideNsfw: boolean;
   compactView: boolean;
   theme: ThemeOptions;
+  themeLight: ThemeOptions;
+  themeDark: ThemeOptions;
+  themeMatchSystem: boolean;
   isSystemTextSize: boolean;
   fontSize: number;
   haptics: HapticOptions;
@@ -42,6 +45,9 @@ const initialState: SettingsState = {
   compactThumbnailPosition: "Left",
   compactShowVotingButtons: true,
   theme: "Dark",
+  themeLight: "Light",
+  themeDark: "Dark",
+  themeMatchSystem: false,
   isSystemTextSize: true,
   fontSize: 2,
   haptics: "Medium",

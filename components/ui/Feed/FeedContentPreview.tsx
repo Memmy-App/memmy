@@ -97,7 +97,12 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
         )}
       </Box>
     ),
-    [post.post.id, post.read]
+    [
+      post.post.id,
+      post.read,
+      theme.colors.app.textPrimary,
+      theme.colors.app.textSecondary,
+    ]
   );
 }
 

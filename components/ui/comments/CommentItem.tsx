@@ -263,6 +263,10 @@ function CommentItem({
     swipeAnimation.color,
     swipeAnimation.leftIcon,
     swipeAnimation.rightIcon,
+    theme.colors.app.border,
+    theme.colors.app.textSecondary,
+    theme.colors.app.fg,
+    theme.colors.app.bg,
     comment,
   ]);
 }
