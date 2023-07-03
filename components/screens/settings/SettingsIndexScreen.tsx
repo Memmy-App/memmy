@@ -17,7 +17,7 @@ import { useAppDispatch, useAppSelector } from "../../../store";
 import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
 import CCell from "../../ui/table/CCell";
 import { sortOptions, SortOption } from "../../../types/FeedSortOptions";
-import { FontWeightMap, FontWeightLabelMap } from "../../../theme/fontOptions";
+import { FontWeightMap, FontWeightLabelMap } from "../../../theme/fontSize";
 
 function SettingsIndexScreen({
   navigation,
