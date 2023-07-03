@@ -22,6 +22,7 @@ function SmallVoteIcons({
   const downvoteColor =
     myVote === -1 ? theme.colors.app.downvote : theme.colors.app.textSecondary;
 
+  // TODO: refactor to use VoteData
   return useMemo(
     () => (
       <HStack space={1}>

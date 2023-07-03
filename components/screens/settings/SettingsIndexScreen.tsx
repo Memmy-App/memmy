@@ -10,7 +10,10 @@ import FastImage from "react-native-fast-image";
 import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
 import { SortType } from "lemmy-js-client";
 import { deleteLog, sendLog } from "../../../helpers/LogHelper";
-import { selectAccounts } from "../../../slices/accounts/accountsSlice";
+import {
+  selectAccounts,
+  selectCurrentAccount,
+} from "../../../slices/accounts/accountsSlice";
 import { setSetting } from "../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../store";
@@ -25,6 +28,8 @@ function SettingsIndexScreen({
 }) {
   const settings = useAppSelector(selectSettings);
   const accounts = useAppSelector(selectAccounts);
+
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const dispatch = useAppDispatch();
   const theme = useTheme();
@@ -223,6 +228,22 @@ function SettingsIndexScreen({
               </Text>
             </CCell>
           )}
+          <CCell
+            cellStyle="Basic"
+            title="Display Total Score"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.displayTotalScore}
+                onValueChange={(v) => {
+                  LayoutAnimation.easeInEaseOut();
+                  onChange("displayTotalScore", v);
+                }}
+              />
+            }
+          />
           {/* <CCell */}
           {/*  title="Swipe Gestures" */}
           {/*  backgroundColor={theme.colors.app.fg} */}
@@ -489,6 +510,21 @@ function SettingsIndexScreen({
             accessory="DisclosureIndicator"
             onPress={() => {
               WebBrowser.openBrowserAsync("https://github.com/gkasdorf/memmy");
+            }}
+          />
+          <CCell
+            cellStyle="Basic"
+            title="Delete Account"
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              Alert.alert(
+                "Delete Account",
+                "To remove all data from Memmy's servers, simply disable push " +
+                  "notifications. If you do not have push notifications enabled, we do not have any of your data.\n\n" +
+                  `To delete your Lemmy account, you must first visit ${currentAccount.instance} and sign in.` +
+                  " Then " +
+                  ' navigate to the Profile tab. You may delete your account by pressing "Delete Account".'
+              );
             }}
           />
         </Section>

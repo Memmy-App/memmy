@@ -16,6 +16,7 @@ function MemoizedFastImage({
   imgHeight,
   imgWidth,
   resizeMode = "contain",
+  onLoad,
 }: {
   postId: number;
   source: string;
@@ -24,6 +25,7 @@ function MemoizedFastImage({
   resizeMode?: ResizeMode;
   imgHeight?: number | string;
   imgWidth?: number | string;
+  onLoad?: (e) => void;
 }) {
   const theme = useTheme();
 
@@ -52,7 +54,10 @@ function MemoizedFastImage({
     lastPostId.current = postId;
   }
 
-  const onLoad = (e) => {
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle
+  const _onLoad = (e) => {
+    if (onLoad) onLoad(e);
+
     if (imgHeight && imgWidth) {
       setHeight(imgHeight);
       setWidth(imgWidth);
@@ -105,7 +110,7 @@ function MemoizedFastImage({
               height,
               width,
             }}
-            onLoad={onLoad}
+            onLoad={_onLoad}
           />
         )}
       </View>
@@ -122,7 +127,7 @@ function MemoizedFastImage({
         height,
         width,
       }}
-      onLoad={onLoad}
+      onLoad={_onLoad}
     />
   );
 }

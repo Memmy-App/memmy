@@ -186,14 +186,12 @@ function CommentItem({
                         showInstance={showInstanceForUsernames}
                         opId={opId}
                       >
-                        <>
-                          <SmallVoteIcons
-                            upvotes={comment.comment.counts.upvotes}
-                            downvotes={comment.comment.counts.downvotes}
-                            myVote={comment.comment.my_vote as ILemmyVote}
-                            initialVote={initialVote.current}
-                          />
-                        </>
+                        <SmallVoteIcons
+                          upvotes={comment.comment.counts.upvotes}
+                          downvotes={comment.comment.counts.downvotes}
+                          myVote={comment.comment.my_vote as ILemmyVote}
+                          initialVote={initialVote.current}
+                        />
                       </AvatarUsername>
                       {!comment.collapsed ? (
                         <HStack alignItems="center" space={2}>
