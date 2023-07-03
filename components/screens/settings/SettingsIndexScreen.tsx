@@ -20,6 +20,7 @@ import { useAppDispatch, useAppSelector } from "../../../store";
 import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
 import CCell from "../../ui/table/CCell";
 import { sortOptions, SortOption } from "../../../types/FeedSortOptions";
+import { openLink } from "../../../helpers/LinkHelper";
 
 function SettingsIndexScreen({
   navigation,
@@ -537,7 +538,22 @@ function SettingsIndexScreen({
                   "notifications. If you do not have push notifications enabled, we do not have any of your data.\n\n" +
                   `To delete your Lemmy account, you must first visit ${currentAccount.instance} and sign in.` +
                   " Then " +
-                  ' navigate to the Profile tab. You may delete your account by pressing "Delete Account".'
+                  ' navigate to the Profile tab. You may delete your account by pressing "Delete Account".',
+                [
+                  {
+                    text: "Visit Instance",
+                    onPress: () => {
+                      openLink(
+                        `https://${currentAccount.instance}`,
+                        navigation
+                      );
+                    },
+                  },
+                  {
+                    text: "OK",
+                    style: "default",
+                  },
+                ]
               );
             }}
           />
