@@ -3,7 +3,7 @@ import { useTheme } from "native-base";
 import React, { SetStateAction } from "react";
 import Clipboard from "@react-native-community/clipboard";
 import { CommentReplyView } from "lemmy-js-client";
-import { LayoutAnimation } from "react-native";
+import { Alert, LayoutAnimation } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppDispatch, useAppSelector } from "../../../store";
@@ -95,6 +95,7 @@ const useComment = ({
     const options = {
       "Copy Text": "Copy Text",
       "Copy Link": "Copy Link",
+      "Report Comment": "Report Comment",
       ...(isOwnComment && {
         "Edit Comment": "Edit Comment",
         "Delete Comment": "Delete Comment",
@@ -124,6 +125,40 @@ const useComment = ({
 
         if (option === options["Copy Link"]) {
           Clipboard.setString(comment.comment.comment.ap_id);
+        }
+
+        if (option === options["Report Comment"]) {
+          await Alert.prompt(
+            "Report Comment",
+            "Please describe your reason for reporting this comment.",
+            [
+              {
+                text: "Cancel",
+                style: "cancel",
+              },
+              {
+                text: "Submit",
+                style: "default",
+                onPress: async (v) => {
+                  try {
+                    await lemmyInstance.createCommentReport({
+                      auth: lemmyAuthToken,
+                      comment_id: comment.comment.comment.id,
+                      reason: v,
+                    });
+
+                    showToast({
+                      message: "Report submitted successfully",
+                      variant: "info",
+                    });
+                  } catch (e) {
+                    writeToLog("Error reporting comment.");
+                    writeToLog(e.toString());
+                  }
+                },
+              },
+            ]
+          );
         }
 
         if (option === options["Delete Comment"]) {
