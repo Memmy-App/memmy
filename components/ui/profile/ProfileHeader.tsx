@@ -72,36 +72,27 @@ function ProfileHeader({ profile }: IProps) {
       <VStack py={3.5} px={5}>
         <HStack space={7}>
           <HStack alignItems="center" space={1}>
-            <IconNotes size={26} color={theme.colors.app.textSecondary} />
+            <IconNotes size={26} color={theme.colors.app.accent} />
             <Text fontSize="md">{profile.profile.counts.post_count}</Text>
-            <IconCircleArrowUp
-              size={26}
-              color={theme.colors.app.textSecondary}
-            />
+            <IconCircleArrowUp size={26} color={theme.colors.app.accent} />
             <Text fontSize="md">{profile.profile.counts.post_score}</Text>
           </HStack>
           <HStack alignItems="center" space={1}>
-            <IconMessage2 size={26} color={theme.colors.app.textSecondary} />
+            <IconMessage2 size={26} color={theme.colors.app.accent} />
             <Text fontSize="md">{profile.profile.counts.comment_count}</Text>
-            <IconCircleArrowUp
-              size={26}
-              color={theme.colors.app.textSecondary}
-            />
+            <IconCircleArrowUp size={26} color={theme.colors.app.accent} />
             <Text fontSize="md">{profile.profile.counts.comment_score}</Text>
           </HStack>
         </HStack>
         <HStack space={7} mt={3} alignItems="center">
           <HStack alignItems="center" space={1}>
-            <IconCalendarStar
-              size={26}
-              color={theme.colors.app.textSecondary}
-            />
+            <IconCalendarStar size={26} color={theme.colors.app.accent} />
             <Text fontSize="md">
               {moment(profile.profile.person.published).utc(true).fromNow()}
             </Text>
           </HStack>
           <HStack alignItems="center" space={1}>
-            <IconCake size={26} color={theme.colors.app.textSecondary} />
+            <IconCake size={26} color={theme.colors.app.accent} />
             <Text fontSize="md">
               {getCakeDay(profile.profile.person.published)}
             </Text>

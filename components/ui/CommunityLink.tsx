@@ -1,9 +1,9 @@
-import React from "react";
 import { Community } from "lemmy-js-client";
 import { HStack, Text } from "native-base";
+import React from "react";
 import { IconPlanet } from "tabler-icons-react-native";
-import Link from "./buttons/Link";
 import { getBaseUrl } from "../../helpers/LinkHelper";
+import Link from "./buttons/Link";
 
 interface CommunityLinkProps {
   community: Community;
@@ -31,11 +31,13 @@ function CommunityLink({
         )}`,
       }}
     >
-      <HStack alignItems="center" space={1}>
-        {hideIcon ? null : <IconPlanet color={color} size={16} />}
-        <Text color={color} fontWeight="medium">
-          {community.name}
-        </Text>
+      <HStack>
+        <HStack alignItems="center" space={1}>
+          {hideIcon ? null : <IconPlanet color={color} size={16} />}
+          <Text color={color} fontWeight="medium">
+            {community.name}
+          </Text>
+        </HStack>
         {instanceBaseUrl && (
           <Text color={color} fontWeight="medium">
             @{instanceBaseUrl}

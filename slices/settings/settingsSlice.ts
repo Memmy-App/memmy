@@ -26,6 +26,7 @@ export interface SettingsState {
   markReadOnPostImageView: boolean;
   markReadOnPostVote: boolean;
   ignoreScreenHeightInFeed: boolean;
+  displayTotalScore: boolean;
 }
 
 const initialState: SettingsState = {
@@ -49,6 +50,7 @@ const initialState: SettingsState = {
   markReadOnPostImageView: true,
   markReadOnPostVote: true,
   ignoreScreenHeightInFeed: false,
+  displayTotalScore: true,
 };
 
 const settingsSlice = createSlice({
