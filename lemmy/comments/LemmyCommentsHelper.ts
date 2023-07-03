@@ -71,6 +71,13 @@ function buildComments(comments: CommentView[]): NestedComment[] {
 
   const commentDict = {};
 
+  // Prepopulate the dictionary
+  for (const comment of comments) {
+    commentDict[comment.comment.id] = {
+      replies: [],
+    };
+  }
+
   for (const comment of comments) {
     const { path } = comment.comment;
     const pathIds = path.split(".").map(Number);
@@ -78,7 +85,7 @@ function buildComments(comments: CommentView[]): NestedComment[] {
 
     const currentComment = {
       comment,
-      replies: [],
+      replies: commentDict[comment.comment.id] ? commentDict[comment.comment.id].replies : [],
     };
 
     commentDict[comment.comment.id] = currentComment;
@@ -89,7 +96,8 @@ function buildComments(comments: CommentView[]): NestedComment[] {
       try {
         parentComment.replies.push(currentComment);
       } catch (e) {
-        // TODO Handle
+        // ParentId isnt in the comment response, so must be the root comment
+        nestedComments.push(currentComment);
       }
     } else {
       nestedComments.push(currentComment);
