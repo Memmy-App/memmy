@@ -147,10 +147,12 @@ const useComment = ({
                       reason: v,
                     });
 
-                    showToast({
-                      message: "Report submitted successfully",
-                      variant: "info",
-                    });
+                    dispatch(
+                      showToast({
+                        message: "Report submitted successfully",
+                        variant: "info",
+                      })
+                    );
                   } catch (e) {
                     writeToLog("Error reporting comment.");
                     writeToLog(e.toString());
