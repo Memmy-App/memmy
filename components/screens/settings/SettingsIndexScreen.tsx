@@ -191,7 +191,9 @@ function SettingsIndexScreen({
               cellStyle="Basic"
               title="Theme for System Light"
               accessory="DisclosureIndicator"
-              onPress={() => navigation.push("ThemeSelection", { themeProp: 'themeLight' })}
+              onPress={() =>
+                navigation.push("ThemeSelection", { themeProp: "themeLight" })
+              }
               backgroundColor={theme.colors.app.fg}
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.textSecondary}
@@ -212,7 +214,9 @@ function SettingsIndexScreen({
               cellStyle="Basic"
               title="Theme for System Dark"
               accessory="DisclosureIndicator"
-              onPress={() => navigation.push("ThemeSelection", { themeProp: 'themeDark' })}
+              onPress={() =>
+                navigation.push("ThemeSelection", { themeProp: "themeDark" })
+              }
               backgroundColor={theme.colors.app.fg}
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.textSecondary}
@@ -502,6 +506,16 @@ function SettingsIndexScreen({
             accessory="DisclosureIndicator"
             onPress={() => {
               WebBrowser.openBrowserAsync("https://memmy.app/privacy.txt");
+            }}
+          />
+          <CCell
+            cellStyle="Basic"
+            title="Terms of Use"
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              navigation.push("Viewer", {
+                type: "terms",
+              });
             }}
           />
           <CCell
