@@ -1,6 +1,6 @@
 import { PostView } from "lemmy-js-client";
-import { Box, Pressable, Text, VStack, useTheme } from "native-base";
-import React, { useMemo, useState } from "react";
+import { Box, Pressable, Text, useTheme, VStack } from "native-base";
+import React, { useState } from "react";
 import { Dimensions } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -133,10 +133,7 @@ function PostContentView({ post, recycled, setPostRead }: IProps) {
     return null;
   };
 
-  return useMemo(
-    () => <Box mb={1}>{renderContent()}</Box>,
-    [post.post.id, post.read, imageViewOpen]
-  );
+  return <Box mb={1}>{renderContent()}</Box>;
 }
 
-export default PostContentView;
+export default React.memo(PostContentView);
