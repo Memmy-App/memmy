@@ -3,4 +3,5 @@ export interface Account {
   password: string;
   instance: string;
   token: string;
+  isCurrent?: boolean;
 }
