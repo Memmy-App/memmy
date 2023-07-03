@@ -30,10 +30,10 @@ function GroupButton({ onPress, text, selected }: IProps) {
       py={1}
       px={5}
       m={1}
-      backgroundColor={selected ? theme.colors.app.border : undefined}
+      backgroundColor={selected ? theme.colors.app.bg : undefined}
     >
       <HStack space={1.5} alignItems="center" justifyContent="center">
-        <Text fontSize="sm" color={theme.colors.app.textSecondary}>
+        <Text fontSize="sm" color={theme.colors.app.textPrimary}>
           {text}
         </Text>
       </HStack>
