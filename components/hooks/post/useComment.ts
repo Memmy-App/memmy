@@ -80,9 +80,11 @@ const useComment = ({
     onGenericHapticFeedback();
 
     const isOwnComment =
-      getUserFullName(comment.comment.creator) ===
-        createUserFullName(currentAccount.username, currentAccount.instance) &&
-      !comment.comment.comment.deleted;
+      getUserFullName(comment.comment.creator).toLowerCase() ===
+        createUserFullName(
+          currentAccount.username.toLowerCase(),
+          currentAccount.instance.toLowerCase()
+        ) && !comment.comment.comment.deleted;
 
     // const options = [
     //   "Copy Text",
