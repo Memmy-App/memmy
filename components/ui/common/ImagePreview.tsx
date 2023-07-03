@@ -1,10 +1,10 @@
 import { Box, HStack, Pressable, Text, useTheme } from "native-base";
 import React, { useState } from "react";
-import { Dimensions, useWindowDimensions } from "react-native";
+import { useWindowDimensions } from "react-native";
 import { ResizeMode } from "react-native-fast-image";
+import EnhancedImageViewing from "@gkasdorf/react-native-image-viewing";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppSelector } from "../../../store";
-import ImageModal from "../image/ImageModal";
 import MemoizedFastImage from "../image/MemoizedFastImage";
 
 interface ISingleImageProps {
@@ -30,6 +30,7 @@ function SingleImage({
 }: ISingleImageProps) {
   const { colors } = useTheme();
   const [imageViewOpen, setImageViewOpen] = useState(false);
+  const [dimensions, setDimensions] = useState({ height: 0, width: 0 });
 
   const onImageClick = () => {
     onImagePress();
@@ -37,6 +38,13 @@ function SingleImage({
   };
 
   const onImageLongPress = () => {};
+
+  const onLoad = (e) => {
+    setDimensions({
+      height: e.nativeEvent.height,
+      width: e.nativeEvent.width,
+    });
+  };
 
   return (
     <>
@@ -46,7 +54,7 @@ function SingleImage({
         alignItems="center"
         justifyContent="center"
         // TODO figure out if this is working
-        backgroundColor={colors.app.bg}
+        backgroundColor={colors.app.fg}
       >
         <MemoizedFastImage
           postId={postId}
@@ -56,16 +64,16 @@ function SingleImage({
           imgWidth={width}
           resizeMode={resizeMode}
           recycled={recycled}
+          onLoad={onLoad}
         />
       </Pressable>
-      <ImageModal
-        source={source}
-        width={Dimensions.get("screen").width}
-        height={Dimensions.get("screen").height}
-        isOpen={imageViewOpen}
-        onRequestClose={() => {
-          setImageViewOpen(false);
-        }}
+      <EnhancedImageViewing
+        images={[{ uri: source }]}
+        imageIndex={0}
+        visible={imageViewOpen}
+        onRequestClose={() => setImageViewOpen(false)}
+        height={dimensions.height}
+        width={dimensions.width}
       />
     </>
   );
