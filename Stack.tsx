@@ -710,6 +710,14 @@ function Stack() {
                 component={CreateAccountScreen}
                 options={{ title: "Create Account" }}
               />
+              <MainStack.Screen
+                name="Viewer"
+                component={ViewerScreen}
+                options={{
+                  title: "View",
+                  freezeOnBlur: true,
+                }}
+              />
             </>
           )}
       </MainStack.Navigator>
