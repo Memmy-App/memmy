@@ -1,30 +1,38 @@
 import React, { useRef, useState } from "react";
-import FastImage from "react-native-fast-image";
+import FastImage, { ResizeMode } from "react-native-fast-image";
 import { Icon, Text, useTheme, View, VStack } from "native-base";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 import { getRatio } from "../../../helpers/ImageHelper";
-import { useAppSelector } from "../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
+import { useAppSelector } from "../../../store";
 
 function MemoizedFastImage({
   postId,
   source,
   recycled,
   nsfw = false,
+  imgHeight,
+  imgWidth,
+  resizeMode = "contain",
+  onLoad,
 }: {
   postId: number;
   source: string;
   recycled?: React.MutableRefObject<{}> | undefined;
   nsfw?: boolean;
+  resizeMode?: ResizeMode;
+  imgHeight?: number | string;
+  imgWidth?: number | string;
+  onLoad?: (e) => void;
 }) {
   const theme = useTheme();
 
   const { ignoreScreenHeightInFeed } = useAppSelector(selectSettings);
 
-  const [height, setHeight] = useState(0);
-  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState<string | number>(0);
+  const [width, setWidth] = useState<string | number>(0);
   const [blurIntensity, setBlurIntensity] = useState(99);
 
   const lastPostId = useRef(postId);
@@ -46,16 +54,26 @@ function MemoizedFastImage({
     lastPostId.current = postId;
   }
 
-  const onLoad = (e) => {
-    const { imageHeight, imageWidth } = getRatio(
-      e.nativeEvent.height,
-      e.nativeEvent.width,
-      ignoreScreenHeightInFeed ? 0.9 : 0.6
-    );
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle
+  const _onLoad = (e) => {
+    if (onLoad) onLoad(e);
 
-    setHeight(imageHeight);
-    setWidth(imageWidth);
-    setBlurIntensity((prev) => (prev === 99 ? 100 : 99));
+    if (imgHeight && imgWidth) {
+      setHeight(imgHeight);
+      setWidth(imgWidth);
+    }
+
+    if (!imgHeight && !imgWidth) {
+      const { imageHeight, imageWidth } = getRatio(
+        e.nativeEvent.height,
+        e.nativeEvent.width,
+        ignoreScreenHeightInFeed ? 0.9 : 0.6
+      );
+
+      setHeight(imageHeight);
+      setWidth(imageWidth);
+      setBlurIntensity((prev) => (prev === 99 ? 100 : 99));
+    }
   };
 
   if (nsfw) {
@@ -84,7 +102,7 @@ function MemoizedFastImage({
         </BlurView>
         {!source.includes(".gif") && (
           <FastImage
-            resizeMode={FastImage.resizeMode.contain}
+            resizeMode={resizeMode}
             source={{
               uri: source,
             }}
@@ -92,7 +110,7 @@ function MemoizedFastImage({
               height,
               width,
             }}
-            onLoad={onLoad}
+            onLoad={_onLoad}
           />
         )}
       </View>
@@ -101,7 +119,7 @@ function MemoizedFastImage({
 
   return (
     <FastImage
-      resizeMode={FastImage.resizeMode.contain}
+      resizeMode={resizeMode}
       source={{
         uri: source,
       }}
@@ -109,7 +127,7 @@ function MemoizedFastImage({
         height,
         width,
       }}
-      onLoad={onLoad}
+      onLoad={_onLoad}
     />
   );
 }

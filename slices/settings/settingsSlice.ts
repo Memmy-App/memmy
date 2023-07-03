@@ -16,6 +16,9 @@ export interface SettingsState {
   hideNsfw: boolean;
   compactView: boolean;
   theme: ThemeOptions;
+  themeLight: ThemeOptions;
+  themeDark: ThemeOptions;
+  themeMatchSystem: boolean;
   isSystemTextSize: boolean;
   fontSize: number;
   haptics: HapticOptions;
@@ -26,6 +29,7 @@ export interface SettingsState {
   markReadOnPostImageView: boolean;
   markReadOnPostVote: boolean;
   ignoreScreenHeightInFeed: boolean;
+  displayTotalScore: boolean;
 }
 
 const initialState: SettingsState = {
@@ -41,6 +45,9 @@ const initialState: SettingsState = {
   compactThumbnailPosition: "Left",
   compactShowVotingButtons: true,
   theme: "Dark",
+  themeLight: "Light",
+  themeDark: "Dark",
+  themeMatchSystem: false,
   isSystemTextSize: true,
   fontSize: 2,
   haptics: "Medium",
@@ -49,6 +56,7 @@ const initialState: SettingsState = {
   markReadOnPostImageView: true,
   markReadOnPostVote: true,
   ignoreScreenHeightInFeed: false,
+  displayTotalScore: true,
 };
 
 const settingsSlice = createSlice({

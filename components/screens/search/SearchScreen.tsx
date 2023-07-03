@@ -18,7 +18,12 @@ function SearchScreen({
     navigation.setOptions({
       // eslint-disable-next-line react/no-unstable-nested-components
       headerTitle: () => (
-        <SearchBox query={search.query} setQuery={search.setQuery} inHeader />
+        <SearchBox
+          query={search.query}
+          setQuery={search.setQuery}
+          inHeader
+          autoFocus
+        />
       ),
     });
   }, [search.query]);
@@ -46,7 +51,7 @@ function SearchScreen({
 
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.bg}>
-      <ScrollView px={4}>
+      <ScrollView px={4} keyboardShouldPersistTaps="handled">
         {!search.query ? (
           <SearchTrendingList communities={search.trending} />
         ) : (

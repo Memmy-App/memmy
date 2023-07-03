@@ -9,7 +9,7 @@
     "slug": "memmyapp",
     "version": "0.0.1",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

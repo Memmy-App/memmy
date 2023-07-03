@@ -192,7 +192,10 @@ function CreateAccountScreen({ route }: { route: any }) {
   };
 
   return (
-    <KeyboardAwareScrollView style={{ backgroundColor: theme.colors.app.bg }}>
+    <KeyboardAwareScrollView
+      style={{ backgroundColor: theme.colors.app.bg }}
+      keyboardShouldPersistTaps="handled"
+    >
       <LoadingModal loading={loading} />
       <VStack flex={1} mb={5} space="md" justifyContent="center">
         <Image

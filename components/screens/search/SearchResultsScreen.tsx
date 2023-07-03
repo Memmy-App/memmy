@@ -11,6 +11,7 @@ import LoadingView from "../../ui/Loading/LoadingView";
 import SearchUserItem from "../../ui/search/SearchUserItem";
 import MTable from "../../ui/table/MTable";
 import SearchCommunityItem from "../../ui/search/SearchCommunityItem";
+import NoResultView from "../../ui/common/NoResultView";
 
 interface IProps {
   route: any;
@@ -41,6 +42,15 @@ function SearchResultsScreen({ route }: IProps) {
     return <LoadingView />;
   }
 
+  if (
+    !search.result ||
+    (search.result.communities.length < 1 &&
+      search.result.users.length < 1 &&
+      search.result.posts.length < 1)
+  ) {
+    return <NoResultView type="search" />;
+  }
+
   return (
     <VStack backgroundColor={theme.colors.app.bg} flex={1}>
       {(type === "Posts" && (
@@ -48,6 +58,7 @@ function SearchResultsScreen({ route }: IProps) {
           data={search.result.posts}
           renderItem={renderItem}
           estimatedItemSize={compactView ? 200 : 600}
+          ListEmptyComponent={<NoResultView type="search" />}
         />
       )) ||
         (type === "Users" && (
@@ -58,7 +69,8 @@ function SearchResultsScreen({ route }: IProps) {
               ))}
             </MTable>
           </ScrollView>
-        )) || (
+        )) ||
+        (type === "Communities" && (
           <ScrollView px={4}>
             <MTable header="Communities">
               {search.result.communities.map((c) => (
@@ -66,7 +78,7 @@ function SearchResultsScreen({ route }: IProps) {
               ))}
             </MTable>
           </ScrollView>
-        )}
+        ))}
     </VStack>
   );
 }
