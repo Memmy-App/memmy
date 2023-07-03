@@ -18,6 +18,7 @@ export interface SettingsState {
   theme: ThemeOptions;
   isSystemTextSize: boolean;
   fontSize: number;
+  fontWeightPostTitle: number;
   haptics: HapticOptions;
   pushEnabled: string;
   compactThumbnailPosition: "Left" | "Right";
@@ -43,6 +44,7 @@ const initialState: SettingsState = {
   theme: "Dark",
   isSystemTextSize: true,
   fontSize: 2,
+  fontWeightPostTitle: 400,
   haptics: "Medium",
   pushEnabled: "[]",
   markReadOnPostView: true,

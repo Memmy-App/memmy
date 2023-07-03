@@ -17,6 +17,7 @@ import { useAppDispatch, useAppSelector } from "../../../store";
 import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
 import CCell from "../../ui/table/CCell";
 import { sortOptions, SortOption } from "../../../types/FeedSortOptions";
+import { FontWeightMap, FontWeightLabelMap } from "../../../theme/fontOptions";
 
 function SettingsIndexScreen({
   navigation,
@@ -141,6 +142,32 @@ function SettingsIndexScreen({
               <Text fontSize={19}>A</Text>
             </HStack>
           </CCell>
+          <CCell
+            cellStyle="RightDetail"
+            title="Font Weight - Post Title"
+            detail={FontWeightMap.get(settings.fontWeightPostTitle) || 'Regular'}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              const options = ["Regular", "Medium", "Semi-Bold", "Bold", "Cancel"];
+              const cancelButtonIndex = 4;
+
+              showActionSheetWithOptions(
+                {
+                  options,
+                  cancelButtonIndex,
+                  userInterfaceStyle: theme.config.initialColorMode,
+                },
+                (index: number) => {
+                  if (index === cancelButtonIndex) return;
+
+                  dispatch(setSetting({ fontWeightPostTitle: FontWeightLabelMap.get(options[index]) || 400 }));
+                }
+              );
+            }}
+          />
         </Section>
 
         <Section header="APPEARANCE" roundedCorners hideSurroundingSeparators>

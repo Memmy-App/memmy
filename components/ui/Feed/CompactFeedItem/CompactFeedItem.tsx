@@ -28,7 +28,7 @@ function CompactFeedItem({
   post: PostView;
   setPosts?: React.Dispatch<SetStateAction<PostView[]>>;
 }) {
-  const { compactThumbnailPosition, compactShowVotingButtons } =
+  const { compactThumbnailPosition, compactShowVotingButtons, fontWeightPostTitle } =
     useAppSelector(selectSettings);
   const [imageViewOpen, setImageViewOpen] = useState(false);
 
@@ -119,6 +119,7 @@ function CompactFeedItem({
                 <Text
                   flex={1}
                   fontSize="md"
+                  fontWeight={fontWeightPostTitle}
                   color={
                     post.read
                       ? theme.colors.app.textSecondary

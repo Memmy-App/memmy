@@ -16,12 +16,14 @@ import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 
 function Title({ title, mt, mb }: { title: string; mt: number; mb: number }) {
   const theme = useTheme();
+  const { fontWeightPostTitle } = useAppSelector(selectSettings);
   return (
     <Text
       mt={mt}
       mb={mb}
       mx={4}
       fontSize="lg"
+      fontWeight={fontWeightPostTitle}
       color={theme.colors.app.textPrimary}
     >
       {title}
@@ -37,7 +39,7 @@ interface IProps {
 
 function PostContentView({ post, recycled, setPostRead }: IProps) {
   const theme = useTheme();
-  const { blurNsfw, markReadOnPostImageView } = useAppSelector(selectSettings);
+  const { blurNsfw, markReadOnPostImageView, fontWeightPostTitle } = useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
 
@@ -135,7 +137,7 @@ function PostContentView({ post, recycled, setPostRead }: IProps) {
 
   return useMemo(
     () => <Box mb={1}>{renderContent()}</Box>,
-    [post.post.id, post.read, imageViewOpen]
+    [post.post.id, post.read, imageViewOpen, fontWeightPostTitle]
   );
 }
 
