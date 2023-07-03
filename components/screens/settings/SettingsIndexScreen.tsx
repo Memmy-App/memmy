@@ -146,13 +146,83 @@ function SettingsIndexScreen({
         <Section header="APPEARANCE" roundedCorners hideSurroundingSeparators>
           <CCell
             cellStyle="Basic"
-            title="Themes"
-            accessory="DisclosureIndicator"
-            onPress={() => navigation.push("ThemeSelection")}
+            title="Match System Light/Dark Theme"
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.themeMatchSystem}
+                onValueChange={(v) => {
+                  LayoutAnimation.easeInEaseOut();
+                  onChange("themeMatchSystem", v);
+                }}
+              />
+            }
           />
+          {!settings.themeMatchSystem && (
+            <CCell
+              cellStyle="Basic"
+              title="Theme"
+              accessory="DisclosureIndicator"
+              onPress={() => navigation.push("ThemeSelection")}
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+            >
+              <Text
+                ml={4}
+                mb={2}
+                mt={-3}
+                fontSize="xs"
+                color={theme.colors.app.textSecondary}
+              >
+                Selected: {settings.theme}
+              </Text>
+            </CCell>
+          )}
+          {settings.themeMatchSystem && (
+            <CCell
+              cellStyle="Basic"
+              title="Theme for System Light"
+              accessory="DisclosureIndicator"
+              onPress={() => navigation.push("ThemeSelection", { themeProp: 'themeLight' })}
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+            >
+              <Text
+                ml={4}
+                mb={2}
+                mt={-3}
+                fontSize="xs"
+                color={theme.colors.app.textSecondary}
+              >
+                Selected: {settings.themeLight}
+              </Text>
+            </CCell>
+          )}
+          {settings.themeMatchSystem && (
+            <CCell
+              cellStyle="Basic"
+              title="Theme for System Dark"
+              accessory="DisclosureIndicator"
+              onPress={() => navigation.push("ThemeSelection", { themeProp: 'themeDark' })}
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+            >
+              <Text
+                ml={4}
+                mb={2}
+                mt={-3}
+                fontSize="xs"
+                color={theme.colors.app.textSecondary}
+              >
+                Selected: {settings.themeDark}
+              </Text>
+            </CCell>
+          )}
           {/* <CCell */}
           {/*  title="Swipe Gestures" */}
           {/*  backgroundColor={theme.colors.app.fg} */}

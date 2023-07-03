@@ -64,6 +64,7 @@
     "react-dom": "18.2.0",
     "react-error-boundary": "^4.0.10",
     "react-native": "0.71.8",
+    "react-native-appearance": "^0.3.4",
     "react-native-device-info": "^10.6.0",
     "react-native-fast-image": "^8.6.3",
     "react-native-fs": "^2.20.0",

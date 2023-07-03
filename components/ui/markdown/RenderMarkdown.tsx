@@ -199,7 +199,15 @@ const RenderMarkdown = ({
         )}
       </VStack>
     );
-  }, [text]);
+  }, [
+    text,
+    FONT_SIZE,
+    theme.colors.app.textPrimary,
+    theme.colors.app.textSecondary,
+    theme.colors.app.bg,
+    theme.colors.app.border,
+    theme.colors.app.accent
+  ]);
 };
 
 export default RenderMarkdown;

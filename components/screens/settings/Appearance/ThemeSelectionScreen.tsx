@@ -9,11 +9,13 @@ import { useAppDispatch, useAppSelector } from "../../../../store";
 import { ThemeOptionsArr } from "../../../../theme/themeOptions";
 import CCell from "../../../ui/table/CCell";
 
-function ThemeSelectionScreen() {
+function ThemeSelectionScreen({ route }) {
   const dispatch = useAppDispatch();
   const theme = useTheme();
+  const themeProp = route.params?.themeProp || 'theme';
 
-  const { theme: currentTheme } = useAppSelector(selectSettings);
+  const settings = useAppSelector(selectSettings);
+  const currentTheme = settings[themeProp];
 
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
@@ -32,12 +34,9 @@ function ThemeSelectionScreen() {
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.textSecondary}
               onPress={() => {
-                dispatch(setSetting({ theme: themeName }));
-
-                Alert.alert(
-                  "Please Restart",
-                  "Some components may not re-render with the new theme. Please restart the app to get the full effect."
-                );
+                const themeSetting = {};
+                themeSetting[themeProp] = themeName;
+                dispatch(setSetting(themeSetting));
               }}
             >
               {themeName === "Sunset" ? (
