@@ -43,16 +43,6 @@ function InboxTabs({
             text="Replies"
             selected={bottomSelected === "replies"}
           />
-          {/* <GroupButton */}
-          {/*  onPress={onMentionsPress} */}
-          {/*  text="Mentions" */}
-          {/*  selected={bottomSelected === "mentions"} */}
-          {/* /> */}
-          {/* <GroupButton */}
-          {/*  onPress={onMessagesPress} */}
-          {/*  text="Messages" */}
-          {/*  selected={bottomSelected === "messages"} */}
-          {/* /> */}
         </ButtonGroup>
       </HStack>
     </>
