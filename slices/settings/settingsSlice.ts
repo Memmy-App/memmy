@@ -20,7 +20,7 @@ export interface SettingsState {
   fontSize: number;
   haptics: HapticOptions;
   pushEnabled: string;
-  compactThumbnailPosition: "Left" | "Right";
+  compactThumbnailPosition: "None" | "Left" | "Right";
   compactShowVotingButtons: boolean;
   markReadOnPostView: boolean;
   markReadOnPostImageView: boolean;
