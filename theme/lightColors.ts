@@ -51,12 +51,13 @@ export const lightThemeColors: IColors = {
 };
 
 export const oksolarLightThemeColors: IColors = {
-  accent: "#F23749",
+  accent: "#2B90D8",
   accentHighlight: "#E7F2FF",
 
   textPrimary: "#657377",
   textSecondary: "#657377",
   textTertiary: "#657377",
+
   fg: "#F1E9D2",
   bg: "#FCF7E8",
   bgSecondary: "#FBF7EF",

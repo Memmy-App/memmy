@@ -450,12 +450,13 @@ export const oksolarDarkThemeColors: IColors = {
 };
 
 export const oceanicNextThemeColors: IColors = {
-  accent: "#EC5f67",
+  accent: "#F99157",
   accentHighlight: "#CDD3DE",
 
   textPrimary: "#98A8A8",
   textSecondary: "#8FAAAB",
   textTertiary: "#657377",
+
   fg: "#14232D",
   bg: "#1B2B34",
   bgSecondary: "#14232D",
