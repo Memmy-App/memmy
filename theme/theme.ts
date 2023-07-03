@@ -132,6 +132,26 @@ const oksolarDarkTheme = extendTheme({
   },
 });
 
+const oksolarLightTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: oksolarLightThemeColors,
+  },
+  config: {
+    initialColorMode: "light",
+  },
+});
+
+const oceanicNextTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: oceanicNextColors,
+  },
+  config: {
+    initialColorMode: "dark",
+  },
+});
+
 export type ThemeType = typeof lightTheme;
 
 declare module "native-base" {
@@ -150,4 +170,6 @@ export {
   nauticalTheme,
   sunsetTheme,
   oksolarDarkTheme,
+  oksolarLightTheme,
+  oceanicNextTheme,
 };

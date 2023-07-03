@@ -448,3 +448,57 @@ export const oksolarDarkThemeColors: IColors = {
   bookmark: "#819500",
   bookmarkText: "#fff",
 };
+
+const oceanicNextThemeColors: IColors = {
+  accent: "#EC5f67",
+  accentHighlight: "#CDD3DE",
+
+  textPrimary: "#98A8A8",
+  textSecondary: "#8FAAAB",
+  textTertiary: "#657377",
+  fg: "#D8DEE9",
+  bg: "#1B2B34",
+  bgSecondary: "#14232D",
+  bgTertiary: "#1B2B34",
+
+  border: "#D8DEE9",
+
+  upvote: "#F99157",
+  upvoteText: "#FFF",
+  downvote: "#C594C5",
+  downvoteText: "#FFF",
+
+  success: "#99C794",
+  successBg: "#D7F8DA",
+  successBorder: "#2B8302",
+  error: "#EC5f67",
+  errorBg: "#FFC6C2",
+  errorBorder: "#A62525",
+  warn: "#FAC863",
+  warnBg: "#FFEDD9",
+  warnBorder: "#CB6A11",
+  info: "#6699CC",
+  infoBg: "#CAE6FF",
+  infoBorder: "#316677",
+
+  users: {
+    mod: "#99C794",
+    admin: "#EC5f67",
+    dev: "#7D80D1",
+    op: "#6699CC",
+    me: "#FAC863",
+  },
+
+  comments: {
+    1: "#EC5f67",
+    2: "#F99157",
+    3: "#FAC863",
+    4: "#99C794",
+    5: "#5FB3B3",
+  },
+
+  inputBg: "#14232D",
+
+  bookmark: "#99C794",
+  bookmarkText: "#fff",
+};
