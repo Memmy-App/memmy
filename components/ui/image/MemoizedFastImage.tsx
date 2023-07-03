@@ -56,7 +56,7 @@ function MemoizedFastImage({
 
   // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle
   const _onLoad = (e) => {
-    onLoad(e);
+    if (onLoad) onLoad(e);
 
     if (imgHeight && imgWidth) {
       setHeight(imgHeight);
