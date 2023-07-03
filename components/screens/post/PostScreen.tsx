@@ -7,10 +7,10 @@ import {
   Pressable,
   Spinner,
   Text,
-  VStack,
   useTheme,
+  VStack,
 } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { RefreshControl } from "react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import usePost from "../../hooks/post/postHooks";
@@ -25,6 +25,7 @@ import NoResultView from "../../ui/common/NoResultView";
 import CommentSortButton from "../../ui/post/CommentSortButton";
 import PostActionBar from "./PostActionBar";
 import PostContentView from "./PostContentView";
+import PostOptionsButton from "../../ui/post/PostOptionsButton";
 
 interface IProps {
   route: any;
@@ -32,7 +33,6 @@ interface IProps {
 }
 
 function PostScreen({ route, navigation }: IProps) {
-
   const theme = useTheme();
   const post = usePost(
     route.params && route.params.commentId ? route.params.commentId : null
@@ -45,10 +45,13 @@ function PostScreen({ route, navigation }: IProps) {
       }`,
       // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
-        <CommentSortButton
-          sortType={post.sortType}
-          setSortType={post.setSortType}
-        />
+        <HStack space={3}>
+          <PostOptionsButton postId={post.currentPost.post.id} />
+          <CommentSortButton
+            sortType={post.sortType}
+            setSortType={post.setSortType}
+          />
+        </HStack>
       ),
     });
   }, [post.sortType]);
