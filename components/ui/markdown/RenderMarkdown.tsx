@@ -178,7 +178,7 @@ const RenderMarkdown = ({
   };
 
   return useMemo(() => {
-    const cleanedText = findImages(text);
+    const cleanedText = findImages(text, false);
     text = cleanedText.cleanedText.replace(
       /(^|[^[\]])\b(https?:\/\/[^\s]+)\b(?![\]]|\()/g,
       (match, prefix, url) => `${prefix}[${url}](${url})`
@@ -206,7 +206,7 @@ const RenderMarkdown = ({
     theme.colors.app.textSecondary,
     theme.colors.app.bg,
     theme.colors.app.border,
-    theme.colors.app.accent
+    theme.colors.app.accent,
   ]);
 };
 
