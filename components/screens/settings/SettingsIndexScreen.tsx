@@ -100,7 +100,19 @@ function SettingsIndexScreen({
           />
         </Section>
 
-        <Section header="FONT SIZE" roundedCorners hideSurroundingSeparators>
+        <Section header="FONT" roundedCorners hideSurroundingSeparators>
+        <CCell
+            title="Use System Font"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.isSystemFont}
+                onValueChange={(v) => onChange("isSystemFont", v)}
+              />
+            }
+          />
           <CCell
             title="Use System Font Size"
             backgroundColor={theme.colors.app.fg}
