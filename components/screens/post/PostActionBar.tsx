@@ -5,16 +5,16 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
   IconBookmark,
-  IconMessageCirclePlus,
+  IconMessagePlus,
   IconShare2,
 } from "tabler-icons-react-native";
+import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { shareLink } from "../../../helpers/ShareHelper";
 import { setResponseTo } from "../../../slices/comments/newCommentSlice";
 import { useAppDispatch } from "../../../store";
 import { UsePost } from "../../hooks/post/postHooks";
 import IconButtonWithText from "../../ui/common/IconButtonWithText";
 import VoteButton from "../../ui/common/VoteButton";
-import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 
 function PostActionBar({ post }: { post: UsePost }) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -102,7 +102,7 @@ function PostActionBar({ post }: { post: UsePost }) {
 
       <IconButtonWithText
         onPressHandler={onCommentPress}
-        icon={<IconMessageCirclePlus color={colors.app.accent} size={25} />}
+        icon={<IconMessagePlus color={colors.app.accent} size={25} />}
       />
 
       <IconButtonWithText
