@@ -153,6 +153,7 @@ const useComment = ({
                       showToast({
                         message: "Report submitted successfully",
                         variant: "info",
+                        duration: 3000,
                       })
                     );
                   } catch (e) {
