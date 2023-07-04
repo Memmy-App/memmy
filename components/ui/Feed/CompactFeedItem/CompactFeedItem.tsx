@@ -71,7 +71,7 @@ function CompactFeedItem({
   const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
   const { fontScale } = useWindowDimensions();
   const fontModifier = fontSizeMap[fontSize];
-  const FONT_SIZE = isSystemTextSize ? 14 / fontScale : 15 + fontModifier;
+  const FONT_SIZE = isSystemTextSize ? 15 / fontScale : 15 + fontModifier;
 
   // TODO Memoize this properly
   return (
