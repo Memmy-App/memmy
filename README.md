@@ -90,11 +90,14 @@ Especially since Lemmy is an ongoing project that will certainly evolve over tim
 made, we can expect this library to be updated by Lemmy developers themselves. This also saves on production time for us.
 
 ## Contribution
-You are more than welcome to contribute to the codebase on your own. Simply open up an issue or PR and we'll talk! You
-can always add me on Discord if you want as well: gk#5175
 
-The codebase is a bit wild right now and needs some refactoring. It was written quite quickly (as of right now in about
-3 days) to get something off the ground quickly. I'll be going through and refactoring it in the coming days.
+Some rules and guidelines:
+* Don't make PRs that add entirely new features without discussing with us first (either ask in Discord or open an issue)
+* We may not respond to your issue or PR (but that doesn't mean we don't look at it, we're really busy now!)
+* We may close a PR without much feedback
+* We can't guarantee that we can provide support for build issues
+* Check for exisitng issues before filing a new one
+* Open an issue and give us time to review it before opening a PR
 
 ### Themes
 To contribute to themes, you can create a new theme object in `theme/theme.ts`. Once you create it with all the proper colors 
