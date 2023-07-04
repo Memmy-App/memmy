@@ -6,7 +6,7 @@ import {
   IconArrowUp,
   IconMessage,
 } from "tabler-icons-react-native";
-import { StyleSheet } from "react-native";
+import { StyleSheet, useWindowDimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { PanGestureHandler } from "react-native-gesture-handler";
@@ -20,6 +20,8 @@ import CompactFeedItemThumbnail from "./CompactFeedItemThumbnail";
 import CompactFeedItemVote from "./CompactFeedItemVote";
 import CompactFeedItemFooter from "./CompactFeedItemFooter";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
+
+import { fontSizeMap } from "../../../../theme/fontSize";
 
 function CompactFeedItem({
   post,
@@ -66,6 +68,11 @@ function CompactFeedItem({
     rightLeftOneIcon,
   });
 
+  const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
+  const { fontScale } = useWindowDimensions();
+  const fontModifier = fontSizeMap[fontSize];
+  const FONT_SIZE = isSystemTextSize ? 15 / fontScale : 15 + fontModifier;
+
   // TODO Memoize this properly
   return (
     <View flex={1} my={0.5}>
@@ -103,8 +110,8 @@ function CompactFeedItem({
           <Pressable onPress={feedItem.onPress}>
             <HStack
               flex={1}
-              px={3}
-              py={4}
+              px={2}
+              py={1}
               backgroundColor={theme.colors.app.fg}
               space={2}
             >
@@ -121,7 +128,7 @@ function CompactFeedItem({
               <VStack flex={1}>
                 <Text
                   flex={1}
-                  fontSize="md"
+                  fontSize={FONT_SIZE}
                   fontWeight={fontWeightPostTitle}
                   color={
                     post.read

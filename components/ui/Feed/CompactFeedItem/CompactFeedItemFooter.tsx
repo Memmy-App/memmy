@@ -8,6 +8,7 @@ import CommunityLink from "../../CommunityLink";
 import AvatarUsername from "../../common/AvatarUsername";
 import FeaturedIndicator from "../../common/FeaturedIndicator";
 import SmallVoteIcons from "../../common/SmallVoteIcons";
+import { IconBookCheck } from "../../customIcons/IconBookCheck";
 
 interface CompactFeedItemFooterProps {
   post: PostView;
@@ -23,6 +24,7 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
       <HStack alignItems="center" space={2}>
         <HStack>
           <FeaturedIndicator post={post} />
+          {post.read && <IconBookCheck color={colors.app.info} size={20} />}
           <AvatarUsername creator={post.creator} showAvatar={false} />
         </HStack>
         <Text color={colors.app.textSecondary}>•</Text>
