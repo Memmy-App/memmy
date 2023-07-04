@@ -9,7 +9,7 @@ import { getBuildNumber, getVersion } from "react-native-device-info";
 import FastImage from "react-native-fast-image";
 import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
 import { SortType } from "lemmy-js-client";
-import { deleteLog, sendLog } from "../../../helpers/LogHelper";
+import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
 import {
   selectAccounts,
   selectCurrentAccount,
@@ -20,6 +20,7 @@ import { useAppDispatch, useAppSelector } from "../../../store";
 import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
 import CCell from "../../ui/table/CCell";
 import { sortOptions, SortOption } from "../../../types/FeedSortOptions";
+import { openLink } from "../../../helpers/LinkHelper";
 
 function SettingsIndexScreen({
   navigation,
@@ -100,7 +101,19 @@ function SettingsIndexScreen({
           />
         </Section>
 
-        <Section header="FONT SIZE" roundedCorners hideSurroundingSeparators>
+        <Section header="FONT" roundedCorners hideSurroundingSeparators>
+        <CCell
+            title="Use System Font"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.isSystemFont}
+                onValueChange={(v) => onChange("isSystemFont", v)}
+              />
+            }
+          />
           <CCell
             title="Use System Font Size"
             backgroundColor={theme.colors.app.fg}
@@ -191,7 +204,9 @@ function SettingsIndexScreen({
               cellStyle="Basic"
               title="Theme for System Light"
               accessory="DisclosureIndicator"
-              onPress={() => navigation.push("ThemeSelection", { themeProp: 'themeLight' })}
+              onPress={() =>
+                navigation.push("ThemeSelection", { themeProp: "themeLight" })
+              }
               backgroundColor={theme.colors.app.fg}
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.textSecondary}
@@ -212,7 +227,9 @@ function SettingsIndexScreen({
               cellStyle="Basic"
               title="Theme for System Dark"
               accessory="DisclosureIndicator"
-              onPress={() => navigation.push("ThemeSelection", { themeProp: 'themeDark' })}
+              onPress={() =>
+                navigation.push("ThemeSelection", { themeProp: "themeDark" })
+              }
               backgroundColor={theme.colors.app.fg}
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.textSecondary}
@@ -372,8 +389,8 @@ function SettingsIndexScreen({
               detail={settings.compactThumbnailPosition}
               accessory="DisclosureIndicator"
               onPress={() => {
-                const options = ["Left", "Right", "Cancel"];
-                const cancelButtonIndex = 2;
+                const options = ["None", "Left", "Right", "Cancel"];
+                const cancelButtonIndex = 3;
 
                 showActionSheetWithOptions(
                   {
@@ -506,6 +523,16 @@ function SettingsIndexScreen({
           />
           <CCell
             cellStyle="Basic"
+            title="Terms of Use"
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              navigation.push("Viewer", {
+                type: "terms",
+              });
+            }}
+          />
+          <CCell
+            cellStyle="Basic"
             title="GitHub"
             accessory="DisclosureIndicator"
             onPress={() => {
@@ -523,7 +550,22 @@ function SettingsIndexScreen({
                   "notifications. If you do not have push notifications enabled, we do not have any of your data.\n\n" +
                   `To delete your Lemmy account, you must first visit ${currentAccount.instance} and sign in.` +
                   " Then " +
-                  ' navigate to the Profile tab. You may delete your account by pressing "Delete Account".'
+                  ' navigate to the Profile tab. You may delete your account by pressing "Delete Account".',
+                [
+                  {
+                    text: "Visit Instance",
+                    onPress: () => {
+                      openLink(
+                        `https://${currentAccount.instance}`,
+                        navigation
+                      );
+                    },
+                  },
+                  {
+                    text: "OK",
+                    style: "default",
+                  },
+                ]
               );
             }}
           />
@@ -561,7 +603,7 @@ function SettingsIndexScreen({
                 deleteLog();
                 Alert.alert("Debug file cleared.");
               } catch (e) {
-                console.log(e.toString());
+                writeToLog("Error clearing debug file.");
               }
             }}
           />

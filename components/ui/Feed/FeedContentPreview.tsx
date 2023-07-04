@@ -24,7 +24,7 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
   const { markReadOnPostImageView } = useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
-  const { cleanedText, imageLinks } = findImages(post.post.body);
+  const { cleanedText, imageLinks } = findImages(post.post.body, true);
   const body = truncatePost(cleanedText, 100);
 
   const title = post.post.name;

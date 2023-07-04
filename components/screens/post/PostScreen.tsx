@@ -1,14 +1,26 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
-import { useTheme, VStack } from "native-base";
+import {
+  Center,
+  Divider,
+  HStack,
+  Pressable,
+  Spinner,
+  Text,
+  useTheme,
+  VStack,
+} from "native-base";
 import React, { useEffect } from "react";
 import { RefreshControl } from "react-native";
 import usePost from "../../hooks/post/postHooks";
 import LoadingView from "../../ui/Loading/LoadingView";
 import CommentItem from "../../ui/comments/CommentItem";
 import CommentSortButton from "../../ui/post/CommentSortButton";
+import PostActionBar from "./PostActionBar";
+import PostOptionsButton from "../../ui/post/PostOptionsButton";
 import PostFooter from "../../ui/post/PostFooter";
 import PostHeader from "../../ui/post/PostHeader";
+import PostContentView from "./PostContentView";
 
 interface IProps {
   route: any;
@@ -28,10 +40,13 @@ function PostScreen({ route, navigation }: IProps) {
       }`,
       // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
-        <CommentSortButton
-          sortType={post.sortType}
-          setSortType={post.setSortType}
-        />
+        <HStack space={3}>
+          <PostOptionsButton postId={post.currentPost.post.id} />
+          <CommentSortButton
+            sortType={post.sortType}
+            setSortType={post.setSortType}
+          />
+        </HStack>
       ),
     });
   }, [post.sortType]);

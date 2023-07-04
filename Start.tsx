@@ -21,6 +21,7 @@ import { darkTheme } from "./theme/theme";
 import { ThemeOptionsArr, ThemeOptionsMap } from "./theme/themeOptions";
 import Toast from "./components/ui/Toast";
 import merge from "deepmerge";
+import { systemFontSettings } from "./theme/common";
 
 const logError = (e, info) => {
   writeToLog(e.toString());
@@ -42,7 +43,7 @@ function Start() {
   const dispatch = useAppDispatch();
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
 
-  const { theme, themeMatchSystem, themeDark, themeLight, fontSize, isSystemTextSize } = useAppSelector(selectSettings);
+  const { theme, themeMatchSystem, themeDark, themeLight, fontSize, isSystemTextSize, isSystemFont } = useAppSelector(selectSettings);
   const [selectedTheme, setSelectedTheme] = useState<any>(darkTheme);
   const systemColorScheme = useColorScheme();
   const currentTheme = themeMatchSystem ? (systemColorScheme === 'light' ? themeLight : themeDark) : theme;
@@ -122,11 +123,12 @@ function Start() {
           },
         }
         : { fontSizes: getFontScale() }),
+      ( isSystemFont ? systemFontSettings : {}),
     ]));
     // TODO add fallback
     setSelectedTheme(newTheme);
     // ! fontSize has to be here
-  }, [currentTheme, fontSize, getFontScale, isSystemTextSize]);
+  }, [currentTheme, fontSize, getFontScale, isSystemTextSize, isSystemFont]);
 
   if (!loaded) {
     dispatch(loadSettings());

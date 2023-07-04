@@ -46,6 +46,15 @@ export const commonSettings = {
   },
 };
 
+export const systemFontSettings = {
+  fontConfig: {},
+  fonts: {
+    body: undefined, 
+    heading: undefined, 
+    mono: undefined
+  }
+}
+
 interface ICommentChainColors {
   1: string;
   2: string;

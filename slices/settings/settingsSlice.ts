@@ -19,11 +19,12 @@ export interface SettingsState {
   themeLight: ThemeOptions;
   themeDark: ThemeOptions;
   themeMatchSystem: boolean;
+  isSystemFont: boolean;
   isSystemTextSize: boolean;
   fontSize: number;
   haptics: HapticOptions;
   pushEnabled: string;
-  compactThumbnailPosition: "Left" | "Right";
+  compactThumbnailPosition: "None" | "Left" | "Right";
   compactShowVotingButtons: boolean;
   markReadOnPostView: boolean;
   markReadOnPostImageView: boolean;
@@ -48,6 +49,7 @@ const initialState: SettingsState = {
   themeLight: "Light",
   themeDark: "Dark",
   themeMatchSystem: false,
+  isSystemFont: false,
   isSystemTextSize: true,
   fontSize: 2,
   haptics: "Medium",

@@ -53,8 +53,7 @@ function SingleImage({
         onLongPress={onImageLongPress}
         alignItems="center"
         justifyContent="center"
-        // TODO figure out if this is working
-        backgroundColor={colors.app.fg}
+        backgroundColor={colors.app.bg}
       >
         <MemoizedFastImage
           postId={postId}
