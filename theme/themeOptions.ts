@@ -1,3 +1,4 @@
+import { ICustomTheme } from "native-base";
 import {
   moodyPurpleTheme,
   darkTheme,
@@ -33,7 +34,7 @@ export type ThemeOptions = `${EThemeOptions}`;
 export const ThemeOptionsArr = Object.values(EThemeOptions);
 
 // TODO: should get the type figured out for theme obj
-export const ThemeOptionsMap: Record<ThemeOptions, any> = {
+export const ThemeOptionsMap: Record<ThemeOptions, ICustomTheme> = {
   Light: lightTheme,
   Dark: darkTheme,
   "Dark (OLED)": oledTheme,

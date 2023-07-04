@@ -3,7 +3,7 @@ import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
-import React from "react";
+import React, { useState } from "react";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
@@ -12,6 +12,8 @@ import { FontWeightMap } from "../../../../theme/fontSize";
 import Chip from "../../../ui/common/Chip";
 import CCell from "../../../ui/table/CCell";
 import CSection from "../../../ui/table/CSection";
+import CTextInput from "../../../ui/CTextInput";
+import { showToast } from "../../../../slices/toast/toastSlice";
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -27,6 +29,9 @@ function AppearanceScreen({ navigation }: IProps) {
   const onChange = (key: string, value: any) => {
     dispatch(setSetting({ [key]: value }));
   };
+
+  const [accent, setAccent] = useState(settings.accentColor);
+  const hexPattern = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
 
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
@@ -115,6 +120,56 @@ function AppearanceScreen({ navigation }: IProps) {
               </Text>
             </CCell>
           )}
+
+          <CCell
+            cellStyle="RightDetail"
+            title={
+              <Text>
+                Accent Color{"  "}
+                <Chip text="Alpha" />
+              </Text>
+            }
+            cellAccessoryView={
+              <CTextInput
+                style={{ minWidth: "40%" }}
+                name="Hex Code"
+                value={accent}
+                onChange={(name, value) => {
+                  setAccent(value);
+                }}
+                onEnd={() => {
+                  if (hexPattern.test(accent)) {
+                    if (accent !== settings.accentColor) {
+                      dispatch(
+                        showToast({
+                          message: "Accent color updated",
+                          duration: 3000,
+                          variant: "info",
+                        })
+                      );
+                    }
+                    dispatch(setSetting({ accentColor: accent }));
+                  } else {
+                    setAccent("");
+                    dispatch(setSetting({ accentColor: "" }));
+                    dispatch(
+                      showToast({
+                        message: "Accent color is not a valid hex code",
+                        duration: 3000,
+                        variant: "error",
+                      })
+                    );
+                  }
+                }}
+                placeholder="Input a hex code"
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+            }
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+          />
         </CSection>
 
         <CSection header="FONT">
