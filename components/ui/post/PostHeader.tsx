@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Divider,
   HStack,
@@ -25,10 +25,6 @@ function PostHeader({ post, showLoadAll }: IProps) {
   const theme = useTheme();
 
   const instanceBaseUrl = getBaseUrl(post.currentPost.community.actor_id);
-
-  useEffect(() => {
-    console.log("render");
-  });
 
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.fg}>

@@ -1,9 +1,12 @@
 import React, { MutableRefObject, useState } from "react";
 import EnhancedImageViewing from "@gkasdorf/react-native-image-viewing";
 import { Pressable, useTheme } from "native-base";
+import { Share } from "react-native";
 import MemoizedFastImage from "./MemoizedFastImage";
 import { useAppSelector } from "../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
+import ImageViewFooter from "./ImageViewFooter";
+import downloadAndSaveImage from "../../../helpers/ImageHelper";
 
 interface IProps {
   source: string;
@@ -29,6 +32,16 @@ function ImageViewer({ source, nsfw, id, recycled, onlyViewer }: IProps) {
     setDimensions({ height: e.nativeEvent.height, width: e.nativeEvent.width });
   };
 
+  const onSave = () => {
+    downloadAndSaveImage(source);
+  };
+
+  const onShare = () => {
+    Share.share({ url: source });
+  };
+
+  const footer = () => <ImageViewFooter onSave={onSave} onShare={onShare} />;
+
   const viewer = (
     <EnhancedImageViewing
       images={[{ uri: source }]}
@@ -37,6 +50,7 @@ function ImageViewer({ source, nsfw, id, recycled, onlyViewer }: IProps) {
       onRequestClose={onRequestClose}
       height={dimensions.height}
       width={dimensions.width}
+      FooterComponent={footer}
     />
   );
 
