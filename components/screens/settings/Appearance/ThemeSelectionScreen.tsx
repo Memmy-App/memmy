@@ -1,4 +1,4 @@
-import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
+import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { ScrollView, Text, useTheme } from "native-base";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
@@ -11,6 +11,7 @@ import { ThemeOptionsArr } from "../../../../theme/themeOptions";
 import CTextInput from "../../../ui/CTextInput";
 import Chip from "../../../ui/common/Chip";
 import CCell from "../../../ui/table/CCell";
+import CSection from "../../../ui/table/CSection";
 
 interface IProps {
   route: any;
@@ -30,7 +31,7 @@ function ThemeSelectionScreen({ route }: IProps) {
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
-        <Section header="App Theme" roundedCorners hideSurroundingSeparators>
+        <CSection header="App Theme" roundedCorners hideSurroundingSeparators>
           {ThemeOptionsArr.map((themeName) => (
             <CCell
               cellStyle="RightDetail"
@@ -62,8 +63,8 @@ function ThemeSelectionScreen({ route }: IProps) {
               ) : null}
             </CCell>
           ))}
-        </Section>
-        <Section header="Other" roundedCorners hideSurroundingSeparators>
+        </CSection>
+        <CSection header="Other" roundedCorners hideSurroundingSeparators>
           <CCell
             cellStyle="RightDetail"
             title={
@@ -113,7 +114,7 @@ function ThemeSelectionScreen({ route }: IProps) {
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
-        </Section>
+        </CSection>
       </TableView>
     </ScrollView>
   );

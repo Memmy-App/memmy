@@ -1,33 +1,59 @@
-import { useActionSheet } from "@expo/react-native-action-sheet";
-import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
+import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import * as WebBrowser from "expo-web-browser";
-import { ScrollView, useTheme } from "native-base";
+import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
 import React from "react";
 import { Alert, StyleSheet } from "react-native";
-import { getBuildNumber, getVersion } from "react-native-device-info";
 import FastImage from "react-native-fast-image";
-import { openLink } from "../../../helpers/LinkHelper";
+import {
+  IconAt,
+  IconBrush,
+  IconMessage,
+  IconSettings,
+  IconUser,
+  TablerIcon,
+} from "tabler-icons-react-native";
 import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
-import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
-import { setSetting } from "../../../slices/settings/settingsActions";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
-import { useAppDispatch, useAppSelector } from "../../../store";
-import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
 import CCell from "../../ui/table/CCell";
+import CSection from "../../ui/table/CSection";
+
+export const SEPARATOR_INSET_LEFT = 55;
+
+function SettingOptionTitle({
+  text,
+  icon,
+  iconBgColor,
+}: {
+  text: string;
+  icon: TablerIcon;
+  iconBgColor: string;
+}) {
+  const IconComponent = icon;
+
+  return (
+    <HStack space={3} alignItems="center" paddingTop={1.5}>
+      <Box
+        style={{
+          width: 28,
+          height: 28,
+          borderRadius: 8,
+          backgroundColor: iconBgColor,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <IconComponent color="#fff" size={20} />
+      </Box>
+      <Text>{text}</Text>
+    </HStack>
+  );
+}
 
 function SettingsIndexScreen({
   navigation,
 }: {
   navigation: NativeStackNavigationProp<any>;
 }) {
-  const settings = useAppSelector(selectSettings);
-
-  const currentAccount = useAppSelector(selectCurrentAccount);
-
-  const dispatch = useAppDispatch();
   const theme = useTheme();
-  const { showActionSheetWithOptions } = useActionSheet();
 
   const onCacheClear = async () => {
     await FastImage.clearDiskCache();
@@ -37,10 +63,36 @@ function SettingsIndexScreen({
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
-        <Section roundedCorners hideSurroundingSeparators>
+        <CSection
+          roundedCorners
+          hideSurroundingSeparators
+          separatorInsetLeft={SEPARATOR_INSET_LEFT}
+          separatorTintColor={theme.colors.app.border}
+        >
           <CCell
             cellStyle="Basic"
-            title="Content"
+            title={
+              <SettingOptionTitle
+                text="General"
+                icon={IconSettings}
+                iconBgColor="#FF8E00"
+              />
+            }
+            accessory="DisclosureIndicator"
+            onPress={() => navigation.push("GeneralSettings")}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+          />
+          <CCell
+            cellStyle="Basic"
+            title={
+              <SettingOptionTitle
+                text="Content"
+                icon={IconMessage}
+                iconBgColor="#F43A9F"
+              />
+            }
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("Content")}
             backgroundColor={theme.colors.app.fg}
@@ -49,7 +101,13 @@ function SettingsIndexScreen({
           />
           <CCell
             cellStyle="Basic"
-            title="Appearance"
+            title={
+              <SettingOptionTitle
+                text="Appearance"
+                icon={IconBrush}
+                iconBgColor="#BB4BE5"
+              />
+            }
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("Appearance")}
             backgroundColor={theme.colors.app.fg}
@@ -58,129 +116,42 @@ function SettingsIndexScreen({
           />
           <CCell
             cellStyle="Basic"
-            title="Account"
+            title={
+              <SettingOptionTitle
+                text="Accounts"
+                icon={IconUser}
+                iconBgColor="#00CA48"
+              />
+            }
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("AccountSettings")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
-        </Section>
-
-        <Section header="HAPTICS" roundedCorners hideSurroundingSeparators>
           <CCell
-            cellStyle="RightDetail"
-            title="Strength"
-            detail={settings.haptics}
+            cellStyle="Basic"
+            title={
+              <SettingOptionTitle
+                text="About"
+                icon={IconAt}
+                iconBgColor="#0368D4"
+              />
+            }
+            accessory="DisclosureIndicator"
+            onPress={() => navigation.push("About")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              const options = [...HapticOptionsArr, "Cancel"];
-              const cancelButtonIndex = options.length - 1;
+          />
+        </CSection>
 
-              showActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex,
-                  userInterfaceStyle: theme.config.initialColorMode,
-                },
-                (index: number) => {
-                  if (index === cancelButtonIndex) return;
-
-                  dispatch(setSetting({ haptics: options[index] }));
-                }
-              );
-            }}
-          />
-        </Section>
-
-        <Section header="ABOUT" roundedCorners hideSurroundingSeparators>
-          <CCell
-            cellStyle="RightDetail"
-            title="Version"
-            detail={`${getVersion()} (${getBuildNumber()})`}
-          />
-          <CCell
-            cellStyle="Basic"
-            title="License"
-            accessory="DisclosureIndicator"
-            onPress={() =>
-              navigation.push("Viewer", {
-                type: "license",
-              })
-            }
-          />
-          <CCell
-            cellStyle="Basic"
-            title="Acknowledgements"
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              navigation.push("Viewer", {
-                type: "acknowledgements",
-              });
-            }}
-          />
-          <CCell
-            cellStyle="Basic"
-            title="Privacy Policy"
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              WebBrowser.openBrowserAsync("https://memmy.app/privacy.txt");
-            }}
-          />
-          <CCell
-            cellStyle="Basic"
-            title="Terms of Use"
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              navigation.push("Viewer", {
-                type: "terms",
-              });
-            }}
-          />
-          <CCell
-            cellStyle="Basic"
-            title="GitHub"
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              WebBrowser.openBrowserAsync("https://github.com/gkasdorf/memmy");
-            }}
-          />
-          <CCell
-            cellStyle="Basic"
-            title="Delete Account"
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              Alert.alert(
-                "Delete Account",
-                "To remove all data from Memmy's servers, simply disable push " +
-                  "notifications. If you do not have push notifications enabled, we do not have any of your data.\n\n" +
-                  `To delete your Lemmy account, you must first visit ${currentAccount.instance} and sign in.` +
-                  " Then " +
-                  ' navigate to the Profile tab. You may delete your account by pressing "Delete Account".',
-                [
-                  {
-                    text: "Visit Instance",
-                    onPress: () => {
-                      openLink(
-                        `https://${currentAccount.instance}`,
-                        navigation
-                      );
-                    },
-                  },
-                  {
-                    text: "OK",
-                    style: "default",
-                  },
-                ]
-              );
-            }}
-          />
-        </Section>
-
-        <Section header="DEBUG" roundedCorners hideSurroundingSeparators>
+        <CSection
+          header="DEBUG"
+          roundedCorners
+          hideSurroundingSeparators
+          separatorTintColor={theme.colors.app.border}
+        >
           <CCell
             cellStyle="Basic"
             title="Email Debug Log"
@@ -226,7 +197,7 @@ function SettingsIndexScreen({
               onCacheClear();
             }}
           />
-        </Section>
+        </CSection>
       </TableView>
     </ScrollView>
   );

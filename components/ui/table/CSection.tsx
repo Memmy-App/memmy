@@ -1,10 +1,18 @@
 import React from "react";
 import { Section } from "@gkasdorf/react-native-tableview-simple";
 import { SectionInterface } from "@gkasdorf/react-native-tableview-simple/lib/typescript/components/Section";
+import { useTheme } from "native-base";
 
 function CSection({ ...props }: SectionInterface) {
+  const theme = useTheme();
   return (
-    <Section roundedCorners hideSurroundingSeparators {...props}>
+    <Section
+      roundedCorners
+      hideSurroundingSeparators
+      separatorInsetLeft={55}
+      separatorTintColor={theme.colors.app.border}
+      {...props}
+    >
       {props.children}
     </Section>
   );

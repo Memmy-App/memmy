@@ -360,7 +360,7 @@ export const sunsetThemeColors: IColors = {
   bg: "#16213B",
   navBarBg: "#010B1E",
 
-  border: "#242424",
+  border: "#16213B",
 
   upvote: "#EE923D",
   upvoteText: "#FFF",

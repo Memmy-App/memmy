@@ -1,5 +1,5 @@
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
+import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "../../../../store";
 import { FontWeightMap } from "../../../../theme/fontSize";
 import Chip from "../../../ui/common/Chip";
 import CCell from "../../../ui/table/CCell";
+import CSection from "../../../ui/table/CSection";
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -30,7 +31,7 @@ function AppearanceScreen({ navigation }: IProps) {
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
-        <Section header="THEMES" roundedCorners hideSurroundingSeparators>
+        <CSection header="THEMES" roundedCorners hideSurroundingSeparators>
           <CCell
             cellStyle="Basic"
             title="Match System Light/Dark Theme"
@@ -114,9 +115,9 @@ function AppearanceScreen({ navigation }: IProps) {
               </Text>
             </CCell>
           )}
-        </Section>
+        </CSection>
 
-        <Section header="FONT" roundedCorners hideSurroundingSeparators>
+        <CSection header="FONT" roundedCorners hideSurroundingSeparators>
           <CCell
             title="Use System Font"
             backgroundColor={theme.colors.app.fg}
@@ -206,7 +207,7 @@ function AppearanceScreen({ navigation }: IProps) {
               );
             }}
           />
-        </Section>
+        </CSection>
       </TableView>
     </ScrollView>
   );

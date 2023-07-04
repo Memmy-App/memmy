@@ -1,4 +1,4 @@
-import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
+import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView, useTheme } from "native-base";
 import React from "react";
@@ -6,6 +6,7 @@ import { StyleSheet } from "react-native";
 import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
 import { useAppSelector } from "../../../../store";
 import CCell from "../../../ui/table/CCell";
+import CSection from "../../../ui/table/CSection";
 
 function AccountSettingsScreen({
   navigation,
@@ -18,7 +19,7 @@ function AccountSettingsScreen({
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
-        <Section header="ACCOUNT" roundedCorners hideSurroundingSeparators>
+        <CSection>
           <CCell
             cellStyle="RightDetail"
             title="Server"
@@ -45,7 +46,7 @@ function AccountSettingsScreen({
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
-        </Section>
+        </CSection>
       </TableView>
     </ScrollView>
   );

@@ -54,6 +54,8 @@ import SearchResultsScreen from "./components/screens/search/SearchResultsScreen
 import AppearanceScreen from "./components/screens/settings/Appearance/AppearanceScreen";
 import ContentScreen from "./components/screens/settings/Content/ContentScreen";
 import AccountSettingsScreen from "./components/screens/settings/Account/AccountSettingsScreen";
+import AboutScreen from "./components/screens/settings/About/AboutScreen";
+import GeneralSettingsScreen from "./components/screens/settings/General/GeneralSettingsScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -270,7 +272,7 @@ function ProfileStackScreen() {
           name="AccountSettings"
           component={AccountSettingsScreen}
           options={{
-            title: "Account",
+            title: "Accounts",
             freezeOnBlur: true,
           }}
         />
@@ -295,6 +297,22 @@ function ProfileStackScreen() {
           component={ThemeSelectionScreen}
           options={{
             title: "Theme",
+            freezeOnBlur: true,
+          }}
+        />
+        <ProfileStack.Screen
+          name="GeneralSettings"
+          component={GeneralSettingsScreen}
+          options={{
+            title: "General",
+            freezeOnBlur: true,
+          }}
+        />
+        <ProfileStack.Screen
+          name="About"
+          component={AboutScreen}
+          options={{
+            title: "About",
             freezeOnBlur: true,
           }}
         />

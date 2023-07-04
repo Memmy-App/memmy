@@ -1,5 +1,5 @@
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
+import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { SortType } from "lemmy-js-client";
 import { ScrollView, useTheme } from "native-base";
@@ -10,6 +10,7 @@ import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import { SortOption, sortOptions } from "../../../../types/FeedSortOptions";
 import CCell from "../../../ui/table/CCell";
+import CSection from "../../../ui/table/CSection";
 
 function ContentScreen({
   navigation,
@@ -39,7 +40,7 @@ function ContentScreen({
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
-        <Section header="Posts" roundedCorners hideSurroundingSeparators>
+        <CSection header="POSTS">
           <CCell
             cellStyle="Basic"
             title="Display Total Score"
@@ -179,10 +180,10 @@ function ContentScreen({
               />
             }
           />
-        </Section>
+        </CSection>
 
         {settings.compactView && (
-          <Section header="COMPACT" roundedCorners hideSurroundingSeparators>
+          <CSection header="COMPACT" roundedCorners hideSurroundingSeparators>
             <CCell
               cellStyle="RightDetail"
               title="Thumbnails Position"
@@ -221,9 +222,9 @@ function ContentScreen({
                 />
               }
             />
-          </Section>
+          </CSection>
         )}
-        <Section
+        <CSection
           header="NSFW CONTENT"
           footer="This toggle does not affect your Lemmy account NSFW settings. This local setting will apply only to the app and will apply to all accounts."
           roundedCorners
@@ -255,7 +256,7 @@ function ContentScreen({
               />
             }
           />
-        </Section>
+        </CSection>
       </TableView>
     </ScrollView>
   );
