@@ -389,8 +389,8 @@ function SettingsIndexScreen({
               detail={settings.compactThumbnailPosition}
               accessory="DisclosureIndicator"
               onPress={() => {
-                const options = ["Left", "Right", "Cancel"];
-                const cancelButtonIndex = 2;
+                const options = ["None", "Left", "Right", "Cancel"];
+                const cancelButtonIndex = 3;
 
                 showActionSheetWithOptions(
                   {
