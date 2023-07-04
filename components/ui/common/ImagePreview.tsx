@@ -39,6 +39,8 @@ function SingleImage({
 
   const onImageLongPress = () => {};
 
+  const onRequestClose = () => setImageViewOpen(false);
+
   const onLoad = (e) => {
     setDimensions({
       height: e.nativeEvent.height,
@@ -66,14 +68,6 @@ function SingleImage({
           onLoad={onLoad}
         />
       </Pressable>
-      <EnhancedImageViewing
-        images={[{ uri: source }]}
-        imageIndex={0}
-        visible={imageViewOpen}
-        onRequestClose={() => setImageViewOpen(false)}
-        height={dimensions.height}
-        width={dimensions.width}
-      />
     </>
   );
 }

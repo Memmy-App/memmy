@@ -16,11 +16,11 @@ import usePost from "../../hooks/post/postHooks";
 import LoadingView from "../../ui/Loading/LoadingView";
 import CommentItem from "../../ui/comments/CommentItem";
 import CommentSortButton from "../../ui/post/CommentSortButton";
-import PostActionBar from "./PostActionBar";
+import PostActionBar from "../../ui/post/PostActionBar";
 import PostOptionsButton from "../../ui/post/PostOptionsButton";
 import PostFooter from "../../ui/post/PostFooter";
 import PostHeader from "../../ui/post/PostHeader";
-import PostContentView from "./PostContentView";
+import PostContentView from "../../ui/post/PostContentView";
 
 interface IProps {
   route: any;

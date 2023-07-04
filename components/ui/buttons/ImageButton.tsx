@@ -10,7 +10,7 @@ import {
 import FastImage from "react-native-fast-image";
 import { Dimensions } from "react-native";
 import { truncateImageLink } from "../../../helpers/TextHelper";
-import ImageModal from "../image/ImageModal";
+import ImageViewer from "../image/ImageViewer";
 
 interface ImageButtonProps {
   src: string;
@@ -56,13 +56,7 @@ function ImageButton({ src }: ImageButtonProps) {
         </HStack>
       </Pressable>
 
-      <ImageModal
-        source={src}
-        onRequestClose={() => setVisible(false)}
-        isOpen={visible}
-        width={Dimensions.get("screen").width}
-        height={Dimensions.get("screen").height}
-      />
+      <ImageViewer source={src} nsfw={false} onlyViewer />
     </>
   );
 }

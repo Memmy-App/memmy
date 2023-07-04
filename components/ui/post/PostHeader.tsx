@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Divider,
   HStack,
@@ -8,12 +8,12 @@ import {
   VStack,
 } from "native-base";
 import { UsePost } from "../../hooks/post/postHooks";
-import PostContentView from "../../screens/post/PostContentView";
+import PostContentView from "./PostContentView";
 import AvatarUsername from "../common/AvatarUsername";
 import CommunityLink from "../CommunityLink";
 import CommentCount from "../common/CommentCount";
 import DatePublished from "../common/DatePublished";
-import PostActionBar from "../../screens/post/PostActionBar";
+import PostActionBar from "./PostActionBar";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 
 interface IProps {
@@ -25,6 +25,10 @@ function PostHeader({ post, showLoadAll }: IProps) {
   const theme = useTheme();
 
   const instanceBaseUrl = getBaseUrl(post.currentPost.community.actor_id);
+
+  useEffect(() => {
+    console.log("render");
+  });
 
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.fg}>
