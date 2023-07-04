@@ -115,13 +115,21 @@ function CompactFeedItemThumbnail({
               <>
                 <FastImage
                   resizeMode="cover"
-                  style={[styles.image, { opacity: 0.4 }]}
+                  style={[styles.image]}
                   source={{
                     uri: post.post.thumbnail_url,
                   }}
                 />
-                <View zIndex={1} position="absolute">
-                  <IconLink size={40} color={theme.colors.app.textSecondary} />
+                <View
+                  zIndex={1}
+                  position="absolute"
+                  bottom={1}
+                  right={1}
+                  style={styles.circle}
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <IconLink size={16} color="#333" />
                 </View>
               </>
             )) || <IconLink size={40} color={theme.colors.app.textSecondary} />}
@@ -154,6 +162,14 @@ const styles = StyleSheet.create({
 
   nsfwIcon: {
     marginLeft: 5,
+  },
+
+  circle: {
+    height: 24,
+    width: 24,
+    borderRadius: 100 / 2,
+    backgroundColor: "white",
+    opacity: 0.8,
   },
 });
 
