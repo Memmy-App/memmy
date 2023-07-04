@@ -7,15 +7,19 @@ import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
 import LinkButton from "../buttons/LinkButton";
 import RenderMarkdown from "../markdown/RenderMarkdown";
 import ImageViewer from "../image/ImageViewer";
+import { useAppSelector } from "../../../store";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
 
 function Title({ title, mt, mb }: { title: string; mt: number; mb: number }) {
   const theme = useTheme();
+  const { fontWeightPostTitle } = useAppSelector(selectSettings);
   return (
     <Text
       mt={mt}
       mb={mb}
       mx={4}
       fontSize="lg"
+      fontWeight={fontWeightPostTitle}
       color={theme.colors.app.textPrimary}
     >
       {title}
