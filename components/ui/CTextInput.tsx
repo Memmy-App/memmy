@@ -31,18 +31,18 @@ function CTextInput({
   keyboardType = "default",
   onEnd,
 }: TextInputProps) {
-  let focused = false;
+  const focused = false;
 
   const theme = useTheme();
 
-  const ref = useCallback((node) => {
-    if (!node) return;
-
-    if (autoFocus && !focused) {
-      focused = true;
-      node.focus();
-    }
-  }, []);
+  // const ref = useCallback((node) => {
+  //   if (!node) return;
+  //
+  //   if (autoFocus && !focused) {
+  //     focused = true;
+  //     node.focus();
+  //   }
+  // }, []);
 
   return (
     <VStack my={2}>
@@ -68,10 +68,9 @@ function CTextInput({
         autoCapitalize={autoCapitalize}
         autoCorrect={autoCorrect}
         secureTextEntry={secure}
-        ref={autoFocus ? ref : null}
         keyboardAppearance={theme.config.initialColorMode}
         keyboardType={keyboardType}
-        onEndEditing={() => onEnd()}
+        onEndEditing={() => onEnd && onEnd()}
       />
     </VStack>
   );
