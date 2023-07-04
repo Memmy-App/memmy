@@ -10,6 +10,7 @@ import {
   goldenHourTheme,
   nauticalTheme,
   sunsetTheme,
+  oledTheme,
 } from "./theme";
 
 enum EThemeOptions {
@@ -24,6 +25,7 @@ enum EThemeOptions {
   GOLDEN_HOUR = "Golden Hour",
   NAUTICAL = "Nautical",
   SUNSET = "Sunset",
+  OLED = "Dark (OLED)",
 }
 
 export type ThemeOptions = `${EThemeOptions}`;
@@ -34,6 +36,7 @@ export const ThemeOptionsArr = Object.values(EThemeOptions);
 export const ThemeOptionsMap: Record<ThemeOptions, any> = {
   Light: lightTheme,
   Dark: darkTheme,
+  "Dark (OLED)": oledTheme,
   Dracula: draculaTheme,
   "Dracula (Purple)": draculaThemePurple,
   "Moody Purple": moodyPurpleTheme,

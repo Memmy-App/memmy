@@ -448,3 +448,53 @@ export const oksolarDarkThemeColors: IColors = {
   bookmark: "#819500",
   bookmarkText: "#fff",
 };
+
+export const oledThemeColors: IColors = {
+  accent: "#ff79c6",
+  accentHighlight: "#bd93f9",
+
+  textPrimary: "#FFFFFF",
+  textSecondary: "#A7A7A7",
+
+  fg: "#000",
+  bg: "#0E0E0E",
+  navBarBg: "#000",
+
+  border: "#242424",
+
+  upvote: "#EE923D",
+  upvoteText: "#FFF",
+  downvote: "#1A84E5",
+  downvoteText: "#FFF",
+
+  success: "#48C10F",
+  successText: "#fff",
+  error: "#F8372B",
+  errorText: "#fff",
+  warn: "#DEA435",
+  warnText: "#fff",
+  info: "#3398f2",
+  infoText: "#fff",
+
+  users: {
+    text: "#fff",
+    mod: "#54CB60",
+    admin: "#FF4848",
+    dev: "#CB66FA",
+    op: "#2092FB",
+    me: "#FFB800",
+  },
+
+  comments: {
+    1: "#FA6969",
+    2: "#FFB800",
+    3: "#FFE500",
+    4: "#36CF3C",
+    5: "#4BA9FF",
+  },
+
+  inputBg: "#232323",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
+};
