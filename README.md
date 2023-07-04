@@ -14,66 +14,23 @@ An Apollo-inspired iOS and Android client for using [Lemmy](https://github.com/L
 This is a work in progress and is not in a functional state - yet. I intend to release builds at least nightly on TestFlight, although I am going a bit fast right now (getting ready for the withdraw from no longer having Apollo!)
 
 ## Building
-If you wish to build on your own, you may do so. You will need to follow the instructions found
-[here](https://docs.expo.dev/get-started/installation/) to install Expo first. Next, you will need to create an Expo
-account at [https://expo.dev/](https://expo.dev).
-
-Clone the repo to your computer and open app.json. You should remove the `eas` block from this file and save.
-
-You are now ready to create a build. Run `yarn install` then run the build command the OS you are targeting.
+Building for iOS requires a Mac. To build, you will also need to make sure that you have the required dependencies installed. Generally, this is Ruby and Xcode. You'll also need yarn.
 
 ```shell
+git clone https://github.com/memmy-app/memmy
+cd memmy
 yarn install
 
-# IOS
+# EITHER
+cd ios
+pod install
 
-# To run on an iOS simulator
-eas build -p ios --profile simulator --local --output simulator.tar.gz
-# OR #
-yarn run buildSim
+#OR
+npx pod install
 
-# To run a development build on-device
-eas build -p ios --profile development --local --output dev.ipa
-# OR #
-yarn run buildDev
-
-# To build for personal use without Expo development tools
-eas build -p ios --profile preview --local --output preview.ipa
-# OR #
-yarn run buildPrev
-
-# Android
-
-# To run on an emulator or run on device
-eas build -p android --profile development --local --output dev.apk
-# OR #
-yarn run buildDevAnd
-
-# TO build for personal use without Expo development tools
-eas build -p android --profile preview --local --output preview.aab
-# OR #
-yan run buildPrevAnd
+yarn ios
 ```
-
-Note: For iOS builds that you wish to deploy to a device, it seems that you do require an Apple developer account.
-
-Lastly, to use a development build, start the Expo development server. There are two ways to do this depending on what
-you are trying to test.
-
-```shell
-# For debugging and error reporting
-npx expo start --dev-client
-# OR #
-yarn run startDev
-
-# To use a development build but achieve a more production-like environment
-npx expo start --no-dev --minify
-# OR #
-yarn run startNoDev
-```
-
-You now can connect to the development server via `localhost:8081` for the development server or `localhost:19000` for
-the no-dev server.
+A simulator should open with the app running. To change the device type or to deply to your physical device, run `yarn ios --device` and select the device you want to deploy to.
 
 ## Info
 This application uses Expo. The various pluses to using Expo/React Native are the following:
@@ -90,11 +47,14 @@ Especially since Lemmy is an ongoing project that will certainly evolve over tim
 made, we can expect this library to be updated by Lemmy developers themselves. This also saves on production time for us.
 
 ## Contribution
-You are more than welcome to contribute to the codebase on your own. Simply open up an issue or PR and we'll talk! You
-can always add me on Discord if you want as well: gk#5175
 
-The codebase is a bit wild right now and needs some refactoring. It was written quite quickly (as of right now in about
-3 days) to get something off the ground quickly. I'll be going through and refactoring it in the coming days.
+Some rules and guidelines:
+* Don't make PRs that add entirely new features without discussing with us first (either ask in Discord or open an issue)
+* We may not respond to your issue or PR (but that doesn't mean we don't look at it, we're really busy now!)
+* We may close a PR without much feedback
+* We can't guarantee that we can provide support for build issues
+* Check for exisitng issues before filing a new one
+* Open an issue and give us time to review it before opening a PR
 
 ### Themes
 To contribute to themes, you can create a new theme object in `theme/theme.ts`. Once you create it with all the proper colors 

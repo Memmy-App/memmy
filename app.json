@@ -30,8 +30,7 @@
         "expo-build-properties",
         {
           "ios": {
-            "flipper": true,
-            "deploymentTarget": "15.0"
+            "deploymentTarget": "14.0"
           }
         }
       ],
