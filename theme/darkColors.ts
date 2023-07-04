@@ -450,8 +450,8 @@ export const oksolarDarkThemeColors: IColors = {
 };
 
 export const oledThemeColors: IColors = {
-  accent: "#ff79c6",
-  accentHighlight: "#bd93f9",
+  accent: "#2C9AFF",
+  accentHighlight: "#1F2E45",
 
   textPrimary: "#FFFFFF",
   textSecondary: "#A7A7A7",

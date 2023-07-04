@@ -7,13 +7,14 @@ interface TextInputProps {
   value: string;
   onChange?: (name: string, value: string) => void | Promise<void>;
   placeholder: string;
-  label: string;
+  label?: string;
   style?: object;
   secure?: boolean;
   autoCapitalize?: "none" | "sentences" | "words" | "characters";
   autoCorrect?: boolean;
   autoFocus?: boolean;
   keyboardType?: KeyboardTypeOptions;
+  onEnd?: () => void;
 }
 
 function CTextInput({
@@ -28,6 +29,7 @@ function CTextInput({
   autoCorrect = true,
   autoFocus = false,
   keyboardType = "default",
+  onEnd,
 }: TextInputProps) {
   let focused = false;
 
@@ -44,9 +46,11 @@ function CTextInput({
 
   return (
     <VStack my={2}>
-      <Text mx={3} pb={1} fontSize={13}>
-        {label}
-      </Text>
+      {label && (
+        <Text mx={3} pb={1} fontSize={13}>
+          {label}
+        </Text>
+      )}
       <TextInput
         placeholder={placeholder}
         style={[
@@ -67,6 +71,7 @@ function CTextInput({
         ref={autoFocus ? ref : null}
         keyboardAppearance={theme.config.initialColorMode}
         keyboardType={keyboardType}
+        onEndEditing={() => onEnd()}
       />
     </VStack>
   );

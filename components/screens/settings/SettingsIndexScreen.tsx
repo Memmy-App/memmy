@@ -1,14 +1,15 @@
 import { useActionSheet } from "@expo/react-native-action-sheet";
+import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
 import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as WebBrowser from "expo-web-browser";
-import { Badge, Box, HStack, ScrollView, Text, useTheme } from "native-base";
+import { SortType } from "lemmy-js-client";
+import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
 import React from "react";
 import { Alert, LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { getBuildNumber, getVersion } from "react-native-device-info";
 import FastImage from "react-native-fast-image";
-import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
-import { SortType } from "lemmy-js-client";
+import { openLink } from "../../../helpers/LinkHelper";
 import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
 import {
   selectAccounts,
@@ -17,11 +18,11 @@ import {
 import { setSetting } from "../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../store";
-import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
-import CCell from "../../ui/table/CCell";
-import { sortOptions, SortOption } from "../../../types/FeedSortOptions";
 import { FontWeightMap } from "../../../theme/fontSize";
-import { openLink } from "../../../helpers/LinkHelper";
+import { SortOption, sortOptions } from "../../../types/FeedSortOptions";
+import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
+import Chip from "../../ui/common/Chip";
+import CCell from "../../ui/table/CCell";
 
 function SettingsIndexScreen({
   navigation,
@@ -130,9 +131,7 @@ function SettingsIndexScreen({
             title={
               <Text>
                 Text Size{"  "}
-                <Badge colorScheme="info" variant="outline">
-                  Alpha
-                </Badge>
+                <Chip text="Alpha" />
               </Text>
             }
             backgroundColor={theme.colors.app.fg}
