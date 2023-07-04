@@ -163,7 +163,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
         )) ||
         (feed.community && feed.community.counts.posts < 1 && (
           <>
-            {header}
+            {header()}
             <NoResultView type="posts" />
           </>
         )) || (

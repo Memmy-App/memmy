@@ -3,17 +3,17 @@ import { ScrollView, useTheme } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Alert, Button, Switch } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import { useAppDispatch, useAppSelector } from "../../../store";
-import { selectAccounts } from "../../../slices/accounts/accountsSlice";
-import CTable from "../../ui/table/CTable";
-import CSection from "../../ui/table/CSection";
-import CCell from "../../ui/table/CCell";
-import { Account } from "../../../types/Account";
-import { deleteAccount } from "../../../slices/accounts/accountsActions";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
-import useNotifications from "../../hooks/notifications/useNotifications";
-import LoadingModalTransparent from "../../ui/Loading/LoadingModalTransparent";
-import { setSetting } from "../../../slices/settings/settingsActions";
+import { useAppDispatch, useAppSelector } from "../../../../store";
+import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
+import CTable from "../../../ui/table/CTable";
+import CSection from "../../../ui/table/CSection";
+import CCell from "../../../ui/table/CCell";
+import { Account } from "../../../../types/Account";
+import { deleteAccount } from "../../../../slices/accounts/accountsActions";
+import { selectSettings } from "../../../../slices/settings/settingsSlice";
+import useNotifications from "../../../hooks/notifications/useNotifications";
+import LoadingModalTransparent from "../../../ui/Loading/LoadingModalTransparent";
+import { setSetting } from "../../../../slices/settings/settingsActions";
 
 interface ViewAccountsScreenProps {
   navigation: NativeStackNavigationProp<any>;

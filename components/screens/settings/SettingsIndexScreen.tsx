@@ -1,56 +1,57 @@
-import { useActionSheet } from "@expo/react-native-action-sheet";
-import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
-import Slider from "@react-native-community/slider";
+import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import * as WebBrowser from "expo-web-browser";
-import { SortType } from "lemmy-js-client";
 import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
 import React from "react";
-import { Alert, LayoutAnimation, StyleSheet, Switch } from "react-native";
-import { getBuildNumber, getVersion } from "react-native-device-info";
+import { Alert, StyleSheet } from "react-native";
 import FastImage from "react-native-fast-image";
-import { openLink } from "../../../helpers/LinkHelper";
-import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
 import {
-  selectAccounts,
-  selectCurrentAccount,
-} from "../../../slices/accounts/accountsSlice";
-import { setSetting } from "../../../slices/settings/settingsActions";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
-import { useAppDispatch, useAppSelector } from "../../../store";
-import { FontWeightMap } from "../../../theme/fontSize";
-import { SortOption, sortOptions } from "../../../types/FeedSortOptions";
-import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
-import Chip from "../../ui/common/Chip";
+  IconAt,
+  IconBrush,
+  IconMessage,
+  IconSettings,
+  IconUser,
+  TablerIcon,
+} from "tabler-icons-react-native";
+import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
 import CCell from "../../ui/table/CCell";
+import CSection from "../../ui/table/CSection";
+
+function SettingOptionTitle({
+  text,
+  icon,
+  iconBgColor,
+}: {
+  text: string;
+  icon: TablerIcon;
+  iconBgColor: string;
+}) {
+  const IconComponent = icon;
+
+  return (
+    <HStack space={3} alignItems="center" marginBottom={-1.5}>
+      <Box
+        style={{
+          width: 28,
+          height: 28,
+          borderRadius: 8,
+          backgroundColor: iconBgColor,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <IconComponent color="#fff" size={20} />
+      </Box>
+      <Text>{text}</Text>
+    </HStack>
+  );
+}
 
 function SettingsIndexScreen({
   navigation,
 }: {
   navigation: NativeStackNavigationProp<any>;
 }) {
-  const settings = useAppSelector(selectSettings);
-  const accounts = useAppSelector(selectAccounts);
-
-  const currentAccount = useAppSelector(selectCurrentAccount);
-
-  const dispatch = useAppDispatch();
   const theme = useTheme();
-  const { showActionSheetWithOptions } = useActionSheet();
-
-  const onChange = (key: string, value: any) => {
-    dispatch(setSetting({ [key]: value }));
-  };
-
-  const getDefaultSortText = (sortType: SortType): string => {
-    const index = sortOptions.map((x: SortOption) => x[0]).indexOf(sortType);
-    return sortOptions[index][1];
-  };
-
-  const getDefaultSortFromText = (sortType: string): SortType => {
-    const index = sortOptions.map((x: SortOption) => x[1]).indexOf(sortType);
-    return sortOptions[index][0];
-  };
 
   const onCacheClear = async () => {
     await FastImage.clearDiskCache();
@@ -60,550 +61,85 @@ function SettingsIndexScreen({
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
-        <Section header="ACCOUNT" roundedCorners hideSurroundingSeparators>
-          <CCell
-            cellStyle="RightDetail"
-            title="Server"
-            detail={accounts[0].instance}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-          />
-          <CCell
-            cellStyle="RightDetail"
-            title="Username"
-            detail={accounts[0].username}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-          />
-
+        <CSection>
           <CCell
             cellStyle="Basic"
-            title="Change Account Settings"
-            accessory="DisclosureIndicator"
-            onPress={() => navigation.push("ViewAccounts")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-          />
-        </Section>
-
-        <Section
-          header="FUNCTIONALITY"
-          roundedCorners
-          hideSurroundingSeparators
-        >
-          <CCell
-            title="Mark Post Read On..."
-            accessory="DisclosureIndicator"
-            onPress={() => navigation.push("ReadSettings")}
-          />
-        </Section>
-
-        <Section header="FONT" roundedCorners hideSurroundingSeparators>
-          <CCell
-            title="Use System Font"
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.isSystemFont}
-                onValueChange={(v) => onChange("isSystemFont", v)}
-              />
-            }
-          />
-          <CCell
-            title="Use System Font Size"
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.isSystemTextSize}
-                onValueChange={(v) => onChange("isSystemTextSize", v)}
-              />
-            }
-          />
-          <CCell
-            isDisabled={settings.isSystemTextSize}
             title={
-              <Text>
-                Text Size{"  "}
-                <Chip text="Alpha" />
-              </Text>
-            }
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-          >
-            <HStack width="100%" alignItems="center" px={6}>
-              <Text fontSize={13}>A</Text>
-              <Box flex={1}>
-                <Slider
-                  disabled={settings.isSystemTextSize}
-                  style={{ height: 40, marginHorizontal: 20, marginBottom: 5 }}
-                  minimumValue={1}
-                  maximumValue={7}
-                  thumbTintColor={theme.colors.app.textPrimary}
-                  minimumTrackTintColor={theme.colors.app.textPrimary}
-                  maximumTrackTintColor={theme.colors.app.textPrimary}
-                  step={1}
-                  value={settings.fontSize}
-                  onSlidingComplete={(v) => onChange("fontSize", v)}
-                />
-              </Box>
-              <Text fontSize={19}>A</Text>
-            </HStack>
-          </CCell>
-          <CCell
-            cellStyle="RightDetail"
-            title="Font Weight - Post Title"
-            detail={
-              Object.keys(FontWeightMap).find(
-                (key) => FontWeightMap[key] === settings.fontWeightPostTitle
-              ) || "Regular"
-            }
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              const options = [...Object.keys(FontWeightMap), "Cancel"];
-              const cancelButtonIndex = options.length - 1;
-
-              showActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex,
-                  userInterfaceStyle: theme.config.initialColorMode,
-                },
-                (index: number) => {
-                  if (index === cancelButtonIndex) return;
-
-                  dispatch(
-                    setSetting({
-                      fontWeightPostTitle: FontWeightMap[options[index]] || 400,
-                    })
-                  );
-                }
-              );
-            }}
-          />
-        </Section>
-
-        <Section header="APPEARANCE" roundedCorners hideSurroundingSeparators>
-          <CCell
-            cellStyle="Basic"
-            title="Match System Light/Dark Theme"
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.themeMatchSystem}
-                onValueChange={(v) => {
-                  LayoutAnimation.easeInEaseOut();
-                  onChange("themeMatchSystem", v);
-                }}
+              <SettingOptionTitle
+                text="General"
+                icon={IconSettings}
+                iconBgColor="#FF8E00"
               />
             }
-          />
-          {!settings.themeMatchSystem && (
-            <CCell
-              cellStyle="Basic"
-              title="Theme"
-              accessory="DisclosureIndicator"
-              onPress={() => navigation.push("ThemeSelection")}
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
-            >
-              <Text
-                ml={4}
-                mb={2}
-                mt={-3}
-                fontSize="xs"
-                color={theme.colors.app.textSecondary}
-              >
-                Selected: {settings.theme}
-              </Text>
-            </CCell>
-          )}
-          {settings.themeMatchSystem && (
-            <CCell
-              cellStyle="Basic"
-              title="Theme for System Light"
-              accessory="DisclosureIndicator"
-              onPress={() =>
-                navigation.push("ThemeSelection", { themeProp: "themeLight" })
-              }
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
-            >
-              <Text
-                ml={4}
-                mb={2}
-                mt={-3}
-                fontSize="xs"
-                color={theme.colors.app.textSecondary}
-              >
-                Selected: {settings.themeLight}
-              </Text>
-            </CCell>
-          )}
-          {settings.themeMatchSystem && (
-            <CCell
-              cellStyle="Basic"
-              title="Theme for System Dark"
-              accessory="DisclosureIndicator"
-              onPress={() =>
-                navigation.push("ThemeSelection", { themeProp: "themeDark" })
-              }
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
-            >
-              <Text
-                ml={4}
-                mb={2}
-                mt={-3}
-                fontSize="xs"
-                color={theme.colors.app.textSecondary}
-              >
-                Selected: {settings.themeDark}
-              </Text>
-            </CCell>
-          )}
-          <CCell
-            cellStyle="Basic"
-            title="Display Total Score"
+            accessory="DisclosureIndicator"
+            onPress={() => navigation.push("GeneralSettings")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.displayTotalScore}
-                onValueChange={(v) => {
-                  LayoutAnimation.easeInEaseOut();
-                  onChange("displayTotalScore", v);
-                }}
+          />
+          <CCell
+            cellStyle="Basic"
+            title={
+              <SettingOptionTitle
+                text="Content"
+                icon={IconMessage}
+                iconBgColor="#F43A9F"
               />
             }
-          />
-          {/* <CCell */}
-          {/*  title="Swipe Gestures" */}
-          {/*  backgroundColor={theme.colors.app.fg} */}
-          {/*  titleTextColor={theme.colors.app.textPrimary} */}
-          {/*  rightDetailColor={theme.colors.app.textSecondary} */}
-          {/*  cellAccessoryView={ */}
-          {/*    <Switch */}
-          {/*      value={settings.swipeGestures} */}
-          {/*      onValueChange={(v) => onChange("swipeGestures", v)} */}
-          {/*    /> */}
-          {/*  } */}
-          {/* /> */}
-          <CCell
-            cellStyle="Basic"
-            title="Images Ignore Screen Height"
+            accessory="DisclosureIndicator"
+            onPress={() => navigation.push("Content")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.ignoreScreenHeightInFeed}
-                onValueChange={(v) => {
-                  LayoutAnimation.easeInEaseOut();
-                  onChange("ignoreScreenHeightInFeed", v);
-                }}
+          />
+          <CCell
+            cellStyle="Basic"
+            title={
+              <SettingOptionTitle
+                text="Appearance"
+                icon={IconBrush}
+                iconBgColor="#BB4BE5"
               />
             }
-          />
-          <CCell
-            cellStyle="RightDetail"
-            title="Show Instance For Usernames"
+            accessory="DisclosureIndicator"
+            onPress={() => navigation.push("Appearance")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.showInstanceForUsernames}
-                onValueChange={(v) => onChange("showInstanceForUsernames", v)}
+          />
+          <CCell
+            cellStyle="Basic"
+            title={
+              <SettingOptionTitle
+                text="Accounts"
+                icon={IconUser}
+                iconBgColor="#00CA48"
               />
             }
-          />
-          <CCell
-            cellStyle="RightDetail"
-            title="Default Sort"
-            detail={getDefaultSortText(settings.defaultSort)}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
             accessory="DisclosureIndicator"
-            onPress={() => {
-              const options = [
-                "Top Day",
-                "Top Week",
-                "Hot",
-                "Active",
-                "New",
-                "Most Comments",
-                "Cancel",
-              ];
-              const cancelButtonIndex = 6;
-
-              showActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex,
-                  userInterfaceStyle: theme.config.initialColorMode,
-                },
-                (index: number) => {
-                  if (index === cancelButtonIndex) return;
-
-                  const selection = getDefaultSortFromText(options[index]);
-                  dispatch(setSetting({ defaultSort: selection }));
-                }
-              );
-            }}
-          />
-          <CCell
-            cellStyle="RightDetail"
-            title="Default Listing Type"
-            detail={settings.defaultListingType}
+            onPress={() => navigation.push("AccountSettings")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              const options = ["All", "Local", "Subscribed", "Cancel"];
-              const cancelButtonIndex = 3;
-
-              showActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex,
-                  userInterfaceStyle: theme.config.initialColorMode,
-                },
-                (index: number) => {
-                  if (index === cancelButtonIndex) return;
-
-                  dispatch(setSetting({ defaultListingType: options[index] }));
-                }
-              );
-            }}
           />
           <CCell
-            cellStyle="RightDetail"
-            title="Compact View"
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.compactView}
-                onValueChange={(v) => {
-                  LayoutAnimation.easeInEaseOut();
-                  onChange("compactView", v);
-                }}
+            cellStyle="Basic"
+            title={
+              <SettingOptionTitle
+                text="About"
+                icon={IconAt}
+                iconBgColor="#0368D4"
               />
             }
-          />
-        </Section>
-
-        {settings.compactView && (
-          <Section header="COMPACT" roundedCorners hideSurroundingSeparators>
-            <CCell
-              cellStyle="RightDetail"
-              title="Thumbnails Position"
-              detail={settings.compactThumbnailPosition}
-              accessory="DisclosureIndicator"
-              onPress={() => {
-                const options = ["None", "Left", "Right", "Cancel"];
-                const cancelButtonIndex = 3;
-
-                showActionSheetWithOptions(
-                  {
-                    options,
-                    cancelButtonIndex,
-                    userInterfaceStyle: theme.config.initialColorMode,
-                  },
-                  (index: number) => {
-                    if (index === cancelButtonIndex) return;
-
-                    dispatch(
-                      setSetting({ compactThumbnailPosition: options[index] })
-                    );
-                  }
-                );
-              }}
-            />
-            <CCell
-              cellStyle="RightDetail"
-              title="Show Voting Buttons"
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
-              cellAccessoryView={
-                <Switch
-                  value={settings.compactShowVotingButtons}
-                  onValueChange={(v) => onChange("compactShowVotingButtons", v)}
-                />
-              }
-            />
-          </Section>
-        )}
-
-        <Section header="HAPTICS" roundedCorners hideSurroundingSeparators>
-          <CCell
-            cellStyle="RightDetail"
-            title="Strength"
-            detail={settings.haptics}
+            accessory="DisclosureIndicator"
+            onPress={() => navigation.push("About")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              const options = [...HapticOptionsArr, "Cancel"];
-              const cancelButtonIndex = options.length - 1;
+          />
+        </CSection>
 
-              showActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex,
-                  userInterfaceStyle: theme.config.initialColorMode,
-                },
-                (index: number) => {
-                  if (index === cancelButtonIndex) return;
-
-                  dispatch(setSetting({ haptics: options[index] }));
-                }
-              );
-            }}
-          />
-        </Section>
-
-        <Section
-          header="NSFW CONTENT"
-          footer="This toggle does not affect your Lemmy account NSFW settings. This local setting will apply only to the app and will apply to all accounts."
-          roundedCorners
-          hideSurroundingSeparators
-        >
-          <CCell
-            cellStyle="RightDetail"
-            title="Blur NSFW"
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.blurNsfw}
-                onValueChange={(v) => onChange("blurNsfw", v)}
-              />
-            }
-          />
-          <CCell
-            cellStyle="RightDetail"
-            title="Hide NSFW"
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.hideNsfw}
-                onValueChange={(v) => onChange("hideNsfw", v)}
-              />
-            }
-          />
-        </Section>
-
-        <Section header="ABOUT" roundedCorners hideSurroundingSeparators>
-          <CCell
-            cellStyle="RightDetail"
-            title="Version"
-            detail={`${getVersion()} (${getBuildNumber()})`}
-          />
-          <CCell
-            cellStyle="Basic"
-            title="License"
-            accessory="DisclosureIndicator"
-            onPress={() =>
-              navigation.push("Viewer", {
-                type: "license",
-              })
-            }
-          />
-          <CCell
-            cellStyle="Basic"
-            title="Acknowledgements"
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              navigation.push("Viewer", {
-                type: "acknowledgements",
-              });
-            }}
-          />
-          <CCell
-            cellStyle="Basic"
-            title="Privacy Policy"
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              WebBrowser.openBrowserAsync("https://memmy.app/privacy.txt");
-            }}
-          />
-          <CCell
-            cellStyle="Basic"
-            title="Terms of Use"
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              navigation.push("Viewer", {
-                type: "terms",
-              });
-            }}
-          />
-          <CCell
-            cellStyle="Basic"
-            title="GitHub"
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              WebBrowser.openBrowserAsync("https://github.com/gkasdorf/memmy");
-            }}
-          />
-          <CCell
-            cellStyle="Basic"
-            title="Delete Account"
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              Alert.alert(
-                "Delete Account",
-                "To remove all data from Memmy's servers, simply disable push " +
-                  "notifications. If you do not have push notifications enabled, we do not have any of your data.\n\n" +
-                  `To delete your Lemmy account, you must first visit ${currentAccount.instance} and sign in.` +
-                  " Then " +
-                  ' navigate to the Profile tab. You may delete your account by pressing "Delete Account".',
-                [
-                  {
-                    text: "Visit Instance",
-                    onPress: () => {
-                      openLink(
-                        `https://${currentAccount.instance}`,
-                        navigation
-                      );
-                    },
-                  },
-                  {
-                    text: "OK",
-                    style: "default",
-                  },
-                ]
-              );
-            }}
-          />
-        </Section>
-
-        <Section header="DEBUG" roundedCorners hideSurroundingSeparators>
+        <CSection>
           <CCell
             cellStyle="Basic"
             title="Email Debug Log"
@@ -649,7 +185,7 @@ function SettingsIndexScreen({
               onCacheClear();
             }}
           />
-        </Section>
+        </CSection>
       </TableView>
     </ScrollView>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 import { VStack } from "native-base";
-import CTable from "../../ui/table/CTable";
-import CSection from "../../ui/table/CSection";
+import CTable from "../../../ui/table/CTable";
+import CSection from "../../../ui/table/CSection";
 
 function PushNotificationsScreen() {
   return (
