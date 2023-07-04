@@ -86,7 +86,11 @@ function PostContentView({ post, recycled }: IProps) {
       );
     }
 
-    return null;
+    return (
+      <VStack>
+        <Title title={title} mt={2} mb={2} />
+      </VStack>
+    );
   };
 
   return <Box mb={1}>{renderContent()}</Box>;
