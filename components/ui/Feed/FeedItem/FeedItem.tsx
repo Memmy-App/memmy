@@ -1,6 +1,6 @@
 import { PostView } from "lemmy-js-client";
-import { Pressable, View } from "native-base";
-import React, { memo, SetStateAction } from "react";
+import { Pressable, View, useTheme } from "native-base";
+import React, { SetStateAction, memo } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
@@ -17,13 +17,13 @@ import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
 import { useAppDispatch } from "../../../../store";
 import useSwipeAnimation from "../../../hooks/animations/useSwipeAnimation";
 import useFeedItem from "../../../hooks/feeds/useFeedItem";
+import CommunityLink from "../../CommunityLink";
+import FeedContentPreview from "../FeedContentPreview";
+import { Actions } from "./Actions";
 import { ByLine } from "./ByLine";
-import { Post } from "./Post";
-import { DateLine } from "./DateLine";
 import { Footer, Header } from "./Layout";
 import { Metrics } from "./Metrics";
-import { Actions } from "./Actions";
-import FeedContentPreview from "../FeedContentPreview";
+import { Post } from "./Post";
 
 interface FeedItemProps {
   post: PostView;
@@ -35,6 +35,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
   const feedItem = useFeedItem(post, setPosts);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
+  const theme = useTheme();
 
   const onLeftRightOne = () => feedItem.onVotePress(1, false);
   const onLeftRightTwo = () => feedItem.onVotePress(-1, false);
@@ -96,7 +97,10 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
           <Post>
             <Header>
               <ByLine post={post} />
-              <DateLine post={post} />
+              <CommunityLink
+                community={post.community}
+                color={theme.colors.app.textSecondary}
+              />
             </Header>
 
             <Pressable onPress={feedItem.onPress}>

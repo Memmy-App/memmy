@@ -9,8 +9,11 @@ import { getBuildNumber, getVersion } from "react-native-device-info";
 import FastImage from "react-native-fast-image";
 import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
 import { SortType } from "lemmy-js-client";
-import { deleteLog, sendLog } from "../../../helpers/LogHelper";
-import { selectAccounts } from "../../../slices/accounts/accountsSlice";
+import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
+import {
+  selectAccounts,
+  selectCurrentAccount,
+} from "../../../slices/accounts/accountsSlice";
 import { setSetting } from "../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../store";
@@ -18,6 +21,7 @@ import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
 import CCell from "../../ui/table/CCell";
 import { sortOptions, SortOption } from "../../../types/FeedSortOptions";
 import { FontWeightMap, FontWeightLabelMap } from "../../../theme/fontSize";
+import { openLink } from "../../../helpers/LinkHelper";
 
 function SettingsIndexScreen({
   navigation,
@@ -26,6 +30,8 @@ function SettingsIndexScreen({
 }) {
   const settings = useAppSelector(selectSettings);
   const accounts = useAppSelector(selectAccounts);
+
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const dispatch = useAppDispatch();
   const theme = useTheme();
@@ -96,7 +102,19 @@ function SettingsIndexScreen({
           />
         </Section>
 
-        <Section header="FONT SIZE" roundedCorners hideSurroundingSeparators>
+        <Section header="FONT" roundedCorners hideSurroundingSeparators>
+          <CCell
+            title="Use System Font"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.isSystemFont}
+                onValueChange={(v) => onChange("isSystemFont", v)}
+              />
+            }
+          />
           <CCell
             title="Use System Font Size"
             backgroundColor={theme.colors.app.fg}
@@ -145,13 +163,21 @@ function SettingsIndexScreen({
           <CCell
             cellStyle="RightDetail"
             title="Font Weight - Post Title"
-            detail={FontWeightMap.get(settings.fontWeightPostTitle) || 'Regular'}
+            detail={
+              FontWeightMap.get(settings.fontWeightPostTitle) || "Regular"
+            }
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => {
-              const options = ["Regular", "Medium", "Semi-Bold", "Bold", "Cancel"];
+              const options = [
+                "Regular",
+                "Medium",
+                "Semi-Bold",
+                "Bold",
+                "Cancel",
+              ];
               const cancelButtonIndex = 4;
 
               showActionSheetWithOptions(
@@ -163,7 +189,12 @@ function SettingsIndexScreen({
                 (index: number) => {
                   if (index === cancelButtonIndex) return;
 
-                  dispatch(setSetting({ fontWeightPostTitle: FontWeightLabelMap.get(options[index]) || 400 }));
+                  dispatch(
+                    setSetting({
+                      fontWeightPostTitle:
+                        FontWeightLabelMap.get(options[index]) || 400,
+                    })
+                  );
                 }
               );
             }}
@@ -173,12 +204,102 @@ function SettingsIndexScreen({
         <Section header="APPEARANCE" roundedCorners hideSurroundingSeparators>
           <CCell
             cellStyle="Basic"
-            title="Themes"
-            accessory="DisclosureIndicator"
-            onPress={() => navigation.push("ThemeSelection")}
+            title="Match System Light/Dark Theme"
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.themeMatchSystem}
+                onValueChange={(v) => {
+                  LayoutAnimation.easeInEaseOut();
+                  onChange("themeMatchSystem", v);
+                }}
+              />
+            }
+          />
+          {!settings.themeMatchSystem && (
+            <CCell
+              cellStyle="Basic"
+              title="Theme"
+              accessory="DisclosureIndicator"
+              onPress={() => navigation.push("ThemeSelection")}
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+            >
+              <Text
+                ml={4}
+                mb={2}
+                mt={-3}
+                fontSize="xs"
+                color={theme.colors.app.textSecondary}
+              >
+                Selected: {settings.theme}
+              </Text>
+            </CCell>
+          )}
+          {settings.themeMatchSystem && (
+            <CCell
+              cellStyle="Basic"
+              title="Theme for System Light"
+              accessory="DisclosureIndicator"
+              onPress={() =>
+                navigation.push("ThemeSelection", { themeProp: "themeLight" })
+              }
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+            >
+              <Text
+                ml={4}
+                mb={2}
+                mt={-3}
+                fontSize="xs"
+                color={theme.colors.app.textSecondary}
+              >
+                Selected: {settings.themeLight}
+              </Text>
+            </CCell>
+          )}
+          {settings.themeMatchSystem && (
+            <CCell
+              cellStyle="Basic"
+              title="Theme for System Dark"
+              accessory="DisclosureIndicator"
+              onPress={() =>
+                navigation.push("ThemeSelection", { themeProp: "themeDark" })
+              }
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+            >
+              <Text
+                ml={4}
+                mb={2}
+                mt={-3}
+                fontSize="xs"
+                color={theme.colors.app.textSecondary}
+              >
+                Selected: {settings.themeDark}
+              </Text>
+            </CCell>
+          )}
+          <CCell
+            cellStyle="Basic"
+            title="Display Total Score"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.displayTotalScore}
+                onValueChange={(v) => {
+                  LayoutAnimation.easeInEaseOut();
+                  onChange("displayTotalScore", v);
+                }}
+              />
+            }
           />
           {/* <CCell */}
           {/*  title="Swipe Gestures" */}
@@ -308,8 +429,8 @@ function SettingsIndexScreen({
               detail={settings.compactThumbnailPosition}
               accessory="DisclosureIndicator"
               onPress={() => {
-                const options = ["Left", "Right", "Cancel"];
-                const cancelButtonIndex = 2;
+                const options = ["None", "Left", "Right", "Cancel"];
+                const cancelButtonIndex = 3;
 
                 showActionSheetWithOptions(
                   {
@@ -442,10 +563,50 @@ function SettingsIndexScreen({
           />
           <CCell
             cellStyle="Basic"
+            title="Terms of Use"
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              navigation.push("Viewer", {
+                type: "terms",
+              });
+            }}
+          />
+          <CCell
+            cellStyle="Basic"
             title="GitHub"
             accessory="DisclosureIndicator"
             onPress={() => {
               WebBrowser.openBrowserAsync("https://github.com/gkasdorf/memmy");
+            }}
+          />
+          <CCell
+            cellStyle="Basic"
+            title="Delete Account"
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              Alert.alert(
+                "Delete Account",
+                "To remove all data from Memmy's servers, simply disable push " +
+                  "notifications. If you do not have push notifications enabled, we do not have any of your data.\n\n" +
+                  `To delete your Lemmy account, you must first visit ${currentAccount.instance} and sign in.` +
+                  " Then " +
+                  ' navigate to the Profile tab. You may delete your account by pressing "Delete Account".',
+                [
+                  {
+                    text: "Visit Instance",
+                    onPress: () => {
+                      openLink(
+                        `https://${currentAccount.instance}`,
+                        navigation
+                      );
+                    },
+                  },
+                  {
+                    text: "OK",
+                    style: "default",
+                  },
+                ]
+              );
             }}
           />
         </Section>
@@ -482,7 +643,7 @@ function SettingsIndexScreen({
                 deleteLog();
                 Alert.alert("Debug file cleared.");
               } catch (e) {
-                console.log(e.toString());
+                writeToLog("Error clearing debug file.");
               }
             }}
           />

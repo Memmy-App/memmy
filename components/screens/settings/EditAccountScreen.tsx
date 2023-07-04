@@ -1,8 +1,9 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { VStack, useTheme } from "native-base";
+import { useTheme } from "native-base";
 import React, { useEffect, useRef, useState } from "react";
 import { Alert, Button, StyleSheet, TextInput } from "react-native";
 import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { writeToLog } from "../../../helpers/LogHelper";
 import {
@@ -150,7 +151,10 @@ function EditAccountScreen({
   };
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.bg}>
+    <KeyboardAwareScrollView
+      style={{ backgroundColor: theme.colors.app.bg }}
+      keyboardShouldPersistTaps="handled"
+    >
       <TableView style={styles.table}>
         <Section
           header="SERVER ADDRESS"
@@ -263,22 +267,8 @@ function EditAccountScreen({
             />
           )}
         </Section>
-
-        {/* { */}
-        {/*    serverIndex && ( */}
-        {/*        <Section */}
-        {/*            header={"DELETE"} */}
-        {/*            roundedCorners={true} */}
-        {/*            hideSurroundingSeparators={true} */}
-        {/*        > */}
-        {/*            <CCell cellContentView={ */}
-        {/*                <Button title={"Delete Server"} color={"red"} onPress={onDeletePress} /> */}
-        {/*            } /> */}
-        {/*        </Section> */}
-        {/*    ) */}
-        {/* } */}
       </TableView>
-    </VStack>
+    </KeyboardAwareScrollView>
   );
 }
 

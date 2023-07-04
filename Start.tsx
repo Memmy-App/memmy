@@ -4,7 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import { NativeBaseProvider, extendTheme } from "native-base";
 import React, { useEffect, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { AppState } from "react-native";
+import { AppState, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Stack from "./Stack";
 import MemmyErrorView from "./components/ui/Loading/MemmyErrorView";
@@ -20,6 +20,8 @@ import getFontScale from "./theme/fontSize";
 import { darkTheme } from "./theme/theme";
 import { ThemeOptionsArr, ThemeOptionsMap } from "./theme/themeOptions";
 import Toast from "./components/ui/Toast";
+import merge from "deepmerge";
+import { systemFontSettings } from "./theme/common";
 
 const logError = (e, info) => {
   writeToLog(e.toString());
@@ -40,8 +42,11 @@ function Start() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useAppDispatch();
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
-  const { theme, fontSize, isSystemTextSize } = useAppSelector(selectSettings);
+
+  const { theme, themeMatchSystem, themeDark, themeLight, fontSize, isSystemTextSize, isSystemFont } = useAppSelector(selectSettings);
   const [selectedTheme, setSelectedTheme] = useState<any>(darkTheme);
+  const systemColorScheme = useColorScheme();
+  const currentTheme = themeMatchSystem ? (systemColorScheme === 'light' ? themeLight : themeDark) : theme;
 
   const appState = useRef(AppState.currentState);
 
@@ -87,7 +92,7 @@ function Start() {
   };
 
   useEffect(() => {
-    let usedTheme = theme;
+    let usedTheme = currentTheme;
 
     // @ts-ignore
     if (!ThemeOptionsArr.includes(usedTheme)) {
@@ -96,24 +101,34 @@ function Start() {
       dispatch(setSetting({ theme: usedTheme }));
     }
 
-    const newTheme = extendTheme({
-      ...ThemeOptionsMap[usedTheme],
-      ...(isSystemTextSize
+    const newTheme = extendTheme(merge.all([
+      ThemeOptionsMap[usedTheme],
+      {
+        components: {
+          Text: {
+            defaultProps: {
+              color: ThemeOptionsMap[usedTheme].colors.app.textPrimary,
+            }
+          }
+        }
+      },
+      (isSystemTextSize
         ? {
-            components: {
-              Text: {
-                defaultProps: {
-                  allowFontScaling: false,
-                },
+          components: {
+            Text: {
+              defaultProps: {
+                allowFontScaling: false,
               },
             },
-          }
+          },
+        }
         : { fontSizes: getFontScale() }),
-    });
+      ( isSystemFont ? systemFontSettings : {}),
+    ]));
     // TODO add fallback
     setSelectedTheme(newTheme);
     // ! fontSize has to be here
-  }, [theme, fontSize, getFontScale, isSystemTextSize]);
+  }, [currentTheme, fontSize, getFontScale, isSystemTextSize, isSystemFont]);
 
   if (!loaded) {
     dispatch(loadSettings());

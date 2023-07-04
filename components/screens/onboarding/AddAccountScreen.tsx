@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Image } from "react-native";
-import { Button, Text, useTheme, VStack } from "native-base";
+import { Button, Pressable, Text, useTheme, VStack } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import CTextInput from "../../ui/CTextInput";
 import ILemmyServer from "../../../lemmy/types/ILemmyServer";
 import {
@@ -20,9 +21,10 @@ const header = require("../../../assets/header.jpg");
 
 interface IProps {
   route: any;
+  navigation: NativeStackNavigationProp<any>;
 }
 
-function AddAccountScreen({ route }: IProps) {
+function AddAccountScreen({ route, navigation }: IProps) {
   const [form, setForm] = useState<ILemmyServer>({
     server: "",
     username: "",
@@ -112,7 +114,10 @@ function AddAccountScreen({ route }: IProps) {
   };
 
   return (
-    <KeyboardAwareScrollView style={{ backgroundColor: theme.colors.app.bg }}>
+    <KeyboardAwareScrollView
+      style={{ backgroundColor: theme.colors.app.bg }}
+      keyboardShouldPersistTaps="handled"
+    >
       <LoadingModal loading={loading} />
 
       <VStack flex={1} mb={5} space="md" justifyContent="center">
@@ -172,6 +177,17 @@ function AddAccountScreen({ route }: IProps) {
               secure
             />
           )}
+          <Text justifyContent="center" alignItems="center">
+            By using Memmy, you agree to the
+            <Pressable
+              onPress={() => navigation.push("Viewer", { type: "terms" })}
+            >
+              <Text mt={1.5} color={theme.colors.app.accent}>
+                {" "}
+                Terms of Use
+              </Text>
+            </Pressable>
+          </Text>
           <Button
             size="sm"
             colorScheme="lightBlue"

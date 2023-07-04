@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/prefer-default-export
 export const findImages = (
-  text: string
+  text: string,
+  stripWhitespace?: boolean
 ): { cleanedText: string; imageLinks: string[] } => {
   if (!text) {
     return {
@@ -12,7 +13,7 @@ export const findImages = (
   const pattern = /!\[.*?\]\(([^)]+)\)/g;
   const imageLinks = [];
 
-  const removeWhitespace = text.replace(/\s\s+/g, " ");
+  const removeWhitespace = stripWhitespace ? text.replace(/\s\s+/g, " ") : text;
   const cleanedText = removeWhitespace.replace(pattern, (match, link) => {
     imageLinks.push(link);
     return "";

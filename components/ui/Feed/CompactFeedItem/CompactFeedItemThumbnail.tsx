@@ -120,12 +120,17 @@ function CompactFeedItemThumbnail({
                     uri: post.post.thumbnail_url,
                   }}
                 />
-                <View zIndex={1} position="absolute" bottom="1" right="1" style={styles.circle}>
-                  <View zIndex={2} position="absolute" top="1" left="1">
-                    <IconLink size={16} color="#333" />
+                <View
+                  zIndex={1}
+                  position="absolute"
+                  bottom={1}
+                  right={1}
+                  style={styles.circle}
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <IconLink size={16} color="#333" />
                 </View>
-                </View>
-                
               </>
             )) || <IconLink size={40} color={theme.colors.app.textSecondary} />}
           </>
@@ -158,13 +163,13 @@ const styles = StyleSheet.create({
   nsfwIcon: {
     marginLeft: 5,
   },
-  
+
   circle: {
-    height:24,
+    height: 24,
     width: 24,
     borderRadius: 100 / 2,
     backgroundColor: "white",
-    opacity: .8
+    opacity: 0.8,
   },
 });
 

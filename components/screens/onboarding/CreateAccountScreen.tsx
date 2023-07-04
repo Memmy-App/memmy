@@ -1,8 +1,9 @@
 import { LemmyHttp } from "lemmy-js-client";
-import { Button, Text, VStack, useTheme } from "native-base";
+import { Button, Text, VStack, useTheme, Pressable } from "native-base";
 import React, { useEffect, useState } from "react";
 import { Alert, Image, Linking } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { initialize, lemmyAuthToken } from "../../../lemmy/LemmyInstance";
@@ -26,7 +27,13 @@ interface RegisterForm {
   captchaAnswer: string | undefined;
 }
 
-function CreateAccountScreen({ route }: { route: any }) {
+function CreateAccountScreen({
+  route,
+  navigation,
+}: {
+  route: any;
+  navigation: NativeStackNavigationProp<any>;
+}) {
   const [form, setForm] = useState<RegisterForm>({
     server: "",
     username: "",
@@ -192,7 +199,10 @@ function CreateAccountScreen({ route }: { route: any }) {
   };
 
   return (
-    <KeyboardAwareScrollView style={{ backgroundColor: theme.colors.app.bg }}>
+    <KeyboardAwareScrollView
+      style={{ backgroundColor: theme.colors.app.bg }}
+      keyboardShouldPersistTaps="handled"
+    >
       <LoadingModal loading={loading} />
       <VStack flex={1} mb={5} space="md" justifyContent="center">
         <Image
@@ -296,6 +306,17 @@ function CreateAccountScreen({ route }: { route: any }) {
                   />
                 </>
               )}
+              <Text justifyContent="center" alignItems="center">
+                By using Memmy, you agree to the
+                <Pressable
+                  onPress={() => navigation.push("Viewer", { type: "terms" })}
+                >
+                  <Text mt={1.5} color={theme.colors.app.accent}>
+                    {" "}
+                    Terms of Use
+                  </Text>
+                </Pressable>
+              </Text>
               <Button
                 size="sm"
                 colorScheme="lightBlue"

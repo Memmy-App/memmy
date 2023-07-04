@@ -21,10 +21,11 @@ interface IProps {
 
 function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
   const theme = useTheme();
-  const { markReadOnPostImageView, fontWeightPostTitle } = useAppSelector(selectSettings);
+  const { markReadOnPostImageView, fontWeightPostTitle } =
+    useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
-  const { cleanedText, imageLinks } = findImages(post.post.body);
+  const { cleanedText, imageLinks } = findImages(post.post.body, true);
   const body = truncatePost(cleanedText, 100);
 
   const title = post.post.name;
@@ -98,7 +99,13 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
         )}
       </Box>
     ),
-    [post.post.id, post.read, fontWeightPostTitle]
+    [
+      post.post.id,
+      post.read,
+      theme.colors.app.textPrimary,
+      theme.colors.app.textSecondary,
+      fontWeightPostTitle,
+    ]
   );
 }
 
