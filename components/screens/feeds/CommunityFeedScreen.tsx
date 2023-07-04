@@ -56,8 +56,9 @@ function FeedsCommunityScreen({
   }
 
   const header = () => {
-    if (communityFeed.feed.communityLoading || !communityFeed.feed.community)
+    if (communityFeed.feed.communityLoading || !communityFeed.feed.community) {
       return null;
+    }
 
     return (
       <VStack pt={10} pb={5} px={5}>
