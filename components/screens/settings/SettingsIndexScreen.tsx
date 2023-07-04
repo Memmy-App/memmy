@@ -20,7 +20,7 @@ import { useAppDispatch, useAppSelector } from "../../../store";
 import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
 import CCell from "../../ui/table/CCell";
 import { sortOptions, SortOption } from "../../../types/FeedSortOptions";
-import { FontWeightMap, FontWeightLabelMap } from "../../../theme/fontSize";
+import { FontWeightMap } from "../../../theme/fontSize";
 import { openLink } from "../../../helpers/LinkHelper";
 
 function SettingsIndexScreen({
@@ -56,8 +56,6 @@ function SettingsIndexScreen({
     Alert.alert("Success", "Cache has been cleared.");
   };
 
-  // @ts-ignore
-  // @ts-ignore
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
@@ -164,21 +162,17 @@ function SettingsIndexScreen({
             cellStyle="RightDetail"
             title="Font Weight - Post Title"
             detail={
-              FontWeightMap.get(settings.fontWeightPostTitle) || "Regular"
+              Object.keys(FontWeightMap).find(
+                (key) => FontWeightMap[key] === settings.fontWeightPostTitle
+              ) || "Regular"
             }
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => {
-              const options = [
-                "Regular",
-                "Medium",
-                "Semi-Bold",
-                "Bold",
-                "Cancel",
-              ];
-              const cancelButtonIndex = 4;
+              const options = [...Object.keys(FontWeightMap), "Cancel"];
+              const cancelButtonIndex = options.length - 1;
 
               showActionSheetWithOptions(
                 {
@@ -191,8 +185,7 @@ function SettingsIndexScreen({
 
                   dispatch(
                     setSetting({
-                      fontWeightPostTitle:
-                        FontWeightLabelMap.get(options[index]) || 400,
+                      fontWeightPostTitle: FontWeightMap[options[index]] || 400,
                     })
                   );
                 }

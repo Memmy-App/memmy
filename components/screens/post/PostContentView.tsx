@@ -39,7 +39,8 @@ interface IProps {
 
 function PostContentView({ post, recycled, setPostRead }: IProps) {
   const theme = useTheme();
-  const { blurNsfw, markReadOnPostImageView, fontWeightPostTitle } = useAppSelector(selectSettings);
+  const { blurNsfw, markReadOnPostImageView, fontWeightPostTitle } =
+    useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
 
