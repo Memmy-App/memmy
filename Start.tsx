@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { AppState, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import merge from "deepmerge";
 import Stack from "./Stack";
 import MemmyErrorView from "./components/ui/Loading/MemmyErrorView";
 import { writeToLog } from "./helpers/LogHelper";
@@ -20,7 +21,6 @@ import getFontScale from "./theme/fontSize";
 import { darkTheme } from "./theme/theme";
 import { ThemeOptionsArr, ThemeOptionsMap } from "./theme/themeOptions";
 import Toast from "./components/ui/Toast";
-import merge from "deepmerge";
 import { systemFontSettings } from "./theme/common";
 
 const logError = (e, info) => {
@@ -43,10 +43,23 @@ function Start() {
   const dispatch = useAppDispatch();
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
 
-  const { theme, themeMatchSystem, themeDark, themeLight, fontSize, isSystemTextSize, isSystemFont } = useAppSelector(selectSettings);
+  const {
+    theme,
+    themeMatchSystem,
+    themeDark,
+    themeLight,
+    fontSize,
+    isSystemTextSize,
+    isSystemFont,
+    accentColor,
+  } = useAppSelector(selectSettings);
   const [selectedTheme, setSelectedTheme] = useState<any>(darkTheme);
   const systemColorScheme = useColorScheme();
-  const currentTheme = themeMatchSystem ? (systemColorScheme === 'light' ? themeLight : themeDark) : theme;
+  const currentTheme = themeMatchSystem
+    ? systemColorScheme === "light"
+      ? themeLight
+      : themeDark
+    : theme;
 
   const appState = useRef(AppState.currentState);
 
@@ -101,34 +114,52 @@ function Start() {
       dispatch(setSetting({ theme: usedTheme }));
     }
 
-    const newTheme = extendTheme(merge.all([
-      ThemeOptionsMap[usedTheme],
-      {
-        components: {
-          Text: {
-            defaultProps: {
-              color: ThemeOptionsMap[usedTheme].colors.app.textPrimary,
+    const newTheme = extendTheme(
+      merge.all([
+        ThemeOptionsMap[usedTheme],
+        accentColor
+          ? {
+              colors: {
+                app: {
+                  accent: accentColor,
+                },
+              },
             }
-          }
-        }
-      },
-      (isSystemTextSize
-        ? {
+          : {},
+        {
           components: {
             Text: {
               defaultProps: {
-                allowFontScaling: false,
+                color: ThemeOptionsMap[usedTheme].colors.app.textPrimary,
               },
             },
           },
-        }
-        : { fontSizes: getFontScale() }),
-      ( isSystemFont ? systemFontSettings : {}),
-    ]));
+        },
+        isSystemTextSize
+          ? {
+              components: {
+                Text: {
+                  defaultProps: {
+                    allowFontScaling: false,
+                  },
+                },
+              },
+            }
+          : { fontSizes: getFontScale() },
+        isSystemFont ? systemFontSettings : {},
+      ])
+    );
     // TODO add fallback
     setSelectedTheme(newTheme);
     // ! fontSize has to be here
-  }, [currentTheme, fontSize, getFontScale, isSystemTextSize, isSystemFont]);
+  }, [
+    currentTheme,
+    fontSize,
+    getFontScale,
+    isSystemTextSize,
+    isSystemFont,
+    accentColor,
+  ]);
 
   if (!loaded) {
     dispatch(loadSettings());

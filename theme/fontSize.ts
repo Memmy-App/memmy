@@ -46,6 +46,13 @@ export const fontSizeMap: Record<number, number> = {
   7: 3,
 };
 
+export const FontWeightMap: Record<string, number> = {
+  "Regular (Default)": 400,
+  Medium: 500,
+  "Semi-Bold": 600,
+  Bold: 700,
+};
+
 function getFontScale(): IFontSizes | null {
   const { settings } = store.getState();
 

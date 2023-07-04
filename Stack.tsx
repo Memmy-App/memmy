@@ -23,9 +23,9 @@ import NewCommentScreen from "./components/screens/comments/NewCommentScreen";
 import NewPostScreen from "./components/screens/post/NewPostScreen";
 import PostScreen from "./components/screens/post/PostScreen";
 import SearchScreen from "./components/screens/search/SearchScreen";
-import EditAccountScreen from "./components/screens/settings/EditAccountScreen";
+import EditAccountScreen from "./components/screens/settings/Account/EditAccountScreen";
 import SettingsIndexScreen from "./components/screens/settings/SettingsIndexScreen";
-import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen";
+import ViewAccountsScreen from "./components/screens/settings/Account/ViewAccountsScreen";
 import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
 import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
 import LoadingView from "./components/ui/Loading/LoadingView";
@@ -35,7 +35,7 @@ import {
 } from "./slices/accounts/accountsSlice";
 import { selectSite } from "./slices/site/siteSlice";
 import { useAppSelector } from "./store";
-import ReadSettingsScreen from "./components/screens/settings/ReadSettingsScreen";
+import ReadSettingsScreen from "./components/screens/settings/Content/ReadSettingsScreen";
 import ThemeSelectionScreen from "./components/screens/settings/Appearance/ThemeSelectionScreen";
 import ViewerScreen from "./components/screens/ViewerScreen";
 import EditCommentScreen from "./components/screens/comments/EditCommentScreen";
@@ -51,6 +51,11 @@ import InstanceScreen from "./components/ui/hubDiscovery/InstanceScreen";
 import NewPostBodyScreen from "./components/screens/post/NewPostBodyScreen";
 import TraverseScreen from "./components/screens/traverse/TraverseScreen";
 import SearchResultsScreen from "./components/screens/search/SearchResultsScreen";
+import AppearanceScreen from "./components/screens/settings/Appearance/AppearanceScreen";
+import ContentScreen from "./components/screens/settings/Content/ContentScreen";
+import AccountSettingsScreen from "./components/screens/settings/Account/AccountSettingsScreen";
+import AboutScreen from "./components/screens/settings/About/AboutScreen";
+import GeneralSettingsScreen from "./components/screens/settings/General/GeneralSettingsScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -218,10 +223,50 @@ function ProfileStackScreen() {
           }}
         />
         <ProfileStack.Screen
+          name="AccountSettings"
+          component={AccountSettingsScreen}
+          options={{
+            title: "Accounts",
+            freezeOnBlur: true,
+          }}
+        />
+        <ProfileStack.Screen
+          name="Content"
+          component={ContentScreen}
+          options={{
+            title: "Content",
+            freezeOnBlur: true,
+          }}
+        />
+        <ProfileStack.Screen
+          name="Appearance"
+          component={AppearanceScreen}
+          options={{
+            title: "Appearance",
+            freezeOnBlur: true,
+          }}
+        />
+        <ProfileStack.Screen
           name="ThemeSelection"
           component={ThemeSelectionScreen}
           options={{
             title: "Theme",
+          }}
+        />
+        <ProfileStack.Screen
+          name="GeneralSettings"
+          component={GeneralSettingsScreen}
+          options={{
+            title: "General",
+            freezeOnBlur: true,
+          }}
+        />
+        <ProfileStack.Screen
+          name="About"
+          component={AboutScreen}
+          options={{
+            title: "About",
+            freezeOnBlur: true,
           }}
         />
 
