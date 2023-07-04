@@ -146,7 +146,11 @@ const oledTheme = extendTheme({
 export type ThemeType = typeof lightTheme;
 
 declare module "native-base" {
-  interface ICustomTheme extends ThemeType {}
+  interface ICustomTheme extends ThemeType {
+    config: {
+      initialColorMode: "dark" | "light";
+    };
+  }
 }
 
 export {
