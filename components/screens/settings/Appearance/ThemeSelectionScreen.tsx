@@ -31,7 +31,7 @@ function ThemeSelectionScreen({ route }: IProps) {
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
-        <CSection header="App Theme" roundedCorners hideSurroundingSeparators>
+        <CSection header="App Theme">
           {ThemeOptionsArr.map((themeName) => (
             <CCell
               cellStyle="RightDetail"
@@ -64,7 +64,7 @@ function ThemeSelectionScreen({ route }: IProps) {
             </CCell>
           ))}
         </CSection>
-        <CSection header="Other" roundedCorners hideSurroundingSeparators>
+        <CSection header="Other">
           <CCell
             cellStyle="RightDetail"
             title={

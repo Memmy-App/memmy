@@ -20,7 +20,7 @@ function GeneralSettingsScreen() {
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
-        <CSection header="HAPTICS" roundedCorners hideSurroundingSeparators>
+        <CSection header="HAPTICS">
           <CCell
             cellStyle="RightDetail"
             title="Strength"

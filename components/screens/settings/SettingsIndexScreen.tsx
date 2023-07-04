@@ -16,8 +16,6 @@ import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
 import CCell from "../../ui/table/CCell";
 import CSection from "../../ui/table/CSection";
 
-export const SEPARATOR_INSET_LEFT = 55;
-
 function SettingOptionTitle({
   text,
   icon,
@@ -30,7 +28,7 @@ function SettingOptionTitle({
   const IconComponent = icon;
 
   return (
-    <HStack space={3} alignItems="center" paddingTop={1.5}>
+    <HStack space={3} alignItems="center" marginBottom={-1.5}>
       <Box
         style={{
           width: 28,
@@ -63,12 +61,7 @@ function SettingsIndexScreen({
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
-        <CSection
-          roundedCorners
-          hideSurroundingSeparators
-          separatorInsetLeft={SEPARATOR_INSET_LEFT}
-          separatorTintColor={theme.colors.app.border}
-        >
+        <CSection>
           <CCell
             cellStyle="Basic"
             title={
@@ -146,12 +139,7 @@ function SettingsIndexScreen({
           />
         </CSection>
 
-        <CSection
-          header="DEBUG"
-          roundedCorners
-          hideSurroundingSeparators
-          separatorTintColor={theme.colors.app.border}
-        >
+        <CSection>
           <CCell
             cellStyle="Basic"
             title="Email Debug Log"

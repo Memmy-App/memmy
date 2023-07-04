@@ -31,7 +31,7 @@ function AppearanceScreen({ navigation }: IProps) {
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
-        <CSection header="THEMES" roundedCorners hideSurroundingSeparators>
+        <CSection header="THEMES">
           <CCell
             cellStyle="Basic"
             title="Match System Light/Dark Theme"
@@ -117,7 +117,7 @@ function AppearanceScreen({ navigation }: IProps) {
           )}
         </CSection>
 
-        <CSection header="FONT" roundedCorners hideSurroundingSeparators>
+        <CSection header="FONT">
           <CCell
             title="Use System Font"
             backgroundColor={theme.colors.app.fg}

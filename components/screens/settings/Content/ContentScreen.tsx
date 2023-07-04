@@ -183,7 +183,7 @@ function ContentScreen({
         </CSection>
 
         {settings.compactView && (
-          <CSection header="COMPACT" roundedCorners hideSurroundingSeparators>
+          <CSection header="COMPACT">
             <CCell
               cellStyle="RightDetail"
               title="Thumbnails Position"
@@ -227,8 +227,6 @@ function ContentScreen({
         <CSection
           header="NSFW CONTENT"
           footer="This toggle does not affect your Lemmy account NSFW settings. This local setting will apply only to the app and will apply to all accounts."
-          roundedCorners
-          hideSurroundingSeparators
         >
           <CCell
             cellStyle="RightDetail"
