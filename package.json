@@ -68,6 +68,7 @@
     "react-native-appearance": "^0.3.4",
     "react-native-device-info": "^10.6.0",
     "react-native-fast-image": "^8.6.3",
+    "react-native-flipper": "^0.203.0",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-haptic-feedback": "^2.0.3",
