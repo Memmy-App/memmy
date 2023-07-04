@@ -32,6 +32,7 @@ export interface SettingsState {
   markReadOnPostVote: boolean;
   ignoreScreenHeightInFeed: boolean;
   displayTotalScore: boolean;
+  accentColor?: string;
 }
 
 const initialState: SettingsState = {
