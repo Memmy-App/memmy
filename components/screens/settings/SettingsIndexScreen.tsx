@@ -9,7 +9,7 @@ import { getBuildNumber, getVersion } from "react-native-device-info";
 import FastImage from "react-native-fast-image";
 import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
 import { SortType } from "lemmy-js-client";
-import { deleteLog, sendLog } from "../../../helpers/LogHelper";
+import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
 import {
   selectAccounts,
   selectCurrentAccount,
@@ -591,7 +591,7 @@ function SettingsIndexScreen({
                 deleteLog();
                 Alert.alert("Debug file cleared.");
               } catch (e) {
-                console.log(e.toString());
+                writeToLog("Error clearing debug file.");
               }
             }}
           />
