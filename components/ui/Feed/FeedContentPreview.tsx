@@ -21,7 +21,8 @@ interface IProps {
 
 function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
   const theme = useTheme();
-  const { markReadOnPostImageView } = useAppSelector(selectSettings);
+  const { markReadOnPostImageView, fontWeightPostTitle } =
+    useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
   const { cleanedText, imageLinks } = findImages(post.post.body, true);
@@ -65,6 +66,7 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
         <Text
           mx={4}
           fontSize="md"
+          fontWeight={fontWeightPostTitle}
           color={theme.colors.app.textPrimary}
           alignItems="center"
           justifyItems="center"
@@ -102,6 +104,7 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
       post.read,
       theme.colors.app.textPrimary,
       theme.colors.app.textSecondary,
+      fontWeightPostTitle,
     ]
   );
 }

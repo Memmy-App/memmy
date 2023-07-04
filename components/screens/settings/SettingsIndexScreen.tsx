@@ -20,6 +20,7 @@ import { useAppDispatch, useAppSelector } from "../../../store";
 import { HapticOptionsArr } from "../../../types/haptics/hapticOptions";
 import CCell from "../../ui/table/CCell";
 import { sortOptions, SortOption } from "../../../types/FeedSortOptions";
+import { FontWeightMap } from "../../../theme/fontSize";
 import { openLink } from "../../../helpers/LinkHelper";
 
 function SettingsIndexScreen({
@@ -55,8 +56,6 @@ function SettingsIndexScreen({
     Alert.alert("Success", "Cache has been cleared.");
   };
 
-  // @ts-ignore
-  // @ts-ignore
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
@@ -102,7 +101,7 @@ function SettingsIndexScreen({
         </Section>
 
         <Section header="FONT" roundedCorners hideSurroundingSeparators>
-        <CCell
+          <CCell
             title="Use System Font"
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
@@ -159,6 +158,40 @@ function SettingsIndexScreen({
               <Text fontSize={19}>A</Text>
             </HStack>
           </CCell>
+          <CCell
+            cellStyle="RightDetail"
+            title="Font Weight - Post Title"
+            detail={
+              Object.keys(FontWeightMap).find(
+                (key) => FontWeightMap[key] === settings.fontWeightPostTitle
+              ) || "Regular"
+            }
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              const options = [...Object.keys(FontWeightMap), "Cancel"];
+              const cancelButtonIndex = options.length - 1;
+
+              showActionSheetWithOptions(
+                {
+                  options,
+                  cancelButtonIndex,
+                  userInterfaceStyle: theme.config.initialColorMode,
+                },
+                (index: number) => {
+                  if (index === cancelButtonIndex) return;
+
+                  dispatch(
+                    setSetting({
+                      fontWeightPostTitle: FontWeightMap[options[index]] || 400,
+                    })
+                  );
+                }
+              );
+            }}
+          />
         </Section>
 
         <Section header="APPEARANCE" roundedCorners hideSurroundingSeparators>
