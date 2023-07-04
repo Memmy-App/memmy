@@ -38,7 +38,7 @@ export const onVoteHapticFeedback = () => {
 
   setTimeout(() => {
     doHapticFeedback("soft");
-  }, 25);
+  }, 250);
 
   doHapticFeedback(feedbackType);
 };

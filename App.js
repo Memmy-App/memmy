@@ -1,13 +1,16 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable  global-require */
-import {Provider} from "react-redux";
+import { Provider } from "react-redux";
 import React from "react";
 
-import {useFonts} from "expo-font";
+import { useFonts } from "expo-font";
+import { enableFreeze } from "react-native-screens";
 import store from "./store";
 import Start from "./Start";
 
 export default function App() {
+  enableFreeze(true);
+
   const [fontsLoaded] = useFonts({
     "Inter-Black": require("./assets/fonts/Inter-Black.otf"),
     "Inter-BlackItalic": require("./assets/fonts/Inter-BlackItalic.otf"),

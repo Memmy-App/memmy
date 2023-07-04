@@ -10,7 +10,6 @@ import { useAppSelector } from "../../../store";
 import LinkButton from "../buttons/LinkButton";
 
 import { findImages } from "../../../helpers/MarkdownHelper";
-import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import ImagePreview from "../common/ImagePreview";
 
 interface IProps {
@@ -19,6 +18,7 @@ interface IProps {
   setPostRead?: () => void;
 }
 
+// TODO Fix the set post read here
 function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
   const theme = useTheme();
   const { markReadOnPostImageView, fontWeightPostTitle } =
@@ -30,17 +30,6 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
 
   const title = post.post.name;
   let postUrls = [post.post.url];
-
-  const onImagePress = () => {
-    if (setPostRead && markReadOnPostImageView) {
-      setPostRead();
-      lemmyInstance.markPostAsRead({
-        auth: lemmyAuthToken,
-        post_id: post.post.id,
-        read: true,
-      });
-    }
-  };
 
   const isImagePost = linkInfo.extType === ExtensionType.IMAGE;
 
@@ -80,7 +69,6 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
               postId={post.post.id}
               isNsfw={post.post.nsfw}
               recycled={recycled}
-              onImagePress={onImagePress}
             />
           </Box>
         )}

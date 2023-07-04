@@ -7,11 +7,11 @@ import {
   Pressable,
   Spacer,
   Text,
-  VStack,
-  View,
   useTheme,
+  View,
+  VStack,
 } from "native-base";
-import React, { useMemo, useRef } from "react";
+import React, { useRef } from "react";
 import { StyleSheet } from "react-native";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
@@ -112,163 +112,151 @@ function CommentItem({
             );
           }
         : undefined,
-    leftRightOneIcon: () => <IconArrowUp size={32} color="#fff" />,
-    leftRightTwoIcon: () => <IconArrowDown size={32} color="#fff" />,
-    rightLeftOneIcon: () => <IconMessage size={32} color="#fff" />,
-    rightLeftTwoIcon: () =>
-      isReply ? <IconMailOpened size={32} color="#fff" /> : undefined,
+    leftRightOneIcon: <IconArrowUp size={32} color="#fff" />,
+    leftRightTwoIcon: <IconArrowDown size={32} color="#fff" />,
+    rightLeftOneIcon: <IconMessage size={32} color="#fff" />,
+    rightLeftTwoIcon: isReply ? (
+      <IconMailOpened size={32} color="#fff" />
+    ) : undefined,
   });
 
-  return useMemo(() => {
-    if (comment.hidden) return null;
-    return (
-      <>
-        <View>
-          <View style={styles.backgroundContainer}>
-            <View
-              style={styles.backgroundLeft}
-              justifyContent="center"
-              backgroundColor={swipeAnimation.color ?? theme.colors.app.upvote}
-              pl={4}
-            >
-              {swipeAnimation.leftIcon}
-            </View>
-            <View
-              style={styles.backgroundRight}
-              justifyContent="center"
-              backgroundColor={swipeAnimation.color ?? "#007AFF"}
-              alignItems="flex-end"
-              pr={4}
-            >
-              {swipeAnimation.rightIcon}
-            </View>
-          </View>
-          <PanGestureHandler
-            onGestureEvent={swipeAnimation.gestureHandler}
-            minPointers={1}
-            activeOffsetX={[-20, 20]}
-            hitSlop={{ left: -25 }}
+  if (comment.hidden) return null;
+  return (
+    <>
+      <View>
+        <View style={styles.backgroundContainer}>
+          <View
+            style={styles.backgroundLeft}
+            justifyContent="center"
+            backgroundColor={swipeAnimation.color ?? theme.colors.app.upvote}
+            pl={4}
           >
-            <Animated.View style={[swipeAnimation.animatedStyle]}>
-              <Pressable
-                onPress={commentHook.onCommentPress}
-                onLongPress={commentHook.onCommentLongPress}
+            {swipeAnimation.leftIcon}
+          </View>
+          <View
+            style={styles.backgroundRight}
+            justifyContent="center"
+            backgroundColor={swipeAnimation.color ?? "#007AFF"}
+            alignItems="flex-end"
+            pr={4}
+          >
+            {swipeAnimation.rightIcon}
+          </View>
+        </View>
+        <PanGestureHandler
+          onGestureEvent={swipeAnimation.gestureHandler}
+          minPointers={1}
+          activeOffsetX={[-20, 20]}
+          hitSlop={{ left: -25 }}
+        >
+          <Animated.View style={[swipeAnimation.animatedStyle]}>
+            <Pressable
+              onPress={commentHook.onCommentPress}
+              onLongPress={commentHook.onCommentLongPress}
+            >
+              <VStack
+                flex={1}
+                pr={2}
+                space={2}
+                backgroundColor={theme.colors.app.fg}
+                style={{
+                  paddingLeft: depth * 8,
+                }}
+                py={1}
               >
                 <VStack
-                  flex={1}
-                  pr={2}
-                  space={2}
-                  backgroundColor={theme.colors.app.fg}
-                  style={{
-                    paddingLeft: depth * 8,
-                  }}
-                  py={1}
+                  borderLeftWidth={depth > 2 ? 2 : 0}
+                  borderLeftColor={
+                    theme.colors.app.comments[depth - 2] ??
+                    theme.colors.app.comments[5]
+                  }
+                  borderLeftRadius={1}
+                  pl={depth > 2 ? 2 : 0}
+                  mt={0}
                 >
-                  <VStack
-                    borderLeftWidth={depth > 2 ? 2 : 0}
-                    borderLeftColor={
-                      theme.colors.app.comments[depth - 2] ??
-                      theme.colors.app.comments[5]
-                    }
-                    borderLeftRadius={1}
-                    pl={depth > 2 ? 2 : 0}
-                    mt={0}
+                  <HStack
+                    space={2}
+                    justifyContent="space-between"
+                    alignItems="center"
+                    mb={-3}
+                    pb={2}
                   >
-                    <HStack
-                      space={2}
-                      justifyContent="space-between"
-                      alignItems="center"
-                      mb={-3}
-                      pb={2}
+                    <AvatarUsername
+                      creator={comment.comment.creator}
+                      showInstance={showInstanceForUsernames}
+                      opId={opId}
                     >
-                      <AvatarUsername
-                        creator={comment.comment.creator}
-                        showInstance={showInstanceForUsernames}
-                        opId={opId}
-                      >
-                        <SmallVoteIcons
-                          upvotes={comment.comment.counts.upvotes}
-                          downvotes={comment.comment.counts.downvotes}
-                          myVote={comment.comment.my_vote as ILemmyVote}
-                          initialVote={initialVote.current}
-                        />
-                      </AvatarUsername>
-                      {!comment.collapsed ? (
-                        <HStack alignItems="center" space={2}>
-                          <IconButtonWithText
-                            onPressHandler={commentHook.onCommentLongPress}
-                            icon={
-                              <IconDots
-                                size={24}
-                                color={theme.colors.app.textSecondary}
-                              />
-                            }
-                          />
-                          <Text color={theme.colors.app.textSecondary}>
-                            {timeFromNowShort(
-                              comment.comment.comment.published
-                            )}
-                          </Text>
-                        </HStack>
-                      ) : (
-                        <IconChevronDown
-                          size={24}
-                          color={theme.colors.app.textSecondary}
-                        />
-                      )}
-                    </HStack>
-                    {comment.collapsed ? (
-                      <Spacer marginBottom={2} />
-                    ) : (
-                      <>
-                        {(comment.comment.comment.deleted && (
-                          <RenderMarkdown
-                            text="Comment deleted by user :("
-                            isNote
-                          />
-                        )) ||
-                          (comment.comment.comment.removed && (
-                            <Text
-                              py={3}
+                      <SmallVoteIcons
+                        upvotes={comment.comment.counts.upvotes}
+                        downvotes={comment.comment.counts.downvotes}
+                        myVote={comment.comment.my_vote as ILemmyVote}
+                        initialVote={initialVote.current}
+                      />
+                    </AvatarUsername>
+                    {!comment.collapsed ? (
+                      <HStack alignItems="center" space={2}>
+                        <IconButtonWithText
+                          onPressHandler={commentHook.onCommentLongPress}
+                          icon={
+                            <IconDots
+                              size={24}
                               color={theme.colors.app.textSecondary}
-                              fontStyle="italic"
-                            >
-                              Comment removed by moderator :(
-                            </Text>
-                          )) || (
-                            <RenderMarkdown
-                              text={comment.comment.comment.content}
-                              addImages
                             />
-                          )}
-                      </>
+                          }
+                        />
+                        <Text color={theme.colors.app.textSecondary}>
+                          {timeFromNowShort(comment.comment.comment.published)}
+                        </Text>
+                      </HStack>
+                    ) : (
+                      <IconChevronDown
+                        size={24}
+                        color={theme.colors.app.textSecondary}
+                      />
                     )}
-                  </VStack>
+                  </HStack>
+                  {comment.collapsed ? (
+                    <Spacer marginBottom={2} />
+                  ) : (
+                    <>
+                      {(comment.comment.comment.deleted && (
+                        <RenderMarkdown
+                          text="Comment deleted by user :("
+                          isNote
+                        />
+                      )) ||
+                        (comment.comment.comment.removed && (
+                          <Text
+                            py={3}
+                            color={theme.colors.app.textSecondary}
+                            fontStyle="italic"
+                          >
+                            Comment removed by moderator :(
+                          </Text>
+                        )) || (
+                          <RenderMarkdown
+                            text={comment.comment.comment.content}
+                            addImages
+                          />
+                        )}
+                    </>
+                  )}
                 </VStack>
-              </Pressable>
-            </Animated.View>
-          </PanGestureHandler>
-        </View>
-        <View
-          style={{
-            paddingLeft: depth * 8,
-          }}
-          backgroundColor={theme.colors.app.fg}
-        >
-          <Divider bg={theme.colors.app.border} />
-        </View>
-      </>
-    );
-  }, [
-    swipeAnimation.color,
-    swipeAnimation.leftIcon,
-    swipeAnimation.rightIcon,
-    theme.colors.app.border,
-    theme.colors.app.textSecondary,
-    theme.colors.app.fg,
-    theme.colors.app.bg,
-    comment,
-  ]);
+              </VStack>
+            </Pressable>
+          </Animated.View>
+        </PanGestureHandler>
+      </View>
+      <View
+        style={{
+          paddingLeft: depth * 8,
+        }}
+        backgroundColor={theme.colors.app.fg}
+      >
+        <Divider bg={theme.colors.app.border} />
+      </View>
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -293,4 +281,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CommentItem;
+export default React.memo(CommentItem);

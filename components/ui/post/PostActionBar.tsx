@@ -13,17 +13,17 @@ import { shareLink } from "../../../helpers/ShareHelper";
 import { setResponseTo } from "../../../slices/comments/newCommentSlice";
 import { useAppDispatch } from "../../../store";
 import { UsePost } from "../../hooks/post/postHooks";
-import IconButtonWithText from "../../ui/common/IconButtonWithText";
-import VoteButton from "../../ui/common/VoteButton";
+import IconButtonWithText from "../common/IconButtonWithText";
+import VoteButton from "../common/VoteButton";
 
-function PostActionBar({ post }: { post: UsePost }) {
+interface IProps {
+  post: UsePost;
+}
+
+function PostActionBar({ post }: IProps) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { colors } = useTheme();
   const dispatch = useAppDispatch();
-
-  const onVotePress = (value: -1 | 0 | 1) => {
-    post.doVote(value);
-  };
 
   const onCommentPress = () => {
     onGenericHapticFeedback();
@@ -47,6 +47,14 @@ function PostActionBar({ post }: { post: UsePost }) {
     });
   };
 
+  const onUpvotePress = () => {
+    post.doVote(1);
+  };
+
+  const onDownvotePress = () => {
+    post.doVote(-1);
+  };
+
   const isUpvoted = post.currentPost?.my_vote === 1;
   const isDownvoted = post.currentPost?.my_vote === -1;
 
@@ -60,7 +68,7 @@ function PostActionBar({ post }: { post: UsePost }) {
       py={1}
     >
       <VoteButton
-        onPressHandler={() => onVotePress(1)}
+        onPressHandler={onUpvotePress}
         type="upvote"
         isVoted={isUpvoted}
         text={
@@ -72,7 +80,7 @@ function PostActionBar({ post }: { post: UsePost }) {
       />
 
       <VoteButton
-        onPressHandler={() => onVotePress(-1)}
+        onPressHandler={onDownvotePress}
         type="downvote"
         isVoted={isDownvoted}
         text={

@@ -15,6 +15,14 @@ export function Actions({ vote, saved, onSave, onVotePress }: Props) {
   const upvoted = vote === 1;
   const downvoted = vote === -1;
 
+  const onUpvote = () => {
+    onVotePress(1);
+  };
+
+  const onDownvote = () => {
+    onVotePress(-1);
+  };
+
   return (
     <HStack space={1} alignItems="center" justifyContent="flex-end">
       <IconButtonWithText
@@ -31,13 +39,9 @@ export function Actions({ vote, saved, onSave, onVotePress }: Props) {
         iconBgColor={saved ? theme.colors.app.bookmark : theme.colors.app.fg}
         onPressHandler={onSave}
       />
+      <VoteButton onPressHandler={onUpvote} type="upvote" isVoted={upvoted} />
       <VoteButton
-        onPressHandler={() => onVotePress(1)}
-        type="upvote"
-        isVoted={upvoted}
-      />
-      <VoteButton
-        onPressHandler={() => onVotePress(-1)}
+        onPressHandler={onDownvote}
         type="downvote"
         isVoted={downvoted}
       />

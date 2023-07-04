@@ -1,13 +1,13 @@
-import React from "react";
-import { Dimensions, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet } from "react-native";
 import { Box, Icon, Pressable, useTheme, View, VStack } from "native-base";
 import { PostView } from "lemmy-js-client";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import FastImage from "react-native-fast-image";
 import { IconLink, IconMessages } from "tabler-icons-react-native";
+import EnhancedImageViewing from "@gkasdorf/react-native-image-viewing";
 import { ExtensionType, LinkInfo } from "../../../../helpers/LinkHelper";
-import ImageModal from "../../image/ImageModal";
 import { useAppSelector } from "../../../../store";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 
@@ -29,6 +29,7 @@ function CompactFeedItemThumbnail({
   const theme = useTheme();
 
   const { blurNsfw, markReadOnPostImageView } = useAppSelector(selectSettings);
+  const [dimensions, setDimensions] = useState({ height: 0, width: 0 });
 
   const onImagePress = () => {
     setImageViewOpen(true);
@@ -42,7 +43,18 @@ function CompactFeedItemThumbnail({
     }
   };
 
+  const onRequestClose = () => {
+    setImageViewOpen(false);
+  };
+
   const onImageLongPress = () => {};
+
+  const onLoad = (e) => {
+    setDimensions({
+      height: e.nativeEvent.height,
+      width: e.nativeEvent.width,
+    });
+  };
 
   return (
     <Box
@@ -82,6 +94,7 @@ function CompactFeedItemThumbnail({
                   source={{
                     uri: post.post.url,
                   }}
+                  onLoad={onLoad}
                 />
               </View>
             </Pressable>
@@ -93,17 +106,17 @@ function CompactFeedItemThumbnail({
                 source={{
                   uri: post.post.url,
                 }}
+                onLoad={onLoad}
               />
             </Pressable>
           )}
-          <ImageModal
-            source={post.post.url}
-            width={Dimensions.get("screen").width}
-            height={Dimensions.get("screen").height}
-            isOpen={imageViewOpen}
-            onRequestClose={() => {
-              setImageViewOpen(false);
-            }}
+          <EnhancedImageViewing
+            images={[{ uri: post.post.url }]}
+            imageIndex={0}
+            visible={imageViewOpen}
+            onRequestClose={onRequestClose}
+            height={dimensions.height}
+            width={dimensions.width}
           />
         </>
       )) ||
