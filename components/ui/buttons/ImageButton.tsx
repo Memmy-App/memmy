@@ -8,7 +8,6 @@ import {
   useTheme,
 } from "native-base";
 import FastImage from "react-native-fast-image";
-import { Dimensions } from "react-native";
 import { truncateImageLink } from "../../../helpers/TextHelper";
 import ImageViewer from "../image/ImageViewer";
 
@@ -18,11 +17,23 @@ interface ImageButtonProps {
 
 function ImageButton({ src }: ImageButtonProps) {
   const [visible, setVisible] = useState(false);
+  const [dimensions, setDimensions] = useState({ height: 0, width: 0 });
 
   const theme = useTheme();
 
   const onPress = () => {
     setVisible(true);
+  };
+
+  const onRequestClose = () => {
+    setVisible(false);
+  };
+
+  const onLoad = (e) => {
+    setDimensions({
+      height: e.nativeEvent.height,
+      width: e.nativeEvent.width,
+    });
   };
 
   return (
@@ -46,6 +57,7 @@ function ImageButton({ src }: ImageButtonProps) {
             source={{
               uri: src,
             }}
+            onLoad={onLoad}
           />
           <Spacer />
           <Text color={theme.colors.app.textPrimary}>
@@ -56,7 +68,15 @@ function ImageButton({ src }: ImageButtonProps) {
         </HStack>
       </Pressable>
 
-      <ImageViewer source={src} nsfw={false} onlyViewer />
+      <ImageViewer
+        source={src}
+        nsfw={false}
+        onlyViewer
+        visibleOverride={visible}
+        onRequestCloseOverride={onRequestClose}
+        heightOverride={dimensions.height}
+        widthOverride={dimensions.width}
+      />
     </>
   );
 }

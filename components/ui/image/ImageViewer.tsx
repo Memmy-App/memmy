@@ -2,11 +2,14 @@ import React, { MutableRefObject, useState } from "react";
 import EnhancedImageViewing from "@gkasdorf/react-native-image-viewing";
 import { Pressable, useTheme } from "native-base";
 import { Share } from "react-native";
+import { ResizeMode } from "react-native-fast-image";
 import MemoizedFastImage from "./MemoizedFastImage";
-import { useAppSelector } from "../../../store";
+import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import ImageViewFooter from "./ImageViewFooter";
 import downloadAndSaveImage from "../../../helpers/ImageHelper";
+import { showToast } from "../../../slices/toast/toastSlice";
+import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 
 interface IProps {
   source: string;
@@ -14,9 +17,29 @@ interface IProps {
   id?: number;
   recycled?: MutableRefObject<{}>;
   onlyViewer?: boolean;
+  resizeMode?: ResizeMode;
+  height?: number;
+  width?: number;
+  visibleOverride?: boolean;
+  onRequestCloseOverride?: () => void;
+  heightOverride?: number;
+  widthOverride?: number;
 }
 
-function ImageViewer({ source, nsfw, id, recycled, onlyViewer }: IProps) {
+function ImageViewer({
+  source,
+  nsfw,
+  id,
+  recycled,
+  onlyViewer,
+  visibleOverride,
+  resizeMode = "contain",
+  height = undefined,
+  width = undefined,
+  onRequestCloseOverride,
+  heightOverride,
+  widthOverride,
+}: IProps) {
   const [visible, setVisible] = useState(false);
   const [dimensions, setDimensions] = useState({ height: 0, width: 0 });
 
@@ -24,7 +47,10 @@ function ImageViewer({ source, nsfw, id, recycled, onlyViewer }: IProps) {
   const theme = useTheme();
 
   const onImagePress = () => setVisible(true);
-  const onRequestClose = () => setVisible(false);
+  const onRequestClose = () => {
+    if (onRequestCloseOverride) onRequestCloseOverride();
+    else setVisible(false);
+  };
 
   const onImageLongPress = () => {};
 
@@ -32,8 +58,10 @@ function ImageViewer({ source, nsfw, id, recycled, onlyViewer }: IProps) {
     setDimensions({ height: e.nativeEvent.height, width: e.nativeEvent.width });
   };
 
-  const onSave = () => {
-    downloadAndSaveImage(source);
+  const onSave = async () => {
+    onGenericHapticFeedback();
+
+    await downloadAndSaveImage(source);
   };
 
   const onShare = () => {
@@ -46,10 +74,10 @@ function ImageViewer({ source, nsfw, id, recycled, onlyViewer }: IProps) {
     <EnhancedImageViewing
       images={[{ uri: source }]}
       imageIndex={0}
-      visible={visible}
+      visible={visibleOverride !== undefined ? visibleOverride : visible}
       onRequestClose={onRequestClose}
-      height={dimensions.height}
-      width={dimensions.width}
+      height={heightOverride ?? dimensions.height}
+      width={widthOverride ?? dimensions.width}
       FooterComponent={footer}
     />
   );
@@ -71,6 +99,9 @@ function ImageViewer({ source, nsfw, id, recycled, onlyViewer }: IProps) {
           recycled={recycled}
           nsfw={nsfw && blurNsfw}
           onLoad={onLoad}
+          resizeMode={resizeMode}
+          imgHeight={height}
+          imgWidth={width}
         />
       </Pressable>
       {viewer}
@@ -78,4 +109,4 @@ function ImageViewer({ source, nsfw, id, recycled, onlyViewer }: IProps) {
   );
 }
 
-export default ImageViewer;
+export default React.memo(ImageViewer);

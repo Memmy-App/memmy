@@ -80,7 +80,10 @@ function MemoizedFastImage({
     return (
       <View style={styles.blurContainer}>
         <BlurView
-          style={[styles.blurView, { height, width }]}
+          style={[
+            styles.blurView,
+            { height: imgHeight ?? height, width: imgWidth ?? width },
+          ]}
           intensity={blurIntensity}
           tint="dark"
         >

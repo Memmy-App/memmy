@@ -1,26 +1,7 @@
 import { Box, HStack, Text } from "native-base";
 import React from "react";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
-import { useAppSelector } from "../../../store";
+import { Dimensions } from "react-native";
 import ImageViewer from "../image/ImageViewer";
-
-interface ISingleImageProps {
-  postId: number;
-  source: string;
-  isNsfw: boolean;
-  recycled?: React.MutableRefObject<{}>;
-}
-
-function SingleImage({ postId, source, isNsfw, recycled }: ISingleImageProps) {
-  return (
-    <ImageViewer
-      source={source}
-      nsfw={isNsfw}
-      id={postId}
-      recycled={recycled}
-    />
-  );
-}
 
 interface IProps {
   images: string[];
@@ -30,14 +11,12 @@ interface IProps {
 }
 
 function ImagePreview({ images, postId, recycled, isNsfw }: IProps) {
-  const { blurNsfw } = useAppSelector(selectSettings);
-
   if (images.length === 1) {
     return (
-      <SingleImage
-        isNsfw={isNsfw && blurNsfw}
-        postId={postId}
+      <ImageViewer
         source={images[0]}
+        nsfw={isNsfw}
+        id={postId}
         recycled={recycled}
       />
     );
@@ -46,15 +25,23 @@ function ImagePreview({ images, postId, recycled, isNsfw }: IProps) {
   if (images.length >= 2) {
     return (
       <HStack space={1}>
-        <SingleImage
-          isNsfw={isNsfw && blurNsfw}
-          postId={postId}
+        <ImageViewer
           source={images[0]}
+          nsfw={isNsfw}
+          id={postId}
+          recycled={recycled}
+          resizeMode="cover"
+          height={200}
+          width={Dimensions.get("screen").width / 2}
         />
-        <SingleImage
-          isNsfw={isNsfw && blurNsfw}
-          postId={postId}
+        <ImageViewer
           source={images[1]}
+          nsfw={isNsfw}
+          id={postId}
+          recycled={recycled}
+          resizeMode="cover"
+          height={200}
+          width={Dimensions.get("screen").width / 2}
         />
         <Box position="absolute" right={1} bottom={1}>
           <Box
