@@ -12,25 +12,31 @@ import { Dimensions } from "react-native";
 import { writeToLog } from "./LogHelper";
 import { ExtensionType, getLinkInfo } from "./LinkHelper";
 
-const downloadAndSaveImage = async (src: string): Promise<boolean> => {
+export const downloadImage = async (src: string): Promise<string | boolean> => {
   const fileName = src.split("/").pop();
   const filePath = FileSystem.documentDirectory + fileName;
 
   try {
-    const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
-
-    if (status === "granted") {
-      const res = await FileSystem.downloadAsync(src, filePath);
-      saveImage(res.uri);
-      return true;
-    }
-
-    return false;
+    const res = await FileSystem.downloadAsync(src, filePath);
+    return res.uri;
   } catch (e) {
     writeToLog("Error downloading image.");
     writeToLog(e.toString());
     return false;
   }
+};
+
+const downloadAndSaveImage = async (src: string): Promise<boolean> => {
+  const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+
+  if (status !== "granted") return false;
+
+  const uri = await downloadImage(src);
+
+  if (!uri) return false;
+
+  await saveImage(uri as string);
+  return true;
 };
 
 const saveImage = async (filePath: string) => {

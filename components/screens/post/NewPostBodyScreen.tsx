@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTheme } from "native-base";
-import { Button, StyleSheet, TextInput } from "react-native";
+import { Button, Dimensions, StyleSheet, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useKeyboard } from "@react-native-community/hooks";
 import KeyboardAccessory from "../../ui/KeyboardAccessory";
 
 interface IProps {
@@ -12,6 +13,7 @@ interface IProps {
 
 function NewPostBodyScreen({ route, navigation }: IProps) {
   const theme = useTheme();
+  const { keyboardHeight } = useKeyboard();
 
   const [body, setBody] = useState(route.params.body ?? "");
   const [selection, setSelection] = useState({
@@ -51,6 +53,7 @@ function NewPostBodyScreen({ route, navigation }: IProps) {
             {
               backgroundColor: theme.colors.app.bg,
               color: theme.colors.app.textPrimary,
+              height: Dimensions.get("window").height - keyboardHeight - 120,
             },
           ]}
           numberOfLines={20}
@@ -80,7 +83,6 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     padding: 10,
     paddingTop: 15,
-    height: 200,
     fontSize: 16,
   },
 });

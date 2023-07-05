@@ -120,6 +120,8 @@ const useNewPost = (
     } catch (e) {
       writeToLog("Error submitting post.");
       writeToLog(e.toString());
+      writeToLog(`Language ID: ${languageId}`);
+      writeToLog(`Community ID: ${communityId}`);
 
       setLoading(false);
       setError(e.toString());

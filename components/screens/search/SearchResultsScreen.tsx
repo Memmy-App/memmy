@@ -30,10 +30,12 @@ function SearchResultsScreen({ route }: IProps) {
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<PostView>) => {
       if (compactView) {
-        return <CompactFeedItem post={item} />;
+        return <CompactFeedItem post={item} setPosts={search.setPosts} />;
       }
 
-      return <FeedItem post={item} setPosts={() => {}} recycled={recycled} />;
+      return (
+        <FeedItem post={item} setPosts={search.setPosts} recycled={recycled} />
+      );
     },
     []
   );
@@ -43,10 +45,11 @@ function SearchResultsScreen({ route }: IProps) {
   }
 
   if (
-    !search.result ||
-    (search.result.communities.length < 1 &&
-      search.result.users.length < 1 &&
-      search.result.posts.length < 1)
+    (!search.result && !search.posts) ||
+    (search?.result?.communities?.length < 1 &&
+      search?.result?.users?.length < 1 &&
+      search?.result?.posts?.length < 1 &&
+      search?.posts?.length < 1)
   ) {
     return <NoResultView type="search" />;
   }
@@ -55,7 +58,7 @@ function SearchResultsScreen({ route }: IProps) {
     <VStack backgroundColor={theme.colors.app.bg} flex={1}>
       {(type === "Posts" && (
         <FlashList
-          data={search.result.posts}
+          data={search.posts}
           renderItem={renderItem}
           estimatedItemSize={compactView ? 200 : 600}
           ListEmptyComponent={<NoResultView type="search" />}

@@ -85,7 +85,7 @@ function MemoizedFastImage({
             { height: imgHeight ?? height, width: imgWidth ?? width },
           ]}
           intensity={blurIntensity}
-          tint="dark"
+          tint={theme.config.initialColorMode}
         >
           <VStack
             flex={1}

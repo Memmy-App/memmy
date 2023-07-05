@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Share, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { Box, Icon, Pressable, useTheme, View, VStack } from "native-base";
 import { PostView } from "lemmy-js-client";
 import { BlurView } from "expo-blur";
@@ -14,6 +14,7 @@ import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../../lemmy/LemmyInstance";
 import ImageViewFooter from "../../image/ImageViewFooter";
 import downloadAndSaveImage from "../../../../helpers/ImageHelper";
+import { shareLink } from "../../../../helpers/ShareHelper";
 
 function CompactFeedItemThumbnail({
   post,
@@ -65,9 +66,9 @@ function CompactFeedItemThumbnail({
   };
 
   const onShare = () => {
-    Share.share({
-      url: post.post.url,
-    }).then();
+    shareLink({
+      link: post.post.url,
+    });
   };
 
   const imageViewFooter = () => (
@@ -89,7 +90,11 @@ function CompactFeedItemThumbnail({
           {(post.post.nsfw || post.community.nsfw) && blurNsfw ? (
             <Pressable onPress={onImagePress} onLongPress={onImageLongPress}>
               <View style={styles.blurContainer}>
-                <BlurView style={styles.blurView} intensity={100} tint="dark">
+                <BlurView
+                  style={styles.blurView}
+                  intensity={100}
+                  tint={theme.config.initialColorMode}
+                >
                   <VStack
                     flex={1}
                     alignItems="center"
