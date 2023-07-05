@@ -6,6 +6,7 @@ import { Alert } from "react-native";
 import axios from "axios";
 import { URL } from "react-native-url-polyfill";
 import { writeToLog } from "./LogHelper";
+import store from "../store";
 
 const imageExtensions = [
   "webp",
@@ -21,6 +22,7 @@ const imageExtensions = [
 ];
 
 const videoExtensions = ["mp4", "mov", "m4a"];
+const {accounts} = store.getState();
 
 export interface LinkInfo {
   extType?: ExtensionType;
@@ -65,7 +67,27 @@ export const isPotentialFedSite = (link: string) => {
 };
 
 export const isLemmySite = async (link: string) => {
-  const urlComponents = new URL(link);
+  let instanceUrl = accounts.currentAccount.instance;
+  if (!instanceUrl.startsWith("https://") && !instanceUrl.startsWith("http://")) {
+    instanceUrl = "https://" + instanceUrl;
+  }
+
+  // Handle shortcut links that are formatted: "/c/community@instance". Need to prepend the home instance url
+  if (link[0] === '/') {
+    if(instanceUrl === "") {
+      writeToLog(`Trying to open link: ${link} with instanceUrl: ${instanceUrl}`);
+      return false;
+    }
+    link = instanceUrl + link;
+  }
+  
+  let urlComponents;
+  try {
+    urlComponents = new URL(link);
+  } catch (e){
+    writeToLog("Failed to make components from link: " + link + "Err: " + e.toString());
+    return false;
+  }
 
   // Try lemmy api to verify this is a valid lemmy instance
   const apiUrl = `${urlComponents.protocol}//${urlComponents.hostname}/api/v3/site`;
