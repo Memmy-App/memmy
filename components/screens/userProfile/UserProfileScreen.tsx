@@ -103,7 +103,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
   }
 
   if (profile.error) {
-    return <LoadingErrorView onRetryPress={() => profile.doLoad(true)} />;
+    return <LoadingErrorView onRetryPress={profile.doLoad} />;
   }
 
   if (profile.notFound) {
