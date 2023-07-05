@@ -43,8 +43,8 @@ function getUserPillType({
 interface IProps {
   creator: Person;
   showAvatar?: boolean;
-  opId: number;
-  children: React.ReactNode;
+  opId?: number;
+  children?: React.ReactNode;
 }
 
 function AvatarUsername({
