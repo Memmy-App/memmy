@@ -3,6 +3,8 @@ import { Pressable, Text } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { openLink } from "../../../helpers/LinkHelper";
+import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
+import { useAppSelector } from "../../../store";
 
 interface WebLinkProps {
   href: string;
@@ -11,9 +13,10 @@ interface WebLinkProps {
 
 function WebLink({ href, children }: WebLinkProps) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const onPress = () => {
-    openLink(href, navigation);
+    openLink(href, navigation, currentAccount.instance);
   };
 
   return (

@@ -64,8 +64,27 @@ export const isPotentialFedSite = (link: string) => {
   return potentialFed;
 };
 
-export const isLemmySite = async (link: string) => {
-  const urlComponents = new URL(link);
+export const isLemmySite = async (link: string, instanceUrl: string) => {
+  if (!instanceUrl.startsWith("https://") && !instanceUrl.startsWith("http://")) {
+    instanceUrl = "https://" + instanceUrl;
+  }
+
+  // Handle shortcut links that are formatted: "/c/community@instance". Need to prepend the home instance url
+  if (link[0] === '/') {
+    if(instanceUrl === "") {
+      writeToLog(`Trying to open link: ${link} with instanceUrl: ${instanceUrl}`);
+      return false;
+    }
+    link = instanceUrl + link;
+  }
+  
+  let urlComponents;
+  try {
+    urlComponents = new URL(link);
+  } catch (e){
+    writeToLog("Failed to make components from link: " + link + "Err: " + e.toString());
+    return false;
+  }
 
   // Try lemmy api to verify this is a valid lemmy instance
   const apiUrl = `${urlComponents.protocol}//${urlComponents.hostname}/api/v3/site`;
@@ -150,13 +169,14 @@ const openWebLink = (link: string): void => {
 
 export const openLink = (
   link: string,
-  navigation: NativeStackNavigationProp<any, string, undefined>
+  navigation: NativeStackNavigationProp<any, string, undefined>,
+  instanceUrl: string = "",
 ): void => {
   link = decodeURIComponent(link);
 
   const potentialFed = isPotentialFedSite(link);
   if (potentialFed) {
-    isLemmySite(link)
+    isLemmySite(link, instanceUrl)
       .then((isLemmy) => {
         if (isLemmy) {
           openLemmyLink(link, navigation);
