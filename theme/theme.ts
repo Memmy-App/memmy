@@ -10,6 +10,7 @@ import {
   sunsetThemeColors,
   oksolarDarkThemeColors,
   oceanicNextThemeColors,
+  oledThemeColors,
 } from "./darkColors";
 import {
   lightThemeColors,
@@ -150,6 +151,10 @@ const oceanicNextTheme = extendTheme({
   ...commonSettings,
   colors: {
     app: oceanicNextThemeColors,
+const oledTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: oledThemeColors,
   },
   config: {
     initialColorMode: "dark",
@@ -159,7 +164,11 @@ const oceanicNextTheme = extendTheme({
 export type ThemeType = typeof lightTheme;
 
 declare module "native-base" {
-  interface ICustomTheme extends ThemeType {}
+  interface ICustomTheme extends ThemeType {
+    config: {
+      initialColorMode: "dark" | "light";
+    };
+  }
 }
 
 export {
@@ -176,4 +185,5 @@ export {
   oksolarDarkTheme,
   oksolarLightTheme,
   oceanicNextTheme,
+  oledTheme,
 };

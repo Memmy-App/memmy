@@ -2,10 +2,11 @@ import * as WebBrowser from "expo-web-browser";
 import { WebBrowserPresentationStyle } from "expo-web-browser";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Alert } from "react-native";
-import { writeToLog } from "./LogHelper";
 
 import axios from "axios";
-import { URL } from 'react-native-url-polyfill';
+import { URL } from "react-native-url-polyfill";
+import { writeToLog } from "./LogHelper";
+import store from "../store";
 
 const imageExtensions = [
   "webp",
@@ -21,6 +22,7 @@ const imageExtensions = [
 ];
 
 const videoExtensions = ["mp4", "mov", "m4a"];
+const {accounts} = store.getState();
 
 export interface LinkInfo {
   extType?: ExtensionType;
@@ -62,25 +64,43 @@ export const isPotentialFedSite = (link: string) => {
     /^(?:https?:\/\/\w+\.\w+)?\/(?:c|m|u|post)\/\w+(?:@\w+(?:\.\w+)?(?:\.\w+)?)?$/;
   const potentialFed = link.match(fedPattern);
   return potentialFed;
-}
+};
 
 export const isLemmySite = async (link: string) => {
-  const url_components = new URL(link);
-  
-  // Try lemmy api to verify this is a valid lemmy instance
-  const api_url = `${url_components.protocol}//${url_components.hostname}/api/v3/site`;
-  return await axios.get(api_url)
-    .then( resp => {
-      if (resp.data["site_view"]["site"]["name"]) {
-        return true;
-      } else {
-        return false;
-      }
-    })
-    .catch(err => {
+  let instanceUrl = accounts.currentAccount.instance;
+  if (!instanceUrl.startsWith("https://") && !instanceUrl.startsWith("http://")) {
+    instanceUrl = "https://" + instanceUrl;
+  }
+
+  // Handle shortcut links that are formatted: "/c/community@instance". Need to prepend the home instance url
+  if (link[0] === '/') {
+    if(instanceUrl === "") {
+      writeToLog(`Trying to open link: ${link} with instanceUrl: ${instanceUrl}`);
       return false;
-    });
-}
+    }
+    link = instanceUrl + link;
+  }
+  
+  let urlComponents;
+  try {
+    urlComponents = new URL(link);
+  } catch (e){
+    writeToLog("Failed to make components from link: " + link + "Err: " + e.toString());
+    return false;
+  }
+
+  // Try lemmy api to verify this is a valid lemmy instance
+  const apiUrl = `${urlComponents.protocol}//${urlComponents.hostname}/api/v3/site`;
+  try {
+    const resp = await axios.get(apiUrl);
+    if (resp.data.site_view.site.name) {
+      return true;
+    }
+    return false;
+  } catch (e) {
+    return false;
+  }
+};
 
 const openLemmyLink = (
   link: string,
@@ -93,7 +113,10 @@ const openLemmyLink = (
 
   if (communityOnEnd) {
     baseUrl = link.split("@").pop();
-    community = link.split(/\/[cmu]\//).pop().split("@")[0];
+    community = link
+      .split(/\/[cmu]\//)
+      .pop()
+      .split("@")[0];
   } else {
     baseUrl = getBaseUrl(link);
     community = link.split("/").pop();
@@ -103,9 +126,9 @@ const openLemmyLink = (
     navigation.push("Profile", {
       fullUsername: `${community}@${baseUrl}`,
     });
-  // TODO: Handle other type of lemmy links
-  // } else if (link.includes("/post/")) {
-  //   navigation.push("Post");
+    // TODO: Handle other type of lemmy links
+    // } else if (link.includes("/post/")) {
+    //   navigation.push("Post");
   } else if (link.includes("/c/")) {
     navigation.push("Community", {
       communityFullName: `${community}@${baseUrl}`,
@@ -114,14 +137,11 @@ const openLemmyLink = (
     });
   } else {
     // In case the link type is not handled, open in a browser
-    openWebLink(link, navigation);
+    openWebLink(link);
   }
-}
+};
 
-const openWebLink = (
-  link: string,
-  navigation: NativeStackNavigationProp<any, string, undefined>
-): void => {
+const openWebLink = (link: string): void => {
   const urlPattern =
     /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
 
@@ -148,7 +168,7 @@ const openWebLink = (
     writeToLog(e.toString());
     Alert.alert("Error.", e.toString());
   }
-}
+};
 
 export const openLink = (
   link: string,
@@ -159,18 +179,18 @@ export const openLink = (
   const potentialFed = isPotentialFedSite(link);
   if (potentialFed) {
     isLemmySite(link)
-    .then( isLemmy => {
-      if (isLemmy) {
-        openLemmyLink(link, navigation);
-      } else {
-        openWebLink(link, navigation);
-      }
-    })
-    .catch(err => {
-      openWebLink(link, navigation);
-    })
+      .then((isLemmy) => {
+        if (isLemmy) {
+          openLemmyLink(link, navigation);
+        } else {
+          openWebLink(link);
+        }
+      })
+      .catch((err) => {
+        openWebLink(link);
+      });
   } else {
-    openWebLink(link, navigation);
+    openWebLink(link);
   }
 };
 

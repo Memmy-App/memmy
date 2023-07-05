@@ -23,9 +23,9 @@ import NewCommentScreen from "./components/screens/comments/NewCommentScreen";
 import NewPostScreen from "./components/screens/post/NewPostScreen";
 import PostScreen from "./components/screens/post/PostScreen";
 import SearchScreen from "./components/screens/search/SearchScreen";
-import EditAccountScreen from "./components/screens/settings/EditAccountScreen";
+import EditAccountScreen from "./components/screens/settings/Account/EditAccountScreen";
 import SettingsIndexScreen from "./components/screens/settings/SettingsIndexScreen";
-import ViewAccountsScreen from "./components/screens/settings/ViewAccountsScreen";
+import ViewAccountsScreen from "./components/screens/settings/Account/ViewAccountsScreen";
 import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
 import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
 import LoadingView from "./components/ui/Loading/LoadingView";
@@ -35,7 +35,7 @@ import {
 } from "./slices/accounts/accountsSlice";
 import { selectSite } from "./slices/site/siteSlice";
 import { useAppSelector } from "./store";
-import ReadSettingsScreen from "./components/screens/settings/ReadSettingsScreen";
+import ReadSettingsScreen from "./components/screens/settings/Content/ReadSettingsScreen";
 import ThemeSelectionScreen from "./components/screens/settings/Appearance/ThemeSelectionScreen";
 import ViewerScreen from "./components/screens/ViewerScreen";
 import EditCommentScreen from "./components/screens/comments/EditCommentScreen";
@@ -51,72 +51,83 @@ import InstanceScreen from "./components/ui/hubDiscovery/InstanceScreen";
 import NewPostBodyScreen from "./components/screens/post/NewPostBodyScreen";
 import TraverseScreen from "./components/screens/traverse/TraverseScreen";
 import SearchResultsScreen from "./components/screens/search/SearchResultsScreen";
+import AppearanceScreen from "./components/screens/settings/Appearance/AppearanceScreen";
+import ContentScreen from "./components/screens/settings/Content/ContentScreen";
+import AccountSettingsScreen from "./components/screens/settings/Account/AccountSettingsScreen";
+import AboutScreen from "./components/screens/settings/About/AboutScreen";
+import GeneralSettingsScreen from "./components/screens/settings/General/GeneralSettingsScreen";
+import UserCommentsScreen from "./components/screens/userProfile/UserCommentsScreen";
+import UserPostsScreen from "./components/screens/userProfile/UserPostsScreen";
+import UserSavedPostsScreen from "./components/screens/userProfile/UserSavedPostsScreen";
 
 const FeedStack = createNativeStackNavigator();
 
 function FeedStackScreen() {
   return (
-    <FeedStack.Navigator
-      screenOptions={{
-        freezeOnBlur: true,
-      }}
-    >
+    <FeedStack.Navigator screenOptions={{}}>
       <FeedStack.Group>
         <FeedStack.Screen
           name="FeedScreen"
           component={FeedsIndexScreen}
           options={{
             title: "Feed",
-            freezeOnBlur: true,
+          }}
+        />
+        <FeedStack.Screen name="Post" component={PostScreen} />
+        <FeedStack.Screen name="Community" component={CommunityFeedScreen} />
+        <FeedStack.Screen name="Profile" component={UserProfileScreen} />
+        <FeedStack.Screen
+          name="UserComments"
+          component={UserCommentsScreen}
+          options={{
+            title: "Comments",
           }}
         />
         <FeedStack.Screen
-          name="Post"
-          component={PostScreen}
-          options={{ freezeOnBlur: true }}
+          name="UserPosts"
+          component={UserPostsScreen}
+          options={{
+            title: "Posts",
+          }}
         />
         <FeedStack.Screen
-          name="Community"
-          component={CommunityFeedScreen}
-          options={{ freezeOnBlur: true }}
-        />
-        <FeedStack.Screen
-          name="Profile"
-          component={UserProfileScreen}
-          options={{ freezeOnBlur: true }}
+          name="UserSavedPosts"
+          component={UserSavedPostsScreen}
+          options={{
+            title: "Saved Posts",
+          }}
         />
       </FeedStack.Group>
 
       <FeedStack.Group
         screenOptions={{
           presentation: "modal",
-          freezeOnBlur: true,
         }}
       >
         <FeedStack.Screen
           name="NewComment"
           component={NewCommentScreen}
-          options={{ title: "New Comment", freezeOnBlur: true }}
+          options={{ title: "New Comment" }}
         />
         <SearchStack.Screen
           name="EditComment"
           component={EditCommentScreen}
-          options={{ title: "Edit Comment", freezeOnBlur: true }}
+          options={{ title: "Edit Comment" }}
         />
         <FeedStack.Screen
           name="NewPost"
           component={NewPostScreen}
-          options={{ title: "New Post", freezeOnBlur: true }}
+          options={{ title: "New Post" }}
         />
         <FeedStack.Screen
           name="NewPostBody"
           component={NewPostBodyScreen}
-          options={{ title: "New Post", freezeOnBlur: true }}
+          options={{ title: "New Post" }}
         />
         <FeedStack.Screen
           name="CommunityAbout"
           component={CommunityAboutScreen}
-          options={{ title: "About", freezeOnBlur: true }}
+          options={{ title: "About" }}
         />
       </FeedStack.Group>
     </FeedStack.Navigator>
@@ -127,18 +138,13 @@ const InboxStack = createNativeStackNavigator();
 
 function InboxStackScreen() {
   return (
-    <InboxStack.Navigator
-      screenOptions={{
-        freezeOnBlur: true,
-      }}
-    >
+    <InboxStack.Navigator>
       <InboxStack.Group>
         <InboxStack.Screen
           name="Inbox"
           component={InboxScreen}
           options={{
             title: "Inbox",
-            freezeOnBlur: true,
           }}
         />
         <InboxStack.Screen
@@ -146,56 +152,63 @@ function InboxStackScreen() {
           component={FeedsIndexScreen}
           options={{
             title: "Feed",
-            freezeOnBlur: true,
+          }}
+        />
+        <InboxStack.Screen name="Post" component={PostScreen} />
+        <InboxStack.Screen name="Community" component={CommunityFeedScreen} />
+        <InboxStack.Screen name="Profile" component={UserProfileScreen} />
+        <InboxStack.Screen
+          name="UserComments"
+          component={UserCommentsScreen}
+          options={{
+            title: "Comments",
           }}
         />
         <InboxStack.Screen
-          name="Post"
-          component={PostScreen}
-          options={{ freezeOnBlur: true }}
+          name="UserPosts"
+          component={UserPostsScreen}
+          options={{
+            title: "Posts",
+          }}
         />
         <InboxStack.Screen
-          name="Community"
-          component={CommunityFeedScreen}
-          options={{ freezeOnBlur: true }}
-        />
-        <InboxStack.Screen
-          name="Profile"
-          component={UserProfileScreen}
-          options={{ freezeOnBlur: true }}
+          name="UserSavedPosts"
+          component={UserSavedPostsScreen}
+          options={{
+            title: "Saved Posts",
+          }}
         />
       </InboxStack.Group>
 
       <InboxStack.Group
         screenOptions={{
           presentation: "modal",
-          freezeOnBlur: true,
         }}
       >
         <InboxStack.Screen
           name="NewComment"
           component={NewCommentScreen}
-          options={{ title: "New Comment", freezeOnBlur: true }}
+          options={{ title: "New Comment" }}
         />
         <InboxStack.Screen
           name="EditComment"
           component={EditCommentScreen}
-          options={{ title: "Edit Comment", freezeOnBlur: true }}
+          options={{ title: "Edit Comment" }}
         />
         <InboxStack.Screen
           name="NewPost"
           component={NewPostScreen}
-          options={{ title: "New Post", freezeOnBlur: true }}
+          options={{ title: "New Post" }}
         />
         <InboxStack.Screen
           name="NewPostBody"
           component={NewPostBodyScreen}
-          options={{ title: "New Post", freezeOnBlur: true }}
+          options={{ title: "New Post" }}
         />
         <InboxStack.Screen
           name="CommunityAbout"
           component={CommunityAboutScreen}
-          options={{ title: "About", freezeOnBlur: true }}
+          options={{ title: "About" }}
         />
       </InboxStack.Group>
     </InboxStack.Navigator>
@@ -212,15 +225,32 @@ function ProfileStackScreen() {
       }}
     >
       <ProfileStack.Group>
+        <ProfileStack.Screen name="Profile" component={UserProfileScreen} />
         <ProfileStack.Screen
-          name="Profile"
-          component={UserProfileScreen}
-          options={{ freezeOnBlur: true }}
+          name="UserComments"
+          component={UserCommentsScreen}
+          options={{
+            title: "Comments",
+          }}
+        />
+        <ProfileStack.Screen
+          name="UserPosts"
+          component={UserPostsScreen}
+          options={{
+            title: "Posts",
+          }}
+        />
+        <ProfileStack.Screen
+          name="UserSavedPosts"
+          component={UserSavedPostsScreen}
+          options={{
+            title: "Saved Posts",
+          }}
         />
         <ProfileStack.Screen
           name="BlockedCommunities"
           component={BlockedCommunitiesScreen}
-          options={{ title: "Blocked Communities", freezeOnBlur: true }}
+          options={{ title: "Blocked Communities" }}
         />
 
         <ProfileStack.Screen
@@ -228,7 +258,6 @@ function ProfileStackScreen() {
           component={SettingsIndexScreen}
           options={{
             title: "Settings",
-            freezeOnBlur: true,
           }}
         />
         <ProfileStack.Screen
@@ -236,7 +265,6 @@ function ProfileStackScreen() {
           component={ViewAccountsScreen}
           options={{
             title: "Manage Accounts",
-            freezeOnBlur: true,
           }}
         />
         <ProfileStack.Screen
@@ -244,7 +272,6 @@ function ProfileStackScreen() {
           component={EditAccountScreen}
           options={{
             title: "Edit Account",
-            freezeOnBlur: true,
           }}
         />
         <ProfileStack.Screen
@@ -252,7 +279,6 @@ function ProfileStackScreen() {
           component={ReadSettingsScreen}
           options={{
             title: "Mark Post Read On...",
-            freezeOnBlur: true,
           }}
         />
         <ProfileStack.Screen
@@ -260,6 +286,29 @@ function ProfileStackScreen() {
           component={ViewerScreen}
           options={{
             title: "View",
+          }}
+        />
+        <ProfileStack.Screen
+          name="AccountSettings"
+          component={AccountSettingsScreen}
+          options={{
+            title: "Accounts",
+            freezeOnBlur: true,
+          }}
+        />
+        <ProfileStack.Screen
+          name="Content"
+          component={ContentScreen}
+          options={{
+            title: "Content",
+            freezeOnBlur: true,
+          }}
+        />
+        <ProfileStack.Screen
+          name="Appearance"
+          component={AppearanceScreen}
+          options={{
+            title: "Appearance",
             freezeOnBlur: true,
           }}
         />
@@ -268,6 +317,21 @@ function ProfileStackScreen() {
           component={ThemeSelectionScreen}
           options={{
             title: "Theme",
+          }}
+        />
+        <ProfileStack.Screen
+          name="GeneralSettings"
+          component={GeneralSettingsScreen}
+          options={{
+            title: "General",
+            freezeOnBlur: true,
+          }}
+        />
+        <ProfileStack.Screen
+          name="About"
+          component={AboutScreen}
+          options={{
+            title: "About",
             freezeOnBlur: true,
           }}
         />
@@ -277,19 +341,10 @@ function ProfileStackScreen() {
           component={FeedsIndexScreen}
           options={{
             title: "Feed",
-            freezeOnBlur: true,
           }}
         />
-        <ProfileStack.Screen
-          name="Post"
-          component={PostScreen}
-          options={{ freezeOnBlur: true }}
-        />
-        <ProfileStack.Screen
-          name="Community"
-          component={CommunityFeedScreen}
-          options={{ freezeOnBlur: true }}
-        />
+        <ProfileStack.Screen name="Post" component={PostScreen} />
+        <ProfileStack.Screen name="Community" component={CommunityFeedScreen} />
       </ProfileStack.Group>
 
       <ProfileStack.Group
@@ -301,27 +356,27 @@ function ProfileStackScreen() {
         <ProfileStack.Screen
           name="NewComment"
           component={NewCommentScreen}
-          options={{ title: "New Comment", freezeOnBlur: true }}
+          options={{ title: "New Comment" }}
         />
-        <SearchStack.Screen
+        <ProfileStack.Screen
           name="EditComment"
           component={EditCommentScreen}
-          options={{ title: "Edit Comment", freezeOnBlur: true }}
+          options={{ title: "Edit Comment" }}
         />
         <ProfileStack.Screen
           name="NewPost"
           component={NewPostScreen}
-          options={{ title: "New Post", freezeOnBlur: true }}
+          options={{ title: "New Post" }}
         />
         <ProfileStack.Screen
           name="NewPostBody"
           component={NewPostBodyScreen}
-          options={{ title: "New Post", freezeOnBlur: true }}
+          options={{ title: "New Post" }}
         />
         <ProfileStack.Screen
           name="CommunityAbout"
           component={CommunityAboutScreen}
-          options={{ title: "About", freezeOnBlur: true }}
+          options={{ title: "About" }}
         />
       </ProfileStack.Group>
     </ProfileStack.Navigator>
@@ -332,18 +387,13 @@ const SearchStack = createNativeStackNavigator();
 
 function SearchStackScreen() {
   return (
-    <SearchStack.Navigator
-      screenOptions={{
-        freezeOnBlur: true,
-      }}
-    >
+    <SearchStack.Navigator>
       <SearchStack.Group>
         <SearchStack.Screen
           name="Search"
           component={SearchScreen}
           options={{
             title: "Search",
-            freezeOnBlur: true,
           }}
         />
         <SearchStack.Screen
@@ -351,7 +401,6 @@ function SearchStackScreen() {
           component={SearchResultsScreen}
           options={{
             title: "Search",
-            freezeOnBlur: true,
           }}
         />
         <SearchStack.Screen
@@ -359,56 +408,63 @@ function SearchStackScreen() {
           component={FeedsIndexScreen}
           options={{
             title: "Feed",
-            freezeOnBlur: true,
+          }}
+        />
+        <SearchStack.Screen name="Post" component={PostScreen} />
+        <SearchStack.Screen name="Community" component={CommunityFeedScreen} />
+        <SearchStack.Screen name="Profile" component={UserProfileScreen} />
+        <SearchStack.Screen
+          name="UserComments"
+          component={UserCommentsScreen}
+          options={{
+            title: "Comments",
           }}
         />
         <SearchStack.Screen
-          name="Post"
-          component={PostScreen}
-          options={{ freezeOnBlur: true }}
+          name="UserPosts"
+          component={UserPostsScreen}
+          options={{
+            title: "Posts",
+          }}
         />
         <SearchStack.Screen
-          name="Community"
-          component={CommunityFeedScreen}
-          options={{ freezeOnBlur: true }}
-        />
-        <SearchStack.Screen
-          name="Profile"
-          component={UserProfileScreen}
-          options={{ freezeOnBlur: true }}
+          name="UserSavedPosts"
+          component={UserSavedPostsScreen}
+          options={{
+            title: "Saved Posts",
+          }}
         />
       </SearchStack.Group>
 
       <SearchStack.Group
         screenOptions={{
           presentation: "modal",
-          freezeOnBlur: true,
         }}
       >
         <SearchStack.Screen
           name="NewComment"
           component={NewCommentScreen}
-          options={{ title: "New Comment", freezeOnBlur: true }}
+          options={{ title: "New Comment" }}
         />
         <SearchStack.Screen
           name="EditComment"
           component={EditCommentScreen}
-          options={{ title: "Edit Comment", freezeOnBlur: true }}
+          options={{ title: "Edit Comment" }}
         />
         <SearchStack.Screen
           name="NewPost"
           component={NewPostScreen}
-          options={{ title: "New Post", freezeOnBlur: true }}
+          options={{ title: "New Post" }}
         />
         <SearchStack.Screen
           name="NewPostBody"
           component={NewPostBodyScreen}
-          options={{ title: "New Post", freezeOnBlur: true }}
+          options={{ title: "New Post" }}
         />
         <SearchStack.Screen
           name="CommunityAbout"
           component={CommunityAboutScreen}
-          options={{ title: "About", freezeOnBlur: true }}
+          options={{ title: "About" }}
         />
       </SearchStack.Group>
     </SearchStack.Navigator>
@@ -419,128 +475,87 @@ const TraverseStack = createNativeStackNavigator();
 
 function TraverseStackScreen() {
   return (
-    <TraverseStack.Navigator
-      screenOptions={{
-        freezeOnBlur: true,
-      }}
-    >
+    <TraverseStack.Navigator>
       <TraverseStack.Group>
         <TraverseStack.Screen
           name="Traverse"
           component={TraverseScreen}
-          options={{ title: "Traverse", freezeOnBlur: true }}
+          options={{ title: "Traverse" }}
         />
         <TraverseStack.Screen
           name="FeedScreen"
           component={FeedsIndexScreen}
           options={{
             title: "Feed",
-            freezeOnBlur: true,
           }}
         />
-        <TraverseStack.Screen
-          name="Post"
-          component={PostScreen}
-          options={{ freezeOnBlur: true }}
-        />
+        <TraverseStack.Screen name="Post" component={PostScreen} />
         <TraverseStack.Screen
           name="Community"
           component={CommunityFeedScreen}
-          options={{ freezeOnBlur: true }}
         />
         <TraverseStack.Screen
           name="Profile"
           component={UserProfileScreen}
           options={{ freezeOnBlur: true }}
         />
+        <TraverseStack.Screen
+          name="UserComments"
+          component={UserCommentsScreen}
+          options={{
+            title: "Comments",
+          }}
+        />
+        <TraverseStack.Screen
+          name="UserPosts"
+          component={UserPostsScreen}
+          options={{
+            title: "Posts",
+          }}
+        />
+        <TraverseStack.Screen
+          name="UserSavedPosts"
+          component={UserSavedPostsScreen}
+          options={{
+            title: "Saved Posts",
+          }}
+        />
       </TraverseStack.Group>
 
       <TraverseStack.Group
         screenOptions={{
           presentation: "modal",
-          freezeOnBlur: true,
         }}
       >
         <TraverseStack.Screen
           name="NewComment"
           component={NewCommentScreen}
-          options={{ title: "New Comment", freezeOnBlur: true }}
+          options={{ title: "New Comment" }}
         />
         <TraverseStack.Screen
           name="EditComment"
           component={EditCommentScreen}
-          options={{ title: "Edit Comment", freezeOnBlur: true }}
+          options={{ title: "Edit Comment" }}
         />
         <TraverseStack.Screen
           name="NewPost"
           component={NewPostScreen}
-          options={{ title: "New Post", freezeOnBlur: true }}
+          options={{ title: "New Post" }}
         />
         <TraverseStack.Screen
           name="NewPostBody"
           component={NewPostBodyScreen}
-          options={{ title: "New Post", freezeOnBlur: true }}
+          options={{ title: "New Post" }}
         />
         <TraverseStack.Screen
           name="CommunityAbout"
           component={CommunityAboutScreen}
-          options={{ title: "About", freezeOnBlur: true }}
+          options={{ title: "About" }}
         />
       </TraverseStack.Group>
     </TraverseStack.Navigator>
   );
 }
-
-// const SettingsStack = createNativeStackNavigator();
-
-// function SettingsStackScreen() {
-//   return (
-//     <SettingsStack.Navigator>
-//       <SettingsStack.Screen
-//         name="Settings"
-//         component={SettingsIndexScreen}
-//         options={{
-//           title: "Settings",
-//         }}
-//       />
-//       <SettingsStack.Screen
-//         name="ViewAccounts"
-//         component={ViewAccountsScreen}
-//         options={{
-//           title: "Manage Accounts",
-//         }}
-//       />
-//       <SettingsStack.Screen
-//         name="EditAccount"
-//         component={EditAccountScreen}
-//         options={{
-//           title: "Edit Account",
-//         }}
-//       />
-//       <SettingsStack.Screen
-//         name="ReadSettings"
-//         component={ReadSettingsScreen}
-//         options={{
-//           title: "Mark Post Read On...",
-//         }}
-//       />
-//       <SettingsStack.Screen
-//         name="ThemeSelection"
-//         component={ThemeSelectionScreen}
-//         options={{
-//           title: "Theme",
-//         }}
-//       />
-//       <SettingsStack.Screen
-//         name="Viewer"
-//         component={ViewerScreen}
-//         options={{
-//           title: "View",
-//         }}
-//       />
-//     </SettingsStack.Navigator>
-//   );
-// }
 
 const Tab = createBottomTabNavigator();
 
@@ -551,7 +566,7 @@ function Tabs() {
     <Tab.Navigator
       screenOptions={{
         tabBarLabel: "Feed",
-        freezeOnBlur: true,
+        freezeOnBlur: false,
       }}
     >
       <Tab.Screen
@@ -561,7 +576,7 @@ function Tabs() {
           headerShown: false,
           tabBarIcon: ({ color }) => <IconNotes color={color} />,
           tabBarLabel: "Feed",
-          freezeOnBlur: true,
+          freezeOnBlur: false,
         }}
       />
       <Tab.Screen
@@ -571,7 +586,7 @@ function Tabs() {
           headerShown: false,
           tabBarIcon: ({ color }) => <IconPlanet color={color} />,
           tabBarLabel: "Traverse",
-          freezeOnBlur: true,
+          freezeOnBlur: false,
         }}
       />
       <Tab.Screen
@@ -581,7 +596,7 @@ function Tabs() {
           headerShown: false,
           tabBarIcon: ({ color }) => <IconUserCircle color={color} />,
           tabBarLabel: "Profile",
-          freezeOnBlur: true,
+          freezeOnBlur: false,
         }}
       />
       <Tab.Screen
@@ -591,7 +606,7 @@ function Tabs() {
           headerShown: false,
           tabBarIcon: ({ color }) => <IconSearch color={color} />,
           tabBarLabel: "Search",
-          freezeOnBlur: true,
+          freezeOnBlur: false,
         }}
       />
       <Tab.Screen
@@ -606,7 +621,7 @@ function Tabs() {
               ? // ? unread.replies + unread.mentions + unread.privateMessage
                 unread.replies
               : null,
-          freezeOnBlur: true,
+          freezeOnBlur: false,
         }}
       />
     </Tab.Navigator>

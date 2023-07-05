@@ -4,22 +4,22 @@ import React, { useEffect, useRef, useState } from "react";
 import { Alert, Button, StyleSheet, TextInput } from "react-native";
 import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
-import { writeToLog } from "../../../helpers/LogHelper";
+import { getBaseUrl } from "../../../../helpers/LinkHelper";
+import { writeToLog } from "../../../../helpers/LogHelper";
 import {
   getInstanceError,
   initialize,
   lemmyAuthToken,
-} from "../../../lemmy/LemmyInstance";
-import ILemmyServer from "../../../lemmy/types/ILemmyServer";
+} from "../../../../lemmy/LemmyInstance";
+import ILemmyServer from "../../../../lemmy/types/ILemmyServer";
 import {
   addAccount,
   editAccount,
-} from "../../../slices/accounts/accountsActions";
-import { selectAccounts } from "../../../slices/accounts/accountsSlice";
-import { useAppDispatch, useAppSelector } from "../../../store";
-import CCell from "../../ui/table/CCell";
-import { showToast } from "../../../slices/toast/toastSlice";
+} from "../../../../slices/accounts/accountsActions";
+import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
+import { useAppDispatch, useAppSelector } from "../../../../store";
+import CCell from "../../../ui/table/CCell";
+import { showToast } from "../../../../slices/toast/toastSlice";
 
 function EditAccountScreen({
   route,

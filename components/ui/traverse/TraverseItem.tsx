@@ -7,6 +7,7 @@ import {
   IconChevronRight,
   IconEye,
   IconNotes,
+  IconPlanet,
 } from "tabler-icons-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -43,10 +44,14 @@ function TraverseItem({ community }: IProps) {
       >
         <VStack space={1}>
           <HStack space={2} alignItems="center">
-            <FastImage
-              source={{ uri: community.community.icon }}
-              style={styles.icon}
-            />
+            {community.community.icon ? (
+              <FastImage
+                source={{ uri: community.community.icon }}
+                style={styles.icon}
+              />
+            ) : (
+              <IconPlanet color={theme.colors.app.textSecondary} size={24} />
+            )}
             <Text>
               {community.community.name}@
               {getBaseUrl(community.community.actor_id)}

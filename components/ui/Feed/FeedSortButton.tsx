@@ -5,7 +5,10 @@ import { SortType } from "lemmy-js-client";
 import {
   IconBolt,
   IconCalendar,
+  IconClockHour1,
+  IconClockHour12,
   IconClockHour4,
+  IconClockHour6,
   IconFlame,
   IconMessage,
 } from "tabler-icons-react-native";
@@ -51,6 +54,9 @@ function FeedSortButton({ feed, onSortUpdate }: Props) {
 const SortIconType = {
   TopDay: <IconCalendar />,
   TopWeek: <IconCalendarWeek />,
+  TopHour: <IconClockHour1 />,
+  TopSixHour: <IconClockHour6 />,
+  TopTwelveHour: <IconClockHour12 />,
   Hot: <IconFlame />,
   Active: <IconBolt />,
   New: <IconClockHour4 />,

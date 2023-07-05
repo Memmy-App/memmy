@@ -1,16 +1,15 @@
 import React from "react";
-import { PostView } from "lemmy-js-client";
 import { HStack, useTheme } from "native-base";
 import { IconPin } from "tabler-icons-react-native";
 
 interface IProps {
-  post: PostView;
+  featured: boolean;
 }
 
-function FeaturedIndicator({ post }: IProps) {
+function FeaturedIndicator({ featured }: IProps) {
   const { colors } = useTheme();
 
-  if (post.post.featured_local || post.post.featured_community) {
+  if (featured) {
     return (
       <HStack alignItems="center">
         <IconPin size={16} color={colors.app.accent} fill={colors.app.accent} />

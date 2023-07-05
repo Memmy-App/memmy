@@ -7,16 +7,12 @@ function InboxTabs({
   onUnreadPress,
   onAllPress,
   onRepliesPress,
-  onMentionsPress,
-  onMessagesPress,
   topSelected,
   bottomSelected,
 }: {
   onUnreadPress: () => void;
   onAllPress: () => void;
   onRepliesPress: () => void;
-  onMentionsPress: () => void;
-  onMessagesPress: () => void;
   topSelected: "unread" | "all";
   bottomSelected: "replies" | "mentions" | "messages";
 }) {

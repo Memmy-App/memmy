@@ -19,17 +19,20 @@ export interface SettingsState {
   themeLight: ThemeOptions;
   themeDark: ThemeOptions;
   themeMatchSystem: boolean;
+  isSystemFont: boolean;
   isSystemTextSize: boolean;
   fontSize: number;
+  fontWeightPostTitle: number;
   haptics: HapticOptions;
   pushEnabled: string;
-  compactThumbnailPosition: "Left" | "Right";
+  compactThumbnailPosition: "None" | "Left" | "Right";
   compactShowVotingButtons: boolean;
   markReadOnPostView: boolean;
   markReadOnPostImageView: boolean;
   markReadOnPostVote: boolean;
   ignoreScreenHeightInFeed: boolean;
   displayTotalScore: boolean;
+  accentColor?: string;
 }
 
 const initialState: SettingsState = {
@@ -48,8 +51,10 @@ const initialState: SettingsState = {
   themeLight: "Light",
   themeDark: "Dark",
   themeMatchSystem: false,
+  isSystemFont: false,
   isSystemTextSize: true,
   fontSize: 2,
+  fontWeightPostTitle: 400,
   haptics: "Medium",
   pushEnabled: "[]",
   markReadOnPostView: true,

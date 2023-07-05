@@ -62,13 +62,13 @@ const useComment = ({
         if (c.comment.comment.id === comment.comment.comment.id) {
           return {
             ...c,
-            collapsed: !comment.collapsed,
+            collapsed: !c.collapsed,
           };
         }
         if (c.comment.comment.path.includes(comment.comment.comment.path)) {
           return {
             ...c,
-            hidden: !comment.collapsed,
+            hidden: !c.hidden,
           };
         }
         return c;
@@ -153,6 +153,7 @@ const useComment = ({
                       showToast({
                         message: "Report submitted successfully",
                         variant: "info",
+                        duration: 3000,
                       })
                     );
                   } catch (e) {

@@ -29,6 +29,7 @@ export const lightThemeColors: IColors = {
   infoText: "#fff",
 
   users: {
+    text: "#fff",
     mod: "#54CB60",
     admin: "#FF4848",
     dev: "#CB66FA",

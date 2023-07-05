@@ -1,3 +1,4 @@
+import { ICustomTheme } from "native-base";
 import {
   moodyPurpleTheme,
   darkTheme,
@@ -12,6 +13,7 @@ import {
   goldenHourTheme,
   nauticalTheme,
   sunsetTheme,
+  oledTheme,
 } from "./theme";
 
 enum EThemeOptions {
@@ -28,6 +30,7 @@ enum EThemeOptions {
   GOLDEN_HOUR = "Golden Hour",
   NAUTICAL = "Nautical",
   SUNSET = "Sunset",
+  OLED = "Dark (OLED)",
 }
 
 export type ThemeOptions = `${EThemeOptions}`;
@@ -35,9 +38,10 @@ export type ThemeOptions = `${EThemeOptions}`;
 export const ThemeOptionsArr = Object.values(EThemeOptions);
 
 // TODO: should get the type figured out for theme obj
-export const ThemeOptionsMap: Record<ThemeOptions, any> = {
+export const ThemeOptionsMap: Record<ThemeOptions, ICustomTheme> = {
   Light: lightTheme,
   Dark: darkTheme,
+  "Dark (OLED)": oledTheme,
   Dracula: draculaTheme,
   "Dracula (Purple)": draculaThemePurple,
   "Moody Purple": moodyPurpleTheme,

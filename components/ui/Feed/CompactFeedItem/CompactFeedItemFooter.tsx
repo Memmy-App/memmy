@@ -5,9 +5,10 @@ import { IconMessage } from "tabler-icons-react-native";
 import { timeFromNowShort } from "../../../../helpers/TimeHelper";
 import { ILemmyVote } from "../../../../lemmy/types/ILemmyVote";
 import CommunityLink from "../../CommunityLink";
-import AvatarUsername from "../../common/AvatarUsername";
+import AvatarUsername from "../../common/avatarUsername/AvatarUsername";
 import FeaturedIndicator from "../../common/FeaturedIndicator";
 import SmallVoteIcons from "../../common/SmallVoteIcons";
+import { IconBookCheck } from "../../customIcons/IconBookCheck";
 
 interface CompactFeedItemFooterProps {
   post: PostView;
@@ -22,7 +23,10 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
     <>
       <HStack alignItems="center" space={2}>
         <HStack>
-          <FeaturedIndicator post={post} />
+          <FeaturedIndicator
+            featured={post.post.featured_community || post.post.featured_local}
+          />
+          {post.read && <IconBookCheck color={colors.app.accent} size={20} />}
           <AvatarUsername creator={post.creator} showAvatar={false} />
         </HStack>
         <Text color={colors.app.textSecondary}>•</Text>
@@ -41,10 +45,7 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
           <IconMessage color={colors.app.textSecondary} size={16} />
           <Text color={colors.app.textSecondary}>{post.counts.comments}</Text>
         </HStack>
-        <CommunityLink
-          community={post.community}
-          color={colors.app.textSecondary}
-        />
+        <CommunityLink community={post.community} />
       </HStack>
     </>
   );

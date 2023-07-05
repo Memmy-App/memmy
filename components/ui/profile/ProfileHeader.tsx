@@ -14,7 +14,6 @@ import { StyleSheet } from "react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { UseProfile } from "../../hooks/profile/useProfile";
 import { getCakeDay } from "../../../helpers/TimeHelper";
-import ProfileTabs from "./ProfileTabs";
 
 interface IProps {
   profile: UseProfile;
@@ -66,7 +65,7 @@ function ProfileHeader({ profile }: IProps) {
             }}
           />
         ) : (
-          <Box style={styles.banner} />
+          <Box style={styles.noBanner} />
         )}
       </View>
       <VStack py={3.5} px={5}>
@@ -99,22 +98,6 @@ function ProfileHeader({ profile }: IProps) {
           </HStack>
         </HStack>
       </VStack>
-      <ProfileTabs
-        selected={profile.selected}
-        onCommentsPress={() => {
-          profile.setSelected("comments");
-          profile.pagerView.current.setPage(0);
-        }}
-        onPostsPress={() => {
-          profile.setSelected("posts");
-          profile.pagerView.current.setPage(1);
-        }}
-        showSaved={profile.self}
-        onSavedPostsPress={() => {
-          profile.setSelected("savedposts");
-          profile.pagerView.current.setPage(2);
-        }}
-      />
     </VStack>
   );
 }
@@ -124,6 +107,11 @@ const styles = StyleSheet.create({
     height: 165,
     width: "100%",
     opacity: 0.2,
+  },
+
+  noBanner: {
+    height: 100,
+    width: "100%",
   },
 
   bannerContainer: {
