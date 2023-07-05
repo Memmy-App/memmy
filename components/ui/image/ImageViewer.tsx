@@ -1,15 +1,14 @@
 import React, { MutableRefObject, useState } from "react";
 import EnhancedImageViewing from "@gkasdorf/react-native-image-viewing";
 import { Pressable, useTheme } from "native-base";
-import { Share } from "react-native";
 import { ResizeMode } from "react-native-fast-image";
 import MemoizedFastImage from "./MemoizedFastImage";
-import { useAppDispatch, useAppSelector } from "../../../store";
+import { useAppSelector } from "../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import ImageViewFooter from "./ImageViewFooter";
 import downloadAndSaveImage from "../../../helpers/ImageHelper";
-import { showToast } from "../../../slices/toast/toastSlice";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
+import { shareLink } from "../../../helpers/ShareHelper";
 
 interface IProps {
   source: string;
@@ -65,7 +64,7 @@ function ImageViewer({
   };
 
   const onShare = () => {
-    Share.share({ url: source });
+    shareLink({ link: source, isImage: true });
   };
 
   const footer = () => <ImageViewFooter onSave={onSave} onShare={onShare} />;

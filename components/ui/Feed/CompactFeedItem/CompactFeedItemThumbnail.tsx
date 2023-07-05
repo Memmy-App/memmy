@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Share, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { Box, Icon, Pressable, useTheme, View, VStack } from "native-base";
 import { PostView } from "lemmy-js-client";
 import { BlurView } from "expo-blur";
@@ -14,6 +14,7 @@ import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../../lemmy/LemmyInstance";
 import ImageViewFooter from "../../image/ImageViewFooter";
 import downloadAndSaveImage from "../../../../helpers/ImageHelper";
+import { shareLink } from "../../../../helpers/ShareHelper";
 
 function CompactFeedItemThumbnail({
   post,
@@ -65,9 +66,9 @@ function CompactFeedItemThumbnail({
   };
 
   const onShare = () => {
-    Share.share({
-      url: post.post.url,
-    }).then();
+    shareLink({
+      link: post.post.url,
+    });
   };
 
   const imageViewFooter = () => (
