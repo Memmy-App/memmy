@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Divider,
   HStack,
@@ -26,6 +26,8 @@ function PostHeader({ post, showLoadAll }: IProps) {
 
   const instanceBaseUrl = getBaseUrl(post.currentPost.community.actor_id);
 
+  const [hideSLA, setHideSLA] = useState(false);
+
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.fg}>
       <PostContentView post={post.currentPost} />
@@ -49,11 +51,11 @@ function PostHeader({ post, showLoadAll }: IProps) {
         doVote={post.doVote}
       />
       <Divider bg={theme.colors.app.border} />
-      {showLoadAll && (
+      {showLoadAll && !hideSLA && (
         <Pressable
           backgroundColor="#1A91FF"
           onPress={() => {
-            post.setShowLoadAll(false);
+            setHideSLA(true);
             post.doLoad(true);
           }}
         >
