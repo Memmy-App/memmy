@@ -95,7 +95,13 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
         <Animated.View style={[swipeAnimation.animatedStyle]}>
           <Post>
             <Header>
-              <ByLine post={post} />
+              <ByLine
+                creator={post.creator}
+                read={post.read}
+                featured={
+                  post.post.featured_local || post.post.featured_community
+                }
+              />
               <CommunityLink community={post.community} />
             </Header>
 
