@@ -76,6 +76,27 @@ function FeedStackScreen() {
         <FeedStack.Screen name="Post" component={PostScreen} />
         <FeedStack.Screen name="Community" component={CommunityFeedScreen} />
         <FeedStack.Screen name="Profile" component={UserProfileScreen} />
+        <FeedStack.Screen
+          name="UserComments"
+          component={UserCommentsScreen}
+          options={{
+            title: "Comments",
+          }}
+        />
+        <FeedStack.Screen
+          name="UserPosts"
+          component={UserPostsScreen}
+          options={{
+            title: "Posts",
+          }}
+        />
+        <FeedStack.Screen
+          name="UserSavedPosts"
+          component={UserSavedPostsScreen}
+          options={{
+            title: "Saved Posts",
+          }}
+        />
       </FeedStack.Group>
 
       <FeedStack.Group
@@ -136,6 +157,27 @@ function InboxStackScreen() {
         <InboxStack.Screen name="Post" component={PostScreen} />
         <InboxStack.Screen name="Community" component={CommunityFeedScreen} />
         <InboxStack.Screen name="Profile" component={UserProfileScreen} />
+        <InboxStack.Screen
+          name="UserComments"
+          component={UserCommentsScreen}
+          options={{
+            title: "Comments",
+          }}
+        />
+        <InboxStack.Screen
+          name="UserPosts"
+          component={UserPostsScreen}
+          options={{
+            title: "Posts",
+          }}
+        />
+        <InboxStack.Screen
+          name="UserSavedPosts"
+          component={UserSavedPostsScreen}
+          options={{
+            title: "Saved Posts",
+          }}
+        />
       </InboxStack.Group>
 
       <InboxStack.Group
@@ -316,7 +358,7 @@ function ProfileStackScreen() {
           component={NewCommentScreen}
           options={{ title: "New Comment" }}
         />
-        <SearchStack.Screen
+        <ProfileStack.Screen
           name="EditComment"
           component={EditCommentScreen}
           options={{ title: "Edit Comment" }}
@@ -371,6 +413,27 @@ function SearchStackScreen() {
         <SearchStack.Screen name="Post" component={PostScreen} />
         <SearchStack.Screen name="Community" component={CommunityFeedScreen} />
         <SearchStack.Screen name="Profile" component={UserProfileScreen} />
+        <SearchStack.Screen
+          name="UserComments"
+          component={UserCommentsScreen}
+          options={{
+            title: "Comments",
+          }}
+        />
+        <SearchStack.Screen
+          name="UserPosts"
+          component={UserPostsScreen}
+          options={{
+            title: "Posts",
+          }}
+        />
+        <SearchStack.Screen
+          name="UserSavedPosts"
+          component={UserSavedPostsScreen}
+          options={{
+            title: "Saved Posts",
+          }}
+        />
       </SearchStack.Group>
 
       <SearchStack.Group
@@ -436,6 +499,27 @@ function TraverseStackScreen() {
           component={UserProfileScreen}
           options={{ freezeOnBlur: true }}
         />
+        <TraverseStack.Screen
+          name="UserComments"
+          component={UserCommentsScreen}
+          options={{
+            title: "Comments",
+          }}
+        />
+        <TraverseStack.Screen
+          name="UserPosts"
+          component={UserPostsScreen}
+          options={{
+            title: "Posts",
+          }}
+        />
+        <TraverseStack.Screen
+          name="UserSavedPosts"
+          component={UserSavedPostsScreen}
+          options={{
+            title: "Saved Posts",
+          }}
+        />
       </TraverseStack.Group>
 
       <TraverseStack.Group
@@ -473,57 +557,6 @@ function TraverseStackScreen() {
   );
 }
 
-// const SettingsStack = createNativeStackNavigator();
-
-// function SettingsStackScreen() {
-//   return (
-//     <SettingsStack.Navigator>
-//       <SettingsStack.Screen
-//         name="Settings"
-//         component={SettingsIndexScreen}
-//         options={{
-//           title: "Settings",
-//         }}
-//       />
-//       <SettingsStack.Screen
-//         name="ViewAccounts"
-//         component={ViewAccountsScreen}
-//         options={{
-//           title: "Manage Accounts",
-//         }}
-//       />
-//       <SettingsStack.Screen
-//         name="EditAccount"
-//         component={EditAccountScreen}
-//         options={{
-//           title: "Edit Account",
-//         }}
-//       />
-//       <SettingsStack.Screen
-//         name="ReadSettings"
-//         component={ReadSettingsScreen}
-//         options={{
-//           title: "Mark Post Read On...",
-//         }}
-//       />
-//       <SettingsStack.Screen
-//         name="ThemeSelection"
-//         component={ThemeSelectionScreen}
-//         options={{
-//           title: "Theme",
-//         }}
-//       />
-//       <SettingsStack.Screen
-//         name="Viewer"
-//         component={ViewerScreen}
-//         options={{
-//           title: "View",
-//         }}
-//       />
-//     </SettingsStack.Navigator>
-//   );
-// }
-
 const Tab = createBottomTabNavigator();
 
 function Tabs() {
@@ -533,7 +566,7 @@ function Tabs() {
     <Tab.Navigator
       screenOptions={{
         tabBarLabel: "Feed",
-        freezeOnBlur: true,
+        freezeOnBlur: false,
       }}
     >
       <Tab.Screen
@@ -543,6 +576,7 @@ function Tabs() {
           headerShown: false,
           tabBarIcon: ({ color }) => <IconNotes color={color} />,
           tabBarLabel: "Feed",
+          freezeOnBlur: false,
         }}
       />
       <Tab.Screen
@@ -552,6 +586,7 @@ function Tabs() {
           headerShown: false,
           tabBarIcon: ({ color }) => <IconPlanet color={color} />,
           tabBarLabel: "Traverse",
+          freezeOnBlur: false,
         }}
       />
       <Tab.Screen
@@ -561,6 +596,7 @@ function Tabs() {
           headerShown: false,
           tabBarIcon: ({ color }) => <IconUserCircle color={color} />,
           tabBarLabel: "Profile",
+          freezeOnBlur: false,
         }}
       />
       <Tab.Screen
@@ -570,6 +606,7 @@ function Tabs() {
           headerShown: false,
           tabBarIcon: ({ color }) => <IconSearch color={color} />,
           tabBarLabel: "Search",
+          freezeOnBlur: false,
         }}
       />
       <Tab.Screen
@@ -584,6 +621,7 @@ function Tabs() {
               ? // ? unread.replies + unread.mentions + unread.privateMessage
                 unread.replies
               : null,
+          freezeOnBlur: false,
         }}
       />
     </Tab.Navigator>
