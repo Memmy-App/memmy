@@ -22,6 +22,8 @@ import { showToast } from "../../../slices/toast/toastSlice";
 import { useAppDispatch } from "../../../store";
 import MTable from "../../ui/table/MTable";
 import MCell from "../../ui/table/MCell";
+import { ProfileRefreshControl } from "../../ui/profile/ProfileRefreshControl";
+import RefreshControl from "../../ui/common/RefreshControl";
 
 interface IProps {
   route: any;
@@ -30,7 +32,7 @@ interface IProps {
 
 function UserProfileScreen({ route, navigation }: IProps) {
   // Hooks
-  const profile = useProfile(route?.params?.fullUsername);
+  const profile = useProfile(true, route?.params?.fullUsername);
 
   const theme = useTheme();
   const { showActionSheetWithOptions } = useActionSheet();
@@ -110,7 +112,16 @@ function UserProfileScreen({ route, navigation }: IProps) {
   }
 
   return (
-    <ScrollView flex={1} backgroundColor={theme.colors.app.bg}>
+    <ScrollView
+      flex={1}
+      backgroundColor={theme.colors.app.bg}
+      refreshControl={
+        <RefreshControl
+          refreshing={profile.refreshing}
+          onRefresh={profile.doLoad}
+        />
+      }
+    >
       <ProfileHeader profile={profile} />
       <VStack p={4}>
         <MTable>

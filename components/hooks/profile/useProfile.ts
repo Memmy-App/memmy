@@ -43,7 +43,7 @@ export interface UseProfile {
   ) => Promise<void>;
 }
 
-const useProfile = (fullUsername?: string): UseProfile => {
+const useProfile = (noContent = true, fullUsername?: string): UseProfile => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const searchUsername = useMemo(
     () =>
@@ -89,7 +89,7 @@ const useProfile = (fullUsername?: string): UseProfile => {
       if (self.current) {
         const savedRes = await lemmyInstance.getPersonDetails({
           auth: lemmyAuthToken,
-          limit: 50,
+          limit: noContent ? 0 : 50,
           saved_only: true,
           username: searchUsername,
         });

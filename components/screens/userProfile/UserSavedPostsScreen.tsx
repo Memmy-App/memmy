@@ -14,7 +14,7 @@ interface IProps {
 }
 
 function UserSavedPostsScreen({ route }: IProps) {
-  const profile = useProfile(route?.params?.fullUsername);
+  const profile = useProfile(false, route?.params?.fullUsername);
 
   const keyExtractor = (item: PostView) => item.post.id.toString();
 

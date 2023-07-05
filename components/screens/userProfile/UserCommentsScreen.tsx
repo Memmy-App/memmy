@@ -15,7 +15,7 @@ interface IProps {
 }
 
 function UserCommentsScreen({ route }: IProps) {
-  const profile = useProfile(route?.params?.fullUsername);
+  const profile = useProfile(false, route?.params?.fullUsername);
 
   const theme = useTheme();
 
