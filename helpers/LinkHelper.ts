@@ -22,7 +22,7 @@ const imageExtensions = [
 ];
 
 const videoExtensions = ["mp4", "mov", "m4a"];
-const {accounts} = store.getState();
+let {accounts} = store.getState();
 
 export interface LinkInfo {
   extType?: ExtensionType;
@@ -67,6 +67,10 @@ export const isPotentialFedSite = (link: string) => {
 };
 
 export const isLemmySite = async (link: string) => {
+  if (!accounts.currentAccount) {
+    ({accounts} = store.getState());
+  }
+  
   let instanceUrl = accounts.currentAccount.instance;
   if (!instanceUrl.startsWith("https://") && !instanceUrl.startsWith("http://")) {
     instanceUrl = "https://" + instanceUrl;
