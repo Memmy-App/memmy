@@ -4,9 +4,7 @@ import { Pressable, ScrollView, View } from "native-base";
 import Animated, { FadeOutUp, FadeInUp } from "react-native-reanimated";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectFeed, setDropdownVisible } from "../../../slices/feed/feedSlice";
-import {
-  selectAccounts,
-} from "../../../slices/accounts/accountsSlice";
+import { selectAccounts } from "../../../slices/accounts/accountsSlice";
 import CTable from "../table/CTable";
 import CSection from "../table/CSection";
 import { Account } from "../../../types/Account";

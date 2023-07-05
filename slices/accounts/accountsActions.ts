@@ -26,7 +26,7 @@ export const addAccount = createAsyncThunk(
   async (account: Account) => {
     const accounts =
       (JSON.parse(await AsyncStorage.getItem("@accounts")) as Account[]) ?? [];
-    accounts.forEach(a => delete a.isCurrent);
+    accounts.forEach((a) => delete a.isCurrent);
     account.isCurrent = true;
     accounts.push(account);
     await AsyncStorage.setItem("@accounts", JSON.stringify(accounts));
@@ -72,12 +72,11 @@ export const setCurrentAccount = createAsyncThunk(
     const accounts =
       (JSON.parse(await AsyncStorage.getItem("@accounts")) as Account[]) ?? [];
 
-    accounts.forEach(a => {
+    accounts.forEach((a) => {
       if (a.username === account.username && a.instance === account.instance)
         a.isCurrent = true;
-      else
-        delete a.isCurrent;
-    })
+      else delete a.isCurrent;
+    });
 
     await AsyncStorage.setItem("@accounts", JSON.stringify(accounts));
     return account;
