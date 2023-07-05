@@ -5,6 +5,7 @@ import useSearch from "../../hooks/search/useSearch";
 import SearchBox from "../../ui/search/SearchBox";
 import SearchOptionsList from "../../ui/search/SearchOptionsList";
 import SearchTrendingList from "../../ui/search/SearchTrendingList";
+import { getBaseUrl } from "../../../helpers/LinkHelper";
 
 function SearchScreen({
   navigation,
@@ -29,6 +30,20 @@ function SearchScreen({
   }, [search.query]);
 
   const onCommunitiesPress = () => {
+    if (search.query.includes("@")) {
+      const parts = search.query.split("@");
+
+      if (parts.length === 2) {
+        navigation.push("Community", {
+          communityFullName: search.query,
+          communityName: parts[0],
+          actorId: getBaseUrl(parts[1]),
+        });
+
+        return;
+      }
+    }
+
     navigation.push("Results", {
       type: "Communities",
       query: search.query,
@@ -43,6 +58,18 @@ function SearchScreen({
   };
 
   const onUsersPress = () => {
+    if (search.query.includes("@")) {
+      const parts = search.query.split("@");
+
+      if (parts.length === 2) {
+        navigation.push("Profile", {
+          fullUsername: search.query,
+        });
+
+        return;
+      }
+    }
+
     navigation.push("Results", {
       type: "Users",
       query: search.query,
