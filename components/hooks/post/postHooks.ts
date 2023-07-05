@@ -22,6 +22,7 @@ import NestedComment from "../../../lemmy/comments/NestedComment";
 
 export interface UsePost {
   comments: ILemmyComment[];
+  visibleComments: ILemmyComment[];
   setComments: React.Dispatch<SetStateAction<ILemmyComment[]>>;
   commentsLoading: boolean;
   commentsError: boolean;
@@ -50,6 +51,7 @@ const usePost = (commentId: string | null): UsePost => {
 
   // State
   const [comments, setComments] = useState<ILemmyComment[]>([]);
+  const [visibleComments, setVisibleComments] = useState<ILemmyComment[]>([]);
   const [commentsLoading, setCommentsLoading] = useState<boolean>(true);
   const [commentsError, setCommentsError] = useState<boolean>(false);
   const [currentPost, setCurrentPost] = useState<PostView>(post);
@@ -61,6 +63,10 @@ const usePost = (commentId: string | null): UsePost => {
 
   // Other Hooks
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    setVisibleComments(comments.filter((c) => !c.hidden));
+  }, [comments]);
 
   useEffect(() => {
     doLoad(!showLoadAll).then();
@@ -259,6 +265,7 @@ const usePost = (commentId: string | null): UsePost => {
 
   return {
     comments,
+    visibleComments,
     setComments,
 
     commentsLoading,

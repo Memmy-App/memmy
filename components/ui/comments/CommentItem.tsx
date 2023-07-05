@@ -37,6 +37,16 @@ import SmallVoteIcons from "../common/SmallVoteIcons";
 import CommentCollapsed from "./CommentCollapsed";
 import CommentBody from "./CommentBody";
 
+interface IProps {
+  comment: ILemmyComment;
+  setComments: any;
+  onPressOverride?: () => Promise<void> | void;
+  depth?: number;
+  opId?: number;
+  isReply?: boolean;
+  isUnreadReply?: boolean;
+}
+
 function CommentItem({
   comment,
   setComments,
@@ -45,15 +55,7 @@ function CommentItem({
   depth,
   isReply,
   isUnreadReply,
-}: {
-  comment: ILemmyComment;
-  setComments: any;
-  onPressOverride?: () => Promise<void> | void;
-  depth?: number;
-  opId?: number;
-  isReply?: boolean;
-  isUnreadReply?: boolean;
-}) {
+}: IProps) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -117,7 +119,6 @@ function CommentItem({
     ) : undefined,
   });
 
-  if (comment.hidden) return null;
   return (
     <>
       <View>
@@ -260,4 +261,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(CommentItem);
+const areEqual = (prev: IProps, next: IProps) =>
+  prev.comment.comment.comment.id === next.comment.comment.comment.id &&
+  prev.comment.comment.my_vote === next.comment.comment.my_vote &&
+  prev.comment.collapsed === next.comment.collapsed;
+
+export default React.memo(CommentItem, areEqual);
