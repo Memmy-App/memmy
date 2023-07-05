@@ -43,10 +43,7 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
           <IconMessage color={colors.app.textSecondary} size={16} />
           <Text color={colors.app.textSecondary}>{post.counts.comments}</Text>
         </HStack>
-        <CommunityLink
-          community={post.community}
-          color={colors.app.textSecondary}
-        />
+        <CommunityLink community={post.community} />
       </HStack>
     </>
   );

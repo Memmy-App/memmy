@@ -97,10 +97,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
           <Post>
             <Header>
               <ByLine post={post} />
-              <CommunityLink
-                community={post.community}
-                color={theme.colors.app.textSecondary}
-              />
+              <CommunityLink community={post.community} />
             </Header>
 
             <Pressable onPress={feedItem.onPress}>

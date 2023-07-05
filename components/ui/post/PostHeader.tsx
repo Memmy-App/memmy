@@ -31,13 +31,12 @@ function PostHeader({ post, showLoadAll }: IProps) {
       <PostContentView post={post.currentPost} />
 
       <HStack mb={2} mx={4} space={2}>
-        <AvatarUsername creator={post.currentPost?.creator} showInstance />
+        <AvatarUsername creator={post.currentPost?.creator} />
       </HStack>
       <HStack space={2} mx={4} mb={2}>
         <CommunityLink
           community={post.currentPost?.community}
           instanceBaseUrl={instanceBaseUrl}
-          color={theme.colors.app.textSecondary}
         />
         <CommentCount commentCount={post.currentPost.counts.comments} />
         <DatePublished published={post.currentPost?.post.published} />
