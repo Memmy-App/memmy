@@ -5,7 +5,7 @@ import { IconMessage } from "tabler-icons-react-native";
 import { timeFromNowShort } from "../../../../helpers/TimeHelper";
 import { ILemmyVote } from "../../../../lemmy/types/ILemmyVote";
 import CommunityLink from "../../CommunityLink";
-import AvatarUsername from "../../common/AvatarUsername";
+import AvatarUsername from "../../common/avatarUsername/AvatarUsername";
 import FeaturedIndicator from "../../common/FeaturedIndicator";
 import SmallVoteIcons from "../../common/SmallVoteIcons";
 import { IconBookCheck } from "../../customIcons/IconBookCheck";

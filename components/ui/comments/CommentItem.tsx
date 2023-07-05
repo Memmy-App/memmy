@@ -5,7 +5,6 @@ import {
   Divider,
   HStack,
   Pressable,
-  Spacer,
   Text,
   useTheme,
   View,
@@ -28,15 +27,15 @@ import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 import { setResponseTo } from "../../../slices/comments/newCommentSlice";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { selectSite, setUnread } from "../../../slices/site/siteSlice";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import useSwipeAnimation from "../../hooks/animations/useSwipeAnimation";
 import useComment from "../../hooks/post/useComment";
-import AvatarUsername from "../common/AvatarUsername";
+import AvatarUsername from "../common/avatarUsername/AvatarUsername";
 import IconButtonWithText from "../common/IconButtonWithText";
 import SmallVoteIcons from "../common/SmallVoteIcons";
-import RenderMarkdown from "../markdown/RenderMarkdown";
+import CommentCollapsed from "./CommentCollapsed";
+import CommentBody from "./CommentBody";
 
 function CommentItem({
   comment,
@@ -50,7 +49,6 @@ function CommentItem({
   comment: ILemmyComment;
   setComments: any;
   onPressOverride?: () => Promise<void> | void;
-  isRead?: boolean;
   depth?: number;
   opId?: number;
   isReply?: boolean;
@@ -59,7 +57,6 @@ function CommentItem({
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const { showInstanceForUsernames } = useAppSelector(selectSettings);
   const { unread } = useAppSelector(selectSite);
 
   const initialVote = useRef(comment.myVote);
@@ -183,7 +180,6 @@ function CommentItem({
                   >
                     <AvatarUsername
                       creator={comment.comment.creator}
-                      showInstance={showInstanceForUsernames}
                       opId={opId}
                     >
                       <SmallVoteIcons
@@ -216,30 +212,13 @@ function CommentItem({
                     )}
                   </HStack>
                   {comment.collapsed ? (
-                    <Spacer marginBottom={2} />
+                    <CommentCollapsed />
                   ) : (
-                    <>
-                      {(comment.comment.comment.deleted && (
-                        <RenderMarkdown
-                          text="Comment deleted by user :("
-                          isNote
-                        />
-                      )) ||
-                        (comment.comment.comment.removed && (
-                          <Text
-                            py={3}
-                            color={theme.colors.app.textSecondary}
-                            fontStyle="italic"
-                          >
-                            Comment removed by moderator :(
-                          </Text>
-                        )) || (
-                          <RenderMarkdown
-                            text={comment.comment.comment.content}
-                            addImages
-                          />
-                        )}
-                    </>
+                    <CommentBody
+                      deleted={comment.comment.comment.deleted}
+                      removed={comment.comment.comment.removed}
+                      content={comment.comment.comment.content}
+                    />
                   )}
                 </VStack>
               </VStack>

@@ -1,12 +1,14 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import { Person } from "lemmy-js-client";
-import { Box, HStack, Text, useTheme, VStack } from "native-base";
 import React from "react";
+import { HStack, Text, useTheme, VStack } from "native-base";
 import FastImage from "react-native-fast-image";
 import { IconUser } from "tabler-icons-react-native";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
-import { getUserFullName } from "../../../lemmy/LemmyHelpers";
-import Link from "../buttons/Link";
+import { Person } from "lemmy-js-client";
+import Link from "../../buttons/Link";
+import { getBaseUrl } from "../../../../helpers/LinkHelper";
+import { useAppSelector } from "../../../../store";
+import { selectSettings } from "../../../../slices/settings/settingsSlice";
+import { getUserFullName } from "../../../../lemmy/LemmyHelpers";
+import Chip from "./Chip";
 
 export type NameType = "admin" | "mod" | "dev" | "op";
 
@@ -35,67 +37,24 @@ function getUserPillType({
     return "op";
   }
 
-  // * incase we want to add a me tag back
-  // if (
-  //   currentAccount &&
-  //   currentAccount.username &&
-  //   currentAccount.instance &&
-  //   comment.comment.creator.name === currentAccount?.username &&
-  //   getBaseUrl(comment.comment.creator.actor_id) === currentAccount?.instance
-  // ) {
-  //   return "me";
-  // }
-
   return undefined;
 }
 
-function Chip({
-  text,
-  bgColor,
-  textColor,
-}: {
-  text: string;
-  bgColor: string;
-  textColor: string;
-}) {
-  return (
-    <Box
-      style={{
-        borderWidth: 1,
-        borderRadius: 10,
-        backgroundColor: bgColor,
-      }}
-    >
-      <Text
-        fontWeight="bold"
-        color={textColor}
-        fontSize="2xs"
-        mx={1.5}
-        my={0.5}
-      >
-        {text}
-      </Text>
-    </Box>
-  );
+interface IProps {
+  creator: Person;
+  showAvatar?: boolean;
+  opId: number;
+  children: React.ReactNode;
 }
 
 function AvatarUsername({
-  creator,
   showAvatar = true,
-  showInstance,
-  children,
+  creator,
   opId,
-}: {
-  creator: Person;
-  showAvatar?: boolean;
-  showInstance?: boolean;
-  children?: JSX.Element;
-  opId?: number;
-}) {
-  const { colors } = useTheme();
-  const { avatar, name, actor_id: actorId } = creator;
-  const fullUsername = getUserFullName(creator);
-
+  children,
+}: IProps) {
+  const { showInstanceForUsernames } = useAppSelector(selectSettings);
+  const theme = useTheme();
   const type = getUserPillType({ user: creator, opId });
 
   const NameColorMap: Record<
@@ -103,22 +62,22 @@ function AvatarUsername({
     { textColor: string; bgColor: string; label: string }
   > = {
     admin: {
-      bgColor: colors.app.users.admin,
+      bgColor: theme.colors.app.users.admin,
       textColor: "#fff",
       label: "ADMIN",
     },
     mod: {
-      bgColor: colors.app.users.mod,
+      bgColor: theme.colors.app.users.mod,
       textColor: "#fff",
       label: "MOD",
     },
     op: {
-      bgColor: colors.app.users.op,
+      bgColor: theme.colors.app.users.op,
       textColor: "#fff",
       label: "OP",
     },
     dev: {
-      bgColor: colors.app.users.dev,
+      bgColor: theme.colors.app.users.dev,
       textColor: "#fff",
       label: "DEV",
     },
@@ -129,29 +88,29 @@ function AvatarUsername({
   return (
     <HStack space={1} alignItems="center">
       {showAvatar &&
-        (avatar ? (
+        (creator.avatar ? (
           <FastImage
             source={{
-              uri: avatar,
+              uri: creator.avatar,
             }}
             style={{ height: 18, width: 18, borderRadius: 100 }}
           />
         ) : (
-          <IconUser color={colors.app.textSecondary} />
+          <IconUser color={theme.colors.app.textSecondary} />
         ))}
       <VStack>
         <HStack space={0.5}>
           <Link
             screen="Profile"
             params={{
-              fullUsername,
+              fullUsername: getUserFullName(creator),
             }}
           >
             <Text
               fontWeight="normal"
-              color={type ? nameProps.bgColor : colors.app.textSecondary}
+              color={type ? nameProps.bgColor : theme.colors.app.textSecondary}
             >
-              {name}
+              {creator.name}
             </Text>
           </Link>
           {type && (
@@ -162,7 +121,9 @@ function AvatarUsername({
             />
           )}
         </HStack>
-        {showInstance && <Text fontSize="xs">{getBaseUrl(actorId)}</Text>}
+        {showInstanceForUsernames && (
+          <Text fontSize="xs">{getBaseUrl(creator.actor_id)}</Text>
+        )}
       </VStack>
       {children}
     </HStack>

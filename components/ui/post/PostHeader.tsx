@@ -9,7 +9,7 @@ import {
 } from "native-base";
 import { UsePost } from "../../hooks/post/postHooks";
 import PostContentView from "./PostContentView";
-import AvatarUsername from "../common/AvatarUsername";
+import AvatarUsername from "../common/avatarUsername/AvatarUsername";
 import CommunityLink from "../CommunityLink";
 import CommentCount from "../common/CommentCount";
 import DatePublished from "../common/DatePublished";
