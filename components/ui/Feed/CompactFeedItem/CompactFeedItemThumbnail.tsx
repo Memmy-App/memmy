@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { Share, StyleSheet } from "react-native";
 import { Box, Icon, Pressable, useTheme, View, VStack } from "native-base";
 import { PostView } from "lemmy-js-client";
 import { BlurView } from "expo-blur";
@@ -12,6 +12,8 @@ import { useAppSelector } from "../../../../store";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 
 import { lemmyAuthToken, lemmyInstance } from "../../../../lemmy/LemmyInstance";
+import ImageViewFooter from "../../image/ImageViewFooter";
+import downloadAndSaveImage from "../../../../helpers/ImageHelper";
 
 function CompactFeedItemThumbnail({
   post,
@@ -33,11 +35,13 @@ function CompactFeedItemThumbnail({
 
   const onImagePress = () => {
     setImageViewOpen(true);
-    lemmyInstance.markPostAsRead({
-      auth: lemmyAuthToken,
-      post_id: post.post.id,
-      read: true,
-    });
+    lemmyInstance
+      .markPostAsRead({
+        auth: lemmyAuthToken,
+        post_id: post.post.id,
+        read: true,
+      })
+      .then();
     if (setPostRead && markReadOnPostImageView) {
       setPostRead();
     }
@@ -55,6 +59,20 @@ function CompactFeedItemThumbnail({
       width: e.nativeEvent.width,
     });
   };
+
+  const onSave = () => {
+    downloadAndSaveImage(post.post.url);
+  };
+
+  const onShare = () => {
+    Share.share({
+      url: post.post.url,
+    }).then();
+  };
+
+  const imageViewFooter = () => (
+    <ImageViewFooter onSave={onSave} onShare={onShare} />
+  );
 
   return (
     <Box
@@ -117,6 +135,7 @@ function CompactFeedItemThumbnail({
             onRequestClose={onRequestClose}
             height={dimensions.height}
             width={dimensions.width}
+            FooterComponent={imageViewFooter}
           />
         </>
       )) ||
