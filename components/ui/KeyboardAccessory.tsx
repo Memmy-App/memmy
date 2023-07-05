@@ -57,11 +57,31 @@ function KeyboardAccessory({
   };
 
   const onLinkPress = async () => {
-    Alert.prompt("Link", "Enter the URL", (link) => {
-      Alert.prompt("Link", "Enter the label", (label) => {
-        setText(replace(`[${label}](${link})`));
-      });
-    });
+    Alert.prompt(
+      "Link",
+      "Enter the URL",
+      (link) => {
+        Alert.prompt(
+          "Link",
+          "Enter the label",
+          (label) => {
+            setText(replace(`[${label}](${link})`));
+          },
+          "plain-text",
+          "",
+          "url",
+          {
+            userInterfaceStyle: theme.config.initialColorMode,
+          }
+        );
+      },
+      "plain-text",
+      "",
+      "default",
+      {
+        userInterfaceStyle: theme.config.initialColorMode,
+      }
+    );
   };
 
   const onQuotePress = () => {
