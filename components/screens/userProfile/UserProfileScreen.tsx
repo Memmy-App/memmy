@@ -30,11 +30,7 @@ interface IProps {
 
 function UserProfileScreen({ route, navigation }: IProps) {
   // Hooks
-  const profile = useProfile(
-    route.params && route.params.fullUsername
-      ? route.params.fullUsername
-      : undefined
-  );
+  const profile = useProfile(route?.params?.fullUsername);
 
   const theme = useTheme();
   const { showActionSheetWithOptions } = useActionSheet();
@@ -135,6 +131,11 @@ function UserProfileScreen({ route, navigation }: IProps) {
             icon={<IconNotes color={theme.colors.app.accent} />}
             rightAccessory={
               <IconChevronRight color={theme.colors.app.accent} />
+            }
+            onPress={() =>
+              navigation.push("UserPosts", {
+                fullUsername: route?.params?.fullUsername,
+              })
             }
           />
           <MCell

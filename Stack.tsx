@@ -57,6 +57,7 @@ import AccountSettingsScreen from "./components/screens/settings/Account/Account
 import AboutScreen from "./components/screens/settings/About/AboutScreen";
 import GeneralSettingsScreen from "./components/screens/settings/General/GeneralSettingsScreen";
 import UserCommentsScreen from "./components/screens/userProfile/UserCommentsScreen";
+import UserPostsScreen from "./components/screens/userProfile/UserPostsScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -187,6 +188,13 @@ function ProfileStackScreen() {
           component={UserCommentsScreen}
           options={{
             title: "Comments",
+          }}
+        />
+        <ProfileStack.Screen
+          name="UserPosts"
+          component={UserPostsScreen}
+          options={{
+            title: "Posts",
           }}
         />
         <ProfileStack.Screen

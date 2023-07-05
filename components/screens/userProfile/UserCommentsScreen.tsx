@@ -1,5 +1,6 @@
 import React from "react";
 import { FlashList } from "@shopify/flash-list";
+import { useTheme, VStack } from "native-base";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import NoResultView from "../../ui/common/NoResultView";
 import { ProfileRefreshControl } from "../../ui/profile/ProfileRefreshControl";
@@ -15,6 +16,8 @@ interface IProps {
 
 function UserCommentsScreen({ route }: IProps) {
   const profile = useProfile(route?.params?.fullUsername);
+
+  const theme = useTheme();
 
   const onPressOverride = (item) => {
     const commentPathArr = item.comment.comment.path.split(".");
@@ -58,20 +61,22 @@ function UserCommentsScreen({ route }: IProps) {
   }
 
   return (
-    <FlashList
-      renderItem={renderComment}
-      estimatedItemSize={150}
-      data={profile.comments}
-      keyExtractor={commentKeyExtractor}
-      ListEmptyComponent={<NoResultView type="profileComments" />}
-      refreshing={profile.loading}
-      refreshControl={
-        <ProfileRefreshControl
-          refreshing={profile.refreshing}
-          doLoad={profile.doLoad}
-        />
-      }
-    />
+    <VStack flex={1} backgroundColor={theme.colors.app.bg}>
+      <FlashList
+        renderItem={renderComment}
+        estimatedItemSize={150}
+        data={profile.comments}
+        keyExtractor={commentKeyExtractor}
+        ListEmptyComponent={<NoResultView type="profileComments" p={4} />}
+        refreshing={profile.loading}
+        refreshControl={
+          <ProfileRefreshControl
+            refreshing={profile.refreshing}
+            doLoad={profile.doLoad}
+          />
+        }
+      />
+    </VStack>
   );
 }
 
