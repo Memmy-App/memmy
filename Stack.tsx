@@ -56,6 +56,7 @@ import ContentScreen from "./components/screens/settings/Content/ContentScreen";
 import AccountSettingsScreen from "./components/screens/settings/Account/AccountSettingsScreen";
 import AboutScreen from "./components/screens/settings/About/AboutScreen";
 import GeneralSettingsScreen from "./components/screens/settings/General/GeneralSettingsScreen";
+import UserCommentsScreen from "./components/screens/userProfile/UserCommentsScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -181,6 +182,13 @@ function ProfileStackScreen() {
     >
       <ProfileStack.Group>
         <ProfileStack.Screen name="Profile" component={UserProfileScreen} />
+        <ProfileStack.Screen
+          name="UserComments"
+          component={UserCommentsScreen}
+          options={{
+            title: "Comments",
+          }}
+        />
         <ProfileStack.Screen
           name="BlockedCommunities"
           component={BlockedCommunitiesScreen}

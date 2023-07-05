@@ -1,17 +1,21 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import { FlashList } from "@shopify/flash-list";
-import NoResultView from "../common/NoResultView";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
-import { UseProfile } from "../../hooks/profile/useProfile";
-import { ProfileRefreshControl } from "./ProfileRefreshControl";
-import CommentItem from "../comments/CommentItem";
+import NoResultView from "../../ui/common/NoResultView";
+import { ProfileRefreshControl } from "../../ui/profile/ProfileRefreshControl";
+import CommentItem from "../../ui/comments/CommentItem";
+import useProfile from "../../hooks/profile/useProfile";
+import LoadingView from "../../ui/Loading/LoadingView";
+import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
+import NotFoundView from "../../ui/Loading/NotFoundView";
 
 interface IProps {
-  profile: UseProfile;
-  header: ReactElement;
+  route: any;
 }
 
-function ProfileCommentList({ profile, header }: IProps) {
+function UserCommentsScreen({ route }: IProps) {
+  const profile = useProfile(route?.params?.fullUsername);
+
   const onPressOverride = (item) => {
     const commentPathArr = item.comment.comment.path.split(".");
 
@@ -41,18 +45,34 @@ function ProfileCommentList({ profile, header }: IProps) {
     />
   );
 
+  if (!profile.profile) {
+    return <LoadingView />;
+  }
+
+  if (profile.error) {
+    return <LoadingErrorView onRetryPress={() => profile.doLoad(true)} />;
+  }
+
+  if (profile.notFound) {
+    return <NotFoundView />;
+  }
+
   return (
     <FlashList
       renderItem={renderComment}
-      ListHeaderComponent={header}
       estimatedItemSize={150}
       data={profile.comments}
       keyExtractor={commentKeyExtractor}
       ListEmptyComponent={<NoResultView type="profileComments" />}
       refreshing={profile.loading}
-      refreshControl={<ProfileRefreshControl profile={profile} />}
+      refreshControl={
+        <ProfileRefreshControl
+          refreshing={profile.refreshing}
+          doLoad={profile.doLoad}
+        />
+      }
     />
   );
 }
 
-export default ProfileCommentList;
+export default UserCommentsScreen;

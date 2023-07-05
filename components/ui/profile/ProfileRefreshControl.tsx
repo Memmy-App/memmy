@@ -1,17 +1,17 @@
 import React from "react";
 import { RefreshControl } from "react-native";
-import { UseProfile } from "../../hooks/profile/useProfile";
 
 interface IProps {
-  profile: UseProfile;
+  refreshing: boolean;
+  doLoad: (refresh: boolean) => Promise<void>;
 }
 
-export function ProfileRefreshControl({ profile }: IProps) {
+export function ProfileRefreshControl({ refreshing, doLoad }: IProps) {
   return (
     <RefreshControl
-      refreshing={profile.refreshing}
+      refreshing={refreshing}
       onRefresh={() => {
-        profile.doLoad(true).then();
+        doLoad(true).then();
       }}
     />
   );
