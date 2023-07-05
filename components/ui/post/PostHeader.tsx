@@ -43,7 +43,11 @@ function PostHeader({ post, showLoadAll }: IProps) {
       </HStack>
 
       <Divider my={1} bg={theme.colors.app.border} />
-      <PostActionBar post={post} />
+      <PostActionBar
+        post={post.currentPost}
+        doSave={post.doSave}
+        doVote={post.doVote}
+      />
       <Divider bg={theme.colors.app.border} />
       {showLoadAll && (
         <Pressable

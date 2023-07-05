@@ -130,4 +130,4 @@ function AvatarUsername({
   );
 }
 
-export default AvatarUsername;
+export default React.memo(AvatarUsername);

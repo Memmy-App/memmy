@@ -29,10 +29,9 @@ function Title({ title, mt, mb }: { title: string; mt: number; mb: number }) {
 
 interface IProps {
   post: PostView;
-  recycled?: React.MutableRefObject<{}>;
 }
 
-function PostContentView({ post, recycled }: IProps) {
+function PostContentView({ post }: IProps) {
   const linkInfo = getLinkInfo(post.post.url);
 
   const { body } = post.post;
@@ -48,7 +47,6 @@ function PostContentView({ post, recycled }: IProps) {
             source={post.post.url}
             nsfw={post.post.nsfw || post.community.nsfw}
             id={post.post.id}
-            recycled={recycled}
           />
           <Title title={title} mt={2} mb={0} />
           {body && (
@@ -100,4 +98,7 @@ function PostContentView({ post, recycled }: IProps) {
   return <Box mb={1}>{renderContent()}</Box>;
 }
 
-export default React.memo(PostContentView);
+const areEqual = (prev: IProps, next: IProps) =>
+  prev.post.post.id === next.post.post.id;
+
+export default React.memo(PostContentView, areEqual);
