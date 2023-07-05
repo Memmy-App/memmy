@@ -58,6 +58,7 @@ import AboutScreen from "./components/screens/settings/About/AboutScreen";
 import GeneralSettingsScreen from "./components/screens/settings/General/GeneralSettingsScreen";
 import UserCommentsScreen from "./components/screens/userProfile/UserCommentsScreen";
 import UserPostsScreen from "./components/screens/userProfile/UserPostsScreen";
+import UserSavedPostsScreen from "./components/screens/userProfile/UserSavedPostsScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -195,6 +196,13 @@ function ProfileStackScreen() {
           component={UserPostsScreen}
           options={{
             title: "Posts",
+          }}
+        />
+        <ProfileStack.Screen
+          name="UserSavedPosts"
+          component={UserSavedPostsScreen}
+          options={{
+            title: "Saved Posts",
           }}
         />
         <ProfileStack.Screen

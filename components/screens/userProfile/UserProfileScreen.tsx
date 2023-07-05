@@ -144,6 +144,11 @@ function UserProfileScreen({ route, navigation }: IProps) {
             rightAccessory={
               <IconChevronRight color={theme.colors.app.accent} />
             }
+            onPress={() =>
+              navigation.push("UserSavedPosts", {
+                fullUsername: route?.params?.fullUsername,
+              })
+            }
           />
         </MTable>
       </VStack>
