@@ -36,11 +36,6 @@ export default function App() {
     return null;
   }
 
-  // eslint-disable-next-line no-undef
-  if (__DEV__) {
-    import("./ReactotronConfig").then(() => console.log("Reactotron Enabled."));
-  }
-
   return (
     <Provider store={store}>
       <Start />
