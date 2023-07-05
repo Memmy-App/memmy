@@ -46,7 +46,7 @@ const RenderMarkdown = ({
   const HEADING_4_SIZE = isSystemTextSize ? 18 / fontScale : 15 + fontModifier;
 
   const onLinkPress = (url): boolean => {
-    openLink(url, navigation, currentAccount.instance);
+    openLink(url, navigation);
     return false;
   };
 

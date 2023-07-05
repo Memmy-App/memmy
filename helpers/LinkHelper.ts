@@ -6,6 +6,7 @@ import { Alert } from "react-native";
 import axios from "axios";
 import { URL } from "react-native-url-polyfill";
 import { writeToLog } from "./LogHelper";
+import store from "../store";
 
 const imageExtensions = [
   "webp",
@@ -21,6 +22,7 @@ const imageExtensions = [
 ];
 
 const videoExtensions = ["mp4", "mov", "m4a"];
+const {accounts} = store.getState();
 
 export interface LinkInfo {
   extType?: ExtensionType;
@@ -64,7 +66,8 @@ export const isPotentialFedSite = (link: string) => {
   return potentialFed;
 };
 
-export const isLemmySite = async (link: string, instanceUrl: string) => {
+export const isLemmySite = async (link: string) => {
+  let instanceUrl = accounts.currentAccount.instance;
   if (!instanceUrl.startsWith("https://") && !instanceUrl.startsWith("http://")) {
     instanceUrl = "https://" + instanceUrl;
   }
@@ -169,14 +172,13 @@ const openWebLink = (link: string): void => {
 
 export const openLink = (
   link: string,
-  navigation: NativeStackNavigationProp<any, string, undefined>,
-  instanceUrl: string = "",
+  navigation: NativeStackNavigationProp<any, string, undefined>
 ): void => {
   link = decodeURIComponent(link);
 
   const potentialFed = isPotentialFedSite(link);
   if (potentialFed) {
-    isLemmySite(link, instanceUrl)
+    isLemmySite(link)
       .then((isLemmy) => {
         if (isLemmy) {
           openLemmyLink(link, navigation);

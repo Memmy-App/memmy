@@ -7,8 +7,6 @@ import FastImage from "react-native-fast-image";
 import { IconUnlink } from "tabler-icons-react-native";
 import { openLink } from "../../../helpers/LinkHelper";
 import { truncateLink } from "../../../helpers/TextHelper";
-import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
-import { useAppSelector } from "../../../store";
 
 interface LinkButtonProps {
   link: string;
@@ -18,10 +16,9 @@ interface LinkButtonProps {
 function LinkButton({ link, thumbnail }: LinkButtonProps) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const theme = useTheme();
-  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const onPress = () => {
-    openLink(link, navigation, currentAccount.instance);
+    openLink(link, navigation);
   };
 
   return (

@@ -93,8 +93,7 @@ function AboutScreen({
                     onPress: () => {
                       openLink(
                         `https://${currentAccount.instance}`,
-                        navigation,
-                        currentAccount.instance
+                        navigation
                       );
                     },
                   },
