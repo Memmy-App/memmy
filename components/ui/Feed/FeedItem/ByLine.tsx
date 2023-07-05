@@ -16,7 +16,7 @@ export function ByLine({ creator, read, featured }: Props) {
   return (
     <HStack space={2} alignItems="center">
       <AvatarUsername creator={creator} />
-      {read && <IconBookCheck color={theme.colors.app.info} size={20} />}
+      {read && <IconBookCheck color={theme.colors.app.accent} size={20} />}
       <FeaturedIndicator featured={featured} />
     </HStack>
   );

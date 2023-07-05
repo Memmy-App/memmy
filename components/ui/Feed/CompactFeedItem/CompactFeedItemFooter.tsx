@@ -26,7 +26,7 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
           <FeaturedIndicator
             featured={post.post.featured_community || post.post.featured_local}
           />
-          {post.read && <IconBookCheck color={colors.app.info} size={20} />}
+          {post.read && <IconBookCheck color={colors.app.accent} size={20} />}
           <AvatarUsername creator={post.creator} showAvatar={false} />
         </HStack>
         <Text color={colors.app.textSecondary}>•</Text>
