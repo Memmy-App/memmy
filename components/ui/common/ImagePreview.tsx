@@ -22,7 +22,7 @@ function ImagePreview({ images, postId, recycled, isNsfw }: IProps) {
     );
   }
 
-  if (images.length >= 2) {
+  if (images.length >= 2 && images[0] !== images[1]) {
     return (
       <HStack space={1}>
         <ImageViewer
