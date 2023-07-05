@@ -4,10 +4,10 @@ import { PostView } from "lemmy-js-client";
 import useProfile from "../../hooks/profile/useProfile";
 import CompactFeedItem from "../../ui/Feed/CompactFeedItem/CompactFeedItem";
 import NoResultView from "../../ui/common/NoResultView";
-import { ProfileRefreshControl } from "../../ui/profile/ProfileRefreshControl";
 import LoadingView from "../../ui/Loading/LoadingView";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import NotFoundView from "../../ui/Loading/NotFoundView";
+import RefreshControl from "../../ui/common/RefreshControl";
 
 interface IProps {
   route: any;
@@ -43,9 +43,9 @@ function UserSavedPostsScreen({ route }: IProps) {
       ListEmptyComponent={<NoResultView type="profilePosts" p={4} />}
       refreshing={profile.loading}
       refreshControl={
-        <ProfileRefreshControl
+        <RefreshControl
           refreshing={profile.refreshing}
-          doLoad={profile.doLoad}
+          onRefresh={profile.doLoad}
         />
       }
     />

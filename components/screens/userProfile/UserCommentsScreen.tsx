@@ -3,12 +3,12 @@ import { FlashList } from "@shopify/flash-list";
 import { useTheme, VStack } from "native-base";
 import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import NoResultView from "../../ui/common/NoResultView";
-import { ProfileRefreshControl } from "../../ui/profile/ProfileRefreshControl";
 import CommentItem from "../../ui/comments/CommentItem";
 import useProfile from "../../hooks/profile/useProfile";
 import LoadingView from "../../ui/Loading/LoadingView";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import NotFoundView from "../../ui/Loading/NotFoundView";
+import RefreshControl from "../../ui/common/RefreshControl";
 
 interface IProps {
   route: any;
@@ -70,9 +70,9 @@ function UserCommentsScreen({ route }: IProps) {
         ListEmptyComponent={<NoResultView type="profileComments" p={4} />}
         refreshing={profile.loading}
         refreshControl={
-          <ProfileRefreshControl
+          <RefreshControl
             refreshing={profile.refreshing}
-            doLoad={profile.doLoad}
+            onRefresh={profile.doLoad}
           />
         }
       />

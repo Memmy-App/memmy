@@ -22,7 +22,6 @@ import { showToast } from "../../../slices/toast/toastSlice";
 import { useAppDispatch } from "../../../store";
 import MTable from "../../ui/table/MTable";
 import MCell from "../../ui/table/MCell";
-import { ProfileRefreshControl } from "../../ui/profile/ProfileRefreshControl";
 import RefreshControl from "../../ui/common/RefreshControl";
 
 interface IProps {

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { PostView } from "lemmy-js-client";
 import { HStack, useTheme, View } from "native-base";
-import { Button, RefreshControl, StyleSheet } from "react-native";
+import { Button, StyleSheet } from "react-native";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -19,6 +19,7 @@ import NoResultView from "../common/NoResultView";
 import Footer from "./Footer";
 import FeedSortButton from "./FeedSortButton";
 import { Community, FeedOverflowButton } from "./FeedOverflowButton";
+import RefreshControl from "../common/RefreshControl";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -149,7 +150,6 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     <RefreshControl
       refreshing={feed.postsLoading}
       onRefresh={() => feed.doLoad(true)}
-      tintColor={theme.colors.app.textSecondary}
     />
   );
 
