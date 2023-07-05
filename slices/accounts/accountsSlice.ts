@@ -4,6 +4,7 @@ import {
   deleteAccount,
   editAccount,
   loadAccounts,
+  setCurrentAccount
 } from "./accountsActions";
 import { RootState } from "../../store";
 import { Account } from "../../types/Account";
@@ -25,15 +26,12 @@ const accountsSlice = createSlice({
   name: "accounts",
   initialState,
   reducers: {
-    setCurrentAccount: (state, action) => {
-      state.currentAccount = action.payload;
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(loadAccounts.fulfilled, (state, action) => {
       if (action.payload) {
         state.accounts = action.payload;
-        const [mainAccount] = action.payload;
+        const mainAccount = action.payload.find(a => a.isCurrent) || action.payload[0];
         state.currentAccount = mainAccount;
       }
 
@@ -54,12 +52,14 @@ const accountsSlice = createSlice({
       state.accounts = action.payload.updatedAccounts;
 
       if (
-        action.payload.deletedAccount.username ===
-          state.currentAccount.username &&
+        action.payload.deletedAccount.username === state.currentAccount.username &&
         action.payload.deletedAccount.instance === state.currentAccount.instance
       ) {
         state.currentAccount = state.accounts[0];
       }
+    });
+    builder.addCase(setCurrentAccount.fulfilled, (state, action) => {
+      state.currentAccount = action.payload
     });
   },
 });
@@ -70,5 +70,4 @@ export const selectCurrentAccount = (state: RootState) =>
 
 export const selectAccountsLoaded = (state: RootState) => state.accounts.loaded;
 
-export const { setCurrentAccount } = accountsSlice.actions;
 export default accountsSlice.reducer;
