@@ -1,7 +1,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { HStack, useTheme, VStack } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import usePost from "../../hooks/post/postHooks";
 import LoadingView from "../../ui/Loading/LoadingView";
 import CommentItem from "../../ui/comments/CommentItem";

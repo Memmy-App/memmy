@@ -19,10 +19,9 @@ interface IProps {
 }
 
 // TODO Fix the set post read here
-function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
+function FeedContentPreview({ post, recycled }: IProps) {
   const theme = useTheme();
-  const { markReadOnPostImageView, fontWeightPostTitle } =
-    useAppSelector(selectSettings);
+  const { fontWeightPostTitle } = useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
   const { cleanedText, imageLinks } = findImages(post.post.body, true);

@@ -7,7 +7,7 @@ import {
   onVoteHapticFeedback,
 } from "../../../helpers/HapticFeedbackHelpers";
 import { useAppDispatch, useAppSelector } from "../../../store";
-import { setUpdateSaved, setUpdateVote } from "../../../slices/feed/feedSlice";
+import { setUpdateSaved } from "../../../slices/feed/feedSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { setPost } from "../../../slices/post/postSlice";
