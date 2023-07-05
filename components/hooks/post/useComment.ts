@@ -19,6 +19,7 @@ import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
 import { showToast } from "../../../slices/toast/toastSlice";
+import { setResponseTo } from "../../../slices/comments/newCommentSlice";
 
 interface UseComment {
   onCommentPress: () => void;
@@ -97,6 +98,7 @@ const useComment = ({
     const options = {
       "Copy Text": "Copy Text",
       "Copy Link": "Copy Link",
+      "Reply": "Reply",
       "Report Comment": "Report Comment",
       ...(isOwnComment && {
         "Edit Comment": "Edit Comment",
@@ -220,6 +222,16 @@ const useComment = ({
             content: comment.comment.comment.content,
             languageId: comment.comment.comment.language_id,
           });
+        }
+
+        if (option === options["Reply"]) {
+          dispatch(
+            setResponseTo({
+              comment: comment.comment,
+              languageId: comment.comment.post.language_id,
+            })
+          );
+          navigation.push("NewComment");
         }
       }
     );
