@@ -14,4 +14,4 @@ function CommentCount({ commentCount }: { commentCount: number }) {
   );
 }
 
-export default CommentCount;
+export default React.memo(CommentCount);

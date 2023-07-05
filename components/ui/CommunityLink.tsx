@@ -1,5 +1,5 @@
 import { Community } from "lemmy-js-client";
-import { HStack, Text } from "native-base";
+import { HStack, Text, useTheme } from "native-base";
 import React from "react";
 import { IconPlanet } from "tabler-icons-react-native";
 import { getBaseUrl } from "../../helpers/LinkHelper";
@@ -8,16 +8,11 @@ import Link from "./buttons/Link";
 interface CommunityLinkProps {
   community: Community;
   instanceBaseUrl?: string;
-  color?: string;
-  hideIcon?: boolean;
 }
 
-function CommunityLink({
-  community,
-  instanceBaseUrl,
-  color,
-  hideIcon,
-}: CommunityLinkProps) {
+function CommunityLink({ community, instanceBaseUrl }: CommunityLinkProps) {
+  const theme = useTheme();
+
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <Link
@@ -33,13 +28,13 @@ function CommunityLink({
     >
       <HStack>
         <HStack alignItems="center" space={1}>
-          {hideIcon ? null : <IconPlanet color={color} size={16} />}
-          <Text color={color} fontWeight="medium">
+          <IconPlanet color={theme.colors.app.textSecondary} size={16} />
+          <Text color={theme.colors.app.textSecondary} fontWeight="medium">
             {community.name}
           </Text>
         </HStack>
         {instanceBaseUrl && (
-          <Text color={color} fontWeight="medium">
+          <Text color={theme.colors.app.textSecondary} fontWeight="medium">
             @{instanceBaseUrl}
           </Text>
         )}
@@ -48,4 +43,4 @@ function CommunityLink({
   );
 }
 
-export default CommunityLink;
+export default React.memo(CommunityLink);

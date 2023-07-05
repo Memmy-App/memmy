@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Text, useTheme, VStack } from "native-base";
 import { FlashList } from "@shopify/flash-list";
-import { RefreshControl } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { IconMailOpened } from "tabler-icons-react-native";
 import useInbox from "../../hooks/inbox/useInbox";
@@ -12,6 +11,7 @@ import InboxTabs from "./InboxTabs";
 import LoadingView from "../../ui/Loading/LoadingView";
 import HeaderIconButton from "../../ui/buttons/HeaderIconButton";
 import InboxReplyItem from "../../ui/inbox/InboxReplyItem";
+import RefreshControl from "../../ui/common/RefreshControl";
 
 function InboxScreen({
   navigation,
