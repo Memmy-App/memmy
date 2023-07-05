@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { SearchType } from "lemmy-js-client";
+import React, { SetStateAction, useEffect, useState } from "react";
+import { PostView, SearchType } from "lemmy-js-client";
 import ILemmySearchResult from "../../../lemmy/types/ILemmySearchResult";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
@@ -8,12 +8,15 @@ interface UseSearch {
   loading: boolean;
   error: boolean;
   result: ILemmySearchResult;
+  posts: PostView[];
+  setPosts: React.Dispatch<SetStateAction<PostView[]>>;
 }
 
 const useSearchResult = (query: string, type: SearchType): UseSearch => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const [result, setResult] = useState<ILemmySearchResult>(null);
+  const [posts, setPosts] = useState<PostView[]>([]);
 
   useEffect(() => {
     runSearch().then();
@@ -34,11 +37,15 @@ const useSearchResult = (query: string, type: SearchType): UseSearch => {
         sort: "Active",
       });
 
-      setResult({
-        users: res.users,
-        communities: res.communities,
-        posts: res.posts,
-      });
+      if (type === "Posts") {
+        setPosts(res.posts);
+      } else {
+        setResult({
+          users: res.users,
+          communities: res.communities,
+          posts: res.posts,
+        });
+      }
       setLoading(false);
     } catch (e) {
       writeToLog("Error searching.");
@@ -53,6 +60,9 @@ const useSearchResult = (query: string, type: SearchType): UseSearch => {
     error,
 
     result,
+
+    posts,
+    setPosts,
   };
 };
 

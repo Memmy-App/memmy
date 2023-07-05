@@ -51,10 +51,16 @@ const useFeedItem = (
     const oldValue: ILemmyVote = post.my_vote as ILemmyVote;
 
     setMyVote(value);
-    dispatch(
-      setUpdateVote({
-        postId: post.post.id,
-        vote: value,
+    setPosts((prev) =>
+      prev.map((p) => {
+        if (p.post.id === post.post.id) {
+          return {
+            ...p,
+            my_vote: value,
+          };
+        }
+
+        return p;
       })
     );
 
@@ -89,10 +95,16 @@ const useFeedItem = (
       );
 
       setMyVote(oldValue);
-      dispatch(
-        setUpdateVote({
-          postId: post.post.id,
-          vote: oldValue,
+      setPosts((prev) =>
+        prev.map((p) => {
+          if (p.post.id === post.post.id) {
+            return {
+              ...p,
+              my_vote: value,
+            };
+          }
+
+          return p;
         })
       );
     }
