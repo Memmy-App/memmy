@@ -63,13 +63,13 @@ const useComment = ({
         if (c.comment.comment.id === comment.comment.comment.id) {
           return {
             ...c,
-            collapsed: !c.collapsed,
+            collapsed: !comment.collapsed,
           };
         }
         if (c.comment.comment.path.includes(comment.comment.comment.path)) {
           return {
             ...c,
-            hidden: !c.hidden,
+            hidden: !comment.collapsed,
           };
         }
         return c;
@@ -98,7 +98,7 @@ const useComment = ({
     const options = {
       "Copy Text": "Copy Text",
       "Copy Link": "Copy Link",
-      "Reply": "Reply",
+      Reply: "Reply",
       "Report Comment": "Report Comment",
       ...(isOwnComment && {
         "Edit Comment": "Edit Comment",
@@ -224,7 +224,7 @@ const useComment = ({
           });
         }
 
-        if (option === options["Reply"]) {
+        if (option === options.Reply) {
           dispatch(
             setResponseTo({
               comment: comment.comment,

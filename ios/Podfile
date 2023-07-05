@@ -25,7 +25,7 @@ prepare_react_native_project!
 #   }
 # }
 # ```
-flipper_config = FlipperConfiguration.disabled
+flipper_config = FlipperConfiguration.enabled
 if ENV['NO_FLIPPER'] == '1' then
   # Explicitly disabled through environment variables
   flipper_config = FlipperConfiguration.disabled
