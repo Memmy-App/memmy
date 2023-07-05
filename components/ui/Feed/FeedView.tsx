@@ -35,7 +35,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
 
   // Global state props
   const { dropdownVisible } = useAppSelector(selectFeed);
-  const { compactView } = useAppSelector(selectSettings);
+  const { compactView, hideReadPostsOnFeed } = useAppSelector(selectSettings);
 
   // Refs
   const flashList = useRef<FlashList<any>>();
@@ -110,6 +110,10 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     ({ item }: ListRenderItemInfo<PostView>) => {
       if (feed.community && feed.community.counts.posts < 1) {
         return <NoResultView type="posts" />;
+      }
+
+      if(hideReadPostsOnFeed && item.read) {
+        return <></>;
       }
 
       if (compactView) {
