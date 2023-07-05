@@ -9,7 +9,7 @@ import {
 } from "native-base";
 import { UsePost } from "../../hooks/post/postHooks";
 import PostContentView from "./PostContentView";
-import AvatarUsername from "../common/AvatarUsername";
+import AvatarUsername from "../common/avatarUsername/AvatarUsername";
 import CommunityLink from "../CommunityLink";
 import CommentCount from "../common/CommentCount";
 import DatePublished from "../common/DatePublished";
@@ -31,20 +31,23 @@ function PostHeader({ post, showLoadAll }: IProps) {
       <PostContentView post={post.currentPost} />
 
       <HStack mb={2} mx={4} space={2}>
-        <AvatarUsername creator={post.currentPost?.creator} showInstance />
+        <AvatarUsername creator={post.currentPost?.creator} />
       </HStack>
       <HStack space={2} mx={4} mb={2}>
         <CommunityLink
           community={post.currentPost?.community}
           instanceBaseUrl={instanceBaseUrl}
-          color={theme.colors.app.textSecondary}
         />
         <CommentCount commentCount={post.currentPost.counts.comments} />
         <DatePublished published={post.currentPost?.post.published} />
       </HStack>
 
       <Divider my={1} bg={theme.colors.app.border} />
-      <PostActionBar post={post} />
+      <PostActionBar
+        post={post.currentPost}
+        doSave={post.doSave}
+        doVote={post.doVote}
+      />
       <Divider bg={theme.colors.app.border} />
       {showLoadAll && (
         <Pressable

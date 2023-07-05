@@ -1,26 +1,16 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
-import {
-  Center,
-  Divider,
-  HStack,
-  Pressable,
-  Spinner,
-  Text,
-  useTheme,
-  VStack,
-} from "native-base";
+import { HStack, useTheme, VStack } from "native-base";
 import React, { useEffect } from "react";
-import { RefreshControl } from "react-native";
 import usePost from "../../hooks/post/postHooks";
 import LoadingView from "../../ui/Loading/LoadingView";
 import CommentItem from "../../ui/comments/CommentItem";
 import CommentSortButton from "../../ui/post/CommentSortButton";
-import PostActionBar from "../../ui/post/PostActionBar";
 import PostOptionsButton from "../../ui/post/PostOptionsButton";
 import PostFooter from "../../ui/post/PostFooter";
 import PostHeader from "../../ui/post/PostHeader";
-import PostContentView from "../../ui/post/PostContentView";
+import ILemmyComment from "../../../lemmy/types/ILemmyComment";
+import RefreshControl from "../../ui/common/RefreshControl";
 
 interface IProps {
   route: any;
@@ -51,7 +41,7 @@ function PostScreen({ route, navigation }: IProps) {
     });
   }, [post.sortType]);
 
-  const commentItem = ({ item }) => (
+  const commentItem = ({ item }: { item: ILemmyComment }) => (
     <CommentItem
       comment={item}
       setComments={post.setComments}
@@ -60,11 +50,7 @@ function PostScreen({ route, navigation }: IProps) {
   );
 
   const refreshControl = (
-    <RefreshControl
-      refreshing={post.commentsLoading}
-      onRefresh={post.doLoad}
-      tintColor={theme.colors.app.textSecondary}
-    />
+    <RefreshControl refreshing={post.commentsLoading} onRefresh={post.doLoad} />
   );
 
   if (!post) {
@@ -81,7 +67,7 @@ function PostScreen({ route, navigation }: IProps) {
             <PostHeader post={post} showLoadAll={route?.params?.showLoadAll} />
           }
           ListFooterComponent={<PostFooter post={post} />}
-          data={post.comments}
+          data={post.visibleComments}
           renderItem={commentItem}
           keyExtractor={keyExtractor}
           estimatedItemSize={200}

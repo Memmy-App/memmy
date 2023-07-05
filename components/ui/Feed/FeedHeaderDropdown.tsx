@@ -65,4 +65,4 @@ function FeedHeaderDropdown({ enabled }: HeaderDropdownProps) {
   );
 }
 
-export default FeedHeaderDropdown;
+export default React.memo(FeedHeaderDropdown);

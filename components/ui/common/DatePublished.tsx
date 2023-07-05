@@ -15,4 +15,4 @@ function DatePublished({ published }: { published: string }) {
   );
 }
 
-export default DatePublished;
+export default React.memo(DatePublished);

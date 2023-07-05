@@ -1,6 +1,6 @@
 import { PostView } from "lemmy-js-client";
-import { Pressable, View, useTheme } from "native-base";
-import React, { SetStateAction, memo } from "react";
+import { Pressable, View } from "native-base";
+import React, { memo, SetStateAction } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
@@ -35,7 +35,6 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
   const feedItem = useFeedItem(post, setPosts);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
-  const theme = useTheme();
 
   const onLeftRightOne = () => feedItem.onVotePress(1, false);
   const onLeftRightTwo = () => feedItem.onVotePress(-1, false);
@@ -96,11 +95,14 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
         <Animated.View style={[swipeAnimation.animatedStyle]}>
           <Post>
             <Header>
-              <ByLine post={post} />
-              <CommunityLink
-                community={post.community}
-                color={theme.colors.app.textSecondary}
+              <ByLine
+                creator={post.creator}
+                read={post.read}
+                featured={
+                  post.post.featured_local || post.post.featured_community
+                }
               />
+              <CommunityLink community={post.community} />
             </Header>
 
             <Pressable onPress={feedItem.onPress}>

@@ -8,7 +8,6 @@ import React, {
 import { PersonView, PostView } from "lemmy-js-client";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import PagerView from "react-native-pager-view";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { useAppDispatch, useAppSelector } from "../../../store";
@@ -38,20 +37,13 @@ export interface UseProfile {
 
   self: boolean;
 
-  selected?: "comments" | "posts" | "savedposts";
-  setSelected?: React.Dispatch<
-    SetStateAction<"comments" | "posts" | "savedposts">
-  >;
-
   onCommentPress: (
     postId: number,
     commentId: number | undefined
   ) => Promise<void>;
-
-  pagerView: React.MutableRefObject<PagerView>;
 }
 
-const useProfile = (fullUsername?: string): UseProfile => {
+const useProfile = (noContent = true, fullUsername?: string): UseProfile => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const searchUsername = useMemo(
     () =>
@@ -73,26 +65,15 @@ const useProfile = (fullUsername?: string): UseProfile => {
 
   const [notFound, setNotFound] = useState<boolean>(false);
 
-  const [selected, setSelected] = useState<"posts" | "comments">("comments");
-
-  const commentsNextPage = useRef(1);
-  const postsNextPage = useRef(1);
-
   const self = useRef(!fullUsername);
-
-  const pagerView = useRef<PagerView>();
 
   useEffect(() => {
     doLoad(true).then();
   }, [currentAccount]);
 
   const doLoad = async (refresh = false) => {
-    if (refresh) {
-      setRefreshing(true);
-
-      if (selected === "comments") commentsNextPage.current = 1;
-      else postsNextPage.current = 1;
-    } else setLoading(true);
+    if (refresh) setRefreshing(true);
+    else setLoading(true);
 
     try {
       const res = await lemmyInstance.getPersonDetails({
@@ -100,24 +81,15 @@ const useProfile = (fullUsername?: string): UseProfile => {
         username: searchUsername,
         sort: "New",
         limit: 50,
-        page:
-          selected === "comments"
-            ? commentsNextPage.current
-            : postsNextPage.current,
+        page: 1,
       });
-
-      if (selected === "comments") {
-        commentsNextPage.current = 2;
-      } else {
-        postsNextPage.current = 2;
-      }
 
       const betterComments = buildComments(res.comments);
 
       if (self.current) {
         const savedRes = await lemmyInstance.getPersonDetails({
           auth: lemmyAuthToken,
-          limit: 50,
+          limit: noContent ? 0 : 50,
           saved_only: true,
           username: searchUsername,
         });
@@ -163,6 +135,7 @@ const useProfile = (fullUsername?: string): UseProfile => {
 
       navigation.push("Post", {
         commentId: commentId.toString(),
+        showLoadAll: true,
       });
     } catch (e) {
       writeToLog("Failed to get post for comment push.");
@@ -190,16 +163,11 @@ const useProfile = (fullUsername?: string): UseProfile => {
     savedPosts,
     setSavedPosts,
 
-    selected,
-    setSelected,
-
     self: self.current,
 
     doLoad,
 
     onCommentPress,
-
-    pagerView,
   };
 };
 
