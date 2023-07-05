@@ -24,7 +24,7 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
       <HStack alignItems="center" space={2}>
         <HStack>
           <FeaturedIndicator
-            featured={post.post.featured_community | post.post.featured_local}
+            featured={post.post.featured_community || post.post.featured_local}
           />
           {post.read && <IconBookCheck color={colors.app.info} size={20} />}
           <AvatarUsername creator={post.creator} showAvatar={false} />
