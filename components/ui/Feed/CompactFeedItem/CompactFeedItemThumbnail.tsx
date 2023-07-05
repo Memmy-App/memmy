@@ -89,7 +89,11 @@ function CompactFeedItemThumbnail({
           {(post.post.nsfw || post.community.nsfw) && blurNsfw ? (
             <Pressable onPress={onImagePress} onLongPress={onImageLongPress}>
               <View style={styles.blurContainer}>
-                <BlurView style={styles.blurView} intensity={100} tint="dark">
+                <BlurView
+                  style={styles.blurView}
+                  intensity={100}
+                  tint={theme.config.initialColorMode}
+                >
                   <VStack
                     flex={1}
                     alignItems="center"
