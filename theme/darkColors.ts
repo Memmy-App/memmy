@@ -498,3 +498,53 @@ export const oledThemeColors: IColors = {
   bookmark: "#48C10F",
   bookmarkText: "#fff",
 };
+
+export const embarkThemeColors: IColors = {
+  accent: "#A1EFD3",
+  accentHighlight: "#7FE9C3",
+
+  textPrimary: "#CBE3E7",
+  textSecondary: "#a2b5b8",
+
+  fg: "#1E1C31",
+  bg: "#2D2B40",
+  navBarBg: "#100E23",
+
+  border: "#1E1C31",
+
+  upvote: "#F2B482",
+  upvoteText: "#FFF",
+  downvote: "#78A8FF",
+  downvoteText: "#FFF",
+
+  success: "#7FE9C3",
+  successText: "#fff",
+  error: "#F02E6E",
+  errorText: "#fff",
+  warn: "#F2B482",
+  warnText: "#fff",
+  info: "#78A8FF",
+  infoText: "#fff",
+
+  users: {
+    text: "#fff",
+    mod: "#7FE9C3",
+    admin: "#F02E6E",
+    dev: "#7676FF",
+    op: "#63F2F1",
+    me: "#FFB800",
+  },
+
+  comments: {
+    1: "#F48FB1",
+    2: "#FFE6B3",
+    3: "#A1EFD3",
+    4: "#91DDFF",
+    5: "#D4BFFF",
+  },
+
+  inputBg: "#3E3859",
+
+  bookmark: "#7676FF",
+  bookmarkText: "#fff",
+};
