@@ -264,7 +264,9 @@ const useComment = ({
   };
 
   const onVote = async (value: -1 | 0 | 1) => {
-    if (value === comment.myVote && value !== 0) value = 0;
+    if (value === comment.comment.my_vote) value = 0;
+
+    console.log("update");
 
     const oldValue = comment.comment.my_vote;
 
