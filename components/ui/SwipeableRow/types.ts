@@ -5,6 +5,7 @@ import {
   GestureEventPayload,
   PanGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
+import React, { SetStateAction } from "react";
 
 export type SwipeableRowGestureContext = {
   startX: number;
@@ -18,7 +19,8 @@ export interface Handlers
 
 export interface ISwipeableRowContext {
   translateX: SharedValue<number>;
-  subscribe: (handlers: Handlers) => () => void;
+  setLeftSubscribers: React.Dispatch<SetStateAction<Handlers[]>>;
+  setRightSubscribers: React.Dispatch<SetStateAction<Handlers[]>>;
 }
 
 export interface ISwipeableColors {

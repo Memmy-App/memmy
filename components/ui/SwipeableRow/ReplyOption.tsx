@@ -28,6 +28,7 @@ interface Props {
   onReply: () => unknown;
   onExtra?: () => unknown;
   extraType?: Icon | undefined;
+  id: number;
 }
 
 const buzz = () => {
@@ -47,6 +48,7 @@ export function ReplyOption({
   onReply,
   onExtra,
   extraType,
+  id,
 }: Props) {
   const theme = useTheme();
 
@@ -60,27 +62,33 @@ export function ReplyOption({
   const isFrozen = useSharedValue(false);
   const [iconRect, setIconRect] = useState<LayoutRectangle | null>(null);
   const [icon, setIcon] = useState<Icon>("comment");
-  const { subscribe, translateX } = useSwipeableRow();
+  const { setRightSubscribers, translateX } = useSwipeableRow();
 
   useEffect(() => {
-    subscribe({
-      onStart: () => {
-        "worklet";
+    setRightSubscribers([
+      {
+        onStart: () => {
+          "worklet";
 
-        isFrozen.value = false;
-      },
-      onEnd: () => {
-        "worklet";
+          isFrozen.value = false;
+        },
+        onEnd: () => {
+          "worklet";
 
-        if (onExtra && translateX.value <= secondStop) {
-          runOnJS(onExtra)();
-        } else if (translateX.value <= firstStop) {
-          runOnJS(onReply)();
-        }
-        isFrozen.value = true;
+          if (onExtra && translateX.value <= secondStop) {
+            runOnJS(onExtra)();
+          } else if (translateX.value <= firstStop) {
+            runOnJS(onReply)();
+          }
+          isFrozen.value = true;
+        },
       },
-    });
-  }, [subscribe]);
+    ]);
+
+    return () => {
+      setRightSubscribers([]);
+    };
+  }, [id]);
 
   useAnimatedReaction(
     () => ({ translateX: translateX.value, isFrozen: isFrozen.value }),

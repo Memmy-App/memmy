@@ -60,8 +60,10 @@ function CompactFeedItem({
   return (
     <View flex={1} my={0.5}>
       <SwipeableRow
-        leftOption={<VoteOption onVote={onSwipe} vote={post.my_vote} />}
-        rightOption={<ReplyOption onReply={onReply} />}
+        leftOption={
+          <VoteOption onVote={onSwipe} vote={post.my_vote} id={post.post.id} />
+        }
+        rightOption={<ReplyOption onReply={onReply} id={post.post.id} />}
       >
         <Pressable onPress={feedItem.onPress}>
           <HStack

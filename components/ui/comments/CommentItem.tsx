@@ -51,6 +51,7 @@ function CommentItem({
         <VoteOption
           onVote={commentHook.onVote}
           vote={comment.comment.my_vote}
+          id={comment.comment.comment.id}
         />
       }
       rightOption={
@@ -58,6 +59,7 @@ function CommentItem({
           onReply={commentHook.onReply}
           extraType={isUnreadReply ? "read" : undefined}
           onExtra={isUnreadReply ? commentHook.onReadPress : undefined}
+          id={comment.comment.comment.id}
         />
       }
     >

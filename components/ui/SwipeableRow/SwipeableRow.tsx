@@ -1,6 +1,6 @@
 /* Courtesy https://github.com/beardwin/ */
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, {
   Easing,
@@ -44,19 +44,8 @@ interface Props {
 }
 
 export function SwipeableRow({ leftOption, rightOption, children }: Props) {
-  const [subscribers, setSubscribers] = useState<Handlers[]>([]);
-
-  const subscribe = useCallback(
-    (handlers: Handlers) => {
-      setSubscribers((subs) => [...subs, handlers]);
-      return () => {
-        setSubscribers((subs) =>
-          subs.filter((handler) => handler !== handlers)
-        );
-      };
-    },
-    [setSubscribers]
-  );
+  const [leftSubscribers, setLeftSubscribers] = useState<Handlers[]>([]);
+  const [rightSubscribers, setRightSubscribers] = useState<Handlers[]>([]);
 
   const swipeRightEnabled = Boolean(leftOption);
   const swipeLeftEnabled = Boolean(rightOption);
@@ -71,7 +60,10 @@ export function SwipeableRow({ leftOption, rightOption, children }: Props) {
     {
       onStart: (event, ctx) => {
         ctx.startX = translateX.value;
-        subscribers.forEach((handler) => {
+        leftSubscribers.forEach((handler) => {
+          handler.onStart?.(event, ctx);
+        });
+        rightSubscribers.forEach((handler) => {
           handler.onStart?.(event, ctx);
         });
       },
@@ -81,28 +73,40 @@ export function SwipeableRow({ leftOption, rightOption, children }: Props) {
         } else if (event.translationX < ctx.startX && swipeLeftEnabled) {
           translateX.value = ctx.startX + event.translationX;
         }
-        subscribers.forEach((handler) => {
+        leftSubscribers.forEach((handler) => {
+          handler.onActive?.(event, ctx);
+        });
+        rightSubscribers.forEach((handler) => {
           handler.onActive?.(event, ctx);
         });
       },
       onCancel: (event, ctx) => {
-        subscribers.forEach((handler) => {
+        leftSubscribers.forEach((handler) => {
+          handler.onCancel?.(event, ctx);
+        });
+        rightSubscribers.forEach((handler) => {
           handler.onCancel?.(event, ctx);
         });
       },
       onFail: (event, ctx) => {
-        subscribers.forEach((handler) => {
+        leftSubscribers.forEach((handler) => {
+          handler.onFail?.(event, ctx);
+        });
+        rightSubscribers.forEach((handler) => {
           handler.onFail?.(event, ctx);
         });
       },
       onEnd: (event, ctx) => {
         translateX.value = withTiming(0, { easing: Easing.out(Easing.cubic) });
-        subscribers.forEach((handler) => {
+        leftSubscribers.forEach((handler) => {
+          handler.onEnd?.(event, ctx);
+        });
+        rightSubscribers.forEach((handler) => {
           handler.onEnd?.(event, ctx);
         });
       },
     },
-    [subscribers]
+    [leftSubscribers, rightSubscribers]
   );
 
   const rowStyle = useAnimatedStyle(() => ({
@@ -112,7 +116,11 @@ export function SwipeableRow({ leftOption, rightOption, children }: Props) {
   return (
     <View style={[styles.swipeableRow]}>
       <View style={styles.optionsContainer}>
-        <SwipeableRowProvider translateX={subsTranslateX} subscribe={subscribe}>
+        <SwipeableRowProvider
+          translateX={subsTranslateX}
+          setLeftSubscribers={setLeftSubscribers}
+          setRightSubscribers={setRightSubscribers}
+        >
           <Animated.View style={[styles.option, styles.left]}>
             {leftOption}
           </Animated.View>

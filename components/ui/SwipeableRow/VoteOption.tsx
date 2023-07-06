@@ -24,6 +24,7 @@ interface Props {
   stops?: Stops;
   vote?: number;
   onVote: (value: number) => unknown;
+  id: number;
 }
 
 interface Colors {
@@ -37,7 +38,12 @@ const buzz = () => {
   runOnJS(onGenericHapticFeedback)();
 };
 
-export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
+export function VoteOption({
+  stops = DEFAULT_STOPS,
+  vote = 0,
+  onVote,
+  id,
+}: Props) {
   const theme = useTheme();
 
   const [firstStop, secondStop] = stops;
@@ -56,13 +62,9 @@ export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
 
   const isFrozen = useSharedValue(false);
   const [arrow, setArrow] = useState<LayoutRectangle | null>(null);
-  const { subscribe, translateX } = useSwipeableRow();
-
-  const voteRef = useSharedValue(vote);
+  const { setLeftSubscribers, translateX } = useSwipeableRow();
 
   useEffect(() => {
-    voteRef.value = vote;
-
     setColors(
       vote === -1
         ? {
@@ -74,27 +76,31 @@ export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
             second: theme.colors.app.downvote,
           }
     );
-  }, [vote]);
 
-  useEffect(() => {
-    subscribe({
-      onStart: () => {
-        "worklet";
+    setLeftSubscribers([
+      {
+        onStart: () => {
+          "worklet";
 
-        isFrozen.value = false;
+          isFrozen.value = false;
+        },
+        onEnd: () => {
+          "worklet";
+
+          if (translateX.value >= secondStop) {
+            runOnJS(onVote)(vote === -1 ? 1 : -1);
+          } else if (translateX.value >= firstStop) {
+            runOnJS(onVote)(vote === -1 || vote === 1 ? 0 : 1);
+          }
+          isFrozen.value = true;
+        },
       },
-      onEnd: () => {
-        "worklet";
+    ]);
 
-        if (translateX.value >= secondStop) {
-          runOnJS(onVote)(voteRef.value === -1 ? 1 : -1);
-        } else if (translateX.value >= firstStop) {
-          runOnJS(onVote)(voteRef.value === -1 || voteRef.value === 1 ? 0 : 1);
-        }
-        isFrozen.value = true;
-      },
-    });
-  }, [subscribe]);
+    return () => {
+      setLeftSubscribers([]);
+    };
+  }, [id, vote]);
 
   // The timer used for the rotation animation
   const rotationTimer = useSharedValue(0);
