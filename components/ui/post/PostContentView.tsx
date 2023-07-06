@@ -39,6 +39,26 @@ function PostContentView({ post }: IProps) {
 
   const isImage = linkInfo.extType === ExtensionType.IMAGE;
 
+  const linkInfoBlock = () => {
+    if (
+      linkInfo.extType === ExtensionType.VIDEO ||
+      linkInfo.extType === ExtensionType.GENERIC
+    ) {
+      return (
+        <VStack>
+          <Box mx={4}>
+            <LinkButton
+              link={linkInfo.link}
+              thumbnail={post.post.thumbnail_url}
+            />
+          </Box>
+        </VStack>
+      );
+    }
+
+    return null;
+  };
+
   const renderContent = () => {
     if (isImage) {
       return (
@@ -66,24 +86,8 @@ function PostContentView({ post }: IProps) {
             <Box mx={4}>
               <RenderMarkdown text={body} addImages truncate={false} />
             </Box>
+            {linkInfoBlock()}
           </>
-        </VStack>
-      );
-    }
-
-    if (
-      linkInfo.extType === ExtensionType.VIDEO ||
-      linkInfo.extType === ExtensionType.GENERIC
-    ) {
-      return (
-        <VStack>
-          <Title title={title} mt={2} mb={2} />
-          <Box mx={4}>
-            <LinkButton
-              link={linkInfo.link}
-              thumbnail={post.post.thumbnail_url}
-            />
-          </Box>
         </VStack>
       );
     }
@@ -91,6 +95,7 @@ function PostContentView({ post }: IProps) {
     return (
       <VStack>
         <Title title={title} mt={2} mb={2} />
+        {linkInfoBlock()}
       </VStack>
     );
   };

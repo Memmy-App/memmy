@@ -1,17 +1,56 @@
-import { Share } from "react-native";
+import Share, { ShareOptions } from "react-native-share";
+import { Alert } from "react-native";
+import { downloadImage } from "./ImageHelper";
+import { onGenericHapticFeedback } from "./HapticFeedbackHelpers";
 
 interface ShareLinkOptions {
-  title: string;
+  title?: string;
   link: string;
+  isImage?: boolean;
 }
 
 // eslint-disable-next-line import/prefer-default-export
-export const shareLink = ({ title, link }: ShareLinkOptions) => {
+export const shareLink = async ({
+  title,
+  link,
+  isImage = false,
+}: ShareLinkOptions) => {
+  onGenericHapticFeedback();
+
+  let options: ShareOptions = {
+    url: link,
+    title,
+  };
+
+  if (isImage) {
+    const res = await downloadImage(link);
+
+    if (!res) {
+      Alert.alert("Failed to save image.");
+      return;
+    }
+
+    const uri = res as string;
+
+    options = {
+      filename: uri.split("/").pop(),
+      type: `image/${uri.split(".").pop()}`,
+      activityItemSources: [
+        {
+          placeholderItem: { type: "url", content: "url" },
+          item: {
+            default: { type: "url", content: uri },
+          },
+          dataTypeIdentifier: {
+            saveToCameraRoll: `image/${uri.split(".").pop()}`,
+          },
+        },
+      ],
+    };
+  }
+
   try {
-    Share.share({
-      url: link,
-      title,
-    }).then();
+    Share.open(options).then();
   } catch {
     /* empty */
   }

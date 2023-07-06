@@ -4,14 +4,12 @@ import { Pressable, ScrollView, View } from "native-base";
 import Animated, { FadeOutUp, FadeInUp } from "react-native-reanimated";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectFeed, setDropdownVisible } from "../../../slices/feed/feedSlice";
-import {
-  selectAccounts,
-  setCurrentAccount,
-} from "../../../slices/accounts/accountsSlice";
+import { selectAccounts } from "../../../slices/accounts/accountsSlice";
 import CTable from "../table/CTable";
 import CSection from "../table/CSection";
 import { Account } from "../../../types/Account";
 import CCell from "../table/CCell";
+import { setCurrentAccount } from "../../../slices/accounts/accountsActions";
 
 function FeedHeaderDropdownDrawer() {
   const { dropdownVisible } = useAppSelector(selectFeed);

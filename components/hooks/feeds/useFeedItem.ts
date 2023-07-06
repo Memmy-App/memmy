@@ -7,7 +7,7 @@ import {
   onVoteHapticFeedback,
 } from "../../../helpers/HapticFeedbackHelpers";
 import { useAppDispatch, useAppSelector } from "../../../store";
-import { setUpdateSaved, setUpdateVote } from "../../../slices/feed/feedSlice";
+import { setUpdateSaved } from "../../../slices/feed/feedSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { setPost } from "../../../slices/post/postSlice";
@@ -46,15 +46,19 @@ const useFeedItem = (
   const onVotePress = async (value: ILemmyVote, haptic = true) => {
     if (haptic) onVoteHapticFeedback();
 
-    if (value === post.my_vote && value !== 0) value = 0;
-
     const oldValue: ILemmyVote = post.my_vote as ILemmyVote;
 
     setMyVote(value);
-    dispatch(
-      setUpdateVote({
-        postId: post.post.id,
-        vote: value,
+    setPosts((prev) =>
+      prev.map((p) => {
+        if (p.post.id === post.post.id) {
+          return {
+            ...p,
+            my_vote: value,
+          };
+        }
+
+        return p;
       })
     );
 
@@ -89,10 +93,16 @@ const useFeedItem = (
       );
 
       setMyVote(oldValue);
-      dispatch(
-        setUpdateVote({
-          postId: post.post.id,
-          vote: oldValue,
+      setPosts((prev) =>
+        prev.map((p) => {
+          if (p.post.id === post.post.id) {
+            return {
+              ...p,
+              my_vote: value,
+            };
+          }
+
+          return p;
         })
       );
     }

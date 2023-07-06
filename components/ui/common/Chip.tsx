@@ -1,22 +1,33 @@
+import { Box, Text } from "native-base";
 import React from "react";
-import { Box, Text, useTheme } from "native-base";
 
-// TODO: build out
-function Chip({ text, color }: { text: string; color?: string }) {
-  const { colors } = useTheme();
+interface IProps {
+  text: string;
+  color: string;
+  variant?: "filled" | "outlined";
+}
+
+function Chip({ text, color, variant = "filled" }: IProps) {
+  const chipStyles = {
+    borderWidth: 1,
+    borderRadius: 10,
+    ...(variant === "outlined"
+      ? { borderColor: color }
+      : { backgroundColor: color }),
+  };
+
+  const textColor = variant === "outlined" ? color : "#fff";
+  const textWeight = variant === "outlined" ? "medium" : "bold";
+
+  // else return filled
   return (
-    <Box
-      style={{
-        borderWidth: 1,
-        borderRadius: 10,
-        borderColor: color || colors.app.info,
-      }}
-    >
+    <Box style={chipStyles} backgroundColor={color}>
       <Text
-        fontWeight="medium"
-        color={color || colors.app.info}
+        fontWeight={textWeight}
+        color={textColor}
         fontSize="2xs"
-        mx={1}
+        mx={1.5}
+        my={0.5}
       >
         {text}
       </Text>

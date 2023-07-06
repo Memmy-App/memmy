@@ -2,7 +2,7 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import * as Notifications from "expo-notifications";
 import { StatusBar } from "expo-status-bar";
 import { NativeBaseProvider, extendTheme } from "native-base";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { AppState, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -161,6 +161,11 @@ function Start() {
     accentColor,
   ]);
 
+  const ThemedStatusBar = useMemo(
+    () => <StatusBar style={theme === "Light" ? "dark" : "light"} />,
+    [theme]
+  );
+
   if (!loaded) {
     dispatch(loadSettings());
     dispatch(loadAccounts());
@@ -175,7 +180,7 @@ function Start() {
     <NativeBaseProvider theme={selectedTheme}>
       <ErrorBoundary onError={logError} FallbackComponent={MemmyErrorView}>
         {/* eslint-disable-next-line react/style-prop-object */}
-        <StatusBar style={theme === "Light" ? "dark" : "light"} />
+        {ThemedStatusBar}
         <GestureHandlerRootView style={{ flex: 1 }}>
           <ActionSheetProvider>
             <>

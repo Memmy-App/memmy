@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { KeyboardTypeOptions, StyleSheet, TextInput } from "react-native";
 import { Text, useTheme, VStack } from "native-base";
 
@@ -12,7 +12,6 @@ interface TextInputProps {
   secure?: boolean;
   autoCapitalize?: "none" | "sentences" | "words" | "characters";
   autoCorrect?: boolean;
-  autoFocus?: boolean;
   keyboardType?: KeyboardTypeOptions;
   onEnd?: () => void;
 }
@@ -27,22 +26,10 @@ function CTextInput({
   secure = false,
   autoCapitalize = "sentences",
   autoCorrect = true,
-  autoFocus = false,
   keyboardType = "default",
   onEnd,
 }: TextInputProps) {
-  const focused = false;
-
   const theme = useTheme();
-
-  // const ref = useCallback((node) => {
-  //   if (!node) return;
-  //
-  //   if (autoFocus && !focused) {
-  //     focused = true;
-  //     node.focus();
-  //   }
-  // }, []);
 
   return (
     <VStack my={2}>

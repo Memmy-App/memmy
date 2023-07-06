@@ -56,8 +56,6 @@ const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
     }));
 
     try {
-      console.log(subscribing);
-
       await lemmyInstance.followCommunity({
         auth: lemmyAuthToken,
         community_id: feed.community.community.id,

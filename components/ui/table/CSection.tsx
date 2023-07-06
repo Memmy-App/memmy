@@ -9,7 +9,6 @@ function CSection({ ...props }: SectionInterface) {
     <Section
       roundedCorners
       hideSurroundingSeparators
-      separatorInsetLeft={55}
       separatorTintColor={theme.colors.app.border}
       {...props}
     >
