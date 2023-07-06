@@ -33,12 +33,10 @@ const useComment = ({
   comment,
   setComments,
   onPressOverride,
-  setRead,
 }: {
   comment: ILemmyComment;
   setComments: React.Dispatch<SetStateAction<ILemmyComment[]>>;
   onPressOverride: () => Promise<void> | void;
-  setRead?: React.Dispatch<SetStateAction<boolean>>;
 }): UseComment => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { unread } = useAppSelector(selectSite);
@@ -243,17 +241,19 @@ const useComment = ({
   };
 
   const onReadPress = async () => {
-    onGenericHapticFeedback();
-
     try {
-      setRead(true);
+      setComments((prev) =>
+        prev.filter((c) => c.comment.comment.id !== comment.comment.comment.id)
+      );
 
-      await lemmyInstance.markCommentReplyAsRead({
-        auth: lemmyAuthToken,
-        comment_reply_id: (comment.comment as CommentReplyView).comment_reply
-          .id,
-        read: true,
-      });
+      lemmyInstance
+        .markCommentReplyAsRead({
+          auth: lemmyAuthToken,
+          comment_reply_id: (comment.comment as CommentReplyView).comment_reply
+            .id,
+          read: true,
+        })
+        .then();
 
       dispatch(
         setUnread({
@@ -262,7 +262,6 @@ const useComment = ({
         })
       );
     } catch (e) {
-      setRead(false);
       writeToLog("Error marking comment as read.");
       writeToLog(e.toString());
     }

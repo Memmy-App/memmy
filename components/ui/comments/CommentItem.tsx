@@ -55,7 +55,13 @@ function CommentItem({
           vote={comment.comment.my_vote}
         />
       }
-      rightOption={<ReplyOption onReply={commentHook.onReply} />}
+      rightOption={
+        <ReplyOption
+          onReply={commentHook.onReply}
+          extraType={isUnreadReply ? "read" : undefined}
+          onExtra={isUnreadReply ? commentHook.onReadPress : undefined}
+        />
+      }
     >
       <Pressable
         onPress={commentHook.onCommentPress}
@@ -137,6 +143,7 @@ function CommentItem({
 const areEqual = (prev: IProps, next: IProps) =>
   prev.comment.comment.comment.id === next.comment.comment.comment.id &&
   prev.comment.comment.my_vote === next.comment.comment.my_vote &&
-  prev.comment.collapsed === next.comment.collapsed;
+  prev.comment.collapsed === next.comment.collapsed &&
+  prev.isUnreadReply === next.isUnreadReply;
 
 export default React.memo(CommentItem, areEqual);
