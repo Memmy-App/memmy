@@ -642,7 +642,7 @@ function Stack() {
       primary: theme.colors.app.accent,
       background: theme.colors.app.bg,
       card: theme.colors.app.navBarBg,
-      text: theme.colors.app.textSecondary,
+      text: theme.colors.app.textPrimary,
       border: theme.colors.app.border,
     },
   };
