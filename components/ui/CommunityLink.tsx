@@ -2,6 +2,7 @@ import { Community } from "lemmy-js-client";
 import { HStack, Text, useTheme } from "native-base";
 import React from "react";
 import { IconPlanet } from "tabler-icons-react-native";
+import FastImage from "react-native-fast-image";
 import { getBaseUrl } from "../../helpers/LinkHelper";
 import Link from "./buttons/Link";
 
@@ -28,7 +29,16 @@ function CommunityLink({ community, instanceBaseUrl }: CommunityLinkProps) {
     >
       <HStack>
         <HStack alignItems="center" space={1}>
-          <IconPlanet color={theme.colors.app.textSecondary} size={16} />
+          {community.icon ? (
+            <FastImage
+              source={{
+                uri: community.icon,
+              }}
+              style={{ height: 18, width: 18, borderRadius: 100 }}
+            />
+          ) : (
+            <IconPlanet color={theme.colors.app.textSecondary} size={16} />
+          )}
           <Text color={theme.colors.app.textSecondary} fontWeight="medium">
             {community.name}
           </Text>

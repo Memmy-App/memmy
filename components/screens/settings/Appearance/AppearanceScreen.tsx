@@ -126,7 +126,11 @@ function AppearanceScreen({ navigation }: IProps) {
             title={
               <Text>
                 Accent Color{"  "}
-                <Chip text="Alpha" />
+                <Chip
+                  text="Alpha"
+                  color={theme.colors.app.info}
+                  variant="outlined"
+                />
               </Text>
             }
             cellAccessoryView={
@@ -202,7 +206,11 @@ function AppearanceScreen({ navigation }: IProps) {
             title={
               <Text>
                 Text Size{"  "}
-                <Chip text="Alpha" />
+                <Chip
+                  text="Alpha"
+                  color={theme.colors.app.info}
+                  variant="outlined"
+                />
               </Text>
             }
             backgroundColor={theme.colors.app.fg}

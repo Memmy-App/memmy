@@ -1,6 +1,6 @@
 import { PostView } from "lemmy-js-client";
-import { Pressable, View } from "native-base";
-import React, { memo, SetStateAction } from "react";
+import { HStack, Pressable, View } from "native-base";
+import React, { SetStateAction, memo } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
@@ -17,11 +17,11 @@ import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
 import { useAppDispatch } from "../../../../store";
 import useSwipeAnimation from "../../../hooks/animations/useSwipeAnimation";
 import useFeedItem from "../../../hooks/feeds/useFeedItem";
-import CommunityLink from "../../CommunityLink";
+import AvatarUsername from "../../common/avatarUsername/AvatarUsername";
 import FeedContentPreview from "../FeedContentPreview";
 import { Actions } from "./Actions";
-import { ByLine } from "./ByLine";
-import { Footer, Header } from "./Layout";
+import { Footer } from "./Footer";
+import { Header } from "./Header";
 import { Metrics } from "./Metrics";
 import { Post } from "./Post";
 
@@ -94,16 +94,13 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
       >
         <Animated.View style={[swipeAnimation.animatedStyle]}>
           <Post>
-            <Header>
-              <ByLine
-                creator={post.creator}
-                read={post.read}
-                featured={
-                  post.post.featured_local || post.post.featured_community
-                }
-              />
-              <CommunityLink community={post.community} />
-            </Header>
+            <Header
+              community={post.community}
+              featured={
+                post.post.featured_local || post.post.featured_community
+              }
+              isRead={post.read}
+            />
 
             <Pressable onPress={feedItem.onPress}>
               <View style={styles.community}>
@@ -117,6 +114,10 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                 recycled={recycled}
                 setPostRead={feedItem.setPostRead}
               />
+
+              <HStack mx={4} mt={1}>
+                <AvatarUsername creator={post.creator} />
+              </HStack>
 
               <Footer>
                 <Metrics data={post.counts} vote={post.my_vote} />

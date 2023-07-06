@@ -1,5 +1,5 @@
 import { PostView } from "lemmy-js-client";
-import { HStack, Text, useTheme } from "native-base";
+import { Box, HStack, Text, useTheme } from "native-base";
 import React, { useRef } from "react";
 import { IconMessage } from "tabler-icons-react-native";
 import { timeFromNowShort } from "../../../../helpers/TimeHelper";
@@ -26,7 +26,11 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
           <FeaturedIndicator
             featured={post.post.featured_community || post.post.featured_local}
           />
-          {post.read && <IconBookCheck color={colors.app.accent} size={20} />}
+          {post.read && (
+            <Box mr={1}>
+              <IconBookCheck color={colors.app.accent} size={20} />
+            </Box>
+          )}
           <AvatarUsername creator={post.creator} showAvatar={false} />
         </HStack>
         <Text color={colors.app.textSecondary}>•</Text>
