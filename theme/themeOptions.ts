@@ -12,6 +12,7 @@ import {
   nauticalTheme,
   sunsetTheme,
   oledTheme,
+  embarkTheme,
 } from "./theme";
 
 enum EThemeOptions {
@@ -27,6 +28,7 @@ enum EThemeOptions {
   NAUTICAL = "Nautical",
   SUNSET = "Sunset",
   OLED = "Dark (OLED)",
+  EMBARK = "Embark",
 }
 
 export type ThemeOptions = `${EThemeOptions}`;
@@ -47,4 +49,5 @@ export const ThemeOptionsMap: Record<ThemeOptions, ICustomTheme> = {
   "Golden Hour": goldenHourTheme,
   Nautical: nauticalTheme,
   Sunset: sunsetTheme,
+  Embark: embarkTheme,
 };

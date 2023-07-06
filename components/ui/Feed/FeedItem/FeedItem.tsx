@@ -1,6 +1,6 @@
 import { PostView } from "lemmy-js-client";
-import { Pressable, View } from "native-base";
-import React, { memo, SetStateAction } from "react";
+import { HStack, Pressable, View } from "native-base";
+import React, { SetStateAction, memo } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
@@ -9,11 +9,11 @@ import FastImage from "react-native-fast-image";
 import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
 import { useAppDispatch } from "../../../../store";
 import useFeedItem from "../../../hooks/feeds/useFeedItem";
-import CommunityLink from "../../CommunityLink";
+import AvatarUsername from "../../common/avatarUsername/AvatarUsername";
 import FeedContentPreview from "../FeedContentPreview";
 import { Actions } from "./Actions";
-import { ByLine } from "./ByLine";
-import { Footer, Header } from "./Layout";
+import { Footer } from "./Footer";
+import { Header } from "./Header";
 import { Metrics } from "./Metrics";
 import { Post } from "./Post";
 import { VoteOption } from "../../SwipeableRow/VoteOption";
