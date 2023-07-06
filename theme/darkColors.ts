@@ -510,7 +510,7 @@ export const embarkThemeColors: IColors = {
   bg: "#2D2B40",
   navBarBg: "#100E23",
 
-  border: "#1E1C31",
+  border: "#3E3859",
 
   upvote: "#F2B482",
   upvoteText: "#FFF",
