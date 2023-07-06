@@ -34,6 +34,7 @@ interface Props {
    * This value will be updated while the user swipes
    * as well as lets go.
    */
+  // eslint-disable-next-line react/no-unused-prop-types
   translateX?: SharedValue<number>;
 
   /**

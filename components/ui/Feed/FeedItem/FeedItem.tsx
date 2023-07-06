@@ -1,6 +1,6 @@
 import { PostView } from "lemmy-js-client";
-import { HStack, Pressable, View } from "native-base";
-import React, { SetStateAction, memo } from "react";
+import { Pressable, View } from "native-base";
+import React, { memo, SetStateAction } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
@@ -9,7 +9,6 @@ import FastImage from "react-native-fast-image";
 import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
 import { useAppDispatch } from "../../../../store";
 import useFeedItem from "../../../hooks/feeds/useFeedItem";
-import AvatarUsername from "../../common/avatarUsername/AvatarUsername";
 import FeedContentPreview from "../FeedContentPreview";
 import { Actions } from "./Actions";
 import { Footer } from "./Footer";
@@ -52,16 +51,11 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
         rightOption={<ReplyOption onReply={onReply} />}
       >
         <Post>
-          <Header>
-            <ByLine
-              creator={post.creator}
-              read={post.read}
-              featured={
-                post.post.featured_local || post.post.featured_community
-              }
-            />
-            <CommunityLink community={post.community} />
-          </Header>
+          <Header
+            community={post.community}
+            featured={post.post.featured_local || post.post.featured_community}
+            isRead={post.read}
+          />
 
           <Pressable onPress={feedItem.onPress}>
             <View style={styles.community}>

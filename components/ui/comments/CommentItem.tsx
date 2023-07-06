@@ -20,7 +20,6 @@ interface IProps {
   onPressOverride?: () => Promise<void> | void;
   depth?: number;
   opId?: number;
-  isReply?: boolean;
   isUnreadReply?: boolean;
 }
 
@@ -30,7 +29,6 @@ function CommentItem({
   onPressOverride,
   opId,
   depth,
-  isReply,
   isUnreadReply,
 }: IProps) {
   const theme = useTheme();

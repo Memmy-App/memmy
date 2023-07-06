@@ -5,6 +5,7 @@ import { Handlers, ISwipeableRowContext } from "./types";
 
 const SwipeableRowContext = React.createContext<ISwipeableRowContext>({
   translateX: { value: 0 },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   subscribe: (_: Handlers) => () => {},
 });
 
