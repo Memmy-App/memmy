@@ -46,8 +46,6 @@ const useFeedItem = (
   const onVotePress = async (value: ILemmyVote, haptic = true) => {
     if (haptic) onVoteHapticFeedback();
 
-    if (value === post.my_vote && value !== 0) value = 0;
-
     const oldValue: ILemmyVote = post.my_vote as ILemmyVote;
 
     setMyVote(value);
