@@ -17,13 +17,11 @@ import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
 import { useAppDispatch } from "../../../../store";
 import useSwipeAnimation from "../../../hooks/animations/useSwipeAnimation";
 import useFeedItem from "../../../hooks/feeds/useFeedItem";
-import CommunityLink from "../../CommunityLink";
-import FeaturedIndicator from "../../common/FeaturedIndicator";
 import AvatarUsername from "../../common/avatarUsername/AvatarUsername";
 import FeedContentPreview from "../FeedContentPreview";
 import { Actions } from "./Actions";
-import { IsReadIndicator } from "../../common/IsReadIndicator";
-import { Footer, Header } from "./Layout";
+import { Footer } from "./Footer";
+import { Header } from "./Header";
 import { Metrics } from "./Metrics";
 import { Post } from "./Post";
 
@@ -96,17 +94,13 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
       >
         <Animated.View style={[swipeAnimation.animatedStyle]}>
           <Post>
-            <Header>
-              <CommunityLink community={post.community} />
-              <HStack space={1}>
-                <FeaturedIndicator
-                  featured={
-                    post.post.featured_local || post.post.featured_community
-                  }
-                />
-                <IsReadIndicator isRead={post.read} />
-              </HStack>
-            </Header>
+            <Header
+              community={post.community}
+              featured={
+                post.post.featured_local || post.post.featured_community
+              }
+              isRead={post.read}
+            />
 
             <Pressable onPress={feedItem.onPress}>
               <View style={styles.community}>
