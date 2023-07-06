@@ -12,6 +12,7 @@ import CommentCollapsed from "./CommentCollapsed";
 import CommentBody from "./CommentBody";
 import { SwipeableRow } from "../SwipeableRow/SwipeableRow";
 import { VoteOption } from "../SwipeableRow/VoteOption";
+import { ReplyOption } from "../SwipeableRow/ReplyOption";
 
 interface IProps {
   comment: ILemmyComment;
@@ -54,6 +55,7 @@ function CommentItem({
           vote={comment.comment.my_vote}
         />
       }
+      rightOption={<ReplyOption onReply={commentHook.onReply} />}
     >
       <Pressable
         onPress={commentHook.onCommentPress}

@@ -26,6 +26,7 @@ interface UseComment {
   onCommentLongPress: () => void;
   onReadPress: () => Promise<void>;
   onVote: (value: ILemmyVote) => Promise<void>;
+  onReply: () => void;
 }
 
 const useComment = ({
@@ -225,16 +226,20 @@ const useComment = ({
         }
 
         if (option === options.Reply) {
-          dispatch(
-            setResponseTo({
-              comment: comment.comment,
-              languageId: comment.comment.post.language_id,
-            })
-          );
-          navigation.push("NewComment");
+          onReply();
         }
       }
     );
+  };
+
+  const onReply = () => {
+    dispatch(
+      setResponseTo({
+        comment: comment.comment,
+        languageId: comment.comment.post.language_id,
+      })
+    );
+    navigation.push("NewComment");
   };
 
   const onReadPress = async () => {
@@ -325,6 +330,7 @@ const useComment = ({
     onCommentPress,
     onVote,
     onReadPress,
+    onReply,
   };
 };
 

@@ -1,12 +1,6 @@
 /* Courtesy https://github.com/beardwin/ */
 
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useState } from "react";
 import Animated, {
   Extrapolation,
   interpolate,
@@ -18,7 +12,7 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
-import { StyleSheet, LayoutRectangle } from "react-native";
+import { LayoutRectangle, StyleSheet } from "react-native";
 import { useTheme } from "native-base";
 import { useSwipeableRow } from "./SwipeableRowProvider";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
@@ -48,7 +42,6 @@ export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
 
   const [firstStop, secondStop] = stops;
 
-  // Change to a let because we have to update this
   const [colors, setColors] = useState<Colors>(
     vote === -1
       ? {

@@ -20,3 +20,8 @@ export interface ISwipeableRowContext {
   translateX: SharedValue<number>;
   subscribe: (handlers: Handlers) => () => void;
 }
+
+export interface ISwipeableColors {
+  first: string;
+  second: string;
+}
