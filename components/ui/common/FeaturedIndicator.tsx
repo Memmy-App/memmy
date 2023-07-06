@@ -9,7 +9,7 @@ interface IProps {
 function FeaturedIndicator({ featured }: IProps) {
   const { colors } = useTheme();
 
-  if (featured) {
+  if (!featured) {
     return (
       <HStack alignItems="center">
         <IconPin size={16} color={colors.app.accent} fill={colors.app.accent} />

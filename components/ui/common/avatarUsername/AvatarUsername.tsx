@@ -8,7 +8,7 @@ import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import { useAppSelector } from "../../../../store";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { getUserFullName } from "../../../../lemmy/LemmyHelpers";
-import Chip from "./Chip";
+import Chip from "../Chip";
 
 export type NameType = "admin" | "mod" | "dev" | "op";
 
@@ -116,8 +116,8 @@ function AvatarUsername({
           {type && (
             <Chip
               text={nameProps.label}
-              bgColor={nameProps.bgColor}
-              textColor={nameProps.textColor}
+              color={nameProps.bgColor}
+              variant="filled"
             />
           )}
         </HStack>

@@ -111,7 +111,7 @@ function CompactFeedItem({
             <HStack
               flex={1}
               px={2}
-              py={1}
+              py={2}
               backgroundColor={theme.colors.app.fg}
               space={2}
             >
@@ -130,11 +130,7 @@ function CompactFeedItem({
                   flex={1}
                   fontSize={FONT_SIZE}
                   fontWeight={fontWeightPostTitle}
-                  color={
-                    post.read
-                      ? theme.colors.app.textSecondary
-                      : theme.colors.app.textPrimary
-                  }
+                  color={theme.colors.app.textPrimary}
                 >
                   {post.post.name}
                 </Text>
