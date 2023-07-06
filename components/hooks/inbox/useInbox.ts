@@ -70,6 +70,7 @@ const useInbox = (): UseInbox => {
 
       navigation.push("Post", {
         commentId: commentId.toString(),
+        showLoadAll: true,
       });
     } catch (e) {
       writeToLog("Failed to get post for comment push.");

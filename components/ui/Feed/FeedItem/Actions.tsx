@@ -12,15 +12,13 @@ interface Props {
 }
 export function Actions({ vote, saved, onSave, onVotePress }: Props) {
   const theme = useTheme();
-  const upvoted = vote === 1;
-  const downvoted = vote === -1;
 
   const onUpvote = () => {
-    onVotePress(1);
+    onVotePress(vote === 1 ? 0 : 1);
   };
 
   const onDownvote = () => {
-    onVotePress(-1);
+    onVotePress(vote === -1 ? 0 : -1);
   };
 
   return (
@@ -39,11 +37,15 @@ export function Actions({ vote, saved, onSave, onVotePress }: Props) {
         iconBgColor={saved ? theme.colors.app.bookmark : theme.colors.app.fg}
         onPressHandler={onSave}
       />
-      <VoteButton onPressHandler={onUpvote} type="upvote" isVoted={upvoted} />
+      <VoteButton
+        onPressHandler={onUpvote}
+        type="upvote"
+        isVoted={vote === 1}
+      />
       <VoteButton
         onPressHandler={onDownvote}
         type="downvote"
-        isVoted={downvoted}
+        isVoted={vote === -1}
       />
     </HStack>
   );

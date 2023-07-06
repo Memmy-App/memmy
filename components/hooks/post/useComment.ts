@@ -26,18 +26,17 @@ interface UseComment {
   onCommentLongPress: () => void;
   onReadPress: () => Promise<void>;
   onVote: (value: ILemmyVote) => Promise<void>;
+  onReply: () => void;
 }
 
 const useComment = ({
   comment,
   setComments,
   onPressOverride,
-  setRead,
 }: {
   comment: ILemmyComment;
   setComments: React.Dispatch<SetStateAction<ILemmyComment[]>>;
   onPressOverride: () => Promise<void> | void;
-  setRead?: React.Dispatch<SetStateAction<boolean>>;
 }): UseComment => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { unread } = useAppSelector(selectSite);
@@ -63,13 +62,13 @@ const useComment = ({
         if (c.comment.comment.id === comment.comment.comment.id) {
           return {
             ...c,
-            collapsed: !c.collapsed,
+            collapsed: !comment.collapsed,
           };
         }
         if (c.comment.comment.path.includes(comment.comment.comment.path)) {
           return {
             ...c,
-            hidden: !c.hidden,
+            hidden: !comment.collapsed,
           };
         }
         return c;
@@ -98,7 +97,7 @@ const useComment = ({
     const options = {
       "Copy Text": "Copy Text",
       "Copy Link": "Copy Link",
-      "Reply": "Reply",
+      Reply: "Reply",
       "Report Comment": "Report Comment",
       ...(isOwnComment && {
         "Edit Comment": "Edit Comment",
@@ -224,31 +223,37 @@ const useComment = ({
           });
         }
 
-        if (option === options["Reply"]) {
-          dispatch(
-            setResponseTo({
-              comment: comment.comment,
-              languageId: comment.comment.post.language_id,
-            })
-          );
-          navigation.push("NewComment");
+        if (option === options.Reply) {
+          onReply();
         }
       }
     );
   };
 
+  const onReply = () => {
+    dispatch(
+      setResponseTo({
+        comment: comment.comment,
+        languageId: comment.comment.post.language_id,
+      })
+    );
+    navigation.push("NewComment");
+  };
+
   const onReadPress = async () => {
-    onGenericHapticFeedback();
-
     try {
-      setRead(true);
+      setComments((prev) =>
+        prev.filter((c) => c.comment.comment.id !== comment.comment.comment.id)
+      );
 
-      await lemmyInstance.markCommentReplyAsRead({
-        auth: lemmyAuthToken,
-        comment_reply_id: (comment.comment as CommentReplyView).comment_reply
-          .id,
-        read: true,
-      });
+      lemmyInstance
+        .markCommentReplyAsRead({
+          auth: lemmyAuthToken,
+          comment_reply_id: (comment.comment as CommentReplyView).comment_reply
+            .id,
+          read: true,
+        })
+        .then();
 
       dispatch(
         setUnread({
@@ -257,15 +262,12 @@ const useComment = ({
         })
       );
     } catch (e) {
-      setRead(false);
       writeToLog("Error marking comment as read.");
       writeToLog(e.toString());
     }
   };
 
   const onVote = async (value: -1 | 0 | 1) => {
-    if (value === comment.myVote && value !== 0) value = 0;
-
     const oldValue = comment.comment.my_vote;
 
     setComments((prev) =>
@@ -325,6 +327,7 @@ const useComment = ({
     onCommentPress,
     onVote,
     onReadPress,
+    onReply,
   };
 };
 

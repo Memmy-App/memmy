@@ -10,20 +10,17 @@ function CompactFeedItemVote({
   myVote: number;
   onVotePress: (value: ILemmyVote) => void;
 }) {
-  const isUpvoted = myVote === 1;
-  const isDownvoted = myVote === -1;
-
   return (
     <VStack justifyContent="flex-start" alignItems="center" space={3}>
       <VoteButton
-        onPressHandler={() => onVotePress(1)}
+        onPressHandler={() => onVotePress(myVote === 1 ? 0 : 1)}
         type="upvote"
-        isVoted={isUpvoted}
+        isVoted={myVote === 1}
       />
       <VoteButton
-        onPressHandler={() => onVotePress(-1)}
+        onPressHandler={() => onVotePress(myVote === -1 ? 0 : -1)}
         type="downvote"
-        isVoted={isDownvoted}
+        isVoted={myVote === -1}
       />
     </VStack>
   );
