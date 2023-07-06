@@ -269,8 +269,6 @@ const useComment = ({
   };
 
   const onVote = async (value: -1 | 0 | 1) => {
-    if (value === comment.comment.my_vote) value = 0;
-
     const oldValue = comment.comment.my_vote;
 
     setComments((prev) =>

@@ -89,7 +89,7 @@ export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
         if (translateX.value >= secondStop) {
           runOnJS(onVote)(voteRef.value === -1 ? 1 : -1);
         } else if (translateX.value >= firstStop) {
-          runOnJS(onVote)(voteRef.value === 1 || voteRef.value === -1 ? 0 : 1);
+          runOnJS(onVote)(voteRef.value === -1 || voteRef.value === 1 ? 0 : 1);
         }
         isFrozen.value = true;
       },
