@@ -97,6 +97,11 @@ function AddAccountScreen({ route, navigation }: IProps) {
   };
 
   const onPress = () => {
+    if (form.username.includes("@")) {
+      Alert.alert("Error", "Please use your username when signing in.");
+      return;
+    }
+
     doLogin().then(() => {
       if (!lemmyAuthToken) return;
 
@@ -141,7 +146,6 @@ function AddAccountScreen({ route, navigation }: IProps) {
             onChange={onFormChange}
             autoCapitalize="none"
             autoCorrect={false}
-            autoFocus={!route.params || !route.params.server}
             keyboardType="web-search"
           />
           <CTextInput
@@ -152,7 +156,6 @@ function AddAccountScreen({ route, navigation }: IProps) {
             onChange={onFormChange}
             autoCapitalize="none"
             autoCorrect={false}
-            autoFocus={route.params && route.params.server}
           />
           <CTextInput
             name="password"
@@ -173,7 +176,6 @@ function AddAccountScreen({ route, navigation }: IProps) {
               onChange={onFormChange}
               autoCapitalize="none"
               autoCorrect={false}
-              autoFocus={showTotpToken}
               secure
             />
           )}
