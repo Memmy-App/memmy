@@ -21,7 +21,7 @@ function Chip({ text, color, variant = "filled" }: IProps) {
 
   // else return filled
   return (
-    <Box style={chipStyles} backgroundColor={color}>
+    <Box style={chipStyles}>
       <Text
         fontWeight={textWeight}
         color={textColor}
