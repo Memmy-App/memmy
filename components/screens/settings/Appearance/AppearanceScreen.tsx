@@ -126,7 +126,11 @@ function AppearanceScreen({ navigation }: IProps) {
             title={
               <Text>
                 Accent Color{"  "}
-                <Chip text="Alpha" />
+                <Chip
+                  text="Alpha"
+                  color={theme.colors.app.info}
+                  variant="outlined"
+                />
               </Text>
             }
             cellAccessoryView={
@@ -138,8 +142,14 @@ function AppearanceScreen({ navigation }: IProps) {
                   setAccent(value);
                 }}
                 onEnd={() => {
-                  if (hexPattern.test(accent)) {
-                    if (accent !== settings.accentColor) {
+                  let hexToCheck = accent;
+
+                  if (hexToCheck && !hexToCheck.includes("#")) {
+                    hexToCheck = `#${hexToCheck}`;
+                  }
+
+                  if (hexPattern.test(hexToCheck)) {
+                    if (hexToCheck !== settings.accentColor) {
                       dispatch(
                         showToast({
                           message: "Accent color updated",
@@ -148,7 +158,7 @@ function AppearanceScreen({ navigation }: IProps) {
                         })
                       );
                     }
-                    dispatch(setSetting({ accentColor: accent }));
+                    dispatch(setSetting({ accentColor: hexToCheck }));
                   } else {
                     setAccent("");
                     dispatch(setSetting({ accentColor: "" }));
@@ -202,7 +212,11 @@ function AppearanceScreen({ navigation }: IProps) {
             title={
               <Text>
                 Text Size{"  "}
-                <Chip text="Alpha" />
+                <Chip
+                  text="Alpha"
+                  color={theme.colors.app.info}
+                  variant="outlined"
+                />
               </Text>
             }
             backgroundColor={theme.colors.app.fg}

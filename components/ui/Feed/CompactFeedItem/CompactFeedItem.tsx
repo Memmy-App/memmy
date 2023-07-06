@@ -1,19 +1,11 @@
-import React, { SetStateAction, useEffect, useState } from "react";
+import React, { SetStateAction, useState } from "react";
 import { PostView } from "lemmy-js-client";
 import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
-import {
-  IconArrowDown,
-  IconArrowUp,
-  IconMessage,
-} from "tabler-icons-react-native";
-import { StyleSheet, useWindowDimensions } from "react-native";
+import { useWindowDimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { PanGestureHandler } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
 import useFeedItem from "../../../hooks/feeds/useFeedItem";
 import { ILemmyVote } from "../../../../lemmy/types/ILemmyVote";
-import useSwipeAnimation from "../../../hooks/animations/useSwipeAnimation";
 import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import CompactFeedItemThumbnail from "./CompactFeedItemThumbnail";
@@ -22,6 +14,9 @@ import CompactFeedItemFooter from "./CompactFeedItemFooter";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 
 import { fontSizeMap } from "../../../../theme/fontSize";
+import { VoteOption } from "../../SwipeableRow/VoteOption";
+import { ReplyOption } from "../../SwipeableRow/ReplyOption";
+import { SwipeableRow } from "../../SwipeableRow/SwipeableRow";
 
 function CompactFeedItem({
   post,
@@ -42,11 +37,7 @@ function CompactFeedItem({
   const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  useEffect(() => {}, []);
-
-  const onLeftRightOne = () => feedItem.onVotePress(1, false);
-  const onLeftRightTwo = () => feedItem.onVotePress(-1, false);
-  const onRightLeftOne = () => {
+  const onReply = () => {
     dispatch(
       setResponseTo({
         post,
@@ -55,18 +46,10 @@ function CompactFeedItem({
     );
     navigation.push("NewComment");
   };
-  const leftRightOneIcon = <IconArrowUp size={32} color="#fff" />;
-  const leftRightTwoIcon = <IconArrowDown size={32} color="#fff" />;
-  const rightLeftOneIcon = <IconMessage size={32} color="#fff" />;
 
-  const swipeAnimation = useSwipeAnimation({
-    onLeftRightOne,
-    onLeftRightTwo,
-    onRightLeftOne,
-    leftRightOneIcon,
-    leftRightTwoIcon,
-    rightLeftOneIcon,
-  });
+  const onSwipe = (value: ILemmyVote) => {
+    feedItem.onVotePress(value, false);
+  };
 
   const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
   const { fontScale } = useWindowDimensions();
@@ -76,46 +59,49 @@ function CompactFeedItem({
   // TODO Memoize this properly
   return (
     <View flex={1} my={0.5}>
-      <View style={styles.backgroundContainer}>
-        <View
-          style={styles.backgroundLeft}
-          justifyContent="center"
-          backgroundColor={swipeAnimation.color}
-          pl={4}
-        >
-          {swipeAnimation.leftIcon}
-        </View>
-        <View
-          style={styles.backgroundLeft}
-          backgroundColor={swipeAnimation.color}
-        />
-        <View
-          style={styles.backgroundRight}
-          justifyContent="center"
-          backgroundColor="#007AFF"
-          alignItems="flex-end"
-          pr={4}
-        >
-          {swipeAnimation.rightIcon}
-        </View>
-      </View>
-      <PanGestureHandler
-        onGestureEvent={swipeAnimation.gestureHandler}
-        minPointers={1}
-        maxPointers={1}
-        activeOffsetX={[-20, 20]}
-        hitSlop={{ left: -25 }}
+      <SwipeableRow
+        leftOption={
+          <VoteOption onVote={onSwipe} vote={post.my_vote} id={post.post.id} />
+        }
+        rightOption={<ReplyOption onReply={onReply} id={post.post.id} />}
       >
-        <Animated.View style={[swipeAnimation.animatedStyle]}>
-          <Pressable onPress={feedItem.onPress}>
-            <HStack
-              flex={1}
-              px={2}
-              py={1}
-              backgroundColor={theme.colors.app.fg}
-              space={2}
-            >
-              {compactThumbnailPosition === "Left" && (
+        <Pressable onPress={feedItem.onPress}>
+          <HStack
+            flex={1}
+            px={2}
+            py={1}
+            backgroundColor={theme.colors.app.fg}
+            space={2}
+          >
+            {compactThumbnailPosition === "Left" && (
+              <CompactFeedItemThumbnail
+                post={post}
+                setImageViewOpen={setImageViewOpen}
+                imageViewOpen={imageViewOpen}
+                linkInfo={feedItem.linkInfo}
+                setPostRead={feedItem.setPostRead}
+              />
+            )}
+
+            <VStack flex={1}>
+              <Text
+                flex={1}
+                fontSize={FONT_SIZE}
+                fontWeight={fontWeightPostTitle}
+                color={
+                  post.read
+                    ? theme.colors.app.textSecondary
+                    : theme.colors.app.textPrimary
+                }
+              >
+                {post.post.name}
+              </Text>
+
+              <CompactFeedItemFooter post={post} />
+            </VStack>
+
+            {compactThumbnailPosition === "Right" && (
+              <VStack alignItems="flex-start">
                 <CompactFeedItemThumbnail
                   post={post}
                   setImageViewOpen={setImageViewOpen}
@@ -123,95 +109,20 @@ function CompactFeedItem({
                   linkInfo={feedItem.linkInfo}
                   setPostRead={feedItem.setPostRead}
                 />
-              )}
-
-              <VStack flex={1}>
-                <Text
-                  flex={1}
-                  fontSize={FONT_SIZE}
-                  fontWeight={fontWeightPostTitle}
-                  color={
-                    post.read
-                      ? theme.colors.app.textSecondary
-                      : theme.colors.app.textPrimary
-                  }
-                >
-                  {post.post.name}
-                </Text>
-
-                <CompactFeedItemFooter post={post} />
               </VStack>
+            )}
 
-              {compactThumbnailPosition === "Right" && (
-                <VStack alignItems="flex-start">
-                  <CompactFeedItemThumbnail
-                    post={post}
-                    setImageViewOpen={setImageViewOpen}
-                    imageViewOpen={imageViewOpen}
-                    linkInfo={feedItem.linkInfo}
-                    setPostRead={feedItem.setPostRead}
-                  />
-                </VStack>
-              )}
-
-              {compactShowVotingButtons && (
-                <CompactFeedItemVote
-                  myVote={post.my_vote as ILemmyVote}
-                  onVotePress={feedItem.onVotePress}
-                />
-              )}
-            </HStack>
-          </Pressable>
-        </Animated.View>
-      </PanGestureHandler>
+            {compactShowVotingButtons && (
+              <CompactFeedItemVote
+                myVote={post.my_vote as ILemmyVote}
+                onVotePress={feedItem.onVotePress}
+              />
+            )}
+          </HStack>
+        </Pressable>
+      </SwipeableRow>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  image: {
-    height: 75,
-    width: 75,
-    borderRadius: 10,
-  },
-
-  blurView: {
-    position: "absolute",
-    height: "100%",
-    width: "100%",
-    zIndex: 1,
-  },
-
-  blurContainer: {
-    flex: 1,
-    bottom: 0,
-    overflow: "hidden",
-    borderRadius: 10,
-  },
-
-  nsfwIcon: {
-    marginLeft: 5,
-  },
-
-  side: {
-    borderLeftWidth: 2,
-    paddingLeft: 8,
-    marginLeft: -4,
-  },
-
-  backgroundContainer: {
-    ...StyleSheet.absoluteFillObject,
-    flex: 1,
-    flexDirection: "row",
-  },
-
-  backgroundLeft: {
-    flex: 1,
-  },
-
-  backgroundRight: {
-    flex: 1,
-  },
-});
 
 export default React.memo(CompactFeedItem);

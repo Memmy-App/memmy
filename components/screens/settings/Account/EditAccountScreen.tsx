@@ -94,6 +94,17 @@ function EditAccountScreen({
       return;
     }
 
+    if (form.username.includes("@")) {
+      dispatch(
+        showToast({
+          message: "Please user your username when signing in.",
+          duration: 3000,
+          variant: "warn",
+        })
+      );
+      return;
+    }
+
     setLoading(true);
     const serverParsed = getBaseUrl(form.server);
 

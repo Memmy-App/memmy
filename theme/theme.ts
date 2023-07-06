@@ -11,6 +11,7 @@ import {
   oksolarDarkThemeColors,
   oceanicNextThemeColors,
   oledThemeColors,
+  embarkThemeColors,
 } from "./darkColors";
 import {
   lightThemeColors,
@@ -161,6 +162,16 @@ const oledTheme = extendTheme({
   },
 });
 
+const embarkTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: embarkThemeColors,
+  },
+  config: {
+    initialColorMode: "dark",
+  },
+});
+
 export type ThemeType = typeof lightTheme;
 
 declare module "native-base" {
@@ -186,4 +197,5 @@ export {
   oksolarLightTheme,
   oceanicNextTheme,
   oledTheme,
+  embarkTheme,
 };
