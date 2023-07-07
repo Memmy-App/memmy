@@ -5194,7 +5194,7 @@ expo-build-properties@~0.6.0:
     ajv "^8.11.0"
     semver "^7.3.5"
 
-expo-constants@^14.2.1:
+expo-constants@^14.4.2:
   version "14.4.2"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-14.4.2.tgz#cac5e8b524069545739b8d8595ce96cc5be6578c"
   integrity sha512-nOB122DOAjk+KrJT69lFQAoYVQGQjFHSigCPVBzVdko9S1xGsfiOH9+X5dygTsZTIlVLpQJDdmZ7ONiv3i+26w==
