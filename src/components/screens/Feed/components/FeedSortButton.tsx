@@ -11,9 +11,13 @@ import {
   IconClockHour6,
   IconFlame,
   IconMessage,
+  IconSelectAll,
 } from "tabler-icons-react-native";
 import { UseFeed } from "../../../../hooks/feeds/useFeed";
-import { sortOptions } from "../../../../types/FeedSortOptions";
+import {
+  feedSortOptions,
+  sortTopOptions,
+} from "../../../../types/FeedSortOptions";
 import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
 import { IconCalendarWeek } from "../../../common/icons";
 
@@ -26,12 +30,12 @@ function FeedSortButton({ feed, onSortUpdate }: Props) {
   const { showActionSheetWithOptions } = useActionSheet();
 
   const onPress = () => {
-    const cancelButtonIndex = sortOptions.length;
+    const cancelButtonIndex = feedSortOptions.length;
 
     showActionSheetWithOptions(
       {
         options: [
-          ...sortOptions.map(([key, display]) =>
+          ...feedSortOptions.map(([key, display]) =>
             key === feed.sort ? `${display} (current)` : display
           ),
           "Cancel",
@@ -41,12 +45,43 @@ function FeedSortButton({ feed, onSortUpdate }: Props) {
       },
       (index) => {
         if (index === cancelButtonIndex) return;
-        const [key] = sortOptions[index];
+
+        if (index === 0) {
+          showTopOptions();
+          return;
+        }
+
+        const [key] = feedSortOptions[index];
         feed.setSort(key);
         onSortUpdate?.(key);
       }
     );
   };
+
+  const showTopOptions = () => {
+    const cancelButtonIndex = sortTopOptions.length;
+
+    showActionSheetWithOptions(
+      {
+        options: [
+          ...sortTopOptions.map(([key, display]) =>
+            key === feed.sort ? `${display} (current)` : display
+          ),
+          "Cancel",
+        ],
+        cancelButtonIndex,
+        userInterfaceStyle: theme.config.initialColorMode,
+      },
+      (index) => {
+        if (index === cancelButtonIndex) return;
+
+        const [key] = sortTopOptions[index];
+        feed.setSort(key);
+        onSortUpdate?.(key);
+      }
+    );
+  };
+
   return <HeaderIconButton icon={SortIconType[feed.sort]} onPress={onPress} />;
 }
 
@@ -56,6 +91,9 @@ const SortIconType = {
   TopHour: <IconClockHour1 />,
   TopSixHour: <IconClockHour6 />,
   TopTwelveHour: <IconClockHour12 />,
+  TopMonth: <IconCalendar />,
+  TopYear: <IconCalendar />,
+  TopAll: <IconSelectAll />,
   Hot: <IconFlame />,
   Active: <IconBolt />,
   New: <IconClockHour4 />,
