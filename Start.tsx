@@ -1,8 +1,8 @@
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import * as Notifications from "expo-notifications";
-import { StatusBar } from "expo-status-bar";
-import { NativeBaseProvider, extendTheme } from "native-base";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { StatusBar, StatusBarStyle } from "expo-status-bar";
+import { extendTheme, NativeBaseProvider } from "native-base";
+import React, { useEffect, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { AppState, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -46,6 +46,8 @@ function Start() {
   const dispatch = useAppDispatch();
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
 
+  const [statusBarColor, setStatusBarColor] = useState<StatusBarStyle>("dark");
+
   const {
     theme,
     themeMatchSystem,
@@ -56,10 +58,11 @@ function Start() {
     isSystemFont,
     accentColor,
   } = useAppSelector(selectSettings);
+
   const [selectedTheme, setSelectedTheme] = useState<any>(darkTheme);
-  const systemColorScheme = useColorScheme();
+  const colorScheme = useColorScheme();
   const currentTheme = themeMatchSystem
-    ? systemColorScheme === "light"
+    ? colorScheme === "light"
       ? themeLight
       : themeDark
     : theme;
@@ -154,6 +157,9 @@ function Start() {
     );
     // TODO add fallback
     setSelectedTheme(newTheme);
+    setStatusBarColor(
+      newTheme.config.initialColorMode === "dark" ? "light" : "dark"
+    );
     // ! fontSize has to be here
   }, [
     currentTheme,
@@ -163,11 +169,6 @@ function Start() {
     isSystemFont,
     accentColor,
   ]);
-
-  const ThemedStatusBar = useMemo(
-    () => <StatusBar style={theme === "Light" ? "dark" : "light"} />,
-    [theme]
-  );
 
   if (!loaded) {
     dispatch(loadSettings());
@@ -183,7 +184,7 @@ function Start() {
     <NativeBaseProvider theme={selectedTheme}>
       <ErrorBoundary onError={logError} FallbackComponent={MemmyErrorView}>
         {/* eslint-disable-next-line react/style-prop-object */}
-        {ThemedStatusBar}
+        <StatusBar style={statusBarColor} />
         <GestureHandlerRootView style={{ flex: 1 }}>
           <ActionSheetProvider>
             <>
