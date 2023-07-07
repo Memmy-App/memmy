@@ -1,9 +1,8 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, {
   Easing,
   SharedValue,
-  useAnimatedGestureHandler,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
@@ -13,10 +12,7 @@ import {
   Gesture,
   GestureDetector,
   GestureStateChangeEvent,
-  GestureUpdateEvent,
-  PanGestureHandler,
   PanGestureHandlerEventPayload,
-  PanGestureHandlerGestureEvent,
 } from "react-native-gesture-handler";
 import { Handlers, SwipeableRowGestureContext } from "./types";
 import { SwipeableRowProvider } from "./SwipeableRowProvider";
@@ -48,17 +44,13 @@ interface Props {
 export const SwipeableRow = ({ leftOption, rightOption, children }: Props) => {
   const [subscribers, setSubscribers] = useState<Handlers[]>([]);
 
-  const subscribe = useCallback(
-    (handlers: Handlers) => {
-      setSubscribers((subs) => [...subs, handlers]);
-      return () => {
-        setSubscribers((subs) =>
-          subs.filter((handler) => handler !== handlers)
-        );
-      };
-    },
-    [setSubscribers]
-  );
+  const subscribe = useCallback((handlers: Handlers) => {
+    setSubscribers((subs) => [...subs, handlers]);
+
+    return () => {
+      setSubscribers((subs) => subs.filter((handler) => handler !== handlers));
+    };
+  }, []);
 
   const swipeRightEnabled = Boolean(leftOption);
   const swipeLeftEnabled = Boolean(rightOption);

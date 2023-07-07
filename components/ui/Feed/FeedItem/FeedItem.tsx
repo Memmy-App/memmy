@@ -1,21 +1,12 @@
 import { PostView } from "lemmy-js-client";
 import { Pressable, View, useTheme } from "native-base";
-import React, { memo, SetStateAction, useMemo } from "react";
+import React, { memo, SetStateAction, useCallback, useMemo } from "react";
 import { ColorValue, StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import FastImage from "react-native-fast-image";
-import { PanGestureHandler } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
-import {
-  IconArrowDown,
-  IconArrowUp,
-  IconMessage,
-} from "tabler-icons-react-native";
-import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
 import { useAppDispatch } from "../../../../store";
-import useSwipeAnimation from "../../../hooks/animations/useSwipeAnimation";
 import useFeedItem from "../../../hooks/feeds/useFeedItem";
 import CommunityLink from "../../CommunityLink";
 import FeedContentPreview from "../FeedContentPreview";
@@ -50,13 +41,13 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
     };
   }, [theme]);
 
-  const onUpVote = () => {
+  const onUpVote = useCallback(() => {
     feedItem.onVotePress(1, false);
-  };
+  }, [feedItem, post.my_vote]);
 
-  const onDownVote = () => {
+  const onDownVote = useCallback(() => {
     feedItem.onVotePress(-1, false);
-  };
+  }, [feedItem, post.my_vote]);
 
   // const onLeftRightOne = () => feedItem.onVotePress(1, false);
   // const onLeftRightTwo = () => feedItem.onVotePress(-1, false);
@@ -84,41 +75,10 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
 
   return (
     <View flex={1} mb={2}>
-      {/* <View style={styles.backgroundContainer}>
-        <View
-          style={styles.backgroundLeft}
-          justifyContent="center"
-          backgroundColor={swipeAnimation.color}
-          pl={4}
-        >
-          {swipeAnimation.leftIcon}
-        </View>
-        <View
-          style={styles.backgroundLeft}
-          backgroundColor={swipeAnimation.color}
-        />
-        <View
-          style={styles.backgroundRight}
-          justifyContent="center"
-          backgroundColor="#007AFF"
-          alignItems="flex-end"
-          pr={4}
-        >
-          {swipeAnimation.rightIcon}
-        </View>
-      </View> */}
-      {/* <PanGestureHandler
-        onGestureEvent={swipeAnimation.gestureHandler}
-        minPointers={1}
-        maxPointers={1}
-        activeOffsetX={[-20, 20]}
-        hitSlop={{ left: -25 }}
-      >
-        <Animated.View style={[swipeAnimation.animatedStyle]}> */}
       <SwipeableRow
         leftOption={
           <VoteOption
-            vote={feedItem.myVote}
+            vote={post.my_vote}
             voteColors={votingColors}
             onUpVote={onUpVote}
             onDownVote={onDownVote}

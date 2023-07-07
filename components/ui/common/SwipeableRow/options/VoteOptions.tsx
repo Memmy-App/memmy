@@ -5,14 +5,17 @@ import Animated, {
   runOnJS,
   useAnimatedReaction,
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
 import { trigger } from "react-native-haptic-feedback";
 import { StyleSheet, ColorValue, LayoutRectangle, Alert } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSwipeableRow } from "../SwipeableRowProvider";
 import { IconArrowUp } from "tabler-icons-react-native";
+import { ILemmyVote } from "../../../../../lemmy/types/ILemmyVote";
+import { getUniqueID } from "@ronradtke/react-native-markdown-display";
 
 interface VoteColor {
   background: ColorValue;
@@ -56,11 +59,13 @@ export const VoteOption = ({
   onDownVote,
 }: Props) => {
   const [firstStop, secondStop] = stops;
-
   const [first, second] =
     vote === -1
       ? [voteColors.downvote, voteColors.upvote]
       : [voteColors.upvote, voteColors.downvote];
+
+  // Provides UI thread access to the current vote as it changes.
+  const currentVote = useDerivedValue<number>(() => vote);
 
   // shared value to freeze animations when a user lets go
   const isFrozen = useSharedValue(false);
@@ -81,17 +86,17 @@ export const VoteOption = ({
         "worklet";
         isFrozen.value = false;
       },
-      onEnd: () => {
+      onEnd: (event) => {
         "worklet";
-        if (translateX.value >= secondStop) {
-          runOnJS(vote === -1 ? onUpVote : onDownVote)();
-        } else if (translateX.value >= firstStop) {
-          runOnJS(vote === -1 ? onDownVote : onUpVote)();
-        }
         isFrozen.value = true;
+        if (event.translationX >= secondStop) {
+          runOnJS(currentVote.value === -1 ? onUpVote : onDownVote)();
+        } else if (event.translationX >= firstStop) {
+          runOnJS(currentVote.value === -1 ? onDownVote : onUpVote)();
+        }
       },
     });
-  }, [subscribe, vote, firstStop, secondStop, translateX]);
+  }, [subscribe, onUpVote, onDownVote, firstStop, secondStop]);
 
   // The timer used for the rotation animation
   const rotationTimer = useSharedValue(0);
@@ -133,7 +138,7 @@ export const VoteOption = ({
           damping: 12,
         });
       } else if (current.translateX === 0) {
-        rotationTimer.value = vote === -1 ? 180 : 0;
+        rotationTimer.value = currentVote.value === -1 ? 180 : 0;
       }
     },
     [first, second, firstStop, secondStop]

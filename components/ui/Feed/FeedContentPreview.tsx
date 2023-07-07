@@ -57,7 +57,7 @@ function FeedContentPreview({ post, recycled }: IProps) {
           fontWeight={fontWeightPostTitle}
           color={theme.colors.app.textPrimary}
           alignItems="center"
-          justifyItems="center"
+          justifyContent="center"
         >
           {title}
         </Text>
