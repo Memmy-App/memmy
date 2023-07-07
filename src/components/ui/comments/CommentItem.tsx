@@ -5,7 +5,7 @@ import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import ILemmyComment from "../../../../lemmy/types/ILemmyComment";
 import { ILemmyVote } from "../../../../lemmy/types/ILemmyVote";
 import useComment from "../../../hooks/post/useComment";
-import AvatarUsername from "../common/avatarUsername/AvatarUsername";
+import AvatarUsername from "../AvatarUsername";
 import IconButtonWithText from "../common/IconButtonWithText";
 import SmallVoteIcons from "../common/SmallVoteIcons";
 import CommentCollapsed from "./CommentCollapsed";

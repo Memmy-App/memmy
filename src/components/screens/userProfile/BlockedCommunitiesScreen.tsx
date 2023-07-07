@@ -10,9 +10,9 @@ import {
   unblockCommunity,
 } from "../../../slices/site/siteActions";
 import LoadingView from "../../ui/Loading/LoadingView";
-import CTable from "../../ui/table/CTable";
-import CSection from "../../ui/table/CSection";
-import CCell from "../../ui/table/CCell";
+import CTable from "../../ui/Table/CTable";
+import CSection from "../../ui/Table/CSection";
+import CCell from "../../ui/Table/CCell";
 
 function BlockedCommunitiesScreen() {
   // State

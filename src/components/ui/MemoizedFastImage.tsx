@@ -4,9 +4,9 @@ import { Icon, Text, useTheme, View, VStack } from "native-base";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
-import { getRatio } from "../../../helpers/ImageHelper";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
-import { useAppSelector } from "../../../../store";
+import { getRatio } from "../../helpers/ImageHelper";
+import { selectSettings } from "../../slices/settings/settingsSlice";
+import { useAppSelector } from "../../../store";
 
 function MemoizedFastImage({
   postId,

@@ -4,19 +4,19 @@ import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
 import { useWindowDimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import useFeedItem from "../../../../hooks/feeds/useFeedItem";
+import useFeedItem from "../../../../../hooks/feeds/useFeedItem";
 import { ILemmyVote } from "../../../../../lemmy/types/ILemmyVote";
-import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
-import { useAppDispatch, useAppSelector } from "../../../../../store";
+import { setResponseTo } from "../../../../../slices/comments/newCommentSlice";
+import { useAppDispatch, useAppSelector } from "../../../../../../store";
 import CompactFeedItemThumbnail from "./CompactFeedItemThumbnail";
 import CompactFeedItemVote from "./CompactFeedItemVote";
 import CompactFeedItemFooter from "./CompactFeedItemFooter";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
+import { selectSettings } from "../../../../../slices/settings/settingsSlice";
 
-import { fontSizeMap } from "../../../../theme/fontSize";
-import { VoteOption } from "../../SwipeableRow/VoteOption";
-import { ReplyOption } from "../../SwipeableRow/ReplyOption";
-import { SwipeableRow } from "../../SwipeableRow/SwipeableRow";
+import { fontSizeMap } from "../../../../../theme/fontSize";
+import { VoteOption } from "../../../../ui/SwipeableRow/VoteOption";
+import { ReplyOption } from "../../../../ui/SwipeableRow/ReplyOption";
+import { SwipeableRow } from "../../../../ui/SwipeableRow/SwipeableRow";
 
 function CompactFeedItem({
   post,

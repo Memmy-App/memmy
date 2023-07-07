@@ -10,7 +10,7 @@ import { selectNewComment } from "../../../slices/comments/newCommentSlice";
 import LoadingView from "../../ui/Loading/LoadingView";
 import useNewComment from "../../../hooks/comments/useNewComment";
 import { truncateName } from "../../../helpers/TextHelper";
-import RenderMarkdown from "../../ui/markdown/RenderMarkdown";
+import RenderMarkdown from "../../ui/Markdown/RenderMarkdown";
 import KeyboardAccessory from "../../ui/KeyboardAccessory";
 import SmallVoteIcons from "../../ui/common/SmallVoteIcons";
 import { ILemmyVote } from "../../../../lemmy/types/ILemmyVote";

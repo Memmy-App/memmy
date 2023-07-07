@@ -5,7 +5,7 @@ import FastImage from "react-native-fast-image";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { IconPlanet } from "tabler-icons-react-native";
-import MCell from "../table/MCell";
+import MCell from "../Table/MCell";
 import { getCommunityFullName } from "../../../helpers/LemmyHelpers";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 

@@ -9,7 +9,7 @@ import {
 } from "native-base";
 import FastImage from "react-native-fast-image";
 import { truncateImageLink } from "../../../helpers/TextHelper";
-import ImageViewer from "../image/ImageViewer";
+import ImageViewer from "../ImageViewer/ImageViewer";
 
 interface ImageButtonProps {
   src: string;

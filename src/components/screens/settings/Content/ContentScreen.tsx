@@ -9,8 +9,8 @@ import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { SortOption, sortOptions } from "../../../../types/FeedSortOptions";
-import CCell from "../../../ui/table/CCell";
-import CSection from "../../../ui/table/CSection";
+import CCell from "../../../ui/Table/CCell";
+import CSection from "../../../ui/Table/CSection";
 
 function ContentScreen({
   navigation,

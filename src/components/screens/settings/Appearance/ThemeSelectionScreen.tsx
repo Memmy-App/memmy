@@ -10,8 +10,8 @@ import {
   ThemeOptionsArr,
   ThemeOptionsMap,
 } from "../../../../theme/themeOptions";
-import CCell from "../../../ui/table/CCell";
-import CSection from "../../../ui/table/CSection";
+import CCell from "../../../ui/Table/CCell";
+import CSection from "../../../ui/Table/CSection";
 
 function ThemeColors({ accent, bg }: { accent: string; bg: string }) {
   return (

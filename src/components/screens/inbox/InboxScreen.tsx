@@ -10,7 +10,7 @@ import LoadingModalTransparent from "../../ui/Loading/LoadingModalTransparent";
 import InboxTabs from "./InboxTabs";
 import LoadingView from "../../ui/Loading/LoadingView";
 import HeaderIconButton from "../../ui/buttons/HeaderIconButton";
-import InboxReplyItem from "../../ui/inbox/InboxReplyItem";
+import InboxReplyItem from "./components/InboxReplyItem";
 import RefreshControl from "../../ui/common/RefreshControl";
 
 function InboxScreen({

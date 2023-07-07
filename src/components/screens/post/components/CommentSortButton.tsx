@@ -8,8 +8,8 @@ import {
   IconFlame,
 } from "tabler-icons-react-native";
 import { CommentSortType } from "lemmy-js-client";
-import HeaderIconButton from "../buttons/HeaderIconButton";
-import { commentSortOptions } from "../../../types/CommentSortOptions";
+import HeaderIconButton from "../../../ui/buttons/HeaderIconButton";
+import { commentSortOptions } from "../../../../types/CommentSortOptions";
 
 interface IProps {
   sortType: CommentSortType;

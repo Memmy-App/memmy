@@ -3,12 +3,12 @@ import { HStack, Text, useTheme, VStack } from "native-base";
 import FastImage from "react-native-fast-image";
 import { IconUser } from "tabler-icons-react-native";
 import { Person } from "lemmy-js-client";
-import Link from "../../buttons/Link";
-import { getBaseUrl } from "../../../../helpers/LinkHelper";
-import { useAppSelector } from "../../../../../store";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
-import { getUserFullName } from "../../../../helpers/LemmyHelpers";
-import Chip from "../Chip";
+import Link from "./buttons/Link";
+import { getBaseUrl } from "../../helpers/LinkHelper";
+import { useAppSelector } from "../../../store";
+import { selectSettings } from "../../slices/settings/settingsSlice";
+import { getUserFullName } from "../../helpers/LemmyHelpers";
+import Chip from "./Chip";
 
 export type NameType = "admin" | "mod" | "dev" | "op";
 

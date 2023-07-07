@@ -20,7 +20,7 @@ import { useAppDispatch, useAppSelector } from "./store";
 import getFontScale from "./src/theme/fontSize";
 import { darkTheme } from "./src/theme/theme";
 import { ThemeOptionsArr, ThemeOptionsMap } from "./src/theme/themeOptions";
-import Toast from "./src/components/ui/Toast";
+import Toast from "./src/components/ui/common/Toast";
 import { systemFontSettings } from "./src/theme/common";
 
 const logError = (e, info) => {

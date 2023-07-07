@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import usePost from "../../../hooks/post/postHooks";
 import LoadingView from "../../ui/Loading/LoadingView";
 import CommentItem from "../../ui/comments/CommentItem";
-import CommentSortButton from "../../ui/post/CommentSortButton";
+import CommentSortButton from "./components/CommentSortButton";
 import PostOptionsButton from "../../ui/post/PostOptionsButton";
 import PostFooter from "../../ui/post/PostFooter";
 import PostHeader from "../../ui/post/PostHeader";

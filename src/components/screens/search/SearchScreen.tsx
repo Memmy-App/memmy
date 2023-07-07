@@ -2,9 +2,9 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView, useTheme, VStack } from "native-base";
 import React, { useEffect } from "react";
 import useSearch from "../../../hooks/search/useSearch";
-import SearchBox from "../../ui/search/SearchBox";
-import SearchOptionsList from "../../ui/search/SearchOptionsList";
-import SearchTrendingList from "../../ui/search/SearchTrendingList";
+import SearchBox from "../../ui/Search/SearchBox";
+import SearchOptionsList from "../../ui/Search/SearchOptionsList";
+import SearchTrendingList from "../../ui/Search/SearchTrendingList";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 
 function SearchScreen({

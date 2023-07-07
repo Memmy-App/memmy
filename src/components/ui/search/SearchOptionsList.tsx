@@ -7,8 +7,8 @@ import {
 } from "tabler-icons-react-native";
 import { useTheme } from "native-base";
 import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
-import MTable from "../table/MTable";
-import MCell from "../table/MCell";
+import MTable from "../Table/MTable";
+import MCell from "../Table/MCell";
 
 interface IProps {
   options: {

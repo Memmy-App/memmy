@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { IconUser } from "tabler-icons-react-native";
 import { useTheme } from "native-base";
-import MCell from "../table/MCell";
+import MCell from "../Table/MCell";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 
 interface IProps {

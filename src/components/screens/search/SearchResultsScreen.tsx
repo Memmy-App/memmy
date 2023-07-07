@@ -3,14 +3,14 @@ import { ScrollView, useTheme, VStack } from "native-base";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView, SearchType } from "lemmy-js-client";
 import useSearchResult from "../../../hooks/search/useSearchResult";
-import CompactFeedItem from "../../ui/Feed/CompactFeedItem/CompactFeedItem";
+import CompactFeedItem from "../Feed/components/CompactFeedItem/CompactFeedItem";
 import FeedItem from "../../ui/Feed/FeedItem/FeedItem";
 import { useAppSelector } from "../../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import LoadingView from "../../ui/Loading/LoadingView";
-import SearchUserItem from "../../ui/search/SearchUserItem";
-import MTable from "../../ui/table/MTable";
-import SearchCommunityItem from "../../ui/search/SearchCommunityItem";
+import SearchUserItem from "../../ui/Search/SearchUserItem";
+import MTable from "../../ui/Table/MTable";
+import SearchCommunityItem from "../../ui/Search/SearchCommunityItem";
 import NoResultView from "../../ui/common/NoResultView";
 
 interface IProps {

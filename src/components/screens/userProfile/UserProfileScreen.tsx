@@ -15,13 +15,13 @@ import HeaderIconButton from "../../ui/buttons/HeaderIconButton";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
 import LoadingView from "../../ui/Loading/LoadingView";
 import NotFoundView from "../../ui/Loading/NotFoundView";
-import ProfileHeader from "../../ui/profile/ProfileHeader";
+import ProfileHeader from "./components/ProfileHeader";
 import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { showToast } from "../../../slices/toast/toastSlice";
 import { useAppDispatch } from "../../../../store";
-import MTable from "../../ui/table/MTable";
-import MCell from "../../ui/table/MCell";
+import MTable from "../../ui/Table/MTable";
+import MCell from "../../ui/Table/MCell";
 import RefreshControl from "../../ui/common/RefreshControl";
 
 interface IProps {

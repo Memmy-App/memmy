@@ -1,6 +1,6 @@
 import { useTheme } from "native-base";
 import React from "react";
-import { IconBookCheck } from "../customIcons/IconBookCheck";
+import { IconBookCheck } from "../icons/IconBookCheck";
 
 interface Props {
   isRead: boolean;

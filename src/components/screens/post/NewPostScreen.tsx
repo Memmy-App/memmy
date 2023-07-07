@@ -4,11 +4,11 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button, Switch, TextInput } from "react-native";
 import { Icon, IconButton, useTheme, VStack } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
-import CCell from "../../ui/table/CCell";
+import CCell from "../../ui/Table/CCell";
 import LoadingModal from "../../ui/Loading/LoadingModal";
 import useNewPost from "../../../hooks/post/useNewPost";
-import CTable from "../../ui/table/CTable";
-import CSection from "../../ui/table/CSection";
+import CTable from "../../ui/Table/CTable";
+import CSection from "../../ui/Table/CSection";
 
 function NewPostScreen({
   route,

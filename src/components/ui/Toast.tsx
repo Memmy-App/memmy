@@ -6,12 +6,12 @@ import Animated, {
 } from "react-native-reanimated";
 import { useTheme, Text, HStack } from "native-base";
 import { IconAlertCircle, IconCheck } from "tabler-icons-react-native";
-import { useAppDispatch, useAppSelector } from "../../../store";
+import { useAppDispatch, useAppSelector } from "../../../../store";
 import {
   ToastVariant,
   hideToast,
   selectToast,
-} from "../../slices/toast/toastSlice";
+} from "../../../slices/toast/toastSlice";
 
 function Toast(): JSX.Element {
   const { isOpen, message, duration, variant, icon } =

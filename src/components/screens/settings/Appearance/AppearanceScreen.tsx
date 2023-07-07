@@ -10,8 +10,8 @@ import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { FontWeightMap } from "../../../../theme/fontSize";
 import Chip from "../../../ui/common/Chip";
-import CCell from "../../../ui/table/CCell";
-import CSection from "../../../ui/table/CSection";
+import CCell from "../../../ui/Table/CCell";
+import CSection from "../../../ui/Table/CSection";
 import CTextInput from "../../../ui/CTextInput";
 import { showToast } from "../../../../slices/toast/toastSlice";
 

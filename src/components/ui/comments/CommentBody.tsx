@@ -1,6 +1,6 @@
 import React from "react";
 import ItalicText from "../common/ItalicText";
-import RenderMarkdown from "../markdown/RenderMarkdown";
+import RenderMarkdown from "../Markdown/RenderMarkdown";
 
 interface IProps {
   deleted: boolean;

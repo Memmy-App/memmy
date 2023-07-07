@@ -18,7 +18,7 @@ import {
 } from "../../../../slices/accounts/accountsActions";
 import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
-import CCell from "../../../ui/table/CCell";
+import CCell from "../../../ui/Table/CCell";
 import { showToast } from "../../../../slices/toast/toastSlice";
 
 function EditAccountScreen({

@@ -2,13 +2,13 @@ import { PostView } from "lemmy-js-client";
 import { Box, HStack, Text, useTheme } from "native-base";
 import React, { useRef } from "react";
 import { IconMessage } from "tabler-icons-react-native";
-import { timeFromNowShort } from "../../../../helpers/TimeHelper";
+import { timeFromNowShort } from "../../../../../helpers/TimeHelper";
 import { ILemmyVote } from "../../../../../lemmy/types/ILemmyVote";
-import CommunityLink from "../../CommunityLink";
-import AvatarUsername from "../../common/avatarUsername/AvatarUsername";
-import FeaturedIndicator from "../../common/FeaturedIndicator";
-import SmallVoteIcons from "../../common/SmallVoteIcons";
-import { IconBookCheck } from "../../customIcons/IconBookCheck";
+import CommunityLink from "../../../../ui/CommunityLink";
+import AvatarUsername from "../../../../ui/AvatarUsername";
+import FeaturedIndicator from "../../../../ui/common/FeaturedIndicator";
+import SmallVoteIcons from "../../../../ui/common/SmallVoteIcons";
+import { IconBookCheck } from "../../../../ui/icons/IconBookCheck";
 
 interface CompactFeedItemFooterProps {
   post: PostView;

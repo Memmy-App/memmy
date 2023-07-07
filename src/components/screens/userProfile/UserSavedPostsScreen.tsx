@@ -2,7 +2,7 @@ import React from "react";
 import { FlashList } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import useProfile from "../../../hooks/profile/useProfile";
-import CompactFeedItem from "../../ui/Feed/CompactFeedItem/CompactFeedItem";
+import CompactFeedItem from "../Feed/components/CompactFeedItem/CompactFeedItem";
 import NoResultView from "../../ui/common/NoResultView";
 import LoadingView from "../../ui/Loading/LoadingView";
 import LoadingErrorView from "../../ui/Loading/LoadingErrorView";

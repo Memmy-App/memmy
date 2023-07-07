@@ -7,14 +7,14 @@ import { Ionicons } from "@expo/vector-icons";
 import FastImage from "react-native-fast-image";
 import { IconLink, IconMessages } from "tabler-icons-react-native";
 import EnhancedImageViewing from "@gkasdorf/react-native-image-viewing";
-import { ExtensionType, LinkInfo } from "../../../../helpers/LinkHelper";
-import { useAppSelector } from "../../../../../store";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
+import { ExtensionType, LinkInfo } from "../../../../../helpers/LinkHelper";
+import { useAppSelector } from "../../../../../../store";
+import { selectSettings } from "../../../../../slices/settings/settingsSlice";
 
-import { lemmyAuthToken, lemmyInstance } from "../../../../LemmyInstance";
-import ImageViewFooter from "../../image/ImageViewFooter";
-import downloadAndSaveImage from "../../../../helpers/ImageHelper";
-import { shareLink } from "../../../../helpers/ShareHelper";
+import { lemmyAuthToken, lemmyInstance } from "../../../../../LemmyInstance";
+import ImageViewFooter from "../../../../ui/ImageViewer/ImageViewFooter";
+import downloadAndSaveImage from "../../../../../helpers/ImageHelper";
+import { shareLink } from "../../../../../helpers/ShareHelper";
 
 function CompactFeedItemThumbnail({
   post,

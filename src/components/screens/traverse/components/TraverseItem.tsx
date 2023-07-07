@@ -11,8 +11,8 @@ import {
 } from "tabler-icons-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
-import { getCommunityFullName } from "../../../helpers/LemmyHelpers";
+import { getBaseUrl } from "../../../../helpers/LinkHelper";
+import { getCommunityFullName } from "../../../../helpers/LemmyHelpers";
 
 interface IProps {
   community: CommunityView;

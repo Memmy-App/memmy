@@ -11,9 +11,9 @@ import {
 } from "tabler-icons-react-native";
 import moment from "moment";
 import { StyleSheet } from "react-native";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
-import { UseProfile } from "../../../hooks/profile/useProfile";
-import { getCakeDay } from "../../../helpers/TimeHelper";
+import { getBaseUrl } from "../../../../helpers/LinkHelper";
+import { UseProfile } from "../../../../hooks/profile/useProfile";
+import { getCakeDay } from "../../../../helpers/TimeHelper";
 
 interface IProps {
   profile: UseProfile;

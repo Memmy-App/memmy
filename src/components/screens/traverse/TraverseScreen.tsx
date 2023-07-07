@@ -3,8 +3,8 @@ import { ScrollView, Text, useTheme } from "native-base";
 import { CommunityView } from "lemmy-js-client";
 import useTraverse from "../../../hooks/traverse/useTraverse";
 import LoadingView from "../../ui/Loading/LoadingView";
-import TraverseItem from "../../ui/traverse/TraverseItem";
-import SearchBar from "../../ui/search/SearchBar";
+import TraverseItem from "./components/TraverseItem";
+import SearchBar from "../../ui/Search/SearchBar";
 import RefreshControl from "../../ui/common/RefreshControl";
 
 function TraverseScreen() {
