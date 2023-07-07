@@ -1,7 +1,7 @@
 import React from "react";
-import CommentItem from "../../../ui/comments/CommentItem";
 import { UseInbox } from "../../../../hooks/inbox/useInbox";
 import ILemmyComment from "../../../../lemmy/types/ILemmyComment";
+import CommentItem from "../../../common/comments/CommentItem";
 
 interface IProps {
   inbox: UseInbox;

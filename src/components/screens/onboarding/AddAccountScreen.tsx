@@ -3,19 +3,19 @@ import { Alert, Image } from "react-native";
 import { Button, Pressable, Text, useTheme, VStack } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import CTextInput from "../../ui/CTextInput";
-import ILemmyServer from "../../../../lemmy/types/ILemmyServer";
+import CTextInput from "../../common/CTextInput";
 import {
   getInstanceError,
   initialize,
   lemmyAuthToken,
 } from "../../../LemmyInstance";
-import LoadingModal from "../../ui/Loading/LoadingModal";
+import LoadingModal from "../../common/Loading/LoadingModal";
 import { useAppDispatch } from "../../../../store";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { addAccount } from "../../../slices/accounts/accountsActions";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { showToast } from "../../../slices/toast/toastSlice";
+import ILemmyServer from "../../../types/lemmy/ILemmyServer";
 
 const header = require("../../../assets/header.jpg");
 

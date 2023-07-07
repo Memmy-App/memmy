@@ -8,19 +8,22 @@ import { AppState, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import merge from "deepmerge";
 import Stack from "./Stack";
-import MemmyErrorView from "./src/components/ui/Loading/MemmyErrorView";
+import MemmyErrorView from "./src/components/common/Loading/MemmyErrorView";
 import { writeToLog } from "./src/helpers/LogHelper";
 import { lemmyAuthToken, lemmyInstance } from "./src/LemmyInstance";
 import { loadAccounts } from "./src/slices/accounts/accountsActions";
 import { selectAccountsLoaded } from "./src/slices/accounts/accountsSlice";
-import { loadSettings, setSetting } from "./src/slices/settings/settingsActions";
+import {
+  loadSettings,
+  setSetting,
+} from "./src/slices/settings/settingsActions";
 import { selectSettings } from "./src/slices/settings/settingsSlice";
 import { getUnreadCount } from "./src/slices/site/siteActions";
 import { useAppDispatch, useAppSelector } from "./store";
 import getFontScale from "./src/theme/fontSize";
 import { darkTheme } from "./src/theme/theme";
 import { ThemeOptionsArr, ThemeOptionsMap } from "./src/theme/themeOptions";
-import Toast from "./src/components/ui/common/Toast";
+import Toast from "./src/components/common/common/Toast";
 import { systemFontSettings } from "./src/theme/common";
 
 const logError = (e, info) => {

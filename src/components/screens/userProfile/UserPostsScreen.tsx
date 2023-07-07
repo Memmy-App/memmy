@@ -4,11 +4,11 @@ import { PostView } from "lemmy-js-client";
 import { useTheme, VStack } from "native-base";
 import useProfile from "../../../hooks/profile/useProfile";
 import CompactFeedItem from "../Feed/components/CompactFeedItem/CompactFeedItem";
-import NoResultView from "../../ui/common/NoResultView";
-import LoadingView from "../../ui/Loading/LoadingView";
-import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
-import NotFoundView from "../../ui/Loading/NotFoundView";
-import RefreshControl from "../../ui/common/RefreshControl";
+import NoResultView from "../../common/NoResultView";
+import LoadingView from "../../common/Loading/LoadingView";
+import LoadingErrorView from "../../common/Loading/LoadingErrorView";
+import NotFoundView from "../../common/Loading/NotFoundView";
+import RefreshControl from "../../common/RefreshControl";
 
 interface IProps {
   route: any;

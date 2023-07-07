@@ -1,9 +1,9 @@
 import React from "react";
 import { useTheme, VStack } from "native-base";
 import { Switch } from "react-native";
-import CTable from "../../../ui/Table/CTable";
-import CSection from "../../../ui/Table/CSection";
-import CCell from "../../../ui/Table/CCell";
+import CTable from "../../../common/Table/CTable";
+import CSection from "../../../common/Table/CSection";
+import CCell from "../../../common/Table/CCell";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { setSetting } from "../../../../slices/settings/settingsActions";

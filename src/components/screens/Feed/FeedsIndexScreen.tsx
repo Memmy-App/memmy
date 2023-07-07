@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Alert } from "react-native";
-import FeedView from "../../ui/Feed/FeedView";
-import FeedHeaderDropdown from "../../ui/Feed/FeedHeaderDropdown";
+import FeedView from "../../common/Feed/FeedView";
+import FeedHeaderDropdown from "../../common/Feed/FeedHeaderDropdown";
 import { useFeed } from "../../../hooks/feeds/useFeed";
 import {
   initialize,

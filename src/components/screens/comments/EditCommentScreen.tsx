@@ -3,8 +3,8 @@ import { Button, StyleSheet, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useTheme, View } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import LoadingView from "../../ui/Loading/LoadingView";
-import KeyboardAccessory from "../../ui/KeyboardAccessory";
+import LoadingView from "../../common/Loading/LoadingView";
+import KeyboardAccessory from "../../common/KeyboardAccessory";
 import useEditComment from "../../../hooks/comments/useEditComment";
 
 interface IProps {

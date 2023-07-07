@@ -11,15 +11,15 @@ import {
   initialize,
   lemmyAuthToken,
 } from "../../../../LemmyInstance";
-import ILemmyServer from "../../../../../lemmy/types/ILemmyServer";
 import {
   addAccount,
   editAccount,
 } from "../../../../slices/accounts/accountsActions";
 import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
-import CCell from "../../../ui/Table/CCell";
+import CCell from "../../../common/Table/CCell";
 import { showToast } from "../../../../slices/toast/toastSlice";
+import ILemmyServer from "../../../../types/lemmy/ILemmyServer";
 
 function EditAccountScreen({
   route,

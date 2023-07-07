@@ -3,14 +3,14 @@ import { FlashList } from "@shopify/flash-list";
 import { HStack, useTheme, VStack } from "native-base";
 import React, { useEffect } from "react";
 import usePost from "../../../hooks/post/postHooks";
-import LoadingView from "../../ui/Loading/LoadingView";
-import CommentItem from "../../ui/comments/CommentItem";
+import LoadingView from "../../common/Loading/LoadingView";
+import CommentItem from "../../common/comments/CommentItem";
 import CommentSortButton from "./components/CommentSortButton";
-import PostOptionsButton from "../../ui/post/PostOptionsButton";
-import PostFooter from "../../ui/post/PostFooter";
-import PostHeader from "../../ui/post/PostHeader";
-import ILemmyComment from "../../../../lemmy/types/ILemmyComment";
-import RefreshControl from "../../ui/common/RefreshControl";
+import PostOptionsButton from "./components/PostOptionsButton";
+import PostFooter from "./components/PostFooter";
+import PostHeader from "./components/PostHeader";
+import RefreshControl from "../../common/RefreshControl";
+import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 
 interface IProps {
   route: any;

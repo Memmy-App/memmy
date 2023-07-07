@@ -2,7 +2,7 @@ import React from "react";
 import { ScrollView, Text, useTheme, VStack } from "native-base";
 import FastImage from "react-native-fast-image";
 import { IconPlanet } from "tabler-icons-react-native";
-import RenderMarkdown from "../../ui/Markdown/RenderMarkdown";
+import RenderMarkdown from "../../common/Markdown/RenderMarkdown";
 
 function CommunityAboutScreen({ route }: { route: any }) {
   const theme = useTheme();

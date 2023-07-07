@@ -12,10 +12,10 @@ import {
 } from "tabler-icons-react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import useCommunityFeed from "../../../hooks/feeds/useCommunityFeed";
-import CustomButton from "../../ui/buttons/CustomButton";
-import FeedView from "../../ui/Feed/FeedView";
-import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
-import NotFoundView from "../../ui/Loading/NotFoundView";
+import CustomButton from "../../common/buttons/CustomButton";
+import FeedView from "../../common/Feed/FeedView";
+import LoadingErrorView from "../../common/Loading/LoadingErrorView";
+import NotFoundView from "../../common/Loading/NotFoundView";
 
 function FeedsCommunityScreen({
   route,

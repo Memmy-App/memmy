@@ -13,8 +13,8 @@ import {
   TablerIcon,
 } from "tabler-icons-react-native";
 import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
-import CCell from "../../ui/Table/CCell";
-import CSection from "../../ui/Table/CSection";
+import CCell from "../../common/Table/CCell";
+import CSection from "../../common/Table/CSection";
 
 function SettingOptionTitle({
   text,

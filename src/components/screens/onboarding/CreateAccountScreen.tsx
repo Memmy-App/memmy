@@ -7,12 +7,12 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { initialize, lemmyAuthToken } from "../../../LemmyInstance";
-import ILemmyServer from "../../../../lemmy/types/ILemmyServer";
 import { addAccount } from "../../../slices/accounts/accountsActions";
 import { useAppDispatch } from "../../../../store";
-import CTextInput from "../../ui/CTextInput";
-import LoadingModal from "../../ui/Loading/LoadingModal";
+import CTextInput from "../../common/CTextInput";
+import LoadingModal from "../../common/Loading/LoadingModal";
 import { showToast } from "../../../slices/toast/toastSlice";
+import ILemmyServer from "../../../types/lemmy/ILemmyServer";
 
 const header = require("../../../assets/header.jpg");
 

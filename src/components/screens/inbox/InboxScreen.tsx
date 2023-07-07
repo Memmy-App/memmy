@@ -4,14 +4,14 @@ import { FlashList } from "@shopify/flash-list";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { IconMailOpened } from "tabler-icons-react-native";
 import useInbox from "../../../hooks/inbox/useInbox";
-import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
-import ILemmyComment from "../../../../lemmy/types/ILemmyComment";
-import LoadingModalTransparent from "../../ui/Loading/LoadingModalTransparent";
+import LoadingErrorView from "../../common/Loading/LoadingErrorView";
+import LoadingModalTransparent from "../../common/Loading/LoadingModalTransparent";
 import InboxTabs from "./InboxTabs";
-import LoadingView from "../../ui/Loading/LoadingView";
-import HeaderIconButton from "../../ui/buttons/HeaderIconButton";
+import LoadingView from "../../common/Loading/LoadingView";
 import InboxReplyItem from "./components/InboxReplyItem";
-import RefreshControl from "../../ui/common/RefreshControl";
+import RefreshControl from "../../common/RefreshControl";
+import ILemmyComment from "../../../types/lemmy/ILemmyComment";
+import HeaderIconButton from "../../common/Buttons/HeaderIconButton";
 
 function InboxScreen({
   navigation,

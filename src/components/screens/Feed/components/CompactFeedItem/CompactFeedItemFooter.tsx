@@ -4,11 +4,11 @@ import React, { useRef } from "react";
 import { IconMessage } from "tabler-icons-react-native";
 import { timeFromNowShort } from "../../../../../helpers/TimeHelper";
 import { ILemmyVote } from "../../../../../lemmy/types/ILemmyVote";
-import CommunityLink from "../../../../ui/CommunityLink";
-import AvatarUsername from "../../../../ui/AvatarUsername";
-import FeaturedIndicator from "../../../../ui/common/FeaturedIndicator";
-import SmallVoteIcons from "../../../../ui/common/SmallVoteIcons";
-import { IconBookCheck } from "../../../../ui/icons/IconBookCheck";
+import CommunityLink from "../../../../common/CommunityLink";
+import AvatarUsername from "../../../../common/AvatarUsername";
+import FeaturedIndicator from "../../../../common/common/FeaturedIndicator";
+import SmallVoteIcons from "../../../../common/common/SmallVoteIcons";
+import { IconBookCheck } from "../../../../common/icons/IconBookCheck";
 
 interface CompactFeedItemFooterProps {
   post: PostView;

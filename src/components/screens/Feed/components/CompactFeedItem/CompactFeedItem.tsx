@@ -14,9 +14,9 @@ import CompactFeedItemFooter from "./CompactFeedItemFooter";
 import { selectSettings } from "../../../../../slices/settings/settingsSlice";
 
 import { fontSizeMap } from "../../../../../theme/fontSize";
-import { VoteOption } from "../../../../ui/SwipeableRow/VoteOption";
-import { ReplyOption } from "../../../../ui/SwipeableRow/ReplyOption";
-import { SwipeableRow } from "../../../../ui/SwipeableRow/SwipeableRow";
+import { VoteOption } from "../../../../common/SwipeableRow/VoteOption";
+import { ReplyOption } from "../../../../common/SwipeableRow/ReplyOption";
+import { SwipeableRow } from "../../../../common/SwipeableRow/SwipeableRow";
 
 function CompactFeedItem({
   post,

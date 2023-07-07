@@ -9,10 +9,10 @@ import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { FontWeightMap } from "../../../../theme/fontSize";
-import Chip from "../../../ui/common/Chip";
-import CCell from "../../../ui/Table/CCell";
-import CSection from "../../../ui/Table/CSection";
-import CTextInput from "../../../ui/CTextInput";
+import Chip from "../../../common/Chip";
+import CCell from "../../../common/Table/CCell";
+import CSection from "../../../common/Table/CSection";
+import CTextInput from "../../../common/CTextInput";
 import { showToast } from "../../../../slices/toast/toastSlice";
 
 interface IProps {

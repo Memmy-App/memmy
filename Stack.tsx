@@ -28,7 +28,7 @@ import SettingsIndexScreen from "./src/components/screens/Settings/SettingsIndex
 import ViewAccountsScreen from "./src/components/screens/Settings/Account/ViewAccountsScreen";
 import BlockedCommunitiesScreen from "./src/components/screens/UserProfile/BlockedCommunitiesScreen";
 import UserProfileScreen from "./src/components/screens/UserProfile/UserProfileScreen";
-import LoadingView from "./src/components/ui/Loading/LoadingView";
+import LoadingView from "./src/components/common/Loading/LoadingView";
 import {
   selectAccounts,
   selectAccountsLoaded,

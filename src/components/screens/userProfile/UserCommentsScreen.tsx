@@ -1,13 +1,13 @@
 import React from "react";
 import { FlashList } from "@shopify/flash-list";
 import { useTheme, VStack } from "native-base";
-import NoResultView from "../../ui/common/NoResultView";
-import CommentItem from "../../ui/comments/CommentItem";
+import NoResultView from "../../common/NoResultView";
+import CommentItem from "../../common/comments/CommentItem";
 import useProfile from "../../../hooks/profile/useProfile";
-import LoadingView from "../../ui/Loading/LoadingView";
-import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
-import NotFoundView from "../../ui/Loading/NotFoundView";
-import RefreshControl from "../../ui/common/RefreshControl";
+import LoadingView from "../../common/Loading/LoadingView";
+import LoadingErrorView from "../../common/Loading/LoadingErrorView";
+import NotFoundView from "../../common/Loading/NotFoundView";
+import RefreshControl from "../../common/RefreshControl";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 
 interface IProps {

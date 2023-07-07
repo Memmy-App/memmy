@@ -4,14 +4,14 @@ import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView, SearchType } from "lemmy-js-client";
 import useSearchResult from "../../../hooks/search/useSearchResult";
 import CompactFeedItem from "../Feed/components/CompactFeedItem/CompactFeedItem";
-import FeedItem from "../../ui/Feed/FeedItem/FeedItem";
 import { useAppSelector } from "../../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
-import LoadingView from "../../ui/Loading/LoadingView";
-import SearchUserItem from "../../ui/Search/SearchUserItem";
-import MTable from "../../ui/Table/MTable";
-import SearchCommunityItem from "../../ui/Search/SearchCommunityItem";
-import NoResultView from "../../ui/common/NoResultView";
+import LoadingView from "../../common/Loading/LoadingView";
+import SearchUserItem from "../../common/Search/SearchUserItem";
+import MTable from "../../common/Table/MTable";
+import SearchCommunityItem from "../../common/Search/SearchCommunityItem";
+import NoResultView from "../../common/NoResultView";
+import { FeedItem } from "../Feed/components/FeedItem";
 
 interface IProps {
   route: any;

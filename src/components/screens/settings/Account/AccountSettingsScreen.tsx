@@ -5,8 +5,8 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
 import { useAppSelector } from "../../../../../store";
-import CCell from "../../../ui/Table/CCell";
-import CSection from "../../../ui/Table/CSection";
+import CCell from "../../../common/Table/CCell";
+import CSection from "../../../common/Table/CSection";
 
 function AccountSettingsScreen({
   navigation,

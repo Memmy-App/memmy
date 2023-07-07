@@ -7,8 +7,8 @@ import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { HapticOptionsArr } from "../../../../types/haptics/hapticOptions";
-import CCell from "../../../ui/Table/CCell";
-import CSection from "../../../ui/Table/CSection";
+import CCell from "../../../common/Table/CCell";
+import CSection from "../../../common/Table/CSection";
 
 function GeneralSettingsScreen() {
   const settings = useAppSelector(selectSettings);

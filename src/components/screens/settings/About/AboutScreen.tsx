@@ -8,8 +8,8 @@ import { getBuildNumber, getVersion } from "react-native-device-info";
 import { openLink } from "../../../../helpers/LinkHelper";
 import { selectCurrentAccount } from "../../../../slices/accounts/accountsSlice";
 import { useAppSelector } from "../../../../../store";
-import CCell from "../../../ui/Table/CCell";
-import CSection from "../../../ui/Table/CSection";
+import CCell from "../../../common/Table/CCell";
+import CSection from "../../../common/Table/CSection";
 
 function AboutScreen({
   navigation,

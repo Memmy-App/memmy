@@ -5,14 +5,14 @@ import { Alert, Button, Switch } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
-import CTable from "../../../ui/Table/CTable";
-import CSection from "../../../ui/Table/CSection";
-import CCell from "../../../ui/Table/CCell";
+import CTable from "../../../common/Table/CTable";
+import CSection from "../../../common/Table/CSection";
+import CCell from "../../../common/Table/CCell";
 import { Account } from "../../../../types/Account";
 import { deleteAccount } from "../../../../slices/accounts/accountsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import useNotifications from "../../../../hooks/notifications/useNotifications";
-import LoadingModalTransparent from "../../../ui/Loading/LoadingModalTransparent";
+import LoadingModalTransparent from "../../../common/Loading/LoadingModalTransparent";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 
 interface ViewAccountsScreenProps {

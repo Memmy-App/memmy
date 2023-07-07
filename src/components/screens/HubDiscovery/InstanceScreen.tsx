@@ -20,8 +20,8 @@ import {
   IconUserPlus,
   IconX,
 } from "tabler-icons-react-native";
-import MTable from "../../ui/Table/MTable";
-import MCell from "../../ui/Table/MCell";
+import MTable from "../../common/Table/MTable";
+import MCell from "../../common/Table/MCell";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 
 interface IProps {

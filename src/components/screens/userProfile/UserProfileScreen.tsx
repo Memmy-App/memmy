@@ -11,18 +11,18 @@ import {
 } from "tabler-icons-react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import useProfile from "../../../hooks/profile/useProfile";
-import HeaderIconButton from "../../ui/buttons/HeaderIconButton";
-import LoadingErrorView from "../../ui/Loading/LoadingErrorView";
-import LoadingView from "../../ui/Loading/LoadingView";
-import NotFoundView from "../../ui/Loading/NotFoundView";
+import HeaderIconButton from "../../common/buttons/HeaderIconButton";
+import LoadingErrorView from "../../common/Loading/LoadingErrorView";
+import LoadingView from "../../common/Loading/LoadingView";
+import NotFoundView from "../../common/Loading/NotFoundView";
 import ProfileHeader from "./components/ProfileHeader";
 import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { showToast } from "../../../slices/toast/toastSlice";
 import { useAppDispatch } from "../../../../store";
-import MTable from "../../ui/Table/MTable";
-import MCell from "../../ui/Table/MCell";
-import RefreshControl from "../../ui/common/RefreshControl";
+import MTable from "../../common/Table/MTable";
+import MCell from "../../common/Table/MCell";
+import RefreshControl from "../../common/RefreshControl";
 
 interface IProps {
   route: any;

@@ -12,7 +12,7 @@ import { useAppSelector } from "../../../../../../store";
 import { selectSettings } from "../../../../../slices/settings/settingsSlice";
 
 import { lemmyAuthToken, lemmyInstance } from "../../../../../LemmyInstance";
-import ImageViewFooter from "../../../../ui/ImageViewer/ImageViewFooter";
+import ImageViewFooter from "../../../../common/ImageViewer/ImageViewFooter";
 import downloadAndSaveImage from "../../../../../helpers/ImageHelper";
 import { shareLink } from "../../../../../helpers/ShareHelper";
 

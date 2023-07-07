@@ -7,13 +7,13 @@ import { Ionicons } from "@expo/vector-icons";
 import moment from "moment/moment";
 import { useAppSelector } from "../../../../store";
 import { selectNewComment } from "../../../slices/comments/newCommentSlice";
-import LoadingView from "../../ui/Loading/LoadingView";
+import LoadingView from "../../common/Loading/LoadingView";
 import useNewComment from "../../../hooks/comments/useNewComment";
 import { truncateName } from "../../../helpers/TextHelper";
-import RenderMarkdown from "../../ui/Markdown/RenderMarkdown";
-import KeyboardAccessory from "../../ui/KeyboardAccessory";
-import SmallVoteIcons from "../../ui/common/SmallVoteIcons";
-import { ILemmyVote } from "../../../../lemmy/types/ILemmyVote";
+import RenderMarkdown from "../../common/Markdown/RenderMarkdown";
+import KeyboardAccessory from "../../common/KeyboardAccessory";
+import SmallVoteIcons from "../../common/Vote/SmallVoteIcons";
+import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
 
 function NewCommentScreen({
   navigation,

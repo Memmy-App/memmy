@@ -4,7 +4,7 @@ import { useTheme } from "native-base";
 import { Button, Dimensions, StyleSheet, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useKeyboard } from "@react-native-community/hooks";
-import KeyboardAccessory from "../../ui/KeyboardAccessory";
+import KeyboardAccessory from "../../common/KeyboardAccessory";
 
 interface IProps {
   route: any;

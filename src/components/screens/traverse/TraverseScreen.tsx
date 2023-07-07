@@ -2,10 +2,10 @@ import React, { useMemo, useState } from "react";
 import { ScrollView, Text, useTheme } from "native-base";
 import { CommunityView } from "lemmy-js-client";
 import useTraverse from "../../../hooks/traverse/useTraverse";
-import LoadingView from "../../ui/Loading/LoadingView";
+import LoadingView from "../../common/Loading/LoadingView";
 import TraverseItem from "./components/TraverseItem";
-import SearchBar from "../../ui/Search/SearchBar";
-import RefreshControl from "../../ui/common/RefreshControl";
+import SearchBar from "../../common/Search/SearchBar";
+import RefreshControl from "../../common/RefreshControl";
 
 function TraverseScreen() {
   const theme = useTheme();
