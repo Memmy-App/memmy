@@ -3,17 +3,14 @@ import { CommentSortType, PostView } from "lemmy-js-client";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../slices/post/postSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import {
-  setUpdateSaved,
-  setUpdateVote,
-} from "../../slices/feed/feedSlice";
+import { setUpdateSaved, setUpdateVote } from "../../slices/feed/feedSlice";
 import {
   onGenericHapticFeedback,
   onVoteHapticFeedback,
 } from "../../helpers/HapticFeedbackHelpers";
 import { writeToLog } from "../../helpers/LogHelper";
-import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
-import ILemmyComment from "../../../lemmy/types/ILemmyComment";
+import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
+import ILemmyComment from "../../types/lemmy/ILemmyComment";
 import { showToast } from "../../slices/toast/toastSlice";
 import {
   clearEditComment,

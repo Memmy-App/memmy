@@ -1,7 +1,7 @@
 import React from "react";
 import { HStack, useTheme, Text } from "native-base";
 import { IconClockHour5 } from "tabler-icons-react-native";
-import { timeFromNowShort } from "../../../helpers/TimeHelper";
+import { timeFromNowShort } from "../../helpers/TimeHelper";
 
 function DatePublished({ published }: { published: string }) {
   const { colors } = useTheme();

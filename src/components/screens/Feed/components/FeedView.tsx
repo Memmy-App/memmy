@@ -6,20 +6,23 @@ import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import FeedItem from "./FeedItem/FeedItem";
-import LoadingView from "../Loading/LoadingView";
-import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
-import { useAppDispatch, useAppSelector } from "../../../../store";
-import { selectFeed, setDropdownVisible } from "../../../slices/feed/feedSlice";
-import { UseFeed } from "../../../hooks/feeds/useFeed";
-import LoadingErrorView from "../Loading/LoadingErrorView";
-import CompactFeedItem from "./CompactFeedItem/CompactFeedItem";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
-import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
-import NoResultView from "../common/NoResultView";
-import Footer from "./Footer";
+import { useAppDispatch, useAppSelector } from "../../../../../store";
+import {
+  selectFeed,
+  setDropdownVisible,
+} from "../../../../slices/feed/feedSlice";
+import { UseFeed } from "../../../../hooks/feeds/useFeed";
+import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import FeedSortButton from "./FeedSortButton";
 import { Community, FeedOverflowButton } from "./FeedOverflowButton";
-import RefreshControl from "../common/RefreshControl";
+import NoResultView from "../../../common/NoResultView";
+import CompactFeedItem from "./CompactFeedItem/CompactFeedItem";
+import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
+import RefreshControl from "../../../common/RefreshControl";
+import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
+import LoadingView from "../../../common/Loading/LoadingView";
+import LoadingErrorView from "../../../common/Loading/LoadingErrorView";
+import FeedFooter from "./FeedFooter";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -178,7 +181,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             onEndReached={onEndReached}
             estimatedItemSize={compactView ? 100 : 500}
             ListFooterComponent={
-              <Footer
+              <FeedFooter
                 loading={
                   (feed.postsLoading && feed.posts.length > 0) || endReached
                 }

@@ -1,16 +1,15 @@
 import { PostView } from "lemmy-js-client";
 import { Box, Text, useTheme } from "native-base";
 import React, { useMemo } from "react";
+import { useAppSelector } from "../../../../../store";
+import { selectSettings } from "../../../../slices/settings/settingsSlice";
+import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
+import { findImages } from "../../../../helpers/MarkdownHelper";
+import { truncatePost } from "../../../../helpers/TextHelper";
+import ImagePreview from "../../../common/ImagePreview";
+import LinkButton from "../../../common/Buttons/LinkButton";
 // eslint-disable-next-line import/no-extraneous-dependencies
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
-import { truncatePost } from "../../../helpers/TextHelper";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
-import { useAppSelector } from "../../../../store";
-import LinkButton from "../buttons/LinkButton";
-
-import { findImages } from "../../../helpers/MarkdownHelper";
-import ImagePreview from "../common/ImagePreview";
 
 interface IProps {
   post: PostView;

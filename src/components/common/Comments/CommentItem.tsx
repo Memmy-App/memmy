@@ -2,17 +2,17 @@ import { HStack, Pressable, Text, useTheme, VStack } from "native-base";
 import React, { useRef } from "react";
 import { IconChevronDown, IconDots } from "tabler-icons-react-native";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
-import ILemmyComment from "../../../../lemmy/types/ILemmyComment";
-import { ILemmyVote } from "../../../../lemmy/types/ILemmyVote";
 import useComment from "../../../hooks/post/useComment";
 import AvatarUsername from "../AvatarUsername";
-import IconButtonWithText from "../common/IconButtonWithText";
-import SmallVoteIcons from "../common/SmallVoteIcons";
 import CommentCollapsed from "./CommentCollapsed";
 import CommentBody from "./CommentBody";
 import { SwipeableRow } from "../SwipeableRow/SwipeableRow";
 import { VoteOption } from "../SwipeableRow/VoteOption";
 import { ReplyOption } from "../SwipeableRow/ReplyOption";
+import ILemmyComment from "../../../types/lemmy/ILemmyComment";
+import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
+import SmallVoteIcons from "../Vote/SmallVoteIcons";
+import IconButtonWithText from "../IconButtonWithText";
 
 interface IProps {
   comment: ILemmyComment;

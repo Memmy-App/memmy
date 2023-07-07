@@ -2,7 +2,7 @@ import React from "react";
 import { HStack, useTheme } from "native-base";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { IconDeviceFloppy, IconShare2 } from "tabler-icons-react-native";
-import IconButtonWithText from "../common/IconButtonWithText";
+import IconButtonWithText from "../IconButtonWithText";
 
 interface ImageViewFooterProps {
   onSave: () => void | Promise<void>;

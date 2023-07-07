@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Alert } from "react-native";
-import FeedView from "../../common/Feed/FeedView";
-import FeedHeaderDropdown from "../../common/Feed/FeedHeaderDropdown";
 import { useFeed } from "../../../hooks/feeds/useFeed";
 import {
   initialize,
@@ -14,6 +12,8 @@ import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { Account } from "../../../types/Account";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { getUnreadCount } from "../../../slices/site/siteActions";
+import FeedHeaderDropdown from "./components/FeedHeaderDropdown";
+import FeedView from "./components/FeedView";
 
 function FeedsIndexScreen({
   navigation,

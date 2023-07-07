@@ -21,8 +21,7 @@ export const truncatePost = (post: string, truncLength = 500): string => {
 
   if (post.length <= truncLength) return post;
   // regex removes extra white spaces and new lines
-  const text = `${post.slice(0, truncLength)}...`.replace(/\s\s+/g, " ");
-  return text;
+  return `${post.slice(0, truncLength)}...`.replace(/\s\s+/g, " ");
 };
 
 export const truncateCompactFeedItem = (text: string): string => {

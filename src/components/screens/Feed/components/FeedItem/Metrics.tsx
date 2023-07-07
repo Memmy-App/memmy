@@ -1,9 +1,9 @@
 import { PostAggregates } from "lemmy-js-client";
 import { HStack } from "native-base";
 import React from "react";
-import CommentCount from "../../common/CommentCount";
-import DatePublished from "../../common/DatePublished";
-import VoteData from "../../common/VoteData";
+import VoteData from "../../../../common/Vote/VoteData";
+import CommentCount from "../../../../common/Comments/CommentCount";
+import DatePublished from "../../../../common/DatePublished";
 
 interface Props {
   data: PostAggregates;

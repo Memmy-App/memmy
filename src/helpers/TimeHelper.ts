@@ -28,7 +28,5 @@ export const getCakeDay = (time: string): string => {
   const current = moment();
   const age = current.year() - start.year();
   const next = start.clone().add(age, "years");
-  const formatted = next.format("Do MMMM YYYY");
-
-  return formatted;
+  return next.format("Do MMMM YYYY");
 };

@@ -5,7 +5,7 @@ import { FlashList } from "@shopify/flash-list";
 import { GetSiteResponse } from "lemmy-js-client";
 import { IconDoorEnter, IconUser } from "tabler-icons-react-native";
 import useHubDiscovery from "../../../../hooks/hubDiscovery/useHubDiscovery";
-import InstanceItem from "../../HubDiscovery/InstanceItem";
+import InstanceItem from "../../HubDiscovery/components/InstanceItem";
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;

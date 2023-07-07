@@ -1,9 +1,9 @@
 import { CommentView, CommunityView, Person, PostView } from "lemmy-js-client";
 import { getBaseUrl } from "./LinkHelper";
-import ILemmyComment from "./types/ILemmyComment";
-import { ILemmyVote } from "./types/ILemmyVote";
 import { lemmyAuthToken, lemmyInstance } from "../LemmyInstance";
 import { writeToLog } from "./LogHelper";
+import ILemmyComment from "../types/lemmy/ILemmyComment";
+import { ILemmyVote } from "../types/lemmy/ILemmyVote";
 
 export const isSubscribed = (
   communityId: number,

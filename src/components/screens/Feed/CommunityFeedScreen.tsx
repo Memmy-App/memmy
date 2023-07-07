@@ -13,7 +13,7 @@ import {
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import useCommunityFeed from "../../../hooks/feeds/useCommunityFeed";
 import CustomButton from "../../common/buttons/CustomButton";
-import FeedView from "../../common/Feed/FeedView";
+import FeedView from "./components/FeedView";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";
 import NotFoundView from "../../common/Loading/NotFoundView";
 

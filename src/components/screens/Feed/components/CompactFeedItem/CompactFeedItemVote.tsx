@@ -1,7 +1,7 @@
 import { VStack } from "native-base";
 import React from "react";
-import VoteButton from "../../../../common//VoteButton";
-import { ILemmyVote } from "../../../../../lemmy/types/ILemmyVote";
+import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
+import VoteButton from "../../../../common/Vote/VoteButton";
 
 function CompactFeedItemVote({
   myVote,

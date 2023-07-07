@@ -13,8 +13,8 @@ import { writeToLog } from "../../helpers/LogHelper";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectCurrentAccount } from "../../slices/accounts/accountsSlice";
 import { setPost } from "../../slices/post/postSlice";
-import ILemmyComment from "../../../lemmy/types/ILemmyComment";
 import { buildComments } from "../../helpers/LemmyHelpers";
+import ILemmyComment from "../../types/lemmy/ILemmyComment";
 
 export interface UseProfile {
   doLoad: (refresh?: boolean) => Promise<void>;

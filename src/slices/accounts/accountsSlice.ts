@@ -30,9 +30,8 @@ const accountsSlice = createSlice({
     builder.addCase(loadAccounts.fulfilled, (state, action) => {
       if (action.payload) {
         state.accounts = action.payload;
-        const mainAccount =
+        state.currentAccount =
           action.payload.find((a) => a.isCurrent) || action.payload[0];
-        state.currentAccount = mainAccount;
       }
 
       state.loaded = true;

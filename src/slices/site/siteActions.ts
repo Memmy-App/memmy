@@ -43,11 +43,9 @@ export const getUnreadCount = createAsyncThunk(
   "site/getUnreadCount",
   async (_, thunkAPI) => {
     try {
-      const res = await lemmyInstance.getUnreadCount({
+      return await lemmyInstance.getUnreadCount({
         auth: lemmyAuthToken,
       });
-
-      return res;
     } catch (e) {
       writeToLog("Error getting unread count.");
       writeToLog(e.toString());

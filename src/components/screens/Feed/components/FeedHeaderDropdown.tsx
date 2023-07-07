@@ -7,12 +7,15 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { selectFeed, setDropdownVisible } from "../../../slices/feed/feedSlice";
-import { useAppDispatch, useAppSelector } from "../../../../store";
+import { useAppDispatch, useAppSelector } from "../../../../../store";
+import {
+  selectFeed,
+  setDropdownVisible,
+} from "../../../../slices/feed/feedSlice";
 import {
   selectAccounts,
   selectCurrentAccount,
-} from "../../../slices/accounts/accountsSlice";
+} from "../../../../slices/accounts/accountsSlice";
 
 interface HeaderDropdownProps {
   enabled: boolean;

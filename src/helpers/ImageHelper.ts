@@ -62,9 +62,7 @@ export const selectImage = async (): Promise<string> => {
       throw Error("cancelled");
     }
 
-    const localUri = res.assets[0].uri;
-
-    return localUri;
+    return res.assets[0].uri;
   }
   throw Error("permissions");
 };

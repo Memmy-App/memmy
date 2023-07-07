@@ -12,10 +12,7 @@ import {
   removeDuplicatePosts,
   removeNsfwPosts,
 } from "../../helpers/LemmyHelpers";
-import {
-  clearUpdateSaved,
-  selectFeed,
-} from "../../slices/feed/feedSlice";
+import { clearUpdateSaved, selectFeed } from "../../slices/feed/feedSlice";
 import { writeToLog } from "../../helpers/LogHelper";
 import { preloadImages } from "../../helpers/ImageHelper";
 

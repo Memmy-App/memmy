@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import ILemmyServer from "../../lemmy/types/ILemmyServer";
+import ILemmyServer from "../types/lemmy/ILemmyServer";
 
 export const getServers = async (): Promise<ILemmyServer[] | null> => {
   const serversStr = await AsyncStorage.getItem("@servers");

@@ -1,8 +1,8 @@
 import React from "react";
 import { HStack, useTheme } from "native-base";
 import { IconBookmark } from "tabler-icons-react-native";
-import IconButtonWithText from "../../common/IconButtonWithText";
-import VoteButton from "../../common/VoteButton";
+import VoteButton from "../../../../common/Vote/VoteButton";
+import IconButtonWithText from "../../../../common/IconButtonWithText";
 
 interface Props {
   vote?: number;

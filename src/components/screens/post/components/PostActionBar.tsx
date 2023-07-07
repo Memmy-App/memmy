@@ -9,12 +9,12 @@ import {
   IconShare2,
 } from "tabler-icons-react-native";
 import { PostView } from "lemmy-js-client";
-import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
-import { shareLink } from "../../../helpers/ShareHelper";
-import { setResponseTo } from "../../../slices/comments/newCommentSlice";
-import { useAppDispatch } from "../../../../store";
-import IconButtonWithText from "../common/IconButtonWithText";
 import VoteButton from "../../../common/Vote/VoteButton";
+import { useAppDispatch } from "../../../../../store";
+import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
+import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
+import { shareLink } from "../../../../helpers/ShareHelper";
+import IconButtonWithText from "../../../common/IconButtonWithText";
 
 interface IProps {
   post: PostView;

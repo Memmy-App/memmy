@@ -3,12 +3,12 @@ import { Box, HStack, Text, useTheme } from "native-base";
 import React, { useRef } from "react";
 import { IconMessage } from "tabler-icons-react-native";
 import { timeFromNowShort } from "../../../../../helpers/TimeHelper";
-import { ILemmyVote } from "../../../../../lemmy/types/ILemmyVote";
+import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
 import CommunityLink from "../../../../common/CommunityLink";
 import AvatarUsername from "../../../../common/AvatarUsername";
-import FeaturedIndicator from "../../../../common//FeaturedIndicator";
-import SmallVoteIcons from "../../../../common//SmallVoteIcons";
+import FeaturedIndicator from "../../../../common/FeaturedIndicator";
 import { IconBookCheck } from "../../../../common/icons/IconBookCheck";
+import SmallVoteIcons from "../../../../common/Vote/SmallVoteIcons";
 
 interface CompactFeedItemFooterProps {
   post: PostView;

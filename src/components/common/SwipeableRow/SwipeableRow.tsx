@@ -1,6 +1,6 @@
 /* Courtesy https://github.com/beardwin/ */
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, {
   Easing,

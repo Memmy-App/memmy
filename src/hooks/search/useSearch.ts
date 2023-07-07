@@ -1,5 +1,5 @@
 import { CommunityView } from "lemmy-js-client";
-import { SetStateAction, useCallback, useState } from "react";
+import React, { SetStateAction, useCallback, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
 import { writeToLog } from "../../helpers/LogHelper";

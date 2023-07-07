@@ -1,9 +1,9 @@
 import React from "react";
 import { HStack } from "native-base";
 import { Community } from "lemmy-js-client";
-import CommunityLink from "../../CommunityLink";
-import FeaturedIndicator from "../../common/FeaturedIndicator";
-import { IsReadIndicator } from "../../common/IsReadIndicator";
+import CommunityLink from "../../../../common/CommunityLink";
+import FeaturedIndicator from "../../../../common/FeaturedIndicator";
+import { IsReadIndicator } from "../../../../common/IsReadIndicator";
 
 interface Props {
   community: Community;

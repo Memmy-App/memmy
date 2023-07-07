@@ -3,12 +3,12 @@ import { useTheme } from "native-base";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { IconDots } from "tabler-icons-react-native";
 import { Alert } from "react-native";
-import HeaderIconButton from "../buttons/HeaderIconButton";
-import { commentSortOptions } from "../../../types/CommentSortOptions";
-import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
-import { showToast } from "../../../slices/toast/toastSlice";
-import { writeToLog } from "../../../helpers/LogHelper";
-import { useAppDispatch } from "../../../../store";
+import { useAppDispatch } from "../../../../../store";
+import { commentSortOptions } from "../../../../types/CommentSortOptions";
+import { lemmyAuthToken, lemmyInstance } from "../../../../LemmyInstance";
+import { showToast } from "../../../../slices/toast/toastSlice";
+import { writeToLog } from "../../../../helpers/LogHelper";
+import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
 
 interface IProps {
   postId: number;

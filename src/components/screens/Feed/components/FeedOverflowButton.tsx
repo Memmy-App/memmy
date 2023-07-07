@@ -9,12 +9,12 @@ import { useTheme } from "native-base";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { trigger } from "react-native-haptic-feedback";
 import { ListingType } from "lemmy-js-client";
-import HeaderIconButton from "../buttons/HeaderIconButton";
-import { useAppDispatch } from "../../../../store";
-import { showToast } from "../../../slices/toast/toastSlice";
-import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
-import { writeToLog } from "../../../helpers/LogHelper";
-import { UseFeed } from "../../../hooks/feeds/useFeed";
+import { useAppDispatch } from "../../../../../store";
+import { UseFeed } from "../../../../hooks/feeds/useFeed";
+import { showToast } from "../../../../slices/toast/toastSlice";
+import { lemmyAuthToken, lemmyInstance } from "../../../../LemmyInstance";
+import { writeToLog } from "../../../../helpers/LogHelper";
+import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
 
 export type Community = {
   id: number;

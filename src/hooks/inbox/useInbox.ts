@@ -5,8 +5,8 @@ import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
 import { writeToLog } from "../../helpers/LogHelper";
 import { useAppDispatch } from "../../../store";
 import { setPost } from "../../slices/post/postSlice";
-import ILemmyComment from "../../../lemmy/types/ILemmyComment";
-import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
+import ILemmyComment from "../../types/lemmy/ILemmyComment";
+import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { setUnread } from "../../slices/site/siteSlice";
 
 export interface UseInbox {

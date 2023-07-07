@@ -12,7 +12,7 @@ import { selectImage } from "../../helpers/ImageHelper";
 import LoadingModal from "./Loading/LoadingModal";
 import uploadToImgur from "../../helpers/ImgurHelper";
 import { writeToLog } from "../../helpers/LogHelper";
-import IconButtonWithText from "./common/IconButtonWithText";
+import IconButtonWithText from "./IconButtonWithText";
 
 function KeyboardAccessory({
   setText,

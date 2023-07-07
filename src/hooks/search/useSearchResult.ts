@@ -1,8 +1,8 @@
 import React, { SetStateAction, useEffect, useState } from "react";
 import { PostView, SearchType } from "lemmy-js-client";
-import ILemmySearchResult from "../../../lemmy/types/ILemmySearchResult";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
 import { writeToLog } from "../../helpers/LogHelper";
+import ILemmySearchResult from "../../types/lemmy/ILemmySearchResult";
 
 interface UseSearch {
   loading: boolean;

@@ -30,11 +30,9 @@ export const replaceNoMarkdown = (
   currentInstance: string
 ): string => {
   const communityPattern = /^\/[cmu]\/(?:\w+|(\w+@\w+\.\w+))$/gm;
-  const communityText = text.replace(communityPattern, (match) => {
+  return text.replace(communityPattern, (match) => {
     const parts = match.split("@");
 
     return `[${match}](https://${parts[1] ?? currentInstance}${parts[0]})`;
   });
-
-  return communityText;
 };

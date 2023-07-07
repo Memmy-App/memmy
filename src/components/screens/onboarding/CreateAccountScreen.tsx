@@ -246,7 +246,6 @@ function CreateAccountScreen({
                 onChange={onFormChange}
                 autoCapitalize="none"
                 autoCorrect={false}
-                autoFocus={!route.params || !route.params.server}
                 keyboardType="web-search"
               />
               <CTextInput
@@ -257,7 +256,6 @@ function CreateAccountScreen({
                 onChange={onFormChange}
                 autoCapitalize="none"
                 autoCorrect={false}
-                autoFocus={route.params && route.params.server}
               />
               <CTextInput
                 name="email"

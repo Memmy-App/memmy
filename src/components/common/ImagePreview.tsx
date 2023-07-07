@@ -1,7 +1,7 @@
 import { Box, HStack, Text } from "native-base";
 import React from "react";
 import { Dimensions } from "react-native";
-import ImageViewer from "../ImageViewer/ImageViewer";
+import ImageViewer from "./ImageViewer/ImageViewer";
 
 interface IProps {
   images: string[];

@@ -12,16 +12,15 @@ import {
   IconFlame,
   IconMessage,
 } from "tabler-icons-react-native";
-import { UseFeed } from "../../../hooks/feeds/useFeed";
-import HeaderIconButton from "../buttons/HeaderIconButton";
-import { IconCalendarWeek } from "../customIcons";
-import { sortOptions } from "../../../types/FeedSortOptions";
+import { UseFeed } from "../../../../hooks/feeds/useFeed";
+import { sortOptions } from "../../../../types/FeedSortOptions";
+import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
+import { IconCalendarWeek } from "../../../common/icons";
 
 interface Props {
   feed: UseFeed;
   onSortUpdate?: (key: SortType) => void;
 }
-
 function FeedSortButton({ feed, onSortUpdate }: Props) {
   const theme = useTheme();
   const { showActionSheetWithOptions } = useActionSheet();

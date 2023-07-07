@@ -19,10 +19,11 @@ const imageExtensions = [
   "svg",
   "ico",
   "icns",
+  "gifv",
 ];
 
 const videoExtensions = ["mp4", "mov", "m4a"];
-let {accounts} = store.getState();
+let { accounts } = store.getState();
 
 export interface LinkInfo {
   extType?: ExtensionType;
@@ -62,34 +63,40 @@ export const getLinkInfo = (link?: string): LinkInfo => {
 export const isPotentialFedSite = (link: string) => {
   const fedPattern =
     /^(?:https?:\/\/\w+\.\w+)?\/(?:c|m|u|post)\/\w+(?:@\w+(?:\.\w+)?(?:\.\w+)?)?$/;
-  const potentialFed = link.match(fedPattern);
-  return potentialFed;
+  return link.match(fedPattern);
 };
 
 export const isLemmySite = async (link: string) => {
   if (!accounts.currentAccount) {
-    ({accounts} = store.getState());
+    ({ accounts } = store.getState());
   }
-  
+
   let instanceUrl = accounts.currentAccount.instance;
-  if (!instanceUrl.startsWith("https://") && !instanceUrl.startsWith("http://")) {
-    instanceUrl = "https://" + instanceUrl;
+  if (
+    !instanceUrl.startsWith("https://") &&
+    !instanceUrl.startsWith("http://")
+  ) {
+    instanceUrl = `https://${instanceUrl}`;
   }
 
   // Handle shortcut links that are formatted: "/c/community@instance". Need to prepend the home instance url
-  if (link[0] === '/') {
-    if(instanceUrl === "") {
-      writeToLog(`Trying to open link: ${link} with instanceUrl: ${instanceUrl}`);
+  if (link[0] === "/") {
+    if (instanceUrl === "") {
+      writeToLog(
+        `Trying to open link: ${link} with instanceUrl: ${instanceUrl}`
+      );
       return false;
     }
     link = instanceUrl + link;
   }
-  
+
   let urlComponents;
   try {
     urlComponents = new URL(link);
-  } catch (e){
-    writeToLog("Failed to make components from link: " + link + "Err: " + e.toString());
+  } catch (e) {
+    writeToLog(
+      `Failed to make components from link: ${link}Err: ${e.toString()}`
+    );
     return false;
   }
 
@@ -97,10 +104,7 @@ export const isLemmySite = async (link: string) => {
   const apiUrl = `${urlComponents.protocol}//${urlComponents.hostname}/api/v3/site`;
   try {
     const resp = await axios.get(apiUrl);
-    if (resp.data.site_view.site.name) {
-      return true;
-    }
-    return false;
+    return !!resp.data.site_view.site.name;
   } catch (e) {
     return false;
   }
@@ -108,7 +112,7 @@ export const isLemmySite = async (link: string) => {
 
 const openLemmyLink = (
   link: string,
-  navigation: NativeStackNavigationProp<any, string, undefined>
+  navigation: NativeStackNavigationProp<any>
 ): void => {
   const communityOnEnd = link.includes("@");
 
@@ -176,7 +180,7 @@ const openWebLink = (link: string): void => {
 
 export const openLink = (
   link: string,
-  navigation: NativeStackNavigationProp<any, string, undefined>
+  navigation: NativeStackNavigationProp<any>
 ): void => {
   link = decodeURIComponent(link);
 
@@ -190,7 +194,7 @@ export const openLink = (
           openWebLink(link);
         }
       })
-      .catch((err) => {
+      .catch(() => {
         openWebLink(link);
       });
   } else {

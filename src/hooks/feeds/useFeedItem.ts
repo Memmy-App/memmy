@@ -11,7 +11,7 @@ import { setUpdateSaved } from "../../slices/feed/feedSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
 import { writeToLog } from "../../helpers/LogHelper";
 import { setPost } from "../../slices/post/postSlice";
-import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
+import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { getLinkInfo, LinkInfo } from "../../helpers/LinkHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 import { showToast } from "../../slices/toast/toastSlice";

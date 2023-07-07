@@ -51,16 +51,12 @@ function InboxScreen({
   const onRepliesPress = () => {
     inbox.setBottomSelected("replies");
   };
-  const onMentionsPress = () => {};
-  const onMessagesPress = () => {};
 
   const header = (
     <InboxTabs
       onUnreadPress={onUnreadPress}
       onAllPress={onAllPress}
       onRepliesPress={onRepliesPress}
-      onMentionsPress={onMentionsPress}
-      onMessagesPress={onMessagesPress}
       topSelected={inbox.topSelected}
       bottomSelected={inbox.bottomSelected}
     />

@@ -1,14 +1,14 @@
 import { PostView } from "lemmy-js-client";
 import { Box, Text, useTheme, VStack } from "native-base";
 import React from "react";
+import { useAppSelector } from "../../../../../store";
+import { selectSettings } from "../../../../slices/settings/settingsSlice";
+import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
+import LinkButton from "../../../common/Buttons/LinkButton";
+import ImageViewer from "../../../common/ImageViewer/ImageViewer";
+import RenderMarkdown from "../../../common/Markdown/RenderMarkdown";
 // eslint-disable-next-line import/no-extraneous-dependencies
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ExtensionType, getLinkInfo } from "../../../helpers/LinkHelper";
-import LinkButton from "../buttons/LinkButton";
-import RenderMarkdown from "../markdown/RenderMarkdown";
-import ImageViewer from "../image/ImageViewer";
-import { useAppSelector } from "../../../../store";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
 
 function Title({ title, mt, mb }: { title: string; mt: number; mb: number }) {
   const theme = useTheme();

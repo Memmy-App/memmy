@@ -1,8 +1,8 @@
 import React from "react";
 import { Center, Spinner, Text, useTheme } from "native-base";
-import LoadingErrorFooter from "../Loading/LoadingErrorFooter";
-import NoResultView from "../common/NoResultView";
-import { UsePost } from "../../../hooks/post/postHooks";
+import { UsePost } from "../../../../hooks/post/postHooks";
+import LoadingErrorFooter from "../../../common/Loading/LoadingErrorFooter";
+import NoResultView from "../../../common/NoResultView";
 
 interface IProps {
   post: UsePost;

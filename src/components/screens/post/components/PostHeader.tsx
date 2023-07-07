@@ -7,14 +7,14 @@ import {
   useTheme,
   VStack,
 } from "native-base";
-import { UsePost } from "../../../hooks/post/postHooks";
+import { UsePost } from "../../../../hooks/post/postHooks";
+import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import PostContentView from "./PostContentView";
-import AvatarUsername from "../common/AvatarUsername";
-import CommunityLink from "../CommunityLink";
-import CommentCount from "../common/CommentCount";
-import DatePublished from "../common/DatePublished";
+import AvatarUsername from "../../../common/AvatarUsername";
+import CommunityLink from "../../../common/CommunityLink";
+import CommentCount from "../../../common/Comments/CommentCount";
+import DatePublished from "../../../common/DatePublished";
 import PostActionBar from "./PostActionBar";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
 
 interface IProps {
   post: UsePost;

@@ -30,7 +30,6 @@ function InboxReplyItem({ inbox, item }: IProps) {
     <CommentItem
       comment={item}
       setComments={inbox.setItems}
-      isReply
       isUnreadReply={inbox.topSelected === "unread"}
       onPressOverride={onPressOverride}
       depth={2}

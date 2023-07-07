@@ -2,14 +2,17 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Pressable, ScrollView, View } from "native-base";
 import Animated, { FadeOutUp, FadeInUp } from "react-native-reanimated";
-import { useAppDispatch, useAppSelector } from "../../../../store";
-import { selectFeed, setDropdownVisible } from "../../../slices/feed/feedSlice";
-import { selectAccounts } from "../../../slices/accounts/accountsSlice";
-import CTable from "../table/CTable";
-import CSection from "../table/CSection";
-import { Account } from "../../../types/Account";
-import CCell from "../table/CCell";
-import { setCurrentAccount } from "../../../slices/accounts/accountsActions";
+import { useAppDispatch, useAppSelector } from "../../../../../store";
+import {
+  selectFeed,
+  setDropdownVisible,
+} from "../../../../slices/feed/feedSlice";
+import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
+import { Account } from "../../../../types/Account";
+import { setCurrentAccount } from "../../../../slices/accounts/accountsActions";
+import CTable from "../../../common/Table/CTable";
+import CSection from "../../../common/Table/CSection";
+import CCell from "../../../common/Table/CCell";
 
 function FeedHeaderDropdownDrawer() {
   const { dropdownVisible } = useAppSelector(selectFeed);

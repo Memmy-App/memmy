@@ -5,7 +5,6 @@ import { useWindowDimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import useFeedItem from "../../../../../hooks/feeds/useFeedItem";
-import { ILemmyVote } from "../../../../../lemmy/types/ILemmyVote";
 import { setResponseTo } from "../../../../../slices/comments/newCommentSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../../store";
 import CompactFeedItemThumbnail from "./CompactFeedItemThumbnail";
@@ -17,6 +16,7 @@ import { fontSizeMap } from "../../../../../theme/fontSize";
 import { VoteOption } from "../../../../common/SwipeableRow/VoteOption";
 import { ReplyOption } from "../../../../common/SwipeableRow/ReplyOption";
 import { SwipeableRow } from "../../../../common/SwipeableRow/SwipeableRow";
+import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
 
 function CompactFeedItem({
   post,

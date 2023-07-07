@@ -9,7 +9,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectCurrentAccount } from "../../slices/accounts/accountsSlice";
 import { selectSite, setUnread } from "../../slices/site/siteSlice";
-import ILemmyComment from "../../../lemmy/types/ILemmyComment";
+import ILemmyComment from "../../types/lemmy/ILemmyComment";
 import { onGenericHapticFeedback } from "../../helpers/HapticFeedbackHelpers";
 import {
   createUserFullName,
@@ -17,7 +17,7 @@ import {
 } from "../../helpers/LemmyHelpers";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
 import { writeToLog } from "../../helpers/LogHelper";
-import { ILemmyVote } from "../../../lemmy/types/ILemmyVote";
+import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { showToast } from "../../slices/toast/toastSlice";
 import { setResponseTo } from "../../slices/comments/newCommentSlice";
 
