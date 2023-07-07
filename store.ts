@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { postSlice } from "./slices/post/postSlice";
-import { newCommentSlice } from "./slices/comments/newCommentSlice";
-import feedSlice from "./slices/feed/feedSlice";
-import settingsSlice from "./slices/settings/settingsSlice";
-import accountsSlice from "./slices/accounts/accountsSlice";
-import siteSlice from "./slices/site/siteSlice";
-import toastSlice from "./slices/toast/toastSlice";
-import editCommentSlice from "./slices/comments/editCommentSlice";
+import { postSlice } from "./src/slices/post/postSlice";
+import { newCommentSlice } from "./src/slices/comments/newCommentSlice";
+import feedSlice from "./src/slices/feed/feedSlice";
+import settingsSlice from "./src/slices/settings/settingsSlice";
+import accountsSlice from "./src/slices/accounts/accountsSlice";
+import siteSlice from "./src/slices/site/siteSlice";
+import toastSlice from "./src/slices/toast/toastSlice";
+import editCommentSlice from "./src/slices/comments/editCommentSlice";
 
 const store = configureStore({
   reducer: {
