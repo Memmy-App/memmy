@@ -23,6 +23,8 @@ import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
 import LoadingView from "../../../common/Loading/LoadingView";
 import LoadingErrorView from "../../../common/Loading/LoadingErrorView";
 import FeedFooter from "./FeedFooter";
+import { removeReadPosts } from "../../../../helpers/LemmyHelpers";
+import HideReadFAB from "../../../common/Buttons/HideReadFAB";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -35,10 +37,11 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   // TODO Handle this
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [endReached, setEndReached] = useState(false);
+  const [showFab, setShowFab] = useState(true);
 
   // Global state props
   const { dropdownVisible } = useAppSelector(selectFeed);
-  const { compactView } = useAppSelector(selectSettings);
+  const { compactView, hideReadPostsOnFeed } = useAppSelector(selectSettings);
 
   // Refs
   const flashList = useRef<FlashList<any>>();
@@ -193,8 +196,21 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             ListEmptyComponent={<NoResultView type="posts" />}
             ref={flashList}
             getItemType={getItemType}
+            onMomentumScrollBegin={() => {
+              setShowFab(false);
+            }}
+            onMomentumScrollEnd={() => {
+              setShowFab(true);
+            }}
           />
         )}
+      {hideReadPostsOnFeed && showFab && (
+        <HideReadFAB
+          onPress={() => {
+            feed.setPosts(removeReadPosts(feed.posts));
+          }}
+        />
+      )}
     </View>
   );
 }

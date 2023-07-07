@@ -15,6 +15,8 @@ import CommunityLink from "../../../common/CommunityLink";
 import CommentCount from "../../../common/Comments/CommentCount";
 import DatePublished from "../../../common/DatePublished";
 import PostActionBar from "./PostActionBar";
+import PostTitle from "./PostTitle";
+import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
 
 interface IProps {
   post: UsePost;
@@ -28,9 +30,30 @@ function PostHeader({ post, showLoadAll }: IProps) {
 
   const [hideSLA, setHideSLA] = useState(false);
 
+  const onPress = () => {
+    onGenericHapticFeedback();
+    post.setCollapsed((prev) => !prev);
+  };
+
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.fg}>
-      <PostContentView post={post.currentPost} />
+      <Pressable onPress={onPress}>
+        {!post.collapsed ? (
+          <PostContentView post={post.currentPost} />
+        ) : (
+          <VStack>
+            <PostTitle title={post.currentPost.post.name} mt={2} mb={2} />
+            <Text
+              color={theme.colors.app.textSecondary}
+              fontStyle="italic"
+              py={2}
+              px={4}
+            >
+              Post Collapsed
+            </Text>
+          </VStack>
+        )}
+      </Pressable>
 
       <HStack mb={2} mx={4} space={2}>
         <AvatarUsername creator={post.currentPost?.creator} />

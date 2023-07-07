@@ -1,31 +1,13 @@
 import { PostView } from "lemmy-js-client";
-import { Box, Text, useTheme, VStack } from "native-base";
+import { Box, VStack } from "native-base";
 import React from "react";
-import { useAppSelector } from "../../../../../store";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
 import LinkButton from "../../../common/Buttons/LinkButton";
 import ImageViewer from "../../../common/ImageViewer/ImageViewer";
 import RenderMarkdown from "../../../common/Markdown/RenderMarkdown";
+import PostTitle from "./PostTitle";
 // eslint-disable-next-line import/no-extraneous-dependencies
 // eslint-disable-next-line import/no-extraneous-dependencies
-
-function Title({ title, mt, mb }: { title: string; mt: number; mb: number }) {
-  const theme = useTheme();
-  const { fontWeightPostTitle } = useAppSelector(selectSettings);
-  return (
-    <Text
-      mt={mt}
-      mb={mb}
-      mx={4}
-      fontSize="lg"
-      fontWeight={fontWeightPostTitle}
-      color={theme.colors.app.textPrimary}
-    >
-      {title}
-    </Text>
-  );
-}
 
 interface IProps {
   post: PostView;
@@ -68,7 +50,7 @@ function PostContentView({ post }: IProps) {
             nsfw={post.post.nsfw || post.community.nsfw}
             id={post.post.id}
           />
-          <Title title={title} mt={2} mb={0} />
+          <PostTitle title={title} mt={2} mb={0} />
           {body && (
             <Box mx={4}>
               <RenderMarkdown text={body} addImages truncate={false} />
@@ -82,7 +64,7 @@ function PostContentView({ post }: IProps) {
       return (
         <VStack>
           <>
-            <Title title={title} mt={2} mb={0} />
+            <PostTitle title={title} mt={2} mb={0} />
             <Box mx={4}>
               <RenderMarkdown text={body} addImages truncate={false} />
             </Box>
@@ -94,7 +76,7 @@ function PostContentView({ post }: IProps) {
 
     return (
       <VStack>
-        <Title title={title} mt={2} mb={2} />
+        <PostTitle title={title} mt={2} mb={2} />
         {linkInfoBlock()}
       </VStack>
     );

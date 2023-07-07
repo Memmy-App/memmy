@@ -7,6 +7,7 @@ interface ShareLinkOptions {
   title?: string;
   link: string;
   isImage?: boolean;
+  callback?: () => unknown;
 }
 
 // eslint-disable-next-line import/prefer-default-export
@@ -14,6 +15,7 @@ export const shareLink = async ({
   title,
   link,
   isImage = false,
+  callback,
 }: ShareLinkOptions) => {
   onGenericHapticFeedback();
 
@@ -50,7 +52,7 @@ export const shareLink = async ({
   }
 
   try {
-    Share.open(options).then();
+    Share.open(options).then(() => callback && callback());
   } catch {
     /* empty */
   }

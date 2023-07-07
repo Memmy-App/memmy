@@ -108,8 +108,9 @@ function ContentScreen({
             accessory="DisclosureIndicator"
             onPress={() => {
               const options = [
-                "Top Day",
-                "Top Week",
+                "Top Hour",
+                "Top Six Hours",
+                "Top Twelve Hours",
                 "Hot",
                 "Active",
                 "New",
@@ -196,6 +197,21 @@ function ContentScreen({
             title="Mark Post Read On..."
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("ReadSettings")}
+          />
+          <CCell
+            cellStyle="RightDetail"
+            title="Hide Read Posts on Feed"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.hideReadPostsOnFeed}
+                onValueChange={(v) => {
+                  onChange("hideReadPostsOnFeed", v);
+                }}
+              />
+            }
           />
           <CCell
             cellStyle="RightDetail"

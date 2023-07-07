@@ -6,9 +6,6 @@ import MemoizedFastImage from "../MemoizedFastImage";
 import { useAppSelector } from "../../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import ImageViewFooter from "./ImageViewFooter";
-import downloadAndSaveImage from "../../../helpers/ImageHelper";
-import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
-import { shareLink } from "../../../helpers/ShareHelper";
 
 interface IProps {
   source: string;
@@ -57,17 +54,7 @@ function ImageViewer({
     setDimensions({ height: e.nativeEvent.height, width: e.nativeEvent.width });
   };
 
-  const onSave = async () => {
-    onGenericHapticFeedback();
-
-    await downloadAndSaveImage(source);
-  };
-
-  const onShare = () => {
-    shareLink({ link: source, isImage: true });
-  };
-
-  const footer = () => <ImageViewFooter onSave={onSave} onShare={onShare} />;
+  const footer = () => <ImageViewFooter source={source} />;
 
   const viewer = (
     <EnhancedImageViewing

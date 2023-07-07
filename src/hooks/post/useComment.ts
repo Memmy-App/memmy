@@ -55,7 +55,7 @@ const useComment = ({
       return;
     }
 
-    LayoutAnimation.easeInEaseOut();
+    LayoutAnimation.linear();
 
     setComments((prev) =>
       prev.map((c) => {
