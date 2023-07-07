@@ -59,6 +59,7 @@ function CommentSortButton({ postId }: IProps) {
               dispatch(
                 showToast({
                   message: "Report submitted successfully",
+                  duration: 3000,
                   variant: "info",
                 })
               );
