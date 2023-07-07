@@ -9,7 +9,7 @@ PODS:
   - EXAV (13.2.1):
     - ExpoModulesCore
     - ReactCommon/turbomodule/core
-  - EXConstants (14.4.2):
+  - EXConstants (14.2.1):
     - ExpoModulesCore
   - EXFileSystem (15.2.2):
     - ExpoModulesCore
@@ -26,9 +26,9 @@ PODS:
     - React-Core
   - EXNotifications (0.18.1):
     - ExpoModulesCore
-  - EXPermissions (14.1.2):
+  - EXPermissions (14.1.1):
     - ExpoModulesCore
-  - Expo (48.0.20):
+  - Expo (48.0.19):
     - ExpoModulesCore
   - expo-dev-client (2.2.1):
     - EXManifests
@@ -104,7 +104,7 @@ PODS:
     - expo-dev-menu/SafeAreaView
   - ExpoBlur (12.2.2):
     - ExpoModulesCore
-  - ExpoDevice (5.4.0):
+  - ExpoDevice (5.2.1):
     - ExpoModulesCore
   - ExpoImagePicker (14.1.1):
     - ExpoModulesCore
@@ -118,12 +118,12 @@ PODS:
     - ReactCommon/turbomodule/core
   - ExpoSystemUI (2.2.1):
     - ExpoModulesCore
-  - ExpoWebBrowser (12.3.2):
+  - ExpoWebBrowser (12.1.1):
     - ExpoModulesCore
   - EXSplashScreen (0.18.2):
     - ExpoModulesCore
     - React-Core
-  - EXUpdatesInterface (0.9.3)
+  - EXUpdatesInterface (0.9.1)
   - FBLazyVector (0.71.8)
   - FBReactNativeSpec (0.71.8):
     - RCT-Folly (= 2021.07.22.00)
@@ -555,11 +555,11 @@ PODS:
     - React-jsi (= 0.71.8)
     - React-logger (= 0.71.8)
     - React-perflogger (= 0.71.8)
-  - RNCAsyncStorage (1.19.0):
+  - RNCAsyncStorage (1.18.2):
     - React-Core
   - RNCClipboard (1.5.1):
     - React-Core
-  - RNDeviceInfo (10.7.0):
+  - RNDeviceInfo (10.6.0):
     - React-Core
   - RNFastImage (8.6.3):
     - React-Core
@@ -602,10 +602,10 @@ PODS:
     - React-RCTText
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.22.1):
+  - RNScreens (3.22.0):
     - React-Core
     - React-RCTImage
-  - RNShare (9.2.1):
+  - RNShare (9.2.0):
     - React-Core
   - RNSVG (12.5.1):
     - React-Core
@@ -919,7 +919,7 @@ SPEC CHECKSUMS:
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   EXApplication: d8f53a7eee90a870a75656280e8d4b85726ea903
   EXAV: f1f69397ecdcf44cfacd4ff5d338cd1b96891e87
-  EXConstants: ce5bbea779da8031ac818c36bea41b10e14d04e1
+  EXConstants: f348da07e21b23d2b085e270d7b74f282df1a7d9
   EXFileSystem: 844e86ca9b5375486ecc4ef06d3838d5597d895d
   EXFont: 6ea3800df746be7233208d80fe379b8ed74f4272
   EXImageLoader: fd053169a8ee932dd83bf1fe5487a50c26d27c2b
@@ -927,22 +927,22 @@ SPEC CHECKSUMS:
   EXManifests: 500666d48e8dd7ca5a482c9e729e4a7a6c34081b
   EXMediaLibrary: 587cd8aad27a6fc8d7c38b950bc75bc1845a7480
   EXNotifications: dd628737af60fc8cc62dccebacd326b0fbbc0dcb
-  EXPermissions: ee60d7978aba135b8b391185b039d78f151c376a
-  Expo: b7d2843b0a0027d0ce76121a63085764355a16ed
+  EXPermissions: 2291c6736a823b4c680d5bf8e12d3c1c5d11da35
+  Expo: 8448e3a2aa1b295f029c81551e1ab6d986517fdb
   expo-dev-client: 92b9e487ad6a05a3ad1dda70334729ccaf622bfe
   expo-dev-launcher: 5275974e9f825f70a33bb79301a8ab894179fa94
   expo-dev-menu: f2ea9233cdd8790c20d559eba7352bbf83662d6a
   expo-dev-menu-interface: 6c82ae323c4b8724dead4763ce3ff24a2108bdb1
   ExpoBlur: fac3c6318fdf409dd5740afd3313b2bd52a35bac
-  ExpoDevice: 1c1b0c9cad96c292c1de73948649cfd654b2b3c0
+  ExpoDevice: e0bebf68f978b3d353377ce42e73c20c0a070215
   ExpoImagePicker: 270dea232b3a072d981dd564e2cafc63a864edb1
   ExpoKeepAwake: 69f5f627670d62318410392d03e0b5db0f85759a
   ExpoMailComposer: 0085b258d00ba40664f7acb40d96042b29a1da7d
   ExpoModulesCore: 653958063a301098b541ae4dfed1ac0b98db607b
   ExpoSystemUI: 0be5173ee2a7c01e9abc44f56d879a1eaaa16527
-  ExpoWebBrowser: 2c788f9c07718a780fe6d8bf2f6195c47609faaa
+  ExpoWebBrowser: 033d34c478d9986da2f1679729041423837626e0
   EXSplashScreen: 0e0a9ba0cf7553094e93213099bd7b42e6e237e9
-  EXUpdatesInterface: e86394c0770f14eb96386cbb32be83fa6a97e8f9
+  EXUpdatesInterface: dd699d1930e28639dcbd70a402caea98e86364ca
   FBLazyVector: f637f31eacba90d4fdeff3fa41608b8f361c173b
   FBReactNativeSpec: 0d9a4f4de7ab614c49e98c00aedfd3bfbda33d59
   Flipper: c70899db07015da7ec9025f29463a997a0184d01
@@ -994,17 +994,17 @@ SPEC CHECKSUMS:
   React-RCTVibration: 43ffd976a25f6057a7cf95ea3648ba4e00287f89
   React-runtimeexecutor: 7c51ae9d4b3e9608a2366e39ccaa606aa551b9ed
   ReactCommon: 85c98ab0a509e70bf5ee5d9715cf68dbf495b84c
-  RNCAsyncStorage: 4b98ac3c64efa4e35c1197cb0c5ca5e9f5d4c666
+  RNCAsyncStorage: ddc4ee162bfd41b0d2c68bf2d95acd81dd7f1f93
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
-  RNDeviceInfo: 25d818c85db769cc0e7083d39efaa01a6f450df3
+  RNDeviceInfo: 475a4c447168d0ad4c807e48ef5e0963a0f4eb1b
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFlashList: 399bf6a0db68f594ad2c86aaff3ea39564f39f8a
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   RNReactNativeHapticFeedback: afa5bf2794aecbb2dba2525329253da0d66656df
   RNReanimated: 9976fbaaeb8a188c36026154c844bf374b3b7eeb
-  RNScreens: 50ffe2fa2342eabb2d0afbe19f7c1af286bc7fb3
-  RNShare: e969d57543095d4018e256d0dab844574627b50a
+  RNScreens: 68fd1060f57dd1023880bf4c05d74784b5392789
+  RNShare: b71572a3219740b60ffa7dbcf5d79b08e5625f4a
   RNSVG: d7d7bc8229af3842c9cfc3a723c815a52cdd1105
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
