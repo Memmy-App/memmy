@@ -124,7 +124,7 @@ const usePost = (commentId: string | null): UsePost => {
     }
   }, [editedContent]);
   /**
-   * Load the comments for the current post
+   * Load the Comments for the current Post
    */
   const doLoad = async (ignoreCommentId = false) => {
     setCommentsLoading(true);
@@ -172,7 +172,7 @@ const usePost = (commentId: string | null): UsePost => {
       setComments(betterComments);
       setCommentsLoading(false);
     } catch (e) {
-      writeToLog("Error loading post.");
+      writeToLog("Error loading Post.");
       writeToLog(e.toString());
 
       setCommentsLoading(false);
@@ -181,7 +181,7 @@ const usePost = (commentId: string | null): UsePost => {
   };
 
   /**
-   * Vote on the current post
+   * Vote on the current Post
    * @param value
    */
   const doVote = async (value: -1 | 0 | 1) => {
@@ -216,7 +216,7 @@ const usePost = (commentId: string | null): UsePost => {
         score: value,
       });
     } catch (e) {
-      writeToLog("Error liking post.");
+      writeToLog("Error liking Post.");
       writeToLog(e.toString());
 
       // If there was an error, reset the value and show a notification
@@ -253,7 +253,7 @@ const usePost = (commentId: string | null): UsePost => {
 
       dispatch(
         showToast({
-          message: "Failed to save post.",
+          message: "Failed to save Post.",
           variant: "error",
           duration: 2000,
         })

@@ -39,7 +39,7 @@ function CommentSortButton({ postId }: IProps) {
   const onReportPress = async () => {
     await Alert.prompt(
       "Report Post",
-      "Please describe your reason for reporting this post.",
+      "Please describe your reason for reporting this Post.",
       [
         {
           text: "Cancel",

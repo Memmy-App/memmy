@@ -17,7 +17,7 @@ interface IProps {
   setPostRead?: () => void;
 }
 
-// TODO Fix the set post read here
+// TODO Fix the set Post read here
 function FeedContentPreview({ post, recycled }: IProps) {
   const theme = useTheme();
   const { fontWeightPostTitle } = useAppSelector(selectSettings);
@@ -31,10 +31,10 @@ function FeedContentPreview({ post, recycled }: IProps) {
 
   const isImagePost = linkInfo.extType === ExtensionType.IMAGE;
 
-  // handle weird posts where someone just posts a markdown image instead of an image post
+  // handle weird posts where someone just posts a markdown image instead of an image Post
   const isImageMarkdownPost = imageLinks.length > 0;
   if (isImageMarkdownPost) {
-    // incase we have an image post with image markdown in the body?
+    // incase we have an image Post with image markdown in the body?
     if (isImagePost) {
       postUrls = [post.post.url, ...imageLinks];
     } else {

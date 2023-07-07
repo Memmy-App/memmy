@@ -73,7 +73,7 @@ const useInbox = (): UseInbox => {
         showLoadAll: true,
       });
     } catch (e) {
-      writeToLog("Failed to get post for comment push.");
+      writeToLog("Failed to get Post for comment push.");
       writeToLog(e.toString());
 
       setLoading(false);

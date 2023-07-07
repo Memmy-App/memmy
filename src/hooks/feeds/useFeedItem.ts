@@ -154,7 +154,7 @@ const useFeedItem = (
     if (!res) {
       dispatch(
         showToast({
-          message: "Failed to save post.",
+          message: "Failed to save Post.",
           variant: "error",
           duration: 2000,
         })

@@ -135,7 +135,7 @@ const openLemmyLink = (
       fullUsername: `${community}@${baseUrl}`,
     });
     // TODO: Handle other type of lemmy links
-    // } else if (link.includes("/post/")) {
+    // } else if (link.includes("/Post/")) {
     //   navigation.push("Post");
   } else if (link.includes("/c/")) {
     navigation.push("Community", {

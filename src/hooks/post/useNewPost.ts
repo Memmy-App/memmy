@@ -118,7 +118,7 @@ const useNewPost = (
 
       navigation.pop();
     } catch (e) {
-      writeToLog("Error submitting post.");
+      writeToLog("Error submitting Post.");
       writeToLog(e.toString());
       writeToLog(`Language ID: ${languageId}`);
       writeToLog(`Community ID: ${communityId}`);
