@@ -11,7 +11,7 @@ import {
 } from "tabler-icons-react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import useProfile from "../../../hooks/profile/useProfile";
-import HeaderIconButton from "../../common/buttons/HeaderIconButton";
+import HeaderIconButton from "../../common/Buttons/HeaderIconButton";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";
 import LoadingView from "../../common/Loading/LoadingView";
 import NotFoundView from "../../common/Loading/NotFoundView";

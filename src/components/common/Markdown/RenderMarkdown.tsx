@@ -7,7 +7,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useWindowDimensions } from "react-native";
 import { openLink } from "../../../helpers/LinkHelper";
 import { findImages, replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
-import ImageButton from "../buttons/ImageButton";
+import ImageButton from "../Buttons/ImageButton";
 import { useAppSelector } from "../../../../store";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { selectSettings } from "../../../slices/settings/settingsSlice";

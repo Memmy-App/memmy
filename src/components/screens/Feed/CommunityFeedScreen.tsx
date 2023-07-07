@@ -12,7 +12,7 @@ import {
 } from "tabler-icons-react-native";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import useCommunityFeed from "../../../hooks/feeds/useCommunityFeed";
-import CustomButton from "../../common/buttons/CustomButton";
+import CustomButton from "../../common/Buttons/CustomButton";
 import FeedView from "./components/FeedView";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";
 import NotFoundView from "../../common/Loading/NotFoundView";

@@ -4,7 +4,7 @@ import React from "react";
 import { IconPlanet } from "tabler-icons-react-native";
 import FastImage from "react-native-fast-image";
 import { getBaseUrl } from "../../helpers/LinkHelper";
-import Link from "./buttons/Link";
+import Link from "./Buttons/Link";
 
 interface CommunityLinkProps {
   community: Community;

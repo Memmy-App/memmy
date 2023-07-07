@@ -2,7 +2,7 @@ import React from "react";
 import { FlashList } from "@shopify/flash-list";
 import { useTheme, VStack } from "native-base";
 import NoResultView from "../../common/NoResultView";
-import CommentItem from "../../common/comments/CommentItem";
+import CommentItem from "../../common/Comments/CommentItem";
 import useProfile from "../../../hooks/profile/useProfile";
 import LoadingView from "../../common/Loading/LoadingView";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";

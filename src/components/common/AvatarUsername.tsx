@@ -3,7 +3,7 @@ import { HStack, Text, useTheme, VStack } from "native-base";
 import FastImage from "react-native-fast-image";
 import { IconUser } from "tabler-icons-react-native";
 import { Person } from "lemmy-js-client";
-import Link from "./buttons/Link";
+import Link from "./Buttons/Link";
 import { getBaseUrl } from "../../helpers/LinkHelper";
 import { useAppSelector } from "../../../store";
 import { selectSettings } from "../../slices/settings/settingsSlice";

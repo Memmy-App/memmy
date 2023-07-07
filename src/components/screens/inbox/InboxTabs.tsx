@@ -1,7 +1,7 @@
 import React from "react";
 import { HStack } from "native-base";
-import ButtonGroup from "../../common/buttons/ButtonGroup";
-import GroupButton from "../../common/buttons/GroupButton";
+import ButtonGroup from "../../common/Buttons/ButtonGroup";
+import GroupButton from "../../common/Buttons/GroupButton";
 
 function InboxTabs({
   onUnreadPress,

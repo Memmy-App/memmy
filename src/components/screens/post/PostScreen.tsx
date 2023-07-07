@@ -4,7 +4,7 @@ import { HStack, useTheme, VStack } from "native-base";
 import React, { useEffect } from "react";
 import usePost from "../../../hooks/post/postHooks";
 import LoadingView from "../../common/Loading/LoadingView";
-import CommentItem from "../../common/comments/CommentItem";
+import CommentItem from "../../common/Comments/CommentItem";
 import CommentSortButton from "./components/CommentSortButton";
 import PostOptionsButton from "./components/PostOptionsButton";
 import PostFooter from "./components/PostFooter";
