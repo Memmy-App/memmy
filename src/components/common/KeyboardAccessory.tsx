@@ -62,14 +62,14 @@ function KeyboardAccessory({
       "Enter the URL",
       (link) => {
         Alert.prompt(
-          "Link",
+          "Label",
           "Enter the label",
           (label) => {
             setText(replace(`[${label}](${link})`));
           },
           "plain-text",
           "",
-          "url",
+          "default",
           {
             userInterfaceStyle: theme.config.initialColorMode,
           }
@@ -77,7 +77,7 @@ function KeyboardAccessory({
       },
       "plain-text",
       "",
-      "default",
+      "url",
       {
         userInterfaceStyle: theme.config.initialColorMode,
       }
