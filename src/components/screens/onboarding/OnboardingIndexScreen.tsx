@@ -3,7 +3,7 @@ import { ImageBackground, StyleSheet } from "react-native";
 import { Button, Text, View, VStack } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-const background = require("../../../assets/onboard-bg.png");
+const background = require("../../../../assets/onboard-bg.png");
 
 function OnboardingScreen({
   navigation,

@@ -17,7 +17,7 @@ import { writeToLog } from "../../../helpers/LogHelper";
 import { showToast } from "../../../slices/toast/toastSlice";
 import ILemmyServer from "../../../types/lemmy/ILemmyServer";
 
-const header = require("../../../assets/header.jpg");
+const header = require("../../../../assets/header.jpg");
 
 interface IProps {
   route: any;

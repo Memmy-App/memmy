@@ -14,7 +14,7 @@ import LoadingModal from "../../common/Loading/LoadingModal";
 import { showToast } from "../../../slices/toast/toastSlice";
 import ILemmyServer from "../../../types/lemmy/ILemmyServer";
 
-const header = require("../../../assets/header.jpg");
+const header = require("../../../../assets/header.jpg");
 
 interface RegisterForm {
   server: string;

@@ -1,9 +1,9 @@
 import React from "react";
 import WebView from "react-native-webview";
 
-const licenseHtml = require("../../assets/license.html");
-const licenseTxt = require("../../assets/license2.html");
-const terms = require("../../assets/terms.html");
+const licenseHtml = require("../../../assets/license.html");
+const licenseTxt = require("../../../assets/license2.html");
+const terms = require("../../../assets/terms.html");
 
 interface IProps {
   route: any;

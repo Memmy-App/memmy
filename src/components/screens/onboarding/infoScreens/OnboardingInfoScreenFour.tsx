@@ -3,7 +3,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button, Text, VStack } from "native-base";
 import { ImageBackground, StyleSheet } from "react-native";
 
-const background = require("../../../../assets/onboard-bg2.jpg");
+const background = require("../../../../../assets/onboard-bg2.jpg");
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
