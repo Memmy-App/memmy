@@ -6,8 +6,8 @@ import { timeFromNowShort } from "../../../../../helpers/TimeHelper";
 import { ILemmyVote } from "../../../../../lemmy/types/ILemmyVote";
 import CommunityLink from "../../../../common/CommunityLink";
 import AvatarUsername from "../../../../common/AvatarUsername";
-import FeaturedIndicator from "../../../../common/common/FeaturedIndicator";
-import SmallVoteIcons from "../../../../common/common/SmallVoteIcons";
+import FeaturedIndicator from "../../../../common//FeaturedIndicator";
+import SmallVoteIcons from "../../../../common//SmallVoteIcons";
 import { IconBookCheck } from "../../../../common/icons/IconBookCheck";
 
 interface CompactFeedItemFooterProps {

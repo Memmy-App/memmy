@@ -14,7 +14,7 @@ import { shareLink } from "../../../helpers/ShareHelper";
 import { setResponseTo } from "../../../slices/comments/newCommentSlice";
 import { useAppDispatch } from "../../../../store";
 import IconButtonWithText from "../common/IconButtonWithText";
-import VoteButton from "../common/VoteButton";
+import VoteButton from "../../../common/Vote/VoteButton";
 
 interface IProps {
   post: PostView;
