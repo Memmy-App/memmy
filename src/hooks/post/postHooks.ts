@@ -19,6 +19,7 @@ import {
 import { savePost } from "../../helpers/LemmyHelpers";
 import { buildComments } from "../../helpers/LemmyCommentsHelper";
 import NestedComment from "../../types/lemmy/NestedComment";
+import { selectSettings } from "../../slices/settings/settingsSlice";
 
 export interface UsePost {
   comments: ILemmyComment[];
@@ -48,6 +49,7 @@ const usePost = (commentId: string | null): UsePost => {
   const { post, newComment } = useAppSelector(selectPost);
   const { commentId: editedCommentId, content: editedContent } =
     useAppSelector(selectEditComment);
+  const { defaultCommentSort } = useAppSelector(selectSettings);
 
   // State
   const [comments, setComments] = useState<ILemmyComment[]>([]);
@@ -56,7 +58,7 @@ const usePost = (commentId: string | null): UsePost => {
   const [commentsError, setCommentsError] = useState<boolean>(false);
   const [currentPost, setCurrentPost] = useState<PostView>(post);
 
-  const [sortType, setSortType] = useState<CommentSortType>("Top");
+  const [sortType, setSortType] = useState<CommentSortType>(defaultCommentSort);
   const [showLoadAll, setShowLoadAll] = useState(true);
 
   const recycled = useRef({});
