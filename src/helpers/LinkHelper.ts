@@ -46,7 +46,14 @@ export const getLinkInfo = (link?: string): LinkInfo => {
     const extension = link.split(".").pop();
 
     if (imageExtensions.includes(extension)) {
-      type = ExtensionType.IMAGE;
+      const localTest =
+        /(^127\.)|(^192\.168\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^::1$)|(^[fF][cCdD])/;
+
+      if (localTest.test(link)) {
+        type = ExtensionType.GENERIC;
+      } else {
+        type = ExtensionType.IMAGE;
+      }
     } else if (videoExtensions.includes(extension)) {
       type = ExtensionType.VIDEO;
     } else {
