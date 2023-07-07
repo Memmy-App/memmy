@@ -13,9 +13,10 @@ import ImageViewer from "../ImageViewer/ImageViewer";
 
 interface ImageButtonProps {
   src: string;
+  size?: number;
 }
 
-function ImageButton({ src }: ImageButtonProps) {
+function ImageButton({ src, size = 50 }: ImageButtonProps) {
   const [visible, setVisible] = useState(false);
   const [dimensions, setDimensions] = useState({ height: 0, width: 0 });
 
@@ -50,8 +51,8 @@ function ImageButton({ src }: ImageButtonProps) {
         >
           <FastImage
             style={{
-              height: 50,
-              width: 50,
+              height: size,
+              width: size,
             }}
             resizeMode="contain"
             source={{

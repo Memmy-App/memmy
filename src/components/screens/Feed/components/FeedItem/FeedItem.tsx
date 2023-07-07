@@ -1,5 +1,5 @@
 import { PostView } from "lemmy-js-client";
-import { Pressable, View } from "native-base";
+import { HStack, Pressable, View } from "native-base";
 import React, { memo, SetStateAction } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -19,6 +19,7 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { Metrics } from "./Metrics";
 import { Actions } from "./Actions";
+import AvatarUsername from "../../../../common/AvatarUsername";
 
 interface FeedItemProps {
   post: PostView;
@@ -71,6 +72,10 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
               recycled={recycled}
               setPostRead={feedItem.setPostRead}
             />
+
+            <HStack mx={4} mt={1}>
+              <AvatarUsername creator={post.creator} />
+            </HStack>
 
             <Footer>
               <Metrics data={post.counts} vote={post.my_vote} />

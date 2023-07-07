@@ -24,6 +24,7 @@ interface MarkdownProps {
   addImages?: boolean;
   truncate?: boolean;
   isNote?: boolean;
+  imageSize?: number;
 }
 
 const RenderMarkdown = ({
@@ -31,6 +32,7 @@ const RenderMarkdown = ({
   addImages = false,
   truncate = false,
   isNote = false,
+  imageSize,
 }: MarkdownProps) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
@@ -195,7 +197,7 @@ const RenderMarkdown = ({
           {text ?? ""}
         </Markdown>
         {addImages && cleanedText && cleanedText.imageLinks.length > 0 && (
-          <ImageButton src={cleanedText.imageLinks[0]} />
+          <ImageButton src={cleanedText.imageLinks[0]} size={imageSize} />
         )}
       </VStack>
     );

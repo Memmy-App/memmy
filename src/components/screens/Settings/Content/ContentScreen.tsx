@@ -108,8 +108,9 @@ function ContentScreen({
             accessory="DisclosureIndicator"
             onPress={() => {
               const options = [
-                "Top Day",
-                "Top Week",
+                "Top Hour",
+                "Top Six Hours",
+                "Top Twelve Hours",
                 "Hot",
                 "Active",
                 "New",
