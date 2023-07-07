@@ -136,6 +136,39 @@ function ContentScreen({
           />
           <CCell
             cellStyle="RightDetail"
+            title="Default Comment Sort"
+            detail={settings.defaultCommentSort}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              const options = [
+                "Hot",
+                "Top",
+                "New",
+                "Old",
+                "Cancel",
+              ];
+              const cancelButtonIndex = options.length-1;
+
+              showActionSheetWithOptions(
+                {
+                  options,
+                  cancelButtonIndex,
+                  userInterfaceStyle: theme.config.initialColorMode,
+                },
+                (index: number) => {
+                  if (index === cancelButtonIndex) return;
+
+                  const selection = options[index];
+                  dispatch(setSetting({ defaultCommentSort: selection }));
+                }
+              );
+            }}
+          />
+          <CCell
+            cellStyle="RightDetail"
             title="Default Listing Type"
             detail={settings.defaultListingType}
             backgroundColor={theme.colors.app.fg}
