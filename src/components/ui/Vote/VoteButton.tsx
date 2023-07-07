@@ -2,7 +2,7 @@ import { useTheme } from "native-base";
 import React from "react";
 import { GestureResponderEvent } from "react-native";
 import { IconArrowDown, IconArrowUp } from "tabler-icons-react-native";
-import IconButtonWithText from "./IconButtonWithText";
+import IconButtonWithText from "../IconButtonWithText";
 
 interface VoteButtonProps {
   onPressHandler: (event: GestureResponderEvent) => void;
