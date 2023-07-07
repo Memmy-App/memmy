@@ -11,6 +11,7 @@ import { lemmyAuthToken, lemmyInstance } from "../../../lemmy/LemmyInstance";
 import {
   removeDuplicatePosts,
   removeNsfwPosts,
+  removeReadPosts,
 } from "../../../lemmy/LemmyHelpers";
 import { clearUpdateSaved, selectFeed } from "../../../slices/feed/feedSlice";
 import { writeToLog } from "../../../helpers/LogHelper";
@@ -45,7 +46,7 @@ export interface UseFeed {
 
 export const useFeed = (communityIdOrName?: number | string): UseFeed => {
   // Global State
-  const { defaultSort, defaultListingType, hideNsfw } =
+  const { defaultSort, defaultListingType, hideNsfw, hideReadPostsOnFeed } =
     useAppSelector(selectSettings);
   const { updateVote, updateSaved } = useAppSelector(selectFeed);
 
@@ -181,7 +182,8 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
           return;
         }
 
-        const newPosts = hideNsfw ? removeNsfwPosts(res.posts) : res.posts;
+        let newPosts = hideNsfw ? removeNsfwPosts(res.posts) : res.posts;
+        newPosts = hideReadPostsOnFeed ? removeReadPosts(res.posts) : res.posts;
 
         preloadImages(newPosts);
 

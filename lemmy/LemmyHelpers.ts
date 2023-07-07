@@ -25,6 +25,9 @@ export const removeDuplicatePosts = (
 export const removeNsfwPosts = (list: PostView[]) =>
   list.filter((p) => !p.post.nsfw);
 
+export const removeReadPosts = (list: PostView[]) =>
+  list.filter((p) => !p.read);
+
 export const getCommunityFullName = (community: CommunityView) =>
   `${community.community.name}@${getBaseUrl(community.community.actor_id)}`;
 

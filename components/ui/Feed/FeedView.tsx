@@ -20,6 +20,8 @@ import Footer from "./Footer";
 import FeedSortButton from "./FeedSortButton";
 import { Community, FeedOverflowButton } from "./FeedOverflowButton";
 import RefreshControl from "../common/RefreshControl";
+import { removeReadPosts } from "../../../lemmy/LemmyHelpers";
+import HideReadFAB from "../buttons/HideReadFAB";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -45,6 +47,8 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   const theme = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
+
+  const [showFAB, setShowFAB] = useState(true);
 
   useScrollToTop(flashList);
 
@@ -110,10 +114,6 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     ({ item }: ListRenderItemInfo<PostView>) => {
       if (feed.community && feed.community.counts.posts < 1) {
         return <NoResultView type="posts" />;
-      }
-
-      if(hideReadPostsOnFeed && item.read) {
-        return <></>;
       }
 
       if (compactView) {
@@ -194,8 +194,23 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             ListEmptyComponent={<NoResultView type="posts" />}
             ref={flashList}
             getItemType={getItemType}
+            onScrollBeginDrag={() => {
+              setShowFAB(false)
+              }
+            }
+            onMomentumScrollEnd={() => {
+              setShowFAB(true)
+              }
+            }
           />
         )}
+      { (hideReadPostsOnFeed) && (showFAB) && 
+        <HideReadFAB
+          onPress={function () {
+            feed.setPosts(removeReadPosts(feed.posts));
+          }}
+        />
+      }
     </View>
   );
 }
