@@ -166,6 +166,21 @@ function ContentScreen({
           />
           <CCell
             cellStyle="RightDetail"
+            title="Hide Read Posts on Feed"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.hideReadPostsOnFeed}
+                onValueChange={(v) => {
+                  onChange("hideReadPostsOnFeed", v);
+                }}
+              />
+            }
+          />
+          <CCell
+            cellStyle="RightDetail"
             title="Compact View"
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
@@ -176,21 +191,6 @@ function ContentScreen({
                 onValueChange={(v) => {
                   LayoutAnimation.easeInEaseOut();
                   onChange("compactView", v);
-                }}
-              />
-            }
-          />
-          <CCell
-            cellStyle="RightDetail"
-            title="Hide Read Posts on Feed"
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.hideReadPostsOnFeed}
-                onValueChange={(v) => {
-                  onChange("hideReadPostsOnFeed", v);
                 }}
               />
             }
