@@ -8582,6 +8582,11 @@ react-native-device-info@^10.6.0:
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-10.7.0.tgz#f97f6f0da5d5a8775191566a667437c6ffc60417"
   integrity sha512-8PiuGwKFB/56mjl5uVuCFoBLZJonerJRS/CTPAsT1rbyrc9vDGAj93FmzYW9GBroKUtQwF2gSP2scQzMHB/rVg==
 
+react-native-dialog@^9.3.0:
+  version "9.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-dialog/-/react-native-dialog-9.3.0.tgz#9d745cc51653a1e2ae08076b46f11d99723c47f6"
+  integrity sha512-JEOJY/0AzTM9grIl0BL8o/IJPIJru7k5MPj9POTE9RRezUEtgn0YSvCpTlBtG0obWgOdzg2otMz1OQvMXS0wMQ==
+
 react-native-fast-image@^8.6.3:
   version "8.6.3"
   resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-8.6.3.tgz#6edc3f9190092a909d636d93eecbcc54a8822255"
