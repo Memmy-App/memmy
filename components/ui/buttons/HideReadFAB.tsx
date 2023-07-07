@@ -20,7 +20,6 @@ function HideReadFAB( src: HideReadFABProps ) {
       style={{zIndex: 100}}
     >
       <FAB 
-          // title="Create" 
           placement="right"
           size="large"
           color={theme.colors.app.accent}

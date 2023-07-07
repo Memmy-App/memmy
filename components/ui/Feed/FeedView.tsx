@@ -194,14 +194,12 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             ListEmptyComponent={<NoResultView type="posts" />}
             ref={flashList}
             getItemType={getItemType}
-            onScrollBeginDrag={() => {
-              setShowFAB(false)
-              }
-            }
+            onMomentumScrollBegin={() => {
+              setShowFAB(false);
+            }}
             onMomentumScrollEnd={() => {
-              setShowFAB(true)
-              }
-            }
+              setShowFAB(true);
+            }}
           />
         )}
       { (hideReadPostsOnFeed) && (showFAB) && 
