@@ -33,6 +33,7 @@ export interface SettingsState {
   ignoreScreenHeightInFeed: boolean;
   displayTotalScore: boolean;
   accentColor?: string;
+  hideReadPostsOnFeed: boolean;
 }
 
 const initialState: SettingsState = {
@@ -62,6 +63,7 @@ const initialState: SettingsState = {
   markReadOnPostVote: true,
   ignoreScreenHeightInFeed: false,
   displayTotalScore: true,
+  hideReadPostsOnFeed: false,
 };
 
 const settingsSlice = createSlice({

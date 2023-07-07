@@ -34,6 +34,9 @@ export const getUserFullName = (profile: Person) =>
 export const createUserFullName = (name: string, actor: string) =>
   `${name}@${getBaseUrl(actor)}`;
 
+export const removeReadPosts = (list: PostView[]) =>
+  list.filter((p) => !p.read);
+
 export const buildComments = (comments: CommentView[]) => {
   const betterComments: ILemmyComment[] = [];
 
