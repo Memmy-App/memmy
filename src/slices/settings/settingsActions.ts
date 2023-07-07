@@ -5,14 +5,14 @@ import { RootState } from "../../../store";
 import { writeToLog } from "../../helpers/LogHelper";
 
 export const loadSettings = createAsyncThunk(
-  "settings/loadSettings",
+  "Settings/loadSettings",
   async () => {
     let settingsStr;
 
     try {
-      settingsStr = await AsyncStorage.getItem("@settings");
+      settingsStr = await AsyncStorage.getItem("@Settings");
     } catch (e) {
-      writeToLog("Error getting settings.");
+      writeToLog("Error getting Settings.");
       writeToLog(e.toString());
       return null;
     }
@@ -26,7 +26,7 @@ export const loadSettings = createAsyncThunk(
 );
 
 export const setSetting = createAsyncThunk(
-  "settings/setSetting",
+  "Settings/setSetting",
   async (setting: object, thunkAPI) => {
     const state = thunkAPI.getState() as RootState;
     const settings = {
@@ -34,7 +34,7 @@ export const setSetting = createAsyncThunk(
       ...setting,
     };
 
-    AsyncStorage.setItem("@settings", JSON.stringify(settings));
+    AsyncStorage.setItem("@Settings", JSON.stringify(settings));
 
     return setting;
   }

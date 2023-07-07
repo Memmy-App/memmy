@@ -143,7 +143,7 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
         setCommunity(res.community_view);
         setCommunityLoading(false);
       } catch (e) {
-        writeToLog("Error getting traverse feed.");
+        writeToLog("Error getting Traverse feed.");
         writeToLog(e.toString());
 
         if (e.toString() === "couldnt_find_community") {

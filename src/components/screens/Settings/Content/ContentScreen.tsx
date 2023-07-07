@@ -64,7 +64,7 @@ function ContentScreen({
           {/*  rightDetailColor={theme.colors.app.textSecondary} */}
           {/*  cellAccessoryView={ */}
           {/*    <Switch */}
-          {/*      value={settings.swipeGestures} */}
+          {/*      value={Settings.swipeGestures} */}
           {/*      onValueChange={(v) => onChange("swipeGestures", v)} */}
           {/*    /> */}
           {/*  } */}
