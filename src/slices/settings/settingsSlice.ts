@@ -33,6 +33,7 @@ export interface SettingsState {
   markReadOnPostVote: boolean;
   ignoreScreenHeightInFeed: boolean;
   displayTotalScore: boolean;
+  useReaderMode: boolean;
   accentColor?: string;
   hideReadPostsOnFeed: boolean;
 }
@@ -65,6 +66,7 @@ const initialState: SettingsState = {
   markReadOnPostVote: true,
   ignoreScreenHeightInFeed: false,
   displayTotalScore: true,
+  useReaderMode: false,
   hideReadPostsOnFeed: false,
 };
 
