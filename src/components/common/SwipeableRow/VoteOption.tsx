@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Animated, {
+  Extrapolate,
   Extrapolation,
   interpolate,
   interpolateColor,
@@ -10,6 +11,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
 import { LayoutRectangle, StyleSheet } from "react-native";
@@ -25,7 +27,6 @@ interface Props {
   stops?: Stops;
   vote?: number;
   onVote: (value: number) => unknown;
-  id: number;
 }
 
 const buzz = () => {
@@ -77,6 +78,9 @@ export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
   // The timer used for the rotation animation
   const rotationTimer = useSharedValue(0);
 
+  // The timer used to pulse the arrow to indicate it's active
+  const pulseTimer = useSharedValue(0);
+
   // Triggers a 180 degree rotation animation when the user
   // drags across the appropriate threshold.
   useAnimatedReaction(
@@ -96,6 +100,9 @@ export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
 
       if (hitFirstStop) {
         buzz();
+        pulseTimer.value = withTiming(1, { duration: 150 }, () => {
+          pulseTimer.value = 0;
+        });
       }
 
       if (hitSecondStop) {
@@ -178,17 +185,32 @@ export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
     };
   }, [arrow]);
 
+  const pulse = useAnimatedStyle(() => {
+    if (translateX.value < firstStop * 0.99) return {};
+
+    const scale = interpolate(
+      pulseTimer.value,
+      [0, 0.5, 1],
+      [1, 1.5, 1],
+      Extrapolate.CLAMP
+    );
+
+    return { transform: [{ scale }] };
+  });
+
   return (
     <>
       <Animated.View style={[styles.background, backgroundStyle]} />
       <Animated.View style={[styles.option, arrowOffset]}>
-        <Animated.View
-          style={[styles.option, arrowStyle]}
-          onLayout={(event) => {
-            setArrow(event.nativeEvent.layout);
-          }}
-        >
-          <AntDesign name="arrowup" size={24} color="white" />
+        <Animated.View style={[pulse]}>
+          <Animated.View
+            style={[styles.option, arrowStyle]}
+            onLayout={(event) => {
+              setArrow(event.nativeEvent.layout);
+            }}
+          >
+            <AntDesign name="arrowup" size={24} color="white" />
+          </Animated.View>
         </Animated.View>
       </Animated.View>
     </>

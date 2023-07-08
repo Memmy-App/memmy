@@ -1,4 +1,5 @@
 import Animated, {
+  Extrapolate,
   Extrapolation,
   interpolate,
   interpolateColor,
@@ -6,6 +7,7 @@ import Animated, {
   useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
+  withTiming,
 } from "react-native-reanimated";
 import { useTheme } from "native-base";
 import React, { useEffect, useMemo, useState } from "react";
@@ -29,7 +31,6 @@ interface Props {
   onReply: () => unknown;
   onExtra?: () => unknown;
   extraType?: Icon | undefined;
-  id: number;
 }
 
 const buzz = () => {
@@ -49,7 +50,6 @@ export function ReplyOption({
   onReply,
   onExtra,
   extraType,
-  id,
 }: Props) {
   const theme = useTheme();
 
@@ -62,6 +62,8 @@ export function ReplyOption({
     };
   }, [theme]);
 
+  // The timer used to pulse the icon to indicate it's active
+  const pulseTimer = useSharedValue(0);
   const isFrozen = useSharedValue(false);
   const [iconRect, setIconRect] = useState<LayoutRectangle | null>(null);
   const [icon, setIcon] = useState<Icon>("comment");
@@ -104,6 +106,9 @@ export function ReplyOption({
 
       if (hitFirstStop) {
         buzz();
+        pulseTimer.value = withTiming(1, { duration: 150 }, () => {
+          pulseTimer.value = 0;
+        });
       }
 
       if (hitSecondStop && onExtra) {
@@ -169,19 +174,34 @@ export function ReplyOption({
     };
   });
 
+  const pulse = useAnimatedStyle(() => {
+    if (translateX.value > firstStop * 0.99) return {};
+
+    const scale = interpolate(
+      pulseTimer.value,
+      [0, 0.5, 1],
+      [1, 1.5, 1],
+      Extrapolate.CLAMP
+    );
+
+    return { transform: [{ scale }] };
+  });
+
   return (
     <>
       <Animated.View style={[styles.background, backgroundStyle]} />
       <Animated.View style={[styles.option, iconOffset]}>
-        <Animated.View
-          style={[styles.option, iconScale]}
-          onLayout={(event) => {
-            setIconRect(event.nativeEvent.layout);
-          }}
-        >
-          {(icon === "comment" && commentIcon) ||
-            (icon === "save" && bookmarkIcon) ||
-            (icon === "read" && mailOpenedIcon)}
+        <Animated.View style={pulse}>
+          <Animated.View
+            style={[styles.option, iconScale]}
+            onLayout={(event) => {
+              setIconRect(event.nativeEvent.layout);
+            }}
+          >
+            {(icon === "comment" && commentIcon) ||
+              (icon === "save" && bookmarkIcon) ||
+              (icon === "read" && mailOpenedIcon)}
+          </Animated.View>
         </Animated.View>
       </Animated.View>
     </>
