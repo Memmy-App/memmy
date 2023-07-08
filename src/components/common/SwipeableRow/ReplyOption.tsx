@@ -62,33 +62,27 @@ export function ReplyOption({
   const isFrozen = useSharedValue(false);
   const [iconRect, setIconRect] = useState<LayoutRectangle | null>(null);
   const [icon, setIcon] = useState<Icon>("comment");
-  const { setRightSubscribers, translateX } = useSwipeableRow();
+  const { subscribe, translateX } = useSwipeableRow();
 
   useEffect(() => {
-    setRightSubscribers([
-      {
-        onStart: () => {
-          "worklet";
+    return subscribe({
+      onStart: () => {
+        "worklet";
 
-          isFrozen.value = false;
-        },
-        onEnd: () => {
-          "worklet";
-
-          if (onExtra && translateX.value <= secondStop) {
-            runOnJS(onExtra)();
-          } else if (translateX.value <= firstStop) {
-            runOnJS(onReply)();
-          }
-          isFrozen.value = true;
-        },
+        isFrozen.value = false;
       },
-    ]);
+      onEnd: () => {
+        "worklet";
 
-    return () => {
-      setRightSubscribers([]);
-    };
-  }, [id]);
+        if (onExtra && translateX.value <= secondStop) {
+          runOnJS(onExtra)();
+        } else if (translateX.value <= firstStop) {
+          runOnJS(onReply)();
+        }
+        isFrozen.value = true;
+      },
+    });
+  }, [onReply, onExtra]);
 
   useAnimatedReaction(
     () => ({ translateX: translateX.value, isFrozen: isFrozen.value }),
