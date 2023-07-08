@@ -30,7 +30,7 @@ function FeedHeaderDropdownDrawer() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onManageAccountPress = () => {
-    navigation.navigate("ViewAccounts");
+    navigation.navigate("ProfileStack", { screen: "ViewAccounts" });
   };
 
   if (!dropdownVisible) return null;
