@@ -1,27 +1,30 @@
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import * as Notifications from "expo-notifications";
-import { StatusBar } from "expo-status-bar";
-import { NativeBaseProvider, extendTheme } from "native-base";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { StatusBar, StatusBarStyle } from "expo-status-bar";
+import { extendTheme, NativeBaseProvider } from "native-base";
+import React, { useEffect, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { AppState, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import merge from "deepmerge";
 import Stack from "./Stack";
-import MemmyErrorView from "./components/ui/Loading/MemmyErrorView";
-import { writeToLog } from "./helpers/LogHelper";
-import { lemmyAuthToken, lemmyInstance } from "./lemmy/LemmyInstance";
-import { loadAccounts } from "./slices/accounts/accountsActions";
-import { selectAccountsLoaded } from "./slices/accounts/accountsSlice";
-import { loadSettings, setSetting } from "./slices/settings/settingsActions";
-import { selectSettings } from "./slices/settings/settingsSlice";
-import { getUnreadCount } from "./slices/site/siteActions";
+import MemmyErrorView from "./src/components/common/Loading/MemmyErrorView";
+import { writeToLog } from "./src/helpers/LogHelper";
+import { lemmyAuthToken, lemmyInstance } from "./src/LemmyInstance";
+import { loadAccounts } from "./src/slices/accounts/accountsActions";
+import { selectAccountsLoaded } from "./src/slices/accounts/accountsSlice";
+import {
+  loadSettings,
+  setSetting,
+} from "./src/slices/settings/settingsActions";
+import { selectSettings } from "./src/slices/settings/settingsSlice";
+import { getUnreadCount } from "./src/slices/site/siteActions";
 import { useAppDispatch, useAppSelector } from "./store";
-import getFontScale from "./theme/fontSize";
-import { darkTheme } from "./theme/theme";
-import { ThemeOptionsArr, ThemeOptionsMap } from "./theme/themeOptions";
-import Toast from "./components/ui/Toast";
-import { systemFontSettings } from "./theme/common";
+import getFontScale from "./src/theme/fontSize";
+import { darkTheme } from "./src/theme/theme";
+import { ThemeOptionsArr, ThemeOptionsMap } from "./src/theme/themeOptions";
+import Toast from "./src/components/common/Toast";
+import { systemFontSettings } from "./src/theme/common";
 
 const logError = (e, info) => {
   writeToLog(e.toString());
@@ -43,6 +46,8 @@ function Start() {
   const dispatch = useAppDispatch();
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
 
+  const [statusBarColor, setStatusBarColor] = useState<StatusBarStyle>("dark");
+
   const {
     theme,
     themeMatchSystem,
@@ -53,10 +58,11 @@ function Start() {
     isSystemFont,
     accentColor,
   } = useAppSelector(selectSettings);
+
   const [selectedTheme, setSelectedTheme] = useState<any>(darkTheme);
-  const systemColorScheme = useColorScheme();
+  const colorScheme = useColorScheme();
   const currentTheme = themeMatchSystem
-    ? systemColorScheme === "light"
+    ? colorScheme === "light"
       ? themeLight
       : themeDark
     : theme;
@@ -151,6 +157,9 @@ function Start() {
     );
     // TODO add fallback
     setSelectedTheme(newTheme);
+    setStatusBarColor(
+      newTheme.config.initialColorMode === "dark" ? "light" : "dark"
+    );
     // ! fontSize has to be here
   }, [
     currentTheme,
@@ -160,11 +169,6 @@ function Start() {
     isSystemFont,
     accentColor,
   ]);
-
-  const ThemedStatusBar = useMemo(
-    () => <StatusBar style={theme === "Light" ? "dark" : "light"} />,
-    [theme]
-  );
 
   if (!loaded) {
     dispatch(loadSettings());
@@ -180,7 +184,7 @@ function Start() {
     <NativeBaseProvider theme={selectedTheme}>
       <ErrorBoundary onError={logError} FallbackComponent={MemmyErrorView}>
         {/* eslint-disable-next-line react/style-prop-object */}
-        {ThemedStatusBar}
+        <StatusBar style={statusBarColor} />
         <GestureHandlerRootView style={{ flex: 1 }}>
           <ActionSheetProvider>
             <>
