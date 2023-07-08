@@ -12,53 +12,52 @@ import {
   IconSearch,
   IconUserCircle,
 } from "tabler-icons-react-native";
-import CommunityAboutScreen from "./components/screens/feeds/CommunityAboutScreen";
-import CommunityFeedScreen from "./components/screens/feeds/CommunityFeedScreen";
-import FeedsIndexScreen from "./components/screens/feeds/FeedsIndexScreen";
-import InboxScreen from "./components/screens/inbox/InboxScreen";
-import AddAccountScreen from "./components/screens/onboarding/AddAccountScreen";
-import CreateAccountScreen from "./components/screens/onboarding/CreateAccountScreen";
-import OnboardingIndexScreen from "./components/screens/onboarding/OnboardingIndexScreen";
-import NewCommentScreen from "./components/screens/comments/NewCommentScreen";
-import NewPostScreen from "./components/screens/post/NewPostScreen";
-import PostScreen from "./components/screens/post/PostScreen";
-import SearchScreen from "./components/screens/search/SearchScreen";
-import EditAccountScreen from "./components/screens/settings/Account/EditAccountScreen";
-import SettingsIndexScreen from "./components/screens/settings/SettingsIndexScreen";
-import ViewAccountsScreen from "./components/screens/settings/Account/ViewAccountsScreen";
-import BlockedCommunitiesScreen from "./components/screens/userProfile/BlockedCommunitiesScreen";
-import UserProfileScreen from "./components/screens/userProfile/UserProfileScreen";
-import LoadingView from "./components/ui/Loading/LoadingView";
+import CommunityAboutScreen from "./src/components/screens/Feed/CommunityAboutScreen";
+import CommunityFeedScreen from "./src/components/screens/Feed/CommunityFeedScreen";
+import FeedsIndexScreen from "./src/components/screens/Feed/FeedsIndexScreen";
+import AddAccountScreen from "./src/components/screens/Onboarding/AddAccountScreen";
+import CreateAccountScreen from "./src/components/screens/Onboarding/CreateAccountScreen";
+import OnboardingIndexScreen from "./src/components/screens/Onboarding/OnboardingIndexScreen";
+import NewCommentScreen from "./src/components/screens/Comments/NewCommentScreen";
+import NewPostScreen from "./src/components/screens/Post/NewPostScreen";
+import PostScreen from "./src/components/screens/Post/PostScreen";
+import SearchScreen from "./src/components/screens/Search/SearchScreen";
+import EditAccountScreen from "./src/components/screens/Settings/Account/EditAccountScreen";
+import SettingsIndexScreen from "./src/components/screens/Settings/SettingsIndexScreen";
+import ViewAccountsScreen from "./src/components/screens/Settings/Account/ViewAccountsScreen";
+import BlockedCommunitiesScreen from "./src/components/screens/UserProfile/BlockedCommunitiesScreen";
+import UserProfileScreen from "./src/components/screens/UserProfile/UserProfileScreen";
+import LoadingView from "./src/components/common/Loading/LoadingView";
 import {
   selectAccounts,
   selectAccountsLoaded,
-} from "./slices/accounts/accountsSlice";
-import { selectSite } from "./slices/site/siteSlice";
+} from "./src/slices/accounts/accountsSlice";
+import { selectSite } from "./src/slices/site/siteSlice";
 import { useAppSelector } from "./store";
-import ReadSettingsScreen from "./components/screens/settings/Content/ReadSettingsScreen";
-import ThemeSelectionScreen from "./components/screens/settings/Appearance/ThemeSelectionScreen";
-import ViewerScreen from "./components/screens/ViewerScreen";
-import EditCommentScreen from "./components/screens/comments/EditCommentScreen";
-import OnboardingInfoScreenOne from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenOne";
-import OnboardingInfoScreenTwo from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenTwo";
-import OnboardingInfoScreenThree from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenThree";
-import OnboardingInfoScreenFour from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenFour";
-import OnboardingInfoScreenFive from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenFive";
-import OnboardingInfoScreenSix from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenSix";
-import OnboardingInfoScreenSeven from "./components/screens/onboarding/infoScreens/OnboardingInfoScreenSeven";
-import HubDiscoveryScreen from "./components/screens/onboarding/hubDiscovery/HubDiscoveryScreen";
-import InstanceScreen from "./components/ui/hubDiscovery/InstanceScreen";
-import NewPostBodyScreen from "./components/screens/post/NewPostBodyScreen";
-import TraverseScreen from "./components/screens/traverse/TraverseScreen";
-import SearchResultsScreen from "./components/screens/search/SearchResultsScreen";
-import AppearanceScreen from "./components/screens/settings/Appearance/AppearanceScreen";
-import ContentScreen from "./components/screens/settings/Content/ContentScreen";
-import AccountSettingsScreen from "./components/screens/settings/Account/AccountSettingsScreen";
-import AboutScreen from "./components/screens/settings/About/AboutScreen";
-import GeneralSettingsScreen from "./components/screens/settings/General/GeneralSettingsScreen";
-import UserCommentsScreen from "./components/screens/userProfile/UserCommentsScreen";
-import UserPostsScreen from "./components/screens/userProfile/UserPostsScreen";
-import UserSavedPostsScreen from "./components/screens/userProfile/UserSavedPostsScreen";
+import ThemeSelectionScreen from "./src/components/screens/Settings/Appearance/ThemeSelectionScreen";
+import AppearanceScreen from "./src/components/screens/Settings/Appearance/AppearanceScreen";
+import ContentScreen from "./src/components/screens/Settings/Content/ContentScreen";
+import ViewerScreen from "./src/components/screens/ViewerScreen";
+import ReadSettingsScreen from "./src/components/screens/Settings/Content/ReadSettingsScreen";
+import UserSavedPostsScreen from "./src/components/screens/UserProfile/UserSavedPostsScreen";
+import UserPostsScreen from "./src/components/screens/UserProfile/UserPostsScreen";
+import UserCommentsScreen from "./src/components/screens/UserProfile/UserCommentsScreen";
+import NewPostBodyScreen from "./src/components/screens/Post/NewPostBodyScreen";
+import EditCommentScreen from "./src/components/screens/Comments/EditCommentScreen";
+import OnboardingInfoScreenThree from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenThree";
+import OnboardingInfoScreenTwo from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenTwo";
+import OnboardingInfoScreenOne from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenOne";
+import OnboardingInfoScreenFour from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenFour";
+import OnboardingInfoScreenFive from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenFive";
+import OnboardingInfoScreenSix from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenSix";
+import OnboardingInfoScreenSeven from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenSeven";
+import InstanceScreen from "./src/components/screens/HubDiscovery/InstanceScreen";
+import HubDiscoveryScreen from "./src/components/screens/Onboarding/HubDiscovery/HubDiscoveryScreen";
+import TraverseScreen from "./src/components/screens/Traverse/TraverseScreen";
+import SearchResultsScreen from "./src/components/screens/Search/SearchResultsScreen";
+import GeneralSettingsScreen from "./src/components/screens/Settings/General/GeneralSettingsScreen";
+import AboutScreen from "./src/components/screens/Settings/About/AboutScreen";
+import InboxScreen from "./src/components/screens/Inbox/InboxScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -286,14 +285,6 @@ function ProfileStackScreen() {
           component={ViewerScreen}
           options={{
             title: "View",
-          }}
-        />
-        <ProfileStack.Screen
-          name="AccountSettings"
-          component={AccountSettingsScreen}
-          options={{
-            title: "Accounts",
-            freezeOnBlur: true,
           }}
         />
         <ProfileStack.Screen
