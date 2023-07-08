@@ -457,6 +457,8 @@ PODS:
   - React-jsinspector (0.71.8)
   - React-logger (0.71.8):
     - glog
+  - react-native-change-icon (4.0.0):
+    - React-Core
   - react-native-flipper (0.203.0):
     - React-Core
   - react-native-ionicons (4.6.5):
@@ -693,6 +695,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-change-icon (from `../node_modules/react-native-change-icon`)
   - react-native-flipper (from `../node_modules/react-native-flipper`)
   - react-native-ionicons (from `../node_modules/react-native-ionicons`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
@@ -843,6 +846,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-change-icon:
+    :path: "../node_modules/react-native-change-icon"
   react-native-flipper:
     :path: "../node_modules/react-native-flipper"
   react-native-ionicons:
@@ -974,6 +979,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 747911ab5921641b4ed7e4900065896597142125
   React-jsinspector: c712f9e3bb9ba4122d6b82b4f906448b8a281580
   React-logger: 342f358b8decfbf8f272367f4eacf4b6154061be
+  react-native-change-icon: ea9bb7255b09e89f41cbf282df16eade91ab1833
   react-native-flipper: 598f601b6dc19d58f8f58088c6c570917efea2c4
   react-native-ionicons: 7ce04a8e61c6de2fc3b6798e8b9621b865cb18b1
   react-native-pager-view: 54bed894cecebe28cede54c01038d9d1e122de43
