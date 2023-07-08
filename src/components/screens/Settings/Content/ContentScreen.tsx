@@ -4,10 +4,10 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { SortType } from "lemmy-js-client";
 import { ScrollView, useTheme } from "native-base";
 import React from "react";
-import { LayoutAnimation, StyleSheet, Switch } from "react-native";
+import { StyleSheet, Switch } from "react-native";
+import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
-import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { SortOption, sortOptions } from "../../../../types/FeedSortOptions";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
@@ -41,22 +41,6 @@ function ContentScreen({
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
         <CSection header="POSTS">
-          <CCell
-            cellStyle="Basic"
-            title="Display Total Score"
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.displayTotalScore}
-                onValueChange={(v) => {
-                  LayoutAnimation.easeInEaseOut();
-                  onChange("displayTotalScore", v);
-                }}
-              />
-            }
-          />
           {/* <CCell */}
           {/*  title="Swipe Gestures" */}
           {/*  backgroundColor={theme.colors.app.fg} */}
@@ -69,35 +53,6 @@ function ContentScreen({
           {/*    /> */}
           {/*  } */}
           {/* /> */}
-          <CCell
-            cellStyle="Basic"
-            title="Images Ignore Screen Height"
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.ignoreScreenHeightInFeed}
-                onValueChange={(v) => {
-                  LayoutAnimation.easeInEaseOut();
-                  onChange("ignoreScreenHeightInFeed", v);
-                }}
-              />
-            }
-          />
-          <CCell
-            cellStyle="RightDetail"
-            title="Show Instance For Usernames"
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.showInstanceForUsernames}
-                onValueChange={(v) => onChange("showInstanceForUsernames", v)}
-              />
-            }
-          />
           <CCell
             cellStyle="RightDetail"
             title="Default Sort"
@@ -207,66 +162,7 @@ function ContentScreen({
               />
             }
           />
-          <CCell
-            cellStyle="RightDetail"
-            title="Compact View"
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.compactView}
-                onValueChange={(v) => {
-                  LayoutAnimation.easeInEaseOut();
-                  onChange("compactView", v);
-                }}
-              />
-            }
-          />
         </CSection>
-
-        {settings.compactView && (
-          <CSection header="COMPACT">
-            <CCell
-              cellStyle="RightDetail"
-              title="Thumbnails Position"
-              detail={settings.compactThumbnailPosition}
-              accessory="DisclosureIndicator"
-              onPress={() => {
-                const options = ["None", "Left", "Right", "Cancel"];
-                const cancelButtonIndex = 3;
-
-                showActionSheetWithOptions(
-                  {
-                    options,
-                    cancelButtonIndex,
-                    userInterfaceStyle: theme.config.initialColorMode,
-                  },
-                  (index: number) => {
-                    if (index === cancelButtonIndex) return;
-
-                    dispatch(
-                      setSetting({ compactThumbnailPosition: options[index] })
-                    );
-                  }
-                );
-              }}
-            />
-            <CCell
-              cellStyle="RightDetail"
-              title="Show Voting Buttons"
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
-              cellAccessoryView={
-                <Switch
-                  value={settings.compactShowVotingButtons}
-                  onValueChange={(v) => onChange("compactShowVotingButtons", v)}
-                />
-              }
-            />
-          </CSection>
-        )}
         <CSection
           header="NSFW CONTENT"
           footer="This toggle does not affect your Lemmy account NSFW settings. This local setting will apply only to the app and will apply to all accounts."
