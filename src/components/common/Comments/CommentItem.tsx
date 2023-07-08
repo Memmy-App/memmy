@@ -4,24 +4,27 @@ import {
   Pressable,
   Text,
   useTheme,
-  View,
   VStack,
 } from "native-base";
 import React, { useRef } from "react";
-import { IconChevronDown, IconDots } from "tabler-icons-react-native";
+import {
+  IconChevronDown,
+  IconDots,
+  IconMessagePlus,
+} from "tabler-icons-react-native";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import useComment from "../../../hooks/post/useComment";
-import AvatarUsername from "../AvatarUsername";
-import CommentCollapsed from "./CommentCollapsed";
-import CommentBody from "./CommentBody";
-import { SwipeableRow } from "../SwipeableRow/SwipeableRow";
-import { VoteOption } from "../SwipeableRow/VoteOption";
-import { ReplyOption } from "../SwipeableRow/ReplyOption";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
-import SmallVoteIcons from "../Vote/SmallVoteIcons";
+import AvatarUsername from "../AvatarUsername";
 import IconButtonWithText from "../IconButtonWithText";
+import { ReplyOption } from "../SwipeableRow/ReplyOption";
+import { SwipeableRow } from "../SwipeableRow/SwipeableRow";
+import { VoteOption } from "../SwipeableRow/VoteOption";
+import SmallVoteIcons from "../Vote/SmallVoteIcons";
 import VoteButton from "../Vote/VoteButton";
+import CommentBody from "./CommentBody";
+import CommentCollapsed from "./CommentCollapsed";
 
 interface IProps {
   comment: ILemmyComment;
@@ -63,7 +66,6 @@ function CommentItem({
           <VoteOption
             onVote={commentHook.onVote}
             vote={comment.comment.my_vote}
-            id={comment.comment.comment.id}
           />
         }
         rightOption={
@@ -71,7 +73,6 @@ function CommentItem({
             onReply={commentHook.onReply}
             extraType={isUnreadReply ? "read" : undefined}
             onExtra={isUnreadReply ? commentHook.onReadPress : undefined}
-            id={comment.comment.comment.id}
           />
         }
       >
@@ -139,39 +140,52 @@ function CommentItem({
               {comment.collapsed ? (
                 <CommentCollapsed />
               ) : (
-                <CommentBody
-                  deleted={comment.comment.comment.deleted}
-                  removed={comment.comment.comment.removed}
-                  content={comment.comment.comment.content}
-                />
+                <>
+                  <CommentBody
+                    deleted={comment.comment.comment.deleted}
+                    removed={comment.comment.comment.removed}
+                    content={comment.comment.comment.content}
+                  />
+                  <HStack justifyContent="flex-end" space={2} mb={1}>
+                    <IconButtonWithText
+                      onPressHandler={commentHook.onReply}
+                      icon={
+                        <IconMessagePlus
+                          color={theme.colors.app.accent}
+                          size={22}
+                        />
+                      }
+                    />
+                    <VoteButton
+                      onPressHandler={async () =>
+                        myVote === 1
+                          ? commentHook.onVote(0)
+                          : commentHook.onVote(1)
+                      }
+                      type="upvote"
+                      isVoted={myVote === 1}
+                      isAccented
+                      iconSize={22}
+                    />
+                    <VoteButton
+                      onPressHandler={async () =>
+                        myVote === -1
+                          ? commentHook.onVote(0)
+                          : commentHook.onVote(-1)
+                      }
+                      type="downvote"
+                      isVoted={myVote === -1}
+                      isAccented
+                      iconSize={22}
+                      textSize="md"
+                    />
+                  </HStack>
+                </>
               )}
-              <HStack justifyContent="flex-end">
-                <VoteButton
-                  onPressHandler={async () =>
-                    myVote === 1 ? commentHook.onVote(0) : commentHook.onVote(1)
-                  }
-                  type="upvote"
-                  isVoted={myVote === 1}
-                  isAccented
-                  iconSize={22}
-                />
-                <VoteButton
-                  onPressHandler={async () =>
-                    myVote === -1
-                      ? commentHook.onVote(0)
-                      : commentHook.onVote(-1)
-                  }
-                  type="downvote"
-                  isVoted={myVote === -1}
-                  isAccented
-                  iconSize={22}
-                />
-              </HStack>
             </VStack>
           </VStack>
         </Pressable>
       </SwipeableRow>
-
       <Divider bg={theme.colors.app.border} />
     </>
   );

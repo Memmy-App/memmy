@@ -43,37 +43,41 @@ export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
   const [arrow, setArrow] = useState<LayoutRectangle | null>(null);
   const { subscribe, translateX } = useSwipeableRow();
 
-  const colors: ISwipeableColors = useMemo(() => {
-    return vote === -1
-      ? {
-          first: theme.colors.app.downvote,
-          second: theme.colors.app.upvote,
-        }
-      : {
-          first: theme.colors.app.upvote,
-          second: theme.colors.app.downvote,
-        };
-  }, [vote, theme]);
+  const colors: ISwipeableColors = useMemo(
+    () =>
+      vote === -1
+        ? {
+            first: theme.colors.app.downvote,
+            second: theme.colors.app.upvote,
+          }
+        : {
+            first: theme.colors.app.upvote,
+            second: theme.colors.app.downvote,
+          },
+    [vote, theme]
+  );
 
-  useEffect(() => {
-    return subscribe({
-      onStart: () => {
-        "worklet";
+  useEffect(
+    () =>
+      subscribe({
+        onStart: () => {
+          "worklet";
 
-        isFrozen.value = false;
-      },
-      onEnd: () => {
-        "worklet";
+          isFrozen.value = false;
+        },
+        onEnd: () => {
+          "worklet";
 
-        if (translateX.value >= secondStop) {
-          runOnJS(onVote)(vote === -1 ? 1 : -1);
-        } else if (translateX.value >= firstStop) {
-          runOnJS(onVote)(vote === -1 || vote === 1 ? 0 : 1);
-        }
-        isFrozen.value = true;
-      },
-    });
-  }, [vote, onVote]);
+          if (translateX.value >= secondStop) {
+            runOnJS(onVote)(vote === -1 ? 1 : -1);
+          } else if (translateX.value >= firstStop) {
+            runOnJS(onVote)(vote === -1 || vote === 1 ? 0 : 1);
+          }
+          isFrozen.value = true;
+        },
+      }),
+    [vote, onVote]
+  );
 
   // The timer used for the rotation animation
   const rotationTimer = useSharedValue(0);
