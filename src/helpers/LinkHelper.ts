@@ -160,6 +160,7 @@ const openWebLink = (link: string): void => {
   const urlPattern =
     /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
 
+  const settings = store.getState().settings;
   try {
     writeToLog(`Trying to open link: ${link}`);
 
@@ -169,6 +170,7 @@ const openWebLink = (link: string): void => {
 
     WebBrowser.openBrowserAsync(fixedLink, {
       dismissButtonStyle: "close",
+      readerMode: settings.useReaderMode,
       presentationStyle: WebBrowserPresentationStyle.FULL_SCREEN,
       toolbarColor: "#000",
     })

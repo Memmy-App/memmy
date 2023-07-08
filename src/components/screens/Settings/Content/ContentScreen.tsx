@@ -194,6 +194,24 @@ function ContentScreen({
             }
           />
         </CSection>
+        <CSection header="Web">
+          <CCell
+            cellStyle="Basic"
+            title="Use Reader Mode"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.useReaderMode}
+                onValueChange={(v) => {
+                  LayoutAnimation.easeInEaseOut();
+                  onChange("useReaderMode", v);
+                }}
+              />
+            }
+          />
+        </CSection>
       </TableView>
     </ScrollView>
   );
