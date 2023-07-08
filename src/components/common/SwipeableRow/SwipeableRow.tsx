@@ -76,6 +76,7 @@ export function SwipeableRow({ leftOption, rightOption, children }: Props) {
 
     return Gesture.Pan()
       .activeOffsetX([-20, 20])
+      .hitSlop({ left: -30 })
       .onBegin((event) => {
         broadcast(event, "onBegin");
       })
