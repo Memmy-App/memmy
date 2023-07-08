@@ -20,10 +20,8 @@ jobs:
     - name: Install Node deps
       run: yarn install
 
-    - name: Run lint
-      uses: wearerequired/lint-action@v2
-      with:
-        eslint: true
-        prettier: true
+    - name: Run Lint
+      run: |
+        eslint .
 
 
