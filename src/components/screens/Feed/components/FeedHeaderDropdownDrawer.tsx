@@ -1,5 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Pressable, ScrollView, View } from "native-base";
 import React from "react";
 import { StyleSheet } from "react-native";
@@ -25,12 +23,6 @@ function FeedHeaderDropdownDrawer() {
   const onAccountPress = (account: Account) => {
     dispatch(setCurrentAccount(account));
     dispatch(setDropdownVisible());
-  };
-
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
-  const onManageAccountPress = () => {
-    navigation.navigate("ProfileStack", { screen: "ViewAccounts" });
   };
 
   if (!dropdownVisible) return null;
