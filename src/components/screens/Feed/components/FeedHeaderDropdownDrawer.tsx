@@ -58,12 +58,12 @@ function FeedHeaderDropdownDrawer() {
                   />
                 ))}
 
-                <CCell
-                  cellStyle="Basic"
-                  title="Manage Accounts"
-                  onPress={() => onManageAccountPress()}
-                  accessory="DisclosureIndicator"
-                />
+                {/* <CCell */}
+                {/*  cellStyle="Basic" */}
+                {/*  title="Manage Accounts" */}
+                {/*  onPress={() => onManageAccountPress()} */}
+                {/*  accessory="DisclosureIndicator" */}
+                {/* /> */}
               </Animated.View>
             </CSection>
           </CTable>
