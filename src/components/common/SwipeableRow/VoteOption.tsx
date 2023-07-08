@@ -21,7 +21,7 @@ import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers"
 import { ISwipeableColors } from "./types";
 
 type Stops = [first: number, second: number];
-const DEFAULT_STOPS: Stops = [75, 125];
+const DEFAULT_STOPS: Stops = [75, 150];
 
 interface Props {
   stops?: Stops;
@@ -195,7 +195,7 @@ export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
     const scale = interpolate(
       pulseTimer.value,
       [0, 0.5, 1],
-      [1, 1.5, 1],
+      [1, 1.75, 1],
       Extrapolate.CLAMP
     );
 
