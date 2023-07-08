@@ -22,7 +22,7 @@
   "dependencies": {
     "@expo/react-native-action-sheet": "^4.0.1",
     "@expo/vector-icons": "^13.0.0",
-    "@gkasdorf/react-native-image-viewing": "^0.2.21",
+    "@gkasdorf/react-native-image-viewing": "^0.2.22",
     "@gkasdorf/react-native-tableview-simple": "^4.4.2",
     "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-native-community/clipboard": "^1.5.1",
