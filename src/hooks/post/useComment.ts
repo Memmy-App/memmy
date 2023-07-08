@@ -59,7 +59,7 @@ const useComment = ({
 
     setComments((prev) =>
       prev.map((c) => {
-        if (c.comment.comment.id === comment.comment.comment.id?) {
+        if (c.comment.comment.id === comment.comment.comment.id) {
           return {
             ...c,
             collapsed: !comment.collapsed,
