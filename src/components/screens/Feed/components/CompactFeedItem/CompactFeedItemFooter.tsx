@@ -31,7 +31,11 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
               <IconBookCheck color={colors.app.accent} size={20} />
             </Box>
           )}
-          <AvatarUsername creator={post.creator} showAvatar={false} />
+          <AvatarUsername
+            creator={post.creator}
+            showAvatar={false}
+            link={false}
+          />
         </HStack>
         <Text color={colors.app.textSecondary}>•</Text>
         <Text color={colors.app.textSecondary}>
