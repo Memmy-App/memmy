@@ -37,6 +37,7 @@ export interface SettingsState {
   accentColor?: string;
   hideReadPostsOnFeed: boolean;
   appIcon: string;
+  showCommentActions: boolean;
 }
 
 const initialState: SettingsState = {
@@ -70,6 +71,7 @@ const initialState: SettingsState = {
   useReaderMode: false,
   hideReadPostsOnFeed: false,
   appIcon: "purple",
+  showCommentActions: true,
 };
 
 const settingsSlice = createSlice({
