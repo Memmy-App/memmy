@@ -68,6 +68,7 @@ export function SwipeableRow({ leftOption, rightOption, children }: Props) {
       name: keyof Handlers
     ) => {
       "worklet";
+
       subscribers.forEach((handler) => {
         handler[name]?.(event);
       });
