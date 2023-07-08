@@ -10,6 +10,7 @@ interface VoteButtonProps {
   isVoted: boolean;
   text?: string | number;
   isAccented?: boolean;
+  iconSize?: number;
 }
 
 function VoteButton({
@@ -18,6 +19,7 @@ function VoteButton({
   isVoted,
   text,
   isAccented,
+  iconSize = 25,
 }: VoteButtonProps) {
   const { colors } = useTheme();
 
@@ -27,11 +29,14 @@ function VoteButton({
 
   const icon =
     type === "upvote" ? (
-      <IconArrowUp color={isVoted ? colors.app.upvoteText : color} size={25} />
+      <IconArrowUp
+        color={isVoted ? colors.app.upvoteText : color}
+        size={iconSize}
+      />
     ) : (
       <IconArrowDown
         color={isVoted ? colors.app.downvoteText : color}
-        size={25}
+        size={iconSize}
       />
     );
 
