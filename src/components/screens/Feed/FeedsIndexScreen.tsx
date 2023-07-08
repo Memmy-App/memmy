@@ -46,12 +46,7 @@ function FeedsIndexScreen({
   const load = async () => {
     try {
       if (!lemmyInstance) {
-        await initialize({
-          username: currentAccount.username,
-          password: currentAccount.password,
-          auth: currentAccount.token,
-          server: currentAccount.instance,
-        });
+        await initialize(currentAccount.instance, currentAccount.token);
       }
     } catch (e) {
       writeToLog("Error getting feed.");

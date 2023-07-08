@@ -6,13 +6,13 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { writeToLog } from "../../../helpers/LogHelper";
-import { initialize, lemmyAuthToken } from "../../../LemmyInstance";
+import { login, lemmyAuthToken } from "../../../LemmyInstance";
 import { addAccount } from "../../../slices/accounts/accountsActions";
 import { useAppDispatch } from "../../../../store";
 import CTextInput from "../../common/CTextInput";
 import LoadingModal from "../../common/Loading/LoadingModal";
 import { showToast } from "../../../slices/toast/toastSlice";
-import ILemmyServer from "../../../types/lemmy/ILemmyServer";
+import ILemmyCredentials from "../../../types/lemmy/ILemmyCredentials";
 
 const header = require("../../../../assets/header.jpg");
 
@@ -167,14 +167,14 @@ function CreateAccountScreen({
     const regex = /^(?:https?:\/\/)?([^/]+)/;
     const serverParsed = form.server.match(regex)[1];
 
-    const server: ILemmyServer = {
+    const serverCreds: ILemmyCredentials = {
       username: form.username,
       password: form.password,
       server: serverParsed,
     };
 
     try {
-      await initialize(server);
+      await login(serverCreds);
     } catch (e) {
       writeToLog("Error initializing server.");
       writeToLog(e.toString());
@@ -184,14 +184,11 @@ function CreateAccountScreen({
       return;
     }
 
-    server.auth = lemmyAuthToken;
-
     setLoading(false);
 
     dispatch(
       addAccount({
         username: form.username,
-        password: form.password,
         instance: serverParsed,
         token: lemmyAuthToken,
       })

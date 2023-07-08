@@ -8,7 +8,7 @@ import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import { writeToLog } from "../../../../helpers/LogHelper";
 import {
   getInstanceError,
-  initialize,
+  login,
   lemmyAuthToken,
 } from "../../../../LemmyInstance";
 import {
@@ -19,7 +19,7 @@ import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import CCell from "../../../common/Table/CCell";
 import { showToast } from "../../../../slices/toast/toastSlice";
-import ILemmyServer from "../../../../types/lemmy/ILemmyServer";
+import ILemmyCredentials from "../../../../types/lemmy/ILemmyCredentials";
 
 function EditAccountScreen({
   route,
@@ -28,11 +28,10 @@ function EditAccountScreen({
   route;
   navigation: NativeStackNavigationProp<any>;
 }) {
-  const [form, setForm] = useState<ILemmyServer>({
+  const [form, setForm] = useState<ILemmyCredentials>({
     server: "",
     username: "",
     password: "",
-    auth: "",
     totpToken: "",
   });
 
@@ -61,7 +60,7 @@ function EditAccountScreen({
       setForm({
         ...form,
         username: account.username,
-        password: account.password,
+        password: "",
         server: account.instance,
       });
 
@@ -108,14 +107,14 @@ function EditAccountScreen({
     setLoading(true);
     const serverParsed = getBaseUrl(form.server);
 
-    const server: ILemmyServer = {
+    const serverCreds: ILemmyCredentials = {
       username: form.username,
       password: form.password,
       server: serverParsed,
       totpToken: form.totpToken,
     };
 
-    const success = await initialize(server);
+    const success = await login(serverCreds);
 
     setLoading(false);
 
@@ -142,7 +141,6 @@ function EditAccountScreen({
       dispatch(
         editAccount({
           username: form.username,
-          password: form.password,
           token: lemmyAuthToken,
           instance: form.server,
         })
@@ -151,7 +149,6 @@ function EditAccountScreen({
       dispatch(
         addAccount({
           username: form.username,
-          password: form.password,
           token: lemmyAuthToken,
           instance: form.server,
         })

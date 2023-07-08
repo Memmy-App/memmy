@@ -1,7 +1,7 @@
 export interface Account {
   username: string;
-  password: string;
   instance: string;
-  token: string;
+  token?: string;
+  tokenKey?: string;
   isCurrent?: boolean;
 }

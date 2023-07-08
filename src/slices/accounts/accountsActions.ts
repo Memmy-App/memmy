@@ -1,7 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import merge from "deepmerge";
+import * as Crypto from "expo-crypto";
+import * as SecureStore from "expo-secure-store";
 import { Account } from "../../types/Account";
 import { writeToLog } from "../../helpers/LogHelper";
+
+const generateTokenKey = () => `lemmyToken.${Crypto.randomUUID()}`;
+
+const populateTokens = async (accounts: Account[]) => {
+  const fetchPromises = [];
+  accounts.forEach((a) => {
+    if (a.tokenKey)
+      fetchPromises.push(
+        SecureStore.getItemAsync(a.tokenKey).then((token) => {
+          a.token = token;
+        })
+      );
+  });
+  await Promise.all(fetchPromises);
+  return accounts;
+};
 
 export const loadAccounts = createAsyncThunk(
   "accounts/loadAccounts",
@@ -11,7 +30,10 @@ export const loadAccounts = createAsyncThunk(
 
       if (!accountsStr) return null;
 
-      return JSON.parse(accountsStr) as Account[];
+      const accounts = await populateTokens(
+        JSON.parse(accountsStr) as Account[]
+      );
+      return accounts;
     } catch (e) {
       writeToLog("Error loading accounts.");
       writeToLog(e.toString());
@@ -28,9 +50,16 @@ export const addAccount = createAsyncThunk(
       (JSON.parse(await AsyncStorage.getItem("@accounts")) as Account[]) ?? [];
     accounts.forEach((a) => delete a.isCurrent);
     account.isCurrent = true;
-    accounts.push(account);
+
+    account.tokenKey = generateTokenKey();
+    await SecureStore.setItemAsync(account.tokenKey, account.token);
+
+    const accountToSave = merge({}, account);
+    delete accountToSave.token;
+    accounts.push(accountToSave);
     await AsyncStorage.setItem("@accounts", JSON.stringify(accounts));
-    return accounts;
+
+    return populateTokens(accounts);
   }
 );
 
@@ -44,10 +73,16 @@ export const editAccount = createAsyncThunk(
       (a) => a.username === account.username && a.instance === account.instance
     );
 
-    accounts[index].password = account.password;
+    if (!accounts[index].tokenKey)
+      accounts[index].tokenKey = generateTokenKey();
+    await SecureStore.setItemAsync(accounts[index].tokenKey, account.token);
 
+    delete accounts[index].token;
+    delete (<any>accounts[index]).password; // legacy signins
     await AsyncStorage.setItem("@accounts", JSON.stringify(accounts));
-    return accounts;
+
+    await populateTokens(accounts);
+    return { editedAccountIndex: index, updatedAccounts: accounts };
   }
 );
 
@@ -57,11 +92,19 @@ export const deleteAccount = createAsyncThunk(
     const accounts =
       (JSON.parse(await AsyncStorage.getItem("@accounts")) as Account[]) ?? [];
 
-    const updatedAccounts = accounts.filter(
-      (a) => a.username !== account.username || a.instance !== account.instance
-    );
+    const updatedAccounts = [];
+    const deletePromises = [];
+    accounts.forEach((a) => {
+      if (a.username === account.username && a.instance === account.instance) {
+        if (a.tokenKey)
+          deletePromises.push(SecureStore.deleteItemAsync(a.tokenKey));
+      } else updatedAccounts.push(a);
+    });
+    await Promise.all(deletePromises);
 
     await AsyncStorage.setItem("@accounts", JSON.stringify(updatedAccounts));
+
+    await populateTokens(updatedAccounts);
     return { deletedAccount: account, updatedAccounts };
   }
 );

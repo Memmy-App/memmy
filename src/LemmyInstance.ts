@@ -1,7 +1,7 @@
 import { LemmyHttp } from "lemmy-js-client";
 import { Platform } from "react-native";
 import { getReadableVersion } from "react-native-device-info";
-import ILemmyServer from "./types/lemmy/ILemmyServer";
+import ILemmyCredentials from "./types/lemmy/ILemmyCredentials";
 import { writeToLog } from "./helpers/LogHelper";
 
 // eslint-disable-next-line import/no-mutable-exports
@@ -16,39 +16,48 @@ export const resetInstance = () => {
   lemmyInstance = null;
 };
 
-const initialize = async (server: ILemmyServer): Promise<boolean> => {
+const createInstance = (server: string): LemmyHttp => {
   const os = Platform.OS;
-  lemmyInstance = new LemmyHttp(`https://${server.server}`, {
+  return new LemmyHttp(`https://${server}`, {
     fetchFunction: undefined,
     headers: {
       "User-Agent": `Memmy ${os} ${getReadableVersion()}`,
     },
   });
+};
 
-  writeToLog(`Attempting to initialize instance. ${server.server}`);
+const initialize = async (server: string, token: string) => {
+  lemmyInstance = createInstance(server);
 
-  if (server.auth) {
-    writeToLog("Already authenticated. Using existing authentication token.");
-    lemmyAuthToken = server.auth;
-    return true;
+  writeToLog(`Initializing instance. ${server}`);
+
+  if (token) {
+    writeToLog("Existing authentication token found.");
+    lemmyAuthToken = token;
+  } else {
+    writeToLog("No authentication token found for instance.");
+    throw Error("Error initializing account.");
   }
-  writeToLog("Attempting login.");
+};
+
+const login = async (creds: ILemmyCredentials): Promise<boolean> => {
+  const lemmyLoginClient = createInstance(creds.server);
+
+  writeToLog(`Attempting login to instance. ${creds.server}`);
+
   const args = {
-    username_or_email: server.username,
-    password: server.password,
-    totp_2fa_token: undefined,
+    username_or_email: creds.username,
+    password: creds.password,
+    totp_2fa_token: creds.totpToken || undefined,
   };
 
-  if (server.totpToken) {
-    args.totp_2fa_token = server.totpToken;
-  }
-
   try {
-    const res = await lemmyInstance.login(args);
+    const res = await lemmyLoginClient.login(args);
+    lemmyInstance = lemmyLoginClient;
     lemmyAuthToken = res.jwt;
     return true;
   } catch (e) {
-    writeToLog("Error initializing instance.");
+    writeToLog("Error logging into instance.");
     writeToLog(e.toString());
 
     errorMessage = e.toString();
@@ -73,6 +82,7 @@ export {
   lemmyInstance,
   lemmyAuthToken,
   initialize,
+  login,
   getInstanceError,
   errorToMessage,
 };

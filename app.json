@@ -20,6 +20,9 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.gkasdorf.memmyapp",
       "buildNumber": "78",
+      "config": {
+        "usesNonExemptEncryption": false
+      },
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "Allow Memmy to access your photos.",
         "NSPhotoLibraryAddUsageDescription": "Allow Memmy to save photos."

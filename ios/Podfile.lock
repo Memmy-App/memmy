@@ -104,6 +104,8 @@ PODS:
     - expo-dev-menu/SafeAreaView
   - ExpoBlur (12.2.2):
     - ExpoModulesCore
+  - ExpoCrypto (12.2.2):
+    - ExpoModulesCore
   - ExpoDevice (5.2.1):
     - ExpoModulesCore
   - ExpoImagePicker (14.1.1):
@@ -119,6 +121,8 @@ PODS:
   - ExpoSystemUI (2.2.1):
     - ExpoModulesCore
   - ExpoWebBrowser (12.1.1):
+    - ExpoModulesCore
+  - EXSecureStore (12.1.1):
     - ExpoModulesCore
   - EXSplashScreen (0.18.2):
     - ExpoModulesCore
@@ -641,6 +645,7 @@ DEPENDENCIES:
   - expo-dev-menu (from `../node_modules/expo-dev-menu`)
   - expo-dev-menu-interface (from `../node_modules/expo-dev-menu-interface/ios`)
   - ExpoBlur (from `../node_modules/expo-blur/ios`)
+  - ExpoCrypto (from `../node_modules/expo-crypto/ios`)
   - ExpoDevice (from `../node_modules/expo-device/ios`)
   - ExpoImagePicker (from `../node_modules/expo-image-picker/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
@@ -648,6 +653,7 @@ DEPENDENCIES:
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - ExpoSystemUI (from `../node_modules/expo-system-ui/ios`)
   - ExpoWebBrowser (from `../node_modules/expo-web-browser/ios`)
+  - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - EXUpdatesInterface (from `../node_modules/expo-updates-interface/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
@@ -789,6 +795,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-dev-menu-interface/ios"
   ExpoBlur:
     :path: "../node_modules/expo-blur/ios"
+  ExpoCrypto:
+    :path: "../node_modules/expo-crypto/ios"
   ExpoDevice:
     :path: "../node_modules/expo-device/ios"
   ExpoImagePicker:
@@ -803,6 +811,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-system-ui/ios"
   ExpoWebBrowser:
     :path: "../node_modules/expo-web-browser/ios"
+  EXSecureStore:
+    :path: "../node_modules/expo-secure-store/ios"
   EXSplashScreen:
     :path: "../node_modules/expo-splash-screen/ios"
   EXUpdatesInterface:
@@ -934,6 +944,7 @@ SPEC CHECKSUMS:
   expo-dev-menu: f2ea9233cdd8790c20d559eba7352bbf83662d6a
   expo-dev-menu-interface: 6c82ae323c4b8724dead4763ce3ff24a2108bdb1
   ExpoBlur: fac3c6318fdf409dd5740afd3313b2bd52a35bac
+  ExpoCrypto: 9105610a09cd6290b900bd82fc5d190e489125a3
   ExpoDevice: e0bebf68f978b3d353377ce42e73c20c0a070215
   ExpoImagePicker: 270dea232b3a072d981dd564e2cafc63a864edb1
   ExpoKeepAwake: 69f5f627670d62318410392d03e0b5db0f85759a
@@ -941,6 +952,7 @@ SPEC CHECKSUMS:
   ExpoModulesCore: 653958063a301098b541ae4dfed1ac0b98db607b
   ExpoSystemUI: 0be5173ee2a7c01e9abc44f56d879a1eaaa16527
   ExpoWebBrowser: 033d34c478d9986da2f1679729041423837626e0
+  EXSecureStore: e8923258361cc406d0401af380f12bd05b2b720f
   EXSplashScreen: 0e0a9ba0cf7553094e93213099bd7b42e6e237e9
   EXUpdatesInterface: dd699d1930e28639dcbd70a402caea98e86364ca
   FBLazyVector: f637f31eacba90d4fdeff3fa41608b8f361c173b

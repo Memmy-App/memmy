@@ -45,7 +45,9 @@ const accountsSlice = createSlice({
       state.currentAccount = action.payload[action.payload.length - 1];
     });
     builder.addCase(editAccount.fulfilled, (state, action) => {
-      if (action.payload) state.accounts = action.payload;
+      state.accounts = action.payload.updatedAccounts;
+      state.currentAccount =
+        action.payload.updatedAccounts[action.payload.editedAccountIndex];
     });
     builder.addCase(deleteAccount.fulfilled, (state, action) => {
       state.accounts = action.payload.updatedAccounts;

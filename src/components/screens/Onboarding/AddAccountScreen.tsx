@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import CTextInput from "../../common/CTextInput";
 import {
   getInstanceError,
-  initialize,
+  login,
   lemmyAuthToken,
 } from "../../../LemmyInstance";
 import LoadingModal from "../../common/Loading/LoadingModal";
@@ -15,7 +15,7 @@ import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { addAccount } from "../../../slices/accounts/accountsActions";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { showToast } from "../../../slices/toast/toastSlice";
-import ILemmyServer from "../../../types/lemmy/ILemmyServer";
+import ILemmyCredentials from "../../../types/lemmy/ILemmyCredentials";
 
 const header = require("../../../../assets/header.jpg");
 
@@ -25,11 +25,10 @@ interface IProps {
 }
 
 function AddAccountScreen({ route, navigation }: IProps) {
-  const [form, setForm] = useState<ILemmyServer>({
+  const [form, setForm] = useState<ILemmyCredentials>({
     server: "",
     username: "",
     password: "",
-    auth: "",
     totpToken: "",
   });
   const [loading, setLoading] = useState(false);
@@ -69,7 +68,7 @@ function AddAccountScreen({ route, navigation }: IProps) {
     const regex = /^(?:https?:\/\/)?([^/]+)/;
     const serverParsed = form.server.match(regex)[1];
 
-    const server: ILemmyServer = {
+    const serverCreds: ILemmyCredentials = {
       username: form.username,
       password: form.password,
       server: serverParsed,
@@ -78,7 +77,7 @@ function AddAccountScreen({ route, navigation }: IProps) {
 
     setLoading(true);
 
-    const success = await initialize(server);
+    const success = await login(serverCreds);
 
     setLoading(false);
 
@@ -108,7 +107,6 @@ function AddAccountScreen({ route, navigation }: IProps) {
       dispatch(
         addAccount({
           username: form.username,
-          password: form.password,
           instance: getBaseUrl(form.server),
           token: lemmyAuthToken,
         })
