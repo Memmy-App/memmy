@@ -9,7 +9,6 @@ import {
   sleepyRainforestThemeColors,
   sunsetThemeColors,
   oksolarDarkThemeColors,
-  oceanicNextThemeColors,
   oledThemeColors,
   embarkThemeColors,
 } from "./darkColors";
@@ -191,7 +190,6 @@ export {
   sunsetTheme,
   oksolarDarkTheme,
   oksolarLightTheme,
-  oceanicNextTheme,
   oledTheme,
   embarkTheme,
 };
