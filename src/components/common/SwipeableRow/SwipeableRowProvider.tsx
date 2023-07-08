@@ -1,13 +1,10 @@
-/* Courtesy https://github.com/beardwin/ */
-
 import React from "react";
-import { ISwipeableRowContext } from "./types";
+import { Handlers, ISwipeableRowContext } from "./types";
 
 const SwipeableRowContext = React.createContext<ISwipeableRowContext>({
   translateX: { value: 0 },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setLeftSubscribers: undefined,
-  setRightSubscribers: undefined,
+  subscribe: (_: Handlers) => () => {},
 });
 
 export const useSwipeableRow = () => React.useContext(SwipeableRowContext);

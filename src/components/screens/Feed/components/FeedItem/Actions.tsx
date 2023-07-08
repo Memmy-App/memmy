@@ -28,9 +28,7 @@ export function Actions({ vote, saved, onSave, onVotePress }: Props) {
           <IconBookmark
             size={25}
             color={
-              saved
-                ? theme.colors.app.bookmarkText
-                : theme.colors.app.textSecondary
+              saved ? theme.colors.app.bookmarkText : theme.colors.app.accent
             }
           />
         }
@@ -41,11 +39,13 @@ export function Actions({ vote, saved, onSave, onVotePress }: Props) {
         onPressHandler={onUpvote}
         type="upvote"
         isVoted={vote === 1}
+        isAccented
       />
       <VoteButton
         onPressHandler={onDownvote}
         type="downvote"
         isVoted={vote === -1}
+        isAccented
       />
     </HStack>
   );

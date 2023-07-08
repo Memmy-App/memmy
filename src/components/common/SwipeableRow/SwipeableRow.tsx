@@ -1,19 +1,20 @@
 /* Courtesy https://github.com/beardwin/ */
 
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, {
   Easing,
   SharedValue,
-  useAnimatedGestureHandler,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
+  Gesture,
+  GestureDetector,
+  GestureStateChangeEvent,
+  PanGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import { Handlers, SwipeableRowGestureContext } from "./types";
 import { SwipeableRowProvider } from "./SwipeableRowProvider";
@@ -44,70 +45,67 @@ interface Props {
 }
 
 export function SwipeableRow({ leftOption, rightOption, children }: Props) {
-  const [leftSubscribers, setLeftSubscribers] = useState<Handlers[]>([]);
-  const [rightSubscribers, setRightSubscribers] = useState<Handlers[]>([]);
+  const [subscribers, setSubscribers] = useState<Handlers[]>([]);
 
   const swipeRightEnabled = Boolean(leftOption);
   const swipeLeftEnabled = Boolean(rightOption);
 
   const translateX = useSharedValue(0);
   const subsTranslateX = useDerivedValue(() => translateX.value);
+  const context = useSharedValue<SwipeableRowGestureContext>({ startX: 0 });
 
-  const onGestureEvent = useAnimatedGestureHandler<
-    PanGestureHandlerGestureEvent,
-    SwipeableRowGestureContext
-  >(
-    {
-      onStart: (event, ctx) => {
-        ctx.startX = translateX.value;
-        leftSubscribers.forEach((handler) => {
-          handler.onStart?.(event, ctx);
-        });
-        rightSubscribers.forEach((handler) => {
-          handler.onStart?.(event, ctx);
-        });
-      },
-      onActive: (event, ctx) => {
-        if (event.translationX > ctx.startX && swipeRightEnabled) {
-          translateX.value = ctx.startX + event.translationX;
-        } else if (event.translationX < ctx.startX && swipeLeftEnabled) {
-          translateX.value = ctx.startX + event.translationX;
-        }
-        leftSubscribers.forEach((handler) => {
-          handler.onActive?.(event, ctx);
-        });
-        rightSubscribers.forEach((handler) => {
-          handler.onActive?.(event, ctx);
-        });
-      },
-      onCancel: (event, ctx) => {
-        leftSubscribers.forEach((handler) => {
-          handler.onCancel?.(event, ctx);
-        });
-        rightSubscribers.forEach((handler) => {
-          handler.onCancel?.(event, ctx);
-        });
-      },
-      onFail: (event, ctx) => {
-        leftSubscribers.forEach((handler) => {
-          handler.onFail?.(event, ctx);
-        });
-        rightSubscribers.forEach((handler) => {
-          handler.onFail?.(event, ctx);
-        });
-      },
-      onEnd: (event, ctx) => {
+  const subscribe = useCallback((handlers: Handlers) => {
+    setSubscribers((subs) => [...subs, handlers]);
+
+    return () => {
+      setSubscribers((subs) => subs.filter((handler) => handler !== handlers));
+    };
+  }, []);
+
+  const panGesture = useMemo(() => {
+    const broadcast = (
+      event: GestureStateChangeEvent<PanGestureHandlerEventPayload>,
+      name: keyof Handlers
+    ) => {
+      "worklet";
+
+      subscribers.forEach((handler) => {
+        handler[name]?.(event);
+      });
+    };
+
+    return Gesture.Pan()
+      .activeOffsetX([-20, 20])
+      .hitSlop({ left: -30 })
+      .onBegin((event) => {
+        broadcast(event, "onBegin");
+      })
+      .onStart((event) => {
+        context.value.startX = translateX.value;
+        broadcast(event, "onStart");
+      })
+      .onEnd((event) => {
         translateX.value = withTiming(0, { easing: Easing.out(Easing.cubic) });
-        leftSubscribers.forEach((handler) => {
-          handler.onEnd?.(event, ctx);
+        broadcast(event, "onEnd");
+      })
+      .onFinalize((event) => {
+        broadcast(event, "onFinalize");
+      })
+      .onUpdate((event) => {
+        if (event.translationX > context.value.startX && swipeRightEnabled) {
+          translateX.value = context.value.startX + event.translationX;
+        } else if (
+          event.translationX < context.value.startX &&
+          swipeLeftEnabled
+        ) {
+          translateX.value = context.value.startX + event.translationX;
+        }
+
+        subscribers.forEach((handler) => {
+          handler.onUpdate?.(event);
         });
-        rightSubscribers.forEach((handler) => {
-          handler.onEnd?.(event, ctx);
-        });
-      },
-    },
-    [leftSubscribers, rightSubscribers]
-  );
+      });
+  }, [subscribers]);
 
   const rowStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: translateX.value }],
@@ -116,11 +114,7 @@ export function SwipeableRow({ leftOption, rightOption, children }: Props) {
   return (
     <View style={[styles.swipeableRow]}>
       <View style={styles.optionsContainer}>
-        <SwipeableRowProvider
-          translateX={subsTranslateX}
-          setLeftSubscribers={setLeftSubscribers}
-          setRightSubscribers={setRightSubscribers}
-        >
+        <SwipeableRowProvider translateX={subsTranslateX} subscribe={subscribe}>
           <Animated.View style={[styles.option, styles.left]}>
             {leftOption}
           </Animated.View>
@@ -129,14 +123,9 @@ export function SwipeableRow({ leftOption, rightOption, children }: Props) {
           </Animated.View>
         </SwipeableRowProvider>
       </View>
-      <PanGestureHandler
-        onGestureEvent={onGestureEvent}
-        minPointers={1}
-        activeOffsetX={[-20, 20]}
-        hitSlop={{ left: -25 }}
-      >
+      <GestureDetector gesture={panGesture}>
         <Animated.View style={rowStyle}>{children}</Animated.View>
-      </PanGestureHandler>
+      </GestureDetector>
     </View>
   );
 }

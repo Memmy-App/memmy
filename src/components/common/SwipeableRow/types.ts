@@ -1,26 +1,34 @@
 /* Courtesy https://github.com/beardwin/ */
-
-import { GestureHandlers, SharedValue } from "react-native-reanimated";
+import { SharedValue } from "react-native-reanimated";
 import {
-  GestureEventPayload,
+  GestureStateChangeEvent,
+  GestureUpdateEvent,
   PanGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
-import React, { SetStateAction } from "react";
 
 export type SwipeableRowGestureContext = {
   startX: number;
 };
 
-export interface Handlers
-  extends GestureHandlers<
-    Readonly<GestureEventPayload & PanGestureHandlerEventPayload>,
-    SwipeableRowGestureContext
-  > {}
+export interface Handlers {
+  onBegin?: (
+    event: GestureStateChangeEvent<PanGestureHandlerEventPayload>
+  ) => void;
+  onStart?: (
+    event: GestureStateChangeEvent<PanGestureHandlerEventPayload>
+  ) => void;
+  onEnd?: (
+    event: GestureStateChangeEvent<PanGestureHandlerEventPayload>
+  ) => void;
+  onFinalize?: (
+    event: GestureStateChangeEvent<PanGestureHandlerEventPayload>
+  ) => void;
+  onUpdate?: (event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => void;
+}
 
 export interface ISwipeableRowContext {
   translateX: SharedValue<number>;
-  setLeftSubscribers: React.Dispatch<SetStateAction<Handlers[]>>;
-  setRightSubscribers: React.Dispatch<SetStateAction<Handlers[]>>;
+  subscribe: (handlers: Handlers) => () => void;
 }
 
 export interface ISwipeableColors {

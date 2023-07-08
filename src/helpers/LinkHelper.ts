@@ -1,7 +1,7 @@
 import * as WebBrowser from "expo-web-browser";
 import { WebBrowserPresentationStyle } from "expo-web-browser";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Alert } from "react-native";
+import { Alert, Linking } from "react-native";
 
 import axios from "axios";
 import { URL } from "react-native-url-polyfill";
@@ -157,16 +157,26 @@ const openLemmyLink = (
 };
 
 const openWebLink = (link: string): void => {
+  const { settings } = store.getState();
   const urlPattern =
     /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
 
-  const settings = store.getState().settings;
   try {
     writeToLog(`Trying to open link: ${link}`);
 
     let fixedLink = decodeURIComponent(link);
     fixedLink = fixedLink.match(urlPattern)[0];
     fixedLink = fixedLink.replace("%5D", "");
+
+    // TODO Remove this once Expo publishes new fix. For now this will stop matrix crashes
+
+    const matrixCheck = /#/g;
+    const matrixCheckCount = (link.match(matrixCheck) || []).length;
+
+    if (settings.useDefaultBrowser || matrixCheckCount > 1) {
+      Linking.openURL(link).then();
+      return;
+    }
 
     WebBrowser.openBrowserAsync(fixedLink, {
       dismissButtonStyle: "close",

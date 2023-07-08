@@ -6,17 +6,17 @@ import moment from "moment";
 const logFile = `${FileSystem.LibraryDirectoryPath}/lemmy-debug.log`;
 
 const createIfDontExist = async () => {
-  console.log("Checking...");
   if (!(await FileSystem.exists(logFile))) {
-    console.log("Doesn't exist...");
     await FileSystem.touch(logFile)
       .then()
+      // eslint-disable-next-line no-console
       .catch((e) => console.log(e.toString()));
   }
 };
 
 const writeToLog = (text: string) => {
-  console.log(text);
+  // eslint-disable-next-line no-console
+  if (__DEV__) console.log(text);
 
   const time = moment().utc(true);
   FileSystem.appendFile(logFile, `\n[${time}] ${text}`).then();

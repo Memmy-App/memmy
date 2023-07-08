@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { SortType } from "lemmy-js-client";
 import { ScrollView, useTheme } from "native-base";
 import React from "react";
-import { StyleSheet, Switch } from "react-native";
+import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
@@ -66,6 +66,7 @@ function ContentScreen({
                 "Top Hour",
                 "Top Six Hours",
                 "Top Twelve Hours",
+                "Top Day",
                 "Hot",
                 "Active",
                 "New",
@@ -163,6 +164,25 @@ function ContentScreen({
             }
           />
         </CSection>
+
+        <CSection header="COMMENTS">
+          <CCell
+            cellStyle="RightDetail"
+            title="Show Comment Actions"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.showCommentActions}
+                onValueChange={(v) => {
+                  onChange("showCommentActions", v);
+                }}
+              />
+            }
+          />
+        </CSection>
+
         <CSection
           header="NSFW CONTENT"
           footer="This toggle does not affect your Lemmy account NSFW settings. This local setting will apply only to the app and will apply to all accounts."

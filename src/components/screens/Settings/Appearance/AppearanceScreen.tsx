@@ -4,7 +4,7 @@ import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
 import React, { useState } from "react";
-import { Alert, LayoutAnimation, StyleSheet, Switch } from "react-native";
+import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { changeIcon } from "react-native-change-icon";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
