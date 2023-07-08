@@ -143,14 +143,8 @@ function ContentScreen({
             rightDetailColor={theme.colors.app.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => {
-              const options = [
-                "Hot",
-                "Top",
-                "New",
-                "Old",
-                "Cancel",
-              ];
-              const cancelButtonIndex = options.length-1;
+              const options = ["Hot", "Top", "New", "Old", "Cancel"];
+              const cancelButtonIndex = options.length - 1;
 
               showActionSheetWithOptions(
                 {

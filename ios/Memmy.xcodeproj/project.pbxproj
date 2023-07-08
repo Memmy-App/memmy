@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0640EC752A5918C60096F5BA /* red.png in Resources */ = {isa = PBXBuildFile; fileRef = 0640EC692A5918C30096F5BA /* red.png */; };
+		0640EC762A5918C60096F5BA /* purple@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0640EC6A2A5918C40096F5BA /* purple@3x.png */; };
+		0640EC772A5918C60096F5BA /* green@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0640EC6B2A5918C40096F5BA /* green@3x.png */; };
+		0640EC782A5918C60096F5BA /* red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0640EC6C2A5918C40096F5BA /* red@2x.png */; };
+		0640EC792A5918C60096F5BA /* blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0640EC6D2A5918C40096F5BA /* blue@2x.png */; };
+		0640EC7A2A5918C60096F5BA /* blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 0640EC6E2A5918C40096F5BA /* blue.png */; };
+		0640EC7B2A5918C60096F5BA /* red@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0640EC6F2A5918C40096F5BA /* red@3x.png */; };
+		0640EC7C2A5918C60096F5BA /* purple@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0640EC702A5918C50096F5BA /* purple@2x.png */; };
+		0640EC7D2A5918C60096F5BA /* green.png in Resources */ = {isa = PBXBuildFile; fileRef = 0640EC712A5918C50096F5BA /* green.png */; };
+		0640EC7E2A5918C60096F5BA /* blue@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0640EC722A5918C50096F5BA /* blue@3x.png */; };
+		0640EC7F2A5918C60096F5BA /* green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0640EC732A5918C50096F5BA /* green@2x.png */; };
+		0640EC802A5918C60096F5BA /* purple.png in Resources */ = {isa = PBXBuildFile; fileRef = 0640EC742A5918C50096F5BA /* purple.png */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -19,6 +31,18 @@
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+		0640EC692A5918C30096F5BA /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = red.png; path = Memmy/AppIcons/red.png; sourceTree = "<group>"; };
+		0640EC6A2A5918C40096F5BA /* purple@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "purple@3x.png"; path = "Memmy/AppIcons/purple@3x.png"; sourceTree = "<group>"; };
+		0640EC6B2A5918C40096F5BA /* green@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "green@3x.png"; path = "Memmy/AppIcons/green@3x.png"; sourceTree = "<group>"; };
+		0640EC6C2A5918C40096F5BA /* red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "red@2x.png"; path = "Memmy/AppIcons/red@2x.png"; sourceTree = "<group>"; };
+		0640EC6D2A5918C40096F5BA /* blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "blue@2x.png"; path = "Memmy/AppIcons/blue@2x.png"; sourceTree = "<group>"; };
+		0640EC6E2A5918C40096F5BA /* blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blue.png; path = Memmy/AppIcons/blue.png; sourceTree = "<group>"; };
+		0640EC6F2A5918C40096F5BA /* red@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "red@3x.png"; path = "Memmy/AppIcons/red@3x.png"; sourceTree = "<group>"; };
+		0640EC702A5918C50096F5BA /* purple@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "purple@2x.png"; path = "Memmy/AppIcons/purple@2x.png"; sourceTree = "<group>"; };
+		0640EC712A5918C50096F5BA /* green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = green.png; path = Memmy/AppIcons/green.png; sourceTree = "<group>"; };
+		0640EC722A5918C50096F5BA /* blue@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "blue@3x.png"; path = "Memmy/AppIcons/blue@3x.png"; sourceTree = "<group>"; };
+		0640EC732A5918C50096F5BA /* green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "green@2x.png"; path = "Memmy/AppIcons/green@2x.png"; sourceTree = "<group>"; };
+		0640EC742A5918C50096F5BA /* purple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = purple.png; path = Memmy/AppIcons/purple.png; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Memmy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memmy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Memmy/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Memmy/AppDelegate.mm; sourceTree = "<group>"; };
@@ -47,9 +71,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0640EC682A5918AF0096F5BA /* AppIcons */ = {
+			isa = PBXGroup;
+			children = (
+				0640EC6E2A5918C40096F5BA /* blue.png */,
+				0640EC6D2A5918C40096F5BA /* blue@2x.png */,
+				0640EC722A5918C50096F5BA /* blue@3x.png */,
+				0640EC712A5918C50096F5BA /* green.png */,
+				0640EC732A5918C50096F5BA /* green@2x.png */,
+				0640EC6B2A5918C40096F5BA /* green@3x.png */,
+				0640EC742A5918C50096F5BA /* purple.png */,
+				0640EC702A5918C50096F5BA /* purple@2x.png */,
+				0640EC6A2A5918C40096F5BA /* purple@3x.png */,
+				0640EC692A5918C30096F5BA /* red.png */,
+				0640EC6C2A5918C40096F5BA /* red@2x.png */,
+				0640EC6F2A5918C40096F5BA /* red@3x.png */,
+			);
+			name = AppIcons;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* Memmy */ = {
 			isa = PBXGroup;
 			children = (
+				0640EC682A5918AF0096F5BA /* AppIcons */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -198,9 +242,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0640EC792A5918C60096F5BA /* blue@2x.png in Resources */,
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
+				0640EC802A5918C60096F5BA /* purple.png in Resources */,
+				0640EC7F2A5918C60096F5BA /* green@2x.png in Resources */,
+				0640EC7A2A5918C60096F5BA /* blue.png in Resources */,
+				0640EC782A5918C60096F5BA /* red@2x.png in Resources */,
+				0640EC752A5918C60096F5BA /* red.png in Resources */,
+				0640EC7B2A5918C60096F5BA /* red@3x.png in Resources */,
+				0640EC762A5918C60096F5BA /* purple@3x.png in Resources */,
+				0640EC772A5918C60096F5BA /* green@3x.png in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				0640EC7D2A5918C60096F5BA /* green.png in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
+				0640EC7C2A5918C60096F5BA /* purple@2x.png in Resources */,
+				0640EC7E2A5918C60096F5BA /* blue@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,7 +420,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6C2E3173556A471DD304B334 /* Pods-Memmy.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Memmy/Memmy.entitlements;
 				CURRENT_PROJECT_VERSION = 2;
@@ -375,6 +431,7 @@
 					"FB_SONARKIT_ENABLED=1",
 				);
 				INFOPLIST_FILE = Memmy/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Memmy;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 0.1.0;
@@ -397,12 +454,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7A4D352CD337FB3A3BF06240 /* Pods-Memmy.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Memmy/Memmy.entitlements;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = M2T765RRB4;
 				INFOPLIST_FILE = Memmy/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Memmy;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 0.1.0;

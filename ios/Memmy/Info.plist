@@ -6,50 +6,50 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>AppIcon_4</key>
+			<key>green</key>
 			<dict>
 				<key>UIPrerenderedIcon</key>
-				<false/>
+				<string>NO</string>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>AppIcon_4</string>
+					<string>green</string>
 				</array>
 			</dict>
-			<key>AppIcon_3</key>
+			<key>red</key>
 			<dict>
 				<key>UIPrerenderedIcon</key>
-				<false/>
+				<string>NO</string>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>AppIcon_3</string>
+					<string>red</string>
 				</array>
 			</dict>
-			<key>AppIcon_2</key>
+			<key>blue</key>
 			<dict>
 				<key>UIPrerenderedIcon</key>
-				<false/>
+				<string>NO</string>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>AppIcon_2</string>
+					<string>blue</string>
 				</array>
 			</dict>
-			<key>AppIcon</key>
+			<key>purple</key>
 			<dict>
 				<key>UIPrerenderedIcon</key>
-				<false/>
+				<string>NO</string>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>AppIcon</string>
+					<string>purple</string>
 				</array>
 			</dict>
 		</dict>
 		<key>CFBundlePrimaryIcon</key>
 		<dict>
 			<key>CFBundleIconName</key>
-			<string>AppIcon</string>
+			<string>purple</string>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>AppIcon</string>
+				<string>purple</string>
 			</array>
 			<key>UIPrerenderedIcon</key>
 			<false/>
@@ -58,7 +58,7 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>AppIcon</string>
+				<string>purple</string>
 			</array>
 			<key>UINewsstandBindingType</key>
 			<string>UINewsstandBindingTypeMagazine</string>
