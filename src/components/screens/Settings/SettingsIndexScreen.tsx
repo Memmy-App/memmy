@@ -117,7 +117,7 @@ function SettingsIndexScreen({
               />
             }
             accessory="DisclosureIndicator"
-            onPress={() => navigation.push("AccountSettings")}
+            onPress={() => navigation.push("ViewAccounts")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}

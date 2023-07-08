@@ -22,7 +22,7 @@
   "dependencies": {
     "@expo/react-native-action-sheet": "^4.0.1",
     "@expo/vector-icons": "^13.0.0",
-    "@gkasdorf/react-native-image-viewing": "^0.2.10",
+    "@gkasdorf/react-native-image-viewing": "^0.2.22",
     "@gkasdorf/react-native-tableview-simple": "^4.4.2",
     "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-native-community/clipboard": "^1.5.1",
@@ -66,6 +66,7 @@
     "react-dom": "18.2.0",
     "react-error-boundary": "^4.0.10",
     "react-native": "0.71.8",
+    "react-native-change-icon": "^4.0.0",
     "react-native-device-info": "^10.6.0",
     "react-native-dialog": "^9.3.0",
     "react-native-elements": "^3.4.3",

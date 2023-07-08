@@ -1,7 +1,8 @@
 /* Courtesy https://github.com/beardwin/ */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Animated, {
+  Extrapolate,
   Extrapolation,
   interpolate,
   interpolateColor,
@@ -10,12 +11,14 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
 import { LayoutRectangle, StyleSheet } from "react-native";
 import { useTheme } from "native-base";
 import { useSwipeableRow } from "./SwipeableRowProvider";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
+import { ISwipeableColors } from "./types";
 
 type Stops = [first: number, second: number];
 const DEFAULT_STOPS: Stops = [75, 125];
@@ -24,12 +27,6 @@ interface Props {
   stops?: Stops;
   vote?: number;
   onVote: (value: number) => unknown;
-  id: number;
-}
-
-interface Colors {
-  first: string;
-  second: string;
 }
 
 const buzz = () => {
@@ -38,34 +35,16 @@ const buzz = () => {
   runOnJS(onGenericHapticFeedback)();
 };
 
-export function VoteOption({
-  stops = DEFAULT_STOPS,
-  vote = 0,
-  onVote,
-  id,
-}: Props) {
+export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
   const theme = useTheme();
 
   const [firstStop, secondStop] = stops;
-
-  const [colors, setColors] = useState<Colors>(
-    vote === -1
-      ? {
-          first: theme.colors.app.downvote,
-          second: theme.colors.app.upvote,
-        }
-      : {
-          first: theme.colors.app.upvote,
-          second: theme.colors.app.downvote,
-        }
-  );
-
   const isFrozen = useSharedValue(false);
   const [arrow, setArrow] = useState<LayoutRectangle | null>(null);
-  const { setLeftSubscribers, translateX } = useSwipeableRow();
+  const { subscribe, translateX } = useSwipeableRow();
 
-  useEffect(() => {
-    setColors(
+  const colors: ISwipeableColors = useMemo(
+    () =>
       vote === -1
         ? {
             first: theme.colors.app.downvote,
@@ -74,11 +53,13 @@ export function VoteOption({
         : {
             first: theme.colors.app.upvote,
             second: theme.colors.app.downvote,
-          }
-    );
+          },
+    [vote, theme]
+  );
 
-    setLeftSubscribers([
-      {
+  useEffect(
+    () =>
+      subscribe({
         onStart: () => {
           "worklet";
 
@@ -94,16 +75,15 @@ export function VoteOption({
           }
           isFrozen.value = true;
         },
-      },
-    ]);
-
-    return () => {
-      setLeftSubscribers([]);
-    };
-  }, [id, vote]);
+      }),
+    [vote, onVote]
+  );
 
   // The timer used for the rotation animation
   const rotationTimer = useSharedValue(0);
+
+  // The timer used to pulse the arrow to indicate it's active
+  const pulseTimer = useSharedValue(0);
 
   // Triggers a 180 degree rotation animation when the user
   // drags across the appropriate threshold.
@@ -124,6 +104,9 @@ export function VoteOption({
 
       if (hitFirstStop) {
         buzz();
+        pulseTimer.value = withTiming(1, { duration: 150 }, () => {
+          pulseTimer.value = 0;
+        });
       }
 
       if (hitSecondStop) {
@@ -193,14 +176,12 @@ export function VoteOption({
   });
 
   const arrowOffset = useAnimatedStyle(() => {
+    const width = arrow?.width ?? 0;
+
     const xOffset = interpolate(
       translateX.value,
       [0, firstStop, secondStop],
-      [
-        -(arrow?.width ?? 0),
-        (firstStop - (arrow?.width ?? 0)) / 2,
-        (secondStop - (arrow?.width ?? 0)) / 2,
-      ]
+      [-width, (firstStop - width) / 2, (secondStop - width) / 2]
     );
 
     return {
@@ -208,17 +189,32 @@ export function VoteOption({
     };
   }, [arrow]);
 
+  const pulse = useAnimatedStyle(() => {
+    if (translateX.value < firstStop * 0.99) return {};
+
+    const scale = interpolate(
+      pulseTimer.value,
+      [0, 0.5, 1],
+      [1, 1.5, 1],
+      Extrapolate.CLAMP
+    );
+
+    return { transform: [{ scale }] };
+  });
+
   return (
     <>
       <Animated.View style={[styles.background, backgroundStyle]} />
       <Animated.View style={[styles.option, arrowOffset]}>
-        <Animated.View
-          style={[styles.option, arrowStyle]}
-          onLayout={(event) => {
-            setArrow(event.nativeEvent.layout);
-          }}
-        >
-          <AntDesign name="arrowup" size={24} color="white" />
+        <Animated.View style={[pulse]}>
+          <Animated.View
+            style={[styles.option, arrowStyle]}
+            onLayout={(event) => {
+              setArrow(event.nativeEvent.layout);
+            }}
+          >
+            <AntDesign name="arrowup" size={24} color="white" />
+          </Animated.View>
         </Animated.View>
       </Animated.View>
     </>
