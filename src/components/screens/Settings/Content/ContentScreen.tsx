@@ -66,6 +66,7 @@ function ContentScreen({
                 "Top Hour",
                 "Top Six Hours",
                 "Top Twelve Hours",
+                "Top Day",
                 "Hot",
                 "Active",
                 "New",
