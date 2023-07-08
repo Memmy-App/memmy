@@ -12,7 +12,7 @@ import {
   oledThemeColors,
   embarkThemeColors,
 } from "./darkColors";
-import { lightThemeColors } from "./lightColors";
+import { lightThemeColors, oksolarLightThemeColors } from "./lightColors";
 import { commonSettings } from "./common";
 
 const moodyPurpleTheme = extendTheme({
@@ -134,6 +134,16 @@ const oksolarDarkTheme = extendTheme({
   },
 });
 
+const oksolarLightTheme = extendTheme({
+  ...commonSettings,
+  colors: {
+    app: oksolarLightThemeColors,
+  },
+  config: {
+    initialColorMode: "light",
+  },
+});
+
 const oledTheme = extendTheme({
   ...commonSettings,
   colors: {
@@ -176,6 +186,7 @@ export {
   nauticalTheme,
   sunsetTheme,
   oksolarDarkTheme,
+  oksolarLightTheme,
   oledTheme,
   embarkTheme,
 };
