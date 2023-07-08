@@ -13,8 +13,7 @@ import {
   embarkThemeColors,
 } from "./darkColors";
 import {
-  lightThemeColors,
-  oksolarLightThemeColors,
+  lightThemeColors, oksolarLightThemeColors,
        } from "./lightColors";
 import { commonSettings } from "./common";
 
