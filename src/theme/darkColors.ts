@@ -448,4 +448,3 @@ export const oksolarDarkThemeColors: IColors = {
   bookmark: "#819500",
   bookmarkText: "#fff",
 };
-

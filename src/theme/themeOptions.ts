@@ -23,7 +23,6 @@ enum EDarkThemeOptions {
   MOODY_PURPLE = "Moody Purple",
   NIGHT_OWL = "Night Owl",
   OKSOLAR_DARK = "Oksolar Dark",
-  OKSOLAR_LIGHT = "Oksolar Light",
   SLEEPY_RAINFOREST = "Sleepy Rainforest",
   GOLDEN_HOUR = "Golden Hour",
   NAUTICAL = "Nautical",
@@ -34,6 +33,7 @@ enum EDarkThemeOptions {
 
 enum ELightThemeOptions {
   LIGHT = "Light",
+  OKSOLAR_LIGHT = "Oksolar Light",
 }
 
 export type ThemeOptions = `${EDarkThemeOptions}` | `${ELightThemeOptions}`;
@@ -56,7 +56,7 @@ export const ThemeOptionsMap: Record<ThemeOptions, ICustomTheme> = {
   "Moody Purple": moodyPurpleTheme,
   "Night Owl": nightOwlTheme,
   "Oksolar Dark": oksolarDarkTheme,
-  "Oksolar Light" : oksolarLightTheme,
+  "Oksolar Light": oksolarLightTheme,
   "Sleepy Rainforest": sleepyRainforestTheme,
   "Golden Hour": goldenHourTheme,
   Nautical: nauticalTheme,
