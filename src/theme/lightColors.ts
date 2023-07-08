@@ -56,12 +56,10 @@ export const oksolarLightThemeColors: IColors = {
   accentHighlight: "#E7F2FF",
 
   textPrimary: "#657377",
-  textSecondary: "#657377",
-  textTertiary: "#657377",
+  textSecondary: "#5b7279",
 
   fg: "#F1E9D2",
   bg: "#FCF7E8",
-  bgSecondary: "#FBF7EF",
   navBarBg: "#FCF7E8",
 
   border: "#FCF7E8",
