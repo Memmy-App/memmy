@@ -7,7 +7,8 @@ import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import {
-  ThemeOptionsArr,
+  DarkThemeOptionsArr,
+  LightThemeOptionsArr,
   ThemeOptionsMap,
 } from "../../../../theme/themeOptions";
 import CCell from "../../../common/Table/CCell";
@@ -54,8 +55,8 @@ function ThemeSelectionScreen({ route }: IProps) {
     <View backgroundColor={theme.colors.app.bg} flex={1}>
       <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
         <TableView style={styles.table}>
-          <CSection>
-            {ThemeOptionsArr.map((themeName) => (
+          <CSection header="Light Themes">
+            {LightThemeOptionsArr.map((themeName) => (
               <CCell
                 cellStyle="RightDetail"
                 title={
@@ -72,9 +73,32 @@ function ThemeSelectionScreen({ route }: IProps) {
                     <IconCheck color={theme.colors.app.accent} />
                   )
                 }
-                backgroundColor={theme.colors.app.fg}
-                titleTextColor={theme.colors.app.textPrimary}
-                rightDetailColor={theme.colors.app.textSecondary}
+                onPress={() => {
+                  const themeSetting = {};
+                  themeSetting[themeProp] = themeName;
+                  dispatch(setSetting(themeSetting));
+                }}
+              />
+            ))}
+          </CSection>
+          <CSection header="Dark Themes">
+            {DarkThemeOptionsArr.map((themeName) => (
+              <CCell
+                cellStyle="RightDetail"
+                title={
+                  <HStack space={2}>
+                    <ThemeColors
+                      accent={ThemeOptionsMap[themeName].colors.app.accent}
+                      bg={ThemeOptionsMap[themeName].colors.app.bg}
+                    />
+                    <Text>{themeName}</Text>
+                  </HStack>
+                }
+                cellAccessoryView={
+                  currentTheme === themeName && (
+                    <IconCheck color={theme.colors.app.accent} />
+                  )
+                }
                 onPress={() => {
                   const themeSetting = {};
                   themeSetting[themeProp] = themeName;

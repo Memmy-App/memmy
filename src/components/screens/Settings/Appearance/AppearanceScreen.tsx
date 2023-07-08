@@ -36,6 +36,112 @@ function AppearanceScreen({ navigation }: IProps) {
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
+        <CSection header="Content">
+          <CCell
+            cellStyle="Basic"
+            title="Display Total Score"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.displayTotalScore}
+                onValueChange={(v) => {
+                  LayoutAnimation.easeInEaseOut();
+                  onChange("displayTotalScore", v);
+                }}
+              />
+            }
+          />
+          <CCell
+            cellStyle="Basic"
+            title="Images Ignore Screen Height"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.ignoreScreenHeightInFeed}
+                onValueChange={(v) => {
+                  LayoutAnimation.easeInEaseOut();
+                  onChange("ignoreScreenHeightInFeed", v);
+                }}
+              />
+            }
+          />
+          <CCell
+            cellStyle="RightDetail"
+            title="Show Instance For Usernames"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.showInstanceForUsernames}
+                onValueChange={(v) => onChange("showInstanceForUsernames", v)}
+              />
+            }
+          />
+          <CCell
+            cellStyle="RightDetail"
+            title="Compact View"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.compactView}
+                onValueChange={(v) => {
+                  LayoutAnimation.easeInEaseOut();
+                  onChange("compactView", v);
+                }}
+              />
+            }
+          />
+        </CSection>
+
+        {settings.compactView && (
+          <CSection header="COMPACT">
+            <CCell
+              cellStyle="RightDetail"
+              title="Thumbnails Position"
+              detail={settings.compactThumbnailPosition}
+              accessory="DisclosureIndicator"
+              onPress={() => {
+                const options = ["None", "Left", "Right", "Cancel"];
+                const cancelButtonIndex = 3;
+
+                showActionSheetWithOptions(
+                  {
+                    options,
+                    cancelButtonIndex,
+                    userInterfaceStyle: theme.config.initialColorMode,
+                  },
+                  (index: number) => {
+                    if (index === cancelButtonIndex) return;
+
+                    dispatch(
+                      setSetting({ compactThumbnailPosition: options[index] })
+                    );
+                  }
+                );
+              }}
+            />
+            <CCell
+              cellStyle="RightDetail"
+              title="Show Voting Buttons"
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+              cellAccessoryView={
+                <Switch
+                  value={settings.compactShowVotingButtons}
+                  onValueChange={(v) => onChange("compactShowVotingButtons", v)}
+                />
+              }
+            />
+          </CSection>
+        )}
         <CSection header="THEMES">
           <CCell
             cellStyle="Basic"

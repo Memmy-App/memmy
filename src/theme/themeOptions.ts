@@ -15,8 +15,7 @@ import {
   embarkTheme,
 } from "./theme";
 
-enum EThemeOptions {
-  LIGHT = "Light",
+enum EDarkThemeOptions {
   DARK = "Dark",
   DRACULA = "Dracula",
   DRACULA_PURPLE = "Dracula (Purple)",
@@ -31,9 +30,19 @@ enum EThemeOptions {
   EMBARK = "Embark",
 }
 
-export type ThemeOptions = `${EThemeOptions}`;
+enum ELightThemeOptions {
+  LIGHT = "Light",
+}
 
-export const ThemeOptionsArr = Object.values(EThemeOptions);
+export type ThemeOptions = `${EDarkThemeOptions}` | `${ELightThemeOptions}`;
+
+export const LightThemeOptionsArr = Object.values(ELightThemeOptions);
+export const DarkThemeOptionsArr = Object.values(EDarkThemeOptions);
+
+export const ThemeOptionsArr = [
+  ...LightThemeOptionsArr,
+  ...DarkThemeOptionsArr,
+];
 
 // TODO: should get the type figured out for theme obj
 export const ThemeOptionsMap: Record<ThemeOptions, ICustomTheme> = {
