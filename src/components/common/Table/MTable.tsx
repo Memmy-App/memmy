@@ -22,7 +22,7 @@ function MTable({ header, children }: IProps) {
           p={3}
           borderRadius={10}
           space={3}
-          divider={<Divider height={0.4} />}
+          divider={<Divider backgroundColor={theme.colors.app.border} />}
         >
           {children}
         </VStack>

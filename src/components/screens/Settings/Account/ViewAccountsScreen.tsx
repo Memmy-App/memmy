@@ -180,12 +180,18 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
               cellStyle="Basic"
               title="Edit Account"
               accessory="DisclosureIndicator"
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
               onPress={() => onAccountPress(a)}
             />
             {accounts.length > 1 && (
               <CCell
                 cellStyle="Basic"
                 title="Delete Account"
+                backgroundColor={theme.colors.app.fg}
+                titleTextColor={theme.colors.app.textPrimary}
+                rightDetailColor={theme.colors.app.textSecondary}
                 accessory="DisclosureIndicator"
                 onPress={() => onAccountDeletePress(a)}
               />

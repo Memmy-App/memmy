@@ -28,6 +28,9 @@ function AboutScreen({
             cellStyle="RightDetail"
             title="Version"
             detail={`${getVersion()} (${getBuildNumber()})`}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
           />
           <CCell
             cellStyle="Basic"
@@ -38,6 +41,9 @@ function AboutScreen({
                 type: "license",
               })
             }
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
           />
           <CCell
             cellStyle="Basic"
@@ -48,6 +54,9 @@ function AboutScreen({
                 type: "acknowledgements",
               });
             }}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
           />
           <CCell
             cellStyle="Basic"
@@ -56,6 +65,9 @@ function AboutScreen({
             onPress={() => {
               WebBrowser.openBrowserAsync("https://memmy.app/privacy.txt");
             }}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
           />
           <CCell
             cellStyle="Basic"
@@ -66,6 +78,9 @@ function AboutScreen({
                 type: "terms",
               });
             }}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
           />
           <CCell
             cellStyle="Basic"
@@ -74,11 +89,17 @@ function AboutScreen({
             onPress={() => {
               WebBrowser.openBrowserAsync("https://github.com/gkasdorf/memmy");
             }}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
           />
           <CCell
             cellStyle="Basic"
             title="Delete Account"
             accessory="DisclosureIndicator"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
             onPress={() => {
               Alert.alert(
                 "Delete Account",
