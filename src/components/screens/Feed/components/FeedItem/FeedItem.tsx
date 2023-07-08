@@ -48,10 +48,8 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
   return (
     <View py={1}>
       <SwipeableRow
-        leftOption={
-          <VoteOption onVote={onSwipe} vote={post.my_vote} id={post.post.id} />
-        }
-        rightOption={<ReplyOption onReply={onReply} id={post.post.id} />}
+        leftOption={<VoteOption onVote={onSwipe} vote={post.my_vote} />}
+        rightOption={<ReplyOption onReply={onReply} />}
       >
         <Post>
           <Header
