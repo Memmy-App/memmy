@@ -12,9 +12,7 @@ import {
   oledThemeColors,
   embarkThemeColors,
 } from "./darkColors";
-import {
-  lightThemeColors, oksolarLightThemeColors
-       } from "./lightColors";
+import { lightThemeColors, oksolarLightThemeColors } from "./lightColors";
 import { commonSettings } from "./common";
 
 const moodyPurpleTheme = extendTheme({

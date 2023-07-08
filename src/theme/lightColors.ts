@@ -55,14 +55,14 @@ export const oksolarLightThemeColors: IColors = {
   accent: "#2B90D8",
   accentHighlight: "#E7F2FF",
 
-  textPrimary: "#657377",
-  textSecondary: "#5b7279",
+  textPrimary: "#002d38",
+  textSecondary: "#657377",
 
-  fg: "#F1E9D2",
-  bg: "#FCF7E8",
-  navBarBg: "#FCF7E8",
+  fg: "#FDF6E3",
+  bg: "#f1e9d2",
+  navBarBg: "#DDD6C1",
 
-  border: "#FCF7E8",
+  border: "#98a8a8",
 
   upvote: "#D56500",
   upvoteText: "#FFF",

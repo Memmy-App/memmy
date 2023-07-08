@@ -448,3 +448,103 @@ export const oksolarDarkThemeColors: IColors = {
   bookmark: "#819500",
   bookmarkText: "#fff",
 };
+
+export const oledThemeColors: IColors = {
+  accent: "#2C9AFF",
+  accentHighlight: "#1F2E45",
+
+  textPrimary: "#FFFFFF",
+  textSecondary: "#A7A7A7",
+
+  fg: "#000",
+  bg: "#0E0E0E",
+  navBarBg: "#000",
+
+  border: "#242424",
+
+  upvote: "#EE923D",
+  upvoteText: "#FFF",
+  downvote: "#1A84E5",
+  downvoteText: "#FFF",
+
+  success: "#48C10F",
+  successText: "#fff",
+  error: "#F8372B",
+  errorText: "#fff",
+  warn: "#DEA435",
+  warnText: "#fff",
+  info: "#3398f2",
+  infoText: "#fff",
+
+  users: {
+    text: "#fff",
+    mod: "#54CB60",
+    admin: "#FF4848",
+    dev: "#CB66FA",
+    op: "#2092FB",
+    me: "#FFB800",
+  },
+
+  comments: {
+    1: "#FA6969",
+    2: "#FFB800",
+    3: "#FFE500",
+    4: "#36CF3C",
+    5: "#4BA9FF",
+  },
+
+  inputBg: "#232323",
+
+  bookmark: "#48C10F",
+  bookmarkText: "#fff",
+};
+
+export const embarkThemeColors: IColors = {
+  accent: "#A1EFD3",
+  accentHighlight: "#7FE9C3",
+
+  textPrimary: "#CBE3E7",
+  textSecondary: "#a2b5b8",
+
+  fg: "#1E1C31",
+  bg: "#2D2B40",
+  navBarBg: "#100E23",
+
+  border: "#3E3859",
+
+  upvote: "#F2B482",
+  upvoteText: "#FFF",
+  downvote: "#78A8FF",
+  downvoteText: "#FFF",
+
+  success: "#7FE9C3",
+  successText: "#fff",
+  error: "#F02E6E",
+  errorText: "#fff",
+  warn: "#F2B482",
+  warnText: "#fff",
+  info: "#78A8FF",
+  infoText: "#fff",
+
+  users: {
+    text: "#fff",
+    mod: "#7FE9C3",
+    admin: "#F02E6E",
+    dev: "#7676FF",
+    op: "#63F2F1",
+    me: "#FFB800",
+  },
+
+  comments: {
+    1: "#F48FB1",
+    2: "#FFE6B3",
+    3: "#A1EFD3",
+    4: "#91DDFF",
+    5: "#D4BFFF",
+  },
+
+  inputBg: "#3E3859",
+
+  bookmark: "#7676FF",
+  bookmarkText: "#fff",
+};
