@@ -36,6 +36,7 @@ export interface SettingsState {
   useReaderMode: boolean;
   accentColor?: string;
   hideReadPostsOnFeed: boolean;
+  appIcon: string;
 }
 
 const initialState: SettingsState = {
@@ -68,6 +69,7 @@ const initialState: SettingsState = {
   displayTotalScore: true,
   useReaderMode: false,
   hideReadPostsOnFeed: false,
+  appIcon: "purple",
 };
 
 const settingsSlice = createSlice({

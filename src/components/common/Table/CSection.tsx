@@ -11,6 +11,7 @@ function CSection({ ...props }: SectionInterface) {
       hideSurroundingSeparators
       separatorTintColor={theme.colors.app.border}
       {...props}
+      header={props.header ? props.header.toUpperCase() : ""}
     >
       {props.children}
     </Section>

@@ -2,8 +2,74 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundleAlternateIcons</key>
+		<dict>
+			<key>green</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>green</string>
+				</array>
+			</dict>
+			<key>red</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>red</string>
+				</array>
+			</dict>
+			<key>blue</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>blue</string>
+				</array>
+			</dict>
+			<key>purple</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>purple</string>
+				</array>
+			</dict>
+		</dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconName</key>
+			<string>purple</string>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>purple</string>
+			</array>
+			<key>UIPrerenderedIcon</key>
+			<false/>
+		</dict>
+		<key>UINewsstandIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>purple</string>
+			</array>
+			<key>UINewsstandBindingType</key>
+			<string>UINewsstandBindingTypeMagazine</string>
+			<key>UINewsstandBindingEdge</key>
+			<string>UINewsstandBindingEdgeLeft</string>
+		</dict>
+	</dict>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Someone posted a link to an internal IP address. Please disregard this message and deny access.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -40,6 +106,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>2</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -76,16 +144,13 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Automatic</string>
