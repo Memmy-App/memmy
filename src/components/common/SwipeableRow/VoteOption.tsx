@@ -16,6 +16,7 @@ import { LayoutRectangle, StyleSheet } from "react-native";
 import { useTheme } from "native-base";
 import { useSwipeableRow } from "./SwipeableRowProvider";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
+import { ISwipeableColors } from "./types";
 
 type Stops = [first: number, second: number];
 const DEFAULT_STOPS: Stops = [75, 125];
@@ -25,11 +26,6 @@ interface Props {
   vote?: number;
   onVote: (value: number) => unknown;
   id: number;
-}
-
-interface Colors {
-  first: string;
-  second: string;
 }
 
 const buzz = () => {
@@ -46,7 +42,7 @@ export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
   const [arrow, setArrow] = useState<LayoutRectangle | null>(null);
   const { subscribe, translateX } = useSwipeableRow();
 
-  const colors = useMemo(() => {
+  const colors: ISwipeableColors = useMemo(() => {
     return vote === -1
       ? {
           first: theme.colors.app.downvote,
@@ -169,14 +165,12 @@ export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
   });
 
   const arrowOffset = useAnimatedStyle(() => {
+    const width = arrow?.width ?? 0;
+
     const xOffset = interpolate(
       translateX.value,
       [0, firstStop, secondStop],
-      [
-        -(arrow?.width ?? 0),
-        (firstStop - (arrow?.width ?? 0)) / 2,
-        (secondStop - (arrow?.width ?? 0)) / 2,
-      ]
+      [-width, (firstStop - width) / 2, (secondStop - width) / 2]
     );
 
     return {

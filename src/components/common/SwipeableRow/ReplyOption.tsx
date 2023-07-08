@@ -1,4 +1,5 @@
 import Animated, {
+  Extrapolation,
   interpolate,
   interpolateColor,
   runOnJS,
@@ -7,7 +8,7 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import { useTheme } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   IconBookmark,
   IconMailOpened,
@@ -37,9 +38,9 @@ const buzz = () => {
   runOnJS(onGenericHapticFeedback)();
 };
 
-const bookmarkIcon = <IconBookmark color="white" />;
-const mailOpenedIcon = <IconMailOpened color="white" />;
-const commentIcon = <IconMessage color="white" />;
+const bookmarkIcon = <IconBookmark color="white" size={24} />;
+const mailOpenedIcon = <IconMailOpened color="white" size={24} />;
+const commentIcon = <IconMessage color="white" size={24} />;
 
 const screenWidth = Dimensions.get("screen").width;
 
@@ -54,10 +55,12 @@ export function ReplyOption({
 
   const [firstStop, secondStop] = stops;
 
-  const colors: ISwipeableColors = {
-    first: theme.colors.app.info,
-    second: theme.colors.app.success,
-  };
+  const colors: ISwipeableColors = useMemo(() => {
+    return {
+      first: theme.colors.app.info,
+      second: theme.colors.app.success,
+    };
+  }, [theme]);
 
   const isFrozen = useSharedValue(false);
   const [iconRect, setIconRect] = useState<LayoutRectangle | null>(null);
@@ -116,7 +119,7 @@ export function ReplyOption({
         runOnJS(setIcon)("comment");
       }
     },
-    [colors]
+    [colors, onExtra, setIcon]
   );
 
   const backgroundStyle = useAnimatedStyle(() => {
@@ -140,14 +143,12 @@ export function ReplyOption({
   });
 
   const iconOffset = useAnimatedStyle(() => {
+    let width = iconRect?.width ?? 0;
+
     const xOffset = interpolate(
       translateX.value,
-      [0, firstStop, secondStop],
-      [
-        -(iconRect?.width ?? 0),
-        (firstStop - (iconRect?.width ?? 0)) / 2,
-        (secondStop - (iconRect?.width ?? 0)) / 2,
-      ]
+      [secondStop, firstStop, 0],
+      [(secondStop + width) / 2, (firstStop + width) / 2, width]
     );
 
     return {
@@ -155,12 +156,25 @@ export function ReplyOption({
     };
   }, [iconRect]);
 
+  const iconScale = useAnimatedStyle(() => {
+    const scale = interpolate(
+      translateX.value,
+      [0, firstStop * 0.8],
+      [0.4, 1],
+      Extrapolation.CLAMP
+    );
+
+    return {
+      transform: [{ scale }],
+    };
+  });
+
   return (
     <>
       <Animated.View style={[styles.background, backgroundStyle]} />
       <Animated.View style={[styles.option, iconOffset]}>
         <Animated.View
-          style={[styles.option]}
+          style={[styles.option, iconScale]}
           onLayout={(event) => {
             setIconRect(event.nativeEvent.layout);
           }}
