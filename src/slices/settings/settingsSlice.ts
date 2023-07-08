@@ -38,6 +38,7 @@ export interface SettingsState {
   hideReadPostsOnFeed: boolean;
   appIcon: string;
   showCommentActions: boolean;
+  useDefaultBrowser: boolean;
 }
 
 const initialState: SettingsState = {
@@ -72,6 +73,7 @@ const initialState: SettingsState = {
   hideReadPostsOnFeed: false,
   appIcon: "purple",
   showCommentActions: true,
+  useDefaultBrowser: false,
 };
 
 const settingsSlice = createSlice({
