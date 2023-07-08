@@ -1,18 +1,20 @@
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Pressable, ScrollView, View } from "native-base";
 import React from "react";
 import { StyleSheet } from "react-native";
-import { Pressable, ScrollView, View } from "native-base";
-import Animated, { FadeOutUp, FadeInUp } from "react-native-reanimated";
+import Animated, { FadeInUp, FadeOutUp } from "react-native-reanimated";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
+import { setCurrentAccount } from "../../../../slices/accounts/accountsActions";
+import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
 import {
   selectFeed,
   setDropdownVisible,
 } from "../../../../slices/feed/feedSlice";
-import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
 import { Account } from "../../../../types/Account";
-import { setCurrentAccount } from "../../../../slices/accounts/accountsActions";
-import CTable from "../../../common/Table/CTable";
-import CSection from "../../../common/Table/CSection";
 import CCell from "../../../common/Table/CCell";
+import CSection from "../../../common/Table/CSection";
+import CTable from "../../../common/Table/CTable";
 
 function FeedHeaderDropdownDrawer() {
   const { dropdownVisible } = useAppSelector(selectFeed);
@@ -23,6 +25,12 @@ function FeedHeaderDropdownDrawer() {
   const onAccountPress = (account: Account) => {
     dispatch(setCurrentAccount(account));
     dispatch(setDropdownVisible());
+  };
+
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+  const onManageAccountPress = () => {
+    navigation.navigate("ViewAccounts");
   };
 
   if (!dropdownVisible) return null;
@@ -54,6 +62,12 @@ function FeedHeaderDropdownDrawer() {
                   />
                 </Animated.View>
               ))}
+              <CCell
+                cellStyle="Basic"
+                title="Manage Accounts"
+                onPress={() => onManageAccountPress()}
+                accessory="DisclosureIndicator"
+              />
             </CSection>
           </CTable>
         </ScrollView>
