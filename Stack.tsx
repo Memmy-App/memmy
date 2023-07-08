@@ -37,7 +37,6 @@ import { useAppSelector } from "./store";
 import ThemeSelectionScreen from "./src/components/screens/Settings/Appearance/ThemeSelectionScreen";
 import AppearanceScreen from "./src/components/screens/Settings/Appearance/AppearanceScreen";
 import ContentScreen from "./src/components/screens/Settings/Content/ContentScreen";
-import AccountSettingsScreen from "./src/components/screens/Settings/Account/AccountSettingsScreen";
 import ViewerScreen from "./src/components/screens/ViewerScreen";
 import ReadSettingsScreen from "./src/components/screens/Settings/Content/ReadSettingsScreen";
 import UserSavedPostsScreen from "./src/components/screens/UserProfile/UserSavedPostsScreen";
@@ -286,14 +285,6 @@ function ProfileStackScreen() {
           component={ViewerScreen}
           options={{
             title: "View",
-          }}
-        />
-        <ProfileStack.Screen
-          name="AccountSettings"
-          component={AccountSettingsScreen}
-          options={{
-            title: "Accounts",
-            freezeOnBlur: true,
           }}
         />
         <ProfileStack.Screen
