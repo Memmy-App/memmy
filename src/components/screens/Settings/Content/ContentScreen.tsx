@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { SortType } from "lemmy-js-client";
 import { ScrollView, useTheme } from "native-base";
 import React from "react";
-import { StyleSheet, Switch } from "react-native";
+import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
