@@ -55,8 +55,6 @@ const useComment = ({
       return;
     }
 
-    LayoutAnimation.linear();
-
     setComments((prev) =>
       prev.map((c) => {
         if (c.comment.comment.id === comment.comment.comment.id) {
