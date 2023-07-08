@@ -6,7 +6,7 @@ export const lightThemeColors: IColors = {
   accentHighlight: "#E7F2FF",
 
   textPrimary: "#393939",
-  textSecondary: "#979BA2",
+  textSecondary: "#5C5F63",
 
   fg: "#FFFFFF",
   bg: "#F2F2F2",
