@@ -163,6 +163,25 @@ function ContentScreen({
             }
           />
         </CSection>
+
+        <CSection header="COMMENTS">
+          <CCell
+            cellStyle="RightDetail"
+            title="Show Comment Actions"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.showCommentActions}
+                onValueChange={(v) => {
+                  onChange("showCommentActions", v);
+                }}
+              />
+            }
+          />
+        </CSection>
+
         <CSection
           header="NSFW CONTENT"
           footer="This toggle does not affect your Lemmy account NSFW settings. This local setting will apply only to the app and will apply to all accounts."

@@ -25,6 +25,8 @@ import SmallVoteIcons from "../Vote/SmallVoteIcons";
 import VoteButton from "../Vote/VoteButton";
 import CommentBody from "./CommentBody";
 import CommentCollapsed from "./CommentCollapsed";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
+import { useAppSelector } from "../../../../store";
 
 interface IProps {
   comment: ILemmyComment;
@@ -44,6 +46,7 @@ function CommentItem({
   isUnreadReply,
 }: IProps) {
   const theme = useTheme();
+  const settings = useAppSelector(selectSettings);
 
   const initialVote = useRef(comment.comment.my_vote);
 
@@ -146,40 +149,42 @@ function CommentItem({
                     removed={comment.comment.comment.removed}
                     content={comment.comment.comment.content}
                   />
-                  <HStack justifyContent="flex-end" space={2} mb={1}>
-                    <IconButtonWithText
-                      onPressHandler={commentHook.onReply}
-                      icon={
-                        <IconMessagePlus
-                          color={theme.colors.app.accent}
-                          size={22}
-                        />
-                      }
-                    />
-                    <VoteButton
-                      onPressHandler={async () =>
-                        myVote === 1
-                          ? commentHook.onVote(0)
-                          : commentHook.onVote(1)
-                      }
-                      type="upvote"
-                      isVoted={myVote === 1}
-                      isAccented
-                      iconSize={22}
-                    />
-                    <VoteButton
-                      onPressHandler={async () =>
-                        myVote === -1
-                          ? commentHook.onVote(0)
-                          : commentHook.onVote(-1)
-                      }
-                      type="downvote"
-                      isVoted={myVote === -1}
-                      isAccented
-                      iconSize={22}
-                      textSize="md"
-                    />
-                  </HStack>
+                  {settings.showCommentActions && (
+                    <HStack justifyContent="flex-end" space={2} mb={1}>
+                      <IconButtonWithText
+                        onPressHandler={commentHook.onReply}
+                        icon={
+                          <IconMessagePlus
+                            color={theme.colors.app.accent}
+                            size={22}
+                          />
+                        }
+                      />
+                      <VoteButton
+                        onPressHandler={async () =>
+                          myVote === 1
+                            ? commentHook.onVote(0)
+                            : commentHook.onVote(1)
+                        }
+                        type="upvote"
+                        isVoted={myVote === 1}
+                        isAccented
+                        iconSize={22}
+                      />
+                      <VoteButton
+                        onPressHandler={async () =>
+                          myVote === -1
+                            ? commentHook.onVote(0)
+                            : commentHook.onVote(-1)
+                        }
+                        type="downvote"
+                        isVoted={myVote === -1}
+                        isAccented
+                        iconSize={22}
+                        textSize="md"
+                      />
+                    </HStack>
+                  )}
                 </>
               )}
             </VStack>
