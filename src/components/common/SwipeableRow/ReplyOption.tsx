@@ -109,7 +109,7 @@ export function ReplyOption({
 
       if (hitFirstStop) {
         buzz();
-        pulseTimer.value = withTiming(1, { duration: 150 }, () => {
+        pulseTimer.value = withTiming(1, { duration: 250 }, () => {
           pulseTimer.value = 0;
         });
       }

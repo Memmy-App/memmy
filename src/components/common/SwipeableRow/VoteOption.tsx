@@ -104,15 +104,15 @@ export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
 
       if (hitFirstStop) {
         buzz();
-        pulseTimer.value = withTiming(1, { duration: 150 }, () => {
+        pulseTimer.value = withTiming(1, { duration: 250 }, () => {
           pulseTimer.value = 0;
         });
       }
 
       if (hitSecondStop) {
         buzz();
-        rotationTimer.value = withSpring(rotationTimer.value + 180, {
-          damping: 12,
+        rotationTimer.value = withSpring(180, {
+          mass: 0.5,
         });
       } else if (
         current.translateX <= secondStop &&
@@ -120,11 +120,11 @@ export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
         previous.translateX >= secondStop
       ) {
         buzz();
-        rotationTimer.value = withSpring(rotationTimer.value - 180, {
-          damping: 12,
+        rotationTimer.value = withSpring(0, {
+          mass: 0.5,
         });
       } else if (current.translateX === 0) {
-        rotationTimer.value = vote === -1 ? 180 : 0;
+        rotationTimer.value = 0;
       }
     },
     [colors]
@@ -213,7 +213,11 @@ export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
               setArrow(event.nativeEvent.layout);
             }}
           >
-            <AntDesign name="arrowup" size={24} color="white" />
+            <AntDesign
+              name={vote === -1 ? "arrowdown" : "arrowup"}
+              size={24}
+              color="white"
+            />
           </Animated.View>
         </Animated.View>
       </Animated.View>
