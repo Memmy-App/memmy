@@ -2,6 +2,7 @@ name: Lint
 
 on:
   push:
+    branches: ["main"]
   pull_request:
 
 jobs:
@@ -22,6 +23,6 @@ jobs:
 
     - name: Run Lint
       run: |
-        eslint .
+        ./node_modules/eslint/bin/eslint.js .
 
 
