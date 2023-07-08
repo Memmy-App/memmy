@@ -3,6 +3,7 @@ import { Handlers, ISwipeableRowContext } from "./types";
 
 const SwipeableRowContext = React.createContext<ISwipeableRowContext>({
   translateX: { value: 0 },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   subscribe: (_: Handlers) => () => {},
 });
 
@@ -12,10 +13,10 @@ interface Props extends ISwipeableRowContext {
   children: React.ReactNode;
 }
 
-export const SwipeableRowProvider = ({ children, ...value }: Props) => {
+export function SwipeableRowProvider({ children, ...value }: Props) {
   return (
     <SwipeableRowContext.Provider value={value}>
       {children}
     </SwipeableRowContext.Provider>
   );
-};
+}

@@ -1,0 +1,28 @@
+name: Lint
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 18
+
+    - name: Install Node deps
+      run: yarn install
+
+    - name: Run Lint
+      run: |
+        ./node_modules/eslint/bin/eslint.js .
+
+
