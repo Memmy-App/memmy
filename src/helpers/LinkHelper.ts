@@ -160,7 +160,7 @@ const openWebLink = (link: string): void => {
   const urlPattern =
     /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
 
-  const settings = store.getState().settings;
+  const { settings } = store.getState();
   try {
     writeToLog(`Trying to open link: ${link}`);
 

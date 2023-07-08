@@ -55,12 +55,13 @@ export function ReplyOption({
 
   const [firstStop, secondStop] = stops;
 
-  const colors: ISwipeableColors = useMemo(() => {
-    return {
+  const colors: ISwipeableColors = useMemo(
+    () => ({
       first: theme.colors.app.info,
       second: theme.colors.app.success,
-    };
-  }, [theme]);
+    }),
+    [theme]
+  );
 
   // The timer used to pulse the icon to indicate it's active
   const pulseTimer = useSharedValue(0);
@@ -69,25 +70,27 @@ export function ReplyOption({
   const [icon, setIcon] = useState<Icon>("comment");
   const { subscribe, translateX } = useSwipeableRow();
 
-  useEffect(() => {
-    return subscribe({
-      onStart: () => {
-        "worklet";
+  useEffect(
+    () =>
+      subscribe({
+        onStart: () => {
+          "worklet";
 
-        isFrozen.value = false;
-      },
-      onEnd: () => {
-        "worklet";
+          isFrozen.value = false;
+        },
+        onEnd: () => {
+          "worklet";
 
-        if (onExtra && translateX.value <= secondStop) {
-          runOnJS(onExtra)();
-        } else if (translateX.value <= firstStop) {
-          runOnJS(onReply)();
-        }
-        isFrozen.value = true;
-      },
-    });
-  }, [onReply, onExtra]);
+          if (onExtra && translateX.value <= secondStop) {
+            runOnJS(onExtra)();
+          } else if (translateX.value <= firstStop) {
+            runOnJS(onReply)();
+          }
+          isFrozen.value = true;
+        },
+      }),
+    [onReply, onExtra]
+  );
 
   useAnimatedReaction(
     () => ({ translateX: translateX.value, isFrozen: isFrozen.value }),
@@ -148,7 +151,7 @@ export function ReplyOption({
   });
 
   const iconOffset = useAnimatedStyle(() => {
-    let width = iconRect?.width ?? 0;
+    const width = iconRect?.width ?? 0;
 
     const xOffset = interpolate(
       translateX.value,
