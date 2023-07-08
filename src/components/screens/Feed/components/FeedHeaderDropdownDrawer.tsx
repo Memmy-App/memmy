@@ -37,22 +37,18 @@ function FeedHeaderDropdownDrawer() {
 
   return (
     <Pressable
-      style={styles.container}
+      style={[styles.container]}
       onPress={() => dispatch(setDropdownVisible())}
     >
       <View style={styles.scrollContainer}>
         <ScrollView>
           <CTable>
             <CSection>
-              {accounts.map((account, index) => (
-                <Animated.View
-                  entering={FadeInUp.delay(index * 30)
-                    .duration(200)
-                    .springify()}
-                  exiting={FadeOutUp.delay(
-                    accounts.length - index * 30
-                  ).duration(200)}
-                >
+              <Animated.View
+                entering={FadeInUp.delay(30).duration(200)}
+                exiting={FadeOutUp.delay(30).duration(200)}
+              >
+                {accounts.map((account) => (
                   <CCell
                     key={account.username}
                     cellStyle="Basic"
@@ -60,14 +56,15 @@ function FeedHeaderDropdownDrawer() {
                     accessory="DisclosureIndicator"
                     onPress={() => onAccountPress(account)}
                   />
-                </Animated.View>
-              ))}
-              <CCell
-                cellStyle="Basic"
-                title="Manage Accounts"
-                onPress={() => onManageAccountPress()}
-                accessory="DisclosureIndicator"
-              />
+                ))}
+
+                <CCell
+                  cellStyle="Basic"
+                  title="Manage Accounts"
+                  onPress={() => onManageAccountPress()}
+                  accessory="DisclosureIndicator"
+                />
+              </Animated.View>
             </CSection>
           </CTable>
         </ScrollView>
