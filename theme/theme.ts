@@ -148,10 +148,6 @@ const oksolarLightTheme = extendTheme({
   },
 });
 
-const oceanicNextTheme = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: oceanicNextThemeColors,
 const oledTheme = extendTheme({
   ...commonSettings,
   colors: {
