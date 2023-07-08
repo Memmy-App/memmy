@@ -1,13 +1,16 @@
 import Animated, {
+  Extrapolate,
+  Extrapolation,
   interpolate,
   interpolateColor,
   runOnJS,
   useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
+  withTiming,
 } from "react-native-reanimated";
 import { useTheme } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   IconBookmark,
   IconMailOpened,
@@ -28,7 +31,6 @@ interface Props {
   onReply: () => unknown;
   onExtra?: () => unknown;
   extraType?: Icon | undefined;
-  id: number;
 }
 
 const buzz = () => {
@@ -37,9 +39,9 @@ const buzz = () => {
   runOnJS(onGenericHapticFeedback)();
 };
 
-const bookmarkIcon = <IconBookmark color="white" />;
-const mailOpenedIcon = <IconMailOpened color="white" />;
-const commentIcon = <IconMessage color="white" />;
+const bookmarkIcon = <IconBookmark color="white" size={24} />;
+const mailOpenedIcon = <IconMailOpened color="white" size={24} />;
+const commentIcon = <IconMessage color="white" size={24} />;
 
 const screenWidth = Dimensions.get("screen").width;
 
@@ -48,47 +50,44 @@ export function ReplyOption({
   onReply,
   onExtra,
   extraType,
-  id,
 }: Props) {
   const theme = useTheme();
 
   const [firstStop, secondStop] = stops;
 
-  const colors: ISwipeableColors = {
-    first: theme.colors.app.info,
-    second: theme.colors.app.success,
-  };
+  const colors: ISwipeableColors = useMemo(() => {
+    return {
+      first: theme.colors.app.info,
+      second: theme.colors.app.success,
+    };
+  }, [theme]);
 
+  // The timer used to pulse the icon to indicate it's active
+  const pulseTimer = useSharedValue(0);
   const isFrozen = useSharedValue(false);
   const [iconRect, setIconRect] = useState<LayoutRectangle | null>(null);
   const [icon, setIcon] = useState<Icon>("comment");
-  const { setRightSubscribers, translateX } = useSwipeableRow();
+  const { subscribe, translateX } = useSwipeableRow();
 
   useEffect(() => {
-    setRightSubscribers([
-      {
-        onStart: () => {
-          "worklet";
+    return subscribe({
+      onStart: () => {
+        "worklet";
 
-          isFrozen.value = false;
-        },
-        onEnd: () => {
-          "worklet";
-
-          if (onExtra && translateX.value <= secondStop) {
-            runOnJS(onExtra)();
-          } else if (translateX.value <= firstStop) {
-            runOnJS(onReply)();
-          }
-          isFrozen.value = true;
-        },
+        isFrozen.value = false;
       },
-    ]);
+      onEnd: () => {
+        "worklet";
 
-    return () => {
-      setRightSubscribers([]);
-    };
-  }, [id]);
+        if (onExtra && translateX.value <= secondStop) {
+          runOnJS(onExtra)();
+        } else if (translateX.value <= firstStop) {
+          runOnJS(onReply)();
+        }
+        isFrozen.value = true;
+      },
+    });
+  }, [onReply, onExtra]);
 
   useAnimatedReaction(
     () => ({ translateX: translateX.value, isFrozen: isFrozen.value }),
@@ -107,6 +106,9 @@ export function ReplyOption({
 
       if (hitFirstStop) {
         buzz();
+        pulseTimer.value = withTiming(1, { duration: 150 }, () => {
+          pulseTimer.value = 0;
+        });
       }
 
       if (hitSecondStop && onExtra) {
@@ -122,7 +124,7 @@ export function ReplyOption({
         runOnJS(setIcon)("comment");
       }
     },
-    [colors]
+    [colors, onExtra, setIcon]
   );
 
   const backgroundStyle = useAnimatedStyle(() => {
@@ -146,14 +148,12 @@ export function ReplyOption({
   });
 
   const iconOffset = useAnimatedStyle(() => {
+    let width = iconRect?.width ?? 0;
+
     const xOffset = interpolate(
       translateX.value,
-      [0, firstStop, secondStop],
-      [
-        -(iconRect?.width ?? 0),
-        (firstStop - (iconRect?.width ?? 0)) / 2,
-        (secondStop - (iconRect?.width ?? 0)) / 2,
-      ]
+      [secondStop, firstStop, 0],
+      [(secondStop + width) / 2, (firstStop + width) / 2, width]
     );
 
     return {
@@ -161,19 +161,47 @@ export function ReplyOption({
     };
   }, [iconRect]);
 
+  const iconScale = useAnimatedStyle(() => {
+    const scale = interpolate(
+      translateX.value,
+      [0, firstStop * 0.8],
+      [0.4, 1],
+      Extrapolation.CLAMP
+    );
+
+    return {
+      transform: [{ scale }],
+    };
+  });
+
+  const pulse = useAnimatedStyle(() => {
+    if (translateX.value > firstStop * 0.99) return {};
+
+    const scale = interpolate(
+      pulseTimer.value,
+      [0, 0.5, 1],
+      [1, 1.5, 1],
+      Extrapolate.CLAMP
+    );
+
+    return { transform: [{ scale }] };
+  });
+
   return (
     <>
       <Animated.View style={[styles.background, backgroundStyle]} />
       <Animated.View style={[styles.option, iconOffset]}>
-        <Animated.View
-          style={[styles.option]}
-          onLayout={(event) => {
-            setIconRect(event.nativeEvent.layout);
-          }}
-        >
-          {(icon === "comment" && commentIcon) ||
-            (icon === "save" && bookmarkIcon) ||
-            (icon === "read" && mailOpenedIcon)}
+        <Animated.View style={pulse}>
+          <Animated.View
+            style={[styles.option, iconScale]}
+            onLayout={(event) => {
+              setIconRect(event.nativeEvent.layout);
+            }}
+          >
+            {(icon === "comment" && commentIcon) ||
+              (icon === "save" && bookmarkIcon) ||
+              (icon === "read" && mailOpenedIcon)}
+          </Animated.View>
         </Animated.View>
       </Animated.View>
     </>
