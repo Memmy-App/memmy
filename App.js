@@ -9,9 +9,10 @@ import store from "./store";
 import Start from "./Start";
 
 export default function App() {
-  enableFreeze(true);
+  enableFreeze(true); // Enable freezing of screens for better performance
 
   const [fontsLoaded] = useFonts({
+    // Load custom fonts using Expo Fonts
     "Inter-Black": require("./assets/fonts/Inter-Black.otf"),
     "Inter-BlackItalic": require("./assets/fonts/Inter-BlackItalic.otf"),
     "Inter-Bold": require("./assets/fonts/Inter-Bold.otf"),
@@ -33,12 +34,14 @@ export default function App() {
   });
 
   if (!fontsLoaded) {
+    // Wait for fonts to be loaded before rendering the app
     return null;
   }
 
   return (
     <Provider store={store}>
-      <Start />
+      {/* Provide the Redux store to the app */}
+      <Start /> {/* Render the Start component */}
     </Provider>
   );
 }
