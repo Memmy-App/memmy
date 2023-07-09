@@ -94,8 +94,12 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
         return (
           <HStack space={1}>
             <HeaderIconButton
-              icon={compactView ? <IconArrowsMaximize /> : <IconArrowsMinimize />}
-              onPress={() => dispatch(setSetting({ compactView: !compactView}))}
+              icon={
+                compactView ? <IconArrowsMaximize /> : <IconArrowsMinimize />
+              }
+              onPress={() =>
+                dispatch(setSetting({ compactView: !compactView }))
+              }
             />
             <FeedSortButton
               feed={feed}
