@@ -33,7 +33,7 @@ function TraverseScreen() {
     const communityFullName = `${community.community.name}@${getBaseUrl(
       community.community.actor_id
     )}`;
-    return communityFullName in favorites;
+    return favorites ? communityFullName in favorites : false;
   };
 
   const item = (community: CommunityView) => {
@@ -65,7 +65,7 @@ function TraverseScreen() {
     >
       {header}
 
-      {JSON.stringify(favorites) !== "{}" && (
+      {favorites && JSON.stringify(favorites) !== "{}" && (
         <>
           <Text textAlign="center">Favorites</Text>
           {traverse.subscriptions
