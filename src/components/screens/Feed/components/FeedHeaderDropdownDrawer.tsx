@@ -1,5 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Pressable, ScrollView, View } from "native-base";
 import React from "react";
 import { StyleSheet } from "react-native";

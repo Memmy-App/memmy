@@ -22,7 +22,7 @@ import { ISwipeableColors } from "./types";
 import { useSwipeableRow } from "./SwipeableRowProvider";
 
 type Stops = [first: number, second: number];
-const DEFAULT_STOPS: Stops = [-75, -125];
+const DEFAULT_STOPS: Stops = [-75, -150];
 
 type Icon = "comment" | "save" | "read";
 
@@ -109,7 +109,7 @@ export function ReplyOption({
 
       if (hitFirstStop) {
         buzz();
-        pulseTimer.value = withTiming(1, { duration: 150 }, () => {
+        pulseTimer.value = withTiming(1, { duration: 250 }, () => {
           pulseTimer.value = 0;
         });
       }
@@ -183,7 +183,7 @@ export function ReplyOption({
     const scale = interpolate(
       pulseTimer.value,
       [0, 0.5, 1],
-      [1, 1.5, 1],
+      [1, 1.75, 1],
       Extrapolate.CLAMP
     );
 
