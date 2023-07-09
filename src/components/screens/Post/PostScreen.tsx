@@ -27,15 +27,16 @@ interface ViewToken<T = any> {
 }
 
 type ViewableItemsChangedType<T> = {
-  viewableItems: ViewToken<T>[];
+  viewableItems?: ViewToken<T>[];
   changed: ViewToken<T>[];
 };
 
 function PostScreen({ route, navigation }: IProps) {
   const theme = useTheme();
-  const [commentIndex, setCommentIndex] = useState<number | undefined>(
-    undefined
-  );
+  const [firstViewableId, setFirstViewableId] = useState<
+    string | null | undefined
+  >(undefined);
+  const [nextCommentPressed, setNextCommentPressed] = useState(false);
   const post = usePost(
     route.params && route.params.commentId ? route.params.commentId : null
   );
@@ -61,26 +62,10 @@ function PostScreen({ route, navigation }: IProps) {
   }, [post.sortType]);
 
   const onViewableItemsChanged = useCallback(
-    (info: ViewableItemsChangedType<ILemmyComment>) => {
-      console.log(info.viewableItems[0]);
-
-      const firstViewableId = info.viewableItems[0].key;
-      const currentIndex = post.comments.findIndex(
-        (c) => String(c.comment.comment.id) === firstViewableId
-      );
-
-      console.log("currentIndex", currentIndex);
-      console.log(post.comments);
-      const fuck = post.comments.slice(currentIndex, post.comments.length);
-      console.log({ fuck });
-      // .find((c) => c.comment.comment.path.split(".").length === 2).comment
-      // .comment.id;
-
-      const visibleIndex = info.viewableItems[0]?.isViewable
-        ? info.viewableItems[0]?.index || 0
-        : 0;
-      console.log(visibleIndex);
-      setCommentIndex(visibleIndex);
+    (info?: ViewableItemsChangedType<ILemmyComment>) => {
+      const firstId = info.viewableItems ? info.viewableItems[0]?.key : null;
+      // console.log(firstId);
+      setFirstViewableId(firstId);
     },
     []
   );
@@ -104,9 +89,27 @@ function PostScreen({ route, navigation }: IProps) {
   const keyExtractor = (item) => item.comment.comment.id.toString();
 
   const onFabPress = () => {
-    const newIndex = commentIndex === undefined ? 0 : commentIndex + 1;
-    flashListRef.current.scrollToIndex({ index: newIndex });
-    setCommentIndex(newIndex);
+    // console.log("click", firstViewableId);
+    const currentIndex = post.comments.findIndex(
+      (c) => String(c.comment.comment.id) === firstViewableId
+    );
+    // console.log("currentIndex", currentIndex);
+    if (!nextCommentPressed && currentIndex === 0) {
+      // console.log("line 98");
+      setNextCommentPressed(true);
+      flashListRef.current.scrollToIndex({ index: 0, animated: true });
+      return;
+    }
+
+    const nextItem = post.comments
+      .slice(currentIndex + 1, post.comments.length)
+      .find(
+        (c) =>
+          // console.log("fuck", c.comment.comment.path.split(".").length === 2);
+          c.comment.comment.path.split(".").length === 2
+      );
+
+    flashListRef.current.scrollToItem({ item: nextItem, animated: true });
   };
 
   if (post.currentPost) {
