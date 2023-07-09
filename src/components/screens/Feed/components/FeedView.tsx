@@ -5,6 +5,10 @@ import { Button, StyleSheet } from "react-native";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import {
+  IconArrowsMaximize,
+  IconArrowsMinimize,
+} from "tabler-icons-react-native";
 import FeedItem from "./FeedItem/FeedItem";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import {
@@ -12,6 +16,7 @@ import {
   setDropdownVisible,
 } from "../../../../slices/feed/feedSlice";
 import { UseFeed } from "../../../../hooks/feeds/useFeed";
+import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import FeedSortButton from "./FeedSortButton";
 import { Community, FeedOverflowButton } from "./FeedOverflowButton";
@@ -24,6 +29,7 @@ import LoadingView from "../../../common/Loading/LoadingView";
 import LoadingErrorView from "../../../common/Loading/LoadingErrorView";
 import FeedFooter from "./FeedFooter";
 import { removeReadPosts } from "../../../../helpers/LemmyHelpers";
+import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
 import HideReadFAB from "../../../common/Buttons/HideReadFAB";
 
 interface FeedViewProps {
@@ -87,6 +93,10 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
 
         return (
           <HStack space={1}>
+            <HeaderIconButton
+              icon={compactView ? <IconArrowsMaximize /> : <IconArrowsMinimize />}
+              onPress={() => dispatch(setSetting({ compactView: !compactView}))}
+            />
             <FeedSortButton
               feed={feed}
               onSortUpdate={() =>
