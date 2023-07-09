@@ -8,17 +8,25 @@ import {
   IconEye,
   IconNotes,
   IconPlanet,
+  IconStar,
+  IconStarFilled,
 } from "tabler-icons-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import { getCommunityFullName } from "../../../../helpers/LemmyHelpers";
+import { toggleFavorite } from "../../../../slices/favorites/favoritesActions";
+
+import { useAppDispatch, useAppSelector } from "../../../../../store";
+
+import { selectCurrentAccount } from "../../../../slices/accounts/accountsSlice";
 
 interface IProps {
   community: CommunityView;
+  isFavorite: boolean;
 }
 
-function TraverseItem({ community }: IProps) {
+function TraverseItem({ community, isFavorite }: IProps) {
   const theme = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
@@ -29,6 +37,14 @@ function TraverseItem({ community }: IProps) {
       communityFullName: getCommunityFullName(community),
       actorId: community.community.actor_id,
     });
+  
+  const dispatch = useAppDispatch();
+  const onChange = (key: string, value: any) => {
+    dispatch(toggleFavorite([`${currentAccount.username}@${currentAccount.instance}`, key, value]));
+  }
+
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  console.log("Re-rendering TraverseItem: " + `${community.community.name}@${getBaseUrl(community.community.actor_id)}`);
 
   return (
     <Pressable onPress={onPress}>
@@ -80,9 +96,23 @@ function TraverseItem({ community }: IProps) {
             </HStack>
           </HStack>
         </VStack>
-        <VStack ml="auto" alignItems="center">
-          <IconChevronRight size={24} color={theme.colors.app.accent} />
-        </VStack>
+        <HStack ml="auto" alignItems="center">
+          <VStack>
+            <Pressable onPress={() => {
+              let comm_name = `${community.community.name}@${getBaseUrl(community.community.actor_id)}`
+              onChange(comm_name, !(isFavorite));
+            }} >
+              { isFavorite ?
+                <IconStarFilled size={24} color="" style={{"color": theme.colors.app.accent}}/>
+                :
+                <IconStar size={24} color={theme.colors.app.accent} />
+              }
+            </Pressable>
+          </VStack>
+          <VStack pl={2}>
+            <IconChevronRight size={24} color={theme.colors.app.accent} />
+          </VStack>
+        </HStack>
       </HStack>
     </Pressable>
   );
@@ -96,4 +126,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TraverseItem;
+// export default TraverseItem;
+export default React.memo(TraverseItem);
