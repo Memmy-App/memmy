@@ -46,7 +46,7 @@ function PostContentView({ post }: IProps) {
       return (
         <VStack>
           <ImageViewer
-            source={post.post.url}
+            source={post.post.url ? post.post.url : ""}
             nsfw={post.post.nsfw || post.community.nsfw}
             id={post.post.id}
           />
