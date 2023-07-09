@@ -14,6 +14,7 @@ import { writeToLog } from "../../../helpers/LogHelper";
 import { getUnreadCount } from "../../../slices/site/siteActions";
 import FeedHeaderDropdown from "./components/FeedHeaderDropdown";
 import FeedView from "./components/FeedView";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
 
 function FeedsIndexScreen({
   navigation,
@@ -22,6 +23,7 @@ function FeedsIndexScreen({
 }) {
   // Global State
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const { compactView } = useAppSelector(selectSettings);
 
   // Refs
   const previousAccount = useRef<Account | null>(null);
@@ -42,6 +44,10 @@ function FeedsIndexScreen({
     resetInstance();
     load().then();
   }, [currentAccount]);
+
+  useEffect(() => {
+    feed.setRefreshList(!feed.refreshList);
+  }, [compactView]);
 
   const load = async () => {
     try {
