@@ -174,6 +174,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
           </>
         )) || (
           <FlashList
+            key={compactView ? "compact" : "full"}
             ListHeaderComponent={header}
             data={feed.posts}
             renderItem={renderItem}
