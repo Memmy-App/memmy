@@ -3,20 +3,15 @@ import { FlashList } from "@shopify/flash-list";
 import { HStack, useTheme, VStack } from "native-base";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import usePost from "../../../hooks/post/postHooks";
-import LoadingView from "../../common/Loading/LoadingView";
-import CommentItem from "../../common/Comments/CommentItem";
-import CommentSortButton from "./components/CommentSortButton";
-import PostOptionsButton from "./components/PostOptionsButton";
-import PostFooter from "./components/PostFooter";
-import PostHeader from "./components/PostHeader";
-import RefreshControl from "../../common/RefreshControl";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import NextCommentFAB from "../../common/Buttons/NextCommentFAB";
-
-interface IProps {
-  route: any;
-  navigation: NativeStackNavigationProp<any>;
-}
+import CommentItem from "../../common/Comments/CommentItem";
+import LoadingView from "../../common/Loading/LoadingView";
+import RefreshControl from "../../common/RefreshControl";
+import CommentSortButton from "./components/CommentSortButton";
+import PostFooter from "./components/PostFooter";
+import PostHeader from "./components/PostHeader";
+import PostOptionsButton from "./components/PostOptionsButton";
 
 interface ViewToken<T = any> {
   item?: T;
@@ -30,6 +25,15 @@ type ViewableItemsChangedType<T> = {
   viewableItems?: ViewToken<T>[];
   changed: ViewToken<T>[];
 };
+
+function isParentComment(commentItem: ILemmyComment) {
+  return commentItem.comment.comment.path.split(".").length === 2;
+}
+
+interface IProps {
+  route: any;
+  navigation: NativeStackNavigationProp<any>;
+}
 
 function PostScreen({ route, navigation }: IProps) {
   const theme = useTheme();
@@ -63,9 +67,15 @@ function PostScreen({ route, navigation }: IProps) {
 
   const onViewableItemsChanged = useCallback(
     (info?: ViewableItemsChangedType<ILemmyComment>) => {
-      const firstId = info.viewableItems ? info.viewableItems[0]?.key : null;
-      // console.log(firstId);
-      setFirstViewableId(firstId);
+      const firstItem = info.viewableItems ? info.viewableItems[0] : null;
+      if (!!firstItem && !!firstItem.item) {
+        // Not sure if this is the right way to do this
+        // Checking if the first item is a parent comment,
+        // We don't want to set firstViewableId to a child comment I think? idk
+        if (isParentComment(firstItem.item)) {
+          setFirstViewableId(firstItem.item.comment.comment.id.toString());
+        }
+      }
     },
     []
   );
@@ -93,9 +103,7 @@ function PostScreen({ route, navigation }: IProps) {
     const currentIndex = post.comments.findIndex(
       (c) => String(c.comment.comment.id) === firstViewableId
     );
-    // console.log("currentIndex", currentIndex);
     if (!nextCommentPressed && currentIndex === 0) {
-      // console.log("line 98");
       setNextCommentPressed(true);
       flashListRef.current.scrollToIndex({ index: 0, animated: true });
       return;
@@ -103,11 +111,9 @@ function PostScreen({ route, navigation }: IProps) {
 
     const nextItem = post.comments
       .slice(currentIndex + 1, post.comments.length)
-      .find(
-        (c) =>
-          // console.log("fuck", c.comment.comment.path.split(".").length === 2);
-          c.comment.comment.path.split(".").length === 2
-      );
+      .find((c) => isParentComment(c));
+
+    console.log({ nextItem });
 
     flashListRef.current.scrollToItem({ item: nextItem, animated: true });
   };
