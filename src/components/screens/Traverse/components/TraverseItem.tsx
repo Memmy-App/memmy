@@ -37,14 +37,20 @@ function TraverseItem({ community, isFavorite }: IProps) {
       communityFullName: getCommunityFullName(community),
       actorId: community.community.actor_id,
     });
-  
+
   const dispatch = useAppDispatch();
   const onChange = (key: string, value: any) => {
-    dispatch(toggleFavorite([`${currentAccount.username}@${currentAccount.instance}`, key, value]));
-  }
+    dispatch(
+      toggleFavorite([
+        `${currentAccount.username}@${currentAccount.instance}`,
+        key,
+        value,
+      ])
+    );
+  };
 
   const currentAccount = useAppSelector(selectCurrentAccount);
-  console.log("Re-rendering TraverseItem: " + `${community.community.name}@${getBaseUrl(community.community.actor_id)}`);
+  // console.log("Re-rendering TraverseItem: " + `${community.community.name}@${getBaseUrl(community.community.actor_id)}`);
 
   return (
     <Pressable onPress={onPress}>
@@ -98,15 +104,23 @@ function TraverseItem({ community, isFavorite }: IProps) {
         </VStack>
         <HStack ml="auto" alignItems="center">
           <VStack>
-            <Pressable onPress={() => {
-              let comm_name = `${community.community.name}@${getBaseUrl(community.community.actor_id)}`
-              onChange(comm_name, !(isFavorite));
-            }} >
-              { isFavorite ?
-                <IconStarFilled size={24} color="" style={{"color": theme.colors.app.accent}}/>
-                :
+            <Pressable
+              onPress={() => {
+                const communityFullName = `${
+                  community.community.name
+                }@${getBaseUrl(community.community.actor_id)}`;
+                onChange(communityFullName, !isFavorite);
+              }}
+            >
+              {isFavorite ? (
+                <IconStarFilled
+                  size={24}
+                  color=""
+                  style={{ color: theme.colors.app.accent }}
+                />
+              ) : (
                 <IconStar size={24} color={theme.colors.app.accent} />
-              }
+              )}
             </Pressable>
           </VStack>
           <VStack pl={2}>

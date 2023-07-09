@@ -9,11 +9,8 @@ export const loadFavorites = createAsyncThunk(
   async () => {
     let favoritesStr;
 
-    console.log("Loading favorites");
     try {
       favoritesStr = await AsyncStorage.getItem("@Favorites");
-      console.log("FavoritesStr: ");
-      console.log(favoritesStr);
     } catch (e) {
       writeToLog("Error getting Favorites.");
       writeToLog(e.toString());
@@ -30,40 +27,31 @@ export const loadFavorites = createAsyncThunk(
 
 export const toggleFavorite = createAsyncThunk(
   "Favorites/toggleFavorite",
-    async (favorite: [string, string, boolean], thunkAPI) => {
-    // console.log("Saving fav: " + JSON.stringify(favorite));
-    // console.log("Key: " + favorite[0])
-    // console.log("Val: " + favorite[1])
-    
+  async (favorite: [string, string, boolean], thunkAPI) => {
     let favorites;
     try {
-        const state = thunkAPI.getState() as RootState;
-        const username = favorite[0];
-        const community = favorite[1];
-        const toAdd = favorite[2];
+      const state = thunkAPI.getState() as RootState;
+      const username = favorite[0];
+      const community = favorite[1];
+      const toAdd = favorite[2];
 
-        // console.log(`username: ${username}`)
-        
-        favorites = {
-            ...state.favorites,
-            // favorites: {}
-            favorites: {
-                ...state.favorites.favorites,
-            }
-        };
-        // delete favorites.swipeGestures;
-        favorites.favorites[username] = (username in favorites.favorites) ? { ...state.favorites.favorites[username] } : {}
-        // favorites.favorites[username][community] = toAdd;
-        if(toAdd){
-            favorites.favorites[username][community] = toAdd;
-        } else {
-            delete favorites.favorites[username][community];
-        }
-
-        console.log("Favorites: ")
-        console.log(JSON.stringify(favorites));
-    } catch(e) {
-        console.log(`Error: ${e}`);
+      favorites = {
+        ...state.favorites,
+        favorites: {
+          ...state.favorites.favorites,
+        },
+      };
+      favorites.favorites[username] =
+        username in favorites.favorites
+          ? { ...state.favorites.favorites[username] }
+          : {};
+      if (toAdd) {
+        favorites.favorites[username][community] = toAdd;
+      } else {
+        delete favorites.favorites[username][community];
+      }
+    } catch (e) {
+      writeToLog(`Error toggline Favorites: ${e}`);
     }
 
     AsyncStorage.setItem("@Favorites", JSON.stringify(favorites));
