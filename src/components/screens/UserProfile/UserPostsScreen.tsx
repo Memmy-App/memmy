@@ -1,5 +1,5 @@
 import React from "react";
-import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
+import { FlashList } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import { useTheme, VStack } from "native-base";
 import { Route } from "@react-navigation/native";
@@ -25,33 +25,19 @@ function UserPostsScreen({ route }: IProps) {
 
   const theme = useTheme();
 
-  const isSavedPosts = React.useMemo(
-    () => route?.params?.isSavedPosts || false,
-    [route]
-  );
-
-  const posts = React.useMemo(
-    () => (isSavedPosts ? profile.savedPosts : profile.posts),
-    [isSavedPosts, profile]
-  );
-
-  const setPosts = React.useMemo(
-    () => (isSavedPosts ? profile.setSavedPosts : profile.setPosts),
-    [isSavedPosts, profile]
-  );
-
-  const noResultViewType = React.useMemo(
-    () => (isSavedPosts ? "profileSavedPosts" : "profilePosts"),
-    [isSavedPosts]
-  );
+  const noResultViewType = route.params.isSavedPosts
+    ? "profileSavedPosts"
+    : "profilePosts";
 
   const keyExtractor = (item: PostView) => item.post.id.toString();
 
-  const renderItem = React.useCallback(
-    ({ item }: ListRenderItemInfo<PostView>) => (
-      <CompactFeedItem post={item} setPosts={setPosts} />
-    ),
-    [profile, isSavedPosts]
+  const renderItem = ({ item }) => (
+    <CompactFeedItem
+      post={item}
+      setPosts={
+        route.params.isSavedPosts ? profile.setSavedPosts : profile.setPosts
+      }
+    />
   );
 
   // rendering
@@ -73,7 +59,7 @@ function UserPostsScreen({ route }: IProps) {
       <FlashList
         renderItem={renderItem}
         estimatedItemSize={150}
-        data={posts}
+        data={route.params.isSavedPosts ? profile.savedPosts : profile.posts}
         keyExtractor={keyExtractor}
         ListEmptyComponent={<NoResultView type={noResultViewType} p={4} />}
         refreshing={profile.loading}
