@@ -39,7 +39,6 @@ import AppearanceScreen from "./src/components/screens/Settings/Appearance/Appea
 import ContentScreen from "./src/components/screens/Settings/Content/ContentScreen";
 import ViewerScreen from "./src/components/screens/ViewerScreen";
 import ReadSettingsScreen from "./src/components/screens/Settings/Content/ReadSettingsScreen";
-import UserSavedPostsScreen from "./src/components/screens/UserProfile/UserSavedPostsScreen";
 import UserPostsScreen from "./src/components/screens/UserProfile/UserPostsScreen";
 import UserCommentsScreen from "./src/components/screens/UserProfile/UserCommentsScreen";
 import NewPostBodyScreen from "./src/components/screens/Post/NewPostBodyScreen";
@@ -91,7 +90,7 @@ function FeedStackScreen() {
         />
         <FeedStack.Screen
           name="UserSavedPosts"
-          component={UserSavedPostsScreen}
+          component={UserPostsScreen}
           options={{
             title: "Saved Posts",
           }}
@@ -179,7 +178,7 @@ function InboxStackScreen() {
         />
         <InboxStack.Screen
           name="UserSavedPosts"
-          component={UserSavedPostsScreen}
+          component={UserPostsScreen}
           options={{
             title: "Saved Posts",
           }}
@@ -248,7 +247,7 @@ function ProfileStackScreen() {
         />
         <ProfileStack.Screen
           name="UserSavedPosts"
-          component={UserSavedPostsScreen}
+          component={UserPostsScreen}
           options={{
             title: "Saved Posts",
           }}
@@ -427,7 +426,7 @@ function SearchStackScreen() {
         />
         <SearchStack.Screen
           name="UserSavedPosts"
-          component={UserSavedPostsScreen}
+          component={UserPostsScreen}
           options={{
             title: "Saved Posts",
           }}
@@ -513,7 +512,7 @@ function TraverseStackScreen() {
         />
         <TraverseStack.Screen
           name="UserSavedPosts"
-          component={UserSavedPostsScreen}
+          component={UserPostsScreen}
           options={{
             title: "Saved Posts",
           }}

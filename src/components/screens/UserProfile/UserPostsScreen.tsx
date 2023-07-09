@@ -1,7 +1,8 @@
 import React from "react";
-import { FlashList } from "@shopify/flash-list";
+import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import { useTheme, VStack } from "native-base";
+import { Route } from "@react-navigation/native";
 import useProfile from "../../../hooks/profile/useProfile";
 import CompactFeedItem from "../Feed/components/CompactFeedItem/CompactFeedItem";
 import NoResultView from "../../common/NoResultView";
@@ -10,8 +11,13 @@ import LoadingErrorView from "../../common/Loading/LoadingErrorView";
 import NotFoundView from "../../common/Loading/NotFoundView";
 import RefreshControl from "../../common/RefreshControl";
 
+interface IRouteParams {
+  fullUsername?: string;
+  isSavedPosts?: boolean;
+}
+
 interface IProps {
-  route: any;
+  route: Route<"UserPostsScreen", IRouteParams>;
 }
 
 function UserPostsScreen({ route }: IProps) {
@@ -19,11 +25,36 @@ function UserPostsScreen({ route }: IProps) {
 
   const theme = useTheme();
 
+  const isSavedPosts = React.useMemo(
+    () => route?.params?.isSavedPosts || false,
+    [route]
+  );
+
+  const posts = React.useMemo(
+    () => (isSavedPosts ? profile.savedPosts : profile.posts),
+    [isSavedPosts, profile]
+  );
+
+  const setPosts = React.useMemo(
+    () => (isSavedPosts ? profile.setSavedPosts : profile.setPosts),
+    [isSavedPosts, profile]
+  );
+
+  const noResultViewType = React.useMemo(
+    () => (isSavedPosts ? "profileSavedPosts" : "profilePosts"),
+    [isSavedPosts]
+  );
+
   const keyExtractor = (item: PostView) => item.post.id.toString();
 
-  const renderItem = ({ item }: { item: PostView }) => (
-    <CompactFeedItem post={item as PostView} />
+  const renderItem = React.useCallback(
+    ({ item }: ListRenderItemInfo<PostView>) => (
+      <CompactFeedItem post={item} setPosts={setPosts} />
+    ),
+    [profile, isSavedPosts]
   );
+
+  // rendering
 
   if (!profile.profile) {
     return <LoadingView />;
@@ -42,9 +73,9 @@ function UserPostsScreen({ route }: IProps) {
       <FlashList
         renderItem={renderItem}
         estimatedItemSize={150}
-        data={profile.posts}
+        data={posts}
         keyExtractor={keyExtractor}
-        ListEmptyComponent={<NoResultView type="profilePosts" p={4} />}
+        ListEmptyComponent={<NoResultView type={noResultViewType} p={4} />}
         refreshing={profile.loading}
         refreshControl={
           <RefreshControl
