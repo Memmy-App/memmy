@@ -2,6 +2,8 @@ import { Pressable, ScrollView, View } from "native-base";
 import React from "react";
 import { StyleSheet } from "react-native";
 import Animated, { FadeInUp, FadeOutUp } from "react-native-reanimated";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { setCurrentAccount } from "../../../../slices/accounts/accountsActions";
 import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
