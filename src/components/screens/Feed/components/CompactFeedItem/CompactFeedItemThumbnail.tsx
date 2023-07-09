@@ -4,7 +4,7 @@ import { Box, Icon, Pressable, useTheme, View, VStack } from "native-base";
 import { PostView } from "lemmy-js-client";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
-import FastImage from "react-native-fast-image";
+import FastImage, { OnLoadEvent } from "react-native-fast-image";
 import { IconLink, IconMessages } from "tabler-icons-react-native";
 import EnhancedImageViewing from "@gkasdorf/react-native-image-viewing";
 import { ExtensionType, LinkInfo } from "../../../../../helpers/LinkHelper";
@@ -13,8 +13,6 @@ import { selectSettings } from "../../../../../slices/settings/settingsSlice";
 
 import { lemmyAuthToken, lemmyInstance } from "../../../../../LemmyInstance";
 import ImageViewFooter from "../../../../common/ImageViewer/ImageViewFooter";
-import downloadAndSaveImage from "../../../../../helpers/ImageHelper";
-import { shareLink } from "../../../../../helpers/ShareHelper";
 
 function CompactFeedItemThumbnail({
   post,
@@ -36,9 +34,9 @@ function CompactFeedItemThumbnail({
 
   const onImagePress = () => {
     setImageViewOpen(true);
-    lemmyInstance
+    lemmyInstance!
       .markPostAsRead({
-        auth: lemmyAuthToken,
+        auth: lemmyAuthToken!,
         post_id: post.post.id,
         read: true,
       })
@@ -54,26 +52,14 @@ function CompactFeedItemThumbnail({
 
   const onImageLongPress = () => {};
 
-  const onLoad = (e) => {
+  const onLoad = (e: OnLoadEvent) => {
     setDimensions({
       height: e.nativeEvent.height,
       width: e.nativeEvent.width,
     });
   };
 
-  const onSave = () => {
-    downloadAndSaveImage(post.post.url);
-  };
-
-  const onShare = () => {
-    shareLink({
-      link: post.post.url,
-    });
-  };
-
-  const imageViewFooter = () => (
-    <ImageViewFooter onSave={onSave} onShare={onShare} />
-  );
+  const imageViewFooter = () => <ImageViewFooter source={post.post.url!} />;
 
   return (
     <Box

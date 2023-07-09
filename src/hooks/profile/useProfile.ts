@@ -37,17 +37,14 @@ export interface UseProfile {
 
   self: boolean;
 
-  onCommentPress: (
-    postId: number,
-    commentId: number | undefined
-  ) => Promise<void>;
+  onCommentPress: (postId: number, commentId: number) => Promise<void>;
 }
 
 const useProfile = (noContent = true, fullUsername?: string): UseProfile => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const searchUsername = useMemo(
     () =>
-      fullUsername ?? `${currentAccount.username}@${currentAccount.instance}`,
+      fullUsername ?? `${currentAccount?.username}@${currentAccount?.instance}`,
     [currentAccount]
   );
 
@@ -58,7 +55,7 @@ const useProfile = (noContent = true, fullUsername?: string): UseProfile => {
   const [error, setError] = useState<boolean>(false);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
-  const [profile, setProfile] = useState<PersonView>(null);
+  const [profile, setProfile] = useState<PersonView>();
   const [comments, setComments] = useState<ILemmyComment[]>([]);
   const [posts, setPosts] = useState<PostView[]>([]);
   const [savedPosts, setSavedPosts] = useState<PostView[]>([]);
@@ -76,7 +73,7 @@ const useProfile = (noContent = true, fullUsername?: string): UseProfile => {
     else setLoading(true);
 
     try {
-      const res = await lemmyInstance.getPersonDetails({
+      const res = await lemmyInstance!.getPersonDetails({
         auth: lemmyAuthToken,
         username: searchUsername,
         sort: "New",
@@ -87,7 +84,7 @@ const useProfile = (noContent = true, fullUsername?: string): UseProfile => {
       const betterComments = buildComments(res.comments);
 
       if (self.current) {
-        const savedRes = await lemmyInstance.getPersonDetails({
+        const savedRes = await lemmyInstance!.getPersonDetails({
           auth: lemmyAuthToken,
           limit: noContent ? 0 : 50,
           saved_only: true,
@@ -103,7 +100,7 @@ const useProfile = (noContent = true, fullUsername?: string): UseProfile => {
 
       if (refresh) setRefreshing(false);
       else setLoading(false);
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Error getting person.");
       writeToLog(e.toString());
 
@@ -118,14 +115,11 @@ const useProfile = (noContent = true, fullUsername?: string): UseProfile => {
     }
   };
 
-  const onCommentPress = async (
-    postId: number,
-    commentId: number | undefined = undefined
-  ) => {
+  const onCommentPress = async (postId: number, commentId: number) => {
     setLoading(true);
 
     try {
-      const res = await lemmyInstance.getPost({
+      const res = await lemmyInstance!.getPost({
         auth: lemmyAuthToken,
         id: postId,
       });
@@ -137,7 +131,7 @@ const useProfile = (noContent = true, fullUsername?: string): UseProfile => {
         commentId: commentId.toString(),
         showLoadAll: true,
       });
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Failed to get Post for comment push.");
       writeToLog(e.toString());
 

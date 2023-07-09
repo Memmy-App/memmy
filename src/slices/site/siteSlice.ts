@@ -51,8 +51,8 @@ const siteSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getSiteInfo.fulfilled, (state, action) => {
-      state.communityBlocks = action.payload.my_user.community_blocks;
-      state.personBlocks = action.payload.my_user.person_blocks;
+      state.communityBlocks = action.payload.my_user!.community_blocks;
+      state.personBlocks = action.payload.my_user!.person_blocks;
       state.loaded = true;
     });
 

@@ -49,50 +49,7 @@ const useFeedItem = (
     const oldValue: ILemmyVote = post.my_vote as ILemmyVote;
 
     setMyVote(value);
-    setPosts((prev) =>
-      prev.map((p) => {
-        if (p.post.id === post.post.id) {
-          return {
-            ...p,
-            my_vote: value,
-          };
-        }
-
-        return p;
-      })
-    );
-
-    try {
-      await lemmyInstance.likePost({
-        auth: lemmyAuthToken,
-        post_id: post.post.id,
-        score: value,
-      });
-
-      if (markReadOnPostVote) {
-        lemmyInstance
-          .markPostAsRead({
-            auth: lemmyAuthToken,
-            post_id: post.post.id,
-            read: true,
-          })
-          .then();
-
-        setPostRead();
-      }
-    } catch (e) {
-      writeToLog("Error submitting vote.");
-      writeToLog(e.toString());
-
-      dispatch(
-        showToast({
-          message: "Error submitting vote",
-          duration: 3000,
-          variant: "error",
-        })
-      );
-
-      setMyVote(oldValue);
+    if (setPosts) {
       setPosts((prev) =>
         prev.map((p) => {
           if (p.post.id === post.post.id) {
@@ -106,13 +63,61 @@ const useFeedItem = (
         })
       );
     }
+
+    try {
+      await lemmyInstance!.likePost({
+        auth: lemmyAuthToken!,
+        post_id: post.post.id,
+        score: value,
+      });
+
+      if (markReadOnPostVote) {
+        lemmyInstance!
+          .markPostAsRead({
+            auth: lemmyAuthToken!,
+            post_id: post.post.id,
+            read: true,
+          })
+          .then();
+
+        setPostRead();
+      }
+    } catch (e: any) {
+      writeToLog("Error submitting vote.");
+      writeToLog(e.toString());
+
+      dispatch(
+        showToast({
+          message: "Error submitting vote",
+          duration: 3000,
+          variant: "error",
+        })
+      );
+
+      setMyVote(oldValue);
+
+      if (setPosts) {
+        setPosts((prev) =>
+          prev.map((p) => {
+            if (p.post.id === post.post.id) {
+              return {
+                ...p,
+                my_vote: value,
+              };
+            }
+
+            return p;
+          })
+        );
+      }
+    }
   };
 
   const onPress = () => {
     if (setPosts) {
-      lemmyInstance
+      lemmyInstance!
         .markPostAsRead({
-          auth: lemmyAuthToken,
+          auth: lemmyAuthToken!,
           post_id: post.post.id,
           read: true,
         })

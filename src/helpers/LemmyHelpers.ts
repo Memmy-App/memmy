@@ -57,8 +57,8 @@ export const savePost = async (
   save = true
 ): Promise<boolean> => {
   try {
-    await lemmyInstance.savePost({
-      auth: lemmyAuthToken,
+    await lemmyInstance?.savePost({
+      auth: lemmyAuthToken!,
       post_id,
       save,
     });
@@ -74,14 +74,14 @@ export const saveComment = async (
   save = true
 ): Promise<boolean> => {
   try {
-    await lemmyInstance.saveComment({
-      auth: lemmyAuthToken,
+    await lemmyInstance?.saveComment({
+      auth: lemmyAuthToken!,
       comment_id,
       save,
     });
 
     return true;
-  } catch (e) {
+  } catch (e: any) {
     writeToLog("Failed to save comment.");
     writeToLog(e.toString());
 

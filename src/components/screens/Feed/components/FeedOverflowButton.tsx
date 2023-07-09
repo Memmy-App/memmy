@@ -74,9 +74,9 @@ function CommunityOverflowButton({
           })
         );
 
-        lemmyInstance
+        lemmyInstance!
           .blockCommunity({
-            auth: lemmyAuthToken,
+            auth: lemmyAuthToken!,
             community_id: community.id,
             block: true,
           })
@@ -110,7 +110,7 @@ export function MainFeedOverflowButton({
       (index) => {
         if (index === cancelButtonIndex) return;
         feed.setListingType(overflowOptions.main[index] as ListingType);
-        onPress();
+        if (onPress) onPress();
       }
     );
   };

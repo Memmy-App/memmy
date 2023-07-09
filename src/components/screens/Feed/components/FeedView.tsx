@@ -14,7 +14,7 @@ import {
 import { UseFeed } from "../../../../hooks/feeds/useFeed";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import FeedSortButton from "./FeedSortButton";
-import { Community, FeedOverflowButton } from "./FeedOverflowButton";
+import { FeedOverflowButton } from "./FeedOverflowButton";
 import NoResultView from "../../../common/NoResultView";
 import CompactFeedItem from "./CompactFeedItem/CompactFeedItem";
 import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
@@ -44,7 +44,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   const { compactView, hideReadPostsOnFeed } = useAppSelector(selectSettings);
 
   // Refs
-  const flashList = useRef<FlashList<any>>();
+  const flashList = useRef<FlashList<any>>(null);
   const recycled = useRef({});
 
   // Other Hooks
@@ -52,18 +52,12 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
 
-  useScrollToTop(flashList);
+  // Need any here because useScrollToTop expects a FlatList ref
+  useScrollToTop(flashList as any);
 
-  useEffect(
-    () => () => {
-      recycled.current = null;
-    },
-    []
-  );
+  const firstPost = (feed.posts?.length ?? 0) > 0 ? feed?.posts?[0] : undefined;
 
-  const firstPost = (feed.posts?.length ?? 0) > 0 ? feed.posts[0] : undefined;
-
-  const postCommunity: Community = useMemo(() => {
+  const postCommunity: undefined | { name: any; id: any } = useMemo(() => {
     if (!firstPost || !community) return undefined;
 
     return {
@@ -169,7 +163,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
         )) ||
         (feed.community && feed.community.counts.posts < 1 && (
           <>
-            {header()}
+            {header && header()}
             <NoResultView type="posts" />
           </>
         )) || (
@@ -186,7 +180,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             ListFooterComponent={
               <FeedFooter
                 loading={
-                  (feed.postsLoading && feed.posts.length > 0) || endReached
+                  (feed.postsLoading && feed?.posts && feed?.posts?.length > 0) || endReached
                 }
                 error={feed.postsError}
                 empty={(feed.posts ?? []).length === 0}
@@ -204,10 +198,10 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             }}
           />
         )}
-      {hideReadPostsOnFeed && showFab && (
+      {hideReadPostsOnFeed && showFab && feed.posts && (
         <HideReadFAB
           onPress={() => {
-            feed.setPosts(removeReadPosts(feed.posts));
+            feed.setPosts(removeReadPosts(feed.posts!));
           }}
         />
       )}

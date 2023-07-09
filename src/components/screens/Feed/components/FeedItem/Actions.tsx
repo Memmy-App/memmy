@@ -3,12 +3,13 @@ import { HStack, useTheme } from "native-base";
 import { IconBookmark } from "tabler-icons-react-native";
 import VoteButton from "../../../../common/Vote/VoteButton";
 import IconButtonWithText from "../../../../common/IconButtonWithText";
+import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
 
 interface Props {
   vote?: number;
   saved?: boolean;
   onSave: () => void;
-  onVotePress: (vote: number) => void;
+  onVotePress: (value: ILemmyVote) => void;
 }
 export function Actions({ vote, saved, onSave, onVotePress }: Props) {
   const theme = useTheme();

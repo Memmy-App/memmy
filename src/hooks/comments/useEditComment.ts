@@ -35,10 +35,10 @@ const useEditComment = (
     try {
       setLoading(true);
 
-      await lemmyInstance.editComment({
-        auth: lemmyAuthToken,
+      await lemmyInstance!.editComment({
+        auth: lemmyAuthToken!,
         content,
-        comment_id: commentId,
+        comment_id: commentId!,
         language_id: languageId,
       });
 
@@ -50,7 +50,7 @@ const useEditComment = (
       );
 
       navigation.pop();
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Error editing comment.");
       writeToLog(e.toString());
 

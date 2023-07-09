@@ -9,11 +9,11 @@ import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers"
 import downloadAndSaveImage from "../../../helpers/ImageHelper";
 import { shareLink } from "../../../helpers/ShareHelper";
 
-interface ImageViewFooterProps {
+interface IProps {
   source: string;
 }
 
-function ImageViewFooter({ source }: ImageViewFooterProps) {
+function ImageViewFooter({ source }: IProps) {
   const [downloading, setDownloading] = useState(false);
 
   const theme = useTheme();

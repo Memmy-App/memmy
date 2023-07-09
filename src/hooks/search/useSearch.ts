@@ -22,14 +22,14 @@ const useSearch = (): UseSearch => {
 
   const doGetTrending = async () => {
     try {
-      const res = await lemmyInstance.listCommunities({
-        auth: lemmyAuthToken,
+      const res = await lemmyInstance!.listCommunities({
+        auth: lemmyAuthToken!,
         sort: "Active",
         limit: 5,
       });
 
       setTrending(res.communities);
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Error getting trending.");
       writeToLog(e.toString());
     }

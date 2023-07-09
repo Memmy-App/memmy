@@ -2,10 +2,11 @@ import { CommentView, PostView } from "lemmy-js-client";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../store";
 import { getPost } from "./postActions";
+import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 
 interface PostState {
   post: PostView | null;
-  newComment: PostNewComment;
+  newComment: PostNewComment | null;
   loading: boolean;
   error: boolean;
 }
@@ -38,16 +39,16 @@ export const postSlice = createSlice({
       state.newComment = action.payload;
     },
 
-    setPostVote: (state: PostState, action: PayloadAction<1 | 0 | -1>) => {
+    setPostVote: (state: PostState, action: PayloadAction<ILemmyVote>) => {
       state.post = {
-        ...state.post,
+        ...state.post!,
         my_vote: action.payload,
       };
     },
 
     setPostSaved: (state: PostState, action: PayloadAction<boolean>) => {
       state.post = {
-        ...state.post,
+        ...state.post!,
         saved: action.payload,
       };
     },

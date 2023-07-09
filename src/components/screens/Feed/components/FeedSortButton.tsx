@@ -44,7 +44,7 @@ function FeedSortButton({ feed, onSortUpdate }: Props) {
         userInterfaceStyle: theme.config.initialColorMode,
       },
       (index) => {
-        if (index === cancelButtonIndex) return;
+        if (!index || index === cancelButtonIndex) return;
 
         if (index === 0) {
           showTopOptions();
@@ -73,7 +73,7 @@ function FeedSortButton({ feed, onSortUpdate }: Props) {
         userInterfaceStyle: theme.config.initialColorMode,
       },
       (index) => {
-        if (index === cancelButtonIndex) return;
+        if (!index || index === cancelButtonIndex) return;
 
         const [key] = sortTopOptions[index];
         feed.setSort(key);
@@ -82,6 +82,8 @@ function FeedSortButton({ feed, onSortUpdate }: Props) {
     );
   };
 
+  // TODO Come back to this
+  // @ts-ignore
   return <HeaderIconButton icon={SortIconType[feed.sort]} onPress={onPress} />;
 }
 

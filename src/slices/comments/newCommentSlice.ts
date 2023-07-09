@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../store";
 
 interface NewCommentState {
-  responseTo: ResponseTo | null;
+  responseTo?: ResponseTo;
   newComment?: CommentView;
 }
 
@@ -14,8 +14,8 @@ export interface ResponseTo {
 }
 
 const initialState: NewCommentState = {
-  responseTo: null,
-  newComment: null,
+  responseTo: undefined,
+  newComment: undefined,
 };
 
 export const newCommentSlice = createSlice({

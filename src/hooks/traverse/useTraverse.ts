@@ -45,9 +45,11 @@ const useTraverse = (): UseTraverse => {
     setSubscriptions(res as CommunityView[]);
   };
 
-  const getSubscriptions = async (page): Promise<boolean | CommunityView[]> => {
+  const getSubscriptions = async (
+    page: number
+  ): Promise<boolean | CommunityView[]> => {
     try {
-      const res = await lemmyInstance.listCommunities({
+      const res = await lemmyInstance!.listCommunities({
         auth: lemmyAuthToken,
         type_: "Subscribed",
         limit: 50,
@@ -55,7 +57,7 @@ const useTraverse = (): UseTraverse => {
       });
 
       return res.communities;
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Failed to load communities.");
       writeToLog(e.toString());
 

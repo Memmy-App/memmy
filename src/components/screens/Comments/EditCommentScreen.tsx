@@ -35,7 +35,7 @@ function EditCommentScreen({ route, navigation }: IProps) {
   });
 
   // Refs
-  const inputRef = useRef<TextInput>();
+  const inputRef = useRef<TextInput>(null);
 
   // Other hooks
   const theme = useTheme();

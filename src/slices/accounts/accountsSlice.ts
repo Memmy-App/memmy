@@ -52,7 +52,7 @@ const accountsSlice = createSlice({
 
       if (
         action.payload.deletedAccount.username ===
-          state.currentAccount.username &&
+          state.currentAccount?.username &&
         action.payload.deletedAccount.instance === state.currentAccount.instance
       ) {
         state.currentAccount = state.accounts[0];

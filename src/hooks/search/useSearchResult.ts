@@ -15,7 +15,11 @@ interface UseSearch {
 const useSearchResult = (query: string, type: SearchType): UseSearch => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
-  const [result, setResult] = useState<ILemmySearchResult>(null);
+  const [result, setResult] = useState<ILemmySearchResult>({
+    posts: [],
+    communities: [],
+    users: [],
+  });
   const [posts, setPosts] = useState<PostView[]>([]);
 
   useEffect(() => {
@@ -27,7 +31,7 @@ const useSearchResult = (query: string, type: SearchType): UseSearch => {
       setLoading(true);
       setError(false);
 
-      const res = await lemmyInstance.search({
+      const res = await lemmyInstance!.search({
         auth: lemmyAuthToken,
         type_: type,
         q: query,
@@ -47,7 +51,7 @@ const useSearchResult = (query: string, type: SearchType): UseSearch => {
         });
       }
       setLoading(false);
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Error searching.");
       writeToLog(e.toString());
       setLoading(false);

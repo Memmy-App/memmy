@@ -28,10 +28,7 @@ export interface UseInbox {
     SetStateAction<"replies" | "mentions" | "messages">
   >;
 
-  onCommentReplyPress: (
-    postId: number,
-    commentId: number | undefined
-  ) => Promise<void>;
+  onCommentReplyPress: (postId: number, commentId: number) => Promise<void>;
 }
 
 const useInbox = (): UseInbox => {
@@ -53,14 +50,11 @@ const useInbox = (): UseInbox => {
     doLoad().then();
   }, [topSelected, bottomSelected]);
 
-  const onCommentReplyPress = async (
-    postId: number,
-    commentId: number | undefined = undefined
-  ) => {
+  const onCommentReplyPress = async (postId: number, commentId: number) => {
     setLoading(true);
 
     try {
-      const res = await lemmyInstance.getPost({
+      const res = await lemmyInstance!.getPost({
         auth: lemmyAuthToken,
         id: postId,
       });
@@ -72,7 +66,7 @@ const useInbox = (): UseInbox => {
         commentId: commentId.toString(),
         showLoadAll: true,
       });
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Failed to get Post for comment push.");
       writeToLog(e.toString());
 
@@ -99,8 +93,8 @@ const useInbox = (): UseInbox => {
 
   const doLoadReplies = async () => {
     try {
-      const res = await lemmyInstance.getReplies({
-        auth: lemmyAuthToken,
+      const res = await lemmyInstance!.getReplies({
+        auth: lemmyAuthToken!,
         limit: 50,
         unread_only: topSelected === "unread",
       });
@@ -117,7 +111,7 @@ const useInbox = (): UseInbox => {
       }
 
       setItems(betterComments);
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Error getting replies.");
       writeToLog(e.toString());
     }
@@ -128,14 +122,14 @@ const useInbox = (): UseInbox => {
 
   const doLoadMentions = async (unread: boolean) => {
     try {
-      await lemmyInstance.getPersonMentions({
-        auth: lemmyAuthToken,
+      await lemmyInstance!.getPersonMentions({
+        auth: lemmyAuthToken!,
         limit: 50,
         unread_only: unread,
       });
 
       // setItems(res.mentions);
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Error getting mentions.");
       writeToLog(e.toString());
     }
@@ -145,14 +139,14 @@ const useInbox = (): UseInbox => {
 
   const doLoadMessage = async (unread: boolean) => {
     try {
-      await lemmyInstance.getPrivateMessages({
-        auth: lemmyAuthToken,
+      await lemmyInstance!.getPrivateMessages({
+        auth: lemmyAuthToken!,
         limit: 50,
         unread_only: unread,
       });
 
       // setItems(res.private_messages);
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Error getting messages.");
       writeToLog(e.toString());
     }
@@ -164,8 +158,8 @@ const useInbox = (): UseInbox => {
     setLoading(true);
 
     try {
-      await lemmyInstance.markAllAsRead({
-        auth: lemmyAuthToken,
+      await lemmyInstance!.markAllAsRead({
+        auth: lemmyAuthToken!,
       });
 
       if (topSelected === "unread") {
@@ -175,7 +169,7 @@ const useInbox = (): UseInbox => {
       dispatch(setUnread({ type: "all", amount: 0 }));
 
       setLoading(false);
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Error marking all read.");
       writeToLog(e.toString());
     }

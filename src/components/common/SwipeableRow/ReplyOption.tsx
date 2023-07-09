@@ -114,7 +114,7 @@ export function ReplyOption({
         });
       }
 
-      if (hitSecondStop && onExtra) {
+      if (hitSecondStop && onExtra && extraType) {
         buzz();
         runOnJS(setIcon)(extraType);
       } else if (

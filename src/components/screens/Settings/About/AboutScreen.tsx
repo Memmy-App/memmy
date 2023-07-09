@@ -63,7 +63,9 @@ function AboutScreen({
             title="Privacy Policy"
             accessory="DisclosureIndicator"
             onPress={() => {
-              WebBrowser.openBrowserAsync("https://memmy.app/privacy.txt");
+              WebBrowser.openBrowserAsync(
+                "https://memmy.app/privacy.txt"
+              ).then();
             }}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
@@ -87,7 +89,9 @@ function AboutScreen({
             title="GitHub"
             accessory="DisclosureIndicator"
             onPress={() => {
-              WebBrowser.openBrowserAsync("https://github.com/gkasdorf/memmy");
+              WebBrowser.openBrowserAsync(
+                "https://github.com/gkasdorf/memmy"
+              ).then();
             }}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
@@ -105,7 +109,7 @@ function AboutScreen({
                 "Delete Account",
                 "To remove all data from Memmy's servers, simply disable push " +
                   "notifications. If you do not have push notifications enabled, we do not have any of your data.\n\n" +
-                  `To delete your Lemmy account, you must first visit ${currentAccount.instance} and sign in.` +
+                  `To delete your Lemmy account, you must first visit ${currentAccount?.instance} and sign in.` +
                   " Then " +
                   ' navigate to the Profile tab. You may delete your account by pressing "Delete Account".',
                 [
@@ -113,7 +117,7 @@ function AboutScreen({
                     text: "Visit Instance",
                     onPress: () => {
                       openLink(
-                        `https://${currentAccount.instance}`,
+                        `https://${currentAccount?.instance}`,
                         navigation
                       );
                     },

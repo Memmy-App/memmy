@@ -14,6 +14,7 @@ import RenderMarkdown from "../../common/Markdown/RenderMarkdown";
 import KeyboardAccessory from "../../common/KeyboardAccessory";
 import SmallVoteIcons from "../../common/Vote/SmallVoteIcons";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
+import LoadingErrorView from "../../common/Loading/LoadingErrorView";
 
 function NewCommentScreen({
   navigation,
@@ -30,7 +31,7 @@ function NewCommentScreen({
   });
 
   // Refs
-  const inputRef = useRef<TextInput>();
+  const inputRef = useRef<TextInput>(null);
 
   // Hooks
   const newComment = useNewComment();
@@ -39,22 +40,22 @@ function NewCommentScreen({
   const theme = useTheme();
 
   // Other
-  const myVote = responseTo.post
+  const myVote = responseTo?.post
     ? responseTo.post.my_vote
-    : responseTo.comment.my_vote;
+    : responseTo?.comment?.my_vote;
 
-  const upvotes = responseTo.post
+  const upvotes = responseTo?.post
     ? responseTo.post.counts.upvotes
-    : responseTo.comment.counts.upvotes;
-  const downvotes = responseTo.post
+    : responseTo?.comment?.counts.upvotes;
+  const downvotes = responseTo?.post
     ? responseTo.post.counts.downvotes
-    : responseTo.comment.counts.downvotes;
+    : responseTo?.comment?.counts.downvotes;
 
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => headerLeft(),
       headerRight: () => headerRight(),
-      title: responseTo.post ? "Replying to Post" : "Replying to Comment",
+      title: responseTo?.post ? "Replying to Post" : "Replying to Comment",
     });
   }, [newComment.content]);
 
@@ -77,6 +78,10 @@ function NewCommentScreen({
 
   if (newComment.loading) {
     return <LoadingView />;
+  }
+
+  if (!responseTo?.post && !responseTo?.comment) {
+    return <LoadingErrorView onRetryPress={navigation.pop} />;
   }
 
   return (
@@ -114,14 +119,14 @@ function NewCommentScreen({
               {truncateName(
                 responseTo.post
                   ? responseTo.post.creator.name
-                  : responseTo.comment.creator.name
+                  : responseTo.comment!.creator.name
               )}
             </Text>
             <HStack space={3} alignItems="center">
               <HStack space={0} alignItems="center">
                 <SmallVoteIcons
-                  upvotes={upvotes}
-                  downvotes={downvotes}
+                  upvotes={upvotes!}
+                  downvotes={downvotes!}
                   myVote={myVote as ILemmyVote}
                   initialVote={0}
                 />
@@ -132,7 +137,7 @@ function NewCommentScreen({
                   {moment(
                     responseTo.post
                       ? responseTo.post.post.published
-                      : responseTo.comment.comment.published
+                      : responseTo.comment!.comment.published
                   )
                     .utc(true)
                     .fromNow()}
@@ -145,7 +150,7 @@ function NewCommentScreen({
                   text={
                     responseTo.post
                       ? responseTo.post.post.body
-                      : responseTo.comment.comment.content
+                      : responseTo?.comment?.comment.content
                   }
                   addImages
                 />

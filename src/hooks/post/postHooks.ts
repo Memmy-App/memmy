@@ -59,7 +59,7 @@ const usePost = (commentId: string | null): UsePost => {
   const [visibleComments, setVisibleComments] = useState<ILemmyComment[]>([]);
   const [commentsLoading, setCommentsLoading] = useState<boolean>(true);
   const [commentsError, setCommentsError] = useState<boolean>(false);
-  const [currentPost, setCurrentPost] = useState<PostView>(post);
+  const [currentPost, setCurrentPost] = useState<PostView>(post!);
 
   const [collapsed, setCollapsed] = useState<boolean>(false);
 
@@ -139,7 +139,7 @@ const usePost = (commentId: string | null): UsePost => {
     setCommentsError(false);
 
     try {
-      const commentsRes = await lemmyInstance.getComments({
+      const commentsRes = await lemmyInstance!.getComments({
         auth: lemmyAuthToken,
         post_id: currentPost.post.id,
         max_depth: 10,
@@ -179,7 +179,7 @@ const usePost = (commentId: string | null): UsePost => {
 
       setComments(betterComments);
       setCommentsLoading(false);
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Error loading Post.");
       writeToLog(e.toString());
 
@@ -211,19 +211,19 @@ const usePost = (commentId: string | null): UsePost => {
     // Put result in store so we can change it when we go back
     dispatch(
       setUpdateVote({
-        postId: post.post.id,
+        postId: post!.post.id,
         vote: value,
       })
     );
 
     // Send request
     try {
-      await lemmyInstance.likePost({
-        auth: lemmyAuthToken,
-        post_id: post.post.id,
+      await lemmyInstance!.likePost({
+        auth: lemmyAuthToken!,
+        post_id: post!.post.id,
         score: value,
       });
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Error liking Post.");
       writeToLog(e.toString());
 
@@ -267,7 +267,7 @@ const usePost = (commentId: string | null): UsePost => {
         })
       );
     } else {
-      dispatch(setUpdateSaved(post.post.id));
+      dispatch(setUpdateSaved(post!.post.id));
     }
   };
 

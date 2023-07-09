@@ -1,7 +1,7 @@
 import React, { MutableRefObject, useState } from "react";
 import EnhancedImageViewing from "@gkasdorf/react-native-image-viewing";
 import { Pressable, useTheme } from "native-base";
-import { ResizeMode } from "react-native-fast-image";
+import { OnLoadEvent, ResizeMode } from "react-native-fast-image";
 import MemoizedFastImage from "../MemoizedFastImage";
 import { useAppSelector } from "../../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
@@ -50,7 +50,7 @@ function ImageViewer({
 
   const onImageLongPress = () => {};
 
-  const onLoad = (e) => {
+  const onLoad = (e: OnLoadEvent) => {
     setDimensions({ height: e.nativeEvent.height, width: e.nativeEvent.width });
   };
 

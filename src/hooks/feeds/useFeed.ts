@@ -24,7 +24,7 @@ export interface UseFeed {
   postsError: boolean;
 
   community: CommunityView | null;
-  setCommunity: React.Dispatch<SetStateAction<CommunityView>>;
+  setCommunity: React.Dispatch<SetStateAction<CommunityView | null>>;
   communityLoading: boolean;
   communityError: boolean;
   communityNotFound: boolean;
@@ -51,7 +51,7 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
   const { updateVote, updateSaved } = useAppSelector(selectFeed);
 
   // State
-  const [posts, setPosts] = useState<PostView[] | null>(null);
+  const [posts, setPosts] = useState<PostView[]>([]);
   const [postsLoading, setPostsLoading] = useState<boolean>(false);
   const [postsError, setPostsError] = useState<boolean>(false);
 
@@ -84,7 +84,7 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
       if (!posts) return;
 
       setPosts((prev) => {
-        if (!prev) return null;
+        if (!prev) return [];
 
         return prev.map((p) => {
           if (p.post.id === updateVote.postId) {
@@ -105,7 +105,7 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
       if (!posts) return;
 
       setPosts((prev) => {
-        if (!prev) return null;
+        if (!prev) return [];
 
         return prev.map((p) => {
           if (p.post.id === updateSaved) {
@@ -129,7 +129,7 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
       setCommunityError(false);
 
       try {
-        const res = await lemmyInstance.getCommunity({
+        const res = await lemmyInstance!.getCommunity({
           auth: lemmyAuthToken,
           id:
             typeof communityIdOrName === "number"
@@ -143,7 +143,7 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
 
         setCommunity(res.community_view);
         setCommunityLoading(false);
-      } catch (e) {
+      } catch (e: any) {
         writeToLog("Error getting Traverse feed.");
         writeToLog(e.toString());
 
@@ -161,7 +161,7 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
       setPostsError(false);
 
       try {
-        const res = await lemmyInstance.getPosts({
+        const res = await lemmyInstance!.getPosts({
           auth: lemmyAuthToken,
           community_id:
             typeof communityIdOrName === "number"
@@ -201,7 +201,7 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
         }
 
         setPostsLoading(false);
-      } catch (e) {
+      } catch (e: any) {
         writeToLog("Error getting feed.");
         writeToLog(e.toString());
 

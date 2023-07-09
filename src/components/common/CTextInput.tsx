@@ -51,7 +51,7 @@ function CTextInput({
         ]}
         placeholderTextColor={theme.colors.app.textSecondary}
         value={value}
-        onChangeText={(v) => onChange(name, v)}
+        onChangeText={(v) => onChange && onChange(name, v)}
         autoCapitalize={autoCapitalize}
         autoCorrect={autoCorrect}
         secureTextEntry={secure}

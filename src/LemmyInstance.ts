@@ -1,4 +1,4 @@
-import { LemmyHttp } from "lemmy-js-client";
+import { LemmyHttp, Login } from "lemmy-js-client";
 import { Platform } from "react-native";
 import { getReadableVersion } from "react-native-device-info";
 import ILemmyServer from "./types/lemmy/ILemmyServer";
@@ -18,8 +18,8 @@ export const resetInstance = () => {
 
 const initialize = async (server: ILemmyServer): Promise<boolean> => {
   const os = Platform.OS;
+  // @ts-ignore
   lemmyInstance = new LemmyHttp(`https://${server.server}`, {
-    fetchFunction: undefined,
     headers: {
       "User-Agent": `Memmy ${os} ${getReadableVersion()}`,
     },
@@ -33,10 +33,9 @@ const initialize = async (server: ILemmyServer): Promise<boolean> => {
     return true;
   }
   writeToLog("Attempting login.");
-  const args = {
+  const args: Login = {
     username_or_email: server.username,
     password: server.password,
-    totp_2fa_token: undefined,
   };
 
   if (server.totpToken) {
@@ -47,7 +46,7 @@ const initialize = async (server: ILemmyServer): Promise<boolean> => {
     const res = await lemmyInstance.login(args);
     lemmyAuthToken = res.jwt;
     return true;
-  } catch (e) {
+  } catch (e: any) {
     writeToLog("Error initializing instance.");
     writeToLog(e.toString());
 
@@ -56,7 +55,7 @@ const initialize = async (server: ILemmyServer): Promise<boolean> => {
   }
 };
 
-const getInstanceError = () => errorToMessage(errorMessage);
+const getInstanceError = () => errorToMessage(errorMessage!);
 
 const errorToMessage = (error: string) => {
   switch (error) {

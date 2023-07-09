@@ -43,11 +43,13 @@ const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
 
   // Events
   const onSubscribePress = async () => {
+    if (!feed.community) return;
+
     trigger("impactMedium");
 
     const subscribing = !(
-      feed.community.subscribed === "Subscribed" ||
-      feed.community.subscribed === "Pending"
+      feed?.community?.subscribed === "Subscribed" ||
+      feed?.community?.subscribed === "Pending"
     );
 
     feed.setCommunity((prev) => ({
@@ -56,8 +58,8 @@ const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
     }));
 
     try {
-      await lemmyInstance.followCommunity({
-        auth: lemmyAuthToken,
+      await lemmyInstance!.followCommunity({
+        auth: lemmyAuthToken!,
         community_id: feed.community.community.id,
         follow: subscribing,
       });
@@ -81,10 +83,10 @@ const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
 
   const onAboutPress = () => {
     navigation.push("CommunityAbout", {
-      name: feed.community.community.name,
-      banner: feed.community.community.banner,
-      description: feed.community.community.description,
-      title: feed.community.community.title,
+      name: feed?.community?.community.name,
+      banner: feed?.community?.community.banner,
+      description: feed?.community?.community.description,
+      title: feed?.community?.community.title,
     });
   };
 
@@ -93,8 +95,8 @@ const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
     lastPost.current = post ? post.post.id : 0;
 
     navigation.push("NewPost", {
-      communityId: feed.community.community.id,
-      communityName: feed.community.community.name,
+      communityId: feed?.community?.community.id,
+      communityName: feed?.community?.community.name,
       communityLanguageId:
         feed.posts && feed.posts.length > 0
           ? feed.posts[0].post.language_id

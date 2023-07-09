@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import FastImage, { ResizeMode } from "react-native-fast-image";
+import FastImage, { OnLoadEvent, ResizeMode } from "react-native-fast-image";
 import { Icon, Text, useTheme, View, VStack } from "native-base";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
@@ -18,14 +18,18 @@ function MemoizedFastImage({
   resizeMode = "contain",
   onLoad,
 }: {
-  postId: number;
+  postId?: number;
   source: string;
-  recycled?: React.MutableRefObject<{}> | undefined;
+  recycled?:
+    | React.MutableRefObject<{
+        [index: string]: { height: number; width: number };
+      }>
+    | undefined;
   nsfw?: boolean;
   resizeMode?: ResizeMode;
   imgHeight?: number | string;
   imgWidth?: number | string;
-  onLoad?: (e) => void;
+  onLoad?: (e: OnLoadEvent) => void;
 }) {
   const theme = useTheme();
 
@@ -37,7 +41,12 @@ function MemoizedFastImage({
 
   const lastPostId = useRef(postId);
 
-  if (recycled && postId !== lastPostId.current) {
+  if (
+    recycled?.current &&
+    lastPostId?.current &&
+    postId &&
+    postId !== lastPostId.current
+  ) {
     recycled.current = {
       ...recycled.current,
       [lastPostId.current]: {
@@ -46,16 +55,16 @@ function MemoizedFastImage({
       },
     };
 
-    if (recycled.current[postId]) {
-      setHeight(recycled.current[postId].height);
-      setWidth(recycled.current[postId].width);
+    if (recycled.current[postId as keyof object]) {
+      setHeight(recycled.current[postId as keyof object].height);
+      setWidth(recycled.current[postId as keyof object].width);
     }
 
     lastPostId.current = postId;
   }
 
   // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle
-  const _onLoad = (e) => {
+  const _onLoad = (e: OnLoadEvent) => {
     if (onLoad) onLoad(e);
 
     if (imgHeight && imgWidth) {

@@ -9,7 +9,7 @@ interface IProps {
   query: string;
   setQuery: React.Dispatch<SetStateAction<string>>;
   onSubmit?: () => void | Promise<void>;
-  inputRef?: React.MutableRefObject<TextInput>;
+  inputRef?: React.RefObject<TextInput>;
   autoFocus?: boolean;
   inHeader?: boolean;
 }

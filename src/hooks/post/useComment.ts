@@ -4,8 +4,8 @@ import React, { SetStateAction } from "react";
 import Clipboard from "@react-native-community/clipboard";
 import { CommentReplyView } from "lemmy-js-client";
 import { Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectCurrentAccount } from "../../slices/accounts/accountsSlice";
 import { selectSite, setUnread } from "../../slices/site/siteSlice";
@@ -36,7 +36,7 @@ const useComment = ({
 }: {
   comment: ILemmyComment;
   setComments: React.Dispatch<SetStateAction<ILemmyComment[]>>;
-  onPressOverride: () => Promise<void> | void;
+  onPressOverride?: () => Promise<void> | void;
 }): UseComment => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { unread } = useAppSelector(selectSite);
@@ -80,8 +80,8 @@ const useComment = ({
     const isOwnComment =
       getUserFullName(comment.comment.creator).toLowerCase() ===
         createUserFullName(
-          currentAccount.username.toLowerCase(),
-          currentAccount.instance.toLowerCase()
+          currentAccount!.username.toLowerCase(),
+          currentAccount!.instance.toLowerCase()
         ) && !comment.comment.comment.deleted;
 
     // const options = [
@@ -113,10 +113,10 @@ const useComment = ({
         cancelButtonIndex,
         userInterfaceStyle: theme.config.initialColorMode,
       },
-      async (index: number) => {
+      async (index: number | undefined) => {
         onGenericHapticFeedback();
 
-        const option = optionsArr[index];
+        const option = optionsArr[index!];
 
         if (index === cancelButtonIndex) return;
 
@@ -140,10 +140,10 @@ const useComment = ({
               {
                 text: "Submit",
                 style: "default",
-                onPress: async (v) => {
+                onPress: async (v = "") => {
                   try {
-                    await lemmyInstance.createCommentReport({
-                      auth: lemmyAuthToken,
+                    await lemmyInstance!.createCommentReport({
+                      auth: lemmyAuthToken!,
                       comment_id: comment.comment.comment.id,
                       reason: v,
                     });
@@ -155,7 +155,7 @@ const useComment = ({
                         duration: 3000,
                       })
                     );
-                  } catch (e) {
+                  } catch (e: any) {
                     writeToLog("Error reporting comment.");
                     writeToLog(e.toString());
                   }
@@ -167,8 +167,8 @@ const useComment = ({
 
         if (option === options["Delete Comment"]) {
           try {
-            await lemmyInstance.deleteComment({
-              auth: lemmyAuthToken,
+            await lemmyInstance!.deleteComment({
+              auth: lemmyAuthToken!,
               comment_id: comment.comment.comment.id,
               deleted: true,
             });
@@ -199,7 +199,7 @@ const useComment = ({
                 return c;
               })
             );
-          } catch (e) {
+          } catch (e: any) {
             writeToLog("Failed to delete comment.");
             writeToLog(e.toString());
 
@@ -244,9 +244,9 @@ const useComment = ({
         prev.filter((c) => c.comment.comment.id !== comment.comment.comment.id)
       );
 
-      lemmyInstance
+      lemmyInstance!
         .markCommentReplyAsRead({
-          auth: lemmyAuthToken,
+          auth: lemmyAuthToken!,
           comment_reply_id: (comment.comment as CommentReplyView).comment_reply
             .id,
           read: true,
@@ -259,7 +259,7 @@ const useComment = ({
           amount: unread.replies - 1,
         })
       );
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Error marking comment as read.");
       writeToLog(e.toString());
     }
@@ -285,12 +285,12 @@ const useComment = ({
     );
 
     try {
-      await lemmyInstance.likeComment({
-        auth: lemmyAuthToken,
+      await lemmyInstance!.likeComment({
+        auth: lemmyAuthToken!,
         comment_id: comment.comment.comment.id,
         score: value,
       });
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Error submitting vote.");
       writeToLog(e.toString());
 

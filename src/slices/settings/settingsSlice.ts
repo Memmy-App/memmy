@@ -85,6 +85,7 @@ const settingsSlice = createSlice({
       if (action.payload) {
         // eslint-disable-next-line guard-for-in
         for (const key in action.payload) {
+          // @ts-ignore
           state[key] = action.payload[key];
         }
       }
@@ -99,6 +100,7 @@ const settingsSlice = createSlice({
     builder.addCase(setSetting.fulfilled, (state, action) => {
       // eslint-disable-next-line guard-for-in
       for (const key in action.payload) {
+        // @ts-ignore
         state[key] = action.payload[key];
       }
     });

@@ -11,8 +11,8 @@ import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
 import { setPost } from "../../slices/post/postSlice";
 
 interface UseNewPost {
-  loading;
-  error;
+  loading: boolean;
+  error?: string;
 
   form: {
     body: string;
@@ -21,7 +21,7 @@ interface UseNewPost {
     nsfw: boolean;
   };
 
-  inputRef: React.MutableRefObject<TextInput>;
+  inputRef: React.RefObject<TextInput>;
 
   onFormChange: (name: string, value: string | boolean) => void;
 
@@ -45,7 +45,7 @@ const useNewPost = (
   });
 
   // Refs
-  const inputRef = useRef<TextInput>();
+  const inputRef = useRef<TextInput>(null);
 
   // Other hooks
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -81,7 +81,7 @@ const useNewPost = (
 
     try {
       imgurLink = await uploadToImgur(path);
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Error uploading image.");
       writeToLog(e.toString());
 
@@ -101,23 +101,23 @@ const useNewPost = (
 
       const prepared: CreatePost = {
         ...form,
-        name: form.name !== "" ? form.name : undefined,
-        body: form.body !== "" ? form.body : undefined,
-        url: form.url !== "" ? form.url : undefined,
-        auth: lemmyAuthToken,
+        name: form.name ?? undefined,
+        body: form.body ?? undefined,
+        url: form.url ?? undefined,
+        auth: lemmyAuthToken!,
         language_id: languageId,
         community_id: communityId,
         nsfw: form.nsfw,
       };
 
-      const res = await lemmyInstance.createPost(prepared);
+      const res = await lemmyInstance!.createPost(prepared);
 
       setLoading(false);
 
       dispatch(setPost(res.post_view));
 
       navigation.pop();
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Error submitting Post.");
       writeToLog(e.toString());
       writeToLog(`Language ID: ${languageId}`);

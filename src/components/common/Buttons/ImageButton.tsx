@@ -7,7 +7,7 @@ import {
   Text,
   useTheme,
 } from "native-base";
-import FastImage from "react-native-fast-image";
+import FastImage, { OnLoadEvent } from "react-native-fast-image";
 import { truncateImageLink } from "../../../helpers/TextHelper";
 import ImageViewer from "../ImageViewer/ImageViewer";
 
@@ -30,7 +30,7 @@ function ImageButton({ src, size = 50 }: ImageButtonProps) {
     setVisible(false);
   };
 
-  const onLoad = (e) => {
+  const onLoad = (e: OnLoadEvent) => {
     setDimensions({
       height: e.nativeEvent.height,
       width: e.nativeEvent.width,

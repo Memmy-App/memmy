@@ -12,7 +12,7 @@ interface IProps {
 
 function SearchBar({ query, setQuery, onSubmit, autoFocus = true }: IProps) {
   const theme = useTheme();
-  const inputRef = useRef<TextInput>();
+  const inputRef = useRef<TextInput>(null);
 
   return (
     <VStack backgroundColor={theme.colors.app.bg} pt={3} pb={2} px={4}>

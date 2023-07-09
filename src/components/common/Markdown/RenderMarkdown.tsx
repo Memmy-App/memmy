@@ -20,7 +20,7 @@ import { fontSizeMap } from "../../../theme/fontSize";
 // const HEADING_4_SIZE = 18;
 
 interface MarkdownProps {
-  text: string;
+  text?: string;
   addImages?: boolean;
   truncate?: boolean;
   isNote?: boolean;

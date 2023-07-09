@@ -19,6 +19,7 @@ import { useTheme } from "native-base";
 import { useSwipeableRow } from "./SwipeableRowProvider";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { ISwipeableColors } from "./types";
+import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
 
 type Stops = [first: number, second: number];
 const DEFAULT_STOPS: Stops = [75, 125];
@@ -26,7 +27,7 @@ const DEFAULT_STOPS: Stops = [75, 125];
 interface Props {
   stops?: Stops;
   vote?: number;
-  onVote: (value: number) => unknown;
+  onVote: (value: ILemmyVote) => unknown;
 }
 
 const buzz = () => {

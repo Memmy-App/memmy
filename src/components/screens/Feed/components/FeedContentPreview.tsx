@@ -23,11 +23,11 @@ function FeedContentPreview({ post, recycled }: IProps) {
   const { fontWeightPostTitle } = useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
-  const { cleanedText, imageLinks } = findImages(post.post.body, true);
+  const { cleanedText, imageLinks } = findImages(post.post.body ?? "", true);
   const body = truncatePost(cleanedText, 100);
 
   const title = post.post.name;
-  let postUrls = [post.post.url];
+  let postUrls: string[] = [];
 
   const isImagePost = linkInfo.extType === ExtensionType.IMAGE;
 
@@ -36,7 +36,7 @@ function FeedContentPreview({ post, recycled }: IProps) {
   if (isImageMarkdownPost) {
     // incase we have an image Post with image markdown in the body?
     if (isImagePost) {
-      postUrls = [post.post.url, ...imageLinks];
+      postUrls = [post.post.url!, ...imageLinks];
     } else {
       postUrls = imageLinks;
     }
@@ -75,7 +75,7 @@ function FeedContentPreview({ post, recycled }: IProps) {
             {body}
           </Text>
         )}
-        {showLink && (
+        {showLink && linkInfo.link && (
           <Box mx={4} mt={2}>
             <LinkButton
               link={linkInfo.link}

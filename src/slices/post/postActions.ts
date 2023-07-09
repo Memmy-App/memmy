@@ -9,10 +9,10 @@ export const getPost = createAsyncThunk(
   "Post/getPost",
   async (data: GetPost, thunkAPI) => {
     try {
-      const res = await lemmyInstance.getPost(data);
+      const res = await lemmyInstance!.getPost(data);
 
       thunkAPI.dispatch(setPost(res.post_view));
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Error getting Post.");
       writeToLog(e.toString());
       thunkAPI.rejectWithValue(e);

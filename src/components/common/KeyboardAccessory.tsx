@@ -26,7 +26,7 @@ function KeyboardAccessory({
     start: number;
     end: number;
   };
-  inputRef: React.MutableRefObject<TextInput>;
+  inputRef: React.RefObject<TextInput>;
 }) {
   const [uploading, setUploading] = useState(false);
 
@@ -42,7 +42,7 @@ function KeyboardAccessory({
   const onItalicPress = () => {
     const replacement = `*${getSelected()}*`;
     setText(replace(replacement));
-    inputRef.current.setNativeProps({
+    inputRef?.current?.setNativeProps({
       selection: { start: selection.start, end: selection.end },
     });
   };
@@ -51,7 +51,7 @@ function KeyboardAccessory({
     const replacement = `**${getSelected()}**`;
 
     setText(replace(replacement));
-    inputRef.current.setNativeProps({
+    inputRef?.current?.setNativeProps({
       selection: { start: selection.end, end: selection.end },
     });
   };
@@ -87,18 +87,27 @@ function KeyboardAccessory({
   const onQuotePress = () => {
     const replacement = `> ${getSelected()}`;
     setText(replace(replacement));
-    inputRef.current.setNativeProps({
+    inputRef?.current?.setNativeProps({
       selection: { start: selection.start - 2, end: selection.start - 2 },
     });
   };
 
   const onImagePress = async () => {
-    let path;
-
     try {
-      path = await selectImage();
-    } catch (e) {
-      writeToLog("Error getting images.");
+      const path = await selectImage();
+
+      setUploading(true);
+
+      const imgurLink = uploadToImgur(path);
+
+      setUploading(false);
+
+      const replacement = `![](${imgurLink})`;
+      setText(replace(replacement));
+    } catch (e: any) {
+      setUploading(false);
+
+      writeToLog("Error uploading images.");
       writeToLog(e.toString());
 
       if (e.toString() === "permissions") {
@@ -106,30 +115,10 @@ function KeyboardAccessory({
           "Permissions Error",
           "Please allow Memmy App to access your camera roll."
         );
-        return;
+      } else {
+        Alert.alert("Error", "Error uploading image.");
       }
     }
-
-    setUploading(true);
-
-    let imgurLink;
-
-    try {
-      imgurLink = await uploadToImgur(path);
-    } catch (e) {
-      setUploading(false);
-
-      writeToLog("Error uploading image.");
-      writeToLog(e.toString());
-
-      Alert.alert("Error uploading to Imgur.");
-      return;
-    }
-
-    setUploading(false);
-
-    const replacement = `![](${imgurLink})`;
-    setText(replace(replacement));
   };
 
   return (

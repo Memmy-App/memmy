@@ -85,7 +85,7 @@ function AvatarUsername({
     },
   };
 
-  const nameProps = NameColorMap[type];
+  const nameProps = type ? NameColorMap[type] : undefined;
 
   return (
     <HStack space={1} alignItems="center">
@@ -111,12 +111,14 @@ function AvatarUsername({
           >
             <Text
               fontWeight="normal"
-              color={type ? nameProps.bgColor : theme.colors.app.textSecondary}
+              color={
+                nameProps ? nameProps.bgColor : theme.colors.app.textSecondary
+              }
             >
               {creator.name}
             </Text>
           </Link>
-          {type && (
+          {nameProps && (
             <Chip
               text={nameProps.label}
               color={nameProps.bgColor}

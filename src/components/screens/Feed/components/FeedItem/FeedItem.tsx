@@ -42,7 +42,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
   };
 
   const onSwipe = (value: ILemmyVote) => {
-    feedItem.onVotePress(value, false);
+    feedItem.onVotePress(value, false).then();
   };
 
   return (

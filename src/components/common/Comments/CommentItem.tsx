@@ -115,7 +115,7 @@ function CommentItem({
                     upvotes={comment.comment.counts.upvotes}
                     downvotes={comment.comment.counts.downvotes}
                     myVote={comment.comment.my_vote as ILemmyVote}
-                    initialVote={initialVote.current}
+                    initialVote={initialVote.current ?? 0}
                   />
                 </AvatarUsername>
                 {!comment.collapsed ? (

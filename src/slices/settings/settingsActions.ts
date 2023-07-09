@@ -11,7 +11,7 @@ export const loadSettings = createAsyncThunk(
 
     try {
       settingsStr = await AsyncStorage.getItem("@Settings");
-    } catch (e) {
+    } catch (e: any) {
       writeToLog("Error getting Settings.");
       writeToLog(e.toString());
       return null;

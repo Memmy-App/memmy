@@ -47,7 +47,7 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
           upvotes={post.counts.upvotes}
           downvotes={post.counts.downvotes}
           myVote={post.my_vote as ILemmyVote}
-          initialVote={initialVote.current}
+          initialVote={initialVote.current ?? 0}
         />
         <HStack alignItems="center" space={1}>
           <IconMessage color={colors.app.textSecondary} size={16} />
