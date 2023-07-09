@@ -25,6 +25,12 @@ function FeedHeaderDropdownDrawer() {
     dispatch(setDropdownVisible());
   };
 
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+  const onManageAccountPress = () => {
+    navigation.navigate("FeedStack", { screen: "ViewAccounts" });
+  };
+
   if (!dropdownVisible) return null;
 
   return (
@@ -50,12 +56,12 @@ function FeedHeaderDropdownDrawer() {
                   />
                 ))}
 
-                {/* <CCell */}
-                {/*  cellStyle="Basic" */}
-                {/*  title="Manage Accounts" */}
-                {/*  onPress={() => onManageAccountPress()} */}
-                {/*  accessory="DisclosureIndicator" */}
-                {/* /> */}
+                <CCell
+                  cellStyle="Basic"
+                  title="Manage Accounts"
+                  onPress={() => onManageAccountPress()}
+                  accessory="DisclosureIndicator"
+                />
               </Animated.View>
             </CSection>
           </CTable>

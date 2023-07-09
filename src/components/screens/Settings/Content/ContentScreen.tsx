@@ -145,6 +145,9 @@ function ContentScreen({
           />
           <CCell
             title="Mark Post Read On..."
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("ReadSettings")}
           />

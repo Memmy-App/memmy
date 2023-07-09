@@ -6,7 +6,7 @@ export const lightThemeColors: IColors = {
   accentHighlight: "#E7F2FF",
 
   textPrimary: "#393939",
-  textSecondary: "#979BA2",
+  textSecondary: "#5C5F63",
 
   fg: "#FFFFFF",
   bg: "#F2F2F2",
@@ -48,5 +48,55 @@ export const lightThemeColors: IColors = {
   inputBg: "#FAFAFA",
 
   bookmark: "#48C10F",
+  bookmarkText: "#fff",
+};
+
+export const oksolarLightThemeColors: IColors = {
+  accent: "#2B90D8",
+  accentHighlight: "#E7F2FF",
+
+  textPrimary: "#002d38",
+  textSecondary: "#657377",
+
+  fg: "#FDF6E3",
+  bg: "#f1e9d2",
+  navBarBg: "#DDD6C1",
+
+  border: "#98a8a8",
+
+  upvote: "#D56500",
+  upvoteText: "#FFF",
+  downvote: "#7D80D1",
+  downvoteText: "#FFF",
+
+  success: "#819500",
+  successText: "#fff",
+  error: "#F23749",
+  errorText: "#fff",
+  warn: "#AC8300",
+  warnText: "#fff",
+  info: "#2B90D8",
+  infoText: "#fff",
+
+  users: {
+    text: "#fff",
+    mod: "#819500",
+    admin: "#FF4848",
+    dev: "#7D80D1",
+    op: "#2B90D8",
+    me: "#AC8300",
+  },
+
+  comments: {
+    1: "#F23749",
+    2: "#D56500",
+    3: "#AC8300",
+    4: "#819500",
+    5: "#259D94",
+  },
+
+  inputBg: "#F1E9D2",
+
+  bookmark: "#819500",
   bookmarkText: "#fff",
 };
