@@ -6,8 +6,8 @@ import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
-  IconArrowsMaximize,
-  IconArrowsMinimize,
+  IconBaselineDensitySmall,
+  IconBaselineDensityMedium,
 } from "tabler-icons-react-native";
 import FeedItem from "./FeedItem/FeedItem";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
@@ -92,10 +92,10 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
         }
 
         return (
-          <HStack space={1}>
+          <HStack space={2}>
             <HeaderIconButton
               icon={
-                compactView ? <IconArrowsMaximize /> : <IconArrowsMinimize />
+                compactView ? <IconBaselineDensitySmall /> : <IconBaselineDensityMedium />
               }
               onPress={() =>
                 dispatch(setSetting({ compactView: !compactView }))
