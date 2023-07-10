@@ -7,6 +7,7 @@ import {
   lightTheme,
   nightOwlTheme,
   oksolarDarkTheme,
+  oksolarLightTheme,
   sleepyRainforestTheme,
   goldenHourTheme,
   nauticalTheme,
@@ -15,8 +16,7 @@ import {
   embarkTheme,
 } from "./theme";
 
-enum EThemeOptions {
-  LIGHT = "Light",
+enum EDarkThemeOptions {
   DARK = "Dark",
   DRACULA = "Dracula",
   DRACULA_PURPLE = "Dracula (Purple)",
@@ -31,9 +31,20 @@ enum EThemeOptions {
   EMBARK = "Embark",
 }
 
-export type ThemeOptions = `${EThemeOptions}`;
+enum ELightThemeOptions {
+  LIGHT = "Light",
+  OKSOLAR_LIGHT = "Oksolar Light",
+}
 
-export const ThemeOptionsArr = Object.values(EThemeOptions);
+export type ThemeOptions = `${EDarkThemeOptions}` | `${ELightThemeOptions}`;
+
+export const LightThemeOptionsArr = Object.values(ELightThemeOptions);
+export const DarkThemeOptionsArr = Object.values(EDarkThemeOptions);
+
+export const ThemeOptionsArr = [
+  ...LightThemeOptionsArr,
+  ...DarkThemeOptionsArr,
+];
 
 // TODO: should get the type figured out for theme obj
 export const ThemeOptionsMap: Record<ThemeOptions, ICustomTheme> = {
@@ -45,6 +56,7 @@ export const ThemeOptionsMap: Record<ThemeOptions, ICustomTheme> = {
   "Moody Purple": moodyPurpleTheme,
   "Night Owl": nightOwlTheme,
   "Oksolar Dark": oksolarDarkTheme,
+  "Oksolar Light": oksolarLightTheme,
   "Sleepy Rainforest": sleepyRainforestTheme,
   "Golden Hour": goldenHourTheme,
   Nautical: nauticalTheme,

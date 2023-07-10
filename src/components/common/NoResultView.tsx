@@ -7,6 +7,7 @@ type MessageType =
   | "posts"
   | "profileComments"
   | "profilePosts"
+  | "profileSavedPosts"
   | "search"
   | "default";
 
@@ -15,6 +16,7 @@ const NoResultMessageMap: Record<MessageType, string> = {
   posts: "No posts found. Maybe you should get a conversation started?",
   profileComments: "User has no Comments.",
   profilePosts: "User has no posts.",
+  profileSavedPosts: "User has no saved posts.",
   search: "That Search term returned no results.",
   default: "No result found :(",
 };

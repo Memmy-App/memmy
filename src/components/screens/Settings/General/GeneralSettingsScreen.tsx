@@ -2,7 +2,7 @@ import { useActionSheet } from "@expo/react-native-action-sheet";
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { ScrollView, useTheme } from "native-base";
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Switch } from "react-native";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
@@ -16,6 +16,10 @@ function GeneralSettingsScreen() {
   const dispatch = useAppDispatch();
   const theme = useTheme();
   const { showActionSheetWithOptions } = useActionSheet();
+
+  const onChange = (key: string, value: any) => {
+    dispatch(setSetting({ [key]: value }));
+  };
 
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
@@ -46,6 +50,20 @@ function GeneralSettingsScreen() {
                 }
               );
             }}
+          />
+        </CSection>
+        <CSection header="BROWSER">
+          <CCell
+            title="Use Default Browser"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.useDefaultBrowser}
+                onValueChange={(v) => onChange("useDefaultBrowser", v)}
+              />
+            }
           />
         </CSection>
       </TableView>

@@ -178,7 +178,10 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             data={feed.posts}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
-            extraData={feed.refreshList}
+            extraData={{
+              refreshList: feed.refreshList,
+              compactView,
+            }}
             refreshControl={refreshControl}
             onEndReachedThreshold={0.5}
             onEndReached={onEndReached}

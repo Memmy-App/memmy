@@ -2,6 +2,7 @@ import { useTheme } from "native-base";
 import React from "react";
 import { GestureResponderEvent } from "react-native";
 import { IconArrowDown, IconArrowUp } from "tabler-icons-react-native";
+import { IFontSize } from "native-base/lib/typescript/theme/base/typography";
 import IconButtonWithText from "../IconButtonWithText";
 
 interface VoteButtonProps {
@@ -10,6 +11,8 @@ interface VoteButtonProps {
   isVoted: boolean;
   text?: string | number;
   isAccented?: boolean;
+  textSize?: IFontSize;
+  iconSize?: number;
 }
 
 function VoteButton({
@@ -18,6 +21,8 @@ function VoteButton({
   isVoted,
   text,
   isAccented,
+  textSize = "lg",
+  iconSize = 25,
 }: VoteButtonProps) {
   const { colors } = useTheme();
 
@@ -27,11 +32,14 @@ function VoteButton({
 
   const icon =
     type === "upvote" ? (
-      <IconArrowUp color={isVoted ? colors.app.upvoteText : color} size={25} />
+      <IconArrowUp
+        color={isVoted ? colors.app.upvoteText : color}
+        size={iconSize}
+      />
     ) : (
       <IconArrowDown
         color={isVoted ? colors.app.downvoteText : color}
-        size={25}
+        size={iconSize}
       />
     );
 
@@ -41,6 +49,7 @@ function VoteButton({
       icon={icon}
       iconBgColor={isVoted ? voteColor : "transparent"}
       text={text}
+      textSize={textSize}
       textColor={isVoted ? voteColor : color}
     />
   );

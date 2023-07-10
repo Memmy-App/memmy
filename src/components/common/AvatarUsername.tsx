@@ -45,6 +45,7 @@ interface IProps {
   showAvatar?: boolean;
   opId?: number;
   children?: React.ReactNode;
+  link?: boolean;
 }
 
 function AvatarUsername({
@@ -52,6 +53,7 @@ function AvatarUsername({
   creator,
   opId,
   children,
+  link = true,
 }: IProps) {
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
   const theme = useTheme();
@@ -105,6 +107,7 @@ function AvatarUsername({
             params={{
               fullUsername: getUserFullName(creator),
             }}
+            cancel={!link}
           >
             <Text
               fontWeight="normal"

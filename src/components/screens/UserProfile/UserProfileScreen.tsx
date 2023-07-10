@@ -155,8 +155,9 @@ function UserProfileScreen({ route, navigation }: IProps) {
               <IconChevronRight color={theme.colors.app.accent} />
             }
             onPress={() =>
-              navigation.push("UserSavedPosts", {
+              navigation.push("UserPosts", {
                 fullUsername: route?.params?.fullUsername,
+                isSavedPosts: true,
               })
             }
           />

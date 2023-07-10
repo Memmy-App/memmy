@@ -1,18 +1,20 @@
+import { Pressable, ScrollView, View } from "native-base";
 import React from "react";
 import { StyleSheet } from "react-native";
-import { Pressable, ScrollView, View } from "native-base";
-import Animated, { FadeOutUp, FadeInUp } from "react-native-reanimated";
+import Animated, { FadeInUp, FadeOutUp } from "react-native-reanimated";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
+import { setCurrentAccount } from "../../../../slices/accounts/accountsActions";
+import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
 import {
   selectFeed,
   setDropdownVisible,
 } from "../../../../slices/feed/feedSlice";
-import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
 import { Account } from "../../../../types/Account";
-import { setCurrentAccount } from "../../../../slices/accounts/accountsActions";
-import CTable from "../../../common/Table/CTable";
-import CSection from "../../../common/Table/CSection";
 import CCell from "../../../common/Table/CCell";
+import CSection from "../../../common/Table/CSection";
+import CTable from "../../../common/Table/CTable";
 
 function FeedHeaderDropdownDrawer() {
   const { dropdownVisible } = useAppSelector(selectFeed);
@@ -25,26 +27,28 @@ function FeedHeaderDropdownDrawer() {
     dispatch(setDropdownVisible());
   };
 
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+  const onManageAccountPress = () => {
+    navigation.navigate("FeedStack", { screen: "ViewAccounts" });
+  };
+
   if (!dropdownVisible) return null;
 
   return (
     <Pressable
-      style={styles.container}
+      style={[styles.container]}
       onPress={() => dispatch(setDropdownVisible())}
     >
       <View style={styles.scrollContainer}>
         <ScrollView>
           <CTable>
             <CSection>
-              {accounts.map((account, index) => (
-                <Animated.View
-                  entering={FadeInUp.delay(index * 30)
-                    .duration(200)
-                    .springify()}
-                  exiting={FadeOutUp.delay(
-                    accounts.length - index * 30
-                  ).duration(200)}
-                >
+              <Animated.View
+                entering={FadeInUp.delay(30).duration(200)}
+                exiting={FadeOutUp.delay(30).duration(200)}
+              >
+                {accounts.map((account) => (
                   <CCell
                     key={account.username}
                     cellStyle="Basic"
@@ -52,8 +56,15 @@ function FeedHeaderDropdownDrawer() {
                     accessory="DisclosureIndicator"
                     onPress={() => onAccountPress(account)}
                   />
-                </Animated.View>
-              ))}
+                ))}
+
+                <CCell
+                  cellStyle="Basic"
+                  title="Manage Accounts"
+                  onPress={() => onManageAccountPress()}
+                  accessory="DisclosureIndicator"
+                />
+              </Animated.View>
             </CSection>
           </CTable>
         </ScrollView>

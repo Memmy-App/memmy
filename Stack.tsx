@@ -37,10 +37,8 @@ import { useAppSelector } from "./store";
 import ThemeSelectionScreen from "./src/components/screens/Settings/Appearance/ThemeSelectionScreen";
 import AppearanceScreen from "./src/components/screens/Settings/Appearance/AppearanceScreen";
 import ContentScreen from "./src/components/screens/Settings/Content/ContentScreen";
-import AccountSettingsScreen from "./src/components/screens/Settings/Account/AccountSettingsScreen";
 import ViewerScreen from "./src/components/screens/ViewerScreen";
 import ReadSettingsScreen from "./src/components/screens/Settings/Content/ReadSettingsScreen";
-import UserSavedPostsScreen from "./src/components/screens/UserProfile/UserSavedPostsScreen";
 import UserPostsScreen from "./src/components/screens/UserProfile/UserPostsScreen";
 import UserCommentsScreen from "./src/components/screens/UserProfile/UserCommentsScreen";
 import NewPostBodyScreen from "./src/components/screens/Post/NewPostBodyScreen";
@@ -92,9 +90,16 @@ function FeedStackScreen() {
         />
         <FeedStack.Screen
           name="UserSavedPosts"
-          component={UserSavedPostsScreen}
+          component={UserPostsScreen}
           options={{
             title: "Saved Posts",
+          }}
+        />
+        <ProfileStack.Screen
+          name="ViewAccounts"
+          component={ViewAccountsScreen}
+          options={{
+            title: "Manage Accounts",
           }}
         />
       </FeedStack.Group>
@@ -173,7 +178,7 @@ function InboxStackScreen() {
         />
         <InboxStack.Screen
           name="UserSavedPosts"
-          component={UserSavedPostsScreen}
+          component={UserPostsScreen}
           options={{
             title: "Saved Posts",
           }}
@@ -242,7 +247,7 @@ function ProfileStackScreen() {
         />
         <ProfileStack.Screen
           name="UserSavedPosts"
-          component={UserSavedPostsScreen}
+          component={UserPostsScreen}
           options={{
             title: "Saved Posts",
           }}
@@ -286,14 +291,6 @@ function ProfileStackScreen() {
           component={ViewerScreen}
           options={{
             title: "View",
-          }}
-        />
-        <ProfileStack.Screen
-          name="AccountSettings"
-          component={AccountSettingsScreen}
-          options={{
-            title: "Accounts",
-            freezeOnBlur: true,
           }}
         />
         <ProfileStack.Screen
@@ -429,7 +426,7 @@ function SearchStackScreen() {
         />
         <SearchStack.Screen
           name="UserSavedPosts"
-          component={UserSavedPostsScreen}
+          component={UserPostsScreen}
           options={{
             title: "Saved Posts",
           }}
@@ -515,7 +512,7 @@ function TraverseStackScreen() {
         />
         <TraverseStack.Screen
           name="UserSavedPosts"
-          component={UserSavedPostsScreen}
+          component={UserPostsScreen}
           options={{
             title: "Saved Posts",
           }}

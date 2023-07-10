@@ -153,6 +153,24 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
     <ScrollView backgroundColor={theme.colors.app.bg}>
       <LoadingModalTransparent loading={notifications.loading} />
       <CTable>
+        <CSection header="CURRENT ACCOUNT">
+          <CCell
+            cellStyle="RightDetail"
+            title="Server"
+            detail={accounts[0].instance}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+          />
+          <CCell
+            cellStyle="RightDetail"
+            title="Username"
+            detail={accounts[0].username}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+          />
+        </CSection>
         {accounts.map((a) => (
           <CSection
             header={`${a.username}@${a.instance}`.toUpperCase()}
@@ -162,12 +180,18 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
               cellStyle="Basic"
               title="Edit Account"
               accessory="DisclosureIndicator"
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
               onPress={() => onAccountPress(a)}
             />
             {accounts.length > 1 && (
               <CCell
                 cellStyle="Basic"
                 title="Delete Account"
+                backgroundColor={theme.colors.app.fg}
+                titleTextColor={theme.colors.app.textPrimary}
+                rightDetailColor={theme.colors.app.textSecondary}
                 accessory="DisclosureIndicator"
                 onPress={() => onAccountDeletePress(a)}
               />

@@ -36,7 +36,9 @@ const toastSlice = createSlice({
       state.variant = action.payload.variant;
       state.icon = action.payload.icon;
     },
-    hideToast: () => initialState,
+    hideToast: (state: ToastState) => {
+      state.isOpen = false;
+    },
   },
 });
 export const selectToast = (state: RootState) => state.toast;
