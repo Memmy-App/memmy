@@ -200,6 +200,9 @@ const areEqual = (prev: IProps, next: IProps) =>
   prev.comment.comment.comment.id === next.comment.comment.comment.id &&
   prev.comment.comment.my_vote === next.comment.comment.my_vote &&
   prev.comment.collapsed === next.comment.collapsed &&
-  prev.isUnreadReply === next.isUnreadReply;
+  prev.isUnreadReply === next.isUnreadReply &&
+  prev.comment.comment.comment.deleted ===
+    next.comment.comment.comment.deleted &&
+  prev.comment.comment.comment.content === next.comment.comment.comment.content;
 
 export default React.memo(CommentItem, areEqual);
