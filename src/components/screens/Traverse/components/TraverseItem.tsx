@@ -73,9 +73,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
             ) : (
               <IconPlanet color={theme.colors.app.textSecondary} size={24} />
             )}
-            <Text>
-              {getCommunityFullName(community)}
-            </Text>
+            <Text>{getCommunityFullName(community)}</Text>
           </HStack>
           <HStack space={2}>
             <HStack space={1} alignItems="center">
