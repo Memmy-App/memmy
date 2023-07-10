@@ -53,19 +53,21 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
     });
   };
 
-  const onAccountDeletePress = (account: Account) => {
+  const onAccountDeletePress = (account: Account, isLast: boolean) => {
     Alert.alert(
       "Are you sure?",
-      `Please make sure push notifications are disabled before deleting an account, otherwise you may 
+      `Please make sure push notifications are disabled before 
+      ${isLast ? `logging out of` : `deleting`} an account, otherwise you may 
       continue to get push notifications for that account.\n\nAre you sure you want to 
-      delete ${account.username}@${account.instance}?`,
+      ${isLast ? `log out of` : `delete`} 
+      ${account.username}@${account.instance}?`,
       [
         {
           text: "Cancel",
           style: "cancel",
         },
         {
-          text: "Delete",
+          text: isLast ? "Logout" : "Delete",
           style: "destructive",
           onPress: () => {
             dispatch(deleteAccount(account));
@@ -171,10 +173,10 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
             rightDetailColor={theme.colors.app.textSecondary}
           />
         </CSection>
-        {accounts.map((a) => (
+        {accounts.map((account) => (
           <CSection
-            header={`${a.username}@${a.instance}`.toUpperCase()}
-            key={`${a.username}${a.instance}`}
+            header={`${account.username}@${account.instance}`.toUpperCase()}
+            key={`${account.username}${account.instance}`}
           >
             <CCell
               cellStyle="Basic"
@@ -183,7 +185,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
               backgroundColor={theme.colors.app.fg}
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.textSecondary}
-              onPress={() => onAccountPress(a)}
+              onPress={() => onAccountPress(account)}
             />
             {accounts.length > 1 && (
               <CCell
@@ -193,7 +195,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
                 titleTextColor={theme.colors.app.textPrimary}
                 rightDetailColor={theme.colors.app.textSecondary}
                 accessory="DisclosureIndicator"
-                onPress={() => onAccountDeletePress(a)}
+                onPress={() => onAccountDeletePress(account, false)}
               />
             )}
             <CCell
@@ -206,15 +208,29 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
                   value={
                     pushEnabledArr.findIndex(
                       (pe) =>
-                        pe.username === a.username && pe.instance === a.instance
+                        pe.username === account.username &&
+                        pe.instance === account.instance
                     ) > -1
                   }
-                  onValueChange={(v) => onPushNotificationsSwitch(a, v)}
+                  onValueChange={(v) => onPushNotificationsSwitch(account, v)}
                 />
               }
             />
           </CSection>
         ))}
+        {accounts.length === 1 && (
+          <CSection>
+            <CCell
+              cellStyle="Basic"
+              title="Logout"
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.error}
+              rightDetailColor={theme.colors.app.textSecondary}
+              accessory="DisclosureIndicator"
+              onPress={() => onAccountDeletePress(accounts[0], true)}
+            />
+          </CSection>
+        )}
       </CTable>
     </ScrollView>
   );
