@@ -8,6 +8,7 @@ import accountsSlice from "./src/slices/accounts/accountsSlice";
 import siteSlice from "./src/slices/site/siteSlice";
 import toastSlice from "./src/slices/toast/toastSlice";
 import editCommentSlice from "./src/slices/comments/editCommentSlice";
+import favoritesSlice from "./src/slices/favorites/favoritesSlice";
 
 const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ const store = configureStore({
     site: siteSlice,
     toast: toastSlice,
     editComment: editCommentSlice,
+    favorites: favoritesSlice,
   },
 });
 

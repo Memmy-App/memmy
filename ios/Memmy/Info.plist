@@ -6,6 +6,15 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
+			<key>purple</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>purple</string>
+				</array>
+			</dict>
 			<key>green</key>
 			<dict>
 				<key>UIPrerenderedIcon</key>
@@ -33,13 +42,85 @@
 					<string>blue</string>
 				</array>
 			</dict>
-			<key>purple</key>
+			<key>transpride</key>
 			<dict>
 				<key>UIPrerenderedIcon</key>
 				<string>NO</string>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>purple</string>
+					<string>transpride</string>
+				</array>
+			</dict>
+			<key>pridenew</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>pridenew</string>
+				</array>
+			</dict>
+			<key>pride</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>pride</string>
+				</array>
+			</dict>
+			<key>darkgray</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>darkgray</string>
+				</array>
+			</dict>
+			<key>lightgray</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>lightgray</string>
+				</array>
+			</dict>
+			<key>pink</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>pink</string>
+				</array>
+			</dict>
+			<key>orange</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>orange</string>
+				</array>
+			</dict>
+			<key>brown</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>brown</string>
+				</array>
+			</dict>
+			<key>yellow</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>yellow</string>
 				</array>
 			</dict>
 		</dict>
