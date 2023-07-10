@@ -60,7 +60,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
               />
             ),
     });
-  }, []);
+  }, [profile.profile]);
 
   const onDotsPress = async () => {
     const cancelButtonIndex = 1;
