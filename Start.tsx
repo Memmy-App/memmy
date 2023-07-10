@@ -25,6 +25,7 @@ import { darkTheme } from "./src/theme/theme";
 import { ThemeOptionsArr, ThemeOptionsMap } from "./src/theme/themeOptions";
 import Toast from "./src/components/common/Toast";
 import { systemFontSettings } from "./src/theme/common";
+import { loadFavorites } from "./src/slices/favorites/favoritesActions";
 
 const logError = (e, info) => {
   writeToLog(e.toString());
@@ -173,6 +174,7 @@ function Start() {
   if (!loaded) {
     dispatch(loadSettings());
     dispatch(loadAccounts());
+    dispatch(loadFavorites());
     setLoaded(true);
   }
 

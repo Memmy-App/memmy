@@ -8,17 +8,25 @@ import {
   IconEye,
   IconNotes,
   IconPlanet,
+  IconStar,
+  IconStarFilled,
 } from "tabler-icons-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import { getCommunityFullName } from "../../../../helpers/LemmyHelpers";
+import { toggleFavorite } from "../../../../slices/favorites/favoritesActions";
+
+import { useAppDispatch, useAppSelector } from "../../../../../store";
+
+import { selectCurrentAccount } from "../../../../slices/accounts/accountsSlice";
+import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
 
 interface IProps {
   community: CommunityView;
+  isFavorite: boolean;
 }
 
-function TraverseItem({ community }: IProps) {
+function TraverseItem({ community, isFavorite }: IProps) {
   const theme = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
@@ -29,6 +37,19 @@ function TraverseItem({ community }: IProps) {
       communityFullName: getCommunityFullName(community),
       actorId: community.community.actor_id,
     });
+
+  const dispatch = useAppDispatch();
+  const onChange = (key: string, value: any) => {
+    dispatch(
+      toggleFavorite([
+        `${currentAccount.username}@${currentAccount.instance}`,
+        key,
+        value,
+      ])
+    );
+  };
+
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   return (
     <Pressable onPress={onPress}>
@@ -52,10 +73,7 @@ function TraverseItem({ community }: IProps) {
             ) : (
               <IconPlanet color={theme.colors.app.textSecondary} size={24} />
             )}
-            <Text>
-              {community.community.name}@
-              {getBaseUrl(community.community.actor_id)}
-            </Text>
+            <Text>{getCommunityFullName(community)}</Text>
           </HStack>
           <HStack space={2}>
             <HStack space={1} alignItems="center">
@@ -80,9 +98,30 @@ function TraverseItem({ community }: IProps) {
             </HStack>
           </HStack>
         </VStack>
-        <VStack ml="auto" alignItems="center">
-          <IconChevronRight size={24} color={theme.colors.app.accent} />
-        </VStack>
+        <HStack ml="auto" alignItems="center">
+          <VStack>
+            <Pressable
+              onPress={() => {
+                onGenericHapticFeedback();
+                const communityFullName = getCommunityFullName(community);
+                onChange(communityFullName, !isFavorite);
+              }}
+            >
+              {isFavorite ? (
+                <IconStarFilled
+                  size={24}
+                  color=""
+                  style={{ color: theme.colors.app.accent }}
+                />
+              ) : (
+                <IconStar size={24} color={theme.colors.app.accent} />
+              )}
+            </Pressable>
+          </VStack>
+          <VStack pl={2}>
+            <IconChevronRight size={24} color={theme.colors.app.accent} />
+          </VStack>
+        </HStack>
       </HStack>
     </Pressable>
   );
@@ -96,4 +135,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TraverseItem;
+// export default TraverseItem;
+export default React.memo(TraverseItem);
