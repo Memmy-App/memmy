@@ -51,7 +51,7 @@ export const toggleFavorite = createAsyncThunk(
         delete favorites.favorites[username][community];
       }
     } catch (e) {
-      writeToLog(`Error toggline Favorites: ${e}`);
+      writeToLog(`Error toggling Favorites: ${e}`);
     }
 
     AsyncStorage.setItem("@Favorites", JSON.stringify(favorites));
