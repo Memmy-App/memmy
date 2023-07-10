@@ -19,6 +19,7 @@ import { toggleFavorite } from "../../../../slices/favorites/favoritesActions";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 
 import { selectCurrentAccount } from "../../../../slices/accounts/accountsSlice";
+import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
 
 interface IProps {
   community: CommunityView;
@@ -103,6 +104,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
           <VStack>
             <Pressable
               onPress={() => {
+                onGenericHapticFeedback();
                 const communityFullName = getCommunityFullName(community);
                 onChange(communityFullName, !isFavorite);
               }}
