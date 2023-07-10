@@ -5,14 +5,14 @@ import { RootState } from "../../../store";
 import { writeToLog } from "../../helpers/LogHelper";
 
 export const loadFavorites = createAsyncThunk(
-  "Favorites/loadFavorites",
+  "favorites/loadFavorites",
   async () => {
     let favoritesStr;
 
     try {
-      favoritesStr = await AsyncStorage.getItem("@Favorites");
+      favoritesStr = await AsyncStorage.getItem("@favorites");
     } catch (e) {
-      writeToLog("Error getting Favorites.");
+      writeToLog("Error getting @favorites.");
       writeToLog(e.toString());
       return null;
     }
@@ -26,7 +26,7 @@ export const loadFavorites = createAsyncThunk(
 );
 
 export const toggleFavorite = createAsyncThunk(
-  "Favorites/toggleFavorite",
+  "favorites/toggleFavorite",
   async (favorite: [string, string, boolean], thunkAPI) => {
     let favorites;
     try {
@@ -51,10 +51,10 @@ export const toggleFavorite = createAsyncThunk(
         delete favorites.favorites[username][community];
       }
     } catch (e) {
-      writeToLog(`Error toggling Favorites: ${e}`);
+      writeToLog(`Error toggling favorites: ${e}`);
     }
 
-    AsyncStorage.setItem("@Favorites", JSON.stringify(favorites));
+    AsyncStorage.setItem("@favorites", JSON.stringify(favorites));
 
     return favorite;
   }
