@@ -95,7 +95,11 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
           <HStack space={2}>
             <HeaderIconButton
               icon={
-                compactView ? <IconBaselineDensitySmall /> : <IconBaselineDensityMedium />
+                compactView ? (
+                  <IconBaselineDensitySmall />
+                ) : (
+                  <IconBaselineDensityMedium />
+                )
               }
               onPress={() =>
                 dispatch(setSetting({ compactView: !compactView }))
