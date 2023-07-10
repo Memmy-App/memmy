@@ -60,6 +60,8 @@ function PostContentView({ post }: IProps) {
       );
     }
 
+    console.log("body", body);
+
     if (body) {
       return (
         <VStack>

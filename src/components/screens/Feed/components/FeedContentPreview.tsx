@@ -63,7 +63,7 @@ function FeedContentPreview({ post, recycled }: IProps) {
         {showImage && (
           <Box mt={2}>
             <ImagePreview
-              images={postUrls}
+              images={[post.post.url]}
               postId={post.post.id}
               isNsfw={post.post.nsfw}
               recycled={recycled}
