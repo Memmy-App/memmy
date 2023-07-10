@@ -9,21 +9,15 @@ import {
   IconNotes,
   IconUser,
 } from "tabler-icons-react-native";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import relativeTime from "dayjs/plugin/relativeTime";
 import { StyleSheet } from "react-native";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import { UseProfile } from "../../../../hooks/profile/useProfile";
 import { getCakeDay } from "../../../../helpers/TimeHelper";
+import dayjs from "../../../../helpers/DayJsHelper";
 
 interface IProps {
   profile: UseProfile;
 }
-
- // DayJS plugins
- dayjs.extend(utc);
- dayjs.extend(relativeTime);
 
 function ProfileHeader({ profile }: IProps) {
   const theme = useTheme();
