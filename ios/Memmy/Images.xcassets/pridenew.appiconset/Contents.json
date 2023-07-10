@@ -1,0 +1,14 @@
+{
+  "images" : [
+    {
+      "filename" : "saturn_big_pride_new_progress_circles_1024.png",
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
