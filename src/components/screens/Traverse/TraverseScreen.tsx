@@ -63,7 +63,7 @@ function TraverseScreen() {
     >
       {header}
 
-      {favorites && JSON.stringify(favorites) !== "{}" && (
+      {favorites && Object.keys(favorites).length > 0 && (
         <>
           <Text textAlign="center">Favorites</Text>
           {traverse.subscriptions
