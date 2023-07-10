@@ -10,7 +10,7 @@ import RefreshControl from "../../common/RefreshControl";
 import { selectFavorites } from "../../../slices/favorites/favoritesSlice";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { useAppSelector } from "../../../../store";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
+import { getCommunityFullName } from "../../../helpers/LemmyHelpers";
 
 function TraverseScreen() {
   const theme = useTheme();
@@ -30,9 +30,7 @@ function TraverseScreen() {
   );
 
   const isFavorite = (community: CommunityView) => {
-    const communityFullName = `${community.community.name}@${getBaseUrl(
-      community.community.actor_id
-    )}`;
+    const communityFullName = getCommunityFullName(community);
     return favorites ? communityFullName in favorites : false;
   };
 

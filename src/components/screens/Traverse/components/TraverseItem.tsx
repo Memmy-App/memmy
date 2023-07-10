@@ -13,7 +13,6 @@ import {
 } from "tabler-icons-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import { getCommunityFullName } from "../../../../helpers/LemmyHelpers";
 import { toggleFavorite } from "../../../../slices/favorites/favoritesActions";
 
@@ -50,7 +49,6 @@ function TraverseItem({ community, isFavorite }: IProps) {
   };
 
   const currentAccount = useAppSelector(selectCurrentAccount);
-  // console.log("Re-rendering TraverseItem: " + `${community.community.name}@${getBaseUrl(community.community.actor_id)}`);
 
   return (
     <Pressable onPress={onPress}>
@@ -75,8 +73,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
               <IconPlanet color={theme.colors.app.textSecondary} size={24} />
             )}
             <Text>
-              {community.community.name}@
-              {getBaseUrl(community.community.actor_id)}
+              {getCommunityFullName(community)}
             </Text>
           </HStack>
           <HStack space={2}>
@@ -106,9 +103,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
           <VStack>
             <Pressable
               onPress={() => {
-                const communityFullName = `${
-                  community.community.name
-                }@${getBaseUrl(community.community.actor_id)}`;
+                const communityFullName = getCommunityFullName(community);
                 onChange(communityFullName, !isFavorite);
               }}
             >
