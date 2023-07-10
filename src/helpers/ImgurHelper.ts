@@ -1,5 +1,5 @@
 import axios from "axios";
-import dayjs from "./DayJsHelper";
+import dayjs from "dayjs";
 
 const clientId = "2969d60a8c6616b";
 

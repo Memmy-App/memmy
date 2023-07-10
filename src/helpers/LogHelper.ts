@@ -1,7 +1,7 @@
 import * as FileSystem from "react-native-fs";
 import * as MailComposer from "expo-mail-composer";
 import { getReadableVersion } from "react-native-device-info";
-import dayjs from "./DayJsHelper";
+import dayjs from "dayjs";
 
 const logFile = `${FileSystem.LibraryDirectoryPath}/lemmy-debug.log`;
 

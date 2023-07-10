@@ -1,4 +1,4 @@
-import dayjs from "./DayJsHelper";
+import dayjs from "dayjs";
 
 export const timeFromNowShort = (time: string): string => {
   dayjs.updateLocale("en", {
