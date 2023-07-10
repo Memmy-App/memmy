@@ -1,7 +1,8 @@
 import * as FileSystem from "react-native-fs";
 import * as MailComposer from "expo-mail-composer";
 import { getReadableVersion } from "react-native-device-info";
-import moment from "moment";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 
 const logFile = `${FileSystem.LibraryDirectoryPath}/lemmy-debug.log`;
 
@@ -14,11 +15,14 @@ const createIfDontExist = async () => {
   }
 };
 
+ // DayJS plugins
+ dayjs.extend(utc);
+
 const writeToLog = (text: string) => {
   // eslint-disable-next-line no-console
   if (__DEV__) console.log(text);
 
-  const time = moment().utc(true);
+  const time = dayjs().utc(true);
   FileSystem.appendFile(logFile, `\n[${time}] ${text}`).then();
 };
 

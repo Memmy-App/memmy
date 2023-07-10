@@ -1,7 +1,15 @@
-import moment from "moment";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import relativeTime from "dayjs/plugin/relativeTime";
+import updateLocale from "dayjs/plugin/updateLocale";
+
+ // DayJS plugins
+ dayjs.extend(updateLocale);
+ dayjs.extend(utc);
+ dayjs.extend(relativeTime);
 
 export const timeFromNowShort = (time: string): string => {
-  moment.locale("en", {
+  dayjs.updateLocale("en", {
     relativeTime: {
       future: "in %s",
       past: "%s ago",
@@ -20,12 +28,12 @@ export const timeFromNowShort = (time: string): string => {
     },
   });
 
-  return moment(time).utc(true).fromNow(true);
+  return dayjs(time).utc(true).fromNow(true);
 };
 
 export const getCakeDay = (time: string): string => {
-  const start = moment(time);
-  const current = moment();
+  const start = dayjs(time);
+  const current = dayjs();
   const age = current.year() - start.year();
   const next = start.clone().add(age, "years");
   return next.format("Do MMMM YYYY");

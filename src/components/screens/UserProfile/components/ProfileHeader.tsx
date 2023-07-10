@@ -9,7 +9,9 @@ import {
   IconNotes,
   IconUser,
 } from "tabler-icons-react-native";
-import moment from "moment";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { StyleSheet } from "react-native";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import { UseProfile } from "../../../../hooks/profile/useProfile";
@@ -18,6 +20,10 @@ import { getCakeDay } from "../../../../helpers/TimeHelper";
 interface IProps {
   profile: UseProfile;
 }
+
+ // DayJS plugins
+ dayjs.extend(utc);
+ dayjs.extend(relativeTime);
 
 function ProfileHeader({ profile }: IProps) {
   const theme = useTheme();
@@ -87,7 +93,7 @@ function ProfileHeader({ profile }: IProps) {
           <HStack alignItems="center" space={1}>
             <IconCalendarStar size={26} color={theme.colors.app.accent} />
             <Text fontSize="md">
-              {moment(profile.profile.person.published).utc(true).fromNow()}
+              {dayjs(profile.profile.person.published).utc(true).fromNow()}
             </Text>
           </HStack>
           <HStack alignItems="center" space={1}>

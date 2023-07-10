@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import axios from "axios";
 
 const clientId = "2969d60a8c6616b";
@@ -26,7 +26,7 @@ const uploadToImgur = async (uri: string) => {
   const formData = new FormData();
   formData.append("image", {
     uri,
-    name: `${moment()}.${extension}`,
+    name: `${dayjs()}.${extension}`,
     type: imageTypes[extension],
   } as any);
 
