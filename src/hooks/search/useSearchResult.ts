@@ -1,8 +1,8 @@
 import React, { SetStateAction, useEffect, useState } from "react";
 import { PostView, SearchType } from "lemmy-js-client";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { writeToLog } from "../../helpers/LogHelper";
 import ILemmySearchResult from "../../types/lemmy/ILemmySearchResult";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 interface UseSearch {
   loading: boolean;
@@ -48,10 +48,10 @@ const useSearchResult = (query: string, type: SearchType): UseSearch => {
       }
       setLoading(false);
     } catch (e) {
-      writeToLog("Error searching.");
-      writeToLog(e.toString());
       setLoading(false);
       setError(true);
+
+      handleLemmyError(e.toString());
     }
   };
 
