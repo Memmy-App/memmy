@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GetSiteResponse } from "lemmy-js-client";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { writeToLog } from "../../helpers/LogHelper";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 export const getSiteInfo = createAsyncThunk(
   "site/getSiteInfo",
@@ -17,13 +17,11 @@ export const getSiteInfo = createAsyncThunk(
           auth: lemmyAuthToken,
         });
       } catch (e) {
-        writeToLog("Error getting site info.");
-        writeToLog(e.toString());
-
         if (tries < 3) {
           return get();
         }
 
+        handleLemmyError(e.toString());
         error = e.toString();
         return false;
       }
@@ -47,8 +45,7 @@ export const getUnreadCount = createAsyncThunk(
         auth: lemmyAuthToken,
       });
     } catch (e) {
-      writeToLog("Error getting unread count.");
-      writeToLog(e.toString());
+      handleLemmyError(e.toString());
       return thunkAPI.rejectWithValue(e.toString());
     }
   }
@@ -64,8 +61,7 @@ export const unblockCommunity = createAsyncThunk(
         block: false,
       });
     } catch (e) {
-      writeToLog("Error unblocking Traverse.");
-      writeToLog(e.toString());
+      handleLemmyError(e.toString());
       return thunkAPI.rejectWithValue(e.toString());
     }
   }

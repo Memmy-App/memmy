@@ -1,4 +1,4 @@
-# memmy - An iOS and Android client for Lemmy
+# memmy - An iOS client for Lemmy
 ## TestFlight Builds
 You can now download and run Memmy on your iOS device by using TestFlight. To join the beta group and start doom scrolling, [click here and join the group](https://testflight.apple.com/join/6jaRU6rD). Please submit feedback either by
 - Screenshotting the issue you are having, then press the image. When you go to save it, you'll have an option to submit feedback. I'll receive the screenshot and your message.
@@ -8,7 +8,7 @@ You can now download and run Memmy on your iOS device by using TestFlight. To jo
 
 ## About
 
-An Apollo-inspired iOS and Android client for using [Lemmy](https://github.com/LemmyNet/lemmy), a federated link aggregator. Heavly influenced and inspired by Apollo for Reddit. Thanks [Christian](https://github.com/christianselig).
+An Apollo-inspired iOS client for using [Lemmy](https://github.com/LemmyNet/lemmy), a federated link aggregator. Heavly influenced and inspired by Apollo for Reddit. Thanks [Christian](https://github.com/christianselig).
 
 ## Work in Progress
 This is a work in progress and is not in a functional state - yet. I intend to release builds at least nightly on TestFlight, although I am going a bit fast right now (getting ready for the withdraw from no longer having Apollo!)
