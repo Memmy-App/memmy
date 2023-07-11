@@ -10,8 +10,13 @@ import {
   deleteAccount,
   setCurrentAccount,
 } from "../slices/accounts/accountsActions";
+import { writeToLog } from "./LogHelper";
 
 export const handleLemmyError = (code: LemmyErrorType | string) => {
+  // Log the error to debug
+  writeToLog("Lemmy Error:");
+  writeToLog(code);
+
   // Find the error if it exists
   const error = lemmyErrors.find((e) => e.code === code);
 
