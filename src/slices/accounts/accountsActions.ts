@@ -45,6 +45,7 @@ export const editAccount = createAsyncThunk(
     );
 
     accounts[index].password = account.password;
+    accounts[index].token = account.token;
 
     await AsyncStorage.setItem("@accounts", JSON.stringify(accounts));
     return accounts;
