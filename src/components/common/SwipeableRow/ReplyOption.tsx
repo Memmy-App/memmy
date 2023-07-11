@@ -219,6 +219,5 @@ const styles = StyleSheet.create({
   },
   background: {
     ...StyleSheet.absoluteFillObject,
-    borderWidth: 1,
   },
 });
