@@ -17,12 +17,12 @@ import LoadingView from "../../common/Loading/LoadingView";
 import NotFoundView from "../../common/Loading/NotFoundView";
 import ProfileHeader from "./components/ProfileHeader";
 import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
-import { writeToLog } from "../../../helpers/LogHelper";
 import { showToast } from "../../../slices/toast/toastSlice";
 import { useAppDispatch } from "../../../../store";
 import MTable from "../../common/Table/MTable";
 import MCell from "../../common/Table/MCell";
 import RefreshControl from "../../common/RefreshControl";
+import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
 
 interface IProps {
   route: any;
@@ -90,8 +90,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
               })
             );
           } catch (e) {
-            writeToLog("Error blocking person.");
-            writeToLog(e.toString());
+            handleLemmyError(e.toString());
           }
         }
       }

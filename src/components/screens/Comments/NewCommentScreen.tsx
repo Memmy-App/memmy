@@ -4,7 +4,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { HStack, Icon, Text, useTheme, View, VStack } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
-import moment from "moment/moment";
+import dayjs from "dayjs";
 import { useAppSelector } from "../../../../store";
 import { selectNewComment } from "../../../slices/comments/newCommentSlice";
 import LoadingView from "../../common/Loading/LoadingView";
@@ -129,7 +129,7 @@ function NewCommentScreen({
               <HStack space={1} alignItems="center">
                 <Icon as={Ionicons} name="time-outline" />
                 <Text color={theme.colors.app.textSecondary}>
-                  {moment(
+                  {dayjs(
                     responseTo.post
                       ? responseTo.post.post.published
                       : responseTo.comment.comment.published

@@ -1,11 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { SetStateAction, useState } from "react";
-import { Alert } from "react-native";
-import { writeToLog } from "../../helpers/LogHelper";
 import { useAppDispatch } from "../../../store";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
 import { setEditComment } from "../../slices/comments/editCommentSlice";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 interface UseEditComment {
   content: string;
@@ -51,17 +50,9 @@ const useEditComment = (
 
       navigation.pop();
     } catch (e) {
-      writeToLog("Error editing comment.");
-      writeToLog(e.toString());
-
       setLoading(false);
 
-      if (e.toString() === "rate_limit_error") {
-        Alert.alert("Error", "Rate limit error. Please try again shortly...");
-        return;
-      }
-
-      Alert.alert("Error", e.toString());
+      handleLemmyError(e.toString());
     }
   };
 

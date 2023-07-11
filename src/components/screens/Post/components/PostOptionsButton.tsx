@@ -4,11 +4,10 @@ import { useActionSheet } from "@expo/react-native-action-sheet";
 import { IconDots } from "tabler-icons-react-native";
 import { Alert } from "react-native";
 import { useAppDispatch } from "../../../../../store";
-import { commentSortOptions } from "../../../../types/CommentSortOptions";
 import { lemmyAuthToken, lemmyInstance } from "../../../../LemmyInstance";
 import { showToast } from "../../../../slices/toast/toastSlice";
-import { writeToLog } from "../../../../helpers/LogHelper";
 import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
+import { handleLemmyError } from "../../../../helpers/LemmyErrorHelper";
 
 interface IProps {
   postId: number;
@@ -20,11 +19,12 @@ function CommentSortButton({ postId }: IProps) {
   const dispatch = useAppDispatch();
 
   const onPress = () => {
-    const cancelButtonIndex = commentSortOptions.length;
+    const options = ["Report Post", "Cancel"];
+    const cancelButtonIndex = options.indexOf("Cancel");
 
     showActionSheetWithOptions(
       {
-        options: ["Report Post", "Cancel"],
+        options,
         cancelButtonIndex,
         userInterfaceStyle: theme.config.initialColorMode,
       },
@@ -64,8 +64,7 @@ function CommentSortButton({ postId }: IProps) {
                 })
               );
             } catch (e) {
-              writeToLog("Error reporting comment.");
-              writeToLog(e.toString());
+              handleLemmyError(e.toString());
             }
           },
         },
