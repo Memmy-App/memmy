@@ -6,8 +6,8 @@ import { Alert } from "react-native";
 import { useAppDispatch } from "../../../../../store";
 import { lemmyAuthToken, lemmyInstance } from "../../../../LemmyInstance";
 import { showToast } from "../../../../slices/toast/toastSlice";
-import { writeToLog } from "../../../../helpers/LogHelper";
 import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
+import { handleLemmyError } from "../../../../helpers/LemmyErrorHelper";
 
 interface IProps {
   postId: number;
@@ -64,8 +64,7 @@ function CommentSortButton({ postId }: IProps) {
                 })
               );
             } catch (e) {
-              writeToLog("Error reporting comment.");
-              writeToLog(e.toString());
+              handleLemmyError(e.toString());
             }
           },
         },

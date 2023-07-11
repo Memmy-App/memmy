@@ -2,12 +2,12 @@ import React, { SetStateAction, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { writeToLog } from "../../helpers/LogHelper";
 import { useAppDispatch } from "../../../store";
 import { setPost } from "../../slices/post/postSlice";
 import ILemmyComment from "../../types/lemmy/ILemmyComment";
 import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { setUnread } from "../../slices/site/siteSlice";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 export interface UseInbox {
   doLoad: (refresh: boolean) => void;
@@ -73,11 +73,10 @@ const useInbox = (): UseInbox => {
         showLoadAll: true,
       });
     } catch (e) {
-      writeToLog("Failed to get Post for comment push.");
-      writeToLog(e.toString());
-
       setLoading(false);
       setError(true);
+
+      handleLemmyError(e.toString());
     }
   };
 
@@ -118,8 +117,7 @@ const useInbox = (): UseInbox => {
 
       setItems(betterComments);
     } catch (e) {
-      writeToLog("Error getting replies.");
-      writeToLog(e.toString());
+      handleLemmyError(e.toString());
     }
 
     setLoading(false);
@@ -136,8 +134,7 @@ const useInbox = (): UseInbox => {
 
       // setItems(res.mentions);
     } catch (e) {
-      writeToLog("Error getting mentions.");
-      writeToLog(e.toString());
+      handleLemmyError(e.toString());
     }
 
     setLoading(false);
@@ -153,8 +150,7 @@ const useInbox = (): UseInbox => {
 
       // setItems(res.private_messages);
     } catch (e) {
-      writeToLog("Error getting messages.");
-      writeToLog(e.toString());
+      handleLemmyError(e.toString());
     }
 
     setLoading(false);
@@ -176,8 +172,7 @@ const useInbox = (): UseInbox => {
 
       setLoading(false);
     } catch (e) {
-      writeToLog("Error marking all read.");
-      writeToLog(e.toString());
+      handleLemmyError(e.toString());
     }
   };
 

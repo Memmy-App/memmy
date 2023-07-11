@@ -3,6 +3,7 @@ import { Platform } from "react-native";
 import { getReadableVersion } from "react-native-device-info";
 import ILemmyServer from "./types/lemmy/ILemmyServer";
 import { writeToLog } from "./helpers/LogHelper";
+import { handleLemmyError } from "./helpers/LemmyErrorHelper";
 
 // eslint-disable-next-line import/no-mutable-exports
 let lemmyInstance: LemmyHttp | null = null;
@@ -48,31 +49,12 @@ const initialize = async (server: ILemmyServer): Promise<boolean> => {
     lemmyAuthToken = res.jwt;
     return true;
   } catch (e) {
-    writeToLog("Error initializing instance.");
-    writeToLog(e.toString());
-
     errorMessage = e.toString();
+    handleLemmyError(e.toString());
     return false;
   }
 };
 
-const getInstanceError = () => errorToMessage(errorMessage);
+const getInstanceError = () => errorMessage;
 
-const errorToMessage = (error: string) => {
-  switch (error) {
-    case "password_incorrect":
-      return "You have entered an invalid username or password.";
-    case "missing_totp_token":
-      return "missing_totp_token";
-    default:
-      return `Unknown error occurred. Here is more info: ${error}`;
-  }
-};
-
-export {
-  lemmyInstance,
-  lemmyAuthToken,
-  initialize,
-  getInstanceError,
-  errorToMessage,
-};
+export { lemmyInstance, lemmyAuthToken, initialize, getInstanceError };
