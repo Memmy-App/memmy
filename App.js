@@ -7,6 +7,9 @@ import { useFonts } from "expo-font";
 import { enableFreeze } from "react-native-screens";
 import store from "./store";
 import Start from "./Start";
+import * as SplashScreen from "expo-splash-screen";
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   enableFreeze(true);
@@ -35,6 +38,8 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
+
+  SplashScreen.hideAsync();
 
   return (
     <Provider store={store}>
