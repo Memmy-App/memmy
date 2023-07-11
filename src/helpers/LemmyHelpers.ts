@@ -1,9 +1,9 @@
 import { CommentView, CommunityView, Person, PostView } from "lemmy-js-client";
 import { getBaseUrl } from "./LinkHelper";
 import { lemmyAuthToken, lemmyInstance } from "../LemmyInstance";
-import { writeToLog } from "./LogHelper";
 import ILemmyComment from "../types/lemmy/ILemmyComment";
 import { ILemmyVote } from "../types/lemmy/ILemmyVote";
+import { handleLemmyError } from "./LemmyErrorHelper";
 
 export const isSubscribed = (
   communityId: number,
@@ -65,6 +65,7 @@ export const savePost = async (
 
     return true;
   } catch (e) {
+    handleLemmyError(e.toString());
     return false;
   }
 };
@@ -82,8 +83,7 @@ export const saveComment = async (
 
     return true;
   } catch (e) {
-    writeToLog("Failed to save comment.");
-    writeToLog(e.toString());
+    handleLemmyError(e.toString());
 
     return false;
   }

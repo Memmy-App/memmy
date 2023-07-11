@@ -9,13 +9,13 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { setUpdateSaved } from "../../slices/feed/feedSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { writeToLog } from "../../helpers/LogHelper";
 import { setPost } from "../../slices/post/postSlice";
 import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { getLinkInfo, LinkInfo } from "../../helpers/LinkHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 import { showToast } from "../../slices/toast/toastSlice";
 import { savePost } from "../../helpers/LemmyHelpers";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 interface UseFeedItem {
   myVote: ILemmyVote;
@@ -81,17 +81,6 @@ const useFeedItem = (
         setPostRead();
       }
     } catch (e) {
-      writeToLog("Error submitting vote.");
-      writeToLog(e.toString());
-
-      dispatch(
-        showToast({
-          message: "Error submitting vote",
-          duration: 3000,
-          variant: "error",
-        })
-      );
-
       setMyVote(oldValue);
       setPosts((prev) =>
         prev.map((p) => {
@@ -105,6 +94,8 @@ const useFeedItem = (
           return p;
         })
       );
+
+      handleLemmyError(e.toString());
     }
   };
 

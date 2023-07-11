@@ -3,6 +3,7 @@ import { Platform } from "react-native";
 import { getReadableVersion } from "react-native-device-info";
 import ILemmyServer from "./types/lemmy/ILemmyServer";
 import { writeToLog } from "./helpers/LogHelper";
+import { handleLemmyError } from "./helpers/LemmyErrorHelper";
 
 // eslint-disable-next-line import/no-mutable-exports
 let lemmyInstance: LemmyHttp | null = null;
@@ -48,10 +49,7 @@ const initialize = async (server: ILemmyServer): Promise<boolean> => {
     lemmyAuthToken = res.jwt;
     return true;
   } catch (e) {
-    writeToLog("Error initializing instance.");
-    writeToLog(e.toString());
-
-    errorMessage = e.toString();
+    handleLemmyError(e.toString());
     return false;
   }
 };

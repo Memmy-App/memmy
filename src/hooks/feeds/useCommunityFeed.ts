@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../slices/post/postSlice";
 import { showToast } from "../../slices/toast/toastSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 interface UseCommunityFeed {
   feed: UseFeed;
@@ -76,6 +77,8 @@ const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
         ...prev,
         subscribed: subscribing ? "NotSubscribed" : "Subscribed",
       }));
+
+      handleLemmyError(e.toString());
     }
   };
 
