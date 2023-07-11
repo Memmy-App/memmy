@@ -189,17 +189,6 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
               onPress={() => onAccountPress(account)}
             />
             <CCell
-              cellStyle="Basic"
-              title="Logout"
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
-              cellAccessoryView={
-                <IconLogout color={theme.colors.app.textPrimary} />
-              }
-              onPress={() => onAccountLogoutPress(account)}
-            />
-            <CCell
               title="Push Notifications"
               backgroundColor={theme.colors.app.fg}
               titleTextColor={theme.colors.app.textPrimary}
@@ -216,6 +205,17 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
                   onValueChange={(v) => onPushNotificationsSwitch(account, v)}
                 />
               }
+            />
+            <CCell
+              cellStyle="Basic"
+              title="Logout"
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+              cellAccessoryView={
+                <IconLogout color={theme.colors.app.textSecondary} />
+              }
+              onPress={() => onAccountLogoutPress(account)}
             />
           </CSection>
         ))}
