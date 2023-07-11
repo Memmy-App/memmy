@@ -73,7 +73,8 @@ export const isPotentialFedSite = (link: string) => {
   return link.match(fedPattern);
 };
 
-export const isLemmySite = async (link: string) => {
+// Takes in "/c/community@instance" and return "https://instance_url/c/community@instance"
+export const getCommunityLink = (sublink: string): string => {
   if (!accounts.currentAccount) {
     ({ accounts } = store.getState());
   }
@@ -87,14 +88,23 @@ export const isLemmySite = async (link: string) => {
   }
 
   // Handle shortcut links that are formatted: "/c/community@instance". Need to prepend the home instance url
-  if (link[0] === "/") {
+  if (sublink[0] === "/") {
     if (instanceUrl === "") {
       writeToLog(
-        `Trying to open link: ${link} with instanceUrl: ${instanceUrl}`
+        `Trying to open link: ${sublink} with instanceUrl: ${instanceUrl}`
       );
-      return false;
+      return "";
     }
-    link = instanceUrl + link;
+    sublink = instanceUrl + sublink;
+    return sublink;
+  }
+  return sublink;
+};
+
+export const isLemmySite = async (link: string) => {
+  link = getCommunityLink(link);
+  if (link === "") {
+    return false;
   }
 
   let urlComponents;
