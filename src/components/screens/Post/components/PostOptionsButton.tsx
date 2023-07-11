@@ -1,6 +1,5 @@
 import React from "react";
 import { useTheme } from "native-base";
-import { useActionSheet } from "@expo/react-native-action-sheet";
 import { IconDots } from "tabler-icons-react-native";
 import { Alert } from "react-native";
 import { useAppDispatch } from "../../../../../store";
@@ -8,6 +7,7 @@ import { lemmyAuthToken, lemmyInstance } from "../../../../LemmyInstance";
 import { showToast } from "../../../../slices/toast/toastSlice";
 import { writeToLog } from "../../../../helpers/LogHelper";
 import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
+import { useAppActionSheet } from "../../../../hooks/app/useAppActionSheet";
 
 interface IProps {
   postId: number;
@@ -15,22 +15,19 @@ interface IProps {
 
 function CommentSortButton({ postId }: IProps) {
   const theme = useTheme();
-  const { showActionSheetWithOptions } = useActionSheet();
+  const { showAppActionSheetWithOptions } = useAppActionSheet();
   const dispatch = useAppDispatch();
 
   const onPress = () => {
     const options = ["Report Post", "Cancel"];
     const cancelButtonIndex = options.indexOf("Cancel");
 
-    showActionSheetWithOptions(
+    showAppActionSheetWithOptions(
       {
         options,
         cancelButtonIndex,
-        userInterfaceStyle: theme.config.initialColorMode,
       },
       (index) => {
-        if (index === cancelButtonIndex) return;
-
         if (index === 0) onReportPress().then();
       }
     );
