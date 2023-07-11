@@ -98,11 +98,18 @@ function FeedStackScreen() {
             title: "Saved Posts",
           }}
         />
-        <ProfileStack.Screen
+        <FeedStack.Screen
           name="ViewAccounts"
           component={ViewAccountsScreen}
           options={{
             title: "Manage Accounts",
+          }}
+        />
+        <FeedStack.Screen
+          name="EditAccount"
+          component={EditAccountScreen}
+          options={{
+            title: "Edit Account",
           }}
         />
       </FeedStack.Group>

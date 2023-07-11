@@ -73,7 +73,7 @@ function ContentScreen({
                 "Most Comments",
                 "Cancel",
               ];
-              const cancelButtonIndex = 6;
+              const cancelButtonIndex = options.length - 1;
 
               showActionSheetWithOptions(
                 {
@@ -127,7 +127,7 @@ function ContentScreen({
             accessory="DisclosureIndicator"
             onPress={() => {
               const options = ["All", "Local", "Subscribed", "Cancel"];
-              const cancelButtonIndex = 3;
+              const cancelButtonIndex = options.length - 1;
 
               showActionSheetWithOptions(
                 {
