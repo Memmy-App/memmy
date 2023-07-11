@@ -47,13 +47,13 @@ export const handleLemmyError = (code: LemmyErrorType | string) => {
   // switch the user to another account or (if no other account exists) the conditional inside of Stack will direct
   // them to log in
   if (error.code === "not_logged_in") {
-    Alert.alert(
-      "Error",
-      "Your session has expired. Please sign back in to this account."
-    );
-
     // Get the current account
     const { currentAccount, accounts } = store.getState().accounts;
+
+    Alert.alert(
+      "Error",
+      `Your session for ${currentAccount.username}@${currentAccount.instance} has expired. Please sign back in to this account.`
+    );
 
     // We should change the user to a different account *before* removing the account, if possible
     const accountIndex = accounts.findIndex(
