@@ -49,28 +49,12 @@ const initialize = async (server: ILemmyServer): Promise<boolean> => {
     lemmyAuthToken = res.jwt;
     return true;
   } catch (e) {
+    errorMessage = e.toString();
     handleLemmyError(e.toString());
     return false;
   }
 };
 
-const getInstanceError = () => errorToMessage(errorMessage);
+const getInstanceError = () => errorMessage;
 
-const errorToMessage = (error: string) => {
-  switch (error) {
-    case "password_incorrect":
-      return "You have entered an invalid username or password.";
-    case "missing_totp_token":
-      return "missing_totp_token";
-    default:
-      return `Unknown error occurred. Here is more info: ${error}`;
-  }
-};
-
-export {
-  lemmyInstance,
-  lemmyAuthToken,
-  initialize,
-  getInstanceError,
-  errorToMessage,
-};
+export { lemmyInstance, lemmyAuthToken, initialize, getInstanceError };

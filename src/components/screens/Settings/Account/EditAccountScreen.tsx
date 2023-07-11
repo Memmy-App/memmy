@@ -128,7 +128,6 @@ function EditAccountScreen({
         return;
       }
 
-      Alert.alert("Error", getInstanceError());
       return;
     }
 
