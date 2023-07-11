@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, useTheme, VStack } from "native-base";
 import { InterfaceVStackProps } from "native-base/lib/typescript/components/primitives/Stack/VStack";
+import { useTranslation } from "react-i18next";
 
 type MessageType =
   | "comments"
@@ -9,23 +10,16 @@ type MessageType =
   | "profilePosts"
   | "profileSavedPosts"
   | "search"
+  | "inbox"
   | "default";
 
-const NoResultMessageMap: Record<MessageType, string> = {
-  comments: "No Comments yet. Time to do your part 🫡",
-  posts: "No posts found. Maybe you should get a conversation started?",
-  profileComments: "User has no Comments.",
-  profilePosts: "User has no posts.",
-  profileSavedPosts: "User has no saved posts.",
-  search: "That Search term returned no results.",
-  default: "No result found :(",
-};
 export interface INoResultViewProps extends InterfaceVStackProps {
   type?: MessageType;
 }
 
-function NoResultView({ type, ...rest }: INoResultViewProps) {
+function NoResultView({ type = "default", ...rest }: INoResultViewProps) {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   return (
     <VStack flex={1} justifyContent="center" alignItems="center" {...rest}>
@@ -34,7 +28,7 @@ function NoResultView({ type, ...rest }: INoResultViewProps) {
         color={theme.colors.app.textSecondary}
         textAlign="center"
       >
-        {NoResultMessageMap[type || "default"]}
+        {t(`noResult.${type}`)}
       </Text>
     </VStack>
   );

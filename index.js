@@ -1,4 +1,5 @@
-import { registerRootComponent } from "expo";
+import {registerRootComponent} from "expo";
+import "./src/plugins/i18n/i18n";
 
 import App from "./App";
 

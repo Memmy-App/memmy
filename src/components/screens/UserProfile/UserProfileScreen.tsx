@@ -10,6 +10,7 @@ import {
   IconSettings,
 } from "tabler-icons-react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
+import { useTranslation } from "react-i18next";
 import useProfile from "../../../hooks/profile/useProfile";
 import HeaderIconButton from "../../common/Buttons/HeaderIconButton";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";
@@ -36,13 +37,14 @@ function UserProfileScreen({ route, navigation }: IProps) {
   const theme = useTheme();
   const { showActionSheetWithOptions } = useActionSheet();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     navigation.setOptions({
       title:
         route.params && route.params.fullUsername
           ? route.params.fullUsername
-          : "My Profile",
+          : t("profile.my"),
       headerRight:
         !route.params || !route.params.fullUsername
           ? () => (
@@ -60,7 +62,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
               />
             ),
     });
-  }, [profile.profile]);
+  }, [profile.profile, t]);
 
   const onDotsPress = async () => {
     const cancelButtonIndex = 1;
@@ -125,7 +127,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
       <VStack p={4}>
         <MTable>
           <MCell
-            title="View Comments"
+            title={t("ViewComments")}
             icon={<IconMessage color={theme.colors.app.accent} />}
             rightAccessory={
               <IconChevronRight color={theme.colors.app.accent} />
@@ -137,7 +139,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
             }
           />
           <MCell
-            title="View Posts"
+            title={t("ViewPosts")}
             icon={<IconNotes color={theme.colors.app.accent} />}
             rightAccessory={
               <IconChevronRight color={theme.colors.app.accent} />
@@ -149,7 +151,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
             }
           />
           <MCell
-            title="View Saved Posts"
+            title={t("ViewSavedPosts")}
             icon={<IconBookmark color={theme.colors.app.accent} />}
             rightAccessory={
               <IconChevronRight color={theme.colors.app.accent} />

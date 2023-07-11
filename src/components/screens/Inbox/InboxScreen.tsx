@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Text, useTheme, VStack } from "native-base";
+import { useTheme, VStack } from "native-base";
 import { FlashList } from "@shopify/flash-list";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { IconMailOpened } from "tabler-icons-react-native";
@@ -12,6 +12,7 @@ import InboxReplyItem from "./components/InboxReplyItem";
 import RefreshControl from "../../common/RefreshControl";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import HeaderIconButton from "../../common/Buttons/HeaderIconButton";
+import NoResultView from "../../common/NoResultView";
 
 function InboxScreen({
   navigation,
@@ -67,7 +68,7 @@ function InboxScreen({
       <LoadingErrorView onRetryPress={() => inbox.doLoad(true)} />
     )) || (
       <VStack p={4} alignItems="center" justifyContent="center">
-        <Text fontStyle="italic">Nothing found in your inbox.</Text>
+        <NoResultView type="inbox" />
       </VStack>
     );
 

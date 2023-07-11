@@ -1,0 +1,36 @@
+{
+  "noResult": {
+    "comments": "Keine Kommentare. Zeit, deinen Teil beizutragen 🫡",
+    "posts": "Keine Posts gefunden. Möchtest du vielleicht die Konversation anstoßen?",
+    "profileComments": "Benutzer hat keine Kommentare.",
+    "profilePosts": "Benutzer hat keine Posts.",
+    "profileSavedPosts": "Benutzer has keine gespeicherten Posts.",
+    "search": "Deine Sucheanfrage brachte keine Ergebnisse.",
+    "inbox": "Dein Posteingang ist leer",
+    "default": "Nichts gefunden :("
+  },
+  "profile": {
+    "my": "Mein Profil"
+  },
+  "Feed": "Feed",
+  "Comments": "Kommentare",
+  "Traverse":  "Traverse",
+  "Profile": "Profil",
+  "Search": "Suchen",
+  "Inbox": "Posteingang",
+  "Posts": "Posts",
+  "SavedPosts": "Gespeicherte Posts",
+  "NewComment": "Neuer Kommentar",
+  "EditComment": "Kommentar bearbeiten",
+  "NewPost": "Neuer Post",
+  "About": "Über",
+  "ViewComments": "Kommentare anzeigen",
+  "ViewPosts": "Posts anzeigen",
+  "ViewSavedPosts": "Gespeicherte Posts anzeigen",
+  "Unread": "Ungelesen",
+  "All": "Alle",
+  "Replies": "Antworten",
+  "BlockedCommunities": "Blockierte Communities",
+  "Settings": "Einstellungen",
+  "ManageAccounts": "Accounts Verwalten"
+}

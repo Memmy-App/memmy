@@ -12,6 +12,7 @@ import {
   IconSearch,
   IconUserCircle,
 } from "tabler-icons-react-native";
+import { useTranslation } from "react-i18next";
 import CommunityAboutScreen from "./src/components/screens/Feed/CommunityAboutScreen";
 import CommunityFeedScreen from "./src/components/screens/Feed/CommunityFeedScreen";
 import FeedsIndexScreen from "./src/components/screens/Feed/FeedsIndexScreen";
@@ -61,6 +62,8 @@ import InboxScreen from "./src/components/screens/Inbox/InboxScreen";
 const FeedStack = createNativeStackNavigator();
 
 function FeedStackScreen() {
+  const { t } = useTranslation();
+
   return (
     <FeedStack.Navigator screenOptions={{}}>
       <FeedStack.Group>
@@ -68,7 +71,7 @@ function FeedStackScreen() {
           name="FeedScreen"
           component={FeedsIndexScreen}
           options={{
-            title: "Feed",
+            title: t("Feed"),
           }}
         />
         <FeedStack.Screen name="Post" component={PostScreen} />
@@ -78,7 +81,7 @@ function FeedStackScreen() {
           name="UserComments"
           component={UserCommentsScreen}
           options={{
-            title: "Comments",
+            title: t("Comments"),
           }}
         />
         <FeedStack.Screen
@@ -142,6 +145,8 @@ function FeedStackScreen() {
 const InboxStack = createNativeStackNavigator();
 
 function InboxStackScreen() {
+  const { t } = useTranslation();
+
   return (
     <InboxStack.Navigator>
       <InboxStack.Group>
@@ -149,7 +154,7 @@ function InboxStackScreen() {
           name="Inbox"
           component={InboxScreen}
           options={{
-            title: "Inbox",
+            title: t("Inbox"),
           }}
         />
         <InboxStack.Screen
@@ -223,6 +228,8 @@ function InboxStackScreen() {
 const ProfileStack = createNativeStackNavigator();
 
 function ProfileStackScreen() {
+  const { t } = useTranslation();
+
   return (
     <ProfileStack.Navigator
       screenOptions={{
@@ -235,41 +242,41 @@ function ProfileStackScreen() {
           name="UserComments"
           component={UserCommentsScreen}
           options={{
-            title: "Comments",
+            title: t("Comments"),
           }}
         />
         <ProfileStack.Screen
           name="UserPosts"
           component={UserPostsScreen}
           options={{
-            title: "Posts",
+            title: t("Posts"),
           }}
         />
         <ProfileStack.Screen
           name="UserSavedPosts"
           component={UserPostsScreen}
           options={{
-            title: "Saved Posts",
+            title: t("SavedPosts"),
           }}
         />
         <ProfileStack.Screen
           name="BlockedCommunities"
           component={BlockedCommunitiesScreen}
-          options={{ title: "Blocked Communities" }}
+          options={{ title: t("BlockedCommunities") }}
         />
 
         <ProfileStack.Screen
           name="Settings"
           component={SettingsIndexScreen}
           options={{
-            title: "Settings",
+            title: t("Settings"),
           }}
         />
         <ProfileStack.Screen
           name="ViewAccounts"
           component={ViewAccountsScreen}
           options={{
-            title: "Manage Accounts",
+            title: t("ManageAccounts"),
           }}
         />
         <ProfileStack.Screen
@@ -383,6 +390,8 @@ function ProfileStackScreen() {
 const SearchStack = createNativeStackNavigator();
 
 function SearchStackScreen() {
+  const { t } = useTranslation();
+
   return (
     <SearchStack.Navigator>
       <SearchStack.Group>
@@ -390,21 +399,21 @@ function SearchStackScreen() {
           name="Search"
           component={SearchScreen}
           options={{
-            title: "Search",
+            title: t("Search"),
           }}
         />
         <SearchStack.Screen
           name="Results"
           component={SearchResultsScreen}
           options={{
-            title: "Search",
+            title: t("Search"),
           }}
         />
         <SearchStack.Screen
           name="FeedScreen"
           component={FeedsIndexScreen}
           options={{
-            title: "Feed",
+            title: t("Feed"),
           }}
         />
         <SearchStack.Screen name="Post" component={PostScreen} />
@@ -414,21 +423,21 @@ function SearchStackScreen() {
           name="UserComments"
           component={UserCommentsScreen}
           options={{
-            title: "Comments",
+            title: t("Comments"),
           }}
         />
         <SearchStack.Screen
           name="UserPosts"
           component={UserPostsScreen}
           options={{
-            title: "Posts",
+            title: t("Posts"),
           }}
         />
         <SearchStack.Screen
           name="UserSavedPosts"
           component={UserPostsScreen}
           options={{
-            title: "Saved Posts",
+            title: t("SavedPosts"),
           }}
         />
       </SearchStack.Group>
@@ -441,27 +450,27 @@ function SearchStackScreen() {
         <SearchStack.Screen
           name="NewComment"
           component={NewCommentScreen}
-          options={{ title: "New Comment" }}
+          options={{ title: t("NewComment") }}
         />
         <SearchStack.Screen
           name="EditComment"
           component={EditCommentScreen}
-          options={{ title: "Edit Comment" }}
+          options={{ title: t("EditComment") }}
         />
         <SearchStack.Screen
           name="NewPost"
           component={NewPostScreen}
-          options={{ title: "New Post" }}
+          options={{ title: t("NewPost") }}
         />
         <SearchStack.Screen
           name="NewPostBody"
           component={NewPostBodyScreen}
-          options={{ title: "New Post" }}
+          options={{ title: t("NewPost") }}
         />
         <SearchStack.Screen
           name="CommunityAbout"
           component={CommunityAboutScreen}
-          options={{ title: "About" }}
+          options={{ title: t("About") }}
         />
       </SearchStack.Group>
     </SearchStack.Navigator>
@@ -471,13 +480,15 @@ function SearchStackScreen() {
 const TraverseStack = createNativeStackNavigator();
 
 function TraverseStackScreen() {
+  const { t } = useTranslation();
+
   return (
     <TraverseStack.Navigator>
       <TraverseStack.Group>
         <TraverseStack.Screen
           name="Traverse"
           component={TraverseScreen}
-          options={{ title: "Traverse" }}
+          options={{ title: t("Traverse") }}
         />
         <TraverseStack.Screen
           name="FeedScreen"
@@ -558,11 +569,12 @@ const Tab = createBottomTabNavigator();
 
 function Tabs() {
   const { unread } = useAppSelector(selectSite);
+  const { t } = useTranslation();
 
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarLabel: "Feed",
+        tabBarLabel: t("Feed"),
         freezeOnBlur: false,
       }}
     >
@@ -572,7 +584,7 @@ function Tabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => <IconNotes color={color} />,
-          tabBarLabel: "Feed",
+          tabBarLabel: t("Feed"),
           freezeOnBlur: false,
         }}
       />
@@ -582,7 +594,7 @@ function Tabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => <IconPlanet color={color} />,
-          tabBarLabel: "Traverse",
+          tabBarLabel: t("Traverse"),
           freezeOnBlur: false,
         }}
       />
@@ -592,7 +604,7 @@ function Tabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => <IconUserCircle color={color} />,
-          tabBarLabel: "Profile",
+          tabBarLabel: t("Profile"),
           freezeOnBlur: false,
         }}
       />
@@ -602,7 +614,7 @@ function Tabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => <IconSearch color={color} />,
-          tabBarLabel: "Search",
+          tabBarLabel: t("Search"),
           freezeOnBlur: false,
         }}
       />
@@ -612,7 +624,7 @@ function Tabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => <IconBell color={color} />,
-          tabBarLabel: "Inbox",
+          tabBarLabel: t("Inbox"),
           tabBarBadge:
             unread.replies + unread.mentions + unread.privateMessage > 0
               ? // ? unread.replies + unread.mentions + unread.privateMessage

@@ -4,6 +4,7 @@ import { HStack, useTheme } from "native-base";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import { IconSearch } from "tabler-icons-react-native";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   query: string;
@@ -24,6 +25,7 @@ function SearchBox({
 }: IProps) {
   const theme = useTheme();
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!autoFocus || !inputRef) return;
@@ -50,7 +52,7 @@ function SearchBox({
       <TextInput
         ref={inputRef}
         value={query}
-        placeholder="Search"
+        placeholder={t("Search")}
         onChangeText={setQuery}
         style={{
           color: theme.colors.app.textPrimary,

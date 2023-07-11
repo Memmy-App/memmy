@@ -1,0 +1,36 @@
+{
+  "noResult": {
+    "comments": "No Comments yet. Time to do your part 🫡",
+    "posts": "No posts found. Maybe you should get a conversation started?",
+    "profileComments": "User has no Comments.",
+    "profilePosts": "User has no posts.",
+    "profileSavedPosts": "User has no saved posts.",
+    "search": "That Search term returned no results.",
+    "inbox": "Nothing found in your inbox.",
+    "default": "No result found :("
+  },
+  "profile": {
+    "my": "My Profile"
+  },
+  "Feed": "Feed",
+  "Comments": "Comments",
+  "Traverse": "Traverse",
+  "Profile": "Profile",
+  "Search": "Search",
+  "Inbox": "Inbox",
+  "Posts": "Posts",
+  "SavedPosts": "Saved Posts",
+  "NewComment": "New Comment",
+  "EditComment": "Edit Comment",
+  "NewPost": "New Post",
+  "About": "About",
+  "ViewComments": "View Comments",
+  "ViewPosts": "View Posts",
+  "ViewSavedPosts": "View Saved Posts",
+  "Unread": "Unread",
+  "All": "All",
+  "Replies": "Replies",
+  "BlockedCommunities": "Blocked Communities",
+  "Settings": "Settings",
+  "ManageAccounts": "Manage Accounts"
+}
