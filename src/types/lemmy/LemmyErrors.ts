@@ -51,7 +51,8 @@ export type LemmyErrorType =
   | "email_send_failed"
   | "slurs"
   | "could_not_generate_totp"
-  | "could_not_find_object";
+  | "could_not_find_object"
+  | "incorrect_login";
 
 interface LemmyError {
   code: LemmyErrorType;
@@ -215,10 +216,10 @@ export const lemmyErrors: LemmyError[] = [
     code: "could_not_find_object",
     message: "The resource you are attempting to access could not be found.",
   },
+  {
+    code: "incorrect_login",
+    message: "The username or password you have entered is incorrect.",
+  },
 ];
 
-export const alertableErrors: LemmyErrorType[] = [
-  "not_logged_in",
-  "password_incorrect",
-  "email_required",
-];
+export const alertableErrors: LemmyErrorType[] = ["not_logged_in"];
