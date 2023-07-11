@@ -9,8 +9,8 @@ import {
   IconNotes,
   IconUser,
 } from "tabler-icons-react-native";
-import moment from "moment";
 import { StyleSheet } from "react-native";
+import dayjs from "dayjs";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import { UseProfile } from "../../../../hooks/profile/useProfile";
 import { getCakeDay } from "../../../../helpers/TimeHelper";
@@ -87,7 +87,7 @@ function ProfileHeader({ profile }: IProps) {
           <HStack alignItems="center" space={1}>
             <IconCalendarStar size={26} color={theme.colors.app.accent} />
             <Text fontSize="md">
-              {moment(profile.profile.person.published).utc(true).fromNow()}
+              {dayjs(profile.profile.person.published).utc(true).fromNow()}
             </Text>
           </HStack>
           <HStack alignItems="center" space={1}>
