@@ -22,10 +22,24 @@ export const handleLemmyError = (code: LemmyErrorType | string) => {
 
   // If it doesn't exist, we should let the user know and display the error code
   if (!error) {
-    Alert.alert(
-      "Unknown Error",
-      `An unknown error has occurred. Code: ${code}`
-    );
+    // There are some errors that still are not sent in JSON or don't have any response body at all. This ends up giving
+    // us a JSON syntax error. There's a PR that was merged recently to fix some of these things, so it should be ok
+    // here soon. For now we will just see if the error includes "Syntax Error" and show a toast.
+
+    if (code.includes("SyntaxError")) {
+      store.dispatch(
+        showToast({
+          message: "An unknown error has occurred.",
+          variant: "error",
+          duration: 3000,
+        })
+      );
+    } else {
+      Alert.alert(
+        "Unknown Error",
+        `An unknown error has occurred. Code: ${code}`
+      );
+    }
     return;
   }
 
