@@ -98,7 +98,7 @@ function AvatarUsername({
             style={{ height: 18, width: 18, borderRadius: 100 }}
           />
         ) : (
-          <IconUser color={theme.colors.app.textSecondary} />
+          <IconUser color={theme.colors.app.textSecondary} size={18} />
         ))}
       <VStack>
         <HStack space={0.5}>
