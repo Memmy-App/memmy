@@ -1,5 +1,3 @@
-import { useActionSheet } from "@expo/react-native-action-sheet";
-import { useTheme } from "native-base";
 import React, { SetStateAction } from "react";
 import Clipboard from "@react-native-community/clipboard";
 import { CommentReplyView } from "lemmy-js-client";
@@ -20,6 +18,7 @@ import { writeToLog } from "../../helpers/LogHelper";
 import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { showToast } from "../../slices/toast/toastSlice";
 import { setResponseTo } from "../../slices/comments/newCommentSlice";
+import { useAppActionSheet } from "../app/useAppActionSheet";
 
 interface UseComment {
   onCommentPress: () => void;
@@ -44,8 +43,7 @@ const useComment = ({
 
   const dispatch = useAppDispatch();
 
-  const { showActionSheetWithOptions } = useActionSheet();
-  const theme = useTheme();
+  const { showAppActionSheetWithOptions } = useAppActionSheet();
 
   const onCommentPress = () => {
     onGenericHapticFeedback();
@@ -107,18 +105,13 @@ const useComment = ({
     const optionsArr = Object.values(options);
     const cancelButtonIndex = optionsArr.indexOf(options.Cancel);
 
-    showActionSheetWithOptions(
+    showAppActionSheetWithOptions(
       {
         options: optionsArr,
         cancelButtonIndex,
-        userInterfaceStyle: theme.config.initialColorMode,
       },
       async (index: number) => {
-        onGenericHapticFeedback();
-
         const option = optionsArr[index];
-
-        if (index === cancelButtonIndex) return;
 
         if (option === options["Copy Text"]) {
           Clipboard.setString(comment.comment.comment.content);
