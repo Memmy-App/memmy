@@ -20,6 +20,7 @@ import { writeToLog } from "../../helpers/LogHelper";
 import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { showToast } from "../../slices/toast/toastSlice";
 import { setResponseTo } from "../../slices/comments/newCommentSlice";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 interface UseComment {
   onCommentPress: () => void;
@@ -156,8 +157,7 @@ const useComment = ({
                       })
                     );
                   } catch (e) {
-                    writeToLog("Error reporting comment.");
-                    writeToLog(e.toString());
+                    handleLemmyError(e.toString());
                   }
                 },
               },
@@ -200,16 +200,7 @@ const useComment = ({
               })
             );
           } catch (e) {
-            writeToLog("Failed to delete comment.");
-            writeToLog(e.toString());
-
-            dispatch(
-              showToast({
-                message: "Error deleting comment",
-                duration: 3000,
-                variant: "error",
-              })
-            );
+            handleLemmyError(e.toString());
           }
         }
 
@@ -291,16 +282,7 @@ const useComment = ({
         score: value,
       });
     } catch (e) {
-      writeToLog("Error submitting vote.");
-      writeToLog(e.toString());
-
-      dispatch(
-        showToast({
-          message: "Error submitting vote...",
-          duration: 3000,
-          variant: "error",
-        })
-      );
+      handleLemmyError(e.toString());
 
       setComments((prev) =>
         prev.map((c) => {

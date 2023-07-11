@@ -97,7 +97,7 @@ function EditAccountScreen({
     if (form.username.includes("@")) {
       dispatch(
         showToast({
-          message: "Please user your username when signing in.",
+          message: "Please use your username when signing in.",
           duration: 3000,
           variant: "warn",
         })
@@ -128,7 +128,6 @@ function EditAccountScreen({
         return;
       }
 
-      Alert.alert("Error", getInstanceError());
       return;
     }
 
