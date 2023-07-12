@@ -110,6 +110,8 @@ PODS:
     - ExpoModulesCore
   - ExpoKeepAwake (12.3.0):
     - ExpoModulesCore
+  - ExpoLocalization (14.3.0):
+    - ExpoModulesCore
   - ExpoMailComposer (12.1.1):
     - ExpoModulesCore
   - ExpoModulesCore (1.5.6):
@@ -648,6 +650,7 @@ DEPENDENCIES:
   - ExpoDevice (from `../node_modules/expo-device/ios`)
   - ExpoImagePicker (from `../node_modules/expo-image-picker/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
+  - ExpoLocalization (from `../node_modules/expo-localization/ios`)
   - ExpoMailComposer (from `../node_modules/expo-mail-composer/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - ExpoSystemUI (from `../node_modules/expo-system-ui/ios`)
@@ -800,6 +803,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-image-picker/ios"
   ExpoKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
+  ExpoLocalization:
+    :path: "../node_modules/expo-localization/ios"
   ExpoMailComposer:
     :path: "../node_modules/expo-mail-composer/ios"
   ExpoModulesCore:
@@ -944,6 +949,7 @@ SPEC CHECKSUMS:
   ExpoDevice: e0bebf68f978b3d353377ce42e73c20c0a070215
   ExpoImagePicker: 270dea232b3a072d981dd564e2cafc63a864edb1
   ExpoKeepAwake: be4cbd52d9b177cde0fd66daa1913afa3161fc1d
+  ExpoLocalization: be37fdd0b5930c6a49cd307b4542f4b426d6134c
   ExpoMailComposer: 0085b258d00ba40664f7acb40d96042b29a1da7d
   ExpoModulesCore: adc9baa017bb42c93b08eea8ac7e222cb277262b
   ExpoSystemUI: 0be5173ee2a7c01e9abc44f56d879a1eaaa16527
