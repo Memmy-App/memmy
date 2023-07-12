@@ -646,7 +646,7 @@ PODS:
     - React-Core
   - RNFS (2.20.0):
     - React-Core
-  - RNGestureHandler (2.9.0):
+  - RNGestureHandler (2.12.0):
     - React-Core
   - RNReactNativeHapticFeedback (2.0.3):
     - React-Core
@@ -1099,7 +1099,7 @@ SPEC CHECKSUMS:
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFlashList: ade81b4e928ebd585dd492014d40fb8d0e848aab
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
-  RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
+  RNGestureHandler: dec4645026e7401a0899f2846d864403478ff6a5
   RNReactNativeHapticFeedback: afa5bf2794aecbb2dba2525329253da0d66656df
   RNReanimated: 9f7068e43b9358a46a688d94a5a3adb258139457
   RNScreens: 68fd1060f57dd1023880bf4c05d74784b5392789
