@@ -257,7 +257,29 @@ const useComment = ({
   };
 
   const onVote = async (value: -1 | 0 | 1) => {
+    let { upvotes, downvotes } = comment.comment.counts;
+
+    // If we already voted, this will be a neutral vote.
+    if (value === comment.comment.my_vote && value !== 0) value = 0;
+
+    // Store old value in case we encounter an error
     const oldValue = comment.comment.my_vote;
+
+    // Deal with updating the upvote/downvote count
+    if (value === 0) {
+      if (oldValue === -1) downvotes -= 1;
+      if (oldValue === 1) upvotes -= 1;
+    }
+
+    if (value === 1) {
+      if (oldValue === -1) downvotes -= 1;
+      upvotes += 1;
+    }
+
+    if (value === -1) {
+      if (oldValue === 1) upvotes -= 1;
+      downvotes += 1;
+    }
 
     setComments((prev) =>
       prev.map((c) => {
@@ -268,6 +290,12 @@ const useComment = ({
             comment: {
               ...c.comment,
               my_vote: value,
+              counts: {
+                ...c.comment.counts,
+                upvotes,
+                downvotes,
+                score: upvotes - downvotes,
+              },
             },
           };
         }

@@ -123,7 +123,6 @@ function NewCommentScreen({
                   upvotes={upvotes}
                   downvotes={downvotes}
                   myVote={myVote as ILemmyVote}
-                  initialVote={0}
                 />
               </HStack>
               <HStack space={1} alignItems="center">

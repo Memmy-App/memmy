@@ -6,7 +6,7 @@ import {
   useTheme,
   VStack,
 } from "native-base";
-import React, { useRef } from "react";
+import React from "react";
 import {
   IconChevronDown,
   IconDots,
@@ -47,8 +47,6 @@ function CommentItem({
 }: IProps) {
   const theme = useTheme();
   const settings = useAppSelector(selectSettings);
-
-  const initialVote = useRef(comment.comment.my_vote);
 
   if (!depth) {
     depth = comment.comment.comment.path.split(".").length;
@@ -115,7 +113,6 @@ function CommentItem({
                     upvotes={comment.comment.counts.upvotes}
                     downvotes={comment.comment.counts.downvotes}
                     myVote={comment.comment.my_vote as ILemmyVote}
-                    initialVote={initialVote.current}
                   />
                 </AvatarUsername>
                 {!comment.collapsed ? (
