@@ -5,7 +5,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
 import React, { useState } from "react";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
-import { changeIcon } from "react-native-change-icon";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
@@ -42,30 +41,12 @@ function AppearanceScreen({ navigation }: IProps) {
           <CCell
             cellStyle="RightDetail"
             title="App Icon"
-            detail={appIconOptions.find((o) => o[0] === settings.appIcon)[1]}
+            detail={appIconOptions[settings.appIcon].display}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
             accessory="DisclosureIndicator"
-            onPress={() => {
-              const options = [...appIconOptions.map((o) => o[1]), "Cancel"];
-              const cancelButtonIndex = options.length - 1;
-
-              showActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex,
-                  userInterfaceStyle: theme.config.initialColorMode,
-                },
-                (index: number) => {
-                  if (index === cancelButtonIndex) return;
-
-                  dispatch(setSetting({ appIcon: appIconOptions[index][0] }));
-
-                  changeIcon(appIconOptions[index][0]);
-                }
-              );
-            }}
+            onPress={() => navigation.push("IconSelection")}
           />
         </CSection>
         <CSection header="Content">
