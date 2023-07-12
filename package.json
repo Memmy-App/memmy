@@ -34,7 +34,7 @@
     "@react-navigation/native-stack": "^6.9.12",
     "@reduxjs/toolkit": "^1.9.5",
     "@ronradtke/react-native-markdown-display": "^8.0.0",
-    "@shopify/flash-list": "1.4.0",
+    "@shopify/flash-list": "1.4.3",
     "@types/marked": "^5.0.0",
     "@types/react": "~18.0.27",
     "@types/react-native": "^0.72.2",
