@@ -192,11 +192,29 @@ const usePost = (commentId: string | null): UsePost => {
    * @param value
    */
   const doVote = async (value: -1 | 0 | 1) => {
+    let { upvotes, downvotes } = currentPost.counts;
+
     // If we already voted, this will be a neutral vote.
     if (value === currentPost.my_vote && value !== 0) value = 0;
 
-    // Store old value incase we encounter an error
+    // Store old value in case we encounter an error
     const oldValue = currentPost.my_vote;
+
+    // Deal with updating the upvote/downvote count
+    if (value === 0) {
+      if (oldValue === -1) downvotes -= 1;
+      if (oldValue === 1) upvotes -= 1;
+    }
+
+    if (value === 1) {
+      if (oldValue === -1) downvotes -= 1;
+      upvotes += 1;
+    }
+
+    if (value === -1) {
+      if (oldValue === 1) upvotes -= 1;
+      downvotes += 1;
+    }
 
     // Play trigger
     onVoteHapticFeedback();
@@ -205,9 +223,15 @@ const usePost = (commentId: string | null): UsePost => {
     setCurrentPost({
       ...currentPost,
       my_vote: value,
+      counts: {
+        ...currentPost.counts,
+        upvotes,
+        downvotes,
+        score: upvotes - downvotes,
+      },
     });
 
-    // Put result in store so we can change it when we go back
+    // Put result in store, so we can change it when we go back
     dispatch(
       setUpdateVote({
         postId: post.post.id,
