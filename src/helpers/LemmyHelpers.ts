@@ -26,7 +26,7 @@ export const removeNsfwPosts = (list: PostView[]) =>
   list.filter((p) => !p.post.nsfw);
 
 export const getCommunityFullName = (community: CommunityView) =>
-  `${community.community.name}@${getBaseUrl(community.community.actor_id)}`;
+  `${community?.community?.name}@${getBaseUrl(community?.community?.actor_id)}`;
 
 export const getUserFullName = (profile: Person) =>
   `${profile.name}@${getBaseUrl(profile.actor_id)}`;
