@@ -9,12 +9,12 @@ import { PersonView, PostView } from "lemmy-js-client";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { writeToLog } from "../../helpers/LogHelper";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectCurrentAccount } from "../../slices/accounts/accountsSlice";
 import { setPost } from "../../slices/post/postSlice";
 import { buildComments } from "../../helpers/LemmyHelpers";
 import ILemmyComment from "../../types/lemmy/ILemmyComment";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 export interface UseProfile {
   doLoad: (refresh?: boolean) => Promise<void>;
@@ -104,17 +104,15 @@ const useProfile = (noContent = true, fullUsername?: string): UseProfile => {
       if (refresh) setRefreshing(false);
       else setLoading(false);
     } catch (e) {
-      writeToLog("Error getting person.");
-      writeToLog(e.toString());
-
       if (refresh) setRefreshing(false);
       else setLoading(false);
-
-      if (e.toString() === "couldnt_find_that_username_or_email") {
-        setNotFound(true);
-        return;
-      }
       setError(true);
+
+      if (e.toString() === "could_not_find_that_username_or_email") {
+        setNotFound(true);
+      }
+
+      handleLemmyError(e.toString());
     }
   };
 
@@ -138,11 +136,10 @@ const useProfile = (noContent = true, fullUsername?: string): UseProfile => {
         showLoadAll: true,
       });
     } catch (e) {
-      writeToLog("Failed to get Post for comment push.");
-      writeToLog(e.toString());
-
       setLoading(false);
       setError(true);
+
+      handleLemmyError(e.toString());
     }
   };
 

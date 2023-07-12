@@ -2,12 +2,11 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Alert } from "react-native";
 import { useAppSelector } from "../../../store";
 import { selectNewComment } from "../../slices/comments/newCommentSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
 import { setPostNewComment } from "../../slices/post/postSlice";
-import { writeToLog } from "../../helpers/LogHelper";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 const useNewComment = () => {
   const [content, setContent] = useState("");
@@ -48,17 +47,9 @@ const useNewComment = () => {
 
       navigation.pop();
     } catch (e) {
-      writeToLog("Error submitting comment.");
-      writeToLog(e.toString());
-
       setLoading(false);
 
-      if (e.toString() === "rate_limit_error") {
-        Alert.alert("Error", "Rate limit error. Please try again shortly...");
-        return;
-      }
-
-      Alert.alert("Error", e.toString());
+      handleLemmyError(e.toString());
     }
   };
 
