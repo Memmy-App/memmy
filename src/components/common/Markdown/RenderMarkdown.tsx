@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useMemo } from "react";
-import { Text, useTheme, VStack } from "native-base";
+import { Image, Text, useTheme, VStack } from "native-base";
 import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -14,6 +14,7 @@ import { useAppSelector } from "../../../../store";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { fontSizeMap } from "../../../theme/fontSize";
+import ImageViewer from "../ImageViewer/ImageViewer";
 
 // const FONT_SIZE = 14;
 // const HEADING_1_SIZE = 32;
@@ -99,7 +100,7 @@ const RenderMarkdown = ({
       borderRadius: 5,
       borderLeftWidth: 3,
       borderLeftColor: theme.colors.app.accent,
-      marginVertical: 10,
+      marginVertical: 5,
     },
     code_inline: {
       fontSize: FONT_SIZE,
@@ -191,8 +192,6 @@ const RenderMarkdown = ({
 
     const markdown = text; // .replace(/\s\s+/g, "<br />");
 
-    console.log("text", markdown);
-
     return (
       <VStack flex={1} my={1}>
         <Text>
@@ -225,13 +224,20 @@ const RenderMarkdown = ({
                 <Text style={styles.heading5}>{children}</Text>
               ),
               br: ({ children }) => <Text>{children}</Text>,
-              img: ({ children }) => <Text>{children}</Text>,
+              img: ({ children, src }) => {
+                console.log(src);
+                return (
+                  <ImageViewer source={src} resizeMode="cover" nsfw={false} />
+                );
+              },
               a: ({ children }) => <Text>{children}</Text>,
               abbr: ({ children }) => <Text>{children}</Text>,
               article: ({ children }) => <Text>{children}</Text>,
               hr: ({ children }) => <Text>{children}</Text>,
               link: ({ children }) => <Text>{children}</Text>,
-              blockquote: ({ children }) => <Text>{children}</Text>,
+              blockquote: ({ children }) => (
+                <Text style={styles.blockquote}>{children}</Text>
+              ),
               code: ({ children }) => <Text>{children}</Text>,
               del: ({ children }) => <Text>{children}</Text>,
               details: ({ children }) => <Text>{children}</Text>,
@@ -250,7 +256,7 @@ const RenderMarkdown = ({
               kbd: ({ children }) => <Text>{children}</Text>,
               label: ({ children }) => <Text>{children}</Text>,
               legend: ({ children }) => <Text>{children}</Text>,
-              li: ({ children }) => <Text>{children}</Text>,
+              li: ({ children }) => <Text>- {children}</Text>,
               main: ({ children }) => <Text>{children}</Text>,
               mark: ({ children }) => <Text>{children}</Text>,
               nav: ({ children }) => <Text>{children}</Text>,
