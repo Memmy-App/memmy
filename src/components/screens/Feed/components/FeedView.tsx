@@ -10,7 +10,10 @@ import {
   IconListDetails,
 } from "tabler-icons-react-native";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
-import { removeReadPosts } from "../../../../helpers/LemmyHelpers";
+import {
+  getCommunityFullName,
+  removeReadPosts,
+} from "../../../../helpers/LemmyHelpers";
 import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
 import { UseFeed } from "../../../../hooks/feeds/useFeed";
 import {
@@ -75,6 +78,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     return {
       id: firstPost.community.id,
       name: firstPost.community.name,
+      fullName: getCommunityFullName(feed.community),
     };
   }, [firstPost, community]);
 

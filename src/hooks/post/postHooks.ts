@@ -8,7 +8,6 @@ import {
   onGenericHapticFeedback,
   onVoteHapticFeedback,
 } from "../../helpers/HapticFeedbackHelpers";
-import { writeToLog } from "../../helpers/LogHelper";
 import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import ILemmyComment from "../../types/lemmy/ILemmyComment";
 import { showToast } from "../../slices/toast/toastSlice";
@@ -20,6 +19,7 @@ import { savePost } from "../../helpers/LemmyHelpers";
 import { buildComments } from "../../helpers/LemmyCommentsHelper";
 import NestedComment from "../../types/lemmy/NestedComment";
 import { selectSettings } from "../../slices/settings/settingsSlice";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 export interface UsePost {
   comments: ILemmyComment[];
@@ -180,11 +180,10 @@ const usePost = (commentId: string | null): UsePost => {
       setComments(betterComments);
       setCommentsLoading(false);
     } catch (e) {
-      writeToLog("Error loading Post.");
-      writeToLog(e.toString());
-
       setCommentsLoading(false);
       setCommentsError(true);
+
+      handleLemmyError(e.toString());
     }
   };
 
@@ -193,11 +192,29 @@ const usePost = (commentId: string | null): UsePost => {
    * @param value
    */
   const doVote = async (value: -1 | 0 | 1) => {
+    let { upvotes, downvotes } = currentPost.counts;
+
     // If we already voted, this will be a neutral vote.
     if (value === currentPost.my_vote && value !== 0) value = 0;
 
-    // Store old value incase we encounter an error
+    // Store old value in case we encounter an error
     const oldValue = currentPost.my_vote;
+
+    // Deal with updating the upvote/downvote count
+    if (value === 0) {
+      if (oldValue === -1) downvotes -= 1;
+      if (oldValue === 1) upvotes -= 1;
+    }
+
+    if (value === 1) {
+      if (oldValue === -1) downvotes -= 1;
+      upvotes += 1;
+    }
+
+    if (value === -1) {
+      if (oldValue === 1) upvotes -= 1;
+      downvotes += 1;
+    }
 
     // Play trigger
     onVoteHapticFeedback();
@@ -206,9 +223,15 @@ const usePost = (commentId: string | null): UsePost => {
     setCurrentPost({
       ...currentPost,
       my_vote: value,
+      counts: {
+        ...currentPost.counts,
+        upvotes,
+        downvotes,
+        score: upvotes - downvotes,
+      },
     });
 
-    // Put result in store so we can change it when we go back
+    // Put result in store, so we can change it when we go back
     dispatch(
       setUpdateVote({
         postId: post.post.id,
@@ -224,22 +247,12 @@ const usePost = (commentId: string | null): UsePost => {
         score: value,
       });
     } catch (e) {
-      writeToLog("Error liking Post.");
-      writeToLog(e.toString());
-
-      // If there was an error, reset the value and show a notification
-      dispatch(
-        showToast({
-          message: "Error saving vote",
-          duration: 3000,
-          variant: "error",
-        })
-      );
-
       setCurrentPost({
         ...currentPost,
         my_vote: oldValue,
       });
+
+      handleLemmyError(e.toString());
     }
   };
 

@@ -7,7 +7,6 @@ import {
 } from "tabler-icons-react-native";
 import { useTheme } from "native-base";
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { trigger } from "react-native-haptic-feedback";
 import { ListingType } from "lemmy-js-client";
 import { useAppDispatch } from "../../../../../store";
 import { UseFeed } from "../../../../hooks/feeds/useFeed";
@@ -15,10 +14,14 @@ import { showToast } from "../../../../slices/toast/toastSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../../LemmyInstance";
 import { writeToLog } from "../../../../helpers/LogHelper";
 import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
+import { shareLink } from "../../../../helpers/ShareHelper";
+import { getCommunityLink } from "../../../../helpers/LinkHelper";
+import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
 
 export type Community = {
   id: number;
   name: string;
+  fullName: string;
 };
 
 const ContextualMenuIconType = {
@@ -42,7 +45,7 @@ export function FeedOverflowButton({ feed, community, onPress }: Props) {
 }
 
 const overflowOptions = {
-  community: ["Block Community", "Cancel"],
+  community: ["Share", "Block Community", "Cancel"],
   main: ["All", "Local", "Subscribed", "Cancel"],
 };
 
@@ -65,24 +68,35 @@ function CommunityOverflowButton({
       (index) => {
         if (index === cancelButtonIndex) return;
 
-        trigger("impactMedium");
-        dispatch(
-          showToast({
-            message: `Blocked ${community.name}`,
-            duration: 3000,
-            variant: "info",
-          })
-        );
-
-        lemmyInstance
-          .blockCommunity({
-            auth: lemmyAuthToken,
-            community_id: community.id,
-            block: true,
-          })
-          .catch((err) =>
-            writeToLog(`ERROR: Failed to block community: ${err}`)
+        if (overflowOptions.community[index] === "Block Community") {
+          onGenericHapticFeedback();
+          dispatch(
+            showToast({
+              message: `Blocked ${community.name}`,
+              duration: 3000,
+              variant: "info",
+            })
           );
+
+          lemmyInstance
+            .blockCommunity({
+              auth: lemmyAuthToken,
+              community_id: community.id,
+              block: true,
+            })
+            .catch((err) =>
+              writeToLog(`ERROR: Failed to block community: ${err}`)
+            );
+        } else if (overflowOptions.community[index] === "Share") {
+          onGenericHapticFeedback();
+          const communityLink: string = getCommunityLink(
+            `/c/${community.fullName}`
+          );
+          shareLink({
+            link: communityLink,
+            title: community.name,
+          });
+        }
       }
     );
   };

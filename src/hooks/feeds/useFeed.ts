@@ -14,8 +14,8 @@ import {
   removeReadPosts,
 } from "../../helpers/LemmyHelpers";
 import { clearUpdateSaved, selectFeed } from "../../slices/feed/feedSlice";
-import { writeToLog } from "../../helpers/LogHelper";
 import { preloadImages } from "../../helpers/ImageHelper";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 export interface UseFeed {
   posts: PostView[] | null;
@@ -144,15 +144,14 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
         setCommunity(res.community_view);
         setCommunityLoading(false);
       } catch (e) {
-        writeToLog("Error getting Traverse feed.");
-        writeToLog(e.toString());
+        setCommunityLoading(false);
+        setCommunityError(true);
 
         if (e.toString() === "couldnt_find_community") {
           setCommunityNotFound(true);
         }
 
-        setCommunityLoading(false);
-        setCommunityError(true);
+        handleLemmyError(e.toString());
       }
     };
 
@@ -202,11 +201,10 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
 
         setPostsLoading(false);
       } catch (e) {
-        writeToLog("Error getting feed.");
-        writeToLog(e.toString());
-
         setPostsLoading(false);
         setPostsError(true);
+
+        handleLemmyError(e.toString());
       }
     };
 

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { CommunityView } from "lemmy-js-client";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { writeToLog } from "../../helpers/LogHelper";
 import { useAppSelector } from "../../../store";
 import { selectCurrentAccount } from "../../slices/accounts/accountsSlice";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 interface UseTraverse {
   loading: boolean;
@@ -56,8 +56,7 @@ const useTraverse = (): UseTraverse => {
 
       return res.communities;
     } catch (e) {
-      writeToLog("Failed to load communities.");
-      writeToLog(e.toString());
+      handleLemmyError(e.toString());
 
       return false;
     }

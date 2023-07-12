@@ -58,6 +58,7 @@ import SearchResultsScreen from "./src/components/screens/Search/SearchResultsSc
 import GeneralSettingsScreen from "./src/components/screens/Settings/General/GeneralSettingsScreen";
 import AboutScreen from "./src/components/screens/Settings/About/AboutScreen";
 import InboxScreen from "./src/components/screens/Inbox/InboxScreen";
+import IconSelectionScreen from "./src/components/screens/Settings/Appearance/IconSelectionScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -328,6 +329,13 @@ function ProfileStackScreen() {
           component={ThemeSelectionScreen}
           options={{
             title: "Theme",
+          }}
+        />
+        <ProfileStack.Screen
+          name="IconSelection"
+          component={IconSelectionScreen}
+          options={{
+            title: "Icon",
           }}
         />
         <ProfileStack.Screen

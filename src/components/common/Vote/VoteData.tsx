@@ -32,7 +32,7 @@ function VoteData({ data, vote }: IProps) {
       <HStack alignItems="center">
         {scoreArrow}
         <Text color={color} fontSize="sm">
-          {vote === 1 ? data.score + 1 : data.score}
+          {data.score}
         </Text>
       </HStack>
     );
@@ -48,13 +48,13 @@ function VoteData({ data, vote }: IProps) {
       <HStack alignItems="center">
         <IconArrowUp color={upvoteColor} size={20} />
         <Text color={upvoteColor} fontSize="sm">
-          {vote === 1 ? data.upvotes + 1 : data.upvotes}
+          {data.upvotes}
         </Text>
       </HStack>
       <HStack alignItems="center">
         <IconArrowDown color={downvoteColor} size={20} />
         <Text color={downvoteColor} fontSize="sm">
-          {vote === -1 ? data.downvotes + 1 : data.downvotes}
+          {data.downvotes}
         </Text>
       </HStack>
     </>

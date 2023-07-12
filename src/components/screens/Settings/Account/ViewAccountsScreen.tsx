@@ -3,6 +3,7 @@ import { ScrollView, useTheme } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Alert, Button, Switch } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
+import { IconLogout } from "tabler-icons-react-native";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
 import CTable from "../../../common/Table/CTable";
@@ -53,19 +54,21 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
     });
   };
 
-  const onAccountDeletePress = (account: Account) => {
+  const onAccountLogoutPress = (account: Account) => {
     Alert.alert(
       "Are you sure?",
-      `Please make sure push notifications are disabled before deleting an account, otherwise you may 
-      continue to get push notifications for that account.\n\nAre you sure you want to 
-      delete ${account.username}@${account.instance}?`,
+      `Please make sure push notifications are disabled before 
+      logging out of an account, otherwise you may continue to get push 
+      notifications for that account.\n
+      \n
+      Are you sure you want to logout ${account.username}@${account.instance}?`,
       [
         {
           text: "Cancel",
           style: "cancel",
         },
         {
-          text: "Delete",
+          text: "Logout",
           style: "destructive",
           onPress: () => {
             dispatch(deleteAccount(account));
@@ -171,10 +174,10 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
             rightDetailColor={theme.colors.app.textSecondary}
           />
         </CSection>
-        {accounts.map((a) => (
+        {accounts.map((account) => (
           <CSection
-            header={`${a.username}@${a.instance}`.toUpperCase()}
-            key={`${a.username}${a.instance}`}
+            header={`${account.username}@${account.instance}`.toUpperCase()}
+            key={`${account.username}${account.instance}`}
           >
             <CCell
               cellStyle="Basic"
@@ -183,19 +186,8 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
               backgroundColor={theme.colors.app.fg}
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.textSecondary}
-              onPress={() => onAccountPress(a)}
+              onPress={() => onAccountPress(account)}
             />
-            {accounts.length > 1 && (
-              <CCell
-                cellStyle="Basic"
-                title="Delete Account"
-                backgroundColor={theme.colors.app.fg}
-                titleTextColor={theme.colors.app.textPrimary}
-                rightDetailColor={theme.colors.app.textSecondary}
-                accessory="DisclosureIndicator"
-                onPress={() => onAccountDeletePress(a)}
-              />
-            )}
             <CCell
               title="Push Notifications"
               backgroundColor={theme.colors.app.fg}
@@ -206,12 +198,24 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
                   value={
                     pushEnabledArr.findIndex(
                       (pe) =>
-                        pe.username === a.username && pe.instance === a.instance
+                        pe.username === account.username &&
+                        pe.instance === account.instance
                     ) > -1
                   }
-                  onValueChange={(v) => onPushNotificationsSwitch(a, v)}
+                  onValueChange={(v) => onPushNotificationsSwitch(account, v)}
                 />
               }
+            />
+            <CCell
+              cellStyle="Basic"
+              title="Logout"
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+              cellAccessoryView={
+                <IconLogout color={theme.colors.app.textSecondary} />
+              }
+              onPress={() => onAccountLogoutPress(account)}
             />
           </CSection>
         ))}

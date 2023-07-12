@@ -1,7 +1,7 @@
 import { PostView } from "lemmy-js-client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { SetStateAction, useMemo, useState } from "react";
+import React, { SetStateAction, useMemo } from "react";
 import {
   onGenericHapticFeedback,
   onVoteHapticFeedback,
@@ -9,18 +9,15 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { setUpdateSaved } from "../../slices/feed/feedSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { writeToLog } from "../../helpers/LogHelper";
 import { setPost } from "../../slices/post/postSlice";
 import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { getLinkInfo, LinkInfo } from "../../helpers/LinkHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 import { showToast } from "../../slices/toast/toastSlice";
 import { savePost } from "../../helpers/LemmyHelpers";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 interface UseFeedItem {
-  myVote: ILemmyVote;
-  setMyVote: React.Dispatch<SetStateAction<ILemmyVote>>;
-
   onVotePress: (value: ILemmyVote, haptic?: boolean) => Promise<void>;
   onPress: () => void;
   doSave: () => Promise<void>;
@@ -36,7 +33,6 @@ const useFeedItem = (
 ): UseFeedItem => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
-  const [myVote, setMyVote] = useState<ILemmyVote>(post.my_vote as ILemmyVote);
 
   const linkInfo = useMemo(() => getLinkInfo(post.post.url), [post]);
 
@@ -46,15 +42,42 @@ const useFeedItem = (
   const onVotePress = async (value: ILemmyVote, haptic = true) => {
     if (haptic) onVoteHapticFeedback();
 
-    const oldValue: ILemmyVote = post.my_vote as ILemmyVote;
+    let { upvotes, downvotes } = post.counts;
 
-    setMyVote(value);
+    // If we already voted, this will be a neutral vote.
+    if (value === post.my_vote && value !== 0) value = 0;
+
+    // Store old value in case we encounter an error
+    const oldValue = post.my_vote;
+
+    // Deal with updating the upvote/downvote count
+    if (value === 0) {
+      if (oldValue === -1) downvotes -= 1;
+      if (oldValue === 1) upvotes -= 1;
+    }
+
+    if (value === 1) {
+      if (oldValue === -1) downvotes -= 1;
+      upvotes += 1;
+    }
+
+    if (value === -1) {
+      if (oldValue === 1) upvotes -= 1;
+      downvotes += 1;
+    }
+
     setPosts((prev) =>
       prev.map((p) => {
         if (p.post.id === post.post.id) {
           return {
             ...p,
             my_vote: value,
+            counts: {
+              ...p.counts,
+              upvotes,
+              downvotes,
+              score: upvotes - downvotes,
+            },
           };
         }
 
@@ -81,18 +104,6 @@ const useFeedItem = (
         setPostRead();
       }
     } catch (e) {
-      writeToLog("Error submitting vote.");
-      writeToLog(e.toString());
-
-      dispatch(
-        showToast({
-          message: "Error submitting vote",
-          duration: 3000,
-          variant: "error",
-        })
-      );
-
-      setMyVote(oldValue);
       setPosts((prev) =>
         prev.map((p) => {
           if (p.post.id === post.post.id) {
@@ -105,6 +116,8 @@ const useFeedItem = (
           return p;
         })
       );
+
+      handleLemmyError(e.toString());
     }
   };
 
@@ -165,9 +178,6 @@ const useFeedItem = (
   };
 
   return {
-    myVote,
-    setMyVote,
-
     onVotePress,
 
     doSave,
