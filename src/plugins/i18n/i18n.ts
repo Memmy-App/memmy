@@ -22,3 +22,5 @@ i18n
     },
     compatibilityJSON: "v3",
   });
+
+export default i18n;

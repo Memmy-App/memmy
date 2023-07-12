@@ -3,6 +3,7 @@ import { Box, HStack, ScrollView, Text, View, useTheme } from "native-base";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { IconCheck } from "tabler-icons-react-native";
+import { useTranslation } from "react-i18next";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
@@ -44,6 +45,7 @@ interface IProps {
 }
 
 function ThemeSelectionScreen({ route }: IProps) {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const theme = useTheme();
   const themeProp = route.params?.themeProp || "theme";
@@ -55,7 +57,7 @@ function ThemeSelectionScreen({ route }: IProps) {
     <View backgroundColor={theme.colors.app.bg} flex={1}>
       <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
         <TableView style={styles.table}>
-          <CSection header="Light Themes">
+          <CSection header={t("settings.appearance.themes.light")}>
             {LightThemeOptionsArr.map((themeName) => (
               <CCell
                 cellStyle="RightDetail"
@@ -81,7 +83,7 @@ function ThemeSelectionScreen({ route }: IProps) {
               />
             ))}
           </CSection>
-          <CSection header="Dark Themes">
+          <CSection header={t("settings.appearance.themes.dark")}>
             {DarkThemeOptionsArr.map((themeName) => (
               <CCell
                 cellStyle="RightDetail"

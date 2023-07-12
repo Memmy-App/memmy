@@ -5,6 +5,7 @@ import { ScrollView, useTheme } from "native-base";
 import React from "react";
 import { Alert, StyleSheet } from "react-native";
 import { getBuildNumber, getVersion } from "react-native-device-info";
+import { useTranslation } from "react-i18next";
 import { openLink } from "../../../../helpers/LinkHelper";
 import { selectCurrentAccount } from "../../../../slices/accounts/accountsSlice";
 import { useAppSelector } from "../../../../../store";
@@ -18,6 +19,7 @@ function AboutScreen({
 }) {
   const currentAccount = useAppSelector(selectCurrentAccount);
 
+  const { t } = useTranslation();
   const theme = useTheme();
 
   return (
@@ -26,7 +28,7 @@ function AboutScreen({
         <CSection>
           <CCell
             cellStyle="RightDetail"
-            title="Version"
+            title={t("Version")}
             detail={`${getVersion()} (${getBuildNumber()})`}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
@@ -34,7 +36,7 @@ function AboutScreen({
           />
           <CCell
             cellStyle="Basic"
-            title="License"
+            title={t("License")}
             accessory="DisclosureIndicator"
             onPress={() =>
               navigation.push("Viewer", {
@@ -47,7 +49,7 @@ function AboutScreen({
           />
           <CCell
             cellStyle="Basic"
-            title="Acknowledgements"
+            title={t("Acknowledgements")}
             accessory="DisclosureIndicator"
             onPress={() => {
               navigation.push("Viewer", {
@@ -60,7 +62,7 @@ function AboutScreen({
           />
           <CCell
             cellStyle="Basic"
-            title="Privacy Policy"
+            title={t("Privacy Policy")}
             accessory="DisclosureIndicator"
             onPress={() => {
               WebBrowser.openBrowserAsync("https://memmy.app/privacy.txt");
@@ -71,7 +73,7 @@ function AboutScreen({
           />
           <CCell
             cellStyle="Basic"
-            title="Terms of Use"
+            title={t("Terms of Use")}
             accessory="DisclosureIndicator"
             onPress={() => {
               navigation.push("Viewer", {
@@ -95,19 +97,17 @@ function AboutScreen({
           />
           <CCell
             cellStyle="Basic"
-            title="Delete Account"
+            title={t("Delete Account")}
             accessory="DisclosureIndicator"
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
             onPress={() => {
               Alert.alert(
-                "Delete Account",
-                "To remove all data from Memmy's servers, simply disable push " +
-                  "notifications. If you do not have push notifications enabled, we do not have any of your data.\n\n" +
-                  `To delete your Lemmy account, you must first visit ${currentAccount.instance} and sign in.` +
-                  " Then " +
-                  ' navigate to the Profile tab. You may delete your account by pressing "Delete Account".',
+                t("alert.title.deleteAccount"),
+                t("alert.message.deleteAccountConfirm", [
+                  currentAccount.instance,
+                ]),
                 [
                   {
                     text: "Visit Instance",
@@ -120,7 +120,7 @@ function AboutScreen({
                     },
                   },
                   {
-                    text: "OK",
+                    text: t("OK"),
                     style: "default",
                   },
                 ]

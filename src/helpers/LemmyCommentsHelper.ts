@@ -1,4 +1,5 @@
 import { CommentView } from "lemmy-js-client";
+import i18n from "../plugins/i18n/i18n";
 import NestedComment from "../types/lemmy/NestedComment";
 
 const findAndAddComment = (
@@ -46,7 +47,7 @@ const findAndReplaceComment = (
             ...comment.comment,
             comment: {
               ...comment.comment.comment,
-              content: "Comment deleted by user :(",
+              content: i18n.t("commentDeletedByUser"),
             },
           },
         };

@@ -4,6 +4,7 @@ import { CommentReplyView } from "lemmy-js-client";
 import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectCurrentAccount } from "../../slices/accounts/accountsSlice";
 import { selectSite, setUnread } from "../../slices/site/siteSlice";
@@ -38,6 +39,8 @@ const useComment = ({
   setComments: React.Dispatch<SetStateAction<ILemmyComment[]>>;
   onPressOverride: () => Promise<void> | void;
 }): UseComment => {
+  const { t } = useTranslation();
+
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { unread } = useAppSelector(selectSite);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -92,15 +95,15 @@ const useComment = ({
 
     // TODO: make this a set bc im too lazy to do it rn
     const options = {
-      "Copy Text": "Copy Text",
-      "Copy Link": "Copy Link",
-      Reply: "Reply",
-      "Report Comment": "Report Comment",
+      "Copy Text": t("Copy Text"),
+      "Copy Link": t("Copy Link"),
+      Reply: t("Reply"),
+      "Report Comment": t("Report Comment"),
       ...(isOwnComment && {
-        "Edit Comment": "Edit Comment",
-        "Delete Comment": "Delete Comment",
+        "Edit Comment": t("Edit Comment"),
+        "Delete Comment": t("Delete Comment"),
       }),
-      Cancel: "Cancel",
+      Cancel: t("Cancel"),
     };
 
     const optionsArr = Object.values(options);
@@ -124,15 +127,15 @@ const useComment = ({
 
         if (option === options["Report Comment"]) {
           await Alert.prompt(
-            "Report Comment",
-            "Please describe your reason for reporting this comment.",
+            t("Report Comment"),
+            t("alert.message.reportComment"),
             [
               {
-                text: "Cancel",
+                text: t("Cancel"),
                 style: "cancel",
               },
               {
-                text: "Submit",
+                text: t("Submit"),
                 style: "default",
                 onPress: async (v) => {
                   try {
@@ -144,7 +147,7 @@ const useComment = ({
 
                     dispatch(
                       showToast({
-                        message: "Report submitted successfully",
+                        message: t("toast.reportSubmitSuccessful"),
                         variant: "info",
                         duration: 3000,
                       })
@@ -168,7 +171,7 @@ const useComment = ({
 
             dispatch(
               showToast({
-                message: "Comment deleted",
+                message: t("toast.commentDeleted"),
                 duration: 3000,
                 variant: "info",
               })
@@ -183,7 +186,7 @@ const useComment = ({
                       ...c.comment,
                       comment: {
                         ...c.comment.comment,
-                        content: "Comment deleted by user :(",
+                        content: t("Comment deleted by user :("),
                         deleted: true,
                       },
                     },

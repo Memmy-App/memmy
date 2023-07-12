@@ -9,8 +9,147 @@
     "inbox": "Nothing found in your inbox.",
     "default": "No result found :("
   },
+  "alert": {
+    "title": {
+      "error": "Error",
+      "permissionsError": "Permissions Error",
+      "unknownError": "Unknown Error",
+      "success": "Success",
+      "noDebugLog": "No debug file exists.",
+      "debugFileCleared": "Debug file cleared.",
+      "areYouSure": "Are you sure?",
+      "info": "Info",
+      "serverAuthError": "Error authenticating with server.",
+      "deleteAccount": "Delete Account"
+    },
+    "message": {
+      "allowCameraRoll": "Please allow Memmy to access your camera roll.",
+      "imgurUploadError": "Error uploading image to Imgur.",
+      "reportComment": "Please describe your reason for reporting this comment.",
+      "allowPushNotifications": "Please allow Memmy to send you push notifications.",
+      "failedToRetrieveToken": "Failed to retrieve token.",
+      "instanceAuthenticationFailed": "Failed to authenticate with Lemmy instance.",
+      "pushNotificationsEnabled": "Successfully enabled push notifications.",
+      "pushNotificationsDisabled": "Successfully disabled push notifications.",
+      "errorFetchingInstanceList": "Error fetching instance list. Try again?",
+      "unknownError": "An unknown error has occurred. Code {{0}}",
+      "sessionExpired": "Your session for {{0}} has expired. Please sign back in to this account.",
+      "cacheCleared": "Cache has been cleared.",
+      "accountLogoutConfirm": "Please make sure push notifications are disabled before logging out of an account, otherwise you may continue to get push notifications for that account.\n\nAre you sure you want to logout {{0}}?",
+      "pushNotificationsConfirm": "To make push notifications work, Memmy has to send your authentication token to our server. Right now, this is the only viable way to allow users to receive push notifications. Note that Memmy servers do NOT have access to your password, only your authentication token. Authentication tokens may be revoked by changing your password.\n\nFull source code for the Memmy push notification server is available at https:\/\/github.com\/gkasdorf\/memmy-push.\n\nDo you wish to continue?",
+      "deleteAccountConfirm": "To remove all data from Memmy's servers, simply disable push notifications. If you do not have push notifications enabled, we do not have any of your data.\\n\\nTo delete your Lemmy account, you must first visit {{0}} and sign in. Then navigate to the Profile tab. You may delete your account by pressing \"Delete Account\"."
+    }
+  },
+  "toast": {
+    "reportSubmitSuccessful": "Report submitted successfully",
+    "commentDeleted": "Comment deleted",
+    "failedToSavePost": "Failed to save Post.",
+    "subscribedTo": "Subscribed to {{0}}",
+    "unsubscribedFrom": "Unsubscribed from {{0}}",
+    "unknownError": "An unknown error has occurred.",
+    "userBlockedSuccess": "User blocked successfully.",
+    "accentColorUpdated": "Accent color updated",
+    "accentColorInvalidHexCode": "Accent color is not a valid hex code",
+    "allFieldsRequired": "All fields are required.",
+    "useUsername": "Please use your username when signing in (no instance/@)."
+  },
+  "relativeTime": {
+    "future": "in %s",
+    "past": "%s ago",
+    "s": "1s",
+    "ss": "%ss",
+    "m": "1m",
+    "mm": "%dm",
+    "h": "1h",
+    "hh": "%dh",
+    "d": "1d",
+    "dd": "%dd",
+    "M": "1mo",
+    "MM": "%dmo",
+    "y": "1y",
+    "yy": "%dy"
+  },
   "profile": {
     "my": "My Profile"
+  },
+  "comment": {
+    "deletedByUser": "Comment deleted by user :("
+  },
+  "settings": {
+    "haptics": {
+      "Off": "Off",
+      "Light": "Light",
+      "Medium": "Medium",
+      "Heavy": "Heavy"
+    },
+    "content": {
+      "nsfw": {
+        "footer": "These settings do not affect your Lemmy account NSFW settings. These setting will only apply to the local app (globally on all accounts).",
+        "blur": "Blur NSFW Content",
+        "hide": "Hide NSFW Content"
+      },
+      "web": {
+        "useReaderMode": "Use Reader Mode"
+      },
+      "markRead": {
+        "header": "MARK READ SETTINGS",
+        "onPostOpen": "Mark Read on Post open",
+        "onImageView": "Mark Read on Image View",
+        "onVote": "Mark Read on Vote"
+      }
+    },
+    "appearance": {
+      "themes": {
+        "header": "THEMES",
+        "matchSystem": "Match System Light/Dark Theme",
+        "systemLight": "Theme for System Light",
+        "systemDark": "Theme for System Dark",
+        "light": "Light Themes",
+        "dark": "Dark Themes",
+        "hexCode": {
+          "placeholder": "Input a hex code"
+        }
+      },
+      "appIcon": "App Icon",
+      "totalScore": "Display Total Scope",
+      "imgIgnoreScreenHeight": "Images Ignore Screen Height",
+      "showUserInstance": "Show Instance For Username",
+      "compactView": "Compact View",
+      "compact": {
+        "header": "Compact",
+        "thumbPos": "Thumbnails Position",
+        "showVotingButtons": "Show Voting Buttons"
+      },
+      "font": {
+        "header": "FONT",
+        "useSystemFont": "Use System Font",
+        "useSystemFontSize": "Use System Font Size",
+        "textSize": "Text Size",
+        "postTitleFontWeight": "Font Weight - Post Title"
+      }
+    },
+    "accounts": {
+      "current": "Current Account",
+      "server": {
+        "header": "Server Address",
+        "footer": "URL for the server you wish to connect",
+        "placeholder": "Server Address"
+      },
+      "credentials": {
+        "header": "Server Credentials",
+        "footer": "Credentials for the server you are connecting to"
+      }
+    }
+  },
+  "traverse": {
+    "noSubscriptions": "You don't have any subscriptions."
+  },
+  "post": {
+    "header": "Post Info",
+    "title": "Title",
+    "link": "Link (optional)",
+    "body": "Body (optional)",
+    "bodyPlaceholder": "Type away!"
   },
   "Feed": "Feed",
   "Comments": "Comments",
@@ -19,18 +158,81 @@
   "Search": "Search",
   "Inbox": "Inbox",
   "Posts": "Posts",
-  "SavedPosts": "Saved Posts",
-  "NewComment": "New Comment",
-  "EditComment": "Edit Comment",
-  "NewPost": "New Post",
+  "Saved Posts": "Saved Posts",
+  "New Comment": "New Comment",
+  "Edit Comment": "Edit Comment",
+  "New Post": "New Post",
   "About": "About",
-  "ViewComments": "View Comments",
-  "ViewPosts": "View Posts",
-  "ViewSavedPosts": "View Saved Posts",
+  "View Comments": "View Comments",
+  "View Posts": "View Posts",
+  "View Saved Posts": "View Saved Posts",
   "Unread": "Unread",
   "All": "All",
   "Replies": "Replies",
-  "BlockedCommunities": "Blocked Communities",
+  "Communities": "Communities",
+  "Blocked Communities": "Blocked Communities",
   "Settings": "Settings",
-  "ManageAccounts": "Manage Accounts"
+  "Accounts": "Accounts",
+  "Manage Accounts": "Manage Accounts",
+  "Edit Account": "Edit Account",
+  "Delete Account": "Delete Account",
+  "Add Account": "Add Account",
+  "Create Account": "Create Account",
+  "Mark Post Read On": "Mark Post Read...",
+  "View": "View",
+  "Content": "Content",
+  "Appearance": "Appearance",
+  "Theme": "Theme",
+  "Icon": "Icon",
+  "General": "General",
+  "Loading": "Loading",
+  "Welcome": "Welcome",
+  "Hubs": "Hubs",
+  "Instance": "Instance",
+  "Copy Text": "Copy Text",
+  "Copy Link": "Copy Link",
+  "Reply": "Reply",
+  "Report Comment": "Report Comment",
+  "Report Post": "Report Post",
+  "Cancel": "Cancel",
+  "Submit": "Submit",
+  "commentDeletedByUser": "Comment deleted by user :(",
+  "Retry": "Retry",
+  "Language": "Language",
+  "Select Language": "Select Language",
+  "Haptics": "Haptics",
+  "Strength": "Strength",
+  "Use Default Browser": "Use Default Browser",
+  "Browser": "Browser",
+  "No blocked communities": "No blocked communities",
+  "Email Debug Log": "Email Debug Log",
+  "Clear Debug Log": "Clear Debug Log",
+  "Clear Cache": "Clear Cache",
+  "Default Sort": "Default Sort",
+  "Default Comment Sort": "Default Comment Sort",
+  "Hide Read Posts on Feed": "Hide Read Posts on Feed",
+  "Show Comment Actions": "Show Comment Actions",
+  "NSFW": "NSFW",
+  "NSFW Content": "NSFW Content",
+  "Accent Color": "Accent Color",
+  "Add": "Add",
+  "Logout": "Logout",
+  "Continue": "Continue",
+  "Server": "Server",
+  "Server Address": "Server Address",
+  "Username": "Username",
+  "Password": "Passwort",
+  "Push Notifications": "Push Notifications",
+  "Save": "Speichern",
+  "2FA Token": "2FA Token",
+  "Version": "Version",
+  "License": "License",
+  "Acknowledgements": "Acknowledgements",
+  "Privacy Policy": "Privacy Policy",
+  "Terms of Use": "Terms of Use",
+  "OK": "OK",
+  "Users": "Users",
+  "Comment": "Comment",
+  "Comment_plural": "Comments",
+  "Back": "Back"
 }

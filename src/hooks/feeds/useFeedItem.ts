@@ -2,6 +2,7 @@ import { PostView } from "lemmy-js-client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { SetStateAction, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import {
   onGenericHapticFeedback,
   onVoteHapticFeedback,
@@ -31,6 +32,7 @@ const useFeedItem = (
   post: PostView,
   setPosts?: React.Dispatch<SetStateAction<PostView[]>>
 ): UseFeedItem => {
+  const { t } = useTranslation();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
 
@@ -167,7 +169,7 @@ const useFeedItem = (
     if (!res) {
       dispatch(
         showToast({
-          message: "Failed to save Post.",
+          message: t("toast.failedToSavePost"),
           variant: "error",
           duration: 2000,
         })

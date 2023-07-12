@@ -11,6 +11,7 @@ import {
   setCurrentAccount,
 } from "../slices/accounts/accountsActions";
 import { writeToLog } from "./LogHelper";
+import i18n from "../plugins/i18n/i18n";
 
 export const handleLemmyError = (code: LemmyErrorType | string) => {
   // Log the error to debug
@@ -24,20 +25,20 @@ export const handleLemmyError = (code: LemmyErrorType | string) => {
   if (!error) {
     // There are some errors that still are not sent in JSON or don't have any response body at all. This ends up giving
     // us a JSON syntax error. There's a PR that was merged recently to fix some of these things, so it should be ok
-    // here soon. For now we will just see if the error includes "Syntax Error" and show a toast.
+    // here soon. For now, we will just see if the error includes "Syntax Error" and show a toast.
 
     if (code.includes("SyntaxError")) {
       store.dispatch(
         showToast({
-          message: "An unknown error has occurred.",
+          message: i18n.t("toast.unknownError"),
           variant: "error",
           duration: 3000,
         })
       );
     } else {
       Alert.alert(
-        "Unknown Error",
-        `An unknown error has occurred. Code: ${code}`
+        i18n.t("alert.title.unknownError"),
+        i18n.t("alert.message.unknownError", [code])
       );
     }
     return;
@@ -51,8 +52,10 @@ export const handleLemmyError = (code: LemmyErrorType | string) => {
     const { currentAccount, accounts } = store.getState().accounts;
 
     Alert.alert(
-      "Error",
-      `Your session for ${currentAccount.username}@${currentAccount.instance} has expired. Please sign back in to this account.`
+      i18n.t("alert.title.error"),
+      i18n.t("alert.message.sessionExpired", [
+        `${currentAccount.username}@${currentAccount.instance}`,
+      ])
     );
 
     // We should change the user to a different account *before* removing the account, if possible
@@ -79,7 +82,7 @@ export const handleLemmyError = (code: LemmyErrorType | string) => {
 
   // If this error is of the alertable type, we will display an alert dialog
   if (alertableErrors.includes(error.code)) {
-    Alert.alert("Error", error.message);
+    Alert.alert(i18n.t("alert.title.error"), error.message);
   }
 
   // Create a toast

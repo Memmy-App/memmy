@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { ScrollView, useTheme, VStack } from "native-base";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView, SearchType } from "lemmy-js-client";
+import { useTranslation } from "react-i18next";
 import useSearchResult from "../../../hooks/search/useSearchResult";
 import CompactFeedItem from "../Feed/components/CompactFeedItem/CompactFeedItem";
 import { useAppSelector } from "../../../../store";
@@ -20,6 +21,7 @@ interface IProps {
 function SearchResultsScreen({ route }: IProps) {
   const type = route.params.type as SearchType;
 
+  const { t } = useTranslation();
   const theme = useTheme();
   const search = useSearchResult(route.params.query, route.params.type);
 
@@ -66,7 +68,7 @@ function SearchResultsScreen({ route }: IProps) {
       )) ||
         (type === "Users" && (
           <ScrollView px={4}>
-            <MTable header="Users">
+            <MTable header={t("Users")}>
               {search.result.users.map((u) => (
                 <SearchUserItem user={u} />
               ))}
@@ -75,7 +77,7 @@ function SearchResultsScreen({ route }: IProps) {
         )) ||
         (type === "Communities" && (
           <ScrollView px={4}>
-            <MTable header="Communities">
+            <MTable header={t("Communities")}>
               {search.result.communities.map((c) => (
                 <SearchCommunityItem community={c} />
               ))}

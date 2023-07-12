@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { ScrollView, Text, useTheme } from "native-base";
 import { CommunityView } from "lemmy-js-client";
+import { useTranslation } from "react-i18next";
 import useTraverse from "../../../hooks/traverse/useTraverse";
 import LoadingView from "../../common/Loading/LoadingView";
 import TraverseItem from "./components/TraverseItem";
@@ -13,6 +14,7 @@ import { useAppSelector } from "../../../../store";
 import { getCommunityFullName } from "../../../helpers/LemmyHelpers";
 
 function TraverseScreen() {
+  const { t } = useTranslation();
   const theme = useTheme();
   const traverse = useTraverse();
 
@@ -79,7 +81,7 @@ function TraverseScreen() {
           justifyContent="center"
           alignSelf="center"
         >
-          You don&apos;t have any subscriptions.
+          {t("traverse.noSubscriptions")}
         </Text>
       ) : (
         traverse.subscriptions.map((c) => item(c))

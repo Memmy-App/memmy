@@ -9,28 +9,227 @@
     "inbox": "Dein Posteingang ist leer",
     "default": "Nichts gefunden :("
   },
+  "alert": {
+    "title": {
+      "error": "Fehler",
+      "permissionsError": "Berechtigungsfehler",
+      "unknownError": "Unbekannter Fehler",
+      "success": "Erfolgreich",
+      "noDebugLog": "No debug file exists.",
+      "info": "Info",
+      "serverAuthError": "Fehler beim authentifiziern mit dem Server"
+    },
+    "message": {
+      "allowCameraRoll": "Bitte erlaube Memmy den Zugriff aud deine Kamera.",
+      "imgurUploadError": "Fehler beim hochladen zu Imgur.",
+      "reportComment": "Bitte gib den Grund fü die Meldung des Kommentares an",
+      "allowPushNotifications": "Bitte erlaube Memmy dir Push-Benachrichtigungen zu schicken.",
+      "failedToRetrieveToken": "Token konnte nicht abgerufen werden.",
+      "instanceAuthenticationFailed": "Authentifizierung mit der Lemmy Instanz fehlgeschlagen",
+      "pushNotificationsEnabled": "Push-Benachrictungen erfolgreich aktiviert.",
+      "pushNotificationsDisabled": "Push-Benachrictungen erfolgreich deaktiviert.",
+      "errorFetchingInstanceList": "Fehler beim laden der Instanz Liste. Erneut versuchen?",
+      "unknownError": "Ein unbekannter Fehler ist aufgetreten. Code {{0}}",
+      "sessionExpired": "Die Sitzung von {{0}} is abgelaufen. Bitte melde dich neu an.",
+      "cacheCleared": "Der Cache wurde geleert.",
+      "accountLogoutConfirm": "Bitte stell sicher das du Push-Benachrichtigungen für den Account deaktiviert hast bevor du dich ausloggst, andernfalls könntest du weiterhin Benachrichtungen von dem Account erhalten.\n\nBist du sicher das du {{0}} ausloggen möchtest?",
+      "pushNotificationsConfirm": "Damit Push-Benachrichtigungen funktionieren muss Memmy dein Authentifizierungs-Token an unseren Server senden. Aktuell ist das die einzige verlässliche Möglichkeit Push-Benachrichtigungen zu senden. Memmy server haben KEINEN Zugriff auf dein Passwort, nur dein Authentifizierungs-Token. Authentifizierungs-Tokens können durch eine Passwort änderung widerrufen werden.\n\nDer vollständige Quellcode für die Memmy Push-Beanchrichtiungen ist unter https:\/\/github.com\/gkasdorf\/memmy-push verfügbar.\n\nMöchtest du fortfahren?",
+      "deleteAccountConfirm": "Um alle Daten bei uns zu löschen musst du lediglich die Push-Benachrichtigungen deaktivieren. Wenn du keine Push-Benachrichtigungen aktiviert hast haben wir auch keine Daten von dir.\\n\\nUm deinen Account entgültig zu löschen musst du dich auf {{0}} einloggen und zu deinem Profil navigieren. Klicke dann auf \"Account löschen\" um deinen Account entgültig zu löschen."
+    }
+  },
+  "toast": {
+    "reportSubmitSuccessful": "Meldung wurde erfolgreich übermittelt",
+    "commentDeleted": "Kommentar gelöscht",
+    "failedToSavePost": "Post konnte nicht gespeichert werden",
+    "subscribedTo": "{{0}} abonniert",
+    "unsubscribedFrom": "{{0}} deabonniert",
+    "unknownError": "Es ist ein unbekannter Fehler aufgetreten.",
+    "userBlockedSuccess": "Benutzer erfolgreich blockiert.",
+    "accentColorUpdated": "Akzentfarbe angepasst",
+    "accentColorInvalidHexCode": "Akzentfarbe ist kein valider Hex Farbcode",
+    "allFieldsRequired": "Alle Felder müssen gefüllt sein.",
+    "useUsername": "Bitte gib nur deinen Benutzernamen an (ohne Instanz/@)."
+  },
+  "relativeTime": {
+    "future": "in %s",
+    "past": "vor %s",
+    "s": "1s",
+    "ss": "%ss",
+    "m": "1min",
+    "mm": "%dmin",
+    "h": "1Std",
+    "hh": "%dStd",
+    "d": "1T",
+    "dd": "%dT",
+    "M": "1M",
+    "MM": "%dM",
+    "y": "1J",
+    "yy": "%dJ"
+  },
   "profile": {
     "my": "Mein Profil"
   },
+  "comment": {
+    "deletedByUser": "Kommentar wurde vom Benutzer gelöscht :("
+  },
+  "settings": {
+    "haptics": {
+      "Off": "Keine",
+      "Light": "Schwach",
+      "Medium": "Mittelstark",
+      "Heavy": "Stark"
+    },
+    "content": {
+      "nsfw": {
+        "footer": "Dieser Einstellungen haben kein Einfluss auf die NSFW Einstellungen deines Lemmy Accounts. Diese Einstellungen werden lediglich lokal auf die App angewendet (über alle Accounts hinweg).",
+        "blur": "NSFW Inhalt Verwischen/Trüben",
+        "hide": "NSFW Inhalt ausblenden"
+      },
+      "web": {
+        "useReaderMode": "Lesemodus verwenden"
+      },
+      "markRead": {
+        "header": "Gelesen Markieren Einstellungen",
+        "onPostOpen": "Beim öffnen vom Post",
+        "onImageView": "Beim ansehen vom Bild",
+        "onVote": "Beim Abstimmen"
+      }
+    },
+    "appearance": {
+      "themes": {
+        "header": "THEMES",
+        "matchSystem": "Aus Systemeinstellung Hell/Dunkel übernehmen",
+        "systemLight": "Theme für helle Systemeinstellung",
+        "systemDark": "Theme für dunkle Systemeinstellung",
+        "light": "Helle Themes",
+        "dark": "Dunkle Themes",
+        "hexCode": {
+          "placeholder": "Füge ein Hex Farbcode ein"
+        }
+      },
+      "appIcon": "App Icon",
+      "totalScope": "Gesamtwertung anzeigen",
+      "imgIgnoreScreenHeight": "Bildschirmhöhe bei Bildern ignorieren",
+      "showUserInstance": "Show Instance For Username",
+      "compactView": "Kompakte Ansicht",
+      "compact": {
+        "header": "Kompakt",
+        "thumbPos": "Miniaturansicht Positionierung",
+        "showVotingButtons": "Abstimm Buttons anzeigen"
+      },
+      "font": {
+        "header": "FONT",
+        "useSystemFont": "System Schriftart übernehmen",
+        "useSystemFontSize": "System Schriftgröße übernehmen",
+        "textSize": "Textgröße",
+        "postTitleFontWeight": "Schriftstärke - Post Titel"
+      }
+    },
+    "accounts": {
+      "current": "Aktueller Account",
+      "server": {
+        "header": "Server Adresse",
+        "footer": "URL vom Server mit dem du dich verbinden möchtest",
+        "placeholder": "Server Adresse"
+      },
+      "credentials": {
+        "header": "Server Credentials",
+        "footer": "Credentials for the server you are connecting to"
+      }
+    }
+  },
+  "traverse": {
+    "noSubscriptions": "Du hast nichts abonniert."
+  },
+  "post": {
+    "header": "Post Info",
+    "title": "Titel",
+    "link": "Link (optional)",
+    "body": "Inhalt (optional)",
+    "bodyPlaceholder": "Schreib los!"
+  },
   "Feed": "Feed",
   "Comments": "Kommentare",
-  "Traverse":  "Traverse",
+  "Traverse": "Traverse",
   "Profile": "Profil",
   "Search": "Suchen",
   "Inbox": "Posteingang",
   "Posts": "Posts",
-  "SavedPosts": "Gespeicherte Posts",
-  "NewComment": "Neuer Kommentar",
-  "EditComment": "Kommentar bearbeiten",
-  "NewPost": "Neuer Post",
+  "Saved Posts": "Gespeicherte Posts",
+  "New Comment": "Neuer Kommentar",
+  "Edit Comment": "Kommentar bearbeiten",
+  "New Post": "Neuer Post",
   "About": "Über",
-  "ViewComments": "Kommentare anzeigen",
-  "ViewPosts": "Posts anzeigen",
-  "ViewSavedPosts": "Gespeicherte Posts anzeigen",
+  "View Comments": "Kommentare anzeigen",
+  "View Posts": "Posts anzeigen",
+  "View Saved Posts": "Gespeicherte Posts anzeigen",
   "Unread": "Ungelesen",
   "All": "Alle",
   "Replies": "Antworten",
-  "BlockedCommunities": "Blockierte Communities",
+  "Communities": "Communities",
+  "Blocked Communities": "Blockierte Communities",
   "Settings": "Einstellungen",
-  "ManageAccounts": "Accounts Verwalten"
+  "Accounts": "Accounts",
+  "Manage Accounts": "Accounts Verwalten",
+  "Edit Account": "Account bearbeiten",
+  "Delete Account": "Account löschen",
+  "Add Account": "Account hinzufügen",
+  "Create Account": "Account erstellen",
+  "Mark Post Read On": "Post als gelesen markieren...",
+  "View": "Anzeigen",
+  "Content": "Inhalt",
+  "Appearance": "Darstellung",
+  "Theme": "Theme",
+  "Icon": "Icon",
+  "General": "Allgemein",
+  "Loading": "Lädt",
+  "Welcome": "Wilkommen",
+  "Hubs": "Hubs",
+  "Instance": "Instanz",
+  "Copy Text": "Text Kopieren",
+  "Copy Link": "Link Kopieren",
+  "Reply": "Antworten",
+  "Report Comment": "Komentar melden",
+  "Report Post": "Post melden",
+  "Cancel": "Abbrechen",
+  "Submit": "Absenden",
+  "Retry": "Retry",
+  "Language": "Sprache",
+  "Select Language": "Sprache auswählen",
+  "Haptics": "Haptik",
+  "Strength": "Stärke",
+  "Use Default Browser": "Standardbrowser nutzen",
+  "Browser": "Browser",
+  "No blocked communities": "Keine blockierten Communities",
+  "Email Debug Log": "Debug-Log als E-Mail senden",
+  "Clear Debug Log": "Debug-Log leeren",
+  "Clear Cache": "Cache leeren",
+  "Default Sort": "Standard Sortierung",
+  "Default Comment Sort": "Standard Kommentar Sortierung",
+  "Default Listing Type": "Standard Listen Typ",
+  "Hide Read Posts on Feed": "Gelesene Posts im Feed ausblenden",
+  "Show Comment Actions": "Kommentar anzeigen Aktionen",
+  "NSFW": "NSFW",
+  "NSFW Content": "NSFW Inhalt",
+  "Accent Color": "Akzentfarbe",
+  "Add": "Hinzufügen",
+  "Logout": "Ausloggen",
+  "Continue": "Fortfahren",
+  "Server": "Server",
+  "Server Address": "Server Address",
+  "Username": "Benutzername",
+  "Password": "Passwort",
+  "Push Notifications": "Push-Benachrichtigungen",
+  "Save": "Speichern",
+  "2FA Token": "2FA Token",
+  "Version": "Version",
+  "License": "Lizenz",
+  "Acknowledgements": "Acknowledgements",
+  "Privacy Policy": "Datenschutzbestimmungen",
+  "Terms of Use": "Nutzungsbedingungen",
+  "OK": "OK",
+  "Users": "Benutzer",
+  "Comment": "Kommentar",
+  "Comment_plural": "Kommentare",
+  "Back": "Zurück"
 }

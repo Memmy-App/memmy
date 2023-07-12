@@ -9,7 +9,6 @@ import {
   IconNotes,
   IconSettings,
 } from "tabler-icons-react-native";
-import { useActionSheet } from "@expo/react-native-action-sheet";
 import { useTranslation } from "react-i18next";
 import useProfile from "../../../hooks/profile/useProfile";
 import HeaderIconButton from "../../common/Buttons/HeaderIconButton";
@@ -24,6 +23,7 @@ import MTable from "../../common/Table/MTable";
 import MCell from "../../common/Table/MCell";
 import RefreshControl from "../../common/RefreshControl";
 import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
+import { useAppActionSheet } from "../../../hooks/app/useAppActionSheet";
 
 interface IProps {
   route: any;
@@ -35,7 +35,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
   const profile = useProfile(true, route?.params?.fullUsername);
 
   const theme = useTheme();
-  const { showActionSheetWithOptions } = useActionSheet();
+  const { showAppActionSheetWithOptions } = useAppActionSheet();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
@@ -67,15 +67,12 @@ function UserProfileScreen({ route, navigation }: IProps) {
   const onDotsPress = async () => {
     const cancelButtonIndex = 1;
 
-    showActionSheetWithOptions(
+    showAppActionSheetWithOptions(
       {
         options: ["Block User", "Cancel"],
         cancelButtonIndex,
-        userInterfaceStyle: theme.config.initialColorMode,
       },
       async (index) => {
-        if (index === cancelButtonIndex) return;
-
         if (index === 0) {
           try {
             await lemmyInstance.blockPerson({
@@ -86,7 +83,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
 
             dispatch(
               showToast({
-                message: "User blocked successfully.",
+                message: t("toast.userBlockedSuccess"),
                 duration: 3000,
                 variant: "info",
               })
@@ -126,7 +123,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
       <VStack p={4}>
         <MTable>
           <MCell
-            title={t("ViewComments")}
+            title={t("View Comments")}
             icon={<IconMessage color={theme.colors.app.accent} />}
             rightAccessory={
               <IconChevronRight color={theme.colors.app.accent} />
@@ -138,7 +135,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
             }
           />
           <MCell
-            title={t("ViewPosts")}
+            title={t("View Posts")}
             icon={<IconNotes color={theme.colors.app.accent} />}
             rightAccessory={
               <IconChevronRight color={theme.colors.app.accent} />
@@ -150,7 +147,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
             }
           />
           <MCell
-            title={t("ViewSavedPosts")}
+            title={t("View Saved Posts")}
             icon={<IconBookmark color={theme.colors.app.accent} />}
             rightAccessory={
               <IconChevronRight color={theme.colors.app.accent} />
