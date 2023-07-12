@@ -114,7 +114,8 @@ function AboutScreen({
                     onPress: () => {
                       openLink(
                         `https://${currentAccount.instance}`,
-                        navigation
+                        navigation,
+                        theme.colors.app.bg
                       );
                     },
                   },

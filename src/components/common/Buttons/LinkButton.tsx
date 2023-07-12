@@ -18,7 +18,7 @@ function LinkButton({ link, thumbnail }: LinkButtonProps) {
   const theme = useTheme();
 
   const onPress = () => {
-    openLink(link, navigation);
+    openLink(link, navigation, theme.colors.app.bg);
   };
 
   return (
