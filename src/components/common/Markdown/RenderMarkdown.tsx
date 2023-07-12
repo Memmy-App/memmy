@@ -1,12 +1,26 @@
-// @ts-nocheck
+/* eslint-disable react/no-unstable-nested-components */
 import React, { useMemo } from "react";
-import { Image, Text, useTheme, VStack } from "native-base";
+import {
+  ChevronRightIcon,
+  HStack,
+  Image,
+  Spacer,
+  Text,
+  useTheme,
+  VStack,
+} from "native-base";
 import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useWindowDimensions } from "react-native";
+import {
+  Pressable,
+  StyleProp,
+  TextStyle,
+  useWindowDimensions,
+} from "react-native";
 import ReactMarkdown from "react-markdown";
 import WebView from "react-native-webview";
+import FastImage from "react-native-fast-image";
 import { openLink } from "../../../helpers/LinkHelper";
 import { findImages, replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
 import ImageButton from "../Buttons/ImageButton";
@@ -15,6 +29,7 @@ import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { fontSizeMap } from "../../../theme/fontSize";
 import ImageViewer from "../ImageViewer/ImageViewer";
+import { truncateImageLink } from "../../../helpers/TextHelper";
 
 // const FONT_SIZE = 14;
 // const HEADING_1_SIZE = 32;
@@ -30,15 +45,18 @@ interface MarkdownProps {
   imageSize?: number;
 }
 
-const RenderMarkdown = ({
+function RenderMarkdown({
   text,
   addImages = false,
   truncate = false,
   isNote = false,
   imageSize,
-}: MarkdownProps) => {
+}: MarkdownProps) {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
+
+  const [imgSrc, setImgSrc] = React.useState("");
+  const [visible, setVisible] = React.useState(false);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
@@ -61,7 +79,7 @@ const RenderMarkdown = ({
     ? theme.colors.app.textSecondary
     : theme.colors.app.textPrimary;
 
-  const styles = {
+  const styles: Record<string, StyleProp<TextStyle>> = {
     span: {
       fontSize: FONT_SIZE,
       color: fontColor,
@@ -182,17 +200,20 @@ const RenderMarkdown = ({
     },
   };
 
-  return useMemo(() => {
-    // const cleanedText = findImages(text, false);
-    // text = cleanedText.cleanedText.replace(
-    //   /(^|[^[\]])\b(https?:\/\/[^\s]+)\b(?![\]]|\()/g,
-    //   (match, prefix, url) => `${prefix}[${url}](${url})`
-    // );
-    // text = replaceNoMarkdown(text, currentAccount.instance);
+  // const cleanedText = findImages(text, false);
+  // text = cleanedText.cleanedText.replace(
+  //   /(^|[^[\]])\b(https?:\/\/[^\s]+)\b(?![\]]|\()/g,
+  //   (match, prefix, url) => `${prefix}[${url}](${url})`
+  // );
+  // text = replaceNoMarkdown(text, currentAccount.instance);
 
-    const markdown = text; // .replace(/\s\s+/g, "<br />");
+  const markdown = text; // .replace(/\s\s+/g, "<br />");
+  const onRequestClose = () => {
+    setVisible(false);
+  };
 
-    return (
+  return (
+    <>
       <VStack flex={1} my={1}>
         <Text>
           <ReactMarkdown
@@ -224,12 +245,41 @@ const RenderMarkdown = ({
                 <Text style={styles.heading5}>{children}</Text>
               ),
               br: ({ children }) => <Text>{children}</Text>,
-              img: ({ children, src }) => {
-                console.log(src);
-                return (
-                  <ImageViewer source={src} resizeMode="cover" nsfw={false} />
-                );
-              },
+              img: ({ children, src, onClick }) => (
+                <Pressable
+                  onPress={() => {
+                    setImgSrc(src);
+                    setVisible(true);
+                  }}
+                >
+                  <HStack
+                    backgroundColor={theme.colors.app.bg}
+                    borderRadius={5}
+                    padding={2}
+                    flexDirection="row"
+                    alignItems="center"
+                    space={2}
+                    my={4}
+                  >
+                    <FastImage
+                      style={{
+                        height: 50,
+                        width: 50,
+                      }}
+                      resizeMode="contain"
+                      source={{
+                        uri: src,
+                      }}
+                    />
+                    <Spacer />
+                    <Text color={theme.colors.app.textPrimary}>
+                      {truncateImageLink(src)}
+                    </Text>
+                    <Spacer />
+                    <ChevronRightIcon />
+                  </HStack>
+                </Pressable>
+              ),
               a: ({ children }) => <Text>{children}</Text>,
               abbr: ({ children }) => <Text>{children}</Text>,
               article: ({ children }) => <Text>{children}</Text>,
@@ -244,7 +294,6 @@ const RenderMarkdown = ({
               div: ({ children }) => <Text>{children}</Text>,
               dl: ({ children }) => <Text>{children}</Text>,
               dt: ({ children }) => <Text>{children}</Text>,
-              em: ({ children }) => <Text>{children}</Text>,
               fieldset: ({ children }) => <Text>{children}</Text>,
               figure: ({ children }) => <Text>{children}</Text>,
               figcaption: ({ children }) => <Text>{children}</Text>,
@@ -270,7 +319,6 @@ const RenderMarkdown = ({
               select: ({ children }) => <Text>{children}</Text>,
               small: ({ children }) => <Text>{children}</Text>,
               span: ({ children }) => <Text>{children}</Text>,
-              br: ({ children }) => <Text>{children}</Text>,
               sub: ({ children }) => <Text>{children}</Text>,
               sup: ({ children }) => <Text>{children}</Text>,
               table: ({ children }) => <Text>{children}</Text>,
@@ -304,16 +352,15 @@ const RenderMarkdown = ({
           </ReactMarkdown>
         </Text>
       </VStack>
-    );
-  }, [
-    text,
-    FONT_SIZE,
-    theme.colors.app.textPrimary,
-    theme.colors.app.textSecondary,
-    theme.colors.app.bg,
-    theme.colors.app.border,
-    theme.colors.app.accent,
-  ]);
-};
+      <ImageViewer
+        source={imgSrc}
+        nsfw={false}
+        visibleOverride={visible}
+        onRequestCloseOverride={onRequestClose}
+        onlyViewer
+      />
+    </>
+  );
+}
 
 export default RenderMarkdown;
