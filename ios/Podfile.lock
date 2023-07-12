@@ -473,6 +473,8 @@ PODS:
     - React-Core
   - react-native-ionicons (4.6.5):
     - React
+  - react-native-ios-context-menu (1.15.3):
+    - React-Core
   - react-native-pager-view (6.1.2):
     - React-Core
   - react-native-render-html (6.3.4):
@@ -710,6 +712,7 @@ DEPENDENCIES:
   - react-native-change-icon (from `../node_modules/react-native-change-icon`)
   - react-native-flipper (from `../node_modules/react-native-flipper`)
   - react-native-ionicons (from `../node_modules/react-native-ionicons`)
+  - react-native-ios-context-menu (from `../node_modules/react-native-ios-context-menu`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-render-html (from `../node_modules/react-native-render-html`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -869,6 +872,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-flipper"
   react-native-ionicons:
     :path: "../node_modules/react-native-ionicons"
+  react-native-ios-context-menu:
+    :path: "../node_modules/react-native-ios-context-menu"
   react-native-pager-view:
     :path: "../node_modules/react-native-pager-view"
   react-native-render-html:
@@ -1002,6 +1007,7 @@ SPEC CHECKSUMS:
   react-native-change-icon: ea9bb7255b09e89f41cbf282df16eade91ab1833
   react-native-flipper: 598f601b6dc19d58f8f58088c6c570917efea2c4
   react-native-ionicons: 7ce04a8e61c6de2fc3b6798e8b9621b865cb18b1
+  react-native-ios-context-menu: e529171ba760a1af7f2ef0729f5a7f4d226171c5
   react-native-pager-view: 54bed894cecebe28cede54c01038d9d1e122de43
   react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
