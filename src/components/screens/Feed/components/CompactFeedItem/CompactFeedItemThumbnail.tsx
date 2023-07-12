@@ -13,8 +13,6 @@ import { selectSettings } from "../../../../../slices/settings/settingsSlice";
 
 import { lemmyAuthToken, lemmyInstance } from "../../../../../LemmyInstance";
 import ImageViewFooter from "../../../../common/ImageViewer/ImageViewFooter";
-import downloadAndSaveImage from "../../../../../helpers/ImageHelper";
-import { shareLink } from "../../../../../helpers/ShareHelper";
 
 function CompactFeedItemThumbnail({
   post,
@@ -61,19 +59,7 @@ function CompactFeedItemThumbnail({
     });
   };
 
-  const onSave = () => {
-    downloadAndSaveImage(post.post.url);
-  };
-
-  const onShare = () => {
-    shareLink({
-      link: post.post.url,
-    });
-  };
-
-  const imageViewFooter = () => (
-    <ImageViewFooter onSave={onSave} onShare={onShare} />
-  );
+  const imageViewFooter = () => <ImageViewFooter source={post.post.url} />;
 
   return (
     <Box

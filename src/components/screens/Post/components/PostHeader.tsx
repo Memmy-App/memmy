@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { SetStateAction, useState } from "react";
 import {
   Divider,
   HStack,
@@ -7,7 +7,7 @@ import {
   useTheme,
   VStack,
 } from "native-base";
-import { UsePost } from "../../../../hooks/post/postHooks";
+import { PostView } from "lemmy-js-client";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import PostContentView from "./PostContentView";
 import AvatarUsername from "../../../common/AvatarUsername";
@@ -17,32 +17,48 @@ import DatePublished from "../../../common/DatePublished";
 import PostActionBar from "./PostActionBar";
 import PostTitle from "./PostTitle";
 import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
+import { ILemmyVote } from "../../../../types/lemmy/ILemmyVote";
 
 interface IProps {
-  post: UsePost;
+  currentPost: PostView;
+  collapsed: boolean;
+  setCollapsed: React.Dispatch<SetStateAction<boolean>>;
   showLoadAll: boolean;
+
+  doLoad: (refresh: boolean) => Promise<void>;
+  doSave: () => Promise<void>;
+  doVote: (value: ILemmyVote) => Promise<void>;
 }
 
-function PostHeader({ post, showLoadAll }: IProps) {
+function PostHeader({
+  currentPost,
+  collapsed,
+  setCollapsed,
+  showLoadAll,
+
+  doLoad,
+  doSave,
+  doVote,
+}: IProps) {
   const theme = useTheme();
 
-  const instanceBaseUrl = getBaseUrl(post.currentPost.community.actor_id);
+  const instanceBaseUrl = getBaseUrl(currentPost.community.actor_id);
 
   const [hideSLA, setHideSLA] = useState(false);
 
   const onPress = () => {
     onGenericHapticFeedback();
-    post.setCollapsed((prev) => !prev);
+    setCollapsed((prev) => !prev);
   };
 
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.fg}>
       <Pressable onPress={onPress}>
-        {!post.collapsed ? (
-          <PostContentView post={post.currentPost} />
+        {!collapsed ? (
+          <PostContentView post={currentPost} />
         ) : (
           <VStack>
-            <PostTitle title={post.currentPost.post.name} mt={2} mb={2} />
+            <PostTitle title={currentPost.post.name} mt={2} mb={2} />
             <Text
               color={theme.colors.app.textSecondary}
               fontStyle="italic"
@@ -56,30 +72,26 @@ function PostHeader({ post, showLoadAll }: IProps) {
       </Pressable>
 
       <HStack mb={2} mx={4} space={2}>
-        <AvatarUsername creator={post.currentPost?.creator} />
+        <AvatarUsername creator={currentPost?.creator} />
       </HStack>
       <HStack space={2} mx={4} mb={2}>
         <CommunityLink
-          community={post.currentPost?.community}
+          community={currentPost?.community}
           instanceBaseUrl={instanceBaseUrl}
         />
-        <CommentCount commentCount={post.currentPost.counts.comments} />
-        <DatePublished published={post.currentPost?.post.published} />
+        <CommentCount commentCount={currentPost.counts.comments} />
+        <DatePublished published={currentPost?.post.published} />
       </HStack>
 
       <Divider my={1} bg={theme.colors.app.border} />
-      <PostActionBar
-        post={post.currentPost}
-        doSave={post.doSave}
-        doVote={post.doVote}
-      />
+      <PostActionBar post={currentPost} doSave={doSave} doVote={doVote} />
       <Divider bg={theme.colors.app.border} />
       {showLoadAll && !hideSLA && (
         <Pressable
           backgroundColor="#1A91FF"
           onPress={() => {
             setHideSLA(true);
-            post.doLoad(true);
+            doLoad(true).then();
           }}
         >
           <VStack>

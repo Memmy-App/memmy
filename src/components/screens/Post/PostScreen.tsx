@@ -64,7 +64,15 @@ function PostScreen({ route, navigation }: IProps) {
       <VStack flex={1} backgroundColor={theme.colors.app.bg}>
         <FlashList
           ListHeaderComponent={
-            <PostHeader post={post} showLoadAll={route?.params?.showLoadAll} />
+            <PostHeader
+              currentPost={post.currentPost}
+              collapsed={post.collapsed}
+              setCollapsed={post.setCollapsed}
+              doLoad={post.doLoad}
+              doSave={post.doSave}
+              doVote={post.doVote}
+              showLoadAll={route?.params?.showLoadAll}
+            />
           }
           ListFooterComponent={<PostFooter post={post} />}
           data={post.visibleComments}

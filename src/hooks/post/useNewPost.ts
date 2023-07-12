@@ -9,6 +9,7 @@ import uploadToImgur from "../../helpers/ImgurHelper";
 import { writeToLog } from "../../helpers/LogHelper";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
 import { setPost } from "../../slices/post/postSlice";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 interface UseNewPost {
   loading;
@@ -118,14 +119,10 @@ const useNewPost = (
 
       navigation.pop();
     } catch (e) {
-      writeToLog("Error submitting Post.");
-      writeToLog(e.toString());
-      writeToLog(`Language ID: ${languageId}`);
-      writeToLog(`Community ID: ${communityId}`);
-
       setLoading(false);
       setError(e.toString());
-      Alert.alert(e.toString());
+
+      handleLemmyError(e.toString());
     }
   };
 

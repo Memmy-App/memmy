@@ -20,6 +20,7 @@ import { writeToLog } from "../../helpers/LogHelper";
 import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { showToast } from "../../slices/toast/toastSlice";
 import { setResponseTo } from "../../slices/comments/newCommentSlice";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 interface UseComment {
   onCommentPress: () => void;
@@ -156,8 +157,7 @@ const useComment = ({
                       })
                     );
                   } catch (e) {
-                    writeToLog("Error reporting comment.");
-                    writeToLog(e.toString());
+                    handleLemmyError(e.toString());
                   }
                 },
               },
@@ -200,16 +200,7 @@ const useComment = ({
               })
             );
           } catch (e) {
-            writeToLog("Failed to delete comment.");
-            writeToLog(e.toString());
-
-            dispatch(
-              showToast({
-                message: "Error deleting comment",
-                duration: 3000,
-                variant: "error",
-              })
-            );
+            handleLemmyError(e.toString());
           }
         }
 
@@ -266,7 +257,29 @@ const useComment = ({
   };
 
   const onVote = async (value: -1 | 0 | 1) => {
+    let { upvotes, downvotes } = comment.comment.counts;
+
+    // If we already voted, this will be a neutral vote.
+    if (value === comment.comment.my_vote && value !== 0) value = 0;
+
+    // Store old value in case we encounter an error
     const oldValue = comment.comment.my_vote;
+
+    // Deal with updating the upvote/downvote count
+    if (value === 0) {
+      if (oldValue === -1) downvotes -= 1;
+      if (oldValue === 1) upvotes -= 1;
+    }
+
+    if (value === 1) {
+      if (oldValue === -1) downvotes -= 1;
+      upvotes += 1;
+    }
+
+    if (value === -1) {
+      if (oldValue === 1) upvotes -= 1;
+      downvotes += 1;
+    }
 
     setComments((prev) =>
       prev.map((c) => {
@@ -277,6 +290,12 @@ const useComment = ({
             comment: {
               ...c.comment,
               my_vote: value,
+              counts: {
+                ...c.comment.counts,
+                upvotes,
+                downvotes,
+                score: upvotes - downvotes,
+              },
             },
           };
         }
@@ -291,16 +310,7 @@ const useComment = ({
         score: value,
       });
     } catch (e) {
-      writeToLog("Error submitting vote.");
-      writeToLog(e.toString());
-
-      dispatch(
-        showToast({
-          message: "Error submitting vote...",
-          duration: 3000,
-          variant: "error",
-        })
-      );
+      handleLemmyError(e.toString());
 
       setComments((prev) =>
         prev.map((c) => {

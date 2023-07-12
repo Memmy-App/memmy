@@ -73,9 +73,7 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
         onPressHandler={onUpvotePress}
         type="upvote"
         isVoted={isUpvoted}
-        text={
-          post.my_vote === 1 ? post.counts.upvotes + 1 : post.counts.upvotes
-        }
+        text={post.counts.upvotes}
         isAccented
       />
 
@@ -83,11 +81,7 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
         onPressHandler={onDownvotePress}
         type="downvote"
         isVoted={isDownvoted}
-        text={
-          post.my_vote === -1
-            ? post.counts.downvotes + 1
-            : post.counts.downvotes
-        }
+        text={post.counts.downvotes}
         isAccented
       />
 

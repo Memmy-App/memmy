@@ -1,6 +1,6 @@
 import { PostView } from "lemmy-js-client";
 import { Box, HStack, Text, useTheme } from "native-base";
-import React, { useRef } from "react";
+import React from "react";
 import { IconMessage } from "tabler-icons-react-native";
 import { timeFromNowShort } from "../../../../../helpers/TimeHelper";
 import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
@@ -16,8 +16,6 @@ interface CompactFeedItemFooterProps {
 
 function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
   const { colors } = useTheme();
-
-  const initialVote = useRef(post.my_vote);
 
   return (
     <>
@@ -47,7 +45,6 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
           upvotes={post.counts.upvotes}
           downvotes={post.counts.downvotes}
           myVote={post.my_vote as ILemmyVote}
-          initialVote={initialVote.current}
         />
         <HStack alignItems="center" space={1}>
           <IconMessage color={colors.app.textSecondary} size={16} />

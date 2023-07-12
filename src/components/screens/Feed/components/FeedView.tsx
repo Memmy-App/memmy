@@ -1,30 +1,39 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { PostView } from "lemmy-js-client";
-import { HStack, useTheme, View } from "native-base";
-import { Button, StyleSheet } from "react-native";
-import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import FeedItem from "./FeedItem/FeedItem";
+import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
+import { PostView } from "lemmy-js-client";
+import { HStack, View, useTheme } from "native-base";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Button, StyleSheet } from "react-native";
+import {
+  IconBaselineDensityMedium,
+  IconListDetails,
+} from "tabler-icons-react-native";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
+import {
+  getCommunityFullName,
+  removeReadPosts,
+} from "../../../../helpers/LemmyHelpers";
+import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
+import { UseFeed } from "../../../../hooks/feeds/useFeed";
 import {
   selectFeed,
   setDropdownVisible,
 } from "../../../../slices/feed/feedSlice";
-import { UseFeed } from "../../../../hooks/feeds/useFeed";
+import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
-import FeedSortButton from "./FeedSortButton";
-import { Community, FeedOverflowButton } from "./FeedOverflowButton";
-import NoResultView from "../../../common/NoResultView";
-import CompactFeedItem from "./CompactFeedItem/CompactFeedItem";
-import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
-import RefreshControl from "../../../common/RefreshControl";
-import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
-import LoadingView from "../../../common/Loading/LoadingView";
-import LoadingErrorView from "../../../common/Loading/LoadingErrorView";
-import FeedFooter from "./FeedFooter";
-import { removeReadPosts } from "../../../../helpers/LemmyHelpers";
+import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
 import HideReadFAB from "../../../common/Buttons/HideReadFAB";
+import LoadingErrorView from "../../../common/Loading/LoadingErrorView";
+import LoadingView from "../../../common/Loading/LoadingView";
+import NoResultView from "../../../common/NoResultView";
+import RefreshControl from "../../../common/RefreshControl";
+import CompactFeedItem from "./CompactFeedItem/CompactFeedItem";
+import FeedFooter from "./FeedFooter";
+import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
+import FeedItem from "./FeedItem/FeedItem";
+import { Community, FeedOverflowButton } from "./FeedOverflowButton";
+import FeedSortButton from "./FeedSortButton";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -69,6 +78,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     return {
       id: firstPost.community.id,
       name: firstPost.community.name,
+      fullName: getCommunityFullName(feed.community),
     };
   }, [firstPost, community]);
 
@@ -86,7 +96,19 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
         }
 
         return (
-          <HStack space={1}>
+          <HStack space={2}>
+            <HeaderIconButton
+              icon={
+                compactView ? (
+                  <IconListDetails />
+                ) : (
+                  <IconBaselineDensityMedium />
+                )
+              }
+              onPress={() =>
+                dispatch(setSetting({ compactView: !compactView }))
+              }
+            />
             <FeedSortButton
               feed={feed}
               onSortUpdate={() =>

@@ -7,12 +7,10 @@ function SmallVoteIcons({
   upvotes,
   downvotes,
   myVote,
-  initialVote,
 }: {
   upvotes: number;
   downvotes: number;
   myVote: ILemmyVote;
-  initialVote: number;
 }) {
   const theme = useTheme();
 
@@ -28,15 +26,11 @@ function SmallVoteIcons({
       <HStack space={1}>
         <HStack alignItems="center">
           <IconArrowUp color={upvoteColor} size={18} />
-          <Text color={upvoteColor}>
-            {myVote === 1 && initialVote !== 1 ? upvotes + 1 : upvotes}
-          </Text>
+          <Text color={upvoteColor}>{upvotes}</Text>
         </HStack>
         <HStack alignItems="center">
           <IconArrowDown color={downvoteColor} size={18} />
-          <Text color={downvoteColor}>
-            {myVote === -1 && initialVote !== -1 ? downvotes + 1 : downvotes}
-          </Text>
+          <Text color={downvoteColor}>{downvotes}</Text>
         </HStack>
       </HStack>
     ),

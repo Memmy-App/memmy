@@ -7,21 +7,42 @@ import TraverseItem from "./components/TraverseItem";
 import SearchBar from "../../common/Search/SearchBar";
 import RefreshControl from "../../common/RefreshControl";
 
+import { selectFavorites } from "../../../slices/favorites/favoritesSlice";
+import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
+import { useAppSelector } from "../../../../store";
+import { getCommunityFullName } from "../../../helpers/LemmyHelpers";
+
 function TraverseScreen() {
   const theme = useTheme();
   const traverse = useTraverse();
 
   const [term, setTerm] = useState("");
 
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const favorites =
+    useAppSelector(selectFavorites).favorites[
+      `${currentAccount.username}@${currentAccount.instance}`
+    ];
+
   const header = useMemo(
     () => <SearchBar query={term} setQuery={setTerm} autoFocus={false} />,
     [term]
   );
 
+  const isFavorite = (community: CommunityView) => {
+    const communityFullName = getCommunityFullName(community);
+    return favorites ? communityFullName in favorites : false;
+  };
+
   const item = (community: CommunityView) => {
     if (term && !community.community.name.includes(term)) return null;
-
-    return <TraverseItem community={community} key={community.community.id} />;
+    return (
+      <TraverseItem
+        community={community}
+        isFavorite={favorites ? isFavorite(community) : false}
+        key={community.community.id}
+      />
+    );
   };
 
   if (traverse.loading) {
@@ -41,6 +62,16 @@ function TraverseScreen() {
       keyboardShouldPersistTaps="handled"
     >
       {header}
+
+      {favorites && Object.keys(favorites).length > 0 && (
+        <>
+          <Text textAlign="center">Favorites</Text>
+          {traverse.subscriptions
+            .filter((c) => isFavorite(c))
+            .map((c) => item(c))}
+        </>
+      )}
+      <Text textAlign="center">Subscriptions</Text>
       {traverse.subscriptions.length === 0 ? (
         <Text
           fontStyle="italic"

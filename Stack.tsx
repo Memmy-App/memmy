@@ -57,6 +57,7 @@ import SearchResultsScreen from "./src/components/screens/Search/SearchResultsSc
 import GeneralSettingsScreen from "./src/components/screens/Settings/General/GeneralSettingsScreen";
 import AboutScreen from "./src/components/screens/Settings/About/AboutScreen";
 import InboxScreen from "./src/components/screens/Inbox/InboxScreen";
+import IconSelectionScreen from "./src/components/screens/Settings/Appearance/IconSelectionScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -95,11 +96,18 @@ function FeedStackScreen() {
             title: "Saved Posts",
           }}
         />
-        <ProfileStack.Screen
+        <FeedStack.Screen
           name="ViewAccounts"
           component={ViewAccountsScreen}
           options={{
             title: "Manage Accounts",
+          }}
+        />
+        <FeedStack.Screen
+          name="EditAccount"
+          component={EditAccountScreen}
+          options={{
+            title: "Edit Account",
           }}
         />
       </FeedStack.Group>
@@ -314,6 +322,13 @@ function ProfileStackScreen() {
           component={ThemeSelectionScreen}
           options={{
             title: "Theme",
+          }}
+        />
+        <ProfileStack.Screen
+          name="IconSelection"
+          component={IconSelectionScreen}
+          options={{
+            title: "Icon",
           }}
         />
         <ProfileStack.Screen
