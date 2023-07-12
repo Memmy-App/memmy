@@ -12,8 +12,8 @@ function HideReadFAB({ onPress }: IProps) {
 
   return (
     <Animated.View
-      exiting={FadeOutDown.duration(500)}
-      entering={FadeInDown.duration(500)}
+      exiting={FadeOutDown.duration(200)}
+      entering={FadeInDown.duration(200)}
       style={{ zIndex: 100 }}
     >
       <Fab
