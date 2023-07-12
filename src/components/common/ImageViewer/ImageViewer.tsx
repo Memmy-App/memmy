@@ -8,7 +8,8 @@ import { selectSettings } from "../../../slices/settings/settingsSlice";
 import ImageViewFooter from "./ImageViewFooter";
 
 interface IProps {
-  source: string;
+  sourceIndex?: number;
+  sources: string[];
   nsfw: boolean;
   id?: number;
   recycled?: MutableRefObject<{}>;
@@ -22,8 +23,13 @@ interface IProps {
   widthOverride?: number;
 }
 
+interface IImageSource {
+  uri: string
+}
+
 function ImageViewer({
-  source,
+  sourceIndex = 0,
+  sources,
   nsfw,
   id,
   recycled,
@@ -54,12 +60,14 @@ function ImageViewer({
     setDimensions({ height: e.nativeEvent.height, width: e.nativeEvent.width });
   };
 
-  const footer = () => <ImageViewFooter source={source} />;
+  const footer = (imageIndex) => <ImageViewFooter source={sources[imageIndex]} />;
+
+  const sourceUris: IImageSource[] = sources.map(source => ({ uri: source }))
 
   const viewer = (
     <EnhancedImageViewing
-      images={[{ uri: source }]}
-      imageIndex={0}
+      images={sourceUris}
+      imageIndex={sourceIndex}
       visible={visibleOverride !== undefined ? visibleOverride : visible}
       onRequestClose={onRequestClose}
       height={heightOverride ?? dimensions.height}
@@ -81,7 +89,7 @@ function ImageViewer({
       >
         <MemoizedFastImage
           postId={id}
-          source={source}
+          source={sources[sourceIndex]}
           recycled={recycled}
           nsfw={nsfw && blurNsfw}
           onLoad={onLoad}

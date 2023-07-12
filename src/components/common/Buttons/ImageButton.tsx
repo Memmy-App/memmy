@@ -70,7 +70,7 @@ function ImageButton({ src, size = 50 }: ImageButtonProps) {
       </Pressable>
 
       <ImageViewer
-        source={src}
+        source={[src]}
         nsfw={false}
         onlyViewer
         visibleOverride={visible}

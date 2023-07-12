@@ -41,7 +41,7 @@ function PostContentView({ post }: IProps) {
     <Box mb={1}>
       {isImage && (
         <ImageViewer
-          source={post.post.url}
+          source={[post.post.url]}
           nsfw={post.post.nsfw || post.community.nsfw}
           id={post.post.id}
         />
