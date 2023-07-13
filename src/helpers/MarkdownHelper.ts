@@ -11,7 +11,7 @@ export const findImages = (
     };
   }
 
-  const pattern = /!\[.*?\]\(([^)]+)\)/g;
+  const pattern = /!\[.*?]\(([^)]+)\)/g;
   const imageLinks = [];
 
   const removeWhitespace = stripWhitespace ? text.replace(/\s\s+/g, " ") : text;
