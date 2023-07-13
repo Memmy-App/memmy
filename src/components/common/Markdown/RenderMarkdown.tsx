@@ -27,9 +27,10 @@ const MarkdownItInstance = MarkdownIt({ typographer: true }).use(
 interface MarkdownProps {
   text: string;
   isNote?: boolean;
+  instance?: string;
 }
 
-function RenderMarkdown({ text, isNote = false }: MarkdownProps) {
+function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
 
@@ -170,7 +171,7 @@ function RenderMarkdown({ text, isNote = false }: MarkdownProps) {
     },
   };
   return useMemo(() => {
-    const markdown = replaceNoMarkdown(text, currentAccount.instance);
+    const markdown = replaceNoMarkdown(text, currentAccount.instance, instance);
 
     return (
       <>
