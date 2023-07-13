@@ -46,11 +46,13 @@ function App() {
     return null;
   }
 
-  SplashScreen.hideAsync();
+  const onReady = () => {
+    SplashScreen.hideAsync();
+  }
 
   return (
     <Provider store={store}>
-      <Start />
+      <Start onReady={onReady} />
     </Provider>
   );
 }

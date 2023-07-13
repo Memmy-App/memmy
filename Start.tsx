@@ -4,9 +4,10 @@ import { StatusBar, StatusBarStyle } from "expo-status-bar";
 import { extendTheme, NativeBaseProvider } from "native-base";
 import React, { useEffect, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { AppState, useColorScheme } from "react-native";
+import { AppState, useColorScheme, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import merge from "deepmerge";
+import { setRootViewBackgroundColor } from '@pnthach95/react-native-root-view-background';
 import Stack from "./Stack";
 import MemmyErrorView from "./src/components/common/Loading/MemmyErrorView";
 import { writeToLog } from "./src/helpers/LogHelper";
@@ -42,8 +43,13 @@ Notifications.setNotificationHandler({
   }),
 });
 
-function Start() {
+interface StartProps {
+  onReady: () => void;
+}
+
+function Start({ onReady }: StartProps) {
   const [loaded, setLoaded] = useState(false);
+  const [stackReady, setStackReady] = useState(false);
   const dispatch = useAppDispatch();
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
 
@@ -71,6 +77,16 @@ function Start() {
   const appState = useRef(AppState.currentState);
 
   let refreshInterval;
+
+  const onStackReady = () => {
+    setStackReady(true);
+  };
+
+  useEffect(() => {
+    if (accountsLoaded && stackReady) {
+      onReady();
+    }
+  }, [accountsLoaded, stackReady]);
 
   useEffect(() => {
     if (!loaded) return;
@@ -161,6 +177,8 @@ function Start() {
     setStatusBarColor(
       newTheme.config.initialColorMode === "dark" ? "light" : "dark"
     );
+
+    setRootViewBackgroundColor(ThemeOptionsMap[usedTheme].colors.app.bg);
     // ! fontSize has to be here
   }, [
     currentTheme,
@@ -187,12 +205,12 @@ function Start() {
       <ErrorBoundary onError={logError} FallbackComponent={MemmyErrorView}>
         {/* eslint-disable-next-line react/style-prop-object */}
         <StatusBar style={statusBarColor} />
-        <GestureHandlerRootView style={{ flex: 1 }}>
+        <GestureHandlerRootView style={{ flex: 1, backgroundColor: selectedTheme.colors.app.bg }}>
           <ActionSheetProvider>
-            <>
+            <View style={{ flex: 1, backgroundColor: selectedTheme.colors.app.bg }}>
               <Toast />
-              <Stack />
-            </>
+              <Stack onReady={onStackReady} />
+            </View>
           </ActionSheetProvider>
         </GestureHandlerRootView>
       </ErrorBoundary>

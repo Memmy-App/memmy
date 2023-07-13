@@ -27,6 +27,7 @@
     "@expo/vector-icons": "^13.0.0",
     "@gkasdorf/react-native-image-viewing": "^0.2.23",
     "@gkasdorf/react-native-tableview-simple": "^4.4.2",
+    "@pnthach95/react-native-root-view-background": "^1.3.0",
     "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/hooks": "^3.0.0",
