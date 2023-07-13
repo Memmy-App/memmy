@@ -27,7 +27,11 @@ function NewPostBodyScreen({ route, navigation }: IProps) {
 
   const HeaderLeftButton = useCallback(
     () => (
-      <Button title={t("Back")} color={theme.colors.app.accent} onPress={goBack} />
+      <Button
+        title={t("Back")}
+        color={theme.colors.app.accent}
+        onPress={goBack}
+      />
     ),
     [body]
   );
