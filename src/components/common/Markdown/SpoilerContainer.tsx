@@ -14,7 +14,7 @@ function SpoilerContainer({ title, node }: { title: string; node: any }) {
 
   const onPress = () => setShowSpoiler(!showSpoiler);
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={onPress} hitSlop={5}>
       <HStack alignItems="center">
         {showSpoiler ? (
           <IconChevronDown color={colors.app.textPrimary} size={16} />

@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
 import { useTheme, View, VStack } from "native-base";
-import React from "react";
+import React, { useMemo } from "react";
 import { TextStyle, useWindowDimensions } from "react-native";
 import { useAppSelector } from "../../../../store";
 import { openLink } from "../../../helpers/LinkHelper";
@@ -169,39 +169,48 @@ function RenderMarkdown({ text, isNote = false }: MarkdownProps) {
       color: theme.colors.app.bg,
     },
   };
+  return useMemo(() => {
+    const markdown = replaceNoMarkdown(text, currentAccount.instance);
 
-  const markdown = replaceNoMarkdown(text, currentAccount.instance);
-
-  return (
-    <>
-      <VStack flex={1}>
-        <Markdown
-          style={markdownStyles}
-          rules={{
-            container_spoiler: (node) => (
-              <View key={node.key}>
-                <SpoilerContainer
-                  node={node}
-                  title={node.sourceInfo.replace("spoiler", "").trim()}
+    return (
+      <>
+        <VStack flex={1}>
+          <Markdown
+            style={markdownStyles}
+            rules={{
+              container_spoiler: (node) => (
+                <View key={node.key}>
+                  <SpoilerContainer
+                    node={node}
+                    title={node.sourceInfo.replace("spoiler", "").trim()}
+                  />
+                </View>
+              ),
+              image: (node) => (
+                <ImageButton
+                  src={node.attributes.src}
+                  key={node.key}
+                  marginY={0}
                 />
-              </View>
-            ),
-            image: (node) => (
-              <ImageButton
-                src={node.attributes.src}
-                key={node.key}
-                marginY={0}
-              />
-            ),
-          }}
-          onLinkPress={onLinkPress}
-          markdownit={MarkdownItInstance}
-        >
-          {markdown}
-        </Markdown>
-      </VStack>
-    </>
-  );
+              ),
+            }}
+            onLinkPress={onLinkPress}
+            markdownit={MarkdownItInstance}
+          >
+            {markdown ?? ""}
+          </Markdown>
+        </VStack>
+      </>
+    );
+  }, [
+    text,
+    FONT_SIZE,
+    theme.colors.app.textPrimary,
+    theme.colors.app.textSecondary,
+    theme.colors.app.bg,
+    theme.colors.app.border,
+    theme.colors.app.accent,
+  ]);
 }
 
 export default RenderMarkdown;
