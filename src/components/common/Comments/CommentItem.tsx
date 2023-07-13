@@ -4,6 +4,7 @@ import {
   Pressable,
   Text,
   useTheme,
+  View,
   VStack,
 } from "native-base";
 import React from "react";
@@ -190,7 +191,14 @@ function CommentItem({
           </VStack>
         </Pressable>
       </SwipeableRow>
-      <Divider bg={theme.colors.app.border} />
+      <View
+        style={{
+          paddingLeft: depth * 12,
+        }}
+        backgroundColor={theme.colors.app.fg}
+      >
+        <Divider bg={theme.colors.app.border} />
+      </View>
     </>
   );
 }

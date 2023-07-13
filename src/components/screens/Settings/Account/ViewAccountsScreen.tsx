@@ -38,7 +38,11 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   );
 
   const headerRight = () => (
-    <Button title="Add" onPress={() => navigation.push("EditAccount")} />
+    <Button
+      title="Add"
+      onPress={() => navigation.push("EditAccount")}
+      color={theme.colors.app.accent}
+    />
   );
 
   useEffect(() => {
