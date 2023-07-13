@@ -15,9 +15,12 @@ let errorMessage: string | undefined;
 export const resetInstance = () => {
   writeToLog("Clearing instance.");
   lemmyInstance = null;
+  lemmyAuthToken = null;
 };
 
 const initialize = async (server: ILemmyServer): Promise<boolean> => {
+  resetInstance();
+
   const os = Platform.OS;
   lemmyInstance = new LemmyHttp(`https://${server.server}`, {
     fetchFunction: undefined,
@@ -49,6 +52,7 @@ const initialize = async (server: ILemmyServer): Promise<boolean> => {
     lemmyAuthToken = res.jwt;
     return true;
   } catch (e) {
+    resetInstance();
     errorMessage = e.toString();
     handleLemmyError(e.toString());
     return false;
