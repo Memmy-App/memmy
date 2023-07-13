@@ -33,7 +33,7 @@ function RenderMarkdown({ text, isNote = false }: MarkdownProps) {
   const HEADING_4_SIZE = isSystemTextSize ? 18 / fontScale : 15 + fontModifier;
 
   const onLinkPress = (url): boolean => {
-    openLink(url, navigation);
+    openLink(url, navigation, theme.colors.app.bg);
     return false;
   };
 
