@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Alert } from "react-native";
 import { useFeed } from "../../../hooks/feeds/useFeed";
 import {
   initialize,
