@@ -12,7 +12,7 @@ export type LemmyErrorType =
   | "site_ban"
   | "deleted"
   | "banned_from_community"
-  | "could_not_find_community"
+  | "couldnt_find_community"
   | "could_not_create_comment"
   | "edit_comment_not_allowed"
   | "language_not_allowed"
@@ -106,7 +106,7 @@ export const lemmyErrors: LemmyError[] = [
     message: "You are banned from this community.",
   },
   {
-    code: "could_not_find_community",
+    code: "couldnt_find_community",
     message: "Unable to find the requested community.",
   },
   {

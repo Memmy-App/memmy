@@ -6,9 +6,10 @@ interface IProps {
   deleted: boolean;
   removed: boolean;
   content: string;
+  instance: string;
 }
 
-function CommentBody({ deleted, removed, content }: IProps) {
+function CommentBody({ deleted, removed, content, instance }: IProps) {
   if (deleted) {
     return <ItalicText>Comment removed by user :(</ItalicText>;
   }
@@ -17,7 +18,7 @@ function CommentBody({ deleted, removed, content }: IProps) {
     return <ItalicText>Comment removed by moderator :(</ItalicText>;
   }
 
-  return <RenderMarkdown text={content} />;
+  return <RenderMarkdown text={content} instance={instance} />;
 }
 
 export default React.memo(CommentBody);

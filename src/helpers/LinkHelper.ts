@@ -67,7 +67,7 @@ export const getLinkInfo = (link?: string): LinkInfo => {
   };
 };
 
-export const isPotentialFedSite = (link: string) => {
+const isPotentialFedSite = (link: string) => {
   const fedPattern =
     /^(?:https?:\/\/\w+\.\w+)?\/(?:c|m|u|post)\/\w+(?:@\w+(?:\.\w+)?(?:\.\w+)?)?$/;
   return link.match(fedPattern);
@@ -213,7 +213,12 @@ export const openLink = (
   navigation: NativeStackNavigationProp<any>,
   color = "#000"
 ): void => {
-  link = decodeURIComponent(link);
+  const urlPattern =
+    /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
+
+  writeToLog(`Trying to open link: ${link}`);
+
+  link = link.match(urlPattern)[0];
 
   const potentialFed = isPotentialFedSite(link);
   if (potentialFed) {

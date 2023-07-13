@@ -1,4 +1,5 @@
 // eslint-disable-next-line import/prefer-default-export
+
 export const findImages = (
   text: string,
   stripWhitespace?: boolean
@@ -27,12 +28,16 @@ export const findImages = (
 
 export const replaceNoMarkdown = (
   text: string,
-  currentInstance: string
+  currentInstance: string,
+  postInstance: string
 ): string => {
-  const communityPattern = /^\/[cmu]\/(?:\w+|(\w+@\w+\.\w+))$/gm;
+  const communityPattern = /(?<=\(|^)\/[cmu]\/(?:\w+|(\w+@\w+\.\w+))(?=\)|$)/gm;
+
   return text.replace(communityPattern, (match) => {
     const parts = match.split("@");
 
-    return `[${match}](https://${parts[1] ?? currentInstance}${parts[0]})`;
+    return `[${match}](https://${currentInstance}${parts[0]}@${
+      parts.length > 1 ? parts[1] : postInstance
+    })`;
   });
 };
