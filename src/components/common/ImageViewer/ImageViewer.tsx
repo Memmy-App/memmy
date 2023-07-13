@@ -45,11 +45,11 @@ function ImageViewer({
   const theme = useTheme();
 
   const onImagePress = () => {
-    if(setPostRead && markReadOnPostImageView) {
+    if (setPostRead && markReadOnPostImageView) {
       setPostRead();
     }
     setVisible(true);
-  }
+  };
   const onRequestClose = () => {
     if (onRequestCloseOverride) onRequestCloseOverride();
     else setVisible(false);

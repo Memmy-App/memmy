@@ -11,7 +11,13 @@ interface IProps {
   setPostRead?: () => void;
 }
 
-function ImagePreview({ images, postId, recycled, isNsfw, setPostRead }: IProps) {
+function ImagePreview({
+  images,
+  postId,
+  recycled,
+  isNsfw,
+  setPostRead,
+}: IProps) {
   if (images.length === 1) {
     return (
       <ImageViewer
