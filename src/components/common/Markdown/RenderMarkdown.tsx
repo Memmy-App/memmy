@@ -1,35 +1,26 @@
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useMemo } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
 import {
   ChevronRightIcon,
   HStack,
-  Image,
   Spacer,
   Text,
   useTheme,
   VStack,
 } from "native-base";
-import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import {
-  Pressable,
-  StyleProp,
-  TextStyle,
-  useWindowDimensions,
-} from "react-native";
-import ReactMarkdown from "react-markdown";
-import WebView from "react-native-webview";
+import React from "react";
+import { Pressable, TextStyle, useWindowDimensions } from "react-native";
 import FastImage from "react-native-fast-image";
-import { openLink } from "../../../helpers/LinkHelper";
-import { findImages, replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
-import ImageButton from "../Buttons/ImageButton";
 import { useAppSelector } from "../../../../store";
+import { openLink } from "../../../helpers/LinkHelper";
+import { truncateImageLink } from "../../../helpers/TextHelper";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { fontSizeMap } from "../../../theme/fontSize";
 import ImageViewer from "../ImageViewer/ImageViewer";
-import { truncateImageLink } from "../../../helpers/TextHelper";
+import ImageButton from "../Buttons/ImageButton";
 
 // const FONT_SIZE = 14;
 // const HEADING_1_SIZE = 32;
@@ -79,7 +70,7 @@ function RenderMarkdown({
     ? theme.colors.app.textSecondary
     : theme.colors.app.textPrimary;
 
-  const styles: Record<string, StyleProp<TextStyle>> = {
+  const styles: Record<string, TextStyle> = {
     span: {
       fontSize: FONT_SIZE,
       color: fontColor,
@@ -118,7 +109,7 @@ function RenderMarkdown({
       borderRadius: 5,
       borderLeftWidth: 3,
       borderLeftColor: theme.colors.app.accent,
-      marginVertical: 5,
+      marginVertical: 10,
     },
     code_inline: {
       fontSize: FONT_SIZE,
@@ -137,10 +128,7 @@ function RenderMarkdown({
       backgroundColor: theme.colors.app.bg,
       borderRadius: 5,
     },
-    image: {
-      width: 200,
-      height: 200,
-    },
+    image: {},
     link: {
       color: "rgba(0,176,255,0.63)",
       fontSize: FONT_SIZE,
@@ -214,151 +202,62 @@ function RenderMarkdown({
 
   return (
     <>
-      <VStack flex={1} my={1}>
-        <Text>
-          <ReactMarkdown
-            components={{
-              // basic text
-              p: ({ children }) => <Text style={styles.body}>{children}</Text>,
-              text: ({ children }) => (
-                <Text style={styles.body}>{children}</Text>
-              ),
-              strong: ({ children }) => (
-                <Text style={styles.strong}>{children}</Text>
-              ),
-              em: ({ children }) => <Text style={styles.em}>{children}</Text>,
-
-              // headings
-              h1: ({ children }) => (
-                <Text style={styles.heading1}>{children}</Text>
-              ),
-              h2: ({ children }) => (
-                <Text style={styles.heading2}>{children}</Text>
-              ),
-              h3: ({ children }) => (
-                <Text style={styles.heading3}>{children}</Text>
-              ),
-              h4: ({ children }) => (
-                <Text style={styles.heading4}>{children}</Text>
-              ),
-              h5: ({ children }) => (
-                <Text style={styles.heading5}>{children}</Text>
-              ),
-              br: ({ children }) => <Text>{children}</Text>,
-              img: ({ children, src, onClick }) => (
-                <Pressable
-                  onPress={() => {
-                    setImgSrc(src);
-                    setVisible(true);
-                  }}
-                >
-                  <HStack
-                    backgroundColor={theme.colors.app.bg}
-                    borderRadius={5}
-                    padding={2}
-                    flexDirection="row"
-                    alignItems="center"
-                    space={2}
-                    my={4}
-                  >
-                    <FastImage
-                      style={{
-                        height: 50,
-                        width: 50,
-                      }}
-                      resizeMode="contain"
-                      source={{
-                        uri: src,
-                      }}
-                    />
-                    <Spacer />
-                    <Text color={theme.colors.app.textPrimary}>
-                      {truncateImageLink(src)}
-                    </Text>
-                    <Spacer />
-                    <ChevronRightIcon />
-                  </HStack>
-                </Pressable>
-              ),
-              a: ({ children }) => <Text>{children}</Text>,
-              abbr: ({ children }) => <Text>{children}</Text>,
-              article: ({ children }) => <Text>{children}</Text>,
-              hr: ({ children }) => <Text>{children}</Text>,
-              link: ({ children }) => <Text>{children}</Text>,
-              blockquote: ({ children }) => (
-                <Text style={styles.blockquote}>{children}</Text>
-              ),
-              code: ({ children }) => <Text>{children}</Text>,
-              del: ({ children }) => <Text>{children}</Text>,
-              details: ({ children }) => <Text>{children}</Text>,
-              div: ({ children }) => <Text>{children}</Text>,
-              dl: ({ children }) => <Text>{children}</Text>,
-              dt: ({ children }) => <Text>{children}</Text>,
-              fieldset: ({ children }) => <Text>{children}</Text>,
-              figure: ({ children }) => <Text>{children}</Text>,
-              figcaption: ({ children }) => <Text>{children}</Text>,
-              footer: ({ children }) => <Text>{children}</Text>,
-              form: ({ children }) => <Text>{children}</Text>,
-              hgroup: ({ children }) => <Text>{children}</Text>,
-              header: ({ children }) => <Text>{children}</Text>,
-              ins: ({ children }) => <Text>{children}</Text>,
-              kbd: ({ children }) => <Text>{children}</Text>,
-              label: ({ children }) => <Text>{children}</Text>,
-              legend: ({ children }) => <Text>{children}</Text>,
-              li: ({ children }) => <Text>- {children}</Text>,
-              main: ({ children }) => <Text>{children}</Text>,
-              mark: ({ children }) => <Text>{children}</Text>,
-              nav: ({ children }) => <Text>{children}</Text>,
-              ol: ({ children }) => <Text>{children}</Text>,
-              optgroup: ({ children }) => <Text>{children}</Text>,
-              option: ({ children }) => <Text>{children}</Text>,
-              pre: ({ children }) => <Text>{children}</Text>,
-              q: ({ children }) => <Text>{children}</Text>,
-              s: ({ children }) => <Text>{children}</Text>,
-              section: ({ children }) => <Text>{children}</Text>,
-              select: ({ children }) => <Text>{children}</Text>,
-              small: ({ children }) => <Text>{children}</Text>,
-              span: ({ children }) => <Text>{children}</Text>,
-              sub: ({ children }) => <Text>{children}</Text>,
-              sup: ({ children }) => <Text>{children}</Text>,
-              table: ({ children }) => <Text>{children}</Text>,
-              tbody: ({ children }) => <Text>{children}</Text>,
-              td: ({ children }) => <Text>{children}</Text>,
-              textarea: ({ children }) => <Text>{children}</Text>,
-              tfoot: ({ children }) => <Text>{children}</Text>,
-              th: ({ children }) => <Text>{children}</Text>,
-              thead: ({ children }) => <Text>{children}</Text>,
-              tr: ({ children }) => <Text>{children}</Text>,
-              u: ({ children }) => <Text>{children}</Text>,
-              ul: ({ children }) => <Text>{children}</Text>,
-              video: ({ children }) => <Text>{children}</Text>,
-              body: ({ children }) => <Text>{children}</Text>,
-              address: ({ children }) => <Text>{children}</Text>,
-              area: ({ children }) => <Text>{children}</Text>,
-              aside: ({ children }) => <Text>{children}</Text>,
-              audio: ({ children }) => <Text>{children}</Text>,
-              big: ({ children }) => <Text>{children}</Text>,
-              button: ({ children }) => <Text>{children}</Text>,
-              canvas: ({ children }) => <Text>{children}</Text>,
-              caption: ({ children }) => <Text>{children}</Text>,
-              defs: ({ children }) => <Text>{children}</Text>,
-              desc: ({ children }) => <Text>{children}</Text>,
-              ellipse: ({ children }) => <Text>{children}</Text>,
-              base: ({ children }) => <Text>{children}</Text>,
-              image: ({ children }) => <Text>{children}</Text>,
-            }}
-          >
-            {markdown}
-          </ReactMarkdown>
-        </Text>
+      <VStack flex={1}>
+        <Markdown
+          style={styles}
+          rules={{
+            image: (node, children, parent, styles) => {
+              console.log(node.attributes);
+              return (
+                <ImageButton src={node.attributes.src} />
+                // <Pressable
+                //   onPress={() => {
+                //     setImgSrc(node.attributes.src);
+                //     setVisible(true);
+                //   }}
+                // >
+                //   <HStack
+                //     backgroundColor={theme.colors.app.bg}
+                //     borderRadius={5}
+                //     padding={2}
+                //     flexDirection="row"
+                //     alignItems="center"
+                //     space={2}
+                //     my={4}
+                //   >
+                //     <FastImage
+                //       style={{
+                //         height: 50,
+                //         width: 50,
+                //       }}
+                //       resizeMode="contain"
+                //       source={{
+                //         uri: node.attributes.src,
+                //       }}
+                //     />
+                //     <Spacer />
+                //     <Text color={theme.colors.app.textPrimary}>
+                //       {truncateImageLink(node.attributes.src)}
+                //     </Text>
+                //     <Spacer />
+                //     <ChevronRightIcon />
+                //   </HStack>
+                // </Pressable>
+              );
+            },
+          }}
+          onLinkPress={onLinkPress}
+        >
+          {markdown}
+        </Markdown>
+        <ImageViewer
+          source={imgSrc}
+          nsfw={false}
+          visibleOverride={visible}
+          onRequestCloseOverride={onRequestClose}
+          onlyViewer
+        />
       </VStack>
-      <ImageViewer
-        source={imgSrc}
-        nsfw={false}
-        visibleOverride={visible}
-        onRequestCloseOverride={onRequestClose}
-        onlyViewer
-      />
     </>
   );
 }
