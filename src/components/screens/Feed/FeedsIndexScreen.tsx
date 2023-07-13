@@ -10,10 +10,10 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { Account } from "../../../types/Account";
-import { writeToLog } from "../../../helpers/LogHelper";
 import { getUnreadCount } from "../../../slices/site/siteActions";
 import FeedHeaderDropdown from "./components/FeedHeaderDropdown";
 import FeedView from "./components/FeedView";
+import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
 
 function FeedsIndexScreen({
   navigation,
@@ -54,10 +54,7 @@ function FeedsIndexScreen({
         });
       }
     } catch (e) {
-      writeToLog("Error getting feed.");
-      writeToLog(e.toString());
-
-      Alert.alert(e.toString());
+      handleLemmyError(e.toString());
     }
 
     previousAccount.current = currentAccount;
