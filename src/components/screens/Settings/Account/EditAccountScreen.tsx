@@ -49,7 +49,12 @@ function EditAccountScreen({
   const accounts = useAppSelector(selectAccounts);
 
   const headerRight = () => (
-    <Button title={t("Save")} onPress={onSavePress} disabled={loading} />
+    <Button
+      title={t("Save")}
+      onPress={onSavePress}
+      disabled={loading}
+      color={theme.colors.app.accent}
+    />
   );
 
   useEffect(() => {

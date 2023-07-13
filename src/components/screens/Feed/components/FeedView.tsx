@@ -93,6 +93,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             <Button
               title={t("Cancel")}
               onPress={() => dispatch(setDropdownVisible())}
+              color={theme.colors.app.accent}
             />
           );
         }
