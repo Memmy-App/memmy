@@ -15,6 +15,7 @@ import RenderMarkdown from "../../common/Markdown/RenderMarkdown";
 import KeyboardAccessory from "../../common/KeyboardAccessory";
 import SmallVoteIcons from "../../common/Vote/SmallVoteIcons";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
+import { getBaseUrl } from "../../../helpers/LinkHelper";
 
 function NewCommentScreen({
   navigation,
@@ -150,7 +151,11 @@ function NewCommentScreen({
                       ? responseTo.post.post.body
                       : responseTo.comment.comment.content
                   }
-                  addImages
+                  instance={getBaseUrl(
+                    responseTo.post
+                      ? responseTo.post.post.ap_id
+                      : responseTo.comment.comment.ap_id
+                  )}
                 />
               </VStack>
             </Text>

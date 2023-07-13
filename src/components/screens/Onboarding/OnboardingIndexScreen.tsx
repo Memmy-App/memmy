@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ImageBackground, StyleSheet } from "react-native";
 import { Button, Text, View, VStack } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
+import { resetInstance } from "../../../LemmyInstance";
 
 const background = require("../../../../assets/onboard-bg.png");
 
@@ -12,6 +13,10 @@ function OnboardingScreen({
   navigation: NativeStackNavigationProp<any>;
 }) {
   const { t } = useTranslation();
+
+  useEffect(() => {
+    resetInstance();
+  }, []);
 
   return (
     <VStack flex={1}>

@@ -2,10 +2,11 @@ import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as WebBrowser from "expo-web-browser";
 import { ScrollView, useTheme } from "native-base";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, StyleSheet } from "react-native";
 import { getBuildNumber, getVersion } from "react-native-device-info";
 import { useTranslation } from "react-i18next";
+import codePush from "react-native-code-push";
 import { openLink } from "../../../../helpers/LinkHelper";
 import { selectCurrentAccount } from "../../../../slices/accounts/accountsSlice";
 import { useAppSelector } from "../../../../../store";
@@ -18,9 +19,18 @@ function AboutScreen({
   navigation: NativeStackNavigationProp<any>;
 }) {
   const currentAccount = useAppSelector(selectCurrentAccount);
-
   const { t } = useTranslation();
   const theme = useTheme();
+
+  const [otaVersion, setOtaVersion] = useState("Fetching...");
+
+  useEffect(() => {
+    (async () => {
+      const info = await codePush.getUpdateMetadata();
+
+      setOtaVersion(info ? info.label : "Error");
+    })();
+  }, []);
 
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
@@ -30,6 +40,14 @@ function AboutScreen({
             cellStyle="RightDetail"
             title={t("Version")}
             detail={`${getVersion()} (${getBuildNumber()})`}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+          />
+          <CCell
+            cellStyle="RightDetail"
+            title="OTA Version"
+            detail={otaVersion}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}

@@ -7,11 +7,11 @@ interface IProps {
   deleted: boolean;
   removed: boolean;
   content: string;
+  instance: string;
 }
 
-function CommentBody({ deleted, removed, content }: IProps) {
+function CommentBody({ deleted, removed, content, instance }: IProps) {
   const { t } = useTranslation();
-
   if (deleted) {
     return <ItalicText>{t("comment.deletedByUser")}</ItalicText>;
   }
@@ -20,7 +20,7 @@ function CommentBody({ deleted, removed, content }: IProps) {
     return <ItalicText>{t("comment.removedByMod")}</ItalicText>;
   }
 
-  return <RenderMarkdown text={content} addImages imageSize={30} />;
+  return <RenderMarkdown text={content} instance={instance} />;
 }
 
 export default React.memo(CommentBody);

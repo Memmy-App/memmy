@@ -1,39 +1,36 @@
-// @ts-nocheck
-import React, { useMemo } from "react";
-import { useTheme, VStack } from "native-base";
-import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
+/* eslint-disable react/no-unstable-nested-components */
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useWindowDimensions } from "react-native";
-import { openLink } from "../../../helpers/LinkHelper";
-import { findImages, replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
-import ImageButton from "../Buttons/ImageButton";
+import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
+import { useTheme, View, VStack } from "native-base";
+import React, { useMemo } from "react";
+import { TextStyle, useWindowDimensions } from "react-native";
 import { useAppSelector } from "../../../../store";
+import { openLink } from "../../../helpers/LinkHelper";
+import { replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { fontSizeMap } from "../../../theme/fontSize";
+import ImageButton from "../Buttons/ImageButton";
+import SpoilerContainer from "./SpoilerContainer";
 
-// const FONT_SIZE = 14;
-// const HEADING_1_SIZE = 32;
-// const HEADING_2_SIZE = 26;
-// const HEADING_3_SIZE = 22;
-// const HEADING_4_SIZE = 18;
+const MarkdownItInstance = MarkdownIt({ typographer: true }).use(
+  require("markdown-it-container"),
+  "spoiler",
+  {
+    validate(params) {
+      return params.trim().match(/^spoiler\s+(.*)$/);
+    },
+  }
+);
 
 interface MarkdownProps {
   text: string;
-  addImages?: boolean;
-  truncate?: boolean;
   isNote?: boolean;
-  imageSize?: number;
+  instance?: string;
 }
 
-const RenderMarkdown = ({
-  text,
-  addImages = false,
-  truncate = false,
-  isNote = false,
-  imageSize,
-}: MarkdownProps) => {
+function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
 
@@ -54,11 +51,9 @@ const RenderMarkdown = ({
 
   const theme = useTheme();
 
-  const fontColor = truncate
-    ? theme.colors.app.textSecondary
-    : theme.colors.app.textPrimary;
+  const fontColor = theme.colors.app.textPrimary;
 
-  const styles = {
+  const markdownStyles: Record<string, TextStyle> = {
     span: {
       fontSize: FONT_SIZE,
       color: fontColor,
@@ -116,10 +111,7 @@ const RenderMarkdown = ({
       backgroundColor: theme.colors.app.bg,
       borderRadius: 5,
     },
-    image: {
-      width: 200,
-      height: 200,
-    },
+    image: {},
     link: {
       color: "rgba(0,176,255,0.63)",
       fontSize: FONT_SIZE,
@@ -178,28 +170,38 @@ const RenderMarkdown = ({
       color: theme.colors.app.bg,
     },
   };
-
   return useMemo(() => {
-    const cleanedText = findImages(text, false);
-    text = cleanedText.cleanedText.replace(
-      /(^|[^[\]])\b(https?:\/\/[^\s]+)\b(?![\]]|\()/g,
-      (match, prefix, url) => `${prefix}[${url}](${url})`
-    );
-    text = replaceNoMarkdown(text, currentAccount.instance);
+    const markdown = replaceNoMarkdown(text, currentAccount.instance, instance);
 
     return (
-      <VStack flex={1}>
-        <Markdown
-          style={styles}
-          onLinkPress={onLinkPress}
-          markdownit={MarkdownIt({ typographer: true }).disable(["image"])}
-        >
-          {text ?? ""}
-        </Markdown>
-        {addImages && cleanedText && cleanedText.imageLinks.length > 0 && (
-          <ImageButton src={cleanedText.imageLinks[0]} size={imageSize} />
-        )}
-      </VStack>
+      <>
+        <VStack flex={1}>
+          <Markdown
+            style={markdownStyles}
+            rules={{
+              container_spoiler: (node) => (
+                <View key={node.key}>
+                  <SpoilerContainer
+                    node={node}
+                    title={node.sourceInfo.replace("spoiler", "").trim()}
+                  />
+                </View>
+              ),
+              image: (node) => (
+                <ImageButton
+                  src={node.attributes.src}
+                  key={node.key}
+                  marginY={0}
+                />
+              ),
+            }}
+            onLinkPress={onLinkPress}
+            markdownit={MarkdownItInstance}
+          >
+            {markdown ?? ""}
+          </Markdown>
+        </VStack>
+      </>
     );
   }, [
     text,
@@ -210,6 +212,6 @@ const RenderMarkdown = ({
     theme.colors.app.border,
     theme.colors.app.accent,
   ]);
-};
+}
 
 export default RenderMarkdown;
