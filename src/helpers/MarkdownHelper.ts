@@ -11,7 +11,7 @@ export const findImages = (
     };
   }
 
-  const pattern = /!\[.*?]\(([^)]+)\)/g;
+  const pattern = /!\[.*?\]\(([^)]+)\)/g;
   const imageLinks = [];
 
   const removeWhitespace = stripWhitespace ? text.replace(/\s\s+/g, " ") : text;
@@ -41,8 +41,7 @@ export const replaceNoMarkdown = (
     })`;
   });
 
-  const urlPattern =
-    /(?<![([])(?i)\b((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)(?![)\]])/gm;
+  const urlPattern = /(?<!\(|\[)(https?:\/\/[^\s\/$.?#]+\.[^\s]*)(?!\)|\])/gm;
 
   return withFixedCommunities.replace(
     urlPattern,
