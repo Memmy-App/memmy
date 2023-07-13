@@ -72,7 +72,6 @@ function Start() {
   const appState = useRef(AppState.currentState);
 
   let refreshInterval;
-  let updateInterval;
 
   useEffect(() => {
     if (!loaded) return;
@@ -94,7 +93,6 @@ function Start() {
       ) {
         writeToLog("Ending refresh interval.");
         clearInterval(refreshInterval);
-        clearInterval(updateInterval);
         refreshInterval = null;
       }
 
