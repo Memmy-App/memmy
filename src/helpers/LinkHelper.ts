@@ -217,7 +217,6 @@ export const openLink = (
     /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
 
   writeToLog(`Trying to open link: ${link}`);
-  Alert.alert(link);
 
   link = link.match(urlPattern)[0];
 
