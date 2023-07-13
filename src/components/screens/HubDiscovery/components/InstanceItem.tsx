@@ -11,12 +11,14 @@ import {
 } from "tabler-icons-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   site: GetSiteResponse;
 }
 
 function InstanceItem({ site }: IProps) {
+  const { t } = useTranslation();
   const theme = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
@@ -56,32 +58,40 @@ function InstanceItem({ site }: IProps) {
           <HStack space={1}>
             <IconUserPlus size={18} color={theme.colors.app.accent} />
             <Text color={theme.colors.app.textSecondary}>
-              {site.site_view.counts.users.toLocaleString()} users
+              {`${site.site_view.counts.users.toLocaleString()} ${t("User", {
+                count: site.site_view.counts.users,
+              })}`}
             </Text>
           </HStack>
           {!site.site_view.local_site.federation_enabled && (
             <HStack space={1} alignItems="center">
               <IconExclamationCircle size={18} color={theme.colors.app.warn} />
-              <Text color={theme.colors.app.warn}>Defederated</Text>
+              <Text color={theme.colors.app.warn}>{t("Defederated")}</Text>
             </HStack>
           )}
           {site.site_view.local_site.registration_mode === "Closed" && (
             <HStack space={1} alignItems="center">
               <IconExclamationCircle size={18} color={theme.colors.app.warn} />
-              <Text color={theme.colors.app.warn}>Registration Closed</Text>
+              <Text color={theme.colors.app.warn}>
+                {t("Registration Closed")}
+              </Text>
             </HStack>
           )}
           {site.site_view.local_site.registration_mode ===
             "RequireApplication" && (
             <HStack space={1} alignItems="center">
               <IconExclamationCircle size={18} color={theme.colors.app.info} />
-              <Text color={theme.colors.app.info}>Application Required</Text>
+              <Text color={theme.colors.app.info}>
+                {t("Application Required")}
+              </Text>
             </HStack>
           )}
           {site.site_view.local_site.registration_mode === "Open" && (
             <HStack space={1} alignItems="center">
               <IconLockOpen size={18} color={theme.colors.app.success} />
-              <Text color={theme.colors.app.success}>Open Registration</Text>
+              <Text color={theme.colors.app.success}>
+                {t("Open Registration")}
+              </Text>
             </HStack>
           )}
         </HStack>

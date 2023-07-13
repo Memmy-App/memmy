@@ -67,13 +67,13 @@ function TraverseScreen() {
 
       {favorites && Object.keys(favorites).length > 0 && (
         <>
-          <Text textAlign="center">Favorites</Text>
+          <Text textAlign="center">{t("Favorites")}</Text>
           {traverse.subscriptions
             .filter((c) => isFavorite(c))
             .map((c) => item(c))}
         </>
       )}
-      <Text textAlign="center">Subscriptions</Text>
+      <Text textAlign="center">{t("Subscriptions")}</Text>
       {traverse.subscriptions.length === 0 ? (
         <Text
           fontStyle="italic"

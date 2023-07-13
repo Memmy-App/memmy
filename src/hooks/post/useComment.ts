@@ -98,10 +98,10 @@ const useComment = ({
       "Copy Text": t("Copy Text"),
       "Copy Link": t("Copy Link"),
       Reply: t("Reply"),
-      "Report Comment": t("Report Comment"),
+      "Report Comment": t("comment.report"),
       ...(isOwnComment && {
-        "Edit Comment": t("Edit Comment"),
-        "Delete Comment": t("Delete Comment"),
+        "Edit Comment": t("comment.edit"),
+        "Delete Comment": t("comment.delete"),
       }),
       Cancel: t("Cancel"),
     };
@@ -127,7 +127,7 @@ const useComment = ({
 
         if (option === options["Report Comment"]) {
           await Alert.prompt(
-            t("Report Comment"),
+            t("comment.report"),
             t("alert.message.reportComment"),
             [
               {

@@ -18,8 +18,8 @@ export interface INoResultViewProps extends InterfaceVStackProps {
 }
 
 function NoResultView({ type = "default", ...rest }: INoResultViewProps) {
-  const theme = useTheme();
   const { t } = useTranslation();
+  const theme = useTheme();
 
   return (
     <VStack flex={1} justifyContent="center" alignItems="center" {...rest}>

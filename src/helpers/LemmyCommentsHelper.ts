@@ -47,7 +47,7 @@ const findAndReplaceComment = (
             ...comment.comment,
             comment: {
               ...comment.comment.comment,
-              content: i18n.t("commentDeletedByUser"),
+              content: i18n.t("comment.deletedByUser"),
             },
           },
         };

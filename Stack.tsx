@@ -103,7 +103,7 @@ function FeedStackScreen() {
           name="ViewAccounts"
           component={ViewAccountsScreen}
           options={{
-            title: t("Manage Accounts"),
+            title: t("Accounts"),
           }}
         />
         <FeedStack.Screen
@@ -128,7 +128,7 @@ function FeedStackScreen() {
         <SearchStack.Screen
           name="EditComment"
           component={EditCommentScreen}
-          options={{ title: t("Edit Comment") }}
+          options={{ title: t("comment.edit") }}
         />
         <FeedStack.Screen
           name="NewPost"
@@ -211,7 +211,7 @@ function InboxStackScreen() {
         <InboxStack.Screen
           name="EditComment"
           component={EditCommentScreen}
-          options={{ title: t("Edit Comment") }}
+          options={{ title: t("comment.edit") }}
         />
         <InboxStack.Screen
           name="NewPost"
@@ -284,7 +284,7 @@ function ProfileStackScreen() {
           name="ViewAccounts"
           component={ViewAccountsScreen}
           options={{
-            title: t("Manage Accounts"),
+            title: t("Accounts"),
           }}
         />
         <ProfileStack.Screen
@@ -380,7 +380,7 @@ function ProfileStackScreen() {
         <ProfileStack.Screen
           name="EditComment"
           component={EditCommentScreen}
-          options={{ title: t("Edit Comment") }}
+          options={{ title: t("comment.edit") }}
         />
         <ProfileStack.Screen
           name="NewPost"
@@ -470,7 +470,7 @@ function SearchStackScreen() {
         <SearchStack.Screen
           name="EditComment"
           component={EditCommentScreen}
-          options={{ title: t("Edit Comment") }}
+          options={{ title: t("comment.edit") }}
         />
         <SearchStack.Screen
           name="NewPost"
@@ -558,7 +558,7 @@ function TraverseStackScreen() {
         <TraverseStack.Screen
           name="EditComment"
           component={EditCommentScreen}
-          options={{ title: t("Edit Comment") }}
+          options={{ title: t("comment.edit") }}
         />
         <TraverseStack.Screen
           name="NewPost"

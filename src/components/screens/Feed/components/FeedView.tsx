@@ -9,6 +9,7 @@ import {
   IconBaselineDensityMedium,
   IconListDetails,
 } from "tabler-icons-react-native";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import {
   getCommunityFullName,
@@ -57,6 +58,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   const recycled = useRef({});
 
   // Other Hooks
+  const { t } = useTranslation();
   const theme = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
@@ -89,7 +91,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
         if (dropdownVisible) {
           return (
             <Button
-              title="Cancel"
+              title={t("Cancel")}
               onPress={() => dispatch(setDropdownVisible())}
             />
           );

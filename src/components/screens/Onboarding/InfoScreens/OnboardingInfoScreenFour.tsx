@@ -2,6 +2,7 @@ import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button, Text, VStack } from "native-base";
 import { ImageBackground, StyleSheet } from "react-native";
+import { Trans, useTranslation } from "react-i18next";
 
 const background = require("../../../../../assets/onboard-bg2.jpg");
 
@@ -10,6 +11,8 @@ interface IProps {
 }
 
 function OnboardingInfoScreenFour({ navigation }: IProps) {
+  const { t } = useTranslation();
+
   return (
     <VStack flex={1}>
       <ImageBackground
@@ -24,7 +27,7 @@ function OnboardingInfoScreenFour({ navigation }: IProps) {
             fontWeight="semibold"
             textAlign="left"
           >
-            So how is the Fediverse different? 🤔
+            {t("onboarding.info.4.1")}
           </Text>
           <Text
             fontSize="2xl"
@@ -32,10 +35,10 @@ function OnboardingInfoScreenFour({ navigation }: IProps) {
             fontWeight="semibold"
             textAlign="left"
           >
-            Your mail doesn’t go to one central place, but to your hub, a sort
-            of
-            <Text color="lightBlue.500"> hub</Text>, a sort of
-            <Text color="lightBlue.500"> local post office</Text>.
+            <Trans
+              i18nKey="onboarding.info.4.2"
+              components={{ emphasis: <Text color="lightBlue.500" /> }}
+            />
           </Text>
 
           <Text
@@ -44,10 +47,10 @@ function OnboardingInfoScreenFour({ navigation }: IProps) {
             fontWeight="semibold"
             textAlign="left"
           >
-            Your<Text color="lightBlue.500"> hub</Text> is responsible for
-            sending your mail to other <Text color="lightBlue.500"> hubs</Text>.
-            They can pick who
-            <Text color="lightBlue.500"> they wish to send it to</Text> 🚚
+            <Trans
+              i18nKey="onboarding.info.4.3"
+              components={{ emphasis: <Text color="lightBlue.500" /> }}
+            />
           </Text>
 
           <Button
@@ -58,7 +61,7 @@ function OnboardingInfoScreenFour({ navigation }: IProps) {
             mt="auto"
           >
             <Text fontWeight="semibold" fontSize="lg">
-              Continue
+              {t("Continue")}
             </Text>
           </Button>
         </VStack>

@@ -2,6 +2,7 @@ import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button, HStack, Text, View, VStack } from "native-base";
 import { ImageBackground, StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
 
 const background = require("../../../../../assets/onboard-bg2.jpg");
 
@@ -10,6 +11,8 @@ interface IProps {
 }
 
 function OnboardingInfoScreenOne({ navigation }: IProps) {
+  const { t } = useTranslation();
+
   return (
     <VStack flex={1}>
       <ImageBackground
@@ -33,7 +36,7 @@ function OnboardingInfoScreenOne({ navigation }: IProps) {
               fontWeight="semibold"
               textAlign="left"
             >
-              Do you already know about the Fediverse?
+              {t("onboarding.info.1.1")}
             </Text>
           </View>
           <HStack marginTop="auto" space="4">
@@ -47,7 +50,7 @@ function OnboardingInfoScreenOne({ navigation }: IProps) {
               width="50%"
             >
               <Text fontWeight="semibold" fontSize="lg">
-                Yes
+                {t("Yes")}
               </Text>
             </Button>
             <Button
@@ -60,7 +63,7 @@ function OnboardingInfoScreenOne({ navigation }: IProps) {
               flexGrow={1}
             >
               <Text fontWeight="semibold" fontSize="lg">
-                No
+                {t("No")}
               </Text>
             </Button>
           </HStack>

@@ -194,7 +194,7 @@ function AppearanceScreen({ navigation }: IProps) {
                 fontSize="xs"
                 color={theme.colors.app.textSecondary}
               >
-                Selected: {settings.theme}
+                {`${t("Selected")}: ${settings.theme}`}
               </Text>
             </CCell>
           )}

@@ -5,6 +5,7 @@ import { HStack, Icon, Text, useTheme, View, VStack } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../../../store";
 import { selectNewComment } from "../../../slices/comments/newCommentSlice";
 import LoadingView from "../../common/Loading/LoadingView";
@@ -36,6 +37,7 @@ function NewCommentScreen({
   const newComment = useNewComment();
 
   // Other hooks
+  const { t } = useTranslation();
   const theme = useTheme();
 
   // Other
@@ -54,13 +56,15 @@ function NewCommentScreen({
     navigation.setOptions({
       headerLeft: () => headerLeft(),
       headerRight: () => headerRight(),
-      title: responseTo.post ? "Replying to Post" : "Replying to Comment",
+      title: responseTo.post
+        ? t("comment.replyingToPost")
+        : t("comment.replyingToComment"),
     });
   }, [newComment.content]);
 
   const headerLeft = () => (
     <Button
-      title="Cancel"
+      title={t("Cancel")}
       onPress={() => navigation.pop()}
       color={theme.colors.app.accent}
     />
@@ -68,7 +72,7 @@ function NewCommentScreen({
 
   const headerRight = () => (
     <Button
-      title="Submit"
+      title={t("Submit")}
       onPress={newComment.doSubmit}
       disabled={newComment.loading}
       color={theme.colors.app.accent}

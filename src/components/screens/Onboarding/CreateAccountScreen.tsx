@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Alert, Image, Linking } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Trans, useTranslation } from "react-i18next";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { initialize, lemmyAuthToken } from "../../../LemmyInstance";
@@ -50,6 +51,7 @@ function CreateAccountScreen({
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [png, setPng] = useState(undefined);
 
+  const { t } = useTranslation();
   const theme = useTheme();
   const dispatch = useAppDispatch();
 
@@ -82,7 +84,7 @@ function CreateAccountScreen({
     ) {
       dispatch(
         showToast({
-          message: "All fields are required.",
+          message: t("toast.allFieldsRequired"),
           duration: 3000,
           variant: "warn",
         })
@@ -94,7 +96,7 @@ function CreateAccountScreen({
     if (form.password !== form.passwordAgain) {
       dispatch(
         showToast({
-          message: "Passwords do not match.",
+          message: t("toast.passwordsMismatch"),
           duration: 3000,
           variant: "warn",
         })
@@ -124,8 +126,8 @@ function CreateAccountScreen({
 
       if (!res.registration_created && !res.verify_email_sent) {
         Alert.alert(
-          "Error",
-          "An error occurred while completing registration."
+          t("alert.title.error"),
+          t("alert.message.registrationError")
         );
       } else if (res.verify_email_sent) {
         setSentEmail(true);
@@ -219,21 +221,21 @@ function CreateAccountScreen({
           {sentEmail ? (
             <VStack px={4} space="md">
               <Text fontSize={32} textAlign="center">
-                Check Your Email
+                {t("onboarding.checkEmail")}
               </Text>
               <Text fontSize={18} textAlign="center">
-                An email was sent to {form.email}. Please verify your account
-                then press log in.
+                {t("onboarding.emailSent", [form.email])}
               </Text>
               <Button
                 variant="outline"
                 onPress={() => Linking.openURL("message://")}
                 disabled={loading}
               >
+                {t("onboarding.openEmailAppBtn")}
                 Open Email App
               </Button>
               <Button onPress={() => setReady(true)} disabled={loading}>
-                Get Started
+                {t("onboarding.getStartedBtn")}
               </Button>
             </VStack>
           ) : (
@@ -241,8 +243,8 @@ function CreateAccountScreen({
               <CTextInput
                 name="server"
                 value={form.server}
-                placeholder="Server"
-                label="Server"
+                placeholder={t("Server")}
+                label={t("Server")}
                 onChange={onFormChange}
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -251,8 +253,8 @@ function CreateAccountScreen({
               <CTextInput
                 name="username"
                 value={form.username}
-                placeholder="Username"
-                label="Username"
+                placeholder={t("Username")}
+                label={t("Username")}
                 onChange={onFormChange}
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -260,8 +262,8 @@ function CreateAccountScreen({
               <CTextInput
                 name="email"
                 value={form.email}
-                placeholder="Email"
-                label="Email"
+                placeholder={t("Email")}
+                label={t("Email")}
                 onChange={onFormChange}
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -269,8 +271,8 @@ function CreateAccountScreen({
               <CTextInput
                 name="password"
                 value={form.password}
-                placeholder="Password"
-                label="Password"
+                placeholder={t("Password")}
+                label={t("Password")}
                 onChange={onFormChange}
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -279,8 +281,8 @@ function CreateAccountScreen({
               <CTextInput
                 name="passwordAgain"
                 value={form.passwordAgain}
-                placeholder="Confirm Password"
-                label="Confirm Password"
+                placeholder={t("Confirm Password")}
+                label={t("Confirm Password")}
                 onChange={onFormChange}
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -296,8 +298,8 @@ function CreateAccountScreen({
                   <CTextInput
                     name="captchaAnswer"
                     value={form.captchaAnswer}
-                    placeholder="Captcah Answer"
-                    label="Captcha Answer"
+                    placeholder={t("Captcha Answer")}
+                    label={t("Captcha Answer")}
                     onChange={onFormChange}
                     autoCapitalize="none"
                     autoCorrect={false}
@@ -305,15 +307,19 @@ function CreateAccountScreen({
                 </>
               )}
               <Text justifyContent="center" alignItems="center">
-                By using Memmy, you agree to the
-                <Pressable
-                  onPress={() => navigation.push("Viewer", { type: "terms" })}
-                >
-                  <Text mt={1.5} color={theme.colors.app.accent}>
-                    {" "}
-                    Terms of Use
-                  </Text>
-                </Pressable>
+                <Trans
+                  i18nKey="onboarding.agreeToTermsOfUse"
+                  components={{
+                    linkAction: (
+                      <Pressable
+                        onPress={() =>
+                          navigation.push("Viewer", { type: "terms" })
+                        }
+                      />
+                    ),
+                    linkText: <Text mt={1.5} color={theme.colors.app.accent} />,
+                  }}
+                />
               </Text>
               <Button
                 size="sm"
@@ -324,7 +330,7 @@ function CreateAccountScreen({
                 mx={2}
               >
                 <Text fontWeight="semibold" fontSize="lg">
-                  Create Account
+                  {t("Create Account")}
                 </Text>
               </Button>
             </>
