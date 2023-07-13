@@ -1,53 +1,26 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
-import {
-  ChevronRightIcon,
-  HStack,
-  Spacer,
-  Text,
-  useTheme,
-  VStack,
-} from "native-base";
+import Markdown from "@ronradtke/react-native-markdown-display";
+import { useTheme, VStack } from "native-base";
 import React from "react";
-import { Pressable, TextStyle, useWindowDimensions } from "react-native";
-import FastImage from "react-native-fast-image";
+import { TextStyle, useWindowDimensions } from "react-native";
 import { useAppSelector } from "../../../../store";
 import { openLink } from "../../../helpers/LinkHelper";
-import { truncateImageLink } from "../../../helpers/TextHelper";
+import { replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { fontSizeMap } from "../../../theme/fontSize";
-import ImageViewer from "../ImageViewer/ImageViewer";
 import ImageButton from "../Buttons/ImageButton";
-
-// const FONT_SIZE = 14;
-// const HEADING_1_SIZE = 32;
-// const HEADING_2_SIZE = 26;
-// const HEADING_3_SIZE = 22;
-// const HEADING_4_SIZE = 18;
 
 interface MarkdownProps {
   text: string;
-  addImages?: boolean;
-  truncate?: boolean;
   isNote?: boolean;
-  imageSize?: number;
 }
 
-function RenderMarkdown({
-  text,
-  addImages = false,
-  truncate = false,
-  isNote = false,
-  imageSize,
-}: MarkdownProps) {
+function RenderMarkdown({ text, isNote = false }: MarkdownProps) {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
-
-  const [imgSrc, setImgSrc] = React.useState("");
-  const [visible, setVisible] = React.useState(false);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
@@ -66,11 +39,9 @@ function RenderMarkdown({
 
   const theme = useTheme();
 
-  const fontColor = truncate
-    ? theme.colors.app.textSecondary
-    : theme.colors.app.textPrimary;
+  const fontColor = theme.colors.app.textPrimary;
 
-  const styles: Record<string, TextStyle> = {
+  const markdownStyles: Record<string, TextStyle> = {
     span: {
       fontSize: FONT_SIZE,
       color: fontColor,
@@ -188,75 +159,22 @@ function RenderMarkdown({
     },
   };
 
-  // const cleanedText = findImages(text, false);
-  // text = cleanedText.cleanedText.replace(
-  //   /(^|[^[\]])\b(https?:\/\/[^\s]+)\b(?![\]]|\()/g,
-  //   (match, prefix, url) => `${prefix}[${url}](${url})`
-  // );
-  // text = replaceNoMarkdown(text, currentAccount.instance);
-
-  const markdown = text; // .replace(/\s\s+/g, "<br />");
-  const onRequestClose = () => {
-    setVisible(false);
-  };
+  const markdown = replaceNoMarkdown(text, currentAccount.instance);
 
   return (
     <>
       <VStack flex={1}>
         <Markdown
-          style={styles}
+          style={markdownStyles}
           rules={{
-            image: (node, children, parent, styles) => {
-              console.log(node.attributes);
-              return (
-                <ImageButton src={node.attributes.src} />
-                // <Pressable
-                //   onPress={() => {
-                //     setImgSrc(node.attributes.src);
-                //     setVisible(true);
-                //   }}
-                // >
-                //   <HStack
-                //     backgroundColor={theme.colors.app.bg}
-                //     borderRadius={5}
-                //     padding={2}
-                //     flexDirection="row"
-                //     alignItems="center"
-                //     space={2}
-                //     my={4}
-                //   >
-                //     <FastImage
-                //       style={{
-                //         height: 50,
-                //         width: 50,
-                //       }}
-                //       resizeMode="contain"
-                //       source={{
-                //         uri: node.attributes.src,
-                //       }}
-                //     />
-                //     <Spacer />
-                //     <Text color={theme.colors.app.textPrimary}>
-                //       {truncateImageLink(node.attributes.src)}
-                //     </Text>
-                //     <Spacer />
-                //     <ChevronRightIcon />
-                //   </HStack>
-                // </Pressable>
-              );
-            },
+            image: (node) => (
+              <ImageButton src={node.attributes.src} key={node.key} />
+            ),
           }}
           onLinkPress={onLinkPress}
         >
           {markdown}
         </Markdown>
-        <ImageViewer
-          source={imgSrc}
-          nsfw={false}
-          visibleOverride={visible}
-          onRequestCloseOverride={onRequestClose}
-          onlyViewer
-        />
       </VStack>
     </>
   );

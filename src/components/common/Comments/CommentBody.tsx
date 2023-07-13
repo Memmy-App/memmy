@@ -17,7 +17,7 @@ function CommentBody({ deleted, removed, content }: IProps) {
     return <ItalicText>Comment removed by moderator :(</ItalicText>;
   }
 
-  return <RenderMarkdown text={content} addImages imageSize={30} />;
+  return <RenderMarkdown text={content} />;
 }
 
 export default React.memo(CommentBody);
