@@ -7,6 +7,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { AppState, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import merge from "deepmerge";
+import codePush from "react-native-code-push";
 import Stack from "./Stack";
 import MemmyErrorView from "./src/components/common/Loading/MemmyErrorView";
 import { writeToLog } from "./src/helpers/LogHelper";
@@ -71,6 +72,7 @@ function Start() {
   const appState = useRef(AppState.currentState);
 
   let refreshInterval;
+  let updateInterval;
 
   useEffect(() => {
     if (!loaded) return;
@@ -85,12 +87,14 @@ function Start() {
       ) {
         writeToLog("Starting refresh interval.");
         startInterval();
+        codePush.checkForUpdate().then();
       } else if (
         appState.current === "active" &&
         nextAppState.match(/inactive|background/)
       ) {
         writeToLog("Ending refresh interval.");
         clearInterval(refreshInterval);
+        clearInterval(updateInterval);
         refreshInterval = null;
       }
 
