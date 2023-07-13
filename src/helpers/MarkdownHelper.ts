@@ -1,4 +1,6 @@
 // eslint-disable-next-line import/prefer-default-export
+import { Alert } from "react-native";
+
 export const findImages = (
   text: string,
   stripWhitespace?: boolean
@@ -27,12 +29,13 @@ export const findImages = (
 
 export const replaceNoMarkdown = (
   text: string,
-  currentInstance: string
+  postInstance: string
 ): string => {
-  const communityPattern = /^\/[cmu]\/(?:\w+|(\w+@\w+\.\w+))$/gm;
+  const communityPattern = /(?<=\(|^)\/[cmu]\/(?:\w+|(\w+@\w+\.\w+))(?=\)|$)/gm;
+
   return text.replace(communityPattern, (match) => {
     const parts = match.split("@");
 
-    return `[${match}](https://${parts[1] ?? currentInstance}${parts[0]})`;
+    return `[${match}](https://${parts[1] ?? postInstance}${parts[0]})`;
   });
 };
