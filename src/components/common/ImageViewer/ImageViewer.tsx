@@ -24,7 +24,7 @@ interface IProps {
 }
 
 interface IImageSource {
-  uri: string
+  uri: string;
 }
 
 function ImageViewer({
@@ -62,7 +62,7 @@ function ImageViewer({
 
   const footer = (imageIndex) => <ImageViewFooter source={sources[imageIndex]} />;
 
-  const sourceUris: IImageSource[] = sources.map(source => ({ uri: source }))
+  const sourceUris: IImageSource[] = sources.map((source) => ({ uri: source }));
 
   const viewer = (
     <EnhancedImageViewing
