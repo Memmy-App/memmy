@@ -26,7 +26,7 @@ function AboutScreen({
     (async () => {
       const info = await codePush.getUpdateMetadata();
 
-      setOtaVersion(info ? info.appVersion : "Error");
+      setOtaVersion(info ? info.label : "Error");
     })();
   }, []);
 
