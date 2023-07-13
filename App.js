@@ -8,10 +8,15 @@ import { enableFreeze } from "react-native-screens";
 import store from "./store";
 import Start from "./Start";
 import * as SplashScreen from "expo-splash-screen";
+import codePush from "react-native-code-push";
+
+const codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+};
 
 SplashScreen.preventAutoHideAsync();
 
-export default function App() {
+function App() {
   enableFreeze(true);
 
   const [fontsLoaded] = useFonts({
@@ -47,3 +52,5 @@ export default function App() {
     </Provider>
   );
 }
+
+export default codePush(codePushOptions)(App);
