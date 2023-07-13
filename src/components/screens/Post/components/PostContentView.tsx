@@ -1,7 +1,11 @@
 import { PostView } from "lemmy-js-client";
 import { Box } from "native-base";
 import React from "react";
-import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
+import {
+  ExtensionType,
+  getBaseUrl,
+  getLinkInfo,
+} from "../../../../helpers/LinkHelper";
 import LinkButton from "../../../common/Buttons/LinkButton";
 import ImageViewer from "../../../common/ImageViewer/ImageViewer";
 import RenderMarkdown from "../../../common/Markdown/RenderMarkdown";
@@ -51,7 +55,7 @@ function PostContentView({ post }: IProps) {
 
       {!!body && (
         <Box mx={4}>
-          <RenderMarkdown text={body} addImages truncate={false} />
+          <RenderMarkdown text={body} instance={getBaseUrl(post.post.ap_id)} />
         </Box>
       )}
 

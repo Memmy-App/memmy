@@ -67,7 +67,7 @@ export const getLinkInfo = (link?: string): LinkInfo => {
   };
 };
 
-export const isPotentialFedSite = (link: string) => {
+const isPotentialFedSite = (link: string) => {
   const fedPattern =
     /^(?:https?:\/\/\w+\.\w+)?\/(?:c|m|u|post)\/\w+(?:@\w+(?:\.\w+)?(?:\.\w+)?)?$/;
   return link.match(fedPattern);
@@ -213,7 +213,12 @@ export const openLink = (
   navigation: NativeStackNavigationProp<any>,
   color = "#000"
 ): void => {
-  link = decodeURIComponent(link);
+  const urlPattern =
+    /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
+
+  writeToLog(`Trying to open link: ${link}`);
+
+  link = link.match(urlPattern)[0];
 
   const potentialFed = isPotentialFedSite(link);
   if (potentialFed) {
@@ -233,7 +238,17 @@ export const openLink = (
   }
 };
 
-export const getBaseUrl = (link?: string): string => {
+export const getBaseUrl = (link?: string, noSubdomain = false): string => {
+  if (noSubdomain) {
+    const domain = link.replace(/^(https?:\/\/)?(www\.)?/i, "").split("/")[0];
+    const parts = domain.split(".").reverse();
+
+    if (parts.length > 2 && parts[1].length <= 3) {
+      return `${parts[2]}.${parts[1]}.${parts[0]}`;
+    }
+
+    return `${parts[1]}.${parts[0]}`;
+  }
   const regex = /^(?:https?:\/\/)?([^/]+)/;
   return link ? link.match(regex)[1] : null;
 };

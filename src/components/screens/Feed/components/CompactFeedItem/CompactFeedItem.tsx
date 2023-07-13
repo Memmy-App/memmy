@@ -4,7 +4,13 @@ import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
 import { useWindowDimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
 import useFeedItem from "../../../../../hooks/feeds/useFeedItem";
+import {
+  ExtensionType,
+  getLinkInfo,
+  getBaseUrl,
+} from "../../../../../helpers/LinkHelper";
 import { setResponseTo } from "../../../../../slices/comments/newCommentSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../../store";
 import CompactFeedItemThumbnail from "./CompactFeedItemThumbnail";
@@ -56,6 +62,11 @@ function CompactFeedItem({
   const fontModifier = fontSizeMap[fontSize];
   const FONT_SIZE = isSystemTextSize ? 15 / fontScale : 15 + fontModifier;
 
+  const linkInfo = getLinkInfo(post.post.url);
+  const showLink =
+    linkInfo.extType === ExtensionType.VIDEO ||
+    linkInfo.extType === ExtensionType.GENERIC;
+
   // TODO Memoize this properly
   return (
     <View flex={1} my={0.5}>
@@ -92,7 +103,15 @@ function CompactFeedItem({
                     : theme.colors.app.textPrimary
                 }
               >
-                {post.post.name}
+                {post.post.name}{" "}
+                {showLink && (
+                  <Text
+                    fontSize={FONT_SIZE - 1}
+                    color={theme.colors.app.textSecondary}
+                  >
+                    ({getBaseUrl(linkInfo.link, true)})
+                  </Text>
+                )}
               </Text>
 
               <CompactFeedItemFooter post={post} />
