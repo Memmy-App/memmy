@@ -64,6 +64,7 @@
     "expo-web-browser": "^12.1.1",
     "flash-list": "^0.0.1-security",
     "lemmy-js-client": "^0.18.0-rc.2",
+    "markdown-it-container": "^3.0.0",
     "native-base": "^3.4.28",
     "react": "18.2.0",
     "react-dev-utils": "^12.0.1",

@@ -1,8 +1,8 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import Markdown from "@ronradtke/react-native-markdown-display";
-import { useTheme, VStack } from "native-base";
+import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
+import { useTheme, View, VStack } from "native-base";
 import React from "react";
 import { TextStyle, useWindowDimensions } from "react-native";
 import { useAppSelector } from "../../../../store";
@@ -12,6 +12,7 @@ import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { fontSizeMap } from "../../../theme/fontSize";
 import ImageButton from "../Buttons/ImageButton";
+import SpoilerContainer from "./SpoilerContainer";
 
 interface MarkdownProps {
   text: string;
@@ -167,6 +168,14 @@ function RenderMarkdown({ text, isNote = false }: MarkdownProps) {
         <Markdown
           style={markdownStyles}
           rules={{
+            container_spoiler: (node) => (
+              <View key={node.key}>
+                <SpoilerContainer
+                  node={node}
+                  title={node.sourceInfo.replace("spoiler", "").trim()}
+                />
+              </View>
+            ),
             image: (node) => (
               <ImageButton
                 src={node.attributes.src}
@@ -176,6 +185,16 @@ function RenderMarkdown({ text, isNote = false }: MarkdownProps) {
             ),
           }}
           onLinkPress={onLinkPress}
+          markdownit={MarkdownIt({ typographer: true }).use(
+            // eslint-disable-next-line global-require
+            require("markdown-it-container"),
+            "spoiler",
+            {
+              validate(params) {
+                return params.trim().match(/^spoiler\s+(.*)$/);
+              },
+            }
+          )}
         >
           {markdown}
         </Markdown>
