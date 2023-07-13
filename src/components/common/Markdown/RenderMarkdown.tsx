@@ -168,7 +168,11 @@ function RenderMarkdown({ text, isNote = false }: MarkdownProps) {
           style={markdownStyles}
           rules={{
             image: (node) => (
-              <ImageButton src={node.attributes.src} key={node.key} />
+              <ImageButton
+                src={node.attributes.src}
+                key={node.key}
+                marginY={0}
+              />
             ),
           }}
           onLinkPress={onLinkPress}
