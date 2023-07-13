@@ -27,6 +27,7 @@ import CommentBody from "./CommentBody";
 import CommentCollapsed from "./CommentCollapsed";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppSelector } from "../../../../store";
+import { getBaseUrl } from "../../../helpers/LinkHelper";
 
 interface IProps {
   comment: ILemmyComment;
@@ -145,6 +146,7 @@ function CommentItem({
                     deleted={comment.comment.comment.deleted}
                     removed={comment.comment.comment.removed}
                     content={comment.comment.comment.content}
+                    instance={getBaseUrl(comment.comment.comment.ap_id)}
                   />
                   {settings.showCommentActions && (
                     <HStack justifyContent="flex-end" space={2} mb={1}>
