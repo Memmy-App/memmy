@@ -51,7 +51,7 @@ function PostContentView({ post }: IProps) {
 
       {!!body && (
         <Box mx={4}>
-          <RenderMarkdown text={body} addImages truncate={false} />
+          <RenderMarkdown text={body} />
         </Box>
       )}
 

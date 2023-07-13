@@ -146,7 +146,6 @@ function NewCommentScreen({
                       ? responseTo.post.post.body
                       : responseTo.comment.comment.content
                   }
-                  addImages
                 />
               </VStack>
             </Text>
