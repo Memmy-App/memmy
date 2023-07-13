@@ -20,6 +20,7 @@ interface IProps {
   onRequestCloseOverride?: () => void;
   heightOverride?: number;
   widthOverride?: number;
+  setPostRead?: () => void;
 }
 
 function ImageViewer({
@@ -35,14 +36,20 @@ function ImageViewer({
   onRequestCloseOverride,
   heightOverride,
   widthOverride,
+  setPostRead,
 }: IProps) {
   const [visible, setVisible] = useState(false);
   const [dimensions, setDimensions] = useState({ height: 0, width: 0 });
 
-  const { blurNsfw } = useAppSelector(selectSettings);
+  const { blurNsfw, markReadOnPostImageView } = useAppSelector(selectSettings);
   const theme = useTheme();
 
-  const onImagePress = () => setVisible(true);
+  const onImagePress = () => {
+    if(setPostRead && markReadOnPostImageView) {
+      setPostRead();
+    }
+    setVisible(true);
+  }
   const onRequestClose = () => {
     if (onRequestCloseOverride) onRequestCloseOverride();
     else setVisible(false);
