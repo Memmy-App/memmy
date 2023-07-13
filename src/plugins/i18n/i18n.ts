@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import english from "./locales/english.json";
-import german from "./locales/german.json";
+import english from "./locales/en.json";
+import german from "./locales/de.json";
 import languageDetector from "./languageDetector";
 
 i18n

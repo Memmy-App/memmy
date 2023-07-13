@@ -6,8 +6,8 @@ import advancedFormat from "dayjs/plugin/advancedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
 import utc from "dayjs/plugin/utc";
-import german from "./i18n/locales/german.json";
-import english from "./i18n/locales/english.json";
+import german from "./i18n/locales/de.json";
+import english from "./i18n/locales/en.json";
 
 // extend dayjs with plugins
 dayjs.extend(advancedFormat);
