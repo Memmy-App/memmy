@@ -233,7 +233,17 @@ export const openLink = (
   }
 };
 
-export const getBaseUrl = (link?: string): string => {
+export const getBaseUrl = (link?: string, noSubdomain = false): string => {
+  if (noSubdomain) {
+    const domain = link.replace(/^(https?:\/\/)?(www\.)?/i, "").split("/")[0];
+    const parts = domain.split(".").reverse();
+
+    if (parts.length > 2 && parts[1].length <= 3) {
+      return `${parts[2]}.${parts[1]}.${parts[0]}`;
+    }
+
+    return `${parts[1]}.${parts[0]}`;
+  }
   const regex = /^(?:https?:\/\/)?([^/]+)/;
   return link ? link.match(regex)[1] : null;
 };
