@@ -14,6 +14,16 @@ import { fontSizeMap } from "../../../theme/fontSize";
 import ImageButton from "../Buttons/ImageButton";
 import SpoilerContainer from "./SpoilerContainer";
 
+const MarkdownItInstance = MarkdownIt({ typographer: true }).use(
+  require("markdown-it-container"),
+  "spoiler",
+  {
+    validate(params) {
+      return params.trim().match(/^spoiler\s+(.*)$/);
+    },
+  }
+);
+
 interface MarkdownProps {
   text: string;
   isNote?: boolean;
@@ -185,16 +195,7 @@ function RenderMarkdown({ text, isNote = false }: MarkdownProps) {
             ),
           }}
           onLinkPress={onLinkPress}
-          markdownit={MarkdownIt({ typographer: true }).use(
-            // eslint-disable-next-line global-require
-            require("markdown-it-container"),
-            "spoiler",
-            {
-              validate(params) {
-                return params.trim().match(/^spoiler\s+(.*)$/);
-              },
-            }
-          )}
+          markdownit={MarkdownItInstance}
         >
           {markdown}
         </Markdown>
