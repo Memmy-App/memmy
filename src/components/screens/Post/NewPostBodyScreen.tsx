@@ -25,14 +25,14 @@ function NewPostBodyScreen({ route, navigation }: IProps) {
 
   const HeaderLeftButton = useCallback(
     () => (
-      <Button title="Back" color={theme.colors.app.accent} onPress={goBack} />
+      <Button title="Done" color={theme.colors.app.accent} onPress={goBack} />
     ),
     [body]
   );
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: HeaderLeftButton,
+      headerRight: HeaderLeftButton,
     });
   }, [body]);
 
