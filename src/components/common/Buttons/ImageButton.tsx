@@ -14,9 +14,10 @@ import ImageViewer from "../ImageViewer/ImageViewer";
 interface ImageButtonProps {
   src: string;
   size?: number;
+  marginY?: number;
 }
 
-function ImageButton({ src, size = 50 }: ImageButtonProps) {
+function ImageButton({ src, size = 50, marginY = 4 }: ImageButtonProps) {
   const [visible, setVisible] = useState(false);
   const [dimensions, setDimensions] = useState({ height: 0, width: 0 });
 
@@ -47,7 +48,7 @@ function ImageButton({ src, size = 50 }: ImageButtonProps) {
           flexDirection="row"
           alignItems="center"
           space={2}
-          my={4}
+          my={marginY}
         >
           <FastImage
             style={{
