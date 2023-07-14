@@ -289,7 +289,7 @@ function ImageViewer({
     }
 
     // We need this saved value for later
-    lastScale.value = zoomScale.value;
+    lastScale.value = zoomScale.value >= 1 ? zoomScale.value : 1;
   };
 
   // Double tap result
