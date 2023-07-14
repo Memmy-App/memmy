@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {
   Dimensions as RNDimensions,
   Modal,
@@ -23,6 +23,7 @@ import {
   GestureUpdateEvent,
   PanGestureHandlerEventPayload,
   PinchGestureHandlerEventPayload,
+  TapGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import { BlurView } from "expo-blur";
 import { Icon, Text, useTheme, VStack } from "native-base";
@@ -58,6 +59,12 @@ interface MeasureResult {
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } =
   RNDimensions.get("screen");
+
+const clamp = (value, lowerBound, upperBound) => {
+  "worklet";
+
+  return Math.min(Math.max(value, lowerBound), upperBound);
+};
 
 function ImageViewer({
   source,
@@ -100,6 +107,16 @@ function ImageViewer({
 
   const imageHeight = useSharedValue(0);
   const imageWidth = useSharedValue(0);
+
+  const xOffset = useMemo(
+    () => SCREEN_WIDTH / 2 - dimensions.dimensions.viewerDimensions.width / 2,
+    [dimensions.dimensions.viewerDimensions]
+  );
+
+  const yOffset = useMemo(
+    () => SCREEN_HEIGHT / 2 - dimensions.dimensions.viewerDimensions.height / 2,
+    [dimensions.dimensions.viewerDimensions]
+  );
 
   const initialPosition = useSharedValue<MeasureResult>({
     x: 0,
@@ -238,14 +255,8 @@ function ImageViewer({
   const setToCenter = () => {
     "worklet";
 
-    positionX.value = withTiming(
-      SCREEN_WIDTH / 2 - dimensions.dimensions.viewerDimensions.width / 2,
-      { duration: 200 }
-    );
-    positionY.value = withTiming(
-      SCREEN_HEIGHT / 2 - dimensions.dimensions.viewerDimensions.height / 2,
-      { duration: 200 }
-    );
+    positionX.value = withTiming(xOffset, { duration: 200 });
+    positionY.value = withTiming(yOffset, { duration: 200 });
     backgroundColor.value = withTiming("rgba(0, 0, 0, 1)", {
       duration: 300,
     });
@@ -282,7 +293,9 @@ function ImageViewer({
   };
 
   // Double tap result
-  const onDoubleTap = () => {
+  const onDoubleTap = (
+    event: GestureUpdateEvent<TapGestureHandlerEventPayload>
+  ) => {
     "worklet";
 
     // Move back to center and show accessories if we are returning to scale of one
@@ -293,10 +306,18 @@ function ImageViewer({
     } else {
       // Otherwise we should hide the accessories
       runOnJS(setAccessoriesVisible)(false);
+
+      // Get the target
+      const targetX = -(event.absoluteX - xOffset) + SCREEN_WIDTH / 2;
+      const targetY = -(event.absoluteY - yOffset) + SCREEN_HEIGHT / 2;
+
+      // Zoom to that target
+      positionX.value = withTiming(targetX);
+      positionY.value = withTiming(targetY);
     }
 
     // Update the scale based off of the current scale
-    zoomScale.value = withTiming(zoomScale.value === 1 ? 1.5 : 1, {
+    zoomScale.value = withTiming(zoomScale.value === 1 ? 2 : 1, {
       duration: 300,
     });
 
