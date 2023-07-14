@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Dimensions as RNDimensions,
   Modal,
@@ -53,10 +53,6 @@ export default function ImageViewer({
   onPress,
 }: IProps) {
   // We need to handle the possible FlashList re-uses, so we'll do that here
-
-  useEffect(() => {
-    console.log(`Render!${Date.now()}`);
-  });
 
   const nonViewerRef = useRef<View>(null);
 
