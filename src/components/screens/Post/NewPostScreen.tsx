@@ -82,7 +82,14 @@ function NewPostScreen({
               cellStyle="RightDetail"
               cellAccessoryView={
                 <IconButton
-                  icon={<Icon as={Ionicons} name="camera" size={6} />}
+                  icon={
+                    <Icon
+                      as={Ionicons}
+                      name="camera"
+                      size={6}
+                      color={theme.colors.app.accent}
+                    />
+                  }
                   onPress={newPost.doUpload}
                 />
               }
