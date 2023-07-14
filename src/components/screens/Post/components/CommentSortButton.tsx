@@ -1,15 +1,9 @@
-import React, { SetStateAction } from "react";
-import { useTheme } from "native-base";
-import { useActionSheet } from "@expo/react-native-action-sheet";
-import {
-  IconCalendar,
-  IconClockHour4,
-  IconClockHour8,
-  IconFlame,
-} from "tabler-icons-react-native";
 import { CommentSortType } from "lemmy-js-client";
-import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
+import React, { SetStateAction } from "react";
+import { ContextMenuButton } from "react-native-ios-context-menu";
 import { commentSortOptions } from "../../../../types/CommentSortOptions";
+import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
+import SFIcon from "../../../common/icons/SFIcon";
 
 interface IProps {
   sortType: CommentSortType;
@@ -17,39 +11,40 @@ interface IProps {
 }
 
 function CommentSortButton({ sortType, setSortType }: IProps) {
-  const theme = useTheme();
-  const { showActionSheetWithOptions } = useActionSheet();
-
-  const onPress = () => {
-    const cancelButtonIndex = commentSortOptions.length;
-
-    showActionSheetWithOptions(
-      {
-        options: [
-          ...commentSortOptions.map((key): string =>
-            key === sortType ? `${key} (current)` : key
-          ),
-          "Cancel",
+  return (
+    <ContextMenuButton
+      isMenuPrimaryAction
+      onPressMenuItem={({ nativeEvent }) => {
+        setSortType(nativeEvent.actionKey as CommentSortType);
+      }}
+      menuConfig={{
+        menuTitle: "",
+        // @ts-ignore Types for menuItems are wrong for this library
+        menuItems: [
+          ...commentSortOptions.map((option) => ({
+            actionKey: option,
+            actionTitle: option,
+            menuState: sortType === option ? "on" : "off",
+            icon: {
+              type: "IMAGE_SYSTEM",
+              imageValue: {
+                systemName: SortIconType[option],
+              },
+            },
+          })),
         ],
-        cancelButtonIndex,
-        userInterfaceStyle: theme.config.initialColorMode,
-      },
-      (index) => {
-        if (index === cancelButtonIndex) return;
-
-        setSortType(commentSortOptions[index]);
-      }
-    );
-  };
-
-  return <HeaderIconButton icon={SortIconType[sortType]} onPress={onPress} />;
+      }}
+    >
+      <HeaderIconButton icon={<SFIcon icon={SortIconType[sortType]} />} />
+    </ContextMenuButton>
+  );
 }
 
-const SortIconType = {
-  Top: <IconCalendar />,
-  Hot: <IconFlame />,
-  New: <IconClockHour4 />,
-  Old: <IconClockHour8 />,
+const SortIconType: Record<CommentSortType, string> = {
+  Top: "clock",
+  Hot: "flame",
+  New: "alarm",
+  Old: "hourglass",
 };
 
 export default CommentSortButton;

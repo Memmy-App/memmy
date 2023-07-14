@@ -86,14 +86,6 @@ const useComment = ({
           currentAccount.instance.toLowerCase()
         ) && !comment.comment.comment.deleted;
 
-    // const options = [
-    //   "Copy Text",
-    //   "Copy Link",
-    //   isOwnComment && "Edit Comment",
-    //   isOwnComment && "Delete Comment",
-    // ];
-
-    // TODO: make this a set bc im too lazy to do it rn
     const options = {
       "Copy Text": t("Copy Text"),
       "Copy Link": t("Copy Link"),

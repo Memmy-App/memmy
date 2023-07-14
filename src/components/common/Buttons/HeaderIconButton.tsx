@@ -2,7 +2,7 @@ import { Pressable, useTheme } from "native-base";
 import React from "react";
 
 interface CIconButtonProps {
-  icon: any;
+  icon: JSX.Element;
   onPress?: () => void;
 }
 
