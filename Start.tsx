@@ -4,7 +4,7 @@ import { StatusBar, StatusBarStyle } from "expo-status-bar";
 import { extendTheme, NativeBaseProvider } from "native-base";
 import React, { useEffect, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { AppState, useColorScheme, View } from "react-native";
+import { AppState, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import merge from "deepmerge";
 import { setRootViewBackgroundColor } from '@pnthach95/react-native-root-view-background';
@@ -207,10 +207,10 @@ function Start({ onReady }: StartProps) {
         <StatusBar style={statusBarColor} />
         <GestureHandlerRootView style={{ flex: 1, backgroundColor: selectedTheme.colors.app.bg }}>
           <ActionSheetProvider>
-            <View style={{ flex: 1, backgroundColor: selectedTheme.colors.app.bg }}>
+            <>
               <Toast />
               <Stack onReady={onStackReady} />
-            </View>
+            </>
           </ActionSheetProvider>
         </GestureHandlerRootView>
       </ErrorBoundary>
