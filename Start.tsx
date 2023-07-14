@@ -208,12 +208,10 @@ function Start({ onReady }: StartProps) {
         <GestureHandlerRootView
           style={{ flex: 1, backgroundColor: selectedTheme.colors.app.bg }}
         >
-          <ActionSheetProvider>
-            <>
-              <Toast />
-              <Stack onReady={onStackReady} />
-            </>
-          </ActionSheetProvider>
+          <>
+            <Toast />
+            <Stack onReady={onStackReady} />
+          </>
         </GestureHandlerRootView>
       </ErrorBoundary>
     </NativeBaseProvider>

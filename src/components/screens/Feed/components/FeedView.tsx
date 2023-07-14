@@ -35,6 +35,8 @@ import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
 import FeedItem from "./FeedItem/FeedItem";
 import { Community, FeedOverflowButton } from "./FeedOverflowButton";
 import FeedSortButton from "./FeedSortButton";
+import { FeedTypeButton } from "./FeedTypeButton";
+import SFIcon from "../../../common/icons/SFIcon";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -99,13 +101,13 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
         }
 
         return (
-          <HStack space={2}>
+          <HStack space={3}>
             <HeaderIconButton
               icon={
                 compactView ? (
-                  <IconListDetails />
+                  <SFIcon icon="list.bullet" />
                 ) : (
-                  <IconBaselineDensityMedium />
+                  <SFIcon icon="list.bullet.below.rectangle" />
                 )
               }
               onPress={() =>
@@ -121,16 +123,28 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
                 })
               }
             />
-            <FeedOverflowButton
-              feed={feed}
-              community={postCommunity}
-              onPress={() =>
-                flashList?.current?.scrollToOffset({
-                  animated: true,
-                  offset: 0,
-                })
-              }
-            />
+            {postCommunity ? (
+              <FeedOverflowButton
+                feed={feed}
+                community={postCommunity}
+                onPress={() =>
+                  flashList?.current?.scrollToOffset({
+                    animated: true,
+                    offset: 0,
+                  })
+                }
+              />
+            ) : (
+              <FeedTypeButton
+                feed={feed}
+                onPress={() =>
+                  flashList?.current?.scrollToOffset({
+                    animated: true,
+                    offset: 0,
+                  })
+                }
+              />
+            )}
           </HStack>
         );
       },

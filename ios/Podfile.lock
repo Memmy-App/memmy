@@ -485,6 +485,8 @@ PODS:
     - React-Core
   - react-native-safe-area-context (3.4.1):
     - React-Core
+  - react-native-sfsymbols (1.2.1):
+    - React
   - react-native-slider (4.4.2):
     - React-Core
   - react-native-webview (13.2.2):
@@ -722,6 +724,7 @@ DEPENDENCIES:
   - react-native-render-html (from `../node_modules/react-native-render-html`)
   - "react-native-root-view-background (from `../node_modules/@pnthach95/react-native-root-view-background`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-sfsymbols (from `../node_modules/react-native-sfsymbols`)
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -890,6 +893,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@pnthach95/react-native-root-view-background"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-sfsymbols:
+    :path: "../node_modules/react-native-sfsymbols"
   react-native-slider:
     :path: "../node_modules/@react-native-community/slider"
   react-native-webview:
@@ -1023,6 +1028,7 @@ SPEC CHECKSUMS:
   react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
   react-native-root-view-background: 59f34bbd5308d5981d0928e81969929bde013ff4
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
+  react-native-sfsymbols: bd3a0d3eab185e80b571bae60753dcf5a0d57967
   react-native-slider: 33b8d190b59d4f67a541061bb91775d53d617d9d
   react-native-webview: b8ec89966713985111a14d6e4bf98d8b54bced0d
   React-perflogger: d21f182895de9d1b077f8a3cd00011095c8c9100
