@@ -50,17 +50,13 @@ function ImageButton({ src, size = 50, marginY = 4 }: ImageButtonProps) {
           space={2}
           my={marginY}
         >
-          <FastImage
-            style={{
-              height: size,
-              width: size,
-            }}
-            resizeMode="contain"
-            source={{
-              uri: src,
-            }}
-            onLoad={onLoad}
+          <ImageViewer
+            source={{ uri: src }}
+            nsfw={false}
+            heightOverride={dimensions.height}
+            widthOverride={dimensions.width}
           />
+
           <Spacer />
           <Text color={theme.colors.app.textPrimary}>
             {truncateImageLink(src)}
@@ -69,16 +65,6 @@ function ImageButton({ src, size = 50, marginY = 4 }: ImageButtonProps) {
           <ChevronRightIcon />
         </HStack>
       </Pressable>
-
-      <ImageViewer
-        source={src}
-        nsfw={false}
-        onlyViewer
-        visibleOverride={visible}
-        onRequestCloseOverride={onRequestClose}
-        heightOverride={dimensions.height}
-        widthOverride={dimensions.width}
-      />
     </>
   );
 }

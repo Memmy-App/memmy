@@ -64,7 +64,7 @@ function FeedContentPreview({ post, recycled }: IProps) {
             <ImagePreview
               images={postUrls}
               postId={post.post.id}
-              isNsfw={post.post.nsfw}
+              isNsfw={post.post.nsfw || post.community.nsfw}
               recycled={recycled}
             />
           </Box>
