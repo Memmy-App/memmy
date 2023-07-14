@@ -6,7 +6,6 @@ import React from "react";
 import { Alert, StyleSheet } from "react-native";
 import { getBuildNumber, getVersion } from "react-native-device-info";
 import { useTranslation } from "react-i18next";
-import codePush from "react-native-code-push";
 import { openLink } from "../../../../helpers/LinkHelper";
 import { selectCurrentAccount } from "../../../../slices/accounts/accountsSlice";
 import { useAppSelector } from "../../../../../store";
