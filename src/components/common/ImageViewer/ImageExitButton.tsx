@@ -1,6 +1,7 @@
 import React from "react";
-import { Pressable, StyleSheet } from "react-native";
-import { View, Text } from "native-base";
+import { StyleSheet } from "react-native";
+import { View, Text, Pressable } from "native-base";
+import { IconX } from "tabler-icons-react-native";
 
 interface IProps {
   onPress: () => void;
@@ -9,10 +10,11 @@ interface IProps {
 
 function ImageExitButton({ onPress, visible }: IProps) {
   return (
-    <View opacity={visible ? 1 : 0}>
-      <Pressable onPress={onPress}>
-        <View style={[styles.buttonPosition, styles.exitButton]} />
-        <Text style={[styles.buttonPosition, styles.buttonText]}>X</Text>
+    <View opacity={visible ? 1 : 0} style={styles.buttonPosition}>
+      <Pressable onPress={onPress} hitSlop={10} padding={1.5}>
+        <View>
+          <IconX color="white" />
+        </View>
       </Pressable>
     </View>
   );
@@ -21,23 +23,15 @@ function ImageExitButton({ onPress, visible }: IProps) {
 const styles = StyleSheet.create({
   buttonPosition: {
     position: "absolute",
-    top: 40,
-    bottom: 0,
+    top: 45,
     right: 10,
-  },
-
-  exitButton: {
     backgroundColor: "gray",
-    color: "white",
-    opacity: 0.5,
-    padding: 14,
     borderRadius: 100,
-    zIndex: -1,
+    opacity: 0.5,
   },
 
   buttonText: {
     color: "white",
-    zIndex: 3,
   },
 });
 
