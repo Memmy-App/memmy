@@ -256,7 +256,7 @@ export default function ImageViewer({
   }));
 
   return (
-    <View>
+    <View style={styles.imageContainer}>
       <Pressable
         onPress={onRequestOpenOrClose}
         ref={nonViewerRef}
@@ -308,5 +308,11 @@ const styles = StyleSheet.create({
   imageModal: {
     flex: 1,
     backgroundColor: "transparent",
+  },
+
+  imageContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
