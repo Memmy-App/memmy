@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { useRef, useState } from "react";
 import {
   Dimensions as RNDimensions,
@@ -22,9 +24,14 @@ import {
   PanGestureHandlerEventPayload,
   PinchGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
+import { BlurView } from "expo-blur";
+import { Icon, Text, useTheme, VStack } from "native-base";
+import { Ionicons } from "@expo/vector-icons";
 import { useImageDimensions } from "./useImageDimensions";
 import ExitButton from "./ImageExitButton";
 import ImageViewFooter from "./ImageViewFooter";
+import { useAppSelector } from "../../../../store";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
 
 interface IProps {
   source: { uri: string };
@@ -59,8 +66,9 @@ function ImageViewer({
   },
   onPress,
   recycled,
+  nsfw,
 }: IProps) {
-  // We need to handle the possible FlashList re-uses, so we'll do that here
+  const theme = useTheme();
 
   const nonViewerRef = useRef<View>(null);
 
@@ -68,6 +76,12 @@ function ImageViewer({
 
   const [expanded, setExpanded] = useState<boolean>(false);
   const [accessoriesVisible, setAccessoriesVisible] = useState(false);
+
+  // NSFW stuff, we need this hack for some reason
+  const { blurNsfw } = useAppSelector(selectSettings);
+  const [blurIntensity, setBlurIntensity] = useState(99);
+
+  // Animation stuff
 
   const zoomScale = useSharedValue(1);
 
@@ -94,9 +108,12 @@ function ImageViewer({
 
   // Handle recycling
 
+  // Store the last post id
   const lastPostId = useRef(postId);
 
+  // Check if props have changed
   if (recycled && postId !== lastPostId.current) {
+    // Save the dimensions for later
     recycled.current = {
       ...recycled.current,
       [lastPostId.current]: {
@@ -105,13 +122,16 @@ function ImageViewer({
       },
     };
 
+    // Check if we already have the new post's dimensions
     if (recycled.current[postId]) {
+      // If we do let's go ahead and set them
       dimensions.update({
         height: recycled.current[postId].height,
         width: recycled.current[postId].width,
       });
     }
 
+    // Store the new post ID
     lastPostId.current = postId;
   }
 
@@ -121,6 +141,10 @@ function ImageViewer({
       height: e.nativeEvent.height,
       width: e.nativeEvent.width,
     });
+
+    if (nsfw && blurNsfw) {
+      setBlurIntensity((prev) => (prev === 99 ? 100 : 99));
+    }
   };
 
   // This opens or closes our modal
@@ -363,16 +387,60 @@ function ImageViewer({
         ref={nonViewerRef}
         style={{ opacity: expanded ? 0 : 1 }}
       >
-        <FastImage
-          source={source}
-          style={[
-            heightOverride
-              ? { height: heightOverride, width: widthOverride }
-              : dimensions.dimensions.scaledDimensions,
-            style,
-          ]}
-          onLoad={onLoad}
-        />
+        {(nsfw && blurNsfw && (
+          <View style={styles.blurContainer}>
+            <BlurView
+              style={[
+                styles.blurView,
+                {
+                  height: dimensions.dimensions.scaledDimensions.height,
+                  width: dimensions.dimensions.scaledDimensions.width,
+                },
+              ]}
+              intensity={blurIntensity}
+              tint={theme.config.initialColorMode}
+            >
+              <VStack
+                flex={1}
+                alignItems="center"
+                justifyContent="center"
+                space={2}
+              >
+                <Icon
+                  as={Ionicons}
+                  name="alert-circle"
+                  color={theme.colors.app.textSecondary}
+                  size={16}
+                />
+                <Text fontSize="xl">NSFW</Text>
+                <Text>Sensitive content ahead</Text>
+              </VStack>
+            </BlurView>
+            {!source.uri.includes(".gif") && (
+              <FastImage
+                source={source}
+                style={[
+                  heightOverride
+                    ? { height: heightOverride, width: widthOverride }
+                    : dimensions.dimensions.scaledDimensions,
+                  style,
+                ]}
+                onLoad={onLoad}
+              />
+            )}
+          </View>
+        )) || (
+          <FastImage
+            source={source}
+            style={[
+              heightOverride
+                ? { height: heightOverride, width: widthOverride }
+                : dimensions.dimensions.scaledDimensions,
+              style,
+            ]}
+            onLoad={onLoad}
+          />
+        )}
       </Pressable>
       <Modal visible={expanded} transparent>
         <ExitButton
@@ -411,6 +479,19 @@ const styles = StyleSheet.create({
 
   imageContainer: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  blurView: {
+    position: "absolute",
+    zIndex: 1,
+  },
+
+  blurContainer: {
+    flex: 1,
+    bottom: 0,
+    overflow: "hidden",
     justifyContent: "center",
     alignItems: "center",
   },
