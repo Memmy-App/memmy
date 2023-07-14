@@ -7,7 +7,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { AppState, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import merge from "deepmerge";
-import { setRootViewBackgroundColor } from '@pnthach95/react-native-root-view-background';
+import { setRootViewBackgroundColor } from "@pnthach95/react-native-root-view-background";
 import Stack from "./Stack";
 import MemmyErrorView from "./src/components/common/Loading/MemmyErrorView";
 import { writeToLog } from "./src/helpers/LogHelper";
@@ -205,7 +205,8 @@ function Start({ onReady }: StartProps) {
       <ErrorBoundary onError={logError} FallbackComponent={MemmyErrorView}>
         {/* eslint-disable-next-line react/style-prop-object */}
         <StatusBar style={statusBarColor} />
-        <GestureHandlerRootView style={{ flex: 1, backgroundColor: selectedTheme.colors.app.bg }}>
+        <GestureHandlerRootView
+          style={{ flex: 1, backgroundColor: selectedTheme.colors.app.bg }}>
           <ActionSheetProvider>
             <>
               <Toast />
