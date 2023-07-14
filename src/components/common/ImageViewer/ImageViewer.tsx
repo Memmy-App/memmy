@@ -72,6 +72,9 @@ export default function ImageViewer({
   const lastTransitionX = useSharedValue(0);
   const lastTransitionY = useSharedValue(0);
 
+  const imageHeight = useSharedValue(0);
+  const imageWidth = useSharedValue(0);
+
   const initialPosition = useSharedValue<MeasureResult>({
     x: 0,
     y: 0,
@@ -110,6 +113,18 @@ export default function ImageViewer({
         positionX.value = px;
         positionY.value = py;
 
+        // Set the size to the initial size
+        imageHeight.value = height;
+        imageWidth.value = width;
+
+        // Size the image up
+        imageHeight.value = withTiming(dimensions.dimensions.height, {
+          duration: 200,
+        });
+        imageWidth.value = withTiming(dimensions.dimensions.width, {
+          duration: 200,
+        });
+
         // Move image to the middle
         runOnUI(setToCenter)();
       });
@@ -122,8 +137,16 @@ export default function ImageViewer({
       // Here we need to not only change the background color, but we also don't want the modal to disappear
       // until AFTER the animation is complete
       // First we move the image back to its original position
-      positionX.value = withTiming(initialPosition.value.px);
-      positionY.value = withTiming(initialPosition.value.py);
+      positionX.value = withTiming(initialPosition.value.px, { duration: 200 });
+      positionY.value = withTiming(initialPosition.value.py, { duration: 200 });
+
+      // While also changing the size back
+      imageHeight.value = withTiming(initialPosition.value.height, {
+        duration: 200,
+      });
+      imageWidth.value = withTiming(initialPosition.value.width, {
+        duration: 200,
+      });
 
       backgroundColor.value = withTiming("rgba(0, 0, 0, 0)", { duration: 200 });
 
@@ -145,6 +168,9 @@ export default function ImageViewer({
       SCREEN_HEIGHT / 2 - dimensions.dimensions.height / 2,
       { duration: 200 }
     );
+    backgroundColor.value = withTiming("rgba(0, 0, 0, 1)", {
+      duration: 300,
+    });
   };
 
   const onPinchUpdate = (
@@ -178,6 +204,21 @@ export default function ImageViewer({
     zoomScale.value = withTiming(zoomScale.value === 1 ? 2 : 1, {
       duration: 300,
     });
+  };
+
+  const onPanBegin = () => {
+    "worklet";
+
+    // Reset
+    lastTransitionX.value = 0;
+    lastTransitionY.value = 0;
+
+    // SEt the opacity to half
+    if (zoomScale.value <= 1) {
+      backgroundColor.value = withTiming("rgba(0, 0, 0, 0.5)", {
+        duration: 300,
+      });
+    }
   };
 
   const onPanUpdate = (
@@ -218,10 +259,8 @@ export default function ImageViewer({
 
   // This handles all of our pan gestures
   const panGesture = Gesture.Pan()
-    .onBegin(() => {
-      lastTransitionX.value = 0;
-      lastTransitionY.value = 0;
-    })
+    .maxPointers(1)
+    .onBegin(onPanBegin)
     .onUpdate(onPanUpdate)
     .onEnd(onPanEnd);
 
@@ -255,6 +294,13 @@ export default function ImageViewer({
     ],
   }));
 
+  const dimensionsStyle = useAnimatedStyle(() => ({
+    height: imageHeight.value,
+    width: imageWidth.value,
+  }));
+
+  const AnimatedFastImage = Animated.createAnimatedComponent(FastImage as any);
+
   return (
     <View style={styles.imageContainer}>
       <Pressable
@@ -277,26 +323,20 @@ export default function ImageViewer({
         <ExitButton onPress={onRequestOpenOrClose} />
         <View style={{ flex: 1, zIndex: -1 }}>
           <GestureDetector gesture={tapGesture}>
-            <Animated.View style={[styles.imageModal, backgroundStyle]}>
-              <GestureDetector gesture={panGesture}>
-                <GestureDetector gesture={pinchGesture}>
+            <GestureDetector gesture={panGesture}>
+              <GestureDetector gesture={pinchGesture}>
+                <Animated.View style={[styles.imageModal, backgroundStyle]}>
                   <Animated.View style={[scaleStyle]}>
                     <Animated.View style={[positionStyle]}>
-                      <FastImage
+                      <AnimatedFastImage
                         source={source}
-                        style={[
-                          {
-                            height: dimensions.dimensions.height,
-                            width: dimensions.dimensions.width,
-                          },
-                        ]}
-                        onLoad={onLoad}
+                        style={[dimensionsStyle]}
                       />
                     </Animated.View>
                   </Animated.View>
-                </GestureDetector>
+                </Animated.View>
               </GestureDetector>
-            </Animated.View>
+            </GestureDetector>
           </GestureDetector>
         </View>
       </Modal>
