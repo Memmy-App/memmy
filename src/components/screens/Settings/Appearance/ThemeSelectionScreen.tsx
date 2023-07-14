@@ -60,6 +60,7 @@ function ThemeSelectionScreen({ route }: IProps) {
           <CSection header={t("settings.appearance.themes.light")}>
             {LightThemeOptionsArr.map((themeName) => (
               <CCell
+                key={themeName}
                 cellStyle="RightDetail"
                 title={
                   <HStack space={2}>
@@ -86,6 +87,7 @@ function ThemeSelectionScreen({ route }: IProps) {
           <CSection header={t("settings.appearance.themes.dark")}>
             {DarkThemeOptionsArr.map((themeName) => (
               <CCell
+                key={themeName}
                 cellStyle="RightDetail"
                 title={
                   <HStack space={2}>
