@@ -35,10 +35,18 @@ function NewPostScreen({
   const theme = useTheme();
 
   const headerLeft = () => (
-    <Button title={t("Cancel")} onPress={() => navigation.pop()} />
+    <Button
+      title={t("Cancel")}
+      onPress={() => navigation.pop()}
+      color={theme.colors.app.accent}
+    />
   );
   const headerRight = () => (
-    <Button title={t("Submit")} onPress={newPost.doSubmit} />
+    <Button
+      title={t("Submit")}
+      onPress={newPost.doSubmit}
+      color={theme.colors.app.accent}
+    />
   );
 
   useEffect(() => {
