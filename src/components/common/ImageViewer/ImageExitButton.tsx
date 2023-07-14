@@ -1,16 +1,20 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
+import { View, Text } from "native-base";
 
 interface IProps {
   onPress: () => void;
+  visible: boolean;
 }
 
-function ImageExitButton({ onPress }: IProps) {
+function ImageExitButton({ onPress, visible }: IProps) {
   return (
-    <Pressable onPress={onPress}>
-      <View style={[styles.buttonPosition, styles.exitButton]} />
-      <Text style={[styles.buttonPosition, styles.buttonText]}>X</Text>
-    </Pressable>
+    <View opacity={visible ? 1 : 0}>
+      <Pressable onPress={onPress}>
+        <View style={[styles.buttonPosition, styles.exitButton]} />
+        <Text style={[styles.buttonPosition, styles.buttonText]}>X</Text>
+      </Pressable>
+    </View>
   );
 }
 

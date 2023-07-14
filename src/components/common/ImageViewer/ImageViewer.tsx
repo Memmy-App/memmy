@@ -22,8 +22,10 @@ import {
   PanGestureHandlerEventPayload,
   PinchGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
+import { setTime } from "@internationalized/date/src/manipulation";
 import { useImageDimensions } from "./useImageDimensions";
 import ExitButton from "./ImageExitButton";
+import ImageViewFooter from "./ImageViewFooter";
 
 interface IProps {
   source: { uri: string };
@@ -59,6 +61,7 @@ export default function ImageViewer({
   const dimensions = useImageDimensions();
 
   const [expanded, setExpanded] = useState<boolean>(false);
+  const [accessoriesVisible, setAccessoriesVisible] = useState(false);
 
   const zoomScale = useSharedValue(1);
 
@@ -98,6 +101,7 @@ export default function ImageViewer({
 
       // Make sure that the initial value for last zoom is reset
       lastScale.value = 1;
+      zoomScale.value = 1;
 
       // If expanded is false, we are opening up. So we want to fade in the background color
       // First we set the position information
@@ -135,7 +139,15 @@ export default function ImageViewer({
       backgroundColor.value = withTiming("rgba(0, 0, 0, 1)", { duration: 200 });
 
       setExpanded(true);
+
+      // In 200ms we will be ready, so then we will display the accessories
+      setTimeout(() => {
+        setAccessoriesVisible(true);
+      }, 200);
     } else {
+      // Hide our accessories now
+      setAccessoriesVisible(false);
+
       // Here we need to not only change the background color, but we also don't want the modal to disappear
       // until AFTER the animation is complete
       // First we move the image back to its original position
@@ -327,7 +339,10 @@ export default function ImageViewer({
         />
       </Pressable>
       <Modal visible={expanded} transparent>
-        <ExitButton onPress={onRequestOpenOrClose} />
+        <ExitButton
+          onPress={onRequestOpenOrClose}
+          visible={accessoriesVisible}
+        />
         <View style={{ flex: 1, zIndex: -1 }}>
           <GestureDetector gesture={tapGesture}>
             <GestureDetector gesture={panGesture}>
@@ -346,6 +361,7 @@ export default function ImageViewer({
             </GestureDetector>
           </GestureDetector>
         </View>
+        <ImageViewFooter source={source.uri} visible={accessoriesVisible} />
       </Modal>
     </View>
   );
