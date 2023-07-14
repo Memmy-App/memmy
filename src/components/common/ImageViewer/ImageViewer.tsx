@@ -32,6 +32,7 @@ import ExitButton from "./ImageExitButton";
 import ImageViewFooter from "./ImageViewFooter";
 import { useAppSelector } from "../../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
+import ImageButton from "../Buttons/ImageButton";
 
 interface IProps {
   source: { uri: string };
@@ -42,6 +43,7 @@ interface IProps {
   onPress?: () => unknown;
   recycled?: React.MutableRefObject<{}>;
   nsfw?: boolean;
+  buttonMode?: boolean;
 }
 
 interface MeasureResult {
@@ -67,6 +69,7 @@ function ImageViewer({
   onPress,
   recycled,
   nsfw,
+  buttonMode = false,
 }: IProps) {
   const theme = useTheme();
 
@@ -382,66 +385,86 @@ function ImageViewer({
 
   return (
     <View style={styles.imageContainer}>
-      <Pressable
-        onPress={onRequestOpenOrClose}
-        ref={nonViewerRef}
-        style={{ opacity: expanded ? 0 : 1 }}
-      >
-        {(nsfw && blurNsfw && (
-          <View style={styles.blurContainer}>
-            <BlurView
-              style={[
-                styles.blurView,
-                {
-                  height: dimensions.dimensions.scaledDimensions.height,
-                  width: dimensions.dimensions.scaledDimensions.width,
-                },
-              ]}
-              intensity={blurIntensity}
-              tint={theme.config.initialColorMode}
-            >
-              <VStack
-                flex={1}
-                alignItems="center"
-                justifyContent="center"
-                space={2}
-              >
-                <Icon
-                  as={Ionicons}
-                  name="alert-circle"
-                  color={theme.colors.app.textSecondary}
-                  size={16}
-                />
-                <Text fontSize="xl">NSFW</Text>
-                <Text>Sensitive content ahead</Text>
-              </VStack>
-            </BlurView>
-            {!source.uri.includes(".gif") && (
-              <FastImage
-                source={source}
+      {buttonMode ? (
+        <Pressable
+          onPress={onRequestOpenOrClose}
+          ref={nonViewerRef}
+          style={{ opacity: expanded ? 0 : 1 }}
+        >
+          <ImageButton src={source.uri}>
+            <FastImage
+              style={{
+                height: 50,
+                width: 50,
+              }}
+              resizeMode="contain"
+              source={source}
+              onLoad={onLoad}
+            />
+          </ImageButton>
+        </Pressable>
+      ) : (
+        <Pressable
+          onPress={onRequestOpenOrClose}
+          ref={nonViewerRef}
+          style={{ opacity: expanded ? 0 : 1 }}
+        >
+          {(nsfw && blurNsfw && (
+            <View style={styles.blurContainer}>
+              <BlurView
                 style={[
-                  heightOverride
-                    ? { height: heightOverride, width: widthOverride }
-                    : dimensions.dimensions.scaledDimensions,
-                  style,
+                  styles.blurView,
+                  {
+                    height: dimensions.dimensions.scaledDimensions.height,
+                    width: dimensions.dimensions.scaledDimensions.width,
+                  },
                 ]}
-                onLoad={onLoad}
-              />
-            )}
-          </View>
-        )) || (
-          <FastImage
-            source={source}
-            style={[
-              heightOverride
-                ? { height: heightOverride, width: widthOverride }
-                : dimensions.dimensions.scaledDimensions,
-              style,
-            ]}
-            onLoad={onLoad}
-          />
-        )}
-      </Pressable>
+                intensity={blurIntensity}
+                tint={theme.config.initialColorMode}
+              >
+                <VStack
+                  flex={1}
+                  alignItems="center"
+                  justifyContent="center"
+                  space={2}
+                >
+                  <Icon
+                    as={Ionicons}
+                    name="alert-circle"
+                    color={theme.colors.app.textSecondary}
+                    size={16}
+                  />
+                  <Text fontSize="xl">NSFW</Text>
+                  <Text>Sensitive content ahead</Text>
+                </VStack>
+              </BlurView>
+              {!source.uri.includes(".gif") && (
+                <FastImage
+                  source={source}
+                  style={[
+                    heightOverride
+                      ? { height: heightOverride, width: widthOverride }
+                      : dimensions.dimensions.scaledDimensions,
+                    style,
+                  ]}
+                  onLoad={onLoad}
+                />
+              )}
+            </View>
+          )) || (
+            <FastImage
+              source={source}
+              style={[
+                heightOverride
+                  ? { height: heightOverride, width: widthOverride }
+                  : dimensions.dimensions.scaledDimensions,
+                style,
+              ]}
+              onLoad={onLoad}
+            />
+          )}
+        </Pressable>
+      )}
       <Modal visible={expanded} transparent>
         <ExitButton
           onPress={onRequestOpenOrClose}
