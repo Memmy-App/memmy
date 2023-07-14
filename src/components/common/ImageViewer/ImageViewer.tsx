@@ -22,7 +22,6 @@ import {
   PanGestureHandlerEventPayload,
   PinchGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
-import { setTime } from "@internationalized/date/src/manipulation";
 import { useImageDimensions } from "./useImageDimensions";
 import ExitButton from "./ImageExitButton";
 import ImageViewFooter from "./ImageViewFooter";
@@ -124,10 +123,10 @@ export default function ImageViewer({
         imageWidth.value = width;
 
         // Size the image up
-        imageHeight.value = withTiming(dimensions.dimensions.height, {
+        imageHeight.value = withTiming(dimensions.realDimensions.height, {
           duration: 200,
         });
-        imageWidth.value = withTiming(dimensions.dimensions.width, {
+        imageWidth.value = withTiming(dimensions.realDimensions.width, {
           duration: 200,
         });
 
@@ -141,9 +140,10 @@ export default function ImageViewer({
       setExpanded(true);
 
       // In 200ms we will be ready, so then we will display the accessories
+      // Add 50ms to prevent visual bugs
       setTimeout(() => {
         setAccessoriesVisible(true);
-      }, 200);
+      }, 250);
     } else {
       // Hide our accessories now
       setAccessoriesVisible(false);
@@ -175,11 +175,11 @@ export default function ImageViewer({
     "worklet";
 
     positionX.value = withTiming(
-      SCREEN_WIDTH / 2 - dimensions.dimensions.width / 2,
+      SCREEN_WIDTH / 2 - dimensions.realDimensions.width / 2,
       { duration: 200 }
     );
     positionY.value = withTiming(
-      SCREEN_HEIGHT / 2 - dimensions.dimensions.height / 2,
+      SCREEN_HEIGHT / 2 - dimensions.realDimensions.height / 2,
       { duration: 200 }
     );
     backgroundColor.value = withTiming("rgba(0, 0, 0, 1)", {
@@ -332,7 +332,7 @@ export default function ImageViewer({
           style={[
             heightOverride
               ? { height: heightOverride, width: widthOverride }
-              : dimensions.dimensions,
+              : dimensions.scaledDimensions,
             style,
           ]}
           onLoad={onLoad}

@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Dimensions as RNDimensions } from "react-native";
+import { useAppSelector } from "../../../../store";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
 
 interface UseImageDimensions {
-  dimensions: Dimensions;
+  scaledDimensions: Dimensions;
+  realDimensions: Dimensions;
   update: (imageDimensions: Dimensions) => void;
 }
 
@@ -12,17 +15,34 @@ interface Dimensions {
 }
 
 export function useImageDimensions(): UseImageDimensions {
-  const [dimensions, setDimensions] = useState<Dimensions>({
+  const { ignoreScreenHeightInFeed } = useAppSelector(selectSettings);
+
+  const [realDimensions, setRealDimensions] = useState<Dimensions>({
+    height: 0,
+    width: 0,
+  });
+
+  const [scaledDimensions, setScaledDimensions] = useState<Dimensions>({
     height: 0,
     width: 0,
   });
 
   const update = (imageDimensions: Dimensions) => {
-    setDimensions(getRatio(imageDimensions.height, imageDimensions.width));
+    setScaledDimensions(
+      getRatio(
+        imageDimensions.height,
+        imageDimensions.width,
+        ignoreScreenHeightInFeed ? 0.9 : 0.6
+      )
+    );
+    setRealDimensions(
+      getRatio(imageDimensions.height, imageDimensions.width, 0.9)
+    );
   };
 
   return {
-    dimensions,
+    realDimensions,
+    scaledDimensions,
     update,
   };
 }
