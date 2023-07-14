@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { View, Text, Pressable } from "native-base";
+import { View, Pressable } from "native-base";
 import { IconX } from "tabler-icons-react-native";
 
 interface IProps {
@@ -10,7 +10,14 @@ interface IProps {
 
 function ImageExitButton({ onPress, visible }: IProps) {
   return (
-    <View opacity={visible ? 1 : 0} style={styles.buttonPosition}>
+    <View
+      style={[
+        styles.buttonPosition,
+        {
+          opacity: visible ? 0.5 : 0,
+        },
+      ]}
+    >
       <Pressable onPress={onPress} hitSlop={10} padding={1.5}>
         <View>
           <IconX color="white" />
@@ -27,7 +34,6 @@ const styles = StyleSheet.create({
     right: 10,
     backgroundColor: "gray",
     borderRadius: 100,
-    opacity: 0.5,
   },
 
   buttonText: {
