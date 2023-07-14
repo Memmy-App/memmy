@@ -206,7 +206,8 @@ function Start({ onReady }: StartProps) {
         {/* eslint-disable-next-line react/style-prop-object */}
         <StatusBar style={statusBarColor} />
         <GestureHandlerRootView
-          style={{ flex: 1, backgroundColor: selectedTheme.colors.app.bg }}>
+          style={{ flex: 1, backgroundColor: selectedTheme.colors.app.bg }}
+        >
           <ActionSheetProvider>
             <>
               <Toast />
