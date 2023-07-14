@@ -45,7 +45,7 @@ export const replaceNoMarkdown = (
 
   if (!withFixedCommunities) return "";
 
-  const urlPattern = /(?<!\(|\[)(https?:\/\/[^\s\/$.?#]+\.[^\s]*)(?!\)|\])/gm;
+  const urlPattern = /(?<!\(|\[)(https?:\/\/[^\s/$.?#]+\.[^\s]*)(?!\)|\])/gm;
 
   return withFixedCommunities.replace(
     urlPattern,

@@ -11,8 +11,8 @@ import { replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { fontSizeMap } from "../../../theme/fontSize";
-import ImageButton from "../Buttons/ImageButton";
 import SpoilerContainer from "./SpoilerContainer";
+import ImageViewer from "../ImageViewer/ImageViewer";
 
 const MarkdownItInstance = MarkdownIt({ typographer: true }).use(
   require("markdown-it-container"),
@@ -188,11 +188,7 @@ function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
                 </View>
               ),
               image: (node) => (
-                <ImageButton
-                  src={node.attributes.src}
-                  key={node.key}
-                  marginY={0}
-                />
+                <ImageViewer source={{ uri: node.attributes.src }} buttonMode />
               ),
             }}
             onLinkPress={onLinkPress}

@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from "react";
+import React, { SetStateAction } from "react";
 import { PostView } from "lemmy-js-client";
 import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
 import { useWindowDimensions } from "react-native";
@@ -36,7 +36,6 @@ function CompactFeedItem({
     compactShowVotingButtons,
     fontWeightPostTitle,
   } = useAppSelector(selectSettings);
-  const [imageViewOpen, setImageViewOpen] = useState(false);
 
   const feedItem = useFeedItem(post, setPosts);
   const theme = useTheme();
@@ -85,8 +84,6 @@ function CompactFeedItem({
             {compactThumbnailPosition === "Left" && (
               <CompactFeedItemThumbnail
                 post={post}
-                setImageViewOpen={setImageViewOpen}
-                imageViewOpen={imageViewOpen}
                 linkInfo={feedItem.linkInfo}
                 setPostRead={feedItem.setPostRead}
               />
@@ -121,8 +118,6 @@ function CompactFeedItem({
               <VStack alignItems="flex-start">
                 <CompactFeedItemThumbnail
                   post={post}
-                  setImageViewOpen={setImageViewOpen}
-                  imageViewOpen={imageViewOpen}
                   linkInfo={feedItem.linkInfo}
                   setPostRead={feedItem.setPostRead}
                 />
