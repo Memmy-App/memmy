@@ -1635,14 +1635,6 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@gkasdorf/react-native-image-viewing@^0.2.23":
-  version "0.2.23"
-  resolved "https://registry.yarnpkg.com/@gkasdorf/react-native-image-viewing/-/react-native-image-viewing-0.2.23.tgz#0c252cd91f31b8711184710110dd3972ff1de2a8"
-  integrity sha512-+otTaf2D2km8tqy8Hcvd0TB0CV1TRzvmWqKjp3X1fyzC8rqwV05NUH0PpPJ/Xi6umQNFn2IzKva/PXQ12CMuoQ==
-  dependencies:
-    "@react-native-community/hooks" "^3.0.0"
-    react-native-fast-image "^8.6.3"
-
 "@gkasdorf/react-native-tableview-simple@^4.4.2":
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/@gkasdorf/react-native-tableview-simple/-/react-native-tableview-simple-4.4.2.tgz#c248418beb7cc7b995a2f2f6dd2b1b0108e3d09c"
@@ -1901,6 +1893,13 @@
   dependencies:
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
+
+"@pnthach95/react-native-root-view-background@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@pnthach95/react-native-root-view-background/-/react-native-root-view-background-1.3.0.tgz#7326f5360bbff5111fe3d11e85712949a3afe295"
+  integrity sha512-WFWtJ0/uYWH9GRBleO6f3KjvrMiGuIVPxCUjEg9TLj4RI8mb/yPMHrFb8c+/AZWjEZjirFrEG19ia5s8pdI7LA==
+  dependencies:
+    colord "^2.9.3"
 
 "@react-aria/checkbox@^3.2.1":
   version "3.9.1"
@@ -4312,6 +4311,11 @@ color@^4.2.3:
   dependencies:
     color-convert "^2.0.1"
     color-string "^1.9.0"
+
+colord@^2.9.3:
+  version "2.9.3"
+  resolved "https://registry.yarnpkg.com/colord/-/colord-2.9.3.tgz#4f8ce919de456f1d5c1c368c307fe20f3e59fb43"
+  integrity sha512-jeC1axXpnb0/2nn/Y1LPuLdgXBLH7aDcHu4KEKfqw3CUhX7ZpfBSlPKyqXE6btIgEzfWtrX3/tyBCaCvXvMkOw==
 
 colorette@^1.0.7:
   version "1.4.0"

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { HStack, useTheme } from "native-base";
+import { HStack, useTheme, View } from "native-base";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { IconDeviceFloppy, IconShare2 } from "tabler-icons-react-native";
 import DialogContainer from "react-native-dialog/lib/Container";
@@ -12,9 +12,10 @@ import { shareLink } from "../../../helpers/ShareHelper";
 
 interface ImageViewFooterProps {
   source: string;
+  visible: boolean;
 }
 
-function ImageViewFooter({ source }: ImageViewFooterProps) {
+function ImageViewFooter({ source, visible }: ImageViewFooterProps) {
   const [downloading, setDownloading] = useState(false);
 
   const { t } = useTranslation();
@@ -37,7 +38,13 @@ function ImageViewFooter({ source }: ImageViewFooterProps) {
   };
 
   return (
-    <>
+    <View
+      position="absolute"
+      bottom={0}
+      width="100%"
+      zIndex={2}
+      opacity={visible ? 1 : 0}
+    >
       <HStack
         flex={1}
         mb={10}
@@ -63,7 +70,7 @@ function ImageViewFooter({ source }: ImageViewFooterProps) {
       <DialogContainer visible={downloading}>
         <DialogDescription>{t("imageView.dialogDesc")}</DialogDescription>
       </DialogContainer>
-    </>
+    </View>
   );
 }
 

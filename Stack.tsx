@@ -654,9 +654,13 @@ function Tabs() {
 
 const MainStack = createNativeStackNavigator();
 
-function Stack() {
-  const { t } = useTranslation();
+interface StackProps {
+  onReady: () => void;
+}
+
+function Stack({ onReady }: StackProps) {
   const theme = useTheme();
+  const { t } = useTranslation();
   const accounts = useAppSelector(selectAccounts);
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
 
@@ -673,7 +677,7 @@ function Stack() {
   };
 
   return (
-    <NavigationContainer theme={MyTheme}>
+    <NavigationContainer onReady={onReady} theme={MyTheme}>
       <MainStack.Navigator>
         {(!accountsLoaded && (
           <MainStack.Screen

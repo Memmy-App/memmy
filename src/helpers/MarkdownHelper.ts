@@ -33,11 +33,22 @@ export const replaceNoMarkdown = (
 ): string => {
   const communityPattern = /(?<=\(|^)\/[cmu]\/(?:\w+|(\w+@\w+\.\w+))(?=\)|$)/gm;
 
-  return text.replace(communityPattern, (match) => {
+  if (!text) return "";
+
+  const withFixedCommunities = text.replace(communityPattern, (match) => {
     const parts = match.split("@");
 
     return `[${match}](https://${currentInstance}${parts[0]}@${
       parts.length > 1 ? parts[1] : postInstance
     })`;
   });
+
+  if (!withFixedCommunities) return "";
+
+  const urlPattern = /(?<!\(|\[)(https?:\/\/[^\s/$.?#]+\.[^\s]*)(?!\)|\])/gm;
+
+  return withFixedCommunities.replace(
+    urlPattern,
+    (match) => `[${match ?? ""}](${match ?? ""})`
+  );
 };
