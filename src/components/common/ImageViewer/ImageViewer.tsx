@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Dimensions as RNDimensions,
   Modal,
@@ -29,6 +29,7 @@ interface IProps {
   source: { uri: string };
   heightOverride?: number;
   widthOverride?: number;
+  style?: object;
 }
 
 interface MeasureResult {
@@ -43,11 +44,16 @@ interface MeasureResult {
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } =
   RNDimensions.get("screen");
 
-export default function ImageItem({
+export default function ImageViewer({
   source,
   heightOverride,
   widthOverride,
+  style = {},
 }: IProps) {
+  useEffect(() => {
+    console.log(`Render!${Date.now()}`);
+  });
+
   const nonViewerRef = useRef<View>(null);
 
   const dimensions = useImageDimensions();
@@ -252,11 +258,12 @@ export default function ImageItem({
       >
         <FastImage
           source={source}
-          style={
+          style={[
             heightOverride
               ? { height: heightOverride, width: widthOverride }
-              : dimensions.dimensions
-          }
+              : dimensions.dimensions,
+            style,
+          ]}
           onLoad={onLoad}
         />
       </Pressable>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet } from "react-native";
 import { Box, Icon, Pressable, useTheme, View, VStack } from "native-base";
 import { PostView } from "lemmy-js-client";
@@ -6,34 +6,27 @@ import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import FastImage from "react-native-fast-image";
 import { IconLink, IconMessages } from "tabler-icons-react-native";
-import EnhancedImageViewing from "@gkasdorf/react-native-image-viewing";
 import { ExtensionType, LinkInfo } from "../../../../../helpers/LinkHelper";
 import { useAppSelector } from "../../../../../../store";
 import { selectSettings } from "../../../../../slices/settings/settingsSlice";
 
 import { lemmyAuthToken, lemmyInstance } from "../../../../../LemmyInstance";
-import ImageViewFooter from "../../../../common/ImageViewer/ImageViewFooter";
+import ImageViewer from "../../../../common/ImageViewer/ImageViewer";
 
 function CompactFeedItemThumbnail({
   post,
   linkInfo,
-  setImageViewOpen,
-  imageViewOpen,
   setPostRead,
 }: {
   post: PostView;
   linkInfo: LinkInfo;
-  setImageViewOpen: (open: boolean) => void;
-  imageViewOpen: boolean;
   setPostRead: () => void;
 }) {
   const theme = useTheme();
 
   const { blurNsfw, markReadOnPostImageView } = useAppSelector(selectSettings);
-  const [dimensions, setDimensions] = useState({ height: 0, width: 0 });
 
   const onImagePress = () => {
-    setImageViewOpen(true);
     lemmyInstance
       .markPostAsRead({
         auth: lemmyAuthToken,
@@ -46,20 +39,7 @@ function CompactFeedItemThumbnail({
     }
   };
 
-  const onRequestClose = () => {
-    setImageViewOpen(false);
-  };
-
   const onImageLongPress = () => {};
-
-  const onLoad = (e) => {
-    setDimensions({
-      height: e.nativeEvent.height,
-      width: e.nativeEvent.width,
-    });
-  };
-
-  const imageViewFooter = () => <ImageViewFooter source={post.post.url} />;
 
   return (
     <Box
@@ -97,37 +77,28 @@ function CompactFeedItemThumbnail({
                     />
                   </VStack>
                 </BlurView>
-                <FastImage
-                  resizeMode="cover"
-                  style={styles.image}
-                  source={{
-                    uri: post.post.url,
+                <ImageViewer
+                  source={{ uri: post.post.url }}
+                  heightOverride={75}
+                  widthOverride={75}
+                  style={{
+                    borderRadius: 10,
                   }}
-                  onLoad={onLoad}
                 />
               </View>
             </Pressable>
           ) : (
             <Pressable onPress={onImagePress} onLongPress={onImageLongPress}>
-              <FastImage
-                resizeMode="cover"
-                style={styles.image}
-                source={{
-                  uri: post.post.url,
+              <ImageViewer
+                source={{ uri: post.post.url }}
+                heightOverride={75}
+                widthOverride={75}
+                style={{
+                  borderRadius: 10,
                 }}
-                onLoad={onLoad}
               />
             </Pressable>
           )}
-          <EnhancedImageViewing
-            images={[{ uri: post.post.url }]}
-            imageIndex={0}
-            visible={imageViewOpen}
-            onRequestClose={onRequestClose}
-            height={dimensions.height}
-            width={dimensions.width}
-            FooterComponent={imageViewFooter}
-          />
         </>
       )) ||
         (linkInfo.extType === ExtensionType.NONE && (
@@ -138,7 +109,11 @@ function CompactFeedItemThumbnail({
               <>
                 <FastImage
                   resizeMode="cover"
-                  style={[styles.image]}
+                  style={{
+                    height: 75,
+                    width: 75,
+                    borderRadius: 10,
+                  }}
                   source={{
                     uri: post.post.thumbnail_url,
                   }}
@@ -163,12 +138,6 @@ function CompactFeedItemThumbnail({
 }
 
 const styles = StyleSheet.create({
-  image: {
-    height: 75,
-    width: 75,
-    borderRadius: 10,
-  },
-
   blurView: {
     position: "absolute",
     height: "100%",
