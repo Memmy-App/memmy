@@ -4,9 +4,14 @@ import { useAppSelector } from "../../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 
 interface UseImageDimensions {
-  scaledDimensions: Dimensions;
-  realDimensions: Dimensions;
+  dimensions: AllDimensions;
   update: (imageDimensions: Dimensions) => void;
+}
+
+interface AllDimensions {
+  scaledDimensions: Dimensions;
+  viewerDimensions: Dimensions;
+  actualDimensions: Dimensions;
 }
 
 interface Dimensions {
@@ -14,36 +19,39 @@ interface Dimensions {
   width: number;
 }
 
+const initialDimensions: Dimensions = {
+  height: 0,
+  width: 0,
+};
+
 export function useImageDimensions(): UseImageDimensions {
   const { ignoreScreenHeightInFeed } = useAppSelector(selectSettings);
 
-  const [realDimensions, setRealDimensions] = useState<Dimensions>({
-    height: 0,
-    width: 0,
-  });
-
-  const [scaledDimensions, setScaledDimensions] = useState<Dimensions>({
-    height: 0,
-    width: 0,
+  const [dimensions, setDimensions] = useState<AllDimensions>({
+    scaledDimensions: initialDimensions,
+    viewerDimensions: initialDimensions,
+    actualDimensions: initialDimensions,
   });
 
   const update = (imageDimensions: Dimensions) => {
-    setScaledDimensions(
-      getRatio(
+    setDimensions({
+      scaledDimensions: getRatio(
         imageDimensions.height,
         imageDimensions.width,
         ignoreScreenHeightInFeed ? 0.9 : 0.6
-      )
-    );
-    setRealDimensions(
-      getRatio(imageDimensions.height, imageDimensions.width, 0.9)
-    );
+      ),
+      viewerDimensions: getRatio(
+        imageDimensions.height,
+        imageDimensions.width,
+        0.9
+      ),
+      actualDimensions: imageDimensions,
+    });
   };
 
   return {
-    realDimensions,
-    scaledDimensions,
     update,
+    dimensions,
   };
 }
 

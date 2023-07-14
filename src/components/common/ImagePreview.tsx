@@ -15,9 +15,9 @@ function ImagePreview({ images, postId, recycled, isNsfw }: IProps) {
     return (
       <ImageViewer
         source={{ uri: images[0] }}
-        // nsfw={isNsfw}
-        // id={postId}
-        // recycled={recycled}
+        nsfw={isNsfw}
+        postId={postId}
+        recycled={recycled}
       />
     );
   }
@@ -27,17 +27,17 @@ function ImagePreview({ images, postId, recycled, isNsfw }: IProps) {
       <HStack space={1}>
         <ImageViewer
           source={{ uri: images[0] }}
-          // nsfw={isNsfw}
-          // id={postId}
-          // recycled={recycled}
+          nsfw={isNsfw}
+          postId={postId}
+          recycled={recycled}
           heightOverride={200}
           widthOverride={Dimensions.get("screen").width / 2}
         />
         <ImageViewer
           source={{ uri: images[1] }}
-          // nsfw={isNsfw}
-          // id={postId}
-          // recycled={recycled}
+          nsfw={isNsfw}
+          postId={postId}
+          recycled={recycled}
           heightOverride={200}
           widthOverride={Dimensions.get("screen").width / 2}
         />

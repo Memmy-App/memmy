@@ -28,10 +28,13 @@ import ImageViewFooter from "./ImageViewFooter";
 
 interface IProps {
   source: { uri: string };
+  postId?: number;
   heightOverride?: number;
   widthOverride?: number;
   style?: object;
   onPress?: () => unknown;
+  recycled?: React.MutableRefObject<{}>;
+  nsfw?: boolean;
 }
 
 interface MeasureResult {
@@ -46,12 +49,16 @@ interface MeasureResult {
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } =
   RNDimensions.get("screen");
 
-export default function ImageViewer({
+function ImageViewer({
   source,
+  postId,
   heightOverride,
   widthOverride,
-  style = {},
+  style = {
+    /* What are you looking at?! */
+  },
   onPress,
+  recycled,
 }: IProps) {
   // We need to handle the possible FlashList re-uses, so we'll do that here
 
@@ -84,6 +91,29 @@ export default function ImageViewer({
     py: 0,
     px: 0,
   });
+
+  // Handle recycling
+
+  const lastPostId = useRef(postId);
+
+  if (recycled && postId !== lastPostId.current) {
+    recycled.current = {
+      ...recycled.current,
+      [lastPostId.current]: {
+        height: dimensions.dimensions.actualDimensions.height,
+        width: dimensions.dimensions.actualDimensions.width,
+      },
+    };
+
+    if (recycled.current[postId]) {
+      dimensions.update({
+        height: recycled.current[postId].height,
+        width: recycled.current[postId].width,
+      });
+    }
+
+    lastPostId.current = postId;
+  }
 
   // Whenever the image loads we want to set the dimensions
   const onLoad = (e: OnLoadEvent) => {
@@ -123,12 +153,18 @@ export default function ImageViewer({
         imageWidth.value = width;
 
         // Size the image up
-        imageHeight.value = withTiming(dimensions.realDimensions.height, {
-          duration: 200,
-        });
-        imageWidth.value = withTiming(dimensions.realDimensions.width, {
-          duration: 200,
-        });
+        imageHeight.value = withTiming(
+          dimensions.dimensions.viewerDimensions.height,
+          {
+            duration: 200,
+          }
+        );
+        imageWidth.value = withTiming(
+          dimensions.dimensions.viewerDimensions.width,
+          {
+            duration: 200,
+          }
+        );
 
         // Move image to the middle
         runOnUI(setToCenter)();
@@ -175,11 +211,11 @@ export default function ImageViewer({
     "worklet";
 
     positionX.value = withTiming(
-      SCREEN_WIDTH / 2 - dimensions.realDimensions.width / 2,
+      SCREEN_WIDTH / 2 - dimensions.dimensions.viewerDimensions.width / 2,
       { duration: 200 }
     );
     positionY.value = withTiming(
-      SCREEN_HEIGHT / 2 - dimensions.realDimensions.height / 2,
+      SCREEN_HEIGHT / 2 - dimensions.dimensions.viewerDimensions.height / 2,
       { duration: 200 }
     );
     backgroundColor.value = withTiming("rgba(0, 0, 0, 1)", {
@@ -332,7 +368,7 @@ export default function ImageViewer({
           style={[
             heightOverride
               ? { height: heightOverride, width: widthOverride }
-              : dimensions.scaledDimensions,
+              : dimensions.dimensions.scaledDimensions,
             style,
           ]}
           onLoad={onLoad}
@@ -379,3 +415,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
+
+export default React.memo(ImageViewer);
