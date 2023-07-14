@@ -33,6 +33,7 @@ import ImageViewFooter from "./ImageViewFooter";
 import { useAppSelector } from "../../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import ImageButton from "../Buttons/ImageButton";
+import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 
 interface IProps {
   source: { uri: string };
@@ -250,6 +251,14 @@ function ImageViewer({
     });
   };
 
+  const onPinchStart = () => {
+    "worklet";
+
+    if (accessoriesVisible) {
+      runOnJS(setAccessoriesVisible)(false);
+    }
+  };
+
   const onPinchUpdate = (
     event: GestureUpdateEvent<PinchGestureHandlerEventPayload>
   ) => {
@@ -261,9 +270,11 @@ function ImageViewer({
   const onPinchEnd = () => {
     "worklet";
 
-    // If the user has zoomed out past the scale of one, we will reset the scale
+    // If the user has zoomed out past the scale of one, we will reset the scale and display accessories. Play a haptic
     if (zoomScale.value < 1) {
       zoomScale.value = withTiming(1, { duration: 300 });
+      runOnJS(onGenericHapticFeedback)();
+      runOnJS(setAccessoriesVisible)(true);
     }
 
     // We need this saved value for later
@@ -274,13 +285,18 @@ function ImageViewer({
   const onDoubleTap = () => {
     "worklet";
 
-    // Move back to center if we are returning to scale of one
+    // Move back to center and show accessories if we are returning to scale of one
     if (zoomScale.value !== 1) {
       setToCenter();
+
+      runOnJS(setAccessoriesVisible)(true);
+    } else {
+      // Otherwise we should hide the accessories
+      runOnJS(setAccessoriesVisible)(false);
     }
 
     // Update the scale based off of the current scale
-    zoomScale.value = withTiming(zoomScale.value === 1 ? 2 : 1, {
+    zoomScale.value = withTiming(zoomScale.value === 1 ? 1.5 : 1, {
       duration: 300,
     });
 
@@ -296,17 +312,22 @@ function ImageViewer({
     lastTransitionY.value = 0;
 
     // SEt the opacity to half
-    if (zoomScale.value <= 1) {
-      backgroundColor.value = withTiming("rgba(0, 0, 0, 0.5)", {
-        duration: 300,
-      });
-    }
   };
 
   const onPanUpdate = (
     event: GestureUpdateEvent<PanGestureHandlerEventPayload>
   ) => {
     "worklet";
+
+    if (
+      backgroundColor.value === "rgba(0, 0, 0, 1)" &&
+      (Math.abs(event.translationX) > 5 || Math.abs(event.translationY) > 5) &&
+      zoomScale.value <= 1
+    ) {
+      backgroundColor.value = withTiming("rgba(0, 0, 0, 0.5)", {
+        duration: 300,
+      });
+    }
 
     // We move the position based on the pan. We also have to divide this by the zoom scale.
     positionX.value +=
@@ -348,6 +369,7 @@ function ImageViewer({
 
   // This handles all of our pinch gestures
   const pinchGesture = Gesture.Pinch()
+    .onStart(onPinchStart)
     .onUpdate(onPinchUpdate)
     .onEnd(onPinchEnd);
 
