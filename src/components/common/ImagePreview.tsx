@@ -14,7 +14,8 @@ function ImagePreview({ images, postId, recycled, isNsfw }: IProps) {
   if (images.length === 1) {
     return (
       <ImageViewer
-        source={images[0]}
+        sourceIndex={0}
+        sources={images}
         nsfw={isNsfw}
         id={postId}
         recycled={recycled}
@@ -26,7 +27,8 @@ function ImagePreview({ images, postId, recycled, isNsfw }: IProps) {
     return (
       <HStack space={1}>
         <ImageViewer
-          source={images[0]}
+          sourceIndex={0}
+          sources={images}
           nsfw={isNsfw}
           id={postId}
           recycled={recycled}
@@ -35,7 +37,8 @@ function ImagePreview({ images, postId, recycled, isNsfw }: IProps) {
           width={Dimensions.get("screen").width / 2}
         />
         <ImageViewer
-          source={images[1]}
+          sourceIndex={1}
+          sources={images}
           nsfw={isNsfw}
           id={postId}
           recycled={recycled}
