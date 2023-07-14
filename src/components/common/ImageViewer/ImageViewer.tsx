@@ -61,6 +61,9 @@ export default function ImageViewer({
   const [expanded, setExpanded] = useState<boolean>(false);
 
   const zoomScale = useSharedValue(1);
+
+  const lastScale = useSharedValue(1);
+
   const backgroundColor = useSharedValue("rgba(0, 0, 0, 0)");
   const positionX = useSharedValue(0);
   const positionY = useSharedValue(0);
@@ -92,6 +95,9 @@ export default function ImageViewer({
   const onRequestOpenOrClose = () => {
     if (!expanded) {
       if (onPress) onPress();
+
+      // Make sure that the initial value for last zoom is reset
+      lastScale.value = 1;
 
       // If expanded is false, we are opening up. So we want to fade in the background color
       // First we set the position information
@@ -174,8 +180,7 @@ export default function ImageViewer({
   ) => {
     "worklet";
 
-    // We will update the current scale based on whatever the additional scale from the new pinch event is
-    zoomScale.value = event?.scale;
+    zoomScale.value = lastScale.value * event.scale;
   };
 
   const onPinchEnd = () => {
@@ -185,6 +190,9 @@ export default function ImageViewer({
     if (zoomScale.value < 1) {
       zoomScale.value = withTiming(1, { duration: 300 });
     }
+
+    // We need this saved value for later
+    lastScale.value = zoomScale.value;
   };
 
   // Double tap result
@@ -200,6 +208,9 @@ export default function ImageViewer({
     zoomScale.value = withTiming(zoomScale.value === 1 ? 2 : 1, {
       duration: 300,
     });
+
+    // Reset the scale
+    lastScale.value = 1;
   };
 
   const onPanBegin = () => {
