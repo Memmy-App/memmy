@@ -282,10 +282,11 @@ function ImageViewer({
     "worklet";
 
     // If the user has zoomed out past the scale of one, we will reset the scale and display accessories. Play a haptic
-    if (zoomScale.value < 1) {
+    if (zoomScale.value <= 1) {
       zoomScale.value = withTiming(1, { duration: 300 });
       runOnJS(onGenericHapticFeedback)();
       runOnJS(setAccessoriesVisible)(true);
+      setToCenter();
     }
 
     // We need this saved value for later
