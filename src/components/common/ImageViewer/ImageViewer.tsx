@@ -52,6 +52,8 @@ export default function ImageViewer({
   style = {},
   onPress,
 }: IProps) {
+  // We need to handle the possible FlashList re-uses, so we'll do that here
+
   useEffect(() => {
     console.log(`Render!${Date.now()}`);
   });
