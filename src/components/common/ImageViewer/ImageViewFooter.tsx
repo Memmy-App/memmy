@@ -4,6 +4,7 @@ import { HStack, useTheme, View } from "native-base";
 import { IconDeviceFloppy, IconShare2 } from "tabler-icons-react-native";
 import DialogContainer from "react-native-dialog/lib/Container";
 import DialogDescription from "react-native-dialog/lib/Description";
+import { useTranslation } from "react-i18next";
 import IconButtonWithText from "../IconButtonWithText";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import downloadAndSaveImage from "../../../helpers/ImageHelper";
@@ -17,6 +18,7 @@ interface ImageViewFooterProps {
 function ImageViewFooter({ source, visible }: ImageViewFooterProps) {
   const [downloading, setDownloading] = useState(false);
 
+  const { t } = useTranslation();
   const theme = useTheme();
 
   const onSave = async () => {
@@ -66,7 +68,7 @@ function ImageViewFooter({ source, visible }: ImageViewFooterProps) {
         />
       </HStack>
       <DialogContainer visible={downloading}>
-        <DialogDescription>Downloading image...</DialogDescription>
+        <DialogDescription>{t("imageView.dialogDesc")}</DialogDescription>
       </DialogContainer>
     </View>
   );

@@ -4,6 +4,7 @@ import { Icon, Text, useTheme, View, VStack } from "native-base";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
 import { getRatio } from "../../helpers/ImageHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 import { useAppSelector } from "../../../store";
@@ -27,6 +28,7 @@ function MemoizedFastImage({
   imgWidth?: number | string;
   onLoad?: (e) => void;
 }) {
+  const { t } = useTranslation();
   const theme = useTheme();
 
   const { ignoreScreenHeightInFeed } = useAppSelector(selectSettings);
@@ -99,8 +101,8 @@ function MemoizedFastImage({
               color={theme.colors.app.textSecondary}
               size={16}
             />
-            <Text fontSize="xl">NSFW</Text>
-            <Text>Sensitive content ahead</Text>
+            <Text fontSize="xl">{t("NSFW")}</Text>
+            <Text>{t("Sensitive content ahead")}</Text>
           </VStack>
         </BlurView>
         {!source.includes(".gif") && (

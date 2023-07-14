@@ -2,9 +2,11 @@ import React from "react";
 import { ScrollView, Text, useTheme, VStack } from "native-base";
 import FastImage from "react-native-fast-image";
 import { IconPlanet } from "tabler-icons-react-native";
+import { useTranslation } from "react-i18next";
 import RenderMarkdown from "../../common/Markdown/RenderMarkdown";
 
 function CommunityAboutScreen({ route }: { route: any }) {
+  const { t } = useTranslation();
   const theme = useTheme();
 
   return (
@@ -22,7 +24,7 @@ function CommunityAboutScreen({ route }: { route: any }) {
         )}
         <VStack p={4}>
           <Text fontSize="2xl" fontWeight="bold" underline>
-            Description
+            {t("Description")}
           </Text>
           <RenderMarkdown text={route.params.description} />
         </VStack>

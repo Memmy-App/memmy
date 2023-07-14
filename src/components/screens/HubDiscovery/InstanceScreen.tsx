@@ -20,6 +20,7 @@ import {
   IconUserPlus,
   IconX,
 } from "tabler-icons-react-native";
+import { useTranslation } from "react-i18next";
 import MTable from "../../common/Table/MTable";
 import MCell from "../../common/Table/MCell";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
@@ -30,6 +31,7 @@ interface IProps {
 }
 
 function InstanceScreen({ route, navigation }: IProps) {
+  const { t } = useTranslation();
   const theme = useTheme();
   const site = route.params.site as Site;
   const localSite = route.params.localSite as LocalSite;
@@ -83,7 +85,7 @@ function InstanceScreen({ route, navigation }: IProps) {
               <IconDoorEnter size={24} color="white" />
 
               <Text fontWeight="semibold" fontSize="md">
-                Join
+                {t("Join")}
               </Text>
             </HStack>
           </Button>
@@ -104,16 +106,16 @@ function InstanceScreen({ route, navigation }: IProps) {
               <IconDoorEnter size={24} color="white" />
 
               <Text fontWeight="semibold" fontSize="md">
-                Login
+                {t("Login")}
               </Text>
             </HStack>
           </Button>
         </HStack>
         <Text>{site.description}</Text>
       </VStack>
-      <MTable header="Hub Info">
+      <MTable header={t("Hub Info")}>
         <MCell
-          title="Communities Allowed"
+          title={t("Create Communities")}
           icon={<IconHome size={24} color={theme.colors.app.accent} />}
           rightAccessory={
             localSite.community_creation_admin_only ? (
@@ -124,12 +126,12 @@ function InstanceScreen({ route, navigation }: IProps) {
           }
           subtitle={
             localSite.community_creation_admin_only
-              ? "This hub doesn't allow user created communities."
-              : "This hub allows user created communities."
+              ? t("hubDiscovery.createCommunities.notAllowed")
+              : t("hubDiscovery.createCommunities.allowed")
           }
         />
         <MCell
-          title="Federated"
+          title={t("Federated")}
           icon={<IconPlanet size={24} color={theme.colors.app.accent} />}
           rightAccessory={
             !localSite.federation_enabled ? (
@@ -140,12 +142,12 @@ function InstanceScreen({ route, navigation }: IProps) {
           }
           subtitle={
             !localSite.federation_enabled
-              ? "This hub can't interact with other hubs."
-              : "This hub can interact with other hubs."
+              ? t("hubDiscovery.federated.notAllowed")
+              : t("hubDiscovery.federated.allowed")
           }
         />
         <MCell
-          title="Downvotes Allowed"
+          title={t("hubDiscovery.downvote.title")}
           icon={<IconArrowDown size={24} color={theme.colors.app.accent} />}
           rightAccessory={
             !localSite.enable_downvotes ? (
@@ -156,14 +158,14 @@ function InstanceScreen({ route, navigation }: IProps) {
           }
           subtitle={
             !localSite.enable_downvotes
-              ? "This hub doesn't allow users to downvote."
-              : "This hub allows users to downvote."
+              ? t("hubDiscovery.downvote.notAllowed")
+              : t("hubDiscovery.downvote.allowed")
           }
         />
       </MTable>
-      <MTable header="Other Info">
+      <MTable header={t("Other Info")}>
         <MCell
-          title="Legal Info"
+          title={t("Legal Info")}
           icon={<IconHammer size={24} color={theme.colors.app.accent} />}
           subtitle={localSite.legal_information}
         />

@@ -8,6 +8,7 @@ import {
   IconPhoto,
   IconQuote,
 } from "tabler-icons-react-native";
+import { useTranslation } from "react-i18next";
 import { selectImage } from "../../helpers/ImageHelper";
 import LoadingModal from "./Loading/LoadingModal";
 import uploadToImgur from "../../helpers/ImgurHelper";
@@ -30,6 +31,7 @@ function KeyboardAccessory({
 }) {
   const [uploading, setUploading] = useState(false);
 
+  const { t } = useTranslation();
   const theme = useTheme();
 
   const replace = (newText: string) =>
@@ -58,12 +60,12 @@ function KeyboardAccessory({
 
   const onLinkPress = async () => {
     Alert.prompt(
-      "Link",
-      "Enter the URL",
+      t("Link"),
+      t("toast.message.enterUrl"),
       (link) => {
         Alert.prompt(
-          "Label",
-          "Enter the label",
+          t("Label"),
+          t("toast.message.enterLabel"),
           (label) => {
             setText(replace(`[${label}](${link})`));
           },
@@ -103,8 +105,8 @@ function KeyboardAccessory({
 
       if (e.toString() === "permissions") {
         Alert.alert(
-          "Permissions Error",
-          "Please allow Memmy App to access your camera roll."
+          t("alert.title.permissionsError"),
+          t("alert.message.allowCameraRoll")
         );
         return;
       }

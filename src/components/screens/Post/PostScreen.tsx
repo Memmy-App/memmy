@@ -2,6 +2,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { HStack, useTheme, VStack } from "native-base";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import usePost from "../../../hooks/post/postHooks";
 import LoadingView from "../../common/Loading/LoadingView";
 import CommentItem from "../../common/Comments/CommentItem";
@@ -18,16 +19,16 @@ interface IProps {
 }
 
 function PostScreen({ route, navigation }: IProps) {
+  const { t } = useTranslation();
   const theme = useTheme();
   const post = usePost(
     route.params && route.params.commentId ? route.params.commentId : null
   );
 
   useEffect(() => {
+    const commentCount = post.currentPost?.counts.comments || 0;
     navigation.setOptions({
-      title: `${post.currentPost?.counts.comments} Comment${
-        post.currentPost?.counts.comments !== 1 ? "s" : ""
-      }`,
+      title: `${commentCount} ${t("Comment", { count: commentCount })}`,
       // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
         <HStack space={3}>

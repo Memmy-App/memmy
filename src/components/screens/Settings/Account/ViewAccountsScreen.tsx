@@ -4,6 +4,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Alert, Button, Switch } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { IconLogout } from "tabler-icons-react-native";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
 import CTable from "../../../common/Table/CTable";
@@ -28,6 +29,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
 
   const dispatch = useAppDispatch();
 
+  const { t } = useTranslation();
   const theme = useTheme();
   const notifications = useNotifications();
 
@@ -39,7 +41,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
 
   const headerRight = () => (
     <Button
-      title="Add"
+      title={t("Add")}
       onPress={() => navigation.push("EditAccount")}
       color={theme.colors.app.accent}
     />
@@ -60,19 +62,17 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
 
   const onAccountLogoutPress = (account: Account) => {
     Alert.alert(
-      "Are you sure?",
-      `Please make sure push notifications are disabled before 
-      logging out of an account, otherwise you may continue to get push 
-      notifications for that account.\n
-      \n
-      Are you sure you want to logout ${account.username}@${account.instance}?`,
+      t("alert.title.areYouSure"),
+      t("alert.message.accountLogoutConfirm", [
+        `${account.username}@${account.instance}`,
+      ]),
       [
         {
-          text: "Cancel",
+          text: t("Cancel"),
           style: "cancel",
         },
         {
-          text: "Logout",
+          text: t("Logout"),
           style: "destructive",
           onPress: () => {
             dispatch(deleteAccount(account));
@@ -85,20 +85,16 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   const onPushNotificationsSwitch = (account: Account, value: boolean) => {
     if (value) {
       Alert.alert(
-        "Info",
-        "To make push notifications work, Memmy has to send your authentication token " +
-          "to our server. Right now, this is the only viable way to allow users to receive push notifications. Note that " +
-          "Memmy servers do NOT have access to your password, only your authentication token. Authentication tokens may " +
-          "be revoked by changing your password.\n\nFull source code for the Memmy push notification server is available " +
-          "at https://github.com/gkasdorf/memmy-push.\n\nDo you wish to continue?",
+        t("alert.title.info"),
+        t("alert.message.pushNotificationsConfirm"),
         [
           {
-            text: "Cancel",
+            text: t("Cancel"),
             style: "cancel",
           },
           {
-            text: "Continue",
-            style: "default",
+            text: t("Continue"),
+            style: "destructive",
             onPress: () => onEnableNotifications(account),
           },
         ]
@@ -160,10 +156,10 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
     <ScrollView backgroundColor={theme.colors.app.bg}>
       <LoadingModalTransparent loading={notifications.loading} />
       <CTable>
-        <CSection header="CURRENT ACCOUNT">
+        <CSection header={t("settings.accounts.current")}>
           <CCell
             cellStyle="RightDetail"
-            title="Server"
+            title={t("Server")}
             detail={accounts[0].instance}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
@@ -171,7 +167,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
           />
           <CCell
             cellStyle="RightDetail"
-            title="Username"
+            title={t("Username")}
             detail={accounts[0].username}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
@@ -180,12 +176,12 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
         </CSection>
         {accounts.map((account) => (
           <CSection
-            header={`${account.username}@${account.instance}`.toUpperCase()}
-            key={`${account.username}${account.instance}`}
+            header={`${account.username}@${account.instance}`}
+            key={account.username + account.instance}
           >
             <CCell
               cellStyle="Basic"
-              title="Edit Account"
+              title={t("Edit Account")}
               accessory="DisclosureIndicator"
               backgroundColor={theme.colors.app.fg}
               titleTextColor={theme.colors.app.textPrimary}
@@ -193,7 +189,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
               onPress={() => onAccountPress(account)}
             />
             <CCell
-              title="Push Notifications"
+              title={t("Push Notifications")}
               backgroundColor={theme.colors.app.fg}
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.textSecondary}
@@ -212,7 +208,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
             />
             <CCell
               cellStyle="Basic"
-              title="Logout"
+              title={t("Logout")}
               backgroundColor={theme.colors.app.fg}
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.textSecondary}

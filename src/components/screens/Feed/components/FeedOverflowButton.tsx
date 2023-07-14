@@ -8,6 +8,7 @@ import {
 import { useTheme } from "native-base";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { ListingType } from "lemmy-js-client";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch } from "../../../../../store";
 import { UseFeed } from "../../../../hooks/feeds/useFeed";
 import { showToast } from "../../../../slices/toast/toastSlice";
@@ -52,6 +53,7 @@ const overflowOptions = {
 function CommunityOverflowButton({
   community,
 }: Required<Pick<Props, "community">>) {
+  const { t } = useTranslation();
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const { showActionSheetWithOptions } = useActionSheet();
@@ -72,7 +74,7 @@ function CommunityOverflowButton({
           onGenericHapticFeedback();
           dispatch(
             showToast({
-              message: `Blocked ${community.name}`,
+              message: t("toast.blocked", [community.name]),
               duration: 3000,
               variant: "info",
             })
