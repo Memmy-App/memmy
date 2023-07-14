@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { Box, Icon, Pressable, useTheme, View, VStack } from "native-base";
+import { Box, Icon, useTheme, View, VStack } from "native-base";
 import { PostView } from "lemmy-js-client";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
@@ -39,8 +39,6 @@ function CompactFeedItemThumbnail({
     }
   };
 
-  const onImageLongPress = () => {};
-
   return (
     <Box
       width={75}
@@ -54,7 +52,7 @@ function CompactFeedItemThumbnail({
       {(linkInfo.extType === ExtensionType.IMAGE && (
         <>
           {(post.post.nsfw || post.community.nsfw) && blurNsfw ? (
-            <Pressable onPress={onImagePress} onLongPress={onImageLongPress}>
+            <>
               <View style={styles.blurContainer}>
                 <BlurView
                   style={styles.blurView}
@@ -84,20 +82,20 @@ function CompactFeedItemThumbnail({
                   style={{
                     borderRadius: 10,
                   }}
+                  onPress={onImagePress}
                 />
               </View>
-            </Pressable>
+            </>
           ) : (
-            <Pressable onPress={onImagePress} onLongPress={onImageLongPress}>
-              <ImageViewer
-                source={{ uri: post.post.url }}
-                heightOverride={75}
-                widthOverride={75}
-                style={{
-                  borderRadius: 10,
-                }}
-              />
-            </Pressable>
+            <ImageViewer
+              source={{ uri: post.post.url }}
+              heightOverride={75}
+              widthOverride={75}
+              style={{
+                borderRadius: 10,
+              }}
+              onPress={onImagePress}
+            />
           )}
         </>
       )) ||

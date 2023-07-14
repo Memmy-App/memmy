@@ -30,6 +30,7 @@ interface IProps {
   heightOverride?: number;
   widthOverride?: number;
   style?: object;
+  onPress?: () => unknown;
 }
 
 interface MeasureResult {
@@ -49,6 +50,7 @@ export default function ImageViewer({
   heightOverride,
   widthOverride,
   style = {},
+  onPress,
 }: IProps) {
   useEffect(() => {
     console.log(`Render!${Date.now()}`);
@@ -88,6 +90,8 @@ export default function ImageViewer({
   // This opens or closes our modal
   const onRequestOpenOrClose = () => {
     if (!expanded) {
+      if (onPress) onPress();
+
       // If expanded is false, we are opening up. So we want to fade in the background color
       // First we set the position information
       nonViewerRef.current.measure((x, y, width, height, px, py) => {
