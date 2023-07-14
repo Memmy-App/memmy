@@ -35,11 +35,13 @@ function FeedSortButton({ feed, onSortUpdate }: Props) {
                     systemName: value.icon,
                   },
                 },
+                menuState: feed.sort === key ? "on" : "off",
                 menuItems: [
                   ...Object.entries(sortTopOptions).map(
                     ([sortTopKey, sortTopValue]) => ({
                       actionKey: sortTopKey,
                       actionTitle: sortTopValue.display,
+                      menuState: feed.sort === sortTopKey ? "on" : "off",
                       icon: {
                         type: "IMAGE_SYSTEM",
                         imageValue: {
@@ -54,6 +56,7 @@ function FeedSortButton({ feed, onSortUpdate }: Props) {
             return {
               actionKey: key,
               actionTitle: value.display,
+              menuState: feed.sort === key ? "on" : "off",
               icon: {
                 type: "IMAGE_SYSTEM",
                 imageValue: {

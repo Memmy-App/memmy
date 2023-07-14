@@ -1,7 +1,6 @@
 import { ListingType } from "lemmy-js-client";
 import React from "react";
 import { ContextMenuButton } from "react-native-ios-context-menu";
-import { SFSymbol } from "react-native-sfsymbols";
 import { UseFeed } from "../../../../hooks/feeds/useFeed";
 import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
 import SFIcon from "../../../common/icons/SFIcon";
@@ -34,6 +33,7 @@ export function FeedTypeButton({ feed, onPress }: Props) {
           ...options.map((option) => ({
             actionKey: option,
             actionTitle: option,
+            menuState: feed.listingType === option ? "on" : "off",
             icon: {
               type: "IMAGE_SYSTEM",
               imageValue: {

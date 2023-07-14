@@ -3,7 +3,7 @@ import React from "react";
 
 interface CIconButtonProps {
   icon: any;
-  onPress: () => void;
+  onPress?: () => void;
 }
 
 function HeaderIconButton({ icon, onPress }: CIconButtonProps) {
