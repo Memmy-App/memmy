@@ -16,10 +16,13 @@ import { Account } from "../../../../types/Account";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
 import CTable from "../../../common/Table/CTable";
+import { selectSettings } from "../../../../slices/settings/settingsSlice";
+import { concealableText } from "../../../../helpers/TextHelper";
 
 function FeedHeaderDropdownDrawer() {
   const { dropdownVisible } = useAppSelector(selectFeed);
   const accounts = useAppSelector(selectAccounts);
+  const { hideUsername } = useAppSelector(selectSettings);
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -54,7 +57,10 @@ function FeedHeaderDropdownDrawer() {
                   <CCell
                     key={account.username}
                     cellStyle="Basic"
-                    title={`${account.username}@${account.instance}`}
+                    title={`${concealableText(
+                      account.username,
+                      hideUsername
+                    )}@${account.instance}`}
                     accessory="DisclosureIndicator"
                     onPress={() => onAccountPress(account)}
                   />

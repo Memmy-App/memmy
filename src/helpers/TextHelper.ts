@@ -31,3 +31,6 @@ export const truncateCompactFeedItem = (text: string): string => {
 
   return `${text.slice(0, 60)}...`;
 };
+
+export const concealableText = (text: string, isConcealed: boolean) =>
+  !isConcealed ? text : "#########";

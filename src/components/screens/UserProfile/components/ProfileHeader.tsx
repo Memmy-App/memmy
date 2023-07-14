@@ -14,6 +14,9 @@ import dayjs from "dayjs";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import { UseProfile } from "../../../../hooks/profile/useProfile";
 import { getCakeDay } from "../../../../helpers/TimeHelper";
+import { useAppSelector } from "../../../../../store";
+import { selectSettings } from "../../../../slices/settings/settingsSlice";
+import { concealableText } from "../../../../helpers/TextHelper";
 
 interface IProps {
   profile: UseProfile;
@@ -21,6 +24,8 @@ interface IProps {
 
 function ProfileHeader({ profile }: IProps) {
   const theme = useTheme();
+
+  const { hideUsername } = useAppSelector(selectSettings);
 
   if (!profile.profile) return null;
 
@@ -49,7 +54,7 @@ function ProfileHeader({ profile }: IProps) {
           )}
           <VStack>
             <Text fontWeight="semibold" fontSize="2xl">
-              {profile.profile.person.name}
+              {concealableText(profile.profile.person.name, hideUsername)}
             </Text>
             <Text fontSize="lg">
               @{getBaseUrl(profile.profile.person.actor_id)}

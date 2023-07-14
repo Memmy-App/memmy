@@ -21,6 +21,8 @@ import { useAppDispatch, useAppSelector } from "../../../../../store";
 import CCell from "../../../common/Table/CCell";
 import { showToast } from "../../../../slices/toast/toastSlice";
 import ILemmyServer from "../../../../types/lemmy/ILemmyServer";
+import { selectSettings } from "../../../../slices/settings/settingsSlice";
+import { concealableText } from "../../../../helpers/TextHelper";
 
 function EditAccountScreen({
   route,
@@ -47,6 +49,7 @@ function EditAccountScreen({
   const dispatch = useAppDispatch();
 
   const accounts = useAppSelector(selectAccounts);
+  const { hideUsername } = useAppSelector(selectSettings);
 
   const headerRight = () => (
     <Button
@@ -224,7 +227,10 @@ function EditAccountScreen({
                 }}
                 placeholderTextColor={theme.colors.app.textSecondary}
                 placeholder={t("Username")}
-                value={form.username}
+                value={concealableText(
+                  form.username,
+                  edit.current && hideUsername
+                )}
                 onChangeText={(text) => onFormChange("username", text)}
                 autoCapitalize="none"
                 autoCorrect={false}

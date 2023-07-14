@@ -39,6 +39,7 @@ export interface SettingsState {
   appIcon: string;
   showCommentActions: boolean;
   useDefaultBrowser: boolean;
+  hideUsername: boolean;
 }
 
 const initialState: SettingsState = {
@@ -74,6 +75,7 @@ const initialState: SettingsState = {
   appIcon: "purple",
   showCommentActions: true,
   useDefaultBrowser: false,
+  hideUsername: false,
 };
 
 const settingsSlice = createSlice({

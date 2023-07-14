@@ -146,6 +146,11 @@
       "credentials": {
         "header": "Server Anmeldedaten",
         "footer": "Anmeldedaten für den Server mit dem du dich verbinden möchtest"
+      },
+      "other": {
+        "header": "Weitere Einstellungen",
+        "hideUsername": "Eigenen Benutzernamen ausblenden",
+        "hideUsernameFooter": "Wenn Face ID aktiviert ist musst du dich zum deaktiveren authentifizieren"
       }
     }
   },
@@ -240,6 +245,9 @@
   },
   "imageView": {
     "dialogDesc": "Bild wird heruntergeladen..."
+  },
+  "faceId": {
+    "failed": "Face ID authentifizierung fehlgeschlagen"
   },
   "Feed": "Feed",
   "Comments": "Kommentare",

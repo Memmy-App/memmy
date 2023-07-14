@@ -153,6 +153,11 @@
       "credentials": {
         "header": "Server Credentials",
         "footer": "Credentials for the server you are connecting to"
+      },
+      "other": {
+        "header": "Other",
+        "hideUsername": "Hide My Username",
+        "hideUsernameFooter": "If Face ID is active you need to authenticate to disable it"
       }
     }
   },
@@ -253,6 +258,9 @@
   },
   "imageView": {
     "dialogDesc": "Downloading image..."
+  },
+  "faceId": {
+    "failed": "Face ID authentication failed"
   },
   "Feed": "Feed",
   "Comments": "Comments",
