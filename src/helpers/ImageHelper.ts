@@ -8,7 +8,8 @@ import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from "expo-image-picker";
 import { PostView } from "lemmy-js-client";
 import FastImage from "react-native-fast-image";
-import { Dimensions } from "react-native";
+import { Alert, Dimensions } from "react-native";
+import i18n from "../plugins/i18n/i18n";
 import { writeToLog } from "./LogHelper";
 import { ExtensionType, getLinkInfo } from "./LinkHelper";
 
@@ -29,7 +30,6 @@ export const downloadImage = async (src: string): Promise<string | boolean> => {
 export const deleteImage = async (uri: string): Promise<boolean> => {
   try {
     await FileSystem.deleteAsync(uri);
-    console.log("Image deleted.");
     return true;
   } catch (e) {
     writeToLog("Error deleting file.");
@@ -41,7 +41,13 @@ export const deleteImage = async (uri: string): Promise<boolean> => {
 const downloadAndSaveImage = async (src: string): Promise<boolean> => {
   const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
 
-  if (status !== "granted") return false;
+  if (status !== "granted") {
+    Alert.alert(
+      i18n.t("alert.title.permissionsError"),
+      i18n.t("alert.message.allowCameraRoll")
+    );
+    return false;
+  }
 
   const uri = await downloadImage(src);
 
