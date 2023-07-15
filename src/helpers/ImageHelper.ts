@@ -12,6 +12,7 @@ import { Alert, Dimensions } from "react-native";
 import i18n from "../plugins/i18n/i18n";
 import { writeToLog } from "./LogHelper";
 import { ExtensionType, getLinkInfo } from "./LinkHelper";
+import { ErrorCause } from "../types/ErrorCause";
 
 export const downloadImage = async (src: string): Promise<string | boolean> => {
   const fileName = src.split("/").pop();
@@ -78,12 +79,12 @@ export const selectImage = async (): Promise<string> => {
     });
 
     if (res.canceled) {
-      throw Error("cancelled");
+      throw Error("cancelled", { cause: ErrorCause.USER_CANCEL });
     }
 
     return res.assets[0].uri;
   }
-  throw Error("permissions");
+  throw Error("permissions", { cause: ErrorCause.NO_PERMISSION });
 };
 
 export const preloadImages = async (posts: PostView[]): Promise<void> => {
