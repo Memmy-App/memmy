@@ -70,7 +70,7 @@ function SearchResultsScreen({ route }: IProps) {
           <ScrollView px={4}>
             <MTable header={t("Users")}>
               {search.result.users.map((u) => (
-                <SearchUserItem user={u} />
+                <SearchUserItem key={u.person.id} user={u} />
               ))}
             </MTable>
           </ScrollView>
@@ -79,7 +79,7 @@ function SearchResultsScreen({ route }: IProps) {
           <ScrollView px={4}>
             <MTable header={t("Communities")}>
               {search.result.communities.map((c) => (
-                <SearchCommunityItem community={c} />
+                <SearchCommunityItem key={c.community.id} community={c} />
               ))}
             </MTable>
           </ScrollView>
