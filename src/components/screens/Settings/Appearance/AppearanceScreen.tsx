@@ -1,4 +1,3 @@
-import { useActionSheet } from "@expo/react-native-action-sheet";
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -6,6 +5,7 @@ import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
 import React, { useState } from "react";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { useTranslation } from "react-i18next";
+import { ContextMenuButton } from "react-native-ios-context-menu";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
@@ -27,11 +27,15 @@ function AppearanceScreen({ navigation }: IProps) {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const { showActionSheetWithOptions } = useActionSheet();
 
   const onChange = (key: string, value: any) => {
     dispatch(setSetting({ [key]: value }));
   };
+
+  const selectedFontWeight =
+    Object.keys(FontWeightMap).find(
+      (key) => FontWeightMap[key] === settings.fontWeightPostTitle
+    ) || "Regular";
 
   const [accent, setAccent] = useState(settings.accentColor);
   const hexPattern = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
@@ -120,31 +124,53 @@ function AppearanceScreen({ navigation }: IProps) {
 
         {settings.compactView && (
           <CSection header={t("settings.appearance.compact.header")}>
-            <CCell
-              cellStyle="RightDetail"
-              title={t("settings.appearance.compact.thumbPos")}
-              detail={settings.compactThumbnailPosition}
-              accessory="DisclosureIndicator"
-              onPress={() => {
-                const options = ["None", "Left", "Right", "Cancel"];
-                const cancelButtonIndex = 3;
-
-                showActionSheetWithOptions(
-                  {
-                    options,
-                    cancelButtonIndex,
-                    userInterfaceStyle: theme.config.initialColorMode,
-                  },
-                  (index: number) => {
-                    if (index === cancelButtonIndex) return;
-
-                    dispatch(
-                      setSetting({ compactThumbnailPosition: options[index] })
-                    );
-                  }
+            <ContextMenuButton
+              isMenuPrimaryAction
+              onPressMenuItem={({ nativeEvent }) => {
+                dispatch(
+                  setSetting({
+                    compactThumbnailPosition: nativeEvent.actionKey,
+                  })
                 );
               }}
-            />
+              menuConfig={{
+                menuTitle: "",
+                // @ts-ignore Types for menuItems are wrong for this library
+                menuItems: [
+                  {
+                    actionKey: "None",
+                    actionTitle: "None",
+                    menuState:
+                      settings.compactThumbnailPosition === "None"
+                        ? "on"
+                        : "off",
+                  },
+                  {
+                    actionKey: "Left",
+                    actionTitle: "Left",
+                    menuState:
+                      settings.compactThumbnailPosition === "Left"
+                        ? "on"
+                        : "off",
+                  },
+                  {
+                    actionKey: "Right",
+                    actionTitle: "Right",
+                    menuState:
+                      settings.compactThumbnailPosition === "Right"
+                        ? "on"
+                        : "off",
+                  },
+                ],
+              }}
+            >
+              <CCell
+                cellStyle="RightDetail"
+                title={t("settings.appearance.compact.thumbPos")}
+                detail={settings.compactThumbnailPosition}
+                accessory="DisclosureIndicator"
+              />
+            </ContextMenuButton>
             <CCell
               cellStyle="RightDetail"
               title={t("settings.appearance.compact.showVotingButtons")}
@@ -385,40 +411,38 @@ function AppearanceScreen({ navigation }: IProps) {
               <Text fontSize={19}>A</Text>
             </HStack>
           </CCell>
-          <CCell
-            cellStyle="RightDetail"
-            title={t("settings.appearance.font.postTitleFontWeight")}
-            detail={
-              Object.keys(FontWeightMap).find(
-                (key) => FontWeightMap[key] === settings.fontWeightPostTitle
-              ) || "Regular"
-            }
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              const options = [...Object.keys(FontWeightMap), "Cancel"];
-              const cancelButtonIndex = options.length - 1;
-
-              showActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex,
-                  userInterfaceStyle: theme.config.initialColorMode,
-                },
-                (index: number) => {
-                  if (index === cancelButtonIndex) return;
-
-                  dispatch(
-                    setSetting({
-                      fontWeightPostTitle: FontWeightMap[options[index]] || 400,
-                    })
-                  );
-                }
+          <ContextMenuButton
+            isMenuPrimaryAction
+            onPressMenuItem={({ nativeEvent }) => {
+              dispatch(
+                setSetting({
+                  fontWeightPostTitle:
+                    FontWeightMap[nativeEvent.actionKey] || 400,
+                })
               );
             }}
-          />
+            menuConfig={{
+              menuTitle: "",
+              // @ts-ignore Types for menuItems are wrong for this library
+              menuItems: [
+                ...Object.keys(FontWeightMap).map((option) => ({
+                  actionKey: option,
+                  actionTitle: option,
+                  menuState: selectedFontWeight === option ? "on" : "off",
+                })),
+              ],
+            }}
+          >
+            <CCell
+              cellStyle="RightDetail"
+              title={t("settings.appearance.font.postTitleFontWeight")}
+              detail={selectedFontWeight}
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+              accessory="DisclosureIndicator"
+            />
+          </ContextMenuButton>
         </CSection>
       </TableView>
     </ScrollView>
