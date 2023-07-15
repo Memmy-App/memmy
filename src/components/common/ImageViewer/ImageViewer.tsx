@@ -1,12 +1,10 @@
 // @ts-nocheck
-
 import React, { useMemo, useRef, useState } from "react";
 import {
   Dimensions as RNDimensions,
   Modal,
   Pressable,
   StyleSheet,
-  View,
 } from "react-native";
 import FastImage, { OnLoadEvent } from "react-native-fast-image";
 import Animated, {
@@ -26,7 +24,7 @@ import {
   TapGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import { BlurView } from "expo-blur";
-import { Icon, Text, useTheme, VStack } from "native-base";
+import { View, Icon, Text, useTheme, VStack } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { useImageDimensions } from "./useImageDimensions";
@@ -439,7 +437,7 @@ function ImageViewer({
   const AnimatedFastImage = Animated.createAnimatedComponent(FastImage as any);
 
   return (
-    <View style={styles.imageContainer}>
+    <View style={styles.imageContainer} backgroundColor={theme.colors.app.bg}>
       {buttonMode ? (
         <Pressable
           onPress={onRequestOpenOrClose}
@@ -521,6 +519,7 @@ function ImageViewer({
         </Pressable>
       )}
       <Modal visible={expanded} transparent>
+        {/* eslint-disable-next-line react/style-prop-object */}
         <StatusBar style="dark" />
         <ExitButton
           onPress={onRequestOpenOrClose}
