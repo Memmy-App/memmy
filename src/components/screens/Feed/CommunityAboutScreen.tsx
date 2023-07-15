@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ScrollView, Text, useTheme, VStack } from "native-base";
+import { FlatList, ScrollView, Text, useTheme, VStack } from "native-base";
 import FastImage from "react-native-fast-image";
 import { IconPlanet } from "tabler-icons-react-native";
 import { useTranslation } from "react-i18next";
@@ -8,6 +8,7 @@ import useCommunity from "../../../hooks/communities/useCommunity";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";
 import NotFoundView from "../../common/Loading/NotFoundView";
 import AvatarUsername from "../../common/AvatarUsername";
+import ModeratorList from "../../common/ModeratorList";
 
 function CommunityAboutScreen({ route }: { route: any }) {
   const { t } = useTranslation();
@@ -51,11 +52,12 @@ function CommunityAboutScreen({ route }: { route: any }) {
           <Text fontSize="xl" fontWeight="bold">
             Mods:
           </Text>
-          <VStack p={1}>
+          <VStack p={2}>
             {[...community.moderators].map((moderator) => (
-              <Text key={moderator.moderator.id}>
-                - <AvatarUsername creator={moderator.moderator} isMod />
-              </Text>
+              <ModeratorList
+                key={moderator.moderator.id}
+                item={moderator.moderator}
+              />
             ))}
           </VStack>
         </VStack>
