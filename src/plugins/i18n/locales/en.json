@@ -60,7 +60,8 @@
     "passwordsMismatch": "Passwords do not match.",
     "blocked": "Blocked {{0}}",
     "enterUrl": "Enter the URL",
-    "enterLabel": "Enter the label"
+    "enterLabel": "Enter the label",
+		"linkError": "There was an error opening that link"
   },
   "relativeTime": {
     "future": "in %s",

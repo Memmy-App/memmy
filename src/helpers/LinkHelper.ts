@@ -7,6 +7,8 @@ import axios from "axios";
 import { URL } from "react-native-url-polyfill";
 import { writeToLog } from "./LogHelper";
 import store from "../../store";
+import i18n from "../plugins/i18n/i18n";
+import { showToast } from "../slices/toast/toastSlice";
 
 const imageExtensions = [
   "webp",
@@ -217,6 +219,17 @@ export const openLink = (
     /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
 
   writeToLog(`Trying to open link: ${link}`);
+
+  if (!urlPattern.test(link)) {
+    store.dispatch(
+      showToast({
+        message: i18n.t("toast.linkError"),
+        duration: 3000,
+        variant: "error",
+      })
+    );
+    return;
+  }
 
   link = link.match(urlPattern)[0];
 

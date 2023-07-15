@@ -60,7 +60,8 @@
     "passwordsMismatch": "Hesla nejsou stejná.",
     "blocked": "Zablokován {{0}}",
     "enterUrl": "Zadej URL",
-    "enterLabel": "Zadej popisek"
+    "enterLabel": "Zadej popisek",
+		"linkError": "Při otevírání odkazu došlo k chybě."
   },
   "relativeTime": {
     "future": "za %s",
