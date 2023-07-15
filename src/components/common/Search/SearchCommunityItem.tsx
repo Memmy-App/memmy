@@ -1,13 +1,14 @@
-import React from "react";
-import { CommunityView } from "lemmy-js-client";
-import { useTheme } from "native-base";
-import FastImage from "react-native-fast-image";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { CommunityView } from "lemmy-js-client";
+import { useTheme } from "native-base";
+import React from "react";
+import FastImage from "react-native-fast-image";
 import { IconPlanet } from "tabler-icons-react-native";
-import MCell from "../Table/MCell";
 import { getCommunityFullName } from "../../../helpers/LemmyHelpers";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
+import { shortenNumber } from "../../../helpers/NumberHelper";
+import MCell from "../Table/MCell";
 
 interface IProps {
   community: CommunityView;
@@ -31,6 +32,11 @@ function SearchCommunityItem({ community }: IProps) {
       title={`${community.community.name}@${getBaseUrl(
         community.community.actor_id
       )}`}
+      subtitle={
+        community.counts.subscribers
+          ? `${shortenNumber(Number(community.counts.subscribers))} subscribers`
+          : "0 subscribers"
+      }
       icon={
         community.community.icon ? (
           <FastImage
