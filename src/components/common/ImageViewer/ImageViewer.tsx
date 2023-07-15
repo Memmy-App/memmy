@@ -101,6 +101,8 @@ function ImageViewer({
   const imageHeight = useSharedValue(0);
   const imageWidth = useSharedValue(0);
 
+  const lastTap = useSharedValue(0);
+
   const xOffset = useMemo(
     () => SCREEN_WIDTH / 2 - dimensions.dimensions.viewerDimensions.width / 2,
     [dimensions.dimensions.viewerDimensions]
@@ -336,7 +338,16 @@ function ImageViewer({
     lastTransitionX.value = 0;
     lastTransitionY.value = 0;
 
-    // SEt the opacity to half
+    // Hide accessories
+    if (zoomScale.value === 1) {
+      if (lastTap.value + 120 < Date.now()) {
+        runOnJS(setAccessoriesVisible)(!accessoriesVisible);
+      }
+    } else {
+      runOnJS(setAccessoriesVisible)(false);
+    }
+
+    lastTap.value = Date.now();
   };
 
   const onPanUpdate = (
@@ -382,6 +393,7 @@ function ImageViewer({
     // We should reset to center afterward if the scale is less than one
     if (zoomScale.value <= 1) {
       setToCenter();
+      runOnJS(setAccessoriesVisible)(true);
     }
   };
 
