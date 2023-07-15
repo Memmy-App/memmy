@@ -1,0 +1,356 @@
+{
+  "noResult": {
+    "comments": "Keine Kommentare. Zeit, deinen Teil beizutragen 🫡",
+    "posts": "Keine Posts gefunden. Möchtest du vielleicht die Konversation anstoßen?",
+    "profileComments": "Benutzer hat keine Kommentare.",
+    "profilePosts": "Benutzer hat keine Posts.",
+    "profileSavedPosts": "Benutzer has keine gespeicherten Posts.",
+    "search": "Deine Sucheanfrage brachte keine Ergebnisse.",
+    "inbox": "Dein Posteingang ist leer",
+    "default": "Nichts gefunden :("
+  },
+  "alert": {
+    "title": {
+      "error": "Fehler",
+      "permissionsError": "Berechtigungsfehler",
+      "unknownError": "Unbekannter Fehler",
+      "success": "Erfolgreich",
+      "noDebugLog": "No debug file exists.",
+      "info": "Info",
+      "serverAuthError": "Fehler beim authentifiziern mit dem Server"
+    },
+    "message": {
+      "allowCameraRoll": "Bitte erlaube Memmy den Zugriff aud deine Kamera.",
+      "imgurUploadError": "Fehler beim hochladen zu Imgur.",
+      "reportComment": "Bitte gib den Grund fü die Meldung des Kommentares an",
+      "allowPushNotifications": "Bitte erlaube Memmy dir Push-Benachrichtigungen zu schicken.",
+      "failedToRetrieveToken": "Token konnte nicht abgerufen werden.",
+      "instanceAuthenticationFailed": "Authentifizierung mit der Lemmy Instanz fehlgeschlagen",
+      "pushNotificationsEnabled": "Push-Benachrictungen erfolgreich aktiviert.",
+      "pushNotificationsDisabled": "Push-Benachrictungen erfolgreich deaktiviert.",
+      "errorFetchingInstanceList": "Fehler beim laden der Instanz Liste. Erneut versuchen?",
+      "unknownError": "Ein unbekannter Fehler ist aufgetreten. Code {{0}}",
+      "sessionExpired": "Die Sitzung von {{0}} is abgelaufen. Bitte melde dich neu an.",
+      "cacheCleared": "Der Cache wurde geleert.",
+      "accountLogoutConfirm": "Bitte stell sicher das du Push-Benachrichtigungen für den Account deaktiviert hast bevor du dich ausloggst, andernfalls könntest du weiterhin Benachrichtungen von dem Account erhalten.\n\nBist du sicher das du {{0}} ausloggen möchtest?",
+      "pushNotificationsConfirm": "Damit Push-Benachrichtigungen funktionieren muss Memmy dein Authentifizierungs-Token an unseren Server senden. Aktuell ist das die einzige verlässliche Möglichkeit Push-Benachrichtigungen zu senden. Memmy server haben KEINEN Zugriff auf dein Passwort, nur dein Authentifizierungs-Token. Authentifizierungs-Tokens können durch eine Passwort änderung widerrufen werden.\n\nDer vollständige Quellcode für die Memmy Push-Beanchrichtiungen ist unter https:\/\/github.com\/gkasdorf\/memmy-push verfügbar.\n\nMöchtest du fortfahren?",
+      "deleteAccountConfirm": "Um alle Daten bei uns zu löschen musst du lediglich die Push-Benachrichtigungen deaktivieren. Wenn du keine Push-Benachrichtigungen aktiviert hast haben wir auch keine Daten von dir.\n\nUm deinen Account entgültig zu löschen musst du dich auf {{0}} einloggen und zu deinem Profil navigieren. Klicke dann auf \"Account löschen\" um deinen Account entgültig zu löschen.",
+      "registrationError": "Beim Abschluß der Registrierung ist ein fehler aufgetreten."
+    }
+  },
+  "toast": {
+    "reportSubmitSuccessful": "Meldung wurde erfolgreich übermittelt",
+    "commentDeleted": "Kommentar gelöscht",
+    "failedToSavePost": "Post konnte nicht gespeichert werden",
+    "subscribedTo": "{{0}} abonniert",
+    "unsubscribedFrom": "{{0}} deabonniert",
+    "unknownError": "Es ist ein unbekannter Fehler aufgetreten.",
+    "userBlockedSuccess": "Benutzer erfolgreich blockiert.",
+    "accentColorUpdated": "Akzentfarbe angepasst",
+    "accentColorInvalidHexCode": "Akzentfarbe ist kein valider Hex Farbcode",
+    "allFieldsRequired": "Alle Felder müssen gefüllt sein.",
+    "useUsername": "Bitte gib nur deinen Benutzernamen an (ohne Instanz/@).",
+    "passwordsMismatch": "Die Passwörter stimmen nicht überein.",
+    "blocked": "Blocked {{0}}",
+    "enterUrl": "Gib den URL ein",
+    "enterLabel": "Gib das Label ein"
+  },
+  "relativeTime": {
+    "future": "in %s",
+    "past": "vor %s",
+    "s": "1s",
+    "ss": "%ss",
+    "m": "1min",
+    "mm": "%dmin",
+    "h": "1Std",
+    "hh": "%dStd",
+    "d": "1T",
+    "dd": "%dT",
+    "M": "1M",
+    "MM": "%dM",
+    "y": "1J",
+    "yy": "%dJ"
+  },
+  "profile": {
+    "my": "Mein Profil"
+  },
+  "comment": {
+    "edit": "Kommentar bearbeiten",
+    "report": "Kommentar melden",
+    "delete": "Kommentar löschen",
+    "replyingToPost": "Antwort zu Post",
+    "replyingToComment": "Antwort zu Kommentar",
+    "deletedByUser": "Kommentar wurde vom Benutzer gelöscht :(",
+    "removedByMod": "Kommentar wurde von Moderatoren gelöscht :("
+  },
+  "settings": {
+    "haptics": {
+      "Off": "Keine",
+      "Light": "Schwach",
+      "Medium": "Mittelstark",
+      "Heavy": "Stark"
+    },
+    "content": {
+      "nsfw": {
+        "footer": "Dieser Einstellungen haben kein Einfluss auf die NSFW Einstellungen deines Lemmy Accounts. Diese Einstellungen werden lediglich lokal auf die App angewendet (über alle Accounts hinweg).",
+        "blur": "NSFW Inhalt Verwischen/Trüben",
+        "hide": "NSFW Inhalt ausblenden"
+      },
+      "web": {
+        "useReaderMode": "Lesemodus verwenden"
+      },
+      "markRead": {
+        "header": "Gelesen Markieren Einstellungen",
+        "onPostOpen": "Beim öffnen vom Post",
+        "onImageView": "Beim ansehen vom Bild",
+        "onVote": "Beim Abstimmen"
+      }
+    },
+    "appearance": {
+      "themes": {
+        "header": "THEMES",
+        "matchSystem": "Hell/Dunkel Aus Systeme übernehmen",
+        "systemLight": "Theme für helles System",
+        "systemDark": "Theme für dunkles System",
+        "light": "Helle Themes",
+        "dark": "Dunkle Themes",
+        "hexCode": {
+          "placeholder": "Füge ein Hex Farbcode ein"
+        }
+      },
+      "appIcon": "App Icon",
+      "totalScope": "Gesamtwertung anzeigen",
+      "imgIgnoreScreenHeight": "Bildschirmhöhe bei Bildern ignorieren",
+      "showUserInstance": "Show Instance For Username",
+      "compactView": "Kompakte Ansicht",
+      "compact": {
+        "header": "Kompakt",
+        "thumbPos": "Miniaturansicht Positionierung",
+        "showVotingButtons": "Abstimm Buttons anzeigen"
+      },
+      "font": {
+        "header": "FONT",
+        "useSystemFont": "System Schriftart übernehmen",
+        "useSystemFontSize": "System Schriftgröße übernehmen",
+        "textSize": "Textgröße",
+        "postTitleFontWeight": "Schriftstärke - Post Titel"
+      }
+    },
+    "accounts": {
+      "current": "Aktueller Account",
+      "server": {
+        "header": "Server Adresse",
+        "footer": "URL vom Server mit dem du dich verbinden möchtest",
+        "placeholder": "Server Adresse"
+      },
+      "credentials": {
+        "header": "Server Anmeldedaten",
+        "footer": "Anmeldedaten für den Server mit dem du dich verbinden möchtest"
+      }
+    }
+  },
+  "traverse": {
+    "noSubscriptions": "Du hast nichts abonniert."
+  },
+  "post": {
+    "header": "Post Info",
+    "title": "Titel",
+    "link": "Link (optional)",
+    "body": "Inhalt (optional)",
+    "bodyPlaceholder": "Schreib los!"
+  },
+  "onboarding": {
+    "hello": "Hallo",
+    "welcomeTo": "Wilkommen bei",
+    "getStartedBtn": "Loslegen",
+    "hasAccountBtn": "Ich hab bereits ein Account",
+    "checkEmail": "Überprüfe dein E-mail Postfach",
+    "emailSent": "Eine E-Mail wurde an {{0}} gesendet. Verifiziere deinen Account und\nklicke dann auf einloggen.",
+    "openEmailAppBtn": "E-Mail App öffnen",
+    "agreeToTermsOfUse": "Mit der Nutzung von Memmy stimmst du den <linkAction><linkText>Nutzungsbedingungen</linkText></linkAction> zu",
+    "info": {
+      "1": {
+        "1": "Kennst du bereits das Fediverse?"
+      },
+      "2": {
+        "1": "Kein Problem! \uD83D\uDC4D",
+        "2": "Wir helfen dir dich zurechtzufinden \uD83D\uDE03"
+      },
+      "3": {
+        "1": "Stell dir das Fediverse wie ein Postdienst vor ✉️",
+        "2": "When du Apps wie Instagram, Twitter oder Facebook nutzt, kümmern diese sich <emphasis>exklusiv um deine Briefe.</emphasis>",
+        "3": "Jeder versendet und erhält seine Post über sie. D.h. sie sind <emphasis>zentralisiert.</emphasis>"
+      },
+      "4": {
+        "1": "Was ist also anders am Fediverse? \uD83E\uDD14",
+        "2": "Deine Post geht nicht an eine zentralen Poststelle sondern zu deinem <emphasis>Hub</emphasis>, eine Art <emphasis>lokale Poststelle</emphasis>.",
+        "3": "Dein <emphasis>Hub</emphasis> ist verantwortlich dafür deine Post an andere <emphasis>Hubs</emphasis> weiterzuleiten. Sie können entscheiden <emphasis>welchen Empfängern sie vertrauen</emphasis> \uD83D\uDE9A"
+      },
+      "5": {
+        "1": "Wer ist mein <emphasis>Hub?</emphasis> \uD83E\uDD14",
+        "2": "Ein <emphasis>Hub</emphasis> kann von jedem eröffnet werden, z.B. einer Community. Du entscheidest frei welchen du <emphasis>beitreten</emphasis> möchtest.",
+        "3": "Wir helfen dir dich für ein Hub zu entscheiden um mit dem Posten starten. \uD83E\uDD17"
+      },
+      "6": {
+        "1": "Fühlst du dich\nüberfordert?... \uD83D\uDE14",
+        "2": "Es klingt komplex. <emphasis>Aber du hast das Fediverse bereits genutzt.</emphasis>",
+        "3": "Sobald du schon mal E-Mails benutzt hast, <emphasis>hast du auch das Fediverse genutzt.</emphasis>",
+        "4": "Das Fediverse funktioniert <emphasis>ähnlich wie E-Mail.</emphasis>"
+      },
+      "7": {
+        "1": "Lass und Loslegen!",
+        "2": "Zu Anfang schlagen wir dir Hubs vor. Wir geben dir eine Liste von Optionen aus den du wählen kannst",
+        "3": "Es stehen sehr viele Optionen zur verfügung mit vielen unterschiedlichen Communities",
+        "4": "Du kannst jederzeit zurück zur Liste um ein anderes Hub zu wählen."
+      }
+    },
+    "hubDiscovery": {
+      "alreadyHaveServer": "Du hast bereits ein Server?"
+    }
+  },
+  "hubDiscovery": {
+    "createCommunities": {
+      "allowed": "Das Hub erlaubt das erstellen von eigenen Communities.",
+      "notAllowed": "Das Hub erlaubt KEIN erstellen von eigenen Communitites."
+    },
+    "federated": {
+      "allowed": "Das Hub kann mit anderen Hubs kommunizieren.",
+      "notAllowed": "Das Hub kann NICHT mit anderen Hubs kommunizieren."
+    },
+    "downvote": {
+      "title": "Runterwählen erlaubt",
+      "allowed": "Das Hub erlaubt runterwählen.",
+      "notAllowed": "Das Hub erlaubt KEIN runterwählen"
+    }
+  },
+  "feed": {
+    "footer": {
+      "loading": "Lade weitere Posts...",
+      "loadingError": "Beim laden der Posts ist ein Fehler aufgetreten :("
+    }
+  },
+  "memmyError": {
+    "title": "Oh, das ist uns unangenehm. Memmy ist abgestürzt. Bitte starte die App neu...",
+    "description": "Wir mögen keine Bugs und du wahrscheinlich auch nicht. Wenn es dir nichts ausmacht wäre es super wenn du uns deine Logs zusenden könntest ♥️",
+    "submitBtn": "Logs senden"
+  },
+  "loadingError": {
+    "text": "Inhalt konnte nicht geladen werden :(",
+    "retryBtn": "Erneut versuchen"
+  },
+  "imageView": {
+    "dialogDesc": "Bild wird heruntergeladen..."
+  },
+  "Feed": "Feed",
+  "Comments": "Kommentare",
+  "Traverse": "Abonniert",
+  "Profile": "Profil",
+  "Search": "Suchen",
+  "Inbox": "Posteingang",
+  "Posts": "Posts",
+  "Saved Posts": "Gespeicherte Posts",
+  "New Comment": "Neuer Kommentar",
+  "New Post": "Neuer Post",
+  "About": "Über",
+  "View Comments": "Kommentare anzeigen",
+  "View Posts": "Posts anzeigen",
+  "View Saved Posts": "Gespeicherte Posts anzeigen",
+  "Unread": "Ungelesen",
+  "All": "Alle",
+  "Replies": "Antworten",
+  "Communities": "Communities",
+  "Blocked Communities": "Blockierte Communities",
+  "Create Communities": "Communities erstellen",
+  "Settings": "Einstellungen",
+  "Accounts": "Accounts",
+  "Manage Accounts": "Accounts Verwalten",
+  "Edit Account": "Account bearbeiten",
+  "Delete Account": "Account löschen",
+  "Add Account": "Account hinzufügen",
+  "Create Account": "Account erstellen",
+  "Mark Post Read On": "Post als gelesen markieren...",
+  "View": "Anzeigen",
+  "Content": "Inhalt",
+  "Appearance": "Darstellung",
+  "Theme": "Theme",
+  "Icon": "Icon",
+  "General": "Allgemein",
+  "Loading": "Lädt",
+  "Welcome": "Wilkommen",
+  "Hubs": "Hubs",
+  "Instance": "Instanz",
+  "Copy Text": "Text Kopieren",
+  "Copy Link": "Link Kopieren",
+  "Reply": "Antworten",
+  "Report Post": "Post melden",
+  "Cancel": "Abbrechen",
+  "Submit": "Absenden",
+  "Retry": "Retry",
+  "Language": "Sprache",
+  "Select Language": "Sprache auswählen",
+  "Haptics": "Haptik",
+  "Strength": "Stärke",
+  "Use Default Browser": "Standardbrowser nutzen",
+  "Browser": "Browser",
+  "No blocked communities": "Keine blockierten Communities",
+  "Email Debug Log": "Debug-Log als E-Mail senden",
+  "Clear Debug Log": "Debug-Log leeren",
+  "Clear Cache": "Cache leeren",
+  "Default Sort": "Standard Sortierung",
+  "Default Comment Sort": "Standard Kommentar Sortierung",
+  "Default Listing Type": "Standard Listen Typ",
+  "Hide Read Posts on Feed": "Gelesene Posts im Feed ausblenden",
+  "Show Comment Actions": "Kommentar anzeigen Aktionen",
+  "NSFW": "NSFW",
+  "NSFW Content": "NSFW Inhalt",
+  "Sensitive content ahead": "Sensibler Inhalt",
+  "Accent Color": "Akzentfarbe",
+  "Add": "Neu",
+  "Logout": "Ausloggen",
+  "Continue": "Fortfahren",
+  "Server": "Server",
+  "Server Address": "Server Address",
+  "Username": "Benutzername",
+  "Password": "Passwort",
+  "Confirm Password": "Passwort bestätigen",
+  "Push Notifications": "Push-Benachrichtigungen",
+  "Save": "Speichern",
+  "2FA Token": "2FA Token",
+  "Version": "Version",
+  "License": "Lizenz",
+  "Acknowledgements": "Acknowledgements",
+  "Privacy Policy": "Datenschutzbestimmungen",
+  "Terms of Use": "Nutzungsbedingungen",
+  "OK": "OK",
+  "Users": "Benutzer",
+  "Comment": "Kommentar",
+  "Comment_plural": "Kommentare",
+  "Back": "Zurück",
+  "Selected": "Ausgewählt",
+  "Favorites": "Favoriten",
+  "Subscriptions": "Abonniert",
+  "Email": "E-Mail",
+  "Captcha Answer": "Captcha Antwort",
+  "Link": "Link",
+  "Login": "Einloggen",
+  "Yes": "Ja",
+  "No": "Nein",
+  "Join": "Beitreten",
+  "Hub Info": "Hub Info",
+  "Other Info": "Weitere Infos",
+  "Legal Info": "Rechliche Infos",
+  "Federate": "Föderieren",
+  "User": "Benutzer",
+  "User_plural": "Benutzer",
+  "Defederated": "Entföderiert",
+  "Registration Closed": "Registrierung Geschlossen",
+  "Application Required": "Bewerbung nötig",
+  "Open Registration": "Frei Zugänglich",
+  "Subscribed": "Abonniert",
+  "Subscribe": "Abonnieren",
+  "Post": "Pfostieren",
+  "Description": "Beschreibung",
+  "Label": "Label",
+  "Trending": "Trending",
+  "Go Back": "Zurück"
+}

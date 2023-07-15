@@ -1,5 +1,6 @@
 import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import { CommentSortType, PostView } from "lemmy-js-client";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../slices/post/postSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
@@ -48,6 +49,7 @@ export interface UsePost {
 }
 
 const usePost = (commentId: string | null): UsePost => {
+  const { t } = useTranslation();
   // Global State
   const { post, newComment } = useAppSelector(selectPost);
   const { commentId: editedCommentId, content: editedContent } =
@@ -274,7 +276,7 @@ const usePost = (commentId: string | null): UsePost => {
 
       dispatch(
         showToast({
-          message: "Failed to save Post.",
+          message: t("Toast.failedToSavePost"),
           variant: "error",
           duration: 2000,
         })

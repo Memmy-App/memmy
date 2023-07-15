@@ -5,6 +5,7 @@ import { SortType } from "lemmy-js-client";
 import { ScrollView, useTheme } from "native-base";
 import React from "react";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
@@ -19,6 +20,7 @@ function ContentScreen({
 }) {
   const settings = useAppSelector(selectSettings);
 
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const theme = useTheme();
   const { showActionSheetWithOptions } = useActionSheet();
@@ -40,7 +42,7 @@ function ContentScreen({
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
-        <CSection header="POSTS">
+        <CSection header={t("Posts")}>
           {/* <CCell */}
           {/*  title="Swipe Gestures" */}
           {/*  backgroundColor={theme.colors.app.fg} */}
@@ -55,7 +57,7 @@ function ContentScreen({
           {/* /> */}
           <CCell
             cellStyle="RightDetail"
-            title="Default Sort"
+            title={t("Default Sort")}
             detail={getDefaultSortText(settings.defaultSort)}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
@@ -92,7 +94,7 @@ function ContentScreen({
           />
           <CCell
             cellStyle="RightDetail"
-            title="Default Comment Sort"
+            title={t("Default Comment Sort")}
             detail={settings.defaultCommentSort}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
@@ -119,7 +121,7 @@ function ContentScreen({
           />
           <CCell
             cellStyle="RightDetail"
-            title="Default Listing Type"
+            title={t("Default Listing Type")}
             detail={settings.defaultListingType}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
@@ -144,7 +146,7 @@ function ContentScreen({
             }}
           />
           <CCell
-            title="Mark Post Read On..."
+            title={t("Mark Post Read On")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -153,7 +155,7 @@ function ContentScreen({
           />
           <CCell
             cellStyle="RightDetail"
-            title="Hide Read Posts on Feed"
+            title={t("Hide Read Posts on Feed")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -168,10 +170,10 @@ function ContentScreen({
           />
         </CSection>
 
-        <CSection header="COMMENTS">
+        <CSection header={t("Comments")}>
           <CCell
             cellStyle="RightDetail"
-            title="Show Comment Actions"
+            title={t("Show Comment Actions")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -187,12 +189,12 @@ function ContentScreen({
         </CSection>
 
         <CSection
-          header="NSFW CONTENT"
-          footer="This toggle does not affect your Lemmy account NSFW settings. This local setting will apply only to the app and will apply to all accounts."
+          header={t("NSFW Content")}
+          footer={t("settings.content.nsfw.footer")}
         >
           <CCell
             cellStyle="RightDetail"
-            title="Blur NSFW"
+            title={t("settings.content.nsfw.blur")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -205,7 +207,7 @@ function ContentScreen({
           />
           <CCell
             cellStyle="RightDetail"
-            title="Hide NSFW"
+            title={t("settings.content.nsfw.hide")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -220,7 +222,7 @@ function ContentScreen({
         <CSection header="Web">
           <CCell
             cellStyle="Basic"
-            title="Use Reader Mode"
+            title={t("settings.content.web.useReaderMode")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}

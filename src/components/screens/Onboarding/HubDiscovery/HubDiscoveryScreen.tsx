@@ -4,6 +4,7 @@ import { Button, HStack, Text, useTheme, VStack } from "native-base";
 import { FlashList } from "@shopify/flash-list";
 import { GetSiteResponse } from "lemmy-js-client";
 import { IconDoorEnter, IconUser } from "tabler-icons-react-native";
+import { useTranslation } from "react-i18next";
 import useHubDiscovery from "../../../../hooks/hubDiscovery/useHubDiscovery";
 import InstanceItem from "../../HubDiscovery/components/InstanceItem";
 
@@ -13,6 +14,7 @@ interface IProps {
 
 function HubDiscoveryScreen({ navigation }: IProps) {
   const hub = useHubDiscovery();
+  const { t } = useTranslation();
   const theme = useTheme();
 
   const instanceItem = ({ item }: { item: GetSiteResponse }) => (
@@ -28,7 +30,7 @@ function HubDiscoveryScreen({ navigation }: IProps) {
         textAlign="center"
         pb={2}
       >
-        Already have a server?
+        {t("onboarding.hubDiscovery.alreadyHaveServer")}
       </Text>
       <HStack space="4">
         <Button
@@ -44,7 +46,7 @@ function HubDiscoveryScreen({ navigation }: IProps) {
             <IconDoorEnter size={24} color="white" />
 
             <Text fontWeight="semibold" fontSize="lg">
-              Join
+              {t("Join")}
             </Text>
           </HStack>
         </Button>
@@ -61,7 +63,7 @@ function HubDiscoveryScreen({ navigation }: IProps) {
             <IconUser size={24} color="white" />
 
             <Text fontWeight="semibold" fontSize="lg">
-              Login
+              {t("Login")}
             </Text>
           </HStack>
         </Button>

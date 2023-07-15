@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import RenderMarkdown from "../Markdown/RenderMarkdown";
 import ItalicText from "../ItalicText";
 
@@ -10,12 +11,13 @@ interface IProps {
 }
 
 function CommentBody({ deleted, removed, content, instance }: IProps) {
+  const { t } = useTranslation();
   if (deleted) {
-    return <ItalicText>Comment removed by user :(</ItalicText>;
+    return <ItalicText>{t("comment.deletedByUser")}</ItalicText>;
   }
 
   if (removed) {
-    return <ItalicText>Comment removed by moderator :(</ItalicText>;
+    return <ItalicText>{t("comment.removedByMod")}</ItalicText>;
   }
 
   return <RenderMarkdown text={content} instance={instance} />;

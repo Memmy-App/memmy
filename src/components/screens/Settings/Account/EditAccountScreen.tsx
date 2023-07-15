@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Alert, Button, StyleSheet, TextInput } from "react-native";
 import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useTranslation } from "react-i18next";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import { writeToLog } from "../../../../helpers/LogHelper";
 import {
@@ -41,6 +42,7 @@ function EditAccountScreen({
 
   const edit = useRef(false);
 
+  const { t } = useTranslation();
   const theme = useTheme();
   const dispatch = useAppDispatch();
 
@@ -48,7 +50,7 @@ function EditAccountScreen({
 
   const headerRight = () => (
     <Button
-      title="Save"
+      title={t("Save")}
       onPress={onSavePress}
       disabled={loading}
       color={theme.colors.app.accent}
@@ -91,7 +93,7 @@ function EditAccountScreen({
     if (!form.server || !form.username || !form.password) {
       dispatch(
         showToast({
-          message: "All fields are required.",
+          message: t("toast.allFieldsRequired"),
           duration: 3000,
           variant: "warn",
         })
@@ -102,7 +104,7 @@ function EditAccountScreen({
     if (form.username.includes("@")) {
       dispatch(
         showToast({
-          message: "Please use your username when signing in.",
+          message: t("toast.useUsername"),
           duration: 3000,
           variant: "warn",
         })
@@ -138,7 +140,7 @@ function EditAccountScreen({
 
     if (!lemmyAuthToken) {
       setLoading(false);
-      Alert.alert("Error authenticating with server.");
+      Alert.alert(t("alert.serverAuthError"));
       return;
     }
 
@@ -172,10 +174,10 @@ function EditAccountScreen({
     >
       <TableView style={styles.table}>
         <Section
-          header="SERVER ADDRESS"
+          header={t("settings.accounts.server.header")}
           roundedCorners
           hideSurroundingSeparators
-          footer="URL for the server you wish to connect"
+          footer={t("settings.accounts.server.footer")}
         >
           <CCell
             cellContentView={
@@ -188,7 +190,7 @@ function EditAccountScreen({
                     : theme.colors.app.textSecondary,
                 }}
                 placeholderTextColor={theme.colors.app.textSecondary}
-                placeholder="Server Address"
+                placeholder={t("settings.accounts.server.placeholder")}
                 value={form.server}
                 onChangeText={(text) => onFormChange("server", text)}
                 autoCapitalize="none"
@@ -205,10 +207,10 @@ function EditAccountScreen({
         </Section>
 
         <Section
-          header="SERVER CREDENTIALS"
+          header={t("settings.accounts.credentials.header")}
           roundedCorners
           hideSurroundingSeparators
-          footer="Credentials for the server you are connecting."
+          footer={t("settings.accounts.credentials.footer")}
         >
           <CCell
             cellContentView={
@@ -221,7 +223,7 @@ function EditAccountScreen({
                     : theme.colors.app.textSecondary,
                 }}
                 placeholderTextColor={theme.colors.app.textSecondary}
-                placeholder="Username"
+                placeholder={t("Username")}
                 value={form.username}
                 onChangeText={(text) => onFormChange("username", text)}
                 autoCapitalize="none"
@@ -243,7 +245,7 @@ function EditAccountScreen({
                   color: theme.colors.app.textPrimary,
                 }}
                 placeholderTextColor={theme.colors.app.textSecondary}
-                placeholder="Password"
+                placeholder={t("Password")}
                 value={form.password}
                 onChangeText={(text) => onFormChange("password", text)}
                 autoCorrect={false}
@@ -266,7 +268,7 @@ function EditAccountScreen({
                     color: theme.colors.app.textPrimary,
                   }}
                   placeholderTextColor={theme.colors.app.textSecondary}
-                  placeholder="2FA Token"
+                  placeholder={t("2FA Token")}
                   value={form.totpToken}
                   onChangeText={(text) => onFormChange("totpToken", text)}
                   autoCorrect={false}

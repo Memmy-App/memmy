@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { trigger } from "react-native-haptic-feedback";
+import { useTranslation } from "react-i18next";
 import { UseFeed, useFeed } from "./useFeed";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../slices/post/postSlice";
@@ -29,6 +30,7 @@ const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
   const feed = useFeed(communityFullName);
 
   // Other hooks
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
@@ -65,9 +67,10 @@ const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
 
       dispatch(
         showToast({
-          message: `${subscribing ? "Subscribed to" : "Unsubscribed from"} ${
-            feed.community.community.name
-          }`,
+          message: t(
+            `toast.${subscribing ? "subscribedTo" : "unsubscribedFrom"}`,
+            [feed.community.community.name]
+          ),
           duration: 3000,
           variant: "info",
         })

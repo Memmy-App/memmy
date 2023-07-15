@@ -3,6 +3,7 @@ import { ScrollView, useTheme } from "native-base";
 import { useFocusEffect } from "@react-navigation/native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { trigger } from "react-native-haptic-feedback";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import { selectSite } from "../../../slices/site/siteSlice";
 import {
@@ -19,6 +20,7 @@ function BlockedCommunitiesScreen() {
   const { communityBlocks, loaded } = useAppSelector(selectSite);
 
   // Hooks
+  const { t } = useTranslation();
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const { showActionSheetWithOptions } = useActionSheet();
@@ -55,9 +57,9 @@ function BlockedCommunitiesScreen() {
   return (
     <ScrollView flex={1} backgroundColor={theme.colors.app.bg}>
       <CTable>
-        <CSection header="BLOCKED COMMUNITIES">
+        <CSection header={t("Blocked Communities")}>
           {communityBlocks.length === 0 ? (
-            <CCell cellStyle="Basic" title="No blocked communities" />
+            <CCell cellStyle="Basic" title={t("No blocked communities")} />
           ) : (
             communityBlocks.map((b) => (
               <CCell

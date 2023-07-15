@@ -12,6 +12,7 @@ import {
   IconSearch,
   IconUserCircle,
 } from "tabler-icons-react-native";
+import { useTranslation } from "react-i18next";
 import CommunityAboutScreen from "./src/components/screens/Feed/CommunityAboutScreen";
 import CommunityFeedScreen from "./src/components/screens/Feed/CommunityFeedScreen";
 import FeedsIndexScreen from "./src/components/screens/Feed/FeedsIndexScreen";
@@ -62,6 +63,8 @@ import IconSelectionScreen from "./src/components/screens/Settings/Appearance/Ic
 const FeedStack = createNativeStackNavigator();
 
 function FeedStackScreen() {
+  const { t } = useTranslation();
+
   return (
     <FeedStack.Navigator screenOptions={{}}>
       <FeedStack.Group>
@@ -69,7 +72,7 @@ function FeedStackScreen() {
           name="FeedScreen"
           component={FeedsIndexScreen}
           options={{
-            title: "Feed",
+            title: t("Feed"),
           }}
         />
         <FeedStack.Screen name="Post" component={PostScreen} />
@@ -79,35 +82,35 @@ function FeedStackScreen() {
           name="UserComments"
           component={UserCommentsScreen}
           options={{
-            title: "Comments",
+            title: t("Comments"),
           }}
         />
         <FeedStack.Screen
           name="UserPosts"
           component={UserPostsScreen}
           options={{
-            title: "Posts",
+            title: t("Posts"),
           }}
         />
         <FeedStack.Screen
           name="UserSavedPosts"
           component={UserPostsScreen}
           options={{
-            title: "Saved Posts",
+            title: t("Saved Posts"),
           }}
         />
         <FeedStack.Screen
           name="ViewAccounts"
           component={ViewAccountsScreen}
           options={{
-            title: "Manage Accounts",
+            title: t("Accounts"),
           }}
         />
         <FeedStack.Screen
           name="EditAccount"
           component={EditAccountScreen}
           options={{
-            title: "Edit Account",
+            title: t("Edit Account"),
           }}
         />
       </FeedStack.Group>
@@ -120,27 +123,27 @@ function FeedStackScreen() {
         <FeedStack.Screen
           name="NewComment"
           component={NewCommentScreen}
-          options={{ title: "New Comment" }}
+          options={{ title: t("New Comment") }}
         />
         <SearchStack.Screen
           name="EditComment"
           component={EditCommentScreen}
-          options={{ title: "Edit Comment" }}
+          options={{ title: t("comment.edit") }}
         />
         <FeedStack.Screen
           name="NewPost"
           component={NewPostScreen}
-          options={{ title: "New Post" }}
+          options={{ title: t("New Post") }}
         />
         <FeedStack.Screen
           name="NewPostBody"
           component={NewPostBodyScreen}
-          options={{ title: "New Post" }}
+          options={{ title: t("New Post") }}
         />
         <FeedStack.Screen
           name="CommunityAbout"
           component={CommunityAboutScreen}
-          options={{ title: "About" }}
+          options={{ title: t("About") }}
         />
       </FeedStack.Group>
     </FeedStack.Navigator>
@@ -150,6 +153,8 @@ function FeedStackScreen() {
 const InboxStack = createNativeStackNavigator();
 
 function InboxStackScreen() {
+  const { t } = useTranslation();
+
   return (
     <InboxStack.Navigator>
       <InboxStack.Group>
@@ -157,14 +162,14 @@ function InboxStackScreen() {
           name="Inbox"
           component={InboxScreen}
           options={{
-            title: "Inbox",
+            title: t("Inbox"),
           }}
         />
         <InboxStack.Screen
           name="FeedScreen"
           component={FeedsIndexScreen}
           options={{
-            title: "Feed",
+            title: t("Feed"),
           }}
         />
         <InboxStack.Screen name="Post" component={PostScreen} />
@@ -181,14 +186,14 @@ function InboxStackScreen() {
           name="UserPosts"
           component={UserPostsScreen}
           options={{
-            title: "Posts",
+            title: t("Posts"),
           }}
         />
         <InboxStack.Screen
           name="UserSavedPosts"
           component={UserPostsScreen}
           options={{
-            title: "Saved Posts",
+            title: t("Saved Posts"),
           }}
         />
       </InboxStack.Group>
@@ -201,27 +206,27 @@ function InboxStackScreen() {
         <InboxStack.Screen
           name="NewComment"
           component={NewCommentScreen}
-          options={{ title: "New Comment" }}
+          options={{ title: t("New Comment") }}
         />
         <InboxStack.Screen
           name="EditComment"
           component={EditCommentScreen}
-          options={{ title: "Edit Comment" }}
+          options={{ title: t("comment.edit") }}
         />
         <InboxStack.Screen
           name="NewPost"
           component={NewPostScreen}
-          options={{ title: "New Post" }}
+          options={{ title: t("New Post") }}
         />
         <InboxStack.Screen
           name="NewPostBody"
           component={NewPostBodyScreen}
-          options={{ title: "New Post" }}
+          options={{ title: t("New Post") }}
         />
         <InboxStack.Screen
           name="CommunityAbout"
           component={CommunityAboutScreen}
-          options={{ title: "About" }}
+          options={{ title: t("About") }}
         />
       </InboxStack.Group>
     </InboxStack.Navigator>
@@ -231,6 +236,8 @@ function InboxStackScreen() {
 const ProfileStack = createNativeStackNavigator();
 
 function ProfileStackScreen() {
+  const { t } = useTranslation();
+
   return (
     <ProfileStack.Navigator
       screenOptions={{
@@ -243,69 +250,69 @@ function ProfileStackScreen() {
           name="UserComments"
           component={UserCommentsScreen}
           options={{
-            title: "Comments",
+            title: t("Comments"),
           }}
         />
         <ProfileStack.Screen
           name="UserPosts"
           component={UserPostsScreen}
           options={{
-            title: "Posts",
+            title: t("Posts"),
           }}
         />
         <ProfileStack.Screen
           name="UserSavedPosts"
           component={UserPostsScreen}
           options={{
-            title: "Saved Posts",
+            title: t("Saved Posts"),
           }}
         />
         <ProfileStack.Screen
           name="BlockedCommunities"
           component={BlockedCommunitiesScreen}
-          options={{ title: "Blocked Communities" }}
+          options={{ title: t("Blocked Communities") }}
         />
 
         <ProfileStack.Screen
           name="Settings"
           component={SettingsIndexScreen}
           options={{
-            title: "Settings",
+            title: t("Settings"),
           }}
         />
         <ProfileStack.Screen
           name="ViewAccounts"
           component={ViewAccountsScreen}
           options={{
-            title: "Manage Accounts",
+            title: t("Accounts"),
           }}
         />
         <ProfileStack.Screen
           name="EditAccount"
           component={EditAccountScreen}
           options={{
-            title: "Edit Account",
+            title: t("Edit Account"),
           }}
         />
         <ProfileStack.Screen
           name="ReadSettings"
           component={ReadSettingsScreen}
           options={{
-            title: "Mark Post Read On...",
+            title: t("Mark Post Read On"),
           }}
         />
         <ProfileStack.Screen
           name="Viewer"
           component={ViewerScreen}
           options={{
-            title: "View",
+            title: t("View"),
           }}
         />
         <ProfileStack.Screen
           name="Content"
           component={ContentScreen}
           options={{
-            title: "Content",
+            title: t("Content"),
             freezeOnBlur: true,
           }}
         />
@@ -313,7 +320,7 @@ function ProfileStackScreen() {
           name="Appearance"
           component={AppearanceScreen}
           options={{
-            title: "Appearance",
+            title: t("Appearance"),
             freezeOnBlur: true,
           }}
         />
@@ -321,21 +328,21 @@ function ProfileStackScreen() {
           name="ThemeSelection"
           component={ThemeSelectionScreen}
           options={{
-            title: "Theme",
+            title: t("Theme"),
           }}
         />
         <ProfileStack.Screen
           name="IconSelection"
           component={IconSelectionScreen}
           options={{
-            title: "Icon",
+            title: t("Icon"),
           }}
         />
         <ProfileStack.Screen
           name="GeneralSettings"
           component={GeneralSettingsScreen}
           options={{
-            title: "General",
+            title: t("General"),
             freezeOnBlur: true,
           }}
         />
@@ -343,7 +350,7 @@ function ProfileStackScreen() {
           name="About"
           component={AboutScreen}
           options={{
-            title: "About",
+            title: t("About"),
             freezeOnBlur: true,
           }}
         />
@@ -352,7 +359,7 @@ function ProfileStackScreen() {
           name="FeedScreen"
           component={FeedsIndexScreen}
           options={{
-            title: "Feed",
+            title: t("Feed"),
           }}
         />
         <ProfileStack.Screen name="Post" component={PostScreen} />
@@ -368,27 +375,27 @@ function ProfileStackScreen() {
         <ProfileStack.Screen
           name="NewComment"
           component={NewCommentScreen}
-          options={{ title: "New Comment" }}
+          options={{ title: t("New Comment") }}
         />
         <ProfileStack.Screen
           name="EditComment"
           component={EditCommentScreen}
-          options={{ title: "Edit Comment" }}
+          options={{ title: t("comment.edit") }}
         />
         <ProfileStack.Screen
           name="NewPost"
           component={NewPostScreen}
-          options={{ title: "New Post" }}
+          options={{ title: t("New Post") }}
         />
         <ProfileStack.Screen
           name="NewPostBody"
           component={NewPostBodyScreen}
-          options={{ title: "New Post" }}
+          options={{ title: t("New Post") }}
         />
         <ProfileStack.Screen
           name="CommunityAbout"
           component={CommunityAboutScreen}
-          options={{ title: "About" }}
+          options={{ title: t("About") }}
         />
       </ProfileStack.Group>
     </ProfileStack.Navigator>
@@ -398,6 +405,8 @@ function ProfileStackScreen() {
 const SearchStack = createNativeStackNavigator();
 
 function SearchStackScreen() {
+  const { t } = useTranslation();
+
   return (
     <SearchStack.Navigator>
       <SearchStack.Group>
@@ -405,21 +414,21 @@ function SearchStackScreen() {
           name="Search"
           component={SearchScreen}
           options={{
-            title: "Search",
+            title: t("Search"),
           }}
         />
         <SearchStack.Screen
           name="Results"
           component={SearchResultsScreen}
           options={{
-            title: "Search",
+            title: t("Search"),
           }}
         />
         <SearchStack.Screen
           name="FeedScreen"
           component={FeedsIndexScreen}
           options={{
-            title: "Feed",
+            title: t("Feed"),
           }}
         />
         <SearchStack.Screen name="Post" component={PostScreen} />
@@ -429,21 +438,21 @@ function SearchStackScreen() {
           name="UserComments"
           component={UserCommentsScreen}
           options={{
-            title: "Comments",
+            title: t("Comments"),
           }}
         />
         <SearchStack.Screen
           name="UserPosts"
           component={UserPostsScreen}
           options={{
-            title: "Posts",
+            title: t("Posts"),
           }}
         />
         <SearchStack.Screen
           name="UserSavedPosts"
           component={UserPostsScreen}
           options={{
-            title: "Saved Posts",
+            title: t("Saved Posts"),
           }}
         />
       </SearchStack.Group>
@@ -456,27 +465,27 @@ function SearchStackScreen() {
         <SearchStack.Screen
           name="NewComment"
           component={NewCommentScreen}
-          options={{ title: "New Comment" }}
+          options={{ title: t("New Comment") }}
         />
         <SearchStack.Screen
           name="EditComment"
           component={EditCommentScreen}
-          options={{ title: "Edit Comment" }}
+          options={{ title: t("comment.edit") }}
         />
         <SearchStack.Screen
           name="NewPost"
           component={NewPostScreen}
-          options={{ title: "New Post" }}
+          options={{ title: t("New Post") }}
         />
         <SearchStack.Screen
           name="NewPostBody"
           component={NewPostBodyScreen}
-          options={{ title: "New Post" }}
+          options={{ title: t("New Post") }}
         />
         <SearchStack.Screen
           name="CommunityAbout"
           component={CommunityAboutScreen}
-          options={{ title: "About" }}
+          options={{ title: t("About") }}
         />
       </SearchStack.Group>
     </SearchStack.Navigator>
@@ -486,19 +495,21 @@ function SearchStackScreen() {
 const TraverseStack = createNativeStackNavigator();
 
 function TraverseStackScreen() {
+  const { t } = useTranslation();
+
   return (
     <TraverseStack.Navigator>
       <TraverseStack.Group>
         <TraverseStack.Screen
           name="Traverse"
           component={TraverseScreen}
-          options={{ title: "Traverse" }}
+          options={{ title: t("Traverse") }}
         />
         <TraverseStack.Screen
           name="FeedScreen"
           component={FeedsIndexScreen}
           options={{
-            title: "Feed",
+            title: t("Feed"),
           }}
         />
         <TraverseStack.Screen name="Post" component={PostScreen} />
@@ -515,21 +526,21 @@ function TraverseStackScreen() {
           name="UserComments"
           component={UserCommentsScreen}
           options={{
-            title: "Comments",
+            title: t("Comments"),
           }}
         />
         <TraverseStack.Screen
           name="UserPosts"
           component={UserPostsScreen}
           options={{
-            title: "Posts",
+            title: t("Posts"),
           }}
         />
         <TraverseStack.Screen
           name="UserSavedPosts"
           component={UserPostsScreen}
           options={{
-            title: "Saved Posts",
+            title: t("Saved Posts"),
           }}
         />
       </TraverseStack.Group>
@@ -542,27 +553,27 @@ function TraverseStackScreen() {
         <TraverseStack.Screen
           name="NewComment"
           component={NewCommentScreen}
-          options={{ title: "New Comment" }}
+          options={{ title: t("New Comment") }}
         />
         <TraverseStack.Screen
           name="EditComment"
           component={EditCommentScreen}
-          options={{ title: "Edit Comment" }}
+          options={{ title: t("comment.edit") }}
         />
         <TraverseStack.Screen
           name="NewPost"
           component={NewPostScreen}
-          options={{ title: "New Post" }}
+          options={{ title: t("New Post") }}
         />
         <TraverseStack.Screen
           name="NewPostBody"
           component={NewPostBodyScreen}
-          options={{ title: "New Post" }}
+          options={{ title: t("New Post") }}
         />
         <TraverseStack.Screen
           name="CommunityAbout"
           component={CommunityAboutScreen}
-          options={{ title: "About" }}
+          options={{ title: t("About") }}
         />
       </TraverseStack.Group>
     </TraverseStack.Navigator>
@@ -573,11 +584,12 @@ const Tab = createBottomTabNavigator();
 
 function Tabs() {
   const { unread } = useAppSelector(selectSite);
+  const { t } = useTranslation();
 
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarLabel: "Feed",
+        tabBarLabel: t("Feed"),
         freezeOnBlur: false,
       }}
     >
@@ -587,7 +599,7 @@ function Tabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => <IconNotes color={color} />,
-          tabBarLabel: "Feed",
+          tabBarLabel: t("Feed"),
           freezeOnBlur: false,
         }}
       />
@@ -597,7 +609,7 @@ function Tabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => <IconPlanet color={color} />,
-          tabBarLabel: "Traverse",
+          tabBarLabel: t("Traverse"),
           freezeOnBlur: false,
         }}
       />
@@ -607,7 +619,7 @@ function Tabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => <IconUserCircle color={color} />,
-          tabBarLabel: "Profile",
+          tabBarLabel: t("Profile"),
           freezeOnBlur: false,
         }}
       />
@@ -617,7 +629,7 @@ function Tabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => <IconSearch color={color} />,
-          tabBarLabel: "Search",
+          tabBarLabel: t("Search"),
           freezeOnBlur: false,
         }}
       />
@@ -627,7 +639,7 @@ function Tabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => <IconBell color={color} />,
-          tabBarLabel: "Inbox",
+          tabBarLabel: t("Inbox"),
           tabBarBadge:
             unread.replies + unread.mentions + unread.privateMessage > 0
               ? // ? unread.replies + unread.mentions + unread.privateMessage
@@ -642,8 +654,13 @@ function Tabs() {
 
 const MainStack = createNativeStackNavigator();
 
-function Stack() {
+interface StackProps {
+  onReady: () => void;
+}
+
+function Stack({ onReady }: StackProps) {
   const theme = useTheme();
+  const { t } = useTranslation();
   const accounts = useAppSelector(selectAccounts);
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
 
@@ -660,13 +677,13 @@ function Stack() {
   };
 
   return (
-    <NavigationContainer theme={MyTheme}>
+    <NavigationContainer onReady={onReady} theme={MyTheme}>
       <MainStack.Navigator>
         {(!accountsLoaded && (
           <MainStack.Screen
             name="AppLoading"
             component={LoadingView}
-            options={{ title: "Loading..." }}
+            options={{ title: `${t("Loading")}...` }}
           />
         )) ||
           (accounts && accounts.length > 0 && (
@@ -680,7 +697,7 @@ function Stack() {
               <MainStack.Screen
                 name="Onboarding"
                 component={OnboardingIndexScreen}
-                options={{ title: "Welcome", headerShown: false }}
+                options={{ title: t("Welcome"), headerShown: false }}
               />
               <MainStack.Screen
                 name="OnboardingInfoOne"
@@ -720,28 +737,28 @@ function Stack() {
               <MainStack.Screen
                 name="HubDiscovery"
                 component={HubDiscoveryScreen}
-                options={{ title: "Hubs" }}
+                options={{ title: t("Hubs") }}
               />
               <MainStack.Screen
                 name="Instance"
                 component={InstanceScreen}
-                options={{ title: "Instance" }}
+                options={{ title: t("Instance") }}
               />
               <MainStack.Screen
                 name="AddAccount"
                 component={AddAccountScreen}
-                options={{ title: "Add Account" }}
+                options={{ title: t("Add Account") }}
               />
               <MainStack.Screen
                 name="CreateAccount"
                 component={CreateAccountScreen}
-                options={{ title: "Create Account" }}
+                options={{ title: t("Create Account") }}
               />
               <MainStack.Screen
                 name="Viewer"
                 component={ViewerScreen}
                 options={{
-                  title: "View",
+                  title: t("View"),
                   freezeOnBlur: true,
                 }}
               />

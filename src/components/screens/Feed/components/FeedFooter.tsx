@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import LoadingFooter from "../../../common/Loading/LoadingFooter";
 import LoadingErrorView from "../../../common/Loading/LoadingErrorView";
 import LoadingErrorFooter from "../../../common/Loading/LoadingErrorFooter";
@@ -11,8 +12,10 @@ interface Props {
 }
 
 function FeedFooter({ loading, error, empty, onRetry }: Props) {
+  const { t } = useTranslation();
+
   if (loading) {
-    return <LoadingFooter message="Loading more posts..." />;
+    return <LoadingFooter message={t("feed.footer.loading")} />;
   }
 
   if (error) {
@@ -21,7 +24,7 @@ function FeedFooter({ loading, error, empty, onRetry }: Props) {
     ) : (
       <LoadingErrorFooter
         onRetryPress={() => onRetry(true)}
-        message="Failed to load posts :("
+        message={t("feed.footer.loadingError")}
       />
     );
   }

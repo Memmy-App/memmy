@@ -4,6 +4,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button, Switch, TextInput } from "react-native";
 import { Icon, IconButton, useTheme, VStack } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
 import CCell from "../../common/Table/CCell";
 import LoadingModal from "../../common/Loading/LoadingModal";
 import useNewPost from "../../../hooks/post/useNewPost";
@@ -30,13 +31,22 @@ function NewPostScreen({
   }, [route.params.body]);
 
   // Other hooks
+  const { t } = useTranslation();
   const theme = useTheme();
 
   const headerLeft = () => (
-    <Button title="Cancel" onPress={() => navigation.pop()} />
+    <Button
+      title={t("Cancel")}
+      onPress={() => navigation.pop()}
+      color={theme.colors.app.accent}
+    />
   );
   const headerRight = () => (
-    <Button title="Submit" onPress={newPost.doSubmit} />
+    <Button
+      title={t("Submit")}
+      onPress={newPost.doSubmit}
+      color={theme.colors.app.accent}
+    />
   );
 
   useEffect(() => {
@@ -50,7 +60,7 @@ function NewPostScreen({
     <KeyboardAwareScrollView style={{ backgroundColor: theme.colors.app.bg }}>
       <VStack flex={1} backgroundColor={theme.colors.app.bg}>
         <CTable>
-          <CSection header="POST INFO">
+          <CSection header={t("post.header")}>
             <CCell
               cellContentView={
                 <TextInput
@@ -60,7 +70,7 @@ function NewPostScreen({
                     color: theme.colors.app.textPrimary,
                   }}
                   placeholderTextColor={theme.colors.app.textSecondary}
-                  placeholder="Title"
+                  placeholder={t("post.title")}
                   value={newPost.form.name}
                   onChangeText={(text) => newPost.onFormChange("name", text)}
                   autoFocus
@@ -72,7 +82,14 @@ function NewPostScreen({
               cellStyle="RightDetail"
               cellAccessoryView={
                 <IconButton
-                  icon={<Icon as={Ionicons} name="camera" size={6} />}
+                  icon={
+                    <Icon
+                      as={Ionicons}
+                      name="camera"
+                      size={6}
+                      color={theme.colors.app.accent}
+                    />
+                  }
                   onPress={newPost.doUpload}
                 />
               }
@@ -84,7 +101,7 @@ function NewPostScreen({
                     color: theme.colors.app.textPrimary,
                   }}
                   placeholderTextColor={theme.colors.app.textSecondary}
-                  placeholder="Link (optional)"
+                  placeholder={t("post.link")}
                   value={newPost.form.url}
                   onChangeText={(text) => newPost.onFormChange("url", text)}
                   autoCapitalize="none"
@@ -95,7 +112,7 @@ function NewPostScreen({
             />
             <CCell
               cellStyle="Basic"
-              title={newPost.form.body ? newPost.form.body : "Body (optional)"}
+              title={newPost.form.body ? newPost.form.body : t("post.body")}
               onPress={() =>
                 navigation.push("NewPostBody", {
                   ...route.params,
@@ -106,7 +123,7 @@ function NewPostScreen({
             />
             <CCell
               cellStyle="RightDetail"
-              title="NSFW"
+              title={t("NSFW")}
               cellAccessoryView={
                 <Switch
                   value={newPost.form.nsfw}

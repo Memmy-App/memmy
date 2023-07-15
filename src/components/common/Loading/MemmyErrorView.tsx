@@ -2,9 +2,11 @@ import React from "react";
 import { Text, useTheme, VStack } from "native-base";
 import { Button } from "react-native";
 import { IconMoodSad } from "tabler-icons-react-native";
+import { useTranslation } from "react-i18next";
 import { sendLog } from "../../../helpers/LogHelper";
 
 function MemmyErrorView() {
+  const { t } = useTranslation();
   const theme = useTheme();
 
   return (
@@ -17,15 +19,9 @@ function MemmyErrorView() {
       space={2}
     >
       <IconMoodSad size={150} color={theme.colors.app.textSecondary} />
-      <Text textAlign="center">
-        Well that&apos;s awkward. Memmy encountered an error. Please restart the
-        app...
-      </Text>
-      <Text textAlign="center">
-        We don&apos;t like bugs and you probably don&apos;t either. If you
-        don&apos;t mind, could you please submit the logs? ♥️
-      </Text>
-      <Button title="Submit Logs" onPress={() => sendLog()} />
+      <Text textAlign="center">{t("memmyError.title")}</Text>
+      <Text textAlign="center">{t("memmyError.description")}</Text>
+      <Button title={t("memmyError.submitBtn")} onPress={() => sendLog()} />
     </VStack>
   );
 }

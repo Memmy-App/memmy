@@ -18,7 +18,7 @@ interface IProps {
 }
 
 // TODO Fix the set Post read here
-function FeedContentPreview({ post, recycled }: IProps) {
+function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
   const theme = useTheme();
   const { fontWeightPostTitle } = useAppSelector(selectSettings);
 
@@ -64,8 +64,9 @@ function FeedContentPreview({ post, recycled }: IProps) {
             <ImagePreview
               images={postUrls}
               postId={post.post.id}
-              isNsfw={post.post.nsfw}
+              isNsfw={post.post.nsfw || post.community.nsfw}
               recycled={recycled}
+              setPostRead={setPostRead}
             />
           </Box>
         )}
