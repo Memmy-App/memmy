@@ -257,22 +257,12 @@ function ImageViewer({
     });
   };
 
-  const onPinchStart = (
-    event: GestureStateChangeEvent<PinchGestureHandlerEventPayload>
-  ) => {
+  const onPinchStart = () => {
     "worklet";
 
     if (accessoriesVisible) {
       runOnJS(setAccessoriesVisible)(false);
     }
-
-    // Get the target
-    const targetX = -(event.focalX - xOffset) + SCREEN_WIDTH / 2;
-    const targetY = -(event.focalY - yOffset) + SCREEN_HEIGHT / 2;
-
-    // Zoom to that target
-    positionX.value = targetX;
-    positionY.value = targetY;
   };
 
   const onPinchUpdate = (
