@@ -3,12 +3,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { 
-  useTheme,
-  Text,
-  View,
-  ScrollView,
-} from "native-base";
+import { useTheme } from "native-base";
 import React from "react";
 import {
   IconBell,
@@ -18,6 +13,11 @@ import {
   IconUserCircle,
 } from "tabler-icons-react-native";
 import { useTranslation } from "react-i18next";
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+} from "@react-navigation/drawer";
+import { Dimensions } from "react-native";
 import CommunityAboutScreen from "./src/components/screens/Feed/CommunityAboutScreen";
 import CommunityFeedScreen from "./src/components/screens/Feed/CommunityFeedScreen";
 import FeedsIndexScreen from "./src/components/screens/Feed/FeedsIndexScreen";
@@ -65,24 +65,14 @@ import AboutScreen from "./src/components/screens/Settings/About/AboutScreen";
 import InboxScreen from "./src/components/screens/Inbox/InboxScreen";
 import IconSelectionScreen from "./src/components/screens/Settings/Appearance/IconSelectionScreen";
 
-
-import { 
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem
-} from '@react-navigation/drawer';
-import { Dimensions } from "react-native";
-
 const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView {...props}>
-      <Text>Traverse</Text>
       {TraverseScreen()}
     </DrawerContentScrollView>
-  )
+  );
 }
 
 function FeedDrawerContainerScreen() {
@@ -93,22 +83,21 @@ function FeedDrawerContainerScreen() {
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
         drawerStyle: {
-          width: Dimensions.get('window').width / 1.05,
+          width: Dimensions.get("window").width / 1,
         },
         drawerType: "slide",
       }}
     >
-      <Drawer.Screen 
-        name="FeedScreen" 
-        component={FeedsIndexScreen} 
+      <Drawer.Screen
+        name="FeedScreen"
+        component={FeedsIndexScreen}
         options={{
           title: t("Feed"),
         }}
       />
     </Drawer.Navigator>
-  )
+  );
 }
-
 
 const FeedStack = createNativeStackNavigator();
 

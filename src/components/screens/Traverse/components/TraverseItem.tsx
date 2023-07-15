@@ -11,7 +11,7 @@ import {
   IconStar,
   IconStarFilled,
 } from "tabler-icons-react-native";
-import { useNavigation } from "@react-navigation/native";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { getCommunityFullName } from "../../../../helpers/LemmyHelpers";
 import { toggleFavorite } from "../../../../slices/favorites/favoritesActions";
@@ -30,13 +30,15 @@ function TraverseItem({ community, isFavorite }: IProps) {
   const theme = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const onPress = () =>
+  const onPress = () => {
     navigation.navigate("Community", {
       communityId: community.community.id,
       communityName: community.community.name,
       communityFullName: getCommunityFullName(community),
       actorId: community.community.actor_id,
     });
+    navigation.dispatch(DrawerActions.closeDrawer());
+  };
 
   const dispatch = useAppDispatch();
   const onChange = (key: string, value: any) => {
