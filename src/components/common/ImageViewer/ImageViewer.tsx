@@ -59,12 +59,6 @@ interface MeasureResult {
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } =
   RNDimensions.get("screen");
 
-const clamp = (value, lowerBound, upperBound) => {
-  "worklet";
-
-  return Math.min(Math.max(value, lowerBound), upperBound);
-};
-
 function ImageViewer({
   source,
   postId,
