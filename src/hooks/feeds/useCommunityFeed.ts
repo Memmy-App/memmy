@@ -88,6 +88,7 @@ const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
       banner: feed.community.community.banner,
       description: feed.community.community.description,
       title: feed.community.community.title,
+      communityId: feed.community.community.id,
     });
   };
 
