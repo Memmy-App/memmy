@@ -45,6 +45,7 @@ interface IProps {
   recycled?: React.MutableRefObject<{}>;
   nsfw?: boolean;
   buttonMode?: boolean;
+  setPostRead?: () => void;
 }
 
 interface MeasureResult {
@@ -71,6 +72,7 @@ function ImageViewer({
   recycled,
   nsfw,
   buttonMode = false,
+  setPostRead,
 }: IProps) {
   const theme = useTheme();
 
@@ -82,7 +84,7 @@ function ImageViewer({
   const [accessoriesVisible, setAccessoriesVisible] = useState(false);
 
   // NSFW stuff, we need this hack for some reason
-  const { blurNsfw } = useAppSelector(selectSettings);
+  const { blurNsfw, markReadOnPostImageView } = useAppSelector(selectSettings);
   const [blurIntensity, setBlurIntensity] = useState(99);
 
   // Animation stuff
@@ -167,6 +169,10 @@ function ImageViewer({
   const onRequestOpenOrClose = () => {
     if (!expanded) {
       if (onPress) onPress();
+
+      if (setPostRead && markReadOnPostImageView) {
+        setPostRead();
+      }
 
       // Make sure that the initial value for last zoom is reset
       lastScale.value = 1;
