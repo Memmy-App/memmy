@@ -35,10 +35,18 @@ function NewPostScreen({
   const theme = useTheme();
 
   const headerLeft = () => (
-    <Button title={t("Cancel")} onPress={() => navigation.pop()} />
+    <Button
+      title={t("Cancel")}
+      onPress={() => navigation.pop()}
+      color={theme.colors.app.accent}
+    />
   );
   const headerRight = () => (
-    <Button title={t("Submit")} onPress={newPost.doSubmit} />
+    <Button
+      title={t("Submit")}
+      onPress={newPost.doSubmit}
+      color={theme.colors.app.accent}
+    />
   );
 
   useEffect(() => {
@@ -74,7 +82,14 @@ function NewPostScreen({
               cellStyle="RightDetail"
               cellAccessoryView={
                 <IconButton
-                  icon={<Icon as={Ionicons} name="camera" size={6} />}
+                  icon={
+                    <Icon
+                      as={Ionicons}
+                      name="camera"
+                      size={6}
+                      color={theme.colors.app.accent}
+                    />
+                  }
                   onPress={newPost.doUpload}
                 />
               }

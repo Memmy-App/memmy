@@ -6,7 +6,10 @@ import { useFocusEffect } from "@react-navigation/native";
 import { IconLogout } from "tabler-icons-react-native";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
-import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
+import {
+  selectAccounts,
+  selectCurrentAccount,
+} from "../../../../slices/accounts/accountsSlice";
 import CTable from "../../../common/Table/CTable";
 import CSection from "../../../common/Table/CSection";
 import CCell from "../../../common/Table/CCell";
@@ -23,6 +26,7 @@ interface ViewAccountsScreenProps {
 
 function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   const accounts = useAppSelector(selectAccounts);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const { pushEnabled } = useAppSelector(selectSettings);
 
   const [pushEnabledArr, setPushEnabledArr] = useState([]);
@@ -160,7 +164,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
           <CCell
             cellStyle="RightDetail"
             title={t("Server")}
-            detail={accounts[0].instance}
+            detail={currentAccount.instance}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -168,7 +172,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
           <CCell
             cellStyle="RightDetail"
             title={t("Username")}
-            detail={accounts[0].username}
+            detail={currentAccount.username}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
