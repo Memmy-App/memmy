@@ -26,6 +26,18 @@ export const downloadImage = async (src: string): Promise<string | boolean> => {
   }
 };
 
+export const deleteImage = async (uri: string): Promise<boolean> => {
+  try {
+    await FileSystem.deleteAsync(uri);
+    console.log("Image deleted.");
+    return true;
+  } catch (e) {
+    writeToLog("Error deleting file.");
+    writeToLog(e.toString());
+    return false;
+  }
+};
+
 const downloadAndSaveImage = async (src: string): Promise<boolean> => {
   const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
 
@@ -42,6 +54,7 @@ const downloadAndSaveImage = async (src: string): Promise<boolean> => {
 const saveImage = async (filePath: string) => {
   try {
     await MediaLibrary.createAssetAsync(filePath);
+    deleteImage(filePath).then();
   } catch (e) {
     writeToLog("Error saving image.");
     writeToLog(e.toString());
