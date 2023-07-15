@@ -54,6 +54,7 @@ const downloadAndSaveImage = async (src: string): Promise<boolean> => {
 const saveImage = async (filePath: string) => {
   try {
     await MediaLibrary.createAssetAsync(filePath);
+    deleteImage(filePath).then();
   } catch (e) {
     writeToLog("Error saving image.");
     writeToLog(e.toString());
