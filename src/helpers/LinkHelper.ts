@@ -71,8 +71,8 @@ export const getLinkInfo = (link?: string): LinkInfo => {
 
 const isPotentialFedSite = (link: string) => {
   const fedPattern =
-    /^(?:https?:\/\/\w+\.\w+)?\/(?:c|m|u|post)\/\w+(?:@\w+(?:\.\w+)?(?:\.\w+)?)?$/;
-  return link.match(fedPattern);
+    /^(?:https?:\/\/(?:\w+.)?\w+.\w+)?\/(?:c|m|u|post)\/\w+(?:@\w+(?:.\w+)?(?:.\w+)?)?$/;
+  return fedPattern.test(link);
 };
 
 // Takes in "/c/community@instance" and return "https://instance_url/c/community@instance"
