@@ -3,7 +3,12 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useTheme } from "native-base";
+import { 
+  useTheme,
+  Text,
+  View,
+  ScrollView,
+} from "native-base";
 import React from "react";
 import {
   IconBell,
@@ -61,19 +66,34 @@ import InboxScreen from "./src/components/screens/Inbox/InboxScreen";
 import IconSelectionScreen from "./src/components/screens/Settings/Appearance/IconSelectionScreen";
 
 
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { 
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem
+} from '@react-navigation/drawer';
 import { Dimensions } from "react-native";
 
 const Drawer = createDrawerNavigator();
+
+function CustomDrawerContent(props) {
+  return (
+    <DrawerContentScrollView {...props}>
+      <Text>Traverse</Text>
+      {TraverseScreen()}
+    </DrawerContentScrollView>
+  )
+}
 
 function FeedDrawerContainerScreen() {
   const { t } = useTranslation();
 
   return (
     <Drawer.Navigator
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
         drawerStyle: {
-          width: Dimensions.get('window').width / 1.1,
+          width: Dimensions.get('window').width / 1.05,
         },
         drawerType: "slide",
       }}
