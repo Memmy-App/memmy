@@ -19,16 +19,16 @@ import { writeToLog } from "../../helpers/LogHelper";
 import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { showToast } from "../../slices/toast/toastSlice";
 import { setResponseTo } from "../../slices/comments/newCommentSlice";
-import { useAppActionSheet } from "../app/useAppActionSheet";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 
 interface UseComment {
   onCommentPress: () => void;
-  onCommentLongPress: () => void;
+  onCommentLongPress: (selection?: string) => void;
   onReadPress: () => Promise<void>;
   onVote: (value: ILemmyVote) => Promise<void>;
   onReply: () => void;
+  longPressOptions: Record<string, string>;
 }
 
 const useComment = ({
@@ -49,7 +49,23 @@ const useComment = ({
 
   const dispatch = useAppDispatch();
 
-  const { showAppActionSheetWithOptions } = useAppActionSheet();
+  const isOwnComment =
+    getUserFullName(comment.comment.creator).toLowerCase() ===
+      createUserFullName(
+        currentAccount.username.toLowerCase(),
+        currentAccount.instance.toLowerCase()
+      ) && !comment.comment.comment.deleted;
+
+  const longPressOptions: Record<string, string> = {
+    "Copy Text": t("Copy Text"),
+    "Copy Link": t("Copy Link"),
+    Reply: t("Reply"),
+    "Report Comment": t("comment.report"),
+    ...(isOwnComment && {
+      "Edit Comment": t("comment.edit"),
+      "Delete Comment": t("comment.delete"),
+    }),
+  };
 
   const onCommentPress = () => {
     if (onPressOverride) {
@@ -81,135 +97,103 @@ const useComment = ({
     );
   };
 
-  const onCommentLongPress = () => {
+  const onCommentLongPress = async (selection: string) => {
     onGenericHapticFeedback();
 
-    const isOwnComment =
-      getUserFullName(comment.comment.creator).toLowerCase() ===
-        createUserFullName(
-          currentAccount.username.toLowerCase(),
-          currentAccount.instance.toLowerCase()
-        ) && !comment.comment.comment.deleted;
+    if (selection === longPressOptions["Copy Text"]) {
+      Clipboard.setString(comment.comment.comment.content);
+    }
 
-    const options = {
-      "Copy Text": t("Copy Text"),
-      "Copy Link": t("Copy Link"),
-      Reply: t("Reply"),
-      "Report Comment": t("comment.report"),
-      ...(isOwnComment && {
-        "Edit Comment": t("comment.edit"),
-        "Delete Comment": t("comment.delete"),
-      }),
-      Cancel: t("Cancel"),
-    };
+    if (selection === longPressOptions["Copy Link"]) {
+      Clipboard.setString(comment.comment.comment.ap_id);
+    }
 
-    const optionsArr = Object.values(options);
-    const cancelButtonIndex = optionsArr.indexOf(options.Cancel);
+    if (selection === longPressOptions["Report Comment"]) {
+      await Alert.prompt(
+        t("comment.report"),
+        t("alert.message.reportComment"),
+        [
+          {
+            text: t("Cancel"),
+            style: "cancel",
+          },
+          {
+            text: t("Submit"),
+            style: "default",
+            onPress: async (v) => {
+              try {
+                await lemmyInstance.createCommentReport({
+                  auth: lemmyAuthToken,
+                  comment_id: comment.comment.comment.id,
+                  reason: v,
+                });
 
-    showAppActionSheetWithOptions(
-      {
-        options: optionsArr,
-        cancelButtonIndex,
-      },
-      async (index: number) => {
-        const option = optionsArr[index];
+                dispatch(
+                  showToast({
+                    message: t("toast.reportSubmitSuccessful"),
+                    variant: "info",
+                    duration: 3000,
+                  })
+                );
+              } catch (e) {
+                handleLemmyError(e.toString());
+              }
+            },
+          },
+        ]
+      );
+    }
 
-        if (option === options["Copy Text"]) {
-          Clipboard.setString(comment.comment.comment.content);
-        }
+    if (selection === longPressOptions["Delete Comment"]) {
+      try {
+        await lemmyInstance.deleteComment({
+          auth: lemmyAuthToken,
+          comment_id: comment.comment.comment.id,
+          deleted: true,
+        });
 
-        if (option === options["Copy Link"]) {
-          Clipboard.setString(comment.comment.comment.ap_id);
-        }
+        dispatch(
+          showToast({
+            message: t("toast.commentDeleted"),
+            duration: 3000,
+            variant: "info",
+          })
+        );
 
-        if (option === options["Report Comment"]) {
-          await Alert.prompt(
-            t("comment.report"),
-            t("alert.message.reportComment"),
-            [
-              {
-                text: t("Cancel"),
-                style: "cancel",
-              },
-              {
-                text: t("Submit"),
-                style: "default",
-                onPress: async (v) => {
-                  try {
-                    await lemmyInstance.createCommentReport({
-                      auth: lemmyAuthToken,
-                      comment_id: comment.comment.comment.id,
-                      reason: v,
-                    });
-
-                    dispatch(
-                      showToast({
-                        message: t("toast.reportSubmitSuccessful"),
-                        variant: "info",
-                        duration: 3000,
-                      })
-                    );
-                  } catch (e) {
-                    handleLemmyError(e.toString());
-                  }
+        setComments((prev) =>
+          prev.map((c) => {
+            if (c.comment.comment.id === comment.comment.comment.id) {
+              return {
+                ...c,
+                comment: {
+                  ...c.comment,
+                  comment: {
+                    ...c.comment.comment,
+                    content: t("Comment deleted by user :("),
+                    deleted: true,
+                  },
                 },
-              },
-            ]
-          );
-        }
-
-        if (option === options["Delete Comment"]) {
-          try {
-            await lemmyInstance.deleteComment({
-              auth: lemmyAuthToken,
-              comment_id: comment.comment.comment.id,
-              deleted: true,
-            });
-
-            dispatch(
-              showToast({
-                message: t("toast.commentDeleted"),
-                duration: 3000,
-                variant: "info",
-              })
-            );
-
-            setComments((prev) =>
-              prev.map((c) => {
-                if (c.comment.comment.id === comment.comment.comment.id) {
-                  return {
-                    ...c,
-                    comment: {
-                      ...c.comment,
-                      comment: {
-                        ...c.comment.comment,
-                        content: t("Comment deleted by user :("),
-                        deleted: true,
-                      },
-                    },
-                  };
-                }
-                return c;
-              })
-            );
-          } catch (e) {
-            handleLemmyError(e.toString());
-          }
-        }
-
-        if (option === options["Edit Comment"]) {
-          navigation.push("EditComment", {
-            commentId: comment.comment.comment.id,
-            content: comment.comment.comment.content,
-            languageId: comment.comment.comment.language_id,
-          });
-        }
-
-        if (option === options.Reply) {
-          onReply();
-        }
+              };
+            }
+            return c;
+          })
+        );
+      } catch (e) {
+        handleLemmyError(e.toString());
       }
-    );
+    }
+
+    if (selection === longPressOptions["Edit Comment"]) {
+      navigation.push("EditComment", {
+        commentId: comment.comment.comment.id,
+        content: comment.comment.comment.content,
+        languageId: comment.comment.comment.language_id,
+      });
+    }
+
+    if (selection === longPressOptions.Reply) {
+      onReply();
+    }
   };
 
   const onReply = () => {
@@ -329,6 +313,7 @@ const useComment = ({
     onVote,
     onReadPress,
     onReply,
+    longPressOptions,
   };
 };
 
