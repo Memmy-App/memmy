@@ -18,6 +18,8 @@ import PostActionBar from "./PostActionBar";
 import PostTitle from "./PostTitle";
 import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
 import { ILemmyVote } from "../../../../types/lemmy/ILemmyVote";
+import { useAppSelector } from "../../../../../store";
+import { selectSettings } from "../../../../slices/settings/settingsSlice";
 
 interface IProps {
   currentPost: PostView;
@@ -41,12 +43,15 @@ function PostHeader({
   doVote,
 }: IProps) {
   const theme = useTheme();
+  const { tapToCollapse } = useAppSelector(selectSettings);
 
   const instanceBaseUrl = getBaseUrl(currentPost.community.actor_id);
 
   const [hideSLA, setHideSLA] = useState(false);
 
   const onPress = () => {
+    if (!tapToCollapse) return;
+
     onGenericHapticFeedback();
     setCollapsed((prev) => !prev);
   };
