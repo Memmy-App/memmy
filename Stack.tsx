@@ -60,6 +60,36 @@ import AboutScreen from "./src/components/screens/Settings/About/AboutScreen";
 import InboxScreen from "./src/components/screens/Inbox/InboxScreen";
 import IconSelectionScreen from "./src/components/screens/Settings/Appearance/IconSelectionScreen";
 
+
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { Dimensions } from "react-native";
+
+const Drawer = createDrawerNavigator();
+
+function FeedDrawerContainerScreen() {
+  const { t } = useTranslation();
+
+  return (
+    <Drawer.Navigator
+      screenOptions={{
+        drawerStyle: {
+          width: Dimensions.get('window').width / 1.1,
+        },
+        drawerType: "slide",
+      }}
+    >
+      <Drawer.Screen 
+        name="FeedScreen" 
+        component={FeedsIndexScreen} 
+        options={{
+          title: t("Feed"),
+        }}
+      />
+    </Drawer.Navigator>
+  )
+}
+
+
 const FeedStack = createNativeStackNavigator();
 
 function FeedStackScreen() {
@@ -69,10 +99,10 @@ function FeedStackScreen() {
     <FeedStack.Navigator screenOptions={{}}>
       <FeedStack.Group>
         <FeedStack.Screen
-          name="FeedScreen"
-          component={FeedsIndexScreen}
+          name="FeedDrawerContainer"
+          component={FeedDrawerContainerScreen}
           options={{
-            title: t("Feed"),
+            headerShown: false,
           }}
         />
         <FeedStack.Screen name="Post" component={PostScreen} />
