@@ -4,6 +4,7 @@ import { useTheme } from "native-base";
 import { Button, Dimensions, StyleSheet, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useKeyboard } from "@react-native-community/hooks";
+import { useTranslation } from "react-i18next";
 import KeyboardAccessory from "../../common/KeyboardAccessory";
 
 interface IProps {
@@ -12,6 +13,7 @@ interface IProps {
 }
 
 function NewPostBodyScreen({ route, navigation }: IProps) {
+  const { t } = useTranslation();
   const theme = useTheme();
   const { keyboardHeight } = useKeyboard();
 
@@ -25,7 +27,11 @@ function NewPostBodyScreen({ route, navigation }: IProps) {
 
   const HeaderLeftButton = useCallback(
     () => (
-      <Button title="Done" color={theme.colors.app.accent} onPress={goBack} />
+      <Button
+        title={t("Back")}
+        color={theme.colors.app.accent}
+        onPress={goBack}
+      />
     ),
     [body]
   );
@@ -45,7 +51,7 @@ function NewPostBodyScreen({ route, navigation }: IProps) {
       <KeyboardAwareScrollView style={{ backgroundColor: theme.colors.app.bg }}>
         <TextInput
           multiline
-          placeholder="Type away!"
+          placeholder={t("post.bodyPlaceholder")}
           placeholderTextColor={theme.colors.app.textSecondary}
           autoCapitalize="sentences"
           style={[

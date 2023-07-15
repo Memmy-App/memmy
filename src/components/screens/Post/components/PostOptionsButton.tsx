@@ -2,6 +2,7 @@ import React from "react";
 import { useTheme } from "native-base";
 import { IconDots } from "tabler-icons-react-native";
 import { Alert } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch } from "../../../../../store";
 import { lemmyAuthToken, lemmyInstance } from "../../../../LemmyInstance";
 import { showToast } from "../../../../slices/toast/toastSlice";
@@ -14,13 +15,14 @@ interface IProps {
 }
 
 function CommentSortButton({ postId }: IProps) {
+  const { t } = useTranslation();
   const theme = useTheme();
   const { showAppActionSheetWithOptions } = useAppActionSheet();
   const dispatch = useAppDispatch();
 
   const onPress = () => {
-    const options = ["Report Post", "Cancel"];
-    const cancelButtonIndex = options.indexOf("Cancel");
+    const options = [t("Report Post"), t("Cancel")];
+    const cancelButtonIndex = options.length - 1;
 
     showAppActionSheetWithOptions(
       {

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { ImageBackground, StyleSheet } from "react-native";
 import { Button, Text, View, VStack } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useTranslation } from "react-i18next";
 import { resetInstance } from "../../../LemmyInstance";
 
 const background = require("../../../../assets/onboard-bg.png");
@@ -11,6 +12,8 @@ function OnboardingScreen({
 }: {
   navigation: NativeStackNavigationProp<any>;
 }) {
+  const { t } = useTranslation();
+
   useEffect(() => {
     resetInstance();
   }, []);
@@ -29,7 +32,7 @@ function OnboardingScreen({
             fontWeight="semibold"
             textAlign="left"
           >
-            Hello 👋
+            {t("onboarding.hello")} 👋
           </Text>
           <View>
             <Text
@@ -38,7 +41,7 @@ function OnboardingScreen({
               fontWeight="semibold"
               textAlign="left"
             >
-              Welcome to
+              {t("onboarding.welcomeTo")}
             </Text>
             <Text
               fontSize="5xl"
@@ -59,7 +62,7 @@ function OnboardingScreen({
               py={2.5}
             >
               <Text fontWeight="semibold" fontSize="lg">
-                Get Started
+                {t("onboarding.getStartedBtn")}
               </Text>
             </Button>
             <Button
@@ -71,7 +74,7 @@ function OnboardingScreen({
               py={2.5}
             >
               <Text fontWeight="semibold" fontSize="lg">
-                I Have an Account
+                {t("onboarding.hasAccountBtn")}
               </Text>
             </Button>
           </VStack>

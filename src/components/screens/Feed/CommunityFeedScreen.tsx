@@ -10,6 +10,7 @@ import {
   IconPlus,
   IconUserHeart,
 } from "tabler-icons-react-native";
+import { useTranslation } from "react-i18next";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import useCommunityFeed from "../../../hooks/feeds/useCommunityFeed";
 import CustomButton from "../../common/Buttons/CustomButton";
@@ -27,6 +28,7 @@ function FeedsCommunityScreen({
   const { communityFullName, communityName, actorId } = route.params;
 
   const communityFeed = useCommunityFeed(communityFullName);
+  const { t } = useTranslation();
   const theme = useTheme();
 
   const headerTitle = () => (
@@ -116,19 +118,19 @@ function FeedsCommunityScreen({
               text={
                 communityFeed.feed.community.subscribed === "Subscribed" ||
                 communityFeed.feed.community.subscribed === "Pending"
-                  ? "Subscribed"
-                  : "Subscribe"
+                  ? t("Subscribed")
+                  : t("Subscribe")
               }
             />
             <CustomButton
               onPress={communityFeed.onAboutPress}
               icon={IconInfoCircle}
-              text="About"
+              text={t("About")}
             />
             <CustomButton
               onPress={communityFeed.onPostPress}
               icon={IconPlus}
-              text="Post"
+              text={t("Post")}
             />
           </HStack>
         </VStack>

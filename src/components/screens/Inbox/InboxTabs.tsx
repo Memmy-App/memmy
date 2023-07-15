@@ -1,5 +1,6 @@
 import React from "react";
 import { HStack } from "native-base";
+import { useTranslation } from "react-i18next";
 import ButtonGroup from "../../common/Buttons/ButtonGroup";
 import GroupButton from "../../common/Buttons/GroupButton";
 
@@ -16,18 +17,20 @@ function InboxTabs({
   topSelected: "unread" | "all";
   bottomSelected: "replies" | "mentions" | "messages";
 }) {
+  const { t } = useTranslation();
+
   return (
     <>
       <HStack pt={2}>
         <ButtonGroup>
           <GroupButton
             onPress={onUnreadPress}
-            text="Unread"
+            text={t("Unread")}
             selected={topSelected === "unread"}
           />
           <GroupButton
             onPress={onAllPress}
-            text="All"
+            text={t("All")}
             selected={topSelected === "all"}
           />
         </ButtonGroup>
@@ -36,7 +39,7 @@ function InboxTabs({
         <ButtonGroup>
           <GroupButton
             onPress={onRepliesPress}
-            text="Replies"
+            text={t("Replies")}
             selected={bottomSelected === "replies"}
           />
         </ButtonGroup>

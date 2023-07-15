@@ -12,7 +12,7 @@ import codePush from "react-native-code-push";
 
 const codePushOptions = {
   checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
-  installMode: codePush.InstallMode.ON_NEXT_RESUME,
+  installMode: codePush.InstallMode.ON_NEXT_RESTART,
   minimumBackgroundDuration: 30,
 };
 
@@ -46,11 +46,13 @@ function App() {
     return null;
   }
 
-  SplashScreen.hideAsync();
+  const onReady = () => {
+    SplashScreen.hideAsync();
+  };
 
   return (
     <Provider store={store}>
-      <Start />
+      <Start onReady={onReady} />
     </Provider>
   );
 }

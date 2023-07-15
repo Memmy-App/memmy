@@ -3,6 +3,7 @@ import { Alert, TextInput } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { CreatePost } from "lemmy-js-client";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch } from "../../../store";
 import { selectImage } from "../../helpers/ImageHelper";
 import uploadToImgur from "../../helpers/ImgurHelper";
@@ -34,6 +35,7 @@ const useNewPost = (
   communityId: number,
   languageId: number | undefined
 ): UseNewPost => {
+  const { t } = useTranslation();
   // State
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -68,8 +70,8 @@ const useNewPost = (
     } catch (e) {
       if (e === "permissions") {
         Alert.alert(
-          "Permissions Error",
-          "Please allow Memmy to access your camera roll."
+          t("alert.title.permissionsError"),
+          t("alert.message.allowCameraRoll")
         );
       }
 
@@ -88,7 +90,7 @@ const useNewPost = (
 
       setLoading(false);
       setError(e.toString());
-      Alert.alert("Error", "Error uploading image to Imgur.");
+      Alert.alert(t("alert.title.error"), t("alert.message.imgurUploadError"));
     }
 
     onFormChange("url", imgurLink);

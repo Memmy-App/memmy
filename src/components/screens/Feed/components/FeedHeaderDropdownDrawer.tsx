@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 import Animated, { FadeInUp, FadeOutUp } from "react-native-reanimated";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { setCurrentAccount } from "../../../../slices/accounts/accountsActions";
 import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
@@ -20,6 +21,7 @@ function FeedHeaderDropdownDrawer() {
   const { dropdownVisible } = useAppSelector(selectFeed);
   const accounts = useAppSelector(selectAccounts);
 
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
   const onAccountPress = (account: Account) => {
@@ -60,7 +62,7 @@ function FeedHeaderDropdownDrawer() {
 
                 <CCell
                   cellStyle="Basic"
-                  title="Manage Accounts"
+                  title={t("Manage Accounts")}
                   onPress={() => onManageAccountPress()}
                   accessory="DisclosureIndicator"
                 />
