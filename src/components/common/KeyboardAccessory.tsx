@@ -61,11 +61,11 @@ function KeyboardAccessory({
   const onLinkPress = async () => {
     Alert.prompt(
       t("Link"),
-      t("toast.message.enterUrl"),
+      t("toast.enterUrl"),
       (link) => {
         Alert.prompt(
           t("Label"),
-          t("toast.message.enterLabel"),
+          t("toast.enterLabel"),
           (label) => {
             setText(replace(`[${label}](${link})`));
           },
