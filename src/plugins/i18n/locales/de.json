@@ -53,7 +53,8 @@
     "passwordsMismatch": "Die Passwörter stimmen nicht überein.",
     "blocked": "Blocked {{0}}",
     "enterUrl": "Gib den URL ein",
-    "enterLabel": "Gib das Label ein"
+    "enterLabel": "Gib das Label ein",
+		"linkError": "Beim Öffnen des Links ist ein Fehler aufgetreten."
   },
   "relativeTime": {
     "future": "in %s",
@@ -134,7 +135,11 @@
         "useSystemFontSize": "System Schriftgröße übernehmen",
         "textSize": "Textgröße",
         "postTitleFontWeight": "Schriftstärke - Post Titel"
-      }
+      },
+			"gestures": {
+				"header": "GESTURES",
+				"tapToCollapse": "Zum Zusammenklappen antippen"
+			}
     },
     "accounts": {
       "current": "Aktueller Account",

@@ -23,6 +23,7 @@ function IconSelectionScreen() {
         <CSection footer="App icons by dizzy@lemmy.ml">
           {Object.entries(appIconOptions).map(([key, value]) => (
             <CCell
+              key={key}
               cellStyle="RightDetail"
               title={
                 <HStack space={2.5} alignItems="center">

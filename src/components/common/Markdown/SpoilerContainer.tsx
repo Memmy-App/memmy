@@ -9,7 +9,7 @@ function SpoilerContainer({ title, node }: { title: string; node: any }) {
   // this is unfortunately the only way right now I could figure out how to access just the text of the content
   // children is passed in as a weird View with Text and marginBottom: 10
   const content =
-    node.children[0].children[0].children[0].content ||
+    node?.children[0]?.children[0]?.children[0]?.content ||
     "For some reason Memmy can't render this spoiler.";
 
   const onPress = () => setShowSpoiler(!showSpoiler);
