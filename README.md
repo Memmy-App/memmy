@@ -13,6 +13,13 @@ An Apollo-inspired iOS client for using [Lemmy](https://github.com/LemmyNet/lemm
 ## Work in Progress
 This is a work in progress and is not in a functional state - yet. I intend to release builds at least nightly on TestFlight, although I am going a bit fast right now (getting ready for the withdraw from no longer having Apollo!)
 
+## Requirements
+
+- [MacOS](https://www.apple.com/macos/)
+- [node 16+ / npm 8+](https://nodejs.org/en/download) (Node.js, node package manager)
+  - _we recommend using [nvm](https://github.com/nvm-sh/nvm) (node version manager)_
+- [yarn 1](https://classic.yarnpkg.com/en/) (_classic_)
+
 ## Building
 Building for iOS requires a Mac. To build, you will also need to make sure that you have the required dependencies installed. Generally, this is Ruby and Xcode. You'll also need yarn.
 
