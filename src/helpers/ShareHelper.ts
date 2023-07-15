@@ -1,6 +1,6 @@
 import Share, { ShareOptions } from "react-native-share";
 import { Alert } from "react-native";
-import { downloadImage } from "./ImageHelper";
+import { deleteImage, downloadImage } from "./ImageHelper";
 import { onGenericHapticFeedback } from "./HapticFeedbackHelpers";
 
 interface ShareLinkOptions {
@@ -24,6 +24,8 @@ export const shareLink = async ({
     title,
   };
 
+  let uri: string;
+
   if (isImage) {
     const res = await downloadImage(link);
 
@@ -32,7 +34,7 @@ export const shareLink = async ({
       return;
     }
 
-    const uri = res as string;
+    uri = res as string;
 
     options = {
       filename: uri.split("/").pop(),
@@ -51,8 +53,13 @@ export const shareLink = async ({
     };
   }
 
+  const after = () => {
+    if (callback) callback();
+    if (isImage) deleteImage(uri);
+  };
+
   try {
-    Share.open(options).then(() => callback && callback());
+    Share.open(options).then(() => after());
   } catch {
     /* empty */
   }

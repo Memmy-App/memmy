@@ -24,17 +24,27 @@ function ImageViewFooter({ source, visible }: ImageViewFooterProps) {
   const onSave = async () => {
     onGenericHapticFeedback();
     setDownloading(true);
-    await downloadAndSaveImage(source);
-    setDownloading(false);
+
+    try {
+      await downloadAndSaveImage(source);
+      setDownloading(false);
+    } catch (e) {
+      setDownloading(false);
+    }
   };
 
   const onShare = async () => {
     setDownloading(true);
-    await shareLink({
-      link: source,
-      isImage: true,
-      callback: () => setDownloading(false),
-    });
+
+    try {
+      await shareLink({
+        link: source,
+        isImage: true,
+        callback: () => setDownloading(false),
+      });
+    } catch (e) {
+      setDownloading(false);
+    }
   };
 
   return (
