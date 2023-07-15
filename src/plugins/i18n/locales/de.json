@@ -135,7 +135,11 @@
         "useSystemFontSize": "System Schriftgröße übernehmen",
         "textSize": "Textgröße",
         "postTitleFontWeight": "Schriftstärke - Post Titel"
-      }
+      },
+			"gestures": {
+				"header": "GESTURES",
+				"tapToCollapse": "Zum Zusammenklappen antippen"
+			}
     },
     "accounts": {
       "current": "Aktueller Account",

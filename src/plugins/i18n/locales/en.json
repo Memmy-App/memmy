@@ -142,7 +142,11 @@
         "useSystemFontSize": "Use System Font Size",
         "textSize": "Text Size",
         "postTitleFontWeight": "Font Weight - Post Title"
-      }
+      },
+			"gestures": {
+				"header": "GESTURES",
+				"tapToCollapse": "Tap to Collapse"
+			}
     },
     "accounts": {
       "current": "Current Account",

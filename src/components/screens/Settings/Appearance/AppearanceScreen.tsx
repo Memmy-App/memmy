@@ -160,6 +160,23 @@ function AppearanceScreen({ navigation }: IProps) {
             />
           </CSection>
         )}
+
+        <CSection header={t("settings.appearance.gestures.header")}>
+          <CCell
+            cellStyle="Basic"
+            title={t("settings.appearance.gestures.tapToCollapse")}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.tapToCollapse}
+                onValueChange={(v) => onChange("tapToCollapse", v)}
+              />
+            }
+          />
+        </CSection>
+
         <CSection header={t("settings.appearance.themes.header")}>
           <CCell
             cellStyle="Basic"
