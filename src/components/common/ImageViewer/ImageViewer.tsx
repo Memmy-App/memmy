@@ -28,6 +28,7 @@ import {
 import { BlurView } from "expo-blur";
 import { Icon, Text, useTheme, VStack } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
+import { StatusBar } from "expo-status-bar";
 import { useImageDimensions } from "./useImageDimensions";
 import ExitButton from "./ImageExitButton";
 import ImageViewFooter from "./ImageViewFooter";
@@ -520,6 +521,7 @@ function ImageViewer({
         </Pressable>
       )}
       <Modal visible={expanded} transparent>
+        <StatusBar style="dark" />
         <ExitButton
           onPress={onRequestOpenOrClose}
           visible={accessoriesVisible}
