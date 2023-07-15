@@ -1,8 +1,8 @@
 import { CommentSortType } from "lemmy-js-client";
 import React, { SetStateAction } from "react";
-import { ContextMenuButton } from "react-native-ios-context-menu";
-import { commentSortOptions } from "../../../../types/CommentSortOptions";
+import { commentSortOptions } from "../../../../types/SortOptions";
 import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
+import { CommentSortContextMenu } from "../../../common/ContextMenu/CommentSortContextMenu";
 import SFIcon from "../../../common/icons/SFIcon";
 
 interface IProps {
@@ -12,39 +12,17 @@ interface IProps {
 
 function CommentSortButton({ sortType, setSortType }: IProps) {
   return (
-    <ContextMenuButton
-      isMenuPrimaryAction
-      onPressMenuItem={({ nativeEvent }) => {
+    <CommentSortContextMenu
+      onPress={({ nativeEvent }) => {
         setSortType(nativeEvent.actionKey as CommentSortType);
       }}
-      menuConfig={{
-        menuTitle: "",
-        // @ts-ignore Types for menuItems are wrong for this library
-        menuItems: [
-          ...commentSortOptions.map((option) => ({
-            actionKey: option,
-            actionTitle: option,
-            menuState: sortType === option ? "on" : "off",
-            icon: {
-              type: "IMAGE_SYSTEM",
-              imageValue: {
-                systemName: SortIconType[option],
-              },
-            },
-          })),
-        ],
-      }}
+      currentSelection={sortType}
     >
-      <HeaderIconButton icon={<SFIcon icon={SortIconType[sortType]} />} />
-    </ContextMenuButton>
+      <HeaderIconButton
+        icon={<SFIcon icon={commentSortOptions[sortType].icon} />}
+      />
+    </CommentSortContextMenu>
   );
 }
-
-const SortIconType: Record<CommentSortType, string> = {
-  Top: "clock",
-  Hot: "flame",
-  New: "alarm",
-  Old: "hourglass",
-};
 
 export default CommentSortButton;

@@ -32,7 +32,7 @@ import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
 import FeedItem from "./FeedItem/FeedItem";
 import CommunityOverflowButton, { Community } from "./CommunityOverflowButton";
 import FeedSortButton from "./FeedSortButton";
-import { FeedTypeButton } from "./FeedTypeButton";
+import { FeedListingTypeButton } from "./FeedListingTypeButton";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -122,7 +122,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             {postCommunity ? (
               <CommunityOverflowButton community={postCommunity} />
             ) : (
-              <FeedTypeButton
+              <FeedListingTypeButton
                 feed={feed}
                 onPress={() =>
                   flashList?.current?.scrollToOffset({
