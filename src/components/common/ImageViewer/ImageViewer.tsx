@@ -169,7 +169,7 @@ function ImageViewer({
   const onRequestOpenOrClose = () => {
     if (!expanded) {
       if (onPress) onPress();
-      
+
       if (setPostRead && markReadOnPostImageView) {
         setPostRead();
       }
