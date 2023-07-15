@@ -142,7 +142,11 @@
         "useSystemFontSize": "Použít Systémovou Velikost Písma",
         "textSize": "Velikost Textu",
         "postTitleFontWeight": "Tloušťka Písma - Titulek Příspěvku"
-      }
+      },
+			"gestures": {
+				"header": "GESTURES",
+				"tapToCollapse": "Klepněte pro sbalení"
+			}
     },
     "accounts": {
       "current": "Aktuální Účet",

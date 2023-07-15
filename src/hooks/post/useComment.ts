@@ -21,6 +21,7 @@ import { showToast } from "../../slices/toast/toastSlice";
 import { setResponseTo } from "../../slices/comments/newCommentSlice";
 import { useAppActionSheet } from "../app/useAppActionSheet";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
+import { selectSettings } from "../../slices/settings/settingsSlice";
 
 interface UseComment {
   onCommentPress: () => void;
@@ -43,6 +44,7 @@ const useComment = ({
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { unread } = useAppSelector(selectSite);
+  const { tapToCollapse } = useAppSelector(selectSettings);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const dispatch = useAppDispatch();
@@ -50,12 +52,15 @@ const useComment = ({
   const { showAppActionSheetWithOptions } = useAppActionSheet();
 
   const onCommentPress = () => {
-    onGenericHapticFeedback();
-
     if (onPressOverride) {
+      onGenericHapticFeedback();
       onPressOverride();
       return;
     }
+
+    if (!tapToCollapse) return;
+
+    onGenericHapticFeedback();
 
     setComments((prev) =>
       prev.map((c) => {
