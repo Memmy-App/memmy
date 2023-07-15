@@ -1,12 +1,10 @@
 // @ts-nocheck
-
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {
   Dimensions as RNDimensions,
   Modal,
   Pressable,
   StyleSheet,
-  View,
 } from "react-native";
 import FastImage, { OnLoadEvent } from "react-native-fast-image";
 import Animated, {
@@ -23,16 +21,19 @@ import {
   GestureUpdateEvent,
   PanGestureHandlerEventPayload,
   PinchGestureHandlerEventPayload,
+  TapGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import { BlurView } from "expo-blur";
-import { Icon, Text, useTheme, VStack } from "native-base";
+import { View, Icon, Text, useTheme, VStack } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
+import { StatusBar } from "expo-status-bar";
 import { useImageDimensions } from "./useImageDimensions";
 import ExitButton from "./ImageExitButton";
 import ImageViewFooter from "./ImageViewFooter";
 import { useAppSelector } from "../../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import ImageButton from "../Buttons/ImageButton";
+import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 
 interface IProps {
   source: { uri: string };
@@ -99,6 +100,18 @@ function ImageViewer({
 
   const imageHeight = useSharedValue(0);
   const imageWidth = useSharedValue(0);
+
+  const lastTap = useSharedValue(0);
+
+  const xOffset = useMemo(
+    () => SCREEN_WIDTH / 2 - dimensions.dimensions.viewerDimensions.width / 2,
+    [dimensions.dimensions.viewerDimensions]
+  );
+
+  const yOffset = useMemo(
+    () => SCREEN_HEIGHT / 2 - dimensions.dimensions.viewerDimensions.height / 2,
+    [dimensions.dimensions.viewerDimensions]
+  );
 
   const initialPosition = useSharedValue<MeasureResult>({
     x: 0,
@@ -237,17 +250,29 @@ function ImageViewer({
   const setToCenter = () => {
     "worklet";
 
-    positionX.value = withTiming(
-      SCREEN_WIDTH / 2 - dimensions.dimensions.viewerDimensions.width / 2,
-      { duration: 200 }
-    );
-    positionY.value = withTiming(
-      SCREEN_HEIGHT / 2 - dimensions.dimensions.viewerDimensions.height / 2,
-      { duration: 200 }
-    );
+    positionX.value = withTiming(xOffset, { duration: 200 });
+    positionY.value = withTiming(yOffset, { duration: 200 });
     backgroundColor.value = withTiming("rgba(0, 0, 0, 1)", {
       duration: 300,
     });
+  };
+
+  const onPinchStart = (
+    event: GestureStateChangeEvent<PinchGestureHandlerEventPayload>
+  ) => {
+    "worklet";
+
+    if (accessoriesVisible) {
+      runOnJS(setAccessoriesVisible)(false);
+    }
+
+    // Get the target
+    const targetX = -(event.focalX - xOffset) + SCREEN_WIDTH / 2;
+    const targetY = -(event.focalY - yOffset) + SCREEN_HEIGHT / 2;
+
+    // Zoom to that target
+    positionX.value = targetX;
+    positionY.value = targetY;
   };
 
   const onPinchUpdate = (
@@ -261,22 +286,40 @@ function ImageViewer({
   const onPinchEnd = () => {
     "worklet";
 
-    // If the user has zoomed out past the scale of one, we will reset the scale
-    if (zoomScale.value < 1) {
+    // If the user has zoomed out past the scale of one, we will reset the scale and display accessories. Play a haptic
+    if (zoomScale.value <= 1) {
       zoomScale.value = withTiming(1, { duration: 300 });
+      runOnJS(onGenericHapticFeedback)();
+      runOnJS(setAccessoriesVisible)(true);
+      setToCenter();
     }
 
     // We need this saved value for later
-    lastScale.value = zoomScale.value;
+    lastScale.value = zoomScale.value >= 1 ? zoomScale.value : 1;
   };
 
   // Double tap result
-  const onDoubleTap = () => {
+  const onDoubleTap = (
+    event: GestureUpdateEvent<TapGestureHandlerEventPayload>
+  ) => {
     "worklet";
 
-    // Move back to center if we are returning to scale of one
+    // Move back to center and show accessories if we are returning to scale of one
     if (zoomScale.value !== 1) {
       setToCenter();
+
+      runOnJS(setAccessoriesVisible)(true);
+    } else {
+      // Otherwise we should hide the accessories
+      runOnJS(setAccessoriesVisible)(false);
+
+      // Get the target
+      const targetX = -(event.absoluteX - xOffset) + SCREEN_WIDTH / 2;
+      const targetY = -(event.absoluteY - yOffset) + SCREEN_HEIGHT / 2;
+
+      // Zoom to that target
+      positionX.value = withTiming(targetX);
+      positionY.value = withTiming(targetY);
     }
 
     // Update the scale based off of the current scale
@@ -295,18 +338,32 @@ function ImageViewer({
     lastTransitionX.value = 0;
     lastTransitionY.value = 0;
 
-    // SEt the opacity to half
-    if (zoomScale.value <= 1) {
-      backgroundColor.value = withTiming("rgba(0, 0, 0, 0.5)", {
-        duration: 300,
-      });
+    // Hide accessories
+    if (zoomScale.value === 1) {
+      if (lastTap.value + 120 < Date.now()) {
+        runOnJS(setAccessoriesVisible)(!accessoriesVisible);
+      }
+    } else {
+      runOnJS(setAccessoriesVisible)(false);
     }
+
+    lastTap.value = Date.now();
   };
 
   const onPanUpdate = (
     event: GestureUpdateEvent<PanGestureHandlerEventPayload>
   ) => {
     "worklet";
+
+    if (
+      backgroundColor.value === "rgba(0, 0, 0, 1)" &&
+      (Math.abs(event.translationX) > 5 || Math.abs(event.translationY) > 5) &&
+      zoomScale.value <= 1
+    ) {
+      backgroundColor.value = withTiming("rgba(0, 0, 0, 0.5)", {
+        duration: 300,
+      });
+    }
 
     // We move the position based on the pan. We also have to divide this by the zoom scale.
     positionX.value +=
@@ -336,6 +393,7 @@ function ImageViewer({
     // We should reset to center afterward if the scale is less than one
     if (zoomScale.value <= 1) {
       setToCenter();
+      runOnJS(setAccessoriesVisible)(true);
     }
   };
 
@@ -348,6 +406,7 @@ function ImageViewer({
 
   // This handles all of our pinch gestures
   const pinchGesture = Gesture.Pinch()
+    .onStart(onPinchStart)
     .onUpdate(onPinchUpdate)
     .onEnd(onPinchEnd);
 
@@ -384,7 +443,7 @@ function ImageViewer({
   const AnimatedFastImage = Animated.createAnimatedComponent(FastImage as any);
 
   return (
-    <View style={styles.imageContainer}>
+    <View style={styles.imageContainer} backgroundColor={theme.colors.app.bg}>
       {buttonMode ? (
         <Pressable
           onPress={onRequestOpenOrClose}
@@ -466,6 +525,8 @@ function ImageViewer({
         </Pressable>
       )}
       <Modal visible={expanded} transparent>
+        {/* eslint-disable-next-line react/style-prop-object */}
+        <StatusBar style="dark" />
         <ExitButton
           onPress={onRequestOpenOrClose}
           visible={accessoriesVisible}
