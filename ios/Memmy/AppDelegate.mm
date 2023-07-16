@@ -49,6 +49,12 @@
   return [super application:application didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
+- (BOOL)concurrentRootEnabled
+{
+  // Switch this bool to turn on and off the concurrent root
+  return true;
+}
+
 // Explicitly define remote notification delegates to ensure compatibility with some third-party libraries
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
