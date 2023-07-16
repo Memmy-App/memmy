@@ -11,6 +11,7 @@ import Animated, {
   runOnUI,
   useAnimatedStyle,
   useSharedValue,
+  withDecay,
   withTiming,
 } from "react-native-reanimated";
 import {
@@ -406,6 +407,10 @@ function ImageViewer({
     if (zoomScale.value <= 1) {
       setToCenter();
       toggleAccessories(false);
+    } else {
+      // Now we want to add some momentum to the end of the swipe
+      positionX.value = withDecay({ velocity: event.velocityX / 4 });
+      positionY.value = withDecay({ velocity: event.velocityY / 4 });
     }
   };
 
