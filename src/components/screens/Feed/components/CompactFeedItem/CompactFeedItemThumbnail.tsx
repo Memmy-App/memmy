@@ -22,7 +22,7 @@ function CompactFeedItemThumbnail({
 }) {
   const theme = useTheme();
 
-  const { blurNsfw, markReadOnPostImageView } = useAppSelector(selectSettings);
+  const { markReadOnPostImageView } = useAppSelector(selectSettings);
 
   const onImagePress = () => {
     lemmyInstance

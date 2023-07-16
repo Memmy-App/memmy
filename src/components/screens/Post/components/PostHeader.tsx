@@ -1,4 +1,4 @@
-import React, { SetStateAction, useCallback, useEffect, useState } from "react";
+import React, { SetStateAction, useCallback, useState } from "react";
 import {
   Divider,
   HStack,

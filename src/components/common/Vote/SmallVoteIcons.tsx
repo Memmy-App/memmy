@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { HStack, Text, useTheme } from "native-base";
 import { IconArrowDown, IconArrowUp } from "tabler-icons-react-native";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
