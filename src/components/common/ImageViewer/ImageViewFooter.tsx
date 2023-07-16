@@ -7,8 +7,8 @@ import DialogDescription from "react-native-dialog/lib/Description";
 import { useTranslation } from "react-i18next";
 import IconButtonWithText from "../IconButtonWithText";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
-import downloadAndSaveImage from "../../../helpers/ImageHelper";
 import { shareLink } from "../../../helpers/ShareHelper";
+import { saveImage } from "../../../helpers/ImageHelper";
 
 interface ImageViewFooterProps {
   source: string;
@@ -26,7 +26,7 @@ function ImageViewFooter({ source, visible }: ImageViewFooterProps) {
     setDownloading(true);
 
     try {
-      await downloadAndSaveImage(source);
+      await saveImage(source);
       setDownloading(false);
     } catch (e) {
       setDownloading(false);
