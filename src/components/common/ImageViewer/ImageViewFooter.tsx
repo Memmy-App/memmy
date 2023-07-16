@@ -77,9 +77,6 @@ function ImageViewFooter({ source, visible }: ImageViewFooterProps) {
           icon={<IconShare2 size={38} color={theme.colors.app.textSecondary} />}
         />
       </HStack>
-      <DialogContainer visible={downloading}>
-        <DialogDescription>{t("imageView.dialogDesc")}</DialogDescription>
-      </DialogContainer>
     </View>
   );
 }
