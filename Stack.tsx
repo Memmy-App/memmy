@@ -5,60 +5,56 @@ import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useTheme } from "native-base";
 import React from "react";
-import {
-  IconBell,
-  IconNotes,
-  IconPlanet,
-  IconSearch,
-  IconUserCircle,
-} from "tabler-icons-react-native";
 import { useTranslation } from "react-i18next";
+import { IconPlanet } from "tabler-icons-react-native";
+import { CustomTabBar } from "./CustomTabBar";
+import LoadingView from "./src/components/common/Loading/LoadingView";
+import SFIcon from "./src/components/common/icons/SFIcon";
+import EditCommentScreen from "./src/components/screens/Comments/EditCommentScreen";
+import NewCommentScreen from "./src/components/screens/Comments/NewCommentScreen";
 import CommunityAboutScreen from "./src/components/screens/Feed/CommunityAboutScreen";
 import CommunityFeedScreen from "./src/components/screens/Feed/CommunityFeedScreen";
 import FeedsIndexScreen from "./src/components/screens/Feed/FeedsIndexScreen";
+import InstanceScreen from "./src/components/screens/HubDiscovery/InstanceScreen";
+import InboxScreen from "./src/components/screens/Inbox/InboxScreen";
 import AddAccountScreen from "./src/components/screens/Onboarding/AddAccountScreen";
 import CreateAccountScreen from "./src/components/screens/Onboarding/CreateAccountScreen";
+import HubDiscoveryScreen from "./src/components/screens/Onboarding/HubDiscovery/HubDiscoveryScreen";
+import OnboardingInfoScreenFive from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenFive";
+import OnboardingInfoScreenFour from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenFour";
+import OnboardingInfoScreenOne from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenOne";
+import OnboardingInfoScreenSeven from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenSeven";
+import OnboardingInfoScreenSix from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenSix";
+import OnboardingInfoScreenThree from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenThree";
+import OnboardingInfoScreenTwo from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenTwo";
 import OnboardingIndexScreen from "./src/components/screens/Onboarding/OnboardingIndexScreen";
-import NewCommentScreen from "./src/components/screens/Comments/NewCommentScreen";
+import NewPostBodyScreen from "./src/components/screens/Post/NewPostBodyScreen";
 import NewPostScreen from "./src/components/screens/Post/NewPostScreen";
 import PostScreen from "./src/components/screens/Post/PostScreen";
+import SearchResultsScreen from "./src/components/screens/Search/SearchResultsScreen";
 import SearchScreen from "./src/components/screens/Search/SearchScreen";
+import AboutScreen from "./src/components/screens/Settings/About/AboutScreen";
 import EditAccountScreen from "./src/components/screens/Settings/Account/EditAccountScreen";
-import SettingsIndexScreen from "./src/components/screens/Settings/SettingsIndexScreen";
 import ViewAccountsScreen from "./src/components/screens/Settings/Account/ViewAccountsScreen";
+import AppearanceScreen from "./src/components/screens/Settings/Appearance/AppearanceScreen";
+import IconSelectionScreen from "./src/components/screens/Settings/Appearance/IconSelectionScreen";
+import ThemeSelectionScreen from "./src/components/screens/Settings/Appearance/ThemeSelectionScreen";
+import ContentScreen from "./src/components/screens/Settings/Content/ContentScreen";
+import ReadSettingsScreen from "./src/components/screens/Settings/Content/ReadSettingsScreen";
+import GeneralSettingsScreen from "./src/components/screens/Settings/General/GeneralSettingsScreen";
+import SettingsIndexScreen from "./src/components/screens/Settings/SettingsIndexScreen";
+import TraverseScreen from "./src/components/screens/Traverse/TraverseScreen";
 import BlockedCommunitiesScreen from "./src/components/screens/UserProfile/BlockedCommunitiesScreen";
+import UserCommentsScreen from "./src/components/screens/UserProfile/UserCommentsScreen";
+import UserPostsScreen from "./src/components/screens/UserProfile/UserPostsScreen";
 import UserProfileScreen from "./src/components/screens/UserProfile/UserProfileScreen";
-import LoadingView from "./src/components/common/Loading/LoadingView";
+import ViewerScreen from "./src/components/screens/ViewerScreen";
 import {
   selectAccounts,
   selectAccountsLoaded,
 } from "./src/slices/accounts/accountsSlice";
 import { selectSite } from "./src/slices/site/siteSlice";
 import { useAppSelector } from "./store";
-import ThemeSelectionScreen from "./src/components/screens/Settings/Appearance/ThemeSelectionScreen";
-import AppearanceScreen from "./src/components/screens/Settings/Appearance/AppearanceScreen";
-import ContentScreen from "./src/components/screens/Settings/Content/ContentScreen";
-import ViewerScreen from "./src/components/screens/ViewerScreen";
-import ReadSettingsScreen from "./src/components/screens/Settings/Content/ReadSettingsScreen";
-import UserPostsScreen from "./src/components/screens/UserProfile/UserPostsScreen";
-import UserCommentsScreen from "./src/components/screens/UserProfile/UserCommentsScreen";
-import NewPostBodyScreen from "./src/components/screens/Post/NewPostBodyScreen";
-import EditCommentScreen from "./src/components/screens/Comments/EditCommentScreen";
-import OnboardingInfoScreenThree from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenThree";
-import OnboardingInfoScreenTwo from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenTwo";
-import OnboardingInfoScreenOne from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenOne";
-import OnboardingInfoScreenFour from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenFour";
-import OnboardingInfoScreenFive from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenFive";
-import OnboardingInfoScreenSix from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenSix";
-import OnboardingInfoScreenSeven from "./src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenSeven";
-import InstanceScreen from "./src/components/screens/HubDiscovery/InstanceScreen";
-import HubDiscoveryScreen from "./src/components/screens/Onboarding/HubDiscovery/HubDiscoveryScreen";
-import TraverseScreen from "./src/components/screens/Traverse/TraverseScreen";
-import SearchResultsScreen from "./src/components/screens/Search/SearchResultsScreen";
-import GeneralSettingsScreen from "./src/components/screens/Settings/General/GeneralSettingsScreen";
-import AboutScreen from "./src/components/screens/Settings/About/AboutScreen";
-import InboxScreen from "./src/components/screens/Inbox/InboxScreen";
-import IconSelectionScreen from "./src/components/screens/Settings/Appearance/IconSelectionScreen";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -588,6 +584,7 @@ function Tabs() {
 
   return (
     <Tab.Navigator
+      tabBar={(props) => <CustomTabBar {...props} />}
       screenOptions={{
         tabBarLabel: t("Feed"),
         freezeOnBlur: false,
@@ -598,7 +595,9 @@ function Tabs() {
         component={FeedStackScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => <IconNotes color={color} />,
+          tabBarIcon: ({ color }) => (
+            <SFIcon icon="doc.text.image" color={color} />
+          ),
           tabBarLabel: t("Feed"),
           freezeOnBlur: false,
         }}
@@ -618,7 +617,9 @@ function Tabs() {
         component={ProfileStackScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => <IconUserCircle color={color} />,
+          tabBarIcon: ({ color }) => (
+            <SFIcon icon="person.circle" color={color} />
+          ),
           tabBarLabel: t("Profile"),
           freezeOnBlur: false,
         }}
@@ -628,7 +629,9 @@ function Tabs() {
         component={SearchStackScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => <IconSearch color={color} />,
+          tabBarIcon: ({ color }) => (
+            <SFIcon icon="magnifyingglass" color={color} />
+          ),
           tabBarLabel: t("Search"),
           freezeOnBlur: false,
         }}
@@ -638,7 +641,7 @@ function Tabs() {
         component={InboxStackScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => <IconBell color={color} />,
+          tabBarIcon: ({ color }) => <SFIcon icon="bell" color={color} />,
           tabBarLabel: t("Inbox"),
           tabBarBadge:
             unread.replies + unread.mentions + unread.privateMessage > 0

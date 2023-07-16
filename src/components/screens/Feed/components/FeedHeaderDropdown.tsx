@@ -7,6 +7,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import {
   selectFeed,
@@ -16,6 +18,8 @@ import {
   selectAccounts,
   selectCurrentAccount,
 } from "../../../../slices/accounts/accountsSlice";
+import AvatarUsername from "../../../common/AvatarUsername";
+import { AccountsContextMenu } from "../../../common/ContextMenu/AccountsContextMenu";
 
 interface HeaderDropdownProps {
   enabled: boolean;
@@ -45,26 +49,22 @@ function FeedHeaderDropdown({ enabled }: HeaderDropdownProps) {
     transform: [{ rotate: `${timer.value * 180}deg` }],
   }));
 
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   return (
-    <Pressable onPress={onPress}>
-      <HStack justifyContent="center" alignItems="center" space="3">
+    <AccountsContextMenu navigation={navigation} isShortPress>
+      <HStack justifyContent="center" alignItems="center" space={1}>
         <VStack justifyContent="center" alignItems="center">
-          <Text fontSize="16" fontWeight="bold">
+          <Text fontSize="sm" fontWeight="bold">
             {currentAccount ? currentAccount.username : accounts[0].username}
           </Text>
-          <Text fontSize="12">
+          <Text fontSize="xs">
             {currentAccount ? currentAccount.instance : accounts[0].instance}
           </Text>
         </VStack>
-        <Animated.View style={caretRotation}>
-          <Icon
-            as={Ionicons}
-            name="caret-down-outline"
-            color={theme.colors.app.textPrimary}
-          />
-        </Animated.View>
       </HStack>
-    </Pressable>
+    </AccountsContextMenu>
+    // </Pressable>
   );
 }
 

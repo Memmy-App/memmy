@@ -26,13 +26,12 @@ import LoadingView from "../../../common/Loading/LoadingView";
 import NoResultView from "../../../common/NoResultView";
 import RefreshControl from "../../../common/RefreshControl";
 import SFIcon from "../../../common/icons/SFIcon";
+import CommunityOverflowButton, { Community } from "./CommunityOverflowButton";
 import CompactFeedItem from "./CompactFeedItem/CompactFeedItem";
 import FeedFooter from "./FeedFooter";
-import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
 import FeedItem from "./FeedItem/FeedItem";
-import CommunityOverflowButton, { Community } from "./CommunityOverflowButton";
-import FeedSortButton from "./FeedSortButton";
 import { FeedListingTypeButton } from "./FeedListingTypeButton";
+import FeedSortButton from "./FeedSortButton";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -85,56 +84,42 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   useEffect(() => {
     navigation.setOptions({
       // eslint-disable-next-line react/no-unstable-nested-components
-      headerRight: () => {
-        if (dropdownVisible) {
-          return (
-            <Button
-              title={t("Cancel")}
-              onPress={() => dispatch(setDropdownVisible())}
-              color={theme.colors.app.accent}
-            />
-          );
-        }
-
-        return (
-          <HStack space={3}>
-            <HeaderIconButton
-              icon={
-                compactView ? (
-                  <SFIcon icon="list.bullet" />
-                ) : (
-                  <SFIcon icon="list.bullet.below.rectangle" />
-                )
-              }
-              onPress={() =>
-                dispatch(setSetting({ compactView: !compactView }))
-              }
-            />
-            <FeedSortButton
+      headerRight: () => (
+        <HStack space={3}>
+          <HeaderIconButton
+            icon={
+              compactView ? (
+                <SFIcon icon="list.bullet" />
+              ) : (
+                <SFIcon icon="list.bullet.below.rectangle" />
+              )
+            }
+            onPress={() => dispatch(setSetting({ compactView: !compactView }))}
+          />
+          <FeedSortButton
+            feed={feed}
+            onSortUpdate={() =>
+              flashList?.current?.scrollToOffset({
+                animated: true,
+                offset: 0,
+              })
+            }
+          />
+          {postCommunity ? (
+            <CommunityOverflowButton community={postCommunity} />
+          ) : (
+            <FeedListingTypeButton
               feed={feed}
-              onSortUpdate={() =>
+              onPress={() =>
                 flashList?.current?.scrollToOffset({
                   animated: true,
                   offset: 0,
                 })
               }
             />
-            {postCommunity ? (
-              <CommunityOverflowButton community={postCommunity} />
-            ) : (
-              <FeedListingTypeButton
-                feed={feed}
-                onPress={() =>
-                  flashList?.current?.scrollToOffset({
-                    animated: true,
-                    offset: 0,
-                  })
-                }
-              />
-            )}
-          </HStack>
-        );
-      },
+          )}
+        </HStack>
+      ),
     });
   }, [feed, postCommunity, dropdownVisible]);
 
@@ -187,8 +172,6 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
 
   return (
     <View style={styles.container} backgroundColor={theme.colors.app.bg}>
-      <FeedHeaderDropdownDrawer />
-
       {(feed.postsLoading && !feed.posts && <LoadingView />) ||
         (feed.postsError && !feed.posts && (
           <LoadingErrorView onRetryPress={() => feed.doLoad(true)} />
