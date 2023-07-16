@@ -5,6 +5,7 @@ import {
   IconDots,
   IconMessagePlus,
 } from "tabler-icons-react-native";
+import { SFSymbol } from "react-native-sfsymbols";
 import useComment from "../../../hooks/post/useComment";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
@@ -23,6 +24,8 @@ import IconButtonWithText from "../IconButtonWithText";
 import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import VoteButton from "../Vote/VoteButton";
 import CommentWrapper from "./CommentWrapper";
+import CommentHeaderWrapper from "./CommentHeader/CommentHeaderWrapper";
+import SFIcon from "../icons/SFIcon";
 
 interface IProps {
   comment: ILemmyComment;
@@ -80,13 +83,7 @@ function CommentItem({
             depth={depth}
             onCommentPress={commentHook.onCommentPress}
           >
-            <HStack
-              space={2}
-              justifyContent="space-between"
-              alignItems="center"
-              mb={-3}
-              pb={2}
-            >
+            <CommentHeaderWrapper>
               <AvatarUsername
                 creator={comment.comment.creator}
                 opId={comment.comment.post.creator_id}
@@ -125,7 +122,7 @@ function CommentItem({
                   color={theme.colors.app.textSecondary}
                 />
               )}
-            </HStack>
+            </CommentHeaderWrapper>
             {comment.collapsed ? (
               <CommentCollapsed />
             ) : (
@@ -140,12 +137,7 @@ function CommentItem({
                   <HStack justifyContent="flex-end" space={2} mb={1}>
                     <IconButtonWithText
                       onPressHandler={commentHook.onReply}
-                      icon={
-                        <IconMessagePlus
-                          color={theme.colors.app.accent}
-                          size={22}
-                        />
-                      }
+                      icon={<SFIcon icon="plus.message" />}
                     />
                     <VoteButton
                       onPressHandler={async () =>

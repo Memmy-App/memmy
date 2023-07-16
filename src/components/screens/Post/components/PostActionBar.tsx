@@ -15,6 +15,7 @@ import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpe
 import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
 import { shareLink } from "../../../../helpers/ShareHelper";
 import IconButtonWithText from "../../../common/IconButtonWithText";
+import SFIcon from "../../../common/icons/SFIcon";
 
 interface IProps {
   post: PostView;
@@ -95,7 +96,7 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
 
       <IconButtonWithText
         onPressHandler={onCommentPress}
-        icon={<IconMessagePlus color={colors.app.accent} size={25} />}
+        icon={<SFIcon icon="plus.message" />}
       />
 
       <IconButtonWithText
