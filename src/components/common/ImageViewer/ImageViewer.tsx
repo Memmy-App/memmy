@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useMemo, useRef, useState } from "react";
 import {
   Dimensions as RNDimensions,
@@ -23,9 +24,9 @@ import {
   TapGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import { BlurView } from "expo-blur";
-import { Text, useTheme, View, VStack } from "native-base";
+import { View, Icon, Text, useTheme, VStack } from "native-base";
+import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
-import { IconAlertTriangle } from "tabler-icons-react-native";
 import { useImageDimensions } from "./useImageDimensions";
 import ExitButton from "./ImageExitButton";
 import ImageViewFooter from "./ImageViewFooter";
@@ -45,7 +46,6 @@ interface IProps {
   nsfw?: boolean;
   buttonMode?: boolean;
   setPostRead?: () => void;
-  compactMode?: boolean;
 }
 
 interface MeasureResult {
@@ -73,16 +73,15 @@ function ImageViewer({
   nsfw,
   buttonMode = false,
   setPostRead,
-  compactMode,
 }: IProps) {
   const theme = useTheme();
 
-  // @ts-ignore
   const nonViewerRef = useRef<View>(null);
 
   const dimensions = useImageDimensions();
 
   const [expanded, setExpanded] = useState<boolean>(false);
+  const [accessoriesVisible, setAccessoriesVisible] = useState(false);
 
   // NSFW stuff, we need this hack for some reason
   const { blurNsfw, markReadOnPostImageView } = useAppSelector(selectSettings);
@@ -90,26 +89,17 @@ function ImageViewer({
 
   // Animation stuff
 
-  // Bool for showing or hiding the accessories
-  const accessoriesOpacity = useSharedValue(0);
-
-  // Zoom scale for the viewer
   const zoomScale = useSharedValue(1);
 
-  // The last scale of the image when zooming. We use this to apply to the new value
   const lastScale = useSharedValue(1);
 
-  // Background color for the viewer. Start at 0 opacity and transition to one
   const backgroundColor = useSharedValue("rgba(0, 0, 0, 0)");
-
-  // Position of the image inside the viewer
   const positionX = useSharedValue(0);
   const positionY = useSharedValue(0);
 
   const lastTransitionX = useSharedValue(0);
   const lastTransitionY = useSharedValue(0);
 
-  // Stored heights
   const imageHeight = useSharedValue(0);
   const imageWidth = useSharedValue(0);
 
@@ -234,11 +224,11 @@ function ImageViewer({
       // In 200ms we will be ready, so then we will display the accessories
       // Add 50ms to prevent visual bugs
       setTimeout(() => {
-        runOnUI(toggleAccessories)(true);
+        setAccessoriesVisible(true);
       }, 250);
     } else {
       // Hide our accessories now
-      runOnUI(toggleAccessories)(false);
+      setAccessoriesVisible(false);
 
       // Here we need to not only change the background color, but we also don't want the modal to disappear
       // until AFTER the animation is complete
@@ -273,17 +263,11 @@ function ImageViewer({
     });
   };
 
-  const toggleAccessories = (show: boolean) => {
-    "worklet";
-
-    accessoriesOpacity.value = withTiming(show ? 1 : 0, { duration: 200 });
-  };
-
   const onPinchStart = () => {
     "worklet";
 
-    if (accessoriesOpacity.value === 1) {
-      toggleAccessories(false);
+    if (accessoriesVisible) {
+      runOnJS(setAccessoriesVisible)(false);
     }
   };
 
@@ -302,7 +286,7 @@ function ImageViewer({
     if (zoomScale.value <= 1) {
       zoomScale.value = withTiming(1, { duration: 300 });
       runOnJS(onGenericHapticFeedback)();
-      toggleAccessories(true);
+      runOnJS(setAccessoriesVisible)(true);
       setToCenter();
     }
 
@@ -320,10 +304,10 @@ function ImageViewer({
     if (zoomScale.value !== 1) {
       setToCenter();
 
-      toggleAccessories(true);
+      runOnJS(setAccessoriesVisible)(true);
     } else {
       // Otherwise we should hide the accessories
-      toggleAccessories(false);
+      runOnJS(setAccessoriesVisible)(false);
 
       // Get the target
       const targetX = -(event.absoluteX - xOffset) + SCREEN_WIDTH / 2;
@@ -353,10 +337,10 @@ function ImageViewer({
     // Hide accessories
     if (zoomScale.value === 1) {
       if (lastTap.value + 120 < Date.now()) {
-        toggleAccessories(!(accessoriesOpacity.value === 1));
+        runOnJS(setAccessoriesVisible)(!accessoriesVisible);
       }
     } else {
-      toggleAccessories(false);
+      runOnJS(setAccessoriesVisible)(false);
     }
 
     lastTap.value = Date.now();
@@ -405,7 +389,7 @@ function ImageViewer({
     // We should reset to center afterward if the scale is less than one
     if (zoomScale.value <= 1) {
       setToCenter();
-      toggleAccessories(false);
+      runOnJS(setAccessoriesVisible)(true);
     }
   };
 
@@ -452,22 +436,10 @@ function ImageViewer({
     width: imageWidth.value,
   }));
 
-  const accessoriesStyle = useAnimatedStyle(() => ({
-    opacity: accessoriesOpacity.value,
-  }));
-
   const AnimatedFastImage = Animated.createAnimatedComponent(FastImage as any);
 
   return (
-    <View
-      style={[
-        styles.imageContainer,
-        {
-          borderRadius: compactMode ? 10 : 0,
-        },
-      ]}
-      backgroundColor={theme.colors.app.bg}
-    >
+    <View style={styles.imageContainer} backgroundColor={theme.colors.app.bg}>
       {buttonMode ? (
         <Pressable
           onPress={onRequestOpenOrClose}
@@ -476,12 +448,10 @@ function ImageViewer({
         >
           <ImageButton src={source.uri}>
             <FastImage
-              style={[
-                {
-                  height: 50,
-                  width: 50,
-                },
-              ]}
+              style={{
+                height: 50,
+                width: 50,
+              }}
               resizeMode="contain"
               source={source}
               onLoad={onLoad}
@@ -492,84 +462,71 @@ function ImageViewer({
         <Pressable
           onPress={onRequestOpenOrClose}
           ref={nonViewerRef}
-          style={{
-            opacity: expanded ? 0 : 1,
-            borderRadius: compactMode ? 10 : 0,
-          }}
+          style={{ opacity: expanded ? 0 : 1 }}
         >
-          <View>
-            {(nsfw && blurNsfw && (
-              <View
+          {(nsfw && blurNsfw && (
+            <View style={styles.blurContainer}>
+              <BlurView
                 style={[
-                  styles.blurContainer,
+                  styles.blurView,
                   {
-                    borderRadius: compactMode ? 10 : 0,
+                    height: dimensions.dimensions.scaledDimensions.height,
+                    width: dimensions.dimensions.scaledDimensions.width,
                   },
                 ]}
+                intensity={blurIntensity}
+                tint={theme.config.initialColorMode}
               >
-                <BlurView
-                  style={[
-                    styles.blurView,
-                    {
-                      height: dimensions.dimensions.scaledDimensions.height,
-                      width: dimensions.dimensions.scaledDimensions.width,
-                    },
-                  ]}
-                  intensity={blurIntensity}
-                  tint={theme.config.initialColorMode}
+                <VStack
+                  flex={1}
+                  alignItems="center"
+                  justifyContent="center"
+                  space={2}
                 >
-                  <VStack
-                    flex={1}
-                    alignItems="center"
-                    justifyContent="center"
-                    space={2}
-                  >
-                    <IconAlertTriangle
-                      color={theme.colors.app.textSecondary}
-                      size={36}
-                    />
-                    {!compactMode && (
-                      <>
-                        <Text fontSize="xl">NSFW</Text>
-                        <Text>Sensitive content ahead</Text>
-                      </>
-                    )}
-                  </VStack>
-                </BlurView>
-                {!source.uri.includes(".gif") && (
-                  <FastImage
-                    source={source}
-                    style={[
-                      heightOverride
-                        ? { height: heightOverride, width: widthOverride }
-                        : dimensions.dimensions.scaledDimensions,
-                      style,
-                    ]}
-                    onLoad={onLoad}
+                  <Icon
+                    as={Ionicons}
+                    name="alert-circle"
+                    color={theme.colors.app.textSecondary}
+                    size={16}
                   />
-                )}
-              </View>
-            )) || (
-              <FastImage
-                source={source}
-                style={[
-                  heightOverride
-                    ? { height: heightOverride, width: widthOverride }
-                    : dimensions.dimensions.scaledDimensions,
-                  style,
-                ]}
-                onLoad={onLoad}
-              />
-            )}
-          </View>
+                  <Text fontSize="xl">NSFW</Text>
+                  <Text>Sensitive content ahead</Text>
+                </VStack>
+              </BlurView>
+              {!source.uri.includes(".gif") && (
+                <FastImage
+                  source={source}
+                  style={[
+                    heightOverride
+                      ? { height: heightOverride, width: widthOverride }
+                      : dimensions.dimensions.scaledDimensions,
+                    style,
+                  ]}
+                  onLoad={onLoad}
+                />
+              )}
+            </View>
+          )) || (
+            <FastImage
+              source={source}
+              style={[
+                heightOverride
+                  ? { height: heightOverride, width: widthOverride }
+                  : dimensions.dimensions.scaledDimensions,
+                style,
+              ]}
+              onLoad={onLoad}
+            />
+          )}
         </Pressable>
       )}
       <Modal visible={expanded} transparent>
         {/* eslint-disable-next-line react/style-prop-object */}
         <StatusBar style="dark" />
-        <Animated.View style={[accessoriesStyle]}>
-          <ExitButton onPress={onRequestOpenOrClose} />
-        </Animated.View>
+        <ExitButton
+          onPress={onRequestOpenOrClose}
+          visible={accessoriesVisible}
+        />
         <View style={{ flex: 1, zIndex: -1 }}>
           <GestureDetector gesture={tapGesture}>
             <GestureDetector gesture={panGesture}>
@@ -588,9 +545,7 @@ function ImageViewer({
             </GestureDetector>
           </GestureDetector>
         </View>
-        <Animated.View style={[accessoriesStyle]}>
-          <ImageViewFooter source={source.uri} />
-        </Animated.View>
+        <ImageViewFooter source={source.uri} visible={accessoriesVisible} />
       </Modal>
     </View>
   );

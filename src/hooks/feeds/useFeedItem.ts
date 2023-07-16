@@ -1,7 +1,7 @@
 import { PostView } from "lemmy-js-client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { SetStateAction, useCallback, useMemo } from "react";
+import React, { SetStateAction, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
   onGenericHapticFeedback,
@@ -36,51 +36,82 @@ const useFeedItem = (
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
 
-  const linkInfo = useMemo(() => getLinkInfo(post.post.url), [post.post.id]);
+  const linkInfo = useMemo(() => getLinkInfo(post.post.url), [post]);
 
   const { markReadOnPostVote, markReadOnPostView } =
     useAppSelector(selectSettings);
 
-  const onVotePress = useCallback(
-    async (value: ILemmyVote, haptic = true) => {
-      if (haptic) onVoteHapticFeedback();
+  const onVotePress = async (value: ILemmyVote, haptic = true) => {
+    if (haptic) onVoteHapticFeedback();
 
-      let { upvotes, downvotes } = post.counts;
+    let { upvotes, downvotes } = post.counts;
 
-      // If we already voted, this will be a neutral vote.
-      if (value === post.my_vote && value !== 0) value = 0;
+    // If we already voted, this will be a neutral vote.
+    if (value === post.my_vote && value !== 0) value = 0;
 
-      // Store old value in case we encounter an error
-      const oldValue = post.my_vote;
+    // Store old value in case we encounter an error
+    const oldValue = post.my_vote;
 
-      // Deal with updating the upvote/downvote count
-      if (value === 0) {
-        if (oldValue === -1) downvotes -= 1;
-        if (oldValue === 1) upvotes -= 1;
+    // Deal with updating the upvote/downvote count
+    if (value === 0) {
+      if (oldValue === -1) downvotes -= 1;
+      if (oldValue === 1) upvotes -= 1;
+    }
+
+    if (value === 1) {
+      if (oldValue === -1) downvotes -= 1;
+      upvotes += 1;
+    }
+
+    if (value === -1) {
+      if (oldValue === 1) upvotes -= 1;
+      downvotes += 1;
+    }
+
+    setPosts((prev) =>
+      prev.map((p) => {
+        if (p.post.id === post.post.id) {
+          return {
+            ...p,
+            my_vote: value,
+            counts: {
+              ...p.counts,
+              upvotes,
+              downvotes,
+              score: upvotes - downvotes,
+            },
+          };
+        }
+
+        return p;
+      })
+    );
+
+    try {
+      await lemmyInstance.likePost({
+        auth: lemmyAuthToken,
+        post_id: post.post.id,
+        score: value,
+      });
+
+      if (markReadOnPostVote) {
+        lemmyInstance
+          .markPostAsRead({
+            auth: lemmyAuthToken,
+            post_id: post.post.id,
+            read: true,
+          })
+          .then();
+
+        setPostRead();
       }
-
-      if (value === 1) {
-        if (oldValue === -1) downvotes -= 1;
-        upvotes += 1;
-      }
-
-      if (value === -1) {
-        if (oldValue === 1) upvotes -= 1;
-        downvotes += 1;
-      }
-
+    } catch (e) {
       setPosts((prev) =>
         prev.map((p) => {
           if (p.post.id === post.post.id) {
             return {
               ...p,
               my_vote: value,
-              counts: {
-                ...p.counts,
-                upvotes,
-                downvotes,
-                score: upvotes - downvotes,
-              },
             };
           }
 
@@ -88,45 +119,11 @@ const useFeedItem = (
         })
       );
 
-      try {
-        await lemmyInstance.likePost({
-          auth: lemmyAuthToken,
-          post_id: post.post.id,
-          score: value,
-        });
+      handleLemmyError(e.toString());
+    }
+  };
 
-        if (markReadOnPostVote) {
-          lemmyInstance
-            .markPostAsRead({
-              auth: lemmyAuthToken,
-              post_id: post.post.id,
-              read: true,
-            })
-            .then();
-
-          setPostRead();
-        }
-      } catch (e) {
-        setPosts((prev) =>
-          prev.map((p) => {
-            if (p.post.id === post.post.id) {
-              return {
-                ...p,
-                my_vote: value,
-              };
-            }
-
-            return p;
-          })
-        );
-
-        handleLemmyError(e.toString());
-      }
-    },
-    [post.post.id]
-  );
-
-  const onPress = useCallback(() => {
+  const onPress = () => {
     if (setPosts) {
       lemmyInstance
         .markPostAsRead({
@@ -143,7 +140,7 @@ const useFeedItem = (
 
     dispatch(setPost(post));
     navigation.push("Post");
-  }, [post.post.id]);
+  };
 
   const setPostRead = () => {
     if (setPosts) {
@@ -162,7 +159,7 @@ const useFeedItem = (
     }
   };
 
-  const doSave = useCallback(async () => {
+  const doSave = async () => {
     onGenericHapticFeedback();
 
     dispatch(setUpdateSaved(post.post.id));
@@ -180,7 +177,7 @@ const useFeedItem = (
 
       dispatch(setUpdateSaved(post.post.id));
     }
-  }, [post.post.id]);
+  };
 
   return {
     onVotePress,

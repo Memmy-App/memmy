@@ -42,6 +42,7 @@ function UserCommentsScreen({ route }: IProps) {
     <CommentItem
       comment={item}
       setComments={profile.setComments}
+      opId={0}
       depth={2}
       onPressOverride={() => onPressOverride(item)}
     />
