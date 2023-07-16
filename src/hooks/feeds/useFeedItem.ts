@@ -123,7 +123,7 @@ const useFeedItem = (
         handleLemmyError(e.toString());
       }
     },
-    [post.post.id]
+    [post.post.id, post.my_vote]
   );
 
   const onPress = useCallback(() => {
@@ -143,9 +143,11 @@ const useFeedItem = (
 
     dispatch(setPost(post));
     navigation.push("Post");
-  }, [post.post.id]);
+  }, [post.post.id, post.saved, post.my_vote]);
 
-  const setPostRead = () => {
+  const setPostRead = useCallback(() => {
+    if (post.read) return;
+
     if (setPosts) {
       setPosts((prev) =>
         prev.map((p) => {
@@ -160,7 +162,7 @@ const useFeedItem = (
         })
       );
     }
-  };
+  }, [post.post.id, post.read]);
 
   const doSave = useCallback(async () => {
     onGenericHapticFeedback();

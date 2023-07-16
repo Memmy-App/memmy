@@ -57,9 +57,6 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
     doVote(-1).then();
   };
 
-  const isUpvoted = post?.my_vote === 1;
-  const isDownvoted = post?.my_vote === -1;
-
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <HStack
@@ -72,7 +69,7 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
       <VoteButton
         onPressHandler={onUpvotePress}
         type="upvote"
-        isVoted={isUpvoted}
+        isVoted={post?.my_vote === 1}
         text={post.counts.upvotes}
         isAccented
       />
@@ -80,7 +77,7 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
       <VoteButton
         onPressHandler={onDownvotePress}
         type="downvote"
-        isVoted={isDownvoted}
+        isVoted={post?.my_vote === -1}
         text={post.counts.downvotes}
         isAccented
       />
