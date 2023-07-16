@@ -1,11 +1,5 @@
-import { Divider, HStack, Text, useTheme, View } from "native-base";
+import { Divider, HStack, useTheme, View } from "native-base";
 import React from "react";
-import {
-  IconChevronDown,
-  IconDots,
-  IconMessagePlus,
-} from "tabler-icons-react-native";
-import { SFSymbol } from "react-native-sfsymbols";
 import useComment from "../../../hooks/post/useComment";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
@@ -21,11 +15,11 @@ import { CommentContextMenu } from "./CommentContextMenu";
 import AvatarUsername from "../AvatarUsername";
 import SmallVoteIcons from "../Vote/SmallVoteIcons";
 import IconButtonWithText from "../IconButtonWithText";
-import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import VoteButton from "../Vote/VoteButton";
 import CommentWrapper from "./CommentWrapper";
 import CommentHeaderWrapper from "./CommentHeader/CommentHeaderWrapper";
 import SFIcon from "../icons/SFIcon";
+import CommentHeaderRight from "./CommentHeader/CommentHeaderRight";
 
 interface IProps {
   comment: ILemmyComment;
@@ -84,44 +78,23 @@ function CommentItem({
             onCommentPress={commentHook.onCommentPress}
           >
             <CommentHeaderWrapper>
-              <AvatarUsername
-                creator={comment.comment.creator}
-                opId={comment.comment.post.creator_id}
-              >
+              <HStack space={1}>
+                <AvatarUsername
+                  creator={comment.comment.creator}
+                  opId={comment.comment.post.creator_id}
+                />
                 <SmallVoteIcons
                   upvotes={comment.comment.counts.upvotes}
                   downvotes={comment.comment.counts.downvotes}
                   myVote={comment.comment.my_vote as ILemmyVote}
                 />
-              </AvatarUsername>
-              {!comment.collapsed ? (
-                <HStack alignItems="center" space={2}>
-                  <CommentContextMenu
-                    isShortPress
-                    options={commentHook.longPressOptions}
-                    onPress={({ nativeEvent }) => {
-                      commentHook.onCommentLongPress(nativeEvent.actionKey);
-                    }}
-                  >
-                    <IconButtonWithText
-                      icon={
-                        <IconDots
-                          size={24}
-                          color={theme.colors.app.textSecondary}
-                        />
-                      }
-                    />
-                  </CommentContextMenu>
-                  <Text color={theme.colors.app.textSecondary}>
-                    {timeFromNowShort(comment.comment.comment.published)}
-                  </Text>
-                </HStack>
-              ) : (
-                <IconChevronDown
-                  size={24}
-                  color={theme.colors.app.textSecondary}
-                />
-              )}
+              </HStack>
+              <CommentHeaderRight
+                published={comment.comment.comment.published}
+                onPress={commentHook.onCommentLongPress}
+                contextOptions={commentHook.longPressOptions}
+                collapsed={comment.collapsed}
+              />
             </CommentHeaderWrapper>
             {comment.collapsed ? (
               <CommentCollapsed />
@@ -181,13 +154,4 @@ function CommentItem({
   );
 }
 
-const areEqual = (prev: IProps, next: IProps) =>
-  prev.comment.comment.comment.id === next.comment.comment.comment.id &&
-  prev.comment.comment.my_vote === next.comment.comment.my_vote &&
-  prev.comment.collapsed === next.comment.collapsed &&
-  prev.isUnreadReply === next.isUnreadReply &&
-  prev.comment.comment.comment.deleted ===
-    next.comment.comment.comment.deleted &&
-  prev.comment.comment.comment.content === next.comment.comment.comment.content;
-
-export default React.memo(CommentItem, areEqual);
+export default React.memo(CommentItem);
