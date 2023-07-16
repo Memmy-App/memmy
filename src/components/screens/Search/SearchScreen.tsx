@@ -1,6 +1,6 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView, useTheme, VStack } from "native-base";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import useSearch from "../../../hooks/search/useSearch";
 import SearchBox from "../../common/Search/SearchBox";
 import SearchOptionsList from "../../common/Search/SearchOptionsList";
@@ -29,7 +29,7 @@ function SearchScreen({
     });
   }, [search.query]);
 
-  const onCommunitiesPress = () => {
+  const onCommunitiesPress = useCallback(() => {
     if (search.query.includes("@")) {
       const parts = search.query.split("@");
 
@@ -48,16 +48,16 @@ function SearchScreen({
       type: "Communities",
       query: search.query,
     });
-  };
+  }, [search.query]);
 
-  const onPostsPress = () => {
+  const onPostsPress = useCallback(() => {
     navigation.push("Results", {
       type: "Posts",
       query: search.query,
     });
-  };
+  }, [search.query]);
 
-  const onUsersPress = () => {
+  const onUsersPress = useCallback(() => {
     if (search.query.includes("@")) {
       const parts = search.query.split("@");
 
@@ -74,7 +74,7 @@ function SearchScreen({
       type: "Users",
       query: search.query,
     });
-  };
+  }, [search.query]);
 
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.bg}>

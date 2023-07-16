@@ -20,7 +20,7 @@ const useSearch = (): UseSearch => {
     }, [])
   );
 
-  const doGetTrending = async () => {
+  const doGetTrending = useCallback(async () => {
     try {
       const res = await lemmyInstance.listCommunities({
         auth: lemmyAuthToken,
@@ -32,7 +32,7 @@ const useSearch = (): UseSearch => {
     } catch (e) {
       handleLemmyError(e.toString());
     }
-  };
+  }, []);
 
   return {
     query,
