@@ -43,11 +43,7 @@ function PostScreen({ route, navigation }: IProps) {
   }, [post.sortType]);
 
   const commentItem = ({ item }: { item: ILemmyComment }) => (
-    <CommentItem
-      comment={item}
-      setComments={post.setComments}
-      opId={post.currentPost.creator.id}
-    />
+    <CommentItem comment={item} setComments={post.setComments} />
   );
 
   const refreshControl = (
