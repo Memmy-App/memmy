@@ -1,28 +1,61 @@
-import { SortType } from "lemmy-js-client";
 import React from "react";
-import { UseFeed } from "../../../../hooks/feeds/useFeed";
-import { overallSortOptions } from "../../../../types/SortOptions";
-import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
-import { FeedSortContextMenu } from "../../../common/ContextMenu/FeedSortContextMenu";
+import { ContextMenuButton } from "react-native-ios-context-menu";
+import { useAppDispatch, useAppSelector } from "../../../../../store";
+import { setSetting } from "../../../../slices/settings/settingsActions";
+import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import SFIcon from "../../../common/icons/SFIcon";
 
-interface Props {
-  feed: UseFeed;
-  onSortUpdate?: (key: SortType) => void;
-}
-
-export function FeedSortButton({ feed, onSortUpdate }: Props) {
+export function FeedOverflowButton() {
+  const { compactView } = useAppSelector(selectSettings);
+  const dispatch = useAppDispatch();
   return (
-    <FeedSortContextMenu
-      currentSelection={feed.sort}
-      onPress={({ nativeEvent }) => {
-        feed.setSort(nativeEvent.actionKey as SortType);
-        onSortUpdate?.(nativeEvent.actionKey as SortType);
+    <ContextMenuButton
+      isMenuPrimaryAction
+      onPressMenuItem={({ nativeEvent }) => {
+        if (
+          nativeEvent.actionKey === "large" ||
+          nativeEvent.actionKey === "compact"
+        ) {
+          dispatch(setSetting({ compactView: !compactView }));
+        }
+      }}
+      menuConfig={{
+        menuTitle: "",
+        // @ts-ignore Types for menuItems are wrong for this library
+        menuItems: [
+          {
+            menuTitle: "Post Size",
+            actionKey: "size",
+            actionTitle: "Post Size",
+            menuItems: [
+              {
+                actionKey: "compact",
+                actionTitle: "Compact",
+                menuState: compactView ? "on" : "off",
+                icon: {
+                  type: "IMAGE_SYSTEM",
+                  imageValue: {
+                    systemName: "list.bullet",
+                  },
+                },
+              },
+              {
+                actionKey: "large",
+                actionTitle: "Large",
+                menuState: !compactView ? "on" : "off",
+                icon: {
+                  type: "IMAGE_SYSTEM",
+                  imageValue: {
+                    systemName: "list.bullet.below.rectangle",
+                  },
+                },
+              },
+            ],
+          },
+        ],
       }}
     >
-      <HeaderIconButton
-        icon={<SFIcon icon={overallSortOptions[feed.sort].icon} />}
-      />
-    </FeedSortContextMenu>
+      <SFIcon icon="ellipsis" />
+    </ContextMenuButton>
   );
 }

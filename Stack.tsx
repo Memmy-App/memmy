@@ -52,9 +52,11 @@ import ViewerScreen from "./src/components/screens/ViewerScreen";
 import {
   selectAccounts,
   selectAccountsLoaded,
+  selectCurrentAccount,
 } from "./src/slices/accounts/accountsSlice";
 import { selectSite } from "./src/slices/site/siteSlice";
 import { useAppSelector } from "./store";
+import { truncateName } from "./src/helpers/TextHelper";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -581,6 +583,7 @@ const Tab = createBottomTabNavigator();
 function Tabs() {
   const { unread } = useAppSelector(selectSite);
   const { t } = useTranslation();
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   return (
     <Tab.Navigator
@@ -620,7 +623,7 @@ function Tabs() {
           tabBarIcon: ({ color }) => (
             <SFIcon icon="person.circle" color={color} />
           ),
-          tabBarLabel: t("Profile"),
+          tabBarLabel: truncateName(currentAccount.username, 10),
           freezeOnBlur: false,
         }}
       />

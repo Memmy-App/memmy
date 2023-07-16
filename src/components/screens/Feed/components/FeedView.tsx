@@ -4,33 +4,27 @@ import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import { HStack, View, useTheme } from "native-base";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Button, StyleSheet } from "react-native";
-import { useAppDispatch, useAppSelector } from "../../../../../store";
+import { StyleSheet } from "react-native";
+import { useAppSelector } from "../../../../../store";
 import {
   getCommunityFullName,
   removeReadPosts,
 } from "../../../../helpers/LemmyHelpers";
 import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
 import { UseFeed } from "../../../../hooks/feeds/useFeed";
-import {
-  selectFeed,
-  setDropdownVisible,
-} from "../../../../slices/feed/feedSlice";
-import { setSetting } from "../../../../slices/settings/settingsActions";
+import { selectFeed } from "../../../../slices/feed/feedSlice";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
-import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
 import HideReadFAB from "../../../common/Buttons/HideReadFAB";
 import LoadingErrorView from "../../../common/Loading/LoadingErrorView";
 import LoadingView from "../../../common/Loading/LoadingView";
 import NoResultView from "../../../common/NoResultView";
 import RefreshControl from "../../../common/RefreshControl";
-import SFIcon from "../../../common/icons/SFIcon";
 import CommunityOverflowButton, { Community } from "./CommunityOverflowButton";
 import CompactFeedItem from "./CompactFeedItem/CompactFeedItem";
 import FeedFooter from "./FeedFooter";
 import FeedItem from "./FeedItem/FeedItem";
 import { FeedListingTypeButton } from "./FeedListingTypeButton";
+import { FeedOverflowButton } from "./FeedOverflowButton";
 import FeedSortButton from "./FeedSortButton";
 
 interface FeedViewProps {
@@ -55,10 +49,8 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   const recycled = useRef({});
 
   // Other Hooks
-  const { t } = useTranslation();
   const theme = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const dispatch = useAppDispatch();
 
   useScrollToTop(flashList);
 
@@ -84,18 +76,20 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   useEffect(() => {
     navigation.setOptions({
       // eslint-disable-next-line react/no-unstable-nested-components
+      headerTitle: () => (
+        <FeedListingTypeButton
+          feed={feed}
+          onPress={() =>
+            flashList?.current?.scrollToOffset({
+              animated: true,
+              offset: 0,
+            })
+          }
+        />
+      ),
+      // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
         <HStack space={3}>
-          <HeaderIconButton
-            icon={
-              compactView ? (
-                <SFIcon icon="list.bullet" />
-              ) : (
-                <SFIcon icon="list.bullet.below.rectangle" />
-              )
-            }
-            onPress={() => dispatch(setSetting({ compactView: !compactView }))}
-          />
           <FeedSortButton
             feed={feed}
             onSortUpdate={() =>
@@ -108,15 +102,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
           {postCommunity ? (
             <CommunityOverflowButton community={postCommunity} />
           ) : (
-            <FeedListingTypeButton
-              feed={feed}
-              onPress={() =>
-                flashList?.current?.scrollToOffset({
-                  animated: true,
-                  offset: 0,
-                })
-              }
-            />
+            <FeedOverflowButton />
           )}
         </HStack>
       ),
