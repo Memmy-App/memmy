@@ -1,6 +1,5 @@
 import Share, { ShareOptions } from "react-native-share";
-import { Alert } from "react-native";
-import { deleteImage, downloadImage } from "./ImageHelper";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { onGenericHapticFeedback } from "./HapticFeedbackHelpers";
 
 interface ShareLinkOptions {
@@ -24,17 +23,8 @@ export const shareLink = async ({
     title,
   };
 
-  let uri: string;
-
   if (isImage) {
-    const res = await downloadImage(link);
-
-    if (!res) {
-      Alert.alert("Failed to save image.");
-      return;
-    }
-
-    uri = res as string;
+    const uri = await FastImage.getCachePath({ uri: link });
 
     options = {
       filename: uri.split("/").pop(),
@@ -55,7 +45,6 @@ export const shareLink = async ({
 
   const after = () => {
     if (callback) callback();
-    if (isImage) deleteImage(uri);
   };
 
   try {

@@ -3,7 +3,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CommunityView } from "lemmy-js-client";
 import { useTheme } from "native-base";
 import React from "react";
-import FastImage from "react-native-fast-image";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { IconPlanet } from "tabler-icons-react-native";
 import { getCommunityFullName } from "../../../helpers/LemmyHelpers";
 import { getBaseUrl } from "../../../helpers/LinkHelper";

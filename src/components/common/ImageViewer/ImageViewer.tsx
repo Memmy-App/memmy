@@ -6,7 +6,7 @@ import {
   Pressable,
   StyleSheet,
 } from "react-native";
-import FastImage, { OnLoadEvent } from "react-native-fast-image";
+import FastImage, { OnLoadEvent } from "@gkasdorf/react-native-fast-image";
 import Animated, {
   runOnJS,
   runOnUI,

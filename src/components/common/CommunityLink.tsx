@@ -2,7 +2,7 @@ import { Community } from "lemmy-js-client";
 import { HStack, Text, useTheme } from "native-base";
 import React from "react";
 import { IconPlanet } from "tabler-icons-react-native";
-import FastImage from "react-native-fast-image";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { getBaseUrl } from "../../helpers/LinkHelper";
 import Link from "./Buttons/Link";
 
