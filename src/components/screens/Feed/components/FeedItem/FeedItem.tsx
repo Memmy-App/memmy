@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import FastImage from "react-native-fast-image";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import useFeedItem from "../../../../../hooks/feeds/useFeedItem";
 import { useAppDispatch } from "../../../../../../store";
 import { setResponseTo } from "../../../../../slices/comments/newCommentSlice";

@@ -7,7 +7,7 @@ import * as MediaLibrary from "expo-media-library";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as ImagePicker from "expo-image-picker";
 import { PostView } from "lemmy-js-client";
-import FastImage from "react-native-fast-image";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { Alert, Dimensions } from "react-native";
 import i18n from "../plugins/i18n/i18n";
 import { writeToLog } from "./LogHelper";
@@ -49,7 +49,9 @@ const downloadAndSaveImage = async (src: string): Promise<boolean> => {
     return false;
   }
 
-  const uri = await downloadImage(src);
+  // const uri = await downloadImage(src);
+  console.log("Trying to get saved...");
+  const uri = await FastImage.getCachePath({ uri: src });
 
   if (!uri) return false;
 
