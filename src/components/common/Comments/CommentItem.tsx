@@ -1,29 +1,11 @@
-import {
-  Divider,
-  HStack,
-  Pressable,
-  Text,
-  useTheme,
-  View,
-  VStack,
-} from "native-base";
+import { Divider, Pressable, useTheme, View, VStack } from "native-base";
 import React from "react";
-import {
-  IconChevronDown,
-  IconDots,
-  IconMessagePlus,
-} from "tabler-icons-react-native";
-import { timeFromNowShort } from "../../../helpers/TimeHelper";
 import useComment from "../../../hooks/post/useComment";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
-import AvatarUsername from "../AvatarUsername";
-import IconButtonWithText from "../IconButtonWithText";
 import { ReplyOption } from "../SwipeableRow/ReplyOption";
 import { SwipeableRow } from "../SwipeableRow/SwipeableRow";
 import { VoteOption } from "../SwipeableRow/VoteOption";
-import SmallVoteIcons from "../Vote/SmallVoteIcons";
-import VoteButton from "../Vote/VoteButton";
 import CommentBody from "./CommentBody";
 import CommentCollapsed from "./CommentCollapsed";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
@@ -36,7 +18,6 @@ interface IProps {
   setComments: any;
   onPressOverride?: () => Promise<void> | void;
   depth?: number;
-  opId?: number;
   isUnreadReply?: boolean;
 }
 
@@ -44,7 +25,6 @@ function CommentItem({
   comment,
   setComments,
   onPressOverride,
-  opId,
   depth,
   isUnreadReply,
 }: IProps) {
@@ -60,8 +40,6 @@ function CommentItem({
     setComments,
     onPressOverride,
   });
-
-  const myVote = comment.comment.my_vote;
 
   return (
     <>
