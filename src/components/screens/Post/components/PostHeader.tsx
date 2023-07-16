@@ -1,4 +1,4 @@
-import React, { SetStateAction, useCallback, useState } from "react";
+import React, { SetStateAction, useState } from "react";
 import {
   Divider,
   HStack,
@@ -49,12 +49,12 @@ function PostHeader({
 
   const [hideSLA, setHideSLA] = useState(false);
 
-  const onPress = useCallback(() => {
+  const onPress = () => {
     if (!tapToCollapse) return;
 
     onGenericHapticFeedback();
     setCollapsed((prev) => !prev);
-  }, [currentPost.post.id]);
+  };
 
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.fg}>

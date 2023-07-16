@@ -1,4 +1,4 @@
-import React, { SetStateAction, useCallback } from "react";
+import React, { SetStateAction } from "react";
 import Clipboard from "@react-native-community/clipboard";
 import { CommentReplyView } from "lemmy-js-client";
 import { Alert } from "react-native";
@@ -51,7 +51,7 @@ const useComment = ({
 
   const { showAppActionSheetWithOptions } = useAppActionSheet();
 
-  const onCommentPress = useCallback(() => {
+  const onCommentPress = () => {
     if (onPressOverride) {
       onGenericHapticFeedback();
       onPressOverride();
@@ -79,9 +79,9 @@ const useComment = ({
         return c;
       })
     );
-  }, [comment.comment.comment.id, comment.collapsed]);
+  };
 
-  const onCommentLongPress = useCallback(() => {
+  const onCommentLongPress = () => {
     onGenericHapticFeedback();
 
     const isOwnComment =
@@ -218,9 +218,9 @@ const useComment = ({
         }
       }
     );
-  }, [comment.comment.comment.id]);
+  };
 
-  const onReply = useCallback(() => {
+  const onReply = () => {
     dispatch(
       setResponseTo({
         comment: comment.comment,
@@ -228,9 +228,9 @@ const useComment = ({
       })
     );
     navigation.push("NewComment");
-  }, [comment.comment.comment.id]);
+  };
 
-  const onReadPress = useCallback(async () => {
+  const onReadPress = async () => {
     try {
       setComments((prev) =>
         prev.filter((c) => c.comment.comment.id !== comment.comment.comment.id)
@@ -255,84 +255,81 @@ const useComment = ({
       writeToLog("Error marking comment as read.");
       writeToLog(e.toString());
     }
-  }, [comment.comment.comment.id]);
+  };
 
-  const onVote = useCallback(
-    async (value: -1 | 0 | 1) => {
-      let { upvotes, downvotes } = comment.comment.counts;
+  const onVote = async (value: -1 | 0 | 1) => {
+    let { upvotes, downvotes } = comment.comment.counts;
 
-      // If we already voted, this will be a neutral vote.
-      if (value === comment.comment.my_vote && value !== 0) value = 0;
+    // If we already voted, this will be a neutral vote.
+    if (value === comment.comment.my_vote && value !== 0) value = 0;
 
-      // Store old value in case we encounter an error
-      const oldValue = comment.comment.my_vote;
+    // Store old value in case we encounter an error
+    const oldValue = comment.comment.my_vote;
 
-      // Deal with updating the upvote/downvote count
-      if (value === 0) {
-        if (oldValue === -1) downvotes -= 1;
-        if (oldValue === 1) upvotes -= 1;
-      }
+    // Deal with updating the upvote/downvote count
+    if (value === 0) {
+      if (oldValue === -1) downvotes -= 1;
+      if (oldValue === 1) upvotes -= 1;
+    }
 
-      if (value === 1) {
-        if (oldValue === -1) downvotes -= 1;
-        upvotes += 1;
-      }
+    if (value === 1) {
+      if (oldValue === -1) downvotes -= 1;
+      upvotes += 1;
+    }
 
-      if (value === -1) {
-        if (oldValue === 1) upvotes -= 1;
-        downvotes += 1;
-      }
+    if (value === -1) {
+      if (oldValue === 1) upvotes -= 1;
+      downvotes += 1;
+    }
+
+    setComments((prev) =>
+      prev.map((c) => {
+        if (c.comment.comment.id === comment.comment.comment.id) {
+          return {
+            ...c,
+            myVote: value,
+            comment: {
+              ...c.comment,
+              my_vote: value,
+              counts: {
+                ...c.comment.counts,
+                upvotes,
+                downvotes,
+                score: upvotes - downvotes,
+              },
+            },
+          };
+        }
+        return c;
+      })
+    );
+
+    try {
+      await lemmyInstance.likeComment({
+        auth: lemmyAuthToken,
+        comment_id: comment.comment.comment.id,
+        score: value,
+      });
+    } catch (e) {
+      handleLemmyError(e.toString());
 
       setComments((prev) =>
         prev.map((c) => {
           if (c.comment.comment.id === comment.comment.comment.id) {
             return {
               ...c,
-              myVote: value,
+              myVote: oldValue as ILemmyVote,
               comment: {
                 ...c.comment,
-                my_vote: value,
-                counts: {
-                  ...c.comment.counts,
-                  upvotes,
-                  downvotes,
-                  score: upvotes - downvotes,
-                },
+                my_vote: oldValue as number,
               },
             };
           }
           return c;
         })
       );
-
-      try {
-        await lemmyInstance.likeComment({
-          auth: lemmyAuthToken,
-          comment_id: comment.comment.comment.id,
-          score: value,
-        });
-      } catch (e) {
-        handleLemmyError(e.toString());
-
-        setComments((prev) =>
-          prev.map((c) => {
-            if (c.comment.comment.id === comment.comment.comment.id) {
-              return {
-                ...c,
-                myVote: oldValue as ILemmyVote,
-                comment: {
-                  ...c.comment,
-                  my_vote: oldValue as number,
-                },
-              };
-            }
-            return c;
-          })
-        );
-      }
-    },
-    [comment.comment.comment.id]
-  );
+    }
+  };
 
   return {
     onCommentLongPress,

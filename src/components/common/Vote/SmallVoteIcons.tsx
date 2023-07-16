@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { HStack, Text, useTheme } from "native-base";
 import { IconArrowDown, IconArrowUp } from "tabler-icons-react-native";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
@@ -21,18 +21,21 @@ function SmallVoteIcons({
     myVote === -1 ? theme.colors.app.downvote : theme.colors.app.textSecondary;
 
   // TODO: refactor to use VoteData
-  return (
-    <HStack space={1}>
-      <HStack alignItems="center">
-        <IconArrowUp color={upvoteColor} size={18} />
-        <Text color={upvoteColor}>{upvotes}</Text>
+  return useMemo(
+    () => (
+      <HStack space={1}>
+        <HStack alignItems="center">
+          <IconArrowUp color={upvoteColor} size={18} />
+          <Text color={upvoteColor}>{upvotes}</Text>
+        </HStack>
+        <HStack alignItems="center">
+          <IconArrowDown color={downvoteColor} size={18} />
+          <Text color={downvoteColor}>{downvotes}</Text>
+        </HStack>
       </HStack>
-      <HStack alignItems="center">
-        <IconArrowDown color={downvoteColor} size={18} />
-        <Text color={downvoteColor}>{downvotes}</Text>
-      </HStack>
-    </HStack>
+    ),
+    [upvotes, downvotes, myVote]
   );
 }
 
-export default React.memo(SmallVoteIcons);
+export default SmallVoteIcons;

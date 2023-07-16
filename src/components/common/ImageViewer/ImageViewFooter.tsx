@@ -9,9 +9,10 @@ import { saveImage } from "../../../helpers/ImageHelper";
 
 interface ImageViewFooterProps {
   source: string;
+  visible: boolean;
 }
 
-function ImageViewFooter({ source }: ImageViewFooterProps) {
+function ImageViewFooter({ source, visible }: ImageViewFooterProps) {
   const theme = useTheme();
 
   const onSave = async () => {
@@ -32,7 +33,13 @@ function ImageViewFooter({ source }: ImageViewFooterProps) {
   };
 
   return (
-    <View position="absolute" bottom={0} width="100%" zIndex={2}>
+    <View
+      position="absolute"
+      bottom={0}
+      width="100%"
+      zIndex={2}
+      opacity={visible ? 1 : 0}
+    >
       <HStack
         flex={1}
         mb={10}
