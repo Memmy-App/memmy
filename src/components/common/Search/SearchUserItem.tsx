@@ -1,6 +1,6 @@
 import React from "react";
 import { PersonView } from "lemmy-js-client";
-import FastImage from "react-native-fast-image";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { IconUser } from "tabler-icons-react-native";

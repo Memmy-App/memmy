@@ -1,10 +1,8 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { Box, Icon, useTheme, View, VStack } from "native-base";
+import { Box, useTheme, View } from "native-base";
 import { PostView } from "lemmy-js-client";
-import { BlurView } from "expo-blur";
-import { Ionicons } from "@expo/vector-icons";
-import FastImage from "react-native-fast-image";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { IconLink, IconMessages } from "tabler-icons-react-native";
 import { ExtensionType, LinkInfo } from "../../../../../helpers/LinkHelper";
 import { useAppSelector } from "../../../../../../store";
@@ -24,7 +22,7 @@ function CompactFeedItemThumbnail({
 }) {
   const theme = useTheme();
 
-  const { blurNsfw, markReadOnPostImageView } = useAppSelector(selectSettings);
+  const { markReadOnPostImageView } = useAppSelector(selectSettings);
 
   const onImagePress = () => {
     lemmyInstance
@@ -51,52 +49,17 @@ function CompactFeedItemThumbnail({
     >
       {(linkInfo.extType === ExtensionType.IMAGE && (
         <>
-          {(post.post.nsfw || post.community.nsfw) && blurNsfw ? (
-            <>
-              <View style={styles.blurContainer}>
-                <BlurView
-                  style={styles.blurView}
-                  intensity={100}
-                  tint={theme.config.initialColorMode}
-                >
-                  <VStack
-                    flex={1}
-                    alignItems="center"
-                    justifyContent="center"
-                    space={2}
-                  >
-                    <Icon
-                      as={Ionicons}
-                      name="alert-circle"
-                      color={theme.colors.app.textPrimary}
-                      size={12}
-                      alignSelf="center"
-                      style={styles.nsfwIcon}
-                    />
-                  </VStack>
-                </BlurView>
-                <ImageViewer
-                  source={{ uri: post.post.url }}
-                  heightOverride={75}
-                  widthOverride={75}
-                  style={{
-                    borderRadius: 10,
-                  }}
-                  onPress={onImagePress}
-                />
-              </View>
-            </>
-          ) : (
-            <ImageViewer
-              source={{ uri: post.post.url }}
-              heightOverride={75}
-              widthOverride={75}
-              style={{
-                borderRadius: 10,
-              }}
-              onPress={onImagePress}
-            />
-          )}
+          <ImageViewer
+            source={{ uri: post.post.url }}
+            heightOverride={75}
+            widthOverride={75}
+            style={{
+              borderRadius: 10,
+            }}
+            onPress={onImagePress}
+            nsfw={post.post.nsfw || post.community.nsfw}
+            compactMode
+          />
         </>
       )) ||
         (linkInfo.extType === ExtensionType.NONE && (

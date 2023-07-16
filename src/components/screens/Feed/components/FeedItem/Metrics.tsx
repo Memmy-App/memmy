@@ -10,7 +10,7 @@ interface Props {
   vote?: number;
 }
 
-export function Metrics({ data, vote }: Props) {
+export function metrics({ data, vote }: Props) {
   return (
     <HStack flex={1} space={2}>
       <VoteData data={data} vote={vote} />
@@ -19,3 +19,5 @@ export function Metrics({ data, vote }: Props) {
     </HStack>
   );
 }
+
+export const Metrics = React.memo(metrics);

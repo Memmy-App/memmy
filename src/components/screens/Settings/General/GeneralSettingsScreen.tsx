@@ -1,15 +1,15 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { ScrollView, useTheme } from "native-base";
 import React from "react";
-import { StyleSheet, Switch } from "react-native";
 import { useTranslation } from "react-i18next";
+import { StyleSheet, Switch } from "react-native";
+import { ContextMenuButton } from "react-native-ios-context-menu";
+import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
-import { useAppDispatch, useAppSelector } from "../../../../../store";
-import { HapticOptionsArr } from "../../../../types/haptics/hapticOptions";
+import { hapticOptionsArr } from "../../../../types/haptics/hapticOptions";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
-import { useAppActionSheet } from "../../../../hooks/app/useAppActionSheet";
 
 function GeneralSettingsScreen() {
   const settings = useAppSelector(selectSettings);
@@ -17,7 +17,6 @@ function GeneralSettingsScreen() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const { showAppActionSheetWithOptions } = useAppActionSheet();
 
   const onChange = (key: string, value: any) => {
     dispatch(setSetting({ [key]: value }));
@@ -27,29 +26,33 @@ function GeneralSettingsScreen() {
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
         <CSection header={t("Haptics")}>
-          <CCell
-            cellStyle="RightDetail"
-            title={t("Strength")}
-            detail={t(`settings.haptics.${settings.haptics}`)}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              const options = [...HapticOptionsArr, t("Cancel")];
-              const cancelButtonIndex = options.length - 1;
-
-              showAppActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex,
-                },
-                (index: number) => {
-                  dispatch(setSetting({ haptics: options[index] }));
-                }
-              );
+          <ContextMenuButton
+            isMenuPrimaryAction
+            onPressMenuItem={({ nativeEvent }) => {
+              dispatch(setSetting({ haptics: nativeEvent.actionKey }));
             }}
-          />
+            menuConfig={{
+              menuTitle: "",
+              // @ts-ignore Types for menuItems are wrong for this library
+              menuItems: [
+                ...hapticOptionsArr.map((option) => ({
+                  actionKey: option,
+                  actionTitle: option,
+                  menuState: settings.haptics === option ? "on" : "off",
+                })),
+              ],
+            }}
+          >
+            <CCell
+              cellStyle="RightDetail"
+              title={t("Strength")}
+              detail={t(`settings.haptics.${settings.haptics}`)}
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+              accessory="DisclosureIndicator"
+            />
+          </ContextMenuButton>
         </CSection>
         <CSection header={t("Browser")}>
           <CCell

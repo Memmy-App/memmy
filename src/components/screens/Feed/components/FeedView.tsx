@@ -4,12 +4,8 @@ import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import { HStack, View, useTheme } from "native-base";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Button, StyleSheet } from "react-native";
-import {
-  IconBaselineDensityMedium,
-  IconListDetails,
-} from "tabler-icons-react-native";
 import { useTranslation } from "react-i18next";
+import { Button, StyleSheet } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import {
   getCommunityFullName,
@@ -29,12 +25,14 @@ import LoadingErrorView from "../../../common/Loading/LoadingErrorView";
 import LoadingView from "../../../common/Loading/LoadingView";
 import NoResultView from "../../../common/NoResultView";
 import RefreshControl from "../../../common/RefreshControl";
+import SFIcon from "../../../common/icons/SFIcon";
 import CompactFeedItem from "./CompactFeedItem/CompactFeedItem";
 import FeedFooter from "./FeedFooter";
 import FeedHeaderDropdownDrawer from "./FeedHeaderDropdownDrawer";
 import FeedItem from "./FeedItem/FeedItem";
-import { Community, FeedOverflowButton } from "./FeedOverflowButton";
+import CommunityOverflowButton, { Community } from "./CommunityOverflowButton";
 import FeedSortButton from "./FeedSortButton";
+import { FeedListingTypeButton } from "./FeedListingTypeButton";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -99,13 +97,13 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
         }
 
         return (
-          <HStack space={2}>
+          <HStack space={3}>
             <HeaderIconButton
               icon={
                 compactView ? (
-                  <IconListDetails />
+                  <SFIcon icon="list.bullet" />
                 ) : (
-                  <IconBaselineDensityMedium />
+                  <SFIcon icon="list.bullet.below.rectangle" />
                 )
               }
               onPress={() =>
@@ -121,16 +119,19 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
                 })
               }
             />
-            <FeedOverflowButton
-              feed={feed}
-              community={postCommunity}
-              onPress={() =>
-                flashList?.current?.scrollToOffset({
-                  animated: true,
-                  offset: 0,
-                })
-              }
-            />
+            {postCommunity ? (
+              <CommunityOverflowButton community={postCommunity} />
+            ) : (
+              <FeedListingTypeButton
+                feed={feed}
+                onPress={() =>
+                  flashList?.current?.scrollToOffset({
+                    animated: true,
+                    offset: 0,
+                  })
+                }
+              />
+            )}
           </HStack>
         );
       },

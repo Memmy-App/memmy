@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, Text, useTheme, VStack } from "native-base";
-import FastImage from "react-native-fast-image";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { IconPlanet } from "tabler-icons-react-native";
 import { useTranslation } from "react-i18next";
 import RenderMarkdown from "../../common/Markdown/RenderMarkdown";

@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, HStack, Text, useTheme, View, VStack } from "native-base";
-import FastImage from "react-native-fast-image";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import {
   IconCake,
   IconCalendarStar,

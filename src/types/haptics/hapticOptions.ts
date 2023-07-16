@@ -6,4 +6,4 @@ enum EHapticOptions {
 }
 
 export type HapticOptions = `${EHapticOptions}`;
-export const HapticOptionsArr = Object.values(EHapticOptions);
+export const hapticOptionsArr = Object.values(EHapticOptions);
