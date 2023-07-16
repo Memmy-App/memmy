@@ -24,9 +24,9 @@ import {
   TapGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import { BlurView } from "expo-blur";
-import { View, Icon, Text, useTheme, VStack } from "native-base";
-import { Ionicons } from "@expo/vector-icons";
+import { Text, useTheme, View, VStack } from "native-base";
 import { StatusBar } from "expo-status-bar";
+import { IconAlertTriangle } from "tabler-icons-react-native";
 import { useImageDimensions } from "./useImageDimensions";
 import ExitButton from "./ImageExitButton";
 import ImageViewFooter from "./ImageViewFooter";
@@ -46,6 +46,7 @@ interface IProps {
   nsfw?: boolean;
   buttonMode?: boolean;
   setPostRead?: () => void;
+  compactMode?: boolean;
 }
 
 interface MeasureResult {
@@ -73,6 +74,7 @@ function ImageViewer({
   nsfw,
   buttonMode = false,
   setPostRead,
+  compactMode,
 }: IProps) {
   const theme = useTheme();
 
@@ -439,7 +441,15 @@ function ImageViewer({
   const AnimatedFastImage = Animated.createAnimatedComponent(FastImage as any);
 
   return (
-    <View style={styles.imageContainer} backgroundColor={theme.colors.app.bg}>
+    <View
+      style={[
+        styles.imageContainer,
+        {
+          borderRadius: compactMode ? 10 : 0,
+        },
+      ]}
+      backgroundColor={theme.colors.app.bg}
+    >
       {buttonMode ? (
         <Pressable
           onPress={onRequestOpenOrClose}
@@ -462,10 +472,20 @@ function ImageViewer({
         <Pressable
           onPress={onRequestOpenOrClose}
           ref={nonViewerRef}
-          style={{ opacity: expanded ? 0 : 1 }}
+          style={{
+            opacity: expanded ? 0 : 1,
+            borderRadius: compactMode ? 10 : 0,
+          }}
         >
           {(nsfw && blurNsfw && (
-            <View style={styles.blurContainer}>
+            <View
+              style={[
+                styles.blurContainer,
+                {
+                  borderRadius: compactMode ? 10 : 0,
+                },
+              ]}
+            >
               <BlurView
                 style={[
                   styles.blurView,
@@ -483,14 +503,16 @@ function ImageViewer({
                   justifyContent="center"
                   space={2}
                 >
-                  <Icon
-                    as={Ionicons}
-                    name="alert-circle"
+                  <IconAlertTriangle
                     color={theme.colors.app.textSecondary}
-                    size={16}
+                    size={36}
                   />
-                  <Text fontSize="xl">NSFW</Text>
-                  <Text>Sensitive content ahead</Text>
+                  {!compactMode && (
+                    <>
+                      <Text fontSize="xl">NSFW</Text>
+                      <Text>Sensitive content ahead</Text>
+                    </>
+                  )}
                 </VStack>
               </BlurView>
               {!source.uri.includes(".gif") && (
