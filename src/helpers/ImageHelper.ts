@@ -10,6 +10,7 @@ import { Alert, Dimensions } from "react-native";
 import i18n from "../plugins/i18n/i18n";
 import { writeToLog } from "./LogHelper";
 import { ExtensionType, getLinkInfo } from "./LinkHelper";
+import { ErrorCause } from "../types/ErrorCause";
 
 export const saveImage = async (src: string): Promise<boolean> => {
   // Get the status of permissions
@@ -49,12 +50,12 @@ export const selectImage = async (): Promise<string> => {
     });
 
     if (res.canceled) {
-      throw Error("cancelled");
+      throw Error("cancelled", { cause: ErrorCause.USER_CANCEL });
     }
 
     return res.assets[0].uri;
   }
-  throw Error("permissions");
+  throw Error("permissions", { cause: ErrorCause.NO_PERMISSION });
 };
 
 export const preloadImages = async (posts: PostView[]): Promise<void> => {
