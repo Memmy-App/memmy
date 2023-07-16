@@ -67,7 +67,7 @@ import IconSelectionScreen from "./src/components/screens/Settings/Appearance/Ic
 
 function CustomDrawerContent(props) {
   return (
-    <DrawerContentScrollView {...props}>
+    <DrawerContentScrollView {...props} showsVerticalScrollIndicator={false}>
       {TraverseScreen()}
     </DrawerContentScrollView>
   );
