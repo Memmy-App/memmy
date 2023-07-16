@@ -5,8 +5,8 @@ import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, StyleSheet } from "react-native";
 import { Divider } from "react-native-elements";
-import FastImage from "react-native-fast-image";
 import { ContextMenuButton } from "react-native-ios-context-menu";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import {
   IconAt,
   IconBrush,
