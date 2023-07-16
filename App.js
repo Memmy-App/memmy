@@ -11,7 +11,7 @@ import * as SplashScreen from "expo-splash-screen";
 import codePush from "react-native-code-push";
 
 const codePushOptions = {
-  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  checkFrequency: codePush.CheckFrequency.ON_APP_START,
   installMode: codePush.InstallMode.ON_NEXT_RESTART,
   minimumBackgroundDuration: 30,
 };
