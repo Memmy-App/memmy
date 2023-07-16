@@ -1,18 +1,18 @@
-import React, { useEffect, useRef } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useFeed } from "../../../hooks/feeds/useFeed";
+import React, { useEffect, useRef } from "react";
+import { useAppDispatch, useAppSelector } from "../../../../store";
 import {
   initialize,
   lemmyInstance,
   resetInstance,
 } from "../../../LemmyInstance";
-import { useAppDispatch, useAppSelector } from "../../../../store";
-import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
-import { Account } from "../../../types/Account";
-import { getUnreadCount } from "../../../slices/site/siteActions";
-import FeedHeaderDropdown from "./components/FeedHeaderDropdown";
-import FeedView from "./components/FeedView";
 import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
+import { useFeed } from "../../../hooks/feeds/useFeed";
+import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
+import { getUnreadCount } from "../../../slices/site/siteActions";
+import { Account } from "../../../types/Account";
+import { FeedListingTypeButton } from "./components/FeedListingTypeButton";
+import FeedView from "./components/FeedView";
 
 function FeedsIndexScreen({
   navigation,
@@ -64,7 +64,7 @@ function FeedsIndexScreen({
     feed.setLoaded(true);
   };
 
-  const headerTitle = () => <FeedHeaderDropdown enabled />;
+  const headerTitle = () => <FeedListingTypeButton feed={feed} />;
 
   return <FeedView feed={feed} />;
 }
