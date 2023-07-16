@@ -21,21 +21,18 @@ function SmallVoteIcons({
     myVote === -1 ? theme.colors.app.downvote : theme.colors.app.textSecondary;
 
   // TODO: refactor to use VoteData
-  return useMemo(
-    () => (
-      <HStack space={1}>
-        <HStack alignItems="center">
-          <IconArrowUp color={upvoteColor} size={18} />
-          <Text color={upvoteColor}>{upvotes}</Text>
-        </HStack>
-        <HStack alignItems="center">
-          <IconArrowDown color={downvoteColor} size={18} />
-          <Text color={downvoteColor}>{downvotes}</Text>
-        </HStack>
+  return (
+    <HStack space={1}>
+      <HStack alignItems="center">
+        <IconArrowUp color={upvoteColor} size={18} />
+        <Text color={upvoteColor}>{upvotes}</Text>
       </HStack>
-    ),
-    [upvotes, downvotes, myVote]
+      <HStack alignItems="center">
+        <IconArrowDown color={downvoteColor} size={18} />
+        <Text color={downvoteColor}>{downvotes}</Text>
+      </HStack>
+    </HStack>
   );
 }
 
-export default SmallVoteIcons;
+export default React.memo(SmallVoteIcons);
