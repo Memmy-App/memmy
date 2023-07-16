@@ -10,6 +10,7 @@ import {
   IconSettings,
 } from "tabler-icons-react-native";
 import { useTranslation } from "react-i18next";
+import { ContextMenuButton } from "react-native-ios-context-menu";
 import useProfile from "../../../hooks/profile/useProfile";
 import HeaderIconButton from "../../common/Buttons/HeaderIconButton";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";
@@ -23,7 +24,6 @@ import MTable from "../../common/Table/MTable";
 import MCell from "../../common/Table/MCell";
 import RefreshControl from "../../common/RefreshControl";
 import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
-import { useAppActionSheet } from "../../../hooks/app/useAppActionSheet";
 
 interface IProps {
   route: any;
@@ -35,9 +35,28 @@ function UserProfileScreen({ route, navigation }: IProps) {
   const profile = useProfile(true, route?.params?.fullUsername);
 
   const theme = useTheme();
-  const { showAppActionSheetWithOptions } = useAppActionSheet();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+
+  const blockUser = async () => {
+    try {
+      await lemmyInstance.blockPerson({
+        auth: lemmyAuthToken,
+        person_id: profile.profile.person.id,
+        block: true,
+      });
+
+      dispatch(
+        showToast({
+          message: t("toast.userBlockedSuccess"),
+          duration: 3000,
+          variant: "info",
+        })
+      );
+    } catch (e) {
+      handleLemmyError(e.toString());
+    }
+  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -56,45 +75,37 @@ function UserProfileScreen({ route, navigation }: IProps) {
               />
             )
           : () => (
-              <HeaderIconButton
-                icon={<IconDots size={24} color={theme.colors.app.accent} />}
-                onPress={onDotsPress}
-              />
+              <ContextMenuButton
+                isMenuPrimaryAction
+                onPressMenuItem={({ nativeEvent }) => {
+                  if (nativeEvent.actionKey === "BlockUser") {
+                    blockUser();
+                  }
+                }}
+                menuConfig={{
+                  menuTitle: "",
+                  // @ts-ignore Types for menuItems are wrong for this library
+                  menuItems: [
+                    {
+                      actionKey: "BlockUser",
+                      actionTitle: "Block User",
+                      icon: {
+                        type: "IMAGE_SYSTEM",
+                        imageValue: {
+                          systemName: "person.crop.circle.badge.xmark",
+                        },
+                      },
+                    },
+                  ],
+                }}
+              >
+                <HeaderIconButton
+                  icon={<IconDots size={24} color={theme.colors.app.accent} />}
+                />
+              </ContextMenuButton>
             ),
     });
   }, [profile.profile, t]);
-
-  const onDotsPress = async () => {
-    const cancelButtonIndex = 1;
-
-    showAppActionSheetWithOptions(
-      {
-        options: ["Block User", "Cancel"],
-        cancelButtonIndex,
-      },
-      async (index) => {
-        if (index === 0) {
-          try {
-            await lemmyInstance.blockPerson({
-              auth: lemmyAuthToken,
-              person_id: profile.profile.person.id,
-              block: true,
-            });
-
-            dispatch(
-              showToast({
-                message: t("toast.userBlockedSuccess"),
-                duration: 3000,
-                variant: "info",
-              })
-            );
-          } catch (e) {
-            handleLemmyError(e.toString());
-          }
-        }
-      }
-    );
-  };
 
   if (!profile.profile) {
     return <LoadingView />;

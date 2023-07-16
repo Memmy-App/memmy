@@ -10,7 +10,7 @@ interface Props {
   onSave: () => void;
   onVotePress: (vote: number) => void;
 }
-export function Actions({ vote, saved, onSave, onVotePress }: Props) {
+export function actions({ vote, saved, onSave, onVotePress }: Props) {
   const theme = useTheme();
 
   const onUpvote = () => {
@@ -50,3 +50,5 @@ export function Actions({ vote, saved, onSave, onVotePress }: Props) {
     </HStack>
   );
 }
+
+export const Actions = React.memo(actions);

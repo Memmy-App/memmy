@@ -52,12 +52,12 @@ function MCell({
             {rightAccessory}
           </View>
         )) ||
-          (showChevron && (
-            <View ml="auto" alignItems="center">
-              <IconChevronRight color={theme.colors.app.accent} />
-            </View>
-          )) ||
           (rightAccessory && <>{rightAccessory}</>)}
+        {showChevron && (
+          <View ml="auto" alignItems="center">
+            <IconChevronRight color={theme.colors.app.accent} />
+          </View>
+        )}
       </HStack>
     </VStack>
   );
