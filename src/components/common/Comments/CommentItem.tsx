@@ -1,5 +1,18 @@
-import { Divider, Pressable, useTheme, View, VStack } from "native-base";
+import {
+  Divider,
+  HStack,
+  Pressable,
+  Text,
+  useTheme,
+  View,
+  VStack,
+} from "native-base";
 import React from "react";
+import {
+  IconChevronDown,
+  IconDots,
+  IconMessagePlus,
+} from "tabler-icons-react-native";
 import useComment from "../../../hooks/post/useComment";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
@@ -12,6 +25,11 @@ import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppSelector } from "../../../../store";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { CommentContextMenu } from "./CommentContextMenu";
+import AvatarUsername from "../AvatarUsername";
+import SmallVoteIcons from "../Vote/SmallVoteIcons";
+import IconButtonWithText from "../IconButtonWithText";
+import { timeFromNowShort } from "../../../helpers/TimeHelper";
+import VoteButton from "../Vote/VoteButton";
 
 interface IProps {
   comment: ILemmyComment;
@@ -93,7 +111,10 @@ function CommentItem({
                   mb={-3}
                   pb={2}
                 >
-                  <AvatarUsername creator={comment.comment.creator} opId={opId}>
+                  <AvatarUsername
+                    creator={comment.comment.creator}
+                    opId={comment.comment.post.creator_id}
+                  >
                     <SmallVoteIcons
                       upvotes={comment.comment.counts.upvotes}
                       downvotes={comment.comment.counts.downvotes}
@@ -152,23 +173,23 @@ function CommentItem({
                         />
                         <VoteButton
                           onPressHandler={async () =>
-                            myVote === 1
+                            comment.comment.my_vote === 1
                               ? commentHook.onVote(0)
                               : commentHook.onVote(1)
                           }
                           type="upvote"
-                          isVoted={myVote === 1}
+                          isVoted={comment.comment.my_vote === 1}
                           isAccented
                           iconSize={22}
                         />
                         <VoteButton
                           onPressHandler={async () =>
-                            myVote === -1
+                            comment.comment.my_vote === -1
                               ? commentHook.onVote(0)
                               : commentHook.onVote(-1)
                           }
                           type="downvote"
-                          isVoted={myVote === -1}
+                          isVoted={comment.comment.my_vote === -1}
                           isAccented
                           iconSize={22}
                           textSize="md"

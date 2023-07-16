@@ -97,104 +97,107 @@ const useComment = ({
     );
   }, [comment.comment.comment.id, comment.collapsed]);
 
-  const onCommentLongPress = useCallback(async (selection: string) => {
-    onGenericHapticFeedback();
+  const onCommentLongPress = useCallback(
+    async (selection: string) => {
+      onGenericHapticFeedback();
 
-    if (selection === longPressOptions["Copy Text"]) {
-      Clipboard.setString(comment.comment.comment.content);
-    }
-
-    if (selection === longPressOptions["Copy Link"]) {
-      Clipboard.setString(comment.comment.comment.ap_id);
-    }
-
-    if (selection === longPressOptions["Report Comment"]) {
-      await Alert.prompt(
-        t("comment.report"),
-        t("alert.message.reportComment"),
-        [
-          {
-            text: t("Cancel"),
-            style: "cancel",
-          },
-          {
-            text: t("Submit"),
-            style: "default",
-            onPress: async (v) => {
-              try {
-                await lemmyInstance.createCommentReport({
-                  auth: lemmyAuthToken,
-                  comment_id: comment.comment.comment.id,
-                  reason: v,
-                });
-
-                dispatch(
-                  showToast({
-                    message: t("toast.reportSubmitSuccessful"),
-                    variant: "info",
-                    duration: 3000,
-                  })
-                );
-              } catch (e) {
-                handleLemmyError(e.toString());
-              }
-            },
-          },
-        ]
-      );
-    }
-
-    if (selection === longPressOptions["Delete Comment"]) {
-      try {
-        await lemmyInstance.deleteComment({
-          auth: lemmyAuthToken,
-          comment_id: comment.comment.comment.id,
-          deleted: true,
-        });
-
-        dispatch(
-          showToast({
-            message: t("toast.commentDeleted"),
-            duration: 3000,
-            variant: "info",
-          })
-        );
-
-        setComments((prev) =>
-          prev.map((c) => {
-            if (c.comment.comment.id === comment.comment.comment.id) {
-              return {
-                ...c,
-                comment: {
-                  ...c.comment,
-                  comment: {
-                    ...c.comment.comment,
-                    content: t("Comment deleted by user :("),
-                    deleted: true,
-                  },
-                },
-              };
-            }
-            return c;
-          })
-        );
-      } catch (e) {
-        handleLemmyError(e.toString());
+      if (selection === longPressOptions["Copy Text"]) {
+        Clipboard.setString(comment.comment.comment.content);
       }
-    }
 
-    if (selection === longPressOptions["Edit Comment"]) {
-      navigation.push("EditComment", {
-        commentId: comment.comment.comment.id,
-        content: comment.comment.comment.content,
-        languageId: comment.comment.comment.language_id,
-      });
-    }
+      if (selection === longPressOptions["Copy Link"]) {
+        Clipboard.setString(comment.comment.comment.ap_id);
+      }
 
-    if (selection === longPressOptions.Reply) {
-      onReply();
-    }
-  }, [comment.comment.comment.id]);
+      if (selection === longPressOptions["Report Comment"]) {
+        await Alert.prompt(
+          t("comment.report"),
+          t("alert.message.reportComment"),
+          [
+            {
+              text: t("Cancel"),
+              style: "cancel",
+            },
+            {
+              text: t("Submit"),
+              style: "default",
+              onPress: async (v) => {
+                try {
+                  await lemmyInstance.createCommentReport({
+                    auth: lemmyAuthToken,
+                    comment_id: comment.comment.comment.id,
+                    reason: v,
+                  });
+
+                  dispatch(
+                    showToast({
+                      message: t("toast.reportSubmitSuccessful"),
+                      variant: "info",
+                      duration: 3000,
+                    })
+                  );
+                } catch (e) {
+                  handleLemmyError(e.toString());
+                }
+              },
+            },
+          ]
+        );
+      }
+
+      if (selection === longPressOptions["Delete Comment"]) {
+        try {
+          await lemmyInstance.deleteComment({
+            auth: lemmyAuthToken,
+            comment_id: comment.comment.comment.id,
+            deleted: true,
+          });
+
+          dispatch(
+            showToast({
+              message: t("toast.commentDeleted"),
+              duration: 3000,
+              variant: "info",
+            })
+          );
+
+          setComments((prev) =>
+            prev.map((c) => {
+              if (c.comment.comment.id === comment.comment.comment.id) {
+                return {
+                  ...c,
+                  comment: {
+                    ...c.comment,
+                    comment: {
+                      ...c.comment.comment,
+                      content: t("Comment deleted by user :("),
+                      deleted: true,
+                    },
+                  },
+                };
+              }
+              return c;
+            })
+          );
+        } catch (e) {
+          handleLemmyError(e.toString());
+        }
+      }
+
+      if (selection === longPressOptions["Edit Comment"]) {
+        navigation.push("EditComment", {
+          commentId: comment.comment.comment.id,
+          content: comment.comment.comment.content,
+          languageId: comment.comment.comment.language_id,
+        });
+      }
+
+      if (selection === longPressOptions.Reply) {
+        onReply();
+      }
+    },
+    [comment.comment.comment.id]
+  );
 
   const onReply = useCallback(() => {
     dispatch(
