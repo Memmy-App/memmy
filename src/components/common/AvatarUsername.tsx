@@ -1,6 +1,6 @@
 import React from "react";
 import { HStack, Text, useTheme, VStack } from "native-base";
-import FastImage from "react-native-fast-image";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { IconUser } from "tabler-icons-react-native";
 import { Person } from "lemmy-js-client";
 import Link from "./Buttons/Link";

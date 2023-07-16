@@ -1,7 +1,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { HStack, Text, useTheme, VStack } from "native-base";
 import React, { useEffect } from "react";
-import FastImage from "react-native-fast-image";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import {
   IconEye,
   IconHeart,

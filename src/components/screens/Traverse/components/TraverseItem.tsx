@@ -1,7 +1,7 @@
 import React from "react";
 import { CommunityView } from "lemmy-js-client";
 import { HStack, Pressable, Text, useTheme, VStack } from "native-base";
-import FastImage from "react-native-fast-image";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { StyleSheet } from "react-native";
 import {
   IconChevronRight,

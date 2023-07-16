@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import FastImage, { ResizeMode } from "react-native-fast-image";
+import FastImage, { ResizeMode } from "@gkasdorf/react-native-fast-image";
 import { Icon, Text, useTheme, View, VStack } from "native-base";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";

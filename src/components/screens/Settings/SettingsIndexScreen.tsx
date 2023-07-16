@@ -3,7 +3,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
 import React, { useMemo } from "react";
 import { Alert, StyleSheet } from "react-native";
-import FastImage from "react-native-fast-image";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import {
   IconAt,
   IconBrush,

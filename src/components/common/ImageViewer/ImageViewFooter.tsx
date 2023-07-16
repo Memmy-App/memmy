@@ -1,14 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { HStack, useTheme, View } from "native-base";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { IconDeviceFloppy, IconShare2 } from "tabler-icons-react-native";
-import DialogContainer from "react-native-dialog/lib/Container";
-import DialogDescription from "react-native-dialog/lib/Description";
-import { useTranslation } from "react-i18next";
 import IconButtonWithText from "../IconButtonWithText";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
-import downloadAndSaveImage from "../../../helpers/ImageHelper";
 import { shareLink } from "../../../helpers/ShareHelper";
+import { saveImage } from "../../../helpers/ImageHelper";
 
 interface ImageViewFooterProps {
   source: string;
@@ -16,34 +13,22 @@ interface ImageViewFooterProps {
 }
 
 function ImageViewFooter({ source, visible }: ImageViewFooterProps) {
-  const [downloading, setDownloading] = useState(false);
-
-  const { t } = useTranslation();
   const theme = useTheme();
 
   const onSave = async () => {
     onGenericHapticFeedback();
-    setDownloading(true);
 
-    try {
-      await downloadAndSaveImage(source);
-      setDownloading(false);
-    } catch (e) {
-      setDownloading(false);
-    }
+    await saveImage(source);
   };
 
   const onShare = async () => {
-    setDownloading(true);
-
     try {
       await shareLink({
         link: source,
         isImage: true,
-        callback: () => setDownloading(false),
       });
     } catch (e) {
-      setDownloading(false);
+      /* Empty */
     }
   };
 
@@ -77,9 +62,6 @@ function ImageViewFooter({ source, visible }: ImageViewFooterProps) {
           icon={<IconShare2 size={38} color={theme.colors.app.textSecondary} />}
         />
       </HStack>
-      <DialogContainer visible={downloading}>
-        <DialogDescription>{t("imageView.dialogDesc")}</DialogDescription>
-      </DialogContainer>
     </View>
   );
 }
