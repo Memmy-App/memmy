@@ -68,14 +68,7 @@ import IconSelectionScreen from "./src/components/screens/Settings/Appearance/Ic
 function CustomDrawerContent(props) {
   const theme = useTheme();
   return (
-    <DrawerContentScrollView
-      {...props}
-      showsVerticalScrollIndicator={false}
-      stickyHeaderIndices={[0]}
-      contentContainerStyle={{
-        paddingTop: -4,
-      }}
-    >
+    <>
       {/* Header */}
       <View
         height={10}
@@ -84,7 +77,7 @@ function CustomDrawerContent(props) {
         }}
       />
       {TraverseScreen()}
-    </DrawerContentScrollView>
+    </>
   );
 }
 
