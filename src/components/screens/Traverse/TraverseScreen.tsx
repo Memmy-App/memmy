@@ -62,6 +62,7 @@ function TraverseScreen() {
         />
       }
       keyboardShouldPersistTaps="handled"
+      stickyHeaderIndices={[0]}
     >
       {header}
 
