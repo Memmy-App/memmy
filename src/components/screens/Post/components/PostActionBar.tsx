@@ -3,11 +3,7 @@ import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import {
-  IconBookmark,
-  IconMessagePlus,
-  IconShare2,
-} from "tabler-icons-react-native";
+import { IconBookmark, IconShare2 } from "tabler-icons-react-native";
 import { PostView } from "lemmy-js-client";
 import VoteButton from "../../../common/Vote/VoteButton";
 import { useAppDispatch } from "../../../../../store";
