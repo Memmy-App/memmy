@@ -5,19 +5,11 @@ import { IconX } from "tabler-icons-react-native";
 
 interface IProps {
   onPress: () => void;
-  visible: boolean;
 }
 
-function ImageExitButton({ onPress, visible }: IProps) {
+function ImageExitButton({ onPress }: IProps) {
   return (
-    <View
-      style={[
-        styles.buttonPosition,
-        {
-          opacity: visible ? 0.5 : 0,
-        },
-      ]}
-    >
+    <View style={[styles.buttonPosition]}>
       <Pressable onPress={onPress} hitSlop={10} padding={1.5}>
         <View>
           <IconX color="white" />
