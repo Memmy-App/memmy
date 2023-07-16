@@ -2,7 +2,10 @@ import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
 import React, { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Alert, StyleSheet } from "react-native";
+import { Divider } from "react-native-elements";
+import { ContextMenuButton } from "react-native-ios-context-menu";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import {
   IconAt,
@@ -12,12 +15,9 @@ import {
   IconUser,
   TablerIcon,
 } from "tabler-icons-react-native";
-import { useTranslation } from "react-i18next";
-import { Divider } from "react-native-elements";
 import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
 import CCell from "../../common/Table/CCell";
 import CSection from "../../common/Table/CSection";
-import { useAppActionSheet } from "../../../hooks/app/useAppActionSheet";
 
 function SettingOptionTitle({
   text,
@@ -56,8 +56,6 @@ function SettingsIndexScreen({
 }) {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
-
-  const { showAppActionSheetWithOptions } = useAppActionSheet();
 
   const languages = useMemo<string[]>(
     () => Object.keys(i18n.options.resources),
@@ -202,33 +200,33 @@ function SettingsIndexScreen({
           <>
             <Divider style={{ margin: 20 }} />
             <CSection header="🛠️ DEV TOOLS">
-              <CCell
-                cellStyle="RightDetail"
-                title={t("Select Language")}
-                detail={i18n.language}
-                backgroundColor={theme.colors.app.fg}
-                titleTextColor={theme.colors.app.textPrimary}
-                rightDetailColor={theme.colors.app.textSecondary}
-                accessory="DisclosureIndicator"
-                onPress={() => {
-                  const filteredLanguages = languages.filter(
-                    (language) => language !== i18n.language
-                  );
-                  const options = [...filteredLanguages, "Cancel"];
-                  const cancelButtonIndex = options.length - 1;
-
-                  showAppActionSheetWithOptions(
-                    {
-                      options,
-                      cancelButtonIndex,
-                    },
-                    (index: number) => {
-                      const nextLanguage = options[index];
-                      i18n.changeLanguage(nextLanguage);
-                    }
-                  );
+              <ContextMenuButton
+                isMenuPrimaryAction
+                onPressMenuItem={({ nativeEvent }) => {
+                  i18n.changeLanguage(nativeEvent.actionKey);
                 }}
-              />
+                menuConfig={{
+                  menuTitle: "",
+                  // @ts-ignore Types for menuItems are wrong for this library
+                  menuItems: [
+                    ...languages.map((option) => ({
+                      actionKey: option,
+                      actionTitle: option,
+                      menuState: i18n.language === option ? "on" : "off",
+                    })),
+                  ],
+                }}
+              >
+                <CCell
+                  cellStyle="RightDetail"
+                  title={t("Select Language")}
+                  detail={i18n.language}
+                  backgroundColor={theme.colors.app.fg}
+                  titleTextColor={theme.colors.app.textPrimary}
+                  rightDetailColor={theme.colors.app.textSecondary}
+                  accessory="DisclosureIndicator"
+                />
+              </ContextMenuButton>
             </CSection>
           </>
         )}
