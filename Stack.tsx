@@ -3,7 +3,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useTheme } from "native-base";
+import { useTheme, View } from "native-base";
 import React from "react";
 import {
   IconBell,
@@ -66,8 +66,23 @@ import InboxScreen from "./src/components/screens/Inbox/InboxScreen";
 import IconSelectionScreen from "./src/components/screens/Settings/Appearance/IconSelectionScreen";
 
 function CustomDrawerContent(props) {
+  const theme = useTheme();
   return (
-    <DrawerContentScrollView {...props} showsVerticalScrollIndicator={false}>
+    <DrawerContentScrollView
+      {...props}
+      showsVerticalScrollIndicator={false}
+      stickyHeaderIndices={[0]}
+      contentContainerStyle={{
+        paddingTop: -4,
+      }}
+    >
+      {/* Header */}
+      <View
+        height={10}
+        style={{
+          backgroundColor: theme.colors.app.bg,
+        }}
+      />
       {TraverseScreen()}
     </DrawerContentScrollView>
   );
