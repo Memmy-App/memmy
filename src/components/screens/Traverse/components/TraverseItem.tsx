@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { CommunityView } from "lemmy-js-client";
 import { HStack, Pressable, Text, useTheme, VStack } from "native-base";
 import FastImage from "@gkasdorf/react-native-fast-image";
@@ -20,6 +20,7 @@ import { useAppDispatch, useAppSelector } from "../../../../../store";
 
 import { selectCurrentAccount } from "../../../../slices/accounts/accountsSlice";
 import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
+import { getBaseUrl } from "../../../../helpers/LinkHelper";
 
 interface IProps {
   community: CommunityView;
@@ -30,7 +31,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
   const theme = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const onPress = () => {
+  const onPress = useCallback(() => {
     navigation.navigate("Community", {
       communityId: community.community.id,
       communityName: community.community.name,
@@ -38,18 +39,21 @@ function TraverseItem({ community, isFavorite }: IProps) {
       actorId: community.community.actor_id,
     });
     navigation.dispatch(DrawerActions.closeDrawer());
-  };
+  }, [community.community.id]);
 
   const dispatch = useAppDispatch();
-  const onChange = (key: string, value: any) => {
-    dispatch(
-      toggleFavorite([
-        `${currentAccount.username}@${currentAccount.instance}`,
-        key,
-        value,
-      ])
-    );
-  };
+  const onChange = useCallback(
+    (key: string, value: any) => {
+      dispatch(
+        toggleFavorite([
+          `${currentAccount.username}@${currentAccount.instance}`,
+          key,
+          value,
+        ])
+      );
+    },
+    [community.community.id]
+  );
 
   const currentAccount = useAppSelector(selectCurrentAccount);
 
@@ -75,7 +79,16 @@ function TraverseItem({ community, isFavorite }: IProps) {
             ) : (
               <IconPlanet color={theme.colors.app.textSecondary} size={24} />
             )}
-            <Text>{getCommunityFullName(community)}</Text>
+            <VStack>
+              <Text>{community.community.name}</Text>
+              <Text
+                fontSize="2xs"
+                color={theme.colors.app.textSecondary}
+                fontStyle="italic"
+              >
+                {getBaseUrl(community.community.actor_id)}
+              </Text>
+            </VStack>
           </HStack>
           <HStack space={2}>
             <HStack space={1} alignItems="center">
@@ -101,28 +114,25 @@ function TraverseItem({ community, isFavorite }: IProps) {
           </HStack>
         </VStack>
         <HStack ml="auto" alignItems="center">
-          <VStack>
-            <Pressable
-              onPress={() => {
-                onGenericHapticFeedback();
-                const communityFullName = getCommunityFullName(community);
-                onChange(communityFullName, !isFavorite);
-              }}
-            >
-              {isFavorite ? (
-                <IconStarFilled
-                  size={24}
-                  color=""
-                  style={{ color: theme.colors.app.accent }}
-                />
-              ) : (
-                <IconStar size={24} color={theme.colors.app.accent} />
-              )}
-            </Pressable>
-          </VStack>
-          <VStack pl={2}>
-            <IconChevronRight size={24} color={theme.colors.app.accent} />
-          </VStack>
+          <Pressable
+            onPress={() => {
+              onGenericHapticFeedback();
+              const communityFullName = getCommunityFullName(community);
+              onChange(communityFullName, !isFavorite);
+            }}
+            pr={2}
+          >
+            {isFavorite ? (
+              <IconStarFilled
+                size={24}
+                color=""
+                style={{ color: theme.colors.app.accent }}
+              />
+            ) : (
+              <IconStar size={24} color={theme.colors.app.accent} />
+            )}
+          </Pressable>
+          <IconChevronRight size={24} color={theme.colors.app.accent} />
         </HStack>
       </HStack>
     </Pressable>
