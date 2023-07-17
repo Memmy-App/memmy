@@ -1,9 +1,12 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { ContextMenuButton } from "react-native-ios-context-menu";
+import { ContextMenuButton, MenuState } from "react-native-ios-context-menu";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import { setCurrentAccount } from "../../../slices/accounts/accountsActions";
-import { selectAccounts } from "../../../slices/accounts/accountsSlice";
+import {
+  selectAccounts,
+  selectCurrentAccount,
+} from "../../../slices/accounts/accountsSlice";
 
 interface IProps {
   children: React.ReactNode;
@@ -18,6 +21,7 @@ export function AccountsContextMenu({
 }: IProps) {
   const { t } = useTranslation();
   const accounts = useAppSelector(selectAccounts);
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const dispatch = useAppDispatch();
   return (
@@ -63,6 +67,11 @@ export function AccountsContextMenu({
             actionKey: account.username + account.instance,
             actionTitle: account.username,
             actionSubtitle: account.instance,
+            menuState:
+              currentAccount.username + currentAccount.instance ===
+              account.username + account.instance
+                ? "on"
+                : ("off" as MenuState),
           })),
         ],
       }}
