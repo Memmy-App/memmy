@@ -39,6 +39,7 @@ export interface SettingsState {
   appIcon: string;
   showCommentActions: boolean;
   useDefaultBrowser: boolean;
+  tapToCollapse: boolean;
 }
 
 const initialState: SettingsState = {
@@ -74,6 +75,7 @@ const initialState: SettingsState = {
   appIcon: "purple",
   showCommentActions: true,
   useDefaultBrowser: false,
+  tapToCollapse: true,
 };
 
 const settingsSlice = createSlice({

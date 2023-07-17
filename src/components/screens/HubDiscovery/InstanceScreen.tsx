@@ -9,7 +9,7 @@ import {
   useTheme,
   VStack,
 } from "native-base";
-import FastImage from "react-native-fast-image";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import {
   IconArrowDown,
   IconCheck,

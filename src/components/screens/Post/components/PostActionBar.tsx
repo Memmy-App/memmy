@@ -3,11 +3,7 @@ import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import {
-  IconBookmark,
-  IconMessagePlus,
-  IconShare2,
-} from "tabler-icons-react-native";
+import { IconBookmark, IconShare2 } from "tabler-icons-react-native";
 import { PostView } from "lemmy-js-client";
 import VoteButton from "../../../common/Vote/VoteButton";
 import { useAppDispatch } from "../../../../../store";
@@ -15,6 +11,7 @@ import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpe
 import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
 import { shareLink } from "../../../../helpers/ShareHelper";
 import IconButtonWithText from "../../../common/IconButtonWithText";
+import SFIcon from "../../../common/icons/SFIcon";
 
 interface IProps {
   post: PostView;
@@ -57,9 +54,6 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
     doVote(-1).then();
   };
 
-  const isUpvoted = post?.my_vote === 1;
-  const isDownvoted = post?.my_vote === -1;
-
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <HStack
@@ -72,7 +66,7 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
       <VoteButton
         onPressHandler={onUpvotePress}
         type="upvote"
-        isVoted={isUpvoted}
+        isVoted={post?.my_vote === 1}
         text={post.counts.upvotes}
         isAccented
       />
@@ -80,7 +74,7 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
       <VoteButton
         onPressHandler={onDownvotePress}
         type="downvote"
-        isVoted={isDownvoted}
+        isVoted={post?.my_vote === -1}
         text={post.counts.downvotes}
         isAccented
       />
@@ -98,7 +92,7 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
 
       <IconButtonWithText
         onPressHandler={onCommentPress}
-        icon={<IconMessagePlus color={colors.app.accent} size={25} />}
+        icon={<SFIcon icon="plus.message" />}
       />
 
       <IconButtonWithText

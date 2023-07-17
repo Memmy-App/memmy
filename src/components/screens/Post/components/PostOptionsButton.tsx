@@ -1,14 +1,13 @@
 import React from "react";
-import { useTheme } from "native-base";
-import { IconDots } from "tabler-icons-react-native";
-import { Alert } from "react-native";
 import { useTranslation } from "react-i18next";
+import { Alert } from "react-native";
+import { ContextMenuButton } from "react-native-ios-context-menu";
 import { useAppDispatch } from "../../../../../store";
 import { lemmyAuthToken, lemmyInstance } from "../../../../LemmyInstance";
+import { handleLemmyError } from "../../../../helpers/LemmyErrorHelper";
 import { showToast } from "../../../../slices/toast/toastSlice";
 import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
-import { useAppActionSheet } from "../../../../hooks/app/useAppActionSheet";
-import { handleLemmyError } from "../../../../helpers/LemmyErrorHelper";
+import SFIcon from "../../../common/icons/SFIcon";
 
 interface IProps {
   postId: number;
@@ -16,24 +15,8 @@ interface IProps {
 
 function CommentSortButton({ postId }: IProps) {
   const { t } = useTranslation();
-  const theme = useTheme();
-  const { showAppActionSheetWithOptions } = useAppActionSheet();
   const dispatch = useAppDispatch();
-
-  const onPress = () => {
-    const options = [t("Report Post"), t("Cancel")];
-    const cancelButtonIndex = options.length - 1;
-
-    showAppActionSheetWithOptions(
-      {
-        options,
-        cancelButtonIndex,
-      },
-      (index) => {
-        if (index === 0) onReportPress().then();
-      }
-    );
-  };
+  const options = [t("Report Post")];
 
   const onReportPress = async () => {
     await Alert.prompt(
@@ -72,11 +55,41 @@ function CommentSortButton({ postId }: IProps) {
   };
 
   return (
-    <HeaderIconButton
-      icon={<IconDots size={24} color={theme.colors.app.accent} />}
-      onPress={onPress}
-    />
+    <ContextMenuButton
+      isMenuPrimaryAction
+      onPressMenuItem={({ nativeEvent }) => {
+        switch (nativeEvent.actionKey) {
+          case "Report Post":
+            onReportPress().then();
+            break;
+          default:
+            break;
+        }
+      }}
+      menuConfig={{
+        menuTitle: "",
+        // @ts-ignore Types for menuItems are wrong for this library
+        menuItems: [
+          ...options.map((option) => ({
+            actionKey: option,
+            actionTitle: option,
+            icon: {
+              type: "IMAGE_SYSTEM",
+              imageValue: {
+                systemName: optionIcons[option],
+              },
+            },
+          })),
+        ],
+      }}
+    >
+      <HeaderIconButton icon={<SFIcon icon="ellipsis" />} />
+    </ContextMenuButton>
   );
 }
+
+const optionIcons: Record<string, string> = {
+  "Report Post": "flag",
+};
 
 export default CommentSortButton;

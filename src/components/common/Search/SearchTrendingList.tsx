@@ -25,7 +25,7 @@ function SearchTrendingList({ communities }: IProps) {
     <Animated.View entering={SlideInUp} exiting={SlideOutUp}>
       <MTable header={t("Trending")}>
         {communities.map((c) => (
-          <SearchCommunityItem community={c} />
+          <SearchCommunityItem key={c.community.id} community={c} />
         ))}
       </MTable>
     </Animated.View>

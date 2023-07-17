@@ -14,6 +14,7 @@ import LoadingModal from "./Loading/LoadingModal";
 import uploadToImgur from "../../helpers/ImgurHelper";
 import { writeToLog } from "../../helpers/LogHelper";
 import IconButtonWithText from "./IconButtonWithText";
+import { ErrorCause } from "../../types/ErrorCause";
 
 function KeyboardAccessory({
   setText,
@@ -61,11 +62,11 @@ function KeyboardAccessory({
   const onLinkPress = async () => {
     Alert.prompt(
       t("Link"),
-      t("toast.message.enterUrl"),
+      t("toast.enterUrl"),
       (link) => {
         Alert.prompt(
           t("Label"),
-          t("toast.message.enterLabel"),
+          t("toast.enterLabel"),
           (label) => {
             setText(replace(`[${label}](${link})`));
           },
@@ -99,16 +100,23 @@ function KeyboardAccessory({
 
     try {
       path = await selectImage();
-    } catch (e) {
+    } catch (e: unknown) {
+      const err = e as Error;
       writeToLog("Error getting images.");
       writeToLog(e.toString());
 
-      if (e.toString() === "permissions") {
-        Alert.alert(
-          t("alert.title.permissionsError"),
-          t("alert.message.allowCameraRoll")
-        );
-        return;
+      switch (err.cause) {
+        case ErrorCause.NO_PERMISSION:
+          Alert.alert(
+            t("alert.title.permissionsError"),
+            t("alert.message.allowCameraRoll")
+          );
+          return;
+        case ErrorCause.USER_CANCEL:
+          // just close it, no notice
+          return;
+        default:
+        // continue
       }
     }
 
@@ -118,13 +126,13 @@ function KeyboardAccessory({
 
     try {
       imgurLink = await uploadToImgur(path);
-    } catch (e) {
+    } catch (e: unknown) {
       setUploading(false);
 
       writeToLog("Error uploading image.");
       writeToLog(e.toString());
 
-      Alert.alert("Error uploading to Imgur.");
+      Alert.alert(t("alert.message.imgurUploadError"));
       return;
     }
 
@@ -136,6 +144,7 @@ function KeyboardAccessory({
 
   return (
     <InputAccessoryView nativeID="accessory">
+      <LoadingModal loading={uploading} />
       <HStack
         backgroundColor={theme.colors.app.bg}
         height={12}
@@ -164,7 +173,6 @@ function KeyboardAccessory({
           icon={<IconPhoto size={24} color={theme.colors.app.accent} />}
         />
       </HStack>
-      <LoadingModal loading={uploading} />
     </InputAccessoryView>
   );
 }

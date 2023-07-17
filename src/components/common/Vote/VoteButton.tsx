@@ -55,4 +55,4 @@ function VoteButton({
   );
 }
 
-export default VoteButton;
+export default React.memo(VoteButton);

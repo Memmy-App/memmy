@@ -1,4 +1,10 @@
-import React, { SetStateAction, useEffect, useRef, useState } from "react";
+import React, {
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { CommentSortType, PostView } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../store";
@@ -136,129 +142,135 @@ const usePost = (commentId: string | null): UsePost => {
   /**
    * Load the Comments for the current Post
    */
-  const doLoad = async (ignoreCommentId = false) => {
-    setCommentsLoading(true);
-    setCommentsError(false);
+  const doLoad = useCallback(
+    async (ignoreCommentId = false) => {
+      setCommentsLoading(true);
+      setCommentsError(false);
 
-    try {
-      const commentsRes = await lemmyInstance.getComments({
-        auth: lemmyAuthToken,
-        post_id: currentPost.post.id,
-        max_depth: 10,
-        type_: "All",
-        sort: sortType,
-        parent_id:
-          commentId && !ignoreCommentId ? Number(commentId) : undefined,
-      });
+      try {
+        const commentsRes = await lemmyInstance.getComments({
+          auth: lemmyAuthToken,
+          post_id: currentPost.post.id,
+          max_depth: 10,
+          type_: "All",
+          sort: sortType,
+          parent_id:
+            commentId && !ignoreCommentId ? Number(commentId) : undefined,
+        });
 
-      const ordered = buildComments(commentsRes.comments);
+        const ordered = buildComments(commentsRes.comments);
 
-      const betterComments: ILemmyComment[] = [];
+        const betterComments: ILemmyComment[] = [];
 
-      const getChildren = (comment: NestedComment) => {
-        const replyComments: ILemmyComment[] = [];
-        for (const item of comment.replies) {
-          replyComments.push({
+        const getChildren = (comment: NestedComment) => {
+          const replyComments: ILemmyComment[] = [];
+          for (const item of comment.replies) {
+            replyComments.push({
+              comment: item.comment,
+              myVote: item.comment.my_vote as ILemmyVote,
+              collapsed: false,
+              hidden: false,
+            });
+            replyComments.push(...getChildren(item));
+          }
+          return replyComments;
+        };
+
+        for (const item of ordered) {
+          betterComments.push({
             comment: item.comment,
             myVote: item.comment.my_vote as ILemmyVote,
             collapsed: false,
             hidden: false,
           });
-          replyComments.push(...getChildren(item));
+          betterComments.push(...getChildren(item));
         }
-        return replyComments;
-      };
 
-      for (const item of ordered) {
-        betterComments.push({
-          comment: item.comment,
-          myVote: item.comment.my_vote as ILemmyVote,
-          collapsed: false,
-          hidden: false,
-        });
-        betterComments.push(...getChildren(item));
+        setComments(betterComments);
+        setCommentsLoading(false);
+      } catch (e) {
+        setCommentsLoading(false);
+        setCommentsError(true);
+
+        handleLemmyError(e.toString());
       }
-
-      setComments(betterComments);
-      setCommentsLoading(false);
-    } catch (e) {
-      setCommentsLoading(false);
-      setCommentsError(true);
-
-      handleLemmyError(e.toString());
-    }
-  };
+    },
+    [post.post.id]
+  );
 
   /**
    * Vote on the current Post
    * @param value
    */
-  const doVote = async (value: -1 | 0 | 1) => {
-    let { upvotes, downvotes } = currentPost.counts;
+  const doVote = useCallback(
+    async (value: -1 | 0 | 1) => {
+      let { upvotes, downvotes } = currentPost.counts;
 
-    // If we already voted, this will be a neutral vote.
-    if (value === currentPost.my_vote && value !== 0) value = 0;
+      // If we already voted, this will be a neutral vote.
+      if (value === currentPost.my_vote && value !== 0) value = 0;
 
-    // Store old value in case we encounter an error
-    const oldValue = currentPost.my_vote;
+      // Store old value in case we encounter an error
+      const oldValue = currentPost.my_vote;
 
-    // Deal with updating the upvote/downvote count
-    if (value === 0) {
-      if (oldValue === -1) downvotes -= 1;
-      if (oldValue === 1) upvotes -= 1;
-    }
+      // Deal with updating the upvote/downvote count
+      if (value === 0) {
+        if (oldValue === -1) downvotes -= 1;
+        if (oldValue === 1) upvotes -= 1;
+      }
 
-    if (value === 1) {
-      if (oldValue === -1) downvotes -= 1;
-      upvotes += 1;
-    }
+      if (value === 1) {
+        if (oldValue === -1) downvotes -= 1;
+        upvotes += 1;
+      }
 
-    if (value === -1) {
-      if (oldValue === 1) upvotes -= 1;
-      downvotes += 1;
-    }
+      if (value === -1) {
+        if (oldValue === 1) upvotes -= 1;
+        downvotes += 1;
+      }
 
-    // Play trigger
-    onVoteHapticFeedback();
+      // Play trigger
+      onVoteHapticFeedback();
 
-    // Update the state
-    setCurrentPost({
-      ...currentPost,
-      my_vote: value,
-      counts: {
-        ...currentPost.counts,
-        upvotes,
-        downvotes,
-        score: upvotes - downvotes,
-      },
-    });
-
-    // Put result in store, so we can change it when we go back
-    dispatch(
-      setUpdateVote({
-        postId: post.post.id,
-        vote: value,
-      })
-    );
-
-    // Send request
-    try {
-      await lemmyInstance.likePost({
-        auth: lemmyAuthToken,
-        post_id: post.post.id,
-        score: value,
-      });
-    } catch (e) {
+      // Update the state
       setCurrentPost({
         ...currentPost,
-        my_vote: oldValue,
+        my_vote: value,
+        counts: {
+          ...currentPost.counts,
+          upvotes,
+          downvotes,
+          score: upvotes - downvotes,
+        },
       });
 
-      handleLemmyError(e.toString());
-    }
-  };
+      // Put result in store, so we can change it when we go back
+      dispatch(
+        setUpdateVote({
+          postId: post.post.id,
+          vote: value,
+        })
+      );
 
-  const doSave = async () => {
+      // Send request
+      try {
+        await lemmyInstance.likePost({
+          auth: lemmyAuthToken,
+          post_id: post.post.id,
+          score: value,
+        });
+      } catch (e) {
+        setCurrentPost({
+          ...currentPost,
+          my_vote: oldValue,
+        });
+
+        handleLemmyError(e.toString());
+      }
+    },
+    [post.post.id, currentPost.my_vote]
+  );
+
+  const doSave = useCallback(async () => {
     onGenericHapticFeedback();
 
     setCurrentPost((prev) => ({
@@ -284,7 +296,7 @@ const usePost = (commentId: string | null): UsePost => {
     } else {
       dispatch(setUpdateSaved(post.post.id));
     }
-  };
+  }, [post.post.id]);
 
   return {
     comments,

@@ -1,4 +1,3 @@
-import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import * as Notifications from "expo-notifications";
 import { StatusBar, StatusBarStyle } from "expo-status-bar";
 import { extendTheme, NativeBaseProvider } from "native-base";
@@ -208,12 +207,10 @@ function Start({ onReady }: StartProps) {
         <GestureHandlerRootView
           style={{ flex: 1, backgroundColor: selectedTheme.colors.app.bg }}
         >
-          <ActionSheetProvider>
-            <>
-              <Toast />
-              <Stack onReady={onStackReady} />
-            </>
-          </ActionSheetProvider>
+          <>
+            <Toast />
+            <Stack onReady={onStackReady} />
+          </>
         </GestureHandlerRootView>
       </ErrorBoundary>
     </NativeBaseProvider>
