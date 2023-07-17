@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { HStack, useTheme } from "native-base";
 import { IconBookmark } from "tabler-icons-react-native";
 import VoteButton from "../../../../common/Vote/VoteButton";
@@ -10,16 +10,16 @@ interface Props {
   onSave: () => void;
   onVotePress: (vote: number) => void;
 }
-export function Actions({ vote, saved, onSave, onVotePress }: Props) {
+export function actions({ vote, saved, onSave, onVotePress }: Props) {
   const theme = useTheme();
 
-  const onUpvote = () => {
+  const onUpvote = useCallback(() => {
     onVotePress(vote === 1 ? 0 : 1);
-  };
+  }, [vote]);
 
-  const onDownvote = () => {
+  const onDownvote = useCallback(() => {
     onVotePress(vote === -1 ? 0 : -1);
-  };
+  }, [vote]);
 
   return (
     <HStack space={1} alignItems="center" justifyContent="flex-end">
@@ -50,3 +50,5 @@ export function Actions({ vote, saved, onSave, onVotePress }: Props) {
     </HStack>
   );
 }
+
+export const Actions = React.memo(actions);

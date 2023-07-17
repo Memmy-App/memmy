@@ -1,11 +1,9 @@
-import React from "react";
 import { Pressable, useTheme } from "native-base";
-
-// eslint-disable-next-line import/no-extraneous-dependencies
+import React from "react";
 
 interface CIconButtonProps {
-  icon: any;
-  onPress: () => void;
+  icon: JSX.Element;
+  onPress?: () => void;
 }
 
 function HeaderIconButton({ icon, onPress }: CIconButtonProps) {
