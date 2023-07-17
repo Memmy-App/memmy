@@ -120,6 +120,19 @@ function ContentScreen({
               />
             }
           />
+          <CCell
+            cellStyle="RightDetail"
+            title={`${t("Hide Read Posts in Communities")}`}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.hideReadPostsInCommunities}
+                onValueChange={(v) => onChange("hideReadPostsInCommunities", v)}
+              />
+            }
+          />
         </CSection>
 
         <CSection header={t("Comments")}>

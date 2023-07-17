@@ -27,7 +27,7 @@ const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
   const lastPost = useRef<number>(0);
 
   // Hooks
-  const feed = useFeed(communityFullName);
+  const feed = useFeed(communityFullName, true);
 
   // Other hooks
   const { t } = useTranslation();
