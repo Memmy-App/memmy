@@ -82,6 +82,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
                 vote={post.my_vote}
                 onSave={feedItem.doSave}
                 onVotePress={feedItem.onVotePress}
+                id={post.post.id}
               />
             </Footer>
           </Pressable>

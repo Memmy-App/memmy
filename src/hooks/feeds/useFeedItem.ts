@@ -123,7 +123,7 @@ const useFeedItem = (
         handleLemmyError(e.toString());
       }
     },
-    [post.post.id, post.my_vote, post.counts]
+    [post.post.id, post.my_vote]
   );
 
   const onPress = useCallback(() => {
