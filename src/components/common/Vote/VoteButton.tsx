@@ -1,9 +1,9 @@
 import { useTheme } from "native-base";
+import { IFontSize } from "native-base/lib/typescript/theme/base/typography";
 import React from "react";
 import { GestureResponderEvent } from "react-native";
-import { IconArrowDown, IconArrowUp } from "tabler-icons-react-native";
-import { IFontSize } from "native-base/lib/typescript/theme/base/typography";
 import IconButtonWithText from "../IconButtonWithText";
+import SFIcon from "../icons/SFIcon";
 
 interface VoteButtonProps {
   onPressHandler: (event: GestureResponderEvent) => void;
@@ -22,7 +22,7 @@ function VoteButton({
   text,
   isAccented,
   textSize = "lg",
-  iconSize = 25,
+  iconSize = 14,
 }: VoteButtonProps) {
   const { colors } = useTheme();
 
@@ -32,12 +32,14 @@ function VoteButton({
 
   const icon =
     type === "upvote" ? (
-      <IconArrowUp
+      <SFIcon
+        icon="arrow.up"
         color={isVoted ? colors.app.upvoteText : color}
         size={iconSize}
       />
     ) : (
-      <IconArrowDown
+      <SFIcon
+        icon="arrow.down"
         color={isVoted ? colors.app.downvoteText : color}
         size={iconSize}
       />

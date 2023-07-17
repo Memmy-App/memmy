@@ -17,14 +17,14 @@ import { selectSettings } from "../../slices/settings/settingsSlice";
 import { showToast } from "../../slices/toast/toastSlice";
 import { savePost } from "../../helpers/LemmyHelpers";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
+import { useReportPost } from "../post/useReportPost";
 
-interface UseFeedItem {
+export interface UseFeedItem {
   onVotePress: (value: ILemmyVote, haptic?: boolean) => Promise<void>;
   onPress: () => void;
   doSave: () => Promise<void>;
-
   setPostRead: () => void;
-
+  doReport: () => Promise<void>;
   linkInfo: LinkInfo;
 }
 
@@ -184,15 +184,16 @@ const useFeedItem = (
     }
   }, [post.post.id]);
 
+  const doReport = useCallback(async () => {
+    useReportPost({ postId: post.post.id, dispatch }).then();
+  }, [post.post.id]);
+
   return {
     onVotePress,
-
     doSave,
-
     onPress,
-
     setPostRead,
-
+    doReport,
     linkInfo,
   };
 };
