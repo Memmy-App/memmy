@@ -38,7 +38,7 @@ function TraverseScreen() {
   // If there are favorites then indexing should start at 4, otherwise 3
   const startingIndex = hasFavorites ? 3 : 2;
   // If there are favorites then we'll add it as a numeric index
-  const headerNumericIndexes: number[] = hasFavorites ? [1] : [];
+  const headerNumericIndexes: number[] = [];
   let lastIndexAlpha: string;
   const indexedTraverseItems: IndexedTraverseItem[] =
     traverse.subscriptions.reduce((accumulator, subscription) => {
@@ -112,7 +112,7 @@ function TraverseScreen() {
           <Text textAlign="center">{t("Favorites")}</Text>
           {traverse.subscriptions
             .filter((c) => isFavorite(c))
-            .map((c) => item(c))}
+            .map((c) => item({ isIndex: false, subscription: c }))}
         </View>
       )}
       {/* Index 2 OR 3 */}
