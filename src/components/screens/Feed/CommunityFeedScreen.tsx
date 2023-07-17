@@ -17,6 +17,7 @@ import CustomButton from "../../common/Buttons/CustomButton";
 import FeedView from "./components/FeedView";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";
 import NotFoundView from "../../common/Loading/NotFoundView";
+import { shortenNumber } from "../../../helpers/NumberHelper";
 
 function FeedsCommunityScreen({
   route,
@@ -88,7 +89,9 @@ function FeedsCommunityScreen({
                   size={20}
                 />
                 <Text color={theme.colors.app.textSecondary}>
-                  {communityFeed.feed.community.counts.subscribers}
+                  {shortenNumber(
+                    communityFeed.feed.community.counts.subscribers
+                  )}
                 </Text>
               </HStack>
               <HStack space={1}>
