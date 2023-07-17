@@ -262,6 +262,7 @@ function ImageViewer({
         imageHeight.value = 0;
         imageWidth.value = 0;
 
+        // Close the modal
         setExpanded(false);
       }, 200);
     }
@@ -356,7 +357,7 @@ function ImageViewer({
 
     // Hide accessories
     if (zoomScale.value === 1) {
-      if (lastTap.value + 120 < Date.now()) {
+      if (lastTap.value + 200 < Date.now()) {
         toggleAccessories(!(accessoriesOpacity.value === 1));
       }
     } else {
