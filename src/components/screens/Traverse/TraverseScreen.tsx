@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { ScrollView, Text, useTheme } from "native-base";
 import { CommunityView } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";
@@ -16,8 +16,7 @@ import { getCommunityFullName } from "../../../helpers/LemmyHelpers";
 
 // Used to create an alpha-indexed list of subscriptions
 interface IndexedTraverseItem {
-  isIndex: boolean; // is this item an alpha index?
-  index?: string; // if so, what's the index?
+  index?: string; // if this is an alpha-index, what's the index?
   subscription?: CommunityView; // if not, what's the subscription?
 }
 
@@ -35,7 +34,7 @@ function TraverseScreen() {
     ];
   const hasFavorites = favorites && Object.keys(favorites).length > 0;
 
-  // If there are favorites then indexing should start at 4, otherwise 3
+  // If there are favorites then indexing should start at 3, otherwise 2
   const startingIndex = hasFavorites ? 3 : 2;
   // If there are favorites then we'll add it as a numeric index
   const headerNumericIndexes: number[] = [];
@@ -49,12 +48,12 @@ function TraverseScreen() {
         // track the current alpha index
         lastIndexAlpha = firstLetter;
         // add the new alpha-index
-        accumulator.push({ isIndex: true, index: firstLetter });
+        accumulator.push({ index: firstLetter });
         // keep track of the numeric index for the ScrollView sticky headers
         headerNumericIndexes.push(accumulator.length - 1 + startingIndex);
       }
       // add the subscription
-      accumulator.push({ isIndex: false, index: lastIndexAlpha, subscription });
+      accumulator.push({ subscription });
       return accumulator;
     }, []);
 
@@ -69,11 +68,18 @@ function TraverseScreen() {
   };
 
   const item = (traverseItem: IndexedTraverseItem) => {
-    const { isIndex, subscription } = traverseItem;
-    if (isIndex)
+    const { index, subscription } = traverseItem;
+    if (index)
       return (
-        <View style={{backgroundColor: theme.colors.app.bg, paddingTop: 10, paddingStart: 18, paddingBottom: 10}}>
-          <Text fontSize="xl" fontWeight="semibold" key={traverseItem.index}>{traverseItem.index}</Text>
+        <View backgroundColor={theme.colors.app.bg}>
+          <Text
+            style={styles.alphaIndexHeaderText}
+            fontSize="xl"
+            fontWeight="semibold"
+            key={traverseItem.index}
+          >
+            {traverseItem.index}
+          </Text>
         </View>
       );
     if (term && !subscription?.community.name.includes(term)) return null;
@@ -112,10 +118,10 @@ function TraverseScreen() {
           <Text textAlign="center">{t("Favorites")}</Text>
           {traverse.subscriptions
             .filter((c) => isFavorite(c))
-            .map((c) => item({ isIndex: false, subscription: c }))}
+            .map((c) => item({ subscription: c }))}
         </View>
       )}
-      {/* Index 2 OR 3 */}
+      {/* Index 1 OR 2 */}
       <Text textAlign="center">{t("Subscriptions")}</Text>
       {traverse.subscriptions.length === 0 ? (
         <Text
@@ -127,11 +133,19 @@ function TraverseScreen() {
           {t("traverse.noSubscriptions")}
         </Text>
       ) : (
-        /* Index 3+ OR 4+ */
+        /* Index 2+ OR 3+ if there are favorites */
         indexedTraverseItems.map((c) => item(c))
       )}
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  alphaIndexHeaderText: {
+    paddingBottom: 10,
+    paddingTop: 10,
+    paddingStart: 18,
+  },
+});
 
 export default TraverseScreen;
