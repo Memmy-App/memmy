@@ -75,6 +75,11 @@ function FeedStackScreen() {
         />
         <FeedStack.Screen name="Post" component={PostScreen} />
         <FeedStack.Screen name="Community" component={CommunityFeedScreen} />
+        <FeedStack.Screen
+          name="CommunityAbout"
+          component={CommunityAboutScreen}
+          options={{ title: t("About") }}
+        />
         <FeedStack.Screen name="Profile" component={UserProfileScreen} />
         <FeedStack.Screen
           name="UserComments"
@@ -138,11 +143,6 @@ function FeedStackScreen() {
           component={NewPostBodyScreen}
           options={{ title: t("New Post") }}
         />
-        <FeedStack.Screen
-          name="CommunityAbout"
-          component={CommunityAboutScreen}
-          options={{ title: t("About") }}
-        />
       </FeedStack.Group>
     </FeedStack.Navigator>
   );
@@ -173,6 +173,11 @@ function InboxStackScreen() {
         <InboxStack.Screen name="Post" component={PostScreen} />
         <InboxStack.Screen name="Community" component={CommunityFeedScreen} />
         <InboxStack.Screen name="Profile" component={UserProfileScreen} />
+        <InboxStack.Screen
+          name="CommunityAbout"
+          component={CommunityAboutScreen}
+          options={{ title: t("About") }}
+        />
         <InboxStack.Screen
           name="UserComments"
           component={UserCommentsScreen}
@@ -220,11 +225,6 @@ function InboxStackScreen() {
           name="NewPostBody"
           component={NewPostBodyScreen}
           options={{ title: t("New Post") }}
-        />
-        <InboxStack.Screen
-          name="CommunityAbout"
-          component={CommunityAboutScreen}
-          options={{ title: t("About") }}
         />
       </InboxStack.Group>
     </InboxStack.Navigator>
@@ -362,6 +362,11 @@ function ProfileStackScreen() {
         />
         <ProfileStack.Screen name="Post" component={PostScreen} />
         <ProfileStack.Screen name="Community" component={CommunityFeedScreen} />
+        <ProfileStack.Screen
+          name="CommunityAbout"
+          component={CommunityAboutScreen}
+          options={{ title: t("About") }}
+        />
       </ProfileStack.Group>
 
       <ProfileStack.Group
@@ -389,11 +394,6 @@ function ProfileStackScreen() {
           name="NewPostBody"
           component={NewPostBodyScreen}
           options={{ title: t("New Post") }}
-        />
-        <ProfileStack.Screen
-          name="CommunityAbout"
-          component={CommunityAboutScreen}
-          options={{ title: t("About") }}
         />
       </ProfileStack.Group>
     </ProfileStack.Navigator>
@@ -432,6 +432,11 @@ function SearchStackScreen() {
         <SearchStack.Screen name="Post" component={PostScreen} />
         <SearchStack.Screen name="Community" component={CommunityFeedScreen} />
         <SearchStack.Screen name="Profile" component={UserProfileScreen} />
+        <SearchStack.Screen
+          name="CommunityAbout"
+          component={CommunityAboutScreen}
+          options={{ title: t("About") }}
+        />
         <SearchStack.Screen
           name="UserComments"
           component={UserCommentsScreen}
@@ -480,11 +485,6 @@ function SearchStackScreen() {
           component={NewPostBodyScreen}
           options={{ title: t("New Post") }}
         />
-        <SearchStack.Screen
-          name="CommunityAbout"
-          component={CommunityAboutScreen}
-          options={{ title: t("About") }}
-        />
       </SearchStack.Group>
     </SearchStack.Navigator>
   );
@@ -514,6 +514,11 @@ function TraverseStackScreen() {
         <TraverseStack.Screen
           name="Community"
           component={CommunityFeedScreen}
+        />
+        <TraverseStack.Screen
+          name="CommunityAbout"
+          component={CommunityAboutScreen}
+          options={{ title: t("About") }}
         />
         <TraverseStack.Screen
           name="Profile"
@@ -567,11 +572,6 @@ function TraverseStackScreen() {
           name="NewPostBody"
           component={NewPostBodyScreen}
           options={{ title: t("New Post") }}
-        />
-        <TraverseStack.Screen
-          name="CommunityAbout"
-          component={CommunityAboutScreen}
-          options={{ title: t("About") }}
         />
       </TraverseStack.Group>
     </TraverseStack.Navigator>
