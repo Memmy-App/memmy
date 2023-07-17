@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { ScrollView, Text, useTheme } from "native-base";
+import { StyleSheet } from "react-native";
+import { View, ScrollView, Text, useTheme } from "native-base";
 import { CommunityView } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";
 import useTraverse from "../../../hooks/traverse/useTraverse";
