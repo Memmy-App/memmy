@@ -6,7 +6,7 @@ interface IProps {
   item: any;
 }
 
-function moderatorList({ item }: IProps) {
+function ModeratorList({ item }: IProps) {
   return (
     <Text marginTop={4}>
       - <AvatarUsername creator={item} isMod />
@@ -14,4 +14,4 @@ function moderatorList({ item }: IProps) {
   );
 }
 
-export default React.memo(moderatorList);
+export default React.memo(ModeratorList);
