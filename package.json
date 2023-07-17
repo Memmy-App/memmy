@@ -35,7 +35,7 @@
     "@react-native-community/slider": "^4.4.2",
     "@react-native/eslint-config": "^0.72.2",
     "@react-native/metro-config": "^0.72.9",
-    "@react-navigation/bottom-tabs": "^6.5.7",
+    "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/drawer": "^6.6.3",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
