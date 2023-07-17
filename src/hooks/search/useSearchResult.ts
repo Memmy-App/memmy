@@ -15,7 +15,11 @@ interface UseSearch {
 const useSearchResult = (query: string, type: SearchType): UseSearch => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
-  const [result, setResult] = useState<ILemmySearchResult>(null);
+  const [result, setResult] = useState<ILemmySearchResult>({
+    posts: [],
+    users: [],
+    communities: [],
+  });
   const [posts, setPosts] = useState<PostView[]>([]);
 
   useEffect(() => {

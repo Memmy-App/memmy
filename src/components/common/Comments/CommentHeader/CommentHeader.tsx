@@ -2,11 +2,11 @@ import React from "react";
 import { HStack, Text, useTheme } from "native-base";
 import { IconChevronDown, IconDots } from "tabler-icons-react-native";
 import { CommentAggregates, Person } from "lemmy-js-client";
-import AvatarUsername from "../AvatarUsername";
-import SmallVoteIcons from "../Vote/SmallVoteIcons";
-import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
-import IconButtonWithText from "../IconButtonWithText";
-import { timeFromNowShort } from "../../../helpers/TimeHelper";
+import AvatarUsername from "../../AvatarUsername";
+import SmallVoteIcons from "../../Vote/SmallVoteIcons";
+import { ILemmyVote } from "../../../../types/lemmy/ILemmyVote";
+import IconButtonWithText from "../../IconButtonWithText";
+import { timeFromNowShort } from "../../../../helpers/TimeHelper";
 
 interface IProps {
   creator: Person;

@@ -1,4 +1,4 @@
-import React, { SetStateAction, useCallback } from "react";
+import React, { SetStateAction, useCallback, useMemo } from "react";
 import Clipboard from "@react-native-community/clipboard";
 import { CommentReplyView } from "lemmy-js-client";
 import { Alert } from "react-native";
@@ -56,16 +56,19 @@ const useComment = ({
         currentAccount.instance.toLowerCase()
       ) && !comment.comment.comment.deleted;
 
-  const longPressOptions: Record<string, string> = {
-    "Copy Text": t("Copy Text"),
-    "Copy Link": t("Copy Link"),
-    Reply: t("Reply"),
-    "Report Comment": t("comment.report"),
-    ...(isOwnComment && {
-      "Edit Comment": t("comment.edit"),
-      "Delete Comment": t("comment.delete"),
+  const longPressOptions: Record<string, string> = useMemo(
+    () => ({
+      "Copy Text": t("Copy Text"),
+      "Copy Link": t("Copy Link"),
+      Reply: t("Reply"),
+      "Report Comment": t("comment.report"),
+      ...(isOwnComment && {
+        "Edit Comment": t("comment.edit"),
+        "Delete Comment": t("comment.delete"),
+      }),
     }),
-  };
+    [comment.comment.comment.id]
+  );
 
   const onCommentPress = useCallback(() => {
     if (onPressOverride) {

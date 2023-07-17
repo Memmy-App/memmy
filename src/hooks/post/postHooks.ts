@@ -267,7 +267,7 @@ const usePost = (commentId: string | null): UsePost => {
         handleLemmyError(e.toString());
       }
     },
-    [post.post.id]
+    [post.post.id, currentPost.my_vote]
   );
 
   const doSave = useCallback(async () => {
