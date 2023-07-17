@@ -185,10 +185,6 @@ function ImageViewer({
         setPostRead();
       }
 
-      // Make sure that the initial value for last zoom is reset
-      lastScale.value = 1;
-      zoomScale.value = 1;
-
       // If expanded is false, we are opening up. So we want to fade in the background color
       // First we set the position information
       nonViewerRef.current.measure((x, y, width, height, px, py) => {
@@ -259,6 +255,13 @@ function ImageViewer({
 
       // Animation is finished after 200 ms, so we will set to hidden after that.
       setTimeout(() => {
+        // Reset all the values
+        positionX.value = 0;
+        positionY.value = 0;
+        zoomScale.value = 1;
+        imageHeight.value = 0;
+        imageWidth.value = 0;
+
         setExpanded(false);
       }, 200);
     }
