@@ -116,12 +116,12 @@ function ImageViewer({
 
   const lastTap = useSharedValue(0);
 
-  const xOffset = useMemo(
+  const xCenter = useMemo(
     () => SCREEN_WIDTH / 2 - dimensions.dimensions.viewerDimensions.width / 2,
     [dimensions.dimensions.viewerDimensions]
   );
 
-  const yOffset = useMemo(
+  const yCenter = useMemo(
     () => SCREEN_HEIGHT / 2 - dimensions.dimensions.viewerDimensions.height / 2,
     [dimensions.dimensions.viewerDimensions]
   );
@@ -271,8 +271,8 @@ function ImageViewer({
   const setToCenter = () => {
     "worklet";
 
-    positionX.value = withTiming(xOffset, { duration: 200 });
-    positionY.value = withTiming(yOffset, { duration: 200 });
+    positionX.value = withTiming(xCenter, { duration: 200 });
+    positionY.value = withTiming(yCenter, { duration: 200 });
     backgroundColor.value = withTiming("rgba(0, 0, 0, 1)", {
       duration: 300,
     });
@@ -331,8 +331,8 @@ function ImageViewer({
       toggleAccessories(false);
 
       // Get the target
-      const targetX = -(event.absoluteX - xOffset) + SCREEN_WIDTH / 2;
-      const targetY = -(event.absoluteY - yOffset) + SCREEN_HEIGHT / 2;
+      const targetX = -(event.absoluteX - xCenter) + SCREEN_WIDTH / 2;
+      const targetY = -(event.absoluteY - yCenter) + SCREEN_HEIGHT / 2;
 
       // Zoom to that target
       positionX.value = withTiming(targetX);
@@ -413,8 +413,15 @@ function ImageViewer({
       toggleAccessories(false);
     } else {
       // Now we want to add some momentum to the end of the swipe
-      positionX.value = withDecay({ velocity: event.velocityX / 4 });
-      positionY.value = withDecay({ velocity: event.velocityY / 4 });
+      // Take the velocity of the swipe and divide that by 1.5. Then, we normalize based off of the zoom scale by
+      // dividing by whatever that number is
+
+      positionX.value = withDecay({
+        velocity: event.velocityX / 1.5 / zoomScale.value,
+      });
+      positionY.value = withDecay({
+        velocity: event.velocityY / 1.5 / zoomScale.value,
+      });
     }
   };
 
