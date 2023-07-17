@@ -13,10 +13,7 @@ import {
   IconSettings,
 } from "tabler-icons-react-native";
 import { useTranslation } from "react-i18next";
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-} from "@react-navigation/drawer";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Dimensions } from "react-native";
 import CommunityAboutScreen from "./src/components/screens/Feed/CommunityAboutScreen";
 import CommunityFeedScreen from "./src/components/screens/Feed/CommunityFeedScreen";
@@ -65,7 +62,7 @@ import AboutScreen from "./src/components/screens/Settings/About/AboutScreen";
 import InboxScreen from "./src/components/screens/Inbox/InboxScreen";
 import IconSelectionScreen from "./src/components/screens/Settings/Appearance/IconSelectionScreen";
 
-function CustomDrawerContent(props) {
+function CustomDrawerContent() {
   const theme = useTheme();
   return (
     <>
@@ -87,7 +84,7 @@ function FeedDrawerContainerScreen() {
 
   return (
     <Drawer.Navigator
-      drawerContent={(props) => <CustomDrawerContent {...props} />}
+      drawerContent={() => <CustomDrawerContent />}
       screenOptions={{
         drawerStyle: {
           width: Dimensions.get("window").width / 1.1,
