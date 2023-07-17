@@ -61,6 +61,8 @@ interface MeasureResult {
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } =
   RNDimensions.get("screen");
 
+const MAX_SCALE = 3;
+
 function ImageViewer({
   source,
   postId,
@@ -309,10 +311,19 @@ function ImageViewer({
       runOnJS(onGenericHapticFeedback)();
       toggleAccessories(true);
       setToCenter();
+    } else if (zoomScale.value > MAX_SCALE) {
+      // We shouldn't allow zooming past the max scale
+      zoomScale.value = withTiming(MAX_SCALE, { duration: 300 });
+      runOnJS(onGenericHapticFeedback)();
     }
 
     // We need this saved value for later
-    lastScale.value = zoomScale.value >= 1 ? zoomScale.value : 1;
+    lastScale.value =
+      zoomScale.value >= 1
+        ? zoomScale.value > MAX_SCALE
+          ? MAX_SCALE
+          : zoomScale.value
+        : 1;
   };
 
   // Double tap result
@@ -330,13 +341,38 @@ function ImageViewer({
       // Otherwise we should hide the accessories
       toggleAccessories(false);
 
-      // Get the target
-      const targetX = -(event.absoluteX - xCenter) + SCREEN_WIDTH / 2;
-      const targetY = -(event.absoluteY - yCenter) + SCREEN_HEIGHT / 2;
+      const realHeight = dimensions.dimensions.viewerDimensions.height;
+      const realWidth = dimensions.dimensions.viewerDimensions.width;
 
-      // Zoom to that target
-      positionX.value = withTiming(targetX);
-      positionY.value = withTiming(targetY);
+      const newHeight = realHeight * 2;
+      const newWidth = realWidth * 2;
+
+      const maxTranslateX = (newWidth - SCREEN_WIDTH) / 2;
+      const minTranslateX = -(newWidth - SCREEN_WIDTH) / 2;
+
+      const currentTransX = (realWidth / 2 - event.x) * 2;
+
+      let transX;
+
+      if (currentTransX > maxTranslateX) transX = maxTranslateX;
+      else if (currentTransX < minTranslateX) transX = minTranslateX;
+      else transX = currentTransX;
+
+      const maxTranslateY =
+        newHeight <= SCREEN_HEIGHT ? 0 : newHeight - SCREEN_HEIGHT;
+      const minTranslateY =
+        newHeight <= SCREEN_HEIGHT ? 0 : -(newHeight - SCREEN_HEIGHT);
+
+      const currentTransY = (realHeight / 2 - event.y) * 2;
+
+      let transY;
+
+      if (currentTransY > maxTranslateY) transY = maxTranslateY;
+      else if (currentTransY < minTranslateY) transY = minTranslateY;
+      else transY = currentTransY;
+
+      positionX.value = withTiming(transX);
+      positionY.value = withTiming(transY);
     }
 
     // Update the scale based off of the current scale
@@ -417,17 +453,17 @@ function ImageViewer({
       // dividing by whatever that number is
 
       positionX.value = withDecay({
-        velocity: event.velocityX / 1.5 / zoomScale.value,
+        velocity: event.velocityX / 1.2,
       });
       positionY.value = withDecay({
-        velocity: event.velocityY / 1.5 / zoomScale.value,
+        velocity: event.velocityY / 1.2,
       });
     }
   };
 
   // This handles all of our pan gestures
   const panGesture = Gesture.Pan()
-    .maxPointers(1)
+    .maxPointers(2)
     .onBegin(onPanBegin)
     .onUpdate(onPanUpdate)
     .onEnd(onPanEnd);
@@ -445,7 +481,8 @@ function ImageViewer({
     .maxDelay(100)
     .onEnd(onDoubleTap);
 
-  const composed = Gesture.Simultaneous(panGesture, pinchGesture, tapGesture);
+  const pinchAndPanGestures = Gesture.Simultaneous(panGesture, pinchGesture);
+  const allGestures = Gesture.Exclusive(pinchAndPanGestures, tapGesture);
 
   // This handles our background color styles
   const backgroundStyle = useAnimatedStyle(() => ({
@@ -589,12 +626,12 @@ function ImageViewer({
           <ExitButton onPress={onRequestOpenOrClose} />
         </Animated.View>
         <View style={{ flex: 1, zIndex: -1 }}>
-          <GestureDetector gesture={composed}>
+          <GestureDetector gesture={allGestures}>
             <Animated.View style={[styles.imageModal, backgroundStyle]}>
-              <Animated.View style={[scaleStyle]}>
+              <Animated.View style={[positionStyle]}>
                 <AnimatedFastImage
                   source={source}
-                  style={[positionStyle, dimensionsStyle]}
+                  style={[scaleStyle, dimensionsStyle]}
                 />
               </Animated.View>
             </Animated.View>
