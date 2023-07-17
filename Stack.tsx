@@ -7,7 +7,7 @@ import { useTheme } from "native-base";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { IconPlanet } from "tabler-icons-react-native";
-import { CustomTabBar } from "./CustomTabBar";
+import { CustomTabBar } from "./src/components/common/Navigation/CustomTabBar";
 import LoadingView from "./src/components/common/Loading/LoadingView";
 import SFIcon from "./src/components/common/icons/SFIcon";
 import EditCommentScreen from "./src/components/screens/Comments/EditCommentScreen";

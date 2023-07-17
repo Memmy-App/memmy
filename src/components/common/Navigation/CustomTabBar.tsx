@@ -3,8 +3,8 @@ import { Text, VStack, View, useTheme } from "native-base";
 
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { AccountsContextMenu } from "./src/components/common/ContextMenu/AccountsContextMenu";
-import { onGenericHapticFeedback } from "./src/helpers/HapticFeedbackHelpers";
+import { AccountsContextMenu } from "../ContextMenu/AccountsContextMenu";
+import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 
 function IconWithText({
   icon,
