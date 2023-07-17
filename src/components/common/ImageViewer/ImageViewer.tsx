@@ -434,6 +434,8 @@ function ImageViewer({
     .maxDelay(100)
     .onEnd(onDoubleTap);
 
+  const composed = Gesture.Simultaneous(panGesture, pinchGesture, tapGesture);
+
   // This handles our background color styles
   const backgroundStyle = useAnimatedStyle(() => ({
     backgroundColor: backgroundColor.value,
@@ -576,21 +578,15 @@ function ImageViewer({
           <ExitButton onPress={onRequestOpenOrClose} />
         </Animated.View>
         <View style={{ flex: 1, zIndex: -1 }}>
-          <GestureDetector gesture={tapGesture}>
-            <GestureDetector gesture={panGesture}>
-              <GestureDetector gesture={pinchGesture}>
-                <Animated.View style={[styles.imageModal, backgroundStyle]}>
-                  <Animated.View style={[scaleStyle]}>
-                    <Animated.View style={[positionStyle]}>
-                      <AnimatedFastImage
-                        source={source}
-                        style={[dimensionsStyle]}
-                      />
-                    </Animated.View>
-                  </Animated.View>
-                </Animated.View>
-              </GestureDetector>
-            </GestureDetector>
+          <GestureDetector gesture={composed}>
+            <Animated.View style={[styles.imageModal, backgroundStyle]}>
+              <Animated.View style={[scaleStyle]}>
+                <AnimatedFastImage
+                  source={source}
+                  style={[positionStyle, dimensionsStyle]}
+                />
+              </Animated.View>
+            </Animated.View>
           </GestureDetector>
         </View>
         <Animated.View style={[accessoriesStyle]}>
