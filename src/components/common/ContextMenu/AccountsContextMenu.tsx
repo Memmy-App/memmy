@@ -30,7 +30,7 @@ export function AccountsContextMenu({
           navigation.navigate("FeedStack", { screen: "ViewAccounts" });
         } else {
           const account = accounts.find(
-            (a) => a.username === nativeEvent.actionKey
+            (a) => a.username === nativeEvent.actionTitle
           );
           dispatch(setCurrentAccount(account));
           navigation.navigate("FeedStack", { screen: "FeedScreen" });
@@ -49,6 +49,7 @@ export function AccountsContextMenu({
                 type: "action",
                 actionKey: "manage_accounts",
                 actionTitle: t("Manage Accounts"),
+
                 icon: {
                   type: "IMAGE_SYSTEM",
                   imageValue: {
@@ -59,8 +60,9 @@ export function AccountsContextMenu({
             ],
           },
           ...accounts.map((account) => ({
-            actionKey: account.username,
+            actionKey: account.username + account.instance,
             actionTitle: account.username,
+            actionSubtitle: account.instance,
           })),
         ],
       }}
