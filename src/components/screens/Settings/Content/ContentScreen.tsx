@@ -34,7 +34,8 @@ function ContentScreen({
       <TableView style={styles.table}>
         <CSection
           header={t("Posts")}
-          footer={t("settings.content.markRead.footer")}>
+          footer={t("settings.content.markRead.footer")}
+        >
           {/* <CCell */}
           {/*  title="Swipe Gestures" */}
           {/*  backgroundColor={theme.colors.app.fg} */}
