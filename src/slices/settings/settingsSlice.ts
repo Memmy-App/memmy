@@ -40,6 +40,7 @@ export interface SettingsState {
   showCommentActions: boolean;
   useDefaultBrowser: boolean;
   tapToCollapse: boolean;
+  swipeToVote: boolean;
 }
 
 const initialState: SettingsState = {
@@ -76,6 +77,7 @@ const initialState: SettingsState = {
   showCommentActions: true,
   useDefaultBrowser: false,
   tapToCollapse: true,
+  swipeToVote: true,
 };
 
 const settingsSlice = createSlice({
