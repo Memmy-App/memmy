@@ -33,18 +33,6 @@ function ContentScreen({
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
         <CSection header={t("Posts")}>
-          {/* <CCell */}
-          {/*  title="Swipe Gestures" */}
-          {/*  backgroundColor={theme.colors.app.fg} */}
-          {/*  titleTextColor={theme.colors.app.textPrimary} */}
-          {/*  rightDetailColor={theme.colors.app.textSecondary} */}
-          {/*  cellAccessoryView={ */}
-          {/*    <Switch */}
-          {/*      value={Settings.swipeGestures} */}
-          {/*      onValueChange={(v) => onChange("swipeGestures", v)} */}
-          {/*    /> */}
-          {/*  } */}
-          {/* /> */}
           <FeedSortContextMenu
             currentSelection={settings.defaultSort}
             onPress={({ nativeEvent }) => {

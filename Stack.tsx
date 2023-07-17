@@ -57,6 +57,7 @@ import {
 import { selectSite } from "./src/slices/site/siteSlice";
 import { useAppSelector } from "./store";
 import { truncateName } from "./src/helpers/TextHelper";
+import ScreenGestureHandler from "./src/components/common/Navigation/ScreenGestureHandler";
 
 const FeedStack = createNativeStackNavigator();
 
@@ -586,75 +587,77 @@ function Tabs() {
   const currentAccount = useAppSelector(selectCurrentAccount);
 
   return (
-    <Tab.Navigator
-      tabBar={(props) => <CustomTabBar {...props} />}
-      screenOptions={{
-        tabBarLabel: t("Feed"),
-        freezeOnBlur: false,
-      }}
-    >
-      <Tab.Screen
-        name="FeedStack"
-        component={FeedStackScreen}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <SFIcon icon="doc.text.image" color={color} />
-          ),
+    <ScreenGestureHandler>
+      <Tab.Navigator
+        tabBar={(props) => <CustomTabBar {...props} />}
+        screenOptions={{
           tabBarLabel: t("Feed"),
           freezeOnBlur: false,
         }}
-      />
-      <Tab.Screen
-        name="TraverseStack"
-        component={TraverseStackScreen}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => <IconPlanet color={color} />,
-          tabBarLabel: t("Traverse"),
-          freezeOnBlur: false,
-        }}
-      />
-      <Tab.Screen
-        name="ProfileStack"
-        component={ProfileStackScreen}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <SFIcon icon="person.circle" color={color} />
-          ),
-          tabBarLabel: truncateName(currentAccount.username, 10),
-          freezeOnBlur: false,
-        }}
-      />
-      <Tab.Screen
-        name="SearchStack"
-        component={SearchStackScreen}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <SFIcon icon="magnifyingglass" color={color} />
-          ),
-          tabBarLabel: t("Search"),
-          freezeOnBlur: false,
-        }}
-      />
-      <Tab.Screen
-        name="InboxStack"
-        component={InboxStackScreen}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => <SFIcon icon="bell" color={color} />,
-          tabBarLabel: t("Inbox"),
-          tabBarBadge:
-            unread.replies + unread.mentions + unread.privateMessage > 0
-              ? // ? unread.replies + unread.mentions + unread.privateMessage
-                unread.replies
-              : null,
-          freezeOnBlur: false,
-        }}
-      />
-    </Tab.Navigator>
+      >
+        <Tab.Screen
+          name="FeedStack"
+          component={FeedStackScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color }) => (
+              <SFIcon icon="doc.text.image" color={color} />
+            ),
+            tabBarLabel: t("Feed"),
+            freezeOnBlur: false,
+          }}
+        />
+        <Tab.Screen
+          name="TraverseStack"
+          component={TraverseStackScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color }) => <IconPlanet color={color} />,
+            tabBarLabel: t("Traverse"),
+            freezeOnBlur: false,
+          }}
+        />
+        <Tab.Screen
+          name="ProfileStack"
+          component={ProfileStackScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color }) => (
+              <SFIcon icon="person.circle" color={color} />
+            ),
+            tabBarLabel: truncateName(currentAccount.username, 10),
+            freezeOnBlur: false,
+          }}
+        />
+        <Tab.Screen
+          name="SearchStack"
+          component={SearchStackScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color }) => (
+              <SFIcon icon="magnifyingglass" color={color} />
+            ),
+            tabBarLabel: t("Search"),
+            freezeOnBlur: false,
+          }}
+        />
+        <Tab.Screen
+          name="InboxStack"
+          component={InboxStackScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color }) => <SFIcon icon="bell" color={color} />,
+            tabBarLabel: t("Inbox"),
+            tabBarBadge:
+              unread.replies + unread.mentions + unread.privateMessage > 0
+                ? // ? unread.replies + unread.mentions + unread.privateMessage
+                  unread.replies
+                : null,
+            freezeOnBlur: false,
+          }}
+        />
+      </Tab.Navigator>
+    </ScreenGestureHandler>
   );
 }
 
