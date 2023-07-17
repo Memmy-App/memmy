@@ -30,7 +30,7 @@ export function AccountsContextMenu({
           navigation.navigate("FeedStack", { screen: "ViewAccounts" });
         } else {
           const account = accounts.find(
-            (a) => a.username === nativeEvent.actionTitle
+            (a) => a.username + a.instance === nativeEvent.actionKey
           );
           dispatch(setCurrentAccount(account));
           navigation.navigate("FeedStack", { screen: "FeedScreen" });
