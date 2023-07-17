@@ -18,6 +18,8 @@ import {
 } from "react-native-gesture-handler";
 import { Handlers, SwipeableRowGestureContext } from "./types";
 import { SwipeableRowProvider } from "./SwipeableRowProvider";
+import { useAppSelector } from "../../../../store";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
 
 interface Props {
   /**
@@ -45,6 +47,8 @@ interface Props {
 }
 
 export function SwipeableRow({ leftOption, rightOption, children }: Props) {
+  const { swipeToVote } = useAppSelector(selectSettings);
+
   const [subscribers, setSubscribers] = useState<Handlers[]>([]);
 
   const swipeRightEnabled = Boolean(leftOption);
@@ -110,6 +114,8 @@ export function SwipeableRow({ leftOption, rightOption, children }: Props) {
   const rowStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: translateX.value }],
   }));
+
+  if (!swipeToVote) return children;
 
   return (
     <View style={[styles.swipeableRow]}>
