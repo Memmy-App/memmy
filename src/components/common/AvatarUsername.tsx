@@ -21,10 +21,16 @@ function isUserDev(userId: number): boolean {
 function getUserPillType({
   user,
   opId,
+  isMod,
 }: {
   user: Person;
   opId?: number;
+  isMod?: boolean;
 }): NameType | undefined {
+  if (isMod) {
+    return "mod";
+  }
+
   if (isUserDev(user.id)) {
     return "dev";
   }
@@ -44,6 +50,7 @@ interface IProps {
   creator: Person;
   showAvatar?: boolean;
   opId?: number;
+  isMod?: boolean;
   children?: React.ReactNode;
   link?: boolean;
 }
@@ -52,12 +59,13 @@ function AvatarUsername({
   showAvatar = true,
   creator,
   opId,
+  isMod = false,
   children,
   link = true,
 }: IProps) {
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
   const theme = useTheme();
-  const type = getUserPillType({ user: creator, opId });
+  const type = getUserPillType({ user: creator, opId, isMod });
 
   const NameColorMap: Record<
     NameType,
@@ -125,7 +133,9 @@ function AvatarUsername({
           )}
         </HStack>
         {showInstanceForUsernames && (
-          <Text fontSize="xs">{getBaseUrl(creator.actor_id)}</Text>
+          <Text fontSize="xs" color={theme.colors.app.textPrimary}>
+            {getBaseUrl(creator.actor_id)}
+          </Text>
         )}
       </VStack>
       {children}
