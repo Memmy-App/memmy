@@ -71,7 +71,7 @@ function CustomDrawerContent() {
           backgroundColor: theme.colors.app.bg,
         }}
       />
-      {TraverseScreen()}
+      <TraverseScreen />
     </>
   );
 }

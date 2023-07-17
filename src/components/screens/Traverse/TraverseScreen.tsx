@@ -148,4 +148,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TraverseScreen;
+export default React.memo(TraverseScreen);
