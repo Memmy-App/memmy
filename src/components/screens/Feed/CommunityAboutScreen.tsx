@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import { ScrollView, Text, useTheme, VStack } from "native-base";
+import { HStack, ScrollView, Text, useTheme, VStack } from "native-base";
 import FastImage from "react-native-fast-image";
 import { IconPlanet } from "tabler-icons-react-native";
 import { useTranslation } from "react-i18next";
+import Chip from "../../common/Chip";
 import LoadingView from "../../common/Loading/LoadingView";
 import RenderMarkdown from "../../common/Markdown/RenderMarkdown";
 import useCommunity from "../../../hooks/communities/useCommunity";
@@ -52,6 +53,34 @@ function CommunityAboutScreen({ route }: { route: any }) {
           <Text fontSize="xl" fontWeight="bold">
             Mods:
           </Text>
+          <HStack>
+            <Text>Counts</Text>
+            <Text>{community.community.counts.subscribers} Subscribers</Text>
+            <Chip
+              text="{community.community.counts.subscribers} Subscribers"
+              color="accent"
+            />
+            <Chip
+              text="{community.community.counts.posts} Posts"
+              color="accent"
+            />
+            <Chip
+              text="{community.community.counts.comments} Comments"
+              color="accent"
+            />
+            <Chip
+              text="{community.community.counts.users_active_month} Users per Month"
+              color="accent"
+            />
+            <Chip
+              text="{community.community.counts.users_active_week} Users per Week"
+              color="accent"
+            />
+            <Chip
+              text="{community.community.counts.users_active_month} Users per Day"
+              color="accent"
+            />
+          </HStack>
           <VStack p={2}>
             {[...community.moderators].map((moderator) => (
               <ModeratorList
