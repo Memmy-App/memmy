@@ -418,11 +418,9 @@ function ImageViewer({
       });
     }
 
-    // We move the position based on the pan. We also have to divide this by the zoom scale.
-    positionX.value +=
-      (event.translationX - lastTransitionX.value) / zoomScale.value;
-    positionY.value +=
-      (event.translationY - lastTransitionY.value) / zoomScale.value;
+    // We move the position based on the pan
+    positionX.value += event.translationX - lastTransitionX.value;
+    positionY.value += event.translationY - lastTransitionY.value;
 
     // Save the last translation for use later
     lastTransitionX.value = event.translationX;

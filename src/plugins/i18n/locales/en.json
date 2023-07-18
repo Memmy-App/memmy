@@ -111,7 +111,8 @@
         "header": "MARK READ SETTINGS",
         "onPostOpen": "Mark Read on Post Open",
         "onImageView": "Mark Read on Image View",
-        "onVote": "Mark Read on Vote"
+        "onVote": "Mark Read on Vote",
+        "footer": "Hide Read Posts on Feed will automatically hide read posts anytime the feed is refreshed. If Hide Read Posts on Feed is enabled, Show Hide Read Button will show a floating action button to hide read posts without a feed refresh."
       }
     },
     "appearance": {
@@ -319,6 +320,7 @@
   "Default Comment Sort": "Default Comment Sort",
   "Hide Read Posts on Feed": "Hide Read Posts on Feed",
   "Hide Read Posts in Communities": "Hide Read Posts in Communities",
+  "Show Hide Read Button": "Show Hide Read Button",
   "Show Comment Actions": "Show Comment Actions",
   "NSFW": "NSFW",
   "NSFW Content": "NSFW Content",

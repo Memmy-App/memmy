@@ -3,14 +3,13 @@ import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { IconBookmark, IconShare2 } from "tabler-icons-react-native";
 import { PostView } from "lemmy-js-client";
-import VoteButton from "../../../common/Vote/VoteButton";
 import { useAppDispatch } from "../../../../../store";
 import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
-import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
 import { shareLink } from "../../../../helpers/ShareHelper";
+import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
 import IconButtonWithText from "../../../common/IconButtonWithText";
+import VoteButton from "../../../common/Vote/VoteButton";
 import SFIcon from "../../../common/icons/SFIcon";
 
 interface IProps {
@@ -82,9 +81,9 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
       <IconButtonWithText
         onPressHandler={doSave}
         icon={
-          <IconBookmark
-            size={25}
-            color={post.saved ? colors.app.bookmarkText : colors.app.accent}
+          <SFIcon
+            icon="bookmark"
+            color={post.saved && colors.app.bookmarkText}
           />
         }
         iconBgColor={post.saved ? colors.app.bookmark : "transparent"}
@@ -92,11 +91,11 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
 
       <IconButtonWithText
         onPressHandler={onCommentPress}
-        icon={<SFIcon icon="plus.message" />}
+        icon={<SFIcon icon="bubble.left" />}
       />
 
       <IconButtonWithText
-        icon={<IconShare2 size={25} color={colors.app.accent} />}
+        icon={<SFIcon icon="square.and.arrow.up" />}
         onPressHandler={onSharePress}
       />
     </HStack>

@@ -104,7 +104,8 @@
         "header": "Gelesen Markieren Einstellungen",
         "onPostOpen": "Beim öffnen vom Post",
         "onImageView": "Beim ansehen vom Bild",
-        "onVote": "Beim Abstimmen"
+        "onVote": "Beim Abstimmen",
+        "footer": "Hide Read Posts on Feed will automatically hide read posts anytime the feed is refreshed. If Hide Read Posts on Feed is enabled, Show Hide Read Button will show a floating action button to hide read posts without a feed refresh."
       }
     },
     "appearance": {
@@ -275,6 +276,7 @@
   "Create Account": "Account erstellen",
   "Mark Post Read On": "Post als gelesen markieren...",
   "Hide Read Posts": "Hide Read Posts",
+  "Show Hide Read Button": "Show Hide Read Button",
   "View": "Anzeigen",
   "Content": "Inhalt",
   "Appearance": "Darstellung",

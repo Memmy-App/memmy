@@ -47,7 +47,8 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
 
   // Global state props
   const { dropdownVisible } = useAppSelector(selectFeed);
-  const { compactView, hideReadPostsOnFeed } = useAppSelector(selectSettings);
+  const { compactView, hideReadPostsOnFeed, showHideReadButton } =
+    useAppSelector(selectSettings);
 
   // Refs
   const flashList = useRef<FlashList<any>>();
@@ -218,7 +219,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             }}
           />
         )}
-      {hideReadPostsOnFeed && showFab && (
+      {hideReadPostsOnFeed && showHideReadButton && showFab && (
         <HideReadFAB
           onPress={() => {
             feed.setPosts(removeReadPosts(feed.posts));
