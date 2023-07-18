@@ -71,6 +71,7 @@
     "expo-web-browser": "~12.3.2",
     "flash-list": "^0.0.1-security",
     "i18next": "^23.2.10",
+    "immer": "^10.0.2",
     "lemmy-js-client": "^0.18.0-rc.2",
     "markdown-it-container": "^3.0.0",
     "metro-react-native-babel-preset": "0.76.7",
