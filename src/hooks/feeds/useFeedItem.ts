@@ -20,7 +20,7 @@ import { useReportPost } from "../post/useReportPost";
 import { useBlockUser } from "../user/useBlockUser";
 import { setResponseTo } from "../../slices/comments/newCommentSlice";
 import { shareLink } from "../../helpers/ShareHelper";
-import usePostsStore from "../../stores/postStore";
+import usePostsStore from "../../stores/posts/postsStore";
 
 export interface UseFeedItem {
   onVotePress: (value: ILemmyVote, haptic?: boolean) => Promise<void>;

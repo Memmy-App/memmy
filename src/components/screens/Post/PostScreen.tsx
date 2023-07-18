@@ -3,7 +3,7 @@ import { FlashList } from "@shopify/flash-list";
 import { HStack, useTheme, VStack } from "native-base";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import usePost from "../../../hooks/post/postHooks";
+import usePost from "../../../hooks/post/usePost";
 import LoadingView from "../../common/Loading/LoadingView";
 import CommentItem from "../../common/Comments/CommentItem";
 import CommentSortButton from "./components/CommentSortButton";
@@ -12,6 +12,7 @@ import PostFooter from "./components/PostFooter";
 import PostHeader from "./components/PostHeader";
 import RefreshControl from "../../common/RefreshControl";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
+import { useCurrentPost } from "../../../stores/posts/postsStore";
 
 interface IProps {
   route: any;
@@ -19,9 +20,12 @@ interface IProps {
 }
 
 function PostScreen({ route, navigation }: IProps) {
+  const { postKey } = route.params;
+  const post = useCurrentPost(postKey);
+
   const { t } = useTranslation();
   const theme = useTheme();
-  const post = usePost(
+  const postHook = usePost(
     route.params && route.params.commentId ? route.params.commentId : null
   );
 

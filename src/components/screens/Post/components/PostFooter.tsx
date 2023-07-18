@@ -1,6 +1,6 @@
 import React from "react";
 import { Center, Spinner, Text, useTheme } from "native-base";
-import { UsePost } from "../../../../hooks/post/postHooks";
+import { UsePost } from "../../../../hooks/post/usePost";
 import LoadingErrorFooter from "../../../common/Loading/LoadingErrorFooter";
 import NoResultView from "../../../common/NoResultView";
 
