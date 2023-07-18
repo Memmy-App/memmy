@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { CommentSortType, PostView } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";
+import { useRoute } from "@react-navigation/core";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectPost } from "../../slices/post/postSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
@@ -27,6 +28,7 @@ import { buildComments } from "../../helpers/LemmyCommentsHelper";
 import NestedComment from "../../types/lemmy/NestedComment";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
+import usePostsStore from "../../stores/postStore";
 
 export interface UsePost {
   comments: ILemmyComment[];
@@ -55,19 +57,29 @@ export interface UsePost {
 }
 
 const usePost = (commentId: string | null): UsePost => {
+  const route = useRoute<any>();
+  const { postKey } = route.params;
+
   const { t } = useTranslation();
   // Global State
-  const { post, newComment } = useAppSelector(selectPost);
+  const { newComment } = useAppSelector(selectPost);
   const { commentId: editedCommentId, content: editedContent } =
     useAppSelector(selectEditComment);
   const { defaultCommentSort } = useAppSelector(selectSettings);
+
+  const postsStore = usePostsStore(
+    (state) => state,
+    (prev, next) =>
+      prev.posts[postKey].post.post.id === next.posts[postKey].post.post.id
+  );
+
+  const currentPost = postsStore.posts[postKey].post;
 
   // State
   const [comments, setComments] = useState<ILemmyComment[]>([]);
   const [visibleComments, setVisibleComments] = useState<ILemmyComment[]>([]);
   const [commentsLoading, setCommentsLoading] = useState<boolean>(true);
   const [commentsError, setCommentsError] = useState<boolean>(false);
-  const [currentPost, setCurrentPost] = useState<PostView>(post);
 
   const [collapsed, setCollapsed] = useState<boolean>(false);
 
@@ -195,7 +207,7 @@ const usePost = (commentId: string | null): UsePost => {
         handleLemmyError(e.toString());
       }
     },
-    [post.post.id]
+    [] // TODO FIX THIS
   );
 
   /**
@@ -232,21 +244,21 @@ const usePost = (commentId: string | null): UsePost => {
       onVoteHapticFeedback();
 
       // Update the state
-      setCurrentPost({
-        ...currentPost,
-        my_vote: value,
-        counts: {
-          ...currentPost.counts,
-          upvotes,
-          downvotes,
-          score: upvotes - downvotes,
-        },
-      });
+      // setCurrentPost({
+      //   ...currentPost,
+      //   my_vote: value,
+      //   counts: {
+      //     ...currentPost.counts,
+      //     upvotes,
+      //     downvotes,
+      //     score: upvotes - downvotes,
+      //   },
+      // });
 
       // Put result in store, so we can change it when we go back
       dispatch(
         setUpdateVote({
-          postId: post.post.id,
+          postId: currentPost.post.id,
           vote: value,
         })
       );
@@ -255,36 +267,36 @@ const usePost = (commentId: string | null): UsePost => {
       try {
         await lemmyInstance.likePost({
           auth: lemmyAuthToken,
-          post_id: post.post.id,
+          post_id: currentPost.post.id,
           score: value,
         });
       } catch (e) {
-        setCurrentPost({
-          ...currentPost,
-          my_vote: oldValue,
-        });
+        // setCurrentPost({
+        //   ...currentPost,
+        //   my_vote: oldValue,
+        // });
 
         handleLemmyError(e.toString());
       }
     },
-    [post.post.id, currentPost.my_vote]
+    [] // TODO FIX THIS
   );
 
   const doSave = useCallback(async () => {
     onGenericHapticFeedback();
 
-    setCurrentPost((prev) => ({
-      ...prev,
-      saved: !currentPost.saved,
-    }));
+    // setCurrentPost((prev) => ({
+    //   ...prev,
+    //   saved: !currentPost.saved,
+    // }));
 
     const res = await savePost(currentPost.post.id, !currentPost.saved);
 
     if (!res) {
-      setCurrentPost((prev) => ({
-        ...prev,
-        saved: !currentPost.saved,
-      }));
+      // setCurrentPost((prev) => ({
+      //   ...prev,
+      //   saved: !currentPost.saved,
+      // }));
 
       dispatch(
         showToast({
@@ -294,9 +306,9 @@ const usePost = (commentId: string | null): UsePost => {
         })
       );
     } else {
-      dispatch(setUpdateSaved(post.post.id));
+      dispatch(setUpdateSaved(currentPost.post.id));
     }
-  }, [post.post.id]);
+  }, []); // TODO FIX THIS
 
   return {
     comments,
@@ -307,8 +319,6 @@ const usePost = (commentId: string | null): UsePost => {
     commentsError,
     doLoad,
 
-    currentPost,
-
     sortType,
     setSortType,
 
@@ -317,6 +327,8 @@ const usePost = (commentId: string | null): UsePost => {
 
     collapsed,
     setCollapsed,
+
+    currentPost,
 
     doSave,
 

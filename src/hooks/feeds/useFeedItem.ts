@@ -10,7 +10,6 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { setUpdateSaved } from "../../slices/feed/feedSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { setPost } from "../../slices/post/postSlice";
 import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { getLinkInfo, LinkInfo } from "../../helpers/LinkHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
@@ -21,6 +20,7 @@ import { useReportPost } from "../post/useReportPost";
 import { useBlockUser } from "../user/useBlockUser";
 import { setResponseTo } from "../../slices/comments/newCommentSlice";
 import { shareLink } from "../../helpers/ShareHelper";
+import usePostsStore from "../../stores/postStore";
 
 export interface UseFeedItem {
   onVotePress: (value: ILemmyVote, haptic?: boolean) => Promise<void>;
@@ -41,6 +41,8 @@ const useFeedItem = (
   const { t } = useTranslation();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
+
+  const addPost = usePostsStore((state) => state.addPost);
 
   const linkInfo = useMemo(() => getLinkInfo(post.post.url), [post.post.id]);
 
@@ -147,8 +149,9 @@ const useFeedItem = (
       }
     }
 
-    dispatch(setPost(post));
-    navigation.push("Post");
+    addPost(post.post.id.toString(), post);
+
+    navigation.push("Post", { postKey: post.post.id.toString() });
   }, [post.post.id, post.saved, post.my_vote]);
 
   const setPostRead = useCallback(() => {
