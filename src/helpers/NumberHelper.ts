@@ -1,6 +1,10 @@
+// https://stackoverflow.com/questions/2685911/is-there-a-way-to-round-numbers-into-a-reader-friendly-format-e-g-1-1k
+
 export function shortenNumber(number: number, decPlaces = 1) {
   // 2 decimal places => 100, 3 => 1000, etc
   decPlaces = 10 ** decPlaces;
+
+  let newNumber = String(number);
 
   // Enumerate number abbreviations
   const abbrev = ["k", "m", "b", "t"];
@@ -23,12 +27,12 @@ export function shortenNumber(number: number, decPlaces = 1) {
       }
 
       // Add the letter for the abbreviation
-      number += abbrev[i];
+      newNumber = String(number) + abbrev[i];
 
       // We are done... stop
       break;
     }
   }
 
-  return number;
+  return newNumber;
 }
