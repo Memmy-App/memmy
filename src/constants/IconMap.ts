@@ -1,7 +1,7 @@
 export const ICON_MAP = {
   UPVOTE: "arrow.up",
   DOWNVOTE: "arrow.down",
-  REPLY: "plus.bubble",
+  REPLY: "bubble.left",
   SAVE: "bookmark",
   SHARE: "square.and.arrow.up",
   HIDE: "eye.slash",

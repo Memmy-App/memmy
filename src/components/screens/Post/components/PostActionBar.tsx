@@ -91,7 +91,7 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
 
       <IconButtonWithText
         onPressHandler={onCommentPress}
-        icon={<SFIcon icon="plus.bubble" />}
+        icon={<SFIcon icon="bubble.left" />}
       />
 
       <IconButtonWithText
