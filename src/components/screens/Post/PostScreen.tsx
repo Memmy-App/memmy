@@ -30,24 +30,24 @@ function PostScreen({ route, navigation }: IProps) {
   );
 
   useEffect(() => {
-    const commentCount = post.currentPost?.counts.comments || 0;
+    const commentCount = post.post.counts.comments || 0;
     navigation.setOptions({
       title: `${commentCount} ${t("Comment", { count: commentCount })}`,
       // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
         <HStack space={3}>
           <CommentSortButton
-            sortType={post.sortType}
-            setSortType={post.setSortType}
+            sortType={postHook.sortType}
+            setSortType={postHook.setSortType}
           />
-          <PostOptionsButton postId={post.currentPost.post.id} />
+          <PostOptionsButton />
         </HStack>
       ),
     });
-  }, [post.sortType]);
+  }, [postHook.sortType]);
 
   const commentItem = ({ item }: { item: ILemmyComment }) => (
-    <CommentItem comment={item} setComments={post.setComments} />
+    <CommentItem comment={item} />
   );
 
   const refreshControl = (
@@ -60,23 +60,13 @@ function PostScreen({ route, navigation }: IProps) {
 
   const keyExtractor = (item) => item.comment.comment.id.toString();
 
-  if (post.currentPost) {
+  if (post.post) {
     return (
       <VStack flex={1} backgroundColor={theme.colors.app.bg}>
         <FlashList
-          ListHeaderComponent={
-            <PostHeader
-              currentPost={post.currentPost}
-              collapsed={post.collapsed}
-              setCollapsed={post.setCollapsed}
-              doLoad={post.doLoad}
-              doSave={post.doSave}
-              doVote={post.doVote}
-              showLoadAll={route?.params?.showLoadAll}
-            />
-          }
-          ListFooterComponent={<PostFooter post={post} />}
-          data={post.visibleComments}
+          ListHeaderComponent={<PostHeader />}
+          ListFooterComponent={<PostFooter />}
+          data={post.comments}
           renderItem={commentItem}
           keyExtractor={keyExtractor}
           estimatedItemSize={200}

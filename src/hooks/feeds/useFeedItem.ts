@@ -20,7 +20,7 @@ import { useReportPost } from "../post/useReportPost";
 import { useBlockUser } from "../user/useBlockUser";
 import { setResponseTo } from "../../slices/comments/newCommentSlice";
 import { shareLink } from "../../helpers/ShareHelper";
-import usePostsStore from "../../stores/posts/postsStore";
+import { addPost } from "../../stores/posts/actions";
 
 export interface UseFeedItem {
   onVotePress: (value: ILemmyVote, haptic?: boolean) => Promise<void>;
@@ -41,8 +41,6 @@ const useFeedItem = (
   const { t } = useTranslation();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
-
-  const addPost = usePostsStore((state) => state.addPost);
 
   const linkInfo = useMemo(() => getLinkInfo(post.post.url), [post.post.id]);
 

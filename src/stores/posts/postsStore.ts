@@ -18,6 +18,8 @@ export interface PostState {
 
   commentsLoading: boolean;
   commentsError: boolean;
+
+  collapsed: boolean;
 }
 
 export const usePostsStore = create<PostsState>()(() => ({

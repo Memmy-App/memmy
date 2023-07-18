@@ -1,6 +1,6 @@
 import { PostView } from "lemmy-js-client";
 import { produce } from "immer";
-import usePostsStore, { PostsState } from "../postsStore";
+import { PostsState, usePostsStore } from "../postsStore";
 
 const addPost = (postKey: string, post: PostView) => {
   usePostsStore.setState(
@@ -11,8 +11,12 @@ const addPost = (postKey: string, post: PostView) => {
         postLoading: false,
 
         comments: [],
+        visibleComments: [],
+
         commentsLoading: true,
         commentsError: false,
+
+        collapsed: false,
       };
     })
   );

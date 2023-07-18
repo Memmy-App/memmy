@@ -3,6 +3,7 @@ import { CommentSortType, PostView } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
 import { produce } from "immer";
+import { Alert } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
 import { setUpdateSaved, setUpdateVote } from "../../slices/feed/feedSlice";
@@ -20,7 +21,7 @@ import {
   useCurrentPost,
   usePostsStore,
 } from "../../stores/posts/postsStore";
-import { removePost } from "../../stores/posts/actions";
+import { loadPostComments, removePost } from "../../stores/posts/actions";
 
 export interface UsePost {
   visibleComments: ILemmyComment[];
@@ -52,9 +53,6 @@ const usePost = (commentId: string | null): UsePost => {
   const postState = useCurrentPost(postKey);
   const { post } = postState;
 
-  // State
-  const [visibleComments, setVisibleComments] = useState<ILemmyComment[]>([]);
-
   const [collapsed, setCollapsed] = useState<boolean>(false);
 
   const [sortType, setSortType] = useState<CommentSortType>(defaultCommentSort);
@@ -65,16 +63,14 @@ const usePost = (commentId: string | null): UsePost => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  useEffect(
-    () =>
-      // Load the comments
+  useEffect(() => {
+    loadPostComments(postKey, { sortType }).then();
 
-      // Remove the post when we are finished
-      () => {
-        removePost(postKey);
-      },
-    []
-  );
+    // Remove the post when we are finished
+    return () => {
+      removePost(postKey);
+    };
+  }, []);
 
   useEffect(() => {
     usePostsStore.setState(
@@ -242,8 +238,6 @@ const usePost = (commentId: string | null): UsePost => {
   }, []); // TODO FIX THIS
 
   return {
-    visibleComments,
-
     sortType,
     setSortType,
 

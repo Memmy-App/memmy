@@ -5,6 +5,8 @@ import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
+import { produce } from "immer";
+import { useRoute } from "@react-navigation/core";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectCurrentAccount } from "../../slices/accounts/accountsSlice";
 import { selectSite, setUnread } from "../../slices/site/siteSlice";
@@ -21,6 +23,7 @@ import { showToast } from "../../slices/toast/toastSlice";
 import { setResponseTo } from "../../slices/comments/newCommentSlice";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
+import { PostsState, usePostsStore } from "../../stores/posts/postsStore";
 
 interface UseComment {
   onCommentPress: () => void;
@@ -33,13 +36,13 @@ interface UseComment {
 
 const useComment = ({
   comment,
-  setComments,
   onPressOverride,
 }: {
   comment: ILemmyComment;
-  setComments: React.Dispatch<SetStateAction<ILemmyComment[]>>;
   onPressOverride: () => Promise<void> | void;
 }): UseComment => {
+  const { postKey } = useRoute<any>().params;
+
   const { t } = useTranslation();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
@@ -81,21 +84,25 @@ const useComment = ({
 
     onGenericHapticFeedback();
 
-    setComments((prev) =>
-      prev.map((c) => {
-        if (c.comment.comment.id === comment.comment.comment.id) {
-          return {
-            ...c,
-            collapsed: !comment.collapsed,
-          };
-        }
-        if (c.comment.comment.path.includes(comment.comment.comment.path)) {
-          return {
-            ...c,
-            hidden: !comment.collapsed,
-          };
-        }
-        return c;
+    usePostsStore.setState(
+      produce((state: PostsState) => {
+        state.posts[postKey].comments = state.posts[postKey].comments.map(
+          (c) => {
+            if (c.comment.comment.id === comment.comment.comment.id) {
+              return {
+                ...c,
+                collapsed: !comment.collapsed,
+              };
+            }
+            if (c.comment.comment.path.includes(comment.comment.comment.path)) {
+              return {
+                ...c,
+                hidden: !comment.collapsed,
+              };
+            }
+            return c;
+          }
+        );
       })
     );
   }, [comment.comment.comment.id, comment.collapsed]);
@@ -164,22 +171,26 @@ const useComment = ({
             })
           );
 
-          setComments((prev) =>
-            prev.map((c) => {
-              if (c.comment.comment.id === comment.comment.comment.id) {
-                return {
-                  ...c,
-                  comment: {
-                    ...c.comment,
-                    comment: {
-                      ...c.comment.comment,
-                      content: t("Comment deleted by user :("),
-                      deleted: true,
-                    },
-                  },
-                };
-              }
-              return c;
+          usePostsStore.setState(
+            produce((state: PostsState) => {
+              state.posts[postKey].comments = state.posts[postKey].comments.map(
+                (c) => {
+                  if (c.comment.comment.id === comment.comment.comment.id) {
+                    return {
+                      ...c,
+                      comment: {
+                        ...c.comment,
+                        comment: {
+                          ...c.comment.comment,
+                          content: t("Comment deleted by user :("),
+                          deleted: true,
+                        },
+                      },
+                    };
+                  }
+                  return c;
+                }
+              );
             })
           );
         } catch (e) {

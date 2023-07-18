@@ -1,7 +1,7 @@
 import { produce } from "immer";
 import { ILoadCommentsOptions } from "../types/ILoadCommentsOptions";
 import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
-import usePostsStore, { PostsState } from "../postsStore";
+import { PostsState, usePostsStore } from "../postsStore";
 import { setPostCommentsLoading } from "./index";
 import { buildComments } from "../../../helpers/LemmyCommentsHelper";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
@@ -60,6 +60,13 @@ const loadPostComments = async (
       });
       betterComments.push(...getChildren(item));
     }
+
+    usePostsStore.setState(
+      produce((state: PostsState) => {
+        state.posts[postKey].comments = betterComments;
+        state.posts[postKey].commentsLoading = false;
+      })
+    );
   } catch (e) {
     setPostCommentsLoading(postKey, false, true).then();
     handleLemmyError(e.toString());

@@ -23,7 +23,6 @@ import CommentHeaderRight from "./CommentHeader/CommentHeaderRight";
 
 interface IProps {
   comment: ILemmyComment;
-  setComments: any;
   onPressOverride?: () => Promise<void> | void;
   depth?: number;
   isUnreadReply?: boolean;
@@ -31,7 +30,6 @@ interface IProps {
 
 function CommentItem({
   comment,
-  setComments,
   onPressOverride,
   depth,
   isUnreadReply,
@@ -45,7 +43,6 @@ function CommentItem({
 
   const commentHook = useComment({
     comment,
-    setComments,
     onPressOverride,
   });
 

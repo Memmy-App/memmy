@@ -3,7 +3,7 @@ import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { PostView } from "lemmy-js-client";
+import { useRoute } from "@react-navigation/core";
 import { useAppDispatch } from "../../../../../store";
 import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
 import { shareLink } from "../../../../helpers/ShareHelper";
@@ -11,14 +11,12 @@ import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
 import IconButtonWithText from "../../../common/IconButtonWithText";
 import VoteButton from "../../../common/Vote/VoteButton";
 import SFIcon from "../../../common/icons/SFIcon";
+import { useCurrentPost } from "../../../../stores/posts/postsStore";
 
-interface IProps {
-  post: PostView;
-  doVote: (value: number) => Promise<void>;
-  doSave: () => Promise<void>;
-}
+function PostActionBar() {
+  const { postKey } = useRoute<any>().params;
+  const postState = useCurrentPost(postKey);
 
-function PostActionBar({ post, doVote, doSave }: IProps) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { colors } = useTheme();
   const dispatch = useAppDispatch();
@@ -28,8 +26,8 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
 
     dispatch(
       setResponseTo({
-        post,
-        languageId: post.post.language_id,
+        post: postState.post,
+        languageId: postState.post.post.language_id,
       })
     );
 
@@ -40,17 +38,17 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
     onGenericHapticFeedback();
 
     shareLink({
-      link: post.post.ap_id,
-      title: post.post.name,
+      link: postState.post.post.ap_id,
+      title: postState.post.post.name,
     });
   };
 
   const onUpvotePress = () => {
-    doVote(1).then();
+    // doVote(1).then();
   };
 
   const onDownvotePress = () => {
-    doVote(-1).then();
+    // doVote(-1).then();
   };
 
   return (
@@ -65,28 +63,28 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
       <VoteButton
         onPressHandler={onUpvotePress}
         type="upvote"
-        isVoted={post?.my_vote === 1}
-        text={post.counts.upvotes}
+        isVoted={postState.post?.my_vote === 1}
+        text={postState.post.counts.upvotes}
         isAccented
       />
 
       <VoteButton
         onPressHandler={onDownvotePress}
         type="downvote"
-        isVoted={post?.my_vote === -1}
-        text={post.counts.downvotes}
+        isVoted={postState.post?.my_vote === -1}
+        text={postState.post.counts.downvotes}
         isAccented
       />
 
       <IconButtonWithText
-        onPressHandler={doSave}
+        onPressHandler={() => {}}
         icon={
           <SFIcon
             icon="bookmark"
-            color={post.saved && colors.app.bookmarkText}
+            color={postState.post.saved && colors.app.bookmarkText}
           />
         }
-        iconBgColor={post.saved ? colors.app.bookmark : "transparent"}
+        iconBgColor={postState.post.saved ? colors.app.bookmark : "transparent"}
       />
 
       <IconButtonWithText
@@ -102,8 +100,4 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
   );
 }
 
-const areEqual = (prev: IProps, next: IProps) =>
-  prev.post.saved === next.post.saved &&
-  prev.post.my_vote === next.post.my_vote;
-
-export default React.memo(PostActionBar, areEqual);
+export default React.memo(PostActionBar);
