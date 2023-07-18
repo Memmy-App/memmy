@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 import { View, ScrollView, Text, useTheme } from "native-base";
 import { CommunityView } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";
+import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import useTraverse from "../../../hooks/traverse/useTraverse";
 import LoadingView from "../../common/Loading/LoadingView";
 import TraverseItem from "./components/TraverseItem";
@@ -14,10 +15,17 @@ import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { useAppSelector } from "../../../../store";
 import { getCommunityFullName } from "../../../helpers/LemmyHelpers";
 
-// Used to create an alpha-indexed list of subscriptions
-interface IndexedTraverseItem {
-  index?: string; // if this is an alpha-index, what's the index?
-  subscription?: CommunityView; // if not, what's the subscription?
+enum ItemType {
+  HEADER,
+  INDEX,
+  SUBSCRIPTION,
+  EMPTY_RESULTS,
+}
+
+interface SectionListItem {
+  type: ItemType;
+  value: string | CommunityView;
+  isFavorite: boolean;
 }
 
 function TraverseScreen() {
@@ -36,17 +44,55 @@ function TraverseScreen() {
       `${currentAccount.username}@${currentAccount.instance}`
     ];
 
+  const isFavoriteSubscription = (community: CommunityView) => {
+    const communityFullName = getCommunityFullName(community);
+    return favorites ? communityFullName in favorites : false;
+  };
+
   const hasFavorites = favorites && Object.keys(favorites).length > 0;
 
   const filteredSubscriptions = traverse.subscriptions.filter(itemFilter);
+  const filteredFavorites = filteredSubscriptions.filter((c) => isFavoriteSubscription(c));
+
+  let sectionListItems: SectionListItem[] = hasFavorites
+    ? [
+        {
+          type: ItemType.HEADER,
+          value: `${t("Favorites")} (${filteredFavorites.length})`,
+          isFavorite: false,
+        },
+      ]
+    : [];
+
+  if (filteredFavorites.length) {
+    sectionListItems = sectionListItems.concat(
+      filteredFavorites.map((favorite) => ({
+        type: ItemType.SUBSCRIPTION,
+        value: favorite,
+        isFavorite: true,
+      }))
+    );
+  } else {
+    sectionListItems.push({
+      type: ItemType.EMPTY_RESULTS,
+      value: "EMPTY FAVORITES",
+      isFavorite: false,
+    });
+  }
+
+  sectionListItems.push({
+    type: ItemType.HEADER,
+    value: `${t("Subscriptions")} (${filteredSubscriptions.length})`,
+    isFavorite: false,
+  });
+
   // If there are favorites then indexing should start at 3, otherwise 2
   const startingIndex = hasFavorites ? 2 : 1;
   // If there are favorites then we'll add it as a numeric index
   const headerNumericIndexes: number[] = [];
   let lastIndexAlpha: string;
-  const indexedTraverseItems: IndexedTraverseItem[] = filteredSubscriptions
-    .filter(itemFilter)
-    .reduce((accumulator, subscription) => {
+  sectionListItems = filteredSubscriptions.reduce(
+    (accumulator, subscription) => {
       const { name } = subscription.community;
       // get the first letter of the name
       const firstLetter = name.at(0).toLocaleUpperCase();
@@ -54,63 +100,65 @@ function TraverseScreen() {
         // track the current alpha index
         lastIndexAlpha = firstLetter;
         // add the new alpha-index
-        accumulator.push({ index: firstLetter });
+        accumulator.push({
+          type: ItemType.INDEX,
+          value: firstLetter,
+          isFavorite: false,
+        });
         // keep track of the numeric index for the ScrollView sticky headers
         headerNumericIndexes.push(accumulator.length - 1 + startingIndex);
       }
       // add the subscription
-      accumulator.push({ subscription });
+      accumulator.push({
+        type: ItemType.SUBSCRIPTION,
+        value: subscription,
+        isFavorite: false,
+      });
       return accumulator;
-    }, []);
+    },
+    sectionListItems
+  );
+
+  const stickyHeaderIndices = sectionListItems
+    .map((item, index) => {
+      if (item.type === ItemType.INDEX) {
+        return index;
+      }
+      return null;
+    })
+    .filter((item) => item !== null) as number[];
 
   const header = useMemo(
     () => <SearchBar query={term} setQuery={setTerm} autoFocus={false} />,
     [term]
   );
 
-  const isFavorite = (community: CommunityView) => {
-    const communityFullName = getCommunityFullName(community);
-    return favorites ? communityFullName in favorites : false;
-  };
-
-  const item = (traverseItem: IndexedTraverseItem) => {
-    const { index, subscription } = traverseItem;
-    if (index)
+  const itemRenderer = ({ item }: ListRenderItemInfo<SectionListItem>) => {
+    const { type, value, isFavorite } = item;
+    if (type === ItemType.INDEX) {
       return (
         <View backgroundColor={theme.colors.app.bg}>
           <Text
             style={styles.alphaIndexHeaderText}
             fontSize="xl"
             fontWeight="semibold"
-            key={traverseItem.index}
+            key={value as string}
           >
-            {traverseItem.index}
+            {value as string}
           </Text>
         </View>
       );
-    if (term && !subscription?.community.name.includes(term)) return null;
+    } else if (type === ItemType.HEADER) {
+       return (<Text textAlign="center">{value as string}</Text>);
+    }
     return (
       <TraverseItem
-        community={subscription}
-        isFavorite={hasFavorites ? isFavorite(subscription) : false}
-        key={subscription?.community.id}
+        community={value as CommunityView}
+        isFavorite={hasFavorites ? isFavorite : false}
+        key={`${isFavorite ? "favorite" : "subscription"}-${(value as CommunityView)?.community.id}`}
       />
     );
   };
-
-  const memoizedTraverseItems = useMemo(
-    () => indexedTraverseItems.map((c) => item(c)),
-    [indexedTraverseItems]
-  );
-
-  const memoizedFavorites = useMemo(
-    () =>
-      filteredSubscriptions
-        .filter((c) => isFavorite(c))
-        .filter(itemFilter)
-        .map((c) => item({ subscription: c })),
-    [filteredSubscriptions]
-  );
 
   if (traverse.loading) {
     return <LoadingView />;
@@ -119,8 +167,7 @@ function TraverseScreen() {
   return (
     <View flex={1}>
       {header}
-      <ScrollView
-        flex={1}
+      <FlashList
         backgroundColor={theme.colors.app.bg}
         refreshControl={
           <RefreshControl
@@ -129,35 +176,12 @@ function TraverseScreen() {
           />
         }
         keyboardShouldPersistTaps="handled"
-        stickyHeaderIndices={headerNumericIndexes}
-      >
-        {hasFavorites && (
-          /* Maybe Index 0 */
-          <View style={styles.favoritesContainer} flex={1}>
-            <Text textAlign="center">{`${t("Favorites")} (${
-              memoizedFavorites.length
-            })`}</Text>
-            {memoizedFavorites}
-          </View>
-        )}
-        {/* Index 0 OR 1 */}
-        <Text textAlign="center">{`${t("Subscriptions")} (${
-          filteredSubscriptions.length
-        })`}</Text>
-        {indexedTraverseItems.length === 0 ? (
-          <Text
-            fontStyle="italic"
-            textAlign="center"
-            justifyContent="center"
-            alignSelf="center"
-          >
-            {t("traverse.noSubscriptions")}
-          </Text>
-        ) : (
-          /* Index 1+ OR 2+ if there are favorites */
-          memoizedTraverseItems
-        )}
-      </ScrollView>
+        data={sectionListItems}
+        renderItem={itemRenderer}
+        stickyHeaderIndices={stickyHeaderIndices}
+        getItemType={(item: SectionListItem) => item.type}
+        estimatedItemSize={100}
+      />
     </View>
   );
 }
