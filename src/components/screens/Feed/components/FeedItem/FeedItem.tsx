@@ -47,7 +47,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
   };
 
   return (
-    <FeedItemContextMenu onPress={() => {}} feedItem={feedItem} post={post}>
+    <FeedItemContextMenu feedItem={feedItem}>
       <View py={1}>
         <SwipeableRow
           leftOption={<VoteOption onVote={onSwipe} vote={post.my_vote} />}
@@ -61,7 +61,6 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
               }
               isRead={post.read}
               feedItem={feedItem}
-              post={post}
             />
 
             <Pressable onPress={feedItem.onPress}>

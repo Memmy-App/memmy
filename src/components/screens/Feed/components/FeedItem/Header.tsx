@@ -1,4 +1,4 @@
-import { Community, PostView } from "lemmy-js-client";
+import { Community } from "lemmy-js-client";
 import { HStack } from "native-base";
 import React from "react";
 import { UseFeedItem } from "../../../../../hooks/feeds/useFeedItem";
@@ -13,10 +13,8 @@ interface Props {
   featured: boolean;
   isRead: boolean;
   feedItem: UseFeedItem;
-  post: PostView;
 }
-
-export function Header({ community, featured, isRead, feedItem, post }: Props) {
+export function Header({ community, featured, isRead, feedItem }: Props) {
   return (
     <HStack
       mx={4}
@@ -29,12 +27,7 @@ export function Header({ community, featured, isRead, feedItem, post }: Props) {
       <HStack space={1} alignItems="center">
         <FeaturedIndicator featured={featured} />
         <IsReadIndicator isRead={isRead} />
-        <FeedItemContextMenu
-          onPress={() => {}}
-          feedItem={feedItem}
-          post={post}
-          isButton
-        >
+        <FeedItemContextMenu feedItem={feedItem} isButton>
           <SFIcon icon="ellipsis" size={14} />
         </FeedItemContextMenu>
       </HStack>

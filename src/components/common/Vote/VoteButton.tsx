@@ -22,7 +22,7 @@ function VoteButton({
   text,
   isAccented,
   textSize = "lg",
-  iconSize = 14,
+  iconSize = 16,
 }: VoteButtonProps) {
   const { colors } = useTheme();
 

@@ -4,11 +4,9 @@ import {
   ContextMenuView,
   OnPressMenuItemEvent,
 } from "react-native-ios-context-menu";
-import { PostView } from "lemmy-js-client";
-import { UseFeedItem } from "../../../hooks/feeds/useFeedItem";
-import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { ICON_MAP } from "../../../constants/IconMap";
-import { shareLink } from "../../../helpers/ShareHelper";
+import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
+import { UseFeedItem } from "../../../hooks/feeds/useFeedItem";
 
 export const FEED_OPTIONS: Record<
   string,
@@ -34,7 +32,7 @@ export const FEED_OPTIONS: Record<
     display: "Share Post",
     icon: ICON_MAP.SHARE,
   },
-  Hide: {
+  Read: {
     display: "Mark as Read",
     icon: ICON_MAP.HIDE,
   },
@@ -112,17 +110,13 @@ const menuItemsRenderer = () => {
 
 interface IProps {
   children: React.ReactNode;
-  onPress: OnPressMenuItemEvent;
   feedItem: UseFeedItem;
-  post: PostView;
 }
 
 export function FeedItemContextMenu({
   children,
-  onPress,
   feedItem,
   isButton = false,
-  post,
 }: IProps & { isButton?: boolean }) {
   const onMenuPress: OnPressMenuItemEvent = ({ nativeEvent }) => {
     onGenericHapticFeedback();
@@ -136,20 +130,21 @@ export function FeedItemContextMenu({
       case "Save":
         feedItem.doSave();
         break;
-      case "Hide":
+      case "Reply":
+        feedItem.doReply();
+        break;
+      case "Read":
         feedItem.setPostRead();
         break;
       case "Share":
-        shareLink({
-          link: post.post.ap_id,
-          title: post.post.name,
-        });
+        feedItem.doShare();
         break;
       case "Report":
         feedItem.doReport();
         break;
-      // case "BlockUser":
-      //   useBlockUser
+      case "BlockUser":
+        feedItem.blockCreator();
+        break;
       default:
         break;
     }
