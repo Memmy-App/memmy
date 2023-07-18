@@ -109,7 +109,7 @@
       },
       "markRead": {
         "header": "MARK READ SETTINGS",
-        "onPostOpen": "Mark Read on Post open",
+        "onPostOpen": "Mark Read on Post Open",
         "onImageView": "Mark Read on Image View",
         "onVote": "Mark Read on Vote"
       }
