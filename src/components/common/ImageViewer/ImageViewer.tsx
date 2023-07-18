@@ -1,19 +1,14 @@
+import FastImage, { OnLoadEvent } from "@gkasdorf/react-native-fast-image";
+import { BlurView } from "expo-blur";
+import { StatusBar } from "expo-status-bar";
+import { Text, VStack, View, useTheme } from "native-base";
 import React, { useMemo, useRef, useState } from "react";
 import {
-  Dimensions as RNDimensions,
   Modal,
   Pressable,
+  Dimensions as RNDimensions,
   StyleSheet,
 } from "react-native";
-import FastImage, { OnLoadEvent } from "@gkasdorf/react-native-fast-image";
-import Animated, {
-  runOnJS,
-  runOnUI,
-  useAnimatedStyle,
-  useSharedValue,
-  withDecay,
-  withTiming,
-} from "react-native-reanimated";
 import {
   Gesture,
   GestureDetector,
@@ -23,17 +18,22 @@ import {
   PinchGestureHandlerEventPayload,
   TapGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
-import { BlurView } from "expo-blur";
-import { Text, useTheme, View, VStack } from "native-base";
-import { StatusBar } from "expo-status-bar";
-import { IconAlertTriangle } from "tabler-icons-react-native";
-import { useImageDimensions } from "./useImageDimensions";
-import ExitButton from "./ImageExitButton";
-import ImageViewFooter from "./ImageViewFooter";
+import Animated, {
+  runOnJS,
+  runOnUI,
+  useAnimatedStyle,
+  useSharedValue,
+  withDecay,
+  withTiming,
+} from "react-native-reanimated";
 import { useAppSelector } from "../../../../store";
+import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import ImageButton from "../Buttons/ImageButton";
-import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
+import SFIcon from "../icons/SFIcon";
+import ExitButton from "./ImageExitButton";
+import ImageViewFooter from "./ImageViewFooter";
+import { useImageDimensions } from "./useImageDimensions";
 
 interface IProps {
   source: { uri: string };
@@ -512,16 +512,8 @@ function ImageViewer({
   const AnimatedFastImage = Animated.createAnimatedComponent(FastImage as any);
 
   return (
-    <View
-      style={[
-        styles.imageContainer,
-        {
-          borderRadius: compactMode ? 10 : 0,
-        },
-      ]}
-      backgroundColor={theme.colors.app.bg}
-    >
-      {buttonMode ? (
+    <>
+      {buttonMode && (
         <Pressable
           onPress={onRequestOpenOrClose}
           ref={nonViewerRef}
@@ -541,105 +533,117 @@ function ImageViewer({
             />
           </ImageButton>
         </Pressable>
-      ) : (
-        <Pressable
-          onPress={onRequestOpenOrClose}
-          ref={nonViewerRef}
-          style={{
-            opacity: expanded ? 0 : 1,
-            borderRadius: compactMode ? 10 : 0,
-          }}
-        >
-          <View>
-            {(nsfw && blurNsfw && (
-              <View
-                style={[
-                  styles.blurContainer,
-                  {
-                    borderRadius: compactMode ? 10 : 0,
-                  },
-                ]}
-              >
-                <BlurView
+      )}
+      <View
+        style={{
+          borderRadius: compactMode ? 10 : 0,
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        backgroundColor={theme.colors.app.bg}
+      >
+        {!buttonMode && (
+          <Pressable
+            onPress={onRequestOpenOrClose}
+            ref={nonViewerRef}
+            style={{
+              opacity: expanded ? 0 : 1,
+              borderRadius: compactMode ? 10 : 0,
+            }}
+          >
+            <View>
+              {(nsfw && blurNsfw && (
+                <View
                   style={[
-                    styles.blurView,
+                    styles.blurContainer,
                     {
-                      height: dimensions.dimensions.scaledDimensions.height,
-                      width: dimensions.dimensions.scaledDimensions.width,
+                      borderRadius: compactMode ? 10 : 0,
                     },
                   ]}
-                  intensity={blurIntensity}
-                  tint={theme.config.initialColorMode}
                 >
-                  <VStack
-                    flex={1}
-                    alignItems="center"
-                    justifyContent="center"
-                    space={2}
-                  >
-                    <IconAlertTriangle
-                      color={theme.colors.app.textSecondary}
-                      size={36}
-                    />
-                    {!compactMode && (
-                      <>
-                        <Text fontSize="xl">NSFW</Text>
-                        <Text>Sensitive content ahead</Text>
-                      </>
-                    )}
-                  </VStack>
-                </BlurView>
-                {!source.uri.includes(".gif") && (
-                  <FastImage
-                    source={source}
+                  <BlurView
                     style={[
-                      heightOverride
-                        ? { height: heightOverride, width: widthOverride }
-                        : dimensions.dimensions.scaledDimensions,
-                      style,
+                      styles.blurView,
+                      {
+                        height: dimensions.dimensions.scaledDimensions.height,
+                        width: dimensions.dimensions.scaledDimensions.width,
+                      },
                     ]}
-                    onLoad={onLoad}
-                  />
-                )}
-              </View>
-            )) || (
-              <FastImage
-                source={source}
-                style={[
-                  heightOverride
-                    ? { height: heightOverride, width: widthOverride }
-                    : dimensions.dimensions.scaledDimensions,
-                  style,
-                ]}
-                onLoad={onLoad}
-              />
-            )}
-          </View>
-        </Pressable>
-      )}
-      <Modal visible={expanded} transparent>
-        {/* eslint-disable-next-line react/style-prop-object */}
-        <StatusBar style="dark" />
-        <Animated.View style={[accessoriesStyle]}>
-          <ExitButton onPress={onRequestOpenOrClose} />
-        </Animated.View>
-        <View style={{ flex: 1, zIndex: -1 }}>
-          <GestureDetector gesture={allGestures}>
-            <Animated.View style={[styles.imageModal, backgroundStyle]}>
-              <Animated.View style={[positionStyle]}>
-                <AnimatedFastImage
+                    intensity={blurIntensity}
+                    tint={theme.config.initialColorMode}
+                  >
+                    <VStack
+                      flex={1}
+                      alignItems="center"
+                      justifyContent="center"
+                      space={2}
+                    >
+                      <SFIcon
+                        icon="exclamationmark.circle"
+                        size={24}
+                        color={theme.colors.app.textSecondary}
+                      />
+                      {!compactMode && (
+                        <>
+                          <Text fontSize="xl">NSFW</Text>
+                          <Text>Sensitive content ahead</Text>
+                        </>
+                      )}
+                    </VStack>
+                  </BlurView>
+                  {!source.uri.includes(".gif") && (
+                    <FastImage
+                      source={source}
+                      style={[
+                        heightOverride
+                          ? { height: heightOverride, width: widthOverride }
+                          : dimensions.dimensions.scaledDimensions,
+                        style,
+                      ]}
+                      onLoad={onLoad}
+                    />
+                  )}
+                </View>
+              )) || (
+                <FastImage
                   source={source}
-                  style={[scaleStyle, dimensionsStyle]}
+                  style={[
+                    heightOverride
+                      ? { height: heightOverride, width: widthOverride }
+                      : dimensions.dimensions.scaledDimensions,
+                    style,
+                  ]}
+                  onLoad={onLoad}
                 />
+              )}
+            </View>
+          </Pressable>
+        )}
+        <Modal visible={expanded} transparent>
+          {/* eslint-disable-next-line react/style-prop-object */}
+          <StatusBar style="dark" />
+          <Animated.View style={[accessoriesStyle]}>
+            <ExitButton onPress={onRequestOpenOrClose} />
+          </Animated.View>
+          <View style={{ flex: 1, zIndex: -1 }}>
+            <GestureDetector gesture={allGestures}>
+              <Animated.View style={[styles.imageModal, backgroundStyle]}>
+                <Animated.View style={[positionStyle]}>
+                  <AnimatedFastImage
+                    source={source}
+                    style={[scaleStyle, dimensionsStyle]}
+                  />
+                </Animated.View>
               </Animated.View>
-            </Animated.View>
-          </GestureDetector>
-        </View>
-        <Animated.View style={[accessoriesStyle]}>
-          <ImageViewFooter source={source.uri} />
-        </Animated.View>
-      </Modal>
-    </View>
+            </GestureDetector>
+          </View>
+          <Animated.View style={[accessoriesStyle]}>
+            <ImageViewFooter source={source.uri} />
+          </Animated.View>
+        </Modal>
+      </View>
+    </>
   );
 }
 
