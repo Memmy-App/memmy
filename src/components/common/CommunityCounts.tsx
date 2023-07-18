@@ -27,7 +27,7 @@ function CommunityCounts({ counts }: IProps) {
       <Text fontSize="xl" fontWeight="bold">
         Stats:
       </Text>
-      <HStack flexWrap="wrap">
+      <HStack flexWrap="wrap" space={1} style={{ rowGap: 2 }}>
         <Chip
           text={`${subscribers} Subscribers`}
           color={theme.colors.app.accent}
