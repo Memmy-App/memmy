@@ -52,9 +52,7 @@ function TraverseScreen() {
   const hasFavorites = favorites && Object.keys(favorites).length > 0;
 
   const filteredSubscriptions = traverse.subscriptions.filter(itemFilter);
-  const filteredFavorites = filteredSubscriptions.filter((c) =>
-    isFavoriteSubscription(c)
-  );
+  const filteredFavorites = filteredSubscriptions.filter((c) => isFavoriteSubscription(c));
 
   let sectionListItems: SectionListItem[] = hasFavorites
     ? [
@@ -88,6 +86,10 @@ function TraverseScreen() {
     isFavorite: false,
   });
 
+  // If there are favorites then indexing should start at 3, otherwise 2
+  const startingIndex = hasFavorites ? 2 : 1;
+  // If there are favorites then we'll add it as a numeric index
+  const headerNumericIndexes: number[] = [];
   let lastIndexAlpha: string;
   sectionListItems = filteredSubscriptions.reduce(
     (accumulator, subscription) => {
@@ -103,6 +105,8 @@ function TraverseScreen() {
           value: firstLetter,
           isFavorite: false,
         });
+        // keep track of the numeric index for the ScrollView sticky headers
+        headerNumericIndexes.push(accumulator.length - 1 + startingIndex);
       }
       // add the subscription
       accumulator.push({
@@ -150,10 +154,8 @@ function TraverseScreen() {
     return (
       <TraverseItem
         community={value as CommunityView}
-        isFavorite={hasFavorites ? isFavoriteSubscription(value as CommunityView) : false}
-        key={`${isFavorite ? "favorite" : "subscription"}-${
-          (value as CommunityView)?.community.id
-        }`}
+        isFavorite={hasFavorites ? isFavorite : false}
+        key={`${isFavorite ? "favorite" : "subscription"}-${(value as CommunityView)?.community.id}`}
       />
     );
   };

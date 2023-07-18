@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { CommunityView } from "lemmy-js-client";
 import { HStack, Pressable, Text, useTheme, VStack } from "native-base";
 import FastImage from "@gkasdorf/react-native-fast-image";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import {
   IconChevronRight,
   IconEye,
@@ -59,9 +59,18 @@ function TraverseItem({ community, isFavorite }: IProps) {
 
   return (
     <Pressable onPress={onPress}>
-      <View style={{...styles.hstack, ...styles.container, backgroundColor: theme.colors.app.fg}}>
-        <View style={{...styles.vstack, flex: 1, marginVertical: 2}}>
-          <View style={{...styles.hstack, ...styles.communityContainer}}>
+      <HStack
+        flex={1}
+        backgroundColor={theme.colors.app.fg}
+        py={1.5}
+        px={2}
+        my={1}
+        mx={4}
+        borderRadius={10}
+        alignItems="center"
+      >
+        <VStack space={1}>
+          <HStack space={2} alignItems="center">
             {community.community.icon ? (
               <FastImage
                 source={{ uri: community.community.icon }}
@@ -70,7 +79,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
             ) : (
               <IconPlanet color={theme.colors.app.textSecondary} size={24} />
             )}
-            <View style={styles.vstack}>
+            <VStack>
               <Text>{community.community.name}</Text>
               <Text
                 fontSize="2xs"
@@ -79,10 +88,10 @@ function TraverseItem({ community, isFavorite }: IProps) {
               >
                 {getBaseUrl(community.community.actor_id)}
               </Text>
-            </View>
-          </View>
-          <View style={{...styles.hstack, ...styles.communityDetails}}>
-            <View style={{...styles.hstack, ...styles.infoItem}}>
+            </VStack>
+          </HStack>
+          <HStack space={2}>
+            <HStack space={1} alignItems="center">
               <IconEye size={12} color={theme.colors.app.textSecondary} />
               <Text
                 fontSize="xs"
@@ -91,8 +100,8 @@ function TraverseItem({ community, isFavorite }: IProps) {
               >
                 {community.counts.users_active_day.toLocaleString()} online
               </Text>
-            </View>
-            <View style={{...styles.hstack, ...styles.infoItem}}>
+            </HStack>
+            <HStack space={1} alignItems="center">
               <IconNotes size={12} color={theme.colors.app.textSecondary} />
               <Text
                 fontSize="xs"
@@ -101,10 +110,10 @@ function TraverseItem({ community, isFavorite }: IProps) {
               >
                 {community.counts.posts.toLocaleString()} posts
               </Text>
-            </View>
-          </View>
-        </View>
-        <View style={{...styles.hstack, ...styles.favoriteContainer}}>
+            </HStack>
+          </HStack>
+        </VStack>
+        <HStack ml="auto" alignItems="center">
           <Pressable
             onPress={() => {
               onGenericHapticFeedback();
@@ -124,53 +133,13 @@ function TraverseItem({ community, isFavorite }: IProps) {
             )}
           </Pressable>
           <IconChevronRight size={24} color={theme.colors.app.accent} />
-        </View>
-      </View>
+        </HStack>
+      </HStack>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  vstack: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "stretch",
-  },
-  hstack: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "stretch",
-  },
-  container: {
-    flex: 1,
-    flexDirection: "row",
-    paddingVertical: 6,
-    paddingHorizontal: 8,
-    marginVertical: 4,
-    marginHorizontal: 16,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  communityContainer: {
-    marginHorizontal: 2,
-    alignItems: "center",
-    gap: 8,
-  },
-  communityDetails: {
-    marginHorizontal: 2,
-    marginTop: 4,
-    gap: 6,
-  },
-  infoItem: {
-    marginHorizontal: 2,
-    alignItems: "center",
-    justifyContent: "space-around",
-    gap: 3,
-  },
-  favoriteContainer: {
-    marginHorizontal: "auto",
-    alignItems: "center",
-  },
   icon: {
     height: 24,
     width: 24,
