@@ -8,21 +8,16 @@ interface IProps {
   counts: CommunityAggregates;
 }
 
-function PrettyNumbers({ num }: { num: number }) {
-  if (num >= 1000) {
-    return `${(num / 1000).toFixed(1)}k`;
-  }
-  return num;
-}
-
 function CommunityCounts({ counts }: IProps) {
   const theme = useTheme();
+
   const subscribers = shortenNumber(counts.subscribers);
   const posts = shortenNumber(counts.posts);
   const comments = shortenNumber(counts.comments);
-  const usersActiveMonth = PrettyNumbers({ num: counts.users_active_month });
-  const usersActiveWeek = PrettyNumbers({ num: counts.users_active_week });
-  const usersActiveDay = PrettyNumbers({ num: counts.users_active_day });
+  const usersActiveMonth = shortenNumber(counts.users_active_month);
+  const usersActiveWeek = shortenNumber(counts.users_active_week);
+  const usersActiveDay = shortenNumber(counts.users_active_day);
+
   return (
     <VStack paddingTop={4} paddingBottom={4} space={1}>
       <Text fontSize="xl" fontWeight="bold">
