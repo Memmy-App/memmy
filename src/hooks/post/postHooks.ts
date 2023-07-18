@@ -92,6 +92,15 @@ const usePost = (commentId: string | null): UsePost => {
   // Other Hooks
   const dispatch = useAppDispatch();
 
+  useEffect(
+    () =>
+      // Remove the post when we are finished
+      () => {
+        postsStore.removePost(postKey);
+      },
+    []
+  );
+
   useEffect(() => {
     setVisibleComments(comments.filter((c) => !c.hidden));
   }, [comments]);
