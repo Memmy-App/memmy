@@ -2,6 +2,7 @@ import { CommunityAggregates } from "lemmy-js-client";
 import React from "react";
 import { HStack, useTheme, Text, VStack } from "native-base";
 import Chip from "./Chip";
+import { shortenNumber } from "../../helpers/NumberHelper";
 
 interface IProps {
   counts: CommunityAggregates;
@@ -16,9 +17,9 @@ function PrettyNumbers({ num }: { num: number }) {
 
 function CommunityCounts({ counts }: IProps) {
   const theme = useTheme();
-  const subscribers = PrettyNumbers({ num: counts.subscribers });
-  const posts = PrettyNumbers({ num: counts.posts });
-  const comments = PrettyNumbers({ num: counts.comments });
+  const subscribers = shortenNumber(counts.subscribers);
+  const posts = shortenNumber(counts.posts);
+  const comments = shortenNumber(counts.comments);
   const usersActiveMonth = PrettyNumbers({ num: counts.users_active_month });
   const usersActiveWeek = PrettyNumbers({ num: counts.users_active_week });
   const usersActiveDay = PrettyNumbers({ num: counts.users_active_day });

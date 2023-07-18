@@ -1,4 +1,4 @@
-export function shortenNumber(number) {
+export function shortenNumber(number: number) {
   number += 3000;
   const suffixes = ["", "k", "M", "B", "T"];
   const magnitude = Math.floor(Math.log10(number) / 3);
