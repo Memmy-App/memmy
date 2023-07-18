@@ -16,13 +16,7 @@ function CommentActions({ commentHook, myVote }: IProps) {
     <HStack justifyContent="flex-end" alignItems="center" space={2} mb={1}>
       <IconButtonWithText
         onPressHandler={commentHook.onReply}
-        icon={
-          <SFIcon
-            icon={ICON_MAP.REPLY}
-            size={12}
-            style={{ width: 20, height: 20 }}
-          />
-        }
+        icon={<SFIcon icon={ICON_MAP.REPLY} size={12} boxSize={20} />}
       />
       <VoteButton
         onPressHandler={async () =>

@@ -111,7 +111,7 @@ function AvatarUsername({
             icon={ICON_MAP.USER_AVATAR}
             color={theme.colors.app.textSecondary}
             size={14}
-            style={{ width: 22, height: 22 }}
+            boxSize={22}
           />
         ))}
       <VStack>

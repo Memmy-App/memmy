@@ -4,6 +4,7 @@ import React from "react";
 import { GestureResponderEvent } from "react-native";
 import IconButtonWithText from "../IconButtonWithText";
 import SFIcon from "../icons/SFIcon";
+import { ICON_MAP } from "../../../constants/IconMap";
 
 interface VoteButtonProps {
   onPressHandler: (event: GestureResponderEvent) => void;
@@ -33,13 +34,13 @@ function VoteButton({
   const icon =
     type === "upvote" ? (
       <SFIcon
-        icon="arrow.up"
+        icon={ICON_MAP.UPVOTE}
         color={isVoted ? colors.app.upvoteText : color}
         size={iconSize}
       />
     ) : (
       <SFIcon
-        icon="arrow.down"
+        icon={ICON_MAP.DOWNVOTE}
         color={isVoted ? colors.app.downvoteText : color}
         size={iconSize}
       />

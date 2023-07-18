@@ -10,8 +10,8 @@ function DatePublished({ published }: { published: string }) {
     <HStack alignItems="center" space={0.5}>
       <SFIcon
         icon={ICON_MAP.CLOCK}
-        size={11}
-        style={{ width: 20, height: 20 }}
+        size={10}
+        boxSize={18}
         color={colors.app.textSecondary}
       />
       <Text color={colors.app.textSecondary} fontSize="sm">

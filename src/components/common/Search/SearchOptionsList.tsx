@@ -1,15 +1,11 @@
 import React from "react";
-import {
-  IconChevronRight,
-  IconNote,
-  IconPlanet,
-  IconUser,
-} from "tabler-icons-react-native";
-import { useTheme } from "native-base";
-import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
 import { useTranslation } from "react-i18next";
-import MTable from "../Table/MTable";
+import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
+import { ICON_MAP } from "../../../constants/IconMap";
 import MCell from "../Table/MCell";
+import MTable from "../Table/MTable";
+import SFIcon from "../icons/SFIcon";
+import { PlanetIcon } from "../icons/PlanetIcon";
 
 interface IProps {
   options: {
@@ -21,7 +17,6 @@ interface IProps {
 
 function SearchOptionsList({ options }: IProps) {
   const { t } = useTranslation();
-  const theme = useTheme();
 
   return (
     <Animated.View entering={SlideInDown} exiting={SlideOutDown}>
@@ -29,20 +24,20 @@ function SearchOptionsList({ options }: IProps) {
         <MCell
           title={t("searchOptions.communities")}
           onPress={options.onCommunitiesPress}
-          icon={<IconPlanet color={theme.colors.app.accent} />}
-          rightAccessory={<IconChevronRight color={theme.colors.app.accent} />}
+          icon={<PlanetIcon />}
+          showChevron
         />
         <MCell
           title={t("searchOptions.users")}
           onPress={options.onUsersPress}
-          icon={<IconUser color={theme.colors.app.accent} />}
-          rightAccessory={<IconChevronRight color={theme.colors.app.accent} />}
+          icon={<SFIcon icon={ICON_MAP.USER_AVATAR} />}
+          showChevron
         />
         <MCell
           title={t("searchOptions.posts")}
           onPress={options.onPostsPress}
-          icon={<IconNote color={theme.colors.app.accent} />}
-          rightAccessory={<IconChevronRight color={theme.colors.app.accent} />}
+          icon={<SFIcon icon="note.text" />}
+          showChevron
         />
       </MTable>
     </Animated.View>

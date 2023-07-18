@@ -1,12 +1,12 @@
 import { HStack, Pressable, Text, useTheme, VStack } from "native-base";
 import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import FastImage from "@gkasdorf/react-native-fast-image";
-import { IconUnlink } from "tabler-icons-react-native";
 import { openLink } from "../../../helpers/LinkHelper";
 import { truncateLink } from "../../../helpers/TextHelper";
+import SFIcon from "../icons/SFIcon";
 
 interface LinkButtonProps {
   link: string;
@@ -44,7 +44,11 @@ function LinkButton({ link, thumbnail }: LinkButtonProps) {
         )}
 
         <HStack flexDirection="row" alignItems="center" space={3} mx={4} my={2}>
-          <IconUnlink color={theme.colors.app.textSecondary} />
+          <SFIcon
+            icon="link"
+            color={theme.colors.app.textSecondary}
+            size={14}
+          />
           <Text color={theme.colors.app.textSecondary}>
             {truncateLink(link)}
           </Text>

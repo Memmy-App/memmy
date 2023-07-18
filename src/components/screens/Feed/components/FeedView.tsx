@@ -120,7 +120,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
         // eslint-disable-next-line react/no-unstable-nested-components
         headerLeft: () => (
           <IconButtonWithText
-            icon={<SFIcon icon="list.dash" style={{ marginLeft: 20 }} />}
+            icon={<SFIcon icon="list.dash" style={{ marginLeft: 5 }} />}
             onPressHandler={navigation.openDrawer}
           />
         ),
@@ -211,12 +211,13 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             ListEmptyComponent={<NoResultView type="posts" />}
             ref={flashList}
             getItemType={getItemType}
-            onMomentumScrollBegin={() => {
-              setShowFab(false);
-            }}
-            onMomentumScrollEnd={() => {
-              setShowFab(true);
-            }}
+            // disabling to see how this works in practice without hiding fab
+            // onMomentumScrollBegin={() => {
+            //   setShowFab(false);
+            // }}
+            // onMomentumScrollEnd={() => {
+            //   setShowFab(true);
+            // }}
           />
         )}
       {hideReadPostsOnFeed && showHideReadButton && showFab && (

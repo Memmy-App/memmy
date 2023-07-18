@@ -1,17 +1,17 @@
-import React, { useCallback, useEffect } from "react";
-import { useTheme, VStack } from "native-base";
-import { FlashList } from "@shopify/flash-list";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { IconMailOpened } from "tabler-icons-react-native";
+import { FlashList } from "@shopify/flash-list";
+import { VStack, useTheme } from "native-base";
+import React, { useCallback, useEffect } from "react";
 import useInbox from "../../../hooks/inbox/useInbox";
-import LoadingErrorView from "../../common/Loading/LoadingErrorView";
-import InboxTabs from "./InboxTabs";
-import LoadingView from "../../common/Loading/LoadingView";
-import InboxReplyItem from "./components/InboxReplyItem";
-import RefreshControl from "../../common/RefreshControl";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import HeaderIconButton from "../../common/Buttons/HeaderIconButton";
+import LoadingErrorView from "../../common/Loading/LoadingErrorView";
+import LoadingView from "../../common/Loading/LoadingView";
 import NoResultView from "../../common/NoResultView";
+import RefreshControl from "../../common/RefreshControl";
+import SFIcon from "../../common/icons/SFIcon";
+import InboxTabs from "./InboxTabs";
+import InboxReplyItem from "./components/InboxReplyItem";
 
 function InboxScreen({
   navigation,
@@ -27,7 +27,7 @@ function InboxScreen({
       // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
         <HeaderIconButton
-          icon={<IconMailOpened size={24} color={theme.colors.app.accent} />}
+          icon={<SFIcon icon="envelope.open" size={14} />}
           onPress={inbox.doReadAll}
         />
       ),
