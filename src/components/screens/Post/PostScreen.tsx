@@ -32,11 +32,11 @@ function PostScreen({ route, navigation }: IProps) {
       // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
         <HStack space={3}>
-          <PostOptionsButton postId={post.currentPost.post.id} />
           <CommentSortButton
             sortType={post.sortType}
             setSortType={post.setSortType}
           />
+          <PostOptionsButton postId={post.currentPost.post.id} />
         </HStack>
       ),
     });

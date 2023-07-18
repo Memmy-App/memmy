@@ -13,7 +13,7 @@ function Chip({ text, color, variant = "filled" }: IProps) {
     borderRadius: 10,
     ...(variant === "outlined"
       ? { borderColor: color }
-      : { backgroundColor: color }),
+      : { backgroundColor: color, borderColor: "transparent" }),
   };
 
   const textColor = variant === "outlined" ? color : "#fff";

@@ -1,16 +1,22 @@
 import React from "react";
-import { Text } from "native-base";
+import { Text, VStack } from "native-base";
+import { CommunityModeratorView } from "lemmy-js-client";
 import AvatarUsername from "./AvatarUsername";
 
 interface IProps {
-  item: any;
+  moderators: CommunityModeratorView[];
 }
 
-function ModeratorList({ item }: IProps) {
+function ModeratorList({ moderators }: IProps) {
   return (
-    <Text marginTop={4}>
-      - <AvatarUsername creator={item} isMod />
-    </Text>
+    <VStack space={1}>
+      <Text fontSize="xl" fontWeight="bold">
+        Mods:
+      </Text>
+      {moderators.map((moderator) => (
+        <AvatarUsername creator={moderator.moderator} isMod />
+      ))}
+    </VStack>
   );
 }
 

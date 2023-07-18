@@ -584,6 +584,7 @@ function Tabs() {
           headerShown: false,
           tabBarIcon: ({ color }) => <SFIcon icon="bell" color={color} />,
           tabBarLabel: t("Inbox"),
+
           tabBarBadge:
             unread.replies + unread.mentions + unread.privateMessage > 0
               ? // ? unread.replies + unread.mentions + unread.privateMessage
