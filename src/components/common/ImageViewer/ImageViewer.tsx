@@ -61,6 +61,8 @@ interface MeasureResult {
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } =
   RNDimensions.get("screen");
 
+const MAX_SCALE = 3;
+
 function ImageViewer({
   source,
   postId,
@@ -116,12 +118,12 @@ function ImageViewer({
 
   const lastTap = useSharedValue(0);
 
-  const xOffset = useMemo(
+  const xCenter = useMemo(
     () => SCREEN_WIDTH / 2 - dimensions.dimensions.viewerDimensions.width / 2,
     [dimensions.dimensions.viewerDimensions]
   );
 
-  const yOffset = useMemo(
+  const yCenter = useMemo(
     () => SCREEN_HEIGHT / 2 - dimensions.dimensions.viewerDimensions.height / 2,
     [dimensions.dimensions.viewerDimensions]
   );
@@ -184,10 +186,6 @@ function ImageViewer({
       if (setPostRead && markReadOnPostImageView) {
         setPostRead();
       }
-
-      // Make sure that the initial value for last zoom is reset
-      lastScale.value = 1;
-      zoomScale.value = 1;
 
       // If expanded is false, we are opening up. So we want to fade in the background color
       // First we set the position information
@@ -259,6 +257,14 @@ function ImageViewer({
 
       // Animation is finished after 200 ms, so we will set to hidden after that.
       setTimeout(() => {
+        // Reset all the values
+        positionX.value = 0;
+        positionY.value = 0;
+        zoomScale.value = 1;
+        imageHeight.value = 0;
+        imageWidth.value = 0;
+
+        // Close the modal
         setExpanded(false);
       }, 200);
     }
@@ -267,8 +273,8 @@ function ImageViewer({
   const setToCenter = () => {
     "worklet";
 
-    positionX.value = withTiming(xOffset, { duration: 200 });
-    positionY.value = withTiming(yOffset, { duration: 200 });
+    positionX.value = withTiming(xCenter, { duration: 200 });
+    positionY.value = withTiming(yCenter, { duration: 200 });
     backgroundColor.value = withTiming("rgba(0, 0, 0, 1)", {
       duration: 300,
     });
@@ -305,10 +311,19 @@ function ImageViewer({
       runOnJS(onGenericHapticFeedback)();
       toggleAccessories(true);
       setToCenter();
+    } else if (zoomScale.value > MAX_SCALE) {
+      // We shouldn't allow zooming past the max scale
+      zoomScale.value = withTiming(MAX_SCALE, { duration: 300 });
+      runOnJS(onGenericHapticFeedback)();
     }
 
     // We need this saved value for later
-    lastScale.value = zoomScale.value >= 1 ? zoomScale.value : 1;
+    lastScale.value =
+      zoomScale.value >= 1
+        ? zoomScale.value > MAX_SCALE
+          ? MAX_SCALE
+          : zoomScale.value
+        : 1;
   };
 
   // Double tap result
@@ -326,13 +341,38 @@ function ImageViewer({
       // Otherwise we should hide the accessories
       toggleAccessories(false);
 
-      // Get the target
-      const targetX = -(event.absoluteX - xOffset) + SCREEN_WIDTH / 2;
-      const targetY = -(event.absoluteY - yOffset) + SCREEN_HEIGHT / 2;
+      const realHeight = dimensions.dimensions.viewerDimensions.height;
+      const realWidth = dimensions.dimensions.viewerDimensions.width;
 
-      // Zoom to that target
-      positionX.value = withTiming(targetX);
-      positionY.value = withTiming(targetY);
+      const newHeight = realHeight * 2;
+      const newWidth = realWidth * 2;
+
+      const maxTranslateX = (newWidth - SCREEN_WIDTH) / 2;
+      const minTranslateX = -(newWidth - SCREEN_WIDTH) / 2;
+
+      const currentTransX = (realWidth / 2 - event.x) * 2;
+
+      let transX;
+
+      if (currentTransX > maxTranslateX) transX = maxTranslateX;
+      else if (currentTransX < minTranslateX) transX = minTranslateX;
+      else transX = currentTransX;
+
+      const maxTranslateY =
+        newHeight <= SCREEN_HEIGHT ? 0 : newHeight - SCREEN_HEIGHT;
+      const minTranslateY =
+        newHeight <= SCREEN_HEIGHT ? 0 : -(newHeight - SCREEN_HEIGHT);
+
+      const currentTransY = (realHeight / 2 - event.y) * 2;
+
+      let transY;
+
+      if (currentTransY > maxTranslateY) transY = maxTranslateY;
+      else if (currentTransY < minTranslateY) transY = minTranslateY;
+      else transY = currentTransY;
+
+      positionX.value = withTiming(transX);
+      positionY.value = withTiming(transY);
     }
 
     // Update the scale based off of the current scale
@@ -353,7 +393,7 @@ function ImageViewer({
 
     // Hide accessories
     if (zoomScale.value === 1) {
-      if (lastTap.value + 120 < Date.now()) {
+      if (lastTap.value + 200 < Date.now()) {
         toggleAccessories(!(accessoriesOpacity.value === 1));
       }
     } else {
@@ -409,14 +449,21 @@ function ImageViewer({
       toggleAccessories(false);
     } else {
       // Now we want to add some momentum to the end of the swipe
-      positionX.value = withDecay({ velocity: event.velocityX / 4 });
-      positionY.value = withDecay({ velocity: event.velocityY / 4 });
+      // Take the velocity of the swipe and divide that by 1.5. Then, we normalize based off of the zoom scale by
+      // dividing by whatever that number is
+
+      positionX.value = withDecay({
+        velocity: event.velocityX / 1.2,
+      });
+      positionY.value = withDecay({
+        velocity: event.velocityY / 1.2,
+      });
     }
   };
 
   // This handles all of our pan gestures
   const panGesture = Gesture.Pan()
-    .maxPointers(1)
+    .maxPointers(2)
     .onBegin(onPanBegin)
     .onUpdate(onPanUpdate)
     .onEnd(onPanEnd);
@@ -433,6 +480,9 @@ function ImageViewer({
     .numberOfTaps(2)
     .maxDelay(100)
     .onEnd(onDoubleTap);
+
+  const pinchAndPanGestures = Gesture.Simultaneous(panGesture, pinchGesture);
+  const allGestures = Gesture.Exclusive(pinchAndPanGestures, tapGesture);
 
   // This handles our background color styles
   const backgroundStyle = useAnimatedStyle(() => ({
@@ -576,21 +626,15 @@ function ImageViewer({
           <ExitButton onPress={onRequestOpenOrClose} />
         </Animated.View>
         <View style={{ flex: 1, zIndex: -1 }}>
-          <GestureDetector gesture={tapGesture}>
-            <GestureDetector gesture={panGesture}>
-              <GestureDetector gesture={pinchGesture}>
-                <Animated.View style={[styles.imageModal, backgroundStyle]}>
-                  <Animated.View style={[scaleStyle]}>
-                    <Animated.View style={[positionStyle]}>
-                      <AnimatedFastImage
-                        source={source}
-                        style={[dimensionsStyle]}
-                      />
-                    </Animated.View>
-                  </Animated.View>
-                </Animated.View>
-              </GestureDetector>
-            </GestureDetector>
+          <GestureDetector gesture={allGestures}>
+            <Animated.View style={[styles.imageModal, backgroundStyle]}>
+              <Animated.View style={[positionStyle]}>
+                <AnimatedFastImage
+                  source={source}
+                  style={[scaleStyle, dimensionsStyle]}
+                />
+              </Animated.View>
+            </Animated.View>
           </GestureDetector>
         </View>
         <Animated.View style={[accessoriesStyle]}>

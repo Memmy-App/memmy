@@ -1,10 +1,14 @@
-import { useNavigation, useScrollToTop } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import {
+  ParamListBase,
+  useNavigation,
+  useScrollToTop,
+} from "@react-navigation/native";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import { HStack, View, useTheme } from "native-base";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { useAppSelector } from "../../../../../store";
 import {
   getCommunityFullName,
@@ -26,6 +30,8 @@ import FeedItem from "./FeedItem/FeedItem";
 import { FeedListingTypeButton } from "./FeedListingTypeButton";
 import { FeedOverflowButton } from "./FeedOverflowButton";
 import FeedSortButton from "./FeedSortButton";
+import IconButtonWithText from "../../../common/IconButtonWithText";
+import SFIcon from "../../../common/icons/SFIcon";
 
 interface FeedViewProps {
   feed: UseFeed;
@@ -37,7 +43,6 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   // State Props
   // TODO Handle this
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [endReached, setEndReached] = useState(false);
   const [showFab, setShowFab] = useState(true);
 
   // Global state props
@@ -50,7 +55,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
 
   // Other Hooks
   const theme = useTheme();
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const navigation = useNavigation<DrawerNavigationProp<ParamListBase>>();
 
   useScrollToTop(flashList);
 
@@ -76,17 +81,6 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   useEffect(() => {
     navigation.setOptions({
       // eslint-disable-next-line react/no-unstable-nested-components
-      headerTitle: () => (
-        <FeedListingTypeButton
-          feed={feed}
-          onPress={() =>
-            flashList?.current?.scrollToOffset({
-              animated: true,
-              offset: 0,
-            })
-          }
-        />
-      ),
       // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
         <HStack space={3}>
@@ -107,7 +101,31 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
         </HStack>
       ),
     });
-  }, [feed, postCommunity, dropdownVisible]);
+
+    if (!community) {
+      navigation.setOptions({
+        // eslint-disable-next-line react/no-unstable-nested-components
+        headerTitle: () => (
+          <FeedListingTypeButton
+            feed={feed}
+            onPress={() =>
+              flashList?.current?.scrollToOffset({
+                animated: true,
+                offset: 0,
+              })
+            }
+          />
+        ),
+        // eslint-disable-next-line react/no-unstable-nested-components
+        headerLeft: () => (
+          <IconButtonWithText
+            icon={<SFIcon icon="list.dash" style={{ marginLeft: 20 }} />}
+            onPressHandler={navigation.openDrawer}
+          />
+        ),
+      });
+    }
+  }, [feed.posts, feed.community, postCommunity, dropdownVisible]);
 
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<PostView>) => {
@@ -183,9 +201,7 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
             estimatedItemSize={compactView ? 100 : 500}
             ListFooterComponent={
               <FeedFooter
-                loading={
-                  (feed.postsLoading && feed.posts.length > 0) || endReached
-                }
+                loading={feed.postsLoading && feed.posts.length > 0}
                 error={feed.postsError}
                 empty={(feed.posts ?? []).length === 0}
                 onRetry={feed.doLoad}

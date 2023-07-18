@@ -19,7 +19,7 @@
     "buildAndSubmit": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive && eas submit -p ios --path build.ipa --non-interactive",
     "buildAndSubmitAll": "yarn run buildProd && yarn run buildProdAnd && eas submit -p ios --path build.iap && eas submit -p android build.aab",
     "generate-license": "license-report --only=prod,dev,peer --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author --output=html > assets/license.html",
-    "release": "appcenter codepush release-react --app gavink/Memmy -t 0.3",
+    "release": "appcenter codepush release-react --app gavink/Memmy -t 0.4",
     "release-staging": "appcenter codepush release-react --app gavink/Memmy -t 10.10.11",
     "promote": "appcenter codepush promote -d Production -s Staging --app gavink/memmy"
   },
@@ -36,6 +36,7 @@
     "@react-native/eslint-config": "^0.72.2",
     "@react-native/metro-config": "^0.72.9",
     "@react-navigation/bottom-tabs": "^6.5.7",
+    "@react-navigation/drawer": "^6.6.3",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@reduxjs/toolkit": "^1.9.5",

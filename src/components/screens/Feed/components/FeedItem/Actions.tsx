@@ -9,17 +9,18 @@ interface Props {
   saved?: boolean;
   onSave: () => void;
   onVotePress: (vote: number) => void;
+  id: number;
 }
-export function actions({ vote, saved, onSave, onVotePress }: Props) {
+export function actions({ vote, saved, onSave, onVotePress, id }: Props) {
   const theme = useTheme();
 
   const onUpvote = useCallback(() => {
     onVotePress(vote === 1 ? 0 : 1);
-  }, [vote]);
+  }, [vote, id]);
 
   const onDownvote = useCallback(() => {
     onVotePress(vote === -1 ? 0 : -1);
-  }, [vote]);
+  }, [vote, id]);
 
   return (
     <HStack space={1} alignItems="center" justifyContent="flex-end">

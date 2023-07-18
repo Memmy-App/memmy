@@ -23,7 +23,7 @@ export const removeDuplicatePosts = (
   );
 
 export const removeNsfwPosts = (list: PostView[]) =>
-  list.filter((p) => !p.post.nsfw);
+  list.filter((p) => !p.post.nsfw && !p.community.nsfw);
 
 export const getCommunityFullName = (community: CommunityView) =>
   `${community?.community?.name}@${getBaseUrl(community?.community?.actor_id)}`;

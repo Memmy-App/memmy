@@ -3,15 +3,17 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useTheme } from "native-base";
+import { useTheme, View } from "native-base";
 import React from "react";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { Dimensions } from "react-native";
 import { useTranslation } from "react-i18next";
-import { IconPlanet } from "tabler-icons-react-native";
 import { CustomTabBar } from "./src/components/common/Navigation/CustomTabBar";
 import LoadingView from "./src/components/common/Loading/LoadingView";
 import SFIcon from "./src/components/common/icons/SFIcon";
 import EditCommentScreen from "./src/components/screens/Comments/EditCommentScreen";
 import NewCommentScreen from "./src/components/screens/Comments/NewCommentScreen";
+
 import CommunityAboutScreen from "./src/components/screens/Feed/CommunityAboutScreen";
 import CommunityFeedScreen from "./src/components/screens/Feed/CommunityFeedScreen";
 import FeedsIndexScreen from "./src/components/screens/Feed/FeedsIndexScreen";
@@ -58,8 +60,48 @@ import { selectSite } from "./src/slices/site/siteSlice";
 import { useAppSelector } from "./store";
 import { truncateName } from "./src/helpers/TextHelper";
 
-const FeedStack = createNativeStackNavigator();
+function CustomDrawerContent() {
+  const theme = useTheme();
+  return (
+    <>
+      {/* Header */}
+      <View
+        height={10}
+        style={{
+          backgroundColor: theme.colors.app.bg,
+        }}
+      />
+      <TraverseScreen />
+    </>
+  );
+}
 
+const Drawer = createDrawerNavigator();
+function FeedDrawerContainerScreen() {
+  const { t } = useTranslation();
+
+  return (
+    <Drawer.Navigator
+      drawerContent={() => <CustomDrawerContent />}
+      screenOptions={{
+        drawerStyle: {
+          width: Dimensions.get("window").width / 1.1,
+        },
+        drawerType: "slide",
+      }}
+    >
+      <Drawer.Screen
+        name="FeedScreen"
+        component={FeedsIndexScreen}
+        options={{
+          title: t("Feed"),
+        }}
+      />
+    </Drawer.Navigator>
+  );
+}
+
+const FeedStack = createNativeStackNavigator();
 function FeedStackScreen() {
   const { t } = useTranslation();
 
@@ -67,10 +109,10 @@ function FeedStackScreen() {
     <FeedStack.Navigator screenOptions={{}}>
       <FeedStack.Group>
         <FeedStack.Screen
-          name="FeedScreen"
-          component={FeedsIndexScreen}
+          name="FeedDrawerContainer"
+          component={FeedDrawerContainerScreen}
           options={{
-            title: t("Feed"),
+            headerShown: false,
           }}
         />
         <FeedStack.Screen name="Post" component={PostScreen} />
@@ -149,7 +191,6 @@ function FeedStackScreen() {
 }
 
 const InboxStack = createNativeStackNavigator();
-
 function InboxStackScreen() {
   const { t } = useTranslation();
 
@@ -231,8 +272,109 @@ function InboxStackScreen() {
   );
 }
 
-const ProfileStack = createNativeStackNavigator();
+function SettingsScreens(stack) {
+  const { t } = useTranslation();
+  return (
+    <>
+      <stack.Screen
+        name="Settings"
+        component={SettingsIndexScreen}
+        options={{
+          title: t("Settings"),
+        }}
+      />
+      <stack.Screen
+        name="ViewAccounts"
+        component={ViewAccountsScreen}
+        options={{
+          title: t("Accounts"),
+        }}
+      />
+      <stack.Screen
+        name="EditAccount"
+        component={EditAccountScreen}
+        options={{
+          title: t("Edit Account"),
+        }}
+      />
+      <stack.Screen
+        name="ReadSettings"
+        component={ReadSettingsScreen}
+        options={{
+          title: t("Mark Post Read On"),
+        }}
+      />
+      <stack.Screen
+        name="Viewer"
+        component={ViewerScreen}
+        options={{
+          title: t("View"),
+        }}
+      />
+      <stack.Screen
+        name="Content"
+        component={ContentScreen}
+        options={{
+          title: t("Content"),
+          freezeOnBlur: true,
+        }}
+      />
+      <stack.Screen
+        name="Appearance"
+        component={AppearanceScreen}
+        options={{
+          title: t("Appearance"),
+          freezeOnBlur: true,
+        }}
+      />
+      <stack.Screen
+        name="ThemeSelection"
+        component={ThemeSelectionScreen}
+        options={{
+          title: t("Theme"),
+        }}
+      />
+      <stack.Screen
+        name="IconSelection"
+        component={IconSelectionScreen}
+        options={{
+          title: t("Icon"),
+        }}
+      />
+      <stack.Screen
+        name="GeneralSettings"
+        component={GeneralSettingsScreen}
+        options={{
+          title: t("General"),
+          freezeOnBlur: true,
+        }}
+      />
+      <stack.Screen
+        name="About"
+        component={AboutScreen}
+        options={{
+          title: t("About"),
+          freezeOnBlur: true,
+        }}
+      />
+    </>
+  );
+}
 
+const SettingsStack = createNativeStackNavigator();
+function SettingsStackScreen() {
+  return (
+    <SettingsStack.Navigator
+      screenOptions={{
+        freezeOnBlur: true,
+      }}
+    >
+      {SettingsScreens(SettingsStack)}
+    </SettingsStack.Navigator>
+  );
+}
+
+const ProfileStack = createNativeStackNavigator();
 function ProfileStackScreen() {
   const { t } = useTranslation();
 
@@ -271,87 +413,7 @@ function ProfileStackScreen() {
           options={{ title: t("Blocked Communities") }}
         />
 
-        <ProfileStack.Screen
-          name="Settings"
-          component={SettingsIndexScreen}
-          options={{
-            title: t("Settings"),
-          }}
-        />
-        <ProfileStack.Screen
-          name="ViewAccounts"
-          component={ViewAccountsScreen}
-          options={{
-            title: t("Accounts"),
-          }}
-        />
-        <ProfileStack.Screen
-          name="EditAccount"
-          component={EditAccountScreen}
-          options={{
-            title: t("Edit Account"),
-          }}
-        />
-        <ProfileStack.Screen
-          name="ReadSettings"
-          component={ReadSettingsScreen}
-          options={{
-            title: t("Mark Post Read On"),
-          }}
-        />
-        <ProfileStack.Screen
-          name="Viewer"
-          component={ViewerScreen}
-          options={{
-            title: t("View"),
-          }}
-        />
-        <ProfileStack.Screen
-          name="Content"
-          component={ContentScreen}
-          options={{
-            title: t("Content"),
-            freezeOnBlur: true,
-          }}
-        />
-        <ProfileStack.Screen
-          name="Appearance"
-          component={AppearanceScreen}
-          options={{
-            title: t("Appearance"),
-            freezeOnBlur: true,
-          }}
-        />
-        <ProfileStack.Screen
-          name="ThemeSelection"
-          component={ThemeSelectionScreen}
-          options={{
-            title: t("Theme"),
-          }}
-        />
-        <ProfileStack.Screen
-          name="IconSelection"
-          component={IconSelectionScreen}
-          options={{
-            title: t("Icon"),
-          }}
-        />
-        <ProfileStack.Screen
-          name="GeneralSettings"
-          component={GeneralSettingsScreen}
-          options={{
-            title: t("General"),
-            freezeOnBlur: true,
-          }}
-        />
-        <ProfileStack.Screen
-          name="About"
-          component={AboutScreen}
-          options={{
-            title: t("About"),
-            freezeOnBlur: true,
-          }}
-        />
+        {SettingsScreens(ProfileStack)}
 
         <ProfileStack.Screen
           name="FeedScreen"
@@ -401,7 +463,6 @@ function ProfileStackScreen() {
 }
 
 const SearchStack = createNativeStackNavigator();
-
 function SearchStackScreen() {
   const { t } = useTranslation();
 
@@ -490,96 +551,7 @@ function SearchStackScreen() {
   );
 }
 
-const TraverseStack = createNativeStackNavigator();
-
-function TraverseStackScreen() {
-  const { t } = useTranslation();
-
-  return (
-    <TraverseStack.Navigator>
-      <TraverseStack.Group>
-        <TraverseStack.Screen
-          name="Traverse"
-          component={TraverseScreen}
-          options={{ title: t("Traverse") }}
-        />
-        <TraverseStack.Screen
-          name="FeedScreen"
-          component={FeedsIndexScreen}
-          options={{
-            title: t("Feed"),
-          }}
-        />
-        <TraverseStack.Screen name="Post" component={PostScreen} />
-        <TraverseStack.Screen
-          name="Community"
-          component={CommunityFeedScreen}
-        />
-        <TraverseStack.Screen
-          name="CommunityAbout"
-          component={CommunityAboutScreen}
-          options={{ title: t("About") }}
-        />
-        <TraverseStack.Screen
-          name="Profile"
-          component={UserProfileScreen}
-          options={{ freezeOnBlur: true }}
-        />
-        <TraverseStack.Screen
-          name="UserComments"
-          component={UserCommentsScreen}
-          options={{
-            title: t("Comments"),
-          }}
-        />
-        <TraverseStack.Screen
-          name="UserPosts"
-          component={UserPostsScreen}
-          options={{
-            title: t("Posts"),
-          }}
-        />
-        <TraverseStack.Screen
-          name="UserSavedPosts"
-          component={UserPostsScreen}
-          options={{
-            title: t("Saved Posts"),
-          }}
-        />
-      </TraverseStack.Group>
-
-      <TraverseStack.Group
-        screenOptions={{
-          presentation: "modal",
-        }}
-      >
-        <TraverseStack.Screen
-          name="NewComment"
-          component={NewCommentScreen}
-          options={{ title: t("New Comment") }}
-        />
-        <TraverseStack.Screen
-          name="EditComment"
-          component={EditCommentScreen}
-          options={{ title: t("comment.edit") }}
-        />
-        <TraverseStack.Screen
-          name="NewPost"
-          component={NewPostScreen}
-          options={{ title: t("New Post") }}
-        />
-        <TraverseStack.Screen
-          name="NewPostBody"
-          component={NewPostBodyScreen}
-          options={{ title: t("New Post") }}
-        />
-      </TraverseStack.Group>
-    </TraverseStack.Navigator>
-  );
-}
-
 const Tab = createBottomTabNavigator();
-
 function Tabs() {
   const { unread } = useAppSelector(selectSite);
   const { t } = useTranslation();
@@ -606,12 +578,18 @@ function Tabs() {
         }}
       />
       <Tab.Screen
-        name="TraverseStack"
-        component={TraverseStackScreen}
+        name="InboxStack"
+        component={InboxStackScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => <IconPlanet color={color} />,
-          tabBarLabel: t("Traverse"),
+          tabBarIcon: ({ color }) => <SFIcon icon="bell" color={color} />,
+          tabBarLabel: t("Inbox"),
+
+          tabBarBadge:
+            unread.replies + unread.mentions + unread.privateMessage > 0
+              ? // ? unread.replies + unread.mentions + unread.privateMessage
+                unread.replies
+              : null,
           freezeOnBlur: false,
         }}
       />
@@ -640,17 +618,13 @@ function Tabs() {
         }}
       />
       <Tab.Screen
-        name="InboxStack"
-        component={InboxStackScreen}
+        name="SettingsStack"
+        component={SettingsStackScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => <SFIcon icon="bell" color={color} />,
-          tabBarLabel: t("Inbox"),
-          tabBarBadge:
-            unread.replies + unread.mentions + unread.privateMessage > 0
-              ? // ? unread.replies + unread.mentions + unread.privateMessage
-                unread.replies
-              : null,
+          // tabBarIcon: ({ color }) => <IconSettings color={color} />,
+          tabBarIcon: ({ color }) => <SFIcon icon="gear" color={color} />,
+          tabBarLabel: t("Settings"),
           freezeOnBlur: false,
         }}
       />
@@ -659,7 +633,6 @@ function Tabs() {
 }
 
 const MainStack = createNativeStackNavigator();
-
 interface StackProps {
   onReady: () => void;
 }
