@@ -4,11 +4,7 @@ import React, { SetStateAction, memo } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import FastImage from "@gkasdorf/react-native-fast-image";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useAppDispatch } from "../../../../../../store";
 import useFeedItem from "../../../../../hooks/feeds/useFeedItem";
-import { setResponseTo } from "../../../../../slices/comments/newCommentSlice";
 import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
 import AvatarUsername from "../../../../common/AvatarUsername";
 import { FeedItemContextMenu } from "../../../../common/ContextMenu/FeedItemContextMenu";
@@ -30,17 +26,6 @@ interface FeedItemProps {
 
 function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
   const feedItem = useFeedItem(post, setPosts);
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const dispatch = useAppDispatch();
-  const onReply = () => {
-    dispatch(
-      setResponseTo({
-        post,
-        languageId: post.post.language_id,
-      })
-    );
-    navigation.push("NewComment");
-  };
 
   const onSwipe = (value: ILemmyVote) => {
     feedItem.onVotePress(value, false);
@@ -51,7 +36,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
       <View py={1}>
         <SwipeableRow
           leftOption={<VoteOption onVote={onSwipe} vote={post.my_vote} />}
-          rightOption={<ReplyOption onReply={onReply} />}
+          rightOption={<ReplyOption onReply={feedItem.doReply} />}
         >
           <Post>
             <Header
