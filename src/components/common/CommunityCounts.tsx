@@ -23,7 +23,7 @@ function CommunityCounts({ counts }: IProps) {
   const usersActiveWeek = PrettyNumbers({ num: counts.users_active_week });
   const usersActiveDay = PrettyNumbers({ num: counts.users_active_day });
   return (
-    <VStack paddingTop={4} paddingBottom={4}>
+    <VStack paddingTop={4} paddingBottom={4} space={1}>
       <Text fontSize="xl" fontWeight="bold">
         Stats:
       </Text>

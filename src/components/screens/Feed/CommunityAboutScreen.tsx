@@ -51,17 +51,7 @@ function CommunityAboutScreen({ route }: { route: any }) {
           </Text>
           <RenderMarkdown text={route.params.description} />
           <CommunityCounts counts={community.community.counts} />
-          <Text fontSize="xl" fontWeight="bold">
-            Mods:
-          </Text>
-          <VStack p={2}>
-            {[...community.moderators].map((moderator) => (
-              <ModeratorList
-                key={moderator.moderator.id}
-                item={moderator.moderator}
-              />
-            ))}
-          </VStack>
+          <ModeratorList moderators={community.moderators} />
         </VStack>
       </VStack>
     </ScrollView>
