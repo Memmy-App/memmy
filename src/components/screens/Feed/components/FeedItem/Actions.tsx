@@ -1,8 +1,8 @@
-import React, { useCallback } from "react";
 import { HStack, useTheme } from "native-base";
-import { IconBookmark } from "tabler-icons-react-native";
-import VoteButton from "../../../../common/Vote/VoteButton";
+import React, { useCallback } from "react";
 import IconButtonWithText from "../../../../common/IconButtonWithText";
+import VoteButton from "../../../../common/Vote/VoteButton";
+import SFIcon from "../../../../common/icons/SFIcon";
 
 interface Props {
   vote?: number;
@@ -26,8 +26,8 @@ export function actions({ vote, saved, onSave, onVotePress, id }: Props) {
     <HStack space={1} alignItems="center" justifyContent="flex-end">
       <IconButtonWithText
         icon={
-          <IconBookmark
-            size={25}
+          <SFIcon
+            icon="bookmark"
             color={
               saved ? theme.colors.app.bookmarkText : theme.colors.app.accent
             }

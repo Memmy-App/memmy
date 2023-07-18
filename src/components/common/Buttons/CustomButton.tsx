@@ -59,7 +59,7 @@ function CustomButton({
           <IconComponent
             size={size === "md" ? 24 : 20}
             color={theme.colors.app.accent}
-            fill={iconFill ? theme.colors.app.accent : undefined}
+            fill={iconFill ? theme.colors.app.accent : "transparent"}
           />
         )}
         <Text fontSize={size} color={theme.colors.app.textPrimary}>

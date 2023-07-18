@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView, useTheme, VStack } from "native-base";
+import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { ContextMenuButton } from "react-native-ios-context-menu";
 import {
   IconBookmark,
   IconChevronRight,
@@ -9,21 +11,17 @@ import {
   IconNotes,
   IconSettings,
 } from "tabler-icons-react-native";
-import { useTranslation } from "react-i18next";
-import { ContextMenuButton } from "react-native-ios-context-menu";
+import { useAppDispatch } from "../../../../store";
 import useProfile from "../../../hooks/profile/useProfile";
+import { useBlockUser } from "../../../hooks/user/useBlockUser";
 import HeaderIconButton from "../../common/Buttons/HeaderIconButton";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";
 import LoadingView from "../../common/Loading/LoadingView";
 import NotFoundView from "../../common/Loading/NotFoundView";
-import ProfileHeader from "./components/ProfileHeader";
-import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
-import { showToast } from "../../../slices/toast/toastSlice";
-import { useAppDispatch } from "../../../../store";
-import MTable from "../../common/Table/MTable";
-import MCell from "../../common/Table/MCell";
 import RefreshControl from "../../common/RefreshControl";
-import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
+import MCell from "../../common/Table/MCell";
+import MTable from "../../common/Table/MTable";
+import ProfileHeader from "./components/ProfileHeader";
 
 interface IProps {
   route: any;
@@ -37,26 +35,6 @@ function UserProfileScreen({ route, navigation }: IProps) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-
-  const blockUser = async () => {
-    try {
-      await lemmyInstance.blockPerson({
-        auth: lemmyAuthToken,
-        person_id: profile.profile.person.id,
-        block: true,
-      });
-
-      dispatch(
-        showToast({
-          message: t("toast.userBlockedSuccess"),
-          duration: 3000,
-          variant: "info",
-        })
-      );
-    } catch (e) {
-      handleLemmyError(e.toString());
-    }
-  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -79,7 +57,11 @@ function UserProfileScreen({ route, navigation }: IProps) {
                 isMenuPrimaryAction
                 onPressMenuItem={({ nativeEvent }) => {
                   if (nativeEvent.actionKey === "BlockUser") {
-                    blockUser();
+                    useBlockUser({
+                      personId: profile.profile.person.id,
+                      dispatch,
+                      t,
+                    });
                   }
                 }}
                 menuConfig={{

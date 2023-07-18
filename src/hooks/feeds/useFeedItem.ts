@@ -17,14 +17,20 @@ import { selectSettings } from "../../slices/settings/settingsSlice";
 import { showToast } from "../../slices/toast/toastSlice";
 import { savePost } from "../../helpers/LemmyHelpers";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
+import { useReportPost } from "../post/useReportPost";
+import { useBlockUser } from "../user/useBlockUser";
+import { setResponseTo } from "../../slices/comments/newCommentSlice";
+import { shareLink } from "../../helpers/ShareHelper";
 
-interface UseFeedItem {
+export interface UseFeedItem {
   onVotePress: (value: ILemmyVote, haptic?: boolean) => Promise<void>;
   onPress: () => void;
   doSave: () => Promise<void>;
-
   setPostRead: () => void;
-
+  doReport: () => Promise<void>;
+  blockCreator: () => Promise<void>;
+  doReply: () => void;
+  doShare: () => void;
   linkInfo: LinkInfo;
 }
 
@@ -184,15 +190,41 @@ const useFeedItem = (
     }
   }, [post.post.id]);
 
+  const doReport = useCallback(async () => {
+    useReportPost({ postId: post.post.id, dispatch }).then();
+  }, [post.post.id]);
+
+  const blockCreator = useCallback(async () => {
+    useBlockUser({ personId: post.creator.id, dispatch, t }).then();
+  }, [post.post.id]);
+
+  const doReply = useCallback(() => {
+    dispatch(
+      setResponseTo({
+        post,
+        languageId: post.post.language_id,
+      })
+    );
+
+    navigation.push("NewComment");
+  }, [post]);
+
+  const doShare = useCallback(() => {
+    shareLink({
+      link: post.post.ap_id,
+      title: post.post.name,
+    });
+  }, [post.post.ap_id, post.post.name]);
+
   return {
     onVotePress,
-
     doSave,
-
     onPress,
-
     setPostRead,
-
+    doReport,
+    blockCreator,
+    doReply,
+    doShare,
     linkInfo,
   };
 };
