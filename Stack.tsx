@@ -59,6 +59,7 @@ import {
 import { selectSite } from "./src/slices/site/siteSlice";
 import { useAppSelector } from "./store";
 import { truncateName } from "./src/helpers/TextHelper";
+import { ICON_MAP } from "./src/constants/IconMap";
 
 function CustomDrawerContent() {
   const theme = useTheme();
@@ -599,7 +600,7 @@ function Tabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
-            <SFIcon icon="person.circle" color={color} />
+            <SFIcon icon={ICON_MAP.USER_AVATAR} color={color} />
           ),
           tabBarLabel: truncateName(currentAccount.username, 10),
           freezeOnBlur: false,

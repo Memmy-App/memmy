@@ -1,14 +1,15 @@
-import React from "react";
-import { HStack, Text, useTheme, VStack } from "native-base";
 import FastImage from "@gkasdorf/react-native-fast-image";
-import { IconUser } from "tabler-icons-react-native";
 import { Person } from "lemmy-js-client";
-import Link from "./Buttons/Link";
-import { getBaseUrl } from "../../helpers/LinkHelper";
+import { HStack, Text, useTheme, VStack } from "native-base";
+import React from "react";
 import { useAppSelector } from "../../../store";
-import { selectSettings } from "../../slices/settings/settingsSlice";
+import { ICON_MAP } from "../../constants/IconMap";
 import { getUserFullName } from "../../helpers/LemmyHelpers";
+import { getBaseUrl } from "../../helpers/LinkHelper";
+import { selectSettings } from "../../slices/settings/settingsSlice";
+import Link from "./Buttons/Link";
 import Chip from "./Chip";
+import SFIcon from "./icons/SFIcon";
 
 export type NameType = "admin" | "mod" | "dev" | "op";
 
@@ -106,7 +107,12 @@ function AvatarUsername({
             style={{ height: 18, width: 18, borderRadius: 100 }}
           />
         ) : (
-          <IconUser color={theme.colors.app.textSecondary} size={18} />
+          <SFIcon
+            icon={ICON_MAP.USER_AVATAR}
+            color={theme.colors.app.textSecondary}
+            size={14}
+            style={{ width: 22, height: 22 }}
+          />
         ))}
       <VStack>
         <HStack space={0.5}>

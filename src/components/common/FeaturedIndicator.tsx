@@ -1,19 +1,14 @@
 import React from "react";
-import { HStack, useTheme } from "native-base";
-import { IconPin } from "tabler-icons-react-native";
+import SFIcon from "./icons/SFIcon";
 
 interface IProps {
   featured: boolean;
 }
 
 function FeaturedIndicator({ featured }: IProps) {
-  const { colors } = useTheme();
-
   if (featured) {
     return (
-      <HStack alignItems="center">
-        <IconPin size={16} color={colors.app.accent} fill={colors.app.accent} />
-      </HStack>
+      <SFIcon icon="pin.fill" size={10} style={{ width: 20, height: 20 }} />
     );
   }
 
