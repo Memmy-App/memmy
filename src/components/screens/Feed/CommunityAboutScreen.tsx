@@ -1,14 +1,13 @@
-import React, { useEffect } from "react";
-import { ScrollView, Text, useTheme, VStack } from "native-base";
 import FastImage from "@gkasdorf/react-native-fast-image";
-import { IconPlanet } from "tabler-icons-react-native";
+import { ScrollView, Text, useTheme, VStack } from "native-base";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import CommunityCounts from "../../common/CommunityCounts";
-import LoadingView from "../../common/Loading/LoadingView";
-import RenderMarkdown from "../../common/Markdown/RenderMarkdown";
 import useCommunity from "../../../hooks/communities/useCommunity";
+import CommunityCounts from "../../common/CommunityCounts";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";
+import LoadingView from "../../common/Loading/LoadingView";
 import NotFoundView from "../../common/Loading/NotFoundView";
+import RenderMarkdown from "../../common/Markdown/RenderMarkdown";
 import ModeratorList from "../../common/ModeratorList";
 
 function CommunityAboutScreen({ route }: { route: any }) {
@@ -34,18 +33,16 @@ function CommunityAboutScreen({ route }: { route: any }) {
 
   return (
     <ScrollView flex={1} backgroundColor={theme.colors.app.bg}>
-      <VStack>
-        {route.params.banner ? (
+      <VStack mx={4}>
+        {route.params.banner && (
           <FastImage
             source={{
               uri: route.params.banner,
             }}
             style={{ height: 200, width: "100%", opacity: 0.5 }}
           />
-        ) : (
-          <IconPlanet />
         )}
-        <VStack p={4}>
+        <VStack py={4}>
           <Text fontSize="2xl" fontWeight="bold" underline>
             {t("Description")}
           </Text>
