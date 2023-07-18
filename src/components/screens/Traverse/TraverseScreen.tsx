@@ -27,20 +27,26 @@ function TraverseScreen() {
 
   const [term, setTerm] = useState("");
 
+  const itemFilter = (item: CommunityView) =>
+    !term || item.community.name.includes(term);
+
   const currentAccount = useAppSelector(selectCurrentAccount);
   const favorites =
     useAppSelector(selectFavorites).favorites[
       `${currentAccount.username}@${currentAccount.instance}`
     ];
+
   const hasFavorites = favorites && Object.keys(favorites).length > 0;
 
+  const filteredSubscriptions = traverse.subscriptions.filter(itemFilter);
   // If there are favorites then indexing should start at 3, otherwise 2
-  const startingIndex = hasFavorites ? 3 : 2;
+  const startingIndex = hasFavorites ? 2 : 1;
   // If there are favorites then we'll add it as a numeric index
   const headerNumericIndexes: number[] = [];
   let lastIndexAlpha: string;
-  const indexedTraverseItems: IndexedTraverseItem[] =
-    traverse.subscriptions.reduce((accumulator, subscription) => {
+  const indexedTraverseItems: IndexedTraverseItem[] = filteredSubscriptions
+    .filter(itemFilter)
+    .reduce((accumulator, subscription) => {
       const { name } = subscription.community;
       // get the first letter of the name
       const firstLetter = name.at(0).toLocaleUpperCase();
@@ -86,57 +92,73 @@ function TraverseScreen() {
     return (
       <TraverseItem
         community={subscription}
-        isFavorite={favorites ? isFavorite(subscription) : false}
+        isFavorite={hasFavorites ? isFavorite(subscription) : false}
         key={subscription?.community.id}
       />
     );
   };
+
+  const memoizedTraverseItems = useMemo(
+    () => indexedTraverseItems.map((c) => item(c)),
+    [indexedTraverseItems]
+  );
+
+  const memoizedFavorites = useMemo(
+    () =>
+      filteredSubscriptions
+        .filter((c) => isFavorite(c))
+        .filter(itemFilter)
+        .map((c) => item({ subscription: c })),
+    [filteredSubscriptions]
+  );
 
   if (traverse.loading) {
     return <LoadingView />;
   }
 
   return (
-    <ScrollView
-      flex={1}
-      backgroundColor={theme.colors.app.bg}
-      refreshControl={
-        <RefreshControl
-          refreshing={traverse.refreshing}
-          onRefresh={() => traverse.doLoad(true)}
-        />
-      }
-      keyboardShouldPersistTaps="handled"
-      stickyHeaderIndices={headerNumericIndexes}
-    >
-      {/* Index 0 */}
+    <View flex={1}>
       {header}
-
-      {hasFavorites && (
-        /* Index 1 */
-        <View flex={1}>
-          <Text textAlign="center">{t("Favorites")}</Text>
-          {traverse.subscriptions
-            .filter((c) => isFavorite(c))
-            .map((c) => item({ subscription: c }))}
-        </View>
-      )}
-      {/* Index 1 OR 2 */}
-      <Text textAlign="center">{t("Subscriptions")}</Text>
-      {traverse.subscriptions.length === 0 ? (
-        <Text
-          fontStyle="italic"
-          textAlign="center"
-          justifyContent="center"
-          alignSelf="center"
-        >
-          {t("traverse.noSubscriptions")}
-        </Text>
-      ) : (
-        /* Index 2+ OR 3+ if there are favorites */
-        indexedTraverseItems.map((c) => item(c))
-      )}
-    </ScrollView>
+      <ScrollView
+        flex={1}
+        backgroundColor={theme.colors.app.bg}
+        refreshControl={
+          <RefreshControl
+            refreshing={traverse.refreshing}
+            onRefresh={() => traverse.doLoad(true)}
+          />
+        }
+        keyboardShouldPersistTaps="handled"
+        stickyHeaderIndices={headerNumericIndexes}
+      >
+        {hasFavorites && (
+          /* Maybe Index 0 */
+          <View style={styles.favoritesContainer} flex={1}>
+            <Text textAlign="center">{`${t("Favorites")} (${
+              memoizedFavorites.length
+            })`}</Text>
+            {memoizedFavorites}
+          </View>
+        )}
+        {/* Index 0 OR 1 */}
+        <Text textAlign="center">{`${t("Subscriptions")} (${
+          filteredSubscriptions.length
+        })`}</Text>
+        {indexedTraverseItems.length === 0 ? (
+          <Text
+            fontStyle="italic"
+            textAlign="center"
+            justifyContent="center"
+            alignSelf="center"
+          >
+            {t("traverse.noSubscriptions")}
+          </Text>
+        ) : (
+          /* Index 1+ OR 2+ if there are favorites */
+          memoizedTraverseItems
+        )}
+      </ScrollView>
+    </View>
   );
 }
 
@@ -145,6 +167,9 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingTop: 10,
     paddingStart: 18,
+  },
+  favoritesContainer: {
+    marginBottom: 16,
   },
 });
 
