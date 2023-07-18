@@ -45,10 +45,10 @@ export const FEED_OPTIONS: Record<
     icon: ICON_MAP.BLOCK_USER,
     destructive: true,
   },
-  Community: {
-    display: "Community",
-    icon: "person.2",
-  },
+  // Community: {
+  //   display: "Community",
+  //   icon: "person.2",
+  // },
 };
 
 const FEED_COMMUNITY_OPTIONS: Record<
