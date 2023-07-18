@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useTheme, VStack } from "native-base";
 import { FlashList } from "@shopify/flash-list";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { IconMailOpened } from "tabler-icons-react-native";
 import useInbox from "../../../hooks/inbox/useInbox";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";
-import LoadingModalTransparent from "../../common/Loading/LoadingModalTransparent";
 import InboxTabs from "./InboxTabs";
 import LoadingView from "../../common/Loading/LoadingView";
 import InboxReplyItem from "./components/InboxReplyItem";
@@ -35,23 +34,25 @@ function InboxScreen({
     });
   }, []);
 
-  const onRefresh = () => {
+  const onRefresh = useCallback(() => {
     inbox.doLoad(true);
-  };
+  }, []);
 
   const replyItem = ({ item }: { item: ILemmyComment }) => (
     <InboxReplyItem inbox={inbox} item={item} />
   );
 
-  const onUnreadPress = () => {
+  const onUnreadPress = useCallback(() => {
     inbox.setTopSelected("unread");
-  };
-  const onAllPress = () => {
+  }, []);
+
+  const onAllPress = useCallback(() => {
     inbox.setTopSelected("all");
-  };
-  const onRepliesPress = () => {
+  }, []);
+
+  const onRepliesPress = useCallback(() => {
     inbox.setBottomSelected("replies");
-  };
+  }, []);
 
   const header = (
     <InboxTabs
@@ -74,7 +75,6 @@ function InboxScreen({
 
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.bg}>
-      <LoadingModalTransparent loading={inbox.loading} />
       <FlashList
         renderItem={replyItem}
         data={inbox.items}
