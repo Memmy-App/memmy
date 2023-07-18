@@ -1,5 +1,5 @@
-import React, { SetStateAction, useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, { SetStateAction, useCallback, useState } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
 import { useAppDispatch } from "../../../store";
@@ -49,9 +49,11 @@ const useInbox = (): UseInbox => {
     "replies" | "mentions" | "messages"
   >("replies");
 
-  useEffect(() => {
-    doLoad().then();
-  }, [topSelected, bottomSelected]);
+  useFocusEffect(
+    useCallback(() => {
+      doLoad().then();
+    }, [topSelected, bottomSelected])
+  );
 
   const onCommentReplyPress = async (
     postId: number,
@@ -80,23 +82,26 @@ const useInbox = (): UseInbox => {
     }
   };
 
-  const doLoad = (refresh = false) => {
-    setRefreshing(refresh);
-    setLoading(!refresh);
+  const doLoad = useCallback(
+    (refresh = false) => {
+      setRefreshing(refresh);
+      setLoading(!refresh);
 
-    switch (bottomSelected) {
-      case "replies":
-        return doLoadReplies();
-      case "mentions":
-        return doLoadMentions(topSelected === "unread");
-      case "messages":
-        return doLoadMessage(topSelected === "unread");
-      default:
-        return doLoadReplies();
-    }
-  };
+      switch (bottomSelected) {
+        case "replies":
+          return doLoadReplies();
+        // case "mentions":
+        //   return doLoadMentions(topSelected === "unread");
+        // case "messages":
+        //   return doLoadMessage(topSelected === "unread");
+        default:
+          return doLoadReplies();
+      }
+    },
+    [bottomSelected, topSelected]
+  );
 
-  const doLoadReplies = async () => {
+  const doLoadReplies = useCallback(async () => {
     try {
       const res = await lemmyInstance.getReplies({
         auth: lemmyAuthToken,
@@ -122,41 +127,41 @@ const useInbox = (): UseInbox => {
 
     setLoading(false);
     setRefreshing(false);
-  };
+  }, [topSelected]);
 
-  const doLoadMentions = async (unread: boolean) => {
-    try {
-      await lemmyInstance.getPersonMentions({
-        auth: lemmyAuthToken,
-        limit: 50,
-        unread_only: unread,
-      });
+  // const doLoadMentions = async (unread: boolean) => {
+  //   try {
+  //     await lemmyInstance.getPersonMentions({
+  //       auth: lemmyAuthToken,
+  //       limit: 50,
+  //       unread_only: unread,
+  //     });
+  //
+  //     // setItems(res.mentions);
+  //   } catch (e) {
+  //     handleLemmyError(e.toString());
+  //   }
+  //
+  //   setLoading(false);
+  // };
+  //
+  // const doLoadMessage = async (unread: boolean) => {
+  //   try {
+  //     await lemmyInstance.getPrivateMessages({
+  //       auth: lemmyAuthToken,
+  //       limit: 50,
+  //       unread_only: unread,
+  //     });
+  //
+  //     // setItems(res.private_messages);
+  //   } catch (e) {
+  //     handleLemmyError(e.toString());
+  //   }
+  //
+  //   setLoading(false);
+  // };
 
-      // setItems(res.mentions);
-    } catch (e) {
-      handleLemmyError(e.toString());
-    }
-
-    setLoading(false);
-  };
-
-  const doLoadMessage = async (unread: boolean) => {
-    try {
-      await lemmyInstance.getPrivateMessages({
-        auth: lemmyAuthToken,
-        limit: 50,
-        unread_only: unread,
-      });
-
-      // setItems(res.private_messages);
-    } catch (e) {
-      handleLemmyError(e.toString());
-    }
-
-    setLoading(false);
-  };
-
-  const doReadAll = async () => {
+  const doReadAll = useCallback(async () => {
     setLoading(true);
 
     try {
@@ -174,7 +179,7 @@ const useInbox = (): UseInbox => {
     } catch (e) {
       handleLemmyError(e.toString());
     }
-  };
+  }, []);
 
   return {
     doLoad,

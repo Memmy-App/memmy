@@ -10,6 +10,9 @@ export function FeedOverflowButton() {
   const dispatch = useAppDispatch();
   return (
     <ContextMenuButton
+      style={{
+        paddingRight: 10,
+      }}
       isMenuPrimaryAction
       onPressMenuItem={({ nativeEvent }) => {
         if (
