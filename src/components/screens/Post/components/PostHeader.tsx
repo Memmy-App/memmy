@@ -70,7 +70,7 @@ function PostHeader() {
       </HStack>
 
       <Divider my={1} bg={theme.colors.app.border} />
-      {/* <PostActionBar /> */}
+      <PostActionBar />
       <Divider bg={theme.colors.app.border} />
       {/* {showLoadAll && !hideSLA && ( */}
       {/*  <Pressable */}

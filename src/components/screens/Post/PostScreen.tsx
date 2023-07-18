@@ -3,75 +3,94 @@ import { FlashList } from "@shopify/flash-list";
 import { HStack, useTheme, VStack } from "native-base";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { produce } from "immer";
 import usePost from "../../../hooks/post/usePost";
 import LoadingView from "../../common/Loading/LoadingView";
 import CommentItem from "../../common/Comments/CommentItem";
-import CommentSortButton from "./components/CommentSortButton";
 import PostOptionsButton from "./components/PostOptionsButton";
 import PostFooter from "./components/PostFooter";
 import PostHeader from "./components/PostHeader";
 import RefreshControl from "../../common/RefreshControl";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
-import { useCurrentPost } from "../../../stores/posts/postsStore";
+import { PostsState, usePostsStore } from "../../../stores/posts/postsStore";
+import { loadPostComments, removePost } from "../../../stores/posts/actions";
 
 interface IProps {
-  route: any;
   navigation: NativeStackNavigationProp<any>;
 }
 
-function PostScreen({ route, navigation }: IProps) {
-  const { postKey } = route.params;
-  const post = useCurrentPost(postKey);
+function PostScreen({ navigation }: IProps) {
+  const postHook = usePost();
 
   const { t } = useTranslation();
   const theme = useTheme();
-  const postHook = usePost(
-    route.params && route.params.commentId ? route.params.commentId : null
-  );
 
   useEffect(() => {
-    const commentCount = post.post.counts.comments || 0;
+    const commentCount = postHook.post.counts.comments || 0;
     navigation.setOptions({
       title: `${commentCount} ${t("Comment", { count: commentCount })}`,
       // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
         <HStack space={3}>
-          <CommentSortButton
-            sortType={postHook.sortType}
-            setSortType={postHook.setSortType}
-          />
+          {/* <CommentSortButton */}
+          {/*  sortType={postHook.postState.sortType} */}
+          {/*  setSortType={postHook.postState.setSortType} */}
+          {/* /> */}
           <PostOptionsButton />
         </HStack>
       ),
     });
-  }, [postHook.sortType]);
+  }, [postHook.postState.sortType]);
+
+  useEffect(() => {
+    loadPostComments(postHook.postKey, {
+      sortType: postHook.postState.sortType,
+    }).then();
+
+    // Remove the post when we are finished
+    return () => {
+      removePost(postHook.postKey);
+    };
+  }, []);
+
+  useEffect(() => {
+    usePostsStore.setState(
+      produce((state: PostsState) => {
+        state.posts[postHook.postKey].visibleComments =
+          postHook.postState.visibleComments.filter((c) => !c.hidden);
+      })
+    );
+  }, [postHook.postState.comments]);
 
   const commentItem = ({ item }: { item: ILemmyComment }) => (
     <CommentItem comment={item} />
   );
 
   const refreshControl = (
-    <RefreshControl refreshing={post.commentsLoading} onRefresh={post.doLoad} />
+    <RefreshControl
+      refreshing={postHook.postState.commentsLoading}
+      onRefresh={postHook.doLoad}
+    />
   );
 
-  if (!post) {
+  if (!postHook.post) {
     return <LoadingView />;
   }
 
   const keyExtractor = (item) => item.comment.comment.id.toString();
 
-  if (post.post) {
+  if (postHook.post) {
     return (
       <VStack flex={1} backgroundColor={theme.colors.app.bg}>
         <FlashList
           ListHeaderComponent={<PostHeader />}
           ListFooterComponent={<PostFooter />}
-          data={post.comments}
+          data={postHook.postState.comments}
           renderItem={commentItem}
           keyExtractor={keyExtractor}
           estimatedItemSize={200}
           refreshControl={refreshControl}
-          refreshing={post.commentsLoading}
+          refreshing={postHook.postState.commentsLoading}
         />
       </VStack>
     );

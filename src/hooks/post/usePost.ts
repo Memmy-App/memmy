@@ -1,86 +1,44 @@
-import React, { SetStateAction, useCallback, useEffect, useState } from "react";
-import { CommentSortType, PostView } from "lemmy-js-client";
+import { useCallback } from "react";
+import { PostView } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
-import { produce } from "immer";
-import { Alert } from "react-native";
-import { useAppDispatch, useAppSelector } from "../../../store";
-import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
+import { useAppDispatch } from "../../../store";
 import { setUpdateSaved, setUpdateVote } from "../../slices/feed/feedSlice";
 import {
   onGenericHapticFeedback,
   onVoteHapticFeedback,
 } from "../../helpers/HapticFeedbackHelpers";
-import ILemmyComment from "../../types/lemmy/ILemmyComment";
 import { showToast } from "../../slices/toast/toastSlice";
 import { savePost } from "../../helpers/LemmyHelpers";
-import { selectSettings } from "../../slices/settings/settingsSlice";
-import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
-import {
-  PostsState,
-  useCurrentPost,
-  usePostsStore,
-} from "../../stores/posts/postsStore";
-import { loadPostComments, removePost } from "../../stores/posts/actions";
+import { PostState, useCurrentPost } from "../../stores/posts/postsStore";
+import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
+import { determineVotes } from "../../helpers/VoteHelper";
+import { setPostVote } from "../../stores/posts/actions";
 
 export interface UsePost {
-  visibleComments: ILemmyComment[];
+  postKey: string;
+  postState: PostState;
+  post: PostView;
 
   currentPost: PostView;
 
-  sortType: CommentSortType;
-  setSortType: React.Dispatch<SetStateAction<CommentSortType>>;
-
-  collapsed: boolean;
-  setCollapsed: React.Dispatch<SetStateAction<boolean>>;
-
-  showLoadAll: boolean;
-  setShowLoadAll: React.Dispatch<SetStateAction<boolean>>;
-
+  doLoad: () => void;
   doSave: () => Promise<void>;
-
-  doVote: (value: -1 | 0 | 1) => Promise<void>;
+  doVote: (value: -1 | 0 | 1) => void;
 }
 
-const usePost = (commentId: string | null): UsePost => {
+const usePost = (): UsePost => {
   // Get the things we need from the route
   const route = useRoute<any>();
   const { postKey } = route.params;
-
-  const { defaultCommentSort } = useAppSelector(selectSettings);
 
   // Select the current post from the store
   const postState = useCurrentPost(postKey);
   const { post } = postState;
 
-  const [collapsed, setCollapsed] = useState<boolean>(false);
-
-  const [sortType, setSortType] = useState<CommentSortType>(defaultCommentSort);
-
-  const [showLoadAll, setShowLoadAll] = useState(true);
-
   // Other Hooks
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-
-  useEffect(() => {
-    loadPostComments(postKey, { sortType }).then();
-
-    // Remove the post when we are finished
-    return () => {
-      removePost(postKey);
-    };
-  }, []);
-
-  useEffect(() => {
-    usePostsStore.setState(
-      produce((state: PostsState) => {
-        state.posts[postKey].visibleComments = postState.visibleComments.filter(
-          (c) => !c.hidden
-        );
-      })
-    );
-  }, [postState.comments]);
 
   // useEffect(() => {
   //   if (newComment) {
@@ -136,51 +94,23 @@ const usePost = (commentId: string | null): UsePost => {
   /**
    * Load the Comments for the current Post
    */
+  const doLoad = () => {};
 
   /**
    * Vote on the current Post
    * @param value
    */
   const doVote = useCallback(
-    async (value: -1 | 0 | 1) => {
-      let { upvotes, downvotes } = post.counts;
-
-      // If we already voted, this will be a neutral vote.
-      if (value === post.my_vote && value !== 0) value = 0;
-
-      // Store old value in case we encounter an error
-      const oldValue = post.my_vote;
-
-      // Deal with updating the upvote/downvote count
-      if (value === 0) {
-        if (oldValue === -1) downvotes -= 1;
-        if (oldValue === 1) upvotes -= 1;
-      }
-
-      if (value === 1) {
-        if (oldValue === -1) downvotes -= 1;
-        upvotes += 1;
-      }
-
-      if (value === -1) {
-        if (oldValue === 1) upvotes -= 1;
-        downvotes += 1;
-      }
+    (value: ILemmyVote) => {
+      const newValues = determineVotes(
+        value,
+        post.my_vote,
+        post.counts.upvotes,
+        post.counts.downvotes
+      );
 
       // Play trigger
       onVoteHapticFeedback();
-
-      // Update the state
-      // setCurrentPost({
-      //   ...currentPost,
-      //   my_vote: value,
-      //   counts: {
-      //     ...currentPost.counts,
-      //     upvotes,
-      //     downvotes,
-      //     score: upvotes - downvotes,
-      //   },
-      // });
 
       // Put result in store, so we can change it when we go back
       dispatch(
@@ -190,23 +120,9 @@ const usePost = (commentId: string | null): UsePost => {
         })
       );
 
-      // Send request
-      try {
-        await lemmyInstance.likePost({
-          auth: lemmyAuthToken,
-          post_id: post.post.id,
-          score: value,
-        });
-      } catch (e) {
-        // setCurrentPost({
-        //   ...currentPost,
-        //   my_vote: oldValue,
-        // });
-
-        handleLemmyError(e.toString());
-      }
+      setPostVote(postKey, post.post.id, newValues).then();
     },
-    [] // TODO FIX THIS
+    [post.my_vote] // TODO FIX THIS
   );
 
   const doSave = useCallback(async () => {
@@ -238,19 +154,14 @@ const usePost = (commentId: string | null): UsePost => {
   }, []); // TODO FIX THIS
 
   return {
-    sortType,
-    setSortType,
-
-    showLoadAll,
-    setShowLoadAll,
-
-    collapsed,
-    setCollapsed,
+    postKey,
+    postState,
+    post,
 
     currentPost: post,
 
+    doLoad,
     doSave,
-
     doVote,
   };
 };

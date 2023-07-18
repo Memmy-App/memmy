@@ -3,7 +3,6 @@ import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useRoute } from "@react-navigation/core";
 import { useAppDispatch } from "../../../../../store";
 import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
 import { shareLink } from "../../../../helpers/ShareHelper";
@@ -11,11 +10,10 @@ import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
 import IconButtonWithText from "../../../common/IconButtonWithText";
 import VoteButton from "../../../common/Vote/VoteButton";
 import SFIcon from "../../../common/icons/SFIcon";
-import { useCurrentPost } from "../../../../stores/posts/postsStore";
+import usePost from "../../../../hooks/post/usePost";
 
 function PostActionBar() {
-  const { postKey } = useRoute<any>().params;
-  const postState = useCurrentPost(postKey);
+  const postHook = usePost();
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { colors } = useTheme();
@@ -26,8 +24,8 @@ function PostActionBar() {
 
     dispatch(
       setResponseTo({
-        post: postState.post,
-        languageId: postState.post.post.language_id,
+        post: postHook.post,
+        languageId: postHook.post.post.language_id,
       })
     );
 
@@ -38,17 +36,17 @@ function PostActionBar() {
     onGenericHapticFeedback();
 
     shareLink({
-      link: postState.post.post.ap_id,
-      title: postState.post.post.name,
-    });
+      link: postHook.post.post.ap_id,
+      title: postHook.post.post.name,
+    }).then();
   };
 
   const onUpvotePress = () => {
-    // doVote(1).then();
+    postHook.doVote(1);
   };
 
   const onDownvotePress = () => {
-    // doVote(-1).then();
+    postHook.doVote(-1);
   };
 
   return (
@@ -63,16 +61,16 @@ function PostActionBar() {
       <VoteButton
         onPressHandler={onUpvotePress}
         type="upvote"
-        isVoted={postState.post?.my_vote === 1}
-        text={postState.post.counts.upvotes}
+        isVoted={postHook.post?.my_vote === 1}
+        text={postHook.post.counts.upvotes}
         isAccented
       />
 
       <VoteButton
         onPressHandler={onDownvotePress}
         type="downvote"
-        isVoted={postState.post?.my_vote === -1}
-        text={postState.post.counts.downvotes}
+        isVoted={postHook.post?.my_vote === -1}
+        text={postHook.post.counts.downvotes}
         isAccented
       />
 
@@ -81,10 +79,10 @@ function PostActionBar() {
         icon={
           <SFIcon
             icon="bookmark"
-            color={postState.post.saved && colors.app.bookmarkText}
+            color={postHook.post.saved && colors.app.bookmarkText}
           />
         }
-        iconBgColor={postState.post.saved ? colors.app.bookmark : "transparent"}
+        iconBgColor={postHook.post.saved ? colors.app.bookmark : "transparent"}
       />
 
       <IconButtonWithText

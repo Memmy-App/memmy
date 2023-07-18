@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { PostView } from "lemmy-js-client";
+import { CommentSortType, PostView } from "lemmy-js-client";
 import ILemmyComment from "../../types/lemmy/ILemmyComment";
 
 export interface PostsState {
@@ -20,6 +20,7 @@ export interface PostState {
   commentsError: boolean;
 
   collapsed: boolean;
+  sortType: CommentSortType;
 }
 
 export const usePostsStore = create<PostsState>()(() => ({

@@ -4,6 +4,7 @@ import loadPostComments from "./loadPostComments";
 import removePost from "./removePost";
 import setPostCollapsed from "./setPostCollapsed";
 import setPostSortType from "./setPostSortType";
+import setPostVote from "./setPostVote";
 
 export {
   addPost,
@@ -12,4 +13,5 @@ export {
   loadPostComments,
   setPostCollapsed,
   setPostSortType,
+  setPostVote,
 };

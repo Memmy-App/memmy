@@ -17,6 +17,9 @@ const addPost = (postKey: string, post: PostView) => {
         commentsError: false,
 
         collapsed: false,
+
+        // TODO use default
+        sortType: "Top",
       };
     })
   );
