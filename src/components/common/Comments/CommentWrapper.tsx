@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Pressable, useTheme, VStack } from "native-base";
 
 interface IProps {
@@ -9,6 +9,10 @@ interface IProps {
 
 function CommentWrapper({ children, depth, onCommentPress }: IProps) {
   const theme = useTheme();
+
+  useEffect(() => {
+    console.log("changed it");
+  }, [children]);
 
   return (
     <Pressable onPress={onCommentPress}>

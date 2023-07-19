@@ -1,7 +1,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { HStack, useTheme, VStack } from "native-base";
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { produce } from "immer";
 import usePost from "../../../hooks/post/usePost";
@@ -142,8 +142,9 @@ function PostScreen({ navigation }: IProps) {
     [rerenderComments]
   );
 
-  const commentItem = ({ item }: { item: ILemmyComment }) => (
-    <PostCommentItem commentId={item.comment.comment.id} />
+  const commentItem = useCallback(
+    ({ item }) => <PostCommentItem commentId={item.comment.comment.id} />,
+    [postHook.post.post.id]
   );
 
   const refreshControl = (
