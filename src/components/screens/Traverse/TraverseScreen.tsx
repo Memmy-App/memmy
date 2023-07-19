@@ -157,7 +157,9 @@ function TraverseScreen() {
     return (
       <TraverseItem
         community={value as CommunityView}
-        isFavorite={hasFavorites ? isFavorite : false}
+        isFavorite={
+          hasFavorites ? isFavoriteSubscription(value as CommunityView) : false
+        }
         key={`${isFavorite ? "favorite" : "subscription"}-${
           (value as CommunityView)?.community.id
         }`}
