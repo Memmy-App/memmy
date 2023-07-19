@@ -4,6 +4,7 @@ import { HStack, useTheme, VStack } from "native-base";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import usePost from "../../../hooks/post/postHooks";
+import useCommunity from "../../../hooks/communities/useCommunity";
 import LoadingView from "../../common/Loading/LoadingView";
 import CommentItem from "../../common/Comments/CommentItem";
 import CommentSortButton from "./components/CommentSortButton";
@@ -18,12 +19,27 @@ interface IProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
+function buildModList(moderators) {
+  const modIdList = [];
+  moderators.map((mod) => {
+    modIdList.push(mod.moderator.id);
+    return null;
+  });
+  return modIdList;
+}
+
 function PostScreen({ route, navigation }: IProps) {
   const { t } = useTranslation();
   const theme = useTheme();
   const post = usePost(
     route.params && route.params.commentId ? route.params.commentId : null
   );
+  const community = useCommunity(post.currentPost.community.id);
+  const modIdList = buildModList(community.moderators);
+
+  useEffect(() => {
+    community.doLoad();
+  }, []);
 
   useEffect(() => {
     const commentCount = post.currentPost?.counts.comments || 0;
@@ -43,7 +59,11 @@ function PostScreen({ route, navigation }: IProps) {
   }, [post.sortType]);
 
   const commentItem = ({ item }: { item: ILemmyComment }) => (
-    <CommentItem comment={item} setComments={post.setComments} />
+    <CommentItem
+      comment={item}
+      setComments={post.setComments}
+      modList={modIdList}
+    />
   );
 
   const refreshControl = (
@@ -63,6 +83,7 @@ function PostScreen({ route, navigation }: IProps) {
           ListHeaderComponent={
             <PostHeader
               currentPost={post.currentPost}
+              communityModerators={modIdList}
               collapsed={post.collapsed}
               setCollapsed={post.setCollapsed}
               doLoad={post.doLoad}

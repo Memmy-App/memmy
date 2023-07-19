@@ -23,6 +23,7 @@ import { selectSettings } from "../../../../slices/settings/settingsSlice";
 
 interface IProps {
   currentPost: PostView;
+  communityModerators: Array<number>;
   collapsed: boolean;
   setCollapsed: React.Dispatch<SetStateAction<boolean>>;
   showLoadAll: boolean;
@@ -34,6 +35,7 @@ interface IProps {
 
 function PostHeader({
   currentPost,
+  communityModerators,
   collapsed,
   setCollapsed,
   showLoadAll,
@@ -48,6 +50,7 @@ function PostHeader({
   const instanceBaseUrl = getBaseUrl(currentPost.community.actor_id);
 
   const [hideSLA, setHideSLA] = useState(false);
+  const isMod = communityModerators?.includes(currentPost.post.creator_id);
 
   const onPress = useCallback(() => {
     if (!tapToCollapse) return;
@@ -77,7 +80,7 @@ function PostHeader({
       </Pressable>
 
       <HStack mb={2} mx={4} space={2}>
-        <AvatarUsername creator={currentPost?.creator} />
+        <AvatarUsername creator={currentPost?.creator} isMod={isMod} />
       </HStack>
       <HStack space={2} mx={4} mb={2}>
         <CommunityLink

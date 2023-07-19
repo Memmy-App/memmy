@@ -14,7 +14,11 @@ function ModeratorList({ moderators }: IProps) {
         Mods:
       </Text>
       {moderators.map((moderator) => (
-        <AvatarUsername creator={moderator.moderator} isMod />
+        <AvatarUsername
+          creator={moderator.moderator}
+          key={moderator.moderator.id}
+          isMod
+        />
       ))}
     </VStack>
   );
