@@ -22,9 +22,14 @@ enum ItemType {
   EMPTY_RESULTS,
 }
 
+interface HeaderValue {
+  id: string;
+  title: string;
+}
+
 interface SectionListItem {
   type: ItemType;
-  value: string | CommunityView;
+  value: string | CommunityView | HeaderValue;
   isFavorite: boolean;
 }
 
@@ -56,42 +61,72 @@ function TraverseScreen() {
     isFavoriteSubscription(c)
   );
 
+  // If there are favorites, add the header, otherwise start with an empty list
   let sectionListItems: SectionListItem[] = hasFavorites
     ? [
         {
           type: ItemType.HEADER,
-          value: `${t("Favorites")} (${filteredFavorites.length})`,
+          value: {
+            id: "favoritesHeader",
+            title: `${t("Favorites")} (${filteredFavorites.length})`,
+          },
           isFavorite: false,
         },
       ]
     : [];
 
-  if (filteredFavorites.length) {
-    sectionListItems = sectionListItems.concat(
-      filteredFavorites.map((favorite) => ({
-        type: ItemType.SUBSCRIPTION,
-        value: favorite,
-        isFavorite: true,
-      }))
-    );
-  } else {
-    sectionListItems.push({
-      type: ItemType.EMPTY_RESULTS,
-      value: "TODO: EMPTY FAVORITES",
-      isFavorite: false,
-    });
+  // Don't bother processing favorites if there are none
+  if (hasFavorites) {
+    // If the filtered favorites is empty, show a message
+    if (term && !filteredFavorites.length) {
+      sectionListItems.push({
+        type: ItemType.EMPTY_RESULTS,
+        value: {
+          id: "favoritesEmptyResults",
+          title: t("traverse.noFavoritesFiltered"),
+        },
+        isFavorite: false,
+      });
+    } else if (hasFavorites) {
+      // Otherwise
+      sectionListItems = sectionListItems.concat(
+        filteredFavorites.map((favorite) => ({
+          type: ItemType.SUBSCRIPTION,
+          value: favorite,
+          isFavorite: true,
+        }))
+      );
+    }
   }
 
+  // Add the subscriptions header
   sectionListItems.push({
     type: ItemType.HEADER,
-    value: `${t("Subscriptions")} (${filteredSubscriptions.length})`,
+    value: {
+      id: "subscriptionsHeader",
+      title: `${t("Subscriptions")} (${filteredSubscriptions.length})`,
+    },
     isFavorite: false,
   });
 
-  if (!filteredSubscriptions.length) {
+  // If there are no subscriptions, show a message
+  if (!traverse.subscriptions.length) {
     sectionListItems.push({
       type: ItemType.EMPTY_RESULTS,
-      value: "TODO: EMPTY SUBSCRIPTIONS",
+      value: {
+        id: "subscriptionsEmptyResults",
+        title: t("traverse.noSubscriptions"),
+      },
+      isFavorite: false,
+    });
+  } else if (term && !filteredSubscriptions.length) {
+    // If there are no results in the search, show a message
+    sectionListItems.push({
+      type: ItemType.EMPTY_RESULTS,
+      value: {
+        id: "subscriptionsFilteredEmptyResults",
+        title: t("traverse.noSubscriptionsFiltered"),
+      },
       isFavorite: false,
     });
   } else {
@@ -107,7 +142,10 @@ function TraverseScreen() {
           // add the new alpha-index
           accumulator.push({
             type: ItemType.INDEX,
-            value: firstLetter,
+            value: {
+              id: firstLetter,
+              title: firstLetter,
+            },
             isFavorite: false,
           });
         }
@@ -123,6 +161,7 @@ function TraverseScreen() {
     );
   }
 
+  // Extract the indices of the alpha indexes
   const stickyHeaderIndices = sectionListItems
     .map((item, index) => {
       if (item.type === ItemType.INDEX) {
@@ -137,6 +176,7 @@ function TraverseScreen() {
     [term]
   );
 
+  // Extract the keys. This significantly improves performance
   const keyExtractor = (item: SectionListItem): string => {
     const { type, value, isFavorite } = item;
     if (type === ItemType.SUBSCRIPTION) {
@@ -144,7 +184,7 @@ function TraverseScreen() {
         (value as CommunityView)?.community.id
       }`;
     }
-    return value as string;
+    return (value as HeaderValue).id;
   };
 
   const itemRenderer = useCallback(
@@ -158,7 +198,7 @@ function TraverseScreen() {
               fontSize="xl"
               fontWeight="semibold"
             >
-              {value as string}
+              {(value as HeaderValue).title}
             </Text>
           </View>
         );
@@ -168,7 +208,7 @@ function TraverseScreen() {
             textAlign="center"
             style={index > 0 ? styles.n1PlusHeader : null}
           >
-            {value as string}
+            {(value as HeaderValue).title}
           </Text>
         );
       } else if (type === ItemType.SUBSCRIPTION) {
@@ -182,8 +222,20 @@ function TraverseScreen() {
             }
           />
         );
+      } else if (type === ItemType.EMPTY_RESULTS) {
+        return (
+          <Text
+            fontStyle="italic"
+            textAlign="center"
+            justifyContent="center"
+            alignSelf="center"
+            p="3"
+          >
+            {(value as HeaderValue).title}
+          </Text>
+        );
       }
-      return <Text>{value as string}</Text>;
+      return null;
     },
     [isFavoriteSubscription, keyExtractor]
   );
@@ -209,7 +261,7 @@ function TraverseScreen() {
         stickyHeaderIndices={stickyHeaderIndices}
         getItemType={(item: SectionListItem) => item.type}
         keyExtractor={keyExtractor}
-        estimatedItemSize={100}
+        estimatedItemSize={90}
       />
     </View>
   );
@@ -223,6 +275,10 @@ const styles = StyleSheet.create({
   },
   n1PlusHeader: {
     marginTop: 16,
+  },
+  emptyResult: {
+    marginHorizontal: 8,
+    marginVertical: 4,
   },
 });
 

@@ -163,7 +163,9 @@
     }
   },
   "traverse": {
-    "noSubscriptions": "You don't have any subscriptions."
+    "noSubscriptions": "You don't have any subscriptions.",
+    "noSubscriptionsFiltered": "You don't have any subscriptions matching the search.",
+    "noFavoritesFiltered": "You don't have any favorites matching the search."
   },
   "post": {
     "header": "Post Info",
