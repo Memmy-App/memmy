@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { StyleSheet } from "react-native";
 import { View, Text, useTheme } from "native-base";
 import { CommunityView } from "lemmy-js-client";
@@ -137,47 +137,56 @@ function TraverseScreen() {
     [term]
   );
 
-  const itemRenderer = ({
-    item,
-    index,
-  }: ListRenderItemInfo<SectionListItem>) => {
+  const keyExtractor = (item: SectionListItem): string => {
     const { type, value, isFavorite } = item;
-    if (type === ItemType.INDEX) {
-      return (
-        <View backgroundColor={theme.colors.app.bg}>
+    if (type === ItemType.SUBSCRIPTION) {
+      return `${isFavorite ? "favorite" : "subscription"}-${
+        (value as CommunityView)?.community.id
+      }`;
+    }
+    return value as string;
+  };
+
+  const itemRenderer = useCallback(
+    ({ item, index }: ListRenderItemInfo<SectionListItem>) => {
+      const { type, value } = item;
+      if (type === ItemType.INDEX) {
+        return (
+          <View backgroundColor={theme.colors.app.bg}>
+            <Text
+              style={styles.alphaIndexHeaderText}
+              fontSize="xl"
+              fontWeight="semibold"
+            >
+              {value as string}
+            </Text>
+          </View>
+        );
+      } else if (type === ItemType.HEADER) {
+        return (
           <Text
-            style={styles.alphaIndexHeaderText}
-            fontSize="xl"
-            fontWeight="semibold"
-            key={value as string}
+            textAlign="center"
+            style={index > 0 ? styles.n1PlusHeader : null}
           >
             {value as string}
           </Text>
-        </View>
-      );
-    } else if (type === ItemType.HEADER) {
-      return (
-        <Text textAlign="center" style={index > 0 ? styles.n1PlusHeader : null}>
-          {value as string}
-        </Text>
-      );
-    } else if (type === ItemType.SUBSCRIPTION) {
-      return (
-        <TraverseItem
-          community={value as CommunityView}
-          isFavorite={
-            hasFavorites
-              ? isFavoriteSubscription(value as CommunityView)
-              : false
-          }
-          key={`${isFavorite ? "favorite" : "subscription"}-${
-            (value as CommunityView)?.community.id
-          }`}
-        />
-      );
-    }
-    return <Text>{value as string}</Text>;
-  };
+        );
+      } else if (type === ItemType.SUBSCRIPTION) {
+        return (
+          <TraverseItem
+            community={value as CommunityView}
+            isFavorite={
+              hasFavorites
+                ? isFavoriteSubscription(value as CommunityView)
+                : false
+            }
+          />
+        );
+      }
+      return <Text>{value as string}</Text>;
+    },
+    [isFavoriteSubscription, keyExtractor]
+  );
 
   if (traverse.loading) {
     return <LoadingView />;
@@ -199,6 +208,7 @@ function TraverseScreen() {
         renderItem={itemRenderer}
         stickyHeaderIndices={stickyHeaderIndices}
         getItemType={(item: SectionListItem) => item.type}
+        keyExtractor={keyExtractor}
         estimatedItemSize={100}
       />
     </View>
