@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {
   Dimensions as RNDimensions,
   Modal,
@@ -79,10 +79,6 @@ function ImageViewer({
   compactMode,
 }: IProps) {
   const theme = useTheme();
-
-  useEffect(() => {
-    console.log(Date.now());
-  }, [source]);
 
   // @ts-ignore
   const nonViewerRef = useRef<View>(null);
