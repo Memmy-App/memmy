@@ -3,18 +3,12 @@ import { ScrollView, useTheme, VStack } from "native-base";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { ContextMenuButton } from "react-native-ios-context-menu";
-import {
-  IconBookmark,
-  IconChevronRight,
-  IconDots,
-  IconMessage,
-  IconNotes,
-  IconSettings,
-} from "tabler-icons-react-native";
 import { useAppDispatch } from "../../../../store";
+import { ICON_MAP } from "../../../constants/IconMap";
 import useProfile from "../../../hooks/profile/useProfile";
 import { useBlockUser } from "../../../hooks/user/useBlockUser";
 import HeaderIconButton from "../../common/Buttons/HeaderIconButton";
+import SFIcon from "../../common/icons/SFIcon";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";
 import LoadingView from "../../common/Loading/LoadingView";
 import NotFoundView from "../../common/Loading/NotFoundView";
@@ -46,9 +40,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
         !route.params || !route.params.fullUsername
           ? () => (
               <HeaderIconButton
-                icon={
-                  <IconSettings size={24} color={theme.colors.app.accent} />
-                }
+                icon={<SFIcon icon="gear" />}
                 onPress={() => navigation.push("Settings")}
               />
             )
@@ -81,9 +73,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
                   ],
                 }}
               >
-                <HeaderIconButton
-                  icon={<IconDots size={24} color={theme.colors.app.accent} />}
-                />
+                <HeaderIconButton icon={<SFIcon icon="ellipsis" />} />
               </ContextMenuButton>
             ),
     });
@@ -117,10 +107,8 @@ function UserProfileScreen({ route, navigation }: IProps) {
         <MTable>
           <MCell
             title={t("View Comments")}
-            icon={<IconMessage color={theme.colors.app.accent} />}
-            rightAccessory={
-              <IconChevronRight color={theme.colors.app.accent} />
-            }
+            icon={<SFIcon icon={ICON_MAP.REPLY} size={14} />}
+            showChevron
             onPress={() =>
               navigation.push("UserComments", {
                 fullUsername: route?.params?.fullUsername,
@@ -129,10 +117,8 @@ function UserProfileScreen({ route, navigation }: IProps) {
           />
           <MCell
             title={t("View Posts")}
-            icon={<IconNotes color={theme.colors.app.accent} />}
-            rightAccessory={
-              <IconChevronRight color={theme.colors.app.accent} />
-            }
+            icon={<SFIcon icon="doc.plaintext" size={14} />}
+            showChevron
             onPress={() =>
               navigation.push("UserPosts", {
                 fullUsername: route?.params?.fullUsername,
@@ -141,10 +127,8 @@ function UserProfileScreen({ route, navigation }: IProps) {
           />
           <MCell
             title={t("View Saved Posts")}
-            icon={<IconBookmark color={theme.colors.app.accent} />}
-            rightAccessory={
-              <IconChevronRight color={theme.colors.app.accent} />
-            }
+            icon={<SFIcon icon={ICON_MAP.SAVE} size={14} />}
+            showChevron
             onPress={() =>
               navigation.push("UserPosts", {
                 fullUsername: route?.params?.fullUsername,

@@ -1,19 +1,13 @@
-import React from "react";
-import { Box, HStack, Text, useTheme, View, VStack } from "native-base";
 import FastImage from "@gkasdorf/react-native-fast-image";
-import {
-  IconCake,
-  IconCalendarStar,
-  IconCircleArrowUp,
-  IconMessage2,
-  IconNotes,
-  IconUser,
-} from "tabler-icons-react-native";
-import { StyleSheet } from "react-native";
 import dayjs from "dayjs";
+import { Box, HStack, Spacer, Text, useTheme, View, VStack } from "native-base";
+import React from "react";
+import { StyleSheet } from "react-native";
+import { ICON_MAP } from "../../../../constants/IconMap";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
-import { UseProfile } from "../../../../hooks/profile/useProfile";
 import { getCakeDay } from "../../../../helpers/TimeHelper";
+import { UseProfile } from "../../../../hooks/profile/useProfile";
+import SFIcon from "../../../common/icons/SFIcon";
 
 interface IProps {
   profile: UseProfile;
@@ -25,15 +19,21 @@ function ProfileHeader({ profile }: IProps) {
   if (!profile.profile) return null;
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.bg}>
-      <View style={styles.bannerContainer}>
+    <VStack flex={1} backgroundColor={theme.colors.app.bg} space={4}>
+      <View
+        backgroundColor={theme.colors.app.fg}
+        mx={4}
+        mt={2}
+        px={3}
+        borderRadius={10}
+      >
         <HStack
-          alignItems="flex-end"
+          alignItems="center"
           position="absolute"
           height="100%"
           width="100%"
           zIndex={1}
-          px={2}
+          px={5}
           py={3.5}
           space={4}
         >
@@ -45,7 +45,7 @@ function ProfileHeader({ profile }: IProps) {
               style={styles.avatar}
             />
           ) : (
-            <IconUser color={theme.colors.app.textSecondary} size={64} />
+            <SFIcon icon={ICON_MAP.USER_AVATAR} size={48} boxSize={64} />
           )}
           <VStack>
             <Text fontWeight="semibold" fontSize="2xl">
@@ -68,34 +68,58 @@ function ProfileHeader({ profile }: IProps) {
           <Box style={styles.noBanner} />
         )}
       </View>
-      <VStack py={3.5} px={5}>
+      <VStack
+        py={3}
+        mx={4}
+        px={3}
+        backgroundColor={theme.colors.app.fg}
+        borderRadius={10}
+      >
         <HStack space={7}>
-          <HStack alignItems="center" space={1}>
-            <IconNotes size={26} color={theme.colors.app.accent} />
-            <Text fontSize="md">{profile.profile.counts.post_count}</Text>
-            <IconCircleArrowUp size={26} color={theme.colors.app.accent} />
-            <Text fontSize="md">{profile.profile.counts.post_score}</Text>
-          </HStack>
-          <HStack alignItems="center" space={1}>
-            <IconMessage2 size={26} color={theme.colors.app.accent} />
-            <Text fontSize="md">{profile.profile.counts.comment_count}</Text>
-            <IconCircleArrowUp size={26} color={theme.colors.app.accent} />
-            <Text fontSize="md">{profile.profile.counts.comment_score}</Text>
-          </HStack>
+          <VStack alignItems="start" space={1}>
+            <Text fontSize="sm" color={theme.colors.app.textSecondary}>
+              Posts
+            </Text>
+            <HStack alignItems="center" space={1}>
+              <SFIcon icon="doc.plaintext" size={14} />
+              <Text fontSize="md">{profile.profile.counts.post_count}</Text>
+              <SFIcon icon="arrow.up.circle" size={14} />
+              <Text fontSize="md">{profile.profile.counts.post_score}</Text>
+            </HStack>
+          </VStack>
+          <VStack alignItems="start" space={1}>
+            <Text fontSize="sm" color={theme.colors.app.textSecondary}>
+              Comments
+            </Text>
+            <HStack alignItems="center" space={1}>
+              <SFIcon icon={ICON_MAP.REPLY} size={12} />
+              <Text fontSize="md">{profile.profile.counts.comment_count}</Text>
+              <SFIcon icon="arrow.up.circle" size={14} />
+              <Text fontSize="md">{profile.profile.counts.comment_score}</Text>
+            </HStack>
+          </VStack>
         </HStack>
         <HStack space={7} mt={3} alignItems="center">
-          <HStack alignItems="center" space={1}>
-            <IconCalendarStar size={26} color={theme.colors.app.accent} />
-            <Text fontSize="md">
-              {dayjs(profile.profile.person.published).utc(true).fromNow()}
+          <VStack alignItems="start" space={1}>
+            <Text fontSize="sm" color={theme.colors.app.textSecondary}>
+              Account Created
             </Text>
-          </HStack>
-          <HStack alignItems="center" space={1}>
-            <IconCake size={26} color={theme.colors.app.accent} />
-            <Text fontSize="md">
-              {getCakeDay(profile.profile.person.published)}
-            </Text>
-          </HStack>
+            <HStack alignItems="center" space={1}>
+              <SFIcon icon="birthday.cake" size={12} />
+              <Text fontSize="md">
+                {getCakeDay(profile.profile.person.published)}
+              </Text>
+            </HStack>
+          </VStack>
+          <VStack alignItems="start" space={1}>
+            <Spacer />
+            <HStack alignItems="center" space={1}>
+              <SFIcon icon="person.crop.circle.badge.checkmark" size={14} />
+              <Text fontSize="md">
+                {dayjs(profile.profile.person.published).utc(true).fromNow()}
+              </Text>
+            </HStack>
+          </VStack>
         </HStack>
       </VStack>
     </VStack>
@@ -112,12 +136,6 @@ const styles = StyleSheet.create({
   noBanner: {
     height: 100,
     width: "100%",
-  },
-
-  bannerContainer: {
-    flex: 1,
-    bottom: 0,
-    overflow: "hidden",
   },
 
   avatar: {
