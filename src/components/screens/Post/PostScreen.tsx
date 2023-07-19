@@ -26,6 +26,8 @@ function PostScreen({ navigation }: IProps) {
   const theme = useTheme();
 
   useEffect(() => {
+    postHook.doLoad();
+
     const commentCount = postHook.post.counts.comments || 0;
     navigation.setOptions({
       title: `${commentCount} ${t("Comment", { count: commentCount })}`,
@@ -42,16 +44,14 @@ function PostScreen({ navigation }: IProps) {
     });
   }, [postHook.postState.sortType]);
 
-  useEffect(() => {
-    loadPostComments(postHook.postKey, {
-      sortType: postHook.postState.sortType,
-    }).then();
-
-    // Remove the post when we are finished
-    return () => {
-      removePost(postHook.postKey);
-    };
-  }, []);
+  useEffect(
+    () =>
+      // Remove the post when we are finished
+      () => {
+        removePost(postHook.postKey);
+      },
+    []
+  );
 
   useEffect(() => {
     usePostsStore.setState(

@@ -13,7 +13,11 @@ import { savePost } from "../../helpers/LemmyHelpers";
 import { PostState, useCurrentPost } from "../../stores/posts/postsStore";
 import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { determineVotes } from "../../helpers/VoteHelper";
-import { setPostVote } from "../../stores/posts/actions";
+import {
+  loadPostComments,
+  setPostCollapsed,
+  setPostVote,
+} from "../../stores/posts/actions";
 
 export interface UsePost {
   postKey: string;
@@ -25,6 +29,7 @@ export interface UsePost {
   doLoad: () => void;
   doSave: () => Promise<void>;
   doVote: (value: -1 | 0 | 1) => void;
+  onPostPress: () => void;
 }
 
 const usePost = (): UsePost => {
@@ -94,7 +99,11 @@ const usePost = (): UsePost => {
   /**
    * Load the Comments for the current Post
    */
-  const doLoad = () => {};
+  const doLoad = () => {
+    loadPostComments(postKey, {
+      sortType: postState.sortType,
+    }).then();
+  };
 
   /**
    * Vote on the current Post
@@ -153,6 +162,10 @@ const usePost = (): UsePost => {
     }
   }, []); // TODO FIX THIS
 
+  const onPostPress = useCallback(() => {
+    setPostCollapsed(postKey);
+  }, [post.post.id]);
+
   return {
     postKey,
     postState,
@@ -163,6 +176,8 @@ const usePost = (): UsePost => {
     doLoad,
     doSave,
     doVote,
+
+    onPostPress,
   };
 };
 

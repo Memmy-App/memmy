@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useMemo } from "react";
 import {
   Divider,
   HStack,
@@ -7,7 +7,6 @@ import {
   useTheme,
   VStack,
 } from "native-base";
-import { useRoute } from "@react-navigation/core";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import PostContentView from "./PostContentView";
 import AvatarUsername from "../../../common/AvatarUsername";
@@ -16,31 +15,21 @@ import CommentCount from "../../../common/Comments/CommentCount";
 import DatePublished from "../../../common/DatePublished";
 import PostActionBar from "./PostActionBar";
 import PostTitle from "./PostTitle";
-import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
-import { useAppSelector } from "../../../../../store";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
-import { useCurrentPost } from "../../../../stores/posts/postsStore";
+import usePost from "../../../../hooks/post/usePost";
 
 function PostHeader() {
-  const { postKey } = useRoute<any>().params;
-  const postState = useCurrentPost(postKey);
-
+  const postHook = usePost();
   const theme = useTheme();
-  const { tapToCollapse } = useAppSelector(selectSettings);
 
-  const instanceBaseUrl = getBaseUrl(postState.post.community.actor_id);
-
-  const onPress = useCallback(() => {
-    if (!tapToCollapse) return;
-
-    onGenericHapticFeedback();
-    (prev) => !prev;
-  }, [postState.post.post.id]);
+  const instanceBaseUrl = useMemo(
+    () => getBaseUrl(postHook.post.community.actor_id),
+    [postHook.post.post.id]
+  );
 
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.fg}>
-      <Pressable onPress={onPress}>
-        {!postState.collapsed ? (
+      <Pressable onPress={postHook.onPostPress}>
+        {!postHook.postState.collapsed ? (
           <PostContentView />
         ) : (
           <VStack>
@@ -58,15 +47,15 @@ function PostHeader() {
       </Pressable>
 
       <HStack mb={2} mx={4} space={2}>
-        <AvatarUsername creator={postState.post.creator} />
+        <AvatarUsername creator={postHook.post.creator} />
       </HStack>
       <HStack space={2} mx={4} mb={2}>
         <CommunityLink
-          community={postState.post.community}
+          community={postHook.post.community}
           instanceBaseUrl={instanceBaseUrl}
         />
-        <CommentCount commentCount={postState.post.counts.comments} />
-        <DatePublished published={postState.post.post.published} />
+        <CommentCount commentCount={postHook.post.counts.comments} />
+        <DatePublished published={postHook.post.post.published} />
       </HStack>
 
       <Divider my={1} bg={theme.colors.app.border} />
