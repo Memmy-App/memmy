@@ -583,7 +583,7 @@ function Tabs() {
         component={InboxStackScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => <SFIcon icon="bell" color={color} />,
+          tabBarIcon: ({ color }) => <SFIcon icon="envelope" color={color} />,
           tabBarLabel: t("Inbox"),
 
           tabBarBadge:
