@@ -1,7 +1,7 @@
+import { Pressable, View } from "native-base";
 import React from "react";
 import { StyleSheet } from "react-native";
-import { View, Pressable } from "native-base";
-import { IconX } from "tabler-icons-react-native";
+import SFIcon from "../icons/SFIcon";
 
 interface IProps {
   onPress: () => void;
@@ -12,7 +12,7 @@ function ImageExitButton({ onPress }: IProps) {
     <View style={[styles.buttonPosition]}>
       <Pressable onPress={onPress} hitSlop={10} padding={1.5}>
         <View>
-          <IconX color="white" />
+          <SFIcon icon="xmark" color="white" size={14} />
         </View>
       </Pressable>
     </View>

@@ -1,24 +1,24 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { ScrollView, useTheme } from "native-base";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Alert, Button, Switch } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import { IconLogout } from "tabler-icons-react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ScrollView, useTheme } from "native-base";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Alert, Button, Switch } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
+import useNotifications from "../../../../hooks/notifications/useNotifications";
+import { deleteAccount } from "../../../../slices/accounts/accountsActions";
 import {
   selectAccounts,
   selectCurrentAccount,
 } from "../../../../slices/accounts/accountsSlice";
-import CTable from "../../../common/Table/CTable";
-import CSection from "../../../common/Table/CSection";
-import CCell from "../../../common/Table/CCell";
-import { Account } from "../../../../types/Account";
-import { deleteAccount } from "../../../../slices/accounts/accountsActions";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
-import useNotifications from "../../../../hooks/notifications/useNotifications";
-import LoadingModalTransparent from "../../../common/Loading/LoadingModalTransparent";
 import { setSetting } from "../../../../slices/settings/settingsActions";
+import { selectSettings } from "../../../../slices/settings/settingsSlice";
+import { Account } from "../../../../types/Account";
+import LoadingModalTransparent from "../../../common/Loading/LoadingModalTransparent";
+import CCell from "../../../common/Table/CCell";
+import CSection from "../../../common/Table/CSection";
+import CTable from "../../../common/Table/CTable";
+import SFIcon from "../../../common/icons/SFIcon";
 
 interface ViewAccountsScreenProps {
   navigation: NativeStackNavigationProp<any>;
@@ -217,7 +217,11 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.textSecondary}
               cellAccessoryView={
-                <IconLogout color={theme.colors.app.textSecondary} />
+                <SFIcon
+                  icon="rectangle.portrait.and.arrow.right"
+                  color={theme.colors.app.textSecondary}
+                  size={14}
+                />
               }
               onPress={() => onAccountLogoutPress(account)}
             />

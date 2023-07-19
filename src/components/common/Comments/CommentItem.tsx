@@ -1,25 +1,23 @@
 import { Divider, HStack, useTheme, View } from "native-base";
 import React from "react";
+import { useAppSelector } from "../../../../store";
+import { getBaseUrl } from "../../../helpers/LinkHelper";
 import useComment from "../../../hooks/post/useComment";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
+import AvatarUsername from "../AvatarUsername";
 import { ReplyOption } from "../SwipeableRow/ReplyOption";
 import { SwipeableRow } from "../SwipeableRow/SwipeableRow";
 import { VoteOption } from "../SwipeableRow/VoteOption";
+import SmallVoteIcons from "../Vote/SmallVoteIcons";
+import CommentActions from "./CommentActions";
 import CommentBody from "./CommentBody";
 import CommentCollapsed from "./CommentCollapsed";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
-import { useAppSelector } from "../../../../store";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { CommentContextMenu } from "./CommentContextMenu";
-import AvatarUsername from "../AvatarUsername";
-import SmallVoteIcons from "../Vote/SmallVoteIcons";
-import IconButtonWithText from "../IconButtonWithText";
-import VoteButton from "../Vote/VoteButton";
-import CommentWrapper from "./CommentWrapper";
-import CommentHeaderWrapper from "./CommentHeader/CommentHeaderWrapper";
-import SFIcon from "../icons/SFIcon";
 import CommentHeaderRight from "./CommentHeader/CommentHeaderRight";
+import CommentHeaderWrapper from "./CommentHeader/CommentHeaderWrapper";
+import CommentWrapper from "./CommentWrapper";
 
 interface IProps {
   comment: ILemmyComment;
@@ -107,35 +105,10 @@ function CommentItem({
                   instance={getBaseUrl(comment.comment.comment.ap_id)}
                 />
                 {settings.showCommentActions && (
-                  <HStack justifyContent="flex-end" space={2} mb={1}>
-                    <IconButtonWithText
-                      onPressHandler={commentHook.onReply}
-                      icon={<SFIcon icon="plus.message" />}
-                    />
-                    <VoteButton
-                      onPressHandler={async () =>
-                        comment.comment.my_vote === 1
-                          ? commentHook.onVote(0)
-                          : commentHook.onVote(1)
-                      }
-                      type="upvote"
-                      isVoted={comment.comment.my_vote === 1}
-                      isAccented
-                      iconSize={22}
-                    />
-                    <VoteButton
-                      onPressHandler={async () =>
-                        comment.comment.my_vote === -1
-                          ? commentHook.onVote(0)
-                          : commentHook.onVote(-1)
-                      }
-                      type="downvote"
-                      isVoted={comment.comment.my_vote === -1}
-                      isAccented
-                      iconSize={22}
-                      textSize="md"
-                    />
-                  </HStack>
+                  <CommentActions
+                    commentHook={commentHook}
+                    myVote={comment.comment.my_vote}
+                  />
                 )}
               </>
             )}

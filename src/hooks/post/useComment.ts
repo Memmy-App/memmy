@@ -22,7 +22,7 @@ import { setResponseTo } from "../../slices/comments/newCommentSlice";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 
-interface UseComment {
+export interface UseComment {
   onCommentPress: () => void;
   onCommentLongPress: (selection?: string) => void;
   onReadPress: () => Promise<void>;
