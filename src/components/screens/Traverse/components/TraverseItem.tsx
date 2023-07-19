@@ -72,7 +72,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
               <PlanetIcon color={theme.colors.app.textSecondary} size={24} />
             )}
             <VStack>
-              <Text>{community.community.name}</Text>
+              <Text color={theme.colors.app.textPrimary}>{community.community.name}</Text>
               <Text
                 fontSize="$2xs"
                 color={theme.colors.app.textSecondary}
@@ -82,8 +82,8 @@ function TraverseItem({ community, isFavorite }: IProps) {
               </Text>
             </VStack>
           </HStack>
-          <HStack space="sm">
-            <HStack alignItems="center">
+          <HStack ml="$1" space="sm">
+            <HStack space="xs" alignItems="center">
               <SFIcon
                 icon="eye"
                 size={8}
@@ -98,7 +98,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
                 {community.counts.users_active_day.toLocaleString()} online
               </Text>
             </HStack>
-            <HStack alignItems="center">
+            <HStack space="xs" alignItems="center">
               <SFIcon
                 icon="doc.plaintext"
                 size={8}
