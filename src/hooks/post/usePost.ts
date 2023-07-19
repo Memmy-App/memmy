@@ -40,57 +40,8 @@ const usePost = (): UsePost => {
 
   const updatesStore = useUpdatesStore();
 
-  // useEffect(() => {
-  //   if (newComment) {
-  //     // Create a new comment chain
-  //     const lComment: ILemmyComment = {
-  //       comment: newComment.comment,
-  //       collapsed: false,
-  //       hidden: false,
-  //       myVote: newComment.comment.my_vote as ILemmyVote,
-  //     };
-  //     // If it's a top comment, add it to top of current chain
-  //     if (newComment.isTopComment) {
-  //       setComments([lComment, ...comments]);
-  //     } else {
-  //       const pathArr = newComment.comment.comment.path.split(".");
-  //       const searchId = Number(pathArr[pathArr.length - 2]);
-  //       const index = comments.findIndex(
-  //         (c) => c.comment.comment.id === searchId
-  //       );
   //
-  //       setComments((prev) => [
-  //         ...prev.slice(0, index + 1),
-  //         lComment,
-  //         ...prev.slice(index + 1),
-  //       ]);
-  //     }
-  //   }
-  // }, [newComment]);
-  //
-  // useEffect(() => {
-  //   if (editedCommentId) {
-  //     setComments((prev) =>
-  //       prev.map((c) => {
-  //         if (c.comment.comment.id === editedCommentId) {
-  //           return {
-  //             ...c,
-  //             comment: {
-  //               ...c.comment,
-  //               comment: {
-  //                 ...c.comment.comment,
-  //                 content: editedContent,
-  //               },
-  //             },
-  //           };
-  //         }
-  //         return c;
-  //       })
-  //     );
-  //
-  //     dispatch(clearEditComment());
-  //   }
-  // }, [editedContent]);
+
   /**
    * Load the Comments for the current Post
    */

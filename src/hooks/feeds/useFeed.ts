@@ -13,7 +13,7 @@ import {
   removeNsfwPosts,
   removeReadPosts,
 } from "../../helpers/LemmyHelpers";
-import { clearUpdateSaved, selectFeed } from "../../slices/feed/feedSlice";
+import { clearUpdateSaved } from "../../slices/feed/feedSlice";
 import { preloadImages } from "../../helpers/ImageHelper";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 import { useSaved, useVoted } from "../../stores/updates/updatesStore";

@@ -14,6 +14,13 @@ import RefreshControl from "../../common/RefreshControl";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import { PostsState, usePostsStore } from "../../../stores/posts/postsStore";
 import { removePost } from "../../../stores/posts/actions";
+import {
+  useEditedComment,
+  useNewComment,
+} from "../../../stores/updates/updatesStore";
+import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
+import { clearEditComment } from "../../../slices/comments/editCommentSlice";
+import { clearNewComment } from "../../../slices/comments/newCommentSlice";
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -21,6 +28,8 @@ interface IProps {
 
 function PostScreen({ navigation }: IProps) {
   const postHook = usePost();
+  const newComment = useNewComment();
+  const editedComment = useEditedComment();
 
   const { t } = useTranslation();
   const theme = useTheme();
@@ -61,6 +70,72 @@ function PostScreen({ navigation }: IProps) {
       })
     );
   }, [postHook.postState.comments]);
+
+  useEffect(() => {
+    if (!newComment) return;
+
+    // Create a new comment chain
+    const lComment: ILemmyComment = {
+      comment: newComment.comment,
+      collapsed: false,
+      hidden: false,
+      myVote: newComment.comment.my_vote as ILemmyVote,
+    };
+    // If it's a top comment, add it to top of current chain
+    if (newComment.isTop) {
+      usePostsStore.setState(
+        produce((state: PostsState) => {
+          state.posts[postHook.postKey].comments = [
+            lComment,
+            ...state.posts[postHook.postKey].comments,
+          ];
+        })
+      );
+    } else {
+      const pathArr = newComment.comment.comment.path.split(".");
+      const searchId = Number(pathArr[pathArr.length - 2]);
+      const index = postHook.postState.comments.findIndex(
+        (c) => c.comment.comment.id === searchId
+      );
+
+      usePostsStore.setState(
+        produce((state: PostsState) => {
+          state.posts[postHook.postKey].comments = [
+            ...state.posts[postHook.postKey].comments.slice(0, index + 1),
+            lComment,
+            ...state.posts[postHook.postKey].comments.slice(index + 1),
+          ];
+        })
+      );
+    }
+
+    clearNewComment();
+  }, [newComment]);
+
+  useEffect(() => {
+    if (!editedComment) return;
+
+    usePostsStore.setState(
+      produce((state: PostsState) => {
+        state.posts[postHook.postKey].comments.map((c) => {
+          if (c.comment.comment.id !== editedComment.commentId) return c;
+
+          return {
+            ...c,
+            comment: {
+              ...c.comment,
+              comment: {
+                ...c.comment.comment,
+                content: editedComment.content,
+              },
+            },
+          };
+        });
+      })
+    );
+
+    clearEditComment();
+  }, [editedComment]);
 
   const commentItem = ({ item }: { item: ILemmyComment }) => (
     <CommentItem comment={item} />
