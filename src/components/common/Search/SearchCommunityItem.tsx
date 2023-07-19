@@ -2,7 +2,6 @@ import FastImage from "@gkasdorf/react-native-fast-image";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CommunityView } from "lemmy-js-client";
-import { useTheme } from "native-base";
 import React from "react";
 import { getCommunityFullName } from "../../../helpers/LemmyHelpers";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
@@ -16,7 +15,6 @@ interface IProps {
 
 function SearchCommunityItem({ community }: IProps) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const theme = useTheme();
 
   const onPress = () => {
     navigation.navigate("Community", {
