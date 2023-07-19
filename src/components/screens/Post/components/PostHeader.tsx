@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import {
   Divider,
   HStack,
@@ -16,20 +16,28 @@ import DatePublished from "../../../common/DatePublished";
 import PostActionBar from "./PostActionBar";
 import PostTitle from "./PostTitle";
 import usePost from "../../../../hooks/post/usePost";
+import { usePostCollapsed } from "../../../../stores/posts/postsStore";
 
 function PostHeader() {
   const postHook = usePost();
+  const postCollapsed = usePostCollapsed(postHook.postKey);
   const theme = useTheme();
+
+  useEffect(() => console.log("rerendered"));
 
   const instanceBaseUrl = useMemo(
     () => getBaseUrl(postHook.post.community.actor_id),
     [postHook.post.post.id]
   );
 
+  useEffect(() => {
+    console.log("changed");
+  }, [postHook.onPostPress]);
+
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.fg}>
       <Pressable onPress={postHook.onPostPress}>
-        {!postHook.postState.collapsed ? (
+        {!postCollapsed ? (
           <PostContentView />
         ) : (
           <VStack>

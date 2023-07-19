@@ -18,19 +18,16 @@ import {
 } from "../../helpers/LemmyHelpers";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
 import { writeToLog } from "../../helpers/LogHelper";
-import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { showToast } from "../../slices/toast/toastSlice";
 import { setResponseTo } from "../../slices/comments/newCommentSlice";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 import { PostsStore, usePostsStore } from "../../stores/posts/postsStore";
-import { determineVotes } from "../../helpers/VoteHelper";
 
 export interface UseComment {
   onCommentPress: () => void;
   onCommentLongPress: (selection?: string) => void;
-  onReadPress: () => Promise<void>;
-  onVote: (value: ILemmyVote) => Promise<void>;
+  onReadPress?: () => Promise<void>;
   onReply: () => void;
   longPressOptions: Record<string, string>;
 }
@@ -254,58 +251,9 @@ const useComment = ({
     }
   }, [comment.comment.comment.id]);
 
-  const onVote = useCallback(
-    async (value: ILemmyVote) => {
-      const newValues = determineVotes(
-        value,
-        comment.comment.my_vote,
-        comment.comment.counts.upvotes,
-        comment.comment.counts.downvotes
-      );
-
-      usePostsStore.setState(
-        produce((state: PostsStore) => {
-          state.posts[postKey].comments = state.posts[postKey].comments.map(
-            (c) => {
-              if (c.comment.comment.id === comment.comment.comment.id) {
-                return {
-                  ...c,
-                  myVote: value,
-                  comment: {
-                    ...c.comment,
-                    my_vote: value,
-                    counts: {
-                      ...c.comment.counts,
-                      upvotes: newValues.upvotes,
-                      downvotes: newValues.downvotes,
-                      score: newValues.upvotes - newValues.downvotes,
-                    },
-                  },
-                };
-              }
-              return c;
-            }
-          );
-        })
-      );
-
-      try {
-        await lemmyInstance.likeComment({
-          auth: lemmyAuthToken,
-          comment_id: comment.comment.comment.id,
-          score: value,
-        });
-      } catch (e) {
-        handleLemmyError(e.toString());
-      }
-    },
-    [comment.comment.comment.id]
-  );
-
   return {
     onCommentLongPress,
     onCommentPress,
-    onVote,
     onReadPress,
     onReply,
     longPressOptions,

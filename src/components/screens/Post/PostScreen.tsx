@@ -1,18 +1,21 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { HStack, useTheme, VStack } from "native-base";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { produce } from "immer";
 import usePost from "../../../hooks/post/usePost";
 import LoadingView from "../../common/Loading/LoadingView";
-import CommentItem from "../../common/Comments/CommentItem";
 import PostOptionsButton from "./components/PostOptionsButton";
 import PostFooter from "./components/PostFooter";
 import PostHeader from "./components/PostHeader";
 import RefreshControl from "../../common/RefreshControl";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
-import { PostsStore, usePostsStore } from "../../../stores/posts/postsStore";
+import {
+  PostsStore,
+  usePostRerenderComments,
+  usePostsStore,
+} from "../../../stores/posts/postsStore";
 import { removePost } from "../../../stores/posts/actions";
 import {
   useEditedComment,
@@ -21,6 +24,7 @@ import {
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
 import { clearEditComment } from "../../../slices/comments/editCommentSlice";
 import { clearNewComment } from "../../../slices/comments/newCommentSlice";
+import PostCommentItem from "./components/PostCommentItem";
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -30,6 +34,7 @@ function PostScreen({ navigation }: IProps) {
   const postHook = usePost();
   const newComment = useNewComment();
   const editedComment = useEditedComment();
+  const rerenderComments = usePostRerenderComments(postHook.postKey);
 
   const { t } = useTranslation();
   const theme = useTheme();
@@ -51,7 +56,7 @@ function PostScreen({ navigation }: IProps) {
         </HStack>
       ),
     });
-  }, [postHook.postState.sortType]);
+  }, [postHook.commentsState.commentsSort]);
 
   useEffect(
     () =>
@@ -61,15 +66,6 @@ function PostScreen({ navigation }: IProps) {
       },
     []
   );
-
-  useEffect(() => {
-    usePostsStore.setState(
-      produce((state: PostsStore) => {
-        state.posts[postHook.postKey].visibleComments =
-          postHook.postState.visibleComments.filter((c) => !c.hidden);
-      })
-    );
-  }, [postHook.postState.comments]);
 
   useEffect(() => {
     if (!newComment) return;
@@ -94,7 +90,7 @@ function PostScreen({ navigation }: IProps) {
     } else {
       const pathArr = newComment.comment.comment.path.split(".");
       const searchId = Number(pathArr[pathArr.length - 2]);
-      const index = postHook.postState.comments.findIndex(
+      const index = postHook.commentsState.comments.findIndex(
         (c) => c.comment.comment.id === searchId
       );
 
@@ -141,13 +137,18 @@ function PostScreen({ navigation }: IProps) {
     clearEditComment();
   }, [editedComment]);
 
+  const visibleComments = useMemo(
+    () => postHook.commentsState.comments.filter((c) => !c.hidden),
+    [rerenderComments]
+  );
+
   const commentItem = ({ item }: { item: ILemmyComment }) => (
-    <CommentItem comment={item} />
+    <PostCommentItem commentId={item.comment.comment.id} />
   );
 
   const refreshControl = (
     <RefreshControl
-      refreshing={postHook.postState.commentsLoading}
+      refreshing={postHook.commentsState.commentsLoading}
       onRefresh={postHook.doLoad}
     />
   );
@@ -164,12 +165,12 @@ function PostScreen({ navigation }: IProps) {
         <FlashList
           ListHeaderComponent={<PostHeader />}
           ListFooterComponent={<PostFooter />}
-          data={postHook.postState.comments}
+          data={visibleComments}
           renderItem={commentItem}
           keyExtractor={keyExtractor}
           estimatedItemSize={200}
           refreshControl={refreshControl}
-          refreshing={postHook.postState.commentsLoading}
+          refreshing={postHook.commentsState.commentsLoading}
         />
       </VStack>
     );

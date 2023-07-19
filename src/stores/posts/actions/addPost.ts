@@ -8,6 +8,14 @@ const addPost = (postKey: string, post: PostView) => {
       postError: false,
       postLoading: false,
       collapsed: false,
+      rerenderComments: false,
+
+      commentsState: {
+        commentsLoading: true,
+        commentsError: false,
+        comments: [],
+        commentsSort: "Top", // TODO Use default
+      },
     });
   });
 };

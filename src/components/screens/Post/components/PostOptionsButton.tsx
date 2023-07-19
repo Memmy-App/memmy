@@ -7,12 +7,12 @@ import { useReportPost } from "../../../../hooks/post/useReportPost";
 import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
 import SFIcon from "../../../common/icons/SFIcon";
 import { ICON_MAP } from "../../../../constants/IconMap";
-import { useCurrentPost } from "../../../../stores/posts/postsStore";
+import { useCurrentPostState } from "../../../../stores/posts/postsStore";
 
 function CommentSortButton() {
   const route = useRoute<any>();
   const { postKey } = route.params;
-  const post = useCurrentPost(postKey);
+  const post = useCurrentPostState(postKey);
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();

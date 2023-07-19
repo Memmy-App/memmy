@@ -1,5 +1,4 @@
-import { produce } from "immer";
-import { ILoadCommentsOptions } from "../../comments/types/ILoadCommentsOptions";
+import { ILoadCommentsOptions } from "../types/ILoadCommentsOptions";
 import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
 import { PostsStore, usePostsStore } from "../postsStore";
 import { buildComments } from "../../../helpers/LemmyCommentsHelper";
@@ -12,15 +11,12 @@ const loadPostComments = async (
   postKey: string,
   options: ILoadCommentsOptions
 ) => {
-  const postState = usePostsStore.getState().posts[postKey];
+  const postState = usePostsStore.getState().posts.get(postKey);
 
   // Set comments to loading
-  usePostsStore.setState(
-    produce((state: PostsStore) => {
-      state.posts[postKey].commentsLoading = true;
-      state.posts[postKey].commentsError = false;
-    })
-  );
+
+  postState.commentsState.commentsLoading = true;
+  postState.commentsState.commentsError = false;
 
   try {
     const res = await lemmyInstance.getComments({
@@ -60,12 +56,13 @@ const loadPostComments = async (
       betterComments.push(...getChildren(item));
     }
 
-    usePostsStore.setState(
-      produce((state: PostsStore) => {
-        state.posts[postKey].comments = betterComments;
-        state.posts[postKey].commentsLoading = false;
-      })
-    );
+    usePostsStore.setState((state: PostsStore) => {
+      const prev = state.posts.get(postKey);
+
+      prev.commentsState.commentsLoading = false;
+      prev.commentsState.comments = betterComments;
+      prev.rerenderComments = !prev.rerenderComments;
+    });
   } catch (e) {
     // setPostCommentsLoading(postKey, false, true).then();
     handleLemmyError(e.toString());

@@ -2,15 +2,15 @@ import React from "react";
 import { Center, Spinner, Text, useTheme } from "native-base";
 import LoadingErrorFooter from "../../../common/Loading/LoadingErrorFooter";
 import NoResultView from "../../../common/NoResultView";
-import { loadPostComments } from "../../../../stores/posts/actions";
 import usePost from "../../../../hooks/post/usePost";
+import loadPostComments from "../../../../stores/posts/actions/loadPostComments";
 
 function PostFooter() {
   const postHook = usePost();
 
   const theme = useTheme();
 
-  if (postHook.postState.commentsLoading) {
+  if (postHook.commentsState.commentsLoading) {
     return (
       <Center my={4}>
         <Spinner />
@@ -21,7 +21,7 @@ function PostFooter() {
     );
   }
 
-  if (postHook.postState.commentsError) {
+  if (postHook.commentsState.commentsLoading) {
     return (
       <LoadingErrorFooter
         onRetryPress={() => loadPostComments(postHook.postKey, {})}
@@ -30,7 +30,7 @@ function PostFooter() {
     );
   }
 
-  if (postHook.postState.comments.length < 1) {
+  if (postHook.commentsState?.comments?.length < 1) {
     return <NoResultView my={4} type="comments" />;
   }
 

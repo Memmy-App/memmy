@@ -1,13 +1,20 @@
 import { Text, useTheme } from "native-base";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRoute } from "@react-navigation/core";
 import { useAppSelector } from "../../../../../store";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
-import { useCurrentPost } from "../../../../stores/posts/postsStore";
+import {
+  useCurrentPostState,
+  usePostTitle,
+} from "../../../../stores/posts/postsStore";
 
 function Title({ mt, mb }: { mt?: number; mb?: number }) {
   const { postKey } = useRoute<any>().params;
-  const postState = useCurrentPost(postKey);
+  const postTitle = usePostTitle(postKey);
+
+  useEffect(() => {
+    console.log("it changed!");
+  }, [postTitle]);
 
   const theme = useTheme();
   const { fontWeightPostTitle } = useAppSelector(selectSettings);
@@ -20,7 +27,7 @@ function Title({ mt, mb }: { mt?: number; mb?: number }) {
       fontWeight={fontWeightPostTitle}
       color={theme.colors.app.textPrimary}
     >
-      {postState.post.post.name}
+      {postTitle}
     </Text>
   );
 }

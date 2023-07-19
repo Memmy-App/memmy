@@ -1,13 +1,15 @@
+import { ILemmyVote } from "../types/lemmy/ILemmyVote";
+
 export interface IDetermineValue {
   downvotes: number;
   upvotes: number;
-  newValue: number;
-  oldValue: number;
+  newValue: ILemmyVote;
+  oldValue: ILemmyVote;
 }
 
 export const determineVotes = (
-  newValue: number,
-  currentValue: number,
+  newValue: ILemmyVote,
+  currentValue: ILemmyVote,
   upvotes: number,
   downvotes: number
 ): IDetermineValue => {

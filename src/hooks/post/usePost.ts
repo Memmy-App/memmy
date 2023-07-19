@@ -5,21 +5,29 @@ import {
   onGenericHapticFeedback,
   onVoteHapticFeedback,
 } from "../../helpers/HapticFeedbackHelpers";
-import { PostState, useCurrentPost } from "../../stores/posts/postsStore";
+import {
+  PostCommentsState,
+  PostState,
+  useCurrentPost,
+  useCurrentPostState,
+  usePostComments,
+} from "../../stores/posts/postsStore";
 import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { determineVotes } from "../../helpers/VoteHelper";
 import {
-  loadPostComments,
   setPostCollapsed,
   setPostSaved,
   setPostVote,
 } from "../../stores/posts/actions";
 import { useUpdatesStore } from "../../stores/updates/updatesStore";
+import loadPostComments from "../../stores/posts/actions/loadPostComments";
 
 export interface UsePost {
   postKey: string;
   postState: PostState;
   post: PostView;
+
+  commentsState: PostCommentsState;
 
   currentPost: PostView;
 
@@ -33,23 +41,22 @@ const usePost = (): UsePost => {
   // Get the things we need from the route
   const route = useRoute<any>();
   const { postKey } = route.params;
-
   // Select the current post from the store
-  const postState = useCurrentPost(postKey);
-  const { post } = postState;
+
+  const postState = useCurrentPostState(postKey);
+  const post = useCurrentPost(postKey);
+  const commentsState = usePostComments(postKey);
 
   const updatesStore = useUpdatesStore();
-
-  //
 
   /**
    * Load the Comments for the current Post
    */
-  const doLoad = () => {
+  const doLoad = useCallback(() => {
     loadPostComments(postKey, {
       sortType: "Top",
     }).then();
-  };
+  }, [post.post.id]);
 
   /**
    * Vote on the current Post
@@ -87,6 +94,8 @@ const usePost = (): UsePost => {
     postKey,
     postState,
     post,
+
+    commentsState,
 
     currentPost: post,
 

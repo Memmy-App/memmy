@@ -1,8 +1,9 @@
 import { HStack, useTheme } from "native-base";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useRoute } from "@react-navigation/core";
 import { useAppDispatch } from "../../../../../store";
 import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
 import { shareLink } from "../../../../helpers/ShareHelper";
@@ -11,59 +12,65 @@ import IconButtonWithText from "../../../common/IconButtonWithText";
 import VoteButton from "../../../common/Vote/VoteButton";
 import SFIcon from "../../../common/icons/SFIcon";
 import usePost from "../../../../hooks/post/usePost";
+import { useCurrentPost } from "../../../../stores/posts/postsStore";
 
 function PostActionBar() {
   const postHook = usePost();
+  const currentPost = useCurrentPost(useRoute<any>().params.postKey);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { colors } = useTheme();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    console.log("blah");
+  }, [currentPost]);
 
   const onCommentPress = useCallback(() => {
     onGenericHapticFeedback();
 
     dispatch(
       setResponseTo({
-        post: postHook.post,
-        languageId: postHook.post.post.language_id,
+        post: currentPost,
+        languageId: currentPost.post.language_id,
       })
     );
 
     navigation.push("NewComment");
-  }, [postHook.postState.collapsed]);
+  }, [currentPost.post.id]);
 
   const onSharePress = useCallback(() => {
     onGenericHapticFeedback();
 
     shareLink({
-      link: postHook.post.post.ap_id,
-      title: postHook.post.post.name,
+      link: currentPost.post.ap_id,
+      title: currentPost.post.name,
     }).then();
-  }, [postHook.post.post.id]);
+  }, [currentPost.post.id]);
 
   const onUpvotePress = useCallback(() => {
     postHook.doVote(1);
-  }, [postHook.post.post.id, postHook.post.my_vote]);
+  }, [currentPost.post.id, currentPost.my_vote]);
 
   const onDownvotePress = useCallback(() => {
     postHook.doVote(-1);
-  }, [postHook.post.post.id, postHook.post.my_vote]);
+  }, [currentPost.post.id, currentPost.my_vote]);
 
   const bookmarkIcon = useMemo(
     () => (
       <SFIcon
         icon="bookmark"
-        color={postHook.post.saved && colors.app.bookmarkText}
+        color={currentPost.saved && colors.app.bookmarkText}
       />
     ),
-    [postHook.post.saved]
+    [currentPost.saved]
   );
 
   const bubbleIcon = useMemo(
     () => (
       <SFIcon
         icon="bubble.left"
-        color={postHook.post.saved && colors.app.bookmarkText}
+        color={currentPost.saved && colors.app.bookmarkText}
       />
     ),
     []
@@ -73,7 +80,7 @@ function PostActionBar() {
     () => (
       <SFIcon
         icon="square.and.arrow.up"
-        color={postHook.post.saved && colors.app.bookmarkText}
+        color={currentPost.saved && colors.app.bookmarkText}
       />
     ),
     []
@@ -91,23 +98,23 @@ function PostActionBar() {
       <VoteButton
         onPressHandler={onUpvotePress}
         type="upvote"
-        isVoted={postHook.post?.my_vote === 1}
-        text={postHook.post.counts.upvotes}
+        isVoted={currentPost?.my_vote === 1}
+        text={currentPost.counts.upvotes}
         isAccented
       />
 
       <VoteButton
         onPressHandler={onDownvotePress}
         type="downvote"
-        isVoted={postHook.post?.my_vote === -1}
-        text={postHook.post.counts.downvotes}
+        isVoted={currentPost?.my_vote === -1}
+        text={currentPost.counts.downvotes}
         isAccented
       />
 
       <IconButtonWithText
         onPressHandler={postHook.doSave}
         icon={bookmarkIcon}
-        iconBgColor={postHook.post.saved ? colors.app.bookmark : "transparent"}
+        iconBgColor={currentPost.saved ? colors.app.bookmark : "transparent"}
       />
 
       <IconButtonWithText onPressHandler={onCommentPress} icon={bubbleIcon} />
