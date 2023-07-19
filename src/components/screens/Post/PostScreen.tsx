@@ -12,7 +12,7 @@ import PostFooter from "./components/PostFooter";
 import PostHeader from "./components/PostHeader";
 import RefreshControl from "../../common/RefreshControl";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
-import { PostsState, usePostsStore } from "../../../stores/posts/postsStore";
+import { PostsStore, usePostsStore } from "../../../stores/posts/postsStore";
 import { removePost } from "../../../stores/posts/actions";
 import {
   useEditedComment,
@@ -64,7 +64,7 @@ function PostScreen({ navigation }: IProps) {
 
   useEffect(() => {
     usePostsStore.setState(
-      produce((state: PostsState) => {
+      produce((state: PostsStore) => {
         state.posts[postHook.postKey].visibleComments =
           postHook.postState.visibleComments.filter((c) => !c.hidden);
       })
@@ -84,7 +84,7 @@ function PostScreen({ navigation }: IProps) {
     // If it's a top comment, add it to top of current chain
     if (newComment.isTop) {
       usePostsStore.setState(
-        produce((state: PostsState) => {
+        produce((state: PostsStore) => {
           state.posts[postHook.postKey].comments = [
             lComment,
             ...state.posts[postHook.postKey].comments,
@@ -99,7 +99,7 @@ function PostScreen({ navigation }: IProps) {
       );
 
       usePostsStore.setState(
-        produce((state: PostsState) => {
+        produce((state: PostsStore) => {
           state.posts[postHook.postKey].comments = [
             ...state.posts[postHook.postKey].comments.slice(0, index + 1),
             lComment,
@@ -118,7 +118,7 @@ function PostScreen({ navigation }: IProps) {
     console.log(editedComment);
 
     usePostsStore.setState(
-      produce((state: PostsState) => {
+      produce((state: PostsStore) => {
         state.posts[postHook.postKey].comments = state.posts[
           postHook.postKey
         ].comments.map((c) => {

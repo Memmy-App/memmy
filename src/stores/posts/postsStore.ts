@@ -2,10 +2,8 @@ import { create } from "zustand";
 import { CommentSortType, PostView } from "lemmy-js-client";
 import ILemmyComment from "../../types/lemmy/ILemmyComment";
 
-export interface PostsState {
-  posts: {
-    [postKey: string]: PostState;
-  };
+export interface PostsStore {
+  posts: Map<string, PostState>;
 }
 
 export interface PostState {
@@ -23,9 +21,9 @@ export interface PostState {
   sortType: CommentSortType;
 }
 
-export const usePostsStore = create<PostsState>()(() => ({
-  posts: {},
+export const usePostsStore = create<PostsStore>()(() => ({
+  posts: new Map<string, PostState>(),
 }));
 
 export const useCurrentPost = (postKey: string) =>
-  usePostsStore((state) => state.posts[postKey]);
+  usePostsStore((state) => state.posts.get(postKey));

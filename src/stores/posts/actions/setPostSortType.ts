@@ -1,10 +1,10 @@
 import { CommentSortType } from "lemmy-js-client";
 import { produce } from "immer";
-import { PostsState, usePostsStore } from "../postsStore";
+import { PostsStore, usePostsStore } from "../postsStore";
 
 const setPostSortType = (postKey: string, sortType: CommentSortType) => {
   usePostsStore.setState(
-    produce((state: PostsState) => {
+    produce((state: PostsStore) => {
       state.posts[postKey].sortType = sortType;
     })
   );

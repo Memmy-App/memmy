@@ -1,5 +1,5 @@
 import { produce } from "immer";
-import { PostsState, usePostsStore } from "../postsStore";
+import { PostsStore, usePostsStore } from "../postsStore";
 import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
 import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
 import { IDetermineValue } from "../../../helpers/VoteHelper";
@@ -10,7 +10,7 @@ const setPostVote = async (
   newValues: IDetermineValue
 ) => {
   usePostsStore.setState(
-    produce((state: PostsState) => {
+    produce((state: PostsStore) => {
       state.posts[postKey].post.my_vote = newValues.newValue;
       state.posts[postKey].post.counts.upvotes = newValues.upvotes;
       state.posts[postKey].post.counts.downvotes = newValues.downvotes;
@@ -25,7 +25,7 @@ const setPostVote = async (
     });
   } catch (e) {
     usePostsStore.setState(
-      produce((state: PostsState) => {
+      produce((state: PostsStore) => {
         state.posts[postKey].post.my_vote = newValues.oldValue;
       })
     );

@@ -23,7 +23,7 @@ import { showToast } from "../../slices/toast/toastSlice";
 import { setResponseTo } from "../../slices/comments/newCommentSlice";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
-import { PostsState, usePostsStore } from "../../stores/posts/postsStore";
+import { PostsStore, usePostsStore } from "../../stores/posts/postsStore";
 import { determineVotes } from "../../helpers/VoteHelper";
 
 export interface UseComment {
@@ -89,7 +89,7 @@ const useComment = ({
     onGenericHapticFeedback();
 
     usePostsStore.setState(
-      produce((state: PostsState) => {
+      produce((state: PostsStore) => {
         state.posts[postKey].comments = state.posts[postKey].comments.map(
           (c) => {
             if (c.comment.comment.id === comment.comment.comment.id) {
@@ -176,7 +176,7 @@ const useComment = ({
           );
 
           usePostsStore.setState(
-            produce((state: PostsState) => {
+            produce((state: PostsStore) => {
               state.posts[postKey].comments = state.posts[postKey].comments.map(
                 (c) => {
                   if (c.comment.comment.id === comment.comment.comment.id) {
@@ -264,7 +264,7 @@ const useComment = ({
       );
 
       usePostsStore.setState(
-        produce((state: PostsState) => {
+        produce((state: PostsStore) => {
           state.posts[postKey].comments = state.posts[postKey].comments.map(
             (c) => {
               if (c.comment.comment.id === comment.comment.comment.id) {

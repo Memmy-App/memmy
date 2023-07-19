@@ -1,10 +1,10 @@
 import { PostView } from "lemmy-js-client";
 import { produce } from "immer";
-import { PostsState, usePostsStore } from "../postsStore";
+import { PostsStore, usePostsStore } from "../postsStore";
 
 const addPost = (postKey: string, post: PostView) => {
   usePostsStore.setState(
-    produce((state: PostsState) => {
+    produce((state: PostsStore) => {
       state.posts[postKey] = {
         post,
         postError: false,

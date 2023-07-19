@@ -1,5 +1,5 @@
 import { produce } from "immer";
-import usePostsStore, { PostsState } from "../postsStore";
+import usePostsStore, { PostsStore } from "../postsStore";
 
 export const setPostCommentsLoading = async (
   postKey: string,
@@ -7,7 +7,7 @@ export const setPostCommentsLoading = async (
   error?: boolean
 ) => {
   usePostsStore.setState(
-    produce((state: PostsState) => {
+    produce((state: PostsStore) => {
       state.posts[postKey].commentsLoading = true;
       state.posts[postKey].commentsError = value
         ? false
