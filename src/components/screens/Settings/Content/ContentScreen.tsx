@@ -32,7 +32,10 @@ function ContentScreen({
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
-        <CSection header={t("Posts")}>
+        <CSection
+          header={t("Posts")}
+          footer={t("settings.content.markRead.footer")}
+        >
           {/* <CCell */}
           {/*  title="Swipe Gestures" */}
           {/*  backgroundColor={theme.colors.app.fg} */}
@@ -116,6 +119,21 @@ function ContentScreen({
                 value={settings.hideReadPostsOnFeed}
                 onValueChange={(v) => {
                   onChange("hideReadPostsOnFeed", v);
+                }}
+              />
+            }
+          />
+          <CCell
+            cellStyle="RightDetail"
+            title={t("Show Hide Read Button")}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.showHideReadButton}
+                onValueChange={(v) => {
+                  onChange("showHideReadButton", v);
                 }}
               />
             }

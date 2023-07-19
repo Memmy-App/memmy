@@ -1,11 +1,11 @@
-import React from "react";
 import { HStack, useTheme, View } from "native-base";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { IconDeviceFloppy, IconShare2 } from "tabler-icons-react-native";
-import IconButtonWithText from "../IconButtonWithText";
+import React from "react";
+import { ICON_MAP } from "../../../constants/IconMap";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
-import { shareLink } from "../../../helpers/ShareHelper";
 import { saveImage } from "../../../helpers/ImageHelper";
+import { shareLink } from "../../../helpers/ShareHelper";
+import IconButtonWithText from "../IconButtonWithText";
+import SFIcon from "../icons/SFIcon";
 
 interface ImageViewFooterProps {
   source: string;
@@ -44,15 +44,22 @@ function ImageViewFooter({ source }: ImageViewFooterProps) {
         <IconButtonWithText
           onPressHandler={onSave}
           icon={
-            <IconDeviceFloppy
-              size={38}
+            <SFIcon
+              icon="square.and.arrow.down"
               color={theme.colors.app.textSecondary}
+              size={20}
             />
           }
         />
         <IconButtonWithText
           onPressHandler={onShare}
-          icon={<IconShare2 size={38} color={theme.colors.app.textSecondary} />}
+          icon={
+            <SFIcon
+              icon={ICON_MAP.SHARE}
+              color={theme.colors.app.textSecondary}
+              size={20}
+            />
+          }
         />
       </HStack>
     </View>
@@ -60,3 +67,4 @@ function ImageViewFooter({ source }: ImageViewFooterProps) {
 }
 
 export default ImageViewFooter;
+// <IconShare2 size={38} color={theme.colors.app.textSecondary} />
