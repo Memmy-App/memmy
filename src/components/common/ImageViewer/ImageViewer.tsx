@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Dimensions as RNDimensions,
   Modal,
@@ -36,7 +36,7 @@ import ImageButton from "../Buttons/ImageButton";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 
 interface IProps {
-  source: { uri: string };
+  source: string;
   postId?: number;
   heightOverride?: number;
   widthOverride?: number;
@@ -79,6 +79,10 @@ function ImageViewer({
   compactMode,
 }: IProps) {
   const theme = useTheme();
+
+  useEffect(() => {
+    console.log(Date.now());
+  }, [source]);
 
   // @ts-ignore
   const nonViewerRef = useRef<View>(null);
@@ -527,7 +531,7 @@ function ImageViewer({
           ref={nonViewerRef}
           style={{ opacity: expanded ? 0 : 1 }}
         >
-          <ImageButton src={source.uri}>
+          <ImageButton src={source}>
             <FastImage
               style={[
                 {
@@ -536,7 +540,7 @@ function ImageViewer({
                 },
               ]}
               resizeMode="contain"
-              source={source}
+              source={{ uri: source }}
               onLoad={onLoad}
             />
           </ImageButton>
@@ -589,9 +593,9 @@ function ImageViewer({
                     )}
                   </VStack>
                 </BlurView>
-                {!source.uri.includes(".gif") && (
+                {!source.includes(".gif") && (
                   <FastImage
-                    source={source}
+                    source={{ uri: source }}
                     style={[
                       heightOverride
                         ? { height: heightOverride, width: widthOverride }
@@ -604,7 +608,7 @@ function ImageViewer({
               </View>
             )) || (
               <FastImage
-                source={source}
+                source={{ uri: source }}
                 style={[
                   heightOverride
                     ? { height: heightOverride, width: widthOverride }
@@ -628,7 +632,7 @@ function ImageViewer({
             <Animated.View style={[styles.imageModal, backgroundStyle]}>
               <Animated.View style={[positionStyle]}>
                 <AnimatedFastImage
-                  source={source}
+                  source={{ uri: source }}
                   style={[scaleStyle, dimensionsStyle]}
                 />
               </Animated.View>
@@ -636,7 +640,7 @@ function ImageViewer({
           </GestureDetector>
         </View>
         <Animated.View style={[accessoriesStyle]}>
-          <ImageViewFooter source={source.uri} />
+          <ImageViewFooter source={source} />
         </Animated.View>
       </Modal>
     </View>

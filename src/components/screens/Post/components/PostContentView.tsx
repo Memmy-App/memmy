@@ -1,6 +1,5 @@
 import { Box } from "native-base";
-import React from "react";
-import { useRoute } from "@react-navigation/core";
+import React, { useMemo } from "react";
 import {
   ExtensionType,
   getBaseUrl,
@@ -10,15 +9,17 @@ import LinkButton from "../../../common/Buttons/LinkButton";
 import ImageViewer from "../../../common/ImageViewer/ImageViewer";
 import RenderMarkdown from "../../../common/Markdown/RenderMarkdown";
 import PostTitle from "./PostTitle";
-import { useCurrentPost } from "../../../../stores/posts/postsStore";
+import usePost from "../../../../hooks/post/usePost";
 
 function PostContentView() {
-  const { postKey } = useRoute<any>().params;
-  const postState = useCurrentPost(postKey);
+  const postHook = usePost();
 
-  const linkInfo = getLinkInfo(postState.post.post.url);
+  const linkInfo = useMemo(
+    () => getLinkInfo(postHook.post.post.url),
+    [postHook.post.post.id]
+  );
 
-  const { body, name: title } = postState.post.post;
+  const { body } = postHook.post.post;
 
   const isImage = linkInfo.extType === ExtensionType.IMAGE;
 
@@ -31,7 +32,7 @@ function PostContentView() {
         <Box mx={4}>
           <LinkButton
             link={linkInfo.link}
-            thumbnail={postState.post.post.thumbnail_url}
+            thumbnail={postHook.post.post.thumbnail_url}
           />
         </Box>
       );
@@ -44,19 +45,19 @@ function PostContentView() {
     <Box mb={1}>
       {isImage && (
         <ImageViewer
-          source={{ uri: postState.post.post.url }}
-          nsfw={postState.post.post.nsfw || postState.post.community.nsfw}
-          postId={postState.post.post.id}
+          source={postHook.post.post.url}
+          nsfw={postHook.post.post.nsfw || postHook.post.community.nsfw}
+          postId={postHook.post.post.id}
         />
       )}
 
-      <PostTitle title={title} mt={2} mb={isImage ? 1 : 0} />
+      <PostTitle mt={2} mb={isImage ? 1 : 0} />
 
       {!!body && (
         <Box mx={4}>
           <RenderMarkdown
             text={body}
-            instance={getBaseUrl(postState.post.post.ap_id)}
+            instance={getBaseUrl(postHook.post.post.ap_id)}
           />
         </Box>
       )}

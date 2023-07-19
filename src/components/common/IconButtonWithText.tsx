@@ -1,6 +1,6 @@
 import { Box, HStack, Pressable, Text } from "native-base";
-import React, { useCallback, useEffect } from "react";
-import { Alert, GestureResponderEvent } from "react-native";
+import React from "react";
+import { GestureResponderEvent } from "react-native";
 import { ColorType } from "native-base/lib/typescript/components/types";
 import { IFontSize } from "native-base/lib/typescript/theme/base/typography";
 import Animated, {
@@ -31,10 +31,6 @@ function IconButtonWithText({
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
   }));
-
-  useEffect(() => {
-    console.log(Date.now());
-  }, [text]);
 
   const onPressIn = () => {
     scale.value = withTiming(1.4, { duration: 250 });
