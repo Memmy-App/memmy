@@ -47,7 +47,7 @@ const usePost = (): UsePost => {
    */
   const doLoad = () => {
     loadPostComments(postKey, {
-      sortType: postState.sortType,
+      sortType: "Top",
     }).then();
   };
 

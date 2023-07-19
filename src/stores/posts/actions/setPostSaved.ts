@@ -1,5 +1,4 @@
-import { produce } from "immer";
-import { PostsStore, usePostsStore } from "../postsStore";
+import { usePostsStore } from "../postsStore";
 import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
 import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
 
@@ -8,11 +7,9 @@ const setPostSaved = async (
   postId: number,
   saved: boolean
 ) => {
-  usePostsStore.setState(
-    produce((state: PostsStore) => {
-      state.posts[postKey].post.saved = saved;
-    })
-  );
+  usePostsStore.setState((state) => {
+    state.posts.get(postKey).post.saved = saved;
+  });
 
   try {
     await lemmyInstance.savePost({
@@ -21,11 +18,9 @@ const setPostSaved = async (
       save: saved,
     });
   } catch (e) {
-    usePostsStore.setState(
-      produce((state: PostsStore) => {
-        state.posts[postKey].post.saved = !saved;
-      })
-    );
+    usePostsStore.setState((state) => {
+      state.posts.get(postKey).post.saved = saved;
+    });
 
     handleLemmyError(e.toString());
   }

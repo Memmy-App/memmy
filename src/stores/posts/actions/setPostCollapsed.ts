@@ -1,12 +1,14 @@
-import { produce } from "immer";
-import { PostsStore, usePostsStore } from "../postsStore";
+import { usePostsStore } from "../postsStore";
 
 const setPostCollapsed = (postKey: string) => {
-  usePostsStore.setState(
-    produce((state: PostsStore) => {
-      state.posts[postKey].collapsed = !state.posts[postKey].collapsed;
-    })
-  );
+  usePostsStore.setState((state) => {
+    const prev = state.posts.get(postKey);
+
+    state.posts.set(postKey, {
+      ...prev,
+      collapsed: !prev.collapsed,
+    });
+  });
 };
 
 export default setPostCollapsed;

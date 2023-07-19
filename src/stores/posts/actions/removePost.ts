@@ -1,10 +1,7 @@
-import usePostsStore from "../postsStore";
+import { usePostsStore } from "../postsStore";
 
 const removePost = (postKey: string) => {
-  usePostsStore.setState((state) => {
-    const { [postKey]: toRemove, ...rest } = state.posts;
-    return rest;
-  });
+  usePostsStore.setState((state) => state.posts.delete(postKey));
 };
 
 export default removePost;

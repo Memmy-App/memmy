@@ -1,5 +1,4 @@
-import { produce } from "immer";
-import { PostsStore, usePostsStore } from "../postsStore";
+import { usePostsStore } from "../postsStore";
 import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
 import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
 import { IDetermineValue } from "../../../helpers/VoteHelper";
@@ -9,13 +8,14 @@ const setPostVote = async (
   postId: number,
   newValues: IDetermineValue
 ) => {
-  usePostsStore.setState(
-    produce((state: PostsStore) => {
-      state.posts[postKey].post.my_vote = newValues.newValue;
-      state.posts[postKey].post.counts.upvotes = newValues.upvotes;
-      state.posts[postKey].post.counts.downvotes = newValues.downvotes;
-    })
-  );
+  usePostsStore.setState((state) => {
+    const prev = state.posts.get(postKey);
+
+    prev.post.my_vote = newValues.newValue;
+    prev.post.counts.upvotes = newValues.upvotes;
+    prev.post.counts.downvotes = newValues.downvotes;
+    prev.post.counts.score = newValues.upvotes - newValues.downvotes;
+  });
 
   try {
     await lemmyInstance.likePost({
@@ -24,11 +24,9 @@ const setPostVote = async (
       score: newValues.newValue,
     });
   } catch (e) {
-    usePostsStore.setState(
-      produce((state: PostsStore) => {
-        state.posts[postKey].post.my_vote = newValues.oldValue;
-      })
-    );
+    usePostsStore.setState((state) => {
+      state.posts.get(postKey).post.my_vote = newValues.oldValue;
+    });
 
     handleLemmyError(e.toString());
   }

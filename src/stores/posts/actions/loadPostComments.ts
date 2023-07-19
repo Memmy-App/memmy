@@ -1,8 +1,7 @@
 import { produce } from "immer";
-import { ILoadCommentsOptions } from "../types/ILoadCommentsOptions";
+import { ILoadCommentsOptions } from "../../comments/types/ILoadCommentsOptions";
 import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
 import { PostsStore, usePostsStore } from "../postsStore";
-import { setPostCommentsLoading } from "./index";
 import { buildComments } from "../../../helpers/LemmyCommentsHelper";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import NestedComment from "../../../types/lemmy/NestedComment";
@@ -68,7 +67,7 @@ const loadPostComments = async (
       })
     );
   } catch (e) {
-    setPostCommentsLoading(postKey, false, true).then();
+    // setPostCommentsLoading(postKey, false, true).then();
     handleLemmyError(e.toString());
   }
 };

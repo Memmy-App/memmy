@@ -1,28 +1,15 @@
 import { PostView } from "lemmy-js-client";
-import { produce } from "immer";
-import { PostsStore, usePostsStore } from "../postsStore";
+import { usePostsStore } from "../postsStore";
 
 const addPost = (postKey: string, post: PostView) => {
-  usePostsStore.setState(
-    produce((state: PostsStore) => {
-      state.posts[postKey] = {
-        post,
-        postError: false,
-        postLoading: false,
-
-        comments: [],
-        visibleComments: [],
-
-        commentsLoading: true,
-        commentsError: false,
-
-        collapsed: false,
-
-        // TODO use default
-        sortType: "Top",
-      };
-    })
-  );
+  usePostsStore.setState((state) => {
+    state.posts.set(postKey, {
+      post,
+      postError: false,
+      postLoading: false,
+      collapsed: false,
+    });
+  });
 };
 
 export default addPost;

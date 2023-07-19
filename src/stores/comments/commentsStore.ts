@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
 import ILemmyComment from "../../types/lemmy/ILemmyComment";
 
 interface CommentsStore {
@@ -11,9 +12,11 @@ interface CommentsState {
   commentsError: boolean;
 }
 
-export const useCommentsStore = create<CommentsStore>()(() => ({
-  commentGroups: new Map<string, CommentsState>(),
-}));
+export const useCommentsStore = create(
+  immer<CommentsStore>(() => ({
+    commentGroups: new Map<string, CommentsState>(),
+  }))
+);
 
 export const useCommentsState = (screenKey: string) =>
   useCommentsStore((state) => state.commentGroups.get(screenKey));
