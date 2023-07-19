@@ -229,7 +229,8 @@ function TraverseScreen() {
             textAlign="center"
             justifyContent="center"
             alignSelf="center"
-            p="3"
+            py="3"
+            px="4"
           >
             {(value as HeaderValue).title}
           </Text>
