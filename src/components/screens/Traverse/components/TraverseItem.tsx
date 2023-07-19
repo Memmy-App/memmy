@@ -72,7 +72,9 @@ function TraverseItem({ community, isFavorite }: IProps) {
               <PlanetIcon color={theme.colors.app.textSecondary} size={24} />
             )}
             <VStack>
-              <Text color={theme.colors.app.textPrimary}>{community.community.name}</Text>
+              <Text color={theme.colors.app.textPrimary}>
+                {community.community.name}
+              </Text>
               <Text
                 fontSize="$2xs"
                 color={theme.colors.app.textSecondary}
