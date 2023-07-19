@@ -31,20 +31,23 @@ function VoteButton({
 
   const voteColor = type === "upvote" ? colors.app.upvote : colors.app.downvote;
 
-  const icon =
-    type === "upvote" ? (
-      <SFIcon
-        icon={ICON_MAP.UPVOTE}
-        color={isVoted ? colors.app.upvoteText : color}
-        size={iconSize}
-      />
-    ) : (
-      <SFIcon
-        icon={ICON_MAP.DOWNVOTE}
-        color={isVoted ? colors.app.downvoteText : color}
-        size={iconSize}
-      />
-    );
+  const icon = useMemo(
+    () =>
+      type === "upvote" ? (
+        <SFIcon
+          icon={ICON_MAP.UPVOTE}
+          color={isVoted ? colors.app.upvoteText : color}
+          size={iconSize}
+        />
+      ) : (
+        <SFIcon
+          icon={ICON_MAP.DOWNVOTE}
+          color={isVoted ? colors.app.downvoteText : color}
+          size={iconSize}
+        />
+      ),
+    [isVoted]
+  );
 
   return (
     <IconButtonWithText

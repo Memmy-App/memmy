@@ -21,7 +21,7 @@ function ImagePreview({
   if (images.length === 1) {
     return (
       <ImageViewer
-        source={{ uri: images[0] }}
+        source=""
         nsfw={isNsfw}
         postId={postId}
         recycled={recycled}

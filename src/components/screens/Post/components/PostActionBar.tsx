@@ -11,7 +11,6 @@ import IconButtonWithText from "../../../common/IconButtonWithText";
 import VoteButton from "../../../common/Vote/VoteButton";
 import SFIcon from "../../../common/icons/SFIcon";
 import usePost from "../../../../hooks/post/usePost";
-import { ICON_MAP } from "../../../../constants/IconMap";
 
 function PostActionBar() {
   const postHook = usePost();

@@ -1,4 +1,4 @@
-import React, { SetStateAction, useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import Clipboard from "@react-native-community/clipboard";
 import { CommentReplyView } from "lemmy-js-client";
 import { Alert } from "react-native";

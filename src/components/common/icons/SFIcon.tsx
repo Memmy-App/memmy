@@ -1,5 +1,5 @@
 import { useTheme } from "native-base";
-import React, { useEffect } from "react";
+import React from "react";
 import { StyleProp, ViewStyle } from "react-native";
 import { SFSymbol, SymbolScale, SymbolWeight } from "react-native-sfsymbols";
 
