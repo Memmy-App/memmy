@@ -1,5 +1,5 @@
 import { useTheme } from "native-base";
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleProp, ViewStyle } from "react-native";
 import { SFSymbol, SymbolScale, SymbolWeight } from "react-native-sfsymbols";
 
@@ -12,7 +12,7 @@ interface IProps {
   color?: string;
 }
 
-export default function SFIcon({
+export function SFIcon({
   icon,
   weight = "semibold",
   scale = "large",
@@ -34,3 +34,5 @@ export default function SFIcon({
     />
   );
 }
+
+export default React.memo(SFIcon);

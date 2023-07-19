@@ -25,4 +25,4 @@ function Title({ mt, mb }: { mt?: number; mb?: number }) {
   );
 }
 
-export default Title;
+export default React.memo(Title);

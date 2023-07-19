@@ -1,5 +1,5 @@
 import { HStack, useTheme } from "native-base";
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -19,7 +19,7 @@ function PostActionBar() {
   const { colors } = useTheme();
   const dispatch = useAppDispatch();
 
-  const onCommentPress = () => {
+  const onCommentPress = useCallback(() => {
     onGenericHapticFeedback();
 
     dispatch(
@@ -30,24 +30,54 @@ function PostActionBar() {
     );
 
     navigation.push("NewComment");
-  };
+  }, [postHook.postState.collapsed]);
 
-  const onSharePress = () => {
+  const onSharePress = useCallback(() => {
     onGenericHapticFeedback();
 
     shareLink({
       link: postHook.post.post.ap_id,
       title: postHook.post.post.name,
     }).then();
-  };
+  }, [postHook.post.post.id]);
 
-  const onUpvotePress = () => {
+  const onUpvotePress = useCallback(() => {
     postHook.doVote(1);
-  };
+  }, [postHook.post.post.id, postHook.post.my_vote]);
 
-  const onDownvotePress = () => {
+  const onDownvotePress = useCallback(() => {
     postHook.doVote(-1);
-  };
+  }, [postHook.post.post.id, postHook.post.my_vote]);
+
+  const bookmarkIcon = useMemo(
+    () => (
+      <SFIcon
+        icon="bookmark"
+        color={postHook.post.saved && colors.app.bookmarkText}
+      />
+    ),
+    [postHook.post.saved]
+  );
+
+  const bubbleIcon = useMemo(
+    () => (
+      <SFIcon
+        icon="bubble.left"
+        color={postHook.post.saved && colors.app.bookmarkText}
+      />
+    ),
+    []
+  );
+
+  const shareIcon = useMemo(
+    () => (
+      <SFIcon
+        icon="square.and.arrow.up"
+        color={postHook.post.saved && colors.app.bookmarkText}
+      />
+    ),
+    []
+  );
 
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -75,25 +105,14 @@ function PostActionBar() {
       />
 
       <IconButtonWithText
-        onPressHandler={() => {}}
-        icon={
-          <SFIcon
-            icon="bookmark"
-            color={postHook.post.saved && colors.app.bookmarkText}
-          />
-        }
+        onPressHandler={onSharePress}
+        icon={bookmarkIcon}
         iconBgColor={postHook.post.saved ? colors.app.bookmark : "transparent"}
       />
 
-      <IconButtonWithText
-        onPressHandler={onCommentPress}
-        icon={<SFIcon icon="bubble.left" />}
-      />
+      <IconButtonWithText onPressHandler={onCommentPress} icon={bubbleIcon} />
 
-      <IconButtonWithText
-        icon={<SFIcon icon="square.and.arrow.up" />}
-        onPressHandler={onSharePress}
-      />
+      <IconButtonWithText icon={shareIcon} onPressHandler={onSharePress} />
     </HStack>
   );
 }

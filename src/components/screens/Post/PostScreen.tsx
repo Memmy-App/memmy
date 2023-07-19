@@ -13,7 +13,7 @@ import PostHeader from "./components/PostHeader";
 import RefreshControl from "../../common/RefreshControl";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import { PostsState, usePostsStore } from "../../../stores/posts/postsStore";
-import { loadPostComments, removePost } from "../../../stores/posts/actions";
+import { removePost } from "../../../stores/posts/actions";
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
