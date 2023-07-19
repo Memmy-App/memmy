@@ -100,7 +100,7 @@
       },
       "content": {
         "nsfw": {
-          "footer": "These settings do not affect your Lemmy account NSFW settings. These setting will only apply to the local app (globally on all accounts).",
+          "footer": "Aceste setări nu afectează setările NSFW ale contului tău Lemmy. Aceste setări se vor aplica doar aplicației locale (la nivel global pe toate conturile).",
           "blur": "Blurează Continutul NSFW",
           "hide": "Ascunde Continutul NSFW"
         },
@@ -144,10 +144,10 @@
           "textSize": "Mărimea Textului",
           "postTitleFontWeight": "Greutatea Fontului - Titlu Post"
         },
-              "gestures": {
-                  "header": "GESTURI",
-                  "tapToCollapse": "Apasă să ascunzi"
-              }
+        "gestures": {
+            "header": "GESTURI",
+            "tapToCollapse": "Apasă să ascunzi"
+        }
       },
       "accounts": {
         "current": "Contul curent",
@@ -163,7 +163,7 @@
       }
     },
     "traverse": {
-      "noSubscriptions": "Nu ai niciun abonament."
+      "noSubscriptions": "Nu ești abonat la nicio comunitate."
     },
     "post": {
       "header": "Info post",
