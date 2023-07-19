@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { CommunityView } from "lemmy-js-client";
-import { HStack, Pressable, Text, useTheme, VStack } from "native-base";
+import { useTheme } from "native-base";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { StyleSheet } from "react-native";
 import {
@@ -13,6 +13,7 @@ import {
 } from "tabler-icons-react-native";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { HStack, Pressable, Text, VStack } from "../../../common/Gluestack";
 import { getCommunityFullName } from "../../../../helpers/LemmyHelpers";
 import { toggleFavorite } from "../../../../slices/favorites/favoritesActions";
 
@@ -62,15 +63,12 @@ function TraverseItem({ community, isFavorite }: IProps) {
       <HStack
         flex={1}
         backgroundColor={theme.colors.app.fg}
-        py={1.5}
-        px={2}
-        my={1}
-        mx={4}
         borderRadius={10}
         alignItems="center"
+        style={styles.container}
       >
-        <VStack space={1}>
-          <HStack space={2} alignItems="center">
+        <VStack>
+          <HStack space="sm" alignItems="center">
             {community.community.icon ? (
               <FastImage
                 source={{ uri: community.community.icon }}
@@ -82,7 +80,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
             <VStack>
               <Text>{community.community.name}</Text>
               <Text
-                fontSize="2xs"
+                fontSize="$2xs"
                 color={theme.colors.app.textSecondary}
                 fontStyle="italic"
               >
@@ -90,21 +88,21 @@ function TraverseItem({ community, isFavorite }: IProps) {
               </Text>
             </VStack>
           </HStack>
-          <HStack space={2}>
-            <HStack space={1} alignItems="center">
+          <HStack space="sm">
+            <HStack alignItems="center">
               <IconEye size={12} color={theme.colors.app.textSecondary} />
               <Text
-                fontSize="xs"
+                fontSize="$xs"
                 color={theme.colors.app.textSecondary}
                 fontStyle="italic"
               >
                 {community.counts.users_active_day.toLocaleString()} online
               </Text>
             </HStack>
-            <HStack space={1} alignItems="center">
+            <HStack alignItems="center">
               <IconNotes size={12} color={theme.colors.app.textSecondary} />
               <Text
-                fontSize="xs"
+                fontSize="$xs"
                 color={theme.colors.app.textSecondary}
                 fontStyle="italic"
               >
@@ -140,6 +138,12 @@ function TraverseItem({ community, isFavorite }: IProps) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    marginHorizontal: 16,
+    marginVertical: 4,
+  },
   icon: {
     height: 24,
     width: 24,

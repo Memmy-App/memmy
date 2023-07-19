@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { StyleSheet } from "react-native";
-import { View, ScrollView, Text, useTheme } from "native-base";
+import { View, Text, useTheme } from "native-base";
 import { CommunityView } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
@@ -52,7 +52,9 @@ function TraverseScreen() {
   const hasFavorites = favorites && Object.keys(favorites).length > 0;
 
   const filteredSubscriptions = traverse.subscriptions.filter(itemFilter);
-  const filteredFavorites = filteredSubscriptions.filter((c) => isFavoriteSubscription(c));
+  const filteredFavorites = filteredSubscriptions.filter((c) =>
+    isFavoriteSubscription(c)
+  );
 
   let sectionListItems: SectionListItem[] = hasFavorites
     ? [
@@ -86,10 +88,6 @@ function TraverseScreen() {
     isFavorite: false,
   });
 
-  // If there are favorites then indexing should start at 3, otherwise 2
-  const startingIndex = hasFavorites ? 2 : 1;
-  // If there are favorites then we'll add it as a numeric index
-  const headerNumericIndexes: number[] = [];
   let lastIndexAlpha: string;
   sectionListItems = filteredSubscriptions.reduce(
     (accumulator, subscription) => {
@@ -105,8 +103,6 @@ function TraverseScreen() {
           value: firstLetter,
           isFavorite: false,
         });
-        // keep track of the numeric index for the ScrollView sticky headers
-        headerNumericIndexes.push(accumulator.length - 1 + startingIndex);
       }
       // add the subscription
       accumulator.push({
@@ -133,7 +129,10 @@ function TraverseScreen() {
     [term]
   );
 
-  const itemRenderer = ({ item }: ListRenderItemInfo<SectionListItem>) => {
+  const itemRenderer = ({
+    item,
+    index,
+  }: ListRenderItemInfo<SectionListItem>) => {
     const { type, value, isFavorite } = item;
     if (type === ItemType.INDEX) {
       return (
@@ -149,13 +148,19 @@ function TraverseScreen() {
         </View>
       );
     } else if (type === ItemType.HEADER) {
-       return (<Text textAlign="center">{value as string}</Text>);
+      return (
+        <Text textAlign="center" style={index > 0 ? styles.n1PlusHeader : null}>
+          {value as string}
+        </Text>
+      );
     }
     return (
       <TraverseItem
         community={value as CommunityView}
         isFavorite={hasFavorites ? isFavorite : false}
-        key={`${isFavorite ? "favorite" : "subscription"}-${(value as CommunityView)?.community.id}`}
+        key={`${isFavorite ? "favorite" : "subscription"}-${
+          (value as CommunityView)?.community.id
+        }`}
       />
     );
   };
@@ -192,8 +197,8 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingStart: 18,
   },
-  favoritesContainer: {
-    marginBottom: 16,
+  n1PlusHeader: {
+    marginTop: 16,
   },
 });
 
