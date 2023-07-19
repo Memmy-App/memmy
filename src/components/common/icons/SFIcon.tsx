@@ -8,6 +8,7 @@ interface IProps {
   weight?: SymbolWeight;
   scale?: SymbolScale;
   size?: number;
+  boxSize?: number;
   style?: StyleProp<ViewStyle>;
   color?: string;
 }
@@ -17,10 +18,12 @@ export function SFIcon({
   weight = "semibold",
   scale = "large",
   size = 16,
+  boxSize = 24,
   style = { width: 24, height: 24 },
   color,
 }: IProps) {
   const theme = useTheme();
+
   return (
     <SFSymbol
       color={color || theme.colors.app.accent}
@@ -30,7 +33,8 @@ export function SFIcon({
       size={size}
       resizeMode="center"
       multicolor={false}
-      style={style}
+      // @ts-expect-error - can spread style but TS complains about it
+      style={{ ...style, width: boxSize, height: boxSize }}
     />
   );
 }

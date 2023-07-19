@@ -8,4 +8,6 @@ export const ICON_MAP = {
   REPORT_POST: "flag",
   SUBSCRIBE: "heart",
   BLOCK_USER: "person.crop.circle.badge.xmark",
+  USER_AVATAR: "person.circle",
+  CLOCK: "clock",
 };

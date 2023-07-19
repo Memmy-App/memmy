@@ -1,23 +1,17 @@
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { HStack, Text, useTheme, VStack } from "native-base";
 import React, { useEffect } from "react";
-import FastImage from "@gkasdorf/react-native-fast-image";
-import {
-  IconEye,
-  IconHeart,
-  IconInfoCircle,
-  IconPlanet,
-  IconPlus,
-  IconUserHeart,
-} from "tabler-icons-react-native";
 import { useTranslation } from "react-i18next";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
+import { shortenNumber } from "../../../helpers/NumberHelper";
 import useCommunityFeed from "../../../hooks/feeds/useCommunityFeed";
 import CustomButton from "../../common/Buttons/CustomButton";
-import FeedView from "./components/FeedView";
+import { PlanetIcon } from "../../common/icons/PlanetIcon";
+import SFIcon from "../../common/icons/SFIcon";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";
 import NotFoundView from "../../common/Loading/NotFoundView";
-import { shortenNumber } from "../../../helpers/NumberHelper";
+import FeedView from "./components/FeedView";
 
 function FeedsCommunityScreen({
   route,
@@ -78,15 +72,17 @@ function FeedsCommunityScreen({
               }}
             />
           ) : (
-            <IconPlanet color={theme.colors.app.textSecondary} size={64} />
+            <PlanetIcon color={theme.colors.app.textSecondary} size={64} />
           )}
 
           <VStack alignContent="center">
-            <HStack space={2}>
-              <HStack space={1}>
-                <IconUserHeart
+            <HStack space={3}>
+              <HStack alignItems="center">
+                <SFIcon
+                  icon="person"
                   color={theme.colors.app.textSecondary}
-                  size={20}
+                  size={12}
+                  boxSize={18}
                 />
                 <Text color={theme.colors.app.textSecondary}>
                   {shortenNumber(
@@ -94,8 +90,13 @@ function FeedsCommunityScreen({
                   )}
                 </Text>
               </HStack>
-              <HStack space={1}>
-                <IconEye color={theme.colors.app.textSecondary} size={20} />
+              <HStack space={1} alignItems="center">
+                <SFIcon
+                  icon="eye"
+                  color={theme.colors.app.textSecondary}
+                  size={12}
+                  boxSize={18}
+                />
                 <Text color={theme.colors.app.textSecondary}>
                   {communityFeed.feed.community.counts.users_active_month}
                 </Text>
@@ -113,10 +114,11 @@ function FeedsCommunityScreen({
           <HStack justifyContent="space-between" alignItems="center" space={3}>
             <CustomButton
               onPress={communityFeed.onSubscribePress}
-              icon={IconHeart}
-              iconFill={
+              icon={
                 communityFeed.feed.community.subscribed === "Subscribed" ||
                 communityFeed.feed.community.subscribed === "Pending"
+                  ? "heart.fill"
+                  : "heart"
               }
               text={
                 communityFeed.feed.community.subscribed === "Subscribed" ||
@@ -127,12 +129,12 @@ function FeedsCommunityScreen({
             />
             <CustomButton
               onPress={communityFeed.onAboutPress}
-              icon={IconInfoCircle}
+              icon="info.circle"
               text={t("About")}
             />
             <CustomButton
               onPress={communityFeed.onPostPress}
-              icon={IconPlus}
+              icon="plus"
               text={t("Post")}
             />
           </HStack>

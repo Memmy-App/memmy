@@ -1,9 +1,9 @@
-import React, { useMemo } from "react";
 import { HStack, Text, useTheme } from "native-base";
-import { IconChevronDown, IconDots } from "tabler-icons-react-native";
-import { CommentContextMenu } from "../CommentContextMenu";
-import IconButtonWithText from "../../IconButtonWithText";
+import React, { useMemo } from "react";
 import { timeFromNowShort } from "../../../../helpers/TimeHelper";
+import IconButtonWithText from "../../IconButtonWithText";
+import SFIcon from "../../icons/SFIcon";
+import { CommentContextMenu } from "../CommentContextMenu";
 
 interface IProps {
   onPress: (key: string) => void;
@@ -21,7 +21,13 @@ function CommentHeaderRight({
   const theme = useTheme();
 
   if (collapsed) {
-    return <IconChevronDown size={24} color={theme.colors.app.textSecondary} />;
+    return (
+      <SFIcon
+        icon="chevron.down"
+        size={12}
+        color={theme.colors.app.textSecondary}
+      />
+    );
   }
 
   const publishedFormatted = useMemo(
@@ -31,6 +37,7 @@ function CommentHeaderRight({
 
   return (
     <HStack alignItems="center" space={2}>
+      <Text color={theme.colors.app.textSecondary}>{publishedFormatted}</Text>
       <CommentContextMenu
         isShortPress
         options={contextOptions}
@@ -39,10 +46,15 @@ function CommentHeaderRight({
         }}
       >
         <IconButtonWithText
-          icon={<IconDots size={24} color={theme.colors.app.textSecondary} />}
+          icon={
+            <SFIcon
+              icon="ellipsis"
+              size={12}
+              color={theme.colors.app.textSecondary}
+            />
+          }
         />
       </CommentContextMenu>
-      <Text color={theme.colors.app.textSecondary}>{publishedFormatted}</Text>
     </HStack>
   );
 }
