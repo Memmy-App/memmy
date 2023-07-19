@@ -1,6 +1,6 @@
-import React, { useState } from "react";
 import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
-import { IconChevronRight } from "tabler-icons-react-native";
+import React, { useState } from "react";
+import SFIcon from "../icons/SFIcon";
 
 interface IProps {
   title: string;
@@ -55,7 +55,7 @@ function MCell({
           (rightAccessory && <>{rightAccessory}</>)}
         {showChevron && (
           <View ml="auto" alignItems="center">
-            <IconChevronRight color={theme.colors.app.accent} />
+            <SFIcon icon="chevron.right" size={14} />
           </View>
         )}
       </HStack>
