@@ -115,9 +115,13 @@ function PostScreen({ navigation }: IProps) {
   useEffect(() => {
     if (!editedComment) return;
 
+    console.log(editedComment);
+
     usePostsStore.setState(
       produce((state: PostsState) => {
-        state.posts[postHook.postKey].comments.map((c) => {
+        state.posts[postHook.postKey].comments = state.posts[
+          postHook.postKey
+        ].comments.map((c) => {
           if (c.comment.comment.id !== editedComment.commentId) return c;
 
           return {

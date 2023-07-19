@@ -24,6 +24,7 @@ import { setResponseTo } from "../../slices/comments/newCommentSlice";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 import { PostsState, usePostsStore } from "../../stores/posts/postsStore";
+import { determineVotes } from "../../helpers/VoteHelper";
 
 export interface UseComment {
   onCommentPress: () => void;
@@ -52,12 +53,15 @@ const useComment = ({
 
   const dispatch = useAppDispatch();
 
-  const isOwnComment =
-    getUserFullName(comment.comment.creator).toLowerCase() ===
-      createUserFullName(
-        currentAccount.username.toLowerCase(),
-        currentAccount.instance.toLowerCase()
-      ) && !comment.comment.comment.deleted;
+  const isOwnComment = useMemo(
+    () =>
+      getUserFullName(comment.comment.creator).toLowerCase() ===
+        createUserFullName(
+          currentAccount.username.toLowerCase(),
+          currentAccount.instance.toLowerCase()
+        ) && !comment.comment.comment.deleted,
+    [comment.comment.comment.id]
+  );
 
   const longPressOptions: Record<string, string> = useMemo(
     () => ({
@@ -251,50 +255,37 @@ const useComment = ({
   }, [comment.comment.comment.id]);
 
   const onVote = useCallback(
-    async (value: -1 | 0 | 1) => {
-      let { upvotes, downvotes } = comment.comment.counts;
+    async (value: ILemmyVote) => {
+      const newValues = determineVotes(
+        value,
+        comment.comment.my_vote,
+        comment.comment.counts.upvotes,
+        comment.comment.counts.downvotes
+      );
 
-      // If we already voted, this will be a neutral vote.
-      if (value === comment.comment.my_vote && value !== 0) value = 0;
-
-      // Store old value in case we encounter an error
-      const oldValue = comment.comment.my_vote;
-
-      // Deal with updating the upvote/downvote count
-      if (value === 0) {
-        if (oldValue === -1) downvotes -= 1;
-        if (oldValue === 1) upvotes -= 1;
-      }
-
-      if (value === 1) {
-        if (oldValue === -1) downvotes -= 1;
-        upvotes += 1;
-      }
-
-      if (value === -1) {
-        if (oldValue === 1) upvotes -= 1;
-        downvotes += 1;
-      }
-
-      setComments((prev) =>
-        prev.map((c) => {
-          if (c.comment.comment.id === comment.comment.comment.id) {
-            return {
-              ...c,
-              myVote: value,
-              comment: {
-                ...c.comment,
-                my_vote: value,
-                counts: {
-                  ...c.comment.counts,
-                  upvotes,
-                  downvotes,
-                  score: upvotes - downvotes,
-                },
-              },
-            };
-          }
-          return c;
+      usePostsStore.setState(
+        produce((state: PostsState) => {
+          state.posts[postKey].comments = state.posts[postKey].comments.map(
+            (c) => {
+              if (c.comment.comment.id === comment.comment.comment.id) {
+                return {
+                  ...c,
+                  myVote: value,
+                  comment: {
+                    ...c.comment,
+                    my_vote: value,
+                    counts: {
+                      ...c.comment.counts,
+                      upvotes: newValues.upvotes,
+                      downvotes: newValues.downvotes,
+                      score: newValues.upvotes - newValues.downvotes,
+                    },
+                  },
+                };
+              }
+              return c;
+            }
+          );
         })
       );
 
@@ -306,22 +297,6 @@ const useComment = ({
         });
       } catch (e) {
         handleLemmyError(e.toString());
-
-        setComments((prev) =>
-          prev.map((c) => {
-            if (c.comment.comment.id === comment.comment.comment.id) {
-              return {
-                ...c,
-                myVote: oldValue as ILemmyVote,
-                comment: {
-                  ...c.comment,
-                  my_vote: oldValue as number,
-                },
-              };
-            }
-            return c;
-          })
-        );
       }
     },
     [comment.comment.comment.id]
