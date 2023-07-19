@@ -77,7 +77,7 @@ function TraverseScreen() {
   } else {
     sectionListItems.push({
       type: ItemType.EMPTY_RESULTS,
-      value: "EMPTY FAVORITES",
+      value: "TODO: EMPTY FAVORITES",
       isFavorite: false,
     });
   }
@@ -88,32 +88,40 @@ function TraverseScreen() {
     isFavorite: false,
   });
 
-  let lastIndexAlpha: string;
-  sectionListItems = filteredSubscriptions.reduce(
-    (accumulator, subscription) => {
-      const { name } = subscription.community;
-      // get the first letter of the name
-      const firstLetter = name.at(0).toLocaleUpperCase();
-      if (lastIndexAlpha !== firstLetter) {
-        // track the current alpha index
-        lastIndexAlpha = firstLetter;
-        // add the new alpha-index
+  if (!filteredSubscriptions.length) {
+    sectionListItems.push({
+      type: ItemType.EMPTY_RESULTS,
+      value: "TODO: EMPTY SUBSCRIPTIONS",
+      isFavorite: false,
+    });
+  } else {
+    let lastIndexAlpha: string;
+    sectionListItems = filteredSubscriptions.reduce(
+      (accumulator, subscription) => {
+        const { name } = subscription.community;
+        // get the first letter of the name
+        const firstLetter = name.at(0).toLocaleUpperCase();
+        if (lastIndexAlpha !== firstLetter) {
+          // track the current alpha index
+          lastIndexAlpha = firstLetter;
+          // add the new alpha-index
+          accumulator.push({
+            type: ItemType.INDEX,
+            value: firstLetter,
+            isFavorite: false,
+          });
+        }
+        // add the subscription
         accumulator.push({
-          type: ItemType.INDEX,
-          value: firstLetter,
+          type: ItemType.SUBSCRIPTION,
+          value: subscription,
           isFavorite: false,
         });
-      }
-      // add the subscription
-      accumulator.push({
-        type: ItemType.SUBSCRIPTION,
-        value: subscription,
-        isFavorite: false,
-      });
-      return accumulator;
-    },
-    sectionListItems
-  );
+        return accumulator;
+      },
+      sectionListItems
+    );
+  }
 
   const stickyHeaderIndices = sectionListItems
     .map((item, index) => {
@@ -153,18 +161,22 @@ function TraverseScreen() {
           {value as string}
         </Text>
       );
+    } else if (type === ItemType.SUBSCRIPTION) {
+      return (
+        <TraverseItem
+          community={value as CommunityView}
+          isFavorite={
+            hasFavorites
+              ? isFavoriteSubscription(value as CommunityView)
+              : false
+          }
+          key={`${isFavorite ? "favorite" : "subscription"}-${
+            (value as CommunityView)?.community.id
+          }`}
+        />
+      );
     }
-    return (
-      <TraverseItem
-        community={value as CommunityView}
-        isFavorite={
-          hasFavorites ? isFavoriteSubscription(value as CommunityView) : false
-        }
-        key={`${isFavorite ? "favorite" : "subscription"}-${
-          (value as CommunityView)?.community.id
-        }`}
-      />
-    );
+    return <Text>{value as string}</Text>;
   };
 
   if (traverse.loading) {
