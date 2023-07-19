@@ -16,6 +16,7 @@ import {
 import { clearUpdateSaved, selectFeed } from "../../slices/feed/feedSlice";
 import { preloadImages } from "../../helpers/ImageHelper";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
+import { useSaved, useVoted } from "../../stores/updates/updatesStore";
 
 export interface UseFeed {
   posts: PostView[] | null;
@@ -48,7 +49,9 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
   // Global State
   const { defaultSort, defaultListingType, hideNsfw, hideReadPostsOnFeed } =
     useAppSelector(selectSettings);
-  const { updateVote, updateSaved } = useAppSelector(selectFeed);
+
+  const updateVote = useVoted();
+  const updateSaved = useSaved();
 
   // State
   const [posts, setPosts] = useState<PostView[] | null>(null);
@@ -90,7 +93,7 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
           if (p.post.id === updateVote.postId) {
             return {
               ...p,
-              my_vote: updateVote.vote,
+              my_vote: updateVote.value,
             };
           }
 
@@ -108,10 +111,10 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
         if (!prev) return null;
 
         return prev.map((p) => {
-          if (p.post.id === updateSaved) {
+          if (p.post.id === updateSaved.postId) {
             return {
               ...p,
-              saved: !p.saved,
+              saved: updateSaved.saved,
             };
           }
 

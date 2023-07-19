@@ -105,7 +105,7 @@ function PostActionBar() {
       />
 
       <IconButtonWithText
-        onPressHandler={onSharePress}
+        onPressHandler={postHook.doSave}
         icon={bookmarkIcon}
         iconBgColor={postHook.post.saved ? colors.app.bookmark : "transparent"}
       />

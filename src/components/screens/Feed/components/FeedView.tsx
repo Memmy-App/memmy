@@ -82,7 +82,6 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
   useEffect(() => {
     navigation.setOptions({
       // eslint-disable-next-line react/no-unstable-nested-components
-      // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
         <HStack space={3}>
           <FeedSortButton

@@ -5,6 +5,7 @@ import removePost from "./removePost";
 import setPostCollapsed from "./setPostCollapsed";
 import setPostSortType from "./setPostSortType";
 import setPostVote from "./setPostVote";
+import setPostSaved from "./setPostSaved";
 
 export {
   addPost,
@@ -14,4 +15,5 @@ export {
   setPostCollapsed,
   setPostSortType,
   setPostVote,
+  setPostSaved,
 };

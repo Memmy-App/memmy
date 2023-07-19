@@ -1,23 +1,20 @@
 import { useCallback } from "react";
 import { PostView } from "lemmy-js-client";
-import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
-import { useAppDispatch } from "../../../store";
-import { setUpdateSaved, setUpdateVote } from "../../slices/feed/feedSlice";
 import {
   onGenericHapticFeedback,
   onVoteHapticFeedback,
 } from "../../helpers/HapticFeedbackHelpers";
-import { showToast } from "../../slices/toast/toastSlice";
-import { savePost } from "../../helpers/LemmyHelpers";
 import { PostState, useCurrentPost } from "../../stores/posts/postsStore";
 import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { determineVotes } from "../../helpers/VoteHelper";
 import {
   loadPostComments,
   setPostCollapsed,
+  setPostSaved,
   setPostVote,
 } from "../../stores/posts/actions";
+import { useUpdatesStore } from "../../stores/updates/updatesStore";
 
 export interface UsePost {
   postKey: string;
@@ -41,9 +38,7 @@ const usePost = (): UsePost => {
   const postState = useCurrentPost(postKey);
   const { post } = postState;
 
-  // Other Hooks
-  const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const updatesStore = useUpdatesStore();
 
   // useEffect(() => {
   //   if (newComment) {
@@ -121,46 +116,17 @@ const usePost = (): UsePost => {
       // Play trigger
       onVoteHapticFeedback();
 
-      // Put result in store, so we can change it when we go back
-      dispatch(
-        setUpdateVote({
-          postId: post.post.id,
-          vote: value,
-        })
-      );
-
       setPostVote(postKey, post.post.id, newValues).then();
+      updatesStore.setVoted(post.post.id, newValues.newValue as ILemmyVote);
     },
     [post.my_vote] // TODO FIX THIS
   );
 
   const doSave = useCallback(async () => {
     onGenericHapticFeedback();
-
-    // setCurrentPost((prev) => ({
-    //   ...prev,
-    //   saved: !currentPost.saved,
-    // }));
-
-    const res = await savePost(post.post.id, !post.saved);
-
-    if (!res) {
-      // setCurrentPost((prev) => ({
-      //   ...prev,
-      //   saved: !currentPost.saved,
-      // }));
-
-      dispatch(
-        showToast({
-          message: t("Toast.failedToSavePost"),
-          variant: "error",
-          duration: 2000,
-        })
-      );
-    } else {
-      dispatch(setUpdateSaved(post.post.id));
-    }
-  }, []); // TODO FIX THIS
+    useUpdatesStore.getState().setSaved(post.post.id, !post.saved);
+    setPostSaved(postKey, post.post.id, !post.saved).then();
+  }, [post.post.id, post.saved]);
 
   const onPostPress = useCallback(() => {
     setPostCollapsed(postKey);
