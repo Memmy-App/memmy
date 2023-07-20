@@ -1,13 +1,23 @@
 import { useFeedsStore } from "../feedsStore";
 
-const addFeed = (feedKey: string) => {
+const addFeed = (feedKey: string, communityName?: string) => {
   useFeedsStore.setState((state) => {
     state.feeds.set(feedKey, {
       posts: [],
-      postsLoading: true,
-      postsError: false,
+
+      status: {
+        loading: true,
+        error: false,
+        refreshing: false,
+        refresh: false,
+      },
+
+      communityName,
 
       sortType: "TopDay", // TODO Use Default
+      listingType: "All", // TODO Default
+
+      currentPage: 1,
     });
   });
 };

@@ -50,8 +50,13 @@ export const useFeed = (
   isCommunity = false
 ): UseFeed => {
   // Global State
-  const { defaultSort, defaultListingType, hideNsfw, hideReadPostsOnFeed } =
-    useAppSelector(selectSettings);
+  const {
+    defaultSort,
+    defaultListingType,
+    hideNsfw,
+    hideReadPostsOnFeed,
+    hideReadPostsInCommunities,
+  } = useAppSelector(selectSettings);
 
   const updateVote = useVoted();
   const updateSaved = useSaved();

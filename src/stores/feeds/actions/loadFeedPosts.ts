@@ -6,10 +6,9 @@ import { preloadImages } from "../../../helpers/ImageHelper";
 interface ILoadFeedOptions {
   refresh: boolean;
   communityId?: number;
-  communityName?: string;
   limit?: number;
-  sort: SortType;
-  type: ListingType;
+  sort?: SortType;
+  type?: ListingType;
 }
 
 const defaultOptions: ILoadFeedOptions = {
@@ -34,15 +33,15 @@ const loadFeedPosts = async (
   useFeedsStore.setState((state) => {
     const prev = state.feeds.get(feedKey);
 
-    prev.loading = true;
-    prev.error = false;
+    prev.status.loading = true;
+    prev.status.error = false;
   });
 
   try {
     const res = await lemmyInstance.getPosts({
       auth: lemmyAuthToken,
       community_id: options.communityId,
-      community_name: options.communityName,
+      community_name: currentState.communityName,
       limit: options.limit,
       page: options.refresh ? 1 : currentState.currentPage + 1,
       sort: options.sort,
@@ -53,7 +52,7 @@ const loadFeedPosts = async (
       useFeedsStore.setState((state) => {
         const prev = state.feeds.get(feedKey);
 
-        prev.loading = false;
+        prev.status.loading = false;
       });
 
       return;
@@ -74,14 +73,14 @@ const loadFeedPosts = async (
         prev.currentPage += 1;
       }
 
-      prev.loading = false;
+      prev.status.loading = false;
     });
   } catch (e) {
     useFeedsStore.setState((state) => {
       const prev = state.feeds.get(feedKey);
 
-      prev.loading = false;
-      prev.error = true;
+      prev.status.loading = false;
+      prev.status.loading = true;
     });
   }
 };

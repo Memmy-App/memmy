@@ -19,12 +19,10 @@ import { Metrics } from "./Metrics";
 import { Post } from "./Post";
 
 interface FeedItemProps {
-  post: PostView;
-  setPosts: React.Dispatch<SetStateAction<PostView[]>>;
   recycled: React.MutableRefObject<{}>;
 }
 
-function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
+function FeedItem({ recycled }: FeedItemProps) {
   const feedItem = useFeedItem(post, setPosts);
 
   const onSwipe = (value: ILemmyVote) => {

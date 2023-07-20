@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-import { PostView, SortType } from "lemmy-js-client";
+import { ListingType, PostView, SortType } from "lemmy-js-client";
 
 interface FeedsStore {
   feeds: Map<string, FeedState>;
@@ -8,11 +8,18 @@ interface FeedsStore {
 
 interface FeedState {
   posts: PostView[];
-  loading: boolean;
-  error: boolean;
-  refreshing: boolean;
+
+  communityName?: string | undefined;
+
+  status: {
+    loading: boolean;
+    error: boolean;
+    refreshing: boolean;
+    refresh: boolean;
+  };
 
   sortType: SortType;
+  listingType?: ListingType;
 
   currentPage: number;
 }
@@ -23,18 +30,20 @@ export const useFeedsStore = create(
   }))
 );
 
-export const useFeed = (feedKey: string) =>
+export const useFeedPosts = (feedKey: string) =>
   useFeedsStore((state) => state.feeds.get(feedKey).posts);
-export const useFeedStatus = (feedKey: string) =>
-  useFeedsStore((state) => {
-    const feed = state.feeds.get(feedKey);
+export const useFeedPost = (feedKey: string, postId: number) =>
+  useFeedsStore((state) =>
+    state.feeds.get(feedKey).posts.find((p) => p.post.id === postId)
+  );
 
-    return {
-      loading: feed.loading,
-      error: feed.error,
-      refreshing: feed.refreshing,
-    };
-  });
+export const useFeedStatus = (feedKey: string) =>
+  useFeedsStore((state) => state.feeds.get(feedKey).status);
 
 export const useFeedSort = (feedKey: string) =>
   useFeedsStore((state) => state.feeds.get(feedKey).sortType);
+export const useFeedListingType = (feedKey: string) =>
+  useFeedsStore((state) => state.feeds.get(feedKey).listingType);
+
+export const useFeedCommunityName = (feedKey: string) =>
+  useFeedsStore((state) => state.feeds.get(feedKey).communityName);

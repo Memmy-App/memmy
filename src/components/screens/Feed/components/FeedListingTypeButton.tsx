@@ -1,33 +1,38 @@
 import { ListingType } from "lemmy-js-client";
-import React from "react";
+import React, { useCallback } from "react";
 import { HStack, Text, useTheme } from "native-base";
-import { UseFeed } from "../../../../hooks/feeds/useFeed";
+import { useRoute } from "@react-navigation/core";
 import { listingTypeOptions } from "../../../../types/ListingType";
 import { ListingTypeContextMenu } from "../../../common/ContextMenu/ListingTypeContextMenu";
 import SFIcon from "../../../common/icons/SFIcon";
+import {
+  useFeedListingType,
+  useFeedsStore,
+} from "../../../../stores/feeds/feedsStore";
 
-interface Props {
-  feed: UseFeed;
-  onPress?: () => void;
-}
+export function FeedListingTypeButton() {
+  const { key } = useRoute();
+  const listingType = useFeedListingType(key);
 
-export function FeedListingTypeButton({ feed, onPress }: Props) {
   const { colors } = useTheme();
+
+  const onPress = useCallback((nativeEvent) => {
+    useFeedsStore.setState((state) => {
+      const prev = state.feeds.get(key);
+
+      prev.listingType = nativeEvent.actionKey as ListingType;
+    });
+  }, []);
+
   return (
-    <ListingTypeContextMenu
-      currentSelection={feed.listingType}
-      onPress={({ nativeEvent }) => {
-        feed.setListingType(nativeEvent.actionKey as ListingType);
-        onPress();
-      }}
-    >
+    <ListingTypeContextMenu currentSelection={listingType} onPress={onPress}>
       <HStack space={0.5} alignItems="center">
         <Text
           color={colors.app.textPrimary}
           fontSize="16"
           fontWeight="semibold"
         >
-          {listingTypeOptions[feed.listingType].display}
+          {listingTypeOptions[listingType].display}
         </Text>
         <SFIcon
           icon="chevron.down"
