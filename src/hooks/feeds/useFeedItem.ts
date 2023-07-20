@@ -1,32 +1,33 @@
-import { PostView } from "lemmy-js-client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { SetStateAction, useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useRoute } from "@react-navigation/core";
 import {
   onGenericHapticFeedback,
   onVoteHapticFeedback,
 } from "../../helpers/HapticFeedbackHelpers";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { setUpdateSaved } from "../../slices/feed/feedSlice";
-import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
 import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { getLinkInfo, LinkInfo } from "../../helpers/LinkHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
 import { showToast } from "../../slices/toast/toastSlice";
 import { savePost } from "../../helpers/LemmyHelpers";
-import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 import { useReportPost } from "../post/useReportPost";
 import { useBlockUser } from "../user/useBlockUser";
 import { setResponseTo } from "../../slices/comments/newCommentSlice";
 import { shareLink } from "../../helpers/ShareHelper";
 import { addPost } from "../../stores/posts/actions";
+import { useFeedPost } from "../../stores/feeds/feedsStore";
+import setFeedVote from "../../stores/feeds/actions/setFeedVote";
+import { determineVotes } from "../../helpers/VoteHelper";
+import setFeedRead from "../../stores/feeds/actions/setFeedRead";
 
 export interface UseFeedItem {
   onVotePress: (value: ILemmyVote, haptic?: boolean) => Promise<void>;
   onPress: () => void;
   doSave: () => Promise<void>;
-  setPostRead: () => void;
   doReport: () => Promise<void>;
   blockCreator: () => Promise<void>;
   doReply: () => void;
@@ -34,10 +35,10 @@ export interface UseFeedItem {
   linkInfo: LinkInfo;
 }
 
-const useFeedItem = (
-  post: PostView,
-  setPosts?: React.Dispatch<SetStateAction<PostView[]>>
-): UseFeedItem => {
+const useFeedItem = (postId: number): UseFeedItem => {
+  const { key } = useRoute();
+  const post = useFeedPost(key, postId);
+
   const { t } = useTranslation();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
@@ -51,125 +52,29 @@ const useFeedItem = (
     async (value: ILemmyVote, haptic = true) => {
       if (haptic) onVoteHapticFeedback();
 
-      let { upvotes, downvotes } = post.counts;
-
-      // If we already voted, this will be a neutral vote.
-      if (value === post.my_vote && value !== 0) value = 0;
-
-      // Store old value in case we encounter an error
-      const oldValue = post.my_vote;
-
-      // Deal with updating the upvote/downvote count
-      if (value === 0) {
-        if (oldValue === -1) downvotes -= 1;
-        if (oldValue === 1) upvotes -= 1;
-      }
-
-      if (value === 1) {
-        if (oldValue === -1) downvotes -= 1;
-        upvotes += 1;
-      }
-
-      if (value === -1) {
-        if (oldValue === 1) upvotes -= 1;
-        downvotes += 1;
-      }
-
-      setPosts((prev) =>
-        prev.map((p) => {
-          if (p.post.id === post.post.id) {
-            return {
-              ...p,
-              my_vote: value,
-              counts: {
-                ...p.counts,
-                upvotes,
-                downvotes,
-                score: upvotes - downvotes,
-              },
-            };
-          }
-
-          return p;
-        })
+      const newValues = determineVotes(
+        value,
+        post.my_vote as ILemmyVote,
+        post.counts.upvotes,
+        post.counts.downvotes
       );
 
-      try {
-        await lemmyInstance.likePost({
-          auth: lemmyAuthToken,
-          post_id: post.post.id,
-          score: value,
-        });
+      setFeedVote(key, post.post.id, newValues).then();
 
-        if (markReadOnPostVote) {
-          lemmyInstance
-            .markPostAsRead({
-              auth: lemmyAuthToken,
-              post_id: post.post.id,
-              read: true,
-            })
-            .then();
-
-          setPostRead();
-        }
-      } catch (e) {
-        setPosts((prev) =>
-          prev.map((p) => {
-            if (p.post.id === post.post.id) {
-              return {
-                ...p,
-                my_vote: value,
-              };
-            }
-
-            return p;
-          })
-        );
-
-        handleLemmyError(e.toString());
+      if (!post.read && markReadOnPostVote) {
+        setFeedRead(key, post.post.id);
       }
     },
-    [post.post.id, post.my_vote]
+    [post.post.id, markReadOnPostVote]
   );
 
   const onPress = useCallback(() => {
-    if (setPosts) {
-      lemmyInstance
-        .markPostAsRead({
-          auth: lemmyAuthToken,
-          post_id: post.post.id,
-          read: true,
-        })
-        .then();
-
-      if (markReadOnPostView) {
-        setPostRead();
-      }
-    }
+    if (!post.read && markReadOnPostView) setFeedRead(key, post.post.id);
 
     addPost(post.post.id.toString(), post);
 
     navigation.push("Post", { postKey: post.post.id.toString() });
-  }, [post.post.id, post.saved, post.my_vote]);
-
-  const setPostRead = useCallback(() => {
-    if (post.read) return;
-
-    if (setPosts) {
-      setPosts((prev) =>
-        prev.map((p) => {
-          if (p.post.id === post.post.id) {
-            return {
-              ...p,
-              read: true,
-            };
-          }
-
-          return p;
-        })
-      );
-    }
-  }, [post.post.id, post.read]);
+  }, [post.post.id, markReadOnPostView]);
 
   const doSave = useCallback(async () => {
     onGenericHapticFeedback();
@@ -221,7 +126,6 @@ const useFeedItem = (
     onVotePress,
     doSave,
     onPress,
-    setPostRead,
     doReport,
     blockCreator,
     doReply,

@@ -114,7 +114,7 @@ function FeedView({ header }: FeedViewProps) {
 
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<PostView>) => {
-      if (!status.loading && posts.length < 0) {
+      if (!status?.loading && posts?.length < 0) {
         return <NoResultView type="posts" />;
       }
 
@@ -153,17 +153,17 @@ function FeedView({ header }: FeedViewProps) {
   }, []);
 
   const refreshControl = useMemo(
-    () => <RefreshControl refreshing={status.loading} onRefresh={onRefresh} />,
-    [status.loading]
+    () => <RefreshControl refreshing={status?.loading} onRefresh={onRefresh} />,
+    [status?.loading]
   );
 
   return (
     <View style={styles.container} backgroundColor={theme.colors.app.bg}>
-      {(status.loading && posts.length === 0 && <LoadingView />) ||
-        (status.error && posts.length === 0 && (
+      {(status?.loading && posts?.length === 0 && <LoadingView />) ||
+        (status?.error && posts?.length === 0 && (
           <LoadingErrorView onRetryPress={onRefresh} />
         )) ||
-        (posts.length < 1 && (
+        (posts?.length < 1 && (
           <>
             {header()}
             <NoResultView type="posts" />
@@ -171,11 +171,11 @@ function FeedView({ header }: FeedViewProps) {
         )) || (
           <FlashList
             ListHeaderComponent={header}
-            data={posts}
+            data={posts ?? []}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             extraData={{
-              refreshList: status.refresh,
+              refreshList: status?.refresh,
               compactView,
             }}
             refreshControl={refreshControl}

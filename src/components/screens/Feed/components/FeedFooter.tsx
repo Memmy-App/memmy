@@ -25,11 +25,11 @@ function FeedFooter() {
     loadFeedPosts(key, { refresh: false });
   }, []);
 
-  if (status.loading) {
+  if (status?.loading) {
     return <LoadingFooter message={t("feed.footer.loading")} />;
   }
 
-  if (status.error) {
+  if (status?.error) {
     return posts.length < 1 ? (
       <LoadingErrorView onRetryPress={onRetry} />
     ) : (

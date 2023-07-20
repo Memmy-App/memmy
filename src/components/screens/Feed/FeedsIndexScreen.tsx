@@ -16,6 +16,13 @@ import { FeedListingTypeButton } from "./components/FeedListingTypeButton";
 import FeedView from "./components/FeedView";
 import loadFeedPosts from "../../../stores/feeds/actions/loadFeedPosts";
 import removeFeed from "../../../stores/feeds/actions/removeFeed";
+import {
+  useFeedPosts,
+  useFeedState,
+  useFeedStatus,
+} from "../../../stores/feeds/feedsStore";
+import addFeed from "../../../stores/feeds/actions/addFeed";
+import feedSlice from "../../../slices/feed/feedSlice";
 
 function FeedsIndexScreen({
   navigation,
@@ -25,9 +32,11 @@ function FeedsIndexScreen({
   const { key } = useRoute();
   // Global State
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const status = useFeedStatus(key);
 
   // Refs
   const previousAccount = useRef<Account | null>(null);
+  const initialized = useRef(false);
 
   // Hooks
   const feed = useFeed();
@@ -37,19 +46,30 @@ function FeedsIndexScreen({
 
   const doLoad = useCallback(() => {
     loadFeedPosts(key, {
-      refresh = false,
+      refresh: false,
       sort: "TopDay",
       type: "All",
     }).then();
+    initialized.current = true;
   }, []);
 
   useEffect(() => {
-    doLoad();
+    if (initialized.current) return;
 
-    return () => {
+    if (!status) {
+      addFeed(key);
+    } else {
+      doLoad();
+      initialized.current = true;
+    }
+  }, [status]);
+
+  useEffect(
+    () => () => {
       removeFeed(key);
-    };
-  }, []);
+    },
+    []
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -84,9 +104,9 @@ function FeedsIndexScreen({
     feed.setLoaded(true);
   };
 
-  const headerTitle = () => <FeedListingTypeButton feed={feed} />;
+  const headerTitle = () => <FeedListingTypeButton />;
 
-  return <FeedView feed={feed} />;
+  return <FeedView />;
 }
 
 export default FeedsIndexScreen;

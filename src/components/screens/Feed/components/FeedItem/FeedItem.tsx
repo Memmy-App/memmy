@@ -1,9 +1,9 @@
-import { PostView } from "lemmy-js-client";
 import { HStack, Pressable, View } from "native-base";
-import React, { SetStateAction, memo } from "react";
+import React, { memo } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import FastImage from "@gkasdorf/react-native-fast-image";
+import { useRoute } from "@react-navigation/core";
 import useFeedItem from "../../../../../hooks/feeds/useFeedItem";
 import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
 import AvatarUsername from "../../../../common/AvatarUsername";
@@ -17,13 +17,18 @@ import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { Metrics } from "./Metrics";
 import { Post } from "./Post";
+import { useFeedPost } from "../../../../../stores/feeds/feedsStore";
 
 interface FeedItemProps {
+  postId: number;
   recycled: React.MutableRefObject<{}>;
 }
 
-function FeedItem({ recycled }: FeedItemProps) {
-  const feedItem = useFeedItem(post, setPosts);
+function FeedItem({ postId, recycled }: FeedItemProps) {
+  const { key } = useRoute();
+
+  const feedItem = useFeedItem(postId);
+  const post = useFeedPost(key, postId);
 
   const onSwipe = (value: ILemmyVote) => {
     feedItem.onVotePress(value, false);
@@ -56,7 +61,7 @@ function FeedItem({ recycled }: FeedItemProps) {
               <FeedContentPreview
                 post={post}
                 recycled={recycled}
-                setPostRead={feedItem.setPostRead}
+                setPostRead={() => {}}
               />
 
               <HStack mx={4} mt={1}>

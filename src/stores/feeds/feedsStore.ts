@@ -30,20 +30,22 @@ export const useFeedsStore = create(
   }))
 );
 
+export const useFeedState = (feedKey: string) =>
+  useFeedsStore((state) => state.feeds.get(feedKey));
 export const useFeedPosts = (feedKey: string) =>
-  useFeedsStore((state) => state.feeds.get(feedKey).posts);
+  useFeedsStore((state) => state.feeds.get(feedKey)?.posts);
 export const useFeedPost = (feedKey: string, postId: number) =>
   useFeedsStore((state) =>
     state.feeds.get(feedKey).posts.find((p) => p.post.id === postId)
   );
 
 export const useFeedStatus = (feedKey: string) =>
-  useFeedsStore((state) => state.feeds.get(feedKey).status);
+  useFeedsStore((state) => state.feeds.get(feedKey)?.status);
 
 export const useFeedSort = (feedKey: string) =>
-  useFeedsStore((state) => state.feeds.get(feedKey).sortType);
+  useFeedsStore((state) => state.feeds.get(feedKey)?.sortType);
 export const useFeedListingType = (feedKey: string) =>
-  useFeedsStore((state) => state.feeds.get(feedKey).listingType);
+  useFeedsStore((state) => state.feeds.get(feedKey)?.listingType);
 
 export const useFeedCommunityName = (feedKey: string) =>
-  useFeedsStore((state) => state.feeds.get(feedKey).communityName);
+  useFeedsStore((state) => state.feeds.get(feedKey)?.communityName);
