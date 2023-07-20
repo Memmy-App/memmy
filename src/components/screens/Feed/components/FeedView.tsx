@@ -103,7 +103,7 @@ function FeedView({ header }: FeedViewProps) {
         ),
       });
     }
-  }, [posts, community, dropdownVisible]);
+  }, [posts, community, dropdownVisible, sortType, compactView]);
 
   useEffect(() => {
     flashList?.current?.scrollToOffset({

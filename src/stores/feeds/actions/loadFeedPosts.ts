@@ -35,6 +35,7 @@ const loadFeedPosts = async (
 
     prev.status.loading = true;
     prev.status.error = false;
+    prev.status.refreshing = options.refresh;
   });
 
   try {
@@ -74,13 +75,15 @@ const loadFeedPosts = async (
       }
 
       prev.status.loading = false;
+      prev.status.refreshing = false;
     });
   } catch (e) {
     useFeedsStore.setState((state) => {
       const prev = state.feeds.get(feedKey);
 
       prev.status.loading = false;
-      prev.status.loading = true;
+      prev.status.refreshing = false;
+      prev.status.error = true;
     });
   }
 };
