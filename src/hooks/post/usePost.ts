@@ -1,63 +1,46 @@
 import { useCallback } from "react";
-import { PostView } from "lemmy-js-client";
 import { useRoute } from "@react-navigation/core";
+import { CommentSortType } from "lemmy-js-client";
 import {
-  PostCommentsState,
   useCurrentPost,
-  usePostComments,
+  usePostCommentsSort,
+  usePostsStore,
 } from "../../stores/posts/postsStore";
 import { setPostCollapsed } from "../../stores/posts/actions";
 import loadPostComments from "../../stores/posts/actions/loadPostComments";
 
 export interface UsePost {
-  postKey: string;
-  post: PostView;
-
-  commentsState: PostCommentsState;
-
-  currentPost: PostView;
-
   doLoad: () => void;
   onPostPress: () => void;
+  setPostCommentsSort: (sortType: CommentSortType) => void;
 }
 
 const usePost = (): UsePost => {
-  // Get the things we need from the route
   const { postKey } = useRoute<any>().params;
-  // Select the current post from the store
+  const currentPost = useCurrentPost(postKey);
+  const commentsSortType = usePostCommentsSort(postKey);
 
-  const post = useCurrentPost(postKey);
-  const commentsState = usePostComments(postKey);
-
-  /**
-   * Load the Comments for the current Post
-   */
   const doLoad = useCallback(() => {
     loadPostComments(postKey, {
-      sortType: "Top",
+      sortType: commentsSortType, // TODO Use default here
     }).then();
-  }, [post.post.id]);
-
-  /**
-   * Vote on the current Post
-   * @param value
-   */
+  }, [currentPost.post.id, commentsSortType]);
 
   const onPostPress = useCallback(() => {
     setPostCollapsed(postKey);
-  }, [post.post.id]);
+  }, []);
+
+  const setPostCommentsSort = useCallback((sortType: CommentSortType) => {
+    usePostsStore.setState((state) => {
+      const prev = state.posts.get(postKey).commentsState;
+      prev.commentsSort = sortType;
+    });
+  }, []);
 
   return {
-    postKey,
-    post,
-
-    commentsState,
-
-    currentPost: post,
-
     doLoad,
-
     onPostPress,
+    setPostCommentsSort,
   };
 };
 

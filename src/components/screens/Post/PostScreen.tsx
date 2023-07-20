@@ -3,7 +3,7 @@ import { FlashList } from "@shopify/flash-list";
 import { HStack, useTheme, VStack } from "native-base";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import usePost from "../../../hooks/post/usePost";
+import { useRoute } from "@react-navigation/core";
 import LoadingView from "../../common/Loading/LoadingView";
 import PostOptionsButton from "./components/PostOptionsButton";
 import PostFooter from "./components/PostFooter";
@@ -11,6 +11,10 @@ import PostHeader from "./components/PostHeader";
 import RefreshControl from "../../common/RefreshControl";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import {
+  useCurrentPost,
+  usePostComments,
+  usePostCommentsSort,
+  usePostCommentsStatus,
   usePostRerenderComments,
   usePostsStore,
 } from "../../../stores/posts/postsStore";
@@ -23,16 +27,23 @@ import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
 import { clearEditComment } from "../../../slices/comments/editCommentSlice";
 import { clearNewComment } from "../../../slices/comments/newCommentSlice";
 import PostCommentItem from "./components/PostCommentItem";
+import usePost from "../../../hooks/post/usePost";
+import CommentSortButton from "./components/CommentSortButton";
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 function PostScreen({ navigation }: IProps) {
+  const { postKey } = useRoute<any>().params;
   const postHook = usePost();
+  const currentPost = useCurrentPost(postKey);
   const newComment = useNewComment();
   const editedComment = useEditedComment();
-  const rerenderComments = usePostRerenderComments(postHook.postKey);
+  const rerenderComments = usePostRerenderComments(postKey);
+  const commentsSort = usePostCommentsSort(postKey);
+  const comments = usePostComments(postKey);
+  const commentsStatus = usePostCommentsStatus(postKey);
 
   const { t } = useTranslation();
   const theme = useTheme();
@@ -40,27 +51,28 @@ function PostScreen({ navigation }: IProps) {
   useEffect(() => {
     postHook.doLoad();
 
-    const commentCount = postHook.post.counts.comments || 0;
+    const commentCount = currentPost.counts.comments || 0;
     navigation.setOptions({
       title: `${commentCount} ${t("Comment", { count: commentCount })}`,
       // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
         <HStack space={3}>
-          {/* <CommentSortButton */}
-          {/*  sortType={postHook.postState.sortType} */}
-          {/*  setSortType={postHook.postState.setSortType} */}
-          {/* /> */}
+          <CommentSortButton
+            sortType={commentsSort}
+            setSortType={postHook.setPostCommentsSort}
+          />
           <PostOptionsButton />
         </HStack>
       ),
     });
-  }, [postHook.commentsState.commentsSort]);
+  }, [commentsSort]);
 
   useEffect(
     () =>
       // Remove the post when we are finished
       () => {
-        removePost(postHook.postKey);
+        console.log("trying to remove.");
+        removePost(postKey);
       },
     []
   );
@@ -78,7 +90,7 @@ function PostScreen({ navigation }: IProps) {
     // If it's a top comment, add it to top of current chain
     if (newComment.isTop) {
       usePostsStore.setState((state) => {
-        const prev = state.posts.get(postHook.postKey);
+        const prev = state.posts.get(postKey);
 
         prev.commentsState.comments = [
           lComment,
@@ -89,12 +101,12 @@ function PostScreen({ navigation }: IProps) {
     } else {
       const pathArr = newComment.comment.comment.path.split(".");
       const searchId = Number(pathArr[pathArr.length - 2]);
-      const index = postHook.commentsState.comments.findIndex(
+      const index = comments.findIndex(
         (c) => c.comment.comment.id === searchId
       );
 
       usePostsStore.setState((state) => {
-        const prev = state.posts.get(postHook.postKey);
+        const prev = state.posts.get(postKey);
 
         prev.commentsState.comments = [
           ...prev.commentsState.comments.slice(0, index + 1),
@@ -112,7 +124,7 @@ function PostScreen({ navigation }: IProps) {
     if (!editedComment) return;
 
     usePostsStore.setState((state) => {
-      const prev = state.posts.get(postHook.postKey);
+      const prev = state.posts.get(postKey);
       const comment = prev.commentsState.comments.find(
         (c) => c.comment.comment.id === editedComment.commentId
       );
@@ -124,29 +136,35 @@ function PostScreen({ navigation }: IProps) {
   }, [editedComment]);
 
   const visibleComments = useMemo(
-    () => postHook.commentsState.comments.filter((c) => !c.hidden),
+    () => comments.filter((c) => !c.hidden),
     [rerenderComments]
   );
 
   const commentItem = useCallback(
     ({ item }) => <PostCommentItem commentId={item.comment.comment.id} />,
-    [postHook.post.post.id]
+    [currentPost.post.id]
   );
 
-  const refreshControl = (
-    <RefreshControl
-      refreshing={postHook.commentsState.commentsLoading}
-      onRefresh={postHook.doLoad}
-    />
+  const refreshControl = useMemo(
+    () => (
+      <RefreshControl
+        refreshing={commentsStatus.commentsLoading}
+        onRefresh={postHook.doLoad}
+      />
+    ),
+    [commentsStatus.commentsLoading]
   );
 
-  if (!postHook.post) {
+  const keyExtractor = useCallback(
+    (item) => item.comment.comment.id.toString(),
+    []
+  );
+
+  if (!currentPost) {
     return <LoadingView />;
   }
 
-  const keyExtractor = (item) => item.comment.comment.id.toString();
-
-  if (postHook.post) {
+  if (currentPost) {
     return (
       <VStack flex={1} backgroundColor={theme.colors.app.bg}>
         <FlashList
@@ -157,7 +175,7 @@ function PostScreen({ navigation }: IProps) {
           keyExtractor={keyExtractor}
           estimatedItemSize={200}
           refreshControl={refreshControl}
-          refreshing={postHook.commentsState.commentsLoading}
+          refreshing={commentsStatus.commentsLoading}
         />
       </VStack>
     );

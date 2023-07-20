@@ -3,18 +3,11 @@ import React, { useEffect } from "react";
 import { useRoute } from "@react-navigation/core";
 import { useAppSelector } from "../../../../../store";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
-import {
-  useCurrentPostState,
-  usePostTitle,
-} from "../../../../stores/posts/postsStore";
+import { usePostTitle } from "../../../../stores/posts/postsStore";
 
 function Title({ mt, mb }: { mt?: number; mb?: number }) {
   const { postKey } = useRoute<any>().params;
   const postTitle = usePostTitle(postKey);
-
-  useEffect(() => {
-    console.log("it changed!");
-  }, [postTitle]);
 
   const theme = useTheme();
   const { fontWeightPostTitle } = useAppSelector(selectSettings);

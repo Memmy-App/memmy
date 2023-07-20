@@ -25,7 +25,6 @@ import { selectSettings } from "../../slices/settings/settingsSlice";
 import { PostsStore, usePostsStore } from "../../stores/posts/postsStore";
 
 export interface UseComment {
-  onCommentPress: () => void;
   onCommentLongPress: (selection?: string) => void;
   onReadPress?: () => Promise<void>;
   onReply: () => void;

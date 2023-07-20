@@ -37,7 +37,7 @@ export const useCurrentPost = (postKey: string) =>
   usePostsStore((state) => state.posts.get(postKey).post);
 
 export const usePostComments = (postKey: string) =>
-  usePostsStore((state) => state.posts.get(postKey).commentsState);
+  usePostsStore((state) => state.posts.get(postKey).commentsState.comments);
 
 export const usePostTitle = (postKey: string) =>
   usePostsStore((state) => state.posts.get(postKey).post.post.name);
@@ -53,3 +53,11 @@ export const usePostComment = (postKey: string, commentId: number) =>
 
 export const usePostRerenderComments = (postKey: string) =>
   usePostsStore((state) => state.posts.get(postKey).rerenderComments);
+
+export const usePostCommentsSort = (postKey: string) =>
+  usePostsStore((state) => state.posts.get(postKey).commentsState.commentsSort);
+export const usePostCommentsStatus = (postKey: string) =>
+  usePostsStore((state) => ({
+    commentsLoading: state.posts.get(postKey).commentsState.commentsLoading,
+    commentsError: state.posts.get(postKey).commentsState.commentsError,
+  }));

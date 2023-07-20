@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 import { useRoute } from "@react-navigation/core";
-import { LayoutAnimation } from "react-native";
 import CommentItem from "../../../common/Comments/CommentItem";
 import setPostCommentVote from "../../../../stores/posts/actions/setPostCommentVote";
 import { ILemmyVote } from "../../../../types/lemmy/ILemmyVote";
@@ -33,8 +32,6 @@ function PostCommentItem({ commentId }: IProps) {
   );
 
   const onPress = useCallback(() => {
-    LayoutAnimation.easeInEaseOut();
-
     usePostsStore.setState((state) => {
       const prev = state.posts.get(postKey);
       const prevComment = prev.commentsState.comments.find(

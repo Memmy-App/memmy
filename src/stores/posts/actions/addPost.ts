@@ -3,6 +3,8 @@ import { usePostsStore } from "../postsStore";
 
 const addPost = (postKey: string, post: PostView) => {
   usePostsStore.setState((state) => {
+    console.log(state.posts.keys());
+
     state.posts.set(postKey, {
       post,
       postError: false,
