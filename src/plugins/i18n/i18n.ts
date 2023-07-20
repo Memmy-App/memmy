@@ -16,7 +16,7 @@ i18n
       de: {
         translation: german,
       },
-	  ptbr: {
+      ptbr: {
         translation: brazilian_portuguese,
 	  }
     },
