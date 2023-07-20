@@ -17,7 +17,7 @@ i18n
         translation: german,
       },
 	  ptbr: {
-		translation: brazilian_portuguese,
+        translation: brazilian_portuguese,
 	  }
     },
     fallbackLng: "en",
