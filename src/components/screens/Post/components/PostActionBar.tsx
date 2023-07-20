@@ -11,6 +11,7 @@ import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
 import IconButtonWithText from "../../../common/IconButtonWithText";
 import VoteButton from "../../../common/Vote/VoteButton";
 import SFIcon from "../../../common/icons/SFIcon";
+import { ICON_MAP } from "../../../../constants/IconMap";
 
 interface IProps {
   post: PostView;
@@ -82,7 +83,7 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
         onPressHandler={doSave}
         icon={
           <SFIcon
-            icon="bookmark"
+            icon={ICON_MAP.SAVE}
             color={post.saved && colors.app.bookmarkText}
           />
         }
@@ -91,11 +92,11 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
 
       <IconButtonWithText
         onPressHandler={onCommentPress}
-        icon={<SFIcon icon="bubble.left" />}
+        icon={<SFIcon icon={ICON_MAP.REPLY} />}
       />
 
       <IconButtonWithText
-        icon={<SFIcon icon="square.and.arrow.up" />}
+        icon={<SFIcon icon={ICON_MAP.SHARE} />}
         onPressHandler={onSharePress}
       />
     </HStack>

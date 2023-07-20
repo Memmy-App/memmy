@@ -3,13 +3,13 @@ import { HStack, Image, ScrollView, Text, useTheme } from "native-base";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { changeIcon } from "react-native-change-icon";
-import { IconCheck } from "tabler-icons-react-native";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { appIconOptions } from "../../../../types/AppIconType";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
+import SFIcon from "../../../common/icons/SFIcon";
 
 function IconSelectionScreen() {
   const settings = useAppSelector(selectSettings);
@@ -37,7 +37,7 @@ function IconSelectionScreen() {
               }
               cellAccessoryView={
                 settings.appIcon === key && (
-                  <IconCheck color={theme.colors.app.accent} />
+                  <SFIcon icon="checkmark" size={12} />
                 )
               }
               backgroundColor={theme.colors.app.fg}

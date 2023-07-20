@@ -10,8 +10,8 @@ function CommentCount({ commentCount }: { commentCount: number }) {
       <SFIcon
         color={colors.app.textSecondary}
         icon={ICON_MAP.REPLY}
-        size={11}
-        style={{ width: 20, height: 20 }}
+        size={10}
+        boxSize={20}
       />
       <Text color={colors.app.textSecondary} fontSize="sm">
         {commentCount}
