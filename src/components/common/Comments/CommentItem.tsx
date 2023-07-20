@@ -24,7 +24,7 @@ import CommentHeaderRight from "./CommentHeader/CommentHeaderRight";
 interface IProps {
   comment: ILemmyComment;
   setComments: any;
-  modList: number[];
+  isMod: boolean;
   onPressOverride?: () => Promise<void> | void;
   depth?: number;
   isUnreadReply?: boolean;
@@ -33,7 +33,7 @@ interface IProps {
 function CommentItem({
   comment,
   setComments,
-  modList,
+  isMod,
   onPressOverride,
   depth,
   isUnreadReply,
@@ -84,7 +84,7 @@ function CommentItem({
                 <AvatarUsername
                   creator={comment.comment.creator}
                   opId={comment.comment.post.creator_id}
-                  isMod={modList?.includes(comment.comment.creator.id)}
+                  isMod={isMod}
                 />
                 <SmallVoteIcons
                   upvotes={comment.comment.counts.upvotes}

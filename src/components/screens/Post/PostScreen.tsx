@@ -19,15 +19,6 @@ interface IProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
-function buildModList(moderators) {
-  const modIdList = [];
-  moderators.map((mod) => {
-    modIdList.push(mod.moderator.id);
-    return null;
-  });
-  return modIdList;
-}
-
 function PostScreen({ route, navigation }: IProps) {
   const { t } = useTranslation();
   const theme = useTheme();
@@ -35,7 +26,8 @@ function PostScreen({ route, navigation }: IProps) {
     route.params && route.params.commentId ? route.params.commentId : null
   );
   const community = useCommunity(post.currentPost.community.id);
-  const modIdList = buildModList(community.moderators);
+  const modIdList = community.moderators.map((mod) => mod.moderator.id);
+  const isMod = modIdList.includes(post.currentPost.post.creator_id);
 
   useEffect(() => {
     community.doLoad();
@@ -59,11 +51,7 @@ function PostScreen({ route, navigation }: IProps) {
   }, [post.sortType]);
 
   const commentItem = ({ item }: { item: ILemmyComment }) => (
-    <CommentItem
-      comment={item}
-      setComments={post.setComments}
-      modList={modIdList}
-    />
+    <CommentItem comment={item} setComments={post.setComments} isMod={isMod} />
   );
 
   const refreshControl = (
@@ -83,7 +71,7 @@ function PostScreen({ route, navigation }: IProps) {
           ListHeaderComponent={
             <PostHeader
               currentPost={post.currentPost}
-              communityModerators={modIdList}
+              isMod={isMod}
               collapsed={post.collapsed}
               setCollapsed={post.setCollapsed}
               doLoad={post.doLoad}
