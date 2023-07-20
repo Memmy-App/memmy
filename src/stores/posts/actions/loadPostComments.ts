@@ -15,8 +15,12 @@ const loadPostComments = async (
 
   // Set comments to loading
 
-  postState.commentsState.commentsLoading = true;
-  postState.commentsState.commentsError = false;
+  usePostsStore.setState((state) => {
+    const prev = state.posts.get(postKey).commentsState;
+
+    prev.commentsLoading = true;
+    prev.commentsError = false;
+  });
 
   try {
     const res = await lemmyInstance.getComments({

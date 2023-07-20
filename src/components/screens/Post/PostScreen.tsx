@@ -134,16 +134,19 @@ function PostScreen({ navigation }: IProps) {
     clearEditComment();
   }, [editedComment]);
 
+  // Get the comments that are visible. Only recalc whenever we trigger the render
   const visibleComments = useMemo(
     () => comments.filter((c) => !c.hidden),
     [rerenderComments]
   );
 
+  // Comment item renderer
   const commentItem = useCallback(
     ({ item }) => <PostCommentItem commentId={item.comment.comment.id} />,
     [currentPost.post.id]
   );
 
+  // Refresh control
   const refreshControl = useMemo(
     () => (
       <RefreshControl
