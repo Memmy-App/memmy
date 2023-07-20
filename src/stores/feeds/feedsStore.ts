@@ -8,10 +8,13 @@ interface FeedsStore {
 
 interface FeedState {
   posts: PostView[];
-  postsLoading: boolean;
-  postsError: boolean;
+  loading: boolean;
+  error: boolean;
+  refreshing: boolean;
 
   sortType: SortType;
+
+  currentPage: number;
 }
 
 export const useFeedsStore = create(
@@ -23,10 +26,15 @@ export const useFeedsStore = create(
 export const useFeed = (feedKey: string) =>
   useFeedsStore((state) => state.feeds.get(feedKey).posts);
 export const useFeedStatus = (feedKey: string) =>
-  useFeedsStore((state) => ({
-    loading: state.feeds.get(feedKey).postsLoading,
-    error: state.feeds.get(feedKey).postsError,
-  }));
+  useFeedsStore((state) => {
+    const feed = state.feeds.get(feedKey);
+
+    return {
+      loading: feed.loading,
+      error: feed.error,
+      refreshing: feed.refreshing,
+    };
+  });
 
 export const useFeedSort = (feedKey: string) =>
   useFeedsStore((state) => state.feeds.get(feedKey).sortType);
