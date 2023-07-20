@@ -1,5 +1,5 @@
 import { HStack, Pressable, View } from "native-base";
-import React, { memo } from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import FastImage from "@gkasdorf/react-native-fast-image";
@@ -30,17 +30,27 @@ function FeedItem({ postId, recycled }: FeedItemProps) {
   const feedItem = useFeedItem(postId);
   const post = useFeedPost(key, postId);
 
-  const onSwipe = (value: ILemmyVote) => {
-    feedItem.onVotePress(value, false);
-  };
+  const onSwipe = useCallback(
+    (value: ILemmyVote) => {
+      feedItem.onVotePress(value, false).then();
+    },
+    [postId]
+  );
+
+  const leftOption = useMemo(
+    () => <VoteOption onVote={onSwipe} vote={post.my_vote} />,
+    [post.my_vote, postId]
+  );
+
+  const rightOption = useMemo(
+    () => <ReplyOption onReply={feedItem.doReply} />,
+    [postId]
+  );
 
   return (
     <FeedItemContextMenu feedItem={feedItem}>
       <View py={1}>
-        <SwipeableRow
-          leftOption={<VoteOption onVote={onSwipe} vote={post.my_vote} />}
-          rightOption={<ReplyOption onReply={feedItem.doReply} />}
-        >
+        <SwipeableRow leftOption={leftOption} rightOption={rightOption}>
           <Post>
             <Header
               community={post.community}

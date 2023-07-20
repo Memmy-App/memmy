@@ -1,6 +1,6 @@
 /* Courtesy https://github.com/beardwin/ */
 
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, {
   Easing,
@@ -45,6 +45,10 @@ interface Props {
 }
 
 export function SwipeableRow({ leftOption, rightOption, children }: Props) {
+  useEffect(() => {
+    console.log(Date.now());
+  }, [leftOption]);
+
   const [subscribers, setSubscribers] = useState<Handlers[]>([]);
 
   const swipeRightEnabled = Boolean(leftOption);

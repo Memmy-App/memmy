@@ -23,6 +23,7 @@ import { useFeedPost } from "../../stores/feeds/feedsStore";
 import setFeedVote from "../../stores/feeds/actions/setFeedVote";
 import { determineVotes } from "../../helpers/VoteHelper";
 import setFeedRead from "../../stores/feeds/actions/setFeedRead";
+import setFeedSaved from "../../stores/feeds/actions/setFeedSaved";
 
 export interface UseFeedItem {
   onVotePress: (value: ILemmyVote, haptic?: boolean) => Promise<void>;
@@ -79,22 +80,8 @@ const useFeedItem = (postId: number): UseFeedItem => {
   const doSave = useCallback(async () => {
     onGenericHapticFeedback();
 
-    dispatch(setUpdateSaved(post.post.id));
-
-    const res = await savePost(post.post.id, !post.saved);
-
-    if (!res) {
-      dispatch(
-        showToast({
-          message: t("toast.failedToSavePost"),
-          variant: "error",
-          duration: 2000,
-        })
-      );
-
-      dispatch(setUpdateSaved(post.post.id));
-    }
-  }, [post.post.id]);
+    setFeedSaved(key, post.post.id, !post.saved).then();
+  }, [post.post.id, post.saved]);
 
   const doReport = useCallback(async () => {
     useReportPost({ postId: post.post.id, dispatch }).then();
