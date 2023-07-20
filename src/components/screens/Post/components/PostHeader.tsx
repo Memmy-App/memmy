@@ -8,6 +8,7 @@ import {
   VStack,
 } from "native-base";
 import { useRoute } from "@react-navigation/core";
+import { LayoutAnimation } from "react-native";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import PostContentView from "./PostContentView";
 import AvatarUsername from "../../../common/AvatarUsername";
@@ -37,6 +38,7 @@ function PostHeader() {
   );
 
   const onPostPress = useCallback(() => {
+    LayoutAnimation.easeInEaseOut();
     setPostCollapsed(postKey);
   }, [currentPost.post.id]);
 

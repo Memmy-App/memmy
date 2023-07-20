@@ -3,7 +3,6 @@ import { FlashList } from "@shopify/flash-list";
 import { HStack, useTheme, VStack } from "native-base";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { produce } from "immer";
 import usePost from "../../../hooks/post/usePost";
 import LoadingView from "../../common/Loading/LoadingView";
 import PostOptionsButton from "./components/PostOptionsButton";
@@ -12,7 +11,6 @@ import PostHeader from "./components/PostHeader";
 import RefreshControl from "../../common/RefreshControl";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import {
-  PostsStore,
   usePostRerenderComments,
   usePostsStore,
 } from "../../../stores/posts/postsStore";
@@ -79,14 +77,15 @@ function PostScreen({ navigation }: IProps) {
     };
     // If it's a top comment, add it to top of current chain
     if (newComment.isTop) {
-      usePostsStore.setState(
-        produce((state: PostsStore) => {
-          state.posts[postHook.postKey].comments = [
-            lComment,
-            ...state.posts[postHook.postKey].comments,
-          ];
-        })
-      );
+      usePostsStore.setState((state) => {
+        const prev = state.posts.get(postHook.postKey);
+
+        prev.commentsState.comments = [
+          lComment,
+          ...prev.commentsState.comments,
+        ];
+        prev.rerenderComments = !prev.rerenderComments;
+      });
     } else {
       const pathArr = newComment.comment.comment.path.split(".");
       const searchId = Number(pathArr[pathArr.length - 2]);
@@ -94,15 +93,16 @@ function PostScreen({ navigation }: IProps) {
         (c) => c.comment.comment.id === searchId
       );
 
-      usePostsStore.setState(
-        produce((state: PostsStore) => {
-          state.posts[postHook.postKey].comments = [
-            ...state.posts[postHook.postKey].comments.slice(0, index + 1),
-            lComment,
-            ...state.posts[postHook.postKey].comments.slice(index + 1),
-          ];
-        })
-      );
+      usePostsStore.setState((state) => {
+        const prev = state.posts.get(postHook.postKey);
+
+        prev.commentsState.comments = [
+          ...prev.commentsState.comments.slice(0, index + 1),
+          lComment,
+          ...prev.commentsState.comments.slice(index + 1),
+        ];
+        prev.rerenderComments = !prev.rerenderComments;
+      });
     }
 
     clearNewComment();
@@ -111,28 +111,14 @@ function PostScreen({ navigation }: IProps) {
   useEffect(() => {
     if (!editedComment) return;
 
-    console.log(editedComment);
+    usePostsStore.setState((state) => {
+      const prev = state.posts.get(postHook.postKey);
+      const comment = prev.commentsState.comments.find(
+        (c) => c.comment.comment.id === editedComment.commentId
+      );
 
-    usePostsStore.setState(
-      produce((state: PostsStore) => {
-        state.posts[postHook.postKey].comments = state.posts[
-          postHook.postKey
-        ].comments.map((c) => {
-          if (c.comment.comment.id !== editedComment.commentId) return c;
-
-          return {
-            ...c,
-            comment: {
-              ...c.comment,
-              comment: {
-                ...c.comment.comment,
-                content: editedComment.content,
-              },
-            },
-          };
-        });
-      })
-    );
+      comment.comment.comment.content = editedComment.content;
+    });
 
     clearEditComment();
   }, [editedComment]);
