@@ -1,5 +1,5 @@
 import { Text, useTheme } from "native-base";
-import React, { useEffect } from "react";
+import React from "react";
 import { useRoute } from "@react-navigation/core";
 import { useAppSelector } from "../../../../../store";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";

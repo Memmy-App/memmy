@@ -71,7 +71,6 @@ function PostScreen({ navigation }: IProps) {
     () =>
       // Remove the post when we are finished
       () => {
-        console.log("trying to remove.");
         removePost(postKey);
       },
     []

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import {
   Divider,
   HStack,
@@ -28,8 +28,6 @@ function PostHeader() {
   const currentPost = useCurrentPost(postKey);
   const postCollapsed = usePostCollapsed(postKey);
   const theme = useTheme();
-
-  useEffect(() => console.log("rerendered"));
 
   const instanceBaseUrl = useMemo(
     () => getBaseUrl(currentPost.community.actor_id),
