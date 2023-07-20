@@ -24,6 +24,52 @@ function ReadSettingsScreen() {
   return (
     <VStack backgroundColor={theme.colors.app.bg}>
       <CTable>
+        <CSection footer={t("settings.content.markRead.footer")}>
+          <CCell
+            cellStyle="RightDetail"
+            title={t("Hide Read Posts on Feed")}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.hideReadPostsOnFeed}
+                onValueChange={(v) => {
+                  onChange("hideReadPostsOnFeed", v);
+                }}
+              />
+            }
+          />
+          <CCell
+            cellStyle="RightDetail"
+            title={`${t("Hide Read Posts in Communities")}`}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.hideReadPostsInCommunities}
+                onValueChange={(v) => onChange("hideReadPostsInCommunities", v)}
+              />
+            }
+          />
+          <CCell
+            cellStyle="RightDetail"
+            title={t("Show Hide Read Button")}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.showHideReadButton}
+                onValueChange={(v) => {
+                  onChange("showHideReadButton", v);
+                }}
+              />
+            }
+          />
+        </CSection>
+
         <CSection header={t("settings.content.markRead.header")}>
           <CCell
             cellStyle="RightDetail"
