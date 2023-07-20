@@ -26,8 +26,9 @@ function PostScreen({ route, navigation }: IProps) {
     route.params && route.params.commentId ? route.params.commentId : null
   );
   const community = useCommunity(post.currentPost.community.id);
-  const modIdList = community.moderators.map((mod) => mod.moderator.id);
-  const isMod = modIdList.includes(post.currentPost.post.creator_id);
+  const isMod = community.moderators.some(
+    (mod) => mod.moderator.id === post.currentPost.post.creator_id
+  );
 
   useEffect(() => {
     community.doLoad();
