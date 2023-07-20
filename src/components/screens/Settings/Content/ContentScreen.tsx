@@ -32,10 +32,7 @@ function ContentScreen({
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
-        <CSection
-          header={t("Posts")}
-          footer={t("settings.content.markRead.footer")}
-        >
+        <CSection header={t("Posts")}>
           {/* <CCell */}
           {/*  title="Swipe Gestures" */}
           {/*  backgroundColor={theme.colors.app.fg} */}
@@ -101,42 +98,12 @@ function ContentScreen({
             />
           </ListingTypeContextMenu>
           <CCell
-            title={t("Mark Post Read On")}
+            title={t("Hide Read Posts")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("ReadSettings")}
-          />
-          <CCell
-            cellStyle="RightDetail"
-            title={t("Hide Read Posts on Feed")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.hideReadPostsOnFeed}
-                onValueChange={(v) => {
-                  onChange("hideReadPostsOnFeed", v);
-                }}
-              />
-            }
-          />
-          <CCell
-            cellStyle="RightDetail"
-            title={t("Show Hide Read Button")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.showHideReadButton}
-                onValueChange={(v) => {
-                  onChange("showHideReadButton", v);
-                }}
-              />
-            }
           />
         </CSection>
 

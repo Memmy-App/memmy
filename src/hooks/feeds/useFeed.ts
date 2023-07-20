@@ -44,10 +44,18 @@ export interface UseFeed {
   setLoaded: React.Dispatch<SetStateAction<any>>;
 }
 
-export const useFeed = (communityIdOrName?: number | string): UseFeed => {
+export const useFeed = (
+  communityIdOrName?: number | string,
+  isCommunity = false
+): UseFeed => {
   // Global State
-  const { defaultSort, defaultListingType, hideNsfw, hideReadPostsOnFeed } =
-    useAppSelector(selectSettings);
+  const {
+    defaultSort,
+    defaultListingType,
+    hideNsfw,
+    hideReadPostsOnFeed,
+    hideReadPostsInCommunities,
+  } = useAppSelector(selectSettings);
   const { updateVote, updateSaved } = useAppSelector(selectFeed);
 
   // State
@@ -181,8 +189,15 @@ export const useFeed = (communityIdOrName?: number | string): UseFeed => {
           return;
         }
 
+        // Filter posts
         let newPosts = hideNsfw ? removeNsfwPosts(res.posts) : res.posts;
-        newPosts = hideReadPostsOnFeed ? removeReadPosts(res.posts) : res.posts;
+
+        if (
+          (hideReadPostsOnFeed && !isCommunity) ||
+          (hideReadPostsInCommunities && isCommunity)
+        ) {
+          newPosts = removeReadPosts(res.posts);
+        }
 
         preloadImages(newPosts);
 
