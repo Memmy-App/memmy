@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import {
   Divider,
   HStack,
@@ -7,6 +7,7 @@ import {
   useTheme,
   VStack,
 } from "native-base";
+import { useRoute } from "@react-navigation/core";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import PostContentView from "./PostContentView";
 import AvatarUsername from "../../../common/AvatarUsername";
@@ -15,28 +16,33 @@ import CommentCount from "../../../common/Comments/CommentCount";
 import DatePublished from "../../../common/DatePublished";
 import PostActionBar from "./PostActionBar";
 import PostTitle from "./PostTitle";
-import usePost from "../../../../hooks/post/usePost";
-import { usePostCollapsed } from "../../../../stores/posts/postsStore";
+import {
+  useCurrentPost,
+  usePostCollapsed,
+} from "../../../../stores/posts/postsStore";
+import { setPostCollapsed } from "../../../../stores/posts/actions";
 
 function PostHeader() {
-  const postHook = usePost();
-  const postCollapsed = usePostCollapsed(postHook.postKey);
+  const { postKey } = useRoute<any>().params;
+
+  const currentPost = useCurrentPost(postKey);
+  const postCollapsed = usePostCollapsed(postKey);
   const theme = useTheme();
 
   useEffect(() => console.log("rerendered"));
 
   const instanceBaseUrl = useMemo(
-    () => getBaseUrl(postHook.post.community.actor_id),
-    [postHook.post.post.id]
+    () => getBaseUrl(currentPost.community.actor_id),
+    [currentPost.post.id]
   );
 
-  useEffect(() => {
-    console.log("changed");
-  }, [postHook.onPostPress]);
+  const onPostPress = useCallback(() => {
+    setPostCollapsed(postKey);
+  }, [currentPost.post.id]);
 
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.fg}>
-      <Pressable onPress={postHook.onPostPress}>
+      <Pressable onPress={onPostPress}>
         {!postCollapsed ? (
           <PostContentView />
         ) : (
@@ -55,15 +61,15 @@ function PostHeader() {
       </Pressable>
 
       <HStack mb={2} mx={4} space={2}>
-        <AvatarUsername creator={postHook.post.creator} />
+        <AvatarUsername creator={currentPost.creator} />
       </HStack>
       <HStack space={2} mx={4} mb={2}>
         <CommunityLink
-          community={postHook.post.community}
+          community={currentPost.community}
           instanceBaseUrl={instanceBaseUrl}
         />
-        <CommentCount commentCount={postHook.post.counts.comments} />
-        <DatePublished published={postHook.post.post.published} />
+        <CommentCount commentCount={currentPost.counts.comments} />
+        <DatePublished published={currentPost.post.published} />
       </HStack>
 
       <Divider my={1} bg={theme.colors.app.border} />

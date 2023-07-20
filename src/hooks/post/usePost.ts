@@ -2,24 +2,13 @@ import { useCallback } from "react";
 import { PostView } from "lemmy-js-client";
 import { useRoute } from "@react-navigation/core";
 import {
-  onGenericHapticFeedback,
-  onVoteHapticFeedback,
-} from "../../helpers/HapticFeedbackHelpers";
-import {
   PostCommentsState,
   PostState,
   useCurrentPost,
   useCurrentPostState,
   usePostComments,
 } from "../../stores/posts/postsStore";
-import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
-import { determineVotes } from "../../helpers/VoteHelper";
-import {
-  setPostCollapsed,
-  setPostSaved,
-  setPostVote,
-} from "../../stores/posts/actions";
-import { useUpdatesStore } from "../../stores/updates/updatesStore";
+import { setPostCollapsed } from "../../stores/posts/actions";
 import loadPostComments from "../../stores/posts/actions/loadPostComments";
 
 export interface UsePost {
@@ -32,8 +21,6 @@ export interface UsePost {
   currentPost: PostView;
 
   doLoad: () => void;
-  doSave: () => Promise<void>;
-  doVote: (value: -1 | 0 | 1) => void;
   onPostPress: () => void;
 }
 
@@ -46,8 +33,6 @@ const usePost = (): UsePost => {
   const postState = useCurrentPostState(postKey);
   const post = useCurrentPost(postKey);
   const commentsState = usePostComments(postKey);
-
-  const updatesStore = useUpdatesStore();
 
   /**
    * Load the Comments for the current Post
@@ -62,29 +47,6 @@ const usePost = (): UsePost => {
    * Vote on the current Post
    * @param value
    */
-  const doVote = useCallback(
-    (value: ILemmyVote) => {
-      const newValues = determineVotes(
-        value,
-        post.my_vote,
-        post.counts.upvotes,
-        post.counts.downvotes
-      );
-
-      // Play trigger
-      onVoteHapticFeedback();
-
-      setPostVote(postKey, post.post.id, newValues).then();
-      updatesStore.setVoted(post.post.id, newValues.newValue as ILemmyVote);
-    },
-    [post.my_vote] // TODO FIX THIS
-  );
-
-  const doSave = useCallback(async () => {
-    onGenericHapticFeedback();
-    useUpdatesStore.getState().setSaved(post.post.id, !post.saved);
-    setPostSaved(postKey, post.post.id, !post.saved).then();
-  }, [post.post.id, post.saved]);
 
   const onPostPress = useCallback(() => {
     setPostCollapsed(postKey);
@@ -100,8 +62,6 @@ const usePost = (): UsePost => {
     currentPost: post,
 
     doLoad,
-    doSave,
-    doVote,
 
     onPostPress,
   };

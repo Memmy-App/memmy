@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
+import { useRoute } from "@react-navigation/core";
 import CommentItem from "../../../common/Comments/CommentItem";
-import usePost from "../../../../hooks/post/usePost";
 import setPostCommentVote from "../../../../stores/posts/actions/setPostCommentVote";
 import { ILemmyVote } from "../../../../types/lemmy/ILemmyVote";
 import { determineVotes } from "../../../../helpers/VoteHelper";
@@ -14,8 +14,8 @@ interface IProps {
 }
 
 function PostCommentItem({ commentId }: IProps) {
-  const postHook = usePost();
-  const comment = usePostComment(postHook.postKey, commentId);
+  const { postKey } = useRoute<any>().params;
+  const comment = usePostComment(postKey, commentId);
 
   const onVote = useCallback(
     (value: ILemmyVote) => {
@@ -26,18 +26,14 @@ function PostCommentItem({ commentId }: IProps) {
         comment.comment.counts.downvotes
       );
 
-      setPostCommentVote(
-        postHook.postKey,
-        comment.comment.comment.id,
-        newValues
-      ).then();
+      setPostCommentVote(postKey, comment.comment.comment.id, newValues).then();
     },
     [comment.comment.comment.id, comment.comment.my_vote]
   );
 
   const onPress = useCallback(() => {
     usePostsStore.setState((state) => {
-      const prev = state.posts.get(postHook.postKey);
+      const prev = state.posts.get(postKey);
       const prevComment = prev.commentsState.comments.find(
         (c) => c.comment.comment.id === commentId
       );

@@ -1,5 +1,5 @@
 import { HStack } from "native-base";
-import React from "react";
+import React, { useCallback } from "react";
 import { ICON_MAP } from "../../../constants/IconMap";
 import IconButtonWithText from "../IconButtonWithText";
 import VoteButton from "../Vote/VoteButton";
@@ -12,6 +12,14 @@ interface IProps {
 }
 
 function CommentActions({ onVote, myVote }: IProps) {
+  const onUpvote = useCallback(() => {
+    onVote(1);
+  }, [onVote]);
+
+  const onDownvote = useCallback(() => {
+    onVote(-1);
+  }, [onVote]);
+
   return (
     <HStack justifyContent="flex-end" alignItems="center" space={2} mb={1}>
       <IconButtonWithText
@@ -19,14 +27,14 @@ function CommentActions({ onVote, myVote }: IProps) {
         icon={<SFIcon icon={ICON_MAP.REPLY} size={12} boxSize={20} />}
       />
       <VoteButton
-        onPressHandler={async () => onVote(1)}
+        onPressHandler={onUpvote}
         type="upvote"
         isVoted={myVote === 1}
         isAccented
         iconSize={12}
       />
       <VoteButton
-        onPressHandler={async () => onVote(-1)}
+        onPressHandler={onDownvote}
         type="downvote"
         isVoted={myVote === -1}
         isAccented

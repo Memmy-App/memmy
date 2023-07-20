@@ -1,5 +1,6 @@
 import { Box } from "native-base";
 import React, { useMemo } from "react";
+import { useRoute } from "@react-navigation/core";
 import {
   ExtensionType,
   getBaseUrl,
@@ -9,17 +10,17 @@ import LinkButton from "../../../common/Buttons/LinkButton";
 import ImageViewer from "../../../common/ImageViewer/ImageViewer";
 import RenderMarkdown from "../../../common/Markdown/RenderMarkdown";
 import PostTitle from "./PostTitle";
-import usePost from "../../../../hooks/post/usePost";
+import { useCurrentPost } from "../../../../stores/posts/postsStore";
 
 function PostContentView() {
-  const postHook = usePost();
+  const currentPost = useCurrentPost(useRoute<any>().params.postKey);
 
   const linkInfo = useMemo(
-    () => getLinkInfo(postHook.post.post.url),
-    [postHook.post.post.id]
+    () => getLinkInfo(currentPost.post.url),
+    [currentPost.post.id]
   );
 
-  const { body } = postHook.post.post;
+  const { body } = currentPost.post;
 
   const isImage = linkInfo.extType === ExtensionType.IMAGE;
 
@@ -32,7 +33,7 @@ function PostContentView() {
         <Box mx={4}>
           <LinkButton
             link={linkInfo.link}
-            thumbnail={postHook.post.post.thumbnail_url}
+            thumbnail={currentPost.post.thumbnail_url}
           />
         </Box>
       );
@@ -45,9 +46,9 @@ function PostContentView() {
     <Box mb={1}>
       {isImage && (
         <ImageViewer
-          source={postHook.post.post.url}
-          nsfw={postHook.post.post.nsfw || postHook.post.community.nsfw}
-          postId={postHook.post.post.id}
+          source={currentPost.post.url}
+          nsfw={currentPost.post.nsfw || currentPost.community.nsfw}
+          postId={currentPost.post.id}
         />
       )}
 
@@ -57,7 +58,7 @@ function PostContentView() {
         <Box mx={4}>
           <RenderMarkdown
             text={body}
-            instance={getBaseUrl(postHook.post.post.ap_id)}
+            instance={getBaseUrl(currentPost.post.ap_id)}
           />
         </Box>
       )}
