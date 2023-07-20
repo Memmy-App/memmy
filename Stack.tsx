@@ -302,7 +302,7 @@ function SettingsScreens(stack) {
         name="ReadSettings"
         component={ReadSettingsScreen}
         options={{
-          title: t("Mark Post Read On"),
+          title: t("Hide Read Posts"),
         }}
       />
       <stack.Screen
