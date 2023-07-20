@@ -168,7 +168,7 @@
     "post": {
       "header": "Info post",
       "title": "Titlu",
-      "link": "Link (optional)",
+      "link": "Link (opțional)",
       "body": "Conținut (opțional)",
       "bodyPlaceholder": "Scrie ceva!"
     },
@@ -206,9 +206,9 @@
         },
         "6": {
           "1": "Te simți puțin\ncopleșit?... \uD83D\uDE14",
-          "2": "Știm că deocamdată totul pare complex, <emphasis>dar îți promitem că e mai ușor decât pare.</emphasis>",
+          "2": "Știm că deocamdată totul pare complex, dar îți promitem că <emphasis>e mai ușor decât pare.</emphasis>",
           "3": "Dacă ai folost un serviciu de email înainte, <emphasis>deja ai folosit Fediversul.</emphasis>",
-          "4": "Fediversul funcționează practic precum <emphasis>un serviciu de email.</emphasis> prin care utilizatorii transmit emailuri."
+          "4": "Fediversul funcționează practic precum <emphasis>un serviciu de email</emphasis> prin care utilizatorii transmit emailuri."
         },
         "7": {
           "1": "Hai să începem!",
@@ -302,7 +302,7 @@
     "Copy Link": "Copiază linkul",
     "Reply": "Răspunde",
     "Report Post": "Reportează Post",
-    "Cancel": "Anulează",
+    "Cancel": "Înapoi",
     "Submit": "Trimite",
     "Retry": "Reîncearcă",
     "Language": "Limbă",
@@ -366,8 +366,8 @@
     "Application Required": "Cerere necesară",
     "Open Registration": "Înregistrări deschise",
     "Subscribed": "Abonat",
-    "Subscribe": "Abona",
-    "Post": "Post",
+    "Subscribe": "Abonează-te",
+    "Post": "Postează",
     "Description": "Descriere",
     "Label": "Etichetă",
     "Trending": "Trending",
