@@ -1,4 +1,3 @@
-import { SortType } from "lemmy-js-client";
 import React, { useCallback, useMemo } from "react";
 import { useRoute } from "@react-navigation/core";
 import { overallSortOptions } from "../../../../types/SortOptions";
@@ -9,17 +8,21 @@ import {
   useFeedSort,
   useFeedsStore,
 } from "../../../../stores/feeds/feedsStore";
+import loadFeedPosts from "../../../../stores/feeds/actions/loadFeedPosts";
 
 function FeedSortButton() {
   const { key } = useRoute();
   const sort = useFeedSort(key);
 
-  const onPress = useCallback((nativeEvent) => {
+  const onPress = useCallback((e) => {
     useFeedsStore.setState((state) => {
-      const prev = state.feeds.get(key);
-
-      prev.sortType = nativeEvent.actionKey as SortType;
+      state.feeds.get(key).sortType = e.nativeEvent.actionKey;
     });
+
+    loadFeedPosts(key, {
+      refresh: true,
+      sort: e.nativeEvent.actionKey,
+    }).then();
   }, []);
 
   const icon = useMemo(

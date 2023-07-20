@@ -8,12 +8,9 @@ import {
   onVoteHapticFeedback,
 } from "../../helpers/HapticFeedbackHelpers";
 import { useAppDispatch, useAppSelector } from "../../../store";
-import { setUpdateSaved } from "../../slices/feed/feedSlice";
 import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { getLinkInfo, LinkInfo } from "../../helpers/LinkHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
-import { showToast } from "../../slices/toast/toastSlice";
-import { savePost } from "../../helpers/LemmyHelpers";
 import { useReportPost } from "../post/useReportPost";
 import { useBlockUser } from "../user/useBlockUser";
 import { setResponseTo } from "../../slices/comments/newCommentSlice";

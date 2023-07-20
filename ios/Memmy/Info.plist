@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CodePushDeploymentKey</key>
-	<string></string>
+	<string>no</string>
 	<key>CFBundleIcons</key>
 	<dict>
 		<key>CFBundleAlternateIcons</key>

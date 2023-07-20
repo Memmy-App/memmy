@@ -45,10 +45,6 @@ interface Props {
 }
 
 export function SwipeableRow({ leftOption, rightOption, children }: Props) {
-  useEffect(() => {
-    console.log(Date.now());
-  }, [leftOption]);
-
   const [subscribers, setSubscribers] = useState<Handlers[]>([]);
 
   const swipeRightEnabled = Boolean(leftOption);

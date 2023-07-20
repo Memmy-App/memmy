@@ -13,8 +13,6 @@ export const truncateLink = (link: string): string => {
 export const truncateImageLink = (link: string): string => {
   if (link.length <= 36) return link;
 
-  console.log(link);
-
   return `${link.slice(0, 24)}...`;
 };
 

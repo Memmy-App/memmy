@@ -44,8 +44,8 @@ const loadFeedPosts = async (
       community_name: currentState.communityName,
       limit: options.limit,
       page: options.refresh ? 1 : currentState.currentPage + 1,
-      sort: options.sort,
-      type_: options.type,
+      sort: options.sort ?? currentState.sortType,
+      type_: options.type ?? currentState.listingType,
     });
 
     if (!res.posts || res.posts.length === 0) {
@@ -65,7 +65,7 @@ const loadFeedPosts = async (
     useFeedsStore.setState((state) => {
       const prev = state.feeds.get(feedKey);
 
-      if (prev.posts.length === 0) {
+      if (prev.posts.length === 0 || options.refresh) {
         prev.posts = res.posts;
         prev.currentPage = 1;
       } else {
