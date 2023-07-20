@@ -28,7 +28,7 @@
     "message": {
       "allowCameraRoll": "Por favor permita que Memmy acesse suas fotos.",
       "imgurUploadError": "Erro no upload da Imagem ao Imgur.",
-      "reportComment": "Por favor informe o motivo por estar denúnciando este comentário.",
+      "reportComment": "Por favor informe o motivo por estar denunciando este comentário.",
       "allowPushNotifications": "Por favor permita que Memmy o envie notificações.",
       "failedToRetrieveToken": "Falha ao recuperar o token.",
       "instanceAuthenticationFailed": "Falha ao autenticar com a instância Lemmy.",
@@ -197,7 +197,7 @@
       "4": {
         "1": "Como o Fediverso difere disso? \uD83E\uDD14",
         "2": "Suas encomendas não vão para um armazém central, vão para a sua <emphasis>agência de correio local</emphasis>.",
-        "3": "Sua <emphasis>agência local</emphasis> é responsável por encaminhar  sua encomenda para outras <emphasis>agências</emphasis>. E elas, em turno, escolhem para quem <emphasis>vão estar enviando-a</emphasis> \uD83D\uDE9A"
+        "3": "Sua <emphasis>agência local</emphasis> é responsável por encaminhar sua encomenda para outras <emphasis>agências</emphasis>. E elas, em turno, escolhem para quem <emphasis>vão estar enviando-a</emphasis> \uD83D\uDE9A"
       },
       "5": {
         "1": "Quem seria minha <emphasis>agência?</emphasis> \uD83E\uDD14",
