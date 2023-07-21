@@ -120,4 +120,4 @@ function CommunityHeader({ communityFullName }: IProps) {
   );
 }
 
-export default CommunityHeader;
+export default React.memo(CommunityHeader);

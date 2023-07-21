@@ -33,9 +33,9 @@ function FeedsCommunityScreen({
 
   const initialized = useRef(false);
 
-  const doLoad = useCallback((reloadCommunity = false) => {
+  const doLoad = useCallback((refresh = false, reloadCommunity = false) => {
     loadFeedPosts(key, {
-      refresh: true,
+      refresh,
       sort: "TopDay", // TODO DEFAULT
     }).then();
 
@@ -47,14 +47,10 @@ function FeedsCommunityScreen({
   useEffect(() => {
     if (initialized.current) return;
 
-    console.log(feedStatus?.loading);
-
     if (!feedStatus) {
-      console.log("adding it");
       addFeed(key, communityFullName);
     } else {
-      console.log("loading it...");
-      doLoad(true);
+      doLoad(true, true);
       initialized.current = true;
     }
   }, [feedStatus]);
