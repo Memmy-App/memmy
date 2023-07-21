@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useRoute } from "@react-navigation/core";
 import { CommentSortType } from "lemmy-js-client";
+import { LayoutAnimation } from "react-native";
 import {
   useCurrentPost,
   usePostCommentsSort,
@@ -8,6 +9,8 @@ import {
 } from "../../stores/posts/postsStore";
 import { setPostCollapsed } from "../../stores/posts/actions";
 import loadPostComments from "../../stores/posts/actions/loadPostComments";
+import loadCommunity from "../../stores/communities/actions/loadCommunity";
+import { getBaseUrl } from "../../helpers/LinkHelper";
 
 export interface UsePost {
   doLoad: () => void;
@@ -22,8 +25,13 @@ const usePost = (): UsePost => {
 
   const doLoad = useCallback(() => {
     loadPostComments(postKey, {
-      sortType: commentsSortType, // TODO Use default here
+      sortType: commentsSortType,
     }).then();
+    loadCommunity(
+      `${currentPost.community.name}@${getBaseUrl(
+        currentPost.community.actor_id
+      )}`
+    ).then();
   }, [currentPost.post.id, commentsSortType]);
 
   const onPostPress = useCallback(() => {

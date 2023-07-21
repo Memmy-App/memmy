@@ -1,11 +1,14 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useRoute } from "@react-navigation/core";
+import { LayoutAnimation } from "react-native";
 import CommentItem from "../../../common/Comments/CommentItem";
 import setPostCommentVote from "../../../../stores/posts/actions/setPostCommentVote";
 import { ILemmyVote } from "../../../../types/lemmy/ILemmyVote";
 import { determineVotes } from "../../../../helpers/VoteHelper";
 import {
   usePostComment,
+  usePostCommentCollapsed,
+  usePostCommentHidden,
   usePostsStore,
 } from "../../../../stores/posts/postsStore";
 
@@ -39,6 +42,32 @@ function PostCommentItem({ commentId }: IProps) {
       );
       prevComment.collapsed = !prevComment.collapsed;
       prev.rerenderComments = !prev.rerenderComments;
+
+      const prevToHide = prev.commentsState.comments.filter(
+        (c) =>
+          c.comment.comment.path.includes(prevComment.comment.comment.path) &&
+          c.comment.comment.id !== commentId
+      );
+
+      if (!prevComment.collapsed) {
+        prevToHide.forEach((c) => {
+          const shouldUnhide =
+            prevToHide.findIndex(
+              (cc) =>
+                cc.collapsed &&
+                c.comment.comment.path.includes(cc.comment.comment.path) &&
+                c.comment.comment.id !== cc.comment.comment.id
+            ) === -1;
+
+          if (shouldUnhide) {
+            c.hidden = false;
+          }
+        });
+      } else {
+        prevToHide.forEach((c) => {
+          c.hidden = true;
+        });
+      }
     });
   }, [comment.comment.comment.id]);
 

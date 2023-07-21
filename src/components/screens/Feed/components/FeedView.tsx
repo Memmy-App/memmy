@@ -36,12 +36,18 @@ import {
 } from "../../../../stores/feeds/feedsStore";
 import { useCommunity } from "../../../../stores/communities/communitiesStore";
 import loadFeedPosts from "../../../../stores/feeds/actions/loadFeedPosts";
+import HideReadFAB from "../../../common/Buttons/HideReadFAB";
+import setFeedPosts from "../../../../stores/feeds/actions/setFeedPosts";
+import { removeReadPosts } from "../../../../helpers/LemmyHelpers";
 
 interface FeedViewProps {
   header?: () => React.ReactNode;
 }
 
 function FeedView({ header }: FeedViewProps) {
+  const { hideReadPostsOnFeed, showHideReadButton } =
+    useAppSelector(selectSettings);
+
   const { key } = useRoute();
 
   // Global state props
@@ -161,13 +167,13 @@ function FeedView({ header }: FeedViewProps) {
             getItemType={getItemType}
           />
         )}
-      {/* {hideReadPostsOnFeed && showHideReadButton && showFab && ( */}
-      {/*  <HideReadFAB */}
-      {/*    onPress={() => { */}
-      {/*      feed.setPosts(removeReadPosts(feed.posts)); */}
-      {/*    }} */}
-      {/*  /> */}
-      {/* )} */}
+      {hideReadPostsOnFeed && showHideReadButton && (
+        <HideReadFAB
+          onPress={() => {
+            setFeedPosts(key, removeReadPosts(posts));
+          }}
+        />
+      )}
     </View>
   );
 }
