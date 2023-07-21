@@ -41,7 +41,7 @@ function TraverseScreen() {
   const [term, setTerm] = useState("");
 
   const itemFilter = (item: CommunityView) =>
-    !term || item.community.name.includes(term);
+    !term || item.community.name.toLowerCase().includes(term.toLowerCase());
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const favorites =
