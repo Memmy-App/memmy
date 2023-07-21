@@ -188,7 +188,7 @@ function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
                 </View>
               ),
               image: (node) => (
-                <ImageViewer source={{ uri: node.attributes.src }} buttonMode />
+                <ImageViewer source={node.attributes.src} buttonMode />
               ),
             }}
             onLinkPress={onLinkPress}

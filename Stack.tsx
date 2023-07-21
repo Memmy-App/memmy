@@ -59,6 +59,7 @@ import {
 import { selectSite } from "./src/slices/site/siteSlice";
 import { useAppSelector } from "./store";
 import { truncateName } from "./src/helpers/TextHelper";
+import { ICON_MAP } from "./src/constants/IconMap";
 
 function CustomDrawerContent() {
   const theme = useTheme();
@@ -301,7 +302,7 @@ function SettingsScreens(stack) {
         name="ReadSettings"
         component={ReadSettingsScreen}
         options={{
-          title: t("Mark Post Read On"),
+          title: t("Hide Read Posts"),
         }}
       />
       <stack.Screen
@@ -582,8 +583,9 @@ function Tabs() {
         component={InboxStackScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => <SFIcon icon="bell" color={color} />,
+          tabBarIcon: ({ color }) => <SFIcon icon="envelope" color={color} />,
           tabBarLabel: t("Inbox"),
+
           tabBarBadge:
             unread.replies + unread.mentions + unread.privateMessage > 0
               ? // ? unread.replies + unread.mentions + unread.privateMessage
@@ -598,7 +600,7 @@ function Tabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
-            <SFIcon icon="person.circle" color={color} />
+            <SFIcon icon={ICON_MAP.USER_AVATAR} color={color} />
           ),
           tabBarLabel: truncateName(currentAccount.username, 10),
           freezeOnBlur: false,

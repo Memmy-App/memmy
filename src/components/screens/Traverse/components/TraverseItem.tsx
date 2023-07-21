@@ -1,26 +1,21 @@
-import React, { useCallback } from "react";
-import { CommunityView } from "lemmy-js-client";
-import { HStack, Pressable, Text, useTheme, VStack } from "native-base";
 import FastImage from "@gkasdorf/react-native-fast-image";
-import { StyleSheet } from "react-native";
-import {
-  IconChevronRight,
-  IconEye,
-  IconNotes,
-  IconPlanet,
-  IconStar,
-  IconStarFilled,
-} from "tabler-icons-react-native";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useTheme } from "native-base";
+import { CommunityView } from "lemmy-js-client";
+import React, { useCallback } from "react";
+import { StyleSheet } from "react-native";
+import { HStack, Pressable, Text, VStack } from "../../../common/Gluestack";
 import { getCommunityFullName } from "../../../../helpers/LemmyHelpers";
 import { toggleFavorite } from "../../../../slices/favorites/favoritesActions";
 
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 
-import { selectCurrentAccount } from "../../../../slices/accounts/accountsSlice";
 import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
+import { selectCurrentAccount } from "../../../../slices/accounts/accountsSlice";
+import { PlanetIcon } from "../../../common/icons/PlanetIcon";
+import SFIcon from "../../../common/icons/SFIcon";
 
 interface IProps {
   community: CommunityView;
@@ -62,27 +57,26 @@ function TraverseItem({ community, isFavorite }: IProps) {
       <HStack
         flex={1}
         backgroundColor={theme.colors.app.fg}
-        py={1.5}
-        px={2}
-        my={1}
-        mx={4}
         borderRadius={10}
         alignItems="center"
+        style={styles.container}
       >
-        <VStack space={1}>
-          <HStack space={2} alignItems="center">
+        <VStack>
+          <HStack space="sm" alignItems="center">
             {community.community.icon ? (
               <FastImage
                 source={{ uri: community.community.icon }}
                 style={styles.icon}
               />
             ) : (
-              <IconPlanet color={theme.colors.app.textSecondary} size={24} />
+              <PlanetIcon color={theme.colors.app.textSecondary} size={24} />
             )}
             <VStack>
-              <Text>{community.community.name}</Text>
+              <Text color={theme.colors.app.textPrimary}>
+                {community.community.name}
+              </Text>
               <Text
-                fontSize="2xs"
+                fontSize="$2xs"
                 color={theme.colors.app.textSecondary}
                 fontStyle="italic"
               >
@@ -90,21 +84,31 @@ function TraverseItem({ community, isFavorite }: IProps) {
               </Text>
             </VStack>
           </HStack>
-          <HStack space={2}>
-            <HStack space={1} alignItems="center">
-              <IconEye size={12} color={theme.colors.app.textSecondary} />
+          <HStack ml="$1" space="sm">
+            <HStack space="xs" alignItems="center">
+              <SFIcon
+                icon="eye"
+                size={8}
+                boxSize={10}
+                color={theme.colors.app.textSecondary}
+              />
               <Text
-                fontSize="xs"
+                fontSize="$xs"
                 color={theme.colors.app.textSecondary}
                 fontStyle="italic"
               >
                 {community.counts.users_active_day.toLocaleString()} online
               </Text>
             </HStack>
-            <HStack space={1} alignItems="center">
-              <IconNotes size={12} color={theme.colors.app.textSecondary} />
+            <HStack space="xs" alignItems="center">
+              <SFIcon
+                icon="doc.plaintext"
+                size={8}
+                boxSize={10}
+                color={theme.colors.app.textSecondary}
+              />
               <Text
-                fontSize="xs"
+                fontSize="$xs"
                 color={theme.colors.app.textSecondary}
                 fontStyle="italic"
               >
@@ -122,17 +126,9 @@ function TraverseItem({ community, isFavorite }: IProps) {
             }}
             pr={2}
           >
-            {isFavorite ? (
-              <IconStarFilled
-                size={24}
-                color=""
-                style={{ color: theme.colors.app.accent }}
-              />
-            ) : (
-              <IconStar size={24} color={theme.colors.app.accent} />
-            )}
+            <SFIcon icon={isFavorite ? "star.fill" : "star"} />
           </Pressable>
-          <IconChevronRight size={24} color={theme.colors.app.accent} />
+          <SFIcon icon="chevron.right" size={12} />
         </HStack>
       </HStack>
     </Pressable>
@@ -140,6 +136,12 @@ function TraverseItem({ community, isFavorite }: IProps) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    marginHorizontal: 16,
+    marginVertical: 4,
+  },
   icon: {
     height: 24,
     width: 24,

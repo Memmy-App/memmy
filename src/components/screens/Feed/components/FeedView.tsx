@@ -5,25 +5,20 @@ import {
 } from "@react-navigation/native";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
-import { HStack, View, useTheme } from "native-base";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { HStack, useTheme, View } from "native-base";
+import React, { useEffect, useMemo, useRef } from "react";
 import { StyleSheet } from "react-native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { useRoute } from "@react-navigation/core";
 import { useAppSelector } from "../../../../../store";
-import {
-  getCommunityFullName,
-  removeReadPosts,
-} from "../../../../helpers/LemmyHelpers";
 import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
-import { UseFeed } from "../../../../hooks/feeds/useFeed";
 import { selectFeed } from "../../../../slices/feed/feedSlice";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
-import HideReadFAB from "../../../common/Buttons/HideReadFAB";
 import LoadingErrorView from "../../../common/Loading/LoadingErrorView";
 import LoadingView from "../../../common/Loading/LoadingView";
 import NoResultView from "../../../common/NoResultView";
 import RefreshControl from "../../../common/RefreshControl";
-import CommunityOverflowButton, { Community } from "./CommunityOverflowButton";
+import CommunityOverflowButton from "./CommunityOverflowButton";
 import CompactFeedItem from "./CompactFeedItem/CompactFeedItem";
 import FeedFooter from "./FeedFooter";
 import FeedItem from "./FeedItem/FeedItem";
@@ -32,22 +27,35 @@ import { FeedOverflowButton } from "./FeedOverflowButton";
 import FeedSortButton from "./FeedSortButton";
 import IconButtonWithText from "../../../common/IconButtonWithText";
 import SFIcon from "../../../common/icons/SFIcon";
+import {
+  useFeedCommunityName,
+  useFeedListingType,
+  useFeedPosts,
+  useFeedSort,
+  useFeedStatus,
+} from "../../../../stores/feeds/feedsStore";
+import { useCommunity } from "../../../../stores/communities/communitiesStore";
+import loadFeedPosts from "../../../../stores/feeds/actions/loadFeedPosts";
 
 interface FeedViewProps {
-  feed: UseFeed;
-  community?: boolean;
-  header?: () => JSX.Element | null;
+  header?: () => React.ReactNode;
 }
 
-function FeedView({ feed, community = false, header }: FeedViewProps) {
-  // State Props
-  // TODO Handle this
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [showFab, setShowFab] = useState(true);
+function FeedView({ header }: FeedViewProps) {
+  const { key } = useRoute();
 
   // Global state props
   const { dropdownVisible } = useAppSelector(selectFeed);
-  const { compactView, hideReadPostsOnFeed } = useAppSelector(selectSettings);
+  const { compactView } = useAppSelector(selectSettings);
+
+  const posts = useFeedPosts(key);
+  const status = useFeedStatus(key);
+
+  const communityName = useFeedCommunityName(key);
+  const community = communityName ? useCommunity(communityName) : undefined;
+
+  const sortType = useFeedSort(key);
+  const listingType = useFeedListingType(key);
 
   // Refs
   const flashList = useRef<FlashList<any>>();
@@ -59,45 +67,13 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
 
   useScrollToTop(flashList);
 
-  useEffect(
-    () => () => {
-      recycled.current = null;
-    },
-    []
-  );
-
-  const firstPost = (feed.posts?.length ?? 0) > 0 ? feed.posts[0] : undefined;
-
-  const postCommunity: Community = useMemo(() => {
-    if (!firstPost || !community) return undefined;
-
-    return {
-      id: firstPost.community.id,
-      name: firstPost.community.name,
-      fullName: getCommunityFullName(feed.community),
-    };
-  }, [firstPost, community]);
-
   useEffect(() => {
     navigation.setOptions({
       // eslint-disable-next-line react/no-unstable-nested-components
-      // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
         <HStack space={3}>
-          <FeedSortButton
-            feed={feed}
-            onSortUpdate={() =>
-              flashList?.current?.scrollToOffset({
-                animated: true,
-                offset: 0,
-              })
-            }
-          />
-          {postCommunity ? (
-            <CommunityOverflowButton community={postCommunity} />
-          ) : (
-            <FeedOverflowButton />
-          )}
+          <FeedSortButton />
+          {community ? <CommunityOverflowButton /> : <FeedOverflowButton />}
         </HStack>
       ),
     });
@@ -105,126 +81,93 @@ function FeedView({ feed, community = false, header }: FeedViewProps) {
     if (!community) {
       navigation.setOptions({
         // eslint-disable-next-line react/no-unstable-nested-components
-        headerTitle: () => (
-          <FeedListingTypeButton
-            feed={feed}
-            onPress={() =>
-              flashList?.current?.scrollToOffset({
-                animated: true,
-                offset: 0,
-              })
-            }
-          />
-        ),
+        headerTitle: () => <FeedListingTypeButton />,
         // eslint-disable-next-line react/no-unstable-nested-components
         headerLeft: () => (
           <IconButtonWithText
-            icon={<SFIcon icon="list.dash" style={{ marginLeft: 20 }} />}
+            icon={<SFIcon icon="list.dash" style={{ marginLeft: 5 }} />}
             onPressHandler={navigation.openDrawer}
           />
         ),
       });
     }
-  }, [feed.posts, feed.community, postCommunity, dropdownVisible]);
+  }, [posts, community, dropdownVisible, sortType, compactView]);
+
+  useEffect(() => {
+    flashList?.current?.scrollToOffset({
+      animated: true,
+      offset: 0,
+    });
+  }, [sortType, listingType]);
 
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<PostView>) => {
-      if (feed.community && feed.community.counts.posts < 1) {
+      if (!status?.loading && posts?.length < 1) {
         return <NoResultView type="posts" />;
       }
 
       if (compactView) {
-        return <CompactFeedItem post={item} setPosts={feed.setPosts} />;
+        return <CompactFeedItem postId={item.post.id} />;
       }
 
-      return (
-        <FeedItem post={item} setPosts={feed.setPosts} recycled={recycled} />
-      );
+      return <FeedItem postId={item.post.id} recycled={recycled} />;
     },
-    [feed.community, compactView]
+    [compactView]
   );
 
-  const onEndReached = React.useCallback(
-    () => feed.posts && feed.doLoad(),
-    [feed]
-  );
+  const onEndReached = () => loadFeedPosts(key, { refresh: false });
 
-  const getItemType = React.useCallback(
-    (item: PostView): string | undefined => {
-      const linkType = getLinkInfo(item.post.url);
+  const onRefresh = () => loadFeedPosts(key, { refresh: true });
 
-      if (
-        linkType.extType === ExtensionType.GENERIC &&
-        item.post.thumbnail_url
-      ) {
-        return "thumbnail_link";
-      }
-      if (linkType.extType === ExtensionType.IMAGE) {
-        return "image";
-      }
-      return undefined;
-    },
-    []
-  );
+  const getItemType = (item: PostView): string | undefined => {
+    const linkType = getLinkInfo(item.post.url);
 
-  const refreshControl = (
-    <RefreshControl
-      refreshing={feed.postsLoading}
-      onRefresh={() => feed.doLoad(true)}
-    />
+    if (linkType.extType === ExtensionType.GENERIC && item.post.thumbnail_url) {
+      return "thumbnail_link";
+    }
+    if (linkType.extType === ExtensionType.IMAGE) {
+      return "image";
+    }
+    return undefined;
+  };
+
+  const refreshControl = useMemo(
+    () => <RefreshControl refreshing={status?.loading} onRefresh={onRefresh} />,
+    [status?.loading]
   );
 
   return (
     <View style={styles.container} backgroundColor={theme.colors.app.bg}>
-      {(feed.postsLoading && !feed.posts && <LoadingView />) ||
-        (feed.postsError && !feed.posts && (
-          <LoadingErrorView onRetryPress={() => feed.doLoad(true)} />
-        )) ||
-        (feed.community && feed.community.counts.posts < 1 && (
-          <>
-            {header()}
-            <NoResultView type="posts" />
-          </>
+      {(status?.loading && posts?.length < 1 && <LoadingView />) || // TODO LENGTH
+        (status?.error && posts?.length < 1 && (
+          <LoadingErrorView onRetryPress={onRefresh} />
         )) || (
           <FlashList
             ListHeaderComponent={header}
-            data={feed.posts}
+            data={posts ?? []}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             extraData={{
-              refreshList: feed.refreshList,
+              refreshList: status?.refresh,
               compactView,
             }}
             refreshControl={refreshControl}
             onEndReachedThreshold={0.5}
             onEndReached={onEndReached}
             estimatedItemSize={compactView ? 100 : 500}
-            ListFooterComponent={
-              <FeedFooter
-                loading={feed.postsLoading && feed.posts.length > 0}
-                error={feed.postsError}
-                empty={(feed.posts ?? []).length === 0}
-                onRetry={feed.doLoad}
-              />
-            }
+            ListFooterComponent={<FeedFooter />}
             ListEmptyComponent={<NoResultView type="posts" />}
             ref={flashList}
             getItemType={getItemType}
-            onMomentumScrollBegin={() => {
-              setShowFab(false);
-            }}
-            onMomentumScrollEnd={() => {
-              setShowFab(true);
-            }}
           />
         )}
-      {hideReadPostsOnFeed && showFab && (
-        <HideReadFAB
-          onPress={() => {
-            feed.setPosts(removeReadPosts(feed.posts));
-          }}
-        />
-      )}
+      {/* {hideReadPostsOnFeed && showHideReadButton && showFab && ( */}
+      {/*  <HideReadFAB */}
+      {/*    onPress={() => { */}
+      {/*      feed.setPosts(removeReadPosts(feed.posts)); */}
+      {/*    }} */}
+      {/*  /> */}
+      {/* )} */}
     </View>
   );
 }

@@ -1,10 +1,10 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { Text, useTheme, View, VStack } from "native-base";
+import { Box, HStack, Text, useTheme, View, VStack } from "native-base";
 
 import React from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
-import { AccountsContextMenu } from "../ContextMenu/AccountsContextMenu";
+import { TouchableOpacity } from "react-native";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
+import { AccountsContextMenu } from "../ContextMenu/AccountsContextMenu";
 import TabBarGestureHandler from "./TabBarGestureHandler";
 
 function IconWithText({
@@ -18,36 +18,21 @@ function IconWithText({
   color: string;
   badge?: string;
 }) {
+  const theme = useTheme();
   return (
     <VStack style={{ alignItems: "center" }} space={1}>
-      {icon}
+      <HStack>
+        {icon}
+        {badge && (
+          <Box h="2" w="2" bg={theme.colors.app.error} rounded="md" ml={-1.5} />
+        )}
+      </HStack>
       <Text color={color} fontSize={12}>
         {label}
       </Text>
-
-      {badge && (
-        <View style={iconStyles.badge}>
-          <Text style={iconStyles.badgeText}>{badge}</Text>
-        </View>
-      )}
     </VStack>
   );
 }
-
-const iconStyles = StyleSheet.create({
-  badge: {
-    position: "absolute",
-    top: -3,
-    right: 8,
-    backgroundColor: "red",
-    borderRadius: 100,
-  },
-
-  badgeText: {
-    fontSize: 12,
-    paddingHorizontal: 4,
-  },
-});
 
 export function CustomTabBar({
   state,
@@ -112,7 +97,10 @@ export function CustomTabBar({
 
           if (route.name === "ProfileStack") {
             return (
-              <AccountsContextMenu navigation={navigation}>
+              <AccountsContextMenu
+                navigation={navigation}
+                key={label as string}
+              >
                 <TouchableOpacity
                   accessibilityRole="button"
                   accessibilityState={isFocused ? { selected: true } : {}}
@@ -140,6 +128,7 @@ export function CustomTabBar({
               onPress={onPress}
               onLongPress={onLongPress}
               style={{ flex: 1 }}
+              key={label as string}
             >
               <IconWithText
                 icon={icon}

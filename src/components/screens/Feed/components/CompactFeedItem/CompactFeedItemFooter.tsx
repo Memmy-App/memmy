@@ -1,14 +1,14 @@
 import { PostView } from "lemmy-js-client";
 import { Box, HStack, Text, useTheme } from "native-base";
 import React from "react";
-import { IconMessage } from "tabler-icons-react-native";
 import { timeFromNowShort } from "../../../../../helpers/TimeHelper";
 import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
-import CommunityLink from "../../../../common/CommunityLink";
 import AvatarUsername from "../../../../common/AvatarUsername";
+import CommentCount from "../../../../common/Comments/CommentCount";
+import CommunityLink from "../../../../common/CommunityLink";
 import FeaturedIndicator from "../../../../common/FeaturedIndicator";
-import { IconBookCheck } from "../../../../common/icons/IconBookCheck";
 import SmallVoteIcons from "../../../../common/Vote/SmallVoteIcons";
+import { IconBookCheck } from "../../../../common/icons/IconBookCheck";
 
 interface CompactFeedItemFooterProps {
   post: PostView;
@@ -47,8 +47,7 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
           myVote={post.my_vote as ILemmyVote}
         />
         <HStack alignItems="center" space={1}>
-          <IconMessage color={colors.app.textSecondary} size={16} />
-          <Text color={colors.app.textSecondary}>{post.counts.comments}</Text>
+          <CommentCount commentCount={post.counts.comments} />
         </HStack>
         <CommunityLink community={post.community} />
       </HStack>
