@@ -34,7 +34,7 @@
     "@react-native-community/hooks": "^3.0.0",
     "@react-native-community/slider": "^4.4.2",
     "@react-native/eslint-config": "^0.73.0",
-    "@react-native/metro-config": "^0.72.9",
+    "@react-native/eslint-config": "^0.72.2",
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/drawer": "^6.6.3",
     "@react-navigation/native": "^6.1.6",
@@ -125,8 +125,8 @@
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
-    "@typescript-eslint/parser": "^5.60.1",
     "eslint": "^7.32.0 || ^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.8.0",
