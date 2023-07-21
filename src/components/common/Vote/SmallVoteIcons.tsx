@@ -1,7 +1,8 @@
-import React from "react";
 import { HStack, Text, useTheme } from "native-base";
-import { IconArrowDown, IconArrowUp } from "tabler-icons-react-native";
+import React from "react";
+import { ICON_MAP } from "../../../constants/IconMap";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
+import SFIcon from "../icons/SFIcon";
 
 function SmallVoteIcons({
   upvotes,
@@ -24,11 +25,21 @@ function SmallVoteIcons({
   return (
     <HStack space={1}>
       <HStack alignItems="center">
-        <IconArrowUp color={upvoteColor} size={18} />
+        <SFIcon
+          icon={ICON_MAP.UPVOTE}
+          color={upvoteColor}
+          size={10}
+          boxSize={18}
+        />
         <Text color={upvoteColor}>{upvotes}</Text>
       </HStack>
       <HStack alignItems="center">
-        <IconArrowDown color={downvoteColor} size={18} />
+        <SFIcon
+          icon={ICON_MAP.DOWNVOTE}
+          color={downvoteColor}
+          size={10}
+          boxSize={18}
+        />
         <Text color={downvoteColor}>{downvotes}</Text>
       </HStack>
     </HStack>

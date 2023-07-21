@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import { HStack, Pressable, Text, useTheme } from "native-base";
-import { TablerIcon } from "tabler-icons-react-native";
+import SFIcon from "../icons/SFIcon";
 
 function CustomButton({
   onPress,
   text,
   icon,
-  iconFill = false,
   selectable = false,
   size = "md",
   badge,
 }: {
   onPress: () => void;
   text: string;
-  icon?: TablerIcon;
-  iconFill?: boolean;
+  icon: string;
   selectable?: boolean;
   size?: "md" | "sm";
   badge?: string;
@@ -38,8 +36,6 @@ function CustomButton({
     onPress();
   };
 
-  const IconComponent = icon;
-
   return (
     <Pressable
       onPressIn={onPressIn}
@@ -55,13 +51,7 @@ function CustomButton({
       flexGrow={1}
     >
       <HStack space={1.5} alignItems="center" justifyContent="center">
-        {icon && (
-          <IconComponent
-            size={size === "md" ? 24 : 20}
-            color={theme.colors.app.accent}
-            fill={iconFill ? theme.colors.app.accent : undefined}
-          />
-        )}
+        {icon && <SFIcon icon={icon} size={size === "md" ? 16 : 14} />}
         <Text fontSize={size} color={theme.colors.app.textPrimary}>
           {text}
         </Text>

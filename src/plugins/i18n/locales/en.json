@@ -109,9 +109,10 @@
       },
       "markRead": {
         "header": "MARK READ SETTINGS",
-        "onPostOpen": "Mark Read on Post open",
+        "onPostOpen": "Mark Read on Post Open",
         "onImageView": "Mark Read on Image View",
-        "onVote": "Mark Read on Vote"
+        "onVote": "Mark Read on Vote",
+        "footer": "Hide Read Posts on Feed will automatically hide read posts anytime the feed is refreshed. If Hide Read Posts on Feed is enabled, Show Hide Read Button will show a floating action button to hide read posts without a feed refresh."
       }
     },
     "appearance": {
@@ -127,7 +128,7 @@
         }
       },
       "appIcon": "App Icon",
-      "totalScore": "Display Total Scope",
+      "totalScore": "Display Total Score",
       "imgIgnoreScreenHeight": "Images Ignore Screen Height",
       "showUserInstance": "Show Instance For Username",
       "compactView": "Compact View",
@@ -162,7 +163,9 @@
     }
   },
   "traverse": {
-    "noSubscriptions": "You don't have any subscriptions."
+    "noSubscriptions": "You don't have any subscriptions.",
+    "noSubscriptionsFiltered": "You don't have any subscriptions matching the search.",
+    "noFavoritesFiltered": "You don't have any favorites matching the search."
   },
   "post": {
     "header": "Post Info",
@@ -287,6 +290,7 @@
   "Add Account": "Add Account",
   "Create Account": "Create Account",
   "Mark Post Read On": "Mark Post Read...",
+  "Hide Read Posts": "Hide Read Posts",
   "View": "View",
   "Content": "Content",
   "Appearance": "Appearance",
@@ -317,6 +321,8 @@
   "Default Sort": "Default Sort",
   "Default Comment Sort": "Default Comment Sort",
   "Hide Read Posts on Feed": "Hide Read Posts on Feed",
+  "Hide Read Posts in Communities": "Hide Read Posts in Communities",
+  "Show Hide Read Button": "Show Hide Read Button",
   "Show Comment Actions": "Show Comment Actions",
   "NSFW": "NSFW",
   "NSFW Content": "NSFW Content",
