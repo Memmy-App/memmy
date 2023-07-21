@@ -10,6 +10,7 @@ import { useCommunity } from "../../stores/communities/communitiesStore";
 
 interface UseCommunityFeed {
   onSubscribePress: () => void;
+  onPostPress: () => void;
 }
 
 const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
@@ -65,6 +66,15 @@ const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
   //         : 0,
   //   });
   // };
+
+  const onPostPress = () => {
+    creatingPost.current = true;
+    lastPost.current = post ? post.post.id : 0;
+
+    navigation.push("NewPost", {
+      communityFullName,
+    });
+  };
 
   return {
     onSubscribePress,

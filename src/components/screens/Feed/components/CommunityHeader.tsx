@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { HStack, Text, useTheme, VStack } from "native-base";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { useTranslation } from "react-i18next";
@@ -14,6 +14,9 @@ import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import CustomButton from "../../../common/Buttons/CustomButton";
 import { SFIcon } from "../../../common/icons/SFIcon";
 import setCommunitySubscribed from "../../../../stores/communities/actions/setCommunitySubscribed";
+import { useAppSelector } from "../../../../../store";
+import { selectPost } from "../../../../slices/post/postSlice";
+import { addPost } from "../../../../stores/posts/actions";
 
 interface IProps {
   communityFullName: string;
@@ -28,12 +31,42 @@ function CommunityHeader({ communityFullName }: IProps) {
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
+  const { post } = useAppSelector(selectPost);
+
+  const creatingPost = useRef<boolean>(false);
+  const lastPost = useRef<number>(0);
+
+  useEffect(() => {
+    if (creatingPost.current && post && lastPost.current !== post.post.id) {
+      creatingPost.current = false;
+
+      const key = Date.now().toString() + post.post.id.toString();
+
+      addPost(key, post);
+
+      setTimeout(() => {
+        navigation.push("Post", {
+          postKey: key,
+        });
+      }, 500);
+    }
+  }, [post]);
+
   const onSubscribePress = () => {
     setCommunitySubscribed(communityFullName).then();
   };
 
   const onAboutPress = () => {
     navigation.push("CommunityAbout", {
+      communityFullName,
+    });
+  };
+
+  const onPostPress = () => {
+    creatingPost.current = true;
+    lastPost.current = post ? post.post.id : 0;
+
+    navigation.push("NewPost", {
       communityFullName,
     });
   };
@@ -113,7 +146,7 @@ function CommunityHeader({ communityFullName }: IProps) {
             icon="info.circle"
             text={t("About")}
           />
-          <CustomButton onPress={() => {}} icon="plus" text={t("Post")} />
+          <CustomButton onPress={onPostPress} icon="plus" text={t("Post")} />
         </HStack>
       </VStack>
     </VStack>
