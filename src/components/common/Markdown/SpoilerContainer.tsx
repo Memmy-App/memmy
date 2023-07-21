@@ -1,6 +1,6 @@
+import { Box, HStack, Pressable, Text, useTheme } from "native-base";
 import React from "react";
-import { HStack, useTheme, Text, Pressable, Box } from "native-base";
-import { IconChevronDown, IconChevronRight } from "tabler-icons-react-native";
+import SFIcon from "../icons/SFIcon";
 
 function SpoilerContainer({ title, node }: { title: string; node: any }) {
   const { colors } = useTheme();
@@ -17,9 +17,13 @@ function SpoilerContainer({ title, node }: { title: string; node: any }) {
     <Pressable onPress={onPress} hitSlop={5}>
       <HStack alignItems="center">
         {showSpoiler ? (
-          <IconChevronDown color={colors.app.textPrimary} size={16} />
+          <SFIcon color={colors.app.textPrimary} icon="chevron.down" size={8} />
         ) : (
-          <IconChevronRight color={colors.app.textPrimary} size={16} />
+          <SFIcon
+            color={colors.app.textPrimary}
+            icon="chevron.right"
+            size={8}
+          />
         )}
 
         <Text color={colors.app.textPrimary} bold>

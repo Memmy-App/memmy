@@ -15,16 +15,11 @@ function NewPostScreen({
   route,
   navigation,
 }: {
-  route: any;
   navigation: NativeStackNavigationProp<any>;
+  route: any;
 }) {
   // Hooks
-  const newPost = useNewPost(
-    Number(route.params.communityId),
-    route.params.communityLanguageId
-      ? Number(route.params.communityLanguageId)
-      : 0
-  );
+  const newPost = useNewPost();
 
   useEffect(() => {
     newPost.onFormChange("body", route.params.body);

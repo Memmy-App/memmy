@@ -10,7 +10,7 @@ interface Props {
   vote?: number;
 }
 
-export function metrics({ data, vote }: Props) {
+function metrics({ data, vote }: Props) {
   return (
     <HStack flex={1} space={2}>
       <VoteData data={data} vote={vote} />

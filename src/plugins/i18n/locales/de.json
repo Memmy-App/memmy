@@ -104,7 +104,8 @@
         "header": "Gelesen Markieren Einstellungen",
         "onPostOpen": "Beim öffnen vom Post",
         "onImageView": "Beim ansehen vom Bild",
-        "onVote": "Beim Abstimmen"
+        "onVote": "Beim Abstimmen",
+        "footer": "Hide Read Posts on Feed will automatically hide read posts anytime the feed is refreshed. If Hide Read Posts on Feed is enabled, Show Hide Read Button will show a floating action button to hide read posts without a feed refresh."
       }
     },
     "appearance": {
@@ -251,7 +252,7 @@
   "Traverse": "Abonniert",
   "Profile": "Profil",
   "Search": "Suchen",
-  "Inbox": "Posteingang",
+  "Inbox": "Eingang",
   "Posts": "Posts",
   "Saved Posts": "Gespeicherte Posts",
   "New Comment": "Neuer Kommentar",
@@ -266,7 +267,7 @@
   "Communities": "Communities",
   "Blocked Communities": "Blockierte Communities",
   "Create Communities": "Communities erstellen",
-  "Settings": "Einstellungen",
+  "Settings": "Optionen",
   "Accounts": "Accounts",
   "Manage Accounts": "Accounts Verwalten",
   "Edit Account": "Account bearbeiten",
@@ -274,6 +275,8 @@
   "Add Account": "Account hinzufügen",
   "Create Account": "Account erstellen",
   "Mark Post Read On": "Post als gelesen markieren...",
+  "Hide Read Posts": "Hide Read Posts",
+  "Show Hide Read Button": "Show Hide Read Button",
   "View": "Anzeigen",
   "Content": "Inhalt",
   "Appearance": "Darstellung",
@@ -305,6 +308,7 @@
   "Default Comment Sort": "Standard Kommentar Sortierung",
   "Default Listing Type": "Standard Listen Typ",
   "Hide Read Posts on Feed": "Gelesene Posts im Feed ausblenden",
+  "Hide Read Posts in Communities": "Hide Read Posts in Communities",
   "Show Comment Actions": "Kommentar anzeigen Aktionen",
   "NSFW": "NSFW",
   "NSFW Content": "NSFW Inhalt",

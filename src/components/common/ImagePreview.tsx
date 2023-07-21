@@ -21,7 +21,7 @@ function ImagePreview({
   if (images.length === 1) {
     return (
       <ImageViewer
-        source={{ uri: images[0] }}
+        source={images[0]}
         nsfw={isNsfw}
         postId={postId}
         recycled={recycled}
@@ -34,7 +34,7 @@ function ImagePreview({
     return (
       <HStack space={1}>
         <ImageViewer
-          source={{ uri: images[0] }}
+          source={images[0]}
           nsfw={isNsfw}
           postId={postId}
           recycled={recycled}
@@ -43,7 +43,7 @@ function ImagePreview({
           setPostRead={setPostRead}
         />
         <ImageViewer
-          source={{ uri: images[1] }}
+          source={images[1]}
           nsfw={isNsfw}
           postId={postId}
           recycled={recycled}
