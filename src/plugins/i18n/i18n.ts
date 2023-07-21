@@ -2,6 +2,7 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import english from "./locales/en.json";
 import german from "./locales/de.json";
+import romanian from "./locales/ro.json";
 import languageDetector from "./languageDetector";
 
 i18n
@@ -14,6 +15,9 @@ i18n
       },
       de: {
         translation: german,
+      },
+      ro: {
+        translation: romanian,
       },
     },
     fallbackLng: "en",
