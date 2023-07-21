@@ -1,0 +1,376 @@
+{
+    "noResult": {
+      "comments": "Niciun comentariu. E timpul să pui mâna la treabă 🫡",
+      "posts": "Niciun post. Începe tu conversația!",
+      "profileComments": "Utilizatorul nu are niciun comentariu.",
+      "profilePosts": "Utilizatorul nu are niciun post.",
+      "profileSavedPosts": "Utilizatorul nu are posturi salvate.",
+      "search": "Căutarea nu a avut succes.",
+      "inbox": "Nu ai nimic în cutia poștală.",
+      "default": "Niciun rezultat găsit :("
+    },
+    "notFound": {
+      "community": "\uD83E\uDD28Nu am găsit conținutul sau comunitatea \uD83E\uDDD0"
+    },
+    "alert": {
+      "title": {
+        "error": "Eroare",
+        "permissionsError": "Eroare de permisiuni",
+        "unknownError": "Eroare necunoscută",
+        "success": "Succes",
+        "noDebugLog": "Nu există un fișier de debugging.",
+        "debugFileCleared": "Fișierul de debugging a fost curățat.",
+        "areYouSure": "Ești sigur?",
+        "info": "Info",
+        "serverAuthError": "Eroare la autentificarea cu serverul.",
+        "deleteAccount": "Șterge contul"
+      },
+      "message": {
+        "allowCameraRoll": "Permite Memmy să acceseze camera.",
+        "imgurUploadError": "Eroare la încărcarea imaginii pe Imgur",
+        "reportComment": "Te rog să descri motivul pentru care ai raportat acest comentariu.",
+        "allowPushNotifications": "Permite Memmy să trimită notificări.",
+        "failedToRetrieveToken": "Failed to retrieve token.",
+        "instanceAuthenticationFailed": "Autentificarea cu Instanța Lemmy a eșuat.",
+        "pushNotificationsEnabled": "Notificările au fost activate cu succes.",
+        "pushNotificationsDisabled": "Notificările au fost dezactivate cu succes.",
+        "errorFetchingInstanceList": "Eroare la cererea listei de instanțe. Încearcă din nou?",
+        "unknownError": "A apărut o problemă neprevăzută. Cod {{0}}",
+        "sessionExpired": "Sesiunea ta pe {{0}} a expirat. Te rog autentifică-te din nou.",
+        "cacheCleared": "Memoria cache a fost ștearsă.",
+        "accountLogoutConfirm": "Asigură-te că notificările sunt dezactivate înainte de a te deconecta de la un cont, altfel este posibil să primești notificări pentru acel cont în continuare.\n\nEști sigur că dorești să te deconectezi {{0}}?",
+        "pushNotificationsConfirm": "Pentru ca notificările să funcționeze, Memmy trebuie să trimită token-ul de autentificare către serverul nostru. În acest moment, aceasta este singura modalitate viabilă de a permite utilizatorilor să primească notificări push. Rețineți că serverele Memmy NU au acces la parola ta, ci doar la tokenul de autentificare. Token-urile de autentificare pot fi revocate prin schimbarea parolei.\n\nCodul sursă complet pentru serverul de notificări push Memmy este disponibil la https:\/\/github.com\/gkasdorf\/memmy-push.\n\nDorești să continui?",
+        "deleteAccountConfirm": "Pentru a elimina toate datele de pe serverele Memmy, dezactivează pur și simplu notificările. Dacă nu ai activate notificările, nu avem niciuna dintre datele ta.\n\nPentru a îți șterge contul Lemmy, trebuie mai întâi să vizitezi {{0}} și să te conectezi. Apoi, mergi la Profil unde îți poți șterge contul apăsând \"Șterge contul\".",
+        "registrationError": "A apărut o eroare în timpul înregistrării.",
+        "useUsername": "Folosește numele de utilizator când te autentifici pe (instanță/@)."
+      }
+    },
+    "toast": {
+      "reportSubmitSuccessful": "Raport transmis cu succes",
+      "commentDeleted": "Comentariul a fost șters",
+      "failedToSavePost": "Nu s-a reușit salvarea postului.",
+      "subscribedTo": "Abonat la {{0}} cu succes",
+      "unsubscribedFrom": "Dezabonat de la {{0}} cu succes",
+      "unknownError": "A apărut o eroare necunoscută.",
+      "userBlockedSuccess": "Utilizator blocat cu succes.",
+      "accentColorUpdated": "Culoarea accentului a fost schimbată",
+      "accentColorInvalidHexCode": "Culoarea accentului nu este o valoare hex",
+      "allFieldsRequired": "Toate câmpurile sunt obligatorii.",
+      "useUsername": "Folosește numele de utilizator când te autentifici pe (instanță/@).",
+      "passwordsMismatch": "Parolele nu se potrivesc.",
+      "blocked": "{{0}} a fost blocat",
+      "enterUrl": "Introdu linkul",
+      "enterLabel": "Introdu eticheta",
+      "linkError": "A apărut o eroare la deschiderea acestui link"
+    },
+    "relativeTime": {
+      "future": "în %s",
+      "past": "acum %s",
+      "s": "1s",
+      "ss": "%ss",
+      "m": "1 min",
+      "mm": "%d min",
+      "h": "1 oră",
+      "hh": "%d ore",
+      "d": "1 zi",
+      "dd": "%d zile",
+      "M": "1 lună",
+      "MM": "%d luni",
+      "y": "1 an",
+      "yy": "%d ani"
+    },
+    "profile": {
+      "my": "Profilul meu"
+    },
+    "comment": {
+      "edit": "Editează Comentariul",
+      "report": "Raportează Comentariul",
+      "delete": "Șterge Comentariul",
+      "replyingToPost": "Răspunde la post",
+      "replyingToComment": "Răspunde la comentariu",
+      "deletedByUser": "Comentariu șters de utilizator :(",
+      "removedByMod": "Comentariu șters de moderator :("
+    },
+    "settings": {
+      "haptics": {
+        "Off": "Oprit",
+        "Light": "Ușor",
+        "Medium": "Mediu",
+        "Heavy": "Puternic"
+      },
+      "content": {
+        "nsfw": {
+          "footer": "Aceste setări nu afectează setările NSFW ale contului tău Lemmy. Aceste setări se vor aplica doar aplicației locale (la nivel global pe toate conturile).",
+          "blur": "Blurează Continutul NSFW",
+          "hide": "Ascunde Continutul NSFW"
+        },
+        "web": {
+          "useReaderMode": "Utilizați modul pentru cititor digital"
+        },
+        "markRead": {
+          "header": "MARK READ SETTINGS",
+          "onPostOpen": "Marchează ca citit la deschiderea postului",
+          "onImageView": "Marchează ca citit la vizualizarea imaginii",
+          "onVote": "Marchează ca citit după vot",
+          "footer": "Funcția \"Ascunde postările citite în feed\" va ascunde automat postările citite de fiecare dată când feed-ul este actualizat. Dacă funcția este activată, mesajele citite vor afișa un buton de acțiune pentru a ascunde mesajele citite fără o reîmprospătare a feed-ului."
+        }
+      },
+      "appearance": {
+        "themes": {
+          "header": "TEME",
+          "matchSystem": "Folosește tema sistemului",
+          "systemLight": "Tema pentru tema luminoasă a sistemului",
+          "systemDark": "Tema pentru tema întunecată a sistemului",
+          "light": "Tema luminoase",
+          "dark": "Teme întunecate",
+          "hexCode": {
+            "placeholder": "Introdu un cod hex"
+          }
+        },
+        "appIcon": "Pictograma aplicației",
+        "totalScore": "Afișează scorul total",
+        "imgIgnoreScreenHeight": "Imaginile ignoră înălțimea ecranului",
+        "showUserInstance": "Arată instanța pentru numele de utilizator",
+        "compactView": "Mod compact",
+        "compact": {
+          "header": "Compact",
+          "thumbPos": "Poziție Thumbnails",
+          "showVotingButtons": "Arată butoanele de vot"
+        },
+        "font": {
+          "header": "FONT",
+          "useSystemFont": "Folosește fontul sistemului",
+          "useSystemFontSize": "Folosește mărimea fontului din sistem",
+          "textSize": "Mărimea Textului",
+          "postTitleFontWeight": "Greutatea Fontului - Titlu Post"
+        },
+        "gestures": {
+            "header": "GESTURI",
+            "tapToCollapse": "Apasă să ascunzi"
+        }
+      },
+      "accounts": {
+        "current": "Contul curent",
+        "server": {
+          "header": "Adresa serverului",
+          "footer": "Link pentru serverul la care vrei să te conectezi",
+          "placeholder": "Adresa serverului"
+        },
+        "credentials": {
+          "header": "Server Credentials",
+          "footer": "Credentials for the server you are connecting to"
+        }
+      }
+    },
+    "traverse": {
+      "noSubscriptions": "Nu ești abonat la nicio comunitate."
+    },
+    "post": {
+      "header": "Info post",
+      "title": "Titlu",
+      "link": "Link (opțional)",
+      "body": "Conținut (opțional)",
+      "bodyPlaceholder": "Scrie ceva!"
+    },
+    "onboarding": {
+      "hello": "Salut",
+      "welcomeTo": "Bine ai venit pe",
+      "getStartedBtn": "Începe",
+      "hasAccountBtn": "Am deja un cont",
+      "checkEmail": "Verifică-ți emailul",
+      "emailSent": "Un email a fost trimis către {{0}}. Te rog verifică-ți contul\napoi autentifică-te.",
+      "openEmailAppBtn": "Deschide aplicația de email",
+      "agreeToTermsOfUse": "Folosind Memmy, ești de acord cu <linkAction><linkText>Termenii și Condițiile</linkText></linkAction> aplicației",
+      "info": {
+        "1": {
+          "1": "Știi deja ce e Fediversul?"
+        },
+        "2": {
+          "1": "Nicio problemă! \uD83D\uDC4D",
+          "2": "Te ajutăm noi \uD83D\uDE03"
+        },
+        "3": {
+          "1": "Imaginează-ți Fediversul ca un serviciu poștal ✉️",
+          "2": "Atunci când utilizezi aplicații precum Instagram, Twitter sau Facebook, fiecare aplicație <emphasis>transmite mesajele intern între persoane.</emphasis>",
+          "3": "Toată lumea trimite mesaje prin ei, iar ei le transmit de la o persoană la alta. Acestea se numesc servicii <emphasis>centralizate.</emphasis>"
+        },
+        "4": {
+          "1": "Deci prin ce diferă acest Fedivers? \uD83E\uDD14",
+          "2": "Mesajele tale nu se mai duc la un distribuitor central, ci la <emphasis>hub-ul tău</emphasis>, un fel de <emphasis>oficiu poștal local</emphasis>.",
+          "3": "<emphasis>Hub-ul tău</emphasis> este responsabil cu distribuirea mesajelor tale către alte <emphasis>huburi</emphasis>. Acestea pot alege <emphasis>cui să trimită aceste mesaje.</emphasis> \uD83D\uDE9A"
+        },
+        "5": {
+          "1": "Și unde e acest <emphasis>hub al meu?</emphasis> \uD83E\uDD14",
+          "2": "Toată lumea poate deschide un <emphasis>hub</emphasis>, să spunem o comunitate de oameni în jurul unui hobby, iar tu <emphasis>poți alege</emphasis> cărui hub să te alături.",
+          "3": "Te ajutăm noi să îți găsești un hub și să începi să postezi. \uD83E\uDD17"
+        },
+        "6": {
+          "1": "Te simți puțin\ncopleșit?... \uD83D\uDE14",
+          "2": "Știm că deocamdată totul pare complex, dar îți promitem că <emphasis>e mai ușor decât pare.</emphasis>",
+          "3": "Dacă ai folost un serviciu de email înainte, <emphasis>deja ai folosit Fediversul.</emphasis>",
+          "4": "Fediversul funcționează practic precum <emphasis>un serviciu de email</emphasis> prin care utilizatorii transmit emailuri."
+        },
+        "7": {
+          "1": "Hai să începem!",
+          "2": "Prima dată îți vom configura o listă cu hub-uri din care poți alege.",
+          "3": "Există o multitudine de opțiuni disponibile, fiecare având multe comunități diferite.",
+          "4": "Poți reveni ulterior la lista de opțiuni pentru a alege un alt hub."
+        }
+      },
+      "hubDiscovery": {
+        "alreadyHaveServer": "Ești deja membru pe un server?"
+      }
+    },
+    "hubDiscovery": {
+      "createCommunities": {
+        "allowed": "Acest hub permite comunități create de utilizatori.",
+        "notAllowed": "Acest hub nu permite comunități create de utilizatori."
+      },
+      "federated": {
+        "allowed": "Acest hub poate interacționa cu alte hub-uri.",
+        "notAllowed": "Acest hub nu poate interacționa cu alte hub-uri."
+      },
+      "downvote": {
+        "title": "Downvotes permise",
+        "allowed": "Acest hub permite utilizatorilor să dea downvotes.",
+        "notAllowed": "Acest hub nu permite utilizatorilor să dea downvotes."
+      }
+    },
+    "feed": {
+      "footer": {
+        "loading": "Încărcăm mai multe posturi...",
+        "loadingError": "Nu am putut încărca mai multe posturi :("
+      }
+    },
+    "searchOptions": {
+      "header": "Selectează o opțiune",
+      "communities": "Caută comunități",
+      "users": "Caută Utilizatori",
+      "posts": "Caută Posturi"
+    },
+    "memmyError": {
+      "title": "Oops! Memmy a întâmpinat o eroare. Te rog să repornești aplicația...",
+      "description": "Nu ne plac problemele și probabil că nici ție. Dacă nu te superi, ai putea să ne trimiți un raport? ♥️",
+      "submitBtn": "Trimite raport"
+    },
+    "loadingError": {
+      "text": "Eroare la încărcarea conținutului :(",
+      "retryBtn": "Reîncearcă"
+    },
+    "imageView": {
+      "dialogDesc": "Se descarcă imaginea..."
+    },
+    "Feed": "Feed",
+    "Comments": "Comentarii",
+    "Traverse": "Traverse",
+    "Profile": "Profil",
+    "Search": "Caută",
+    "Inbox": "Inbox",
+    "Posts": "Posturi",
+    "Saved Posts": "Posturi salvate",
+    "New Comment": "Comentariu nou",
+    "New Post": "Post nou",
+    "About": "Info",
+    "View Comments": "Vezi Comentariile",
+    "View Posts": "Vezi Posturile",
+    "View Saved Posts": "Vezi posturile salvate",
+    "Unread": "Necitite",
+    "All": "Toate",
+    "Replies": "Răspunsuri",
+    "Communities": "Comunități",
+    "Blocked Communities": "Comunități blocate",
+    "Create Communities": "Comunități create",
+    "Settings": "Setări",
+    "Accounts": "Conturi",
+    "Manage Accounts": "Administrează Conturi",
+    "Edit Account": "Editează Cont",
+    "Delete Account": "Șterge Cont",
+    "Add Account": "Adaugă Cont",
+    "Create Account": "Creează Cont",
+    "Mark Post Read On": "Marchează ca citit...",
+    "View": "Vezi",
+    "Content": "Conținut",
+    "Appearance": "Aspect",
+    "Theme": "Tema",
+    "Icon": "Pictogramă",
+    "General": "General",
+    "Loading": "Încărcare",
+    "Welcome": "Bine ai venit",
+    "Hubs": "Hub-uri",
+    "Instance": "Instanță",
+    "Copy Text": "Copiază textul",
+    "Copy Link": "Copiază linkul",
+    "Reply": "Răspunde",
+    "Report Post": "Reportează Post",
+    "Cancel": "Înapoi",
+    "Submit": "Trimite",
+    "Retry": "Reîncearcă",
+    "Language": "Limbă",
+    "Select Language": "Alege Limba",
+    "Haptics": "Haptică",
+    "Strength": "Intensitate",
+    "Use Default Browser": "Utilizează browserul implicit",
+    "Browser": "Browser",
+    "No blocked communities": "Nicio comunitate blocată",
+    "Email Debug Log": "Email Debug Log",
+    "Clear Debug Log": "Clear Debug Log",
+    "Clear Cache": "Clear Cache",
+    "Default Sort": "Default Sort",
+    "Default Comment Sort": "Default Comment Sort",
+    "Hide Read Posts on Feed": "Hide Read Posts on Feed",
+    "Show Hide Read Button": "Show Hide Read Button",
+    "Show Comment Actions": "Show Comment Actions",
+    "NSFW": "NSFW",
+    "NSFW Content": "NSFW Content",
+    "Sensitive content ahead": "Sensitive content ahead",
+    "Accent Color": "Accent Color",
+    "Add": "Adaugă",
+    "Logout": "Logout",
+    "Continue": "Continuă",
+    "Server": "Server",
+    "Server Address": "Adresa Serverului",
+    "Username": "Nume",
+    "Password": "Parolă",
+    "Confirm Password": "Confirmă Parola",
+    "Push Notifications": "Notificări",
+    "Save": "Salvează",
+    "2FA Token": "2FA Token",
+    "Version": "Versiune",
+    "License": "Licență",
+    "Acknowledgements": "Mulțumiri",
+    "Privacy Policy": "Politică de confidențialitate",
+    "Terms of Use": "Termeni și condiții de utilizare",
+    "OK": "OK",
+    "Users": "Utilizatori",
+    "Comment": "Comentariu",
+    "Comment_plural": "Comentarii",
+    "Back": "Înapoi",
+    "Selected": "Selectate",
+    "Favorites": "Favorite",
+    "Subscriptions": "Abonamente",
+    "Email": "Email",
+    "Captcha Answer": "Răspuns Captcha",
+    "Link": "Link",
+    "Login": "Login",
+    "Yes": "Da",
+    "No": "Nu",
+    "Join": "Alătură-te",
+    "Hub Info": "Info Hub",
+    "Other Info": "Alte Informații",
+    "Legal Info": "Informații legale",
+    "Federate": "Federat",
+    "User": "Utilizator",
+    "User_plural": "Utilizatori",
+    "Defederated": "Defederat",
+    "Registration Closed": "Înregistrări închise",
+    "Application Required": "Cerere necesară",
+    "Open Registration": "Înregistrări deschise",
+    "Subscribed": "Abonat",
+    "Subscribe": "Abonează-te",
+    "Post": "Postează",
+    "Description": "Descriere",
+    "Label": "Etichetă",
+    "Trending": "Trending",
+    "Go Back": "Înapoi"
+  }
+  
