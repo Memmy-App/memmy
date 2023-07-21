@@ -36,7 +36,6 @@ function FeedsCommunityScreen({
   const doLoad = useCallback((refresh = false, reloadCommunity = false) => {
     loadFeedPosts(key, {
       refresh,
-      sort: "TopDay", // TODO DEFAULT
     }).then();
 
     if (reloadCommunity && !community) {
@@ -80,12 +79,7 @@ function FeedsCommunityScreen({
     [community]
   );
 
-  if (
-    !feedStatus ||
-    !communityStatus ||
-    feedStatus.loading ||
-    communityStatus.loading
-  ) {
+  if (!communityStatus || communityStatus.loading) {
     return <LoadingView />;
   }
 
@@ -93,7 +87,7 @@ function FeedsCommunityScreen({
     return <NotFoundView />;
   }
 
-  if (communityStatus.error || feedStatus.error) {
+  if (communityStatus.error) {
     return <LoadingErrorView onRetryPress={() => doLoad(true)} />;
   }
 

@@ -1,5 +1,5 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useRoute } from "@react-navigation/core";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import {
@@ -34,7 +34,7 @@ function FeedsIndexScreen({
 
   const dispatch = useAppDispatch();
 
-  const doLoad = useCallback(() => {
+  const doLoad = () => {
     if (!lemmyInstance) {
       init().then(() => doLoad);
       return;
@@ -42,10 +42,8 @@ function FeedsIndexScreen({
 
     loadFeedPosts(key, {
       refresh: true,
-      sort: "TopDay", // TODO DEFAULTS
-      type: "All",
     }).then();
-  }, []);
+  };
 
   useEffect(() => {
     if (initialized.current) return;
@@ -73,7 +71,7 @@ function FeedsIndexScreen({
     if (currentAccount === previousAccount.current) return;
 
     resetInstance();
-    init();
+    init().then();
   }, [currentAccount]);
 
   const init = async () => {

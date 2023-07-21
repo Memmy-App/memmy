@@ -57,8 +57,7 @@ function FeedView({ header }: FeedViewProps) {
 
   // Global state props
   const { dropdownVisible } = useAppSelector(selectFeed);
-  const { compactView, hideReadPostsOnFeed, showHideReadButton } =
-    useAppSelector(selectSettings);
+  const { compactView } = useAppSelector(selectSettings);
 
   const posts = useFeedPosts(key);
   const status = useFeedStatus(key);
@@ -127,18 +126,9 @@ function FeedView({ header }: FeedViewProps) {
     [compactView] // TODO is this the most efficient way to cause this re-render??
   );
 
-  const onEndReached = useCallback(
-    () =>
-      loadFeedPosts(key, {
-        refresh: false,
-      }),
-    []
-  );
+  const onEndReached = () => loadFeedPosts(key, { refresh: false });
 
-  const onRefresh = useCallback(
-    () => loadFeedPosts(key, { refresh: true }),
-    []
-  );
+  const onRefresh = () => loadFeedPosts(key, { refresh: true });
 
   const getItemType = useCallback((item: PostView): string | undefined => {
     const linkType = getLinkInfo(item.post.url);

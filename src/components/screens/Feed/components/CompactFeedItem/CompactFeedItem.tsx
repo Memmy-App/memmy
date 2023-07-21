@@ -62,7 +62,6 @@ function CompactFeedItem({ postId }: { postId: number }) {
     linkInfo.extType === ExtensionType.VIDEO ||
     linkInfo.extType === ExtensionType.GENERIC;
 
-  // TODO Memoize this properly
   return (
     <View flex={1} my={0.5}>
       <SwipeableRow leftOption={leftOption} rightOption={rightOption}>

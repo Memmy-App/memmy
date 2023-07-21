@@ -1,7 +1,10 @@
 import { PostView } from "lemmy-js-client";
 import { usePostsStore } from "../postsStore";
+import store from "../../../../store";
 
 const addPost = (postKey: string, post: PostView) => {
+  const { defaultCommentSort } = store.getState().settings;
+
   usePostsStore.setState((state) => {
     state.posts.set(postKey, {
       post,
@@ -14,7 +17,7 @@ const addPost = (postKey: string, post: PostView) => {
         commentsLoading: true,
         commentsError: false,
         comments: [],
-        commentsSort: "Top", // TODO Use default
+        commentsSort: defaultCommentSort,
       },
     });
   });

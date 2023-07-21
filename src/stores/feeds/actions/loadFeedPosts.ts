@@ -2,6 +2,7 @@ import { ListingType, SortType } from "lemmy-js-client";
 import { useFeedsStore } from "../feedsStore";
 import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
 import { preloadImages } from "../../../helpers/ImageHelper";
+import store from "../../../../store";
 
 interface ILoadFeedOptions {
   refresh: boolean;
@@ -14,14 +15,15 @@ interface ILoadFeedOptions {
 const defaultOptions: ILoadFeedOptions = {
   refresh: false,
   limit: 50,
-  sort: "Active",
-  type: "All",
 };
 
 const loadFeedPosts = async (
   feedKey: string,
   loadOptions: ILoadFeedOptions
 ) => {
+  const { hideNsfw, hideReadPostsOnFeed, hideReadPostsInCommunities } =
+    store.getState().settings;
+
   const options = {
     ...defaultOptions,
     ...loadOptions,
@@ -59,18 +61,29 @@ const loadFeedPosts = async (
       return;
     }
 
-    // TODO Deal with filtering nsfw and read posts
+    let { posts } = res;
 
-    preloadImages(res.posts).then();
+    if (hideNsfw) {
+      posts = posts.filter((c) => !c.post.nsfw && !c.community.nsfw);
+    }
+
+    if (
+      (hideReadPostsOnFeed && !currentState.communityName) ||
+      (hideReadPostsInCommunities && currentState.communityName)
+    ) {
+      posts = posts.filter((c) => !c.read);
+    }
+
+    preloadImages(posts).then();
 
     useFeedsStore.setState((state) => {
       const prev = state.feeds.get(feedKey);
 
       if (prev.posts.length === 0 || options.refresh) {
-        prev.posts = res.posts;
+        prev.posts = posts;
         prev.currentPage = 1;
       } else {
-        prev.posts = [...prev.posts, ...res.posts];
+        prev.posts = [...prev.posts, ...posts];
         prev.currentPage += 1;
       }
 

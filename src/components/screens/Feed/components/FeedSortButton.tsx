@@ -1,5 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import { useRoute } from "@react-navigation/core";
+import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
+import { SortType } from "lemmy-js-client";
 import { overallSortOptions } from "../../../../types/SortOptions";
 import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
 import { FeedSortContextMenu } from "../../../common/ContextMenu/FeedSortContextMenu";
@@ -14,14 +16,14 @@ function FeedSortButton() {
   const { key } = useRoute();
   const sort = useFeedSort(key);
 
-  const onPress = useCallback((e) => {
+  const onPress = useCallback((e: OnPressMenuItemEventObject) => {
     useFeedsStore.setState((state) => {
-      state.feeds.get(key).sortType = e.nativeEvent.actionKey;
+      state.feeds.get(key).sortType = e.nativeEvent.actionKey as SortType;
     });
 
     loadFeedPosts(key, {
       refresh: true,
-      sort: e.nativeEvent.actionKey,
+      sort: e.nativeEvent.actionKey as SortType,
     }).then();
   }, []);
 

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
 import LoadingFooter from "../../../common/Loading/LoadingFooter";
@@ -12,9 +12,9 @@ function FeedFooter() {
 
   const { t } = useTranslation();
 
-  const onLoad = useCallback(() => {
-    loadFeedPosts(key, { refresh: false });
-  }, []);
+  const onLoad = () => {
+    loadFeedPosts(key, { refresh: false }).then();
+  };
 
   if (status?.loading) {
     return <LoadingFooter message={t("feed.footer.loading")} />;

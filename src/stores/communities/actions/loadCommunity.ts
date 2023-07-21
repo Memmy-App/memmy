@@ -38,8 +38,6 @@ const loadCommunity = async (communityName: string) => {
       name: communityName,
     });
 
-    console.log(res);
-
     useCommunitiesStore.setState((state) => {
       const prev = state.communityStates.get(communityName);
 

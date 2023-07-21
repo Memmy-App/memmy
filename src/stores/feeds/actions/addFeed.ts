@@ -1,6 +1,9 @@
 import { useFeedsStore } from "../feedsStore";
+import store from "../../../../store";
 
 const addFeed = (feedKey: string, communityName?: string) => {
+  const { defaultSort, defaultListingType } = store.getState().settings;
+
   useFeedsStore.setState((state) => {
     state.feeds.set(feedKey, {
       posts: [],
@@ -14,8 +17,8 @@ const addFeed = (feedKey: string, communityName?: string) => {
 
       communityName,
 
-      sortType: "TopDay", // TODO Use Default
-      listingType: "All", // TODO Default
+      sortType: defaultSort,
+      listingType: defaultListingType,
 
       currentPage: 1,
     });
