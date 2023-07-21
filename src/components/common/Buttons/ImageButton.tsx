@@ -1,12 +1,5 @@
+import { ChevronRightIcon, HStack, Spacer, Text, useTheme } from "native-base";
 import React from "react";
-import {
-  ChevronRightIcon,
-  HStack,
-  Spacer,
-  Text,
-  useTheme,
-  VStack,
-} from "native-base";
 import { truncateImageLink } from "../../../helpers/TextHelper";
 
 interface ImageButtonProps {
@@ -37,7 +30,6 @@ function ImageButton({ src, marginY = 4, children }: ImageButtonProps) {
         <Spacer />
         <ChevronRightIcon />
       </HStack>
-      <VStack />
     </>
   );
 }

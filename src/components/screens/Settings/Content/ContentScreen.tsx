@@ -98,27 +98,12 @@ function ContentScreen({
             />
           </ListingTypeContextMenu>
           <CCell
-            title={t("Mark Post Read On")}
+            title={t("Hide Read Posts")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("ReadSettings")}
-          />
-          <CCell
-            cellStyle="RightDetail"
-            title={t("Hide Read Posts on Feed")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.hideReadPostsOnFeed}
-                onValueChange={(v) => {
-                  onChange("hideReadPostsOnFeed", v);
-                }}
-              />
-            }
           />
         </CSection>
 

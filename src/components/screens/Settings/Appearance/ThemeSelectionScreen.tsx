@@ -1,12 +1,11 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { Box, HStack, ScrollView, Text, View, useTheme } from "native-base";
 import React from "react";
-import { StyleSheet } from "react-native";
-import { IconCheck } from "tabler-icons-react-native";
 import { useTranslation } from "react-i18next";
+import { StyleSheet } from "react-native";
+import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
-import { useAppDispatch, useAppSelector } from "../../../../../store";
 import {
   DarkThemeOptionsArr,
   LightThemeOptionsArr,
@@ -14,6 +13,7 @@ import {
 } from "../../../../theme/themeOptions";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
+import SFIcon from "../../../common/icons/SFIcon";
 
 function ThemeColors({ accent, bg }: { accent: string; bg: string }) {
   return (
@@ -73,7 +73,7 @@ function ThemeSelectionScreen({ route }: IProps) {
                 }
                 cellAccessoryView={
                   currentTheme === themeName && (
-                    <IconCheck color={theme.colors.app.accent} />
+                    <SFIcon icon="checkmark" size={12} />
                   )
                 }
                 onPress={() => {
@@ -100,7 +100,7 @@ function ThemeSelectionScreen({ route }: IProps) {
                 }
                 cellAccessoryView={
                   currentTheme === themeName && (
-                    <IconCheck color={theme.colors.app.accent} />
+                    <SFIcon icon="checkmark" size={12} />
                   )
                 }
                 onPress={() => {

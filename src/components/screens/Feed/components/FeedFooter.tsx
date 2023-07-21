@@ -1,29 +1,29 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useRoute } from "@react-navigation/core";
 import LoadingFooter from "../../../common/Loading/LoadingFooter";
-import LoadingErrorView from "../../../common/Loading/LoadingErrorView";
 import LoadingErrorFooter from "../../../common/Loading/LoadingErrorFooter";
+import { useFeedStatus } from "../../../../stores/feeds/feedsStore";
+import loadFeedPosts from "../../../../stores/feeds/actions/loadFeedPosts";
 
-interface Props {
-  loading?: boolean;
-  error?: boolean;
-  empty?: boolean;
-  onRetry: (refresh?: boolean) => void;
-}
+function FeedFooter() {
+  const { key } = useRoute();
+  const status = useFeedStatus(key);
 
-function FeedFooter({ loading, error, empty, onRetry }: Props) {
   const { t } = useTranslation();
 
-  if (loading) {
+  const onLoad = () => {
+    loadFeedPosts(key, { refresh: false }).then();
+  };
+
+  if (status?.loading) {
     return <LoadingFooter message={t("feed.footer.loading")} />;
   }
 
-  if (error) {
-    return empty ? (
-      <LoadingErrorView onRetryPress={onRetry} />
-    ) : (
+  if (status?.error) {
+    return (
       <LoadingErrorFooter
-        onRetryPress={() => onRetry(true)}
+        onRetryPress={onLoad}
         message={t("feed.footer.loadingError")}
       />
     );

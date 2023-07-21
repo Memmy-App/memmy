@@ -1,3 +1,4 @@
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
@@ -6,18 +7,11 @@ import { useTranslation } from "react-i18next";
 import { Alert, StyleSheet } from "react-native";
 import { Divider } from "react-native-elements";
 import { ContextMenuButton } from "react-native-ios-context-menu";
-import FastImage from "@gkasdorf/react-native-fast-image";
-import {
-  IconAt,
-  IconBrush,
-  IconMessage,
-  IconSettings,
-  IconUser,
-  TablerIcon,
-} from "tabler-icons-react-native";
+import { ICON_MAP } from "../../../constants/IconMap";
 import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
 import CCell from "../../common/Table/CCell";
 import CSection from "../../common/Table/CSection";
+import SFIcon from "../../common/icons/SFIcon";
 
 function SettingOptionTitle({
   text,
@@ -25,11 +19,9 @@ function SettingOptionTitle({
   iconBgColor,
 }: {
   text: string;
-  icon: TablerIcon;
+  icon: string;
   iconBgColor: string;
 }) {
-  const IconComponent = icon;
-
   return (
     <HStack space={3} alignItems="center" marginBottom={-1.5}>
       <Box
@@ -42,7 +34,7 @@ function SettingOptionTitle({
           alignItems: "center",
         }}
       >
-        <IconComponent color="#fff" size={20} />
+        <SFIcon color="#fff" icon={icon} size={12} boxSize={20} />
       </Box>
       <Text>{text}</Text>
     </HStack>
@@ -76,7 +68,7 @@ function SettingsIndexScreen({
             title={
               <SettingOptionTitle
                 text={t("General")}
-                icon={IconSettings}
+                icon="gear"
                 iconBgColor="#FF8E00"
               />
             }
@@ -91,7 +83,7 @@ function SettingsIndexScreen({
             title={
               <SettingOptionTitle
                 text={t("Content")}
-                icon={IconMessage}
+                icon={ICON_MAP.REPLY}
                 iconBgColor="#F43A9F"
               />
             }
@@ -106,7 +98,7 @@ function SettingsIndexScreen({
             title={
               <SettingOptionTitle
                 text={t("Appearance")}
-                icon={IconBrush}
+                icon="paintbrush"
                 iconBgColor="#BB4BE5"
               />
             }
@@ -121,7 +113,7 @@ function SettingsIndexScreen({
             title={
               <SettingOptionTitle
                 text={t("Accounts")}
-                icon={IconUser}
+                icon={ICON_MAP.USER_AVATAR}
                 iconBgColor="#00CA48"
               />
             }
@@ -136,7 +128,7 @@ function SettingsIndexScreen({
             title={
               <SettingOptionTitle
                 text={t("About")}
-                icon={IconAt}
+                icon="at"
                 iconBgColor="#0368D4"
               />
             }

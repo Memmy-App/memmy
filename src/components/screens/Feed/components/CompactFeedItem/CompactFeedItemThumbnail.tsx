@@ -1,14 +1,14 @@
+import FastImage from "@gkasdorf/react-native-fast-image";
+import { PostView } from "lemmy-js-client";
+import { Box, useTheme, View } from "native-base";
 import React from "react";
 import { StyleSheet } from "react-native";
-import { Box, useTheme, View } from "native-base";
-import { PostView } from "lemmy-js-client";
-import FastImage from "@gkasdorf/react-native-fast-image";
-import { IconLink, IconMessages } from "tabler-icons-react-native";
-import { ExtensionType, LinkInfo } from "../../../../../helpers/LinkHelper";
 import { useAppSelector } from "../../../../../../store";
+import { ExtensionType, LinkInfo } from "../../../../../helpers/LinkHelper";
 import { selectSettings } from "../../../../../slices/settings/settingsSlice";
 
 import { lemmyAuthToken, lemmyInstance } from "../../../../../LemmyInstance";
+import SFIcon from "../../../../common/icons/SFIcon";
 import ImageViewer from "../../../../common/ImageViewer/ImageViewer";
 
 function CompactFeedItemThumbnail({
@@ -50,7 +50,7 @@ function CompactFeedItemThumbnail({
       {(linkInfo.extType === ExtensionType.IMAGE && (
         <>
           <ImageViewer
-            source={{ uri: post.post.url }}
+            source={post.post.url}
             heightOverride={75}
             widthOverride={75}
             style={{
@@ -63,7 +63,11 @@ function CompactFeedItemThumbnail({
         </>
       )) ||
         (linkInfo.extType === ExtensionType.NONE && (
-          <IconMessages size={40} color={theme.colors.app.textSecondary} />
+          <SFIcon
+            icon="bubble.left.and.bubble.right"
+            color={theme.colors.app.textSecondary}
+            size={20}
+          />
         )) || (
           <>
             {(post.post.thumbnail_url && (
@@ -88,10 +92,16 @@ function CompactFeedItemThumbnail({
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <IconLink size={16} color="#333" />
+                  <SFIcon icon="link" color="#333" size={8} />
                 </View>
               </>
-            )) || <IconLink size={40} color={theme.colors.app.textSecondary} />}
+            )) || (
+              <SFIcon
+                icon="link"
+                color={theme.colors.app.textSecondary}
+                size={20}
+              />
+            )}
           </>
         )}
     </Box>
