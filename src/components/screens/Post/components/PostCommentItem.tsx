@@ -39,6 +39,32 @@ function PostCommentItem({ commentId }: IProps) {
       );
       prevComment.collapsed = !prevComment.collapsed;
       prev.rerenderComments = !prev.rerenderComments;
+
+      const prevToHide = prev.commentsState.comments.filter(
+        (c) =>
+          c.comment.comment.path.includes(prevComment.comment.comment.path) &&
+          c.comment.comment.id !== commentId
+      );
+
+      if (!prevComment.collapsed) {
+        prevToHide.forEach((c) => {
+          const shouldUnhide =
+            prevToHide.findIndex(
+              (cc) =>
+                cc.collapsed &&
+                c.comment.comment.path.includes(cc.comment.comment.path) &&
+                c.comment.comment.id !== cc.comment.comment.id
+            ) === -1;
+
+          if (shouldUnhide) {
+            c.hidden = false;
+          }
+        });
+      } else {
+        prevToHide.forEach((c) => {
+          c.hidden = true;
+        });
+      }
     });
   }, [comment.comment.comment.id]);
 

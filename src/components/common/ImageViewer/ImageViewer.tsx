@@ -34,6 +34,7 @@ import { useAppSelector } from "../../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import ImageButton from "../Buttons/ImageButton";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
+import Toast from "../Toast";
 
 interface IProps {
   source: string;
@@ -618,6 +619,7 @@ function ImageViewer({
         </Pressable>
       )}
       <Modal visible={expanded} transparent>
+        <Toast />
         {/* eslint-disable-next-line react/style-prop-object */}
         <StatusBar style="dark" />
         <Animated.View style={[accessoriesStyle]}>

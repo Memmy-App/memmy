@@ -60,3 +60,21 @@ export const usePostComment = (postKey: string, commentId: number) =>
       .get(postKey)
       .commentsState.comments.find((c) => c.comment.comment.id === commentId)
   );
+
+export const usePostCommentCollapsed = (postKey: string, commentId: number) =>
+  usePostsStore(
+    (state) =>
+      state.posts
+        .get(postKey)
+        .commentsState.comments.find((c) => c.comment.comment.id === commentId)
+        .collapsed
+  );
+
+export const usePostCommentHidden = (postKey: string, commentId: number) =>
+  usePostsStore(
+    (state) =>
+      state.posts
+        .get(postKey)
+        .commentsState.comments.find((c) => c.comment.comment.id === commentId)
+        .hidden
+  );
