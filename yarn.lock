@@ -9121,7 +9121,7 @@ react-native-fit-image@^1.5.5:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-flipper@^0.203.0:
+react-native-flipper@0.203.0:
   version "0.203.0"
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.203.0.tgz#eada24f45654bb79a985778013fe63d3cb12a37b"
   integrity sha512-6YRqzgGxuvbL99I0DONXcWZjV6z3kUiXopBGSQxbFUa6JXo7kq4+dkPvHBatYbunzh0kg5zx51sUNJIWxhuLIw==
