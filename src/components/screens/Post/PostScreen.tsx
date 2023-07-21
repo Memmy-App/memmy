@@ -134,7 +134,7 @@ function PostScreen({ navigation }: IProps) {
     clearEditComment();
   }, [editedComment]);
 
-  // Get the comments that are visible. Only recalc whenever we trigger the render
+  // Get the comments that are visible. Only recal whenever we trigger the render
   const visibleComments = useMemo(
     () => comments.filter((c) => !c.hidden),
     [rerenderComments]
@@ -175,7 +175,7 @@ function PostScreen({ navigation }: IProps) {
           data={visibleComments}
           renderItem={commentItem}
           keyExtractor={keyExtractor}
-          estimatedItemSize={200}
+          estimatedItemSize={100}
           refreshControl={refreshControl}
           refreshing={commentsStatus.commentsLoading}
         />

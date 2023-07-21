@@ -3,14 +3,8 @@ import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
 import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
 
 const loadCommunity = async (communityName: string) => {
-  console.log("blah blah");
   useCommunitiesStore.setState((state) => {
-    console.log("checking...");
-
-    console.log(communityName);
-
     if (!state.communityStates.has(communityName)) {
-      console.log("nope");
       state.communityStates.set(communityName, {
         community: null,
         moderators: [],
@@ -24,8 +18,9 @@ const loadCommunity = async (communityName: string) => {
         },
       });
     } else {
-      console.log("yup");
       const prev = state.communityStates.get(communityName).status;
+
+      console.log(prev);
 
       prev.loading = true;
       prev.error = false;
@@ -39,17 +34,17 @@ const loadCommunity = async (communityName: string) => {
     });
 
     useCommunitiesStore.setState((state) => {
+      console.log("trying to get it...");
       const prev = state.communityStates.get(communityName);
+
+      console.log(prev.status);
 
       prev.community = res.community_view;
       prev.moderators = res.moderators;
       prev.languages = res.discussion_languages;
 
-      prev.status = {
-        ...prev.status,
-        loading: false,
-        refreshing: false,
-      };
+      prev.status.loading = false;
+      prev.status.refreshing = false;
     });
   } catch (e) {
     handleLemmyError(e.toString());

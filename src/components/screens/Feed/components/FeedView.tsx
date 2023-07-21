@@ -6,13 +6,7 @@ import {
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import { HStack, useTheme, View } from "native-base";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { StyleSheet } from "react-native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { useRoute } from "@react-navigation/core";
@@ -49,11 +43,6 @@ interface FeedViewProps {
 
 function FeedView({ header }: FeedViewProps) {
   const { key } = useRoute();
-
-  // State Props
-  // TODO Handle this
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [showFab, setShowFab] = useState(true);
 
   // Global state props
   const { dropdownVisible } = useAppSelector(selectFeed);
@@ -113,7 +102,7 @@ function FeedView({ header }: FeedViewProps) {
 
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<PostView>) => {
-      if (!status?.loading && posts?.length < 0) {
+      if (!status?.loading && posts?.length < 1) {
         return <NoResultView type="posts" />;
       }
 
@@ -123,14 +112,14 @@ function FeedView({ header }: FeedViewProps) {
 
       return <FeedItem postId={item.post.id} recycled={recycled} />;
     },
-    [compactView] // TODO is this the most efficient way to cause this re-render??
+    [compactView]
   );
 
   const onEndReached = () => loadFeedPosts(key, { refresh: false });
 
   const onRefresh = () => loadFeedPosts(key, { refresh: true });
 
-  const getItemType = useCallback((item: PostView): string | undefined => {
+  const getItemType = (item: PostView): string | undefined => {
     const linkType = getLinkInfo(item.post.url);
 
     if (linkType.extType === ExtensionType.GENERIC && item.post.thumbnail_url) {
@@ -140,7 +129,7 @@ function FeedView({ header }: FeedViewProps) {
       return "image";
     }
     return undefined;
-  }, []);
+  };
 
   const refreshControl = useMemo(
     () => <RefreshControl refreshing={status?.loading} onRefresh={onRefresh} />,
@@ -149,8 +138,8 @@ function FeedView({ header }: FeedViewProps) {
 
   return (
     <View style={styles.container} backgroundColor={theme.colors.app.bg}>
-      {(status?.loading && posts?.length === 0 && <LoadingView />) ||
-        (status?.error && posts?.length === 0 && (
+      {(status?.loading && posts?.length < 1 && <LoadingView />) || // TODO LENGTH
+        (status?.error && posts?.length < 1 && (
           <LoadingErrorView onRetryPress={onRefresh} />
         )) || (
           <FlashList

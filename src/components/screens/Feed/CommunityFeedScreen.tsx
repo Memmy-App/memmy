@@ -33,16 +33,6 @@ function FeedsCommunityScreen({
 
   const initialized = useRef(false);
 
-  const doLoad = useCallback((refresh = false, reloadCommunity = false) => {
-    loadFeedPosts(key, {
-      refresh,
-    }).then();
-
-    if (reloadCommunity && !community) {
-      loadCommunity(communityFullName).then();
-    }
-  }, []);
-
   useEffect(() => {
     if (initialized.current) return;
 
@@ -53,15 +43,6 @@ function FeedsCommunityScreen({
       initialized.current = true;
     }
   }, [feedStatus]);
-
-  const headerTitle = () => (
-    <VStack alignItems="center">
-      <Text fontSize={16} fontWeight="semibold">
-        {communityName.toString()}
-      </Text>
-      <Text fontSize={12}>@{getBaseUrl(actorId?.toString())}</Text>
-    </VStack>
-  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -74,12 +55,34 @@ function FeedsCommunityScreen({
     };
   }, []);
 
+  const headerTitle = () => (
+    <VStack alignItems="center">
+      <Text fontSize={16} fontWeight="semibold">
+        {communityName.toString()}
+      </Text>
+      <Text fontSize={12}>@{getBaseUrl(actorId?.toString())}</Text>
+    </VStack>
+  );
+
   const header = useCallback(
     () => <CommunityHeader communityFullName={communityFullName} />,
     [community]
   );
 
-  if (!communityStatus || communityStatus.loading) {
+  const doLoad = (refresh = false, reloadCommunity = false) => {
+    loadFeedPosts(key, {
+      refresh,
+    }).then();
+
+    if (
+      reloadCommunity &&
+      (!community || communityStatus.loading || communityStatus.error)
+    ) {
+      loadCommunity(communityFullName).then();
+    }
+  };
+
+  if (!communityStatus || communityStatus.loading || !feedStatus) {
     return <LoadingView />;
   }
 

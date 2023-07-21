@@ -79,7 +79,7 @@ const loadFeedPosts = async (
     useFeedsStore.setState((state) => {
       const prev = state.feeds.get(feedKey);
 
-      if (prev.posts.length === 0 || options.refresh) {
+      if (options.refresh || prev.posts.length === 0) {
         prev.posts = posts;
         prev.currentPage = 1;
       } else {

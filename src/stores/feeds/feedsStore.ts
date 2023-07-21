@@ -30,8 +30,6 @@ export const useFeedsStore = create(
   }))
 );
 
-export const useFeedState = (feedKey: string) =>
-  useFeedsStore((state) => state.feeds.get(feedKey));
 export const useFeedPosts = (feedKey: string) =>
   useFeedsStore((state) => state.feeds.get(feedKey)?.posts);
 export const useFeedPost = (feedKey: string, postId: number) =>
