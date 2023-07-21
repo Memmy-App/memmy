@@ -1,10 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { SetStateAction, useState } from "react";
-import { useAppDispatch } from "../../../store";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { setEditComment } from "../../slices/comments/editCommentSlice";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
+import { useUpdatesStore } from "../../stores/updates/updatesStore";
 
 interface UseEditComment {
   content: string;
@@ -24,7 +23,6 @@ const useEditComment = (
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const dispatch = useAppDispatch();
 
   const doSubmit = async () => {
     if (!content) {
@@ -41,12 +39,7 @@ const useEditComment = (
         language_id: languageId,
       });
 
-      dispatch(
-        setEditComment({
-          content,
-          commentId,
-        })
-      );
+      useUpdatesStore.getState().setEditedComment(commentId, content);
 
       navigation.pop();
     } catch (e) {

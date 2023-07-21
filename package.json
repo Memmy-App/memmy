@@ -19,7 +19,7 @@
     "buildAndSubmit": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive && eas submit -p ios --path build.ipa --non-interactive",
     "buildAndSubmitAll": "yarn run buildProd && yarn run buildProdAnd && eas submit -p ios --path build.iap && eas submit -p android build.aab",
     "generate-license": "license-report --only=prod,dev,peer --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author --output=html > assets/license.html",
-    "release": "appcenter codepush release-react --app gavink/Memmy -t 0.3",
+    "release": "appcenter codepush release-react --app gavink/Memmy -t 0.5.0",
     "release-staging": "appcenter codepush release-react --app gavink/Memmy -t 10.10.11",
     "promote": "appcenter codepush promote -d Production -s Staging --app gavink/memmy"
   },
@@ -28,6 +28,16 @@
     "@expo/vector-icons": "^13.0.0",
     "@gkasdorf/react-native-fast-image": "^8.6.4",
     "@gkasdorf/react-native-tableview-simple": "^4.4.2",
+    "@gluestack-style/animation-plugin": "latest",
+    "@gluestack-style/react": "latest",
+    "@gluestack-ui/button": "latest",
+    "@gluestack-ui/fab": "latest",
+    "@gluestack-ui/hstack": "latest",
+    "@gluestack-ui/icon": "latest",
+    "@gluestack-ui/pressable": "latest",
+    "@gluestack-ui/provider": "latest",
+    "@gluestack-ui/spinner": "latest",
+    "@gluestack-ui/vstack": "latest",
     "@pnthach95/react-native-root-view-background": "^1.3.0",
     "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-native-community/clipboard": "^1.5.1",
@@ -35,7 +45,8 @@
     "@react-native-community/slider": "^4.4.2",
     "@react-native/eslint-config": "^0.72.2",
     "@react-native/metro-config": "^0.72.9",
-    "@react-navigation/bottom-tabs": "^6.5.7",
+    "@react-navigation/bottom-tabs": "^6.5.8",
+    "@react-navigation/drawer": "^6.6.3",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@reduxjs/toolkit": "^1.9.5",
@@ -70,6 +81,7 @@
     "expo-web-browser": "~12.3.2",
     "flash-list": "^0.0.1-security",
     "i18next": "^23.2.10",
+    "immer": "^10.0.2",
     "lemmy-js-client": "^0.18.0-rc.2",
     "markdown-it-container": "^3.0.0",
     "metro-react-native-babel-preset": "0.76.7",
@@ -85,7 +97,7 @@
     "react-native-device-info": "^10.6.0",
     "react-native-dialog": "^9.3.0",
     "react-native-elements": "^3.4.3",
-    "react-native-flipper": "^0.203.0",
+    "react-native-flipper": "0.203.0",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "~2.12.0",
     "react-native-haptic-feedback": "^2.0.3",
@@ -100,20 +112,21 @@
     "react-native-screens": "^3.22.0",
     "react-native-sfsymbols": "^1.2.1",
     "react-native-share": "^9.2.0",
-    "react-native-svg": "13.9.0",
+    "react-native-svg": "13.4.0",
     "react-native-url-polyfill": "^1.3.0",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-web": "~0.19.5",
+    "react-native-web": "^0.19.6",
     "react-native-webview": "^13.2.2",
     "react-redux": "^8.0.7",
     "tabler-icons-react-native": "^2.17.1",
-    "typescript": "^5.1.3"
+    "typescript": "^5.1.3",
+    "zustand": "^4.3.9"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
+    "@types/react-native": "^0.72.2",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
-    "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^7.32.0 || ^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.8.0",
@@ -122,12 +135,14 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "prettier": "^2.8.8"
+    "prettier": "^2.8.8",
+    "react-native": "^0.72.3",
+    "react-native-web": "0.19.7"
   },
   "name": "memmy",
   "version": "1.0.0",
   "private": true,
-	"engines": {
-		"node": ">=16"
-	}
+  "engines": {
+    "node": ">=16"
+  }
 }

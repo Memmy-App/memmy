@@ -1,18 +1,20 @@
-import React, { SetStateAction, useEffect, useState } from "react";
-import { PostView, SearchType } from "lemmy-js-client";
+import { useEffect, useState } from "react";
+import { SearchType } from "lemmy-js-client";
+import { useRoute } from "@react-navigation/core";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
 import ILemmySearchResult from "../../types/lemmy/ILemmySearchResult";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
+import setFeedPosts from "../../stores/feeds/actions/setFeedPosts";
 
 interface UseSearch {
   loading: boolean;
   error: boolean;
   result: ILemmySearchResult;
-  posts: PostView[];
-  setPosts: React.Dispatch<SetStateAction<PostView[]>>;
 }
 
 const useSearchResult = (query: string, type: SearchType): UseSearch => {
+  const { key } = useRoute<any>();
+
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const [result, setResult] = useState<ILemmySearchResult>({
@@ -20,7 +22,6 @@ const useSearchResult = (query: string, type: SearchType): UseSearch => {
     users: [],
     communities: [],
   });
-  const [posts, setPosts] = useState<PostView[]>([]);
 
   useEffect(() => {
     runSearch().then();
@@ -42,7 +43,7 @@ const useSearchResult = (query: string, type: SearchType): UseSearch => {
       });
 
       if (type === "Posts") {
-        setPosts(res.posts);
+        setFeedPosts(key, res.posts);
       } else {
         setResult({
           users: res.users,
@@ -64,9 +65,6 @@ const useSearchResult = (query: string, type: SearchType): UseSearch => {
     error,
 
     result,
-
-    posts,
-    setPosts,
   };
 };
 

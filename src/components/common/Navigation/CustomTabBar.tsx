@@ -1,24 +1,32 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { Text, VStack, View, useTheme } from "native-base";
+import { Box, HStack, Text, useTheme, View, VStack } from "native-base";
 
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { AccountsContextMenu } from "../ContextMenu/AccountsContextMenu";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
+import { AccountsContextMenu } from "../ContextMenu/AccountsContextMenu";
 import TabBarGestureHandler from "./TabBarGestureHandler";
 
 function IconWithText({
   icon,
   label,
   color,
+  badge,
 }: {
   icon: any;
   label: string;
   color: string;
+  badge?: string;
 }) {
+  const theme = useTheme();
   return (
     <VStack style={{ alignItems: "center" }} space={1}>
-      {icon}
+      <HStack>
+        {icon}
+        {badge && (
+          <Box h="2" w="2" bg={theme.colors.app.error} rounded="md" ml={-1.5} />
+        )}
+      </HStack>
       <Text color={color} fontSize={12}>
         {label}
       </Text>
@@ -89,7 +97,10 @@ export function CustomTabBar({
 
           if (route.name === "ProfileStack") {
             return (
-              <AccountsContextMenu navigation={navigation}>
+              <AccountsContextMenu
+                navigation={navigation}
+                key={label as string}
+              >
                 <TouchableOpacity
                   accessibilityRole="button"
                   accessibilityState={isFocused ? { selected: true } : {}}
@@ -117,8 +128,14 @@ export function CustomTabBar({
               onPress={onPress}
               onLongPress={onLongPress}
               style={{ flex: 1 }}
+              key={label as string}
             >
-              <IconWithText icon={icon} label={label as string} color={color} />
+              <IconWithText
+                icon={icon}
+                label={label as string}
+                color={color}
+                badge={options.tabBarBadge?.toString()}
+              />
             </TouchableOpacity>
           );
         })}

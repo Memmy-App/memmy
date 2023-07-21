@@ -1,0 +1,375 @@
+{
+  "noResult": {
+    "comments": "Nenhum comentário ainda. Que tal fazer sua parte? 🫡",
+    "posts": "Nenhuma postagem encontrada. Que tal você começar? ",
+    "profileComments": "Usuário não possui comentários.",
+    "profilePosts": "Usuário não possui postagens.",
+    "profileSavedPosts": "Usuário não possui postagens salvas.",
+    "search": "O termo procurado não foi encontrado.",
+    "inbox": "Sua caixa de entrada está vázia.",
+    "default": "Nenhum resultado encontrado :("
+  },
+  "notFound": {
+    "community": "\uD83E\uDD28Este conteúdo ou comunidade não foi encontrado \uD83E\uDDD0"
+  },
+  "alert": {
+    "title": {
+      "error": "Erro",
+      "permissionsError": "Erro de Permissão",
+      "unknownError": "Erro Desconhecido",
+      "success": "Sucesso",
+      "noDebugLog": "Nenhum arquivo de depuração foi encontrado.",
+      "debugFileCleared": "Arquivo de depuração limpo.",
+      "areYouSure": "Você tem certeza?",
+      "info": "Informações",
+      "serverAuthError": "Erro ao autenticar com a instância.",
+      "deleteAccount": "Apagar Conta."
+    },
+    "message": {
+      "allowCameraRoll": "Por favor permita que Memmy acesse suas fotos.",
+      "imgurUploadError": "Erro no upload da Imagem ao Imgur.",
+      "reportComment": "Por favor informe o motivo por estar denunciando este comentário.",
+      "allowPushNotifications": "Por favor permita que Memmy o envie notificações.",
+      "failedToRetrieveToken": "Falha ao recuperar o token.",
+      "instanceAuthenticationFailed": "Falha ao autenticar com a instância Lemmy.",
+      "pushNotificationsEnabled": "Notificações ativadas com sucesso.",
+      "pushNotificationsDisabled": "Notificações desativadas com sucesso.",
+      "errorFetchingInstanceList": "Erro obtendo a lista de instâncias. Tentar novamente?",
+      "unknownError": "Um erro desconhecido occorreu: Código {{0}}",
+      "sessionExpired": "Sua sessão em {{0}} expirou. Por favor entre novamente nesta conta.",
+      "cacheCleared": "Limpeza de cache concluida.",
+      "accountLogoutConfirm": "Por favor verifique que as notificações foram desativadas da conta antes de sair, caso contrário ainda poderá receber notificações da conta.\n\nTem certeza que quer sair de {{0}}?",
+      "pushNotificationsConfirm": "Para fazer com que as notificações funcionem, Memmy precisa enviar o seu token de autenticação para nosso servidor. Por enquanto esta é a única forma de permitir que os usuários recebam notificações. Importante ressaltar que o servidor do Memmy NÃO tem acesso a sua senha, somente seu token. Tokens de autenticação podem ser revogados mudando sua senha.\n código fonte completo do servidor de notificações do Memmy pode ser encontrado em: https:\/\/github.com\/gkasdorf\/memmy-push.\n\nVocê deseja continuar?",
+      "deleteAccountConfirm": "Caso queira remover todos os dados da sua conta do servidor Memmy, basta desativar as notificações. Se não estiver com as notificações ativadas, nós não temos dados da sua conta.\n\nPara apagar sua conta Lemmy, você precisa primeiro visitar {{0}} e entrar. Após isso, navegar para a aba de perfil, e apertar o botão \"Apagar Conta\".",
+      "registrationError": "Ocorreu um erro ao criar a conta.",
+      "useUsername": "Por favor utilize seu usuário ao entrar em (no instance/@)."
+    }
+  },
+  "toast": {
+    "reportSubmitSuccessful": "Denúncia enviada com sucesso.",
+    "commentDeleted": "Comentário apagado.",
+    "failedToSavePost": "Falha ao salvar postagem.",
+    "subscribedTo": "Inscrito em {{0}}",
+    "unsubscribedFrom": "Assinatura de {{0}} cancelada",
+    "unknownError": "Um erro desconhecido ocorreu.",
+    "userBlockedSuccess": "Usuário bloqueado.",
+    "accentColorUpdated": "Cor de destaque atualizada",
+    "accentColorInvalidHexCode": "A cor escolhida não é um código HEX válido.",
+    "allFieldsRequired": "Todos os campos são obrigatórios.",
+    "useUsername": "Por favor utilize seu usuário ao entrar em (no instance/@).",
+    "passwordsMismatch": "As senhas não coincidem.",
+    "blocked": "{{0}} bloqueado",
+    "enterUrl": "Digite o endereço web",
+    "enterLabel": "Digite o texto a ser exibido",
+		"linkError": "Houve um erro ao abrir este link."
+  },
+  "relativeTime": {
+    "future": "em %s",
+    "past": "%s atrás",
+    "s": "1s",
+    "ss": "%ss",
+    "m": "1min",
+    "mm": "%dmin",
+    "h": "1h",
+    "hh": "%dh",
+    "d": "1d",
+    "dd": "%dd",
+    "M": "1mês",
+    "MM": "%dmês",
+    "y": "1A",
+    "yy": "%dA"
+  },
+  "profile": {
+    "my": "Meu Perfil"
+  },
+  "comment": {
+    "edit": "Editar Comentário",
+    "report": "Denúnciar Comentário",
+    "delete": "Apagar Comentário",
+    "replyingToPost": "Respondendo a Postagem",
+    "replyingToComment": "Respondendo ao Comentário",
+    "deletedByUser": "Comentário apagado pelo usuário :(",
+    "removedByMod": "Comentário removido pelo moderador :("
+  },
+  "settings": {
+    "haptics": {
+      "Off": "Desligado",
+      "Light": "Fraco",
+      "Medium": "Moderado",
+      "Heavy": "Forte"
+    },
+    "content": {
+      "nsfw": {
+        "footer": "Estas configurações não afetam as opções de conteúdo explícito da sua conta Lemmy, apenas ao aplicativo e todas as contas logadas nele.",
+        "blur": "Desfoque conteúdo explícito",
+        "hide": "Oculte conteúdo explícito"
+      },
+      "web": {
+        "useReaderMode": "Utilizar leitor"
+      },
+      "markRead": {
+        "header": "Opções do Contéudo Lido",
+        "onPostOpen": "Marcar postagem como lido quando abrir",
+        "onImageView": "Marcar postagem como lido quando abrir imagem",
+        "onVote": "Marcar como lido quando votar",
+        "footer": "Ocultar postagens lidas no Feed irá ocultar automaticamente as postagens que foram lidas com o feed for atualizado. Se Ocultar Postagens Lidas estiver ativado, o botão de ocultar será mudado para ocultar todas as postagens lidas sem atualizar o feed." 
+      }
+    },
+    "appearance": {
+      "themes": {
+        "header": "Temas",
+        "matchSystem": "Seguir Tema do Sistema",
+        "systemLight": "Tema para Modo Claro do Sistema",
+        "systemDark": "Tema para Modo Escuro do Sistema",
+        "light": "Temas Claros",
+        "dark": "Temas Escuros",
+        "hexCode": {
+          "placeholder": "Entre com o código hex"
+        }
+      },
+      "appIcon": "Ícone do Aplicativo",
+      "totalScore": "Mostrar Pontuação Total",
+      "imgIgnoreScreenHeight": "Imagens Ignoram a Altura da Tela",
+      "showUserInstance": "Mostrar instância junto ao usuário",
+      "compactView": "Modo Compacto",
+      "compact": {
+        "header": "Compacto",
+        "thumbPos": "Posicionamento da Thumbnail",
+        "showVotingButtons": "Mostrar Botões de Voto"
+      },
+      "font": {
+        "header": "Fonte",
+        "useSystemFont": "Usar Fonte do Sistema",
+        "useSystemFontSize": "Usar Tamanho de Fonte do Sistema",
+        "textSize": "Tamanho do Texto",
+        "postTitleFontWeight": "Tamanho da Fonte - Título de Postagens"
+      },
+			"gestures": {
+				"header": "GESTOS",
+				"tapToCollapse": "Toque para Minimizar"
+			}
+    },
+    "accounts": {
+      "current": "Conta Atual",
+      "server": {
+        "header": "Endereço da Instância",
+        "footer": "Endereço da Instância que Deseja Conectar",
+        "placeholder": "Endereço"
+      },
+      "credentials": {
+        "header": "Login da Instância",
+        "footer": "Usuário e Senha da instância que deseja conectar."
+      }
+    }
+  },
+  "traverse": {
+    "noSubscriptions": "Você não tem nenhuma assinatura."
+  },
+  "post": {
+    "header": "Informação da Postagem",
+    "title": "Título",
+    "link": "Link (opcional)",
+    "body": "Corpo (opcional)",
+    "bodyPlaceholder": "Digite a vontade!"
+  },
+  "onboarding": {
+    "hello": "Olá",
+    "welcomeTo": "Bem vindo a",
+    "getStartedBtn": "Começar",
+    "hasAccountBtn": "Eu já Tenho uma Conta.",
+    "checkEmail": "Verifique seu Email",
+    "emailSent": "Um email foi enviado para {{0}}. Por favor, ative sua conta\nDepois aperte Entrar.",
+    "openEmailAppBtn": "Abrir Aplicativo de Email",
+    "agreeToTermsOfUse": "Ao Usar Memmy, você concorda com os <linkAction><linkText>Termos de Uso</linkText></linkAction>",
+    "info": {
+      "1": {
+        "1": "Você já conhece o Fediverso?"
+      },
+      "2": {
+        "1": "Sem problemas! \uD83D\uDC4D",
+        "2": "Vamos te guiar por ele \uD83D\uDE03"
+      },
+      "3": {
+        "1": "Pense no Fediverso como um sistema postal ✉️",
+        "2": "Quando você utiliza aplicativos como o Instagram, Twitter ou Facebook, eles <emphasis>cuidam exclusivamente das suas entregas para você.</emphasis>",
+        "3": "Ou seja, todos recebem e enviam encomendas apenas por eles. Eles são <emphasis>centralizados.</emphasis>"
+      },
+      "4": {
+        "1": "Como o Fediverso difere disso? \uD83E\uDD14",
+        "2": "Suas encomendas não vão para um armazém central, vão para a sua <emphasis>agência de correio local</emphasis>.",
+        "3": "Sua <emphasis>agência local</emphasis> é responsável por encaminhar sua encomenda para outras <emphasis>agências</emphasis>. E elas, em turno, escolhem para quem <emphasis>vão estar enviando-a</emphasis> \uD83D\uDE9A"
+      },
+      "5": {
+        "1": "Quem seria minha <emphasis>agência?</emphasis> \uD83E\uDD14",
+        "2": "Uma <emphasis>agência</emphasis>, ou instância, pode ser criada por qualquer pessoa, igual um clube ou grupo comunitário. E você escolhe qual você deseja <emphasis>se juntar.</emphasis>.",
+        "3": "Irémos te ajudaro a escolher uma instância e começar a postar nela. \uD83E\uDD17"
+      },
+      "6": {
+        "1": "Se Sentindo\nPerdido?... \uD83D\uDE14",
+        "2": "Isso pode parecer complexo. <emphasis>Mas você já usou o Fediverso antes.</emphasis>",
+        "3": "Desde que tenha usado email antes, <emphasis>já usou o Fediverso.</emphasis>",
+        "4": "O Fediverso funciona de uma maneira <emphasis>bem semelhante a como os emails funcionam.</emphasis>"
+      },
+      "7": {
+        "1": "Vamos começar!",
+        "2": "Primeiramente, vamos te ajudar a escolher uma instância. Vamos te dar uma lista de alternativas para escolher.",
+        "3": "Existem muitas opções diferentes com várias comunidades.",
+        "4": "Você depois pode voltar para a lista para escolher outra instância."
+      }
+    },
+    "hubDiscovery": {
+      "alreadyHaveServer": "Já possui uma instância?"
+    }
+  },
+  "hubDiscovery": {
+    "createCommunities": {
+      "allowed": "Esta instância permite comunidades criadas pelos usuários.",
+      "notAllowed": "Esta instância não permite comunidades criadas pelos usuários."
+    },
+    "federated": {
+      "allowed": "Esta instância pode interagir com outras instâncias.",
+      "notAllowed": "Esta instância não pode interagir com outras instâncias."
+    },
+    "downvote": {
+      "title": "Votos Negativos Permitidos",
+      "allowed": "Esta instância permite usuários a votar negativamente postagens e comentários.",
+      "notAllowed": "Esta instância não permite usuários a votar negativamente postagens e comentários."
+    }
+  },
+  "feed": {
+    "footer": {
+      "loading": "Carregando mais postagens...",
+      "loadingError": "Falha ao carregar postagens :("
+    }
+  },
+  "searchOptions": {
+    "header": "Selecione uma Opção",
+    "communities": "Busque por Comunidades",
+    "users": "Busque Usuários",
+    "posts": "Busque Postagens"
+  },
+  "memmyError": {
+    "title": "Memmy encontrou um erro. Por favor reinicie o aplicativo...",
+    "description": "Nós não gostamos de bugs, e você provavelmente não também. Se for possível, poderia submeter os logs do erro? ♥️",
+    "submitBtn": "Submeter Logs"
+  },
+  "loadingError": {
+    "text": "Erro ao carregar o conteúdo :(",
+    "retryBtn": "Tentar novamente"
+  },
+  "imageView": {
+    "dialogDesc": "Baixando Imagem..."
+  },
+  "Feed": "Feed",
+  "Comments": "Comentários",
+  "Traverse": "Explore",
+  "Profile": "Perfil",
+  "Search": "Busca",
+  "Inbox": "Caixa de Entrada",
+  "Posts": "Postagens",
+  "Saved Posts": "Postagens Salvas",
+  "New Comment": "Novo Comentário",
+  "New Post": "Nova Postagem",
+  "About": "Sobre",
+  "View Comments": "Ver Comentários",
+  "View Posts": "Ver Postagens",
+  "View Saved Posts": "Ver Postagens Salvas",
+  "Unread": "Não lido",
+  "All": "Tudo",
+  "Replies": "Respostas",
+  "Communities": "Comunidades",
+  "Blocked Communities": "Comunidades Bloqueadas",
+  "Create Communities": "Criar Comunidades",
+  "Settings": "Configuração",
+  "Accounts": "Contas",
+  "Manage Accounts": "Gerenciar Contas",
+  "Edit Account": "Editar Conta",
+  "Delete Account": "Apagar Conta",
+  "Add Account": "Adicionar Conta",
+  "Create Account": "Criar Conta",
+  "Mark Post Read On": "Marcar Postagem Como Lida...",
+  "View": "Ver",
+  "Content": "Conteúdo",
+  "Appearance": "Aparência",
+  "Theme": "Tema",
+  "Icon": "Ícone",
+  "General": "Geral",
+  "Loading": "Carregando",
+  "Welcome": "Bem Vindo",
+  "Hubs": "Instâncias",
+  "Instance": "Instância",
+  "Copy Text": "Copiar Texto",
+  "Copy Link": "Copiar Link",
+  "Reply": "Responder",
+  "Report Post": "Denúnciar Postagem",
+  "Cancel": "Cancelar",
+  "Submit": "Submeter",
+  "Retry": "Tentar Novamente",
+  "Language": "Idioma",
+  "Select Language": "Selecionar Idioma",
+  "Haptics": "Vibração",
+  "Strength": "Força",
+  "Use Default Browser": "Usar Navegador Padrão",
+  "Browser": "Navegador",
+  "No blocked communities": "Não há comunidades bloqueadas",
+  "Email Debug Log": "Enviar Log de Depuração",
+  "Clear Debug Log": "Limpar Log de Depuração",
+  "Clear Cache": "Limpar Cache",
+  "Default Sort": "Ordenação Padrão",
+  "Default Comment Sort": "Ordenação Padrão de Comentários",
+  "Hide Read Posts on Feed": "Ocultar Postagens Lidas no Feed",
+  "Show Hide Read Button": "Mostrar Botão de Ocultar Postagens Lidas",
+  "Show Comment Actions": "Mostrar Ações em Comentários",
+  "NSFW": "Conteúdo Explicito",
+  "NSFW Content": "Conteúdo Explicito",
+  "Sensitive content ahead": "Conteúdo Sensível", 
+  "Accent Color": "Cor de Destaque",
+  "Add": "Adicionar",
+  "Logout": "Sair",
+  "Continue": "Continuar",
+  "Server": "Instância",
+  "Server Address": "Endereço da Instância",
+  "Username": "Nome de Usuário",
+  "Password": "Senha",
+  "Confirm Password": "Confirme a Senha",
+  "Push Notifications": "Notificações",
+  "Save": "Salvar",
+  "2FA Token": "Token do Código de Verificação",
+  "Version": "Versão",
+  "License": "Licença",
+  "Acknowledgements": "Agradecimentos",
+  "Privacy Policy": "Política de Privacidade",
+  "Terms of Use": "Termo de Uso",
+  "OK": "OK",
+  "Users": "Usuários",
+  "Comment": "Comentário",
+  "Comment_plural": "Comentários",
+  "Back": "Voltar",
+  "Selected": "Selecionado",
+  "Favorites": "Favoritos",
+  "Subscriptions": "Inscrições",
+  "Email": "Email",
+  "Captcha Answer": "Resposta Captcha",
+  "Link": "Link",
+  "Login": "Login",
+  "Yes": "Sim",
+  "No": "Não",
+  "Join": "Se Juntar",
+  "Hub Info": "Informação da Instância",
+  "Other Info": "Outras Informações",
+  "Legal Info": "Informações Legais",
+  "Federate": "Federar",
+  "User": "Usuário",
+  "User_plural": "Usuários",
+  "Defederated": "Desfederado",
+  "Registration Closed": "Criação de Conta Desativada",
+  "Application Required": "Solicitação Necessária",
+  "Open Registration": "Criação de Conta Aberta",
+  "Subscribed": "Inscrito",
+  "Subscribe": "Inscrever",
+  "Post": "Postar",
+  "Description": "Descrição",
+  "Label": "Rótulo",
+  "Trending": "Popular",
+  "Go Back": "Voltar"
+}

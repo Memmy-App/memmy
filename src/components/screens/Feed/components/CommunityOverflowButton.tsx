@@ -1,28 +1,25 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { ContextMenuButton } from "react-native-ios-context-menu";
+import { useRoute } from "@react-navigation/core";
 import { useAppDispatch } from "../../../../../store";
 import { lemmyAuthToken, lemmyInstance } from "../../../../LemmyInstance";
 import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
 import { getCommunityLink } from "../../../../helpers/LinkHelper";
 import { writeToLog } from "../../../../helpers/LogHelper";
 import { shareLink } from "../../../../helpers/ShareHelper";
-import { UseFeed } from "../../../../hooks/feeds/useFeed";
 import { showToast } from "../../../../slices/toast/toastSlice";
 import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
 import SFIcon from "../../../common/icons/SFIcon";
+import { useFeedCommunityName } from "../../../../stores/feeds/feedsStore";
+import { useCommunity } from "../../../../stores/communities/communitiesStore";
+import { getCommunityFullName } from "../../../../helpers/LemmyHelpers";
 
 export type Community = {
   id: number;
   name: string;
   fullName: string;
 };
-
-interface Props {
-  feed: UseFeed;
-  community: Community;
-  onPress?: () => void;
-}
 
 const options = ["Share", "Block Community"];
 
@@ -31,17 +28,21 @@ const optionIcons = {
   "Block Community": "xmark.circle",
 };
 
-export default function CommunityOverflowButton({
-  community,
-}: Required<Pick<Props, "community">>) {
+function CommunityOverflowButton() {
+  const { key } = useRoute();
+
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const communityName = useFeedCommunityName(key);
+  const community = communityName ? useCommunity(communityName) : undefined;
 
-  const onBlockCommunity = () => {
+  const onBlockCommunity = useCallback(() => {
+    if (!community) return;
+
     onGenericHapticFeedback();
     dispatch(
       showToast({
-        message: t("toast.blocked", [community.name]),
+        message: t("toast.blocked", [community.community.name]),
         duration: 3000,
         variant: "info",
       })
@@ -50,20 +51,22 @@ export default function CommunityOverflowButton({
     lemmyInstance
       .blockCommunity({
         auth: lemmyAuthToken,
-        community_id: community.id,
+        community_id: community.community.id,
         block: true,
       })
       .catch((err) => writeToLog(`ERROR: Failed to block community: ${err}`));
-  };
+  }, [community]);
 
-  const onShareCommunity = () => {
+  const onShareCommunity = useCallback(() => {
     onGenericHapticFeedback();
-    const communityLink: string = getCommunityLink(`/c/${community.fullName}`);
+    const communityLink: string = getCommunityLink(
+      `/c/${getCommunityFullName(community)}`
+    );
     shareLink({
       link: communityLink,
-      title: community.name,
+      title: community.community.name,
     });
-  };
+  }, [community]);
 
   return (
     <ContextMenuButton
@@ -101,3 +104,5 @@ export default function CommunityOverflowButton({
     </ContextMenuButton>
   );
 }
+
+export default React.memo(CommunityOverflowButton);

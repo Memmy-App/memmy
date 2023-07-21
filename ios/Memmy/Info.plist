@@ -2,152 +2,146 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CodePushDeploymentKey</key>
-	<string>UJLKTSDEICD5K3NPZYJoV2KDYUPPGC-D0kjYd</string>
-	<key>CFBundleIcons</key>
-	<dict>
-		<key>CFBundleAlternateIcons</key>
-		<dict>
-			<key>purple</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<string>NO</string>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>purple</string>
-				</array>
-			</dict>
-			<key>green</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<string>NO</string>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>green</string>
-				</array>
-			</dict>
-			<key>red</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<string>NO</string>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>red</string>
-				</array>
-			</dict>
-			<key>blue</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<string>NO</string>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>blue</string>
-				</array>
-			</dict>
-			<key>transpride</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<string>NO</string>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>transpride</string>
-				</array>
-			</dict>
-			<key>pridenew</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<string>NO</string>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>pridenew</string>
-				</array>
-			</dict>
-			<key>pride</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<string>NO</string>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>pride</string>
-				</array>
-			</dict>
-			<key>darkgray</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<string>NO</string>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>darkgray</string>
-				</array>
-			</dict>
-			<key>lightgray</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<string>NO</string>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>lightgray</string>
-				</array>
-			</dict>
-			<key>pink</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<string>NO</string>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>pink</string>
-				</array>
-			</dict>
-			<key>orange</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<string>NO</string>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>orange</string>
-				</array>
-			</dict>
-			<key>brown</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<string>NO</string>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>brown</string>
-				</array>
-			</dict>
-			<key>yellow</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<string>NO</string>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>yellow</string>
-				</array>
-			</dict>
-		</dict>
-		<key>CFBundlePrimaryIcon</key>
-		<dict>
-			<key>CFBundleIconName</key>
-			<string>purple</string>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string>purple</string>
-			</array>
-			<key>UIPrerenderedIcon</key>
-			<false/>
-		</dict>
-	</dict>
-	<key>LSApplicationCategoryType</key>
-	<string></string>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>Someone posted a link to an internal IP address. Please disregard this message and deny access.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Memmy</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundleAlternateIcons</key>
+		<dict>
+			<key>blue</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>blue</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+			</dict>
+			<key>brown</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>brown</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+			</dict>
+			<key>darkgray</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>darkgray</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+			</dict>
+			<key>green</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>green</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+			</dict>
+			<key>lightgray</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>lightgray</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+			</dict>
+			<key>orange</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>orange</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+			</dict>
+			<key>pink</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>pink</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+			</dict>
+			<key>pride</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>pride</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+			</dict>
+			<key>pridenew</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>pridenew</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+			</dict>
+			<key>purple</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>purple</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+			</dict>
+			<key>red</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>red</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+			</dict>
+			<key>transpride</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>transpride</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+			</dict>
+			<key>yellow</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>yellow</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+			</dict>
+		</dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>purple</string>
+			</array>
+			<key>CFBundleIconName</key>
+			<string>purple</string>
+			<key>UIPrerenderedIcon</key>
+			<false/>
+		</dict>
+	</dict>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -157,7 +151,7 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.4</string>
+	<string>0.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -177,9 +171,13 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
+	<key>CodePushDeploymentKey</key>
+	<string>f3fsdf</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -197,6 +195,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow $(PRODUCT_NAME) to access your camera</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Someone posted a link to an internal IP address. Please disregard this message and deny access.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow $(PRODUCT_NAME) to access your microphone</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

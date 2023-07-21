@@ -36,6 +36,8 @@ export interface SettingsState {
   useReaderMode: boolean;
   accentColor?: string;
   hideReadPostsOnFeed: boolean;
+  hideReadPostsInCommunities: boolean;
+  showHideReadButton: boolean;
   appIcon: string;
   showCommentActions: boolean;
   useDefaultBrowser: boolean;
@@ -73,6 +75,8 @@ const initialState: SettingsState = {
   displayTotalScore: true,
   useReaderMode: false,
   hideReadPostsOnFeed: false,
+  hideReadPostsInCommunities: false,
+  showHideReadButton: false,
   appIcon: "purple",
   showCommentActions: true,
   useDefaultBrowser: false,

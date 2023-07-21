@@ -1,6 +1,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView, useTheme, VStack } from "native-base";
 import React, { useCallback, useEffect } from "react";
+import { useRoute } from "@react-navigation/core";
 import useSearch from "../../../hooks/search/useSearch";
 import SearchBox from "../../common/Search/SearchBox";
 import SearchOptionsList from "../../common/Search/SearchOptionsList";
@@ -12,6 +13,8 @@ function SearchScreen({
 }: {
   navigation: NativeStackNavigationProp<any>;
 }) {
+  const { key } = useRoute();
+
   const search = useSearch();
   const theme = useTheme();
 
@@ -52,6 +55,7 @@ function SearchScreen({
 
   const onPostsPress = useCallback(() => {
     navigation.push("Results", {
+      key,
       type: "Posts",
       query: search.query,
     });

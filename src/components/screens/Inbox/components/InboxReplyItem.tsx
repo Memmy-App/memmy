@@ -1,38 +1,36 @@
 import React from "react";
-import { UseInbox } from "../../../../hooks/inbox/useInbox";
-import ILemmyComment from "../../../../types/lemmy/ILemmyComment";
 import CommentItem from "../../../common/Comments/CommentItem";
+import { useInboxReply } from "../../../../stores/inbox/inboxStore";
 
 interface IProps {
-  inbox: UseInbox;
-  item: ILemmyComment;
+  commentId: number;
+  unread: boolean;
+  onPress: (postId: number, commentId: number) => Promise<void>;
 }
 
-function InboxReplyItem({ inbox, item }: IProps) {
-  const onPressOverride = () => {
-    const commentPathArr = item.comment.comment.path.split(".");
+function InboxReplyItem({ commentId, unread, onPress }: IProps) {
+  const comment = useInboxReply(commentId);
+
+  const onCommentPress = () => {
+    const commentPathArr = comment.comment.comment.path.split(".");
 
     if (commentPathArr.length === 2) {
-      inbox
-        .onCommentReplyPress(item.comment.post.id, item.comment.comment.id)
-        .then();
+      onPress(comment.comment.post.id, comment.comment.comment.id).then();
     } else {
-      inbox
-        .onCommentReplyPress(
-          item.comment.post.id,
-          Number(commentPathArr[commentPathArr.length - 2])
-        )
-        .then();
+      onPress(
+        comment.comment.post.id,
+        Number(commentPathArr[commentPathArr.length - 2])
+      ).then();
     }
   };
 
   return (
     <CommentItem
-      comment={item}
-      setComments={inbox.setItems}
-      isUnreadReply={inbox.topSelected === "unread"}
-      onPressOverride={onPressOverride}
+      comment={comment}
+      isUnreadReply={unread}
+      onPress={onCommentPress}
       depth={2}
+      onVote={null}
     />
   );
 }
