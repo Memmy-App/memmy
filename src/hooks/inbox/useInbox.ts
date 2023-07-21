@@ -1,24 +1,19 @@
-import React, { SetStateAction, useEffect, useState } from "react";
+import React, { SetStateAction, useCallback, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
 import { useAppDispatch } from "../../../store";
-import { setPost } from "../../slices/post/postSlice";
-import ILemmyComment from "../../types/lemmy/ILemmyComment";
-import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { setUnread } from "../../slices/site/siteSlice";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
+import loadInboxReplies from "../../stores/inbox/actions/loadInboxReplies";
+import { onGenericHapticFeedback } from "../../helpers/HapticFeedbackHelpers";
+import { addPost } from "../../stores/posts/actions";
 
 export interface UseInbox {
-  doLoad: (refresh: boolean) => void;
+  doLoad: () => void;
   doReadAll: () => Promise<void>;
 
-  loading: boolean;
-  error: boolean;
-  refreshing: boolean;
-
-  items: ILemmyComment[];
-  setItems: React.Dispatch<SetStateAction<ILemmyComment[]>>;
+  inboxLoading: boolean;
 
   topSelected: "unread" | "all";
   setTopSelected: React.Dispatch<"unread" | "all">;
@@ -38,26 +33,18 @@ const useInbox = (): UseInbox => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  const [items, setItems] = useState<ILemmyComment[]>([]);
-  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [inboxLoading, setInboxLoading] = useState(false);
 
   const [topSelected, setTopSelected] = useState<"all" | "unread">("unread");
   const [bottomSelected, setBottomSelected] = useState<
     "replies" | "mentions" | "messages"
   >("replies");
 
-  useEffect(() => {
-    doLoad().then();
-  }, [topSelected, bottomSelected]);
-
   const onCommentReplyPress = async (
     postId: number,
     commentId: number | undefined = undefined
   ) => {
-    setLoading(true);
+    setInboxLoading(true);
 
     try {
       const res = await lemmyInstance.getPost({
@@ -65,133 +52,56 @@ const useInbox = (): UseInbox => {
         id: postId,
       });
 
-      dispatch(setPost(res.post_view));
-      setLoading(false);
+      setInboxLoading(false);
+
+      const key = `${Date.now()}${res.post_view.post.id}`;
+
+      addPost(key, res.post_view);
 
       navigation.push("Post", {
+        postKey: key,
         commentId: commentId.toString(),
         showLoadAll: true,
       });
     } catch (e) {
-      setLoading(false);
-      setError(true);
-
+      setInboxLoading(true);
       handleLemmyError(e.toString());
     }
   };
 
-  const doLoad = (refresh = false) => {
-    setRefreshing(refresh);
-    setLoading(!refresh);
-
-    switch (bottomSelected) {
-      case "replies":
-        return doLoadReplies();
-      case "mentions":
-        return doLoadMentions(topSelected === "unread");
-      case "messages":
-        return doLoadMessage(topSelected === "unread");
-      default:
-        return doLoadReplies();
-    }
+  const doLoad = () => {
+    loadInboxReplies().then();
   };
 
-  const doLoadReplies = async () => {
+  const doReadAll = useCallback(async () => {
+    onGenericHapticFeedback();
+
     try {
-      const res = await lemmyInstance.getReplies({
-        auth: lemmyAuthToken,
-        limit: 50,
-        unread_only: topSelected === "unread",
-      });
-
-      const betterComments: ILemmyComment[] = [];
-
-      for (const item of res.replies) {
-        betterComments.push({
-          comment: item,
-          hidden: false,
-          collapsed: false,
-          myVote: item.my_vote as ILemmyVote,
+      await lemmyInstance
+        .markAllAsRead({
+          auth: lemmyAuthToken,
+        })
+        .then(() => {
+          doLoad();
         });
-      }
-
-      setItems(betterComments);
-    } catch (e) {
-      handleLemmyError(e.toString());
-    }
-
-    setLoading(false);
-    setRefreshing(false);
-  };
-
-  const doLoadMentions = async (unread: boolean) => {
-    try {
-      await lemmyInstance.getPersonMentions({
-        auth: lemmyAuthToken,
-        limit: 50,
-        unread_only: unread,
-      });
-
-      // setItems(res.mentions);
-    } catch (e) {
-      handleLemmyError(e.toString());
-    }
-
-    setLoading(false);
-  };
-
-  const doLoadMessage = async (unread: boolean) => {
-    try {
-      await lemmyInstance.getPrivateMessages({
-        auth: lemmyAuthToken,
-        limit: 50,
-        unread_only: unread,
-      });
-
-      // setItems(res.private_messages);
-    } catch (e) {
-      handleLemmyError(e.toString());
-    }
-
-    setLoading(false);
-  };
-
-  const doReadAll = async () => {
-    setLoading(true);
-
-    try {
-      await lemmyInstance.markAllAsRead({
-        auth: lemmyAuthToken,
-      });
-
-      if (topSelected === "unread") {
-        setItems([]);
-      }
 
       dispatch(setUnread({ type: "all", amount: 0 }));
-
-      setLoading(false);
     } catch (e) {
       handleLemmyError(e.toString());
     }
-  };
+  }, []);
 
   return {
     doLoad,
     doReadAll,
 
-    items,
-    setItems,
+    inboxLoading,
 
     topSelected,
     setTopSelected,
 
     bottomSelected,
     setBottomSelected,
-
-    loading,
-    error,
-    refreshing,
 
     onCommentReplyPress,
   };

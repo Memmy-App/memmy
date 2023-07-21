@@ -1,40 +1,49 @@
-import React from "react";
-import { HStack, useTheme } from "native-base";
-import { IconMessagePlus } from "tabler-icons-react-native";
+import { HStack } from "native-base";
+import React, { useCallback } from "react";
+import { ICON_MAP } from "../../../constants/IconMap";
 import IconButtonWithText from "../IconButtonWithText";
 import VoteButton from "../Vote/VoteButton";
+import SFIcon from "../icons/SFIcon";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
 
 interface IProps {
-  onReply: () => unknown;
-  onVote: (value: ILemmyVote) => unknown;
-  myVote: ILemmyVote;
+  onVote: (value: ILemmyVote) => void;
+  myVote: number;
 }
 
-function CommentActions({ onReply, onVote, myVote }: IProps) {
-  const theme = useTheme();
+function CommentActions({ onVote, myVote }: IProps) {
+  const onUpvote = useCallback(() => {
+    onVote(1);
+  }, [onVote]);
+
+  const onDownvote = useCallback(() => {
+    onVote(-1);
+  }, [onVote]);
 
   return (
-    <HStack justifyContent="flex-end" space={2} mb={1}>
+    <HStack justifyContent="flex-end" alignItems="center" space={2} mb={1}>
       <IconButtonWithText
-        onPressHandler={onReply}
-        icon={<IconMessagePlus color={theme.colors.app.accent} size={22} />}
+        onPressHandler={() => {}}
+        icon={<SFIcon icon={ICON_MAP.REPLY} size={12} boxSize={20} />}
       />
-      <VoteButton
-        onPressHandler={async () => (myVote === 1 ? onVote(0) : onVote(1))}
-        type="upvote"
-        isVoted={myVote === 1}
-        isAccented
-        iconSize={22}
-      />
-      <VoteButton
-        onPressHandler={async () => (myVote === -1 ? onVote(0) : onVote(-1))}
-        type="downvote"
-        isVoted={myVote === -1}
-        isAccented
-        iconSize={22}
-        textSize="md"
-      />
+      {onVote && (
+        <>
+          <VoteButton
+            onPressHandler={onUpvote}
+            type="upvote"
+            isVoted={myVote === 1}
+            isAccented
+            iconSize={12}
+          />
+          <VoteButton
+            onPressHandler={onDownvote}
+            type="downvote"
+            isVoted={myVote === -1}
+            isAccented
+            iconSize={12}
+          />
+        </>
+      )}
     </HStack>
   );
 }

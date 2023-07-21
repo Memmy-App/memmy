@@ -1,20 +1,14 @@
-import React, { SetStateAction, useState } from "react";
-import { Alert, InputAccessoryView, TextInput } from "react-native";
 import { HStack, useTheme } from "native-base";
-import {
-  IconBold,
-  IconItalic,
-  IconLink,
-  IconPhoto,
-  IconQuote,
-} from "tabler-icons-react-native";
+import React, { SetStateAction, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Alert, InputAccessoryView, TextInput } from "react-native";
 import { selectImage } from "../../helpers/ImageHelper";
-import LoadingModal from "./Loading/LoadingModal";
 import uploadToImgur from "../../helpers/ImgurHelper";
 import { writeToLog } from "../../helpers/LogHelper";
-import IconButtonWithText from "./IconButtonWithText";
 import { ErrorCause } from "../../types/ErrorCause";
+import IconButtonWithText from "./IconButtonWithText";
+import LoadingModal from "./Loading/LoadingModal";
+import SFIcon from "./icons/SFIcon";
 
 function KeyboardAccessory({
   setText,
@@ -154,23 +148,23 @@ function KeyboardAccessory({
       >
         <IconButtonWithText
           onPressHandler={onItalicPress}
-          icon={<IconItalic size={24} color={theme.colors.app.accent} />}
+          icon={<SFIcon icon="italic" />}
         />
         <IconButtonWithText
           onPressHandler={onBoldPress}
-          icon={<IconBold size={24} color={theme.colors.app.accent} />}
+          icon={<SFIcon icon="bold" />}
         />
         <IconButtonWithText
           onPressHandler={onLinkPress}
-          icon={<IconLink size={24} color={theme.colors.app.accent} />}
+          icon={<SFIcon icon="link" />}
         />
         <IconButtonWithText
           onPressHandler={onQuotePress}
-          icon={<IconQuote size={24} color={theme.colors.app.accent} />}
+          icon={<SFIcon icon="quote.closing" />}
         />
         <IconButtonWithText
           onPressHandler={onImagePress}
-          icon={<IconPhoto size={24} color={theme.colors.app.accent} />}
+          icon={<SFIcon icon="photo" />}
         />
       </HStack>
     </InputAccessoryView>

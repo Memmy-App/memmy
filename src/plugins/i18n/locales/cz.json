@@ -111,7 +111,8 @@
         "header": "NASTAVENÍ OZNAČOVANÍ JAKO PŘEČTENO",
         "onPostOpen": "Označit Příspěvky Jako Přečteny Při Otevření Příspěvku",
         "onImageView": "Označit Příspěvky Jako Přečteny Při Otevření Obrázku.",
-        "onVote": "Označit Příspěvky Jako Přečteny Při Hlasování."
+        "onVote": "Označit Příspěvky Jako Přečteny Při Hlasování.",
+        "footer": "Hide Read Posts on Feed will automatically hide read posts anytime the feed is refreshed. If Hide Read Posts on Feed is enabled, Show Hide Read Button will show a floating action button to hide read posts without a feed refresh."
       }
     },
     "appearance": {
@@ -287,6 +288,8 @@
   "Add Account": "Přidat Účet",
   "Create Account": "Vytvořit Účet",
   "Mark Post Read On": "Označit Příspěvek jako přečtený...",
+  "Hide Read Posts": "Hide Read Posts",
+  "Show Hide Read Button": "Show Hide Read Button",
   "View": "Zobrazit",
   "Content": "Obsah",
   "Appearance": "Vzhled",
@@ -317,6 +320,7 @@
   "Default Sort": "Výchozí Řazení",
   "Default Comment Sort": "Výchozí Řazení Komentářů",
   "Hide Read Posts on Feed": "Schovat Přečtené Příspěvky na Feedu",
+  "Hide Read Posts in Communities": "Hide Read Posts in Communities",
   "Show Comment Actions": "Zobrazit Akce ke Komentáři",
   "NSFW": "NSFW",
   "NSFW Content": "NSFW Obsah",

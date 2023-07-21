@@ -1,20 +1,17 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppSelector } from "../../../store";
 import { selectNewComment } from "../../slices/comments/newCommentSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { setPostNewComment } from "../../slices/post/postSlice";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
+import { useUpdatesStore } from "../../stores/updates/updatesStore";
 
 const useNewComment = () => {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
-  const dispatch = useDispatch();
 
   const { responseTo } = useAppSelector(selectNewComment);
 
@@ -38,12 +35,9 @@ const useNewComment = () => {
         language_id: responseTo.languageId,
       });
 
-      dispatch(
-        setPostNewComment({
-          comment: res.comment_view,
-          isTopComment: !!responseTo.post,
-        })
-      );
+      useUpdatesStore
+        .getState()
+        .setNewComment(res.comment_view, !!responseTo.post);
 
       navigation.pop();
     } catch (e) {
