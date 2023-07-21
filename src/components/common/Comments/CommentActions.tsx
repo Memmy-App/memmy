@@ -26,20 +26,24 @@ function CommentActions({ onVote, myVote }: IProps) {
         onPressHandler={() => {}}
         icon={<SFIcon icon={ICON_MAP.REPLY} size={12} boxSize={20} />}
       />
-      <VoteButton
-        onPressHandler={onUpvote}
-        type="upvote"
-        isVoted={myVote === 1}
-        isAccented
-        iconSize={12}
-      />
-      <VoteButton
-        onPressHandler={onDownvote}
-        type="downvote"
-        isVoted={myVote === -1}
-        isAccented
-        iconSize={12}
-      />
+      {onVote && (
+        <>
+          <VoteButton
+            onPressHandler={onUpvote}
+            type="upvote"
+            isVoted={myVote === 1}
+            isAccented
+            iconSize={12}
+          />
+          <VoteButton
+            onPressHandler={onDownvote}
+            type="downvote"
+            isVoted={myVote === -1}
+            isAccented
+            iconSize={12}
+          />
+        </>
+      )}
     </HStack>
   );
 }

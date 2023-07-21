@@ -20,8 +20,6 @@ const loadCommunity = async (communityName: string) => {
     } else {
       const prev = state.communityStates.get(communityName).status;
 
-      console.log(prev);
-
       prev.loading = true;
       prev.error = false;
     }
@@ -34,10 +32,7 @@ const loadCommunity = async (communityName: string) => {
     });
 
     useCommunitiesStore.setState((state) => {
-      console.log("trying to get it...");
       const prev = state.communityStates.get(communityName);
-
-      console.log(prev.status);
 
       prev.community = res.community_view;
       prev.moderators = res.moderators;

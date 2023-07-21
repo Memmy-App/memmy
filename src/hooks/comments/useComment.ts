@@ -17,12 +17,11 @@ import {
   getUserFullName,
 } from "../../helpers/LemmyHelpers";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { writeToLog } from "../../helpers/LogHelper";
 import { showToast } from "../../slices/toast/toastSlice";
 import { setResponseTo } from "../../slices/comments/newCommentSlice";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
-import { selectSettings } from "../../slices/settings/settingsSlice";
 import { PostsStore, usePostsStore } from "../../stores/posts/postsStore";
+import { useInboxStore } from "../../stores/inbox/inboxStore";
 
 export interface UseComment {
   onCommentLongPress: (selection?: string) => void;
@@ -31,20 +30,13 @@ export interface UseComment {
   longPressOptions: Record<string, string>;
 }
 
-const useComment = ({
-  comment,
-  onPressOverride,
-}: {
-  comment: ILemmyComment;
-  onPressOverride: () => Promise<void> | void;
-}): UseComment => {
-  const { postKey } = useRoute<any>().params;
+const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
+  const postKey = useRoute<any>().params?.postKey;
 
   const { t } = useTranslation();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const { unread } = useAppSelector(selectSite);
-  const { tapToCollapse } = useAppSelector(selectSettings);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const dispatch = useAppDispatch();
@@ -72,40 +64,6 @@ const useComment = ({
     }),
     [comment.comment.comment.id]
   );
-
-  const onCommentPress = useCallback(() => {
-    if (onPressOverride) {
-      onGenericHapticFeedback();
-      onPressOverride();
-      return;
-    }
-
-    if (!tapToCollapse) return;
-
-    onGenericHapticFeedback();
-
-    usePostsStore.setState(
-      produce((state: PostsStore) => {
-        state.posts[postKey].comments = state.posts[postKey].comments.map(
-          (c) => {
-            if (c.comment.comment.id === comment.comment.comment.id) {
-              return {
-                ...c,
-                collapsed: !comment.collapsed,
-              };
-            }
-            if (c.comment.comment.path.includes(comment.comment.comment.path)) {
-              return {
-                ...c,
-                hidden: !comment.collapsed,
-              };
-            }
-            return c;
-          }
-        );
-      })
-    );
-  }, [comment.comment.comment.id, comment.collapsed]);
 
   const onCommentLongPress = useCallback(
     async (selection: string) => {
@@ -224,35 +182,20 @@ const useComment = ({
   }, [comment.comment.comment.id]);
 
   const onReadPress = useCallback(async () => {
-    try {
-      setComments((prev) =>
-        prev.filter((c) => c.comment.comment.id !== comment.comment.comment.id)
+    useInboxStore.setState((state) => {
+      const prev = state.replies.find(
+        (c) => c.comment.comment.id === comment.comment.comment.id
       );
+      const commentReply = prev.comment as CommentReplyView;
 
-      lemmyInstance
-        .markCommentReplyAsRead({
-          auth: lemmyAuthToken,
-          comment_reply_id: (comment.comment as CommentReplyView).comment_reply
-            .id,
-          read: true,
-        })
-        .then();
+      commentReply.comment_reply.read = true;
+    });
 
-      dispatch(
-        setUnread({
-          type: "replies",
-          amount: unread.replies - 1,
-        })
-      );
-    } catch (e) {
-      writeToLog("Error marking comment as read.");
-      writeToLog(e.toString());
-    }
+    dispatch(setUnread({ type: "replies", amount: unread.replies - 1 }));
   }, [comment.comment.comment.id]);
 
   return {
     onCommentLongPress,
-    onCommentPress,
     onReadPress,
     onReply,
     longPressOptions,

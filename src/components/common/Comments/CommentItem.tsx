@@ -1,5 +1,5 @@
 import { Divider, HStack, useTheme, View } from "native-base";
-import React from "react";
+import React, { useMemo } from "react";
 import { useAppSelector } from "../../../../store";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import useComment from "../../../hooks/comments/useComment";
@@ -24,7 +24,7 @@ interface IProps {
   depth?: number;
   isUnreadReply?: boolean;
   onVote: (value: ILemmyVote) => void;
-  onPress: () => void;
+  onPress: () => unknown;
 }
 
 function CommentItem({
@@ -45,12 +45,18 @@ function CommentItem({
     comment,
   });
 
+  const voteOption = useMemo(
+    () =>
+      onVote ? (
+        <VoteOption onVote={onVote} vote={comment.comment.my_vote} />
+      ) : undefined,
+    [comment.comment.comment.id]
+  );
+
   return (
     <>
       <SwipeableRow
-        leftOption={
-          <VoteOption onVote={onVote} vote={comment.comment.my_vote} />
-        }
+        leftOption={voteOption}
         rightOption={
           <ReplyOption
             onReply={commentHook.onReply}
