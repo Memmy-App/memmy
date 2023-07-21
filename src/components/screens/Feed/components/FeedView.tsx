@@ -44,7 +44,7 @@ import { useCommunity } from "../../../../stores/communities/communitiesStore";
 import loadFeedPosts from "../../../../stores/feeds/actions/loadFeedPosts";
 
 interface FeedViewProps {
-  header?: () => JSX.Element | null;
+  header?: () => React.ReactNode;
 }
 
 function FeedView({ header }: FeedViewProps) {
@@ -162,12 +162,6 @@ function FeedView({ header }: FeedViewProps) {
       {(status?.loading && posts?.length === 0 && <LoadingView />) ||
         (status?.error && posts?.length === 0 && (
           <LoadingErrorView onRetryPress={onRefresh} />
-        )) ||
-        (posts?.length < 1 && (
-          <>
-            {header()}
-            <NoResultView type="posts" />
-          </>
         )) || (
           <FlashList
             ListHeaderComponent={header}

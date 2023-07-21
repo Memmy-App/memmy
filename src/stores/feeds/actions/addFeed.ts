@@ -1,7 +1,6 @@
 import { useFeedsStore } from "../feedsStore";
 
 const addFeed = (feedKey: string, communityName?: string) => {
-  console.log("adding a feed.");
   useFeedsStore.setState((state) => {
     state.feeds.set(feedKey, {
       posts: [],

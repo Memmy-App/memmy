@@ -16,13 +16,8 @@ import { FeedListingTypeButton } from "./components/FeedListingTypeButton";
 import FeedView from "./components/FeedView";
 import loadFeedPosts from "../../../stores/feeds/actions/loadFeedPosts";
 import removeFeed from "../../../stores/feeds/actions/removeFeed";
-import {
-  useFeedPosts,
-  useFeedState,
-  useFeedStatus,
-} from "../../../stores/feeds/feedsStore";
+import { useFeedStatus } from "../../../stores/feeds/feedsStore";
 import addFeed from "../../../stores/feeds/actions/addFeed";
-import feedSlice from "../../../slices/feed/feedSlice";
 
 function FeedsIndexScreen({
   navigation,
@@ -46,11 +41,10 @@ function FeedsIndexScreen({
 
   const doLoad = useCallback(() => {
     loadFeedPosts(key, {
-      refresh: false,
-      sort: "TopDay",
+      refresh: true,
+      sort: "TopDay", // TODO DEFAULTS
       type: "All",
     }).then();
-    initialized.current = true;
   }, []);
 
   useEffect(() => {
