@@ -63,6 +63,8 @@ const loadPostComments = async (
     usePostsStore.setState((state: PostsStore) => {
       const prev = state.posts.get(postKey);
 
+      if (!prev) return;
+
       prev.commentsState.commentsLoading = false;
       prev.commentsState.comments = betterComments;
       prev.rerenderComments = !prev.rerenderComments;
