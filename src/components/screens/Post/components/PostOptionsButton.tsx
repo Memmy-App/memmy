@@ -1,17 +1,19 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { ContextMenuButton } from "react-native-ios-context-menu";
+import { useRoute } from "@react-navigation/core";
 import { useAppDispatch } from "../../../../../store";
 import { useReportPost } from "../../../../hooks/post/useReportPost";
 import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
 import SFIcon from "../../../common/icons/SFIcon";
 import { ICON_MAP } from "../../../../constants/IconMap";
+import { useCurrentPostState } from "../../../../stores/posts/postsStore";
 
-interface IProps {
-  postId: number;
-}
+function CommentSortButton() {
+  const route = useRoute<any>();
+  const { postKey } = route.params;
+  const post = useCurrentPostState(postKey);
 
-function CommentSortButton({ postId }: IProps) {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const options = [t("Report Post")];
@@ -22,7 +24,7 @@ function CommentSortButton({ postId }: IProps) {
       onPressMenuItem={({ nativeEvent }) => {
         switch (nativeEvent.actionKey) {
           case "Report Post":
-            useReportPost({ postId, dispatch }).then();
+            useReportPost({ postId: post.post.post.id, dispatch }).then();
             break;
           default:
             break;

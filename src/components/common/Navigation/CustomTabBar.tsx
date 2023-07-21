@@ -97,7 +97,10 @@ export function CustomTabBar({
 
           if (route.name === "ProfileStack") {
             return (
-              <AccountsContextMenu navigation={navigation}>
+              <AccountsContextMenu
+                navigation={navigation}
+                key={label as string}
+              >
                 <TouchableOpacity
                   accessibilityRole="button"
                   accessibilityState={isFocused ? { selected: true } : {}}
@@ -125,6 +128,7 @@ export function CustomTabBar({
               onPress={onPress}
               onLongPress={onLongPress}
               style={{ flex: 1 }}
+              key={label as string}
             >
               <IconWithText
                 icon={icon}

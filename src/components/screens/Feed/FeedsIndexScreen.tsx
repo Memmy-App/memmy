@@ -1,35 +1,67 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useEffect, useRef } from "react";
+import { useRoute } from "@react-navigation/core";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import {
   initialize,
   lemmyInstance,
   resetInstance,
 } from "../../../LemmyInstance";
-import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
-import { useFeed } from "../../../hooks/feeds/useFeed";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
-import { getUnreadCount } from "../../../slices/site/siteActions";
 import { Account } from "../../../types/Account";
 import { FeedListingTypeButton } from "./components/FeedListingTypeButton";
 import FeedView from "./components/FeedView";
+import loadFeedPosts from "../../../stores/feeds/actions/loadFeedPosts";
+import removeFeed from "../../../stores/feeds/actions/removeFeed";
+import { useFeedStatus } from "../../../stores/feeds/feedsStore";
+import addFeed from "../../../stores/feeds/actions/addFeed";
+import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
+import { getUnreadCount } from "../../../slices/site/siteActions";
 
 function FeedsIndexScreen({
   navigation,
 }: {
   navigation: NativeStackNavigationProp<any>;
 }) {
+  const { key } = useRoute();
   // Global State
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const status = useFeedStatus(key);
 
   // Refs
   const previousAccount = useRef<Account | null>(null);
+  const initialized = useRef(false);
 
-  // Hooks
-  const feed = useFeed();
-
-  // Other hooks
   const dispatch = useAppDispatch();
+
+  const doLoad = () => {
+    if (!lemmyInstance) {
+      init().then(() => doLoad);
+      return;
+    }
+
+    loadFeedPosts(key, {
+      refresh: true,
+    }).then();
+  };
+
+  useEffect(() => {
+    if (initialized.current) return;
+
+    if (!status) {
+      addFeed(key);
+    } else {
+      doLoad();
+      initialized.current = true;
+    }
+  }, [status]);
+
+  useEffect(
+    () => () => {
+      removeFeed(key);
+    },
+    []
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -39,10 +71,10 @@ function FeedsIndexScreen({
     if (currentAccount === previousAccount.current) return;
 
     resetInstance();
-    load().then();
+    init().then();
   }, [currentAccount]);
 
-  const load = async () => {
+  const init = async () => {
     try {
       if (!lemmyInstance) {
         await initialize({
@@ -59,14 +91,11 @@ function FeedsIndexScreen({
     previousAccount.current = currentAccount;
 
     dispatch(getUnreadCount());
-
-    feed.doLoad(true);
-    feed.setLoaded(true);
   };
 
-  const headerTitle = () => <FeedListingTypeButton feed={feed} />;
+  const headerTitle = () => <FeedListingTypeButton />;
 
-  return <FeedView feed={feed} />;
+  return <FeedView />;
 }
 
 export default FeedsIndexScreen;

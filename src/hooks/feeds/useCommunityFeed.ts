@@ -1,20 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { trigger } from "react-native-haptic-feedback";
-import { useTranslation } from "react-i18next";
-import { UseFeed, useFeed } from "./useFeed";
-import { useAppDispatch, useAppSelector } from "../../../store";
+import { useAppSelector } from "../../../store";
 import { selectPost } from "../../slices/post/postSlice";
-import { showToast } from "../../slices/toast/toastSlice";
-import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
+import setCommunitySubscribed from "../../stores/communities/actions/setCommunitySubscribed";
 
 interface UseCommunityFeed {
-  feed: UseFeed;
-
   onSubscribePress: () => void;
-  onAboutPress: () => void;
   onPostPress: () => void;
 }
 
@@ -26,73 +19,14 @@ const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
   const creatingPost = useRef<boolean>(false);
   const lastPost = useRef<number>(0);
 
-  // Hooks
-  const feed = useFeed(communityFullName, true);
-
   // Other hooks
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
-  useEffect(() => {
-    if (creatingPost.current && post && lastPost.current !== post.post.id) {
-      creatingPost.current = false;
-
-      setTimeout(() => {
-        navigation.push("Post");
-      }, 500);
-    }
-  }, [post]);
 
   // Events
   const onSubscribePress = async () => {
     trigger("impactMedium");
 
-    const subscribing = !(
-      feed.community.subscribed === "Subscribed" ||
-      feed.community.subscribed === "Pending"
-    );
-
-    feed.setCommunity((prev) => ({
-      ...prev,
-      subscribed: subscribing ? "Subscribed" : "NotSubscribed",
-    }));
-
-    try {
-      await lemmyInstance.followCommunity({
-        auth: lemmyAuthToken,
-        community_id: feed.community.community.id,
-        follow: subscribing,
-      });
-
-      dispatch(
-        showToast({
-          message: t(
-            `toast.${subscribing ? "subscribedTo" : "unsubscribedFrom"}`,
-            [feed.community.community.name]
-          ),
-          duration: 3000,
-          variant: "info",
-        })
-      );
-    } catch (e) {
-      feed.setCommunity((prev) => ({
-        ...prev,
-        subscribed: subscribing ? "NotSubscribed" : "Subscribed",
-      }));
-
-      handleLemmyError(e.toString());
-    }
-  };
-
-  const onAboutPress = () => {
-    navigation.push("CommunityAbout", {
-      name: feed.community.community.name,
-      banner: feed.community.community.banner,
-      description: feed.community.community.description,
-      title: feed.community.community.title,
-      communityId: feed.community.community.id,
-    });
+    setCommunitySubscribed(communityFullName).then();
   };
 
   const onPostPress = () => {
@@ -100,20 +34,12 @@ const useCommunityFeed = (communityFullName: string): UseCommunityFeed => {
     lastPost.current = post ? post.post.id : 0;
 
     navigation.push("NewPost", {
-      communityId: feed.community.community.id,
-      communityName: feed.community.community.name,
-      communityLanguageId:
-        feed.posts && feed.posts.length > 0
-          ? feed.posts[0].post.language_id
-          : 0,
+      communityFullName,
     });
   };
 
   return {
-    feed,
-
     onSubscribePress,
-    onAboutPress,
     onPostPress,
   };
 };

@@ -1,58 +1,45 @@
 import { HStack, useTheme } from "native-base";
-import React from "react";
+import React, { useMemo } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { PostView } from "lemmy-js-client";
-import { useAppDispatch } from "../../../../../store";
-import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
-import { shareLink } from "../../../../helpers/ShareHelper";
-import { setResponseTo } from "../../../../slices/comments/newCommentSlice";
 import IconButtonWithText from "../../../common/IconButtonWithText";
 import VoteButton from "../../../common/Vote/VoteButton";
 import SFIcon from "../../../common/icons/SFIcon";
-import { ICON_MAP } from "../../../../constants/IconMap";
+import usePostActionBar from "../../../../hooks/post/usePostActionBar";
 
-interface IProps {
-  post: PostView;
-  doVote: (value: number) => Promise<void>;
-  doSave: () => Promise<void>;
-}
+function PostActionBar() {
+  const postActionBar = usePostActionBar();
 
-function PostActionBar({ post, doVote, doSave }: IProps) {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { colors } = useTheme();
-  const dispatch = useAppDispatch();
 
-  const onCommentPress = () => {
-    onGenericHapticFeedback();
+  const bubbleIcon = useMemo(
+    () => (
+      <SFIcon
+        icon="bubble.left"
+        color={postActionBar.currentPost.saved && colors.app.bookmarkText}
+      />
+    ),
+    []
+  );
 
-    dispatch(
-      setResponseTo({
-        post,
-        languageId: post.post.language_id,
-      })
-    );
+  const shareIcon = useMemo(
+    () => (
+      <SFIcon
+        icon="square.and.arrow.up"
+        color={postActionBar.currentPost.saved && colors.app.bookmarkText}
+      />
+    ),
+    []
+  );
 
-    navigation.push("NewComment");
-  };
-
-  const onSharePress = () => {
-    onGenericHapticFeedback();
-
-    shareLink({
-      link: post.post.ap_id,
-      title: post.post.name,
-    });
-  };
-
-  const onUpvotePress = () => {
-    doVote(1).then();
-  };
-
-  const onDownvotePress = () => {
-    doVote(-1).then();
-  };
+  const bookmarkIcon = useMemo(
+    () => (
+      <SFIcon
+        icon="bookmark"
+        color={postActionBar.currentPost.saved && colors.app.bookmarkText}
+      />
+    ),
+    [postActionBar.currentPost.saved]
+  );
 
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -64,47 +51,40 @@ function PostActionBar({ post, doVote, doSave }: IProps) {
       py={1}
     >
       <VoteButton
-        onPressHandler={onUpvotePress}
+        onPressHandler={postActionBar.onUpvotePress}
         type="upvote"
-        isVoted={post?.my_vote === 1}
-        text={post.counts.upvotes}
+        isVoted={postActionBar.currentPost?.my_vote === 1}
+        text={postActionBar.currentPost.counts.upvotes}
         isAccented
       />
 
       <VoteButton
-        onPressHandler={onDownvotePress}
+        onPressHandler={postActionBar.onDownvotePress}
         type="downvote"
-        isVoted={post?.my_vote === -1}
-        text={post.counts.downvotes}
+        isVoted={postActionBar.currentPost?.my_vote === -1}
+        text={postActionBar.currentPost.counts.downvotes}
         isAccented
       />
 
       <IconButtonWithText
-        onPressHandler={doSave}
-        icon={
-          <SFIcon
-            icon={ICON_MAP.SAVE}
-            color={post.saved && colors.app.bookmarkText}
-          />
+        onPressHandler={postActionBar.onSavePress}
+        icon={bookmarkIcon}
+        iconBgColor={
+          postActionBar.currentPost.saved ? colors.app.bookmark : "transparent"
         }
-        iconBgColor={post.saved ? colors.app.bookmark : "transparent"}
       />
 
       <IconButtonWithText
-        onPressHandler={onCommentPress}
-        icon={<SFIcon icon={ICON_MAP.REPLY} />}
+        onPressHandler={postActionBar.onCommentPress}
+        icon={bubbleIcon}
       />
 
       <IconButtonWithText
-        icon={<SFIcon icon={ICON_MAP.SHARE} />}
-        onPressHandler={onSharePress}
+        icon={shareIcon}
+        onPressHandler={postActionBar.onSharePress}
       />
     </HStack>
   );
 }
 
-const areEqual = (prev: IProps, next: IProps) =>
-  prev.post.saved === next.post.saved &&
-  prev.post.my_vote === next.post.my_vote;
-
-export default React.memo(PostActionBar, areEqual);
+export default React.memo(PostActionBar);
