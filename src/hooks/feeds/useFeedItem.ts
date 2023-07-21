@@ -66,13 +66,15 @@ const useFeedItem = (postId: number): UseFeedItem => {
     [post.post.id, markReadOnPostVote]
   );
 
-  const onPress = useCallback(() => {
+  const onPress = () => {
     if (!post.read && markReadOnPostView) setFeedRead(key, post.post.id);
 
-    addPost(post.post.id.toString(), post);
+    const postKey = Date.now().toString() + post.post.id;
 
-    navigation.push("Post", { postKey: post.post.id.toString() });
-  }, [post.post.id, markReadOnPostView]);
+    addPost(postKey, post);
+
+    navigation.push("Post", { postKey });
+  };
 
   const doSave = useCallback(async () => {
     onGenericHapticFeedback();

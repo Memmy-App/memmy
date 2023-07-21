@@ -7,10 +7,7 @@ import {
   lemmyInstance,
   resetInstance,
 } from "../../../LemmyInstance";
-import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
-import { useFeed } from "../../../hooks/feeds/useFeed";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
-import { getUnreadCount } from "../../../slices/site/siteActions";
 import { Account } from "../../../types/Account";
 import { FeedListingTypeButton } from "./components/FeedListingTypeButton";
 import FeedView from "./components/FeedView";
@@ -18,6 +15,8 @@ import loadFeedPosts from "../../../stores/feeds/actions/loadFeedPosts";
 import removeFeed from "../../../stores/feeds/actions/removeFeed";
 import { useFeedStatus } from "../../../stores/feeds/feedsStore";
 import addFeed from "../../../stores/feeds/actions/addFeed";
+import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
+import { getUnreadCount } from "../../../slices/site/siteActions";
 
 function FeedsIndexScreen({
   navigation,
@@ -33,13 +32,14 @@ function FeedsIndexScreen({
   const previousAccount = useRef<Account | null>(null);
   const initialized = useRef(false);
 
-  // Hooks
-  const feed = useFeed();
-
-  // Other hooks
   const dispatch = useAppDispatch();
 
   const doLoad = useCallback(() => {
+    if (!lemmyInstance) {
+      init().then(() => doLoad);
+      return;
+    }
+
     loadFeedPosts(key, {
       refresh: true,
       sort: "TopDay", // TODO DEFAULTS
@@ -73,10 +73,10 @@ function FeedsIndexScreen({
     if (currentAccount === previousAccount.current) return;
 
     resetInstance();
-    load().then();
+    init();
   }, [currentAccount]);
 
-  const load = async () => {
+  const init = async () => {
     try {
       if (!lemmyInstance) {
         await initialize({
@@ -93,9 +93,6 @@ function FeedsIndexScreen({
     previousAccount.current = currentAccount;
 
     dispatch(getUnreadCount());
-
-    feed.doLoad(true);
-    feed.setLoaded(true);
   };
 
   const headerTitle = () => <FeedListingTypeButton />;

@@ -83,14 +83,6 @@ export const useFeed = (
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!posts || posts.length < 1) return;
-
-    if (lemmyInstance) {
-      doLoad(true).then();
-    }
-  }, [sort, listingType]);
-
-  useEffect(() => {
     if (updateVote) {
       if (!posts) return;
 
