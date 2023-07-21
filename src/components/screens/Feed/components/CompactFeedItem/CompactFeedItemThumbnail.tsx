@@ -50,7 +50,7 @@ function CompactFeedItemThumbnail({
       {(linkInfo.extType === ExtensionType.IMAGE && (
         <>
           <ImageViewer
-            source={{ uri: post.post.url }}
+            source={post.post.url}
             heightOverride={75}
             widthOverride={75}
             style={{

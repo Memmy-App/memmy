@@ -1,8 +1,8 @@
 import { Divider, HStack, useTheme, View } from "native-base";
-import React from "react";
+import React, { useMemo } from "react";
 import { useAppSelector } from "../../../../store";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
-import useComment from "../../../hooks/post/useComment";
+import useComment from "../../../hooks/comments/useComment";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
@@ -21,18 +21,18 @@ import CommentWrapper from "./CommentWrapper";
 
 interface IProps {
   comment: ILemmyComment;
-  setComments: any;
-  onPressOverride?: () => Promise<void> | void;
   depth?: number;
   isUnreadReply?: boolean;
+  onVote: (value: ILemmyVote) => void;
+  onPress: () => unknown;
 }
 
 function CommentItem({
   comment,
-  setComments,
-  onPressOverride,
   depth,
   isUnreadReply,
+  onVote,
+  onPress,
 }: IProps) {
   const theme = useTheme();
   const settings = useAppSelector(selectSettings);
@@ -43,19 +43,20 @@ function CommentItem({
 
   const commentHook = useComment({
     comment,
-    setComments,
-    onPressOverride,
   });
+
+  const voteOption = useMemo(
+    () =>
+      onVote ? (
+        <VoteOption onVote={onVote} vote={comment.comment.my_vote} />
+      ) : undefined,
+    [comment.comment.comment.id]
+  );
 
   return (
     <>
       <SwipeableRow
-        leftOption={
-          <VoteOption
-            onVote={commentHook.onVote}
-            vote={comment.comment.my_vote}
-          />
-        }
+        leftOption={voteOption}
         rightOption={
           <ReplyOption
             onReply={commentHook.onReply}
@@ -71,10 +72,7 @@ function CommentItem({
           }}
           options={commentHook.longPressOptions}
         >
-          <CommentWrapper
-            depth={depth}
-            onCommentPress={commentHook.onCommentPress}
-          >
+          <CommentWrapper depth={depth} onCommentPress={onPress}>
             <CommentHeaderWrapper>
               <HStack space={1}>
                 <AvatarUsername
@@ -106,7 +104,7 @@ function CommentItem({
                 />
                 {settings.showCommentActions && (
                   <CommentActions
-                    commentHook={commentHook}
+                    onVote={onVote}
                     myVote={comment.comment.my_vote}
                   />
                 )}

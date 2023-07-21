@@ -1,18 +1,15 @@
-import React, { SetStateAction } from "react";
-import { PostView } from "lemmy-js-client";
+import React, { useCallback, useMemo } from "react";
 import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
 import { useWindowDimensions } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
+import { useRoute } from "@react-navigation/core";
 import useFeedItem from "../../../../../hooks/feeds/useFeedItem";
 import {
   ExtensionType,
-  getLinkInfo,
   getBaseUrl,
+  getLinkInfo,
 } from "../../../../../helpers/LinkHelper";
-import { setResponseTo } from "../../../../../slices/comments/newCommentSlice";
-import { useAppDispatch, useAppSelector } from "../../../../../../store";
+import { useAppSelector } from "../../../../../../store";
 import CompactFeedItemThumbnail from "./CompactFeedItemThumbnail";
 import CompactFeedItemVote from "./CompactFeedItemVote";
 import CompactFeedItemFooter from "./CompactFeedItemFooter";
@@ -23,38 +20,37 @@ import { VoteOption } from "../../../../common/SwipeableRow/VoteOption";
 import { ReplyOption } from "../../../../common/SwipeableRow/ReplyOption";
 import { SwipeableRow } from "../../../../common/SwipeableRow/SwipeableRow";
 import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
+import { useFeedPost } from "../../../../../stores/feeds/feedsStore";
 
-function CompactFeedItem({
-  post,
-  setPosts,
-}: {
-  post: PostView;
-  setPosts?: React.Dispatch<SetStateAction<PostView[]>>;
-}) {
+function CompactFeedItem({ postId }: { postId: number }) {
   const {
     compactThumbnailPosition,
     compactShowVotingButtons,
     fontWeightPostTitle,
   } = useAppSelector(selectSettings);
+  const { key } = useRoute();
 
-  const feedItem = useFeedItem(post, setPosts);
+  const feedItem = useFeedItem(postId);
+  const post = useFeedPost(key, postId);
+
   const theme = useTheme();
-  const dispatch = useAppDispatch();
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const onReply = () => {
-    dispatch(
-      setResponseTo({
-        post,
-        languageId: post.post.language_id,
-      })
-    );
-    navigation.push("NewComment");
-  };
+  const onSwipe = useCallback(
+    (value: ILemmyVote) => {
+      feedItem.onVotePress(value, false).then();
+    },
+    [postId]
+  );
 
-  const onSwipe = (value: ILemmyVote) => {
-    feedItem.onVotePress(value, false);
-  };
+  const leftOption = useMemo(
+    () => <VoteOption onVote={onSwipe} vote={post.my_vote} />,
+    [post.my_vote, postId]
+  );
+
+  const rightOption = useMemo(
+    () => <ReplyOption onReply={feedItem.doReply} />,
+    [postId]
+  );
 
   const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
   const { fontScale } = useWindowDimensions();
@@ -66,13 +62,9 @@ function CompactFeedItem({
     linkInfo.extType === ExtensionType.VIDEO ||
     linkInfo.extType === ExtensionType.GENERIC;
 
-  // TODO Memoize this properly
   return (
     <View flex={1} my={0.5}>
-      <SwipeableRow
-        leftOption={<VoteOption onVote={onSwipe} vote={post.my_vote} />}
-        rightOption={<ReplyOption onReply={onReply} />}
-      >
+      <SwipeableRow leftOption={leftOption} rightOption={rightOption}>
         <Pressable onPress={feedItem.onPress}>
           <HStack
             flex={1}
@@ -85,7 +77,7 @@ function CompactFeedItem({
               <CompactFeedItemThumbnail
                 post={post}
                 linkInfo={feedItem.linkInfo}
-                setPostRead={feedItem.setPostRead}
+                setPostRead={() => {}}
               />
             )}
 
@@ -119,7 +111,7 @@ function CompactFeedItem({
                 <CompactFeedItemThumbnail
                   post={post}
                   linkInfo={feedItem.linkInfo}
-                  setPostRead={feedItem.setPostRead}
+                  setPostRead={() => {}}
                 />
               </VStack>
             )}

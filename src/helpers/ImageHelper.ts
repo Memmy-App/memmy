@@ -60,6 +60,7 @@ export const selectImage = async (): Promise<string> => {
 
 export const preloadImages = async (posts: PostView[]): Promise<void> => {
   const images = [];
+  let current = 0;
 
   for (const post of posts) {
     const info = getLinkInfo(post.post.url);
@@ -67,7 +68,14 @@ export const preloadImages = async (posts: PostView[]): Promise<void> => {
     if (info.extType === ExtensionType.IMAGE) {
       images.push({
         uri: post.post.url,
+        priority:
+          current < 4
+            ? FastImage.priority.high
+            : current < 10
+            ? FastImage.priority.normal
+            : FastImage.priority.low,
       });
+      current += 1;
     } else if (
       (info.extType === ExtensionType.VIDEO ||
         info.extType === ExtensionType.GENERIC) &&

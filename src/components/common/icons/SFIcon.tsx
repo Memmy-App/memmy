@@ -13,7 +13,7 @@ interface IProps {
   color?: string;
 }
 
-export default function SFIcon({
+export function SFIcon({
   icon,
   weight = "semibold",
   scale = "large",
@@ -38,3 +38,5 @@ export default function SFIcon({
     />
   );
 }
+
+export default React.memo(SFIcon);
