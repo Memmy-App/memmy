@@ -32,10 +32,6 @@ export const FEED_OPTIONS: Record<
     display: "Share Post",
     icon: ICON_MAP.SHARE,
   },
-  Read: {
-    display: "Mark as Read",
-    icon: ICON_MAP.HIDE,
-  },
   Report: {
     display: "Report Post",
     icon: ICON_MAP.REPORT_POST,
@@ -132,9 +128,6 @@ export function FeedItemContextMenu({
         break;
       case "Reply":
         feedItem.doReply();
-        break;
-      case "Read":
-        feedItem.setPostRead();
         break;
       case "Share":
         feedItem.doShare();

@@ -17,7 +17,6 @@ interface IProps {
   setPostRead?: () => void;
 }
 
-// TODO Fix the set Post read here
 function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
   const theme = useTheme();
   const { fontWeightPostTitle } = useAppSelector(selectSettings);
