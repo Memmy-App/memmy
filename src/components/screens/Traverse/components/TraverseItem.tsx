@@ -1,10 +1,11 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useTheme } from "native-base";
 import { CommunityView } from "lemmy-js-client";
-import { HStack, Pressable, Text, VStack, useTheme } from "native-base";
 import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
+import { HStack, Pressable, Text, VStack } from "../../../common/Gluestack";
 import { getCommunityFullName } from "../../../../helpers/LemmyHelpers";
 import { toggleFavorite } from "../../../../slices/favorites/favoritesActions";
 
@@ -56,15 +57,12 @@ function TraverseItem({ community, isFavorite }: IProps) {
       <HStack
         flex={1}
         backgroundColor={theme.colors.app.fg}
-        py={1.5}
-        px={2}
-        my={1}
-        mx={4}
         borderRadius={10}
         alignItems="center"
+        style={styles.container}
       >
-        <VStack space={1}>
-          <HStack space={2} alignItems="center">
+        <VStack>
+          <HStack space="sm" alignItems="center">
             {community.community.icon ? (
               <FastImage
                 source={{ uri: community.community.icon }}
@@ -74,9 +72,11 @@ function TraverseItem({ community, isFavorite }: IProps) {
               <PlanetIcon color={theme.colors.app.textSecondary} size={24} />
             )}
             <VStack>
-              <Text>{community.community.name}</Text>
+              <Text color={theme.colors.app.textPrimary}>
+                {community.community.name}
+              </Text>
               <Text
-                fontSize="2xs"
+                fontSize="$2xs"
                 color={theme.colors.app.textSecondary}
                 fontStyle="italic"
               >
@@ -84,8 +84,8 @@ function TraverseItem({ community, isFavorite }: IProps) {
               </Text>
             </VStack>
           </HStack>
-          <HStack space={2}>
-            <HStack space={1} alignItems="center">
+          <HStack ml="$1" space="sm">
+            <HStack space="xs" alignItems="center">
               <SFIcon
                 icon="eye"
                 size={8}
@@ -93,14 +93,14 @@ function TraverseItem({ community, isFavorite }: IProps) {
                 color={theme.colors.app.textSecondary}
               />
               <Text
-                fontSize="xs"
+                fontSize="$xs"
                 color={theme.colors.app.textSecondary}
                 fontStyle="italic"
               >
                 {community.counts.users_active_day.toLocaleString()} online
               </Text>
             </HStack>
-            <HStack space={1} alignItems="center">
+            <HStack space="xs" alignItems="center">
               <SFIcon
                 icon="doc.plaintext"
                 size={8}
@@ -108,7 +108,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
                 color={theme.colors.app.textSecondary}
               />
               <Text
-                fontSize="xs"
+                fontSize="$xs"
                 color={theme.colors.app.textSecondary}
                 fontStyle="italic"
               >
@@ -136,6 +136,12 @@ function TraverseItem({ community, isFavorite }: IProps) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    marginHorizontal: 16,
+    marginVertical: 4,
+  },
   icon: {
     height: 24,
     width: 24,
