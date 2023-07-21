@@ -1,9 +1,9 @@
-import { PostView } from "lemmy-js-client";
 import { HStack, Pressable, View } from "native-base";
-import React, { SetStateAction, memo } from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import FastImage from "@gkasdorf/react-native-fast-image";
+import { useRoute } from "@react-navigation/core";
 import useFeedItem from "../../../../../hooks/feeds/useFeedItem";
 import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
 import AvatarUsername from "../../../../common/AvatarUsername";
@@ -17,27 +17,40 @@ import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { Metrics } from "./Metrics";
 import { Post } from "./Post";
+import { useFeedPost } from "../../../../../stores/feeds/feedsStore";
 
 interface FeedItemProps {
-  post: PostView;
-  setPosts: React.Dispatch<SetStateAction<PostView[]>>;
+  postId: number;
   recycled: React.MutableRefObject<{}>;
 }
 
-function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
-  const feedItem = useFeedItem(post, setPosts);
+function FeedItem({ postId, recycled }: FeedItemProps) {
+  const { key } = useRoute();
 
-  const onSwipe = (value: ILemmyVote) => {
-    feedItem.onVotePress(value, false);
-  };
+  const feedItem = useFeedItem(postId);
+  const post = useFeedPost(key, postId);
+
+  const onSwipe = useCallback(
+    (value: ILemmyVote) => {
+      feedItem.onVotePress(value, false).then();
+    },
+    [postId]
+  );
+
+  const leftOption = useMemo(
+    () => <VoteOption onVote={onSwipe} vote={post.my_vote} />,
+    [post.my_vote, postId]
+  );
+
+  const rightOption = useMemo(
+    () => <ReplyOption onReply={feedItem.doReply} />,
+    [postId]
+  );
 
   return (
     <FeedItemContextMenu feedItem={feedItem}>
       <View py={1}>
-        <SwipeableRow
-          leftOption={<VoteOption onVote={onSwipe} vote={post.my_vote} />}
-          rightOption={<ReplyOption onReply={feedItem.doReply} />}
-        >
+        <SwipeableRow leftOption={leftOption} rightOption={rightOption}>
           <Post>
             <Header
               community={post.community}
@@ -58,7 +71,7 @@ function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
               <FeedContentPreview
                 post={post}
                 recycled={recycled}
-                setPostRead={feedItem.setPostRead}
+                setPostRead={() => {}}
               />
 
               <HStack mx={4} mt={1}>

@@ -63,4 +63,4 @@ function IconButtonWithText({
   );
 }
 
-export default IconButtonWithText;
+export default React.memo(IconButtonWithText);
