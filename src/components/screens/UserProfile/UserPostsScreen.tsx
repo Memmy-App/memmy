@@ -3,6 +3,7 @@ import { FlashList } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import { useTheme, VStack } from "native-base";
 import { Route } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/core";
 import useProfile from "../../../hooks/profile/useProfile";
 import CompactFeedItem from "../Feed/components/CompactFeedItem/CompactFeedItem";
 import NoResultView from "../../common/NoResultView";
@@ -10,6 +11,7 @@ import LoadingView from "../../common/Loading/LoadingView";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";
 import NotFoundView from "../../common/Loading/NotFoundView";
 import RefreshControl from "../../common/RefreshControl";
+import { useFeedPosts, useFeedStatus } from "../../../stores/feeds/feedsStore";
 
 interface IRouteParams {
   fullUsername?: string;
@@ -21,7 +23,16 @@ interface IProps {
 }
 
 function UserPostsScreen({ route }: IProps) {
-  const profile = useProfile(false, route?.params?.fullUsername);
+  const { key } = useRoute();
+  const profile = useProfile(
+    false,
+    route?.params?.fullUsername,
+    route.params.isSavedPosts
+  );
+
+  const posts = useFeedPosts(key);
+
+  const postsStatus = useFeedStatus(key);
 
   const theme = useTheme();
 
@@ -31,18 +42,11 @@ function UserPostsScreen({ route }: IProps) {
 
   const keyExtractor = (item: PostView) => item.post.id.toString();
 
-  const renderItem = ({ item }) => (
-    <CompactFeedItem
-      post={item}
-      setPosts={
-        route.params.isSavedPosts ? profile.setSavedPosts : profile.setPosts
-      }
-    />
+  const renderItem = ({ item }: { item: PostView }) => (
+    <CompactFeedItem postId={item.post.id} />
   );
 
-  // rendering
-
-  if (!profile.profile) {
+  if (!profile.profile || !postsStatus || postsStatus.loading) {
     return <LoadingView />;
   }
 
@@ -59,7 +63,7 @@ function UserPostsScreen({ route }: IProps) {
       <FlashList
         renderItem={renderItem}
         estimatedItemSize={150}
-        data={route.params.isSavedPosts ? profile.savedPosts : profile.posts}
+        data={posts}
         keyExtractor={keyExtractor}
         ListEmptyComponent={<NoResultView type={noResultViewType} p={4} />}
         refreshing={profile.loading}
