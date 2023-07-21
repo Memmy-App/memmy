@@ -43,7 +43,7 @@ const useSearchResult = (query: string, type: SearchType): UseSearch => {
       });
 
       if (type === "Posts") {
-        setFeedPosts(key, res.posts).then();
+        setFeedPosts(key, res.posts);
       } else {
         setResult({
           users: res.users,

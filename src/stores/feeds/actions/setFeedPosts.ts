@@ -2,7 +2,7 @@ import { PostView } from "lemmy-js-client";
 import store from "../../../../store";
 import { useFeedsStore } from "../feedsStore";
 
-const setFeedPosts = async (feedKey: string, posts: PostView[]) => {
+const setFeedPosts = (feedKey: string, posts: PostView[]) => {
   const { hideNsfw } = store.getState().settings;
 
   if (hideNsfw) {

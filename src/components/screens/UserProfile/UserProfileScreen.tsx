@@ -125,17 +125,19 @@ function UserProfileScreen({ route, navigation }: IProps) {
               })
             }
           />
-          <MCell
-            title={t("View Saved Posts")}
-            icon={<SFIcon icon={ICON_MAP.SAVE} size={14} />}
-            showChevron
-            onPress={() =>
-              navigation.push("UserPosts", {
-                fullUsername: route?.params?.fullUsername,
-                isSavedPosts: true,
-              })
-            }
-          />
+          {profile.self && (
+            <MCell
+              title={t("View Saved Posts")}
+              icon={<SFIcon icon={ICON_MAP.SAVE} size={14} />}
+              showChevron
+              onPress={() =>
+                navigation.push("UserPosts", {
+                  fullUsername: route?.params?.fullUsername,
+                  isSavedPosts: true,
+                })
+              }
+            />
+          )}
         </MTable>
       </VStack>
     </ScrollView>
