@@ -6,6 +6,8 @@ import { saveImage } from "../../../helpers/ImageHelper";
 import { shareLink } from "../../../helpers/ShareHelper";
 import IconButtonWithText from "../IconButtonWithText";
 import SFIcon from "../icons/SFIcon";
+import { useAppDispatch } from "../../../../store";
+import { showToast } from "../../../slices/toast/toastSlice";
 
 interface ImageViewFooterProps {
   source: string;
@@ -13,11 +15,20 @@ interface ImageViewFooterProps {
 
 function ImageViewFooter({ source }: ImageViewFooterProps) {
   const theme = useTheme();
+  const dispatch = useAppDispatch();
 
   const onSave = async () => {
     onGenericHapticFeedback();
 
     await saveImage(source);
+
+    dispatch(
+      showToast({
+        message: "Image saved.",
+        duration: 1500,
+        variant: "success",
+      })
+    );
   };
 
   const onShare = async () => {

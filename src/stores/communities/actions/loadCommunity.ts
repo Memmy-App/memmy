@@ -2,7 +2,20 @@ import { useCommunitiesStore } from "../communitiesStore";
 import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
 import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
 
-const loadCommunity = async (communityName: string) => {
+const loadCommunity = async (communityName: string, noRefresh = false) => {
+  const current = useCommunitiesStore
+    .getState()
+    .communityStates.get(communityName);
+
+  if (
+    noRefresh &&
+    current &&
+    !current.status.loading &&
+    !current.status.error
+  ) {
+    return;
+  }
+
   useCommunitiesStore.setState((state) => {
     if (!state.communityStates.has(communityName)) {
       state.communityStates.set(communityName, {

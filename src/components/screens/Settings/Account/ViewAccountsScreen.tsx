@@ -160,7 +160,10 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
     <ScrollView backgroundColor={theme.colors.app.bg}>
       <LoadingModalTransparent loading={notifications.loading} />
       <CTable>
-        <CSection header={t("settings.accounts.current")}>
+        <CSection
+          header={t("settings.accounts.current")}
+          footer="To switch accounts, simply press and hold the Profile button in the tab bar."
+        >
           <CCell
             cellStyle="RightDetail"
             title={t("Server")}

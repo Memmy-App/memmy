@@ -1,14 +1,11 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { useRoute } from "@react-navigation/core";
-import { LayoutAnimation } from "react-native";
 import CommentItem from "../../../common/Comments/CommentItem";
 import setPostCommentVote from "../../../../stores/posts/actions/setPostCommentVote";
 import { ILemmyVote } from "../../../../types/lemmy/ILemmyVote";
 import { determineVotes } from "../../../../helpers/VoteHelper";
 import {
   usePostComment,
-  usePostCommentCollapsed,
-  usePostCommentHidden,
   usePostsStore,
 } from "../../../../stores/posts/postsStore";
 

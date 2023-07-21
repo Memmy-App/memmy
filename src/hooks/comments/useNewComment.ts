@@ -32,7 +32,8 @@ const useNewComment = () => {
         parent_id: responseTo.comment
           ? responseTo.comment.comment.id
           : undefined,
-        language_id: responseTo.languageId,
+        language_id:
+          responseTo.languageId === 0 ? undefined : responseTo.languageId,
       });
 
       useUpdatesStore

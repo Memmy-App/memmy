@@ -1,7 +1,6 @@
 import { useCallback } from "react";
 import { useRoute } from "@react-navigation/core";
 import { CommentSortType } from "lemmy-js-client";
-import { LayoutAnimation } from "react-native";
 import {
   useCurrentPost,
   usePostCommentsSort,
@@ -30,7 +29,8 @@ const usePost = (): UsePost => {
     loadCommunity(
       `${currentPost.community.name}@${getBaseUrl(
         currentPost.community.actor_id
-      )}`
+      )}`,
+      true
     ).then();
   }, [currentPost.post.id, commentsSortType]);
 

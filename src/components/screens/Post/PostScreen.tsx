@@ -29,8 +29,6 @@ import { clearNewComment } from "../../../slices/comments/newCommentSlice";
 import PostCommentItem from "./components/PostCommentItem";
 import usePost from "../../../hooks/post/usePost";
 import CommentSortButton from "./components/CommentSortButton";
-import { useCommunity } from "../../../stores/communities/communitiesStore";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -46,9 +44,6 @@ function PostScreen({ navigation }: IProps) {
   const commentsSort = usePostCommentsSort(postKey);
   const comments = usePostComments(postKey);
   const commentsStatus = usePostCommentsStatus(postKey);
-  const community = useCommunity(
-    `${currentPost.community}@${getBaseUrl(currentPost.community.actor_id)}`
-  );
 
   const { t } = useTranslation();
   const theme = useTheme();
