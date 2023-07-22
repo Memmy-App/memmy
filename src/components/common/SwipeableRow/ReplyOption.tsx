@@ -152,8 +152,6 @@ export function ReplyOption({
       ]
     );
 
-    console.log(backgroundColor);
-
     const width = screenWidth - translateX.value;
     const transform = [{ translateX: translateX.value }];
 
