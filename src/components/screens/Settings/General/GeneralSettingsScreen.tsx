@@ -1,9 +1,10 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { ScrollView, useTheme } from "native-base";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Switch } from "react-native";
 import { ContextMenuButton } from "react-native-ios-context-menu";
+import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
@@ -15,15 +16,38 @@ function GeneralSettingsScreen() {
   const settings = useAppSelector(selectSettings);
 
   const { t } = useTranslation();
+  const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const theme = useTheme();
+
+  const bla = settings.swipeToVote;
+  const [swipeToVoteBuffer, setSwipeToVoteBuffer] = useState<boolean>(bla);
+  useEffect(() => console.log(swipeToVoteBuffer), [swipeToVoteBuffer]);
 
   const onChange = (key: string, value: any) => {
     dispatch(setSetting({ [key]: value }));
   };
 
+  const onNavigationBlur = () => {
+    onChange("swipeToVote", swipeToVoteBuffer);
+  };
+
+  useEffect(() => {
+    navigation.addListener("blur", onNavigationBlur);
+    navigation
+      .getParent("SettingsStackNavigator")
+      ?.addListener("blur", onNavigationBlur);
+
+    return () => {
+      navigation.addListener("blur", onNavigationBlur);
+      navigation
+        .getParent("SettingsStackNavigator")
+        ?.removeListener("blur", onNavigationBlur);
+    };
+  }, [navigation, swipeToVoteBuffer]);
+
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
+    <ScrollView backgroundColor={theme.colors.app.bg} flex={1} on>
       <TableView style={styles.table}>
         <CSection
           header={t("settings.appearance.gestures.header")}
@@ -44,14 +68,14 @@ function GeneralSettingsScreen() {
           />
           <CCell
             cellStyle="Basic"
-            title="Swipe to Vote"
+            title={t("settings.swipeToVote")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
             cellAccessoryView={
               <Switch
-                value={settings.swipeToVote}
-                onValueChange={(v) => onChange("swipeToVote", v)}
+                value={swipeToVoteBuffer}
+                onValueChange={(v) => setSwipeToVoteBuffer(v)}
               />
             }
           />

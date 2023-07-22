@@ -370,6 +370,7 @@ function SettingsStackScreen() {
       screenOptions={{
         freezeOnBlur: true,
       }}
+      id="SettingsStackNavigator"
     >
       {SettingsScreens(SettingsStack)}
     </SettingsStack.Navigator>

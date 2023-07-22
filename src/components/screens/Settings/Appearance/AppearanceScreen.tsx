@@ -2,7 +2,7 @@ import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { useTranslation } from "react-i18next";
 import { ContextMenuButton } from "react-native-ios-context-menu";
@@ -28,24 +28,9 @@ function AppearanceScreen({ navigation }: IProps) {
   const dispatch = useAppDispatch();
   const theme = useTheme();
 
-  const [swipeToVoteBuffer, setSwipeToVoteBuffer] = useState<boolean>(
-    settings.swipeToVote
-  );
-
   const onChange = (key: string, value: any) => {
     dispatch(setSetting({ [key]: value }));
   };
-
-  const handleNavigationBlur = () => {
-    onChange("swipeToVote", swipeToVoteBuffer);
-  };
-
-  useEffect(() => {
-    navigation.addListener("blur", handleNavigationBlur);
-    return () => {
-      navigation.removeListener("blur", handleNavigationBlur);
-    };
-  });
 
   const selectedFontWeight =
     Object.keys(FontWeightMap).find(
