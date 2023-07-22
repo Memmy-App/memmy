@@ -1,7 +1,7 @@
 import * as Notifications from "expo-notifications";
 import { StatusBar, StatusBarStyle } from "expo-status-bar";
 import { extendTheme, NativeBaseProvider } from "native-base";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { AppState, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -69,11 +69,15 @@ function Start({ onReady }: StartProps) {
 
   const [selectedTheme, setSelectedTheme] = useState<any>(darkTheme);
   const colorScheme = useColorScheme();
-  const currentTheme = themeMatchSystem
-    ? colorScheme === "light"
-      ? themeLight
-      : themeDark
-    : theme;
+  const currentTheme = useMemo(
+    () =>
+      themeMatchSystem
+        ? colorScheme === "light"
+          ? themeLight
+          : themeDark
+        : theme,
+    [themeMatchSystem, themeDark, themeLight]
+  );
 
   const appState = useRef(AppState.currentState);
 
