@@ -18,6 +18,6 @@ Ensure you've checked the following before submitting your PR:
 
 ### Test Plan
 
-> Please documemnt the steps required to test your PR
+> Please document the steps required to test your PR
 
 
