@@ -1,6 +1,12 @@
 import React, { useCallback, useMemo } from "react";
 import { useTheme } from "native-base";
-import { Divider, HStack, Pressable, Text, VStack } from "@components/common/Gluestack";
+import {
+  Divider,
+  HStack,
+  Pressable,
+  Text,
+  VStack,
+} from "@components/common/Gluestack";
 import { useRoute } from "@react-navigation/core";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import PostContentView from "./PostContentView";
