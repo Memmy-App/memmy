@@ -208,7 +208,7 @@ function SettingsIndexScreen({
           />
           <CCell
             cellStyle="Basic"
-            title={t("Report a Bug")}
+            title={t("Report a Bug on GitHub")}
             accessory="DisclosureIndicator"
             onPress={onReportBugPress}
           />
