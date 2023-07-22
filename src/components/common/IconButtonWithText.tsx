@@ -1,7 +1,6 @@
 import { Box, HStack, Pressable, Text } from "@components/common/Gluestack";
 import React from "react";
 import { GestureResponderEvent } from "react-native";
-import { ColorType } from "native-base/lib/typescript/components/types";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -11,7 +10,7 @@ import Animated, {
 interface IconButtonWithTextProps {
   onPressHandler?: (event: GestureResponderEvent) => void;
   icon: JSX.Element;
-  iconBgColor?: ColorType;
+  iconBgColor?: string;
   text?: string | number;
   textColor?: string;
   size?: React.ComponentProps<typeof Text>["size"];

@@ -1,7 +1,6 @@
 import React from "react";
 import { useTheme } from "native-base";
 import { Text, VStack } from "@components/common/Gluestack";
-import { InterfaceVStackProps } from "native-base/lib/typescript/components/primitives/Stack/VStack";
 import { useTranslation } from "react-i18next";
 
 type MessageType =
@@ -14,7 +13,8 @@ type MessageType =
   | "inbox"
   | "default";
 
-export interface INoResultViewProps extends InterfaceVStackProps {
+export interface INoResultViewProps
+  extends React.ComponentProps<typeof VStack> {
   type?: MessageType;
 }
 

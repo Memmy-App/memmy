@@ -247,10 +247,9 @@ function TraverseScreen() {
   }
 
   return (
-    <View flex={1}>
+    <View flex={1} style={{ backgroundColor: theme.colors.app.bg }}>
       {header}
       <FlashList
-        backgroundColor={theme.colors.app.bg}
         refreshControl={
           <RefreshControl
             refreshing={traverse.refreshing}

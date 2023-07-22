@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Children } from "react";
 import { useTheme } from "native-base";
 import { Divider, Text, VStack } from "@components/common/Gluestack";
 
@@ -9,6 +9,7 @@ interface IProps {
 
 function MTable({ header, children }: IProps) {
   const theme = useTheme();
+  const childrenArray = Children.toArray(children);
 
   return (
     <>
@@ -23,9 +24,15 @@ function MTable({ header, children }: IProps) {
           p="$3"
           borderRadius={10}
           space="md"
-          divider={<Divider backgroundColor={theme.colors.app.border} />}
         >
-          {children}
+          {childrenArray.map((child, index) => (
+            <>
+              {index !== 0 && (
+                <Divider backgroundColor={theme.colors.app.border} />
+              )}
+              {child}
+            </>
+          ))}
         </VStack>
       </>
     </>

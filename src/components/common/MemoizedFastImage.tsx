@@ -4,7 +4,7 @@ import { Icon, useTheme, View } from "native-base";
 import { Text, VStack } from "@components/common/Gluestack";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet } from "react-native";
+import { DimensionValue, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 import { getRatio } from "../../helpers/ImageHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
@@ -25,8 +25,8 @@ function MemoizedFastImage({
   recycled?: React.MutableRefObject<{}> | undefined;
   nsfw?: boolean;
   resizeMode?: ResizeMode;
-  imgHeight?: number | string;
-  imgWidth?: number | string;
+  imgHeight?: DimensionValue;
+  imgWidth?: DimensionValue;
   onLoad?: (e) => void;
 }) {
   const { t } = useTranslation();
@@ -34,8 +34,8 @@ function MemoizedFastImage({
 
   const { ignoreScreenHeightInFeed } = useAppSelector(selectSettings);
 
-  const [height, setHeight] = useState<string | number>(0);
-  const [width, setWidth] = useState<string | number>(0);
+  const [height, setHeight] = useState<DimensionValue>(0);
+  const [width, setWidth] = useState<DimensionValue>(0);
   const [blurIntensity, setBlurIntensity] = useState(99);
 
   const lastPostId = useRef(postId);

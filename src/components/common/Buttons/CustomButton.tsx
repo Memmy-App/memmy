@@ -43,7 +43,6 @@ function CustomButton({
       onPressOut={onPressOut}
       onPress={onPressBefore}
       opacity={pressedIn ? 0.7 : 1}
-      shadow={pressedIn ? "3" : "0"}
       py={size === "md" ? "$2" : "$1"}
       borderRadius={size === "md" ? 10 : 20}
       backgroundColor={
