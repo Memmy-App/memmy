@@ -10,4 +10,8 @@ export const ICON_MAP = {
   BLOCK_USER: "person.crop.circle.badge.xmark",
   USER_AVATAR: "person.circle",
   CLOCK: "clock",
+  EDIT: "square.and.pencil",
+  DELETE: "trash",
+  COPY: "doc.on.doc",
+  LINK: "link",
 };
