@@ -3,8 +3,10 @@ import React from "react";
 import { HStack, Text, useTheme } from "native-base";
 import { useRoute } from "@react-navigation/core";
 import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
-import { listingTypeOptions } from "../../../../types/ListingType";
-import { ListingTypeContextMenu } from "../../../common/ContextMenu/ListingTypeContextMenu";
+import {
+  ListingTypeContextMenu,
+  listingTypeOptions,
+} from "../../../common/ContextMenu/ListingTypeContextMenu";
 import SFIcon from "../../../common/icons/SFIcon";
 import {
   useFeedListingType,

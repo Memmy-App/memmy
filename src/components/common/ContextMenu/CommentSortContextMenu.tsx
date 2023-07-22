@@ -4,7 +4,7 @@ import {
   ContextMenuButton,
   OnPressMenuItemEvent,
 } from "react-native-ios-context-menu";
-import { commentSortOptions } from "../../../types/SortOptions";
+import { commentSortOptions } from "../../../constants/SortOptions";
 
 interface IProps {
   children: React.ReactNode;

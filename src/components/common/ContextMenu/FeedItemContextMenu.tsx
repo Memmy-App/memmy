@@ -45,10 +45,7 @@ export const FEED_OPTIONS: ContextMenuOptions = {
   // },
 };
 
-const FEED_COMMUNITY_OPTIONS: Record<
-  string,
-  { display: string; icon: string; destructive?: boolean }
-> = {
+const FEED_COMMUNITY_OPTIONS: ContextMenuOptions = {
   Subscribe: {
     display: "Subscribe",
     icon: ICON_MAP.SUBSCRIBE,
