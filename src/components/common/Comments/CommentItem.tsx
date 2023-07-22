@@ -66,7 +66,7 @@ function CommentItem({
         }
       >
         <CommentContextMenu
-          isShortPress={false}
+          isButton={false}
           onPress={({ nativeEvent }) => {
             commentHook.onCommentLongPress(nativeEvent.actionKey);
           }}
