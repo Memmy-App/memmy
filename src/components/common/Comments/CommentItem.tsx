@@ -106,6 +106,7 @@ function CommentItem({
                   <CommentActions
                     onVote={onVote}
                     myVote={comment.comment.my_vote}
+                    onReply={commentHook.onReply}
                   />
                 )}
               </>
