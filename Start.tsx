@@ -68,15 +68,34 @@ function Start({ onReady }: StartProps) {
   } = useAppSelector(selectSettings);
 
   const [selectedTheme, setSelectedTheme] = useState<any>(darkTheme);
+
+  // Temporary hack for RN issue. TODO Fix this once patched
+  // https://github.com/facebook/react-native/issues/35972#issuecomment-1416243681
   const colorScheme = useColorScheme();
+  const [currentColorScheme, setCurrentColorScheme] = useState(colorScheme);
+  const onColorSchemeChange = useRef<NodeJS.Timeout>();
+
+  // Add a second delay before switching color scheme
+  // Cancel if color scheme immediately switches back
+  useEffect(() => {
+    if (colorScheme !== currentColorScheme) {
+      onColorSchemeChange.current = setTimeout(
+        () => setCurrentColorScheme(colorScheme),
+        1000
+      );
+    } else if (onColorSchemeChange.current) {
+      clearTimeout(onColorSchemeChange.current);
+    }
+  }, [colorScheme]);
+
   const currentTheme = useMemo(
     () =>
       themeMatchSystem
-        ? colorScheme === "light"
+        ? currentColorScheme === "light"
           ? themeLight
           : themeDark
         : theme,
-    [themeMatchSystem, themeDark, themeLight]
+    [themeMatchSystem, themeDark, themeLight, currentColorScheme]
   );
 
   const appState = useRef(AppState.currentState);
