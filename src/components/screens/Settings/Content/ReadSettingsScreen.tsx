@@ -119,7 +119,9 @@ function ReadSettingsScreen() {
             cellAccessoryView={
               <Switch
                 value={settings.markReadOnFeedScroll}
-                onValueChange={(v) => onChange("markReadOnFeedScroll", v)}
+                onValueChange={(v) => {
+                  onChange("markReadOnFeedScroll", v);
+                }}
               />
             }
           />
@@ -132,7 +134,9 @@ function ReadSettingsScreen() {
             cellAccessoryView={
               <Switch
                 value={settings.markReadOnCommunityScroll}
-                onValueChange={(v) => onChange("markReadOnCommunityScroll", v)}
+                onValueChange={(v) => {
+                  onChange("markReadOnCommunityScroll", v);
+                }}
               />
             }
           />

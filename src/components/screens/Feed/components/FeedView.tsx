@@ -167,8 +167,6 @@ function FeedView({ header }: FeedViewProps) {
 
   const onViewableItemsChanged = useCallback(
     (info?: ViewableItemsChangedType<PostView>) => {
-      console.log(key);
-
       if (
         (markReadOnCommunityScroll && key.includes("Community")) ||
         (markReadOnFeedScroll && key.includes("FeedScreen"))
