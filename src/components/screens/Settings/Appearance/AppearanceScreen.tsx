@@ -1,8 +1,8 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ScrollView, useTheme } from "native-base";
-import { Box, HStack, Text } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import { Box, HStack, ScrollView, Text } from "@components/common/Gluestack";
 import React, { useState } from "react";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { useTranslation } from "react-i18next";
@@ -42,7 +42,7 @@ function AppearanceScreen({ navigation }: IProps) {
   const hexPattern = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
+    <ScrollView bg={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
         <CSection
           header={t("settings.appearance.appIcon")}

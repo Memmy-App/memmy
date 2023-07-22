@@ -1,7 +1,7 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { PostView } from "lemmy-js-client";
-import { useTheme, View } from "native-base";
-import { Box, Pressable } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import { Box, Pressable, View } from "@components/common/Gluestack";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";

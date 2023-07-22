@@ -5,8 +5,8 @@ import {
 } from "@react-navigation/native";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
-import { useTheme, View } from "native-base";
-import { HStack } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import { HStack, View } from "@components/common/Gluestack";
 import React, { useEffect, useMemo, useRef } from "react";
 import { StyleSheet } from "react-native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";

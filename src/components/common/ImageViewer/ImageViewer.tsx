@@ -24,8 +24,8 @@ import {
   TapGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import { BlurView } from "expo-blur";
-import { useTheme, View } from "native-base";
-import { Text, VStack } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import { Text, View, VStack } from "@components/common/Gluestack";
 import { StatusBar } from "expo-status-bar";
 import { IconAlertTriangle } from "tabler-icons-react-native";
 import { useImageDimensions } from "./useImageDimensions";

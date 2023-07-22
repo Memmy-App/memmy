@@ -1,6 +1,12 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
-import { ScrollView, useTheme, View } from "native-base";
-import { Box, HStack, Text } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import {
+  Box,
+  HStack,
+  ScrollView,
+  Text,
+  View,
+} from "@components/common/Gluestack";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
@@ -56,7 +62,7 @@ function ThemeSelectionScreen({ route }: IProps) {
 
   return (
     <View backgroundColor={theme.colors.app.bg} flex={1}>
-      <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
+      <ScrollView bg={theme.colors.app.bg} flex={1}>
         <TableView style={styles.table}>
           <CSection header={t("settings.appearance.themes.light")}>
             {LightThemeOptionsArr.map((themeName) => (

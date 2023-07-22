@@ -1,6 +1,6 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { useTheme, View } from "native-base";
-import { Box, HStack, Text, VStack } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import { Box, HStack, Text, View, VStack } from "@components/common/Gluestack";
 
 import React from "react";
 import { TouchableOpacity } from "react-native";

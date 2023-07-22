@@ -1,7 +1,13 @@
 import React from "react";
 import { GetSiteResponse } from "lemmy-js-client";
-import { useTheme, View } from "native-base";
-import { HStack, Pressable, Text, VStack } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import {
+  HStack,
+  Pressable,
+  Text,
+  View,
+  VStack,
+} from "@components/common/Gluestack";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { StyleSheet } from "react-native";
 import {

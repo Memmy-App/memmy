@@ -1,7 +1,7 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import dayjs from "dayjs";
-import { Spacer, useTheme, View } from "native-base";
-import { Box, HStack, Text, VStack } from "@components/common/Gluestack";
+import { Spacer, useTheme } from "native-base";
+import { Box, HStack, Text, View, VStack } from "@components/common/Gluestack";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { ICON_MAP } from "../../../../constants/IconMap";

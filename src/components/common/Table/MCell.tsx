@@ -1,5 +1,11 @@
-import { useTheme, View } from "native-base";
-import { HStack, Pressable, Text, VStack } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import {
+  HStack,
+  Pressable,
+  Text,
+  View,
+  VStack,
+} from "@components/common/Gluestack";
 import React, { useState } from "react";
 import SFIcon from "../icons/SFIcon";
 

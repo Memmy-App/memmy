@@ -2,8 +2,8 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
-import { useTheme, View } from "native-base";
-import { VStack } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import { View, VStack } from "@components/common/Gluestack";
 import React, { useMemo } from "react";
 import { TextStyle, useWindowDimensions } from "react-native";
 import { useAppSelector } from "../../../../store";

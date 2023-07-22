@@ -1,7 +1,6 @@
 import React from "react";
 import { Modal, StyleSheet } from "react-native";
-import { View } from "native-base";
-import { Spinner } from "@components/common/Gluestack";
+import { Spinner, View } from "@components/common/Gluestack";
 
 interface LoadingModalProps {
   loading: boolean;

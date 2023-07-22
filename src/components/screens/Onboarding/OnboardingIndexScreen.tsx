@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { ImageBackground, StyleSheet } from "react-native";
-import { View } from "native-base";
-import { Button, Text, VStack } from "@components/common/Gluestack";
+import { Button, Text, View, VStack } from "@components/common/Gluestack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
 import { resetInstance } from "../../../LemmyInstance";

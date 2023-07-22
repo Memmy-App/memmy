@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import { ScrollView, useTheme } from "native-base";
-import { VStack } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import { ScrollView, VStack } from "@components/common/Gluestack";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView, SearchType } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";

@@ -1,6 +1,7 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ScrollView, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { ScrollView } from "@components/common/Gluestack";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
@@ -30,7 +31,7 @@ function ContentScreen({
   };
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
+    <ScrollView bg={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
         <CSection header={t("Posts")}>
           <FeedSortContextMenu

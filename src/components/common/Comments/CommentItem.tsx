@@ -1,5 +1,5 @@
-import { useTheme, View } from "native-base";
-import { Divider, HStack } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import { Divider, HStack, View } from "@components/common/Gluestack";
 import React, { useMemo } from "react";
 import { useAppSelector } from "../../../../store";
 import { getBaseUrl } from "../../../helpers/LinkHelper";

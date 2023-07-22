@@ -5,6 +5,7 @@ export * from "./Divider";
 export * from "./Fab";
 export * from "./GluestackUIProvider";
 export * from "./Hstack";
+export * from "./Image";
 export * from "./Pressable";
 export * from "./Spinner";
 export * from "./Text";

@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { StyleSheet } from "react-native";
-import { useTheme, View } from "native-base";
-import { Text } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import { Text, View } from "@components/common/Gluestack";
 import { CommunityView } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";

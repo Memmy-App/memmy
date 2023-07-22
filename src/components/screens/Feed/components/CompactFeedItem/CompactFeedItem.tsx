@@ -1,6 +1,12 @@
 import React, { useCallback, useMemo } from "react";
-import { useTheme, View } from "native-base";
-import { HStack, Pressable, Text, VStack } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import {
+  HStack,
+  Pressable,
+  Text,
+  View,
+  VStack,
+} from "@components/common/Gluestack";
 import { useWindowDimensions } from "react-native";
 
 import { useRoute } from "@react-navigation/core";

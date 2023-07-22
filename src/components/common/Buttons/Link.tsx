@@ -1,6 +1,5 @@
 import React from "react";
-import { View } from "native-base";
-import { Pressable } from "@components/common/Gluestack";
+import { Pressable, View } from "@components/common/Gluestack";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 

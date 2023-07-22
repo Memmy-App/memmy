@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, StyleSheet, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useTheme, View } from "native-base";
+import { useTheme } from "native-base";
+import { View } from "@components/common/Gluestack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import LoadingView from "../../common/Loading/LoadingView";
 import KeyboardAccessory from "../../common/KeyboardAccessory";

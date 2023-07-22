@@ -1,8 +1,14 @@
 import React, { useEffect } from "react";
 import { LocalSite, Site, SiteAggregates } from "lemmy-js-client";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ScrollView, useTheme } from "native-base";
-import { Button, HStack, Text, VStack } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import {
+  Button,
+  HStack,
+  ScrollView,
+  Text,
+  VStack,
+} from "@components/common/Gluestack";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import {
   IconArrowDown,
@@ -38,7 +44,7 @@ function InstanceScreen({ route, navigation }: IProps) {
   }, []);
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1} p={6}>
+    <ScrollView bg={theme.colors.app.bg} flex={1} p={6}>
       <VStack p="$3" borderRadius={10} space="lg">
         <HStack space="sm">
           <FastImage

@@ -1,7 +1,8 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as WebBrowser from "expo-web-browser";
-import { ScrollView, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { ScrollView } from "@components/common/Gluestack";
 import React from "react";
 import { Alert, StyleSheet } from "react-native";
 import { getBuildNumber, getVersion } from "react-native-device-info";
@@ -22,7 +23,7 @@ function AboutScreen({
   const theme = useTheme();
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
+    <ScrollView bg={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
         <CSection>
           <CCell

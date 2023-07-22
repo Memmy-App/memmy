@@ -1,5 +1,6 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
-import { ScrollView, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { ScrollView } from "@components/common/Gluestack";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Switch } from "react-native";
@@ -23,7 +24,7 @@ function GeneralSettingsScreen() {
   };
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
+    <ScrollView bg={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
         <CSection header={t("Haptics")}>
           <ContextMenuButton

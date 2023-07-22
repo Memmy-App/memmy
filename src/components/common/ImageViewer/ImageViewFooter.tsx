@@ -1,5 +1,5 @@
-import { useTheme, View } from "native-base";
-import { HStack } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import { HStack, View } from "@components/common/Gluestack";
 import React from "react";
 import { ICON_MAP } from "../../../constants/IconMap";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";

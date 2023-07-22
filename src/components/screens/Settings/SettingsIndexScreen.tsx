@@ -1,8 +1,8 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ScrollView, useTheme } from "native-base";
-import { Box, HStack, Text } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import { Box, HStack, ScrollView, Text } from "@components/common/Gluestack";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, StyleSheet } from "react-native";
@@ -61,7 +61,7 @@ function SettingsIndexScreen({
   };
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
+    <ScrollView bg={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
         <CSection>
           <CCell

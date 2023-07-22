@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import FastImage, { ResizeMode } from "@gkasdorf/react-native-fast-image";
-import { Icon, useTheme, View } from "native-base";
-import { Text, VStack } from "@components/common/Gluestack";
+import { Icon, useTheme } from "native-base";
+import { Text, View, VStack } from "@components/common/Gluestack";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import { DimensionValue, StyleSheet } from "react-native";

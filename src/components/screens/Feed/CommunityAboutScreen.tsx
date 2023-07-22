@@ -1,6 +1,6 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
-import { ScrollView, useTheme } from "native-base";
-import { Text, VStack } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import { ScrollView, Text, VStack } from "@components/common/Gluestack";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import CommunityCounts from "../../common/CommunityCounts";
@@ -18,7 +18,7 @@ function CommunityAboutScreen({ route }: { route: any }) {
   const moderators = useCommunityModerators(route.params.communityFullName);
 
   return (
-    <ScrollView flex={1} backgroundColor={theme.colors.app.bg}>
+    <ScrollView bg={theme.colors.app.bg} flex={1}>
       <VStack mx="$4">
         {route.params.banner && (
           <FastImage

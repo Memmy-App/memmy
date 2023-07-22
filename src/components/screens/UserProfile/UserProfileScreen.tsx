@@ -1,6 +1,6 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ScrollView, useTheme } from "native-base";
-import { VStack } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import { ScrollView, VStack } from "@components/common/Gluestack";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { ContextMenuButton } from "react-native-ios-context-menu";
@@ -95,7 +95,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
   return (
     <ScrollView
       flex={1}
-      backgroundColor={theme.colors.app.bg}
+      bg={theme.colors.app.bg}
       refreshControl={
         <RefreshControl
           refreshing={profile.refreshing}

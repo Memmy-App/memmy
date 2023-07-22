@@ -1,6 +1,6 @@
 import React from "react";
-import { useTheme, View } from "native-base";
-import { Text } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import { Text, View } from "@components/common/Gluestack";
 import { Button, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, StyleSheet, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Icon, useTheme, View } from "native-base";
-import { HStack, Text, VStack } from "@components/common/Gluestack";
+import { Icon, useTheme } from "native-base";
+import { HStack, Text, View, VStack } from "@components/common/Gluestack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import dayjs from "dayjs";

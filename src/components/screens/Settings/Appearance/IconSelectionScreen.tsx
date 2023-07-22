@@ -1,6 +1,6 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
-import { Image, ScrollView, useTheme } from "native-base";
-import { HStack, Text } from "@components/common/Gluestack";
+import { useTheme } from "native-base";
+import { HStack, Image, ScrollView, Text } from "@components/common/Gluestack";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { changeIcon } from "react-native-change-icon";
@@ -19,7 +19,7 @@ function IconSelectionScreen() {
   const theme = useTheme();
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
+    <ScrollView bg={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
         <CSection footer="App icons by dizzy@lemmy.ml">
           {Object.entries(appIconOptions).map(([key, value]) => (
