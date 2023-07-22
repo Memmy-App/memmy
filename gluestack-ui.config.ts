@@ -24,7 +24,7 @@ export const config = {
     } as const,
     tokens: {
       colors: {
-        textLight700: "#525252",
+        textPrimary: "#FFFFFF",
       },
       space: {
         px: "1px",

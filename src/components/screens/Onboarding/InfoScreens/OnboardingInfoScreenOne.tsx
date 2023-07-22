@@ -46,7 +46,7 @@ function OnboardingInfoScreenOne({ navigation }: IProps) {
               onPress={() => navigation.push("HubDiscovery")}
               mt="auto"
               borderRadius="$20"
-              py={2.5}
+              py="$2.5"
               width="50%"
             >
               <Text fontWeight="semibold" fontSize="$lg">
@@ -59,7 +59,7 @@ function OnboardingInfoScreenOne({ navigation }: IProps) {
               onPress={() => navigation.push("OnboardingInfoTwo")}
               mt="auto"
               borderRadius="$20"
-              py={2.5}
+              py="$2.5"
               flexGrow={1}
             >
               <Text fontWeight="semibold" fontSize="$lg">

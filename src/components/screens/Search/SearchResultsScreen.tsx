@@ -86,7 +86,7 @@ function SearchResultsScreen({ route }: IProps) {
         />
       )) ||
         (type === "Users" && (
-          <ScrollView px="$4">
+          <ScrollView px={4}>
             <MTable header={t("Users")}>
               {search.result.users.map((u) => (
                 <SearchUserItem key={u.person.id} user={u} />
@@ -95,7 +95,7 @@ function SearchResultsScreen({ route }: IProps) {
           </ScrollView>
         )) ||
         (type === "Communities" && (
-          <ScrollView px="$4">
+          <ScrollView px={4}>
             <MTable header={t("Communities")}>
               {search.result.communities.map((c) => (
                 <SearchCommunityItem key={c.community.id} community={c} />

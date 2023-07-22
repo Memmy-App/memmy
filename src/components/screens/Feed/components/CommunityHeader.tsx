@@ -92,8 +92,8 @@ function CommunityHeader({ communityFullName }: IProps) {
           <PlanetIcon color={theme.colors.app.textSecondary} size={64} />
         )}
 
-        <VStack alignContent="center">
-          <HStack space="md">
+        <VStack>
+          <HStack space="md" borderColor="red">
             <HStack alignItems="center">
               <SFIcon
                 icon="person"
@@ -117,10 +117,10 @@ function CommunityHeader({ communityFullName }: IProps) {
               </Text>
             </HStack>
           </HStack>
-          <Text fontSize="$3xl" fontWeight="bold">
+          <Text fontSize="$3xl" fontWeight="bold" pt="$3">
             {community.community.name}
           </Text>
-          <Text fontSize="$md" color={theme.colors.app.textSecondary} mt={-2}>
+          <Text fontSize="$md" color={theme.colors.app.textSecondary} mt={-3}>
             {getBaseUrl(community.community.actor_id)}
           </Text>
         </VStack>

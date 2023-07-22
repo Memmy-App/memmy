@@ -12,14 +12,13 @@ function HideReadFAB({ onPress }: IProps) {
 
   return (
     <Fab
-      renderInPortal={false}
-      shadow={2}
-      fontSize="$md"
       backgroundColor={theme.colors.app.accent}
-      icon={<SFIcon icon="eye.slash" color="#fff" size={14} />}
       p="$2"
       onPress={onPress}
-    />
+      placement="bottom right"
+    >
+      <SFIcon icon="eye.slash" color="#fff" size={14} />
+    </Fab>
   );
 }
 

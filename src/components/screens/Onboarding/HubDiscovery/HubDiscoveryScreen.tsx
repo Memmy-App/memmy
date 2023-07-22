@@ -40,7 +40,7 @@ function HubDiscoveryScreen({ navigation }: IProps) {
           onPress={() => navigation.push("CreateAccount")}
           mt="auto"
           borderRadius="$2xl"
-          py={2.5}
+          py="$2.5"
           width="50%"
         >
           <HStack space="sm" alignItems="center">
@@ -57,7 +57,7 @@ function HubDiscoveryScreen({ navigation }: IProps) {
           onPress={() => navigation.push("AddAccount")}
           mt="auto"
           borderRadius="$2xl"
-          py={2.5}
+          py="$2.5"
           flexGrow={1}
         >
           <HStack space="sm" alignItems="center">

@@ -1,5 +1,5 @@
 import { useTheme } from "native-base";
-import { IFontSize } from "native-base/lib/typescript/theme/base/typography";
+import { Text } from "@components/common/Gluestack";
 import React, { useMemo } from "react";
 import { GestureResponderEvent } from "react-native";
 import IconButtonWithText from "../IconButtonWithText";
@@ -12,7 +12,7 @@ interface VoteButtonProps {
   isVoted: boolean;
   text?: string | number;
   isAccented?: boolean;
-  textSize?: IFontSize;
+  textSize?: React.ComponentProps<typeof Text>["fontSize"];
   iconSize?: number;
 }
 
@@ -22,7 +22,7 @@ function VoteButton({
   isVoted,
   text,
   isAccented,
-  textSize = "lg",
+  textSize = "$lg",
   iconSize = 16,
 }: VoteButtonProps) {
   const { colors } = useTheme();

@@ -43,8 +43,8 @@ function SearchBox({
       borderRadius={12}
       borderColor={theme.colors.app.border}
       borderWidth={1}
-      py={1.5}
-      px={2.5}
+      py="$1.5"
+      px="$2.5"
       pr="$9"
       space="sm"
       width={inHeader ? Dimensions.get("screen").width * 0.9 : undefined}

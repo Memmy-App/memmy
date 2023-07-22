@@ -2,7 +2,6 @@ import { Box, HStack, Pressable, Text } from "@components/common/Gluestack";
 import React from "react";
 import { GestureResponderEvent } from "react-native";
 import { ColorType } from "native-base/lib/typescript/components/types";
-import { IFontSize } from "native-base/lib/typescript/theme/base/typography";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -15,7 +14,7 @@ interface IconButtonWithTextProps {
   iconBgColor?: ColorType;
   text?: string | number;
   textColor?: string;
-  textSize?: IFontSize;
+  textSize?: React.ComponentProps<typeof Text>["fontSize"];
 }
 
 function IconButtonWithText({
@@ -24,7 +23,7 @@ function IconButtonWithText({
   iconBgColor,
   text,
   textColor,
-  textSize = "lg",
+  textSize = "$lg",
 }: IconButtonWithTextProps) {
   const scale = useSharedValue(1);
 

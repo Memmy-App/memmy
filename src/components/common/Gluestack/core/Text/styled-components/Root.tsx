@@ -4,7 +4,7 @@ import { styled } from "../../styled";
 export default styled(
   Text,
   {
-    color: "$textLight700",
+    color: "$textPrimary",
     fontWeight: "$normal",
     fontFamily: "$body",
     fontStyle: "normal",
@@ -48,7 +48,7 @@ export default styled(
 
         "3xl": {
           fontSize: "$3xl",
-          lineHeight: "$3xl",
+          lineHeight: "$7xl",
         },
 
         "4xl": {

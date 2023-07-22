@@ -44,7 +44,7 @@ function InstanceScreen({ route, navigation }: IProps) {
   }, []);
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1} p="$6">
+    <ScrollView backgroundColor={theme.colors.app.bg} flex={1} p={6}>
       <VStack p="$3" borderRadius={10} space="lg">
         <HStack space="sm">
           <FastImage
@@ -78,7 +78,7 @@ function InstanceScreen({ route, navigation }: IProps) {
             }
             mt="auto"
             borderRadius="15"
-            py={1.5}
+            py="$1.5"
             width="50%"
           >
             <HStack space="sm" alignItems="center">
@@ -99,7 +99,7 @@ function InstanceScreen({ route, navigation }: IProps) {
             }
             mt="auto"
             borderRadius="$2xl"
-            py={1.5}
+            py="$1.5"
             flexGrow={1}
           >
             <HStack space="sm" alignItems="center">

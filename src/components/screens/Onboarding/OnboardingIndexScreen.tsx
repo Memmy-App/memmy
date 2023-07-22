@@ -60,7 +60,7 @@ function OnboardingScreen({
               onPress={() => navigation.push("OnboardingInfoOne")}
               mt="auto"
               borderRadius="$20"
-              py={2.5}
+              py="$2.5"
             >
               <Text fontWeight="semibold" fontSize="$lg">
                 {t("onboarding.getStartedBtn")}
@@ -72,7 +72,7 @@ function OnboardingScreen({
               onPress={() => navigation.push("HubDiscovery")}
               mt="auto"
               borderRadius="$20"
-              py={2.5}
+              py="$2.5"
             >
               <Text fontWeight="semibold" fontSize="$lg">
                 {t("onboarding.hasAccountBtn")}

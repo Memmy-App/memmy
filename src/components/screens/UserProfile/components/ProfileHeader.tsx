@@ -23,9 +23,9 @@ function ProfileHeader({ profile }: IProps) {
     <VStack flex={1} backgroundColor={theme.colors.app.bg} space="lg">
       <View
         backgroundColor={theme.colors.app.fg}
-        mx="$4"
-        mt="$2"
-        px="$3"
+        mx={4}
+        mt={2}
+        px={3}
         borderRadius={10}
       >
         <HStack
@@ -35,7 +35,7 @@ function ProfileHeader({ profile }: IProps) {
           width="100%"
           zIndex={1}
           px="$5"
-          py={3.5}
+          py="$3.5"
           space="lg"
         >
           {profile.profile.person.avatar ? (
