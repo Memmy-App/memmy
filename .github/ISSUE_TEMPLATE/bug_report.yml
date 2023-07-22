@@ -13,7 +13,7 @@ body:
         important part of filing a bug is trying to provide a reproducible
         example. Without one, it can be extremely difficult to find and fix the
         issue.
-  - type: checkbox
+  - type: checkboxes
     attributes:
       label: I have verified that another issue for this is not open, or it has been
         closed and has not been fixed.
