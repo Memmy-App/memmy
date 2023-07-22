@@ -151,7 +151,7 @@ function PostScreen({ navigation }: IProps) {
     () => (
       <RefreshControl
         refreshing={commentsStatus.commentsLoading}
-        onRefresh={postHook.doLoad}
+        onRefresh={postHook.doRefresh}
       />
     ),
     [commentsStatus.commentsLoading]

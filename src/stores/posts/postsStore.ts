@@ -16,8 +16,12 @@ export interface PostCommentsState {
 
 export interface PostState {
   post: PostView;
-  postLoading: boolean;
-  postError: boolean;
+
+  status: {
+    loading: boolean;
+    error: boolean;
+    refreshing: boolean;
+  };
 
   collapsed: boolean;
 
