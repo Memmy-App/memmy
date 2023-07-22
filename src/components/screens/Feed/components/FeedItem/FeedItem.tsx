@@ -6,6 +6,7 @@ import { StyleSheet } from "react-native";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { useRoute } from "@react-navigation/core";
 import useFeedItem from "../../../../../hooks/feeds/useFeedItem";
+import { useFeedPost } from "../../../../../stores/feeds/feedsStore";
 import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
 import AvatarUsername from "../../../../common/AvatarUsername";
 import { FeedItemContextMenu } from "../../../../common/ContextMenu/FeedItemContextMenu";
@@ -18,7 +19,6 @@ import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { Metrics } from "./Metrics";
 import { Post } from "./Post";
-import { useFeedPost } from "../../../../../stores/feeds/feedsStore";
 
 interface FeedItemProps {
   postId: number;
@@ -44,8 +44,14 @@ function FeedItem({ postId, recycled }: FeedItemProps) {
   );
 
   const rightOption = useMemo(
-    () => <ReplyOption onReply={feedItem.doReply} />,
-    [postId]
+    () => (
+      <ReplyOption
+        onReply={feedItem.doReply}
+        onExtra={feedItem.doSave}
+        extraType="save"
+      />
+    ),
+    [postId, post.saved]
   );
 
   return (
