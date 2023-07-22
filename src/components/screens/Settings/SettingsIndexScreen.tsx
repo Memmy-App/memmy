@@ -209,8 +209,13 @@ function SettingsIndexScreen({
           <CCell
             cellStyle="Basic"
             title={t("settings.reportBugBtn")}
-            accessory="DisclosureIndicator"
             onPress={onReportBugPress}
+            cellAccessoryView={
+              <SFIcon
+                icon={ICON_MAP.EXTERNAL_LINK}
+                color={theme.colors.app.textSecondary}
+              />
+            }
           />
         </CSection>
 
