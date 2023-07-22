@@ -73,6 +73,7 @@ export function ReplyOption({
         onStart: () => {
           "worklet";
 
+          runOnJS(setIcon)("comment");
           isFrozen.value = false;
         },
         onEnd: () => {

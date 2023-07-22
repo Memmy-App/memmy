@@ -21,6 +21,7 @@ import { ReplyOption } from "../../../../common/SwipeableRow/ReplyOption";
 import { SwipeableRow } from "../../../../common/SwipeableRow/SwipeableRow";
 import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
 import { useFeedPost } from "../../../../../stores/feeds/feedsStore";
+import { Box } from "../../../../common/Gluestack";
 
 function CompactFeedItem({ postId }: { postId: number }) {
   const {
@@ -48,7 +49,13 @@ function CompactFeedItem({ postId }: { postId: number }) {
   );
 
   const rightOption = useMemo(
-    () => <ReplyOption onReply={feedItem.doReply} />,
+    () => (
+      <ReplyOption
+        onReply={feedItem.doReply}
+        onExtra={feedItem.doSave}
+        extraType="save"
+      />
+    ),
     [postId]
   );
 
@@ -120,6 +127,22 @@ function CompactFeedItem({ postId }: { postId: number }) {
               <CompactFeedItemVote
                 myVote={post.my_vote as ILemmyVote}
                 onVotePress={feedItem.onVotePress}
+              />
+            )}
+            {post.saved && (
+              <Box
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  backgroundColor: "transparent",
+                  width: 0,
+                  height: 0,
+                  borderTopColor: theme.colors.app.bookmark,
+                  borderTopWidth: 15,
+                  borderLeftWidth: 15,
+                  borderLeftColor: "transparent",
+                }}
               />
             )}
           </HStack>

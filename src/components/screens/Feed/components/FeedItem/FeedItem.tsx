@@ -43,7 +43,13 @@ function FeedItem({ postId, recycled }: FeedItemProps) {
   );
 
   const rightOption = useMemo(
-    () => <ReplyOption onReply={feedItem.doReply} />,
+    () => (
+      <ReplyOption
+        onReply={feedItem.doReply}
+        onExtra={feedItem.doSave}
+        extraType="save"
+      />
+    ),
     [postId]
   );
 
