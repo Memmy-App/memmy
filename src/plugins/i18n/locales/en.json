@@ -92,6 +92,7 @@
     "removedByMod": "Comment removed by moderator :("
   },
   "settings": {
+    "reportBugBtn": "Report a Bug on GitHub",
     "haptics": {
       "Off": "Off",
       "Light": "Light",
