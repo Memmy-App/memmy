@@ -2,7 +2,7 @@ import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { useTranslation } from "react-i18next";
 import { ContextMenuButton } from "react-native-ios-context-menu";
@@ -28,9 +28,24 @@ function AppearanceScreen({ navigation }: IProps) {
   const dispatch = useAppDispatch();
   const theme = useTheme();
 
+  const [swipeToVoteBuffer, setSwipeToVoteBuffer] = useState<boolean>(
+    settings.swipeToVote
+  );
+
   const onChange = (key: string, value: any) => {
     dispatch(setSetting({ [key]: value }));
   };
+
+  const handleNavigationBlur = () => {
+    onChange("swipeToVote", swipeToVoteBuffer);
+  };
+
+  useEffect(() => {
+    navigation.addListener("blur", handleNavigationBlur);
+    return () => {
+      navigation.removeListener("blur", handleNavigationBlur);
+    };
+  });
 
   const selectedFontWeight =
     Object.keys(FontWeightMap).find(
@@ -189,7 +204,7 @@ function AppearanceScreen({ navigation }: IProps) {
 
         <CSection
           header={t("settings.appearance.gestures.header")}
-          footer="Disabling swipe to vote will allow for full-screen swipe gestures."
+          footer="Disabling swipe to vote will allow for full-screen swipe gestures." // TODO: translate!
         >
           <CCell
             cellStyle="Basic"
@@ -206,14 +221,14 @@ function AppearanceScreen({ navigation }: IProps) {
           />
           <CCell
             cellStyle="Basic"
-            title="Swipe to Vote"
+            title="Swipe to Vote" // TODO: translate
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
             cellAccessoryView={
               <Switch
-                value={settings.swipeToVote}
-                onValueChange={(v) => onChange("swipeToVote", v)}
+                value={swipeToVoteBuffer}
+                onValueChange={(v) => setSwipeToVoteBuffer(v)}
               />
             }
           />
