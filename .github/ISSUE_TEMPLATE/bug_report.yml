@@ -12,29 +12,29 @@ body:
       label: I have verified that another issue for this is not open, or it has been closed and has not been fixed.
       description: |
         If there is another open issue about this already, please use that issue to provide further context.
-    validations:
-      required: true
+  validations:
+    required: true
   - type: textarea
     attributes:
       label: Minimal reproducible example
       description: |
         This should include a description of how the bug was encountered and how it can (hopefully) be reproduced. It is highly encouraged that you provide screenshots or videos of the issue you are encountering.
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: Expected Behavior
       description: |
         Describe the expected behavior and what is happening instead. Please try and be precise and descriptive.
-      validations:
-        required: true
+    validations:
+      required: true
   - type: input
     attributes:
       label: Version
       description: |
         The version of Memmy you are currently running
-      validations:
-        required: true
+    validations:
+      required: true
   - type: dropdown
     attributes:
       label: App Store or TestFlight?
@@ -43,8 +43,8 @@ body:
       options:
         - App Store
         - TestFlight
-      validations:
-        required: true
+    validations:
+      required: true
   - type: dropdown
     attributes:
       label: iOS Version
@@ -55,14 +55,14 @@ body:
         - 16.x
         - 15.x
         - 14.x
-      validations:
-        required: true
+    validations:
+      required: true
   - type: input
     attributes:
       label: Device
       description: |
         What device are you using?
-      validations:
-        required: true
+    validations:
+      required: true
       
       
