@@ -1,9 +1,7 @@
-import { CommentSortType, SortType } from "lemmy-js-client";
+import { CommentSortType } from "lemmy-js-client";
+import { ContextMenuOptions } from "../types/ContextMenuOptions";
 
-export const overallSortOptions: Record<
-  SortType,
-  { display: string; icon: string }
-> = {
+export const overallSortOptions: ContextMenuOptions = {
   TopHour: {
     display: "Hour",
     icon: "clock",
@@ -62,10 +60,7 @@ export const overallSortOptions: Record<
   },
 };
 
-export const feedSortOptions: Record<
-  string,
-  { display: string; icon: string }
-> = {
+export const feedSortOptions: ContextMenuOptions = {
   TopAll: {
     display: "Top",
     icon: "clock",
@@ -78,24 +73,20 @@ export const feedSortOptions: Record<
   Old: overallSortOptions.Old,
 };
 
-export const sortTopOptions: Record<string, { display: string; icon: string }> =
-  {
-    TopHour: overallSortOptions.TopHour,
-    TopSixHour: overallSortOptions.TopSixHour,
-    TopTwelveHour: overallSortOptions.TopTwelveHour,
-    TopDay: overallSortOptions.TopDay,
-    TopWeek: overallSortOptions.TopWeek,
-    TopMonth: overallSortOptions.TopMonth,
-    TopYear: overallSortOptions.TopYear,
-    TopAll: overallSortOptions.TopAll,
-  };
+export const sortTopOptions: ContextMenuOptions = {
+  TopHour: overallSortOptions.TopHour,
+  TopSixHour: overallSortOptions.TopSixHour,
+  TopTwelveHour: overallSortOptions.TopTwelveHour,
+  TopDay: overallSortOptions.TopDay,
+  TopWeek: overallSortOptions.TopWeek,
+  TopMonth: overallSortOptions.TopMonth,
+  TopYear: overallSortOptions.TopYear,
+  TopAll: overallSortOptions.TopAll,
+};
 
 export type CommentSortOption = [key: CommentSortType, display: string];
 
-export const commentSortOptions: Record<
-  CommentSortType,
-  { display: string; icon: string }
-> = {
+export const commentSortOptions: ContextMenuOptions = {
   Top: {
     display: "Top",
     icon: "clock",

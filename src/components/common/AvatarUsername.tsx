@@ -13,9 +13,9 @@ import SFIcon from "./icons/SFIcon";
 
 export type NameType = "admin" | "mod" | "dev" | "op";
 
-const devIds = [675207, 1113100];
+const devIds = ["gkd@lemmy.ml", "sgriff@lemmy.ml"];
 
-function isUserDev(userId: number): boolean {
+function isUserDev(userId: string): boolean {
   return devIds.includes(userId);
 }
 
@@ -32,7 +32,7 @@ function getUserPillType({
     return "mod";
   }
 
-  if (isUserDev(user.id)) {
+  if (isUserDev(getUserFullName(user))) {
     return "dev";
   }
 
@@ -114,6 +114,14 @@ function AvatarUsername({
             boxSize={22}
           />
         ))}
+      {creator.bot_account && (
+        <SFIcon
+          icon="server.rack"
+          size={12}
+          boxSize={20}
+          color={theme.colors.app.info}
+        />
+      )}
       <VStack>
         <HStack space={0.5}>
           <Link

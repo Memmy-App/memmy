@@ -7,7 +7,7 @@ import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
-import { overallSortOptions } from "../../../../types/SortOptions";
+import { overallSortOptions } from "../../../../constants/SortOptions";
 import { CommentSortContextMenu } from "../../../common/ContextMenu/CommentSortContextMenu";
 import { FeedSortContextMenu } from "../../../common/ContextMenu/FeedSortContextMenu";
 import { ListingTypeContextMenu } from "../../../common/ContextMenu/ListingTypeContextMenu";
