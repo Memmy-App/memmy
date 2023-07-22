@@ -14,6 +14,8 @@ import SFIcon from "../../../common/icons/SFIcon";
 import { useFeedCommunityName } from "../../../../stores/feeds/feedsStore";
 import { useCommunity } from "../../../../stores/communities/communitiesStore";
 import { getCommunityFullName } from "../../../../helpers/LemmyHelpers";
+import { ContextMenuOptions } from "../../../../types/ContextMenuOptions";
+import { ICON_MAP } from "../../../../constants/IconMap";
 
 export type Community = {
   id: number;
@@ -21,21 +23,32 @@ export type Community = {
   fullName: string;
 };
 
-const options = ["Share", "Block Community"];
-
-const optionIcons = {
-  Share: "square.and.arrow.up",
-  "Block Community": "xmark.circle",
+const options: ContextMenuOptions = {
+  share: {
+    display: "Share",
+    icon: ICON_MAP.SHARE,
+  },
+  block: {
+    display: "Block Community",
+    icon: ICON_MAP.BLOCK_COMMUNITY,
+    destructive: true,
+  },
+  unblock: {
+    display: "Unblock Community",
+    icon: ICON_MAP.BLOCK_COMMUNITY,
+    destructive: false,
+  },
 };
 
 function CommunityOverflowButton() {
-  const { key } = useRoute();
+  const { key: routeKey } = useRoute();
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const communityName = useFeedCommunityName(key);
+  const communityName = useFeedCommunityName(routeKey);
   const community = communityName ? useCommunity(communityName) : undefined;
 
+  // TODO: support unblocking community
   const onBlockCommunity = useCallback(() => {
     if (!community) return;
 
@@ -73,10 +86,10 @@ function CommunityOverflowButton() {
       isMenuPrimaryAction
       onPressMenuItem={({ nativeEvent }) => {
         switch (nativeEvent.actionKey) {
-          case "Share":
+          case "share":
             onShareCommunity();
             break;
-          case "Block Community":
+          case "block":
             onBlockCommunity();
             break;
           default:
@@ -87,16 +100,27 @@ function CommunityOverflowButton() {
         menuTitle: "",
         // @ts-ignore Types for menuItems are wrong for this library
         menuItems: [
-          ...options.map((option) => ({
-            actionKey: option,
-            actionTitle: option,
+          {
+            actionKey: "share",
+            actionTitle: options.share.display,
             icon: {
               type: "IMAGE_SYSTEM",
               imageValue: {
-                systemName: optionIcons[option],
+                systemName: options.share.icon,
               },
             },
-          })),
+          },
+          {
+            actionKey: "block",
+            actionTitle: options.block.display,
+            menuAttributes: ["destructive"],
+            icon: {
+              type: "IMAGE_SYSTEM",
+              imageValue: {
+                systemName: options.block.icon,
+              },
+            },
+          },
         ],
       }}
     >
