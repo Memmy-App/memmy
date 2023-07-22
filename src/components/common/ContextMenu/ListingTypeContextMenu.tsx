@@ -4,7 +4,22 @@ import {
   ContextMenuButton,
   OnPressMenuItemEvent,
 } from "react-native-ios-context-menu";
-import { listingTypeOptions } from "../../../types/ListingType";
+import { ContextMenuOptions } from "../../../types/ContextMenuOptions";
+
+export const listingTypeOptions: ContextMenuOptions = {
+  All: {
+    display: "All",
+    icon: "globe",
+  },
+  Local: {
+    display: "Local",
+    icon: "location",
+  },
+  Subscribed: {
+    display: "Subscribed",
+    icon: "heart",
+  },
+};
 
 interface IProps {
   children: React.ReactNode;

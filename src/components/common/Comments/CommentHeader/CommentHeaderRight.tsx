@@ -4,12 +4,13 @@ import { timeFromNowShort } from "../../../../helpers/TimeHelper";
 import IconButtonWithText from "../../IconButtonWithText";
 import SFIcon from "../../icons/SFIcon";
 import { CommentContextMenu } from "../CommentContextMenu";
+import { ContextMenuOptions } from "../../../../types/ContextMenuOptions";
 
 interface IProps {
   onPress: (key: string) => void;
   published: string;
   collapsed: boolean;
-  contextOptions: Record<string, string>;
+  contextOptions: ContextMenuOptions;
 }
 
 function CommentHeaderRight({
@@ -39,7 +40,7 @@ function CommentHeaderRight({
     <HStack alignItems="center" space={2}>
       <Text color={theme.colors.app.textSecondary}>{publishedFormatted}</Text>
       <CommentContextMenu
-        isShortPress
+        isButton
         options={contextOptions}
         onPress={({ nativeEvent }) => {
           onPress(nativeEvent.actionKey);

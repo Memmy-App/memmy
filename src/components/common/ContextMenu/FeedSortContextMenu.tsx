@@ -4,7 +4,7 @@ import {
   ContextMenuButton,
   OnPressMenuItemEvent,
 } from "react-native-ios-context-menu";
-import { feedSortOptions, sortTopOptions } from "../../../types/SortOptions";
+import { feedSortOptions, sortTopOptions } from "../../../constants/SortOptions";
 
 interface IProps {
   children: React.ReactNode;
