@@ -40,10 +40,10 @@ function MCell({
     <VStack space="xs" py={py}>
       <HStack alignItems="center" space="sm">
         {icon && icon}
-        <VStack>
-          <Text fontSize="$md">{title}</Text>
+        <VStack flexShrink={1}>
+          <Text size="md">{title}</Text>
           {subtitle && (
-            <Text fontSize="$xs" color={theme.colors.app.textSecondary}>
+            <Text size="xs" color={theme.colors.app.textSecondary}>
               {subtitle}
             </Text>
           )}

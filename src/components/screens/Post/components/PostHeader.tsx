@@ -82,7 +82,7 @@ function PostHeader() {
       {/*    }} */}
       {/*  > */}
       {/*    <VStack> */}
-      {/*      <Text fontSize="$md" fontStyle="italic" px="$2" py="$3"> */}
+      {/*      <Text size="md" fontStyle="italic" px="$2" py="$3"> */}
       {/*        Load all comments... */}
       {/*      </Text> */}
       {/*    </VStack> */}

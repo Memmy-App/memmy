@@ -53,7 +53,7 @@ function ImagePreview({
         />
         <Box position="absolute" right={1} bottom={1}>
           <Box px="$1" m="$0.5" backgroundColor="gray.700" borderRadius={5}>
-            <Text fontSize="$2xs">{images.length} IMAGES</Text>
+            <Text size="2xs">{images.length} IMAGES</Text>
           </Box>
         </Box>
       </HStack>

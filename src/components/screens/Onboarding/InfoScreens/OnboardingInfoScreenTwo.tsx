@@ -21,31 +21,22 @@ function OnboardingInfoScreenTwo({ navigation }: IProps) {
         resizeMode="cover"
       >
         <VStack px="$6" pt="$12" pb="$20" space="lg" flex={1}>
-          <Text
-            fontSize="$4xl"
-            color="white"
-            fontWeight="semibold"
-            textAlign="left"
-          >
+          <Text size="4xl" color="white" fontWeight="semibold" textAlign="left">
             {t("onboarding.info.2.1")}
           </Text>
-          <Text
-            fontSize="$3xl"
-            color="white"
-            fontWeight="semibold"
-            textAlign="left"
-          >
+          <Text size="3xl" color="white" fontWeight="semibold" textAlign="left">
             {t("onboarding.info.2.2")}
           </Text>
 
           <Button
             size="lg"
-            colorScheme="lightBlue"
+            variant="solid"
+            action="primary"
             onPress={() => navigation.push("OnboardingInfoThree")}
             borderRadius="$20"
             mt="auto"
           >
-            <Text fontWeight="semibold" fontSize="$lg">
+            <Text fontWeight="semibold" size="lg">
               {t("Continue")}
             </Text>
           </Button>

@@ -79,7 +79,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
                 {community.community.name}
               </Text>
               <Text
-                fontSize="$2xs"
+                size="2xs"
                 color={theme.colors.app.textSecondary}
                 fontStyle="italic"
               >
@@ -96,7 +96,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
                 color={theme.colors.app.textSecondary}
               />
               <Text
-                fontSize="$xs"
+                size="xs"
                 color={theme.colors.app.textSecondary}
                 fontStyle="italic"
               >
@@ -111,7 +111,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
                 color={theme.colors.app.textSecondary}
               />
               <Text
-                fontSize="$xs"
+                size="xs"
                 color={theme.colors.app.textSecondary}
                 fontStyle="italic"
               >

@@ -56,7 +56,7 @@ function InstanceScreen({ route, navigation }: IProps) {
                 {counts.users.toLocaleString()} users
               </Text>
             </HStack>
-            <Text fontSize="$2xl" fontWeight="semibold">
+            <Text size="2xl" fontWeight="semibold">
               {site.name}
             </Text>
           </VStack>
@@ -64,28 +64,29 @@ function InstanceScreen({ route, navigation }: IProps) {
         <HStack space="lg">
           <Button
             size="lg"
-            colorScheme="lightBlue"
+            variant="solid"
+            action="primary"
             onPress={() =>
               navigation.push("CreateAccount", {
                 server: getBaseUrl(site.actor_id),
               })
             }
             mt="auto"
-            borderRadius="15"
-            py="$1.5"
-            width="50%"
+            borderRadius="$2xl"
+            flexGrow={1}
           >
             <HStack space="sm" alignItems="center">
               <IconDoorEnter size={24} color="white" />
 
-              <Text fontWeight="semibold" fontSize="$md">
+              <Text fontWeight="semibold" size="md">
                 {t("Join")}
               </Text>
             </HStack>
           </Button>
           <Button
             size="lg"
-            colorScheme="lightBlue"
+            variant="solid"
+            action="primary"
             onPress={() =>
               navigation.push("AddAccount", {
                 server: getBaseUrl(site.actor_id),
@@ -93,13 +94,12 @@ function InstanceScreen({ route, navigation }: IProps) {
             }
             mt="auto"
             borderRadius="$2xl"
-            py="$1.5"
             flexGrow={1}
           >
             <HStack space="sm" alignItems="center">
               <IconDoorEnter size={24} color="white" />
 
-              <Text fontWeight="semibold" fontSize="$md">
+              <Text fontWeight="semibold" size="md">
                 {t("Login")}
               </Text>
             </HStack>

@@ -15,7 +15,7 @@ function DatePublished({ published }: { published: string }) {
         boxSize={18}
         color={colors.app.textSecondary}
       />
-      <Text color={colors.app.textSecondary} fontSize="$sm">
+      <Text color={colors.app.textSecondary} size="sm">
         {timeFromNowShort(published)}
       </Text>
     </HStack>

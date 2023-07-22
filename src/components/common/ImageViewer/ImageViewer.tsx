@@ -585,7 +585,7 @@ function ImageViewer({
                     />
                     {!compactMode && (
                       <>
-                        <Text fontSize="$xl">NSFW</Text>
+                        <Text size="xl">NSFW</Text>
                         <Text>Sensitive content ahead</Text>
                       </>
                     )}

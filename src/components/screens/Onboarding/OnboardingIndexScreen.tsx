@@ -27,17 +27,12 @@ function OnboardingScreen({
         resizeMode="cover"
       >
         <VStack px="$6" pt="$32" pb="$20" space="8xl" flex={1}>
-          <Text
-            fontSize="$6xl"
-            color="white"
-            fontWeight="semibold"
-            textAlign="left"
-          >
+          <Text size="6xl" color="white" fontWeight="semibold" textAlign="left">
             {t("onboarding.hello")} 👋
           </Text>
           <View>
             <Text
-              fontSize="$5xl"
+              size="5xl"
               color="white"
               fontWeight="semibold"
               textAlign="left"
@@ -45,7 +40,7 @@ function OnboardingScreen({
               {t("onboarding.welcomeTo")}
             </Text>
             <Text
-              fontSize="$5xl"
+              size="5xl"
               color="white"
               fontWeight="semibold"
               textAlign="left"
@@ -56,25 +51,27 @@ function OnboardingScreen({
           <VStack marginTop="auto" space="lg">
             <Button
               size="lg"
-              colorScheme="lightBlue"
+              variant="solid"
+              action="primary"
               onPress={() => navigation.push("OnboardingInfoOne")}
               mt="auto"
               borderRadius="$20"
               py="$2.5"
             >
-              <Text fontWeight="semibold" fontSize="$lg">
+              <Text fontWeight="semibold" size="lg">
                 {t("onboarding.getStartedBtn")}
               </Text>
             </Button>
             <Button
               size="lg"
-              colorScheme="blueGray"
+              variant="solid"
+              action="secondary"
               onPress={() => navigation.push("HubDiscovery")}
               mt="auto"
               borderRadius="$20"
               py="$2.5"
             >
-              <Text fontWeight="semibold" fontSize="$lg">
+              <Text fontWeight="semibold" size="lg">
                 {t("onboarding.hasAccountBtn")}
               </Text>
             </Button>

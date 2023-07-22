@@ -148,7 +148,7 @@ function AvatarUsername({
           )}
         </HStack>
         {showInstanceForUsernames && (
-          <Text fontSize="$xs" color={theme.colors.app.textPrimary}>
+          <Text size="xs" color={theme.colors.app.textPrimary}>
             {getBaseUrl(creator.actor_id)}
           </Text>
         )}

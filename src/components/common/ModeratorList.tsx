@@ -10,7 +10,7 @@ interface IProps {
 function ModeratorList({ moderators }: IProps) {
   return (
     <VStack space="xs">
-      <Text fontSize="$xl" fontWeight="bold">
+      <Text size="xl" fontWeight="bold">
         Mods:
       </Text>
       {moderators.map((moderator) => (

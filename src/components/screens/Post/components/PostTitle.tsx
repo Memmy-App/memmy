@@ -23,7 +23,7 @@ function Title({
       mt={mt}
       mb={mb}
       mx="$4"
-      fontSize="$lg"
+      size="lg"
       fontWeight={fontWeightPostTitle}
       color={theme.colors.app.textPrimary}
     >

@@ -12,7 +12,7 @@ interface VoteButtonProps {
   isVoted: boolean;
   text?: string | number;
   isAccented?: boolean;
-  textSize?: React.ComponentProps<typeof Text>["fontSize"];
+  size?: React.ComponentProps<typeof Text>["size"];
   iconSize?: number;
 }
 
@@ -22,7 +22,7 @@ function VoteButton({
   isVoted,
   text,
   isAccented,
-  textSize = "$lg",
+  size = "lg",
   iconSize = 16,
 }: VoteButtonProps) {
   const { colors } = useTheme();
@@ -55,7 +55,7 @@ function VoteButton({
       icon={icon}
       iconBgColor={isVoted ? voteColor : "transparent"}
       text={text}
-      textSize={textSize}
+      size={size}
       textColor={isVoted ? voteColor : color}
     />
   );

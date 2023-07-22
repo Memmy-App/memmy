@@ -251,7 +251,7 @@ function AppearanceScreen({ navigation }: IProps) {
                 ml="$4"
                 mb="$2"
                 mt={-3}
-                fontSize="$xs"
+                size="xs"
                 color={theme.colors.app.textSecondary}
               >
                 {`${t("Selected")}: ${settings.theme}`}
@@ -274,7 +274,7 @@ function AppearanceScreen({ navigation }: IProps) {
                 ml="$4"
                 mb="$2"
                 mt={-3}
-                fontSize="$xs"
+                size="xs"
                 color={theme.colors.app.textSecondary}
               >
                 Selected: {settings.themeLight}
@@ -297,7 +297,7 @@ function AppearanceScreen({ navigation }: IProps) {
                 ml="$4"
                 mb="$2"
                 mt={-3}
-                fontSize="$xs"
+                size="xs"
                 color={theme.colors.app.textSecondary}
               >
                 Selected: {settings.themeDark}
@@ -410,7 +410,7 @@ function AppearanceScreen({ navigation }: IProps) {
             rightDetailColor={theme.colors.app.textSecondary}
           >
             <HStack width="100%" alignItems="center" px="$6">
-              <Text fontSize={13}>A</Text>
+              <Text size="sm">A</Text>
               <Box flex={1}>
                 <Slider
                   disabled={settings.isSystemTextSize}
@@ -425,7 +425,7 @@ function AppearanceScreen({ navigation }: IProps) {
                   onSlidingComplete={(v) => onChange("fontSize", v)}
                 />
               </Box>
-              <Text fontSize={19}>A</Text>
+              <Text size="xl">A</Text>
             </HStack>
           </CCell>
           <ContextMenuButton

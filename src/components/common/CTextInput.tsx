@@ -35,7 +35,7 @@ function CTextInput({
   return (
     <VStack my="$2">
       {label && (
-        <Text mx="$3" pb="$1" fontSize={13}>
+        <Text mx="$3" pb="$1" size="sm">
           {label}
         </Text>
       )}

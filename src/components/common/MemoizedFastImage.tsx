@@ -102,7 +102,7 @@ function MemoizedFastImage({
               color={theme.colors.app.textSecondary}
               size={16}
             />
-            <Text fontSize="$xl">{t("NSFW")}</Text>
+            <Text size="xl">{t("NSFW")}</Text>
             <Text>{t("Sensitive content ahead")}</Text>
           </VStack>
         </BlurView>

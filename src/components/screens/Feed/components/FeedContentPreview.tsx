@@ -52,7 +52,7 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
       <Box mb="$1">
         <Text
           mx="$4"
-          fontSize="$md"
+          size="md"
           fontWeight={fontWeightPostTitle}
           color={theme.colors.app.textPrimary}
           alignItems="center"

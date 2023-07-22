@@ -14,7 +14,7 @@ function MTable({ header, children }: IProps) {
     <>
       <>
         {header && (
-          <Text fontSize="$lg" fontWeight="semibold" pl="$1" mt="$3" mb="$1">
+          <Text size="lg" fontWeight="semibold" pl="$1" mt="$3" mb="$1">
             {header}
           </Text>
         )}

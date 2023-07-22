@@ -37,11 +37,7 @@ export function FeedListingTypeButton() {
   return (
     <ListingTypeContextMenu currentSelection={listingType} onPress={onPress}>
       <HStack space="xxs" alignItems="center">
-        <Text
-          color={colors.app.textPrimary}
-          fontSize="$md"
-          fontWeight="semibold"
-        >
+        <Text color={colors.app.textPrimary} size="md" fontWeight="semibold">
           {listingTypeOptions[listingType].display}
         </Text>
         <SFIcon

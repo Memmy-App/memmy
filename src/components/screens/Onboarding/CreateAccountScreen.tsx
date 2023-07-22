@@ -221,10 +221,10 @@ function CreateAccountScreen({
         <VStack mx="$3">
           {sentEmail ? (
             <VStack px="$4" space="md">
-              <Text fontSize={32} textAlign="center">
+              <Text size="4xl" textAlign="center">
                 {t("onboarding.checkEmail")}
               </Text>
-              <Text fontSize={18} textAlign="center">
+              <Text size="lg" textAlign="center">
                 {t("onboarding.emailSent", [form.email])}
               </Text>
               <Button
@@ -232,11 +232,13 @@ function CreateAccountScreen({
                 onPress={() => Linking.openURL("message://")}
                 disabled={loading}
               >
-                {t("onboarding.openEmailAppBtn")}
-                Open Email App
+                <Text>
+                  {t("onboarding.openEmailAppBtn")}
+                  Open Email App
+                </Text>
               </Button>
               <Button onPress={() => setReady(true)} disabled={loading}>
-                {t("onboarding.getStartedBtn")}
+                <Text>{t("onboarding.getStartedBtn")}</Text>
               </Button>
             </VStack>
           ) : (
@@ -324,13 +326,14 @@ function CreateAccountScreen({
               </Text>
               <Button
                 size="sm"
-                colorScheme="lightBlue"
+                variant="solid"
+                action="primary"
                 onPress={onPress}
                 borderRadius="$20"
                 mt="$3"
                 mx="$2"
               >
-                <Text fontWeight="semibold" fontSize="$lg">
+                <Text fontWeight="semibold" size="lg">
                   {t("Create Account")}
                 </Text>
               </Button>

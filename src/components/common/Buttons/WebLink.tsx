@@ -20,7 +20,7 @@ function WebLink({ href, children }: WebLinkProps) {
 
   return (
     <Pressable onPress={onPress}>
-      <Text color="blue.500" textDecorationLine="underline" fontSize="$md">
+      <Text color="blue500" textDecorationLine="underline" size="md">
         {children}
       </Text>
     </Pressable>

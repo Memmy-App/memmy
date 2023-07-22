@@ -14,7 +14,7 @@ interface IconButtonWithTextProps {
   iconBgColor?: ColorType;
   text?: string | number;
   textColor?: string;
-  textSize?: React.ComponentProps<typeof Text>["fontSize"];
+  size?: React.ComponentProps<typeof Text>["size"];
 }
 
 function IconButtonWithText({
@@ -23,7 +23,7 @@ function IconButtonWithText({
   iconBgColor,
   text,
   textColor,
-  textSize = "$lg",
+  size = "lg",
 }: IconButtonWithTextProps) {
   const scale = useSharedValue(1);
 
@@ -53,7 +53,7 @@ function IconButtonWithText({
           </Box>
         </Animated.View>
         {text !== undefined && (
-          <Text color={textColor} fontSize={textSize}>
+          <Text color={textColor} size={size}>
             {text}
           </Text>
         )}

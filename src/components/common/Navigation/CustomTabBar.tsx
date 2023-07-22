@@ -34,7 +34,7 @@ function IconWithText({
           />
         )}
       </HStack>
-      <Text color={color} fontSize={12}>
+      <Text color={color} size="xs">
         {label}
       </Text>
     </VStack>

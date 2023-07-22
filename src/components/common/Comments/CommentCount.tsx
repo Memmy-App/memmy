@@ -14,7 +14,7 @@ function CommentCount({ commentCount }: { commentCount: number }) {
         size={10}
         boxSize={20}
       />
-      <Text color={colors.app.textSecondary} fontSize="$sm">
+      <Text color={colors.app.textSecondary} size="sm">
         {commentCount}
       </Text>
     </HStack>

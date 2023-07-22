@@ -46,7 +46,7 @@ function InstanceItem({ site }: IProps) {
               source={{ uri: site.site_view.site.icon }}
               style={styles.image}
             />
-            <Text fontSize="$md">{site.site_view.site.name}</Text>
+            <Text size="md">{site.site_view.site.name}</Text>
             <View ml="auto">
               <IconChevronRight size={32} color={theme.colors.app.accent} />
             </View>

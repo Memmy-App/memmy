@@ -115,7 +115,7 @@ function ThemeSelectionScreen({ route }: IProps) {
                     ml="$4"
                     mb="$2"
                     mt={-3}
-                    fontSize="$xs"
+                    size="xs"
                     color={theme.colors.app.textSecondary}
                   >
                     Inspired by the Sunset Theme from Apollo (Christian Selig)

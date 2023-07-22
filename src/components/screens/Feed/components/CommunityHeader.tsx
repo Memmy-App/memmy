@@ -117,10 +117,10 @@ function CommunityHeader({ communityFullName }: IProps) {
               </Text>
             </HStack>
           </HStack>
-          <Text fontSize="$3xl" fontWeight="bold" pt="$3">
+          <Text size="3xl" fontWeight="bold">
             {community.community.name}
           </Text>
-          <Text fontSize="$md" color={theme.colors.app.textSecondary} mt={-3}>
+          <Text size="md" color={theme.colors.app.textSecondary} mt={-3}>
             {getBaseUrl(community.community.actor_id)}
           </Text>
         </VStack>

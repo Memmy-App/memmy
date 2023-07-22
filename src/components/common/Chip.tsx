@@ -25,7 +25,7 @@ function Chip({ text, color, variant = "filled" }: IProps) {
       <Text
         fontWeight={textWeight}
         color={textColor}
-        fontSize="$2xs"
+        size="2xs"
         mx={1.5}
         my={0.5}
       >

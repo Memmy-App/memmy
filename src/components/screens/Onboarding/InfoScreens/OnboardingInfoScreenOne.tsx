@@ -22,17 +22,12 @@ function OnboardingInfoScreenOne({ navigation }: IProps) {
         resizeMode="cover"
       >
         <VStack px="$6" pt="$12" pb="$20" space="lg" flex={1}>
-          <Text
-            fontSize="$6xl"
-            color="white"
-            fontWeight="semibold"
-            textAlign="left"
-          >
+          <Text size="6xl" color="white" fontWeight="semibold" textAlign="left">
             First,
           </Text>
           <View>
             <Text
-              fontSize="$3xl"
+              size="3xl"
               color="white"
               fontWeight="semibold"
               textAlign="left"
@@ -43,27 +38,29 @@ function OnboardingInfoScreenOne({ navigation }: IProps) {
           <HStack marginTop="auto" space="lg">
             <Button
               size="lg"
-              colorScheme="blueGray"
+              variant="solid"
+              action="secondary"
               onPress={() => navigation.push("HubDiscovery")}
               mt="auto"
               borderRadius="$20"
               py="$2.5"
               width="50%"
             >
-              <Text fontWeight="semibold" fontSize="$lg">
+              <Text fontWeight="semibold" size="lg">
                 {t("Yes")}
               </Text>
             </Button>
             <Button
               size="lg"
-              colorScheme="lightBlue"
+              variant="solid"
+              action="primary"
               onPress={() => navigation.push("OnboardingInfoTwo")}
               mt="auto"
               borderRadius="$20"
               py="$2.5"
               flexGrow={1}
             >
-              <Text fontWeight="semibold" fontSize="$lg">
+              <Text fontWeight="semibold" size="lg">
                 {t("No")}
               </Text>
             </Button>

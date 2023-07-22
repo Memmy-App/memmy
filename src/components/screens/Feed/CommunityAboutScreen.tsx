@@ -29,11 +29,7 @@ function CommunityAboutScreen({ route }: { route: any }) {
           />
         )}
         <VStack py="$4">
-          <Text
-            fontSize="$2xl"
-            fontWeight="bold"
-            textDecorationLine="underline"
-          >
+          <Text size="2xl" fontWeight="bold" textDecorationLine="underline">
             {t("Description")}
           </Text>
           <RenderMarkdown text={route.params.description} />

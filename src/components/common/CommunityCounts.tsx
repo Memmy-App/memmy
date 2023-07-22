@@ -21,7 +21,7 @@ function CommunityCounts({ counts }: IProps) {
 
   return (
     <VStack paddingTop={4} paddingBottom={4} space="xs">
-      <Text fontSize="$xl" fontWeight="bold">
+      <Text size="xl" fontWeight="bold">
         Stats:
       </Text>
       <HStack flexWrap="wrap" space="xs" style={{ rowGap: 2 }}>

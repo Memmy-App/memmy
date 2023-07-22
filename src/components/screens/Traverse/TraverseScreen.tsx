@@ -196,7 +196,7 @@ function TraverseScreen() {
           <View backgroundColor={theme.colors.app.bg}>
             <Text
               style={styles.alphaIndexHeaderText}
-              fontSize="$xl"
+              size="xl"
               fontWeight="semibold"
             >
               {(value as HeaderValue).title}

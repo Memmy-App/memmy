@@ -197,13 +197,14 @@ function AddAccountScreen({ route, navigation }: IProps) {
           </Text>
           <Button
             size="sm"
-            colorScheme="lightBlue"
+            variant="solid"
+            action="primary"
             onPress={onPress}
             borderRadius="$20"
             mt="$3"
             mx="$2"
           >
-            <Text fontWeight="semibold" fontSize="$lg">
+            <Text fontWeight="semibold" size="lg">
               {t("Login")}
             </Text>
           </Button>

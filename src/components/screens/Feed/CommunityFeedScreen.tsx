@@ -57,10 +57,10 @@ function FeedsCommunityScreen({
 
   const headerTitle = () => (
     <VStack alignItems="center">
-      <Text fontSize={16} fontWeight="semibold">
+      <Text size="md" fontWeight="semibold">
         {communityName.toString()}
       </Text>
-      <Text fontSize={12}>@{getBaseUrl(actorId?.toString())}</Text>
+      <Text size="md">@{getBaseUrl(actorId?.toString())}</Text>
     </VStack>
   );
 

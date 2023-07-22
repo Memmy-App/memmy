@@ -25,7 +25,7 @@ function HubDiscoveryScreen({ navigation }: IProps) {
   const header = () => (
     <VStack my="$6" mx="$6">
       <Text
-        fontSize="$md"
+        size="md"
         color={theme.colors.app.textSecondary}
         fontStyle="italic"
         textAlign="center"
@@ -36,34 +36,34 @@ function HubDiscoveryScreen({ navigation }: IProps) {
       <HStack space="lg">
         <Button
           size="lg"
-          colorScheme="lightBlue"
+          variant="solid"
+          action="primary"
           onPress={() => navigation.push("CreateAccount")}
           mt="auto"
           borderRadius="$2xl"
-          py="$2.5"
-          width="50%"
+          flexGrow={1}
         >
           <HStack space="sm" alignItems="center">
             <IconDoorEnter size={24} color="white" />
 
-            <Text fontWeight="semibold" fontSize="$lg">
+            <Text fontWeight="semibold" size="lg">
               {t("Join")}
             </Text>
           </HStack>
         </Button>
         <Button
           size="lg"
-          colorScheme="lightBlue"
+          variant="solid"
+          action="primary"
           onPress={() => navigation.push("AddAccount")}
           mt="auto"
           borderRadius="$2xl"
-          py="$2.5"
           flexGrow={1}
         >
           <HStack space="sm" alignItems="center">
             <IconUser size={24} color="white" />
 
-            <Text fontWeight="semibold" fontSize="$lg">
+            <Text fontWeight="semibold" size="lg">
               {t("Login")}
             </Text>
           </HStack>
