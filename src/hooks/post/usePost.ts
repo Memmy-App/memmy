@@ -10,9 +10,11 @@ import { setPostCollapsed } from "../../stores/posts/actions";
 import loadPostComments from "../../stores/posts/actions/loadPostComments";
 import loadCommunity from "../../stores/communities/actions/loadCommunity";
 import { getBaseUrl } from "../../helpers/LinkHelper";
+import refreshPost from "../../stores/posts/actions/refreshPost";
 
 export interface UsePost {
   doLoad: () => void;
+  doRefresh: () => void;
   onPostPress: () => void;
   setPostCommentsSort: (sortType: CommentSortType) => void;
 }
@@ -45,8 +47,14 @@ const usePost = (): UsePost => {
     });
   }, []);
 
+  const doRefresh = useCallback(() => {
+    doLoad();
+    refreshPost(postKey).then();
+  }, []);
+
   return {
     doLoad,
+    doRefresh,
     onPostPress,
     setPostCommentsSort,
   };
