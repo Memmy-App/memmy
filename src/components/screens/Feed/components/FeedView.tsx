@@ -12,7 +12,11 @@ import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { useRoute } from "@react-navigation/core";
 import { useAppSelector } from "../../../../../store";
 import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
-import { selectFeed } from "../../../../slices/feed/feedSlice";
+import {
+  clearUpdateSaved,
+  clearUpdateVote,
+  selectFeed,
+} from "../../../../slices/feed/feedSlice";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import LoadingErrorView from "../../../common/Loading/LoadingErrorView";
 import LoadingView from "../../../common/Loading/LoadingView";
@@ -32,6 +36,7 @@ import {
   useFeedListingType,
   useFeedPosts,
   useFeedSort,
+  useFeedsStore,
   useFeedStatus,
 } from "../../../../stores/feeds/feedsStore";
 import { useCommunity } from "../../../../stores/communities/communitiesStore";
@@ -39,6 +44,7 @@ import loadFeedPosts from "../../../../stores/feeds/actions/loadFeedPosts";
 import HideReadFAB from "../../../common/Buttons/HideReadFAB";
 import setFeedPosts from "../../../../stores/feeds/actions/setFeedPosts";
 import { removeReadPosts } from "../../../../helpers/LemmyHelpers";
+import { useSaved, useVoted } from "../../../../stores/updates/updatesStore";
 
 interface FeedViewProps {
   header?: () => React.ReactNode;
@@ -62,6 +68,9 @@ function FeedView({ header }: FeedViewProps) {
 
   const sortType = useFeedSort(key);
   const listingType = useFeedListingType(key);
+
+  const voted = useVoted();
+  const saved = useSaved();
 
   // Refs
   const flashList = useRef<FlashList<any>>();
@@ -105,6 +114,38 @@ function FeedView({ header }: FeedViewProps) {
       offset: 0,
     });
   }, [sortType, listingType]);
+
+  useEffect(() => {
+    if (voted) {
+      useFeedsStore.setState((state) => {
+        const prev = state.feeds
+          .get(key)
+          .posts.find((p) => p.post.id === voted.postId);
+
+        if (!prev) return;
+
+        prev.my_vote = voted.value;
+      });
+    }
+
+    clearUpdateVote();
+  }, [voted]);
+
+  useEffect(() => {
+    if (saved) {
+      useFeedsStore.setState((state) => {
+        const prev = state.feeds
+          .get(key)
+          .posts.find((p) => p.post.id === saved.postId);
+
+        if (!prev) return;
+
+        prev.saved = saved.saved;
+      });
+    }
+
+    clearUpdateSaved();
+  });
 
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<PostView>) => {

@@ -202,38 +202,6 @@ function AppearanceScreen({ navigation }: IProps) {
           </CSection>
         )}
 
-        <CSection
-          header={t("settings.appearance.gestures.header")}
-          footer="Disabling swipe to vote will allow for full-screen swipe gestures." // TODO: translate!
-        >
-          <CCell
-            cellStyle="Basic"
-            title={t("settings.appearance.gestures.tapToCollapse")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.tapToCollapse}
-                onValueChange={(v) => onChange("tapToCollapse", v)}
-              />
-            }
-          />
-          <CCell
-            cellStyle="Basic"
-            title="Swipe to Vote" // TODO: translate
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={swipeToVoteBuffer}
-                onValueChange={(v) => setSwipeToVoteBuffer(v)}
-              />
-            }
-          />
-        </CSection>
-
         <CSection header={t("settings.appearance.themes.header")}>
           <CCell
             cellStyle="Basic"

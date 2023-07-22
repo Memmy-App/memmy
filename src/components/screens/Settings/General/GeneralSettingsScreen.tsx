@@ -25,6 +25,37 @@ function GeneralSettingsScreen() {
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
+        <CSection
+          header={t("settings.appearance.gestures.header")}
+          footer="Disabling swipe to vote will allow for full-screen swipe gestures."
+        >
+          <CCell
+            cellStyle="Basic"
+            title={t("settings.appearance.gestures.tapToCollapse")}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.tapToCollapse}
+                onValueChange={(v) => onChange("tapToCollapse", v)}
+              />
+            }
+          />
+          <CCell
+            cellStyle="Basic"
+            title="Swipe to Vote"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.swipeToVote}
+                onValueChange={(v) => onChange("swipeToVote", v)}
+              />
+            }
+          />
+        </CSection>
         <CSection header={t("Haptics")}>
           <ContextMenuButton
             isMenuPrimaryAction
