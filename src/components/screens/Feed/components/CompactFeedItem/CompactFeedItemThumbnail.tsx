@@ -1,11 +1,17 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { PostView } from "lemmy-js-client";
 import { useTheme, View } from "native-base";
-import { Box } from "@components/common/Gluestack";
+import { Box, Pressable } from "@components/common/Gluestack";
 import React from "react";
 import { StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppSelector } from "../../../../../../store";
-import { ExtensionType, LinkInfo } from "../../../../../helpers/LinkHelper";
+import {
+  ExtensionType,
+  LinkInfo,
+  openLink,
+} from "../../../../../helpers/LinkHelper";
 import { selectSettings } from "../../../../../slices/settings/settingsSlice";
 
 import { lemmyAuthToken, lemmyInstance } from "../../../../../LemmyInstance";
@@ -22,6 +28,7 @@ function CompactFeedItemThumbnail({
   setPostRead: () => void;
 }) {
   const theme = useTheme();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { markReadOnPostImageView } = useAppSelector(selectSettings);
 
@@ -36,6 +43,12 @@ function CompactFeedItemThumbnail({
     if (setPostRead && markReadOnPostImageView) {
       setPostRead();
     }
+  };
+
+  const onLinkPress = () => {
+    if (!post.post.url) return;
+
+    openLink(post.post.url, navigation, theme.colors.app.bg);
   };
 
   return (
@@ -70,7 +83,7 @@ function CompactFeedItemThumbnail({
             size={20}
           />
         )) || (
-          <>
+          <Pressable onPress={onLinkPress}>
             {(post.post.thumbnail_url && (
               <>
                 <FastImage
@@ -103,7 +116,7 @@ function CompactFeedItemThumbnail({
                 size={20}
               />
             )}
-          </>
+          </Pressable>
         )}
     </Box>
   );

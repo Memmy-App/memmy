@@ -1,0 +1,44 @@
+name: Feature Request
+description: Request that a feature be added to Memmy
+title: "[Feature]: "
+labels:
+  - enhancement
+  - triage
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Thank you for taking the time to fill out this feature request! The most
+        important part of filing a feature request is to be as descriptive as
+        possible in your request.
+  - type: checkboxes
+    attributes:
+      label: Check for open issues
+      description: >
+        If there is another open issue about this already, please use that
+        issue to provide further context.
+      options:
+        - label: I have verified that another issue for this is not open, or it has been closed and has not been properly implemented.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: What is the feature that you would like to have added?
+      description: >
+        This should include a description of how the feature should be implemented and why you feel that it is important.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Solution
+      description: >
+        Describe the solution that you would like to see implemented.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Alternatives
+      description: >
+        Have you considered any alternative solutions or features?
+    validations:
+      required: true

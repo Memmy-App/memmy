@@ -9,9 +9,10 @@ import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
 interface IProps {
   onVote: (value: ILemmyVote) => void;
   myVote: number;
+  onReply: () => void;
 }
 
-function CommentActions({ onVote, myVote }: IProps) {
+function CommentActions({ onVote, myVote, onReply }: IProps) {
   const onUpvote = useCallback(() => {
     onVote(1);
   }, [onVote]);
@@ -23,7 +24,7 @@ function CommentActions({ onVote, myVote }: IProps) {
   return (
     <HStack justifyContent="flex-end" alignItems="center" space="sm" mb="$1">
       <IconButtonWithText
-        onPressHandler={() => {}}
+        onPressHandler={onReply}
         icon={<SFIcon icon={ICON_MAP.REPLY} size={12} boxSize={20} />}
       />
       {onVote && (

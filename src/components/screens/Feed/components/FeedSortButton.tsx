@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from "react";
 import { useRoute } from "@react-navigation/core";
 import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
 import { SortType } from "lemmy-js-client";
-import { overallSortOptions } from "../../../../types/SortOptions";
+import { overallSortOptions } from "../../../../constants/SortOptions";
 import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
 import { FeedSortContextMenu } from "../../../common/ContextMenu/FeedSortContextMenu";
 import SFIcon from "../../../common/icons/SFIcon";
