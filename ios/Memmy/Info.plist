@@ -2,6 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>szn-email</string>
+		<string>protonmail</string>
+		<string>fastmail</string>
+		<string>yandexmail</string>
+		<string>superhuman</string>
+		<string>ymail</string>
+		<string>inbox-gmail</string>
+		<string>googlegmail</string>
+		<string>ms-outlook</string>
+		<string>airmail</string>
+		<string>readdle-spark</string>
+		<string>message</string>
+		<string>mailto</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
