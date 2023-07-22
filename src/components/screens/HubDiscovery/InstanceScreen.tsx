@@ -1,14 +1,8 @@
 import React, { useEffect } from "react";
 import { LocalSite, Site, SiteAggregates } from "lemmy-js-client";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import {
-  Button,
-  HStack,
-  ScrollView,
-  Text,
-  useTheme,
-  VStack,
-} from "@components/common/Gluestack";
+import { ScrollView, useTheme } from "native-base";
+import { Button, HStack, Text, VStack } from "@components/common/Gluestack";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import {
   IconArrowDown,
