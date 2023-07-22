@@ -15,11 +15,12 @@ body:
         issue.
   - type: checkboxes
     attributes:
-      label: I have verified that another issue for this is not open, or it has been
-        closed and has not been fixed.
+      label: Check for open issues
       description: >
         If there is another open issue about this already, please use that
         issue to provide further context.
+      options:
+        - label: I have verified that another issue for this is not open, or it has been closed and has not been fixed.
     validations:
       required: true
   - type: textarea
