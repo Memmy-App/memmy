@@ -8,8 +8,13 @@ const addPost = (postKey: string, post: PostView) => {
   usePostsStore.setState((state) => {
     state.posts.set(postKey, {
       post,
-      postError: false,
-      postLoading: false,
+
+      status: {
+        loading: false,
+        error: false,
+        refreshing: false,
+      },
+
       collapsed: false,
       rerenderComments: false,
 
