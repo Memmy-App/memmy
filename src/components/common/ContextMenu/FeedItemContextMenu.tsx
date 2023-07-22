@@ -7,11 +7,9 @@ import {
 import { ICON_MAP } from "../../../constants/IconMap";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { UseFeedItem } from "../../../hooks/feeds/useFeedItem";
+import { ContextMenuOptions } from "../../../types/ContextMenuOptions";
 
-export const FEED_OPTIONS: Record<
-  string,
-  { display: string; icon: string; destructive?: boolean }
-> = {
+export const FEED_OPTIONS: ContextMenuOptions = {
   Upvote: {
     display: "Upvote",
     icon: ICON_MAP.UPVOTE,

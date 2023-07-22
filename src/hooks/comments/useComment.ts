@@ -22,12 +22,14 @@ import { setResponseTo } from "../../slices/comments/newCommentSlice";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 import { PostsStore, usePostsStore } from "../../stores/posts/postsStore";
 import { useInboxStore } from "../../stores/inbox/inboxStore";
+import { ICON_MAP } from "../../constants/IconMap";
+import { ContextMenuOptions } from "../../types/ContextMenuOptions";
 
 export interface UseComment {
   onCommentLongPress: (selection?: string) => void;
   onReadPress?: () => Promise<void>;
   onReply: () => void;
-  longPressOptions: Record<string, string>;
+  longPressOptions: ContextMenuOptions;
 }
 
 const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
@@ -51,15 +53,19 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
     [comment.comment.comment.id]
   );
 
-  const longPressOptions: Record<string, string> = useMemo(
+  const longPressOptions: ContextMenuOptions = useMemo(
     () => ({
-      "Copy Text": t("Copy Text"),
-      "Copy Link": t("Copy Link"),
-      Reply: t("Reply"),
-      "Report Comment": t("comment.report"),
+      copy_text: { display: t("Copy Text"), icon: ICON_MAP.COPY },
+      copy_link: { display: t("Copy Link"), icon: ICON_MAP.LINK },
+      reply: { display: t("Reply"), icon: ICON_MAP.REPLY },
+      report: { display: t("comment.report"), icon: ICON_MAP.REPORT_POST },
       ...(isOwnComment && {
-        "Edit Comment": t("comment.edit"),
-        "Delete Comment": t("comment.delete"),
+        edit: { display: t("comment.edit"), icon: ICON_MAP.EDIT },
+        delete: {
+          display: t("comment.delete"),
+          icon: ICON_MAP.DELETE,
+          destructive: true,
+        },
       }),
     }),
     [comment.comment.comment.id]
@@ -69,15 +75,15 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
     async (selection: string) => {
       onGenericHapticFeedback();
 
-      if (selection === longPressOptions["Copy Text"]) {
+      if (selection === "copy_text") {
         Clipboard.setString(comment.comment.comment.content);
       }
 
-      if (selection === longPressOptions["Copy Link"]) {
+      if (selection === "copy_link") {
         Clipboard.setString(comment.comment.comment.ap_id);
       }
 
-      if (selection === longPressOptions["Report Comment"]) {
+      if (selection === "report") {
         await Alert.prompt(
           t("comment.report"),
           t("alert.message.reportComment"),
@@ -113,7 +119,7 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
         );
       }
 
-      if (selection === longPressOptions["Delete Comment"]) {
+      if (selection === "delete") {
         try {
           await lemmyInstance.deleteComment({
             auth: lemmyAuthToken,
@@ -156,7 +162,7 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
         }
       }
 
-      if (selection === longPressOptions["Edit Comment"]) {
+      if (selection === "edit") {
         navigation.push("EditComment", {
           commentId: comment.comment.comment.id,
           content: comment.comment.comment.content,
@@ -164,7 +170,7 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
         });
       }
 
-      if (selection === longPressOptions.Reply) {
+      if (selection === "reply") {
         onReply();
       }
     },
