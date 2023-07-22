@@ -20,11 +20,11 @@ function CommunityCounts({ counts }: IProps) {
   const usersActiveDay = shortenNumber(counts.users_active_day);
 
   return (
-    <VStack paddingTop={4} paddingBottom={4} space="1">
+    <VStack paddingTop={4} paddingBottom={4} space="xs">
       <Text fontSize="$xl" fontWeight="bold">
         Stats:
       </Text>
-      <HStack flexWrap="wrap" space="1" style={{ rowGap: 2 }}>
+      <HStack flexWrap="wrap" space="xs" style={{ rowGap: 2 }}>
         <Chip
           text={`${subscribers} Subscribers`}
           color={theme.colors.app.accent}

@@ -12,7 +12,7 @@ interface Props {
 
 function metrics({ data, vote }: Props) {
   return (
-    <HStack flex={1} space="2">
+    <HStack flex={1} space="sm">
       <VoteData data={data} vote={vote} />
       <CommentCount commentCount={data.comments} />
       <DatePublished published={data.published} />

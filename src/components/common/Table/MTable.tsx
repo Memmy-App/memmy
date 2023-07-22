@@ -14,15 +14,15 @@ function MTable({ header, children }: IProps) {
     <>
       <>
         {header && (
-          <Text fontSize="$lg" fontWeight="semibold" pl={1} mt={3} mb={1}>
+          <Text fontSize="$lg" fontWeight="semibold" pl="$1" mt="$3" mb="$1">
             {header}
           </Text>
         )}
         <VStack
           backgroundColor={theme.colors.app.fg}
-          p={3}
+          p="$3"
           borderRadius={10}
-          space="3"
+          space="md"
           divider={<Divider backgroundColor={theme.colors.app.border} />}
         >
           {children}

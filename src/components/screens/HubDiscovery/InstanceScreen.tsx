@@ -44,9 +44,9 @@ function InstanceScreen({ route, navigation }: IProps) {
   }, []);
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1} p={6}>
-      <VStack p={3} borderRadius={10} space="4">
-        <HStack space="2">
+    <ScrollView backgroundColor={theme.colors.app.bg} flex={1} p="$6">
+      <VStack p="$3" borderRadius={10} space="lg">
+        <HStack space="sm">
           <FastImage
             source={{ uri: site.icon }}
             style={{
@@ -56,7 +56,7 @@ function InstanceScreen({ route, navigation }: IProps) {
             }}
           />
           <VStack flex={1} mt="auto">
-            <HStack space="1">
+            <HStack space="xs">
               <IconUserPlus size={18} color={theme.colors.app.accent} />
               <Text color={theme.colors.app.textSecondary}>
                 {counts.users.toLocaleString()} users
@@ -67,7 +67,7 @@ function InstanceScreen({ route, navigation }: IProps) {
             </Text>
           </VStack>
         </HStack>
-        <HStack space="4">
+        <HStack space="lg">
           <Button
             size="lg"
             colorScheme="lightBlue"
@@ -81,7 +81,7 @@ function InstanceScreen({ route, navigation }: IProps) {
             py={1.5}
             width="50%"
           >
-            <HStack space="2" alignItems="center">
+            <HStack space="sm" alignItems="center">
               <IconDoorEnter size={24} color="white" />
 
               <Text fontWeight="semibold" fontSize="$md">
@@ -102,7 +102,7 @@ function InstanceScreen({ route, navigation }: IProps) {
             py={1.5}
             flexGrow={1}
           >
-            <HStack space="2" alignItems="center">
+            <HStack space="sm" alignItems="center">
               <IconDoorEnter size={24} color="white" />
 
               <Text fontWeight="semibold" fontSize="$md">

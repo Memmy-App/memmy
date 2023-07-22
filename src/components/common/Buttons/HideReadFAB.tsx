@@ -17,7 +17,7 @@ function HideReadFAB({ onPress }: IProps) {
       fontSize="$md"
       backgroundColor={theme.colors.app.accent}
       icon={<SFIcon icon="eye.slash" color="#fff" size={14} />}
-      p={2}
+      p="$2"
       onPress={onPress}
     />
   );

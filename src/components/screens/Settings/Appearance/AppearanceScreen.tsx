@@ -248,8 +248,8 @@ function AppearanceScreen({ navigation }: IProps) {
               rightDetailColor={theme.colors.app.textSecondary}
             >
               <Text
-                ml={4}
-                mb={2}
+                ml="$4"
+                mb="$2"
                 mt={-3}
                 fontSize="$xs"
                 color={theme.colors.app.textSecondary}
@@ -271,8 +271,8 @@ function AppearanceScreen({ navigation }: IProps) {
               rightDetailColor={theme.colors.app.textSecondary}
             >
               <Text
-                ml={4}
-                mb={2}
+                ml="$4"
+                mb="$2"
                 mt={-3}
                 fontSize="$xs"
                 color={theme.colors.app.textSecondary}
@@ -294,8 +294,8 @@ function AppearanceScreen({ navigation }: IProps) {
               rightDetailColor={theme.colors.app.textSecondary}
             >
               <Text
-                ml={4}
-                mb={2}
+                ml="$4"
+                mb="$2"
                 mt={-3}
                 fontSize="$xs"
                 color={theme.colors.app.textSecondary}
@@ -409,7 +409,7 @@ function AppearanceScreen({ navigation }: IProps) {
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           >
-            <HStack width="100%" alignItems="center" px={6}>
+            <HStack width="100%" alignItems="center" px="$6">
               <Text fontSize={13}>A</Text>
               <Box flex={1}>
                 <Slider

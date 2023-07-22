@@ -128,8 +128,8 @@ function AddAccountScreen({ route, navigation }: IProps) {
     >
       <LoadingModal loading={loading} />
 
-      <VStack flex={1} mb={5} space="md" justifyContent="center">
-        <VStack mx={3}>
+      <VStack flex={1} mb="$5" space="md" justifyContent="center">
+        <VStack mx="$3">
           <Image
             source={header}
             style={{
@@ -200,8 +200,8 @@ function AddAccountScreen({ route, navigation }: IProps) {
             colorScheme="lightBlue"
             onPress={onPress}
             borderRadius="$20"
-            mt={3}
-            mx={2}
+            mt="$3"
+            mx="$2"
           >
             <Text fontWeight="semibold" fontSize="$lg">
               {t("Login")}

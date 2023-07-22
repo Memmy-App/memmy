@@ -51,7 +51,7 @@ function CustomButton({
       }
       flexGrow={1}
     >
-      <HStack space="1.5" alignItems="center" justifyContent="center">
+      <HStack space="smxs" alignItems="center" justifyContent="center">
         {icon && <SFIcon icon={icon} size={size === "$md" ? 16 : 14} />}
         <Text fontSize={size} color={theme.colors.app.textPrimary}>
           {text}

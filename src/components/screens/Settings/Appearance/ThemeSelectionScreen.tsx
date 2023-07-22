@@ -64,7 +64,7 @@ function ThemeSelectionScreen({ route }: IProps) {
                 key={themeName}
                 cellStyle="RightDetail"
                 title={
-                  <HStack space="2">
+                  <HStack space="sm">
                     <ThemeColors
                       accent={ThemeOptionsMap[themeName].colors.app.accent}
                       bg={ThemeOptionsMap[themeName].colors.app.bg}
@@ -91,7 +91,7 @@ function ThemeSelectionScreen({ route }: IProps) {
                 key={themeName}
                 cellStyle="RightDetail"
                 title={
-                  <HStack space="2">
+                  <HStack space="sm">
                     <ThemeColors
                       accent={ThemeOptionsMap[themeName].colors.app.accent}
                       bg={ThemeOptionsMap[themeName].colors.app.bg}
@@ -112,8 +112,8 @@ function ThemeSelectionScreen({ route }: IProps) {
               >
                 {themeName === "Sunset" ? (
                   <Text
-                    ml={4}
-                    mb={2}
+                    ml="$4"
+                    mb="$2"
                     mt={-3}
                     fontSize="$xs"
                     color={theme.colors.app.textSecondary}

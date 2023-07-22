@@ -47,9 +47,9 @@ function PostActionBar() {
     <HStack
       justifyContent="space-between"
       alignItems="center"
-      mb={2}
-      mx={4}
-      py={1}
+      mb="$2"
+      mx="$4"
+      py="$1"
     >
       <VoteButton
         onPressHandler={postActionBar.onUpvotePress}

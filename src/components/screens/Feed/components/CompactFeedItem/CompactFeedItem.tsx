@@ -69,10 +69,10 @@ function CompactFeedItem({ postId }: { postId: number }) {
         <Pressable onPress={feedItem.onPress}>
           <HStack
             flex={1}
-            px={2}
-            py={1}
+            px="$2"
+            py="$1"
             backgroundColor={theme.colors.app.fg}
-            space="2"
+            space="sm"
           >
             {compactThumbnailPosition === "Left" && (
               <CompactFeedItemThumbnail

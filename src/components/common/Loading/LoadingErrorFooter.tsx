@@ -16,7 +16,7 @@ function LoadingErrorFooter({
   const theme = useTheme();
 
   return (
-    <Center flex={1} my={4}>
+    <Center flex={1} my="$4">
       <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
         {`${message || t("loadingError.text")}`}
       </Text>
@@ -26,7 +26,7 @@ function LoadingErrorFooter({
         borderWidth={1}
         borderRadius={5}
         padding={1}
-        mt={2}
+        mt="$2"
       >
         <Text color="blue.500">{t("loadingError.retryBtn")}</Text>
       </Pressable>

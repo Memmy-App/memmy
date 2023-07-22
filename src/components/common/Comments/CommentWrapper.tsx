@@ -15,13 +15,13 @@ function CommentWrapper({ children, depth, onCommentPress }: IProps) {
     <Pressable onPress={onCommentPress}>
       <VStack
         flex={1}
-        pr={2}
-        space="2"
+        pr="$2"
+        space="sm"
         backgroundColor={theme.colors.app.fg}
         style={{
           paddingLeft: depth * 8,
         }}
-        py={1}
+        py="$1"
       >
         <VStack
           borderLeftWidth={depth > 2 ? 2 : 0}
@@ -31,7 +31,7 @@ function CommentWrapper({ children, depth, onCommentPress }: IProps) {
           borderTopLeftRadius={1}
           borderBottomLeftRadius={1}
           pl={depth > 2 ? 2 : 0}
-          mt={0}
+          mt="$0"
         >
           {children}
         </VStack>

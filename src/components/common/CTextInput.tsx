@@ -33,9 +33,9 @@ function CTextInput({
   const theme = useTheme();
 
   return (
-    <VStack my={2}>
+    <VStack my="$2">
       {label && (
-        <Text mx={3} pb={1} fontSize={13}>
+        <Text mx="$3" pb="$1" fontSize={13}>
           {label}
         </Text>
       )}

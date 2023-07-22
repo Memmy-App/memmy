@@ -10,7 +10,7 @@ function ItalicText({ children }: IProps) {
   const theme = useTheme();
 
   return (
-    <Text py={3} color={theme.colors.app.textSecondary} fontStyle="italic">
+    <Text py="$3" color={theme.colors.app.textSecondary} fontStyle="italic">
       {children}
     </Text>
   );

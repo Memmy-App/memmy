@@ -145,7 +145,7 @@ function KeyboardAccessory({
         height={12}
         justifyContent="space-between"
         alignItems="center"
-        px={4}
+        px="$4"
       >
         <IconButtonWithText
           onPressHandler={onItalicPress}

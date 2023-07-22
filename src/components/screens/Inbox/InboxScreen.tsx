@@ -89,7 +89,7 @@ function InboxScreen({
   const empty = (!status.loading && status.error && (
     <LoadingErrorView onRetryPress={inbox.doLoad} />
   )) || (
-    <VStack p={4} alignItems="center" justifyContent="center">
+    <VStack p="$4" alignItems="center" justifyContent="center">
       <NoResultView type="inbox" />
     </VStack>
   );

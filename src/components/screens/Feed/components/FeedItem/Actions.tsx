@@ -25,7 +25,7 @@ export function actions({ vote, saved, onSave, onVotePress, id }: Props) {
   }, [vote, id]);
 
   return (
-    <HStack space="1" alignItems="center" justifyContent="flex-end">
+    <HStack space="xs" alignItems="center" justifyContent="flex-end">
       <IconButtonWithText
         icon={
           <SFIcon

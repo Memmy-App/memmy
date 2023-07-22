@@ -26,7 +26,7 @@ function OnboardingScreen({
         style={styles.background}
         resizeMode="cover"
       >
-        <VStack px={6} pt={32} pb={20} space="12} flex={1">
+        <VStack px="$6" pt="$32" pb="$20" space="8xl" flex={1}>
           <Text
             fontSize="$6xl"
             color="white"
@@ -53,7 +53,7 @@ function OnboardingScreen({
               Memmy
             </Text>
           </View>
-          <VStack marginTop="auto" space="4">
+          <VStack marginTop="auto" space="lg">
             <Button
               size="lg"
               colorScheme="lightBlue"

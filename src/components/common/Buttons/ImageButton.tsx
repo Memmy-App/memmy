@@ -20,7 +20,7 @@ function ImageButton({ src, marginY = 4, children }: ImageButtonProps) {
         padding={2}
         flexDirection="row"
         alignItems="center"
-        space="2"
+        space="sm"
         my={marginY}
       >
         {children}

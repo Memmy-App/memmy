@@ -27,7 +27,7 @@ function IconSelectionScreen() {
               key={key}
               cellStyle="RightDetail"
               title={
-                <HStack space="2.5" alignItems="center">
+                <HStack space="mdsm" alignItems="center">
                   <Image
                     style={{ borderRadius: 10, width: 40, height: 40 }}
                     source={value.path}

@@ -24,7 +24,7 @@ function SmallVoteIcons({
 
   // TODO: refactor to use VoteData
   return (
-    <HStack space="1">
+    <HStack space="xs">
       <HStack alignItems="center">
         <SFIcon
           icon={ICON_MAP.UPVOTE}

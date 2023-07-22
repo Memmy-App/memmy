@@ -20,13 +20,13 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
 
   return (
     <>
-      <HStack alignItems="center" space="2">
+      <HStack alignItems="center" space="sm">
         <HStack>
           <FeaturedIndicator
             featured={post.post.featured_community || post.post.featured_local}
           />
           {post.read && (
-            <Box mr={1}>
+            <Box mr="$1">
               <IconBookCheck color={colors.app.accent} size={20} />
             </Box>
           )}
@@ -41,13 +41,13 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
           {timeFromNowShort(post.post.published)}
         </Text>
       </HStack>
-      <HStack flex={1} alignItems="center" space="2">
+      <HStack flex={1} alignItems="center" space="sm">
         <SmallVoteIcons
           upvotes={post.counts.upvotes}
           downvotes={post.counts.downvotes}
           myVote={post.my_vote as ILemmyVote}
         />
-        <HStack alignItems="center" space="1">
+        <HStack alignItems="center" space="xs">
           <CommentCount commentCount={post.counts.comments} />
         </HStack>
         <CommunityLink community={post.community} />

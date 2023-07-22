@@ -9,7 +9,7 @@ interface IProps {
 
 function ModeratorList({ moderators }: IProps) {
   return (
-    <VStack space="1">
+    <VStack space="xs">
       <Text fontSize="$xl" fontWeight="bold">
         Mods:
       </Text>

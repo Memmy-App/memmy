@@ -577,7 +577,7 @@ function ImageViewer({
                     flex={1}
                     alignItems="center"
                     justifyContent="center"
-                    space="2"
+                    space="sm"
                   >
                     <IconAlertTriangle
                       color={theme.colors.app.textSecondary}

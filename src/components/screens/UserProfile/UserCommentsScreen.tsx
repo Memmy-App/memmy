@@ -67,7 +67,7 @@ function UserCommentsScreen({ route }: IProps) {
         estimatedItemSize={150}
         data={profile.comments}
         keyExtractor={commentKeyExtractor}
-        ListEmptyComponent={<NoResultView type="profileComments" p={4} />}
+        ListEmptyComponent={<NoResultView type="profileComments" p="$4" />}
         refreshing={profile.loading}
         refreshControl={
           <RefreshControl

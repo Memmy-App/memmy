@@ -29,7 +29,7 @@ function CommunityLink({ community, instanceBaseUrl }: CommunityLinkProps) {
       }}
     >
       <HStack>
-        <HStack alignItems="center" space="1">
+        <HStack alignItems="center" space="xs">
           {community.icon ? (
             <FastImage
               source={{

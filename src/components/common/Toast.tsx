@@ -84,7 +84,7 @@ function Toast(): JSX.Element {
         animatedStyle,
       ]}
     >
-      <HStack justifyContent="center" alignItems="center" space="1">
+      <HStack justifyContent="center" alignItems="center" space="xs">
         {icon || iconMap[variant]}
         <Text color={textColor} fontWeight="semibold" alignContent="center">
           {message}

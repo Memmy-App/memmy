@@ -37,7 +37,7 @@ function CommentHeaderRight({
   );
 
   return (
-    <HStack alignItems="center" space="2">
+    <HStack alignItems="center" space="sm">
       <Text color={theme.colors.app.textSecondary}>{publishedFormatted}</Text>
       <CommentContextMenu
         isShortPress

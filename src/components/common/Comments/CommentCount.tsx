@@ -7,7 +7,7 @@ import { ICON_MAP } from "../../../constants/IconMap";
 function CommentCount({ commentCount }: { commentCount: number }) {
   const { colors } = useTheme();
   return (
-    <HStack alignItems="center" space="0.5">
+    <HStack alignItems="center" space="xxs">
       <SFIcon
         color={colors.app.textSecondary}
         icon={ICON_MAP.REPLY}

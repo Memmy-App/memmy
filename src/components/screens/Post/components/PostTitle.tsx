@@ -6,7 +6,13 @@ import { useAppSelector } from "../../../../../store";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { usePostTitle } from "../../../../stores/posts/postsStore";
 
-function Title({ mt, mb }: { mt?: number; mb?: number }) {
+function Title({
+  mt,
+  mb,
+}: {
+  mt?: React.ComponentProps<typeof Text>["mt"];
+  mb?: React.ComponentProps<typeof Text>["mb"];
+}) {
   const { postKey } = useRoute<any>().params;
   const postTitle = usePostTitle(postKey);
 
@@ -16,7 +22,7 @@ function Title({ mt, mb }: { mt?: number; mb?: number }) {
     <Text
       mt={mt}
       mb={mb}
-      mx={4}
+      mx="$4"
       fontSize="$lg"
       fontWeight={fontWeightPostTitle}
       color={theme.colors.app.textPrimary}

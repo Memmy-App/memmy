@@ -44,7 +44,7 @@ function LinkButton({ link, thumbnail }: LinkButtonProps) {
           />
         )}
 
-        <HStack flexDirection="row" alignItems="center" space={3} mx={4} my={2}>
+        <HStack flexDirection="row" alignItems="center" space={3} mx="$4" my="$2">
           <SFIcon
             icon="link"
             color={theme.colors.app.textSecondary}

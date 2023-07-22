@@ -104,7 +104,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
       }
     >
       <ProfileHeader profile={profile} />
-      <VStack p={4}>
+      <VStack p="$4">
         <MTable>
           <MCell
             title={t("View Comments")}

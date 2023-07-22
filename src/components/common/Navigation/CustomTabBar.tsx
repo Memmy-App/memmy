@@ -21,7 +21,7 @@ function IconWithText({
 }) {
   const theme = useTheme();
   return (
-    <VStack style={{ alignItems: "center" }} space="1">
+    <VStack style={{ alignItems: "center" }} space="xs">
       <HStack>
         {icon}
         {badge && (

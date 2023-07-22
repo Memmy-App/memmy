@@ -24,7 +24,7 @@ function SettingOptionTitle({
   iconBgColor: string;
 }) {
   return (
-    <HStack space="3" alignItems="center" marginBottom={-1.5}>
+    <HStack space="md" alignItems="center" marginBottom={-1.5}>
       <Box
         style={{
           width: 28,

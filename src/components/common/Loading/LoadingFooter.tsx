@@ -10,7 +10,7 @@ function LoadingFooter({ message = "Loading..." }: LoadingFooterProps) {
   const theme = useTheme();
 
   return (
-    <Center my={4}>
+    <Center my="$4">
       <Spinner />
       <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
         {message}

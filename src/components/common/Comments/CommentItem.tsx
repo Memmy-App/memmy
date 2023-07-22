@@ -75,7 +75,7 @@ function CommentItem({
         >
           <CommentWrapper depth={depth} onCommentPress={onPress}>
             <CommentHeaderWrapper>
-              <HStack space="1">
+              <HStack space="xs">
                 <AvatarUsername
                   creator={comment.comment.creator}
                   opId={comment.comment.post.creator_id}

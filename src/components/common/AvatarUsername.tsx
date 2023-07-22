@@ -98,7 +98,7 @@ function AvatarUsername({
   const nameProps = NameColorMap[type];
 
   return (
-    <HStack space="1" alignItems="center">
+    <HStack space="xs" alignItems="center">
       {showAvatar &&
         (creator.avatar ? (
           <FastImage
@@ -116,7 +116,7 @@ function AvatarUsername({
           />
         ))}
       <VStack>
-        <HStack space="0.5">
+        <HStack space="xxs">
           <Link
             screen="Profile"
             params={{

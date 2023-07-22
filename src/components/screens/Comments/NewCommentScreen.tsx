@@ -123,15 +123,15 @@ function NewCommentScreen({
                   : responseTo.comment.creator.name
               )}
             </Text>
-            <HStack space="3" alignItems="center">
-              <HStack space="0" alignItems="center">
+            <HStack space="md" alignItems="center">
+              <HStack space="xxxs" alignItems="center">
                 <SmallVoteIcons
                   upvotes={upvotes}
                   downvotes={downvotes}
                   myVote={myVote as ILemmyVote}
                 />
               </HStack>
-              <HStack space="1" alignItems="center">
+              <HStack space="xs" alignItems="center">
                 <Icon as={Ionicons} name="time-outline" />
                 <Text color={theme.colors.app.textSecondary}>
                   {dayjs(
@@ -145,7 +145,7 @@ function NewCommentScreen({
               </HStack>
             </HStack>
             <Text>
-              <VStack pr={2}>
+              <VStack pr="$2">
                 <RenderMarkdown
                   text={
                     responseTo.post

@@ -94,7 +94,7 @@ function MemoizedFastImage({
             flex={1}
             alignItems="center"
             justifyContent="center"
-            space="2"
+            space="sm"
           >
             <Icon
               as={Ionicons}

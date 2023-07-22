@@ -57,7 +57,7 @@ function PostScreen({ navigation }: IProps) {
       title: `${commentCount} ${t("Comment", { count: commentCount })}`,
       // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
-        <HStack space="3">
+        <HStack space="md">
           <CommentSortButton
             sortType={commentsSort}
             setSortType={postHook.setPostCommentsSort}

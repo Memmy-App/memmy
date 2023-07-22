@@ -17,7 +17,7 @@ interface IProps {
 
   onPress?: () => void | Promise<void>;
 
-  py?: number;
+  py?: React.ComponentProps<typeof VStack>["py"];
 }
 
 function MCell({
@@ -37,8 +37,8 @@ function MCell({
   const onPressOut = () => setPressedIn(false);
 
   const cell = (
-    <VStack space="1" py={py}>
-      <HStack alignItems="center" space="2">
+    <VStack space="xs" py={py}>
+      <HStack alignItems="center" space="sm">
         {icon && icon}
         <VStack>
           <Text fontSize="$md">{title}</Text>

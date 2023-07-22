@@ -23,6 +23,9 @@ export const config = {
       rounded: "borderRadius",
     } as const,
     tokens: {
+      colors: {
+        textLight700: "#525252",
+      },
       space: {
         px: "1px",
         "0": 0,

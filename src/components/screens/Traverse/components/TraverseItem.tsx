@@ -59,7 +59,10 @@ function TraverseItem({ community, isFavorite }: IProps) {
         backgroundColor={theme.colors.app.fg}
         borderRadius={10}
         alignItems="center"
-        style={styles.container}
+        paddingHorizontal="$2"
+        paddingVertical="$1"
+        marginHorizontal="$4"
+        marginVertical="$1"
       >
         <VStack>
           <HStack space="sm" alignItems="center">
@@ -124,7 +127,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
               const communityFullName = getCommunityFullName(community);
               onChange(communityFullName, !isFavorite);
             }}
-            pr={2}
+            pr="$2"
           >
             <SFIcon icon={isFavorite ? "star.fill" : "star"} />
           </Pressable>
@@ -136,12 +139,6 @@ function TraverseItem({ community, isFavorite }: IProps) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    marginHorizontal: 16,
-    marginVertical: 4,
-  },
   icon: {
     height: 24,
     width: 24,

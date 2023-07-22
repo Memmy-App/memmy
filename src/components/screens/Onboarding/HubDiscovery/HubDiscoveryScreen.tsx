@@ -23,17 +23,17 @@ function HubDiscoveryScreen({ navigation }: IProps) {
   );
 
   const header = () => (
-    <VStack my={6} mx={6}>
+    <VStack my="$6" mx="$6">
       <Text
         fontSize="$md"
         color={theme.colors.app.textSecondary}
         fontStyle="italic"
         textAlign="center"
-        pb={2}
+        pb="$2"
       >
         {t("onboarding.hubDiscovery.alreadyHaveServer")}
       </Text>
-      <HStack space="4">
+      <HStack space="lg">
         <Button
           size="lg"
           colorScheme="lightBlue"
@@ -43,7 +43,7 @@ function HubDiscoveryScreen({ navigation }: IProps) {
           py={2.5}
           width="50%"
         >
-          <HStack space="2" alignItems="center">
+          <HStack space="sm" alignItems="center">
             <IconDoorEnter size={24} color="white" />
 
             <Text fontWeight="semibold" fontSize="$lg">
@@ -60,7 +60,7 @@ function HubDiscoveryScreen({ navigation }: IProps) {
           py={2.5}
           flexGrow={1}
         >
-          <HStack space="2" alignItems="center">
+          <HStack space="sm" alignItems="center">
             <IconUser size={24} color="white" />
 
             <Text fontWeight="semibold" fontSize="$lg">

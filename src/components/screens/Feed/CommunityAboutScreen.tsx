@@ -19,7 +19,7 @@ function CommunityAboutScreen({ route }: { route: any }) {
 
   return (
     <ScrollView flex={1} backgroundColor={theme.colors.app.bg}>
-      <VStack mx={4}>
+      <VStack mx="$4">
         {route.params.banner && (
           <FastImage
             source={{
@@ -28,7 +28,7 @@ function CommunityAboutScreen({ route }: { route: any }) {
             style={{ height: 200, width: "100%", opacity: 0.5 }}
           />
         )}
-        <VStack py={4}>
+        <VStack py="$4">
           <Text
             fontSize="$2xl"
             fontWeight="bold"

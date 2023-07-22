@@ -47,7 +47,7 @@ function IconButtonWithText({
       onPressOut={onPressOut}
       hitSlop={5}
     >
-      <HStack space="2" alignItems="center">
+      <HStack space="sm" alignItems="center">
         <Animated.View style={animatedStyle}>
           <Box borderRadius={5} backgroundColor={iconBgColor} padding="$0.5">
             {icon}

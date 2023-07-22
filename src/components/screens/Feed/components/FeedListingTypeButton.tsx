@@ -34,7 +34,7 @@ export function FeedListingTypeButton() {
 
   return (
     <ListingTypeContextMenu currentSelection={listingType} onPress={onPress}>
-      <HStack space="0.5" alignItems="center">
+      <HStack space="xxs" alignItems="center">
         <Text
           color={colors.app.textPrimary}
           fontSize="$md"

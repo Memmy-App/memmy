@@ -207,7 +207,7 @@ function CreateAccountScreen({
       keyboardShouldPersistTaps="handled"
     >
       <LoadingModal loading={loading} />
-      <VStack flex={1} mb={5} space="md" justifyContent="center">
+      <VStack flex={1} mb="$5" space="md" justifyContent="center">
         <Image
           source={header}
           style={{
@@ -218,9 +218,9 @@ function CreateAccountScreen({
           }}
           resizeMode="cover"
         />
-        <VStack mx={3}>
+        <VStack mx="$3">
           {sentEmail ? (
-            <VStack px={4} space="md">
+            <VStack px="$4" space="md">
               <Text fontSize={32} textAlign="center">
                 {t("onboarding.checkEmail")}
               </Text>
@@ -327,8 +327,8 @@ function CreateAccountScreen({
                 colorScheme="lightBlue"
                 onPress={onPress}
                 borderRadius="$20"
-                mt={3}
-                mx={2}
+                mt="$3"
+                mx="$2"
               >
                 <Text fontWeight="semibold" fontSize="$lg">
                   {t("Create Account")}

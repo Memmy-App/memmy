@@ -49,9 +49,9 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
 
   return useMemo(
     () => (
-      <Box mb={1}>
+      <Box mb="$1">
         <Text
-          mx={4}
+          mx="$4"
           fontSize="$md"
           fontWeight={fontWeightPostTitle}
           color={theme.colors.app.textPrimary}
@@ -60,7 +60,7 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
           {title}
         </Text>
         {showImage && (
-          <Box mt={2}>
+          <Box mt="$2">
             <ImagePreview
               images={postUrls}
               postId={post.post.id}
@@ -71,12 +71,12 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
           </Box>
         )}
         {!!body && (
-          <Text color={theme.colors.app.textSecondary} mx={4} mt={2}>
+          <Text color={theme.colors.app.textSecondary} mx="$4" mt="$2">
             {body}
           </Text>
         )}
         {showLink && (
-          <Box mx={4} mt={2}>
+          <Box mx="$4" mt="$2">
             <LinkButton
               link={linkInfo.link}
               thumbnail={post.post.thumbnail_url}

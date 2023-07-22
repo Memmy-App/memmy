@@ -11,7 +11,7 @@ function CompactFeedItemVote({
   onVotePress: (value: ILemmyVote) => void;
 }) {
   return (
-    <VStack justifyContent="flex-start" alignItems="center" space="3">
+    <VStack justifyContent="flex-start" alignItems="center" space="md">
       <VoteButton
         onPressHandler={() => onVotePress(myVote === 1 ? 0 : 1)}
         type="upvote"

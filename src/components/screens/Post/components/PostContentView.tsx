@@ -30,7 +30,7 @@ function PostContentView() {
       linkInfo.extType === ExtensionType.GENERIC
     ) {
       return (
-        <Box mx={4}>
+        <Box mx="$4">
           <LinkButton
             link={linkInfo.link}
             thumbnail={currentPost.post.thumbnail_url}
@@ -43,7 +43,7 @@ function PostContentView() {
   };
 
   return (
-    <Box mb={1}>
+    <Box mb="$1">
       {isImage && (
         <ImageViewer
           source={currentPost.post.url}
@@ -52,10 +52,10 @@ function PostContentView() {
         />
       )}
 
-      <PostTitle mt={2} mb={isImage ? 1 : 0} />
+      <PostTitle mt="$2" mb={isImage ? "$1" : "$2"} />
 
       {!!body && (
-        <Box mx={4}>
+        <Box mx="$4">
           <RenderMarkdown
             text={body}
             instance={getBaseUrl(currentPost.post.ap_id)}

@@ -20,7 +20,7 @@ function OnboardingInfoScreenOne({ navigation }: IProps) {
         style={styles.background}
         resizeMode="cover"
       >
-        <VStack px={6} pt={12} pb={20} space="4} flex={1">
+        <VStack px="$6" pt="$12" pb="$20" space="lg" flex={1}>
           <Text
             fontSize="$6xl"
             color="white"
@@ -39,7 +39,7 @@ function OnboardingInfoScreenOne({ navigation }: IProps) {
               {t("onboarding.info.1.1")}
             </Text>
           </View>
-          <HStack marginTop="auto" space="4">
+          <HStack marginTop="auto" space="lg">
             <Button
               size="lg"
               colorScheme="blueGray"

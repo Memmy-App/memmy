@@ -39,12 +39,12 @@ function PostHeader() {
           <PostContentView />
         ) : (
           <VStack>
-            <PostTitle mt={2} mb={2} />
+            <PostTitle mt="$2" mb="$2" />
             <Text
               color={theme.colors.app.textSecondary}
               fontStyle="italic"
-              py={2}
-              px={4}
+              py="$2"
+              px="$4"
             >
               Post Collapsed
             </Text>
@@ -52,10 +52,10 @@ function PostHeader() {
         )}
       </Pressable>
 
-      <HStack mb={2} mx={4} space="2">
+      <HStack mb="$2" mx="$4" space="sm">
         <AvatarUsername creator={currentPost.creator} />
       </HStack>
-      <HStack space="2" mx={4} mb={2}>
+      <HStack space="sm" mx="$4" mb="$2">
         <CommunityLink
           community={currentPost.community}
           instanceBaseUrl={instanceBaseUrl}
@@ -64,7 +64,7 @@ function PostHeader() {
         <DatePublished published={currentPost.post.published} />
       </HStack>
 
-      <Divider my={1} bg={theme.colors.app.border} />
+      <Divider my="$1" bg={theme.colors.app.border} />
       <PostActionBar />
       <Divider bg={theme.colors.app.border} />
       {/* {showLoadAll && !hideSLA && ( */}
@@ -76,7 +76,7 @@ function PostHeader() {
       {/*    }} */}
       {/*  > */}
       {/*    <VStack> */}
-      {/*      <Text fontSize="$md" fontStyle="italic" px={2} py={3}> */}
+      {/*      <Text fontSize="$md" fontStyle="italic" px="$2" py="$3"> */}
       {/*        Load all comments... */}
       {/*      </Text> */}
       {/*    </VStack> */}

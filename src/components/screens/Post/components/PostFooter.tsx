@@ -19,7 +19,7 @@ function PostFooter() {
 
   if (commentsStatus.commentsLoading) {
     return (
-      <Center my={4}>
+      <Center my="$4">
         <Spinner />
         <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
           Loading comments...
@@ -38,7 +38,7 @@ function PostFooter() {
   }
 
   if (comments.length < 1) {
-    return <NoResultView my={4} type="comments" />;
+    return <NoResultView my="$4" type="comments" />;
   }
 
   return null;

@@ -16,7 +16,7 @@ function SearchTrendingList({ communities }: IProps) {
 
   if (communities.length === 0) {
     return (
-      <View py={4} alignItems="center" justifyContent="center">
+      <View py="$4" alignItems="center" justifyContent="center">
         <Spinner />
       </View>
     );

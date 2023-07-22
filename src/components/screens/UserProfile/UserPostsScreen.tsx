@@ -66,7 +66,7 @@ function UserPostsScreen({ route }: IProps) {
         estimatedItemSize={150}
         data={posts}
         keyExtractor={keyExtractor}
-        ListEmptyComponent={<NoResultView type={noResultViewType} p={4} />}
+        ListEmptyComponent={<NoResultView type={noResultViewType} p="$4" />}
         refreshing={profile.loading}
         refreshControl={
           <RefreshControl

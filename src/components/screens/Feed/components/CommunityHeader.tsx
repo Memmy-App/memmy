@@ -75,8 +75,8 @@ function CommunityHeader({ communityFullName }: IProps) {
   if (!community || communityStatus.loading) return null;
 
   return (
-    <VStack pt={10} pb={5} px={5}>
-      <HStack alignItems="center" space="5">
+    <VStack pt="$10" pb="$5" px="$5">
+      <HStack alignItems="center" space="xl">
         {community.community.icon ? (
           <FastImage
             source={{
@@ -93,7 +93,7 @@ function CommunityHeader({ communityFullName }: IProps) {
         )}
 
         <VStack alignContent="center">
-          <HStack space="3">
+          <HStack space="md">
             <HStack alignItems="center">
               <SFIcon
                 icon="person"
@@ -105,7 +105,7 @@ function CommunityHeader({ communityFullName }: IProps) {
                 {shortenNumber(community.counts.subscribers)}
               </Text>
             </HStack>
-            <HStack space="1" alignItems="center">
+            <HStack space="xs" alignItems="center">
               <SFIcon
                 icon="eye"
                 color={theme.colors.app.textSecondary}
@@ -125,8 +125,8 @@ function CommunityHeader({ communityFullName }: IProps) {
           </Text>
         </VStack>
       </HStack>
-      <VStack pt={8}>
-        <HStack justifyContent="space-between" alignItems="center" space="3">
+      <VStack pt="$8">
+        <HStack justifyContent="space-between" alignItems="center" space="md">
           <CustomButton
             onPress={onSubscribePress}
             icon={

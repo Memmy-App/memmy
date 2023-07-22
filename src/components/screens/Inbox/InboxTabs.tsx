@@ -21,7 +21,7 @@ function InboxTabs({
 
   return (
     <>
-      <HStack pt={2}>
+      <HStack pt="$2">
         <ButtonGroup>
           <GroupButton
             onPress={onUnreadPress}

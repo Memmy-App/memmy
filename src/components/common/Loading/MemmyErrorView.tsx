@@ -13,11 +13,11 @@ function MemmyErrorView() {
   return (
     <VStack
       flex={1}
-      px={3}
+      px="$3"
       justifyContent="center"
       alignItems="center"
       backgroundColor="app.bg"
-      space="2"
+      space="sm"
     >
       <IconMoodSad size={150} color={theme.colors.app.textSecondary} />
       <Text textAlign="center">{t("memmyError.title")}</Text>

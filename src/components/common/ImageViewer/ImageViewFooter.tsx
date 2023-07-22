@@ -47,9 +47,9 @@ function ImageViewFooter({ source }: ImageViewFooterProps) {
     <View position="absolute" bottom={0} width="100%" zIndex={2}>
       <HStack
         flex={1}
-        mb={10}
-        mx={10}
-        space="2"
+        mb="$10"
+        mx="$10"
+        space="sm"
         alignItems="center"
         justifyContent="space-between"
       >
