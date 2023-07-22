@@ -114,6 +114,14 @@ function AvatarUsername({
             boxSize={22}
           />
         ))}
+      {creator.bot_account && (
+        <SFIcon
+          icon="server.rack"
+          size={12}
+          boxSize={20}
+          color={theme.colors.app.info}
+        />
+      )}
       <VStack>
         <HStack space={0.5}>
           <Link
