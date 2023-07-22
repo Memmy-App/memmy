@@ -52,12 +52,20 @@ export function ReplyOption({
 
   const [firstStop, secondStop] = stops;
 
+  const secondColorMap: Record<Icon, string> = {
+    comment: theme.colors.app.info,
+    save: theme.colors.app.bookmark,
+    read: theme.colors.app.success,
+  };
+
+  const secondColor = secondColorMap[extraType ?? "comment"];
+
   const colors: ISwipeableColors = useMemo(
     () => ({
       first: theme.colors.app.info,
-      second: theme.colors.app.success,
+      second: secondColor,
     }),
-    [theme]
+    [theme, secondColor]
   );
 
   // The timer used to pulse the icon to indicate it's active
@@ -131,16 +139,20 @@ export function ReplyOption({
   const backgroundStyle = useAnimatedStyle(() => {
     if (isFrozen.value) return {};
 
+    const lastColor = onExtra ? colors.second : colors.first;
+
     const backgroundColor = interpolateColor(
       Math.abs(translateX.value),
-      [-secondStop, -firstStop * 1.5, -firstStop / 2, 0],
+      [0, -firstStop / 2, -firstStop * 1.5, -secondStop],
       [
-        colors.second as string,
-        colors.first as string,
-        colors.first as string,
         "transparent",
+        colors.first as string,
+        colors.first as string,
+        lastColor as string,
       ]
     );
+
+    console.log(backgroundColor);
 
     const width = screenWidth - translateX.value;
     const transform = [{ translateX: translateX.value }];

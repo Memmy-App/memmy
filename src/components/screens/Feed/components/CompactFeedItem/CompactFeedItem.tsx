@@ -56,7 +56,7 @@ function CompactFeedItem({ postId }: { postId: number }) {
         extraType="save"
       />
     ),
-    [postId]
+    [postId, post.saved]
   );
 
   const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
