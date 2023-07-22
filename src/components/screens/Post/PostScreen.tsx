@@ -10,6 +10,7 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
+import { WritableDraft } from "immer/src/types/types-external";
 import LoadingView from "../../common/Loading/LoadingView";
 import PostOptionsButton from "./components/PostOptionsButton";
 import PostFooter from "./components/PostFooter";
@@ -54,6 +55,10 @@ function isParentComment(commentItem: ILemmyComment) {
   return commentItem.comment.comment.path.split(".").length === 2;
 }
 
+function isComment(commentItem) {
+  return typeof commentItem !== "string" && typeof commentItem !== "number";
+}
+
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
 }
@@ -68,10 +73,8 @@ function PostScreen({ navigation }: IProps) {
   const commentsSort = usePostCommentsSort(postKey);
   const comments = usePostComments(postKey);
   const commentsStatus = usePostCommentsStatus(postKey);
+  const firstViewableId = useRef(undefined);
 
-  const [firstViewableId, setFirstViewableId] = useState<
-    string | null | undefined
-  >(undefined);
   const [nextCommentPressed, setNextCommentPressed] = useState(false);
 
   const { t } = useTranslation();
@@ -106,7 +109,8 @@ function PostScreen({ navigation }: IProps) {
         // Checking if the first item is a parent comment,
         // We don't want to set firstViewableId to a child comment I think? idk
         if (isParentComment(firstItem.item)) {
-          setFirstViewableId(firstItem.item.comment.comment.id.toString());
+          firstViewableId.current =
+            firstItem.item.comment.comment.id.toString();
         }
       }
     },
@@ -147,7 +151,8 @@ function PostScreen({ navigation }: IProps) {
       const pathArr = newComment.comment.comment.path.split(".");
       const searchId = Number(pathArr[pathArr.length - 2]);
       const index = comments.findIndex(
-        (c) => c.comment.comment.id === searchId
+        (c) =>
+          isComment(c) && (c as ILemmyComment).comment.comment.id === searchId
       );
 
       usePostsStore.setState((state) => {
@@ -171,8 +176,10 @@ function PostScreen({ navigation }: IProps) {
     usePostsStore.setState((state) => {
       const prev = state.posts.get(postKey);
       const comment = prev.commentsState.comments.find(
-        (c) => c.comment.comment.id === editedComment.commentId
-      );
+        (c) =>
+          isComment(c) &&
+          (c as ILemmyComment).comment.comment.id === editedComment.commentId
+      ) as WritableDraft<ILemmyComment>;
 
       comment.comment.comment.content = editedComment.content;
     });
@@ -182,7 +189,7 @@ function PostScreen({ navigation }: IProps) {
 
   // Get the comments that are visible. Only recal whenever we trigger the render
   const visibleComments = useMemo(
-    () => comments.filter((c) => !c.hidden),
+    () => comments.filter((c) => isComment(c) && !(c as ILemmyComment).hidden),
     [rerenderComments]
   );
 
@@ -215,7 +222,10 @@ function PostScreen({ navigation }: IProps) {
   const onFabPress = () => {
     // console.log("click", firstViewableId);
     const currentIndex = visibleComments.findIndex(
-      (c) => String(c.comment.comment.id) === firstViewableId
+      (c) =>
+        isComment(c) &&
+        String((c as ILemmyComment).comment.comment.id) ===
+          firstViewableId.current
     );
     if (!nextCommentPressed && currentIndex === 0) {
       setNextCommentPressed(true);
@@ -225,9 +235,7 @@ function PostScreen({ navigation }: IProps) {
 
     const nextItem = visibleComments
       .slice(currentIndex + 1, visibleComments.length)
-      .find((c) => isParentComment(c));
-
-    console.log({ nextItem });
+      .find((c) => isComment(c) && isParentComment(c as ILemmyComment));
 
     flashListRef.current.scrollToItem({ item: nextItem, animated: true });
   };

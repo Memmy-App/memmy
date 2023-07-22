@@ -34,30 +34,72 @@ const loadPostComments = async (
 
     const ordered = buildComments(res.comments);
 
-    const betterComments: ILemmyComment[] = [];
+    const betterComments: (ILemmyComment | number | string)[] = [];
+
+    // Set the current value for our children
+    let current = 1;
 
     const getChildren = (comment: NestedComment) => {
-      const replyComments: ILemmyComment[] = [];
+      // Create an array for replies
+      const replyComments: (ILemmyComment | string)[] = [];
+
+      // Get the depth
+      const depth = comment.comment.comment.path.split(".").length - 1;
+
+      // Loop through the nest
       for (const item of comment.replies) {
+        // If the depth is equal to four, we don't want to show more, so we will display a "Show More" box
+        if (depth === 4) {
+          replyComments.push("showMoreChild");
+        }
+
+        // If the depth is equal to two and the current is equal to five, we don't want to show more, and we
+        // will show a Show More box
+        if (depth === 2) {
+          if (current === 5) {
+            replyComments.push("showMoreTop");
+          }
+
+          // We also want to increment the current afterward
+          current += 1;
+        }
+
+        // Figure out if the comment will be hidden or not
+        let hidden = false;
+
+        if (depth >= 4 || current >= 4) {
+          hidden = true;
+        }
+
         replyComments.push({
           comment: item.comment,
           myVote: item.comment.my_vote as ILemmyVote,
           collapsed: false,
-          hidden: false,
+          hidden,
         });
         replyComments.push(...getChildren(item));
       }
       return replyComments;
     };
 
+    // Loop through each nest
     for (const item of ordered) {
+      // Add in the item number. This will make skipping a lot easier
+      betterComments.push(item.comment.comment.id);
+
+      // Push in the top comment
       betterComments.push({
         comment: item.comment,
         myVote: item.comment.my_vote as ILemmyVote,
         collapsed: false,
         hidden: false,
       });
+
+      // Add in the rest of the comments
       betterComments.push(...getChildren(item));
+
+      // Reset the value of current for the next batch
+      current = 1;
     }
 
     usePostsStore.setState((state: PostsStore) => {
