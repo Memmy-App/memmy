@@ -1,103 +1,42 @@
-import React from "react";
-import { useTheme } from "native-base";
-import { useActionSheet } from "@expo/react-native-action-sheet";
+import React, { useCallback, useMemo } from "react";
+import { useRoute } from "@react-navigation/core";
+import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
 import { SortType } from "lemmy-js-client";
-import {
-  IconBolt,
-  IconCalendar,
-  IconClockHour1,
-  IconClockHour12,
-  IconClockHour4,
-  IconClockHour6,
-  IconFlame,
-  IconMessage,
-  IconSelectAll,
-} from "tabler-icons-react-native";
-import { UseFeed } from "../../../../hooks/feeds/useFeed";
-import {
-  feedSortOptions,
-  sortTopOptions,
-} from "../../../../types/FeedSortOptions";
+import { overallSortOptions } from "../../../../types/SortOptions";
 import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
-import { IconCalendarWeek } from "../../../common/icons";
+import { FeedSortContextMenu } from "../../../common/ContextMenu/FeedSortContextMenu";
+import SFIcon from "../../../common/icons/SFIcon";
+import {
+  useFeedSort,
+  useFeedsStore,
+} from "../../../../stores/feeds/feedsStore";
+import loadFeedPosts from "../../../../stores/feeds/actions/loadFeedPosts";
 
-interface Props {
-  feed: UseFeed;
-  onSortUpdate?: (key: SortType) => void;
+function FeedSortButton() {
+  const { key } = useRoute();
+  const sort = useFeedSort(key);
+
+  const onPress = useCallback((e: OnPressMenuItemEventObject) => {
+    useFeedsStore.setState((state) => {
+      state.feeds.get(key).sortType = e.nativeEvent.actionKey as SortType;
+    });
+
+    loadFeedPosts(key, {
+      refresh: true,
+      sort: e.nativeEvent.actionKey as SortType,
+    }).then();
+  }, []);
+
+  const icon = useMemo(
+    () => <SFIcon icon={overallSortOptions[sort].icon} />,
+    [sort]
+  );
+
+  return (
+    <FeedSortContextMenu currentSelection={sort} onPress={onPress}>
+      <HeaderIconButton icon={icon} />
+    </FeedSortContextMenu>
+  );
 }
-function FeedSortButton({ feed, onSortUpdate }: Props) {
-  const theme = useTheme();
-  const { showActionSheetWithOptions } = useActionSheet();
-
-  const onPress = () => {
-    const cancelButtonIndex = feedSortOptions.length;
-
-    showActionSheetWithOptions(
-      {
-        options: [
-          ...feedSortOptions.map(([key, display]) =>
-            key === feed.sort ? `${display} (current)` : display
-          ),
-          "Cancel",
-        ],
-        cancelButtonIndex,
-        userInterfaceStyle: theme.config.initialColorMode,
-      },
-      (index) => {
-        if (index === cancelButtonIndex) return;
-
-        if (index === 0) {
-          showTopOptions();
-          return;
-        }
-
-        const [key] = feedSortOptions[index];
-        feed.setSort(key);
-        onSortUpdate?.(key);
-      }
-    );
-  };
-
-  const showTopOptions = () => {
-    const cancelButtonIndex = sortTopOptions.length;
-
-    showActionSheetWithOptions(
-      {
-        options: [
-          ...sortTopOptions.map(([key, display]) =>
-            key === feed.sort ? `${display} (current)` : display
-          ),
-          "Cancel",
-        ],
-        cancelButtonIndex,
-        userInterfaceStyle: theme.config.initialColorMode,
-      },
-      (index) => {
-        if (index === cancelButtonIndex) return;
-
-        const [key] = sortTopOptions[index];
-        feed.setSort(key);
-        onSortUpdate?.(key);
-      }
-    );
-  };
-
-  return <HeaderIconButton icon={SortIconType[feed.sort]} onPress={onPress} />;
-}
-
-const SortIconType = {
-  TopDay: <IconCalendar />,
-  TopWeek: <IconCalendarWeek />,
-  TopHour: <IconClockHour1 />,
-  TopSixHour: <IconClockHour6 />,
-  TopTwelveHour: <IconClockHour12 />,
-  TopMonth: <IconCalendar />,
-  TopYear: <IconCalendar />,
-  TopAll: <IconSelectAll />,
-  Hot: <IconFlame />,
-  Active: <IconBolt />,
-  New: <IconClockHour4 />,
-  MostComments: <IconMessage />,
-};
 
 export default FeedSortButton;

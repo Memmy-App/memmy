@@ -1,5 +1,6 @@
 import React from "react";
 import { Center, Pressable, Text, useTheme } from "native-base";
+import { useTranslation } from "react-i18next";
 
 interface LoadingErrorFooterProps {
   onRetryPress: () => void | Promise<void>;
@@ -10,12 +11,13 @@ function LoadingErrorFooter({
   onRetryPress,
   message,
 }: LoadingErrorFooterProps) {
+  const { t } = useTranslation();
   const theme = useTheme();
 
   return (
     <Center flex={1} my={4}>
       <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
-        {`${message || "Error loading content :("}`}
+        {`${message || t("loadingError.text")}`}
       </Text>
       <Pressable
         onPress={onRetryPress}
@@ -25,7 +27,7 @@ function LoadingErrorFooter({
         padding={1}
         mt={2}
       >
-        <Text color="blue.500">Retry</Text>
+        <Text color="blue.500">{t("loadingError.retryBtn")}</Text>
       </Pressable>
     </Center>
   );

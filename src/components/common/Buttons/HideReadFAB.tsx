@@ -1,7 +1,6 @@
+import { Fab, useTheme } from "native-base";
 import React from "react";
-import Animated, { FadeOutDown, FadeInDown } from "react-native-reanimated";
-import { FAB } from "react-native-elements";
-import { useTheme } from "native-base";
+import SFIcon from "../icons/SFIcon";
 
 interface IProps {
   onPress: () => void;
@@ -11,19 +10,15 @@ function HideReadFAB({ onPress }: IProps) {
   const theme = useTheme();
 
   return (
-    <Animated.View
-      exiting={FadeOutDown.duration(500)}
-      entering={FadeInDown.duration(500)}
-      style={{ zIndex: 100 }}
-    >
-      <FAB
-        placement="right"
-        size="large"
-        color={theme.colors.app.accent}
-        icon={{ name: "eye-with-line", type: "entypo" }}
-        onPress={onPress}
-      />
-    </Animated.View>
+    <Fab
+      renderInPortal={false}
+      shadow={2}
+      fontSize="md"
+      backgroundColor={theme.colors.app.accent}
+      icon={<SFIcon icon="eye.slash" color="#fff" size={14} />}
+      p={2}
+      onPress={onPress}
+    />
   );
 }
 

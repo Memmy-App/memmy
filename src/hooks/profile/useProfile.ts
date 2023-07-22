@@ -5,16 +5,20 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { PersonView, PostView } from "lemmy-js-client";
+import { PersonView } from "lemmy-js-client";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/core";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { writeToLog } from "../../helpers/LogHelper";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectCurrentAccount } from "../../slices/accounts/accountsSlice";
 import { setPost } from "../../slices/post/postSlice";
 import { buildComments } from "../../helpers/LemmyHelpers";
 import ILemmyComment from "../../types/lemmy/ILemmyComment";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
+import addFeed from "../../stores/feeds/actions/addFeed";
+import setFeedPosts from "../../stores/feeds/actions/setFeedPosts";
+import removeFeed from "../../stores/feeds/actions/removeFeed";
 
 export interface UseProfile {
   doLoad: (refresh?: boolean) => Promise<void>;
@@ -29,12 +33,6 @@ export interface UseProfile {
   comments: ILemmyComment[];
   setComments: React.Dispatch<SetStateAction<ILemmyComment[]>>;
 
-  posts: PostView[];
-  setPosts: React.Dispatch<SetStateAction<PostView[]>>;
-
-  savedPosts: PostView[];
-  setSavedPosts: React.Dispatch<SetStateAction<PostView[]>>;
-
   self: boolean;
 
   onCommentPress: (
@@ -43,7 +41,13 @@ export interface UseProfile {
   ) => Promise<void>;
 }
 
-const useProfile = (noContent = true, fullUsername?: string): UseProfile => {
+const useProfile = (
+  noContent = true,
+  fullUsername?: string,
+  saved = false
+): UseProfile => {
+  const { key } = useRoute();
+
   const currentAccount = useAppSelector(selectCurrentAccount);
   const searchUsername = useMemo(
     () =>
@@ -60,15 +64,18 @@ const useProfile = (noContent = true, fullUsername?: string): UseProfile => {
 
   const [profile, setProfile] = useState<PersonView>(null);
   const [comments, setComments] = useState<ILemmyComment[]>([]);
-  const [posts, setPosts] = useState<PostView[]>([]);
-  const [savedPosts, setSavedPosts] = useState<PostView[]>([]);
 
   const [notFound, setNotFound] = useState<boolean>(false);
 
   const self = useRef(!fullUsername);
 
   useEffect(() => {
+    addFeed(key);
     doLoad(true).then();
+
+    return () => {
+      removeFeed(key);
+    };
   }, [currentAccount]);
 
   const doLoad = async (refresh = false) => {
@@ -86,7 +93,7 @@ const useProfile = (noContent = true, fullUsername?: string): UseProfile => {
 
       const betterComments = buildComments(res.comments);
 
-      if (self.current) {
+      if (self.current && saved) {
         const savedRes = await lemmyInstance.getPersonDetails({
           auth: lemmyAuthToken,
           limit: noContent ? 0 : 50,
@@ -94,27 +101,26 @@ const useProfile = (noContent = true, fullUsername?: string): UseProfile => {
           username: searchUsername,
         });
 
-        setSavedPosts([...savedRes.posts]);
+        setFeedPosts(key, savedRes.posts);
+      } else {
+        setFeedPosts(key, res.posts);
       }
 
       setProfile(res.person_view);
       setComments(betterComments);
-      setPosts(res.posts);
 
       if (refresh) setRefreshing(false);
       else setLoading(false);
     } catch (e) {
-      writeToLog("Error getting person.");
-      writeToLog(e.toString());
-
       if (refresh) setRefreshing(false);
       else setLoading(false);
-
-      if (e.toString() === "couldnt_find_that_username_or_email") {
-        setNotFound(true);
-        return;
-      }
       setError(true);
+
+      if (e.toString() === "could_not_find_that_username_or_email") {
+        setNotFound(true);
+      }
+
+      handleLemmyError(e.toString());
     }
   };
 
@@ -138,11 +144,10 @@ const useProfile = (noContent = true, fullUsername?: string): UseProfile => {
         showLoadAll: true,
       });
     } catch (e) {
-      writeToLog("Failed to get Post for comment push.");
-      writeToLog(e.toString());
-
       setLoading(false);
       setError(true);
+
+      handleLemmyError(e.toString());
     }
   };
 
@@ -156,12 +161,6 @@ const useProfile = (noContent = true, fullUsername?: string): UseProfile => {
 
     comments,
     setComments,
-
-    posts,
-    setPosts,
-
-    savedPosts,
-    setSavedPosts,
 
     self: self.current,
 

@@ -1,9 +1,9 @@
 import { PostAggregates } from "lemmy-js-client";
 import { HStack, Text, useTheme } from "native-base";
 import React from "react";
-import { IconArrowDown, IconArrowUp } from "tabler-icons-react-native";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { useAppSelector } from "../../../../store";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
+import SFIcon from "../icons/SFIcon";
 
 interface IProps {
   data: PostAggregates;
@@ -21,18 +21,22 @@ function VoteData({ data, vote }: IProps) {
     const voteColor = upvoted ? colors.app.upvote : colors.app.downvote;
     const color = upvoted || downvoted ? voteColor : colors.app.textSecondary;
 
-    const scoreArrow =
-      upvoted || (data.score > 0 && !downvoted) ? (
-        <IconArrowUp color={color} size={20} />
-      ) : (
-        <IconArrowDown color={color} size={20} />
-      );
+    const scoreArrow = (
+      <SFIcon
+        icon={
+          upvoted || (data.score > 0 && !downvoted) ? "arrow.up" : "arrow.down"
+        }
+        color={color}
+        size={10}
+        boxSize={20}
+      />
+    );
 
     return (
       <HStack alignItems="center">
         {scoreArrow}
         <Text color={color} fontSize="sm">
-          {vote === 1 ? data.score + 1 : data.score}
+          {data.score}
         </Text>
       </HStack>
     );
@@ -46,15 +50,20 @@ function VoteData({ data, vote }: IProps) {
   return (
     <>
       <HStack alignItems="center">
-        <IconArrowUp color={upvoteColor} size={20} />
+        <SFIcon icon="arrow.up" color={upvoteColor} size={10} boxSize={20} />
         <Text color={upvoteColor} fontSize="sm">
-          {vote === 1 ? data.upvotes + 1 : data.upvotes}
+          {data.upvotes}
         </Text>
       </HStack>
       <HStack alignItems="center">
-        <IconArrowDown color={downvoteColor} size={20} />
+        <SFIcon
+          icon="arrow.down"
+          color={downvoteColor}
+          size={10}
+          boxSize={20}
+        />
         <Text color={downvoteColor} fontSize="sm">
-          {vote === -1 ? data.downvotes + 1 : data.downvotes}
+          {data.downvotes}
         </Text>
       </HStack>
     </>

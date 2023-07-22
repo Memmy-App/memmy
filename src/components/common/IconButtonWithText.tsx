@@ -10,7 +10,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 interface IconButtonWithTextProps {
-  onPressHandler: (event: GestureResponderEvent) => void;
+  onPressHandler?: (event: GestureResponderEvent) => void;
   icon: JSX.Element;
   iconBgColor?: ColorType;
   text?: string | number;
@@ -63,4 +63,4 @@ function IconButtonWithText({
   );
 }
 
-export default IconButtonWithText;
+export default React.memo(IconButtonWithText);

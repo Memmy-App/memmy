@@ -1,55 +1,28 @@
-import React, { SetStateAction } from "react";
-import { useTheme } from "native-base";
-import { useActionSheet } from "@expo/react-native-action-sheet";
-import {
-  IconCalendar,
-  IconClockHour4,
-  IconClockHour8,
-  IconFlame,
-} from "tabler-icons-react-native";
 import { CommentSortType } from "lemmy-js-client";
+import React from "react";
+import { commentSortOptions } from "../../../../types/SortOptions";
 import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
-import { commentSortOptions } from "../../../../types/CommentSortOptions";
+import { CommentSortContextMenu } from "../../../common/ContextMenu/CommentSortContextMenu";
+import SFIcon from "../../../common/icons/SFIcon";
 
 interface IProps {
   sortType: CommentSortType;
-  setSortType: React.Dispatch<SetStateAction<CommentSortType>>;
+  setSortType: (sortType: CommentSortType) => void;
 }
 
 function CommentSortButton({ sortType, setSortType }: IProps) {
-  const theme = useTheme();
-  const { showActionSheetWithOptions } = useActionSheet();
-
-  const onPress = () => {
-    const cancelButtonIndex = commentSortOptions.length;
-
-    showActionSheetWithOptions(
-      {
-        options: [
-          ...commentSortOptions.map((key): string =>
-            key === sortType ? `${key} (current)` : key
-          ),
-          "Cancel",
-        ],
-        cancelButtonIndex,
-        userInterfaceStyle: theme.config.initialColorMode,
-      },
-      (index) => {
-        if (index === cancelButtonIndex) return;
-
-        setSortType(commentSortOptions[index]);
-      }
-    );
-  };
-
-  return <HeaderIconButton icon={SortIconType[sortType]} onPress={onPress} />;
+  return (
+    <CommentSortContextMenu
+      onPress={({ nativeEvent }) => {
+        setSortType(nativeEvent.actionKey as CommentSortType);
+      }}
+      currentSelection={sortType}
+    >
+      <HeaderIconButton
+        icon={<SFIcon icon={commentSortOptions[sortType].icon} />}
+      />
+    </CommentSortContextMenu>
+  );
 }
-
-const SortIconType = {
-  Top: <IconCalendar />,
-  Hot: <IconFlame />,
-  New: <IconClockHour4 />,
-  Old: <IconClockHour8 />,
-};
 
 export default CommentSortButton;

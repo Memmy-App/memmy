@@ -1,10 +1,10 @@
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { Community } from "lemmy-js-client";
 import { HStack, Text, useTheme } from "native-base";
 import React from "react";
-import { IconPlanet } from "tabler-icons-react-native";
-import FastImage from "react-native-fast-image";
 import { getBaseUrl } from "../../helpers/LinkHelper";
 import Link from "./Buttons/Link";
+import { PlanetIcon } from "./icons/PlanetIcon";
 
 interface CommunityLinkProps {
   community: Community;
@@ -37,7 +37,7 @@ function CommunityLink({ community, instanceBaseUrl }: CommunityLinkProps) {
               style={{ height: 18, width: 18, borderRadius: 100 }}
             />
           ) : (
-            <IconPlanet color={theme.colors.app.textSecondary} size={16} />
+            <PlanetIcon color={theme.colors.app.textSecondary} size={16} />
           )}
           <Text color={theme.colors.app.textSecondary} fontWeight="medium">
             {community.name}

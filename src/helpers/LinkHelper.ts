@@ -7,6 +7,8 @@ import axios from "axios";
 import { URL } from "react-native-url-polyfill";
 import { writeToLog } from "./LogHelper";
 import store from "../../store";
+import i18n from "../plugins/i18n/i18n";
+import { showToast } from "../slices/toast/toastSlice";
 
 const imageExtensions = [
   "webp",
@@ -67,13 +69,14 @@ export const getLinkInfo = (link?: string): LinkInfo => {
   };
 };
 
-export const isPotentialFedSite = (link: string) => {
+const isPotentialFedSite = (link: string) => {
   const fedPattern =
-    /^(?:https?:\/\/\w+\.\w+)?\/(?:c|m|u|post)\/\w+(?:@\w+(?:\.\w+)?(?:\.\w+)?)?$/;
-  return link.match(fedPattern);
+    /^(?:https?:\/\/(?:\w+.)?\w+.\w+)?\/(?:c|m|u|post)\/\w+(?:@\w+(?:.\w+)?(?:.\w+)?)?$/;
+  return fedPattern.test(link);
 };
 
-export const isLemmySite = async (link: string) => {
+// Takes in "/c/community@instance" and return "https://instance_url/c/community@instance"
+export const getCommunityLink = (sublink: string): string => {
   if (!accounts.currentAccount) {
     ({ accounts } = store.getState());
   }
@@ -87,14 +90,23 @@ export const isLemmySite = async (link: string) => {
   }
 
   // Handle shortcut links that are formatted: "/c/community@instance". Need to prepend the home instance url
-  if (link[0] === "/") {
+  if (sublink[0] === "/") {
     if (instanceUrl === "") {
       writeToLog(
-        `Trying to open link: ${link} with instanceUrl: ${instanceUrl}`
+        `Trying to open link: ${sublink} with instanceUrl: ${instanceUrl}`
       );
-      return false;
+      return "";
     }
-    link = instanceUrl + link;
+    sublink = instanceUrl + sublink;
+    return sublink;
+  }
+  return sublink;
+};
+
+export const isLemmySite = async (link: string) => {
+  link = getCommunityLink(link);
+  if (link === "") {
+    return false;
   }
 
   let urlComponents;
@@ -119,7 +131,8 @@ export const isLemmySite = async (link: string) => {
 
 const openLemmyLink = (
   link: string,
-  navigation: NativeStackNavigationProp<any>
+  navigation: NativeStackNavigationProp<any>,
+  color
 ): void => {
   const communityOnEnd = link.includes("@");
 
@@ -152,11 +165,11 @@ const openLemmyLink = (
     });
   } else {
     // In case the link type is not handled, open in a browser
-    openWebLink(link);
+    openWebLink(link, color);
   }
 };
 
-const openWebLink = (link: string): void => {
+const openWebLink = (link: string, color = "#000"): void => {
   const { settings } = store.getState();
   const urlPattern =
     /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
@@ -182,7 +195,7 @@ const openWebLink = (link: string): void => {
       dismissButtonStyle: "close",
       readerMode: settings.useReaderMode,
       presentationStyle: WebBrowserPresentationStyle.FULL_SCREEN,
-      toolbarColor: "#000",
+      toolbarColor: color,
     })
       .then(() => {
         WebBrowser.dismissBrowser();
@@ -199,29 +212,56 @@ const openWebLink = (link: string): void => {
 
 export const openLink = (
   link: string,
-  navigation: NativeStackNavigationProp<any>
+  navigation: NativeStackNavigationProp<any>,
+  color = "#000"
 ): void => {
-  link = decodeURIComponent(link);
+  const urlPattern =
+    /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
+
+  writeToLog(`Trying to open link: ${link}`);
+
+  if (!urlPattern.test(link)) {
+    store.dispatch(
+      showToast({
+        message: i18n.t("toast.linkError"),
+        duration: 3000,
+        variant: "error",
+      })
+    );
+    return;
+  }
+
+  link = link.match(urlPattern)[0];
 
   const potentialFed = isPotentialFedSite(link);
   if (potentialFed) {
     isLemmySite(link)
       .then((isLemmy) => {
         if (isLemmy) {
-          openLemmyLink(link, navigation);
+          openLemmyLink(link, navigation, color);
         } else {
-          openWebLink(link);
+          openWebLink(link, color);
         }
       })
       .catch(() => {
-        openWebLink(link);
+        openWebLink(link, color);
       });
   } else {
-    openWebLink(link);
+    openWebLink(link, color);
   }
 };
 
-export const getBaseUrl = (link?: string): string => {
+export const getBaseUrl = (link?: string, noSubdomain = false): string => {
+  if (noSubdomain) {
+    const domain = link.replace(/^(https?:\/\/)?(www\.)?/i, "").split("/")[0];
+    const parts = domain.split(".").reverse();
+
+    if (parts.length > 2 && parts[1].length <= 3) {
+      return `${parts[2]}.${parts[1]}.${parts[0]}`;
+    }
+
+    return `${parts[1]}.${parts[0]}`;
+  }
   const regex = /^(?:https?:\/\/)?([^/]+)/;
   return link ? link.match(regex)[1] : null;
 };

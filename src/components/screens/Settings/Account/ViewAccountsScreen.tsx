@@ -1,19 +1,24 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { ScrollView, useTheme } from "native-base";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Alert, Button, Switch } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ScrollView, useTheme } from "native-base";
+import React, { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Alert, Button, Switch } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
-import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
-import CTable from "../../../common/Table/CTable";
-import CSection from "../../../common/Table/CSection";
-import CCell from "../../../common/Table/CCell";
-import { Account } from "../../../../types/Account";
-import { deleteAccount } from "../../../../slices/accounts/accountsActions";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import useNotifications from "../../../../hooks/notifications/useNotifications";
-import LoadingModalTransparent from "../../../common/Loading/LoadingModalTransparent";
+import { deleteAccount } from "../../../../slices/accounts/accountsActions";
+import {
+  selectAccounts,
+  selectCurrentAccount,
+} from "../../../../slices/accounts/accountsSlice";
 import { setSetting } from "../../../../slices/settings/settingsActions";
+import { selectSettings } from "../../../../slices/settings/settingsSlice";
+import { Account } from "../../../../types/Account";
+import LoadingModalTransparent from "../../../common/Loading/LoadingModalTransparent";
+import CCell from "../../../common/Table/CCell";
+import CSection from "../../../common/Table/CSection";
+import CTable from "../../../common/Table/CTable";
+import SFIcon from "../../../common/icons/SFIcon";
 
 interface ViewAccountsScreenProps {
   navigation: NativeStackNavigationProp<any>;
@@ -21,12 +26,14 @@ interface ViewAccountsScreenProps {
 
 function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   const accounts = useAppSelector(selectAccounts);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const { pushEnabled } = useAppSelector(selectSettings);
 
   const [pushEnabledArr, setPushEnabledArr] = useState([]);
 
   const dispatch = useAppDispatch();
 
+  const { t } = useTranslation();
   const theme = useTheme();
   const notifications = useNotifications();
 
@@ -37,7 +44,11 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   );
 
   const headerRight = () => (
-    <Button title="Add" onPress={() => navigation.push("EditAccount")} />
+    <Button
+      title={t("Add")}
+      onPress={() => navigation.push("EditAccount")}
+      color={theme.colors.app.accent}
+    />
   );
 
   useEffect(() => {
@@ -53,19 +64,19 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
     });
   };
 
-  const onAccountDeletePress = (account: Account) => {
+  const onAccountLogoutPress = (account: Account) => {
     Alert.alert(
-      "Are you sure?",
-      `Please make sure push notifications are disabled before deleting an account, otherwise you may 
-      continue to get push notifications for that account.\n\nAre you sure you want to 
-      delete ${account.username}@${account.instance}?`,
+      t("alert.title.areYouSure"),
+      t("alert.message.accountLogoutConfirm", [
+        `${account.username}@${account.instance}`,
+      ]),
       [
         {
-          text: "Cancel",
+          text: t("Cancel"),
           style: "cancel",
         },
         {
-          text: "Delete",
+          text: t("Logout"),
           style: "destructive",
           onPress: () => {
             dispatch(deleteAccount(account));
@@ -78,20 +89,16 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   const onPushNotificationsSwitch = (account: Account, value: boolean) => {
     if (value) {
       Alert.alert(
-        "Info",
-        "To make push notifications work, Memmy has to send your authentication token " +
-          "to our server. Right now, this is the only viable way to allow users to receive push notifications. Note that " +
-          "Memmy servers do NOT have access to your password, only your authentication token. Authentication tokens may " +
-          "be revoked by changing your password.\n\nFull source code for the Memmy push notification server is available " +
-          "at https://github.com/gkasdorf/memmy-push.\n\nDo you wish to continue?",
+        t("alert.title.info"),
+        t("alert.message.pushNotificationsConfirm"),
         [
           {
-            text: "Cancel",
+            text: t("Cancel"),
             style: "cancel",
           },
           {
-            text: "Continue",
-            style: "default",
+            text: t("Continue"),
+            style: "destructive",
             onPress: () => onEnableNotifications(account),
           },
         ]
@@ -153,51 +160,43 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
     <ScrollView backgroundColor={theme.colors.app.bg}>
       <LoadingModalTransparent loading={notifications.loading} />
       <CTable>
-        <CSection header="CURRENT ACCOUNT">
+        <CSection
+          header={t("settings.accounts.current")}
+          footer="To switch accounts, simply press and hold the Profile button in the tab bar."
+        >
           <CCell
             cellStyle="RightDetail"
-            title="Server"
-            detail={accounts[0].instance}
+            title={t("Server")}
+            detail={currentAccount.instance}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
           <CCell
             cellStyle="RightDetail"
-            title="Username"
-            detail={accounts[0].username}
+            title={t("Username")}
+            detail={currentAccount.username}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
           />
         </CSection>
-        {accounts.map((a) => (
+        {accounts.map((account) => (
           <CSection
-            header={`${a.username}@${a.instance}`.toUpperCase()}
-            key={`${a.username}${a.instance}`}
+            header={`${account.username}@${account.instance}`}
+            key={account.username + account.instance}
           >
             <CCell
               cellStyle="Basic"
-              title="Edit Account"
+              title={t("Edit Account")}
               accessory="DisclosureIndicator"
               backgroundColor={theme.colors.app.fg}
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.textSecondary}
-              onPress={() => onAccountPress(a)}
+              onPress={() => onAccountPress(account)}
             />
-            {accounts.length > 1 && (
-              <CCell
-                cellStyle="Basic"
-                title="Delete Account"
-                backgroundColor={theme.colors.app.fg}
-                titleTextColor={theme.colors.app.textPrimary}
-                rightDetailColor={theme.colors.app.textSecondary}
-                accessory="DisclosureIndicator"
-                onPress={() => onAccountDeletePress(a)}
-              />
-            )}
             <CCell
-              title="Push Notifications"
+              title={t("Push Notifications")}
               backgroundColor={theme.colors.app.fg}
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.textSecondary}
@@ -206,12 +205,28 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
                   value={
                     pushEnabledArr.findIndex(
                       (pe) =>
-                        pe.username === a.username && pe.instance === a.instance
+                        pe.username === account.username &&
+                        pe.instance === account.instance
                     ) > -1
                   }
-                  onValueChange={(v) => onPushNotificationsSwitch(a, v)}
+                  onValueChange={(v) => onPushNotificationsSwitch(account, v)}
                 />
               }
+            />
+            <CCell
+              cellStyle="Basic"
+              title={t("Logout")}
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+              cellAccessoryView={
+                <SFIcon
+                  icon="rectangle.portrait.and.arrow.right"
+                  color={theme.colors.app.textSecondary}
+                  size={14}
+                />
+              }
+              onPress={() => onAccountLogoutPress(account)}
             />
           </CSection>
         ))}

@@ -2,7 +2,7 @@ import { CommunityView } from "lemmy-js-client";
 import React, { SetStateAction, useCallback, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { writeToLog } from "../../helpers/LogHelper";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 interface UseSearch {
   query: string;
@@ -20,7 +20,7 @@ const useSearch = (): UseSearch => {
     }, [])
   );
 
-  const doGetTrending = async () => {
+  const doGetTrending = useCallback(async () => {
     try {
       const res = await lemmyInstance.listCommunities({
         auth: lemmyAuthToken,
@@ -30,10 +30,9 @@ const useSearch = (): UseSearch => {
 
       setTrending(res.communities);
     } catch (e) {
-      writeToLog("Error getting trending.");
-      writeToLog(e.toString());
+      handleLemmyError(e.toString());
     }
-  };
+  }, []);
 
   return {
     query,

@@ -1,33 +1,59 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { HStack, Text, useTheme, VStack } from "native-base";
-import React, { useEffect } from "react";
-import FastImage from "react-native-fast-image";
-import {
-  IconEye,
-  IconHeart,
-  IconInfoCircle,
-  IconPlanet,
-  IconPlus,
-  IconUserHeart,
-} from "tabler-icons-react-native";
+import { Text, VStack } from "native-base";
+import React, { useCallback, useEffect, useRef } from "react";
+import { useRoute } from "@react-navigation/core";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
-import useCommunityFeed from "../../../hooks/feeds/useCommunityFeed";
-import CustomButton from "../../common/Buttons/CustomButton";
-import FeedView from "./components/FeedView";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";
 import NotFoundView from "../../common/Loading/NotFoundView";
+import FeedView from "./components/FeedView";
+import { useFeedStatus } from "../../../stores/feeds/feedsStore";
+import {
+  useCommunity,
+  useCommunityStatus,
+} from "../../../stores/communities/communitiesStore";
+import loadFeedPosts from "../../../stores/feeds/actions/loadFeedPosts";
+import addFeed from "../../../stores/feeds/actions/addFeed";
+import loadCommunity from "../../../stores/communities/actions/loadCommunity";
+import LoadingView from "../../common/Loading/LoadingView";
+import CommunityHeader from "./components/CommunityHeader";
+import removeFeed from "../../../stores/feeds/actions/removeFeed";
 
 function FeedsCommunityScreen({
-  route,
   navigation,
 }: {
-  route: any;
   navigation: NativeStackNavigationProp<any>;
 }) {
-  const { communityFullName, communityName, actorId } = route.params;
+  const { communityFullName, communityName, actorId } = useRoute<any>().params;
+  const { key } = useRoute();
 
-  const communityFeed = useCommunityFeed(communityFullName);
-  const theme = useTheme();
+  const feedStatus = useFeedStatus(key);
+
+  const community = useCommunity(communityFullName);
+  const communityStatus = useCommunityStatus(communityFullName);
+
+  const initialized = useRef(false);
+
+  useEffect(() => {
+    if (initialized.current) return;
+
+    if (!feedStatus) {
+      addFeed(key, communityFullName);
+    } else {
+      doLoad(true, true);
+      initialized.current = true;
+    }
+  }, [feedStatus]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle,
+      title: communityName,
+    });
+
+    return () => {
+      removeFeed(key);
+    };
+  }, []);
 
   const headerTitle = () => (
     <VStack alignItems="center">
@@ -38,105 +64,37 @@ function FeedsCommunityScreen({
     </VStack>
   );
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle,
-      title: communityName,
-    });
+  const header = useCallback(
+    () => <CommunityHeader communityFullName={communityFullName} />,
+    [community]
+  );
 
-    communityFeed.feed.doLoad();
-  }, []);
+  const doLoad = (refresh = false, reloadCommunity = false) => {
+    loadFeedPosts(key, {
+      refresh,
+    }).then();
 
-  if (communityFeed.feed.communityNotFound) {
+    if (
+      reloadCommunity &&
+      (!community || communityStatus.loading || communityStatus.error)
+    ) {
+      loadCommunity(communityFullName).then();
+    }
+  };
+
+  if (!communityStatus || communityStatus.loading || !feedStatus) {
+    return <LoadingView />;
+  }
+
+  if (communityStatus.notFound) {
     return <NotFoundView />;
   }
 
-  if (communityFeed.feed.communityError || communityFeed.feed.postsError) {
-    return <LoadingErrorView onRetryPress={communityFeed.feed.doLoad} />;
+  if (communityStatus.error) {
+    return <LoadingErrorView onRetryPress={() => doLoad(true)} />;
   }
 
-  const header = () => {
-    if (communityFeed.feed.communityLoading || !communityFeed.feed.community) {
-      return null;
-    }
-
-    return (
-      <VStack pt={10} pb={5} px={5}>
-        <HStack alignItems="center" space={5}>
-          {communityFeed.feed.community.community.icon ? (
-            <FastImage
-              source={{
-                uri: communityFeed.feed.community.community.icon,
-              }}
-              style={{
-                height: 96,
-                width: 96,
-                borderRadius: 100,
-              }}
-            />
-          ) : (
-            <IconPlanet color={theme.colors.app.textSecondary} size={64} />
-          )}
-
-          <VStack alignContent="center">
-            <HStack space={2}>
-              <HStack space={1}>
-                <IconUserHeart
-                  color={theme.colors.app.textSecondary}
-                  size={20}
-                />
-                <Text color={theme.colors.app.textSecondary}>
-                  {communityFeed.feed.community.counts.subscribers}
-                </Text>
-              </HStack>
-              <HStack space={1}>
-                <IconEye color={theme.colors.app.textSecondary} size={20} />
-                <Text color={theme.colors.app.textSecondary}>
-                  {communityFeed.feed.community.counts.users_active_month}
-                </Text>
-              </HStack>
-            </HStack>
-            <Text fontSize="3xl" fontWeight="bold">
-              {communityFeed.feed.community.community.name}
-            </Text>
-            <Text fontSize="md" color={theme.colors.app.textSecondary} mt={-2}>
-              {getBaseUrl(communityFeed.feed.community.community.actor_id)}
-            </Text>
-          </VStack>
-        </HStack>
-        <VStack pt={8}>
-          <HStack justifyContent="space-between" alignItems="center" space={3}>
-            <CustomButton
-              onPress={communityFeed.onSubscribePress}
-              icon={IconHeart}
-              iconFill={
-                communityFeed.feed.community.subscribed === "Subscribed" ||
-                communityFeed.feed.community.subscribed === "Pending"
-              }
-              text={
-                communityFeed.feed.community.subscribed === "Subscribed" ||
-                communityFeed.feed.community.subscribed === "Pending"
-                  ? "Subscribed"
-                  : "Subscribe"
-              }
-            />
-            <CustomButton
-              onPress={communityFeed.onAboutPress}
-              icon={IconInfoCircle}
-              text="About"
-            />
-            <CustomButton
-              onPress={communityFeed.onPostPress}
-              icon={IconPlus}
-              text="Post"
-            />
-          </HStack>
-        </VStack>
-      </VStack>
-    );
-  };
-
-  return <FeedView feed={communityFeed.feed} community header={header} />;
+  return <FeedView header={header} />;
 }
 
 export default FeedsCommunityScreen;

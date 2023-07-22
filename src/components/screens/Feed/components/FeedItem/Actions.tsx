@@ -1,32 +1,34 @@
-import React from "react";
 import { HStack, useTheme } from "native-base";
-import { IconBookmark } from "tabler-icons-react-native";
-import VoteButton from "../../../../common/Vote/VoteButton";
+import React, { useCallback } from "react";
 import IconButtonWithText from "../../../../common/IconButtonWithText";
+import VoteButton from "../../../../common/Vote/VoteButton";
+import SFIcon from "../../../../common/icons/SFIcon";
+import { ICON_MAP } from "../../../../../constants/IconMap";
 
 interface Props {
   vote?: number;
   saved?: boolean;
   onSave: () => void;
   onVotePress: (vote: number) => void;
+  id: number;
 }
-export function Actions({ vote, saved, onSave, onVotePress }: Props) {
+export function actions({ vote, saved, onSave, onVotePress, id }: Props) {
   const theme = useTheme();
 
-  const onUpvote = () => {
+  const onUpvote = useCallback(() => {
     onVotePress(vote === 1 ? 0 : 1);
-  };
+  }, [vote, id]);
 
-  const onDownvote = () => {
+  const onDownvote = useCallback(() => {
     onVotePress(vote === -1 ? 0 : -1);
-  };
+  }, [vote, id]);
 
   return (
     <HStack space={1} alignItems="center" justifyContent="flex-end">
       <IconButtonWithText
         icon={
-          <IconBookmark
-            size={25}
+          <SFIcon
+            icon={ICON_MAP.SAVE}
             color={
               saved ? theme.colors.app.bookmarkText : theme.colors.app.accent
             }
@@ -50,3 +52,5 @@ export function Actions({ vote, saved, onSave, onVotePress }: Props) {
     </HStack>
   );
 }
+
+export const Actions = React.memo(actions);

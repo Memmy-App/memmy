@@ -1,17 +1,22 @@
 import React from "react";
 import { Center, Spinner, Text, useTheme } from "native-base";
-import { UsePost } from "../../../../hooks/post/postHooks";
+import { useRoute } from "@react-navigation/core";
 import LoadingErrorFooter from "../../../common/Loading/LoadingErrorFooter";
 import NoResultView from "../../../common/NoResultView";
+import loadPostComments from "../../../../stores/posts/actions/loadPostComments";
+import {
+  usePostComments,
+  usePostCommentsStatus,
+} from "../../../../stores/posts/postsStore";
 
-interface IProps {
-  post: UsePost;
-}
+function PostFooter() {
+  const { postKey } = useRoute<any>().params;
+  const commentsStatus = usePostCommentsStatus(postKey);
+  const comments = usePostComments(postKey);
 
-function PostFooter({ post }: IProps) {
   const theme = useTheme();
 
-  if (post.commentsLoading) {
+  if (commentsStatus.commentsLoading) {
     return (
       <Center my={4}>
         <Spinner />
@@ -22,16 +27,16 @@ function PostFooter({ post }: IProps) {
     );
   }
 
-  if (post.commentsError) {
+  if (commentsStatus.commentsLoading) {
     return (
       <LoadingErrorFooter
-        onRetryPress={post.doLoad}
+        onRetryPress={() => loadPostComments(postKey, {})}
         message="Error loading comments."
       />
     );
   }
 
-  if (post.comments.length < 1) {
+  if (comments.length < 1) {
     return <NoResultView my={4} type="comments" />;
   }
 

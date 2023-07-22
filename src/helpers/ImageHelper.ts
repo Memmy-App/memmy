@@ -1,51 +1,42 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import * as FileSystem from "expo-file-system";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import * as Permissions from "expo-permissions";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as MediaLibrary from "expo-media-library";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as ImagePicker from "expo-image-picker";
 import { PostView } from "lemmy-js-client";
-import FastImage from "react-native-fast-image";
-import { Dimensions } from "react-native";
+import FastImage from "@gkasdorf/react-native-fast-image";
+import { Alert, Dimensions } from "react-native";
+import i18n from "../plugins/i18n/i18n";
 import { writeToLog } from "./LogHelper";
 import { ExtensionType, getLinkInfo } from "./LinkHelper";
+import { ErrorCause } from "../types/ErrorCause";
 
-export const downloadImage = async (src: string): Promise<string | boolean> => {
-  const fileName = src.split("/").pop();
-  const filePath = FileSystem.documentDirectory + fileName;
-
-  try {
-    const res = await FileSystem.downloadAsync(src, filePath);
-    return res.uri;
-  } catch (e) {
-    writeToLog("Error downloading image.");
-    writeToLog(e.toString());
-    return false;
-  }
-};
-
-const downloadAndSaveImage = async (src: string): Promise<boolean> => {
+export const saveImage = async (src: string): Promise<boolean> => {
+  // Get the status of permissions
   const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
 
-  if (status !== "granted") return false;
+  // If we don't have permission, tell the user
+  if (status !== "granted") {
+    Alert.alert(
+      i18n.t("alert.title.permissionsError"),
+      i18n.t("alert.message.allowCameraRoll")
+    );
+    return false;
+  }
 
-  const uri = await downloadImage(src);
+  // Get the URI of the cached image
+  const uri = await FastImage.getCachePath({ uri: src });
 
-  if (!uri) return false;
-
-  await saveImage(uri as string);
-  return true;
-};
-
-const saveImage = async (filePath: string) => {
+  // Save the image
   try {
-    await MediaLibrary.createAssetAsync(filePath);
+    await MediaLibrary.createAssetAsync(uri);
   } catch (e) {
     writeToLog("Error saving image.");
     writeToLog(e.toString());
   }
+
+  return true;
 };
 
 export const selectImage = async (): Promise<string> => {
@@ -59,16 +50,17 @@ export const selectImage = async (): Promise<string> => {
     });
 
     if (res.canceled) {
-      throw Error("cancelled");
+      throw Error("cancelled", { cause: ErrorCause.USER_CANCEL });
     }
 
     return res.assets[0].uri;
   }
-  throw Error("permissions");
+  throw Error("permissions", { cause: ErrorCause.NO_PERMISSION });
 };
 
 export const preloadImages = async (posts: PostView[]): Promise<void> => {
   const images = [];
+  let current = 0;
 
   for (const post of posts) {
     const info = getLinkInfo(post.post.url);
@@ -76,7 +68,14 @@ export const preloadImages = async (posts: PostView[]): Promise<void> => {
     if (info.extType === ExtensionType.IMAGE) {
       images.push({
         uri: post.post.url,
+        priority:
+          current < 4
+            ? FastImage.priority.high
+            : current < 10
+            ? FastImage.priority.normal
+            : FastImage.priority.low,
       });
+      current += 1;
     } else if (
       (info.extType === ExtensionType.VIDEO ||
         info.extType === ExtensionType.GENERIC) &&
@@ -112,5 +111,3 @@ export const getRatio = (
     imageWidth,
   };
 };
-
-export default downloadAndSaveImage;

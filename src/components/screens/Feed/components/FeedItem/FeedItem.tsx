@@ -1,93 +1,98 @@
-import { PostView } from "lemmy-js-client";
 import { HStack, Pressable, View } from "native-base";
-import React, { memo, SetStateAction } from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import FastImage from "react-native-fast-image";
+import FastImage from "@gkasdorf/react-native-fast-image";
+import { useRoute } from "@react-navigation/core";
 import useFeedItem from "../../../../../hooks/feeds/useFeedItem";
-import { useAppDispatch } from "../../../../../../store";
-import { setResponseTo } from "../../../../../slices/comments/newCommentSlice";
 import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
+import AvatarUsername from "../../../../common/AvatarUsername";
+import { FeedItemContextMenu } from "../../../../common/ContextMenu/FeedItemContextMenu";
+import { ReplyOption } from "../../../../common/SwipeableRow/ReplyOption";
 import { SwipeableRow } from "../../../../common/SwipeableRow/SwipeableRow";
 import { VoteOption } from "../../../../common/SwipeableRow/VoteOption";
-import { ReplyOption } from "../../../../common/SwipeableRow/ReplyOption";
-import { Post } from "./Post";
 import FeedContentPreview from "../FeedContentPreview";
-import { Header } from "./Header";
-import { Footer } from "./Footer";
-import { Metrics } from "./Metrics";
 import { Actions } from "./Actions";
-import AvatarUsername from "../../../../common/AvatarUsername";
+import { Footer } from "./Footer";
+import { Header } from "./Header";
+import { Metrics } from "./Metrics";
+import { Post } from "./Post";
+import { useFeedPost } from "../../../../../stores/feeds/feedsStore";
 
 interface FeedItemProps {
-  post: PostView;
-  setPosts: React.Dispatch<SetStateAction<PostView[]>>;
+  postId: number;
   recycled: React.MutableRefObject<{}>;
 }
 
-function FeedItem({ post, setPosts, recycled }: FeedItemProps) {
-  const feedItem = useFeedItem(post, setPosts);
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const dispatch = useAppDispatch();
-  const onReply = () => {
-    dispatch(
-      setResponseTo({
-        post,
-        languageId: post.post.language_id,
-      })
-    );
-    navigation.push("NewComment");
-  };
+function FeedItem({ postId, recycled }: FeedItemProps) {
+  const { key } = useRoute();
 
-  const onSwipe = (value: ILemmyVote) => {
-    feedItem.onVotePress(value, false);
-  };
+  const feedItem = useFeedItem(postId);
+  const post = useFeedPost(key, postId);
+
+  const onSwipe = useCallback(
+    (value: ILemmyVote) => {
+      feedItem.onVotePress(value, false).then();
+    },
+    [postId]
+  );
+
+  const leftOption = useMemo(
+    () => <VoteOption onVote={onSwipe} vote={post.my_vote} />,
+    [post.my_vote, postId]
+  );
+
+  const rightOption = useMemo(
+    () => <ReplyOption onReply={feedItem.doReply} />,
+    [postId]
+  );
 
   return (
-    <View py={1}>
-      <SwipeableRow
-        leftOption={<VoteOption onVote={onSwipe} vote={post.my_vote} />}
-        rightOption={<ReplyOption onReply={onReply} />}
-      >
-        <Post>
-          <Header
-            community={post.community}
-            featured={post.post.featured_local || post.post.featured_community}
-            isRead={post.read}
-          />
-
-          <Pressable onPress={feedItem.onPress}>
-            <View style={styles.community}>
-              {post.community.icon && (
-                <FastImage source={{ uri: post.community.icon }} />
-              )}
-            </View>
-
-            <FeedContentPreview
-              post={post}
-              recycled={recycled}
-              setPostRead={feedItem.setPostRead}
+    <FeedItemContextMenu feedItem={feedItem}>
+      <View py={1}>
+        <SwipeableRow leftOption={leftOption} rightOption={rightOption}>
+          <Post>
+            <Header
+              community={post.community}
+              featured={
+                post.post.featured_local || post.post.featured_community
+              }
+              isRead={post.read}
+              feedItem={feedItem}
             />
 
-            <HStack mx={4} mt={1}>
-              <AvatarUsername creator={post.creator} />
-            </HStack>
+            <Pressable onPress={feedItem.onPress}>
+              <View style={styles.community}>
+                {post.community.icon && (
+                  <FastImage source={{ uri: post.community.icon }} />
+                )}
+              </View>
 
-            <Footer>
-              <Metrics data={post.counts} vote={post.my_vote} />
-              <Actions
-                saved={post.saved}
-                vote={post.my_vote}
-                onSave={feedItem.doSave}
-                onVotePress={feedItem.onVotePress}
+              <FeedContentPreview
+                post={post}
+                recycled={recycled}
+                setPostRead={() => {}}
               />
-            </Footer>
-          </Pressable>
-        </Post>
-      </SwipeableRow>
-    </View>
+
+              <HStack mx={4} mt={1}>
+                <AvatarUsername creator={post.creator} />
+              </HStack>
+
+              <Footer>
+                <Metrics data={post.counts} vote={post.my_vote} />
+                <Actions
+                  saved={post.saved}
+                  vote={post.my_vote}
+                  onSave={feedItem.doSave}
+                  onVotePress={feedItem.onVotePress}
+                  id={post.post.id}
+                />
+              </Footer>
+            </Pressable>
+          </Post>
+        </SwipeableRow>
+      </View>
+    </FeedItemContextMenu>
   );
 }
 

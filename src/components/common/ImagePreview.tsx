@@ -8,16 +8,24 @@ interface IProps {
   postId: number;
   isNsfw: boolean;
   recycled?: React.MutableRefObject<{}>;
+  setPostRead?: () => void;
 }
 
-function ImagePreview({ images, postId, recycled, isNsfw }: IProps) {
+function ImagePreview({
+  images,
+  postId,
+  recycled,
+  isNsfw,
+  setPostRead,
+}: IProps) {
   if (images.length === 1) {
     return (
       <ImageViewer
         source={images[0]}
         nsfw={isNsfw}
-        id={postId}
+        postId={postId}
         recycled={recycled}
+        setPostRead={setPostRead}
       />
     );
   }
@@ -28,20 +36,20 @@ function ImagePreview({ images, postId, recycled, isNsfw }: IProps) {
         <ImageViewer
           source={images[0]}
           nsfw={isNsfw}
-          id={postId}
+          postId={postId}
           recycled={recycled}
-          resizeMode="cover"
-          height={200}
-          width={Dimensions.get("screen").width / 2}
+          heightOverride={200}
+          widthOverride={Dimensions.get("screen").width / 2}
+          setPostRead={setPostRead}
         />
         <ImageViewer
           source={images[1]}
           nsfw={isNsfw}
-          id={postId}
+          postId={postId}
           recycled={recycled}
-          resizeMode="cover"
-          height={200}
-          width={Dimensions.get("screen").width / 2}
+          heightOverride={200}
+          widthOverride={Dimensions.get("screen").width / 2}
+          setPostRead={setPostRead}
         />
         <Box position="absolute" right={1} bottom={1}>
           <Box

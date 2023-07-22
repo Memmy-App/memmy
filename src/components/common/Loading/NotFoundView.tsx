@@ -3,17 +3,19 @@ import { Text, useTheme, View } from "native-base";
 import { Button, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useTranslation } from "react-i18next";
 
 function NotFoundView() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const { t } = useTranslation();
   const theme = useTheme();
 
   return (
     <View style={styles.container} backgroundColor={theme.colors.app.bg}>
       <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
-        🤨That content or community was not found🧐
+        {t("notFound.community")}
       </Text>
-      <Button title="Go Back" onPress={() => navigation.pop()} />
+      <Button title={t("Go Back")} onPress={() => navigation.pop()} />
     </View>
   );
 }

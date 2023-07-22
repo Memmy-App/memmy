@@ -4,7 +4,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { HStack, Icon, Text, useTheme, View, VStack } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
-import moment from "moment/moment";
+import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../../../store";
 import { selectNewComment } from "../../../slices/comments/newCommentSlice";
 import LoadingView from "../../common/Loading/LoadingView";
@@ -14,6 +15,7 @@ import RenderMarkdown from "../../common/Markdown/RenderMarkdown";
 import KeyboardAccessory from "../../common/KeyboardAccessory";
 import SmallVoteIcons from "../../common/Vote/SmallVoteIcons";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
+import { getBaseUrl } from "../../../helpers/LinkHelper";
 
 function NewCommentScreen({
   navigation,
@@ -36,6 +38,7 @@ function NewCommentScreen({
   const newComment = useNewComment();
 
   // Other hooks
+  const { t } = useTranslation();
   const theme = useTheme();
 
   // Other
@@ -54,13 +57,15 @@ function NewCommentScreen({
     navigation.setOptions({
       headerLeft: () => headerLeft(),
       headerRight: () => headerRight(),
-      title: responseTo.post ? "Replying to Post" : "Replying to Comment",
+      title: responseTo.post
+        ? t("comment.replyingToPost")
+        : t("comment.replyingToComment"),
     });
   }, [newComment.content]);
 
   const headerLeft = () => (
     <Button
-      title="Cancel"
+      title={t("Cancel")}
       onPress={() => navigation.pop()}
       color={theme.colors.app.accent}
     />
@@ -68,7 +73,7 @@ function NewCommentScreen({
 
   const headerRight = () => (
     <Button
-      title="Submit"
+      title={t("Submit")}
       onPress={newComment.doSubmit}
       disabled={newComment.loading}
       color={theme.colors.app.accent}
@@ -123,13 +128,12 @@ function NewCommentScreen({
                   upvotes={upvotes}
                   downvotes={downvotes}
                   myVote={myVote as ILemmyVote}
-                  initialVote={0}
                 />
               </HStack>
               <HStack space={1} alignItems="center">
                 <Icon as={Ionicons} name="time-outline" />
                 <Text color={theme.colors.app.textSecondary}>
-                  {moment(
+                  {dayjs(
                     responseTo.post
                       ? responseTo.post.post.published
                       : responseTo.comment.comment.published
@@ -147,7 +151,11 @@ function NewCommentScreen({
                       ? responseTo.post.post.body
                       : responseTo.comment.comment.content
                   }
-                  addImages
+                  instance={getBaseUrl(
+                    responseTo.post
+                      ? responseTo.post.post.ap_id
+                      : responseTo.comment.comment.ap_id
+                  )}
                 />
               </VStack>
             </Text>

@@ -2,6 +2,7 @@ import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button, Text, VStack } from "native-base";
 import { ImageBackground, StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
 
 const background = require("../../../../../assets/onboard-bg2.jpg");
 
@@ -10,6 +11,8 @@ interface IProps {
 }
 
 function OnboardingInfoScreenTwo({ navigation }: IProps) {
+  const { t } = useTranslation();
+
   return (
     <VStack flex={1}>
       <ImageBackground
@@ -24,7 +27,7 @@ function OnboardingInfoScreenTwo({ navigation }: IProps) {
             fontWeight="semibold"
             textAlign="left"
           >
-            No worries! 👍
+            {t("onboarding.info.2.1")}
           </Text>
           <Text
             fontSize="3xl"
@@ -32,7 +35,7 @@ function OnboardingInfoScreenTwo({ navigation }: IProps) {
             fontWeight="semibold"
             textAlign="left"
           >
-            Let&apos;s help guide you through it 😃
+            {t("onboarding.info.2.2")}
           </Text>
 
           <Button
@@ -43,7 +46,7 @@ function OnboardingInfoScreenTwo({ navigation }: IProps) {
             mt="auto"
           >
             <Text fontWeight="semibold" fontSize="lg">
-              Continue
+              {t("Continue")}
             </Text>
           </Button>
         </VStack>

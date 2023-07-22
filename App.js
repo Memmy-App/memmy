@@ -7,8 +7,18 @@ import { useFonts } from "expo-font";
 import { enableFreeze } from "react-native-screens";
 import store from "./store";
 import Start from "./Start";
+import * as SplashScreen from "expo-splash-screen";
+import codePush from "react-native-code-push";
 
-export default function App() {
+const codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.ON_APP_START,
+  installMode: codePush.InstallMode.ON_NEXT_RESTART,
+  minimumBackgroundDuration: 30,
+};
+
+SplashScreen.preventAutoHideAsync();
+
+function App() {
   enableFreeze(true);
 
   const [fontsLoaded] = useFonts({
@@ -36,9 +46,15 @@ export default function App() {
     return null;
   }
 
+  const onReady = () => {
+    SplashScreen.hideAsync();
+  };
+
   return (
     <Provider store={store}>
-      <Start />
+      <Start onReady={onReady} />
     </Provider>
   );
 }
+
+export default codePush(codePushOptions)(App);

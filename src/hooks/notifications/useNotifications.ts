@@ -3,6 +3,7 @@ import * as Device from "expo-device";
 import { Alert } from "react-native";
 import axios from "axios";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Account } from "../../types/Account";
 
 interface UseNotifications {
@@ -13,6 +14,8 @@ interface UseNotifications {
 }
 
 const useNotifications = (): UseNotifications => {
+  const { t } = useTranslation();
+
   const [loading, setLoading] = useState(false);
 
   const register = async (): Promise<boolean | string> => {
@@ -29,8 +32,8 @@ const useNotifications = (): UseNotifications => {
 
     if (finalStatus !== "granted") {
       Alert.alert(
-        "Error",
-        "Please allow Memmy to send you push notifications."
+        t("alert.title.error"),
+        t("alert.message.allowPushNotifications")
       );
       return false;
     }
@@ -46,7 +49,7 @@ const useNotifications = (): UseNotifications => {
     if (!token) {
       return {
         result: false,
-        message: "Failed to retrieve token.",
+        message: t("alert.message.failedToRetrieveToken"),
       };
     }
 
@@ -65,13 +68,13 @@ const useNotifications = (): UseNotifications => {
     if (res.status !== 200) {
       return {
         result: false,
-        message: "Failed to authenticate with Lemmy instance.",
+        message: t("alert.message.instanceAuthenticationFailed"),
       };
     }
 
     return {
       result: true,
-      message: "Successfully enabled push notifications.",
+      message: t("alert.message.pushNotificationsEnabled"),
     };
   };
 
@@ -83,7 +86,7 @@ const useNotifications = (): UseNotifications => {
     if (!token) {
       return {
         result: false,
-        message: "Failed to retrieve token.",
+        message: t("alert.message.failedToRetrieveToken"),
       };
     }
 
@@ -105,13 +108,13 @@ const useNotifications = (): UseNotifications => {
     if (res.status !== 200) {
       return {
         result: false,
-        message: "Failed to authenticate with Lemmy instance.",
+        message: t("alert.message.instanceAuthenticationFailed"),
       };
     }
 
     return {
       result: true,
-      message: "Successfully disabled push notifications.",
+      message: t("alert.message.pushNotificationsDisabled"),
     };
   };
 

@@ -1,9 +1,10 @@
-import React, { SetStateAction, useEffect } from "react";
-import { Dimensions, TextInput } from "react-native";
-import { HStack, useTheme } from "native-base";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
-import { IconSearch } from "tabler-icons-react-native";
+import { HStack, useTheme } from "native-base";
+import React, { SetStateAction, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Dimensions, TextInput } from "react-native";
+import SFIcon from "../icons/SFIcon";
 
 interface IProps {
   query: string;
@@ -24,6 +25,7 @@ function SearchBox({
 }: IProps) {
   const theme = useTheme();
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!autoFocus || !inputRef) return;
@@ -46,11 +48,16 @@ function SearchBox({
       space={2}
       width={inHeader ? Dimensions.get("screen").width * 0.9 : undefined}
     >
-      <IconSearch color={theme.colors.app.textSecondary} size={20} />
+      <SFIcon
+        icon="magnifyingglass"
+        color={theme.colors.app.textSecondary}
+        size={12}
+        boxSize={16}
+      />
       <TextInput
         ref={inputRef}
         value={query}
-        placeholder="Search"
+        placeholder={t("Search")}
         onChangeText={setQuery}
         style={{
           color: theme.colors.app.textPrimary,

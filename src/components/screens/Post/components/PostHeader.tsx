@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import {
   Divider,
   HStack,
@@ -7,7 +7,7 @@ import {
   useTheme,
   VStack,
 } from "native-base";
-import { UsePost } from "../../../../hooks/post/postHooks";
+import { useRoute } from "@react-navigation/core";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import PostContentView from "./PostContentView";
 import AvatarUsername from "../../../common/AvatarUsername";
@@ -16,33 +16,36 @@ import CommentCount from "../../../common/Comments/CommentCount";
 import DatePublished from "../../../common/DatePublished";
 import PostActionBar from "./PostActionBar";
 import PostTitle from "./PostTitle";
-import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
+import {
+  useCurrentPost,
+  usePostCollapsed,
+} from "../../../../stores/posts/postsStore";
+import { setPostCollapsed } from "../../../../stores/posts/actions";
 
-interface IProps {
-  post: UsePost;
-  showLoadAll: boolean;
-}
+function PostHeader() {
+  const { postKey } = useRoute<any>().params;
 
-function PostHeader({ post, showLoadAll }: IProps) {
+  const currentPost = useCurrentPost(postKey);
+  const postCollapsed = usePostCollapsed(postKey);
   const theme = useTheme();
 
-  const instanceBaseUrl = getBaseUrl(post.currentPost.community.actor_id);
+  const instanceBaseUrl = useMemo(
+    () => getBaseUrl(currentPost.community.actor_id),
+    [currentPost.post.id]
+  );
 
-  const [hideSLA, setHideSLA] = useState(false);
-
-  const onPress = () => {
-    onGenericHapticFeedback();
-    post.setCollapsed((prev) => !prev);
-  };
+  const onPostPress = useCallback(() => {
+    setPostCollapsed(postKey);
+  }, [currentPost.post.id]);
 
   return (
     <VStack flex={1} backgroundColor={theme.colors.app.fg}>
-      <Pressable onPress={onPress}>
-        {!post.collapsed ? (
-          <PostContentView post={post.currentPost} />
+      <Pressable onPress={onPostPress}>
+        {!postCollapsed ? (
+          <PostContentView />
         ) : (
           <VStack>
-            <PostTitle title={post.currentPost.post.name} mt={2} mb={2} />
+            <PostTitle mt={2} mb={2} />
             <Text
               color={theme.colors.app.textSecondary}
               fontStyle="italic"
@@ -56,39 +59,35 @@ function PostHeader({ post, showLoadAll }: IProps) {
       </Pressable>
 
       <HStack mb={2} mx={4} space={2}>
-        <AvatarUsername creator={post.currentPost?.creator} />
+        <AvatarUsername creator={currentPost.creator} />
       </HStack>
       <HStack space={2} mx={4} mb={2}>
         <CommunityLink
-          community={post.currentPost?.community}
+          community={currentPost.community}
           instanceBaseUrl={instanceBaseUrl}
         />
-        <CommentCount commentCount={post.currentPost.counts.comments} />
-        <DatePublished published={post.currentPost?.post.published} />
+        <CommentCount commentCount={currentPost.counts.comments} />
+        <DatePublished published={currentPost.post.published} />
       </HStack>
 
       <Divider my={1} bg={theme.colors.app.border} />
-      <PostActionBar
-        post={post.currentPost}
-        doSave={post.doSave}
-        doVote={post.doVote}
-      />
+      <PostActionBar />
       <Divider bg={theme.colors.app.border} />
-      {showLoadAll && !hideSLA && (
-        <Pressable
-          backgroundColor="#1A91FF"
-          onPress={() => {
-            setHideSLA(true);
-            post.doLoad(true);
-          }}
-        >
-          <VStack>
-            <Text fontSize="md" fontStyle="italic" px={2} py={3}>
-              Load all comments...
-            </Text>
-          </VStack>
-        </Pressable>
-      )}
+      {/* {showLoadAll && !hideSLA && ( */}
+      {/*  <Pressable */}
+      {/*    backgroundColor="#1A91FF" */}
+      {/*    onPress={() => { */}
+      {/*      setHideSLA(true); */}
+      {/*      doLoad(true).then(); */}
+      {/*    }} */}
+      {/*  > */}
+      {/*    <VStack> */}
+      {/*      <Text fontSize="md" fontStyle="italic" px={2} py={3}> */}
+      {/*        Load all comments... */}
+      {/*      </Text> */}
+      {/*    </VStack> */}
+      {/*  </Pressable> */}
+      {/* )} */}
     </VStack>
   );
 }

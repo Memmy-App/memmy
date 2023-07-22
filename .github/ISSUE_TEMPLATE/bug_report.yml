@@ -1,0 +1,78 @@
+---
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels:
+  - bug
+  - triage
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Thank you for taking the time to fill out this bug report! The most
+        important part of filing a bug is trying to provide a reproducible
+        example. Without one, it can be extremely difficult to find and fix the
+        issue.
+  - type: checkboxes
+    attributes:
+      label: Check for open issues
+      description: >
+        If there is another open issue about this already, please use that
+        issue to provide further context.
+      options:
+        - label: I have verified that another issue for this is not open, or it has been closed and has not been fixed.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Minimal reproducible example
+      description: >
+        This should include a description of how the bug was encountered
+        and how it can (hopefully) be reproduced. It is highly encouraged that
+        you provide screenshots or videos of the issue you are encountering.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: >
+        Describe the expected behavior and what is happening instead.
+        Please try and be precise and descriptive.
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Version
+      description: |
+        The version of Memmy you are currently running
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: App Store or TestFlight?
+      description: |
+        Where did you download this version from?
+      options:
+        - App Store
+        - TestFlight
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: iOS Version
+      description: |
+        Which version of iOS are you running?
+      options:
+        - 17.x Beta
+        - 16.x
+        - 15.x
+        - 14.x
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Device
+      description: |
+        What device are you using?
+    validations:
+      required: true

@@ -1,14 +1,16 @@
-import { useActionSheet } from "@expo/react-native-action-sheet";
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { SortType } from "lemmy-js-client";
 import { ScrollView, useTheme } from "native-base";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
-import { SortOption, sortOptions } from "../../../../types/FeedSortOptions";
+import { overallSortOptions } from "../../../../types/SortOptions";
+import { CommentSortContextMenu } from "../../../common/ContextMenu/CommentSortContextMenu";
+import { FeedSortContextMenu } from "../../../common/ContextMenu/FeedSortContextMenu";
+import { ListingTypeContextMenu } from "../../../common/ContextMenu/ListingTypeContextMenu";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
 
@@ -19,159 +21,84 @@ function ContentScreen({
 }) {
   const settings = useAppSelector(selectSettings);
 
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const { showActionSheetWithOptions } = useActionSheet();
 
   const onChange = (key: string, value: any) => {
     dispatch(setSetting({ [key]: value }));
   };
 
-  const getDefaultSortText = (sortType: SortType): string => {
-    const index = sortOptions.map((x: SortOption) => x[0]).indexOf(sortType);
-    return sortOptions[index][1];
-  };
-
-  const getDefaultSortFromText = (sortType: string): SortType => {
-    const index = sortOptions.map((x: SortOption) => x[1]).indexOf(sortType);
-    return sortOptions[index][0];
-  };
-
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
-        <CSection header="POSTS">
-          {/* <CCell */}
-          {/*  title="Swipe Gestures" */}
-          {/*  backgroundColor={theme.colors.app.fg} */}
-          {/*  titleTextColor={theme.colors.app.textPrimary} */}
-          {/*  rightDetailColor={theme.colors.app.textSecondary} */}
-          {/*  cellAccessoryView={ */}
-          {/*    <Switch */}
-          {/*      value={Settings.swipeGestures} */}
-          {/*      onValueChange={(v) => onChange("swipeGestures", v)} */}
-          {/*    /> */}
-          {/*  } */}
-          {/* /> */}
-          <CCell
-            cellStyle="RightDetail"
-            title="Default Sort"
-            detail={getDefaultSortText(settings.defaultSort)}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              const options = [
-                "Top Hour",
-                "Top Six Hours",
-                "Top Twelve Hours",
-                "Top Day",
-                "Hot",
-                "Active",
-                "New",
-                "Most Comments",
-                "Cancel",
-              ];
-              const cancelButtonIndex = 6;
-
-              showActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex,
-                  userInterfaceStyle: theme.config.initialColorMode,
-                },
-                (index: number) => {
-                  if (index === cancelButtonIndex) return;
-
-                  const selection = getDefaultSortFromText(options[index]);
-                  dispatch(setSetting({ defaultSort: selection }));
-                }
+        <CSection header={t("Posts")}>
+          <FeedSortContextMenu
+            currentSelection={settings.defaultSort}
+            onPress={({ nativeEvent }) => {
+              dispatch(setSetting({ defaultSort: nativeEvent.actionKey }));
+            }}
+          >
+            <CCell
+              cellStyle="RightDetail"
+              title={t("Default Sort")}
+              detail={overallSortOptions[settings.defaultSort].display}
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+              accessory="DisclosureIndicator"
+            />
+          </FeedSortContextMenu>
+          <CommentSortContextMenu
+            currentSelection={settings.defaultCommentSort}
+            onPress={({ nativeEvent }) => {
+              dispatch(
+                setSetting({ defaultCommentSort: nativeEvent.actionKey })
               );
             }}
-          />
-          <CCell
-            cellStyle="RightDetail"
-            title="Default Comment Sort"
-            detail={settings.defaultCommentSort}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              const options = ["Hot", "Top", "New", "Old", "Cancel"];
-              const cancelButtonIndex = options.length - 1;
-
-              showActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex,
-                  userInterfaceStyle: theme.config.initialColorMode,
-                },
-                (index: number) => {
-                  if (index === cancelButtonIndex) return;
-
-                  const selection = options[index];
-                  dispatch(setSetting({ defaultCommentSort: selection }));
-                }
+          >
+            <CCell
+              cellStyle="RightDetail"
+              title={t("Default Comment Sort")}
+              detail={settings.defaultCommentSort}
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+              accessory="DisclosureIndicator"
+            />
+          </CommentSortContextMenu>
+          <ListingTypeContextMenu
+            currentSelection={settings.defaultListingType}
+            onPress={({ nativeEvent }) => {
+              dispatch(
+                setSetting({ defaultListingType: nativeEvent.actionKey })
               );
             }}
-          />
+          >
+            <CCell
+              cellStyle="RightDetail"
+              title={t("Default Listing Type")}
+              detail={settings.defaultListingType}
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+              accessory="DisclosureIndicator"
+            />
+          </ListingTypeContextMenu>
           <CCell
-            cellStyle="RightDetail"
-            title="Default Listing Type"
-            detail={settings.defaultListingType}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              const options = ["All", "Local", "Subscribed", "Cancel"];
-              const cancelButtonIndex = 3;
-
-              showActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex,
-                  userInterfaceStyle: theme.config.initialColorMode,
-                },
-                (index: number) => {
-                  if (index === cancelButtonIndex) return;
-
-                  dispatch(setSetting({ defaultListingType: options[index] }));
-                }
-              );
-            }}
-          />
-          <CCell
-            title="Mark Post Read On..."
+            title={t("Hide Read Posts")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("ReadSettings")}
           />
-          <CCell
-            cellStyle="RightDetail"
-            title="Hide Read Posts on Feed"
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.hideReadPostsOnFeed}
-                onValueChange={(v) => {
-                  onChange("hideReadPostsOnFeed", v);
-                }}
-              />
-            }
-          />
         </CSection>
 
-        <CSection header="COMMENTS">
+        <CSection header={t("Comments")}>
           <CCell
             cellStyle="RightDetail"
-            title="Show Comment Actions"
+            title={t("Show Comment Actions")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -187,12 +114,12 @@ function ContentScreen({
         </CSection>
 
         <CSection
-          header="NSFW CONTENT"
-          footer="This toggle does not affect your Lemmy account NSFW settings. This local setting will apply only to the app and will apply to all accounts."
+          header={t("NSFW Content")}
+          footer={t("settings.content.nsfw.footer")}
         >
           <CCell
             cellStyle="RightDetail"
-            title="Blur NSFW"
+            title={t("settings.content.nsfw.blur")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -205,7 +132,7 @@ function ContentScreen({
           />
           <CCell
             cellStyle="RightDetail"
-            title="Hide NSFW"
+            title={t("settings.content.nsfw.hide")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -220,7 +147,7 @@ function ContentScreen({
         <CSection header="Web">
           <CCell
             cellStyle="Basic"
-            title="Use Reader Mode"
+            title={t("settings.content.web.useReaderMode")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}

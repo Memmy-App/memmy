@@ -3,12 +3,19 @@ import { Alert, TextInput } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { CreatePost } from "lemmy-js-client";
+import { useTranslation } from "react-i18next";
+import { useRoute } from "@react-navigation/core";
 import { useAppDispatch } from "../../../store";
 import { selectImage } from "../../helpers/ImageHelper";
 import uploadToImgur from "../../helpers/ImgurHelper";
 import { writeToLog } from "../../helpers/LogHelper";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
 import { setPost } from "../../slices/post/postSlice";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
+import {
+  useCommunity,
+  useCommunityLanguages,
+} from "../../stores/communities/communitiesStore";
 
 interface UseNewPost {
   loading;
@@ -29,13 +36,15 @@ interface UseNewPost {
   doSubmit: () => Promise<void>;
 }
 
-const useNewPost = (
-  communityId: number,
-  languageId: number | undefined
-): UseNewPost => {
+const useNewPost = (): UseNewPost => {
+  const { t } = useTranslation();
   // State
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>(undefined);
+
+  const { communityFullName } = useRoute<any>().params;
+  const community = useCommunity(communityFullName);
+  const languages = useCommunityLanguages(communityFullName);
 
   const [form, setForm] = useState({
     body: "",
@@ -67,8 +76,8 @@ const useNewPost = (
     } catch (e) {
       if (e === "permissions") {
         Alert.alert(
-          "Permissions Error",
-          "Please allow Memmy to access your camera roll."
+          t("alert.title.permissionsError"),
+          t("alert.message.allowCameraRoll")
         );
       }
 
@@ -87,7 +96,7 @@ const useNewPost = (
 
       setLoading(false);
       setError(e.toString());
-      Alert.alert("Error", "Error uploading image to Imgur.");
+      Alert.alert(t("alert.title.error"), t("alert.message.imgurUploadError"));
     }
 
     onFormChange("url", imgurLink);
@@ -105,8 +114,8 @@ const useNewPost = (
         body: form.body !== "" ? form.body : undefined,
         url: form.url !== "" ? form.url : undefined,
         auth: lemmyAuthToken,
-        language_id: languageId,
-        community_id: communityId,
+        language_id: languages.length < 1 ? undefined : languages[0],
+        community_id: community.community.id,
         nsfw: form.nsfw,
       };
 
@@ -118,14 +127,10 @@ const useNewPost = (
 
       navigation.pop();
     } catch (e) {
-      writeToLog("Error submitting Post.");
-      writeToLog(e.toString());
-      writeToLog(`Language ID: ${languageId}`);
-      writeToLog(`Community ID: ${communityId}`);
-
       setLoading(false);
       setError(e.toString());
-      Alert.alert(e.toString());
+
+      handleLemmyError(e.toString());
     }
   };
 

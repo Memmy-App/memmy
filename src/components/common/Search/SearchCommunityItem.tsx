@@ -1,13 +1,13 @@
-import React from "react";
-import { CommunityView } from "lemmy-js-client";
-import { useTheme } from "native-base";
-import FastImage from "react-native-fast-image";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { IconPlanet } from "tabler-icons-react-native";
-import MCell from "../Table/MCell";
+import { CommunityView } from "lemmy-js-client";
+import React from "react";
 import { getCommunityFullName } from "../../../helpers/LemmyHelpers";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
+import { shortenNumber } from "../../../helpers/NumberHelper";
+import MCell from "../Table/MCell";
+import { PlanetIcon } from "../icons/PlanetIcon";
 
 interface IProps {
   community: CommunityView;
@@ -15,7 +15,6 @@ interface IProps {
 
 function SearchCommunityItem({ community }: IProps) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const theme = useTheme();
 
   const onPress = () => {
     navigation.navigate("Community", {
@@ -31,6 +30,11 @@ function SearchCommunityItem({ community }: IProps) {
       title={`${community.community.name}@${getBaseUrl(
         community.community.actor_id
       )}`}
+      subtitle={
+        community.counts.subscribers
+          ? `${shortenNumber(Number(community.counts.subscribers))} subscribers`
+          : "0 subscribers"
+      }
       icon={
         community.community.icon ? (
           <FastImage
@@ -38,7 +42,7 @@ function SearchCommunityItem({ community }: IProps) {
             style={{ height: 24, width: 24, borderRadius: 100 }}
           />
         ) : (
-          <IconPlanet color={theme.colors.app.accent} />
+          <PlanetIcon />
         )
       }
       showChevron

@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GetPost } from "lemmy-js-client";
 import { lemmyInstance } from "../../LemmyInstance";
 import { setPost } from "./postSlice";
-import { writeToLog } from "../../helpers/LogHelper";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 // eslint-disable-next-line import/prefer-default-export
 export const getPost = createAsyncThunk(
@@ -13,8 +13,7 @@ export const getPost = createAsyncThunk(
 
       thunkAPI.dispatch(setPost(res.post_view));
     } catch (e) {
-      writeToLog("Error getting Post.");
-      writeToLog(e.toString());
+      handleLemmyError(e.toString());
       thunkAPI.rejectWithValue(e);
     }
   }

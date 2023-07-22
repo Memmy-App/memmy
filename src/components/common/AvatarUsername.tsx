@@ -1,14 +1,15 @@
-import React from "react";
-import { HStack, Text, useTheme, VStack } from "native-base";
-import FastImage from "react-native-fast-image";
-import { IconUser } from "tabler-icons-react-native";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { Person } from "lemmy-js-client";
-import Link from "./Buttons/Link";
-import { getBaseUrl } from "../../helpers/LinkHelper";
+import { HStack, Text, useTheme, VStack } from "native-base";
+import React from "react";
 import { useAppSelector } from "../../../store";
-import { selectSettings } from "../../slices/settings/settingsSlice";
+import { ICON_MAP } from "../../constants/IconMap";
 import { getUserFullName } from "../../helpers/LemmyHelpers";
+import { getBaseUrl } from "../../helpers/LinkHelper";
+import { selectSettings } from "../../slices/settings/settingsSlice";
+import Link from "./Buttons/Link";
 import Chip from "./Chip";
+import SFIcon from "./icons/SFIcon";
 
 export type NameType = "admin" | "mod" | "dev" | "op";
 
@@ -21,10 +22,16 @@ function isUserDev(userId: number): boolean {
 function getUserPillType({
   user,
   opId,
+  isMod,
 }: {
   user: Person;
   opId?: number;
+  isMod?: boolean;
 }): NameType | undefined {
+  if (isMod) {
+    return "mod";
+  }
+
   if (isUserDev(user.id)) {
     return "dev";
   }
@@ -44,6 +51,7 @@ interface IProps {
   creator: Person;
   showAvatar?: boolean;
   opId?: number;
+  isMod?: boolean;
   children?: React.ReactNode;
   link?: boolean;
 }
@@ -52,12 +60,13 @@ function AvatarUsername({
   showAvatar = true,
   creator,
   opId,
+  isMod = false,
   children,
   link = true,
 }: IProps) {
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
   const theme = useTheme();
-  const type = getUserPillType({ user: creator, opId });
+  const type = getUserPillType({ user: creator, opId, isMod });
 
   const NameColorMap: Record<
     NameType,
@@ -98,7 +107,12 @@ function AvatarUsername({
             style={{ height: 18, width: 18, borderRadius: 100 }}
           />
         ) : (
-          <IconUser color={theme.colors.app.textSecondary} />
+          <SFIcon
+            icon={ICON_MAP.USER_AVATAR}
+            color={theme.colors.app.textSecondary}
+            size={14}
+            boxSize={22}
+          />
         ))}
       <VStack>
         <HStack space={0.5}>
@@ -125,7 +139,9 @@ function AvatarUsername({
           )}
         </HStack>
         {showInstanceForUsernames && (
-          <Text fontSize="xs">{getBaseUrl(creator.actor_id)}</Text>
+          <Text fontSize="xs" color={theme.colors.app.textPrimary}>
+            {getBaseUrl(creator.actor_id)}
+          </Text>
         )}
       </VStack>
       {children}

@@ -1,181 +1,121 @@
-import { PostView } from "lemmy-js-client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { SetStateAction, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useRoute } from "@react-navigation/core";
 import {
   onGenericHapticFeedback,
   onVoteHapticFeedback,
 } from "../../helpers/HapticFeedbackHelpers";
 import { useAppDispatch, useAppSelector } from "../../../store";
-import { setUpdateSaved } from "../../slices/feed/feedSlice";
-import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { writeToLog } from "../../helpers/LogHelper";
-import { setPost } from "../../slices/post/postSlice";
 import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
 import { getLinkInfo, LinkInfo } from "../../helpers/LinkHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
-import { showToast } from "../../slices/toast/toastSlice";
-import { savePost } from "../../helpers/LemmyHelpers";
+import { useReportPost } from "../post/useReportPost";
+import { useBlockUser } from "../user/useBlockUser";
+import { setResponseTo } from "../../slices/comments/newCommentSlice";
+import { shareLink } from "../../helpers/ShareHelper";
+import { addPost } from "../../stores/posts/actions";
+import { useFeedPost } from "../../stores/feeds/feedsStore";
+import setFeedVote from "../../stores/feeds/actions/setFeedVote";
+import { determineVotes } from "../../helpers/VoteHelper";
+import setFeedRead from "../../stores/feeds/actions/setFeedRead";
+import setFeedSaved from "../../stores/feeds/actions/setFeedSaved";
 
-interface UseFeedItem {
-  myVote: ILemmyVote;
-  setMyVote: React.Dispatch<SetStateAction<ILemmyVote>>;
-
+export interface UseFeedItem {
   onVotePress: (value: ILemmyVote, haptic?: boolean) => Promise<void>;
   onPress: () => void;
   doSave: () => Promise<void>;
-
-  setPostRead: () => void;
-
+  doReport: () => Promise<void>;
+  blockCreator: () => Promise<void>;
+  doReply: () => void;
+  doShare: () => void;
   linkInfo: LinkInfo;
 }
 
-const useFeedItem = (
-  post: PostView,
-  setPosts?: React.Dispatch<SetStateAction<PostView[]>>
-): UseFeedItem => {
+const useFeedItem = (postId: number): UseFeedItem => {
+  const { key } = useRoute();
+  const post = useFeedPost(key, postId);
+
+  const { t } = useTranslation();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
-  const [myVote, setMyVote] = useState<ILemmyVote>(post.my_vote as ILemmyVote);
 
-  const linkInfo = useMemo(() => getLinkInfo(post.post.url), [post]);
+  const linkInfo = useMemo(() => getLinkInfo(post.post.url), [post.post.id]);
 
   const { markReadOnPostVote, markReadOnPostView } =
     useAppSelector(selectSettings);
 
-  const onVotePress = async (value: ILemmyVote, haptic = true) => {
-    if (haptic) onVoteHapticFeedback();
+  const onVotePress = useCallback(
+    async (value: ILemmyVote, haptic = true) => {
+      if (haptic) onVoteHapticFeedback();
 
-    const oldValue: ILemmyVote = post.my_vote as ILemmyVote;
+      const newValues = determineVotes(
+        value,
+        post.my_vote as ILemmyVote,
+        post.counts.upvotes,
+        post.counts.downvotes
+      );
 
-    setMyVote(value);
-    setPosts((prev) =>
-      prev.map((p) => {
-        if (p.post.id === post.post.id) {
-          return {
-            ...p,
-            my_vote: value,
-          };
-        }
+      setFeedVote(key, post.post.id, newValues).then();
 
-        return p;
+      if (!post.read && markReadOnPostVote) {
+        setFeedRead(key, post.post.id);
+      }
+    },
+    [post.post.id, markReadOnPostVote]
+  );
+
+  const onPress = () => {
+    if (!post.read && markReadOnPostView) setFeedRead(key, post.post.id);
+
+    const postKey = Date.now().toString() + post.post.id;
+
+    addPost(postKey, post);
+
+    navigation.push("Post", { postKey });
+  };
+
+  const doSave = useCallback(async () => {
+    onGenericHapticFeedback();
+
+    setFeedSaved(key, post.post.id, !post.saved).then();
+  }, [post.post.id, post.saved]);
+
+  const doReport = useCallback(async () => {
+    useReportPost({ postId: post.post.id, dispatch }).then();
+  }, [post.post.id]);
+
+  const blockCreator = useCallback(async () => {
+    useBlockUser({ personId: post.creator.id, dispatch, t }).then();
+  }, [post.post.id]);
+
+  const doReply = useCallback(() => {
+    dispatch(
+      setResponseTo({
+        post,
+        languageId: post.post.language_id,
       })
     );
 
-    try {
-      await lemmyInstance.likePost({
-        auth: lemmyAuthToken,
-        post_id: post.post.id,
-        score: value,
-      });
+    navigation.push("NewComment");
+  }, [post]);
 
-      if (markReadOnPostVote) {
-        lemmyInstance
-          .markPostAsRead({
-            auth: lemmyAuthToken,
-            post_id: post.post.id,
-            read: true,
-          })
-          .then();
-
-        setPostRead();
-      }
-    } catch (e) {
-      writeToLog("Error submitting vote.");
-      writeToLog(e.toString());
-
-      dispatch(
-        showToast({
-          message: "Error submitting vote",
-          duration: 3000,
-          variant: "error",
-        })
-      );
-
-      setMyVote(oldValue);
-      setPosts((prev) =>
-        prev.map((p) => {
-          if (p.post.id === post.post.id) {
-            return {
-              ...p,
-              my_vote: value,
-            };
-          }
-
-          return p;
-        })
-      );
-    }
-  };
-
-  const onPress = () => {
-    if (setPosts) {
-      lemmyInstance
-        .markPostAsRead({
-          auth: lemmyAuthToken,
-          post_id: post.post.id,
-          read: true,
-        })
-        .then();
-
-      if (markReadOnPostView) {
-        setPostRead();
-      }
-    }
-
-    dispatch(setPost(post));
-    navigation.push("Post");
-  };
-
-  const setPostRead = () => {
-    if (setPosts) {
-      setPosts((prev) =>
-        prev.map((p) => {
-          if (p.post.id === post.post.id) {
-            return {
-              ...p,
-              read: true,
-            };
-          }
-
-          return p;
-        })
-      );
-    }
-  };
-
-  const doSave = async () => {
-    onGenericHapticFeedback();
-
-    dispatch(setUpdateSaved(post.post.id));
-
-    const res = await savePost(post.post.id, !post.saved);
-
-    if (!res) {
-      dispatch(
-        showToast({
-          message: "Failed to save Post.",
-          variant: "error",
-          duration: 2000,
-        })
-      );
-
-      dispatch(setUpdateSaved(post.post.id));
-    }
-  };
+  const doShare = useCallback(() => {
+    shareLink({
+      link: post.post.ap_id,
+      title: post.post.name,
+    });
+  }, [post.post.ap_id, post.post.name]);
 
   return {
-    myVote,
-    setMyVote,
-
     onVotePress,
-
     doSave,
-
     onPress,
-
-    setPostRead,
-
+    doReport,
+    blockCreator,
+    doReply,
+    doShare,
     linkInfo,
   };
 };

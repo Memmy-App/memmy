@@ -1,28 +1,21 @@
-import React, { useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView, useTheme, VStack } from "native-base";
-import {
-  IconBookmark,
-  IconChevronRight,
-  IconDots,
-  IconMessage,
-  IconNotes,
-  IconSettings,
-} from "tabler-icons-react-native";
-import { useActionSheet } from "@expo/react-native-action-sheet";
+import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { ContextMenuButton } from "react-native-ios-context-menu";
+import { useAppDispatch } from "../../../../store";
+import { ICON_MAP } from "../../../constants/IconMap";
 import useProfile from "../../../hooks/profile/useProfile";
+import { useBlockUser } from "../../../hooks/user/useBlockUser";
 import HeaderIconButton from "../../common/Buttons/HeaderIconButton";
+import SFIcon from "../../common/icons/SFIcon";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";
 import LoadingView from "../../common/Loading/LoadingView";
 import NotFoundView from "../../common/Loading/NotFoundView";
-import ProfileHeader from "./components/ProfileHeader";
-import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
-import { writeToLog } from "../../../helpers/LogHelper";
-import { showToast } from "../../../slices/toast/toastSlice";
-import { useAppDispatch } from "../../../../store";
-import MTable from "../../common/Table/MTable";
-import MCell from "../../common/Table/MCell";
 import RefreshControl from "../../common/RefreshControl";
+import MCell from "../../common/Table/MCell";
+import MTable from "../../common/Table/MTable";
+import ProfileHeader from "./components/ProfileHeader";
 
 interface IProps {
   route: any;
@@ -34,69 +27,57 @@ function UserProfileScreen({ route, navigation }: IProps) {
   const profile = useProfile(true, route?.params?.fullUsername);
 
   const theme = useTheme();
-  const { showActionSheetWithOptions } = useActionSheet();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     navigation.setOptions({
       title:
         route.params && route.params.fullUsername
           ? route.params.fullUsername
-          : "My Profile",
+          : t("profile.my"),
       headerRight:
         !route.params || !route.params.fullUsername
           ? () => (
               <HeaderIconButton
-                icon={
-                  <IconSettings size={24} color={theme.colors.app.accent} />
-                }
+                icon={<SFIcon icon="gear" />}
                 onPress={() => navigation.push("Settings")}
               />
             )
           : () => (
-              <HeaderIconButton
-                icon={<IconDots size={24} color={theme.colors.app.accent} />}
-                onPress={onDotsPress}
-              />
+              <ContextMenuButton
+                isMenuPrimaryAction
+                onPressMenuItem={({ nativeEvent }) => {
+                  if (nativeEvent.actionKey === "BlockUser") {
+                    useBlockUser({
+                      personId: profile.profile.person.id,
+                      dispatch,
+                      t,
+                    });
+                  }
+                }}
+                menuConfig={{
+                  menuTitle: "",
+                  // @ts-ignore Types for menuItems are wrong for this library
+                  menuItems: [
+                    {
+                      actionKey: "BlockUser",
+                      actionTitle: "Block User",
+                      icon: {
+                        type: "IMAGE_SYSTEM",
+                        imageValue: {
+                          systemName: "person.crop.circle.badge.xmark",
+                        },
+                      },
+                    },
+                  ],
+                }}
+              >
+                <HeaderIconButton icon={<SFIcon icon="ellipsis" />} />
+              </ContextMenuButton>
             ),
     });
-  }, []);
-
-  const onDotsPress = async () => {
-    const cancelButtonIndex = 1;
-
-    showActionSheetWithOptions(
-      {
-        options: ["Block User", "Cancel"],
-        cancelButtonIndex,
-        userInterfaceStyle: theme.config.initialColorMode,
-      },
-      async (index) => {
-        if (index === cancelButtonIndex) return;
-
-        if (index === 0) {
-          try {
-            await lemmyInstance.blockPerson({
-              auth: lemmyAuthToken,
-              person_id: profile.profile.person.id,
-              block: true,
-            });
-
-            dispatch(
-              showToast({
-                message: "User blocked successfully.",
-                duration: 3000,
-                variant: "info",
-              })
-            );
-          } catch (e) {
-            writeToLog("Error blocking person.");
-            writeToLog(e.toString());
-          }
-        }
-      }
-    );
-  };
+  }, [profile.profile, t]);
 
   if (!profile.profile) {
     return <LoadingView />;
@@ -125,11 +106,9 @@ function UserProfileScreen({ route, navigation }: IProps) {
       <VStack p={4}>
         <MTable>
           <MCell
-            title="View Comments"
-            icon={<IconMessage color={theme.colors.app.accent} />}
-            rightAccessory={
-              <IconChevronRight color={theme.colors.app.accent} />
-            }
+            title={t("View Comments")}
+            icon={<SFIcon icon={ICON_MAP.REPLY} size={14} />}
+            showChevron
             onPress={() =>
               navigation.push("UserComments", {
                 fullUsername: route?.params?.fullUsername,
@@ -137,29 +116,28 @@ function UserProfileScreen({ route, navigation }: IProps) {
             }
           />
           <MCell
-            title="View Posts"
-            icon={<IconNotes color={theme.colors.app.accent} />}
-            rightAccessory={
-              <IconChevronRight color={theme.colors.app.accent} />
-            }
+            title={t("View Posts")}
+            icon={<SFIcon icon="doc.plaintext" size={14} />}
+            showChevron
             onPress={() =>
               navigation.push("UserPosts", {
                 fullUsername: route?.params?.fullUsername,
               })
             }
           />
-          <MCell
-            title="View Saved Posts"
-            icon={<IconBookmark color={theme.colors.app.accent} />}
-            rightAccessory={
-              <IconChevronRight color={theme.colors.app.accent} />
-            }
-            onPress={() =>
-              navigation.push("UserSavedPosts", {
-                fullUsername: route?.params?.fullUsername,
-              })
-            }
-          />
+          {profile.self && (
+            <MCell
+              title={t("View Saved Posts")}
+              icon={<SFIcon icon={ICON_MAP.SAVE} size={14} />}
+              showChevron
+              onPress={() =>
+                navigation.push("UserPosts", {
+                  fullUsername: route?.params?.fullUsername,
+                  isSavedPosts: true,
+                })
+              }
+            />
+          )}
         </MTable>
       </VStack>
     </ScrollView>

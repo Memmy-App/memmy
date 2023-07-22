@@ -1,9 +1,9 @@
 import { CommentView, CommunityView, Person, PostView } from "lemmy-js-client";
 import { getBaseUrl } from "./LinkHelper";
 import { lemmyAuthToken, lemmyInstance } from "../LemmyInstance";
-import { writeToLog } from "./LogHelper";
 import ILemmyComment from "../types/lemmy/ILemmyComment";
 import { ILemmyVote } from "../types/lemmy/ILemmyVote";
+import { handleLemmyError } from "./LemmyErrorHelper";
 
 export const isSubscribed = (
   communityId: number,
@@ -23,10 +23,10 @@ export const removeDuplicatePosts = (
   );
 
 export const removeNsfwPosts = (list: PostView[]) =>
-  list.filter((p) => !p.post.nsfw);
+  list.filter((p) => !p.post.nsfw && !p.community.nsfw);
 
 export const getCommunityFullName = (community: CommunityView) =>
-  `${community.community.name}@${getBaseUrl(community.community.actor_id)}`;
+  `${community?.community?.name}@${getBaseUrl(community?.community?.actor_id)}`;
 
 export const getUserFullName = (profile: Person) =>
   `${profile.name}@${getBaseUrl(profile.actor_id)}`;
@@ -65,6 +65,7 @@ export const savePost = async (
 
     return true;
   } catch (e) {
+    handleLemmyError(e.toString());
     return false;
   }
 };
@@ -82,8 +83,7 @@ export const saveComment = async (
 
     return true;
   } catch (e) {
-    writeToLog("Failed to save comment.");
-    writeToLog(e.toString());
+    handleLemmyError(e.toString());
 
     return false;
   }

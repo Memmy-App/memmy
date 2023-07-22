@@ -1,41 +1,49 @@
-import React, { useState } from "react";
-import { HStack, useTheme } from "native-base";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { IconDeviceFloppy, IconShare2 } from "tabler-icons-react-native";
-import DialogContainer from "react-native-dialog/lib/Container";
-import DialogDescription from "react-native-dialog/lib/Description";
-import IconButtonWithText from "../IconButtonWithText";
+import { HStack, useTheme, View } from "native-base";
+import React from "react";
+import { ICON_MAP } from "../../../constants/IconMap";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
-import downloadAndSaveImage from "../../../helpers/ImageHelper";
+import { saveImage } from "../../../helpers/ImageHelper";
 import { shareLink } from "../../../helpers/ShareHelper";
+import IconButtonWithText from "../IconButtonWithText";
+import SFIcon from "../icons/SFIcon";
+import { useAppDispatch } from "../../../../store";
+import { showToast } from "../../../slices/toast/toastSlice";
 
 interface ImageViewFooterProps {
   source: string;
 }
 
 function ImageViewFooter({ source }: ImageViewFooterProps) {
-  const [downloading, setDownloading] = useState(false);
-
   const theme = useTheme();
+  const dispatch = useAppDispatch();
 
   const onSave = async () => {
     onGenericHapticFeedback();
-    setDownloading(true);
-    await downloadAndSaveImage(source);
-    setDownloading(false);
+
+    await saveImage(source);
+
+    dispatch(
+      showToast({
+        message: "Image saved.",
+        duration: 1500,
+        variant: "success",
+      })
+    );
   };
 
   const onShare = async () => {
-    setDownloading(true);
-    await shareLink({
-      link: source,
-      isImage: true,
-      callback: () => setDownloading(false),
-    });
+    try {
+      await shareLink({
+        link: source,
+        isImage: true,
+      });
+    } catch (e) {
+      /* Empty */
+    }
   };
 
   return (
-    <>
+    <View position="absolute" bottom={0} width="100%" zIndex={2}>
       <HStack
         flex={1}
         mb={10}
@@ -47,22 +55,27 @@ function ImageViewFooter({ source }: ImageViewFooterProps) {
         <IconButtonWithText
           onPressHandler={onSave}
           icon={
-            <IconDeviceFloppy
-              size={38}
+            <SFIcon
+              icon="square.and.arrow.down"
               color={theme.colors.app.textSecondary}
+              size={20}
             />
           }
         />
         <IconButtonWithText
           onPressHandler={onShare}
-          icon={<IconShare2 size={38} color={theme.colors.app.textSecondary} />}
+          icon={
+            <SFIcon
+              icon={ICON_MAP.SHARE}
+              color={theme.colors.app.textSecondary}
+              size={20}
+            />
+          }
         />
       </HStack>
-      <DialogContainer visible={downloading}>
-        <DialogDescription>Downloading image...</DialogDescription>
-      </DialogContainer>
-    </>
+    </View>
   );
 }
 
 export default ImageViewFooter;
+// <IconShare2 size={38} color={theme.colors.app.textSecondary} />

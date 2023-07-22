@@ -1,11 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { SetStateAction, useState } from "react";
-import { Alert } from "react-native";
-import { writeToLog } from "../../helpers/LogHelper";
-import { useAppDispatch } from "../../../store";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { setEditComment } from "../../slices/comments/editCommentSlice";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
+import { useUpdatesStore } from "../../stores/updates/updatesStore";
 
 interface UseEditComment {
   content: string;
@@ -25,7 +23,6 @@ const useEditComment = (
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const dispatch = useAppDispatch();
 
   const doSubmit = async () => {
     if (!content) {
@@ -42,26 +39,13 @@ const useEditComment = (
         language_id: languageId,
       });
 
-      dispatch(
-        setEditComment({
-          content,
-          commentId,
-        })
-      );
+      useUpdatesStore.getState().setEditedComment(commentId, content);
 
       navigation.pop();
     } catch (e) {
-      writeToLog("Error editing comment.");
-      writeToLog(e.toString());
-
       setLoading(false);
 
-      if (e.toString() === "rate_limit_error") {
-        Alert.alert("Error", "Rate limit error. Please try again shortly...");
-        return;
-      }
-
-      Alert.alert("Error", e.toString());
+      handleLemmyError(e.toString());
     }
   };
 

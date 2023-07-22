@@ -1,84 +1,59 @@
 import React from "react";
-import { useTheme } from "native-base";
-import { useActionSheet } from "@expo/react-native-action-sheet";
-import { IconDots } from "tabler-icons-react-native";
-import { Alert } from "react-native";
+import { useTranslation } from "react-i18next";
+import { ContextMenuButton } from "react-native-ios-context-menu";
+import { useRoute } from "@react-navigation/core";
 import { useAppDispatch } from "../../../../../store";
-import { commentSortOptions } from "../../../../types/CommentSortOptions";
-import { lemmyAuthToken, lemmyInstance } from "../../../../LemmyInstance";
-import { showToast } from "../../../../slices/toast/toastSlice";
-import { writeToLog } from "../../../../helpers/LogHelper";
+import { useReportPost } from "../../../../hooks/post/useReportPost";
 import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
+import SFIcon from "../../../common/icons/SFIcon";
+import { ICON_MAP } from "../../../../constants/IconMap";
+import { useCurrentPostState } from "../../../../stores/posts/postsStore";
 
-interface IProps {
-  postId: number;
-}
+function CommentSortButton() {
+  const route = useRoute<any>();
+  const { postKey } = route.params;
+  const post = useCurrentPostState(postKey);
 
-function CommentSortButton({ postId }: IProps) {
-  const theme = useTheme();
-  const { showActionSheetWithOptions } = useActionSheet();
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
-
-  const onPress = () => {
-    const cancelButtonIndex = commentSortOptions.length;
-
-    showActionSheetWithOptions(
-      {
-        options: ["Report Post", "Cancel"],
-        cancelButtonIndex,
-        userInterfaceStyle: theme.config.initialColorMode,
-      },
-      (index) => {
-        if (index === cancelButtonIndex) return;
-
-        if (index === 0) onReportPress().then();
-      }
-    );
-  };
-
-  const onReportPress = async () => {
-    await Alert.prompt(
-      "Report Post",
-      "Please describe your reason for reporting this Post.",
-      [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-        {
-          text: "Submit",
-          style: "default",
-          onPress: async (v) => {
-            try {
-              await lemmyInstance.createPostReport({
-                auth: lemmyAuthToken,
-                post_id: postId,
-                reason: v,
-              });
-
-              dispatch(
-                showToast({
-                  message: "Report submitted successfully",
-                  duration: 3000,
-                  variant: "info",
-                })
-              );
-            } catch (e) {
-              writeToLog("Error reporting comment.");
-              writeToLog(e.toString());
-            }
-          },
-        },
-      ]
-    );
-  };
+  const options = [t("Report Post")];
 
   return (
-    <HeaderIconButton
-      icon={<IconDots size={24} color={theme.colors.app.accent} />}
-      onPress={onPress}
-    />
+    <ContextMenuButton
+      isMenuPrimaryAction
+      onPressMenuItem={({ nativeEvent }) => {
+        switch (nativeEvent.actionKey) {
+          case "Report Post":
+            useReportPost({ postId: post.post.post.id, dispatch }).then();
+            break;
+          default:
+            break;
+        }
+      }}
+      menuConfig={{
+        menuTitle: "",
+        // @ts-ignore Types for menuItems are wrong for this library
+        menuItems: [
+          ...options.map((option) => ({
+            actionKey: option,
+            actionTitle: option,
+            icon: {
+              type: "IMAGE_SYSTEM",
+              imageValue: {
+                systemName: optionIcons[option],
+              },
+            },
+          })),
+        ],
+      }}
+    >
+      <HeaderIconButton icon={<SFIcon icon="ellipsis" />} />
+    </ContextMenuButton>
   );
 }
+
+const optionIcons: Record<string, string> = {
+  "Report Post": ICON_MAP.REPORT_POST,
+};
 
 export default CommentSortButton;

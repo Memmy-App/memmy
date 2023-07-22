@@ -1,11 +1,11 @@
-import { useActionSheet } from "@expo/react-native-action-sheet";
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
 import React, { useState } from "react";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
-import { changeIcon } from "react-native-change-icon";
+import { useTranslation } from "react-i18next";
+import { ContextMenuButton } from "react-native-ios-context-menu";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
@@ -24,13 +24,18 @@ interface IProps {
 function AppearanceScreen({ navigation }: IProps) {
   const settings = useAppSelector(selectSettings);
 
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const { showActionSheetWithOptions } = useActionSheet();
 
   const onChange = (key: string, value: any) => {
     dispatch(setSetting({ [key]: value }));
   };
+
+  const selectedFontWeight =
+    Object.keys(FontWeightMap).find(
+      (key) => FontWeightMap[key] === settings.fontWeightPostTitle
+    ) || "Regular";
 
   const [accent, setAccent] = useState(settings.accentColor);
   const hexPattern = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
@@ -38,10 +43,25 @@ function AppearanceScreen({ navigation }: IProps) {
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
       <TableView style={styles.table}>
+        <CSection
+          header={t("settings.appearance.appIcon")}
+          footer="App icons by dizzy@lemmy.ml"
+        >
+          <CCell
+            cellStyle="RightDetail"
+            title={t("settings.appearance.appIcon")}
+            detail={appIconOptions[settings.appIcon].display}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            accessory="DisclosureIndicator"
+            onPress={() => navigation.push("IconSelection")}
+          />
+        </CSection>
         <CSection header="Content">
           <CCell
             cellStyle="Basic"
-            title="Display Total Score"
+            title={t("settings.appearance.totalScore")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -57,7 +77,7 @@ function AppearanceScreen({ navigation }: IProps) {
           />
           <CCell
             cellStyle="Basic"
-            title="Images Ignore Screen Height"
+            title={t("settings.appearance.imgIgnoreScreenHeight")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -73,7 +93,7 @@ function AppearanceScreen({ navigation }: IProps) {
           />
           <CCell
             cellStyle="RightDetail"
-            title="Show Instance For Usernames"
+            title={t("settings.appearance.showUserInstance")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -86,7 +106,7 @@ function AppearanceScreen({ navigation }: IProps) {
           />
           <CCell
             cellStyle="RightDetail"
-            title="Compact View"
+            title={t("settings.appearance.compactView")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -103,35 +123,57 @@ function AppearanceScreen({ navigation }: IProps) {
         </CSection>
 
         {settings.compactView && (
-          <CSection header="COMPACT">
-            <CCell
-              cellStyle="RightDetail"
-              title="Thumbnails Position"
-              detail={settings.compactThumbnailPosition}
-              accessory="DisclosureIndicator"
-              onPress={() => {
-                const options = ["None", "Left", "Right", "Cancel"];
-                const cancelButtonIndex = 3;
-
-                showActionSheetWithOptions(
-                  {
-                    options,
-                    cancelButtonIndex,
-                    userInterfaceStyle: theme.config.initialColorMode,
-                  },
-                  (index: number) => {
-                    if (index === cancelButtonIndex) return;
-
-                    dispatch(
-                      setSetting({ compactThumbnailPosition: options[index] })
-                    );
-                  }
+          <CSection header={t("settings.appearance.compact.header")}>
+            <ContextMenuButton
+              isMenuPrimaryAction
+              onPressMenuItem={({ nativeEvent }) => {
+                dispatch(
+                  setSetting({
+                    compactThumbnailPosition: nativeEvent.actionKey,
+                  })
                 );
               }}
-            />
+              menuConfig={{
+                menuTitle: "",
+                // @ts-ignore Types for menuItems are wrong for this library
+                menuItems: [
+                  {
+                    actionKey: "None",
+                    actionTitle: "None",
+                    menuState:
+                      settings.compactThumbnailPosition === "None"
+                        ? "on"
+                        : "off",
+                  },
+                  {
+                    actionKey: "Left",
+                    actionTitle: "Left",
+                    menuState:
+                      settings.compactThumbnailPosition === "Left"
+                        ? "on"
+                        : "off",
+                  },
+                  {
+                    actionKey: "Right",
+                    actionTitle: "Right",
+                    menuState:
+                      settings.compactThumbnailPosition === "Right"
+                        ? "on"
+                        : "off",
+                  },
+                ],
+              }}
+            >
+              <CCell
+                cellStyle="RightDetail"
+                title={t("settings.appearance.compact.thumbPos")}
+                detail={settings.compactThumbnailPosition}
+                accessory="DisclosureIndicator"
+              />
+            </ContextMenuButton>
             <CCell
               cellStyle="RightDetail"
-              title="Show Voting Buttons"
+              title={t("settings.appearance.compact.showVotingButtons")}
               backgroundColor={theme.colors.app.fg}
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.textSecondary}
@@ -144,10 +186,43 @@ function AppearanceScreen({ navigation }: IProps) {
             />
           </CSection>
         )}
-        <CSection header="THEMES">
+
+        <CSection
+          header={t("settings.appearance.gestures.header")}
+          footer="Disabling swipe to vote will allow for full-screen swipe gestures."
+        >
           <CCell
             cellStyle="Basic"
-            title="Match System Light/Dark Theme"
+            title={t("settings.appearance.gestures.tapToCollapse")}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.tapToCollapse}
+                onValueChange={(v) => onChange("tapToCollapse", v)}
+              />
+            }
+          />
+          <CCell
+            cellStyle="Basic"
+            title="Swipe to Vote"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.swipeToVote}
+                onValueChange={(v) => onChange("swipeToVote", v)}
+              />
+            }
+          />
+        </CSection>
+
+        <CSection header={t("settings.appearance.themes.header")}>
+          <CCell
+            cellStyle="Basic"
+            title={t("settings.appearance.themes.matchSystem")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -164,7 +239,7 @@ function AppearanceScreen({ navigation }: IProps) {
           {!settings.themeMatchSystem && (
             <CCell
               cellStyle="Basic"
-              title="Theme"
+              title={t("Theme")}
               accessory="DisclosureIndicator"
               onPress={() => navigation.push("ThemeSelection")}
               backgroundColor={theme.colors.app.fg}
@@ -178,14 +253,14 @@ function AppearanceScreen({ navigation }: IProps) {
                 fontSize="xs"
                 color={theme.colors.app.textSecondary}
               >
-                Selected: {settings.theme}
+                {`${t("Selected")}: ${settings.theme}`}
               </Text>
             </CCell>
           )}
           {settings.themeMatchSystem && (
             <CCell
               cellStyle="Basic"
-              title="Theme for System Light"
+              title={t("settings.appearance.themes.systemLight")}
               accessory="DisclosureIndicator"
               onPress={() =>
                 navigation.push("ThemeSelection", { themeProp: "themeLight" })
@@ -208,7 +283,7 @@ function AppearanceScreen({ navigation }: IProps) {
           {settings.themeMatchSystem && (
             <CCell
               cellStyle="Basic"
-              title="Theme for System Dark"
+              title={t("settings.appearance.themes.systemDark")}
               accessory="DisclosureIndicator"
               onPress={() =>
                 navigation.push("ThemeSelection", { themeProp: "themeDark" })
@@ -233,7 +308,7 @@ function AppearanceScreen({ navigation }: IProps) {
             cellStyle="RightDetail"
             title={
               <Text>
-                Accent Color{"  "}
+                {`${t("Accent Color")}  `}
                 <Chip
                   text="Alpha"
                   color={theme.colors.app.info}
@@ -260,7 +335,7 @@ function AppearanceScreen({ navigation }: IProps) {
                     if (hexToCheck !== settings.accentColor) {
                       dispatch(
                         showToast({
-                          message: "Accent color updated",
+                          message: t("toast.accentColorUpdated"),
                           duration: 3000,
                           variant: "info",
                         })
@@ -272,14 +347,16 @@ function AppearanceScreen({ navigation }: IProps) {
                     dispatch(setSetting({ accentColor: "" }));
                     dispatch(
                       showToast({
-                        message: "Accent color is not a valid hex code",
+                        message: t("toast.accentColorInvalidHexCode"),
                         duration: 3000,
                         variant: "error",
                       })
                     );
                   }
                 }}
-                placeholder="Input a hex code"
+                placeholder={t(
+                  "settings.appearance.themes.hexCode.placeholder"
+                )}
                 autoCapitalize="none"
                 autoCorrect={false}
               />
@@ -290,9 +367,9 @@ function AppearanceScreen({ navigation }: IProps) {
           />
         </CSection>
 
-        <CSection header="FONT">
+        <CSection header={t("settings.appearance.font.header")}>
           <CCell
-            title="Use System Font"
+            title={t("settings.appearance.font.useSystemFont")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -304,7 +381,7 @@ function AppearanceScreen({ navigation }: IProps) {
             }
           />
           <CCell
-            title="Use System Font Size"
+            title={t("settings.appearance.font.useSystemFontSize")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -319,7 +396,7 @@ function AppearanceScreen({ navigation }: IProps) {
             isDisabled={settings.isSystemTextSize}
             title={
               <Text>
-                Text Size{"  "}
+                {`${t("settings.appearance.font.textSize")}  `}
                 <Chip
                   text="Alpha"
                   color={theme.colors.app.info}
@@ -350,70 +427,38 @@ function AppearanceScreen({ navigation }: IProps) {
               <Text fontSize={19}>A</Text>
             </HStack>
           </CCell>
-          <CCell
-            cellStyle="RightDetail"
-            title="Font Weight - Post Title"
-            detail={
-              Object.keys(FontWeightMap).find(
-                (key) => FontWeightMap[key] === settings.fontWeightPostTitle
-              ) || "Regular"
-            }
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              const options = [...Object.keys(FontWeightMap), "Cancel"];
-              const cancelButtonIndex = options.length - 1;
-
-              showActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex,
-                  userInterfaceStyle: theme.config.initialColorMode,
-                },
-                (index: number) => {
-                  if (index === cancelButtonIndex) return;
-
-                  dispatch(
-                    setSetting({
-                      fontWeightPostTitle: FontWeightMap[options[index]] || 400,
-                    })
-                  );
-                }
+          <ContextMenuButton
+            isMenuPrimaryAction
+            onPressMenuItem={({ nativeEvent }) => {
+              dispatch(
+                setSetting({
+                  fontWeightPostTitle:
+                    FontWeightMap[nativeEvent.actionKey] || 400,
+                })
               );
             }}
-          />
-        </CSection>
-        <CSection header="APP ICON">
-          <CCell
-            cellStyle="RightDetail"
-            title="App Icon"
-            detail={appIconOptions.find((o) => o[0] === settings.appIcon)[1]}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            accessory="DisclosureIndicator"
-            onPress={() => {
-              const options = [...appIconOptions.map((o) => o[1]), "Cancel"];
-              const cancelButtonIndex = options.length - 1;
-
-              showActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex,
-                  userInterfaceStyle: theme.config.initialColorMode,
-                },
-                (index: number) => {
-                  if (index === cancelButtonIndex) return;
-
-                  dispatch(setSetting({ appIcon: appIconOptions[index][0] }));
-
-                  changeIcon(appIconOptions[index][0]);
-                }
-              );
+            menuConfig={{
+              menuTitle: "",
+              // @ts-ignore Types for menuItems are wrong for this library
+              menuItems: [
+                ...Object.keys(FontWeightMap).map((option) => ({
+                  actionKey: option,
+                  actionTitle: option,
+                  menuState: selectedFontWeight === option ? "on" : "off",
+                })),
+              ],
             }}
-          />
+          >
+            <CCell
+              cellStyle="RightDetail"
+              title={t("settings.appearance.font.postTitleFontWeight")}
+              detail={selectedFontWeight}
+              backgroundColor={theme.colors.app.fg}
+              titleTextColor={theme.colors.app.textPrimary}
+              rightDetailColor={theme.colors.app.textSecondary}
+              accessory="DisclosureIndicator"
+            />
+          </ContextMenuButton>
         </CSection>
       </TableView>
     </ScrollView>

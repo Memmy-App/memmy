@@ -3,6 +3,7 @@ import { Alert, Image } from "react-native";
 import { Button, Pressable, Text, useTheme, VStack } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Trans, useTranslation } from "react-i18next";
 import CTextInput from "../../common/CTextInput";
 import {
   getInstanceError,
@@ -35,6 +36,7 @@ function AddAccountScreen({ route, navigation }: IProps) {
   const [loading, setLoading] = useState(false);
   const [showTotpToken, setShowTotpToken] = useState(false);
 
+  const { t } = useTranslation();
   const theme = useTheme();
   const dispatch = useAppDispatch();
 
@@ -55,7 +57,7 @@ function AddAccountScreen({ route, navigation }: IProps) {
     if (!form.server || !form.username || !form.password) {
       dispatch(
         showToast({
-          message: "All fields are required",
+          message: t("toast.allFieldsRequired"),
           duration: 3000,
           variant: "warn",
         })
@@ -93,12 +95,12 @@ function AddAccountScreen({ route, navigation }: IProps) {
       return;
     }
 
-    Alert.alert("Error", getInstanceError());
+    Alert.alert(t("alert.title.error"), getInstanceError());
   };
 
   const onPress = () => {
     if (form.username.includes("@")) {
-      Alert.alert("Error", "Please use your username when signing in.");
+      Alert.alert(t("alert.title.error"), t("alert.message.useUsername"));
       return;
     }
 
@@ -141,8 +143,8 @@ function AddAccountScreen({ route, navigation }: IProps) {
           <CTextInput
             name="server"
             value={form.server}
-            placeholder="Server"
-            label="Server"
+            placeholder={t("Server")}
+            label={t("Server")}
             onChange={onFormChange}
             autoCapitalize="none"
             autoCorrect={false}
@@ -151,8 +153,8 @@ function AddAccountScreen({ route, navigation }: IProps) {
           <CTextInput
             name="username"
             value={form.username}
-            placeholder="Username"
-            label="Username"
+            placeholder={t("Username")}
+            label={t("Username")}
             onChange={onFormChange}
             autoCapitalize="none"
             autoCorrect={false}
@@ -160,8 +162,8 @@ function AddAccountScreen({ route, navigation }: IProps) {
           <CTextInput
             name="password"
             value={form.password}
-            placeholder="Password"
-            label="Password"
+            placeholder={t("Password")}
+            label={t("Password")}
             onChange={onFormChange}
             autoCapitalize="none"
             autoCorrect={false}
@@ -171,8 +173,8 @@ function AddAccountScreen({ route, navigation }: IProps) {
             <CTextInput
               name="totpToken"
               value={form.totpToken}
-              placeholder="2FA Token"
-              label="2FA Token"
+              placeholder={t("2FA Token")}
+              label={t("2FA Token")}
               onChange={onFormChange}
               autoCapitalize="none"
               autoCorrect={false}
@@ -180,15 +182,17 @@ function AddAccountScreen({ route, navigation }: IProps) {
             />
           )}
           <Text justifyContent="center" alignItems="center">
-            By using Memmy, you agree to the
-            <Pressable
-              onPress={() => navigation.push("Viewer", { type: "terms" })}
-            >
-              <Text mt={1.5} color={theme.colors.app.accent}>
-                {" "}
-                Terms of Use
-              </Text>
-            </Pressable>
+            <Trans
+              i18nKey="onboarding.agreeToTermsOfUse"
+              components={{
+                linkAction: (
+                  <Pressable
+                    onPress={() => navigation.push("Viewer", { type: "terms" })}
+                  />
+                ),
+                linkText: <Text mt={1.5} color={theme.colors.app.accent} />,
+              }}
+            />
           </Text>
           <Button
             size="sm"
@@ -199,7 +203,7 @@ function AddAccountScreen({ route, navigation }: IProps) {
             mx={2}
           >
             <Text fontWeight="semibold" fontSize="lg">
-              Login
+              {t("Login")}
             </Text>
           </Button>
         </VStack>

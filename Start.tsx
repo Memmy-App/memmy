@@ -1,4 +1,3 @@
-import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import * as Notifications from "expo-notifications";
 import { StatusBar, StatusBarStyle } from "expo-status-bar";
 import { extendTheme, NativeBaseProvider } from "native-base";
@@ -7,6 +6,9 @@ import { ErrorBoundary } from "react-error-boundary";
 import { AppState, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import merge from "deepmerge";
+import { setRootViewBackgroundColor } from "@pnthach95/react-native-root-view-background";
+import { GluestackUIProvider } from "./src/components/common/Gluestack";
+import { config } from "./gluestack-ui.config";
 import Stack from "./Stack";
 import MemmyErrorView from "./src/components/common/Loading/MemmyErrorView";
 import { writeToLog } from "./src/helpers/LogHelper";
@@ -25,6 +27,7 @@ import { darkTheme } from "./src/theme/theme";
 import { ThemeOptionsArr, ThemeOptionsMap } from "./src/theme/themeOptions";
 import Toast from "./src/components/common/Toast";
 import { systemFontSettings } from "./src/theme/common";
+import { loadFavorites } from "./src/slices/favorites/favoritesActions";
 
 const logError = (e, info) => {
   writeToLog(e.toString());
@@ -41,8 +44,13 @@ Notifications.setNotificationHandler({
   }),
 });
 
-function Start() {
+interface StartProps {
+  onReady: () => void;
+}
+
+function Start({ onReady }: StartProps) {
   const [loaded, setLoaded] = useState(false);
+  const [stackReady, setStackReady] = useState(false);
   const dispatch = useAppDispatch();
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
 
@@ -70,6 +78,16 @@ function Start() {
   const appState = useRef(AppState.currentState);
 
   let refreshInterval;
+
+  const onStackReady = () => {
+    setStackReady(true);
+  };
+
+  useEffect(() => {
+    if (accountsLoaded && stackReady) {
+      onReady();
+    }
+  }, [accountsLoaded, stackReady]);
 
   useEffect(() => {
     if (!loaded) return;
@@ -160,6 +178,8 @@ function Start() {
     setStatusBarColor(
       newTheme.config.initialColorMode === "dark" ? "light" : "dark"
     );
+
+    setRootViewBackgroundColor(ThemeOptionsMap[usedTheme].colors.app.bg);
     // ! fontSize has to be here
   }, [
     currentTheme,
@@ -173,6 +193,7 @@ function Start() {
   if (!loaded) {
     dispatch(loadSettings());
     dispatch(loadAccounts());
+    dispatch(loadFavorites());
     setLoaded(true);
   }
 
@@ -181,20 +202,22 @@ function Start() {
   }
 
   return (
-    <NativeBaseProvider theme={selectedTheme}>
-      <ErrorBoundary onError={logError} FallbackComponent={MemmyErrorView}>
-        {/* eslint-disable-next-line react/style-prop-object */}
-        <StatusBar style={statusBarColor} />
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <ActionSheetProvider>
+    <GluestackUIProvider config={config.theme}>
+      <NativeBaseProvider theme={selectedTheme}>
+        <ErrorBoundary onError={logError} FallbackComponent={MemmyErrorView}>
+          {/* eslint-disable-next-line react/style-prop-object */}
+          <StatusBar style={statusBarColor} />
+          <GestureHandlerRootView
+            style={{ flex: 1, backgroundColor: selectedTheme.colors.app.bg }}
+          >
             <>
               <Toast />
-              <Stack />
+              <Stack onReady={onStackReady} />
             </>
-          </ActionSheetProvider>
-        </GestureHandlerRootView>
-      </ErrorBoundary>
-    </NativeBaseProvider>
+          </GestureHandlerRootView>
+        </ErrorBoundary>
+      </NativeBaseProvider>
+    </GluestackUIProvider>
   );
 }
 

@@ -1,20 +1,17 @@
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
-import React from "react";
+import React, { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Alert, StyleSheet } from "react-native";
-import FastImage from "react-native-fast-image";
-import {
-  IconAt,
-  IconBrush,
-  IconMessage,
-  IconSettings,
-  IconUser,
-  TablerIcon,
-} from "tabler-icons-react-native";
+import { Divider } from "react-native-elements";
+import { ContextMenuButton } from "react-native-ios-context-menu";
+import { ICON_MAP } from "../../../constants/IconMap";
 import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
 import CCell from "../../common/Table/CCell";
 import CSection from "../../common/Table/CSection";
+import SFIcon from "../../common/icons/SFIcon";
 
 function SettingOptionTitle({
   text,
@@ -22,11 +19,9 @@ function SettingOptionTitle({
   iconBgColor,
 }: {
   text: string;
-  icon: TablerIcon;
+  icon: string;
   iconBgColor: string;
 }) {
-  const IconComponent = icon;
-
   return (
     <HStack space={3} alignItems="center" marginBottom={-1.5}>
       <Box
@@ -39,7 +34,7 @@ function SettingOptionTitle({
           alignItems: "center",
         }}
       >
-        <IconComponent color="#fff" size={20} />
+        <SFIcon color="#fff" icon={icon} size={12} boxSize={20} />
       </Box>
       <Text>{text}</Text>
     </HStack>
@@ -51,11 +46,17 @@ function SettingsIndexScreen({
 }: {
   navigation: NativeStackNavigationProp<any>;
 }) {
+  const { t, i18n } = useTranslation();
   const theme = useTheme();
+
+  const languages = useMemo<string[]>(
+    () => Object.keys(i18n.options.resources),
+    [i18n]
+  );
 
   const onCacheClear = async () => {
     await FastImage.clearDiskCache();
-    Alert.alert("Success", "Cache has been cleared.");
+    Alert.alert(t("alert.title.success"), t("alert.message.cacheCleared"));
   };
 
   return (
@@ -66,8 +67,8 @@ function SettingsIndexScreen({
             cellStyle="Basic"
             title={
               <SettingOptionTitle
-                text="General"
-                icon={IconSettings}
+                text={t("General")}
+                icon="gear"
                 iconBgColor="#FF8E00"
               />
             }
@@ -81,8 +82,8 @@ function SettingsIndexScreen({
             cellStyle="Basic"
             title={
               <SettingOptionTitle
-                text="Content"
-                icon={IconMessage}
+                text={t("Content")}
+                icon={ICON_MAP.REPLY}
                 iconBgColor="#F43A9F"
               />
             }
@@ -96,8 +97,8 @@ function SettingsIndexScreen({
             cellStyle="Basic"
             title={
               <SettingOptionTitle
-                text="Appearance"
-                icon={IconBrush}
+                text={t("Appearance")}
+                icon="paintbrush"
                 iconBgColor="#BB4BE5"
               />
             }
@@ -111,8 +112,8 @@ function SettingsIndexScreen({
             cellStyle="Basic"
             title={
               <SettingOptionTitle
-                text="Accounts"
-                icon={IconUser}
+                text={t("Accounts")}
+                icon={ICON_MAP.USER_AVATAR}
                 iconBgColor="#00CA48"
               />
             }
@@ -126,8 +127,8 @@ function SettingsIndexScreen({
             cellStyle="Basic"
             title={
               <SettingOptionTitle
-                text="About"
-                icon={IconAt}
+                text={t("About")}
+                icon="at"
                 iconBgColor="#0368D4"
               />
             }
@@ -142,7 +143,7 @@ function SettingsIndexScreen({
         <CSection>
           <CCell
             cellStyle="Basic"
-            title="Email Debug Log"
+            title={t("Email Debug Log")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -152,7 +153,7 @@ function SettingsIndexScreen({
                 .then()
                 .catch((e) => {
                   if (e.toString() === "Error: no_file") {
-                    Alert.alert("No debug file exists.");
+                    Alert.alert(t("alert.title.noDebugLog"));
                   } else {
                     Alert.alert(e.toString());
                   }
@@ -161,7 +162,7 @@ function SettingsIndexScreen({
           />
           <CCell
             cellStyle="Basic"
-            title="Clear Debug Log"
+            title={t("Clear Debug Log")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
@@ -169,7 +170,7 @@ function SettingsIndexScreen({
             onPress={() => {
               try {
                 deleteLog();
-                Alert.alert("Debug file cleared.");
+                Alert.alert(t("alert.title.debugFileCleared"));
               } catch (e) {
                 writeToLog("Error clearing debug file.");
               }
@@ -177,7 +178,7 @@ function SettingsIndexScreen({
           />
           <CCell
             cellStyle="Basic"
-            title="Clear Cache"
+            title={t("Clear Cache")}
             accessory="DisclosureIndicator"
             onPress={() => {
               // TODO this is a hack to shut eslint up. PR was merged to accept promises here, so we can upgrade to the
@@ -186,6 +187,41 @@ function SettingsIndexScreen({
             }}
           />
         </CSection>
+
+        {__DEV__ && (
+          <>
+            <Divider style={{ margin: 20 }} />
+            <CSection header="🛠️ DEV TOOLS">
+              <ContextMenuButton
+                isMenuPrimaryAction
+                onPressMenuItem={({ nativeEvent }) => {
+                  i18n.changeLanguage(nativeEvent.actionKey);
+                }}
+                menuConfig={{
+                  menuTitle: "",
+                  // @ts-ignore Types for menuItems are wrong for this library
+                  menuItems: [
+                    ...languages.map((option) => ({
+                      actionKey: option,
+                      actionTitle: option,
+                      menuState: i18n.language === option ? "on" : "off",
+                    })),
+                  ],
+                }}
+              >
+                <CCell
+                  cellStyle="RightDetail"
+                  title={t("Select Language")}
+                  detail={i18n.language}
+                  backgroundColor={theme.colors.app.fg}
+                  titleTextColor={theme.colors.app.textPrimary}
+                  rightDetailColor={theme.colors.app.textSecondary}
+                  accessory="DisclosureIndicator"
+                />
+              </ContextMenuButton>
+            </CSection>
+          </>
+        )}
       </TableView>
     </ScrollView>
   );

@@ -1,18 +1,14 @@
-import React, { SetStateAction, useState } from "react";
-import { Alert, InputAccessoryView, TextInput } from "react-native";
 import { HStack, useTheme } from "native-base";
-import {
-  IconBold,
-  IconItalic,
-  IconLink,
-  IconPhoto,
-  IconQuote,
-} from "tabler-icons-react-native";
+import React, { SetStateAction, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Alert, InputAccessoryView, TextInput } from "react-native";
 import { selectImage } from "../../helpers/ImageHelper";
-import LoadingModal from "./Loading/LoadingModal";
 import uploadToImgur from "../../helpers/ImgurHelper";
 import { writeToLog } from "../../helpers/LogHelper";
+import { ErrorCause } from "../../types/ErrorCause";
 import IconButtonWithText from "./IconButtonWithText";
+import LoadingModal from "./Loading/LoadingModal";
+import SFIcon from "./icons/SFIcon";
 
 function KeyboardAccessory({
   setText,
@@ -30,6 +26,7 @@ function KeyboardAccessory({
 }) {
   const [uploading, setUploading] = useState(false);
 
+  const { t } = useTranslation();
   const theme = useTheme();
 
   const replace = (newText: string) =>
@@ -58,12 +55,12 @@ function KeyboardAccessory({
 
   const onLinkPress = async () => {
     Alert.prompt(
-      "Link",
-      "Enter the URL",
+      t("Link"),
+      t("toast.enterUrl"),
       (link) => {
         Alert.prompt(
-          "Label",
-          "Enter the label",
+          t("Label"),
+          t("toast.enterLabel"),
           (label) => {
             setText(replace(`[${label}](${link})`));
           },
@@ -97,16 +94,23 @@ function KeyboardAccessory({
 
     try {
       path = await selectImage();
-    } catch (e) {
+    } catch (e: unknown) {
+      const err = e as Error;
       writeToLog("Error getting images.");
       writeToLog(e.toString());
 
-      if (e.toString() === "permissions") {
-        Alert.alert(
-          "Permissions Error",
-          "Please allow Memmy App to access your camera roll."
-        );
-        return;
+      switch (err.cause) {
+        case ErrorCause.NO_PERMISSION:
+          Alert.alert(
+            t("alert.title.permissionsError"),
+            t("alert.message.allowCameraRoll")
+          );
+          return;
+        case ErrorCause.USER_CANCEL:
+          // just close it, no notice
+          return;
+        default:
+        // continue
       }
     }
 
@@ -116,13 +120,13 @@ function KeyboardAccessory({
 
     try {
       imgurLink = await uploadToImgur(path);
-    } catch (e) {
+    } catch (e: unknown) {
       setUploading(false);
 
       writeToLog("Error uploading image.");
       writeToLog(e.toString());
 
-      Alert.alert("Error uploading to Imgur.");
+      Alert.alert(t("alert.message.imgurUploadError"));
       return;
     }
 
@@ -134,6 +138,7 @@ function KeyboardAccessory({
 
   return (
     <InputAccessoryView nativeID="accessory">
+      <LoadingModal loading={uploading} />
       <HStack
         backgroundColor={theme.colors.app.bg}
         height={12}
@@ -143,26 +148,25 @@ function KeyboardAccessory({
       >
         <IconButtonWithText
           onPressHandler={onItalicPress}
-          icon={<IconItalic size={24} color={theme.colors.app.accent} />}
+          icon={<SFIcon icon="italic" />}
         />
         <IconButtonWithText
           onPressHandler={onBoldPress}
-          icon={<IconBold size={24} color={theme.colors.app.accent} />}
+          icon={<SFIcon icon="bold" />}
         />
         <IconButtonWithText
           onPressHandler={onLinkPress}
-          icon={<IconLink size={24} color={theme.colors.app.accent} />}
+          icon={<SFIcon icon="link" />}
         />
         <IconButtonWithText
           onPressHandler={onQuotePress}
-          icon={<IconQuote size={24} color={theme.colors.app.accent} />}
+          icon={<SFIcon icon="quote.closing" />}
         />
         <IconButtonWithText
           onPressHandler={onImagePress}
-          icon={<IconPhoto size={24} color={theme.colors.app.accent} />}
+          icon={<SFIcon icon="photo" />}
         />
       </HStack>
-      <LoadingModal loading={uploading} />
     </InputAccessoryView>
   );
 }

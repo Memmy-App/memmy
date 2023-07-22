@@ -11,18 +11,15 @@ import Animated, {
 } from "react-native-reanimated";
 import { useTheme } from "native-base";
 import React, { useEffect, useMemo, useState } from "react";
-import {
-  IconBookmark,
-  IconMailOpened,
-  IconMessage,
-} from "tabler-icons-react-native";
 import { Dimensions, LayoutRectangle, StyleSheet } from "react-native";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { ISwipeableColors } from "./types";
 import { useSwipeableRow } from "./SwipeableRowProvider";
+import SFIcon from "../icons/SFIcon";
+import { ICON_MAP } from "../../../constants/IconMap";
 
 type Stops = [first: number, second: number];
-const DEFAULT_STOPS: Stops = [-75, -125];
+const DEFAULT_STOPS: Stops = [-75, -150];
 
 type Icon = "comment" | "save" | "read";
 
@@ -39,9 +36,9 @@ const buzz = () => {
   runOnJS(onGenericHapticFeedback)();
 };
 
-const bookmarkIcon = <IconBookmark color="white" size={24} />;
-const mailOpenedIcon = <IconMailOpened color="white" size={24} />;
-const commentIcon = <IconMessage color="white" size={24} />;
+const bookmarkIcon = <SFIcon icon={ICON_MAP.SAVE} color="white" size={14} />;
+const mailOpenedIcon = <SFIcon icon="envelope.open" color="white" size={14} />;
+const commentIcon = <SFIcon icon={ICON_MAP.REPLY} color="white" size={14} />;
 
 const screenWidth = Dimensions.get("screen").width;
 
@@ -109,7 +106,7 @@ export function ReplyOption({
 
       if (hitFirstStop) {
         buzz();
-        pulseTimer.value = withTiming(1, { duration: 150 }, () => {
+        pulseTimer.value = withTiming(1, { duration: 250 }, () => {
           pulseTimer.value = 0;
         });
       }
@@ -183,7 +180,7 @@ export function ReplyOption({
     const scale = interpolate(
       pulseTimer.value,
       [0, 0.5, 1],
-      [1, 1.5, 1],
+      [1, 1.75, 1],
       Extrapolate.CLAMP
     );
 
@@ -219,6 +216,5 @@ const styles = StyleSheet.create({
   },
   background: {
     ...StyleSheet.absoluteFillObject,
-    borderWidth: 1,
   },
 });

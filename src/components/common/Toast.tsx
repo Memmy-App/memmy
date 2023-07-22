@@ -1,17 +1,17 @@
+import { HStack, Text, useTheme } from "native-base";
 import React, { useEffect } from "react";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { useTheme, Text, HStack } from "native-base";
-import { IconAlertCircle, IconCheck } from "tabler-icons-react-native";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import {
   ToastVariant,
   hideToast,
   selectToast,
 } from "../../slices/toast/toastSlice";
+import SFIcon from "./icons/SFIcon";
 
 function Toast(): JSX.Element {
   const { isOpen, message, duration, variant, icon } =
@@ -23,11 +23,12 @@ function Toast(): JSX.Element {
 
   const bgColor = theme.colors.app[variant];
   const textColor = theme.colors.app[`${variant}Text`];
+
   const iconMap: Record<ToastVariant, JSX.Element> = {
-    info: <IconCheck color={textColor} />,
-    success: <IconCheck color={textColor} />,
-    error: <IconAlertCircle color={textColor} />,
-    warn: <IconAlertCircle color={textColor} />,
+    info: <SFIcon color={textColor} icon="checkmark.circle" />,
+    success: <SFIcon color={textColor} icon="checkmark.circle" />,
+    error: <SFIcon color={textColor} icon="exclamationmark.circle" />,
+    warn: <SFIcon color={textColor} icon="exclamationmark.circle" />,
   };
 
   useEffect(() => {

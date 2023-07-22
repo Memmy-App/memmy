@@ -2,6 +2,7 @@ import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button, Text, VStack } from "native-base";
 import { ImageBackground, StyleSheet } from "react-native";
+import { Trans, useTranslation } from "react-i18next";
 
 const background = require("../../../../../assets/onboard-bg2.jpg");
 
@@ -10,6 +11,8 @@ interface IProps {
 }
 
 function OnboardingInfoScreenThree({ navigation }: IProps) {
+  const { t } = useTranslation();
+
   return (
     <VStack flex={1}>
       <ImageBackground
@@ -24,7 +27,7 @@ function OnboardingInfoScreenThree({ navigation }: IProps) {
             fontWeight="semibold"
             textAlign="left"
           >
-            Let’s think of the Fediverse like a postal service ✉️
+            {t("onboarding.info.3.1")}
           </Text>
           <Text
             fontSize="2xl"
@@ -32,21 +35,21 @@ function OnboardingInfoScreenThree({ navigation }: IProps) {
             fontWeight="semibold"
             textAlign="left"
           >
-            When you use apps like Instagram, Twitter or Facebook, they
-            <Text color="lightBlue.500">
-              {" "}
-              exclusively handle the mail for you.
-            </Text>
+            <Trans
+              i18nKey="onboarding.info.3.2"
+              components={{ emphasis: <Text color="lightBlue.500" /> }}
+            />
           </Text>
-
           <Text
             fontSize="2xl"
             color="white"
             fontWeight="semibold"
             textAlign="left"
           >
-            Everyone receives and sends mail through them. They are
-            <Text color="lightBlue.500"> centralized.</Text>
+            <Trans
+              i18nKey="onboarding.info.3.3"
+              components={{ emphasis: <Text color="lightBlue.500" /> }}
+            />
           </Text>
 
           <Button
@@ -57,7 +60,7 @@ function OnboardingInfoScreenThree({ navigation }: IProps) {
             mt="auto"
           >
             <Text fontWeight="semibold" fontSize="lg">
-              Continue
+              {t("Continue")}
             </Text>
           </Button>
         </VStack>

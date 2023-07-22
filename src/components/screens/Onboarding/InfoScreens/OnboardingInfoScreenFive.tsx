@@ -2,6 +2,7 @@ import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button, Text, VStack } from "native-base";
 import { ImageBackground, StyleSheet } from "react-native";
+import { Trans, useTranslation } from "react-i18next";
 
 const background = require("../../../../../assets/onboard-bg2.jpg");
 
@@ -10,6 +11,8 @@ interface IProps {
 }
 
 function OnboardingInfoScreenFive({ navigation }: IProps) {
+  const { t } = useTranslation();
+
   return (
     <VStack flex={1}>
       <ImageBackground
@@ -24,7 +27,10 @@ function OnboardingInfoScreenFive({ navigation }: IProps) {
             fontWeight="semibold"
             textAlign="left"
           >
-            Who is my <Text color="lightBlue.500">hub?</Text> 🤔
+            <Trans
+              i18nKey="onboarding.info.5.1"
+              components={{ emphasis: <Text color="lightBlue.500" /> }}
+            />
           </Text>
           <Text
             fontSize="2xl"
@@ -32,9 +38,10 @@ function OnboardingInfoScreenFive({ navigation }: IProps) {
             fontWeight="semibold"
             textAlign="left"
           >
-            A<Text color="lightBlue.500"> hub</Text> can be started by anyone,
-            like a community group. You choose which one you want to
-            <Text color="lightBlue.500"> join</Text>.
+            <Trans
+              i18nKey="onboarding.info.5.2"
+              components={{ emphasis: <Text color="lightBlue.500" /> }}
+            />
           </Text>
 
           <Text
@@ -43,7 +50,10 @@ function OnboardingInfoScreenFive({ navigation }: IProps) {
             fontWeight="semibold"
             textAlign="left"
           >
-            We will help you select a hub and start posting in it. 🤗
+            <Trans
+              i18nKey="onboarding.info.5.3"
+              components={{ emphasis: <Text color="lightBlue.500" /> }}
+            />
           </Text>
 
           <Button
@@ -54,7 +64,7 @@ function OnboardingInfoScreenFive({ navigation }: IProps) {
             mt="auto"
           >
             <Text fontWeight="semibold" fontSize="lg">
-              Continue
+              {t("Continue")}
             </Text>
           </Button>
         </VStack>

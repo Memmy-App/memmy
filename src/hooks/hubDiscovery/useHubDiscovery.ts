@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { GetSiteResponse } from "lemmy-js-client";
+import { useTranslation } from "react-i18next";
 import getInstanceList from "../../helpers/InstanceHelper";
 
 interface UseHubDiscovery {
@@ -11,6 +12,8 @@ interface UseHubDiscovery {
 }
 
 const useHubDiscovery = (): UseHubDiscovery => {
+  const { t } = useTranslation();
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [instances, setInstances] = useState<GetSiteResponse[]>([]);
@@ -30,17 +33,21 @@ const useHubDiscovery = (): UseHubDiscovery => {
     if (!res) {
       setError(true);
 
-      Alert.alert("Error", "Error fetching instance list. Try again?", [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-        {
-          text: "Retry",
-          style: "default",
-          onPress: doLoad,
-        },
-      ]);
+      Alert.alert(
+        t("alert.title.error"),
+        t("alert.message.errorFetchingInstanceList"),
+        [
+          {
+            text: t("Cancel"),
+            style: "cancel",
+          },
+          {
+            text: t("Retry"),
+            style: "default",
+            onPress: doLoad,
+          },
+        ]
+      );
 
       return;
     }
