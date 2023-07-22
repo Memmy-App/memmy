@@ -1,4 +1,5 @@
-import { HStack, Text, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { HStack, Text } from "@components/common/Gluestack";
 import React from "react";
 import { ICON_MAP } from "../../../constants/IconMap";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
@@ -23,7 +24,7 @@ function SmallVoteIcons({
 
   // TODO: refactor to use VoteData
   return (
-    <HStack space={1}>
+    <HStack space="1">
       <HStack alignItems="center">
         <SFIcon
           icon={ICON_MAP.UPVOTE}

@@ -1,4 +1,5 @@
-import { HStack, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { HStack } from "@components/common/Gluestack";
 import React, { SetStateAction, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, InputAccessoryView, TextInput } from "react-native";

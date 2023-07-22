@@ -1,6 +1,7 @@
 import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Button, HStack, Text, useTheme, VStack } from "native-base";
+import { useTheme } from "native-base";
+import { Button, HStack, Text, VStack } from "@components/common/Gluestack";
 import { FlashList } from "@shopify/flash-list";
 import { GetSiteResponse } from "lemmy-js-client";
 import { IconDoorEnter, IconUser } from "tabler-icons-react-native";
@@ -24,7 +25,7 @@ function HubDiscoveryScreen({ navigation }: IProps) {
   const header = () => (
     <VStack my={6} mx={6}>
       <Text
-        fontSize="md"
+        fontSize="$md"
         color={theme.colors.app.textSecondary}
         fontStyle="italic"
         textAlign="center"
@@ -38,14 +39,14 @@ function HubDiscoveryScreen({ navigation }: IProps) {
           colorScheme="lightBlue"
           onPress={() => navigation.push("CreateAccount")}
           mt="auto"
-          borderRadius="15"
+          borderRadius="$2xl"
           py={2.5}
           width="50%"
         >
-          <HStack space={2} alignItems="center">
+          <HStack space="2" alignItems="center">
             <IconDoorEnter size={24} color="white" />
 
-            <Text fontWeight="semibold" fontSize="lg">
+            <Text fontWeight="semibold" fontSize="$lg">
               {t("Join")}
             </Text>
           </HStack>
@@ -55,14 +56,14 @@ function HubDiscoveryScreen({ navigation }: IProps) {
           colorScheme="lightBlue"
           onPress={() => navigation.push("AddAccount")}
           mt="auto"
-          borderRadius="15"
+          borderRadius="$2xl"
           py={2.5}
           flexGrow={1}
         >
-          <HStack space={2} alignItems="center">
+          <HStack space="2" alignItems="center">
             <IconUser size={24} color="white" />
 
-            <Text fontWeight="semibold" fontSize="lg">
+            <Text fontWeight="semibold" fontSize="$lg">
               {t("Login")}
             </Text>
           </HStack>

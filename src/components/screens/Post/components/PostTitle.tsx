@@ -1,4 +1,5 @@
-import { Text, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { Text } from "@components/common/Gluestack";
 import React from "react";
 import { useRoute } from "@react-navigation/core";
 import { useAppSelector } from "../../../../../store";
@@ -16,7 +17,7 @@ function Title({ mt, mb }: { mt?: number; mb?: number }) {
       mt={mt}
       mb={mb}
       mx={4}
-      fontSize="lg"
+      fontSize="$lg"
       fontWeight={fontWeightPostTitle}
       color={theme.colors.app.textPrimary}
     >

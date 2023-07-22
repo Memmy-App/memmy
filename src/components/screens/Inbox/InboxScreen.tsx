@@ -1,6 +1,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
-import { VStack, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { VStack } from "@components/common/Gluestack";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { CommentReplyView } from "lemmy-js-client";
 import { useFocusEffect } from "@react-navigation/native";

@@ -1,6 +1,6 @@
 import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Button, HStack, Text, View, VStack } from "native-base";
+import { Button, HStack, Text, View, VStack } from "@components/common/Gluestack";
 import { ImageBackground, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 
@@ -20,9 +20,9 @@ function OnboardingInfoScreenOne({ navigation }: IProps) {
         style={styles.background}
         resizeMode="cover"
       >
-        <VStack px={6} pt={12} pb={20} space={4} flex={1}>
+        <VStack px={6} pt={12} pb={20} space="4} flex={1">
           <Text
-            fontSize="6xl"
+            fontSize="$6xl"
             color="white"
             fontWeight="semibold"
             textAlign="left"
@@ -31,7 +31,7 @@ function OnboardingInfoScreenOne({ navigation }: IProps) {
           </Text>
           <View>
             <Text
-              fontSize="3xl"
+              fontSize="$3xl"
               color="white"
               fontWeight="semibold"
               textAlign="left"
@@ -45,11 +45,11 @@ function OnboardingInfoScreenOne({ navigation }: IProps) {
               colorScheme="blueGray"
               onPress={() => navigation.push("HubDiscovery")}
               mt="auto"
-              borderRadius="20"
+              borderRadius="$20"
               py={2.5}
               width="50%"
             >
-              <Text fontWeight="semibold" fontSize="lg">
+              <Text fontWeight="semibold" fontSize="$lg">
                 {t("Yes")}
               </Text>
             </Button>
@@ -58,11 +58,11 @@ function OnboardingInfoScreenOne({ navigation }: IProps) {
               colorScheme="lightBlue"
               onPress={() => navigation.push("OnboardingInfoTwo")}
               mt="auto"
-              borderRadius="20"
+              borderRadius="$20"
               py={2.5}
               flexGrow={1}
             >
-              <Text fontWeight="semibold" fontSize="lg">
+              <Text fontWeight="semibold" fontSize="$lg">
                 {t("No")}
               </Text>
             </Button>

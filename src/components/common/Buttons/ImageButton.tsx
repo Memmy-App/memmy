@@ -1,4 +1,5 @@
-import { ChevronRightIcon, HStack, Spacer, Text, useTheme } from "native-base";
+import { ChevronRightIcon, Spacer, useTheme } from "native-base";
+import { HStack, Text } from "@components/common/Gluestack";
 import React from "react";
 import { truncateImageLink } from "../../../helpers/TextHelper";
 
@@ -19,7 +20,7 @@ function ImageButton({ src, marginY = 4, children }: ImageButtonProps) {
         padding={2}
         flexDirection="row"
         alignItems="center"
-        space={2}
+        space="2"
         my={marginY}
       >
         {children}

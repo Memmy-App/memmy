@@ -1,6 +1,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
-import { HStack, useTheme, VStack } from "native-base";
+import { useTheme } from "native-base";
+import { HStack, VStack } from "@components/common/Gluestack";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
@@ -56,7 +57,7 @@ function PostScreen({ navigation }: IProps) {
       title: `${commentCount} ${t("Comment", { count: commentCount })}`,
       // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
-        <HStack space={3}>
+        <HStack space="3">
           <CommentSortButton
             sortType={commentsSort}
             setSortType={postHook.setPostCommentsSort}

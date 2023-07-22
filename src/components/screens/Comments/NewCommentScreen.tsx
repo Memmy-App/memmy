@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, StyleSheet, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { HStack, Icon, Text, useTheme, View, VStack } from "native-base";
+import { Icon, useTheme, View } from "native-base";
+import { HStack, Text, VStack } from "@components/common/Gluestack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import dayjs from "dayjs";
@@ -122,15 +123,15 @@ function NewCommentScreen({
                   : responseTo.comment.creator.name
               )}
             </Text>
-            <HStack space={3} alignItems="center">
-              <HStack space={0} alignItems="center">
+            <HStack space="3" alignItems="center">
+              <HStack space="0" alignItems="center">
                 <SmallVoteIcons
                   upvotes={upvotes}
                   downvotes={downvotes}
                   myVote={myVote as ILemmyVote}
                 />
               </HStack>
-              <HStack space={1} alignItems="center">
+              <HStack space="1" alignItems="center">
                 <Icon as={Ionicons} name="time-outline" />
                 <Text color={theme.colors.app.textSecondary}>
                   {dayjs(

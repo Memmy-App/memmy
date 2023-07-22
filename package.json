@@ -31,6 +31,7 @@
     "@gluestack-style/animation-plugin": "latest",
     "@gluestack-style/react": "latest",
     "@gluestack-ui/button": "latest",
+    "@gluestack-ui/divider": "^0.1.5",
     "@gluestack-ui/fab": "latest",
     "@gluestack-ui/hstack": "latest",
     "@gluestack-ui/icon": "latest",

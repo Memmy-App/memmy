@@ -1,5 +1,6 @@
 import React from "react";
-import { Text, useTheme, VStack } from "native-base";
+import { useTheme } from "native-base";
+import { Text, VStack } from "@components/common/Gluestack";
 import { InterfaceVStackProps } from "native-base/lib/typescript/components/primitives/Stack/VStack";
 import { useTranslation } from "react-i18next";
 

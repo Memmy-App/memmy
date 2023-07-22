@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Image } from "react-native";
-import { Button, Pressable, Text, useTheme, VStack } from "native-base";
+import { useTheme } from "native-base";
+import { Button, Pressable, Text, VStack } from "@components/common/Gluestack";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Trans, useTranslation } from "react-i18next";
@@ -198,11 +199,11 @@ function AddAccountScreen({ route, navigation }: IProps) {
             size="sm"
             colorScheme="lightBlue"
             onPress={onPress}
-            borderRadius="20"
+            borderRadius="$20"
             mt={3}
             mx={2}
           >
-            <Text fontWeight="semibold" fontSize="lg">
+            <Text fontWeight="semibold" fontSize="$lg">
               {t("Login")}
             </Text>
           </Button>

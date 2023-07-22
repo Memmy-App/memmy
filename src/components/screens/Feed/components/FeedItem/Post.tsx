@@ -1,5 +1,6 @@
 import React from "react";
-import { VStack, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { VStack } from "@components/common/Gluestack";
 
 interface Props {
   children: React.ReactNode;

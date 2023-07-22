@@ -1,5 +1,5 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Text, VStack } from "native-base";
+import { Text, VStack } from "@components/common/Gluestack";
 import React, { useCallback, useEffect, useRef } from "react";
 import { useRoute } from "@react-navigation/core";
 import { getBaseUrl } from "../../../helpers/LinkHelper";

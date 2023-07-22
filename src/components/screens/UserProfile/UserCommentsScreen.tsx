@@ -1,6 +1,7 @@
 import React from "react";
 import { FlashList } from "@shopify/flash-list";
-import { useTheme, VStack } from "native-base";
+import { useTheme } from "native-base";
+import { VStack } from "@components/common/Gluestack";
 import NoResultView from "../../common/NoResultView";
 import CommentItem from "../../common/Comments/CommentItem";
 import useProfile from "../../../hooks/profile/useProfile";

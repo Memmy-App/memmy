@@ -1,5 +1,6 @@
 import React from "react";
-import { Pressable, Text, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { Pressable, Text } from "@components/common/Gluestack";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { openLink } from "../../../helpers/LinkHelper";
@@ -19,7 +20,7 @@ function WebLink({ href, children }: WebLinkProps) {
 
   return (
     <Pressable onPress={onPress}>
-      <Text color="blue.500" underline fontSize="md">
+      <Text color="blue.500" textDecorationLine="underline" fontSize="$md">
         {children}
       </Text>
     </Pressable>

@@ -1,5 +1,6 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { Box, HStack, Text, useTheme, View, VStack } from "native-base";
+import { useTheme, View } from "native-base";
+import { Box, HStack, Text, VStack } from "@components/common/Gluestack";
 
 import React from "react";
 import { TouchableOpacity } from "react-native";
@@ -20,11 +21,17 @@ function IconWithText({
 }) {
   const theme = useTheme();
   return (
-    <VStack style={{ alignItems: "center" }} space={1}>
+    <VStack style={{ alignItems: "center" }} space="1">
       <HStack>
         {icon}
         {badge && (
-          <Box h="2" w="2" bg={theme.colors.app.error} rounded="md" ml={-1.5} />
+          <Box
+            h="$2"
+            w="$2"
+            bg={theme.colors.app.error}
+            rounded="$md"
+            ml={-1.5}
+          />
         )}
       </HStack>
       <Text color={color} fontSize={12}>

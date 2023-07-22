@@ -1,5 +1,5 @@
 import { PostAggregates } from "lemmy-js-client";
-import { HStack } from "native-base";
+import { HStack } from "@components/common/Gluestack";
 import React from "react";
 import VoteData from "../../../../common/Vote/VoteData";
 import CommentCount from "../../../../common/Comments/CommentCount";
@@ -12,7 +12,7 @@ interface Props {
 
 function metrics({ data, vote }: Props) {
   return (
-    <HStack flex={1} space={2}>
+    <HStack flex={1} space="2">
       <VoteData data={data} vote={vote} />
       <CommentCount commentCount={data.comments} />
       <DatePublished published={data.published} />

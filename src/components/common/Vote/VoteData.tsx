@@ -1,5 +1,6 @@
 import { PostAggregates } from "lemmy-js-client";
-import { HStack, Text, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { HStack, Text } from "@components/common/Gluestack";
 import React from "react";
 import { useAppSelector } from "../../../../store";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
@@ -35,7 +36,7 @@ function VoteData({ data, vote }: IProps) {
     return (
       <HStack alignItems="center">
         {scoreArrow}
-        <Text color={color} fontSize="sm">
+        <Text color={color} fontSize="$sm">
           {data.score}
         </Text>
       </HStack>
@@ -51,7 +52,7 @@ function VoteData({ data, vote }: IProps) {
     <>
       <HStack alignItems="center">
         <SFIcon icon="arrow.up" color={upvoteColor} size={10} boxSize={20} />
-        <Text color={upvoteColor} fontSize="sm">
+        <Text color={upvoteColor} fontSize="$sm">
           {data.upvotes}
         </Text>
       </HStack>
@@ -62,7 +63,7 @@ function VoteData({ data, vote }: IProps) {
           size={10}
           boxSize={20}
         />
-        <Text color={downvoteColor} fontSize="sm">
+        <Text color={downvoteColor} fontSize="$sm">
           {data.downvotes}
         </Text>
       </HStack>

@@ -1,5 +1,5 @@
 import React from "react";
-import { HStack } from "native-base";
+import { HStack } from "@components/common/Gluestack";
 
 interface Props {
   children: React.ReactNode;

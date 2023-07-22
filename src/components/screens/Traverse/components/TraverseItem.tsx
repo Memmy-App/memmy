@@ -5,7 +5,7 @@ import { useTheme } from "native-base";
 import { CommunityView } from "lemmy-js-client";
 import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
-import { HStack, Pressable, Text, VStack } from "../../../common/Gluestack";
+import { HStack, Pressable, Text, VStack } from "@components/common/Gluestack";
 import { getCommunityFullName } from "../../../../helpers/LemmyHelpers";
 import { toggleFavorite } from "../../../../slices/favorites/favoritesActions";
 

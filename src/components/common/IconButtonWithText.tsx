@@ -1,4 +1,4 @@
-import { Box, HStack, Pressable, Text } from "native-base";
+import { Box, HStack, Pressable, Text } from "@components/common/Gluestack";
 import React from "react";
 import { GestureResponderEvent } from "react-native";
 import { ColorType } from "native-base/lib/typescript/components/types";
@@ -47,9 +47,9 @@ function IconButtonWithText({
       onPressOut={onPressOut}
       hitSlop={5}
     >
-      <HStack space={2} alignItems="center">
+      <HStack space="2" alignItems="center">
         <Animated.View style={animatedStyle}>
-          <Box borderRadius={5} backgroundColor={iconBgColor} padding={0.5}>
+          <Box borderRadius={5} backgroundColor={iconBgColor} padding="$0.5">
             {icon}
           </Box>
         </Animated.View>

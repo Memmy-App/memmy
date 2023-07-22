@@ -1,6 +1,7 @@
 import { ListingType } from "lemmy-js-client";
 import React from "react";
-import { HStack, Text, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { HStack, Text } from "@components/common/Gluestack";
 import { useRoute } from "@react-navigation/core";
 import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
 import { listingTypeOptions } from "../../../../types/ListingType";
@@ -33,10 +34,10 @@ export function FeedListingTypeButton() {
 
   return (
     <ListingTypeContextMenu currentSelection={listingType} onPress={onPress}>
-      <HStack space={0.5} alignItems="center">
+      <HStack space="0.5" alignItems="center">
         <Text
           color={colors.app.textPrimary}
-          fontSize="16"
+          fontSize="$md"
           fontWeight="semibold"
         >
           {listingTypeOptions[listingType].display}

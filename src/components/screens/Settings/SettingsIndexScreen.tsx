@@ -1,7 +1,8 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
+import { ScrollView, useTheme } from "native-base";
+import { Box, HStack, Text } from "@components/common/Gluestack";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, StyleSheet } from "react-native";
@@ -23,7 +24,7 @@ function SettingOptionTitle({
   iconBgColor: string;
 }) {
   return (
-    <HStack space={3} alignItems="center" marginBottom={-1.5}>
+    <HStack space="3" alignItems="center" marginBottom={-1.5}>
       <Box
         style={{
           width: 28,

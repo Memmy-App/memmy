@@ -1,12 +1,6 @@
 import React, { useCallback, useMemo } from "react";
-import {
-  Divider,
-  HStack,
-  Pressable,
-  Text,
-  useTheme,
-  VStack,
-} from "native-base";
+import { useTheme } from "native-base";
+import { Divider, HStack, Pressable, Text, VStack } from "@components/common/Gluestack";
 import { useRoute } from "@react-navigation/core";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import PostContentView from "./PostContentView";
@@ -58,10 +52,10 @@ function PostHeader() {
         )}
       </Pressable>
 
-      <HStack mb={2} mx={4} space={2}>
+      <HStack mb={2} mx={4} space="2">
         <AvatarUsername creator={currentPost.creator} />
       </HStack>
-      <HStack space={2} mx={4} mb={2}>
+      <HStack space="2" mx={4} mb={2}>
         <CommunityLink
           community={currentPost.community}
           instanceBaseUrl={instanceBaseUrl}
@@ -82,7 +76,7 @@ function PostHeader() {
       {/*    }} */}
       {/*  > */}
       {/*    <VStack> */}
-      {/*      <Text fontSize="md" fontStyle="italic" px={2} py={3}> */}
+      {/*      <Text fontSize="$md" fontStyle="italic" px={2} py={3}> */}
       {/*        Load all comments... */}
       {/*      </Text> */}
       {/*    </VStack> */}

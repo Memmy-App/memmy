@@ -1,7 +1,8 @@
 import React from "react";
 import { FlashList } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
-import { useTheme, VStack } from "native-base";
+import { useTheme } from "native-base";
+import { VStack } from "@components/common/Gluestack";
 import { Route } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/core";
 import useProfile from "../../../hooks/profile/useProfile";

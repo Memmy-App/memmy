@@ -1,7 +1,8 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
+import { ScrollView, useTheme } from "native-base";
+import { Box, HStack, Text } from "@components/common/Gluestack";
 import React, { useState } from "react";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { useTranslation } from "react-i18next";
@@ -250,7 +251,7 @@ function AppearanceScreen({ navigation }: IProps) {
                 ml={4}
                 mb={2}
                 mt={-3}
-                fontSize="xs"
+                fontSize="$xs"
                 color={theme.colors.app.textSecondary}
               >
                 {`${t("Selected")}: ${settings.theme}`}
@@ -273,7 +274,7 @@ function AppearanceScreen({ navigation }: IProps) {
                 ml={4}
                 mb={2}
                 mt={-3}
-                fontSize="xs"
+                fontSize="$xs"
                 color={theme.colors.app.textSecondary}
               >
                 Selected: {settings.themeLight}
@@ -296,7 +297,7 @@ function AppearanceScreen({ navigation }: IProps) {
                 ml={4}
                 mb={2}
                 mt={-3}
-                fontSize="xs"
+                fontSize="$xs"
                 color={theme.colors.app.textSecondary}
               >
                 Selected: {settings.themeDark}

@@ -1,5 +1,6 @@
 import React from "react";
-import { Divider, Text, useTheme, VStack } from "native-base";
+import { useTheme } from "native-base";
+import { Divider, Text, VStack } from "@components/common/Gluestack";
 
 interface IProps {
   header?: string;
@@ -13,7 +14,7 @@ function MTable({ header, children }: IProps) {
     <>
       <>
         {header && (
-          <Text fontSize="lg" fontWeight="semibold" pl={1} mt={3} mb={1}>
+          <Text fontSize="$lg" fontWeight="semibold" pl={1} mt={3} mb={1}>
             {header}
           </Text>
         )}
@@ -21,7 +22,7 @@ function MTable({ header, children }: IProps) {
           backgroundColor={theme.colors.app.fg}
           p={3}
           borderRadius={10}
-          space={3}
+          space="3"
           divider={<Divider backgroundColor={theme.colors.app.border} />}
         >
           {children}

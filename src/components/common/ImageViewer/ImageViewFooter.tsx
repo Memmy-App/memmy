@@ -1,4 +1,5 @@
-import { HStack, useTheme, View } from "native-base";
+import { useTheme, View } from "native-base";
+import { HStack } from "@components/common/Gluestack";
 import React from "react";
 import { ICON_MAP } from "../../../constants/IconMap";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
@@ -48,7 +49,7 @@ function ImageViewFooter({ source }: ImageViewFooterProps) {
         flex={1}
         mb={10}
         mx={10}
-        space={2}
+        space="2"
         alignItems="center"
         justifyContent="space-between"
       >

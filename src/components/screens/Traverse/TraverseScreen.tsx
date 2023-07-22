@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { StyleSheet } from "react-native";
-import { View, Text, useTheme } from "native-base";
+import { useTheme, View } from "native-base";
+import { Text } from "@components/common/Gluestack";
 import { CommunityView } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
@@ -195,7 +196,7 @@ function TraverseScreen() {
           <View backgroundColor={theme.colors.app.bg}>
             <Text
               style={styles.alphaIndexHeaderText}
-              fontSize="xl"
+              fontSize="$xl"
               fontWeight="semibold"
             >
               {(value as HeaderValue).title}
@@ -229,8 +230,8 @@ function TraverseScreen() {
             textAlign="center"
             justifyContent="center"
             alignSelf="center"
-            py="3"
-            px="4"
+            py="$3"
+            px="$4"
           >
             {(value as HeaderValue).title}
           </Text>

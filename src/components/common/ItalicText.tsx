@@ -1,5 +1,6 @@
 import React from "react";
-import { Text, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { Text } from "@components/common/Gluestack";
 
 interface IProps {
   children: string;

@@ -1,5 +1,6 @@
 import React from "react";
-import { Center, Pressable, Text, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { Center, Pressable, Text } from "@components/common/Gluestack";
 import { useTranslation } from "react-i18next";
 
 interface LoadingErrorFooterProps {

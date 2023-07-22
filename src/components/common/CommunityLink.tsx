@@ -1,6 +1,7 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { Community } from "lemmy-js-client";
-import { HStack, Text, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { HStack, Text } from "@components/common/Gluestack";
 import React from "react";
 import { getBaseUrl } from "../../helpers/LinkHelper";
 import Link from "./Buttons/Link";
@@ -28,7 +29,7 @@ function CommunityLink({ community, instanceBaseUrl }: CommunityLinkProps) {
       }}
     >
       <HStack>
-        <HStack alignItems="center" space={1}>
+        <HStack alignItems="center" space="1">
           {community.icon ? (
             <FastImage
               source={{

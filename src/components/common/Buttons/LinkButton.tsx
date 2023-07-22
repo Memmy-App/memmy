@@ -1,4 +1,5 @@
-import { HStack, Pressable, Text, useTheme, VStack } from "native-base";
+import { useTheme } from "native-base";
+import { HStack, Pressable, Text, VStack } from "@components/common/Gluestack";
 import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import FastImage from "@gkasdorf/react-native-fast-image";

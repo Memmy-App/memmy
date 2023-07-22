@@ -1,5 +1,6 @@
 import React from "react";
-import { Center, Spinner, Text, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { Center, Spinner, Text } from "@components/common/Gluestack";
 import { useRoute } from "@react-navigation/core";
 import LoadingErrorFooter from "../../../common/Loading/LoadingErrorFooter";
 import NoResultView from "../../../common/NoResultView";

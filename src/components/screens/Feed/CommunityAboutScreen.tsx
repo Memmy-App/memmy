@@ -1,5 +1,6 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
-import { ScrollView, Text, useTheme, VStack } from "native-base";
+import { ScrollView, useTheme } from "native-base";
+import { Text, VStack } from "@components/common/Gluestack";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import CommunityCounts from "../../common/CommunityCounts";
@@ -28,7 +29,11 @@ function CommunityAboutScreen({ route }: { route: any }) {
           />
         )}
         <VStack py={4}>
-          <Text fontSize="2xl" fontWeight="bold" underline>
+          <Text
+            fontSize="$2xl"
+            fontWeight="bold"
+            textDecorationLine="underline"
+          >
             {t("Description")}
           </Text>
           <RenderMarkdown text={route.params.description} />

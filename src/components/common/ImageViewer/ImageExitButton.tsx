@@ -1,4 +1,5 @@
-import { Pressable, View } from "native-base";
+import { View } from "native-base";
+import { Pressable } from "@components/common/Gluestack";
 import React from "react";
 import { StyleSheet } from "react-native";
 import SFIcon from "../icons/SFIcon";

@@ -1,5 +1,6 @@
 import { PostView } from "lemmy-js-client";
-import { Box, Text, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { Box, Text } from "@components/common/Gluestack";
 import React, { useMemo } from "react";
 import { useAppSelector } from "../../../../../store";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
@@ -51,7 +52,7 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
       <Box mb={1}>
         <Text
           mx={4}
-          fontSize="md"
+          fontSize="$md"
           fontWeight={fontWeightPostTitle}
           color={theme.colors.app.textPrimary}
           alignItems="center"

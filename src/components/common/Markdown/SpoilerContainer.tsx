@@ -1,4 +1,5 @@
-import { Box, HStack, Pressable, Text, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { Box, HStack, Pressable, Text } from "@components/common/Gluestack";
 import React from "react";
 import SFIcon from "../icons/SFIcon";
 
@@ -26,7 +27,7 @@ function SpoilerContainer({ title, node }: { title: string; node: any }) {
           />
         )}
 
-        <Text color={colors.app.textPrimary} bold>
+        <Text color={colors.app.textPrimary} fontWeight="bold">
           {title}
         </Text>
       </HStack>

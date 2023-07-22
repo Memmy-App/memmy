@@ -1,6 +1,7 @@
 import React from "react";
 import { KeyboardTypeOptions, StyleSheet, TextInput } from "react-native";
-import { Text, useTheme, VStack } from "native-base";
+import { useTheme } from "native-base";
+import { Text, VStack } from "@components/common/Gluestack";
 
 interface TextInputProps {
   name: string;

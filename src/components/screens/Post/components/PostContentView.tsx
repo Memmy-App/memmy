@@ -1,4 +1,4 @@
-import { Box } from "native-base";
+import { Box } from "@components/common/Gluestack";
 import React, { useMemo } from "react";
 import { useRoute } from "@react-navigation/core";
 import {

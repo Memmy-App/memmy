@@ -1,5 +1,6 @@
 import React from "react";
-import { Text, useTheme, View } from "native-base";
+import { useTheme, View } from "native-base";
+import { Text } from "@components/common/Gluestack";
 import { Button, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";

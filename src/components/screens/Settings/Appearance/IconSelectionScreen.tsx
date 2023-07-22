@@ -1,5 +1,6 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
-import { HStack, Image, ScrollView, Text, useTheme } from "native-base";
+import { Image, ScrollView, useTheme } from "native-base";
+import { HStack, Text } from "@components/common/Gluestack";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { changeIcon } from "react-native-change-icon";
@@ -26,7 +27,7 @@ function IconSelectionScreen() {
               key={key}
               cellStyle="RightDetail"
               title={
-                <HStack space={2.5} alignItems="center">
+                <HStack space="2.5" alignItems="center">
                   <Image
                     style={{ borderRadius: 10, width: 40, height: 40 }}
                     source={value.path}

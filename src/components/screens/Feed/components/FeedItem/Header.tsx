@@ -1,5 +1,5 @@
 import { Community } from "lemmy-js-client";
-import { HStack } from "native-base";
+import { HStack } from "@components/common/Gluestack";
 import React from "react";
 import { UseFeedItem } from "../../../../../hooks/feeds/useFeedItem";
 import CommunityLink from "../../../../common/CommunityLink";
@@ -24,7 +24,7 @@ export function Header({ community, featured, isRead, feedItem }: Props) {
       alignItems="center"
     >
       <CommunityLink community={community} />
-      <HStack space={1} alignItems="center">
+      <HStack space="1" alignItems="center">
         <FeaturedIndicator featured={featured} />
         <IsReadIndicator isRead={isRead} />
         <FeedItemContextMenu feedItem={feedItem} isButton>

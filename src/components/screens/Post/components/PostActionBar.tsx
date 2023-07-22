@@ -1,4 +1,5 @@
-import { HStack, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { HStack } from "@components/common/Gluestack";
 import React, { useMemo } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import IconButtonWithText from "../../../common/IconButtonWithText";

@@ -1,4 +1,5 @@
-import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
+import { useTheme, View } from "native-base";
+import { HStack, Pressable, Text, VStack } from "@components/common/Gluestack";
 import React, { useState } from "react";
 import SFIcon from "../icons/SFIcon";
 
@@ -36,13 +37,13 @@ function MCell({
   const onPressOut = () => setPressedIn(false);
 
   const cell = (
-    <VStack space={1} py={py}>
-      <HStack alignItems="center" space={2}>
+    <VStack space="1" py={py}>
+      <HStack alignItems="center" space="2">
         {icon && icon}
         <VStack>
-          <Text fontSize="md">{title}</Text>
+          <Text fontSize="$md">{title}</Text>
           {subtitle && (
-            <Text fontSize="xs" color={theme.colors.app.textSecondary}>
+            <Text fontSize="$xs" color={theme.colors.app.textSecondary}>
               {subtitle}
             </Text>
           )}

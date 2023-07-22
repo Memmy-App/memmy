@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import FastImage, { ResizeMode } from "@gkasdorf/react-native-fast-image";
-import { Icon, Text, useTheme, View, VStack } from "native-base";
+import { Icon, useTheme, View } from "native-base";
+import { Text, VStack } from "@components/common/Gluestack";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
@@ -93,7 +94,7 @@ function MemoizedFastImage({
             flex={1}
             alignItems="center"
             justifyContent="center"
-            space={2}
+            space="2"
           >
             <Icon
               as={Ionicons}
@@ -101,7 +102,7 @@ function MemoizedFastImage({
               color={theme.colors.app.textSecondary}
               size={16}
             />
-            <Text fontSize="xl">{t("NSFW")}</Text>
+            <Text fontSize="$xl">{t("NSFW")}</Text>
             <Text>{t("Sensitive content ahead")}</Text>
           </VStack>
         </BlurView>

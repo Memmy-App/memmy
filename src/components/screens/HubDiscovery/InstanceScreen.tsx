@@ -8,7 +8,7 @@ import {
   Text,
   useTheme,
   VStack,
-} from "native-base";
+} from "@components/common/Gluestack";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import {
   IconArrowDown,
@@ -45,8 +45,8 @@ function InstanceScreen({ route, navigation }: IProps) {
 
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1} p={6}>
-      <VStack p={3} borderRadius={10} space={4}>
-        <HStack space={2}>
+      <VStack p={3} borderRadius={10} space="4">
+        <HStack space="2">
           <FastImage
             source={{ uri: site.icon }}
             style={{
@@ -56,13 +56,13 @@ function InstanceScreen({ route, navigation }: IProps) {
             }}
           />
           <VStack flex={1} mt="auto">
-            <HStack space={1}>
+            <HStack space="1">
               <IconUserPlus size={18} color={theme.colors.app.accent} />
               <Text color={theme.colors.app.textSecondary}>
                 {counts.users.toLocaleString()} users
               </Text>
             </HStack>
-            <Text fontSize="2xl" fontWeight="semibold">
+            <Text fontSize="$2xl" fontWeight="semibold">
               {site.name}
             </Text>
           </VStack>
@@ -81,10 +81,10 @@ function InstanceScreen({ route, navigation }: IProps) {
             py={1.5}
             width="50%"
           >
-            <HStack space={2} alignItems="center">
+            <HStack space="2" alignItems="center">
               <IconDoorEnter size={24} color="white" />
 
-              <Text fontWeight="semibold" fontSize="md">
+              <Text fontWeight="semibold" fontSize="$md">
                 {t("Join")}
               </Text>
             </HStack>
@@ -98,14 +98,14 @@ function InstanceScreen({ route, navigation }: IProps) {
               })
             }
             mt="auto"
-            borderRadius="15"
+            borderRadius="$2xl"
             py={1.5}
             flexGrow={1}
           >
-            <HStack space={2} alignItems="center">
+            <HStack space="2" alignItems="center">
               <IconDoorEnter size={24} color="white" />
 
-              <Text fontWeight="semibold" fontSize="md">
+              <Text fontWeight="semibold" fontSize="$md">
                 {t("Login")}
               </Text>
             </HStack>

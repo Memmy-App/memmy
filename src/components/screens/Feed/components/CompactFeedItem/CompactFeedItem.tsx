@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from "react";
-import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
+import { useTheme, View } from "native-base";
+import { HStack, Pressable, Text, VStack } from "@components/common/Gluestack";
 import { useWindowDimensions } from "react-native";
 
 import { useRoute } from "@react-navigation/core";
@@ -71,7 +72,7 @@ function CompactFeedItem({ postId }: { postId: number }) {
             px={2}
             py={1}
             backgroundColor={theme.colors.app.fg}
-            space={2}
+            space="2"
           >
             {compactThumbnailPosition === "Left" && (
               <CompactFeedItemThumbnail

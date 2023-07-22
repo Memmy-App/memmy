@@ -1,6 +1,7 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { Person } from "lemmy-js-client";
-import { HStack, Text, useTheme, VStack } from "native-base";
+import { useTheme } from "native-base";
+import { HStack, Text, VStack } from "@components/common/Gluestack";
 import React from "react";
 import { useAppSelector } from "../../../store";
 import { ICON_MAP } from "../../constants/IconMap";
@@ -97,7 +98,7 @@ function AvatarUsername({
   const nameProps = NameColorMap[type];
 
   return (
-    <HStack space={1} alignItems="center">
+    <HStack space="1" alignItems="center">
       {showAvatar &&
         (creator.avatar ? (
           <FastImage
@@ -115,7 +116,7 @@ function AvatarUsername({
           />
         ))}
       <VStack>
-        <HStack space={0.5}>
+        <HStack space="0.5">
           <Link
             screen="Profile"
             params={{
@@ -139,7 +140,7 @@ function AvatarUsername({
           )}
         </HStack>
         {showInstanceForUsernames && (
-          <Text fontSize="xs" color={theme.colors.app.textPrimary}>
+          <Text fontSize="$xs" color={theme.colors.app.textPrimary}>
             {getBaseUrl(creator.actor_id)}
           </Text>
         )}

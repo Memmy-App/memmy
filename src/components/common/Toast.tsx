@@ -1,4 +1,5 @@
-import { HStack, Text, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { HStack, Text } from "@components/common/Gluestack";
 import React, { useEffect } from "react";
 import Animated, {
   useAnimatedStyle,
@@ -83,7 +84,7 @@ function Toast(): JSX.Element {
         animatedStyle,
       ]}
     >
-      <HStack justifyContent="center" alignItems="center" space={1}>
+      <HStack justifyContent="center" alignItems="center" space="1">
         {icon || iconMap[variant]}
         <Text color={textColor} fontWeight="semibold" alignContent="center">
           {message}

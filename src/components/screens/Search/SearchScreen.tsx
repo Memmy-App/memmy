@@ -1,5 +1,6 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ScrollView, useTheme, VStack } from "native-base";
+import { ScrollView, useTheme } from "native-base";
+import { VStack } from "@components/common/Gluestack";
 import React, { useCallback, useEffect } from "react";
 import { useRoute } from "@react-navigation/core";
 import useSearch from "../../../hooks/search/useSearch";

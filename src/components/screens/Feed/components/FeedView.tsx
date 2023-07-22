@@ -5,7 +5,8 @@ import {
 } from "@react-navigation/native";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
-import { HStack, useTheme, View } from "native-base";
+import { useTheme, View } from "native-base";
+import { HStack } from "@components/common/Gluestack";
 import React, { useEffect, useMemo, useRef } from "react";
 import { StyleSheet } from "react-native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
@@ -77,7 +78,7 @@ function FeedView({ header }: FeedViewProps) {
     navigation.setOptions({
       // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
-        <HStack space={3}>
+        <HStack space="3">
           <FeedSortButton />
           {community ? <CommunityOverflowButton /> : <FeedOverflowButton />}
         </HStack>

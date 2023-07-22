@@ -1,5 +1,6 @@
 import { LemmyHttp } from "lemmy-js-client";
-import { Button, Text, VStack, useTheme, Pressable } from "native-base";
+import { useTheme } from "native-base";
+import { Button, Text, VStack, Pressable } from "@components/common/Gluestack";
 import React, { useEffect, useState } from "react";
 import { Alert, Image, Linking } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -325,11 +326,11 @@ function CreateAccountScreen({
                 size="sm"
                 colorScheme="lightBlue"
                 onPress={onPress}
-                borderRadius="20"
+                borderRadius="$20"
                 mt={3}
                 mx={2}
               >
-                <Text fontWeight="semibold" fontSize="lg">
+                <Text fontWeight="semibold" fontSize="$lg">
                   {t("Create Account")}
                 </Text>
               </Button>

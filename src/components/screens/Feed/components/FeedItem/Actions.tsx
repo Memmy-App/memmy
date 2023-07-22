@@ -1,4 +1,5 @@
-import { HStack, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { HStack } from "@components/common/Gluestack";
 import React, { useCallback } from "react";
 import IconButtonWithText from "../../../../common/IconButtonWithText";
 import VoteButton from "../../../../common/Vote/VoteButton";
@@ -24,7 +25,7 @@ export function actions({ vote, saved, onSave, onVotePress, id }: Props) {
   }, [vote, id]);
 
   return (
-    <HStack space={1} alignItems="center" justifyContent="flex-end">
+    <HStack space="1" alignItems="center" justifyContent="flex-end">
       <IconButtonWithText
         icon={
           <SFIcon

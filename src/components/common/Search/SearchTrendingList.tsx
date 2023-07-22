@@ -1,6 +1,7 @@
 import React from "react";
 import { CommunityView } from "lemmy-js-client";
-import { Spinner, View } from "native-base";
+import { View } from "native-base";
+import { Spinner } from "@components/common/Gluestack";
 import Animated, { SlideInUp, SlideOutUp } from "react-native-reanimated";
 import { useTranslation } from "react-i18next";
 import MTable from "../Table/MTable";

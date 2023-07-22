@@ -24,7 +24,8 @@ import {
   TapGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import { BlurView } from "expo-blur";
-import { Text, useTheme, View, VStack } from "native-base";
+import { useTheme, View } from "native-base";
+import { Text, VStack } from "@components/common/Gluestack";
 import { StatusBar } from "expo-status-bar";
 import { IconAlertTriangle } from "tabler-icons-react-native";
 import { useImageDimensions } from "./useImageDimensions";
@@ -576,7 +577,7 @@ function ImageViewer({
                     flex={1}
                     alignItems="center"
                     justifyContent="center"
-                    space={2}
+                    space="2"
                   >
                     <IconAlertTriangle
                       color={theme.colors.app.textSecondary}
@@ -584,7 +585,7 @@ function ImageViewer({
                     />
                     {!compactMode && (
                       <>
-                        <Text fontSize="xl">NSFW</Text>
+                        <Text fontSize="$xl">NSFW</Text>
                         <Text>Sensitive content ahead</Text>
                       </>
                     )}

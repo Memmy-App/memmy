@@ -1,5 +1,6 @@
 import React from "react";
-import { HStack, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { HStack } from "@components/common/Gluestack";
 
 function ButtonGroup({ children }: { children: React.ReactNode }) {
   const theme = useTheme();

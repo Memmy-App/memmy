@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { HStack, Pressable, Text, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { HStack, Pressable, Text } from "@components/common/Gluestack";
 
 interface IProps {
   onPress: () => void | Promise<void>;

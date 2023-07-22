@@ -1,6 +1,7 @@
 import React from "react";
 import { Cell } from "@gkasdorf/react-native-tableview-simple";
-import { Text, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { Text } from "@components/common/Gluestack";
 import { CellInterface } from "@gkasdorf/react-native-tableview-simple/lib/typescript/components/Cell";
 
 function CCell(props: CellInterface) {

@@ -1,5 +1,6 @@
 import React from "react";
-import { Text, useTheme, VStack } from "native-base";
+import { useTheme } from "native-base";
+import { Text, VStack } from "@components/common/Gluestack";
 import { Button } from "react-native";
 import { IconMoodSad } from "tabler-icons-react-native";
 import { useTranslation } from "react-i18next";
@@ -16,7 +17,7 @@ function MemmyErrorView() {
       justifyContent="center"
       alignItems="center"
       backgroundColor="app.bg"
-      space={2}
+      space="2"
     >
       <IconMoodSad size={150} color={theme.colors.app.textSecondary} />
       <Text textAlign="center">{t("memmyError.title")}</Text>

@@ -1,5 +1,6 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
-import { Box, HStack, ScrollView, Text, View, useTheme } from "native-base";
+import { ScrollView, useTheme, View } from "native-base";
+import { Box, HStack, Text } from "@components/common/Gluestack";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
@@ -63,7 +64,7 @@ function ThemeSelectionScreen({ route }: IProps) {
                 key={themeName}
                 cellStyle="RightDetail"
                 title={
-                  <HStack space={2}>
+                  <HStack space="2">
                     <ThemeColors
                       accent={ThemeOptionsMap[themeName].colors.app.accent}
                       bg={ThemeOptionsMap[themeName].colors.app.bg}
@@ -90,7 +91,7 @@ function ThemeSelectionScreen({ route }: IProps) {
                 key={themeName}
                 cellStyle="RightDetail"
                 title={
-                  <HStack space={2}>
+                  <HStack space="2">
                     <ThemeColors
                       accent={ThemeOptionsMap[themeName].colors.app.accent}
                       bg={ThemeOptionsMap[themeName].colors.app.bg}
@@ -114,7 +115,7 @@ function ThemeSelectionScreen({ route }: IProps) {
                     ml={4}
                     mb={2}
                     mt={-3}
-                    fontSize="xs"
+                    fontSize="$xs"
                     color={theme.colors.app.textSecondary}
                   >
                     Inspired by the Sunset Theme from Apollo (Christian Selig)

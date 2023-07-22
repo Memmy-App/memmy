@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import { HStack, Text, useTheme, VStack } from "native-base";
+import { useTheme } from "native-base";
+import { HStack, Text, VStack } from "@components/common/Gluestack";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
@@ -75,7 +76,7 @@ function CommunityHeader({ communityFullName }: IProps) {
 
   return (
     <VStack pt={10} pb={5} px={5}>
-      <HStack alignItems="center" space={5}>
+      <HStack alignItems="center" space="5">
         {community.community.icon ? (
           <FastImage
             source={{
@@ -92,7 +93,7 @@ function CommunityHeader({ communityFullName }: IProps) {
         )}
 
         <VStack alignContent="center">
-          <HStack space={3}>
+          <HStack space="3">
             <HStack alignItems="center">
               <SFIcon
                 icon="person"
@@ -104,7 +105,7 @@ function CommunityHeader({ communityFullName }: IProps) {
                 {shortenNumber(community.counts.subscribers)}
               </Text>
             </HStack>
-            <HStack space={1} alignItems="center">
+            <HStack space="1" alignItems="center">
               <SFIcon
                 icon="eye"
                 color={theme.colors.app.textSecondary}
@@ -116,16 +117,16 @@ function CommunityHeader({ communityFullName }: IProps) {
               </Text>
             </HStack>
           </HStack>
-          <Text fontSize="3xl" fontWeight="bold">
+          <Text fontSize="$3xl" fontWeight="bold">
             {community.community.name}
           </Text>
-          <Text fontSize="md" color={theme.colors.app.textSecondary} mt={-2}>
+          <Text fontSize="$md" color={theme.colors.app.textSecondary} mt={-2}>
             {getBaseUrl(community.community.actor_id)}
           </Text>
         </VStack>
       </HStack>
       <VStack pt={8}>
-        <HStack justifyContent="space-between" alignItems="center" space={3}>
+        <HStack justifyContent="space-between" alignItems="center" space="3">
           <CustomButton
             onPress={onSubscribePress}
             icon={

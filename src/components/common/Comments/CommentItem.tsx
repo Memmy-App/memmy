@@ -1,4 +1,5 @@
-import { Divider, HStack, useTheme, View } from "native-base";
+import { useTheme, View } from "native-base";
+import { Divider, HStack } from "@components/common/Gluestack";
 import React, { useMemo } from "react";
 import { useAppSelector } from "../../../../store";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
@@ -74,7 +75,7 @@ function CommentItem({
         >
           <CommentWrapper depth={depth} onCommentPress={onPress}>
             <CommentHeaderWrapper>
-              <HStack space={1}>
+              <HStack space="1">
                 <AvatarUsername
                   creator={comment.comment.creator}
                   opId={comment.comment.post.creator_id}

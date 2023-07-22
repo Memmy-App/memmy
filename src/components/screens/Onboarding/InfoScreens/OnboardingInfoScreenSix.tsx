@@ -1,6 +1,6 @@
 import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Button, Text, VStack } from "native-base";
+import { Button, Text, VStack } from "@components/common/Gluestack";
 import { ImageBackground, StyleSheet } from "react-native";
 import { Trans, useTranslation } from "react-i18next";
 
@@ -20,9 +20,9 @@ function OnboardingInfoScreenSix({ navigation }: IProps) {
         style={styles.background}
         resizeMode="cover"
       >
-        <VStack px={6} pt={12} pb={20} space={4} flex={1}>
+        <VStack px={6} pt={12} pb={20} space="4} flex={1">
           <Text
-            fontSize="3xl"
+            fontSize="$3xl"
             color="white"
             fontWeight="semibold"
             textAlign="left"
@@ -30,7 +30,7 @@ function OnboardingInfoScreenSix({ navigation }: IProps) {
             {t("onboarding.info.6.1")}
           </Text>
           <Text
-            fontSize="2xl"
+            fontSize="$2xl"
             color="white"
             fontWeight="semibold"
             textAlign="left"
@@ -42,7 +42,7 @@ function OnboardingInfoScreenSix({ navigation }: IProps) {
           </Text>
 
           <Text
-            fontSize="2xl"
+            fontSize="$2xl"
             color="white"
             fontWeight="semibold"
             textAlign="left"
@@ -54,7 +54,7 @@ function OnboardingInfoScreenSix({ navigation }: IProps) {
           </Text>
 
           <Text
-            fontSize="2xl"
+            fontSize="$2xl"
             color="white"
             fontWeight="semibold"
             textAlign="left"
@@ -69,10 +69,10 @@ function OnboardingInfoScreenSix({ navigation }: IProps) {
             size="lg"
             colorScheme="lightBlue"
             onPress={() => navigation.push("OnboardingInfoSeven")}
-            borderRadius="20"
+            borderRadius="$20"
             mt="auto"
           >
-            <Text fontWeight="semibold" fontSize="lg">
+            <Text fontWeight="semibold" fontSize="$lg">
               {t("Continue")}
             </Text>
           </Button>

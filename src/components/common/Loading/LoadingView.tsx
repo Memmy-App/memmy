@@ -1,5 +1,6 @@
 import React from "react";
-import { Spinner, useTheme, VStack } from "native-base";
+import { useTheme } from "native-base";
+import { Spinner, VStack } from "@components/common/Gluestack";
 
 function LoadingView() {
   const theme = useTheme();

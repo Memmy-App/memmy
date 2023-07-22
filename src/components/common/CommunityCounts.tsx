@@ -1,6 +1,7 @@
 import { CommunityAggregates } from "lemmy-js-client";
 import React from "react";
-import { HStack, useTheme, Text, VStack } from "native-base";
+import { useTheme } from "native-base";
+import { HStack, Text, VStack } from "@components/common/Gluestack";
 import Chip from "./Chip";
 import { shortenNumber } from "../../helpers/NumberHelper";
 
@@ -19,11 +20,11 @@ function CommunityCounts({ counts }: IProps) {
   const usersActiveDay = shortenNumber(counts.users_active_day);
 
   return (
-    <VStack paddingTop={4} paddingBottom={4} space={1}>
-      <Text fontSize="xl" fontWeight="bold">
+    <VStack paddingTop={4} paddingBottom={4} space="1">
+      <Text fontSize="$xl" fontWeight="bold">
         Stats:
       </Text>
-      <HStack flexWrap="wrap" space={1} style={{ rowGap: 2 }}>
+      <HStack flexWrap="wrap" space="1" style={{ rowGap: 2 }}>
         <Chip
           text={`${subscribers} Subscribers`}
           color={theme.colors.app.accent}

@@ -1,5 +1,6 @@
 import React, { SetStateAction, useRef } from "react";
-import { useTheme, VStack } from "native-base";
+import { useTheme } from "native-base";
+import { VStack } from "@components/common/Gluestack";
 import { TextInput } from "react-native";
 import SearchBox from "./SearchBox";
 

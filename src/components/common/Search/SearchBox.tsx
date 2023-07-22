@@ -1,6 +1,7 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
-import { HStack, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { HStack } from "@components/common/Gluestack";
 import React, { SetStateAction, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, TextInput } from "react-native";
@@ -45,7 +46,7 @@ function SearchBox({
       py={1.5}
       px={2.5}
       pr={9}
-      space={2}
+      space="2"
       width={inHeader ? Dimensions.get("screen").width * 0.9 : undefined}
     >
       <SFIcon

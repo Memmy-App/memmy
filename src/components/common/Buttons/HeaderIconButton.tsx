@@ -1,4 +1,5 @@
-import { Pressable, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { Pressable } from "@components/common/Gluestack";
 import React from "react";
 
 interface CIconButtonProps {

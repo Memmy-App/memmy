@@ -1,4 +1,5 @@
-import { HStack, Text, useTheme } from "native-base";
+import { useTheme } from "native-base";
+import { HStack, Text } from "@components/common/Gluestack";
 import React, { useMemo } from "react";
 import { timeFromNowShort } from "../../../../helpers/TimeHelper";
 import IconButtonWithText from "../../IconButtonWithText";
@@ -36,7 +37,7 @@ function CommentHeaderRight({
   );
 
   return (
-    <HStack alignItems="center" space={2}>
+    <HStack alignItems="center" space="2">
       <Text color={theme.colors.app.textSecondary}>{publishedFormatted}</Text>
       <CommentContextMenu
         isShortPress

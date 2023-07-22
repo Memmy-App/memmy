@@ -1,5 +1,6 @@
 import React from "react";
-import { useTheme, VStack } from "native-base";
+import { useTheme } from "native-base";
+import { VStack } from "@components/common/Gluestack";
 import { Switch } from "react-native";
 import { useTranslation } from "react-i18next";
 import CTable from "../../../common/Table/CTable";
