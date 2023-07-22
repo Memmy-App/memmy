@@ -53,7 +53,6 @@ export function AccountsContextMenu({
                 type: "action",
                 actionKey: "manage_accounts",
                 actionTitle: t("Manage Accounts"),
-
                 icon: {
                   type: "IMAGE_SYSTEM",
                   imageValue: {
