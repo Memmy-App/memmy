@@ -2,53 +2,9 @@ import React from "react";
 import { OnPressMenuItemEvent } from "react-native-ios-context-menu";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { UseFeedItem } from "../../../hooks/feeds/useFeedItem";
-import { useFeedOptions } from "../../../hooks/sortOptions/useFeedOptions";
-import AppContextMenuButton from "./AppContextMenuButton";
-import AppContextMenuView from "./AppContextMenuView";
-
-// const menuItemsRenderer = () => {
-//   const feedOptions = useFeedOptions();
-//
-//   const menuItems = Object.entries(FEED_OPTIONS).map(([key, value]) => {
-//     if (key === "Community") {
-//       return {
-//         menuTitle: "Community",
-//         actionKey: key,
-//         actionTitle: value.title,
-//         menuItems: [
-//           ...Object.entries(FEED_COMMUNITY_OPTIONS).map(
-//             ([commKey, commValue]) => ({
-//               actionKey: commKey,
-//               actionTitle: commValue.title,
-//               ...(commValue.destructive
-//                 ? { menuAttributes: ["destructive"] }
-//                 : {}),
-//               icon: {
-//                 type: "IMAGE_SYSTEM",
-//                 imageValue: {
-//                   systemName: commValue.icon,
-//                 },
-//               },
-//             })
-//           ),
-//         ],
-//       };
-//     }
-//     return {
-//       actionKey: key,
-//       actionTitle: value.title,
-//       ...(value.destructive ? { menuAttributes: ["destructive"] } : {}),
-//       icon: {
-//         type: "IMAGE_SYSTEM",
-//         imageValue: {
-//           systemName: value.icon,
-//         },
-//       },
-//     };
-//   });
-//
-//   return menuItems;
-// };
+import { useFeedOptions } from "../../../hooks/contextMenu/useFeedOptions";
+import { AppContextMenuButton } from "./App/AppContextMenuButton";
+import { AppContextMenuView } from "./App/AppContextMenuView";
 
 interface IProps {
   children: React.ReactNode;

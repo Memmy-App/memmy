@@ -10,8 +10,8 @@ import {
   useFeedsStore,
 } from "../../../../stores/feeds/feedsStore";
 import loadFeedPosts from "../../../../stores/feeds/actions/loadFeedPosts";
-import { useOverallSortOptions } from "../../../../hooks/sortOptions/useSortOptions";
 import { findOptionByKey } from "../../../../helpers/ContextMenuOptionsHelper";
+import { useOverallSortOptions } from "../../../../hooks/contextMenu/useOverallSortOptions";
 
 function FeedSortButton() {
   const { key } = useRoute();

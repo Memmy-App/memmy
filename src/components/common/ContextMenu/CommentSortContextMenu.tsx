@@ -1,8 +1,8 @@
 import { CommentSortType } from "lemmy-js-client";
 import React, { PropsWithChildren } from "react";
 import { OnPressMenuItemEvent } from "react-native-ios-context-menu";
-import { useCommentSortOptions } from "../../../hooks/sortOptions/useSortOptions";
-import AppContextMenuButton from "./AppContextMenuButton";
+import { AppContextMenuButton } from "./App/AppContextMenuButton";
+import { useCommentSortOptions } from "../../../hooks/contextMenu/useCommentSortOptions";
 
 interface IProps extends PropsWithChildren {
   currentSelection: CommentSortType;
@@ -19,7 +19,7 @@ export function CommentSortContextMenu({
   return (
     <AppContextMenuButton<CommentSortType>
       options={commentSortOptions}
-      currentSelection={currentSelection}
+      selection={currentSelection}
       onPressMenuItem={onPress}
     >
       {children}

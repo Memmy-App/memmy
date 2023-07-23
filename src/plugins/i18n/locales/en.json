@@ -420,5 +420,11 @@
   "Downvote": "Downvote",
   "Block User": "Block User",
   "Block": "Block",
-  "Community": "Community"
+  "Community": "Community",
+  "Post Size": "Post Size",
+  "Compact": "Compact",
+  "Large": "Large",
+  "None": "None",
+  "Left": "Left",
+  "Right": "Right"
 }

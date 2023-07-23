@@ -12,8 +12,8 @@ import { FeedSortContextMenu } from "../../../common/ContextMenu/FeedSortContext
 import { ListingTypeContextMenu } from "../../../common/ContextMenu/ListingTypeContextMenu";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
-import { useOverallSortOptions } from "../../../../hooks/sortOptions/useSortOptions";
 import { findOptionByKey } from "../../../../helpers/ContextMenuOptionsHelper";
+import { useOverallSortOptions } from "../../../../hooks/contextMenu/useOverallSortOptions";
 
 function ContentScreen({
   navigation,

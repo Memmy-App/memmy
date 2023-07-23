@@ -10,8 +10,8 @@ import {
   useFeedsStore,
 } from "../../../../stores/feeds/feedsStore";
 import loadFeedPosts from "../../../../stores/feeds/actions/loadFeedPosts";
-import { useListingTypeOptions } from "../../../../hooks/sortOptions/useSortOptions";
 import { findOptionByKey } from "../../../../helpers/ContextMenuOptionsHelper";
+import { useListingTypeOptions } from "../../../../hooks/contextMenu/useListingTypeOptions";
 
 export function FeedListingTypeButton() {
   const { key } = useRoute();

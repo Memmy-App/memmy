@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
 import { useAppDispatch } from "../../../../../../store";
@@ -14,7 +14,7 @@ import { useFeedCommunityName } from "../../../../../stores/feeds/feedsStore";
 import { useCommunity } from "../../../../../stores/communities/communitiesStore";
 import { getCommunityFullName } from "../../../../../helpers/LemmyHelpers";
 import { ICON_MAP } from "../../../../../constants/IconMap";
-import AppContextMenuButton from "../../../../common/ContextMenu/AppContextMenuButton";
+import { AppContextMenuButton } from "../../../../common/ContextMenu/App/AppContextMenuButton";
 import { ContextMenuOption } from "../../../../../types/ContextMenuOptions";
 
 export type Community = {
@@ -30,6 +30,8 @@ function CommunityOverflowButton() {
   const dispatch = useAppDispatch();
   const communityName = useFeedCommunityName(routeKey);
   const community = communityName ? useCommunity(communityName) : undefined;
+
+  useEffect(() => console.log(community), [useCommunity, community]);
 
   const options = useMemo<ContextMenuOption[]>(
     () => [
@@ -48,7 +50,6 @@ function CommunityOverflowButton() {
         key: "unblock",
         title: "Unblock Community",
         icon: ICON_MAP.BLOCK,
-        destructive: false,
       },
     ],
     [t]
@@ -103,7 +104,7 @@ function CommunityOverflowButton() {
       }}
       options={options}
     >
-      <HeaderIconButton icon={<SFIcon icon="ellipsis" />} />
+      <HeaderIconButton icon={<SFIcon icon={ICON_MAP.MORE_OPTIONS} />} />
     </AppContextMenuButton>
   );
 }

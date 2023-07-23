@@ -85,7 +85,7 @@
     "removedByMod": "Kommentar wurde von Moderatoren gelöscht :("
   },
   "settings": {
-		"swipeToVote": "Mit Wisch hoch-/runterwählen",
+    "swipeToVote": "Mit Wisch hoch-/runterwählen",
     "haptics": {
       "Off": "Keine",
       "Light": "Schwach",
@@ -389,5 +389,11 @@
   "Downvote": "Runterwählen",
   "Block User": "Benutzer blockieren",
   "Block": "Blockieren",
-  "Community": "Community"
+  "Community": "Community",
+  "Post Size": "Post Größe",
+  "Compact": "Kompakt",
+  "Large": "Groß",
+  "None": "Keins",
+  "Left": "Links",
+  "Right": "Rechts"
 }

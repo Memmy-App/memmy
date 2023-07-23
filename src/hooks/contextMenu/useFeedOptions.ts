@@ -2,11 +2,12 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ContextMenuOption } from "../../types/ContextMenuOptions";
 import { ICON_MAP } from "../../constants/IconMap";
+import { useFeedCommunityOptions } from "./useFeedCommunityOptions";
 
 export const useFeedOptions = () => {
   const { t } = useTranslation();
 
-  const community0ptions = useFeedCommunityOptions();
+  const communityOptions = useFeedCommunityOptions();
 
   return useMemo<ContextMenuOption[]>(
     () => [
@@ -49,28 +50,7 @@ export const useFeedOptions = () => {
       {
         key: "CommunityMenu",
         title: t("Community"),
-        options: [...community0ptions],
-      },
-    ],
-    [t]
-  );
-};
-
-export const useFeedCommunityOptions = () => {
-  const { t } = useTranslation();
-
-  return useMemo<ContextMenuOption[]>(
-    () => [
-      {
-        key: "Subscribe",
-        title: t("Subscribe"),
-        icon: ICON_MAP.SUBSCRIBE,
-      },
-      {
-        key: "BlockCommunity",
-        title: t("Block"),
-        icon: ICON_MAP.BLOCK,
-        destructive: true,
+        options: [...communityOptions],
       },
     ],
     [t]

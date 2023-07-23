@@ -1,16 +1,17 @@
-import React from "react";
-import {
-  ContextMenuButton,
-  OnPressMenuItemEventObject,
-} from "react-native-ios-context-menu";
+import React, { useMemo } from "react";
+import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import SFIcon from "../../../common/icons/SFIcon";
+import { ICON_MAP } from "../../../../constants/IconMap";
+import { AppContextMenuButton } from "../../../common/ContextMenu/App/AppContextMenuButton";
 
 export function FeedOverflowButton() {
   const { compactView } = useAppSelector(selectSettings);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const onPress = (e: OnPressMenuItemEventObject) => {
     const key = e.nativeEvent.actionKey;
@@ -20,50 +21,40 @@ export function FeedOverflowButton() {
     }
   };
 
-  return (
-    <ContextMenuButton
-      style={{
-        paddingRight: 10,
-      }}
-      isMenuPrimaryAction
-      onPressMenuItem={onPress}
-      menuConfig={{
-        menuTitle: "",
-        // @ts-ignore Types for menuItems are wrong for this library
-        menuItems: [
+  const selection = useMemo(
+    () => (compactView ? "compact" : "large"),
+    [compactView]
+  );
+
+  const options = useMemo(
+    () => [
+      {
+        key: "size",
+        title: t("Post Size"),
+        options: [
           {
-            menuTitle: "Post Size",
-            actionKey: "size",
-            actionTitle: "Post Size",
-            menuItems: [
-              {
-                actionKey: "compact",
-                actionTitle: "Compact",
-                menuState: compactView ? "on" : "off",
-                icon: {
-                  type: "IMAGE_SYSTEM",
-                  imageValue: {
-                    systemName: "list.bullet",
-                  },
-                },
-              },
-              {
-                actionKey: "large",
-                actionTitle: "Large",
-                menuState: !compactView ? "on" : "off",
-                icon: {
-                  type: "IMAGE_SYSTEM",
-                  imageValue: {
-                    systemName: "list.bullet.below.rectangle",
-                  },
-                },
-              },
-            ],
+            key: "large",
+            title: t("Large"),
+            icon: ICON_MAP.POST_SIZE.LARGE,
+          },
+          {
+            key: "compact",
+            title: t("Compact"),
+            icon: ICON_MAP.POST_SIZE.COMPACT,
           },
         ],
-      }}
+      },
+    ],
+    [t]
+  );
+
+  return (
+    <AppContextMenuButton
+      options={options}
+      selection={selection}
+      onPressMenuItem={onPress}
     >
-      <SFIcon icon="ellipsis" />
-    </ContextMenuButton>
+      <SFIcon icon={ICON_MAP.MORE_OPTIONS} />
+    </AppContextMenuButton>
   );
 }

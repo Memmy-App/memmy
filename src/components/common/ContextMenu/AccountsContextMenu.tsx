@@ -9,7 +9,7 @@ import {
 } from "../../../slices/accounts/accountsSlice";
 import { ICON_MAP } from "../../../constants/IconMap";
 import { ContextMenuOption } from "../../../types/ContextMenuOptions";
-import AppContextMenuButton from "./AppContextMenuButton";
+import { AppContextMenuButton } from "./App/AppContextMenuButton";
 
 interface IProps {
   children: React.ReactNode;
@@ -67,7 +67,7 @@ export function AccountsContextMenu({
     <AppContextMenuButton
       isPrimaryAction={!isShortPress}
       options={options}
-      currentSelection={currentAccount.username + currentAccount.instance}
+      selection={currentAccount.username + currentAccount.instance}
       title={t("Accounts")}
       style={{
         flex: 1,

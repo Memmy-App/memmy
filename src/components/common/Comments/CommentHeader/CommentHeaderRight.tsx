@@ -49,7 +49,7 @@ function CommentHeaderRight({
         <IconButtonWithText
           icon={
             <SFIcon
-              icon="ellipsis"
+              icon={ICON_MAP.MORE_OPTIONS}
               size={12}
               color={theme.colors.app.textSecondary}
             />

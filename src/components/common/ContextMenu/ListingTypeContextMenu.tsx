@@ -1,8 +1,8 @@
 import { ListingType } from "lemmy-js-client";
 import React, { PropsWithChildren } from "react";
 import { OnPressMenuItemEvent } from "react-native-ios-context-menu";
-import AppContextMenuButton from "./AppContextMenuButton";
-import { useListingTypeOptions } from "../../../hooks/sortOptions/useSortOptions";
+import { AppContextMenuButton } from "./App/AppContextMenuButton";
+import { useListingTypeOptions } from "../../../hooks/contextMenu/useListingTypeOptions";
 
 interface IProps extends PropsWithChildren {
   currentSelection: ListingType;
@@ -19,7 +19,7 @@ export function ListingTypeContextMenu({
   return (
     <AppContextMenuButton<ListingType>
       options={listingTypeOptions}
-      currentSelection={currentSelection}
+      selection={currentSelection}
       onPressMenuItem={onPress}
     >
       {children}

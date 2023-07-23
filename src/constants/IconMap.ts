@@ -30,4 +30,9 @@ export const ICON_MAP = {
   CHEVRON: {
     RIGHT: "chevron.right",
   },
+  MORE_OPTIONS: "ellipsis",
+  POST_SIZE: {
+    COMPACT: "list.bullet",
+    LARGE: "list.bullet.below.rectangle",
+  },
 };
