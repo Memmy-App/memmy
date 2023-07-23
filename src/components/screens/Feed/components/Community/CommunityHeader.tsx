@@ -7,16 +7,16 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
   useCommunity,
   useCommunityStatus,
-} from "../../../../stores/communities/communitiesStore";
-import { PlanetIcon } from "../../../common/icons/PlanetIcon";
-import { shortenNumber } from "../../../../helpers/NumberHelper";
-import { getBaseUrl } from "../../../../helpers/LinkHelper";
-import CustomButton from "../../../common/Buttons/CustomButton";
-import { SFIcon } from "../../../common/icons/SFIcon";
-import setCommunitySubscribed from "../../../../stores/communities/actions/setCommunitySubscribed";
-import { useAppSelector } from "../../../../../store";
-import { selectPost } from "../../../../slices/post/postSlice";
-import { addPost } from "../../../../stores/posts/actions";
+} from "../../../../../stores/communities/communitiesStore";
+import { PlanetIcon } from "../../../../common/icons/PlanetIcon";
+import { shortenNumber } from "../../../../../helpers/NumberHelper";
+import { getBaseUrl } from "../../../../../helpers/LinkHelper";
+import CustomButton from "../../../../common/Buttons/CustomButton";
+import { SFIcon } from "../../../../common/icons/SFIcon";
+import setCommunitySubscribed from "../../../../../stores/communities/actions/setCommunitySubscribed";
+import { useAppSelector } from "../../../../../../store";
+import { selectPost } from "../../../../../slices/post/postSlice";
+import { addPost } from "../../../../../stores/posts/actions";
 
 interface IProps {
   communityFullName: string;
