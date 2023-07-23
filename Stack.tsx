@@ -61,6 +61,9 @@ import { useAppSelector } from "./store";
 import { truncateName } from "./src/helpers/TextHelper";
 import ScreenGestureHandler from "./src/components/common/Navigation/ScreenGestureHandler";
 import { ICON_MAP } from "./src/constants/IconMap";
+import FiltersScreen from "./src/components/screens/Settings/Filters/FiltersScreen";
+import KeywordsScreen from "./src/components/screens/Settings/Filters/KeywordsScreen";
+import InstancesScreen from "./src/components/screens/Settings/Filters/InstancesScreen";
 
 function CustomDrawerContent() {
   const theme = useTheme();
@@ -349,6 +352,27 @@ function SettingsScreens(stack) {
         options={{
           title: t("General"),
           freezeOnBlur: true,
+        }}
+      />
+      <stack.Screen
+        name="Filters"
+        component={FiltersScreen}
+        options={{
+          title: t("Filters"),
+        }}
+      />
+      <stack.Screen
+        name="Keywords"
+        component={KeywordsScreen}
+        options={{
+          tilte: t("Keywords"),
+        }}
+      />
+      <stack.Screen
+        name="Instances"
+        component={InstancesScreen}
+        options={{
+          title: t("Instances"),
         }}
       />
       <stack.Screen
