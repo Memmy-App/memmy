@@ -92,6 +92,7 @@
     "removedByMod": "Comment removed by moderator :("
   },
   "settings": {
+		"swipeToVote": "Swipe to Vote",
     "haptics": {
       "Off": "Off",
       "Light": "Light",

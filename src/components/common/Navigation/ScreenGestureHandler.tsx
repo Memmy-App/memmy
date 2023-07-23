@@ -20,18 +20,19 @@ function ScreenGestureHandler({ children }: IProps) {
 
   const onPanEnd = useCallback(
     (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
-      if (event.translationX < 20 || Math.abs(event.translationY) >= 10) return;
+      if (swipeToVote) return;
+
+      if (event.translationX < 10 || Math.abs(event.translationY) >= 30) return;
 
       navigation.pop();
     },
-    []
+    [swipeToVote]
   );
-
-  if (swipeToVote) return children;
 
   const panGesture = Gesture.Pan()
     .maxPointers(1)
     .activeOffsetX([-20, 20])
+    .cancelsTouchesInView(true)
     .onEnd(onPanEnd);
 
   return <GestureDetector gesture={panGesture}>{children}</GestureDetector>;
