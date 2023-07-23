@@ -16,7 +16,7 @@ interface IProps {
 
 function ProfileHeader({ profile }: IProps) {
   const theme = useTheme();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   if (!profile.profile) return null;
 
