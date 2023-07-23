@@ -1,19 +1,11 @@
-export type ContextMenuOptions = RootContextMenuOption[];
+export type ContextMenuOptions = ContextMenuOption[];
 
-export interface BaseContextMenuOption {
+export interface ContextMenuOption {
+  title: string;
   key: string;
-  title?: string;
   subtitle?: string;
   icon?: string;
   destructive?: boolean;
-}
-
-export interface ContextMenuOption extends BaseContextMenuOption {
-  title: string;
-}
-
-export interface RootContextMenuOption extends BaseContextMenuOption {
-  title?: string;
   options?: ContextMenuOption[];
   inline?: boolean;
 }

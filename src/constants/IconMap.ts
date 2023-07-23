@@ -14,7 +14,7 @@ export const ICON_MAP = {
   DELETE: "trash",
   COPY: "doc.on.doc",
   LINK: "link",
-  BLOCK_COMMUNITY: "xmark.circle",
+  BLOCK: "xmark.circle",
   FILTERS: "eye.slash",
   GLOBE: "globe",
   LOCATION: "location",

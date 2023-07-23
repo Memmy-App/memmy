@@ -8,7 +8,7 @@ import {
   selectCurrentAccount,
 } from "../../../slices/accounts/accountsSlice";
 import { ICON_MAP } from "../../../constants/IconMap";
-import { RootContextMenuOption } from "../../../types/ContextMenuOptions";
+import { ContextMenuOption } from "../../../types/ContextMenuOptions";
 import AppContextMenuButton from "./AppContextMenuButton";
 
 interface IProps {
@@ -28,7 +28,7 @@ export function AccountsContextMenu({
 
   const dispatch = useAppDispatch();
 
-  const options = useMemo<RootContextMenuOption[]>(
+  const options = useMemo<ContextMenuOption[]>(
     () => [
       {
         key: "manage_accounts_menu",

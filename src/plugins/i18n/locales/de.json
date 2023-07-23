@@ -164,7 +164,9 @@
     "title": "Titel",
     "link": "Link (optional)",
     "body": "Inhalt (optional)",
-    "bodyPlaceholder": "Schreib los!"
+    "bodyPlaceholder": "Schreib los!",
+    "share": "Post teilen",
+    "report": "Post melden"
   },
   "onboarding": {
     "hello": "Hallo",
@@ -382,5 +384,10 @@
   "Label": "Label",
   "Trending": "Trending",
   "Go Back": "Zurück",
-  "Local": "Lokal"
+  "Local": "Lokal",
+  "Upvote": "Hochwählen",
+  "Downvote": "Runterwählen",
+  "Block User": "Benutzer blockieren",
+  "Block": "Blockieren",
+  "Community": "Community"
 }

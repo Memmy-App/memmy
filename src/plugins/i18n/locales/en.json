@@ -186,7 +186,9 @@
     "title": "Title",
     "link": "Link (optional)",
     "body": "Body (optional)",
-    "bodyPlaceholder": "Type away!"
+    "bodyPlaceholder": "Type away!",
+    "share": "Share Post",
+    "report": "Report Post"
   },
   "onboarding": {
     "hello": "Hello",
@@ -413,5 +415,10 @@
   "Label": "Label",
   "Trending": "Trending",
   "Go Back": "Go Back",
-  "Local": "Local"
+  "Local": "Local",
+  "Upvote": "Upvote",
+  "Downvote": "Downvote",
+  "Block User": "Block User",
+  "Block": "Block",
+  "Community": "Community"
 }

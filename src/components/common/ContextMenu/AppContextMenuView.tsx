@@ -1,5 +1,5 @@
 import {
-  ContextMenuButton,
+  ContextMenuView,
   OnPressMenuItemEvent,
 } from "react-native-ios-context-menu";
 import React, { PropsWithChildren, useCallback, useMemo } from "react";
@@ -8,35 +8,21 @@ import { StyleProp, ViewStyle } from "react-native";
 import { MenuActionConfig } from "react-native-ios-context-menu/src/types/MenuConfig";
 import { ContextMenuOption } from "../../../types/ContextMenuOptions";
 
-interface AppContextMenuButtonProps<CS = string> extends PropsWithChildren {
+interface AppContextMenuViewProps extends PropsWithChildren {
   options: ContextMenuOption[];
-  currentSelection?: CS;
   title?: string;
-  isPrimaryAction?: boolean;
   style?: StyleProp<ViewStyle>;
   onPressMenuItem: OnPressMenuItemEvent;
 }
 
-function AppContextMenuButton<CS = string>(
-  props: AppContextMenuButtonProps<CS>
-) {
-  const {
-    children,
-    currentSelection,
-    title = "",
-    options,
-    isPrimaryAction = true,
-    style,
-    onPressMenuItem,
-  } = props;
+function AppContextMenuView(props: AppContextMenuViewProps) {
+  const { children, title = "", options, style, onPressMenuItem } = props;
 
   const optionToAction = useCallback(
     (option: ContextMenuOption): MenuActionConfig => ({
       actionKey: option.key,
       actionTitle: option.title,
       actionSubtitle: option.subtitle,
-      menuState: currentSelection === option.key ? "on" : "off",
-      menuAttributes: option.destructive ? ["destructive"] : [],
       icon: {
         type: "IMAGE_SYSTEM",
         imageValue: {
@@ -44,7 +30,7 @@ function AppContextMenuButton<CS = string>(
         },
       },
     }),
-    [currentSelection]
+    []
   );
 
   const menuConfig = useMemo<MenuConfig>(
@@ -58,7 +44,6 @@ function AppContextMenuButton<CS = string>(
               type: "menu",
               menuOptions: rootOption.inline ? ["displayInline"] : [],
               menuTitle: rootOption.title,
-              menuAttributes: rootOption.destructive ? ["destructive"] : [],
               icon: {
                 type: "IMAGE_SYSTEM",
                 imageValue: {
@@ -74,19 +59,18 @@ function AppContextMenuButton<CS = string>(
         }),
       ],
     }),
-    [options, currentSelection, title, optionToAction]
+    [options, title, optionToAction]
   );
 
   return (
-    <ContextMenuButton
-      isMenuPrimaryAction={isPrimaryAction}
+    <ContextMenuView
       menuConfig={menuConfig}
       style={style}
       onPressMenuItem={onPressMenuItem}
     >
       {children}
-    </ContextMenuButton>
+    </ContextMenuView>
   );
 }
 
-export default AppContextMenuButton;
+export default AppContextMenuView;

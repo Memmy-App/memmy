@@ -1,11 +1,4 @@
-import {
-  BaseContextMenuOption,
-  ContextMenuOption,
-} from "../types/ContextMenuOptions";
+import { ContextMenuOption } from "../types/ContextMenuOptions";
 
-export const findOptionByKey = <
-  T extends BaseContextMenuOption = ContextMenuOption
->(
-  options: T[],
-  key: string
-) => options.find((option) => option.key === key);
+export const findOptionByKey = (options: ContextMenuOption[], key: string) =>
+  options.find((option) => option.key === key);

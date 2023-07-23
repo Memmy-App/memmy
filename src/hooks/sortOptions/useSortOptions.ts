@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  ContextMenuOption,
   ContextMenuOptions,
-  RootContextMenuOption,
 } from "../../types/ContextMenuOptions";
 import { ICON_MAP } from "../../constants/IconMap";
 
@@ -36,7 +36,7 @@ export const useOverallSortOptions = () => {
 
   const topSortOptions = useTopSortOptions();
 
-  return useMemo<RootContextMenuOption[]>(
+  return useMemo<ContextMenuOption[]>(
     () => [
       ...topSortOptions,
       {
@@ -78,7 +78,7 @@ export const useFeedSortOptions = () => {
   const { t } = useTranslation();
   const topSortOptions = useTopSortOptions();
 
-  return useMemo<RootContextMenuOption[]>(
+  return useMemo<ContextMenuOption[]>(
     () => [
       {
         key: "TopAll",
@@ -124,7 +124,7 @@ export const useFeedSortOptions = () => {
 export const useTopSortOptions = () => {
   const { t } = useTranslation();
 
-  return useMemo<RootContextMenuOption[]>(
+  return useMemo<ContextMenuOption[]>(
     () => [
       {
         key: "TopHour",
@@ -174,7 +174,7 @@ export const useTopSortOptions = () => {
 export const useCommentSortOptions = () => {
   const { t } = useTranslation();
 
-  return useMemo<RootContextMenuOption[]>(
+  return useMemo<ContextMenuOption[]>(
     () => [
       {
         key: "Top",

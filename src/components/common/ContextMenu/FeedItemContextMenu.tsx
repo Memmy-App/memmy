@@ -1,103 +1,54 @@
 import React from "react";
-import {
-  ContextMenuButton,
-  ContextMenuView,
-  OnPressMenuItemEvent,
-} from "react-native-ios-context-menu";
-import { ICON_MAP } from "../../../constants/IconMap";
+import { OnPressMenuItemEvent } from "react-native-ios-context-menu";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { UseFeedItem } from "../../../hooks/feeds/useFeedItem";
-import { RootContextMenuOption } from "../../../types/ContextMenuOptions";
+import { useFeedOptions } from "../../../hooks/sortOptions/useFeedOptions";
+import AppContextMenuButton from "./AppContextMenuButton";
+import AppContextMenuView from "./AppContextMenuView";
 
-export const FEED_OPTIONS: Record<string, Partial<RootContextMenuOption>> = {
-  Upvote: {
-    title: "Upvote",
-    icon: ICON_MAP.UPVOTE,
-  },
-  Downvote: {
-    title: "Downvote",
-    icon: ICON_MAP.DOWNVOTE,
-  },
-  Reply: {
-    title: "Reply",
-    icon: ICON_MAP.REPLY,
-  },
-  Save: {
-    title: "Save",
-    icon: ICON_MAP.SAVE,
-  },
-  Share: {
-    title: "Share Post",
-    icon: ICON_MAP.SHARE,
-  },
-  Report: {
-    title: "Report Post",
-    icon: ICON_MAP.REPORT_POST,
-  },
-  BlockUser: {
-    title: "Block User",
-    icon: ICON_MAP.BLOCK_USER,
-    destructive: true,
-  },
-  // Community: {
-  //   display: "Community",
-  //   icon: "person.2",
-  // },
-};
-
-const FEED_COMMUNITY_OPTIONS: Record<string, Partial<RootContextMenuOption>> = {
-  Subscribe: {
-    title: "Subscribe",
-    icon: ICON_MAP.SUBSCRIBE,
-  },
-  BlockCommunity: {
-    title: "Block",
-    icon: "xmark.circle",
-    destructive: true,
-  },
-};
-
-const menuItemsRenderer = () => {
-  const menuItems = Object.entries(FEED_OPTIONS).map(([key, value]) => {
-    if (key === "Community") {
-      return {
-        menuTitle: "Community",
-        actionKey: key,
-        actionTitle: value.title,
-        menuItems: [
-          ...Object.entries(FEED_COMMUNITY_OPTIONS).map(
-            ([commKey, commValue]) => ({
-              actionKey: commKey,
-              actionTitle: commValue.title,
-              ...(commValue.destructive
-                ? { menuAttributes: ["destructive"] }
-                : {}),
-              icon: {
-                type: "IMAGE_SYSTEM",
-                imageValue: {
-                  systemName: commValue.icon,
-                },
-              },
-            })
-          ),
-        ],
-      };
-    }
-    return {
-      actionKey: key,
-      actionTitle: value.title,
-      ...(value.destructive ? { menuAttributes: ["destructive"] } : {}),
-      icon: {
-        type: "IMAGE_SYSTEM",
-        imageValue: {
-          systemName: value.icon,
-        },
-      },
-    };
-  });
-
-  return menuItems;
-};
+// const menuItemsRenderer = () => {
+//   const feedOptions = useFeedOptions();
+//
+//   const menuItems = Object.entries(FEED_OPTIONS).map(([key, value]) => {
+//     if (key === "Community") {
+//       return {
+//         menuTitle: "Community",
+//         actionKey: key,
+//         actionTitle: value.title,
+//         menuItems: [
+//           ...Object.entries(FEED_COMMUNITY_OPTIONS).map(
+//             ([commKey, commValue]) => ({
+//               actionKey: commKey,
+//               actionTitle: commValue.title,
+//               ...(commValue.destructive
+//                 ? { menuAttributes: ["destructive"] }
+//                 : {}),
+//               icon: {
+//                 type: "IMAGE_SYSTEM",
+//                 imageValue: {
+//                   systemName: commValue.icon,
+//                 },
+//               },
+//             })
+//           ),
+//         ],
+//       };
+//     }
+//     return {
+//       actionKey: key,
+//       actionTitle: value.title,
+//       ...(value.destructive ? { menuAttributes: ["destructive"] } : {}),
+//       icon: {
+//         type: "IMAGE_SYSTEM",
+//         imageValue: {
+//           systemName: value.icon,
+//         },
+//       },
+//     };
+//   });
+//
+//   return menuItems;
+// };
 
 interface IProps {
   children: React.ReactNode;
@@ -162,17 +113,12 @@ export function FeedItemContextMenuView({
   children,
   onPress,
 }: IContextMenuProps) {
+  const feedOptions = useFeedOptions();
+
   return (
-    <ContextMenuView
-      onPressMenuItem={onPress}
-      menuConfig={{
-        menuTitle: "",
-        // @ts-ignore Types for menuItems are wrong for this library
-        menuItems: [...menuItemsRenderer()],
-      }}
-    >
+    <AppContextMenuView onPressMenuItem={onPress} options={feedOptions}>
       {children}
-    </ContextMenuView>
+    </AppContextMenuView>
   );
 }
 
@@ -181,17 +127,11 @@ export function FeedItemContextMenuButton({
   children,
   onPress,
 }: IContextMenuProps) {
+  const feedOptions = useFeedOptions();
+
   return (
-    <ContextMenuButton
-      isMenuPrimaryAction
-      onPressMenuItem={onPress}
-      menuConfig={{
-        menuTitle: "",
-        // @ts-ignore Types for menuItems are wrong for this library
-        menuItems: [...menuItemsRenderer()],
-      }}
-    >
+    <AppContextMenuButton options={feedOptions} onPressMenuItem={onPress}>
       {children}
-    </ContextMenuButton>
+    </AppContextMenuButton>
   );
 }
