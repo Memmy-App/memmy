@@ -59,6 +59,7 @@ body:
     validations:
       required: true
   - type: dropdown
+    id: osVersion
     attributes:
       label: iOS Version
       description: |

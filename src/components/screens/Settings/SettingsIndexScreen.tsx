@@ -8,7 +8,7 @@ import { Alert, StyleSheet } from "react-native";
 import { Divider } from "react-native-elements";
 import { ContextMenuButton } from "react-native-ios-context-menu";
 import * as WebBrowser from "expo-web-browser";
-import { modelName } from "expo-device";
+import { modelName, osVersion } from "expo-device";
 import { getReadableVersion } from "react-native-device-info";
 import { ICON_MAP } from "../../../constants/IconMap";
 import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
@@ -84,6 +84,7 @@ function SettingsIndexScreen({
     params.append("title", "[Bug] ");
     params.append("version", getReadableVersion());
     params.append("device", modelName);
+    params.append("osVersion", osVersion);
     WebBrowser.openBrowserAsync(
       `${GITHUB_LINK}/issues/new?${params.toString()}`
     );
