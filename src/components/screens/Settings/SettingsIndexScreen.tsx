@@ -4,10 +4,9 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, StyleSheet } from "react-native";
+import { Alert, Linking, StyleSheet } from "react-native";
 import { Divider } from "react-native-elements";
 import { ContextMenuButton } from "react-native-ios-context-menu";
-import * as WebBrowser from "expo-web-browser";
 import { modelName, osVersion } from "expo-device";
 import { getReadableVersion } from "react-native-device-info";
 import { ICON_MAP } from "../../../constants/IconMap";
@@ -85,9 +84,7 @@ function SettingsIndexScreen({
     params.append("version", getReadableVersion());
     params.append("device", modelName);
     params.append("osVersion", osVersion);
-    WebBrowser.openBrowserAsync(
-      `${GITHUB_LINK}/issues/new?${params.toString()}`
-    );
+    Linking.openURL(`${GITHUB_LINK}/issues/new?${params.toString()}`);
   };
 
   return (
