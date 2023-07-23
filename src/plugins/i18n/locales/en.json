@@ -95,6 +95,7 @@
     "removedByMod": "Comment removed by moderator :("
   },
   "settings": {
+    "reportBugBtn": "Report a Bug on GitHub",
 		"swipeToVote": "Swipe to Vote",
     "haptics": {
       "Off": "Off",
@@ -418,6 +419,8 @@
   "Label": "Label",
   "Trending": "Trending",
   "Go Back": "Go Back",
+  "Stats": "Stats",
+  "Moderators": "Moderators",
   "Local": "Local",
   "Upvote": "Upvote",
   "Downvote": "Downvote",

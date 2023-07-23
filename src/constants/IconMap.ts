@@ -19,6 +19,7 @@ export const ICON_MAP = {
   BLOCK: "xmark.circle",
   EXIT: "xmark",
   FILTERS: "eye.slash",
+  EXTERNAL_LINK: "arrow.up.forward.square",
   GLOBE: "globe",
   LOCATION: "location",
   HEART: "heart",

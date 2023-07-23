@@ -88,7 +88,8 @@
     "removedByMod": "Kommentar wurde von Moderatoren gelöscht :("
   },
   "settings": {
-    "swipeToVote": "Mit Wisch hoch-/runterwählen",
+    "reportBugBtn": "Bug auf GitHub melden",
+		"swipeToVote": "Mit Wisch hoch-/runterwählen",
     "haptics": {
       "Off": "Keine",
       "Light": "Schwach",
@@ -400,6 +401,8 @@
   "Label": "Label",
   "Trending": "Trending",
   "Go Back": "Zurück",
+  "Stats": "Statistiken",
+  "Moderators": "Moderatoren",
   "Local": "Lokal",
   "Upvote": "Hochwählen",
   "Downvote": "Runterwählen",

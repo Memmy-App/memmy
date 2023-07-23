@@ -4,13 +4,16 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, StyleSheet } from "react-native";
+import { Alert, Linking, StyleSheet } from "react-native";
 import { Divider } from "react-native-elements";
+import { modelName, osVersion } from "expo-device";
+import { getReadableVersion } from "react-native-device-info";
 import { ICON_MAP } from "../../../constants/IconMap";
 import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
 import CCell from "../../common/Table/CCell";
 import CSection from "../../common/Table/CSection";
 import SFIcon from "../../common/icons/SFIcon";
+import { GITHUB_LINK } from "../../../constants/Links";
 import { AppContextMenuButton } from "../../common/ContextMenu/App/AppContextMenuButton";
 
 function SettingOptionTitle({
@@ -57,6 +60,31 @@ function SettingsIndexScreen({
   const onCacheClear = async () => {
     await FastImage.clearDiskCache();
     Alert.alert(t("alert.title.success"), t("alert.message.cacheCleared"));
+  };
+
+  const onEmailDebugLogPress = () => {
+    sendLog()
+      .then()
+      .catch((e) => {
+        if (e.toString() === "Error: no_file") {
+          Alert.alert(t("alert.title.noDebugLog"));
+        } else {
+          Alert.alert(e.toString());
+        }
+      });
+  };
+
+  const onReportBugPress = () => {
+    const params = new URLSearchParams();
+    params.append("assignees", "");
+    params.append("labels", "bug,triage");
+    params.append("projects", "");
+    params.append("template", "bug_report.yml");
+    params.append("title", "[Bug] ");
+    params.append("version", getReadableVersion());
+    params.append("device", modelName);
+    params.append("osVersion", osVersion);
+    Linking.openURL(`${GITHUB_LINK}/issues/new?${params.toString()}`);
   };
 
   const languageOptions = useMemo(
@@ -173,17 +201,7 @@ function SettingsIndexScreen({
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
             accessory="DisclosureIndicator"
-            onPress={() => {
-              sendLog()
-                .then()
-                .catch((e) => {
-                  if (e.toString() === "Error: no_file") {
-                    Alert.alert(t("alert.title.noDebugLog"));
-                  } else {
-                    Alert.alert(e.toString());
-                  }
-                });
-            }}
+            onPress={onEmailDebugLogPress}
           />
           <CCell
             cellStyle="Basic"
@@ -210,6 +228,17 @@ function SettingsIndexScreen({
               // version on git or just remove this table stuff and use the new MTable
               onCacheClear();
             }}
+          />
+          <CCell
+            cellStyle="Basic"
+            title={t("settings.reportBugBtn")}
+            onPress={onReportBugPress}
+            cellAccessoryView={
+              <SFIcon
+                icon={ICON_MAP.EXTERNAL_LINK}
+                color={theme.colors.app.textSecondary}
+              />
+            }
           />
         </CSection>
 
