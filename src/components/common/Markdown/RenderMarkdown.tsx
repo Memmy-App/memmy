@@ -2,7 +2,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
-import { useTheme, View, VStack } from "native-base";
+import { useTheme, View } from "native-base";
 import React, { useMemo } from "react";
 import { TextStyle, useWindowDimensions } from "react-native";
 import { useAppSelector } from "../../../../store";
@@ -11,8 +11,8 @@ import { replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { fontSizeMap } from "../../../theme/fontSize";
-import SpoilerContainer from "./SpoilerContainer";
 import ImageViewer from "../ImageViewer/ImageViewer";
+import SpoilerContainer from "./SpoilerContainer";
 
 const MarkdownItInstance = MarkdownIt({ typographer: true }).use(
   require("markdown-it-container"),
@@ -174,30 +174,26 @@ function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
     const markdown = replaceNoMarkdown(text, currentAccount.instance, instance);
 
     return (
-      <>
-        <VStack flex={1}>
-          <Markdown
-            style={markdownStyles}
-            rules={{
-              container_spoiler: (node) => (
-                <View key={node.key}>
-                  <SpoilerContainer
-                    node={node}
-                    title={node.sourceInfo.replace("spoiler", "").trim()}
-                  />
-                </View>
-              ),
-              image: (node) => (
-                <ImageViewer source={node.attributes.src} buttonMode />
-              ),
-            }}
-            onLinkPress={onLinkPress}
-            markdownit={MarkdownItInstance}
-          >
-            {markdown ?? ""}
-          </Markdown>
-        </VStack>
-      </>
+      <Markdown
+        style={markdownStyles}
+        rules={{
+          container_spoiler: (node) => (
+            <View key={node.key}>
+              <SpoilerContainer
+                node={node}
+                title={node.sourceInfo.replace("spoiler", "").trim()}
+              />
+            </View>
+          ),
+          image: (node) => (
+            <ImageViewer source={node.attributes.src} buttonMode />
+          ),
+        }}
+        onLinkPress={onLinkPress}
+        markdownit={MarkdownItInstance}
+      >
+        {markdown ?? ""}
+      </Markdown>
     );
   }, [
     text,
