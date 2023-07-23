@@ -3,6 +3,7 @@ import { Button, StyleSheet, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useTheme, View } from "native-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useTranslation } from "react-i18next";
 import LoadingView from "../../common/Loading/LoadingView";
 import KeyboardAccessory from "../../common/KeyboardAccessory";
 import useEditComment from "../../../hooks/comments/useEditComment";
@@ -14,6 +15,7 @@ interface IProps {
 
 function EditCommentScreen({ route, navigation }: IProps) {
   // Hooks
+  const { t } = useTranslation();
   const editComment = useEditComment(
     route.params.commentId,
     route.params.content,
@@ -24,7 +26,7 @@ function EditCommentScreen({ route, navigation }: IProps) {
     navigation.setOptions({
       headerLeft: () => headerLeft(),
       headerRight: () => headerRight(),
-      title: "Edit Comment",
+      title: t("comment.edit"),
     });
   }, [editComment.content]);
 
@@ -42,7 +44,7 @@ function EditCommentScreen({ route, navigation }: IProps) {
 
   const headerLeft = () => (
     <Button
-      title="Cancel"
+      title={t("Cancel")}
       onPress={() => navigation.pop()}
       color={theme.colors.app.accent}
     />
@@ -50,7 +52,7 @@ function EditCommentScreen({ route, navigation }: IProps) {
 
   const headerRight = () => (
     <Button
-      title="Submit"
+      title={t("Submit")}
       onPress={() => editComment.doSubmit()}
       disabled={editComment.loading}
       color={theme.colors.app.accent}

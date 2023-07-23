@@ -41,6 +41,7 @@ body:
     validations:
       required: true
   - type: input
+    id: version
     attributes:
       label: Version
       description: |
@@ -58,6 +59,7 @@ body:
     validations:
       required: true
   - type: dropdown
+    id: osVersion
     attributes:
       label: iOS Version
       description: |
@@ -70,6 +72,7 @@ body:
     validations:
       required: true
   - type: input
+    id: device
     attributes:
       label: Device
       description: |

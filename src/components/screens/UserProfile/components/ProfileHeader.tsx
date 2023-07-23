@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { Box, HStack, Spacer, Text, useTheme, View, VStack } from "native-base";
 import React from "react";
 import { StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
 import { ICON_MAP } from "../../../../constants/IconMap";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import { getCakeDay } from "../../../../helpers/TimeHelper";
@@ -15,6 +16,7 @@ interface IProps {
 
 function ProfileHeader({ profile }: IProps) {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   if (!profile.profile) return null;
 
@@ -78,7 +80,7 @@ function ProfileHeader({ profile }: IProps) {
         <HStack space={7}>
           <VStack alignItems="start" space={1}>
             <Text fontSize="sm" color={theme.colors.app.textSecondary}>
-              Posts
+              {t("Posts")}
             </Text>
             <HStack alignItems="center" space={1}>
               <SFIcon icon="doc.plaintext" size={14} />
@@ -89,7 +91,7 @@ function ProfileHeader({ profile }: IProps) {
           </VStack>
           <VStack alignItems="start" space={1}>
             <Text fontSize="sm" color={theme.colors.app.textSecondary}>
-              Comments
+              {t("Comments")}
             </Text>
             <HStack alignItems="center" space={1}>
               <SFIcon icon={ICON_MAP.REPLY} size={12} />
@@ -102,10 +104,10 @@ function ProfileHeader({ profile }: IProps) {
         <HStack space={7} mt={3} alignItems="center">
           <VStack alignItems="start" space={1}>
             <Text fontSize="sm" color={theme.colors.app.textSecondary}>
-              Account Created
+              {t("Account Created")}
             </Text>
             <HStack alignItems="center" space={1}>
-              <SFIcon icon="birthday.cake" size={12} />
+              <SFIcon icon={ICON_MAP.CAKE_DAY} size={12} />
               <Text fontSize="md">
                 {getCakeDay(profile.profile.person.published)}
               </Text>
@@ -114,7 +116,7 @@ function ProfileHeader({ profile }: IProps) {
           <VStack alignItems="start" space={1}>
             <Spacer />
             <HStack alignItems="center" space={1}>
-              <SFIcon icon="person.crop.circle.badge.checkmark" size={14} />
+              <SFIcon icon={ICON_MAP.PROFILE_PUBLISHED} size={14} />
               <Text fontSize="md">
                 {dayjs(profile.profile.person.published).utc(true).fromNow()}
               </Text>
