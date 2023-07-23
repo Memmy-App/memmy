@@ -90,6 +90,8 @@ function FeedView({ header }: FeedViewProps) {
   const voted = useVoted();
   const saved = useSaved();
 
+  const onViewableItemsChanged = useRef<any>();
+
   // Refs
   const flashList = useRef<FlashList<any>>();
   const recycled = useRef({});
@@ -165,18 +167,23 @@ function FeedView({ header }: FeedViewProps) {
     clearUpdateSaved();
   });
 
-  const onViewableItemsChanged = useCallback(
-    (info?: ViewableItemsChangedType<PostView>) => {
-      if (
-        (markReadOnCommunityScroll && key.includes("Community")) ||
-        (markReadOnFeedScroll && key.includes("FeedScreen"))
-      ) {
-        const firstItem = info.viewableItems ? info.viewableItems[0] : null;
+  const markReadOnScroll = (info?: ViewableItemsChangedType<PostView>) => {
+    if (
+      (markReadOnCommunityScroll && key.includes("Community")) ||
+      (markReadOnFeedScroll && key.includes("FeedScreen"))
+    ) {
+      const firstItem = info.viewableItems ? info.viewableItems[0] : null;
+      if (!!firstItem && !!firstItem.item) {
+        if (firstItem.item.read) return;
 
-        if (!!firstItem && !!firstItem.item) {
-          setFeedRead(key, firstItem.item.post.id);
-        }
+        setFeedRead(key, firstItem.item.post.id);
       }
+    }
+  };
+
+  onViewableItemsChanged.current = useCallback(
+    (info?: ViewableItemsChangedType<PostView>) => {
+      markReadOnScroll(info);
     },
     [markReadOnFeedScroll, markReadOnCommunityScroll]
   );
@@ -240,7 +247,9 @@ function FeedView({ header }: FeedViewProps) {
             ListEmptyComponent={<NoResultView type="posts" />}
             ref={flashList}
             getItemType={getItemType}
-            onViewableItemsChanged={onViewableItemsChanged}
+            onViewableItemsChanged={(info) =>
+              onViewableItemsChanged.current(info)
+            }
           />
         )}
       {hideReadPostsOnFeed && showHideReadButton && (
