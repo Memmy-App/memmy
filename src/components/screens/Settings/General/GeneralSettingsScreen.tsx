@@ -44,7 +44,7 @@ function GeneralSettingsScreen() {
           />
           <CCell
             cellStyle="Basic"
-            title="Swipe to Vote"
+            title={t("settings.swipeToVote")}
             backgroundColor={theme.colors.app.fg}
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
