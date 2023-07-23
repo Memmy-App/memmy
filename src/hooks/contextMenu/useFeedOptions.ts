@@ -2,12 +2,12 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ContextMenuOption } from "../../types/ContextMenuOptions";
 import { ICON_MAP } from "../../constants/IconMap";
-import { useFeedCommunityOptions } from "./useFeedCommunityOptions";
+// import { useFeedCommunityOptions } from "./useFeedCommunityOptions";
 
 export const useFeedOptions = () => {
   const { t } = useTranslation();
 
-  const communityOptions = useFeedCommunityOptions();
+  // const communityOptions = useFeedCommunityOptions();
 
   return useMemo<ContextMenuOption[]>(
     () => [
@@ -48,11 +48,12 @@ export const useFeedOptions = () => {
         icon: ICON_MAP.BLOCK_USER,
         destructive: true,
       },
-      {
-        key: "CommunityMenu",
-        title: t("Community"),
-        options: [...communityOptions],
-      },
+      // TODO Issue #747 - Add community actions
+      // {
+      //   key: "CommunityMenu",
+      //   title: t("Community"),
+      //   options: [...communityOptions],
+      // },
     ],
     [t]
   );
