@@ -6,7 +6,6 @@ import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Linking, StyleSheet } from "react-native";
 import { Divider } from "react-native-elements";
-import { ContextMenuButton } from "react-native-ios-context-menu";
 import { modelName, osVersion } from "expo-device";
 import { getReadableVersion } from "react-native-device-info";
 import { ICON_MAP } from "../../../constants/IconMap";
@@ -15,6 +14,7 @@ import CCell from "../../common/Table/CCell";
 import CSection from "../../common/Table/CSection";
 import SFIcon from "../../common/icons/SFIcon";
 import { GITHUB_LINK } from "../../../constants/Links";
+import { AppContextMenuButton } from "../../common/ContextMenu/App/AppContextMenuButton";
 
 function SettingOptionTitle({
   text,
@@ -86,6 +86,16 @@ function SettingsIndexScreen({
     params.append("osVersion", osVersion);
     Linking.openURL(`${GITHUB_LINK}/issues/new?${params.toString()}`);
   };
+
+  const languageOptions = useMemo(
+    () => [
+      ...languages.map((language) => ({
+        key: language,
+        title: t(language),
+      })),
+    ],
+    [t, languages]
+  );
 
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
@@ -236,21 +246,11 @@ function SettingsIndexScreen({
           <>
             <Divider style={{ margin: 20 }} />
             <CSection header="🛠️ DEV TOOLS">
-              <ContextMenuButton
-                isMenuPrimaryAction
+              <AppContextMenuButton
+                options={languageOptions}
+                selection={i18n.resolvedLanguage}
                 onPressMenuItem={({ nativeEvent }) => {
                   i18n.changeLanguage(nativeEvent.actionKey);
-                }}
-                menuConfig={{
-                  menuTitle: "",
-                  // @ts-ignore Types for menuItems are wrong for this library
-                  menuItems: [
-                    ...languages.map((option) => ({
-                      actionKey: option,
-                      actionTitle: option,
-                      menuState: i18n.language === option ? "on" : "off",
-                    })),
-                  ],
                 }}
               >
                 <CCell
@@ -262,7 +262,7 @@ function SettingsIndexScreen({
                   rightDetailColor={theme.colors.app.textSecondary}
                   accessory="DisclosureIndicator"
                 />
-              </ContextMenuButton>
+              </AppContextMenuButton>
             </CSection>
           </>
         )}

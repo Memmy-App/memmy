@@ -1,8 +1,8 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView, useTheme, VStack } from "native-base";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ContextMenuButton } from "react-native-ios-context-menu";
+import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
 import { useAppDispatch } from "../../../../store";
 import { ICON_MAP } from "../../../constants/IconMap";
 import useProfile from "../../../hooks/profile/useProfile";
@@ -16,6 +16,7 @@ import RefreshControl from "../../common/RefreshControl";
 import MCell from "../../common/Table/MCell";
 import MTable from "../../common/Table/MTable";
 import ProfileHeader from "./components/ProfileHeader";
+import { AppContextMenuButton } from "../../common/ContextMenu/App/AppContextMenuButton";
 
 interface IProps {
   route: any;
@@ -29,6 +30,27 @@ function UserProfileScreen({ route, navigation }: IProps) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+
+  const options = useMemo(
+    () => [
+      {
+        key: "BlockUser",
+        title: t("Block User"),
+        icon: ICON_MAP.BLOCK_USER,
+      },
+    ],
+    [t]
+  );
+
+  const onPressMenuItem = ({ nativeEvent }: OnPressMenuItemEventObject) => {
+    if (nativeEvent.actionKey === "BlockUser") {
+      useBlockUser({
+        personId: profile.profile.person.id,
+        dispatch,
+        t,
+      });
+    }
+  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -45,36 +67,14 @@ function UserProfileScreen({ route, navigation }: IProps) {
               />
             )
           : () => (
-              <ContextMenuButton
-                isMenuPrimaryAction
-                onPressMenuItem={({ nativeEvent }) => {
-                  if (nativeEvent.actionKey === "BlockUser") {
-                    useBlockUser({
-                      personId: profile.profile.person.id,
-                      dispatch,
-                      t,
-                    });
-                  }
-                }}
-                menuConfig={{
-                  menuTitle: "",
-                  // @ts-ignore Types for menuItems are wrong for this library
-                  menuItems: [
-                    {
-                      actionKey: "BlockUser",
-                      actionTitle: "Block User",
-                      icon: {
-                        type: "IMAGE_SYSTEM",
-                        imageValue: {
-                          systemName: "person.crop.circle.badge.xmark",
-                        },
-                      },
-                    },
-                  ],
-                }}
+              <AppContextMenuButton
+                onPressMenuItem={onPressMenuItem}
+                options={options}
               >
-                <HeaderIconButton icon={<SFIcon icon="ellipsis" />} />
-              </ContextMenuButton>
+                <HeaderIconButton
+                  icon={<SFIcon icon={ICON_MAP.MORE_OPTIONS} />}
+                />
+              </AppContextMenuButton>
             ),
     });
   }, [profile.profile, t]);

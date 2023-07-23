@@ -7,6 +7,7 @@ import { FeedItemContextMenu } from "../../../../common/ContextMenu/FeedItemCont
 import FeaturedIndicator from "../../../../common/FeaturedIndicator";
 import { IsReadIndicator } from "../../../../common/IsReadIndicator";
 import SFIcon from "../../../../common/icons/SFIcon";
+import { ICON_MAP } from "../../../../../constants/IconMap";
 
 interface Props {
   community: Community;
@@ -28,7 +29,7 @@ export function Header({ community, featured, isRead, feedItem }: Props) {
         <FeaturedIndicator featured={featured} />
         <IsReadIndicator isRead={isRead} />
         <FeedItemContextMenu feedItem={feedItem} isButton>
-          <SFIcon icon="ellipsis" size={14} />
+          <SFIcon icon={ICON_MAP.MORE_OPTIONS} size={14} />
         </FeedItemContextMenu>
       </HStack>
     </HStack>

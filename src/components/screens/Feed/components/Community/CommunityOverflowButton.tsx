@@ -1,6 +1,5 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ContextMenuButton } from "react-native-ios-context-menu";
 import { useRoute } from "@react-navigation/core";
 import { useAppDispatch } from "../../../../../../store";
 import { lemmyAuthToken, lemmyInstance } from "../../../../../LemmyInstance";
@@ -14,30 +13,14 @@ import SFIcon from "../../../../common/icons/SFIcon";
 import { useFeedCommunityName } from "../../../../../stores/feeds/feedsStore";
 import { useCommunity } from "../../../../../stores/communities/communitiesStore";
 import { getCommunityFullName } from "../../../../../helpers/LemmyHelpers";
-import { ContextMenuOptions } from "../../../../../types/ContextMenuOptions";
 import { ICON_MAP } from "../../../../../constants/IconMap";
+import { AppContextMenuButton } from "../../../../common/ContextMenu/App/AppContextMenuButton";
+import { ContextMenuOption } from "../../../../../types/ContextMenuOptions";
 
 export type Community = {
   id: number;
   name: string;
   fullName: string;
-};
-
-const options: ContextMenuOptions = {
-  share: {
-    display: "Share",
-    icon: ICON_MAP.SHARE,
-  },
-  block: {
-    display: "Block Community",
-    icon: ICON_MAP.BLOCK_COMMUNITY,
-    destructive: true,
-  },
-  unblock: {
-    display: "Unblock Community",
-    icon: ICON_MAP.BLOCK_COMMUNITY,
-    destructive: false,
-  },
 };
 
 function CommunityOverflowButton() {
@@ -47,6 +30,28 @@ function CommunityOverflowButton() {
   const dispatch = useAppDispatch();
   const communityName = useFeedCommunityName(routeKey);
   const community = communityName ? useCommunity(communityName) : undefined;
+
+  const options = useMemo<ContextMenuOption[]>(
+    () => [
+      {
+        key: "share",
+        title: "Share",
+        icon: ICON_MAP.SHARE,
+      },
+      {
+        key: "block",
+        title: "Block Community",
+        icon: ICON_MAP.BLOCK,
+        destructive: true,
+      },
+      {
+        key: "unblock",
+        title: "Unblock Community",
+        icon: ICON_MAP.BLOCK,
+      },
+    ],
+    [t]
+  );
 
   // TODO: support unblocking community
   const onBlockCommunity = useCallback(() => {
@@ -82,8 +87,7 @@ function CommunityOverflowButton() {
   }, [community]);
 
   return (
-    <ContextMenuButton
-      isMenuPrimaryAction
+    <AppContextMenuButton
       onPressMenuItem={({ nativeEvent }) => {
         switch (nativeEvent.actionKey) {
           case "share":
@@ -96,36 +100,10 @@ function CommunityOverflowButton() {
             break;
         }
       }}
-      menuConfig={{
-        menuTitle: "",
-        // @ts-ignore Types for menuItems are wrong for this library
-        menuItems: [
-          {
-            actionKey: "share",
-            actionTitle: options.share.display,
-            icon: {
-              type: "IMAGE_SYSTEM",
-              imageValue: {
-                systemName: options.share.icon,
-              },
-            },
-          },
-          {
-            actionKey: "block",
-            actionTitle: options.block.display,
-            menuAttributes: ["destructive"],
-            icon: {
-              type: "IMAGE_SYSTEM",
-              imageValue: {
-                systemName: options.block.icon,
-              },
-            },
-          },
-        ],
-      }}
+      options={options}
     >
-      <HeaderIconButton icon={<SFIcon icon="ellipsis" />} />
-    </ContextMenuButton>
+      <HeaderIconButton icon={<SFIcon icon={ICON_MAP.MORE_OPTIONS} />} />
+    </AppContextMenuButton>
   );
 }
 

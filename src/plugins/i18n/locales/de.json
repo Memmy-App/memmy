@@ -35,7 +35,8 @@
       "accountLogoutConfirm": "Bitte stell sicher das du Push-Benachrichtigungen für den Account deaktiviert hast bevor du dich ausloggst, andernfalls könntest du weiterhin Benachrichtungen von dem Account erhalten.\n\nBist du sicher das du {{0}} ausloggen möchtest?",
       "pushNotificationsConfirm": "Damit Push-Benachrichtigungen funktionieren muss Memmy dein Authentifizierungs-Token an unseren Server senden. Aktuell ist das die einzige verlässliche Möglichkeit Push-Benachrichtigungen zu senden. Memmy server haben KEINEN Zugriff auf dein Passwort, nur dein Authentifizierungs-Token. Authentifizierungs-Tokens können durch eine Passwort änderung widerrufen werden.\n\nDer vollständige Quellcode für die Memmy Push-Beanchrichtiungen ist unter https:\/\/github.com\/gkasdorf\/memmy-push verfügbar.\n\nMöchtest du fortfahren?",
       "deleteAccountConfirm": "Um alle Daten bei uns zu löschen musst du lediglich die Push-Benachrichtigungen deaktivieren. Wenn du keine Push-Benachrichtigungen aktiviert hast haben wir auch keine Daten von dir.\n\nUm deinen Account entgültig zu löschen musst du dich auf {{0}} einloggen und zu deinem Profil navigieren. Klicke dann auf \"Account löschen\" um deinen Account entgültig zu löschen.",
-      "registrationError": "Beim Abschluß der Registrierung ist ein fehler aufgetreten."
+      "registrationError": "Beim Abschluß der Registrierung ist ein fehler aufgetreten.",
+      "reportPost": "Bitte gibt den Grund für die Meldung an."
     }
   },
   "toast": {
@@ -54,7 +55,9 @@
     "blocked": "Blocked {{0}}",
     "enterUrl": "Gib den URL ein",
     "enterLabel": "Gib das Label ein",
-		"linkError": "Beim Öffnen des Links ist ein Fehler aufgetreten."
+    "linkError": "Beim Öffnen des Links ist ein Fehler aufgetreten.",
+    "textCopied": "Text kopiert",
+    "linkCopied": "Link kopiert"
   },
   "relativeTime": {
     "future": "in %s",
@@ -155,6 +158,17 @@
         "header": "Server Anmeldedaten",
         "footer": "Anmeldedaten für den Server mit dem du dich verbinden möchtest"
       }
+    },
+    "filters": {
+      "addKeyword": "Keyword hinzufügen",
+      "areYouSureKeyword": "Bist du sicher das du das Keyword entfernen möchtest?",
+      "enterAKeyword": "Gib das Keyword zum filtern an.",
+      "noKeywords": "Keine Keywords...",
+
+      "addInstance": "Instanz hinzufügen",
+      "areYouSureInstance": "Bist du sicher das du die Instanz entfernen willst?",
+      "enterAnInstance": "Gibt die Instanz zum filtern an.",
+      "noInstances": "Keine Instanzen..."
     }
   },
   "traverse": {
@@ -165,7 +179,9 @@
     "title": "Titel",
     "link": "Link (optional)",
     "body": "Inhalt (optional)",
-    "bodyPlaceholder": "Schreib los!"
+    "bodyPlaceholder": "Schreib los!",
+    "share": "Post teilen",
+    "report": "Post melden"
   },
   "onboarding": {
     "hello": "Hallo",
@@ -186,7 +202,7 @@
       },
       "3": {
         "1": "Stell dir das Fediverse wie ein Postdienst vor ✉️",
-        "2": "When du Apps wie Instagram, Twitter oder Facebook nutzt, kümmern diese sich <emphasis>exklusiv um deine Briefe.</emphasis>",
+        "2": "Wenn du Apps wie Instagram, Twitter oder Facebook nutzt, kümmern diese sich <emphasis>exklusiv um deine Briefe.</emphasis>",
         "3": "Jeder versendet und erhält seine Post über sie. D.h. sie sind <emphasis>zentralisiert.</emphasis>"
       },
       "4": {
@@ -249,6 +265,25 @@
   "imageView": {
     "dialogDesc": "Bild wird heruntergeladen..."
   },
+  "sort": {
+    "Top": "Top",
+    "top": {
+      "Hour": "Letzte Stunde",
+      "SixHours": "Sechs Stunden",
+      "TwelveHours": "Zwölf Stunden",
+      "Day": "Tag",
+      "Week": "Woche",
+      "Month": "Monat",
+      "Year": "Jahr",
+      "AllTime": "Immer"
+    },
+    "Hot": "Heiß",
+    "Active": "Aktiv",
+    "New": "Neu",
+    "MostComments": "Meiste Kommentare",
+    "NewComments": "Neue Kommentare",
+    "Old": "Alt"
+  },
   "Feed": "Feed",
   "Comments": "Kommentare",
   "Traverse": "Abonniert",
@@ -282,6 +317,8 @@
   "View": "Anzeigen",
   "Content": "Inhalt",
   "Appearance": "Darstellung",
+  "Filters": "Filter",
+  "Keywords": "Keywords",
   "Theme": "Theme",
   "Icon": "Icon",
   "General": "Allgemein",
@@ -365,5 +402,18 @@
   "Trending": "Trending",
   "Go Back": "Zurück",
   "Stats": "Statistiken",
-  "Moderators": "Moderatoren"
+  "Moderators": "Moderatoren",
+  "Local": "Lokal",
+  "Upvote": "Hochwählen",
+  "Downvote": "Runterwählen",
+  "Block User": "Benutzer blockieren",
+  "Block": "Blockieren",
+  "Community": "Community",
+  "Post Size": "Post Größe",
+  "Compact": "Kompakt",
+  "Large": "Groß",
+  "None": "Keins",
+  "Left": "Links",
+  "Right": "Rechts",
+  "Account Created": "Account Erstellt"
 }
