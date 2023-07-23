@@ -16,7 +16,7 @@ import { useBlockUser } from "../user/useBlockUser";
 import { setResponseTo } from "../../slices/comments/newCommentSlice";
 import { shareLink } from "../../helpers/ShareHelper";
 import { addPost } from "../../stores/posts/actions";
-import { useFeedPost } from "../../stores/feeds/feedsStore";
+import { useFeedPost, useFeedsStore } from "../../stores/feeds/feedsStore";
 import setFeedVote from "../../stores/feeds/actions/setFeedVote";
 import { determineVotes } from "../../helpers/VoteHelper";
 import setFeedRead from "../../stores/feeds/actions/setFeedRead";
@@ -70,6 +70,11 @@ const useFeedItem = (postId: number): UseFeedItem => {
     if (!post.read && markReadOnPostView) setFeedRead(key, post.post.id);
 
     const postKey = Date.now().toString() + post.post.id;
+
+    useFeedsStore.setState((state) => {
+      const prev = state.feeds.get(key).posts.find((p) => p.post.id === postId);
+      prev.unread_comments = 0;
+    });
 
     addPost(postKey, post);
 

@@ -5,9 +5,19 @@ interface IProps {
   text: string;
   color: string;
   variant?: "filled" | "outlined";
+  fontSize?: "2xs" | "xs" | "sm";
+  mx?: number;
+  my?: number;
 }
 
-function Chip({ text, color, variant = "filled" }: IProps) {
+function Chip({
+  text,
+  color,
+  variant = "filled",
+  fontSize = "2xs",
+  mx = 1.5,
+  my = 0.5,
+}: IProps) {
   const chipStyles = {
     borderWidth: 1,
     borderRadius: 10,
@@ -25,9 +35,9 @@ function Chip({ text, color, variant = "filled" }: IProps) {
       <Text
         fontWeight={textWeight}
         color={textColor}
-        fontSize="2xs"
-        mx={1.5}
-        my={0.5}
+        fontSize={fontSize}
+        mx={mx}
+        my={my}
       >
         {text}
       </Text>

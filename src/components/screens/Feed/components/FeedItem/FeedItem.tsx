@@ -85,7 +85,11 @@ function FeedItem({ postId, recycled }: FeedItemProps) {
               </HStack>
 
               <Footer>
-                <Metrics data={post.counts} vote={post.my_vote} />
+                <Metrics
+                  data={post.counts}
+                  vote={post.my_vote}
+                  newComments={post.unread_comments}
+                />
                 <Actions
                   saved={post.saved}
                   vote={post.my_vote}
