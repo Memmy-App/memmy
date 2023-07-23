@@ -107,7 +107,7 @@ function ProfileHeader({ profile }: IProps) {
               {t("Account Created")}
             </Text>
             <HStack alignItems="center" space={1}>
-              <SFIcon icon="birthday.cake" size={12} />
+              <SFIcon icon={ICON_MAP.CAKE_DAY} size={12} />
               <Text fontSize="md">
                 {getCakeDay(profile.profile.person.published)}
               </Text>
@@ -116,7 +116,7 @@ function ProfileHeader({ profile }: IProps) {
           <VStack alignItems="start" space={1}>
             <Spacer />
             <HStack alignItems="center" space={1}>
-              <SFIcon icon="person.crop.circle.badge.checkmark" size={14} />
+              <SFIcon icon={ICON_MAP.PROFILE_PUBLISHED} size={14} />
               <Text fontSize="md">
                 {dayjs(profile.profile.person.published).utc(true).fromNow()}
               </Text>

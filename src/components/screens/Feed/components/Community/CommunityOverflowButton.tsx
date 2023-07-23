@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
 import { useAppDispatch } from "../../../../../../store";
@@ -30,8 +30,6 @@ function CommunityOverflowButton() {
   const dispatch = useAppDispatch();
   const communityName = useFeedCommunityName(routeKey);
   const community = communityName ? useCommunity(communityName) : undefined;
-
-  useEffect(() => console.log(community), [useCommunity, community]);
 
   const options = useMemo<ContextMenuOption[]>(
     () => [

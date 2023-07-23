@@ -25,7 +25,7 @@ function CommentHeaderRight({
   if (collapsed) {
     return (
       <SFIcon
-        icon="chevron.down"
+        icon={ICON_MAP.CHEVRON.DOWN}
         size={12}
         color={theme.colors.app.textSecondary}
       />
