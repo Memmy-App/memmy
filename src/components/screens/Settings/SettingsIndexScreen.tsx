@@ -128,6 +128,21 @@ function SettingsIndexScreen({
             cellStyle="Basic"
             title={
               <SettingOptionTitle
+                text={t("Filters")}
+                icon={ICON_MAP.FILTERS}
+                iconBgColor="#ed5a6e"
+              />
+            }
+            accessory="DisclosureIndicator"
+            onPress={() => navigation.push("Filters")}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+          />
+          <CCell
+            cellStyle="Basic"
+            title={
+              <SettingOptionTitle
                 text={t("About")}
                 icon="at"
                 iconBgColor="#0368D4"

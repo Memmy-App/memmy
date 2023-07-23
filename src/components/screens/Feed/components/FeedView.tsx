@@ -7,19 +7,23 @@ import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import { useTheme } from "native-base";
 import { HStack, View } from "@components/common/Gluestack";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { StyleSheet } from "react-native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { useRoute } from "@react-navigation/core";
 import { useAppSelector } from "../../../../../store";
 import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
-import { selectFeed } from "../../../../slices/feed/feedSlice";
+import {
+  clearUpdateSaved,
+  clearUpdateVote,
+  selectFeed,
+} from "../../../../slices/feed/feedSlice";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import LoadingErrorView from "../../../common/Loading/LoadingErrorView";
 import LoadingView from "../../../common/Loading/LoadingView";
 import NoResultView from "../../../common/NoResultView";
 import RefreshControl from "../../../common/RefreshControl";
-import CommunityOverflowButton from "./CommunityOverflowButton";
+import CommunityOverflowButton from "./Community/CommunityOverflowButton";
 import CompactFeedItem from "./CompactFeedItem/CompactFeedItem";
 import FeedFooter from "./FeedFooter";
 import FeedItem from "./FeedItem/FeedItem";
@@ -33,6 +37,7 @@ import {
   useFeedListingType,
   useFeedPosts,
   useFeedSort,
+  useFeedsStore,
   useFeedStatus,
 } from "../../../../stores/feeds/feedsStore";
 import { useCommunity } from "../../../../stores/communities/communitiesStore";
@@ -40,14 +45,33 @@ import loadFeedPosts from "../../../../stores/feeds/actions/loadFeedPosts";
 import HideReadFAB from "../../../common/Buttons/HideReadFAB";
 import setFeedPosts from "../../../../stores/feeds/actions/setFeedPosts";
 import { removeReadPosts } from "../../../../helpers/LemmyHelpers";
+import { useSaved, useVoted } from "../../../../stores/updates/updatesStore";
+import setFeedRead from "../../../../stores/feeds/actions/setFeedRead";
 
 interface FeedViewProps {
   header?: () => React.ReactNode;
 }
 
+interface ViewToken<T = any> {
+  item?: T;
+  key: string;
+  index: number | null;
+  isViewable: boolean;
+  timestamp: number;
+}
+
+type ViewableItemsChangedType<T> = {
+  viewableItems?: ViewToken<T>[];
+  changed: ViewToken<T>[];
+};
+
 function FeedView({ header }: FeedViewProps) {
-  const { hideReadPostsOnFeed, showHideReadButton } =
-    useAppSelector(selectSettings);
+  const {
+    hideReadPostsOnFeed,
+    showHideReadButton,
+    markReadOnFeedScroll,
+    markReadOnCommunityScroll,
+  } = useAppSelector(selectSettings);
 
   const { key } = useRoute();
 
@@ -63,6 +87,11 @@ function FeedView({ header }: FeedViewProps) {
 
   const sortType = useFeedSort(key);
   const listingType = useFeedListingType(key);
+
+  const voted = useVoted();
+  const saved = useSaved();
+
+  const onViewableItemsChanged = useRef<any>();
 
   // Refs
   const flashList = useRef<FlashList<any>>();
@@ -106,6 +135,59 @@ function FeedView({ header }: FeedViewProps) {
       offset: 0,
     });
   }, [sortType, listingType]);
+
+  useEffect(() => {
+    if (voted) {
+      useFeedsStore.setState((state) => {
+        const prev = state.feeds
+          .get(key)
+          .posts.find((p) => p.post.id === voted.postId);
+
+        if (!prev) return;
+
+        prev.my_vote = voted.value;
+      });
+    }
+
+    clearUpdateVote();
+  }, [voted]);
+
+  useEffect(() => {
+    if (saved) {
+      useFeedsStore.setState((state) => {
+        const prev = state.feeds
+          .get(key)
+          .posts.find((p) => p.post.id === saved.postId);
+
+        if (!prev) return;
+
+        prev.saved = saved.saved;
+      });
+    }
+
+    clearUpdateSaved();
+  });
+
+  const markReadOnScroll = (info?: ViewableItemsChangedType<PostView>) => {
+    if (
+      (markReadOnCommunityScroll && key.includes("Community")) ||
+      (markReadOnFeedScroll && key.includes("FeedScreen"))
+    ) {
+      const firstItem = info.viewableItems ? info.viewableItems[0] : null;
+      if (!!firstItem && !!firstItem.item) {
+        if (firstItem.item.read) return;
+
+        setFeedRead(key, firstItem.item.post.id);
+      }
+    }
+  };
+
+  onViewableItemsChanged.current = useCallback(
+    (info?: ViewableItemsChangedType<PostView>) => {
+      markReadOnScroll(info);
+    },
+    [markReadOnFeedScroll, markReadOnCommunityScroll]
+  );
 
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<PostView>) => {
@@ -166,6 +248,9 @@ function FeedView({ header }: FeedViewProps) {
             ListEmptyComponent={<NoResultView type="posts" />}
             ref={flashList}
             getItemType={getItemType}
+            onViewableItemsChanged={(info) =>
+              onViewableItemsChanged.current(info)
+            }
           />
         )}
       {hideReadPostsOnFeed && showHideReadButton && (

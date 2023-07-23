@@ -3,6 +3,8 @@ import { useFeedsStore } from "../feedsStore";
 import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
 import { preloadImages } from "../../../helpers/ImageHelper";
 import store from "../../../../store";
+import { useFiltersStore } from "../../filters/filtersStore";
+import { getBaseUrl } from "../../../helpers/LinkHelper";
 
 interface ILoadFeedOptions {
   refresh: boolean;
@@ -61,29 +63,34 @@ const loadFeedPosts = async (
       return;
     }
 
-    let { posts } = res;
+    const { posts } = res;
 
-    if (hideNsfw) {
-      posts = posts.filter((c) => !c.post.nsfw && !c.community.nsfw);
-    }
+    const { keywords, instances } = useFiltersStore.getState();
 
-    if (
-      (hideReadPostsOnFeed && !currentState.communityName) ||
-      (hideReadPostsInCommunities && currentState.communityName)
-    ) {
-      posts = posts.filter((c) => !c.read);
-    }
+    const filtered = [];
 
-    preloadImages(posts).then();
+    posts.forEach((p) => {
+      if (hideNsfw && (p.post.nsfw || p.community.nsfw)) return;
+      if (hideReadPostsOnFeed && !currentState.communityName && p.read) return;
+      if (hideReadPostsInCommunities && currentState.communityName && p.read)
+        return;
+      if (keywords.some((i) => p.post.name.toLowerCase().includes(i))) return;
+      if (instances.some((i) => getBaseUrl(p.community.actor_id).includes(i)))
+        return;
+
+      filtered.push(p);
+    });
+
+    preloadImages(filtered).then();
 
     useFeedsStore.setState((state) => {
       const prev = state.feeds.get(feedKey);
 
       if (options.refresh || prev.posts.length === 0) {
-        prev.posts = posts;
+        prev.posts = filtered;
         prev.currentPage = 1;
       } else {
-        prev.posts = [...prev.posts, ...posts];
+        prev.posts = [...prev.posts, ...filtered];
         prev.currentPage += 1;
       }
 

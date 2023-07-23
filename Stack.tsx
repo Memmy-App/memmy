@@ -62,6 +62,10 @@ import { useAppSelector } from "./store";
 import { truncateName } from "./src/helpers/TextHelper";
 import ScreenGestureHandler from "./src/components/common/Navigation/ScreenGestureHandler";
 import { ICON_MAP } from "./src/constants/IconMap";
+import FiltersScreen from "./src/components/screens/Settings/Filters/FiltersScreen";
+import KeywordsScreen from "./src/components/screens/Settings/Filters/KeywordsScreen";
+import InstancesScreen from "./src/components/screens/Settings/Filters/InstancesScreen";
+import { selectSettings } from "./src/slices/settings/settingsSlice";
 
 function CustomDrawerContent() {
   const theme = useTheme();
@@ -353,6 +357,27 @@ function SettingsScreens(stack) {
         }}
       />
       <stack.Screen
+        name="Filters"
+        component={FiltersScreen}
+        options={{
+          title: t("Filters"),
+        }}
+      />
+      <stack.Screen
+        name="Keywords"
+        component={KeywordsScreen}
+        options={{
+          tilte: t("Keywords"),
+        }}
+      />
+      <stack.Screen
+        name="Instances"
+        component={InstancesScreen}
+        options={{
+          title: t("Instances"),
+        }}
+      />
+      <stack.Screen
         name="About"
         component={AboutScreen}
         options={{
@@ -559,6 +584,7 @@ function Tabs() {
   const { unread } = useAppSelector(selectSite);
   const { t } = useTranslation();
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const settings = useAppSelector(selectSettings);
 
   return (
     <ScreenGestureHandler>
@@ -605,7 +631,9 @@ function Tabs() {
             tabBarIcon: ({ color }) => (
               <SFIcon icon={ICON_MAP.USER_AVATAR} color={color} />
             ),
-            tabBarLabel: truncateName(currentAccount.username, 10),
+            tabBarLabel: settings.hideUsernameInTab
+              ? "Profile"
+              : truncateName(currentAccount.username, 10),
             freezeOnBlur: false,
           }}
         />

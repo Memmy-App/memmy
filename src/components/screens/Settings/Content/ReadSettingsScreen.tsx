@@ -111,6 +111,36 @@ function ReadSettingsScreen() {
               />
             }
           />
+          <CCell
+            cellStyle="RightDetail"
+            title={t("settings.content.markRead.onFeedScroll")}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.markReadOnFeedScroll}
+                onValueChange={(v) => {
+                  onChange("markReadOnFeedScroll", v);
+                }}
+              />
+            }
+          />
+          <CCell
+            cellStyle="RightDetail"
+            title={t("settings.content.markRead.onCommunityScroll")}
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.markReadOnCommunityScroll}
+                onValueChange={(v) => {
+                  onChange("markReadOnCommunityScroll", v);
+                }}
+              />
+            }
+          />
         </CSection>
       </CTable>
     </VStack>

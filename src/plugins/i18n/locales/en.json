@@ -92,6 +92,7 @@
     "removedByMod": "Comment removed by moderator :("
   },
   "settings": {
+		"swipeToVote": "Swipe to Vote",
     "haptics": {
       "Off": "Off",
       "Light": "Light",
@@ -112,6 +113,8 @@
         "onPostOpen": "Mark Read on Post Open",
         "onImageView": "Mark Read on Image View",
         "onVote": "Mark Read on Vote",
+				"onFeedScroll": "Mark Read on Feed Scroll",
+				"onCommunityScroll": "Mark Read on Community Scroll",
         "footer": "Hide Read Posts on Feed will automatically hide read posts anytime the feed is refreshed. If Hide Read Posts on Feed is enabled, Show Hide Read Button will show a floating action button to hide read posts without a feed refresh."
       }
     },
@@ -160,7 +163,18 @@
         "header": "Server Credentials",
         "footer": "Credentials for the server you are connecting to"
       }
-    }
+    },
+		"filters": {
+			"addKeyword": "Add Keyword",
+			"areYouSureKeyword": "Are you sure you want to remove this keyword?",
+			"enterAKeyword": "Enter a keyword to filter.",
+			"noKeywords": "No keywords yet...",
+
+			"addInstance": "Add instance",
+			"areYouSureInstance": "Are you sure you want to remove this instance?",
+			"enterAnInstance": "Enter an instance to filter.",
+			"noInstances": "No instances yet..."
+		}
   },
   "traverse": {
     "noSubscriptions": "You don't have any subscriptions.",
@@ -294,6 +308,9 @@
   "View": "View",
   "Content": "Content",
   "Appearance": "Appearance",
+	"Filters": "Filters",
+	"Keywords": "Keywords",
+	"Instances": "Instances",
   "Theme": "Theme",
   "Icon": "Icon",
   "General": "General",
@@ -306,6 +323,7 @@
   "Reply": "Reply",
   "Report Post": "Report Post",
   "Cancel": "Cancel",
+	"Remove": "Remove",
   "Submit": "Submit",
   "Retry": "Retry",
   "Language": "Language",

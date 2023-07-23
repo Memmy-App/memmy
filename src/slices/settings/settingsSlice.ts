@@ -31,6 +31,8 @@ export interface SettingsState {
   markReadOnPostView: boolean;
   markReadOnPostImageView: boolean;
   markReadOnPostVote: boolean;
+  markReadOnFeedScroll: boolean;
+  markReadOnCommunityScroll: boolean;
   ignoreScreenHeightInFeed: boolean;
   displayTotalScore: boolean;
   useReaderMode: boolean;
@@ -43,6 +45,7 @@ export interface SettingsState {
   useDefaultBrowser: boolean;
   tapToCollapse: boolean;
   swipeToVote: boolean;
+  hideUsernameInTab: boolean;
 }
 
 const initialState: SettingsState = {
@@ -71,6 +74,8 @@ const initialState: SettingsState = {
   markReadOnPostView: true,
   markReadOnPostImageView: true,
   markReadOnPostVote: true,
+  markReadOnFeedScroll: false,
+  markReadOnCommunityScroll: false,
   ignoreScreenHeightInFeed: false,
   displayTotalScore: true,
   useReaderMode: false,
@@ -82,6 +87,7 @@ const initialState: SettingsState = {
   useDefaultBrowser: false,
   tapToCollapse: true,
   swipeToVote: true,
+  hideUsernameInTab: false,
 };
 
 const settingsSlice = createSlice({

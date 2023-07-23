@@ -46,7 +46,7 @@ function VoteButton({
           size={iconSize}
         />
       ),
-    [isVoted]
+    [isVoted, colors]
   );
 
   return (

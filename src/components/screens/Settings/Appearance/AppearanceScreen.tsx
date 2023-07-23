@@ -122,7 +122,24 @@ function AppearanceScreen({ navigation }: IProps) {
             }
           />
         </CSection>
-
+        <CSection header="Tab Bar">
+          <CCell
+            cellStyle="RightDetail"
+            title="Hide Username"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.hideUsernameInTab}
+                onValueChange={(v) => {
+                  LayoutAnimation.easeInEaseOut();
+                  onChange("hideUsernameInTab", v);
+                }}
+              />
+            }
+          />
+        </CSection>
         {settings.compactView && (
           <CSection header={t("settings.appearance.compact.header")}>
             <ContextMenuButton
@@ -187,38 +204,6 @@ function AppearanceScreen({ navigation }: IProps) {
             />
           </CSection>
         )}
-
-        <CSection
-          header={t("settings.appearance.gestures.header")}
-          footer="Disabling swipe to vote will allow for full-screen swipe gestures."
-        >
-          <CCell
-            cellStyle="Basic"
-            title={t("settings.appearance.gestures.tapToCollapse")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.tapToCollapse}
-                onValueChange={(v) => onChange("tapToCollapse", v)}
-              />
-            }
-          />
-          <CCell
-            cellStyle="Basic"
-            title="Swipe to Vote"
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.swipeToVote}
-                onValueChange={(v) => onChange("swipeToVote", v)}
-              />
-            }
-          />
-        </CSection>
 
         <CSection header={t("settings.appearance.themes.header")}>
           <CCell
