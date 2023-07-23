@@ -15,7 +15,7 @@ import loadFeedPosts from "../../../stores/feeds/actions/loadFeedPosts";
 import addFeed from "../../../stores/feeds/actions/addFeed";
 import loadCommunity from "../../../stores/communities/actions/loadCommunity";
 import LoadingView from "../../common/Loading/LoadingView";
-import CommunityHeader from "./components/CommunityHeader";
+import CommunityHeader from "./components/Community/CommunityHeader";
 import removeFeed from "../../../stores/feeds/actions/removeFeed";
 
 function FeedsCommunityScreen({

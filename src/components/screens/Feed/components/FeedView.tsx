@@ -22,7 +22,7 @@ import LoadingErrorView from "../../../common/Loading/LoadingErrorView";
 import LoadingView from "../../../common/Loading/LoadingView";
 import NoResultView from "../../../common/NoResultView";
 import RefreshControl from "../../../common/RefreshControl";
-import CommunityOverflowButton from "./CommunityOverflowButton";
+import CommunityOverflowButton from "./Community/CommunityOverflowButton";
 import CompactFeedItem from "./CompactFeedItem/CompactFeedItem";
 import FeedFooter from "./FeedFooter";
 import FeedItem from "./FeedItem/FeedItem";

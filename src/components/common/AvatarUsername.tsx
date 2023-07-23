@@ -54,6 +54,7 @@ interface IProps {
   isMod?: boolean;
   children?: React.ReactNode;
   link?: boolean;
+  showPill?: boolean;
 }
 
 function AvatarUsername({
@@ -63,6 +64,7 @@ function AvatarUsername({
   isMod = false,
   children,
   link = true,
+  showPill = true,
 }: IProps) {
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
   const theme = useTheme();
@@ -138,7 +140,7 @@ function AvatarUsername({
               {creator.name}
             </Text>
           </Link>
-          {type && (
+          {type && showPill && (
             <Chip
               text={nameProps.label}
               color={nameProps.bgColor}
