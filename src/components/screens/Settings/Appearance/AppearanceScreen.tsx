@@ -121,7 +121,24 @@ function AppearanceScreen({ navigation }: IProps) {
             }
           />
         </CSection>
-
+        <CSection header="Tab Bar">
+          <CCell
+            cellStyle="RightDetail"
+            title="Hide Username"
+            backgroundColor={theme.colors.app.fg}
+            titleTextColor={theme.colors.app.textPrimary}
+            rightDetailColor={theme.colors.app.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.hideUsernameInTab}
+                onValueChange={(v) => {
+                  LayoutAnimation.easeInEaseOut();
+                  onChange("hideUsernameInTab", v);
+                }}
+              />
+            }
+          />
+        </CSection>
         {settings.compactView && (
           <CSection header={t("settings.appearance.compact.header")}>
             <ContextMenuButton
