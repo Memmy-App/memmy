@@ -55,10 +55,10 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
 
   const longPressOptions: ContextMenuOptions = useMemo(
     () => ({
-      copy_text: { display: t("Copy Text"), icon: ICON_MAP.COPY },
-      copy_link: { display: t("Copy Link"), icon: ICON_MAP.LINK },
-      reply: { display: t("Reply"), icon: ICON_MAP.REPLY },
-      report: { display: t("comment.report"), icon: ICON_MAP.REPORT_POST },
+      copy_text: { title: t("Copy Text"), icon: ICON_MAP.COPY },
+      copy_link: { title: t("Copy Link"), icon: ICON_MAP.LINK },
+      reply: { title: t("Reply"), icon: ICON_MAP.REPLY },
+      report: { title: t("comment.report"), icon: ICON_MAP.REPORT_POST },
       ...(isOwnComment && {
         edit: { display: t("comment.edit"), icon: ICON_MAP.EDIT },
         delete: {

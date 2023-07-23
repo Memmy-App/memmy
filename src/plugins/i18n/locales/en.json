@@ -276,6 +276,25 @@
   "imageView": {
     "dialogDesc": "Downloading image..."
   },
+  "sortOptions": {
+    "Top": "Top",
+    "top": {
+      "top": "Hour",
+      "Hour": "Six Hours",
+      "SixHours": "Twelve Hours",
+      "TwelveHours": "Day",
+      "Day": "Week",
+      "Week": "Month",
+      "Month": "Year",
+      "Year": "All Time"
+    },
+    "AllTime": "Hot",
+    "Hot": "Active",
+    "Active": "New",
+    "New": "Most Comments",
+    "MostComments": "New Comments",
+    "NewComments": "Old"
+  },
   "Feed": "Feed",
   "Comments": "Comments",
   "Traverse": "Traverse",
@@ -393,5 +412,6 @@
   "Description": "Description",
   "Label": "Label",
   "Trending": "Trending",
-  "Go Back": "Go Back"
+  "Go Back": "Go Back",
+  "Local": "Local"
 }

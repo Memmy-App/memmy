@@ -24,7 +24,7 @@ export function CommentContextMenu({
   const menuItems: MenuElementConfig[] = [
     ...Object.entries(options).map(([key, value]) => ({
       actionKey: key,
-      actionTitle: value.display,
+      actionTitle: value.title,
       ...(value.destructive ? { menuAttributes: ["destructive"] } : {}),
       icon: {
         type: "IMAGE_SYSTEM",

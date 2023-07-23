@@ -7,35 +7,35 @@ import {
 import { ICON_MAP } from "../../../constants/IconMap";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { UseFeedItem } from "../../../hooks/feeds/useFeedItem";
-import { ContextMenuOptions } from "../../../types/ContextMenuOptions";
+import { RootContextMenuOption } from "../../../types/ContextMenuOptions";
 
-export const FEED_OPTIONS: ContextMenuOptions = {
+export const FEED_OPTIONS: Record<string, Partial<RootContextMenuOption>> = {
   Upvote: {
-    display: "Upvote",
+    title: "Upvote",
     icon: ICON_MAP.UPVOTE,
   },
   Downvote: {
-    display: "Downvote",
+    title: "Downvote",
     icon: ICON_MAP.DOWNVOTE,
   },
   Reply: {
-    display: "Reply",
+    title: "Reply",
     icon: ICON_MAP.REPLY,
   },
   Save: {
-    display: "Save",
+    title: "Save",
     icon: ICON_MAP.SAVE,
   },
   Share: {
-    display: "Share Post",
+    title: "Share Post",
     icon: ICON_MAP.SHARE,
   },
   Report: {
-    display: "Report Post",
+    title: "Report Post",
     icon: ICON_MAP.REPORT_POST,
   },
   BlockUser: {
-    display: "Block User",
+    title: "Block User",
     icon: ICON_MAP.BLOCK_USER,
     destructive: true,
   },
@@ -45,13 +45,13 @@ export const FEED_OPTIONS: ContextMenuOptions = {
   // },
 };
 
-const FEED_COMMUNITY_OPTIONS: ContextMenuOptions = {
+const FEED_COMMUNITY_OPTIONS: Record<string, Partial<RootContextMenuOption>> = {
   Subscribe: {
-    display: "Subscribe",
+    title: "Subscribe",
     icon: ICON_MAP.SUBSCRIBE,
   },
   BlockCommunity: {
-    display: "Block",
+    title: "Block",
     icon: "xmark.circle",
     destructive: true,
   },
@@ -63,12 +63,12 @@ const menuItemsRenderer = () => {
       return {
         menuTitle: "Community",
         actionKey: key,
-        actionTitle: value.display,
+        actionTitle: value.title,
         menuItems: [
           ...Object.entries(FEED_COMMUNITY_OPTIONS).map(
             ([commKey, commValue]) => ({
               actionKey: commKey,
-              actionTitle: commValue.display,
+              actionTitle: commValue.title,
               ...(commValue.destructive
                 ? { menuAttributes: ["destructive"] }
                 : {}),
@@ -85,7 +85,7 @@ const menuItemsRenderer = () => {
     }
     return {
       actionKey: key,
-      actionTitle: value.display,
+      actionTitle: value.title,
       ...(value.destructive ? { menuAttributes: ["destructive"] } : {}),
       icon: {
         type: "IMAGE_SYSTEM",

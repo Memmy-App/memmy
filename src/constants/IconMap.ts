@@ -16,4 +16,18 @@ export const ICON_MAP = {
   LINK: "link",
   BLOCK_COMMUNITY: "xmark.circle",
   FILTERS: "eye.slash",
+  GLOBE: "globe",
+  LOCATION: "location",
+  HEART: "heart",
+  CALENDAR: "calendar",
+  TROPHY: "trophy",
+  FLAME: "flame",
+  BOLT: "bolt",
+  ALARM: "alarm",
+  MOST_COMMENTS: "bubble.left.and.bubble.right",
+  NEW_COMMENTS: "star.bubble",
+  HOURGLASS: "hourglass",
+  CHEVRON: {
+    RIGHT: "chevron.right",
+  },
 };

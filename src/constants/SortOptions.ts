@@ -1,106 +1,79 @@
-import { CommentSortType } from "lemmy-js-client";
 import { ContextMenuOptions } from "../types/ContextMenuOptions";
 
 export const overallSortOptions: ContextMenuOptions = {
   TopHour: {
-    display: "Hour",
+    title: "Hour",
     icon: "clock",
   },
   TopSixHour: {
-    display: "Six Hours",
+    title: "Six Hours",
     icon: "clock",
   },
   TopTwelveHour: {
-    display: "Twelve Hours",
+    title: "Twelve Hours",
     icon: "clock",
   },
   TopDay: {
-    display: "Day",
+    title: "Day",
     icon: "calendar",
   },
   TopWeek: {
-    display: "Week",
+    title: "Week",
     icon: "calendar",
   },
   TopMonth: {
-    display: "Month",
+    title: "Month",
     icon: "calendar",
   },
   TopYear: {
-    display: "Year",
+    title: "Year",
     icon: "calendar",
   },
   TopAll: {
-    display: "All Time",
+    title: "All Time",
     icon: "trophy",
   },
   Hot: {
-    display: "Hot",
+    title: "Hot",
     icon: "flame",
   },
   Active: {
-    display: "Active",
+    title: "Active",
     icon: "bolt",
   },
   New: {
-    display: "New",
+    title: "New",
     icon: "alarm",
   },
   MostComments: {
-    display: "Most Comments",
+    title: "Most Comments",
     icon: "bubble.left.and.bubble.right",
   },
   NewComments: {
-    display: "New Comments",
+    title: "New Comments",
     icon: "star.bubble",
   },
   Old: {
-    display: "Old",
+    title: "Old",
     icon: "hourglass",
   },
 };
 
-export const feedSortOptions: ContextMenuOptions = {
-  TopAll: {
-    display: "Top",
-    icon: "clock",
-  },
-  Hot: overallSortOptions.Hot,
-  Active: overallSortOptions.Active,
-  New: overallSortOptions.New,
-  MostComments: overallSortOptions.MostComments,
-  NewComments: overallSortOptions.NewComments,
-  Old: overallSortOptions.Old,
-};
-
-export const sortTopOptions: ContextMenuOptions = {
-  TopHour: overallSortOptions.TopHour,
-  TopSixHour: overallSortOptions.TopSixHour,
-  TopTwelveHour: overallSortOptions.TopTwelveHour,
-  TopDay: overallSortOptions.TopDay,
-  TopWeek: overallSortOptions.TopWeek,
-  TopMonth: overallSortOptions.TopMonth,
-  TopYear: overallSortOptions.TopYear,
-  TopAll: overallSortOptions.TopAll,
-};
-
-export type CommentSortOption = [key: CommentSortType, display: string];
-
 export const commentSortOptions: ContextMenuOptions = {
   Top: {
-    display: "Top",
+    title: "Top",
     icon: "trophy",
   },
   Hot: {
-    display: "Hot",
+    title: "Hot",
     icon: "flame",
   },
   New: {
-    display: "New",
+    title: "New",
     icon: "alarm",
   },
   Old: {
-    display: "Old",
+    title: "Old",
     icon: "hourglass",
   },
 };

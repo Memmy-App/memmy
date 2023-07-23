@@ -1,9 +1,9 @@
 import { CommentSortType } from "lemmy-js-client";
 import React from "react";
-import { commentSortOptions } from "../../../../constants/SortOptions";
 import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
 import { CommentSortContextMenu } from "../../../common/ContextMenu/CommentSortContextMenu";
 import SFIcon from "../../../common/icons/SFIcon";
+import { useCommentSortOptions } from "../../../../hooks/sortOptions/useSortOptions";
 
 interface IProps {
   sortType: CommentSortType;
@@ -11,6 +11,8 @@ interface IProps {
 }
 
 function CommentSortButton({ sortType, setSortType }: IProps) {
+  const commentSortOptions = useCommentSortOptions();
+
   return (
     <CommentSortContextMenu
       onPress={({ nativeEvent }) => {

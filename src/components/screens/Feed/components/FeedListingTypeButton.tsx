@@ -3,22 +3,22 @@ import React from "react";
 import { HStack, Text, useTheme } from "native-base";
 import { useRoute } from "@react-navigation/core";
 import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
-import {
-  ListingTypeContextMenu,
-  listingTypeOptions,
-} from "../../../common/ContextMenu/ListingTypeContextMenu";
+import { ListingTypeContextMenu } from "../../../common/ContextMenu/ListingTypeContextMenu";
 import SFIcon from "../../../common/icons/SFIcon";
 import {
   useFeedListingType,
   useFeedsStore,
 } from "../../../../stores/feeds/feedsStore";
 import loadFeedPosts from "../../../../stores/feeds/actions/loadFeedPosts";
+import { useListingTypeOptions } from "../../../../hooks/sortOptions/useSortOptions";
+import { findOptionByKey } from "../../../../helpers/ContextMenuOptionsHelper";
 
 export function FeedListingTypeButton() {
   const { key } = useRoute();
   const listingType = useFeedListingType(key);
 
   const { colors } = useTheme();
+  const listingTypeOptions = useListingTypeOptions();
 
   const onPress = (e: OnPressMenuItemEventObject) => {
     useFeedsStore.setState((state) => {
@@ -41,7 +41,7 @@ export function FeedListingTypeButton() {
           fontSize="16"
           fontWeight="semibold"
         >
-          {listingTypeOptions[listingType].display}
+          {findOptionByKey(listingTypeOptions, listingType).title}
         </Text>
         <SFIcon
           icon="chevron.down"

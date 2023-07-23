@@ -7,12 +7,13 @@ import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
-import { overallSortOptions } from "../../../../constants/SortOptions";
 import { CommentSortContextMenu } from "../../../common/ContextMenu/CommentSortContextMenu";
 import { FeedSortContextMenu } from "../../../common/ContextMenu/FeedSortContextMenu";
 import { ListingTypeContextMenu } from "../../../common/ContextMenu/ListingTypeContextMenu";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
+import { useOverallSortOptions } from "../../../../hooks/sortOptions/useSortOptions";
+import { findOptionByKey } from "../../../../helpers/ContextMenuOptionsHelper";
 
 function ContentScreen({
   navigation,
@@ -24,6 +25,7 @@ function ContentScreen({
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const theme = useTheme();
+  const overallSortOptions = useOverallSortOptions();
 
   const onChange = (key: string, value: any) => {
     dispatch(setSetting({ [key]: value }));
@@ -42,7 +44,9 @@ function ContentScreen({
             <CCell
               cellStyle="RightDetail"
               title={t("Default Sort")}
-              detail={overallSortOptions[settings.defaultSort].display}
+              detail={
+                findOptionByKey(overallSortOptions, settings.defaultSort).title
+              }
               backgroundColor={theme.colors.app.fg}
               titleTextColor={theme.colors.app.textPrimary}
               rightDetailColor={theme.colors.app.textSecondary}

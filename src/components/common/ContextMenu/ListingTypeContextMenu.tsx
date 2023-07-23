@@ -1,28 +1,10 @@
 import { ListingType } from "lemmy-js-client";
-import React from "react";
-import {
-  ContextMenuButton,
-  OnPressMenuItemEvent,
-} from "react-native-ios-context-menu";
-import { ContextMenuOptions } from "../../../types/ContextMenuOptions";
+import React, { PropsWithChildren } from "react";
+import { OnPressMenuItemEvent } from "react-native-ios-context-menu";
+import AppContextMenuButton from "./AppContextMenuButton";
+import { useListingTypeOptions } from "../../../hooks/sortOptions/useSortOptions";
 
-export const listingTypeOptions: ContextMenuOptions = {
-  All: {
-    display: "All",
-    icon: "globe",
-  },
-  Local: {
-    display: "Local",
-    icon: "location",
-  },
-  Subscribed: {
-    display: "Subscribed",
-    icon: "heart",
-  },
-};
-
-interface IProps {
-  children: React.ReactNode;
+interface IProps extends PropsWithChildren {
   currentSelection: ListingType;
   onPress: OnPressMenuItemEvent;
 }
@@ -32,29 +14,15 @@ export function ListingTypeContextMenu({
   currentSelection,
   onPress,
 }: IProps) {
+  const listingTypeOptions = useListingTypeOptions();
+
   return (
-    <ContextMenuButton
-      isMenuPrimaryAction
+    <AppContextMenuButton<ListingType>
+      options={listingTypeOptions}
+      currentSelection={currentSelection}
       onPressMenuItem={onPress}
-      menuConfig={{
-        menuTitle: "",
-        // @ts-ignore Types for menuItems are wrong for this library
-        menuItems: [
-          ...Object.entries(listingTypeOptions).map(([key, value]) => ({
-            actionKey: key,
-            actionTitle: value.display,
-            menuState: currentSelection === key ? "on" : "off",
-            icon: {
-              type: "IMAGE_SYSTEM",
-              imageValue: {
-                systemName: value.icon,
-              },
-            },
-          })),
-        ],
-      }}
     >
       {children}
-    </ContextMenuButton>
+    </AppContextMenuButton>
   );
 }

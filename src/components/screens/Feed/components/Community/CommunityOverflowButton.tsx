@@ -25,16 +25,16 @@ export type Community = {
 
 const options: ContextMenuOptions = {
   share: {
-    display: "Share",
+    title: "Share",
     icon: ICON_MAP.SHARE,
   },
   block: {
-    display: "Block Community",
+    title: "Block Community",
     icon: ICON_MAP.BLOCK_COMMUNITY,
     destructive: true,
   },
   unblock: {
-    display: "Unblock Community",
+    title: "Unblock Community",
     icon: ICON_MAP.BLOCK_COMMUNITY,
     destructive: false,
   },
@@ -102,7 +102,7 @@ function CommunityOverflowButton() {
         menuItems: [
           {
             actionKey: "share",
-            actionTitle: options.share.display,
+            actionTitle: options.share.title,
             icon: {
               type: "IMAGE_SYSTEM",
               imageValue: {
@@ -112,7 +112,7 @@ function CommunityOverflowButton() {
           },
           {
             actionKey: "block",
-            actionTitle: options.block.display,
+            actionTitle: options.block.title,
             menuAttributes: ["destructive"],
             icon: {
               type: "IMAGE_SYSTEM",
