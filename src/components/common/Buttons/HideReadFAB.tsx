@@ -1,5 +1,6 @@
-import { useTheme } from "native-base";
 import { Fab } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React from "react";
 import SFIcon from "../icons/SFIcon";
 
@@ -8,11 +9,11 @@ interface IProps {
 }
 
 function HideReadFAB({ onPress }: IProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   return (
     <Fab
-      backgroundColor={theme.colors.app.accent}
+      backgroundColor={theme.colors.accent}
       p="$2"
       onPress={onPress}
       placement="bottom right"

@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, StyleSheet, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Icon, useTheme } from "native-base";
-import { HStack, Text, View, VStack } from "@components/common/Gluestack";
+import { HStack, Icon, Text, View, VStack } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
-import { useAppSelector } from "../../../../store";
 import { selectNewComment } from "../../../slices/comments/newCommentSlice";
 import LoadingView from "../../common/Loading/LoadingView";
 import useNewComment from "../../../hooks/comments/useNewComment";
@@ -40,7 +40,7 @@ function NewCommentScreen({
 
   // Other hooks
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   // Other
   const myVote = responseTo.post
@@ -68,7 +68,7 @@ function NewCommentScreen({
     <Button
       title={t("Cancel")}
       onPress={() => navigation.pop()}
-      color={theme.colors.app.accent}
+      color={theme.colors.accent}
     />
   );
 
@@ -77,7 +77,7 @@ function NewCommentScreen({
       title={t("Submit")}
       onPress={newComment.doSubmit}
       disabled={newComment.loading}
-      color={theme.colors.app.accent}
+      color={theme.colors.accent}
     />
   );
 
@@ -87,11 +87,11 @@ function NewCommentScreen({
 
   return (
     <>
-      <KeyboardAwareScrollView style={{ backgroundColor: theme.colors.app.bg }}>
+      <KeyboardAwareScrollView style={{ backgroundColor: theme.colors.bg }}>
         <View
           flex={1}
           flexDirection="column"
-          backgroundColor={theme.colors.app.bg}
+          backgroundColor={theme.colors.bg}
           justifyContent="space-between"
         >
           <TextInput
@@ -100,8 +100,8 @@ function NewCommentScreen({
             style={[
               styles.input,
               {
-                backgroundColor: theme.colors.app.bg,
-                color: theme.colors.app.textPrimary,
+                backgroundColor: theme.colors.bg,
+                color: theme.colors.textPrimary,
               },
             ]}
             numberOfLines={20}
@@ -133,7 +133,7 @@ function NewCommentScreen({
               </HStack>
               <HStack space="xs" alignItems="center">
                 <Icon as={Ionicons} name="time-outline" />
-                <Text color={theme.colors.app.textSecondary}>
+                <Text color={theme.colors.textSecondary}>
                   {dayjs(
                     responseTo.post
                       ? responseTo.post.post.published

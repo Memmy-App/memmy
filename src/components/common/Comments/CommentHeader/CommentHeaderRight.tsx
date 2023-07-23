@@ -1,5 +1,6 @@
-import { useTheme } from "native-base";
 import { HStack, Text } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
 import { timeFromNowShort } from "../../../../helpers/TimeHelper";
 import IconButtonWithText from "../../IconButtonWithText";
@@ -20,26 +21,26 @@ function CommentHeaderRight({
   collapsed,
   contextOptions,
 }: IProps) {
-  const theme = useTheme();
-
-  if (collapsed) {
-    return (
-      <SFIcon
-        icon="chevron.down"
-        size={12}
-        color={theme.colors.app.textSecondary}
-      />
-    );
-  }
+  const theme = useAppSelector(selectThemeOptions);
 
   const publishedFormatted = useMemo(
     () => timeFromNowShort(published),
     [published]
   );
 
+  if (collapsed) {
+    return (
+      <SFIcon
+        icon="chevron.down"
+        size={12}
+        color={theme.colors.textSecondary}
+      />
+    );
+  }
+
   return (
     <HStack alignItems="center" space="sm">
-      <Text color={theme.colors.app.textSecondary}>{publishedFormatted}</Text>
+      <Text color={theme.colors.textSecondary}>{publishedFormatted}</Text>
       <CommentContextMenu
         isButton
         options={contextOptions}
@@ -52,7 +53,7 @@ function CommentHeaderRight({
             <SFIcon
               icon="ellipsis"
               size={12}
-              color={theme.colors.app.textSecondary}
+              color={theme.colors.textSecondary}
             />
           }
         />

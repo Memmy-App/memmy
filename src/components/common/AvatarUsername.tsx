@@ -1,13 +1,15 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { Person } from "lemmy-js-client";
-import { useTheme } from "native-base";
 import { HStack, Text, VStack } from "@components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
 import React from "react";
-import { useAppSelector } from "../../../store";
+import { useAppSelector } from "@root/store";
 import { ICON_MAP } from "../../constants/IconMap";
 import { getUserFullName } from "../../helpers/LemmyHelpers";
 import { getBaseUrl } from "../../helpers/LinkHelper";
-import { selectSettings } from "../../slices/settings/settingsSlice";
 import Link from "./Buttons/Link";
 import Chip from "./Chip";
 import SFIcon from "./icons/SFIcon";
@@ -68,7 +70,7 @@ function AvatarUsername({
   showPill = true,
 }: IProps) {
   const { showInstanceForUsernames } = useAppSelector(selectSettings);
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const type = getUserPillType({ user: creator, opId, isMod });
 
   const NameColorMap: Record<
@@ -76,22 +78,22 @@ function AvatarUsername({
     { textColor: string; bgColor: string; label: string }
   > = {
     admin: {
-      bgColor: theme.colors.app.users.admin,
+      bgColor: theme.colors.users.admin,
       textColor: "#fff",
       label: "ADMIN",
     },
     mod: {
-      bgColor: theme.colors.app.users.mod,
+      bgColor: theme.colors.users.mod,
       textColor: "#fff",
       label: "MOD",
     },
     op: {
-      bgColor: theme.colors.app.users.op,
+      bgColor: theme.colors.users.op,
       textColor: "#fff",
       label: "OP",
     },
     dev: {
-      bgColor: theme.colors.app.users.dev,
+      bgColor: theme.colors.users.dev,
       textColor: "#fff",
       label: "DEV",
     },
@@ -112,7 +114,7 @@ function AvatarUsername({
         ) : (
           <SFIcon
             icon={ICON_MAP.USER_AVATAR}
-            color={theme.colors.app.textSecondary}
+            color={theme.colors.textSecondary}
             size={14}
             boxSize={22}
           />
@@ -122,7 +124,7 @@ function AvatarUsername({
           icon="server.rack"
           size={12}
           boxSize={20}
-          color={theme.colors.app.info}
+          color={theme.colors.info}
         />
       )}
       <VStack>
@@ -136,7 +138,7 @@ function AvatarUsername({
           >
             <Text
               fontWeight="normal"
-              color={type ? nameProps.bgColor : theme.colors.app.textSecondary}
+              color={type ? nameProps.bgColor : theme.colors.textSecondary}
             >
               {creator.name}
             </Text>
@@ -150,7 +152,7 @@ function AvatarUsername({
           )}
         </HStack>
         {showInstanceForUsernames && (
-          <Text size="xs" color={theme.colors.app.textPrimary}>
+          <Text size="xs" color={theme.colors.textPrimary}>
             {getBaseUrl(creator.actor_id)}
           </Text>
         )}

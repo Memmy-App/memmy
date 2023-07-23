@@ -1,4 +1,3 @@
-import { useTheme } from "native-base";
 import {
   HStack,
   Pressable,
@@ -6,6 +5,8 @@ import {
   View,
   VStack,
 } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React, { useState } from "react";
 import SFIcon from "../icons/SFIcon";
 
@@ -36,7 +37,7 @@ function MCell({
   showChevron = false,
   py,
 }: IProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const [pressedIn, setPressedIn] = useState(false);
 
   const onPressIn = () => setPressedIn(true);
@@ -49,7 +50,7 @@ function MCell({
         <VStack flexShrink={1}>
           <Text size="md">{title}</Text>
           {subtitle && (
-            <Text size="xs" color={theme.colors.app.textSecondary}>
+            <Text size="xs" color={theme.colors.textSecondary}>
               {subtitle}
             </Text>
           )}

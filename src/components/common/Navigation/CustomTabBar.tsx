@@ -1,7 +1,7 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { useTheme } from "native-base";
 import { Box, HStack, Text, View, VStack } from "@components/common/Gluestack";
-
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
@@ -19,19 +19,13 @@ function IconWithText({
   color: string;
   badge?: string;
 }) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   return (
     <VStack style={{ alignItems: "center" }} space="xs">
       <HStack>
         {icon}
         {badge && (
-          <Box
-            h="$2"
-            w="$2"
-            bg={theme.colors.app.error}
-            rounded="$md"
-            ml={-1.5}
-          />
+          <Box h="$2" w="$2" bg={theme.colors.error} rounded="$md" ml={-1.5} />
         )}
       </HStack>
       <Text color={color} size="xs">
@@ -46,7 +40,7 @@ export function CustomTabBar({
   descriptors,
   navigation,
 }: BottomTabBarProps) {
-  const { colors } = useTheme();
+  const { colors } = useAppSelector(selectThemeOptions);
 
   return (
     <TabBarGestureHandler>
@@ -54,11 +48,11 @@ export function CustomTabBar({
         style={{
           flexDirection: "row",
           height: 75,
-          backgroundColor: colors.app.navBarBg,
+          backgroundColor: colors.navBarBg,
           paddingTop: 6,
           paddingHorizontal: 5,
           borderTopWidth: 1,
-          borderTopColor: colors.app.border,
+          borderTopColor: colors.border,
         }}
       >
         {state.routes.map((route, index) => {
@@ -68,9 +62,7 @@ export function CustomTabBar({
 
           const isFocused = state.index === index;
 
-          const color = isFocused
-            ? colors.app.accent
-            : colors.app.textSecondary;
+          const color = isFocused ? colors.accent : colors.textSecondary;
 
           const icon = options.tabBarIcon({
             color,

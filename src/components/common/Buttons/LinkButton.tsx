@@ -1,5 +1,6 @@
-import { useTheme } from "native-base";
 import { HStack, Pressable, Text, VStack } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import FastImage from "@gkasdorf/react-native-fast-image";
@@ -16,17 +17,17 @@ interface LinkButtonProps {
 
 function LinkButton({ link, thumbnail }: LinkButtonProps) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const onPress = () => {
-    openLink(link, navigation, theme.colors.app.bg);
+    openLink(link, navigation, theme.colors.bg);
   };
 
   return (
     <Pressable onPress={onPress}>
       <VStack
         borderRadius="$md"
-        backgroundColor={theme.colors.app.bg}
+        backgroundColor={theme.colors.bg}
         justifyContent="flex-start"
       >
         {thumbnail && (
@@ -51,14 +52,8 @@ function LinkButton({ link, thumbnail }: LinkButtonProps) {
           mx="$4"
           my="$2"
         >
-          <SFIcon
-            icon="link"
-            color={theme.colors.app.textSecondary}
-            size={14}
-          />
-          <Text color={theme.colors.app.textSecondary}>
-            {truncateLink(link)}
-          </Text>
+          <SFIcon icon="link" color={theme.colors.textSecondary} size={14} />
+          <Text color={theme.colors.textSecondary}>{truncateLink(link)}</Text>
         </HStack>
       </VStack>
     </Pressable>

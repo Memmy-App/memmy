@@ -1,8 +1,9 @@
 import React from "react";
 import { FlashList } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
-import { useTheme } from "native-base";
 import { VStack } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { Route } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/core";
 import useProfile from "../../../hooks/profile/useProfile";
@@ -35,7 +36,7 @@ function UserPostsScreen({ route }: IProps) {
 
   const postsStatus = useFeedStatus(key);
 
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const noResultViewType = route.params.isSavedPosts
     ? "profileSavedPosts"
@@ -60,7 +61,7 @@ function UserPostsScreen({ route }: IProps) {
   }
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.bg}>
+    <VStack flex={1} backgroundColor={theme.colors.bg}>
       <FlashList
         renderItem={renderItem}
         estimatedItemSize={150}

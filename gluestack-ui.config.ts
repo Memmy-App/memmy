@@ -1,5 +1,7 @@
+import { themeMap } from "@src/theme/theme";
+
 export const config = {
-  componentPath: "./src/components/common/gluestack",
+  componentPath: "./src/components/common/Gluestack",
   theme: {
     aliases: {
       bg: "backgroundColor",
@@ -24,7 +26,6 @@ export const config = {
     } as const,
     tokens: {
       colors: {
-        textPrimary: "#FFFFFF",
         primary50: "#f0f9ff",
         primary100: "#e0f2fe",
         primary200: "#bae6fd",
@@ -65,6 +66,7 @@ export const config = {
         gray700: "#3f3f46",
         gray800: "#27272a",
         gray900: "#18181b",
+        ...themeMap.darkTheme.colors,
       },
       space: {
         px: "1px",
@@ -344,6 +346,9 @@ export const config = {
     },
   },
 } as const;
+
+export const { theme } = config;
+
 type Config = typeof config.theme;
 declare module "@gluestack-style/react" {
   interface ICustomConfig extends Config {}

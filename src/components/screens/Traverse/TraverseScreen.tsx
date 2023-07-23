@@ -1,7 +1,8 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { StyleSheet } from "react-native";
-import { useTheme } from "native-base";
 import { Text, View } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { CommunityView } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
@@ -13,7 +14,6 @@ import RefreshControl from "../../common/RefreshControl";
 
 import { selectFavorites } from "../../../slices/favorites/favoritesSlice";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
-import { useAppSelector } from "../../../../store";
 import { getCommunityFullName } from "../../../helpers/LemmyHelpers";
 
 enum ItemType {
@@ -36,7 +36,7 @@ interface SectionListItem {
 
 function TraverseScreen() {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const traverse = useTraverse();
 
   const [term, setTerm] = useState("");
@@ -193,7 +193,7 @@ function TraverseScreen() {
       const { type, value } = item;
       if (type === ItemType.INDEX) {
         return (
-          <View backgroundColor={theme.colors.app.bg}>
+          <View backgroundColor={theme.colors.bg}>
             <Text
               style={styles.alphaIndexHeaderText}
               size="xl"
@@ -247,7 +247,7 @@ function TraverseScreen() {
   }
 
   return (
-    <View flex={1} style={{ backgroundColor: theme.colors.app.bg }}>
+    <View flex={1} style={{ backgroundColor: theme.colors.bg }}>
       {header}
       <FlashList
         refreshControl={

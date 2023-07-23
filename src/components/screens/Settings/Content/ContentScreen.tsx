@@ -1,13 +1,15 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useTheme } from "native-base";
 import { ScrollView } from "@components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
+import { useAppDispatch, useAppSelector } from "@root/store";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
-import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { setSetting } from "../../../../slices/settings/settingsActions";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { overallSortOptions } from "../../../../constants/SortOptions";
 import { CommentSortContextMenu } from "../../../common/ContextMenu/CommentSortContextMenu";
 import { FeedSortContextMenu } from "../../../common/ContextMenu/FeedSortContextMenu";
@@ -24,14 +26,14 @@ function ContentScreen({
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const onChange = (key: string, value: any) => {
     dispatch(setSetting({ [key]: value }));
   };
 
   return (
-    <ScrollView bg={theme.colors.app.bg} flex={1}>
+    <ScrollView bg={theme.colors.bg} flex={1}>
       <TableView style={styles.table}>
         <CSection header={t("Posts")}>
           <FeedSortContextMenu
@@ -44,9 +46,9 @@ function ContentScreen({
               cellStyle="RightDetail"
               title={t("Default Sort")}
               detail={overallSortOptions[settings.defaultSort].display}
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
               accessory="DisclosureIndicator"
             />
           </FeedSortContextMenu>
@@ -62,9 +64,9 @@ function ContentScreen({
               cellStyle="RightDetail"
               title={t("Default Comment Sort")}
               detail={settings.defaultCommentSort}
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
               accessory="DisclosureIndicator"
             />
           </CommentSortContextMenu>
@@ -80,17 +82,17 @@ function ContentScreen({
               cellStyle="RightDetail"
               title={t("Default Listing Type")}
               detail={settings.defaultListingType}
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
               accessory="DisclosureIndicator"
             />
           </ListingTypeContextMenu>
           <CCell
             title={t("Hide Read Posts")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("ReadSettings")}
           />
@@ -100,9 +102,9 @@ function ContentScreen({
           <CCell
             cellStyle="RightDetail"
             title={t("Show Comment Actions")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.showCommentActions}
@@ -121,9 +123,9 @@ function ContentScreen({
           <CCell
             cellStyle="RightDetail"
             title={t("settings.content.nsfw.blur")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.blurNsfw}
@@ -134,9 +136,9 @@ function ContentScreen({
           <CCell
             cellStyle="RightDetail"
             title={t("settings.content.nsfw.hide")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.hideNsfw}
@@ -149,9 +151,9 @@ function ContentScreen({
           <CCell
             cellStyle="Basic"
             title={t("settings.content.web.useReaderMode")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.useReaderMode}

@@ -10,6 +10,7 @@ module.exports = function (api) {
         "extensions": [".ios.js", ".android.js", ".js", ".ts", ".tsx", ".json"],
         "alias": {
           "@root": ".",
+          "@src": "./src",
           "@components": "./src/components",
         }
       }]

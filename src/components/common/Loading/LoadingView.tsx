@@ -1,16 +1,13 @@
 import React from "react";
-import { useTheme } from "native-base";
 import { Spinner, VStack } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 
 function LoadingView() {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   return (
-    <VStack
-      flex={1}
-      justifyContent="center"
-      backgroundColor={theme.colors.app.bg}
-    >
+    <VStack flex={1} justifyContent="center" backgroundColor={theme.colors.bg}>
       <Spinner size="large" />
     </VStack>
   );

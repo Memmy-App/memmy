@@ -2,15 +2,17 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
-import { useTheme } from "native-base";
 import { View } from "@components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
 import { TextStyle, useWindowDimensions } from "react-native";
-import { useAppSelector } from "../../../../store";
 import { openLink } from "../../../helpers/LinkHelper";
 import { replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { fontSizeMap } from "../../../theme/fontSize";
 import ImageViewer from "../ImageViewer/ImageViewer";
 import SpoilerContainer from "./SpoilerContainer";
@@ -46,13 +48,13 @@ function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
   const HEADING_4_SIZE = isSystemTextSize ? 18 / fontScale : 15 + fontModifier;
 
   const onLinkPress = (url): boolean => {
-    openLink(url, navigation, theme.colors.app.bg);
+    openLink(url, navigation, theme.colors.bg);
     return false;
   };
 
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
-  const fontColor = theme.colors.app.textPrimary;
+  const fontColor = theme.colors.textPrimary;
 
   const markdownStyles: Record<string, TextStyle> = {
     span: {
@@ -65,7 +67,7 @@ function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
     },
     paragraph: {
       fontSize: FONT_SIZE,
-      color: isNote ? theme.colors.app.textSecondary : fontColor,
+      color: isNote ? theme.colors.textSecondary : fontColor,
       fontStyle: isNote ? "italic" : "normal",
     },
     heading1: {
@@ -89,27 +91,27 @@ function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
       color: fontColor,
     },
     blockquote: {
-      backgroundColor: theme.colors.app.bg,
+      backgroundColor: theme.colors.bg,
       borderRadius: 5,
       borderLeftWidth: 3,
-      borderLeftColor: theme.colors.app.accent,
+      borderLeftColor: theme.colors.accent,
       marginVertical: 10,
     },
     code_inline: {
       fontSize: FONT_SIZE,
       color: fontColor,
-      backgroundColor: theme.colors.app.bg,
+      backgroundColor: theme.colors.bg,
     },
     code_block: {
       fontSize: FONT_SIZE,
       color: fontColor,
-      backgroundColor: theme.colors.app.bg,
+      backgroundColor: theme.colors.bg,
       borderRadius: 5,
     },
     pre: {
       fontSize: FONT_SIZE,
       color: fontColor,
-      backgroundColor: theme.colors.app.bg,
+      backgroundColor: theme.colors.bg,
       borderRadius: 5,
     },
     image: {},
@@ -120,20 +122,20 @@ function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
     table: {
       color: fontColor,
       fontSize: FONT_SIZE,
-      borderColor: theme.colors.app.border,
+      borderColor: theme.colors.border,
       marginVertical: 10,
     },
     th: {
-      borderColor: theme.colors.app.border,
+      borderColor: theme.colors.border,
       padding: 8,
       fontWeight: "bold",
     },
     td: {
-      borderColor: theme.colors.app.border,
+      borderColor: theme.colors.border,
       padding: 8,
     },
     tr: {
-      borderColor: theme.colors.app.border,
+      borderColor: theme.colors.border,
     },
     list_item: {
       color: fontColor,
@@ -143,8 +145,8 @@ function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
       paddingVertical: 1,
     },
     fence: {
-      backgroundColor: theme.colors.app.bg,
-      borderColor: theme.colors.app.bg,
+      backgroundColor: theme.colors.bg,
+      borderColor: theme.colors.bg,
       color: fontColor,
       fontSize: FONT_SIZE,
     },
@@ -168,7 +170,7 @@ function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
       fontSize: FONT_SIZE,
     },
     hr: {
-      color: theme.colors.app.bg,
+      color: theme.colors.bg,
     },
   };
   return useMemo(() => {
@@ -199,11 +201,11 @@ function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
   }, [
     text,
     FONT_SIZE,
-    theme.colors.app.textPrimary,
-    theme.colors.app.textSecondary,
-    theme.colors.app.bg,
-    theme.colors.app.border,
-    theme.colors.app.accent,
+    theme.colors.textPrimary,
+    theme.colors.textSecondary,
+    theme.colors.bg,
+    theme.colors.border,
+    theme.colors.accent,
   ]);
 }
 

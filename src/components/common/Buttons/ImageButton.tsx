@@ -1,5 +1,12 @@
-import { ChevronRightIcon, Spacer, useTheme } from "native-base";
-import { HStack, Text } from "@components/common/Gluestack";
+import {
+  ChevronRightIcon,
+  HStack,
+  Icon,
+  Spacer,
+  Text,
+} from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React from "react";
 import { truncateImageLink } from "../../../helpers/TextHelper";
 
@@ -10,12 +17,12 @@ interface ImageButtonProps {
 }
 
 function ImageButton({ src, marginY = 4, children }: ImageButtonProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   return (
     <>
       <HStack
-        backgroundColor={theme.colors.app.bg}
+        backgroundColor={theme.colors.bg}
         borderRadius="$md"
         padding={2}
         flexDirection="row"
@@ -25,11 +32,9 @@ function ImageButton({ src, marginY = 4, children }: ImageButtonProps) {
       >
         {children}
         <Spacer />
-        <Text color={theme.colors.app.textPrimary}>
-          {truncateImageLink(src)}
-        </Text>
+        <Text color={theme.colors.textPrimary}>{truncateImageLink(src)}</Text>
         <Spacer />
-        <ChevronRightIcon />
+        <Icon as={ChevronRightIcon} />
       </HStack>
     </>
   );

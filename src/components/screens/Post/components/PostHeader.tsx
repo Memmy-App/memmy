@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo } from "react";
-import { useTheme } from "native-base";
 import {
   Divider,
   HStack,
@@ -7,6 +6,8 @@ import {
   Text,
   VStack,
 } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { useRoute } from "@react-navigation/core";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import PostContentView from "./PostContentView";
@@ -27,7 +28,7 @@ function PostHeader() {
 
   const currentPost = useCurrentPost(postKey);
   const postCollapsed = usePostCollapsed(postKey);
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const instanceBaseUrl = useMemo(
     () => getBaseUrl(currentPost.community.actor_id),
@@ -39,7 +40,7 @@ function PostHeader() {
   }, [currentPost.post.id]);
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.fg}>
+    <VStack flex={1} backgroundColor={theme.colors.fg}>
       <Pressable onPress={onPostPress}>
         {!postCollapsed ? (
           <PostContentView />
@@ -47,7 +48,7 @@ function PostHeader() {
           <VStack>
             <PostTitle mt="$2" mb="$2" />
             <Text
-              color={theme.colors.app.textSecondary}
+              color={theme.colors.textSecondary}
               fontStyle="italic"
               py="$2"
               px="$4"
@@ -70,9 +71,9 @@ function PostHeader() {
         <DatePublished published={currentPost.post.published} />
       </HStack>
 
-      <Divider my="$1" bg={theme.colors.app.border} />
+      <Divider my="$1" bg={theme.colors.border} />
       <PostActionBar />
-      <Divider bg={theme.colors.app.border} />
+      <Divider bg={theme.colors.border} />
       {/* {showLoadAll && !hideSLA && ( */}
       {/*  <Pressable */}
       {/*    backgroundColor="#1A91FF" */}

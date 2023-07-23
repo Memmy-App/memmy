@@ -1,7 +1,7 @@
-import { useTheme } from "native-base";
 import { Divider, HStack, View } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
-import { useAppSelector } from "../../../../store";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import useComment from "../../../hooks/comments/useComment";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
@@ -35,7 +35,7 @@ function CommentItem({
   onVote,
   onPress,
 }: IProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const settings = useAppSelector(selectSettings);
 
   if (!depth) {
@@ -119,9 +119,9 @@ function CommentItem({
         style={{
           paddingLeft: depth * 12,
         }}
-        backgroundColor={theme.colors.app.fg}
+        backgroundColor={theme.colors.fg}
       >
-        <Divider bg={theme.colors.app.border} />
+        <Divider bg={theme.colors.border} />
       </View>
     </>
   );

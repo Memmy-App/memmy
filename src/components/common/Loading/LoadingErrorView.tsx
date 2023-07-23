@@ -1,6 +1,7 @@
 import React from "react";
-import { useTheme } from "native-base";
 import { Text, View } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { Button, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 
@@ -10,10 +11,10 @@ interface LoadingViewProps {
 
 function LoadingErrorView({ onRetryPress }: LoadingViewProps) {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   return (
-    <View style={styles.container} backgroundColor={theme.colors.app.bg}>
+    <View style={styles.container} backgroundColor={theme.colors.bg}>
       <Text fontStyle="italic" color="gray500">
         {t("loadingError.text")}
       </Text>

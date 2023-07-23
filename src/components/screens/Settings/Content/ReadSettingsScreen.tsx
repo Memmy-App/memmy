@@ -1,18 +1,20 @@
 import React from "react";
-import { useTheme } from "native-base";
 import { VStack } from "@components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
+import { useAppDispatch, useAppSelector } from "@root/store";
 import { Switch } from "react-native";
 import { useTranslation } from "react-i18next";
 import CTable from "../../../common/Table/CTable";
 import CSection from "../../../common/Table/CSection";
 import CCell from "../../../common/Table/CCell";
-import { useAppDispatch, useAppSelector } from "../../../../../store";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 
 function ReadSettingsScreen() {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const settings = useAppSelector(selectSettings);
 
@@ -23,15 +25,15 @@ function ReadSettingsScreen() {
   };
 
   return (
-    <VStack backgroundColor={theme.colors.app.bg}>
+    <VStack backgroundColor={theme.colors.bg}>
       <CTable>
         <CSection footer={t("settings.content.markRead.footer")}>
           <CCell
             cellStyle="RightDetail"
             title={t("Hide Read Posts on Feed")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.hideReadPostsOnFeed}
@@ -44,9 +46,9 @@ function ReadSettingsScreen() {
           <CCell
             cellStyle="RightDetail"
             title={`${t("Hide Read Posts in Communities")}`}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.hideReadPostsInCommunities}
@@ -57,9 +59,9 @@ function ReadSettingsScreen() {
           <CCell
             cellStyle="RightDetail"
             title={t("Show Hide Read Button")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.showHideReadButton}
@@ -75,9 +77,9 @@ function ReadSettingsScreen() {
           <CCell
             cellStyle="RightDetail"
             title={t("settings.content.markRead.onPostOpen")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.markReadOnPostView}
@@ -88,9 +90,9 @@ function ReadSettingsScreen() {
           <CCell
             cellStyle="RightDetail"
             title={t("settings.content.markRead.onImageView")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.markReadOnPostImageView}
@@ -101,9 +103,9 @@ function ReadSettingsScreen() {
           <CCell
             cellStyle="RightDetail"
             title={`${t("settings.content.markRead.onVote")} ↑↓`}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.markReadOnPostVote}
@@ -114,9 +116,9 @@ function ReadSettingsScreen() {
           <CCell
             cellStyle="RightDetail"
             title={t("settings.content.markRead.onFeedScroll")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.markReadOnFeedScroll}
@@ -129,9 +131,9 @@ function ReadSettingsScreen() {
           <CCell
             cellStyle="RightDetail"
             title={t("settings.content.markRead.onCommunityScroll")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.markReadOnCommunityScroll}

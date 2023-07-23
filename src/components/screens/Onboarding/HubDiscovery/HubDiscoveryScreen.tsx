@@ -1,7 +1,8 @@
 import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useTheme } from "native-base";
 import { Button, HStack, Text, VStack } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { FlashList } from "@shopify/flash-list";
 import { GetSiteResponse } from "lemmy-js-client";
 import { IconDoorEnter, IconUser } from "tabler-icons-react-native";
@@ -16,7 +17,7 @@ interface IProps {
 function HubDiscoveryScreen({ navigation }: IProps) {
   const hub = useHubDiscovery();
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const instanceItem = ({ item }: { item: GetSiteResponse }) => (
     <InstanceItem site={item} />
@@ -26,7 +27,7 @@ function HubDiscoveryScreen({ navigation }: IProps) {
     <VStack my="$6" mx="$6">
       <Text
         size="md"
-        color={theme.colors.app.textSecondary}
+        color={theme.colors.textSecondary}
         fontStyle="italic"
         textAlign="center"
         pb="$2"
@@ -73,7 +74,7 @@ function HubDiscoveryScreen({ navigation }: IProps) {
   );
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.bg}>
+    <VStack flex={1} backgroundColor={theme.colors.bg}>
       <FlashList
         renderItem={instanceItem}
         data={hub.instances}

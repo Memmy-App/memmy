@@ -1,6 +1,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useTheme } from "native-base";
 import { ScrollView, VStack } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { ContextMenuButton } from "react-native-ios-context-menu";
@@ -27,7 +28,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
   // Hooks
   const profile = useProfile(true, route?.params?.fullUsername);
 
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
@@ -95,7 +96,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
   return (
     <ScrollView
       flex={1}
-      bg={theme.colors.app.bg}
+      bg={theme.colors.bg}
       refreshControl={
         <RefreshControl
           refreshing={profile.refreshing}

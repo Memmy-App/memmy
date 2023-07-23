@@ -9,9 +9,10 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { useTheme } from "native-base";
 import React, { useEffect, useMemo, useState } from "react";
 import { Dimensions, LayoutRectangle, StyleSheet } from "react-native";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { ISwipeableColors } from "./types";
 import { useSwipeableRow } from "./SwipeableRowProvider";
@@ -48,21 +49,21 @@ export function ReplyOption({
   onExtra,
   extraType,
 }: Props) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const [firstStop, secondStop] = stops;
 
   const secondColorMap: Record<Icon, string> = {
-    comment: theme.colors.app.info,
-    save: theme.colors.app.bookmark,
-    read: theme.colors.app.success,
+    comment: theme.colors.info,
+    save: theme.colors.bookmark,
+    read: theme.colors.success,
   };
 
   const secondColor = secondColorMap[extraType ?? "comment"];
 
   const colors: ISwipeableColors = useMemo(
     () => ({
-      first: theme.colors.app.info,
+      first: theme.colors.info,
       second: secondColor,
     }),
     [theme, secondColor]

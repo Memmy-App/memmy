@@ -1,5 +1,4 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
-import { useTheme } from "native-base";
 import {
   Box,
   HStack,
@@ -7,12 +6,15 @@ import {
   Text,
   View,
 } from "@components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
+import { useAppDispatch, useAppSelector } from "@root/store";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
-import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { setSetting } from "../../../../slices/settings/settingsActions";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import {
   DarkThemeOptionsArr,
   LightThemeOptionsArr,
@@ -54,15 +56,15 @@ interface IProps {
 function ThemeSelectionScreen({ route }: IProps) {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const themeProp = route.params?.themeProp || "theme";
 
   const settings = useAppSelector(selectSettings);
   const currentTheme = settings[themeProp];
 
   return (
-    <View backgroundColor={theme.colors.app.bg} flex={1}>
-      <ScrollView bg={theme.colors.app.bg} flex={1}>
+    <View backgroundColor={theme.colors.bg} flex={1}>
+      <ScrollView bg={theme.colors.bg} flex={1}>
         <TableView style={styles.table}>
           <CSection header={t("settings.appearance.themes.light")}>
             {LightThemeOptionsArr.map((themeName) => (
@@ -72,8 +74,8 @@ function ThemeSelectionScreen({ route }: IProps) {
                 title={
                   <HStack space="sm">
                     <ThemeColors
-                      accent={ThemeOptionsMap[themeName].colors.app.accent}
-                      bg={ThemeOptionsMap[themeName].colors.app.bg}
+                      accent={ThemeOptionsMap[themeName].colors.accent}
+                      bg={ThemeOptionsMap[themeName].colors.bg}
                     />
                     <Text>{themeName}</Text>
                   </HStack>
@@ -99,8 +101,8 @@ function ThemeSelectionScreen({ route }: IProps) {
                 title={
                   <HStack space="sm">
                     <ThemeColors
-                      accent={ThemeOptionsMap[themeName].colors.app.accent}
-                      bg={ThemeOptionsMap[themeName].colors.app.bg}
+                      accent={ThemeOptionsMap[themeName].colors.accent}
+                      bg={ThemeOptionsMap[themeName].colors.bg}
                     />
                     <Text>{themeName}</Text>
                   </HStack>
@@ -122,7 +124,7 @@ function ThemeSelectionScreen({ route }: IProps) {
                     mb="$2"
                     mt={-3}
                     size="xs"
-                    color={theme.colors.app.textSecondary}
+                    color={theme.colors.textSecondary}
                   >
                     Inspired by the Sunset Theme from Apollo (Christian Selig)
                   </Text>

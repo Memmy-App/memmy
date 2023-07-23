@@ -1,9 +1,11 @@
 import { PostView } from "lemmy-js-client";
-import { useTheme } from "native-base";
 import { Box, Text } from "@components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
-import { useAppSelector } from "../../../../../store";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
 import { findImages } from "../../../../helpers/MarkdownHelper";
 import { truncatePost } from "../../../../helpers/TextHelper";
@@ -19,7 +21,7 @@ interface IProps {
 }
 
 function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const { fontWeightPostTitle } = useAppSelector(selectSettings);
 
   const linkInfo = getLinkInfo(post.post.url);
@@ -54,7 +56,7 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
           mx="$4"
           size="md"
           fontWeight={fontWeightPostTitle}
-          color={theme.colors.app.textPrimary}
+          color={theme.colors.textPrimary}
           alignItems="center"
         >
           {title}
@@ -71,7 +73,7 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
           </Box>
         )}
         {!!body && (
-          <Text color={theme.colors.app.textSecondary} mx="$4" mt="$2">
+          <Text color={theme.colors.textSecondary} mx="$4" mt="$2">
             {body}
           </Text>
         )}
@@ -88,8 +90,8 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
     [
       post.post.id,
       post.read,
-      theme.colors.app.textPrimary,
-      theme.colors.app.textSecondary,
+      theme.colors.textPrimary,
+      theme.colors.textSecondary,
       fontWeightPostTitle,
     ]
   );

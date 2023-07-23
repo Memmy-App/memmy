@@ -86,7 +86,6 @@
     "lemmy-js-client": "^0.18.0-rc.2",
     "markdown-it-container": "^3.0.0",
     "metro-react-native-babel-preset": "0.76.7",
-    "native-base": "^3.4.28",
     "react": "18.2.0",
     "react-dev-utils": "^12.0.1",
     "react-dom": "18.2.0",

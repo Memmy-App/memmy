@@ -5,20 +5,22 @@ import {
 } from "@react-navigation/native";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
-import { useTheme } from "native-base";
 import { HStack, View } from "@components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { StyleSheet } from "react-native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { useRoute } from "@react-navigation/core";
-import { useAppSelector } from "../../../../../store";
 import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
 import {
   clearUpdateSaved,
   clearUpdateVote,
   selectFeed,
 } from "../../../../slices/feed/feedSlice";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import LoadingErrorView from "../../../common/Loading/LoadingErrorView";
 import LoadingView from "../../../common/Loading/LoadingView";
 import NoResultView from "../../../common/NoResultView";
@@ -98,7 +100,7 @@ function FeedView({ header }: FeedViewProps) {
   const recycled = useRef({});
 
   // Other Hooks
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const navigation = useNavigation<DrawerNavigationProp<ParamListBase>>();
 
   useScrollToTop(flashList);
@@ -226,7 +228,7 @@ function FeedView({ header }: FeedViewProps) {
   );
 
   return (
-    <View style={styles.container} backgroundColor={theme.colors.app.bg}>
+    <View style={styles.container} backgroundColor={theme.colors.bg}>
       {(status?.loading && posts?.length < 1 && <LoadingView />) || // TODO LENGTH
         (status?.error && posts?.length < 1 && (
           <LoadingErrorView onRetryPress={onRefresh} />

@@ -1,14 +1,14 @@
 import React, { useRef, useState } from "react";
 import FastImage, { ResizeMode } from "@gkasdorf/react-native-fast-image";
-import { Icon, useTheme } from "native-base";
-import { Text, View, VStack } from "@components/common/Gluestack";
+import { Icon, Text, View, VStack } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import { DimensionValue, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 import { getRatio } from "../../helpers/ImageHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
-import { useAppSelector } from "../../../store";
 
 function MemoizedFastImage({
   postId,
@@ -30,7 +30,7 @@ function MemoizedFastImage({
   onLoad?: (e) => void;
 }) {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const { ignoreScreenHeightInFeed } = useAppSelector(selectSettings);
 
@@ -99,7 +99,7 @@ function MemoizedFastImage({
             <Icon
               as={Ionicons}
               name="alert-circle"
-              color={theme.colors.app.textSecondary}
+              color={theme.colors.textSecondary}
               size={16}
             />
             <Text size="xl">{t("NSFW")}</Text>

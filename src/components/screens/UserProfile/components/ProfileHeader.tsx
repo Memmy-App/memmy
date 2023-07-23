@@ -1,7 +1,15 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import dayjs from "dayjs";
-import { Spacer, useTheme } from "native-base";
-import { Box, HStack, Text, View, VStack } from "@components/common/Gluestack";
+import {
+  Box,
+  HStack,
+  Spacer,
+  Text,
+  View,
+  VStack,
+} from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { ICON_MAP } from "../../../../constants/IconMap";
@@ -15,14 +23,14 @@ interface IProps {
 }
 
 function ProfileHeader({ profile }: IProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   if (!profile.profile) return null;
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.bg} space="lg">
+    <VStack flex={1} backgroundColor={theme.colors.bg} space="lg">
       <View
-        backgroundColor={theme.colors.app.fg}
+        backgroundColor={theme.colors.fg}
         mx={4}
         mt={2}
         px={3}
@@ -73,12 +81,12 @@ function ProfileHeader({ profile }: IProps) {
         py="$3"
         mx="$4"
         px="$3"
-        backgroundColor={theme.colors.app.fg}
+        backgroundColor={theme.colors.fg}
         borderRadius="$xl"
       >
         <HStack space="3xl">
           <VStack alignItems="flex-start" space="xs">
-            <Text size="sm" color={theme.colors.app.textSecondary}>
+            <Text size="sm" color={theme.colors.textSecondary}>
               Posts
             </Text>
             <HStack alignItems="center" space="xs">
@@ -89,7 +97,7 @@ function ProfileHeader({ profile }: IProps) {
             </HStack>
           </VStack>
           <VStack alignItems="flex-start" space="xs">
-            <Text size="sm" color={theme.colors.app.textSecondary}>
+            <Text size="sm" color={theme.colors.textSecondary}>
               Comments
             </Text>
             <HStack alignItems="center" space="xs">
@@ -102,7 +110,7 @@ function ProfileHeader({ profile }: IProps) {
         </HStack>
         <HStack space="3xl" mt="$1" alignItems="center">
           <VStack alignItems="flex-start" space="xs">
-            <Text size="sm" color={theme.colors.app.textSecondary}>
+            <Text size="sm" color={theme.colors.textSecondary}>
               Account Created
             </Text>
             <HStack alignItems="center" space="xs">

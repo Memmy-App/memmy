@@ -1,6 +1,7 @@
 import React from "react";
-import { useTheme } from "native-base";
 import { Center, Pressable, Text } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { useTranslation } from "react-i18next";
 
 interface LoadingErrorFooterProps {
@@ -13,11 +14,11 @@ function LoadingErrorFooter({
   message,
 }: LoadingErrorFooterProps) {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   return (
     <Center flex={1} my="$4">
-      <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
+      <Text fontStyle="italic" color={theme.colors.textSecondary}>
         {`${message || t("loadingError.text")}`}
       </Text>
       <Pressable

@@ -1,7 +1,8 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
-import { useTheme } from "native-base";
 import { VStack } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { CommentReplyView } from "lemmy-js-client";
 import { useFocusEffect } from "@react-navigation/native";
@@ -25,7 +26,7 @@ function InboxScreen({
 }: {
   navigation: NativeStackNavigationProp<any>;
 }) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const inbox = useInbox();
   const replies = useInboxReplies();
   const status = useInboxStatus();
@@ -99,7 +100,7 @@ function InboxScreen({
   }
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.bg}>
+    <VStack flex={1} backgroundColor={theme.colors.bg}>
       <FlashList
         renderItem={replyItem}
         data={items}

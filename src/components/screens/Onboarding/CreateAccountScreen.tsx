@@ -1,6 +1,7 @@
 import { LemmyHttp } from "lemmy-js-client";
-import { useTheme } from "native-base";
 import { Button, Text, VStack, Pressable } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React, { useEffect, useState } from "react";
 import { Alert, Image, Linking } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -53,7 +54,7 @@ function CreateAccountScreen({
   const [png, setPng] = useState(undefined);
 
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -203,7 +204,7 @@ function CreateAccountScreen({
 
   return (
     <KeyboardAwareScrollView
-      style={{ backgroundColor: theme.colors.app.bg }}
+      style={{ backgroundColor: theme.colors.bg }}
       keyboardShouldPersistTaps="handled"
     >
       <LoadingModal loading={loading} />
@@ -320,7 +321,7 @@ function CreateAccountScreen({
                         }
                       />
                     ),
-                    linkText: <Text mt={1.5} color={theme.colors.app.accent} />,
+                    linkText: <Text mt={1.5} color={theme.colors.accent} />,
                   }}
                 />
               </Text>

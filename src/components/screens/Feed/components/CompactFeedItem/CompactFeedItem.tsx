@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo } from "react";
-import { useTheme } from "native-base";
 import {
   HStack,
   Pressable,
@@ -7,6 +6,11 @@ import {
   View,
   VStack,
 } from "@components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { useWindowDimensions } from "react-native";
 
 import { useRoute } from "@react-navigation/core";
@@ -16,11 +20,9 @@ import {
   getBaseUrl,
   getLinkInfo,
 } from "../../../../../helpers/LinkHelper";
-import { useAppSelector } from "../../../../../../store";
 import CompactFeedItemThumbnail from "./CompactFeedItemThumbnail";
 import CompactFeedItemVote from "./CompactFeedItemVote";
 import CompactFeedItemFooter from "./CompactFeedItemFooter";
-import { selectSettings } from "../../../../../slices/settings/settingsSlice";
 
 import { fontSizeMap } from "../../../../../theme/fontSize";
 import { VoteOption } from "../../../../common/SwipeableRow/VoteOption";
@@ -41,7 +43,7 @@ function CompactFeedItem({ postId }: { postId: number }) {
   const feedItem = useFeedItem(postId);
   const post = useFeedPost(key, postId);
 
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const onSwipe = useCallback(
     (value: ILemmyVote) => {
@@ -84,7 +86,7 @@ function CompactFeedItem({ postId }: { postId: number }) {
             flex={1}
             px="$2"
             py="$1"
-            backgroundColor={theme.colors.app.fg}
+            backgroundColor={theme.colors.fg}
             space="sm"
           >
             {compactThumbnailPosition === "Left" && (
@@ -102,15 +104,15 @@ function CompactFeedItem({ postId }: { postId: number }) {
                 fontWeight={fontWeightPostTitle}
                 color={
                   post.read
-                    ? theme.colors.app.textSecondary
-                    : theme.colors.app.textPrimary
+                    ? theme.colors.textSecondary
+                    : theme.colors.textPrimary
                 }
               >
                 {post.post.name}{" "}
                 {showLink && (
                   <Text
                     fontSize={FONT_SIZE - 1}
-                    color={theme.colors.app.textSecondary}
+                    color={theme.colors.textSecondary}
                   >
                     ({getBaseUrl(linkInfo.link, true)})
                   </Text>
@@ -145,7 +147,7 @@ function CompactFeedItem({ postId }: { postId: number }) {
                   backgroundColor: "transparent",
                   width: 0,
                   height: 0,
-                  borderTopColor: theme.colors.app.bookmark,
+                  borderTopColor: theme.colors.bookmark,
                   borderTopWidth: 15,
                   borderLeftWidth: 15,
                   borderLeftColor: "transparent",

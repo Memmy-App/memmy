@@ -1,6 +1,7 @@
 import React from "react";
-import { useTheme } from "native-base";
 import { Pressable, Text } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { openLink } from "../../../helpers/LinkHelper";
@@ -12,10 +13,10 @@ interface WebLinkProps {
 
 function WebLink({ href, children }: WebLinkProps) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const onPress = () => {
-    openLink(href, navigation, theme.colors.app.bg);
+    openLink(href, navigation, theme.colors.bg);
   };
 
   return (

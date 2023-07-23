@@ -1,7 +1,8 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
-import { useTheme } from "native-base";
 import { HStack } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React, { SetStateAction, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, TextInput } from "react-native";
@@ -24,7 +25,7 @@ function SearchBox({
   autoFocus = true,
   inHeader = false,
 }: IProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const navigation = useNavigation();
   const { t } = useTranslation();
 
@@ -39,9 +40,9 @@ function SearchBox({
 
   return (
     <HStack
-      backgroundColor={theme.colors.app.inputBg}
+      backgroundColor={theme.colors.inputBg}
       borderRadius="$2xl"
-      borderColor={theme.colors.app.border}
+      borderColor={theme.colors.border}
       borderWidth={1}
       py="$1.5"
       px="$2.5"
@@ -51,7 +52,7 @@ function SearchBox({
     >
       <SFIcon
         icon="magnifyingglass"
-        color={theme.colors.app.textSecondary}
+        color={theme.colors.textSecondary}
         size={12}
         boxSize={16}
       />
@@ -61,10 +62,10 @@ function SearchBox({
         placeholder={t("Search")}
         onChangeText={setQuery}
         style={{
-          color: theme.colors.app.textPrimary,
+          color: theme.colors.textPrimary,
           width: "100%",
         }}
-        placeholderTextColor={theme.colors.app.textSecondary}
+        placeholderTextColor={theme.colors.textSecondary}
         returnKeyType="search"
         returnKeyLabel="search"
         keyboardAppearance={theme.config.initialColorMode}

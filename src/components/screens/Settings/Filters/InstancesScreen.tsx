@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useTheme } from "native-base";
 import { ScrollView } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { Alert, Button, StyleSheet } from "react-native";
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -19,7 +20,7 @@ interface IProps {
 
 function InstanceOption({ instance }: { instance: string }) {
   const filtersStore = useFiltersStore();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const { t } = useTranslation();
 
   const onInstancePress = () => {
@@ -46,9 +47,9 @@ function InstanceOption({ instance }: { instance: string }) {
     <CCell
       cellStyle="RightDetail"
       title={instance}
-      backgroundColor={theme.colors.app.fg}
-      titleTextColor={theme.colors.app.textPrimary}
-      rightDetailColor={theme.colors.app.textSecondary}
+      backgroundColor={theme.colors.fg}
+      titleTextColor={theme.colors.textPrimary}
+      rightDetailColor={theme.colors.textSecondary}
       accessory="DisclosureIndicator"
       onPress={onInstancePress}
     />
@@ -57,7 +58,7 @@ function InstanceOption({ instance }: { instance: string }) {
 
 function InstancesScreen({ navigation }: IProps) {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const filtersStore = useFiltersStore();
   const instances = useInstancesFilter();
@@ -69,7 +70,7 @@ function InstancesScreen({ navigation }: IProps) {
         <Button
           title={t("Add")}
           onPress={onAddPress}
-          color={theme.colors.app.accent}
+          color={theme.colors.accent}
         />
       ),
     });
@@ -103,16 +104,16 @@ function InstancesScreen({ navigation }: IProps) {
   );
 
   return (
-    <ScrollView bg={theme.colors.app.bg} flex={1}>
+    <ScrollView bg={theme.colors.bg} flex={1}>
       <TableView style={styles.table}>
         <CSection header={t("Instances").toUpperCase()}>
           {instances.length < 1 ? (
             <CCell
               cellStyle="RightDetail"
               title={t("settings.filters.noInstances")}
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
             />
           ) : (
             instanceOptions

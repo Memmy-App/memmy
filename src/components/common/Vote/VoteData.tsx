@@ -1,9 +1,11 @@
 import { PostAggregates } from "lemmy-js-client";
-import { useTheme } from "native-base";
 import { HStack, Text } from "@components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React from "react";
-import { useAppSelector } from "../../../../store";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
 import SFIcon from "../icons/SFIcon";
 
 interface IProps {
@@ -12,15 +14,15 @@ interface IProps {
 }
 
 function VoteData({ data, vote }: IProps) {
-  const { colors } = useTheme();
+  const { colors } = useAppSelector(selectThemeOptions);
   const settings = useAppSelector(selectSettings);
 
   const upvoted = vote === 1;
   const downvoted = vote === -1;
 
   if (settings.displayTotalScore) {
-    const voteColor = upvoted ? colors.app.upvote : colors.app.downvote;
-    const color = upvoted || downvoted ? voteColor : colors.app.textSecondary;
+    const voteColor = upvoted ? colors.upvote : colors.downvote;
+    const color = upvoted || downvoted ? voteColor : colors.textSecondary;
 
     const scoreArrow = (
       <SFIcon
@@ -43,10 +45,8 @@ function VoteData({ data, vote }: IProps) {
     );
   }
 
-  const upvoteColor = upvoted ? colors.app.upvote : colors.app.textSecondary;
-  const downvoteColor = downvoted
-    ? colors.app.downvote
-    : colors.app.textSecondary;
+  const upvoteColor = upvoted ? colors.upvote : colors.textSecondary;
+  const downvoteColor = downvoted ? colors.downvote : colors.textSecondary;
 
   return (
     <>

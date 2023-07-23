@@ -5,11 +5,11 @@
       "@root/*": [
         "./*"
       ],
-      "src/*": [
-        "src/*"
+      "@src/*": [
+        "./src/*"
       ],
       "@components/*": [
-        "src/components/*"
+        "./src/components/*"
       ]
     }
   },

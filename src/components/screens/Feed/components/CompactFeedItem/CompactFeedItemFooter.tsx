@@ -1,6 +1,7 @@
 import { PostView } from "lemmy-js-client";
-import { useTheme } from "native-base";
 import { Box, HStack, Text } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React from "react";
 import { timeFromNowShort } from "../../../../../helpers/TimeHelper";
 import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
@@ -16,7 +17,7 @@ interface CompactFeedItemFooterProps {
 }
 
 function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
-  const { colors } = useTheme();
+  const { colors } = useAppSelector(selectThemeOptions);
 
   return (
     <>
@@ -27,7 +28,7 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
           />
           {post.read && (
             <Box mr="$1">
-              <IconBookCheck color={colors.app.accent} size={20} />
+              <IconBookCheck color={colors.accent} size={20} />
             </Box>
           )}
           <AvatarUsername
@@ -36,8 +37,8 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
             link={false}
           />
         </HStack>
-        <Text color={colors.app.textSecondary}>•</Text>
-        <Text color={colors.app.textSecondary}>
+        <Text color={colors.textSecondary}>•</Text>
+        <Text color={colors.textSecondary}>
           {timeFromNowShort(post.post.published)}
         </Text>
       </HStack>

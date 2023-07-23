@@ -1,5 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { ThemeOptionsArr, ThemeOptionsMap } from "@src/theme/themeOptions";
+import { theme as GluestackTheme } from "@root/gluestack-ui.config";
+import { ICustomConfig } from "@gluestack-style/react";
 import { CommentSortType, ListingType, SortType } from "lemmy-js-client";
+import merge from "deepmerge";
 import { RootState } from "../../../store";
 import { loadSettings, setSetting } from "./settingsActions";
 import { ThemeOptions } from "../../theme/themeOptions";
@@ -16,6 +20,7 @@ export interface SettingsState {
   blurNsfw: boolean;
   hideNsfw: boolean;
   compactView: boolean;
+  colorScheme: "light" | "dark" | null | undefined;
   theme: ThemeOptions;
   themeLight: ThemeOptions;
   themeDark: ThemeOptions;
@@ -61,6 +66,7 @@ const initialState: SettingsState = {
   compactView: false,
   compactThumbnailPosition: "Left",
   compactShowVotingButtons: true,
+  colorScheme: "dark",
   theme: "Dark",
   themeLight: "Light",
   themeDark: "Dark",
@@ -121,4 +127,54 @@ const settingsSlice = createSlice({
 
 export const selectSettings = (state: RootState) => state.settings;
 export const selectSettingsLoaded = (state: RootState) => state.settings.loaded;
+
+const selectColorScheme = (state: RootState) => state.settings.colorScheme;
+const selectTheme = (state: RootState) => state.settings.theme;
+const selectThemeMatchSystem = (state: RootState) =>
+  state.settings.themeMatchSystem;
+const selectThemeDark = (state: RootState) => state.settings.themeDark;
+const selectThemeLight = (state: RootState) => state.settings.themeLight;
+const selectAccentColor = (state: RootState) => state.settings.accentColor;
+export const selectCurrentTheme = createSelector(
+  [
+    selectColorScheme,
+    selectTheme,
+    selectThemeMatchSystem,
+    selectThemeDark,
+    selectThemeLight,
+  ],
+  (colorScheme, theme, themeMatchSystem, themeDark, themeLight) =>
+    themeMatchSystem
+      ? colorScheme === "light"
+        ? themeLight
+        : themeDark
+      : theme
+);
+export const selectThemeOptions = (state: RootState) =>
+  ThemeOptionsMap[state.settings.theme];
+export const selectThemeConfig = createSelector(
+  [selectThemeOptions, selectAccentColor],
+  (themeOptions, accentColor) =>
+    merge.all([
+      GluestackTheme,
+      {
+        tokens: {
+          colors: {
+            ...themeOptions.colors,
+          },
+        },
+      },
+      accentColor
+        ? {
+            tokens: {
+              colors: {
+                app: {
+                  accent: accentColor,
+                },
+              },
+            },
+          }
+        : {},
+    ]) as ICustomConfig
+);
 export default settingsSlice.reducer;

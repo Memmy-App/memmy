@@ -1,5 +1,6 @@
-import { useTheme } from "native-base";
 import { Text } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
 import { GestureResponderEvent } from "react-native";
 import IconButtonWithText from "../IconButtonWithText";
@@ -25,24 +26,24 @@ function VoteButton({
   size = "lg",
   iconSize = 16,
 }: VoteButtonProps) {
-  const { colors } = useTheme();
+  const { colors } = useAppSelector(selectThemeOptions);
 
-  const color = isAccented ? colors.app.accent : colors.app.textSecondary;
+  const color = isAccented ? colors.accent : colors.textSecondary;
 
-  const voteColor = type === "upvote" ? colors.app.upvote : colors.app.downvote;
+  const voteColor = type === "upvote" ? colors.upvote : colors.downvote;
 
   const icon = useMemo(
     () =>
       type === "upvote" ? (
         <SFIcon
           icon={ICON_MAP.UPVOTE}
-          color={isVoted ? colors.app.upvoteText : color}
+          color={isVoted ? colors.upvoteText : color}
           size={iconSize}
         />
       ) : (
         <SFIcon
           icon={ICON_MAP.DOWNVOTE}
-          color={isVoted ? colors.app.downvoteText : color}
+          color={isVoted ? colors.downvoteText : color}
           size={iconSize}
         />
       ),

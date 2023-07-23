@@ -1,6 +1,5 @@
 import React from "react";
 import { GetSiteResponse } from "lemmy-js-client";
-import { useTheme } from "native-base";
 import {
   HStack,
   Pressable,
@@ -8,6 +7,8 @@ import {
   View,
   VStack,
 } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { StyleSheet } from "react-native";
 import {
@@ -26,7 +27,7 @@ interface IProps {
 
 function InstanceItem({ site }: IProps) {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onPress = () =>
@@ -39,7 +40,7 @@ function InstanceItem({ site }: IProps) {
   return (
     <Pressable onPress={onPress}>
       <VStack
-        backgroundColor={theme.colors.app.fg}
+        backgroundColor={theme.colors.fg}
         mx="$6"
         my={1.5}
         borderRadius="$xl"
@@ -54,7 +55,7 @@ function InstanceItem({ site }: IProps) {
             />
             <Text size="md">{site.site_view.site.name}</Text>
             <View ml="auto">
-              <IconChevronRight size={32} color={theme.colors.app.accent} />
+              <IconChevronRight size={32} color={theme.colors.accent} />
             </View>
           </HStack>
         </HStack>
@@ -63,8 +64,8 @@ function InstanceItem({ site }: IProps) {
         </HStack>
         <HStack space="sm" pt="$1" alignItems="center">
           <HStack space="xs">
-            <IconUserPlus size={18} color={theme.colors.app.accent} />
-            <Text color={theme.colors.app.textSecondary}>
+            <IconUserPlus size={18} color={theme.colors.accent} />
+            <Text color={theme.colors.textSecondary}>
               {`${site.site_view.counts.users.toLocaleString()} ${t("User", {
                 count: site.site_view.counts.users,
               })}`}
@@ -72,33 +73,27 @@ function InstanceItem({ site }: IProps) {
           </HStack>
           {!site.site_view.local_site.federation_enabled && (
             <HStack space="xs" alignItems="center">
-              <IconExclamationCircle size={18} color={theme.colors.app.warn} />
-              <Text color={theme.colors.app.warn}>{t("Defederated")}</Text>
+              <IconExclamationCircle size={18} color={theme.colors.warn} />
+              <Text color={theme.colors.warn}>{t("Defederated")}</Text>
             </HStack>
           )}
           {site.site_view.local_site.registration_mode === "Closed" && (
             <HStack space="xs" alignItems="center">
-              <IconExclamationCircle size={18} color={theme.colors.app.warn} />
-              <Text color={theme.colors.app.warn}>
-                {t("Registration Closed")}
-              </Text>
+              <IconExclamationCircle size={18} color={theme.colors.warn} />
+              <Text color={theme.colors.warn}>{t("Registration Closed")}</Text>
             </HStack>
           )}
           {site.site_view.local_site.registration_mode ===
             "RequireApplication" && (
             <HStack space="xs" alignItems="center">
-              <IconExclamationCircle size={18} color={theme.colors.app.info} />
-              <Text color={theme.colors.app.info}>
-                {t("Application Required")}
-              </Text>
+              <IconExclamationCircle size={18} color={theme.colors.info} />
+              <Text color={theme.colors.info}>{t("Application Required")}</Text>
             </HStack>
           )}
           {site.site_view.local_site.registration_mode === "Open" && (
             <HStack space="xs" alignItems="center">
-              <IconLockOpen size={18} color={theme.colors.app.success} />
-              <Text color={theme.colors.app.success}>
-                {t("Open Registration")}
-              </Text>
+              <IconLockOpen size={18} color={theme.colors.success} />
+              <Text color={theme.colors.success}>{t("Open Registration")}</Text>
             </HStack>
           )}
         </HStack>

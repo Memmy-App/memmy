@@ -1,11 +1,11 @@
 import React, { useCallback } from "react";
-import { useTheme } from "native-base";
 import { ScrollView } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppDispatch, useAppSelector } from "@root/store";
 import { useFocusEffect } from "@react-navigation/native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { trigger } from "react-native-haptic-feedback";
 import { useTranslation } from "react-i18next";
-import { useAppDispatch, useAppSelector } from "../../../../store";
 import { selectSite } from "../../../slices/site/siteSlice";
 import {
   getSiteInfo,
@@ -22,7 +22,7 @@ function BlockedCommunitiesScreen() {
 
   // Hooks
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const dispatch = useAppDispatch();
   const { showActionSheetWithOptions } = useActionSheet();
 
@@ -56,7 +56,7 @@ function BlockedCommunitiesScreen() {
   }
 
   return (
-    <ScrollView flex={1} bg={theme.colors.app.bg}>
+    <ScrollView flex={1} bg={theme.colors.bg}>
       <CTable>
         <CSection header={t("Blocked Communities")}>
           {communityBlocks.length === 0 ? (

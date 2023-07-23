@@ -1,14 +1,16 @@
 import React, { useEffect, useRef } from "react";
-import { useTheme } from "native-base";
 import { ScrollView, VStack } from "@components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView, SearchType } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
 import useSearchResult from "../../../hooks/search/useSearchResult";
 import CompactFeedItem from "../Feed/components/CompactFeedItem/CompactFeedItem";
-import { useAppSelector } from "../../../../store";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
 import LoadingView from "../../common/Loading/LoadingView";
 import SearchUserItem from "../../common/Search/SearchUserItem";
 import MTable from "../../common/Table/MTable";
@@ -32,7 +34,7 @@ function SearchResultsScreen({ route }: IProps) {
   const type = route.params.type as SearchType;
 
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const search = useSearchResult(route.params.query, route.params.type);
 
   const { compactView } = useAppSelector(selectSettings);
@@ -76,7 +78,7 @@ function SearchResultsScreen({ route }: IProps) {
   }
 
   return (
-    <VStack backgroundColor={theme.colors.app.bg} flex={1}>
+    <VStack backgroundColor={theme.colors.bg} flex={1}>
       {(type === "Posts" && (
         <FlashList
           data={posts}

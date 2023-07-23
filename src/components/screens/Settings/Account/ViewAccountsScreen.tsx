@@ -1,11 +1,14 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useTheme } from "native-base";
 import { ScrollView } from "@components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
+import { useAppDispatch, useAppSelector } from "@root/store";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Button, Switch } from "react-native";
-import { useAppDispatch, useAppSelector } from "../../../../../store";
 import useNotifications from "../../../../hooks/notifications/useNotifications";
 import { deleteAccount } from "../../../../slices/accounts/accountsActions";
 import {
@@ -13,7 +16,6 @@ import {
   selectCurrentAccount,
 } from "../../../../slices/accounts/accountsSlice";
 import { setSetting } from "../../../../slices/settings/settingsActions";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { Account } from "../../../../types/Account";
 import LoadingModalTransparent from "../../../common/Loading/LoadingModalTransparent";
 import CCell from "../../../common/Table/CCell";
@@ -35,7 +37,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const notifications = useNotifications();
 
   useFocusEffect(
@@ -48,7 +50,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
     <Button
       title={t("Add")}
       onPress={() => navigation.push("EditAccount")}
-      color={theme.colors.app.accent}
+      color={theme.colors.accent}
     />
   );
 
@@ -158,7 +160,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   };
 
   return (
-    <ScrollView bg={theme.colors.app.bg}>
+    <ScrollView bg={theme.colors.bg}>
       <LoadingModalTransparent loading={notifications.loading} />
       <CTable>
         <CSection
@@ -169,17 +171,17 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
             cellStyle="RightDetail"
             title={t("Server")}
             detail={currentAccount.instance}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
           <CCell
             cellStyle="RightDetail"
             title={t("Username")}
             detail={currentAccount.username}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
         </CSection>
         {accounts.map((account) => (
@@ -191,16 +193,16 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
               cellStyle="Basic"
               title={t("Edit Account")}
               accessory="DisclosureIndicator"
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
               onPress={() => onAccountPress(account)}
             />
             <CCell
               title={t("Push Notifications")}
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
               cellAccessoryView={
                 <Switch
                   value={
@@ -217,13 +219,13 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
             <CCell
               cellStyle="Basic"
               title={t("Logout")}
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
               cellAccessoryView={
                 <SFIcon
                   icon="rectangle.portrait.and.arrow.right"
-                  color={theme.colors.app.textSecondary}
+                  color={theme.colors.textSecondary}
                   size={14}
                 />
               }

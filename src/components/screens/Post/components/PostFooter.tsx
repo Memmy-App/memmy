@@ -1,6 +1,7 @@
 import React from "react";
-import { useTheme } from "native-base";
 import { Center, Spinner, Text } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { useRoute } from "@react-navigation/core";
 import LoadingErrorFooter from "../../../common/Loading/LoadingErrorFooter";
 import NoResultView from "../../../common/NoResultView";
@@ -15,13 +16,13 @@ function PostFooter() {
   const commentsStatus = usePostCommentsStatus(postKey);
   const comments = usePostComments(postKey);
 
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   if (commentsStatus.commentsLoading) {
     return (
       <Center my="$4">
         <Spinner />
-        <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
+        <Text fontStyle="italic" color={theme.colors.textSecondary}>
           Loading comments...
         </Text>
       </Center>

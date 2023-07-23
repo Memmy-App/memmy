@@ -1,13 +1,14 @@
 import React from "react";
-import { useTheme } from "native-base";
 import { HStack } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 
 function ButtonGroup({ children }: { children: React.ReactNode }) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   return (
     <HStack
-      backgroundColor={theme.colors.app.fg}
+      backgroundColor={theme.colors.fg}
       borderRadius="$3xl"
       mx="$4"
       mb="$2"

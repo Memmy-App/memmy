@@ -1,4 +1,3 @@
-import { extendTheme } from "native-base";
 import {
   darkThemeColors,
   draculaThemeColors,
@@ -12,181 +11,135 @@ import {
   oledThemeColors,
   embarkThemeColors,
 } from "./darkColors";
+import { IColors } from "./common";
 import { lightThemeColors, oksolarLightThemeColors } from "./lightColors";
-import { commonSettings } from "./common";
 
-const moodyPurpleTheme = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: moodyPurpleThemeColors,
-  },
+export interface ITheme {
+  colors: IColors;
   config: {
-    initialColorMode: "dark",
-  },
-});
-
-const darkTheme = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: darkThemeColors,
-  },
-
-  config: {
-    initialColorMode: "dark",
-  },
-});
-
-const draculaTheme = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: draculaThemeColors,
-  },
-  config: {
-    initialColorMode: "dark",
-  },
-});
-
-const draculaThemePurple = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: {
-      ...draculaThemeColors,
-      accent: "#bd93f9",
-    },
-  },
-  config: {
-    initialColorMode: "dark",
-  },
-});
-
-const lightTheme = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: lightThemeColors,
-  },
-
-  config: {
-    initialColorMode: "light",
-  },
-});
-
-const nightOwlTheme = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: nightOwlThemeColors,
-  },
-
-  config: {
-    initialColorMode: "dark",
-  },
-});
-
-const sleepyRainforestTheme = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: sleepyRainforestThemeColors,
-  },
-
-  config: {
-    initialColorMode: "dark",
-  },
-});
-
-const goldenHourTheme = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: goldenHourThemeColors,
-  },
-
-  config: {
-    initialColorMode: "dark",
-  },
-});
-
-const nauticalTheme = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: nauticalThemeColors,
-  },
-
-  config: {
-    initialColorMode: "dark",
-  },
-});
-
-const sunsetTheme = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: sunsetThemeColors,
-  },
-  config: {
-    initialColorMode: "dark",
-  },
-});
-
-const oksolarDarkTheme = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: oksolarDarkThemeColors,
-  },
-  config: {
-    initialColorMode: "dark",
-  },
-});
-
-const oksolarLightTheme = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: oksolarLightThemeColors,
-  },
-  config: {
-    initialColorMode: "light",
-  },
-});
-
-const oledTheme = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: oledThemeColors,
-  },
-  config: {
-    initialColorMode: "dark",
-  },
-});
-
-const embarkTheme = extendTheme({
-  ...commonSettings,
-  colors: {
-    app: embarkThemeColors,
-  },
-  config: {
-    initialColorMode: "dark",
-  },
-});
-
-export type ThemeType = typeof lightTheme;
-
-declare module "native-base" {
-  interface ICustomTheme extends ThemeType {
-    config: {
-      initialColorMode: "dark" | "light";
-    };
-  }
+    initialColorMode: "unspecified" | "light" | "dark";
+  };
 }
 
-export {
-  lightTheme,
-  darkTheme,
-  draculaTheme,
-  draculaThemePurple,
-  nightOwlTheme,
-  moodyPurpleTheme,
-  sleepyRainforestTheme,
-  goldenHourTheme,
-  nauticalTheme,
-  sunsetTheme,
-  oksolarDarkTheme,
-  oksolarLightTheme,
-  oledTheme,
-  embarkTheme,
+export const themeMap: Record<string, ITheme> = {
+  moodyPurpleTheme: {
+    colors: {
+      ...moodyPurpleThemeColors,
+    },
+    config: {
+      initialColorMode: "dark",
+    },
+  },
+  darkTheme: {
+    colors: {
+      ...darkThemeColors,
+    },
+
+    config: {
+      initialColorMode: "dark",
+    },
+  },
+  draculaTheme: {
+    colors: {
+      ...draculaThemeColors,
+    },
+    config: {
+      initialColorMode: "dark",
+    },
+  },
+  draculaThemePurple: {
+    colors: {
+      ...{
+        ...draculaThemeColors,
+        accent: "#bd93f9",
+      },
+    },
+    config: {
+      initialColorMode: "dark",
+    },
+  },
+  lightTheme: {
+    colors: {
+      ...lightThemeColors,
+    },
+
+    config: {
+      initialColorMode: "light",
+    },
+  },
+  nightOwlTheme: {
+    colors: {
+      ...nightOwlThemeColors,
+    },
+    config: {
+      initialColorMode: "dark",
+    },
+  },
+  sleepyRainforestTheme: {
+    colors: {
+      ...sleepyRainforestThemeColors,
+    },
+
+    config: {
+      initialColorMode: "dark",
+    },
+  },
+  goldenHourTheme: {
+    colors: {
+      ...goldenHourThemeColors,
+    },
+
+    config: {
+      initialColorMode: "dark",
+    },
+  },
+  nauticalTheme: {
+    colors: {
+      ...nauticalThemeColors,
+    },
+
+    config: {
+      initialColorMode: "dark",
+    },
+  },
+  sunsetTheme: {
+    colors: {
+      ...sunsetThemeColors,
+    },
+    config: {
+      initialColorMode: "dark",
+    },
+  },
+  oksolarDarkTheme: {
+    colors: {
+      ...oksolarDarkThemeColors,
+    },
+    config: {
+      initialColorMode: "dark",
+    },
+  },
+  oksolarLightTheme: {
+    colors: {
+      ...oksolarLightThemeColors,
+    },
+    config: {
+      initialColorMode: "light",
+    },
+  },
+  oledTheme: {
+    colors: {
+      ...oledThemeColors,
+    },
+    config: {
+      initialColorMode: "dark",
+    },
+  },
+  embarkTheme: {
+    colors: {
+      ...embarkThemeColors,
+    },
+    config: {
+      initialColorMode: "dark",
+    },
+  },
 };

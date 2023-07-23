@@ -71,10 +71,6 @@ export default styled(
     defaultProps: {
       size: "md",
     },
-
-    _dark: {
-      color: "$textDark200",
-    },
   },
   {}
 );

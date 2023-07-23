@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import { useTheme } from "native-base";
 import { HStack, Text, VStack } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
@@ -15,7 +16,6 @@ import { getBaseUrl } from "../../../../../helpers/LinkHelper";
 import CustomButton from "../../../../common/Buttons/CustomButton";
 import { SFIcon } from "../../../../common/icons/SFIcon";
 import setCommunitySubscribed from "../../../../../stores/communities/actions/setCommunitySubscribed";
-import { useAppSelector } from "../../../../../../store";
 import { selectPost } from "../../../../../slices/post/postSlice";
 import { addPost } from "../../../../../stores/posts/actions";
 
@@ -24,7 +24,7 @@ interface IProps {
 }
 
 function CommunityHeader({ communityFullName }: IProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const { t } = useTranslation();
 
   const community = useCommunity(communityFullName);
@@ -89,7 +89,7 @@ function CommunityHeader({ communityFullName }: IProps) {
             }}
           />
         ) : (
-          <PlanetIcon color={theme.colors.app.textSecondary} size={64} />
+          <PlanetIcon color={theme.colors.textSecondary} size={64} />
         )}
 
         <VStack>
@@ -97,22 +97,22 @@ function CommunityHeader({ communityFullName }: IProps) {
             <HStack alignItems="center">
               <SFIcon
                 icon="person"
-                color={theme.colors.app.textSecondary}
+                color={theme.colors.textSecondary}
                 size={12}
                 boxSize={18}
               />
-              <Text color={theme.colors.app.textSecondary}>
+              <Text color={theme.colors.textSecondary}>
                 {shortenNumber(community.counts.subscribers)}
               </Text>
             </HStack>
             <HStack space="xs" alignItems="center">
               <SFIcon
                 icon="eye"
-                color={theme.colors.app.textSecondary}
+                color={theme.colors.textSecondary}
                 size={12}
                 boxSize={18}
               />
-              <Text color={theme.colors.app.textSecondary}>
+              <Text color={theme.colors.textSecondary}>
                 {community.counts.users_active_month}
               </Text>
             </HStack>
@@ -120,7 +120,7 @@ function CommunityHeader({ communityFullName }: IProps) {
           <Text size="3xl" fontWeight="bold">
             {community.community.name}
           </Text>
-          <Text size="md" color={theme.colors.app.textSecondary} mt={-3}>
+          <Text size="md" color={theme.colors.textSecondary} mt={-3}>
             {getBaseUrl(community.community.actor_id)}
           </Text>
         </VStack>

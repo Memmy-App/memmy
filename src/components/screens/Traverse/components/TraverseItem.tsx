@@ -1,15 +1,14 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useTheme } from "native-base";
 import { CommunityView } from "lemmy-js-client";
 import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
 import { HStack, Pressable, Text, VStack } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppDispatch, useAppSelector } from "@root/store";
 import { getCommunityFullName } from "../../../../helpers/LemmyHelpers";
 import { toggleFavorite } from "../../../../slices/favorites/favoritesActions";
-
-import { useAppDispatch, useAppSelector } from "../../../../../store";
 
 import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
@@ -23,7 +22,7 @@ interface IProps {
 }
 
 function TraverseItem({ community, isFavorite }: IProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onPress = useCallback(() => {
@@ -56,7 +55,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
     <Pressable onPress={onPress}>
       <HStack
         flex={1}
-        backgroundColor={theme.colors.app.fg}
+        backgroundColor={theme.colors.fg}
         borderRadius="$xl"
         alignItems="center"
         paddingHorizontal="$2"
@@ -72,15 +71,15 @@ function TraverseItem({ community, isFavorite }: IProps) {
                 style={styles.icon}
               />
             ) : (
-              <PlanetIcon color={theme.colors.app.textSecondary} size={24} />
+              <PlanetIcon color={theme.colors.textSecondary} size={24} />
             )}
             <VStack>
-              <Text color={theme.colors.app.textPrimary}>
+              <Text color={theme.colors.textPrimary}>
                 {community.community.name}
               </Text>
               <Text
                 size="2xs"
-                color={theme.colors.app.textSecondary}
+                color={theme.colors.textSecondary}
                 fontStyle="italic"
               >
                 {getBaseUrl(community.community.actor_id)}
@@ -93,11 +92,11 @@ function TraverseItem({ community, isFavorite }: IProps) {
                 icon="eye"
                 size={8}
                 boxSize={10}
-                color={theme.colors.app.textSecondary}
+                color={theme.colors.textSecondary}
               />
               <Text
                 size="xs"
-                color={theme.colors.app.textSecondary}
+                color={theme.colors.textSecondary}
                 fontStyle="italic"
               >
                 {community.counts.users_active_day.toLocaleString()} online
@@ -108,11 +107,11 @@ function TraverseItem({ community, isFavorite }: IProps) {
                 icon="doc.plaintext"
                 size={8}
                 boxSize={10}
-                color={theme.colors.app.textSecondary}
+                color={theme.colors.textSecondary}
               />
               <Text
                 size="xs"
-                color={theme.colors.app.textSecondary}
+                color={theme.colors.textSecondary}
                 fontStyle="italic"
               >
                 {community.counts.posts.toLocaleString()} posts

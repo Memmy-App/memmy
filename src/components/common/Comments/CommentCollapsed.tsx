@@ -1,8 +1,8 @@
 import React from "react";
-import { Spacer } from "native-base";
+import { Spacer } from "@components/common/Gluestack";
 
 function CommentCollapsed() {
-  return <Spacer marginBottom={2} />;
+  return <Spacer mb="$0.5" />;
 }
 
 export default CommentCollapsed;

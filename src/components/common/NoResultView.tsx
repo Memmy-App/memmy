@@ -1,6 +1,7 @@
 import React from "react";
-import { useTheme } from "native-base";
 import { Text, VStack } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { useTranslation } from "react-i18next";
 
 type MessageType =
@@ -20,13 +21,13 @@ export interface INoResultViewProps
 
 function NoResultView({ type = "default", ...rest }: INoResultViewProps) {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   return (
     <VStack flex={1} justifyContent="center" alignItems="center" {...rest}>
       <Text
         fontStyle="italic"
-        color={theme.colors.app.textSecondary}
+        color={theme.colors.textSecondary}
         textAlign="center"
       >
         {t(`noResult.${type}`)}

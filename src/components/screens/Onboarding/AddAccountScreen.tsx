@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Image } from "react-native";
-import { useTheme } from "native-base";
 import { Button, Pressable, Text, VStack } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Trans, useTranslation } from "react-i18next";
@@ -38,7 +39,7 @@ function AddAccountScreen({ route, navigation }: IProps) {
   const [showTotpToken, setShowTotpToken] = useState(false);
 
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -123,7 +124,7 @@ function AddAccountScreen({ route, navigation }: IProps) {
 
   return (
     <KeyboardAwareScrollView
-      style={{ backgroundColor: theme.colors.app.bg }}
+      style={{ backgroundColor: theme.colors.bg }}
       keyboardShouldPersistTaps="handled"
     >
       <LoadingModal loading={loading} />
@@ -191,7 +192,7 @@ function AddAccountScreen({ route, navigation }: IProps) {
                     onPress={() => navigation.push("Viewer", { type: "terms" })}
                   />
                 ),
-                linkText: <Text mt={1.5} color={theme.colors.app.accent} />,
+                linkText: <Text mt={1.5} color={theme.colors.accent} />,
               }}
             />
           </Text>

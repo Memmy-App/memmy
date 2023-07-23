@@ -1,5 +1,6 @@
-import { useTheme } from "native-base";
 import { HStack, View } from "@components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React from "react";
 import { ICON_MAP } from "../../../constants/IconMap";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
@@ -15,7 +16,7 @@ interface ImageViewFooterProps {
 }
 
 function ImageViewFooter({ source }: ImageViewFooterProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const dispatch = useAppDispatch();
 
   const onSave = async () => {
@@ -58,7 +59,7 @@ function ImageViewFooter({ source }: ImageViewFooterProps) {
           icon={
             <SFIcon
               icon="square.and.arrow.down"
-              color={theme.colors.app.textSecondary}
+              color={theme.colors.textSecondary}
               size={20}
             />
           }
@@ -68,7 +69,7 @@ function ImageViewFooter({ source }: ImageViewFooterProps) {
           icon={
             <SFIcon
               icon={ICON_MAP.SHARE}
-              color={theme.colors.app.textSecondary}
+              color={theme.colors.textSecondary}
               size={20}
             />
           }
@@ -79,4 +80,4 @@ function ImageViewFooter({ source }: ImageViewFooterProps) {
 }
 
 export default ImageViewFooter;
-// <IconShare2 size={38} color={theme.colors.app.textSecondary} />
+// <IconShare2 size={38} color={theme.colors.textSecondary} />
