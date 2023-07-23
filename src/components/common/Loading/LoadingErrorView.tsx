@@ -14,7 +14,7 @@ function LoadingErrorView({ onRetryPress }: LoadingViewProps) {
 
   return (
     <View style={styles.container} backgroundColor={theme.colors.app.bg}>
-      <Text fontStyle="italic" color="gray.500">
+      <Text fontStyle="italic" color="gray500">
         {t("loadingError.text")}
       </Text>
       <Button title={t("loadingError.retryBtn")} onPress={onRetryPress} />

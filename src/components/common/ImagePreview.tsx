@@ -52,7 +52,7 @@ function ImagePreview({
           setPostRead={setPostRead}
         />
         <Box position="absolute" right={1} bottom={1}>
-          <Box px="$1" m="$0.5" backgroundColor="gray.700" borderRadius="$md">
+          <Box px="$1" m="$0.5" backgroundColor="gray700" borderRadius="$md">
             <Text size="2xs">{images.length} IMAGES</Text>
           </Box>
         </Box>

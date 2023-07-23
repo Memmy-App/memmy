@@ -22,13 +22,13 @@ function LoadingErrorFooter({
       </Text>
       <Pressable
         onPress={onRetryPress}
-        borderColor="blue.500"
+        borderColor="blue500"
         borderWidth={1}
         borderRadius="$md"
         padding={1}
         mt="$2"
       >
-        <Text color="blue.500">{t("loadingError.retryBtn")}</Text>
+        <Text color="blue500">{t("loadingError.retryBtn")}</Text>
       </Pressable>
     </Center>
   );
