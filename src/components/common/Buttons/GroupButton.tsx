@@ -27,7 +27,7 @@ function GroupButton({ onPress, text, selected }: IProps) {
       onPressOut={onPressOut}
       onPress={onPress}
       opacity={pressedIn ? 0.7 : 1}
-      borderRadius={20}
+      borderRadius="$3xl"
       py="$1"
       px="$5"
       m="$1"

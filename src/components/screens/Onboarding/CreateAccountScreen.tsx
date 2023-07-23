@@ -329,7 +329,7 @@ function CreateAccountScreen({
                 variant="solid"
                 action="primary"
                 onPress={onPress}
-                borderRadius="$20"
+                borderRadius="$3xl"
                 mt="$3"
                 mx="$2"
               >

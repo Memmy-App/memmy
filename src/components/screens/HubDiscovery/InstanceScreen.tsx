@@ -45,7 +45,7 @@ function InstanceScreen({ route, navigation }: IProps) {
 
   return (
     <ScrollView bg={theme.colors.app.bg} flex={1} p={6}>
-      <VStack p="$3" borderRadius={10} space="lg">
+      <VStack p="$3" borderRadius="$xl" space="lg">
         <HStack space="sm">
           <FastImage
             source={{ uri: site.icon }}

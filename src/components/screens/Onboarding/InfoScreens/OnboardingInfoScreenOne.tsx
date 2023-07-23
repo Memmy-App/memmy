@@ -47,7 +47,7 @@ function OnboardingInfoScreenOne({ navigation }: IProps) {
               action="secondary"
               onPress={() => navigation.push("HubDiscovery")}
               mt="auto"
-              borderRadius="$20"
+              borderRadius="$3xl"
               py="$2.5"
               width="50%"
             >
@@ -61,7 +61,7 @@ function OnboardingInfoScreenOne({ navigation }: IProps) {
               action="primary"
               onPress={() => navigation.push("OnboardingInfoTwo")}
               mt="auto"
-              borderRadius="$20"
+              borderRadius="$3xl"
               py="$2.5"
               flexGrow={1}
             >

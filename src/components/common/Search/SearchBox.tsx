@@ -40,7 +40,7 @@ function SearchBox({
   return (
     <HStack
       backgroundColor={theme.colors.app.inputBg}
-      borderRadius={12}
+      borderRadius="$2xl"
       borderColor={theme.colors.app.border}
       borderWidth={1}
       py="$1.5"

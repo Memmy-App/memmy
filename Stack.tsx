@@ -73,7 +73,7 @@ function CustomDrawerContent() {
     <>
       {/* Header */}
       <View
-        height={10}
+        height="$10"
         style={{
           backgroundColor: theme.colors.app.bg,
         }}

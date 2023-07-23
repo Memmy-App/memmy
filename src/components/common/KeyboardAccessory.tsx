@@ -142,7 +142,7 @@ function KeyboardAccessory({
       <LoadingModal loading={uploading} />
       <HStack
         backgroundColor={theme.colors.app.bg}
-        height={12}
+        height="$12"
         justifyContent="space-between"
         alignItems="center"
         px="$4"

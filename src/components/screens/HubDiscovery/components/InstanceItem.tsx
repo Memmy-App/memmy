@@ -42,7 +42,7 @@ function InstanceItem({ site }: IProps) {
         backgroundColor={theme.colors.app.fg}
         mx="$6"
         my={1.5}
-        borderRadius={10}
+        borderRadius="$xl"
         p="$2"
         space="sm"
       >

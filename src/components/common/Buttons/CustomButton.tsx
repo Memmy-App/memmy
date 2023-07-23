@@ -44,7 +44,7 @@ function CustomButton({
       onPress={onPressBefore}
       opacity={pressedIn ? 0.7 : 1}
       py={size === "md" ? "$2" : "$1"}
-      borderRadius={size === "md" ? 10 : 20}
+      borderRadius={size === "md" ? "$xl" : "$3xl"}
       backgroundColor={
         !selected ? theme.colors.app.inputBg : theme.colors.app.accent
       }

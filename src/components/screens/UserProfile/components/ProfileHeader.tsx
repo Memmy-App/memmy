@@ -26,7 +26,7 @@ function ProfileHeader({ profile }: IProps) {
         mx={4}
         mt={2}
         px={3}
-        borderRadius={10}
+        borderRadius="$xl"
       >
         <HStack
           alignItems="center"
@@ -74,7 +74,7 @@ function ProfileHeader({ profile }: IProps) {
         mx="$4"
         px="$3"
         backgroundColor={theme.colors.app.fg}
-        borderRadius={10}
+        borderRadius="$xl"
       >
         <HStack space="3xl">
           <VStack alignItems="flex-start" space="xs">

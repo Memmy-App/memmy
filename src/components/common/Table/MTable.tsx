@@ -22,7 +22,7 @@ function MTable({ header, children }: IProps) {
         <VStack
           backgroundColor={theme.colors.app.fg}
           p="$3"
-          borderRadius={10}
+          borderRadius="$xl"
           space="md"
         >
           {childrenArray.map((child, index) => (

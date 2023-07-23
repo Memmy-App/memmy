@@ -54,7 +54,7 @@ function OnboardingScreen({
               action="primary"
               onPress={() => navigation.push("OnboardingInfoOne")}
               mt="auto"
-              borderRadius="$20"
+              borderRadius="$3xl"
               py="$2.5"
             >
               <Text fontWeight="semibold" size="lg">
@@ -67,7 +67,7 @@ function OnboardingScreen({
               action="secondary"
               onPress={() => navigation.push("HubDiscovery")}
               mt="auto"
-              borderRadius="$20"
+              borderRadius="$3xl"
               py="$2.5"
             >
               <Text fontWeight="semibold" size="lg">

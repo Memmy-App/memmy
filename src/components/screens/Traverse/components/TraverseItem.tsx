@@ -57,7 +57,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
       <HStack
         flex={1}
         backgroundColor={theme.colors.app.fg}
-        borderRadius={10}
+        borderRadius="$xl"
         alignItems="center"
         paddingHorizontal="$2"
         paddingVertical="$1"

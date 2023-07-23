@@ -47,7 +47,7 @@ function IconButtonWithText({
     >
       <HStack space="sm" alignItems="center">
         <Animated.View style={animatedStyle}>
-          <Box borderRadius={5} backgroundColor={iconBgColor} padding="$0.5">
+          <Box borderRadius="$md" backgroundColor={iconBgColor} padding="$0.5">
             {icon}
           </Box>
         </Animated.View>

@@ -62,7 +62,7 @@ function OnboardingInfoScreenSix({ navigation }: IProps) {
             variant="solid"
             action="primary"
             onPress={() => navigation.push("OnboardingInfoSeven")}
-            borderRadius="$20"
+            borderRadius="$3xl"
             mt="auto"
           >
             <Text fontWeight="semibold" size="lg">

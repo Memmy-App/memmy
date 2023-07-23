@@ -41,7 +41,7 @@ function OnboardingInfoScreenSeven({ navigation }: IProps) {
             variant="solid"
             action="primary"
             onPress={() => navigation.push("HubDiscovery")}
-            borderRadius="$20"
+            borderRadius="$3xl"
             mt="auto"
           >
             <Text fontWeight="semibold" size="lg">

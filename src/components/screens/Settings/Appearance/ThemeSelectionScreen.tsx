@@ -24,7 +24,7 @@ import SFIcon from "../../../common/icons/SFIcon";
 
 function ThemeColors({ accent, bg }: { accent: string; bg: string }) {
   return (
-    <Box borderRadius={5} overflow="hidden">
+    <Box borderRadius="$md" overflow="hidden">
       <Box
         style={{
           width: 25,

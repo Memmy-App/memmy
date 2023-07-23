@@ -24,7 +24,7 @@ function LoadingErrorFooter({
         onPress={onRetryPress}
         borderColor="blue.500"
         borderWidth={1}
-        borderRadius={5}
+        borderRadius="$md"
         padding={1}
         mt="$2"
       >

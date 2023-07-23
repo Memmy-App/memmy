@@ -53,10 +53,10 @@ function CompactFeedItemThumbnail({
 
   return (
     <Box
-      width={75}
-      height={75}
+      width="$18"
+      height="$18"
       backgroundColor={theme.colors.app.bg}
-      borderRadius={10}
+      borderRadius="$xl"
       justifyContent="center"
       alignItems="center"
       alignSelf="center"

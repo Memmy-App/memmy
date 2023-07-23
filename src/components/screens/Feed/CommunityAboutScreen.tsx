@@ -61,7 +61,9 @@ function CommunityAboutScreen({ route }: { route: any }) {
             {community?.community.description ? (
               <RenderMarkdown text={community?.community.description} />
             ) : (
-              <Text fontStyle="italic">There is no description for this community</Text>
+              <Text fontStyle="italic">
+                There is no description for this community
+              </Text>
             )}
           </Card>
           <Card title="Stats" spacing>
