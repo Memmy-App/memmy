@@ -23,7 +23,7 @@
       "areYouSure": "Are you sure?",
       "info": "Info",
       "serverAuthError": "Error authenticating with server.",
-      "deleteAccount": "Delete Account",
+      "deleteAccount": "Delete Account"
     },
     "message": {
       "allowCameraRoll": "Please allow Memmy to access your camera roll.",
@@ -297,7 +297,7 @@
     "Active": "Active",
     "New": "Most Comments",
     "MostComments": "Most Comments",
-    "NewComments": "New Comments"
+    "NewComments": "New Comments",
     "Old": "Old"
   },
   "Feed": "Feed",
