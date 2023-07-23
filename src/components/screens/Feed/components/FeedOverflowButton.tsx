@@ -7,6 +7,7 @@ import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import SFIcon from "../../../common/icons/SFIcon";
 import { ICON_MAP } from "../../../../constants/IconMap";
 import { AppContextMenuButton } from "../../../common/ContextMenu/App/AppContextMenuButton";
+import { Box } from "../../../common/Gluestack";
 
 export function FeedOverflowButton() {
   const { compactView } = useAppSelector(selectSettings);
@@ -49,12 +50,14 @@ export function FeedOverflowButton() {
   );
 
   return (
-    <AppContextMenuButton
-      options={options}
-      selection={selection}
-      onPressMenuItem={onPress}
-    >
-      <SFIcon icon={ICON_MAP.MORE_OPTIONS} />
-    </AppContextMenuButton>
+    <Box paddingRight={10}>
+      <AppContextMenuButton
+        options={options}
+        selection={selection}
+        onPressMenuItem={onPress}
+      >
+        <SFIcon icon={ICON_MAP.MORE_OPTIONS} />
+      </AppContextMenuButton>
+    </Box>
   );
 }
