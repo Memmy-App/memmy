@@ -11,6 +11,9 @@ function CommentCount({
   commentCount: number;
   newComments?: number;
 }) {
+  const unreadCount =
+    newComments === commentCount || newComments === 0 ? undefined : newComments;
+  console.log(unreadCount);
   const { colors } = useTheme();
   return (
     <HStack space={2}>
@@ -25,9 +28,9 @@ function CommentCount({
           {commentCount}
         </Text>
       </HStack>
-      {!!newComments && newComments < commentCount && (
+      {unreadCount && (
         <Chip
-          text={`+${newComments}`}
+          text={`+${unreadCount}`}
           color={colors.app.accent}
           variant="outlined"
           fontSize="xs"
