@@ -31,6 +31,8 @@ export interface SettingsState {
   markReadOnPostView: boolean;
   markReadOnPostImageView: boolean;
   markReadOnPostVote: boolean;
+  markReadOnFeedScroll: boolean;
+  markReadOnCommunityScroll: boolean;
   ignoreScreenHeightInFeed: boolean;
   displayTotalScore: boolean;
   useReaderMode: boolean;
@@ -71,6 +73,8 @@ const initialState: SettingsState = {
   markReadOnPostView: true,
   markReadOnPostImageView: true,
   markReadOnPostVote: true,
+  markReadOnFeedScroll: false,
+  markReadOnCommunityScroll: false,
   ignoreScreenHeightInFeed: false,
   displayTotalScore: true,
   useReaderMode: false,

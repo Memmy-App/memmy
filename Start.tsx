@@ -95,7 +95,7 @@ function Start({ onReady }: StartProps) {
           ? themeLight
           : themeDark
         : theme,
-    [themeMatchSystem, themeDark, themeLight, currentColorScheme]
+    [themeMatchSystem, themeDark, themeLight, theme, currentColorScheme]
   );
 
   const appState = useRef(AppState.currentState);
