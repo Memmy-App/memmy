@@ -281,24 +281,24 @@
   "imageView": {
     "dialogDesc": "Downloading image..."
   },
-  "sortOptions": {
+  "sort": {
     "Top": "Top",
     "top": {
-      "top": "Hour",
-      "Hour": "Six Hours",
-      "SixHours": "Twelve Hours",
-      "TwelveHours": "Day",
-      "Day": "Week",
-      "Week": "Month",
-      "Month": "Year",
-      "Year": "All Time"
+      "Hour": "Last Hour",
+      "SixHours": "Six Hours",
+      "TwelveHours": "Twelve Hours",
+      "Day": "Day",
+      "Week": "Week",
+      "Month": "Month",
+      "Year": "Year",
+      "AllTime": "All Time"
     },
-    "AllTime": "Hot",
-    "Hot": "Active",
-    "Active": "New",
+    "Hot": "Hot",
+    "Active": "Active",
     "New": "Most Comments",
-    "MostComments": "New Comments",
-    "NewComments": "Old"
+    "MostComments": "Most Comments",
+    "NewComments": "New Comments"
+    "Old": "Old"
   },
   "Feed": "Feed",
   "Comments": "Comments",
@@ -347,7 +347,7 @@
   "Reply": "Reply",
   "Report Post": "Report Post",
   "Cancel": "Cancel",
-	"Remove": "Remove",
+  "Remove": "Remove",
   "Submit": "Submit",
   "Retry": "Retry",
   "Language": "Language",
