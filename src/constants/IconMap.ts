@@ -15,5 +15,6 @@ export const ICON_MAP = {
   COPY: "doc.on.doc",
   LINK: "link",
   BLOCK_COMMUNITY: "xmark.circle",
+  FILTERS: "eye.slash",
   EXTERNAL_LINK: "arrow.up.forward.square",
 };

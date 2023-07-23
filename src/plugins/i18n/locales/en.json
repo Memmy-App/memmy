@@ -164,7 +164,18 @@
         "header": "Server Credentials",
         "footer": "Credentials for the server you are connecting to"
       }
-    }
+    },
+		"filters": {
+			"addKeyword": "Add Keyword",
+			"areYouSureKeyword": "Are you sure you want to remove this keyword?",
+			"enterAKeyword": "Enter a keyword to filter.",
+			"noKeywords": "No keywords yet...",
+
+			"addInstance": "Add instance",
+			"areYouSureInstance": "Are you sure you want to remove this instance?",
+			"enterAnInstance": "Enter an instance to filter.",
+			"noInstances": "No instances yet..."
+		}
   },
   "traverse": {
     "noSubscriptions": "You don't have any subscriptions.",
@@ -298,6 +309,9 @@
   "View": "View",
   "Content": "Content",
   "Appearance": "Appearance",
+	"Filters": "Filters",
+	"Keywords": "Keywords",
+	"Instances": "Instances",
   "Theme": "Theme",
   "Icon": "Icon",
   "General": "General",
@@ -310,6 +324,7 @@
   "Reply": "Reply",
   "Report Post": "Report Post",
   "Cancel": "Cancel",
+	"Remove": "Remove",
   "Submit": "Submit",
   "Retry": "Retry",
   "Language": "Language",

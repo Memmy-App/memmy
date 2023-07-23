@@ -28,6 +28,7 @@ import { ThemeOptionsArr, ThemeOptionsMap } from "./src/theme/themeOptions";
 import Toast from "./src/components/common/Toast";
 import { systemFontSettings } from "./src/theme/common";
 import { loadFavorites } from "./src/slices/favorites/favoritesActions";
+import { useFiltersStore } from "./src/stores/filters/filtersStore";
 
 const logError = (e, info) => {
   writeToLog(e.toString());
@@ -218,6 +219,7 @@ function Start({ onReady }: StartProps) {
     dispatch(loadAccounts());
     dispatch(loadFavorites());
     setLoaded(true);
+    useFiltersStore.getState().init();
   }
 
   if (!accountsLoaded) {
