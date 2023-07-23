@@ -113,6 +113,8 @@
         "onPostOpen": "Mark Read on Post Open",
         "onImageView": "Mark Read on Image View",
         "onVote": "Mark Read on Vote",
+				"onFeedScroll": "Mark Read on Feed Scroll",
+				"onCommunityScroll": "Mark Read on Community Scroll",
         "footer": "Hide Read Posts on Feed will automatically hide read posts anytime the feed is refreshed. If Hide Read Posts on Feed is enabled, Show Hide Read Button will show a floating action button to hide read posts without a feed refresh."
       }
     },
