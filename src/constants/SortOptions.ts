@@ -32,7 +32,7 @@ export const overallSortOptions: ContextMenuOptions = {
   },
   TopAll: {
     display: "All Time",
-    icon: "calendar",
+    icon: "trophy",
   },
   Hot: {
     display: "Hot",
@@ -48,11 +48,11 @@ export const overallSortOptions: ContextMenuOptions = {
   },
   MostComments: {
     display: "Most Comments",
-    icon: "text.bubble",
+    icon: "bubble.left.and.bubble.right",
   },
   NewComments: {
     display: "New Comments",
-    icon: "message.badge",
+    icon: "star.bubble",
   },
   Old: {
     display: "Old",
@@ -89,7 +89,7 @@ export type CommentSortOption = [key: CommentSortType, display: string];
 export const commentSortOptions: ContextMenuOptions = {
   Top: {
     display: "Top",
-    icon: "clock",
+    icon: "trophy",
   },
   Hot: {
     display: "Hot",
