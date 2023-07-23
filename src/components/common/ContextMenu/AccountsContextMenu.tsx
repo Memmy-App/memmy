@@ -65,7 +65,7 @@ export function AccountsContextMenu({
 
   return (
     <AppContextMenuButton
-      isPrimaryAction={!isShortPress}
+      isPrimaryAction={isShortPress}
       options={options}
       selection={currentAccount.username + currentAccount.instance}
       title={t("Accounts")}

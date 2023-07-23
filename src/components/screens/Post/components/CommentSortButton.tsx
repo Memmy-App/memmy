@@ -4,6 +4,7 @@ import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
 import { CommentSortContextMenu } from "../../../common/ContextMenu/CommentSortContextMenu";
 import SFIcon from "../../../common/icons/SFIcon";
 import { useCommentSortOptions } from "../../../../hooks/contextMenu/useCommentSortOptions";
+import { findOptionByKey } from "../../../../helpers/ContextMenuOptionsHelper";
 
 interface IProps {
   sortType: CommentSortType;
@@ -21,7 +22,9 @@ function CommentSortButton({ sortType, setSortType }: IProps) {
       currentSelection={sortType}
     >
       <HeaderIconButton
-        icon={<SFIcon icon={commentSortOptions[sortType].icon} />}
+        icon={
+          <SFIcon icon={findOptionByKey(commentSortOptions, sortType).icon} />
+        }
       />
     </CommentSortContextMenu>
   );

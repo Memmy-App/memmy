@@ -5,6 +5,7 @@ import IconButtonWithText from "../../IconButtonWithText";
 import SFIcon from "../../icons/SFIcon";
 import { CommentContextMenu } from "../CommentContextMenu";
 import { ContextMenuOptions } from "../../../../types/ContextMenuOptions";
+import { ICON_MAP } from "../../../../constants/IconMap";
 
 interface IProps {
   onPress: (key: string) => void;

@@ -18,12 +18,15 @@ function CommentSortButton() {
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const reportPost = useReportPost();
+
   const options = useMemo<ContextMenuOption[]>(
     () => [
       {
         key: "ReportPost",
         title: t("Report Post"),
         icon: ICON_MAP.REPORT_POST,
+        destructive: true,
       },
     ],
     [t]
@@ -32,7 +35,7 @@ function CommentSortButton() {
   const onPressMenuItem = ({ nativeEvent }: OnPressMenuItemEventObject) => {
     switch (nativeEvent.actionKey) {
       case "ReportPost":
-        useReportPost({ postId: post.post.post.id, dispatch }).then();
+        reportPost(post.post.post.id, dispatch);
         break;
       default:
         break;
