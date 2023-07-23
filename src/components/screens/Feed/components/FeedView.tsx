@@ -6,7 +6,7 @@ import {
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import { HStack, useTheme, View } from "native-base";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { StyleSheet } from "react-native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { useRoute } from "@react-navigation/core";
@@ -45,14 +45,32 @@ import HideReadFAB from "../../../common/Buttons/HideReadFAB";
 import setFeedPosts from "../../../../stores/feeds/actions/setFeedPosts";
 import { removeReadPosts } from "../../../../helpers/LemmyHelpers";
 import { useSaved, useVoted } from "../../../../stores/updates/updatesStore";
+import setFeedRead from "../../../../stores/feeds/actions/setFeedRead";
 
 interface FeedViewProps {
   header?: () => React.ReactNode;
 }
 
+interface ViewToken<T = any> {
+  item?: T;
+  key: string;
+  index: number | null;
+  isViewable: boolean;
+  timestamp: number;
+}
+
+type ViewableItemsChangedType<T> = {
+  viewableItems?: ViewToken<T>[];
+  changed: ViewToken<T>[];
+};
+
 function FeedView({ header }: FeedViewProps) {
-  const { hideReadPostsOnFeed, showHideReadButton } =
-    useAppSelector(selectSettings);
+  const {
+    hideReadPostsOnFeed,
+    showHideReadButton,
+    markReadOnFeedScroll,
+    markReadOnCommunityScroll,
+  } = useAppSelector(selectSettings);
 
   const { key } = useRoute();
 
@@ -71,6 +89,8 @@ function FeedView({ header }: FeedViewProps) {
 
   const voted = useVoted();
   const saved = useSaved();
+
+  const onViewableItemsChanged = useRef<any>();
 
   // Refs
   const flashList = useRef<FlashList<any>>();
@@ -147,6 +167,27 @@ function FeedView({ header }: FeedViewProps) {
     clearUpdateSaved();
   });
 
+  const markReadOnScroll = (info?: ViewableItemsChangedType<PostView>) => {
+    if (
+      (markReadOnCommunityScroll && key.includes("Community")) ||
+      (markReadOnFeedScroll && key.includes("FeedScreen"))
+    ) {
+      const firstItem = info.viewableItems ? info.viewableItems[0] : null;
+      if (!!firstItem && !!firstItem.item) {
+        if (firstItem.item.read) return;
+
+        setFeedRead(key, firstItem.item.post.id);
+      }
+    }
+  };
+
+  onViewableItemsChanged.current = useCallback(
+    (info?: ViewableItemsChangedType<PostView>) => {
+      markReadOnScroll(info);
+    },
+    [markReadOnFeedScroll, markReadOnCommunityScroll]
+  );
+
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<PostView>) => {
       if (!status?.loading && posts?.length < 1) {
@@ -206,6 +247,9 @@ function FeedView({ header }: FeedViewProps) {
             ListEmptyComponent={<NoResultView type="posts" />}
             ref={flashList}
             getItemType={getItemType}
+            onViewableItemsChanged={(info) =>
+              onViewableItemsChanged.current(info)
+            }
           />
         )}
       {hideReadPostsOnFeed && showHideReadButton && (
