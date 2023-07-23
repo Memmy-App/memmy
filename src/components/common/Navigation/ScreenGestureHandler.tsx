@@ -20,7 +20,7 @@ function ScreenGestureHandler({ children }: IProps) {
 
   const onPanEnd = useCallback(
     (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
-      if (!swipeToVote) return;
+      if (swipeToVote) return;
 
       if (event.translationX < 10 || Math.abs(event.translationY) >= 30) return;
 
@@ -32,6 +32,7 @@ function ScreenGestureHandler({ children }: IProps) {
   const panGesture = Gesture.Pan()
     .maxPointers(1)
     .activeOffsetX([-20, 20])
+    .cancelsTouchesInView(true)
     .onEnd(onPanEnd);
 
   return <GestureDetector gesture={panGesture}>{children}</GestureDetector>;
