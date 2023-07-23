@@ -16,6 +16,7 @@ import { selectSettings } from "../../../../../slices/settings/settingsSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../../../LemmyInstance";
 import SFIcon from "../../../../common/icons/SFIcon";
 import ImageViewer from "../../../../common/ImageViewer/ImageViewer";
+import { ICON_MAP } from "../../../../../constants/IconMap";
 
 function CompactFeedItemThumbnail({
   post,
@@ -77,7 +78,7 @@ function CompactFeedItemThumbnail({
       )) ||
         (linkInfo.extType === ExtensionType.NONE && (
           <SFIcon
-            icon="bubble.left.and.bubble.right"
+            icon={ICON_MAP.MOST_COMMENTS}
             color={theme.colors.app.textSecondary}
             size={20}
           />
@@ -105,7 +106,7 @@ function CompactFeedItemThumbnail({
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <SFIcon icon="link" color="#333" size={8} />
+                  <SFIcon icon={ICON_MAP.LINK} color="#333" size={8} />
                 </View>
               </>
             )) || (

@@ -600,7 +600,7 @@ function Tabs() {
           options={{
             headerShown: false,
             tabBarIcon: ({ color }) => (
-              <SFIcon icon="doc.text.image" color={color} />
+              <SFIcon icon={ICON_MAP.FEED} color={color} />
             ),
             tabBarLabel: t("Feed"),
             freezeOnBlur: false,
@@ -611,7 +611,9 @@ function Tabs() {
           component={InboxStackScreen}
           options={{
             headerShown: false,
-            tabBarIcon: ({ color }) => <SFIcon icon="envelope" color={color} />,
+            tabBarIcon: ({ color }) => (
+              <SFIcon icon={ICON_MAP.INBOX} color={color} />
+            ),
             tabBarLabel: t("Inbox"),
 
             tabBarBadge:
@@ -642,7 +644,7 @@ function Tabs() {
           options={{
             headerShown: false,
             tabBarIcon: ({ color }) => (
-              <SFIcon icon="magnifyingglass" color={color} />
+              <SFIcon icon={ICON_MAP.SEARCH} color={color} />
             ),
             tabBarLabel: t("Search"),
             freezeOnBlur: false,
@@ -654,7 +656,9 @@ function Tabs() {
           options={{
             headerShown: false,
             // tabBarIcon: ({ color }) => <IconSettings color={color} />,
-            tabBarIcon: ({ color }) => <SFIcon icon="gear" color={color} />,
+            tabBarIcon: ({ color }) => (
+              <SFIcon icon={ICON_MAP.SETTINGS} color={color} />
+            ),
             tabBarLabel: t("Settings"),
             freezeOnBlur: false,
           }}
