@@ -4,8 +4,11 @@ import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
 
 const setFeedRead = (feedKey: string, postId: number) => {
   useFeedsStore.setState((state) => {
-    state.feeds.get(feedKey).posts.find((p) => p.post.id === postId).read =
-      true;
+    const prev = state.feeds
+      .get(feedKey)
+      .posts.find((p) => p.post.id === postId);
+    prev.read = true;
+    prev.unread_comments = 0;
   });
 
   try {

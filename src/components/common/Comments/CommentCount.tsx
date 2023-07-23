@@ -25,7 +25,7 @@ function CommentCount({
           {commentCount}
         </Text>
       </HStack>
-      {!!newComments && (
+      {!!newComments && newComments < commentCount && (
         <Chip
           text={`+${newComments}`}
           color={colors.app.accent}

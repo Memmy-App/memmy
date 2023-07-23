@@ -67,14 +67,9 @@ const useFeedItem = (postId: number): UseFeedItem => {
   );
 
   const onPress = () => {
-    if (!post.read && markReadOnPostView) setFeedRead(key, post.post.id);
+    setFeedRead(key, post.post.id);
 
     const postKey = Date.now().toString() + post.post.id;
-
-    useFeedsStore.setState((state) => {
-      const prev = state.feeds.get(key).posts.find((p) => p.post.id === postId);
-      prev.unread_comments = 0;
-    });
 
     addPost(postKey, post);
 
