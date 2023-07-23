@@ -93,6 +93,7 @@
   },
   "settings": {
     "reportBugBtn": "Report a Bug on GitHub",
+		"swipeToVote": "Swipe to Vote",
     "haptics": {
       "Off": "Off",
       "Light": "Light",

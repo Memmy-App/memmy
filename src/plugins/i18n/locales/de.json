@@ -86,6 +86,7 @@
   },
   "settings": {
     "reportBugBtn": "Bug auf GitHub melden",
+		"swipeToVote": "Mit Wisch hoch-/runterwählen",
     "haptics": {
       "Off": "Keine",
       "Light": "Schwach",
