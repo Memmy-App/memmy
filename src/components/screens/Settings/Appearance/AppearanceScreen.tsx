@@ -1,7 +1,6 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
-import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Box, HStack, ScrollView, Text } from "@components/common/Gluestack";
+import { ScrollView, Text } from "@components/common/Gluestack";
 import React, { useMemo, useState } from "react";
 import {
   selectSettings,
@@ -11,7 +10,6 @@ import { useAppDispatch, useAppSelector } from "@root/store";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { useTranslation } from "react-i18next";
 import { setSetting } from "../../../../slices/settings/settingsActions";
-import { FontWeightMap } from "../../../../theme/fontSize";
 import Chip from "../../../common/Chip";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
@@ -35,10 +33,11 @@ function AppearanceScreen({ navigation }: IProps) {
     dispatch(setSetting({ [key]: value }));
   };
 
-  const selectedFontWeight =
-    Object.keys(FontWeightMap).find(
-      (key) => FontWeightMap[key] === settings.fontWeightPostTitle
-    ) || "Regular";
+  // Disabling Font Scaling for now
+  // const selectedFontWeight =
+  //   Object.keys(FontWeightMap).find(
+  //     (key) => FontWeightMap[key] === settings.fontWeightPostTitle
+  //   ) || "Regular";
 
   const [accent, setAccent] = useState(settings.accentColor);
   const hexPattern = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
@@ -61,14 +60,15 @@ function AppearanceScreen({ navigation }: IProps) {
     [t]
   );
 
-  const fontWeightOptions = useMemo(
-    () =>
-      Object.keys(FontWeightMap).map((key) => ({
-        key,
-        title: t(key),
-      })),
-    [t]
-  );
+  // Disabling Font Scaling for now
+  // const fontWeightOptions = useMemo(
+  //   () =>
+  //     Object.keys(FontWeightMap).map((key) => ({
+  //       key,
+  //       title: t(key),
+  //     })),
+  //   [t]
+  // );
 
   return (
     <ScrollView bg={theme.colors.bg} flex={1}>

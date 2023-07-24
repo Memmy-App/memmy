@@ -3,10 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
 import { View } from "@components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
 import { TextStyle, useWindowDimensions } from "react-native";

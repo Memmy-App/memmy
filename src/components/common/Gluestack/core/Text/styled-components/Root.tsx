@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TextProps } from "react-native";
+import { Text } from "react-native";
 import { useAppSelector } from "@root/store";
 import { selectCurrentTheme } from "@src/slices/settings/settingsSlice";
 import { ThemeOptionsMap } from "@src/theme/themeOptions";
