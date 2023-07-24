@@ -30,25 +30,12 @@ import { IconAlertTriangle } from "tabler-icons-react-native";
 import { useImageDimensions } from "./useImageDimensions";
 import ExitButton from "./ImageExitButton";
 import ImageViewFooter from "./ImageViewFooter";
-import { useAppSelector } from "../../../../store";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
-import ImageButton from "../Buttons/ImageButton";
-import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
-import Toast from "../Toast";
-
-interface IProps {
-  source: string;
-  postId?: number;
-  heightOverride?: number;
-  widthOverride?: number;
-  style?: object;
-  onPress?: () => unknown;
-  recycled?: React.MutableRefObject<{}>;
-  nsfw?: boolean;
-  buttonMode?: boolean;
-  setPostRead?: () => void;
-  compactMode?: boolean;
-}
+import { useAppSelector } from "../../../../../store";
+import { selectSettings } from "../../../../slices/settings/settingsSlice";
+import ImageButton from "../../Buttons/ImageButton";
+import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
+import Toast from "../../Toast";
+import { MediaProps } from "../common";
 
 interface MeasureResult {
   x: number;
@@ -78,7 +65,7 @@ function ImageViewer({
   buttonMode = false,
   setPostRead,
   compactMode,
-}: IProps) {
+}: MediaProps) {
   const theme = useTheme();
 
   // @ts-ignore

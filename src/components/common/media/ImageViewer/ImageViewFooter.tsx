@@ -1,13 +1,13 @@
 import { HStack, useTheme, View } from "native-base";
 import React from "react";
-import { ICON_MAP } from "../../../constants/IconMap";
-import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
-import { saveImage } from "../../../helpers/ImageHelper";
-import { shareLink } from "../../../helpers/ShareHelper";
-import IconButtonWithText from "../IconButtonWithText";
-import SFIcon from "../icons/SFIcon";
-import { useAppDispatch } from "../../../../store";
-import { showToast } from "../../../slices/toast/toastSlice";
+import { ICON_MAP } from "../../../../constants/IconMap";
+import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
+import { saveImage } from "../../../../helpers/ImageHelper";
+import { shareLink } from "../../../../helpers/ShareHelper";
+import IconButtonWithText from "../../IconButtonWithText";
+import SFIcon from "../../icons/SFIcon";
+import { useAppDispatch } from "../../../../../store";
+import { showToast } from "../../../../slices/toast/toastSlice";
 
 interface ImageViewFooterProps {
   source: string;

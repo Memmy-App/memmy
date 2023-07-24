@@ -1,7 +1,7 @@
 import { Pressable, View } from "native-base";
 import React from "react";
 import { StyleSheet } from "react-native";
-import SFIcon from "../icons/SFIcon";
+import SFIcon from "../../icons/SFIcon";
 
 interface IProps {
   onPress: () => void;

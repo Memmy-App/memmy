@@ -15,7 +15,7 @@ import { selectSettings } from "../../../../../slices/settings/settingsSlice";
 
 import { lemmyAuthToken, lemmyInstance } from "../../../../../LemmyInstance";
 import SFIcon from "../../../../common/icons/SFIcon";
-import ImageViewer from "../../../../common/ImageViewer/ImageViewer";
+import ImageViewer from "../../../../common/media/ImageViewer/ImageViewer";
 
 function CompactFeedItemThumbnail({
   post,

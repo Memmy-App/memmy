@@ -6,7 +6,7 @@ import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
 import { findImages } from "../../../../helpers/MarkdownHelper";
 import { truncatePost } from "../../../../helpers/TextHelper";
-import ImagePreview from "../../../common/ImagePreview";
+import MediaPreview from "../../../common/media/MediaPreview";
 import LinkButton from "../../../common/Buttons/LinkButton";
 // eslint-disable-next-line import/no-extraneous-dependencies
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -26,7 +26,7 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
   const body = truncatePost(cleanedText, 100);
 
   const title = post.post.name;
-  let postUrls = [post.post.url];
+  let postUrls = [linkInfo];
 
   const isImagePost = linkInfo.extType === ExtensionType.IMAGE;
   const isVideoPost = linkInfo.extType === ExtensionType.VIDEO;
@@ -36,16 +36,21 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
   if (isImageMarkdownPost) {
     // incase we have an image Post with image markdown in the body?
     if (isImagePost) {
-      postUrls = [post.post.url, ...imageLinks];
+      postUrls = [
+        ...postUrls,
+        ...imageLinks.map((link) => ({ extType: ExtensionType.IMAGE, link })),
+      ];
     } else {
-      postUrls = imageLinks;
+      postUrls = imageLinks.map((link) => ({
+        extType: ExtensionType.IMAGE,
+        link,
+      }));
     }
   }
 
   // handle video posts
 
-  const showImage = isImagePost || isImageMarkdownPost;
-  const showVideo = isVideoPost;
+  const showMedia = isImagePost || isImageMarkdownPost || isVideoPost;
   const showLink = linkInfo.extType === ExtensionType.GENERIC;
 
   return useMemo(
@@ -60,22 +65,15 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
         >
           {title}
         </Text>
-        {showImage && (
+        {showMedia && (
           <Box mt={2}>
-            <ImagePreview
+            <MediaPreview
               images={postUrls}
               postId={post.post.id}
               isNsfw={post.post.nsfw || post.community.nsfw}
               recycled={recycled}
               setPostRead={setPostRead}
             />
-          </Box>
-        )}
-        {showVideo && (
-          <Box mt={2}>
-            {/* <VideoPreview>
-
-            </VideoPreview> */}
           </Box>
         )}
         {!!body && (

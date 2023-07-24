@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Dimensions as RNDimensions } from "react-native";
-import { useAppSelector } from "../../../../store";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
+import { useAppSelector } from "../../../../../store";
+import { selectSettings } from "../../../../slices/settings/settingsSlice";
 
 interface UseImageDimensions {
   dimensions: AllDimensions;

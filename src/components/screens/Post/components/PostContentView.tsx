@@ -7,7 +7,7 @@ import {
   getLinkInfo,
 } from "../../../../helpers/LinkHelper";
 import LinkButton from "../../../common/Buttons/LinkButton";
-import ImageViewer from "../../../common/ImageViewer/ImageViewer";
+import ImageViewer from "../../../common/media/ImageViewer/ImageViewer";
 import RenderMarkdown from "../../../common/Markdown/RenderMarkdown";
 import PostTitle from "./PostTitle";
 import { useCurrentPost } from "../../../../stores/posts/postsStore";

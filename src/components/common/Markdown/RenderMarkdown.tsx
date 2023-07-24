@@ -12,7 +12,7 @@ import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
 import { fontSizeMap } from "../../../theme/fontSize";
 import SpoilerContainer from "./SpoilerContainer";
-import ImageViewer from "../ImageViewer/ImageViewer";
+import ImageViewer from "../media/ImageViewer/ImageViewer";
 
 const MarkdownItInstance = MarkdownIt({ typographer: true }).use(
   require("markdown-it-container"),
