@@ -29,6 +29,7 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
   let postUrls = [post.post.url];
 
   const isImagePost = linkInfo.extType === ExtensionType.IMAGE;
+  const isVideoPost = linkInfo.extType === ExtensionType.VIDEO;
 
   // handle weird posts where someone just posts a markdown image instead of an image Post
   const isImageMarkdownPost = imageLinks.length > 0;
@@ -41,10 +42,11 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
     }
   }
 
+  // handle video posts
+
   const showImage = isImagePost || isImageMarkdownPost;
-  const showLink =
-    linkInfo.extType === ExtensionType.VIDEO ||
-    linkInfo.extType === ExtensionType.GENERIC;
+  const showVideo = isVideoPost;
+  const showLink = linkInfo.extType === ExtensionType.GENERIC;
 
   return useMemo(
     () => (
@@ -67,6 +69,13 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
               recycled={recycled}
               setPostRead={setPostRead}
             />
+          </Box>
+        )}
+        {showVideo && (
+          <Box mt={2}>
+            {/* <VideoPreview>
+
+            </VideoPreview> */}
           </Box>
         )}
         {!!body && (

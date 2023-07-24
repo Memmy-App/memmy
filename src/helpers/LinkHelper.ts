@@ -24,7 +24,7 @@ const imageExtensions = [
   "gifv",
 ];
 
-const videoExtensions = ["mp4", "mov", "m4a"];
+const videoExtensions = ["mp4", "mov", "m4a", "webm", "mkv", "avi"];
 let { accounts } = store.getState();
 
 export interface LinkInfo {
