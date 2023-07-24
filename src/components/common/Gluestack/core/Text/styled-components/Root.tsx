@@ -1,10 +1,13 @@
-import { Text } from "react-native";
+import React from "react";
+import { Text, TextProps } from "react-native";
+import { useAppSelector } from "@root/store";
+import { selectCurrentTheme } from "@src/slices/settings/settingsSlice";
+import { ThemeOptionsMap } from "@src/theme/themeOptions";
 import { styled } from "../../styled";
 
-export default styled(
+const BaseText = styled(
   Text,
   {
-    color: "$textPrimary",
     fontWeight: "$normal",
     fontFamily: "$body",
     fontStyle: "normal",
@@ -72,5 +75,29 @@ export default styled(
       size: "md",
     },
   },
-  {}
+  {},
+  {
+    propertyResolver: {
+      color: (rawValue, resolver) => {
+        if (rawValue.includes(":useDefaultText")) {
+          const parts = rawValue.split("-");
+          const theme = parts[1];
+          const resolved = resolver(ThemeOptionsMap[theme].colors.textPrimary);
+          return resolved;
+        }
+        return resolver(rawValue);
+      },
+    },
+  }
 );
+
+export default function StyledText(props: typeof BaseText & TextProps) {
+  const currentTheme = useAppSelector(selectCurrentTheme);
+
+  const { children, ...rest } = props;
+  return (
+    <BaseText color={`:useDefaultText-${currentTheme}`} {...rest}>
+      {children}
+    </BaseText>
+  );
+}

@@ -15,6 +15,7 @@ import { IColors } from "./common";
 import { lightThemeColors, oksolarLightThemeColors } from "./lightColors";
 
 export interface ITheme {
+  name: string;
   colors: IColors;
   config: {
     initialColorMode: "unspecified" | "light" | "dark";
@@ -23,6 +24,7 @@ export interface ITheme {
 
 export const themeMap: Record<string, ITheme> = {
   moodyPurpleTheme: {
+    name: "moodyPurple",
     colors: {
       ...moodyPurpleThemeColors,
     },
@@ -31,6 +33,7 @@ export const themeMap: Record<string, ITheme> = {
     },
   },
   darkTheme: {
+    name: "dark",
     colors: {
       ...darkThemeColors,
     },
@@ -40,6 +43,7 @@ export const themeMap: Record<string, ITheme> = {
     },
   },
   draculaTheme: {
+    name: "dracula",
     colors: {
       ...draculaThemeColors,
     },
@@ -48,6 +52,7 @@ export const themeMap: Record<string, ITheme> = {
     },
   },
   draculaThemePurple: {
+    name: "draculaPurple",
     colors: {
       ...{
         ...draculaThemeColors,
@@ -59,6 +64,7 @@ export const themeMap: Record<string, ITheme> = {
     },
   },
   lightTheme: {
+    name: "light",
     colors: {
       ...lightThemeColors,
     },
@@ -68,6 +74,7 @@ export const themeMap: Record<string, ITheme> = {
     },
   },
   nightOwlTheme: {
+    name: "nightOwl",
     colors: {
       ...nightOwlThemeColors,
     },
@@ -76,6 +83,7 @@ export const themeMap: Record<string, ITheme> = {
     },
   },
   sleepyRainforestTheme: {
+    name: "sleepyRainforest",
     colors: {
       ...sleepyRainforestThemeColors,
     },
@@ -85,6 +93,7 @@ export const themeMap: Record<string, ITheme> = {
     },
   },
   goldenHourTheme: {
+    name: "goldenHour",
     colors: {
       ...goldenHourThemeColors,
     },
@@ -94,6 +103,7 @@ export const themeMap: Record<string, ITheme> = {
     },
   },
   nauticalTheme: {
+    name: "nautical",
     colors: {
       ...nauticalThemeColors,
     },
@@ -103,6 +113,7 @@ export const themeMap: Record<string, ITheme> = {
     },
   },
   sunsetTheme: {
+    name: "sunset",
     colors: {
       ...sunsetThemeColors,
     },
@@ -111,6 +122,7 @@ export const themeMap: Record<string, ITheme> = {
     },
   },
   oksolarDarkTheme: {
+    name: "oksolarDark",
     colors: {
       ...oksolarDarkThemeColors,
     },
@@ -119,6 +131,7 @@ export const themeMap: Record<string, ITheme> = {
     },
   },
   oksolarLightTheme: {
+    name: "oksolarLight",
     colors: {
       ...oksolarLightThemeColors,
     },
@@ -127,6 +140,7 @@ export const themeMap: Record<string, ITheme> = {
     },
   },
   oledTheme: {
+    name: "oled",
     colors: {
       ...oledThemeColors,
     },
@@ -135,6 +149,7 @@ export const themeMap: Record<string, ITheme> = {
     },
   },
   embarkTheme: {
+    name: "embark",
     colors: {
       ...embarkThemeColors,
     },

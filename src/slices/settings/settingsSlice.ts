@@ -150,8 +150,10 @@ export const selectCurrentTheme = createSelector(
         : themeDark
       : theme
 );
-export const selectThemeOptions = (state: RootState) =>
-  ThemeOptionsMap[state.settings.theme];
+export const selectThemeOptions = createSelector(
+  [selectCurrentTheme],
+  (theme) => ThemeOptionsMap[theme]
+);
 export const selectThemeConfig = createSelector(
   [selectThemeOptions, selectAccentColor],
   (themeOptions, accentColor) =>
