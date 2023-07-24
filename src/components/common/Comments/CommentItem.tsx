@@ -23,6 +23,7 @@ interface IProps {
   comment: ILemmyComment;
   depth?: number;
   isUnreadReply?: boolean;
+  isMod: boolean;
   onVote: (value: ILemmyVote) => void;
   onPress: () => unknown;
 }
@@ -31,6 +32,7 @@ function CommentItem({
   comment,
   depth,
   isUnreadReply,
+  isMod,
   onVote,
   onPress,
 }: IProps) {
@@ -44,6 +46,8 @@ function CommentItem({
   const commentHook = useComment({
     comment,
   });
+
+  console.log("isMod: ", isMod);
 
   const voteOption = useMemo(
     () =>
@@ -78,6 +82,7 @@ function CommentItem({
                 <AvatarUsername
                   creator={comment.comment.creator}
                   opId={comment.comment.post.creator_id}
+                  isMod={isMod}
                 />
                 <SmallVoteIcons
                   upvotes={comment.comment.counts.upvotes}

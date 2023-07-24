@@ -28,6 +28,7 @@ import { clearEditComment } from "../../../slices/comments/editCommentSlice";
 import { clearNewComment } from "../../../slices/comments/newCommentSlice";
 import PostCommentItem from "./components/PostCommentItem";
 import usePost from "../../../hooks/post/usePost";
+import useCommunity from "../../../hooks/communities/useCommunity";
 import CommentSortButton from "./components/CommentSortButton";
 
 interface IProps {
@@ -38,6 +39,10 @@ function PostScreen({ navigation }: IProps) {
   const { postKey } = useRoute<any>().params;
   const postHook = usePost();
   const currentPost = useCurrentPost(postKey);
+  const communityHook = useCommunity(currentPost.post.community_id);
+  const isMod = communityHook.moderators.some(
+    (mod) => mod.moderator.id === currentPost.post.creator_id
+  );
   const newComment = useNewComment();
   const editedComment = useEditedComment();
   const rerenderComments = usePostRerenderComments(postKey);
@@ -47,6 +52,8 @@ function PostScreen({ navigation }: IProps) {
 
   const { t } = useTranslation();
   const theme = useTheme();
+
+  console.log("currentPost_community_id: ", currentPost.post.community_id);
 
   useEffect(() => {
     postHook.doLoad();
@@ -66,6 +73,10 @@ function PostScreen({ navigation }: IProps) {
       ),
     });
   }, [commentsSort]);
+
+  useEffect(() => {
+    communityHook.doLoad();
+  }, []);
 
   useEffect(
     () =>
@@ -134,15 +145,18 @@ function PostScreen({ navigation }: IProps) {
     clearEditComment();
   }, [editedComment]);
 
-  // Get the comments that are visible. Only recal whenever we trigger the render
+  // Get the comments that are visible. Only recall whenever we trigger the render
   const visibleComments = useMemo(
     () => comments.filter((c) => !c.hidden),
     [rerenderComments]
   );
 
+  console.log("PS_isMod: ", isMod);
   // Comment item renderer
   const commentItem = useCallback(
-    ({ item }) => <PostCommentItem commentId={item.comment.comment.id} />,
+    ({ item }) => (
+      <PostCommentItem commentId={item.comment.comment.id} isMod={isMod} />
+    ),
     [currentPost.post.id]
   );
 
@@ -170,7 +184,7 @@ function PostScreen({ navigation }: IProps) {
     return (
       <VStack flex={1} backgroundColor={theme.colors.app.bg}>
         <FlashList
-          ListHeaderComponent={<PostHeader />}
+          ListHeaderComponent={<PostHeader isMod />}
           ListFooterComponent={<PostFooter />}
           data={visibleComments}
           renderItem={commentItem}

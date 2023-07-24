@@ -5,7 +5,7 @@ import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 interface UseCommunity {
   community: CommunityView | null;
-  moderators: CommunityModeratorView[] | [];
+  moderators: CommunityModeratorView[];
   setCommunity: React.Dispatch<React.SetStateAction<CommunityView | null>>;
   communityLoading: boolean;
   communityError: boolean;

@@ -22,7 +22,7 @@ import {
 } from "../../../../stores/posts/postsStore";
 import { setPostCollapsed } from "../../../../stores/posts/actions";
 
-function PostHeader() {
+function PostHeader({ isMod = false }: { isMod?: boolean }) {
   const { postKey } = useRoute<any>().params;
 
   const currentPost = useCurrentPost(postKey);
@@ -59,7 +59,7 @@ function PostHeader() {
       </Pressable>
 
       <HStack mb={2} mx={4} space={2}>
-        <AvatarUsername creator={currentPost.creator} />
+        <AvatarUsername creator={currentPost.creator} isMod={isMod} />
       </HStack>
       <HStack space={2} mx={4} mb={2}>
         <CommunityLink
