@@ -1,11 +1,8 @@
 import React from "react";
-import {
-  ContextMenuButton,
-  ContextMenuView,
-  MenuElementConfig,
-  OnPressMenuItemEvent,
-} from "react-native-ios-context-menu";
+import { OnPressMenuItemEvent } from "react-native-ios-context-menu";
 import { ContextMenuOptions } from "../../../types/ContextMenuOptions";
+import { AppContextMenuButton } from "../ContextMenu/App/AppContextMenuButton";
+import { AppContextMenuView } from "../ContextMenu/App/AppContextMenuView";
 
 interface IProps {
   children: React.ReactNode;
@@ -20,45 +17,17 @@ export function CommentContextMenu({
   isButton = false,
   options,
 }: IProps) {
-  // @ts-expect-error Types for menuItems are wrong for this library
-  const menuItems: MenuElementConfig[] = [
-    ...Object.entries(options).map(([key, value]) => ({
-      actionKey: key,
-      actionTitle: value.display,
-      ...(value.destructive ? { menuAttributes: ["destructive"] } : {}),
-      icon: {
-        type: "IMAGE_SYSTEM",
-        imageValue: {
-          systemName: value.icon,
-        },
-      },
-    })),
-  ];
-
   if (isButton) {
     return (
-      <ContextMenuButton
-        isMenuPrimaryAction
-        onPressMenuItem={onPress}
-        menuConfig={{
-          menuTitle: "",
-          menuItems,
-        }}
-      >
+      <AppContextMenuButton options={options} onPressMenuItem={onPress}>
         {children}
-      </ContextMenuButton>
+      </AppContextMenuButton>
     );
   }
 
   return (
-    <ContextMenuView
-      onPressMenuItem={onPress}
-      menuConfig={{
-        menuTitle: "",
-        menuItems,
-      }}
-    >
+    <AppContextMenuView options={options} onPressMenuItem={onPress}>
       {children}
-    </ContextMenuView>
+    </AppContextMenuView>
   );
 }

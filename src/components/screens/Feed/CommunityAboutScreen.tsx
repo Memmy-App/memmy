@@ -63,10 +63,10 @@ function CommunityAboutScreen({ route }: { route: any }) {
               <Text italic>There is no description for this community</Text>
             )}
           </Card>
-          <Card title="Stats" spacing>
+          <Card title={t("Stats")} spacing>
             <CommunityCounts counts={community.counts} />
           </Card>
-          <Card title="Moderators" spacing>
+          <Card title={t("Moderators")} spacing>
             <ModeratorList moderators={moderators} />
           </Card>
         </VStack>

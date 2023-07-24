@@ -186,7 +186,9 @@
     "title": "Titel",
     "link": "Link (optional)",
     "body": "Inhalt (optional)",
-    "bodyPlaceholder": "Schreib los!"
+    "bodyPlaceholder": "Schreib los!",
+    "share": "Post teilen",
+    "report": "Post melden"
   },
   "onboarding": {
     "hello": "Hallo",
@@ -207,7 +209,7 @@
       },
       "3": {
         "1": "Stell dir das Fediverse wie ein Postdienst vor ✉️",
-        "2": "When du Apps wie Instagram, Twitter oder Facebook nutzt, kümmern diese sich <emphasis>exklusiv um deine Briefe.</emphasis>",
+        "2": "Wenn du Apps wie Instagram, Twitter oder Facebook nutzt, kümmern diese sich <emphasis>exklusiv um deine Briefe.</emphasis>",
         "3": "Jeder versendet und erhält seine Post über sie. D.h. sie sind <emphasis>zentralisiert.</emphasis>"
       },
       "4": {
@@ -269,6 +271,25 @@
   },
   "imageView": {
     "dialogDesc": "Bild wird heruntergeladen..."
+  },
+  "sort": {
+    "Top": "Top",
+    "top": {
+      "Hour": "Letzte Stunde",
+      "SixHours": "Sechs Stunden",
+      "TwelveHours": "Zwölf Stunden",
+      "Day": "Tag",
+      "Week": "Woche",
+      "Month": "Monat",
+      "Year": "Jahr",
+      "AllTime": "Immer"
+    },
+    "Hot": "Heiß",
+    "Active": "Aktiv",
+    "New": "Neu",
+    "MostComments": "Meiste Kommentare",
+    "NewComments": "Neue Kommentare",
+    "Old": "Alt"
   },
   "Feed": "Feed",
   "Comments": "Kommentare",
@@ -388,5 +409,20 @@
   "Description": "Beschreibung",
   "Label": "Label",
   "Trending": "Trending",
-  "Go Back": "Zurück"
+  "Go Back": "Zurück",
+  "Stats": "Statistiken",
+  "Moderators": "Moderatoren",
+  "Local": "Lokal",
+  "Upvote": "Hochwählen",
+  "Downvote": "Runterwählen",
+  "Block User": "Benutzer blockieren",
+  "Block": "Blockieren",
+  "Community": "Community",
+  "Post Size": "Post Größe",
+  "Compact": "Kompakt",
+  "Large": "Groß",
+  "None": "Keins",
+  "Left": "Links",
+  "Right": "Rechts",
+  "Account Created": "Account Erstellt"
 }

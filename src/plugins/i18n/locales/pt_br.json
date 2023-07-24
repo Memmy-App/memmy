@@ -92,6 +92,7 @@
     "removedByMod": "Comentário removido pelo moderador :("
   },
   "settings": {
+    "reportBugBtn": "Relatar um bug no Github",
     "haptics": {
       "Off": "Desligado",
       "Light": "Fraco",

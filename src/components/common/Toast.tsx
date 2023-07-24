@@ -7,11 +7,12 @@ import Animated, {
 } from "react-native-reanimated";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import {
-  ToastVariant,
   hideToast,
   selectToast,
+  ToastVariant,
 } from "../../slices/toast/toastSlice";
 import SFIcon from "./icons/SFIcon";
+import { ICON_MAP } from "../../constants/IconMap";
 
 function Toast(): JSX.Element {
   const { isOpen, message, duration, variant, icon } =
@@ -25,10 +26,10 @@ function Toast(): JSX.Element {
   const textColor = theme.colors.app[`${variant}Text`];
 
   const iconMap: Record<ToastVariant, JSX.Element> = {
-    info: <SFIcon color={textColor} icon="checkmark.circle" />,
-    success: <SFIcon color={textColor} icon="checkmark.circle" />,
-    error: <SFIcon color={textColor} icon="exclamationmark.circle" />,
-    warn: <SFIcon color={textColor} icon="exclamationmark.circle" />,
+    info: <SFIcon color={textColor} icon={ICON_MAP.TOAST.INFO} />,
+    success: <SFIcon color={textColor} icon={ICON_MAP.TOAST.SUCCESS} />,
+    error: <SFIcon color={textColor} icon={ICON_MAP.TOAST.ERROR} />,
+    warn: <SFIcon color={textColor} icon={ICON_MAP.TOAST.WARN} />,
   };
 
   useEffect(() => {

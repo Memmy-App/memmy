@@ -5,6 +5,7 @@ import React, { SetStateAction, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, TextInput } from "react-native";
 import SFIcon from "../icons/SFIcon";
+import { ICON_MAP } from "../../../constants/IconMap";
 
 interface IProps {
   query: string;
@@ -49,7 +50,7 @@ function SearchBox({
       width={inHeader ? Dimensions.get("screen").width * 0.9 : undefined}
     >
       <SFIcon
-        icon="magnifyingglass"
+        icon={ICON_MAP.SEARCH}
         color={theme.colors.app.textSecondary}
         size={12}
         boxSize={16}

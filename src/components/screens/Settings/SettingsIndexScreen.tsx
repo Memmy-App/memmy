@@ -4,14 +4,17 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, StyleSheet } from "react-native";
+import { Alert, Linking, StyleSheet } from "react-native";
 import { Divider } from "react-native-elements";
-import { ContextMenuButton } from "react-native-ios-context-menu";
+import { modelName, osVersion } from "expo-device";
+import { getReadableVersion } from "react-native-device-info";
 import { ICON_MAP } from "../../../constants/IconMap";
 import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
 import CCell from "../../common/Table/CCell";
 import CSection from "../../common/Table/CSection";
 import SFIcon from "../../common/icons/SFIcon";
+import { GITHUB_LINK } from "../../../constants/Links";
+import { AppContextMenuButton } from "../../common/ContextMenu/App/AppContextMenuButton";
 
 function SettingOptionTitle({
   text,
@@ -58,6 +61,41 @@ function SettingsIndexScreen({
     await FastImage.clearDiskCache();
     Alert.alert(t("alert.title.success"), t("alert.message.cacheCleared"));
   };
+
+  const onEmailDebugLogPress = () => {
+    sendLog()
+      .then()
+      .catch((e) => {
+        if (e.toString() === "Error: no_file") {
+          Alert.alert(t("alert.title.noDebugLog"));
+        } else {
+          Alert.alert(e.toString());
+        }
+      });
+  };
+
+  const onReportBugPress = () => {
+    const params = new URLSearchParams();
+    params.append("assignees", "");
+    params.append("labels", "bug,triage");
+    params.append("projects", "");
+    params.append("template", "bug_report.yml");
+    params.append("title", "[Bug] ");
+    params.append("version", getReadableVersion());
+    params.append("device", modelName);
+    params.append("osVersion", osVersion);
+    Linking.openURL(`${GITHUB_LINK}/issues/new?${params.toString()}`);
+  };
+
+  const languageOptions = useMemo(
+    () => [
+      ...languages.map((language) => ({
+        key: language,
+        title: t(language),
+      })),
+    ],
+    [t, languages]
+  );
 
   return (
     <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
@@ -163,17 +201,7 @@ function SettingsIndexScreen({
             titleTextColor={theme.colors.app.textPrimary}
             rightDetailColor={theme.colors.app.textSecondary}
             accessory="DisclosureIndicator"
-            onPress={() => {
-              sendLog()
-                .then()
-                .catch((e) => {
-                  if (e.toString() === "Error: no_file") {
-                    Alert.alert(t("alert.title.noDebugLog"));
-                  } else {
-                    Alert.alert(e.toString());
-                  }
-                });
-            }}
+            onPress={onEmailDebugLogPress}
           />
           <CCell
             cellStyle="Basic"
@@ -201,27 +229,28 @@ function SettingsIndexScreen({
               onCacheClear();
             }}
           />
+          <CCell
+            cellStyle="Basic"
+            title={t("settings.reportBugBtn")}
+            onPress={onReportBugPress}
+            cellAccessoryView={
+              <SFIcon
+                icon={ICON_MAP.EXTERNAL_LINK}
+                color={theme.colors.app.textSecondary}
+              />
+            }
+          />
         </CSection>
 
         {__DEV__ && (
           <>
             <Divider style={{ margin: 20 }} />
             <CSection header="🛠️ DEV TOOLS">
-              <ContextMenuButton
-                isMenuPrimaryAction
+              <AppContextMenuButton
+                options={languageOptions}
+                selection={i18n.resolvedLanguage}
                 onPressMenuItem={({ nativeEvent }) => {
                   i18n.changeLanguage(nativeEvent.actionKey);
-                }}
-                menuConfig={{
-                  menuTitle: "",
-                  // @ts-ignore Types for menuItems are wrong for this library
-                  menuItems: [
-                    ...languages.map((option) => ({
-                      actionKey: option,
-                      actionTitle: option,
-                      menuState: i18n.language === option ? "on" : "off",
-                    })),
-                  ],
                 }}
               >
                 <CCell
@@ -233,7 +262,7 @@ function SettingsIndexScreen({
                   rightDetailColor={theme.colors.app.textSecondary}
                   accessory="DisclosureIndicator"
                 />
-              </ContextMenuButton>
+              </AppContextMenuButton>
             </CSection>
           </>
         )}

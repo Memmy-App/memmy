@@ -3,6 +3,7 @@ import { initReactI18next } from "react-i18next";
 import english from "./locales/en.json";
 import german from "./locales/de.json";
 import brazilian_portuguese from "./locales/pt_br.json";
+import czech from "./locales/cz.json";
 import romanian from "./locales/ro.json";
 import languageDetector from "./languageDetector";
 
@@ -17,11 +18,14 @@ i18n
       de: {
         translation: german,
       },
-      ptbr: {
+      pt: {
         translation: brazilian_portuguese,
       },
       ro: {
         translation: romanian,
+      },
+      cz: {
+        translation: czech,
       },
     },
     fallbackLng: "en",

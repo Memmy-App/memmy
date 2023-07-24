@@ -17,6 +17,7 @@ import setCommunitySubscribed from "../../../../../stores/communities/actions/se
 import { useAppSelector } from "../../../../../../store";
 import { selectPost } from "../../../../../slices/post/postSlice";
 import { addPost } from "../../../../../stores/posts/actions";
+import { ICON_MAP } from "../../../../../constants/IconMap";
 
 interface IProps {
   communityFullName: string;
@@ -95,7 +96,7 @@ function CommunityHeader({ communityFullName }: IProps) {
           <HStack space={3}>
             <HStack alignItems="center">
               <SFIcon
-                icon="person"
+                icon={ICON_MAP.PERSON}
                 color={theme.colors.app.textSecondary}
                 size={12}
                 boxSize={18}
@@ -106,7 +107,7 @@ function CommunityHeader({ communityFullName }: IProps) {
             </HStack>
             <HStack space={1} alignItems="center">
               <SFIcon
-                icon="eye"
+                icon={ICON_MAP.SHOW}
                 color={theme.colors.app.textSecondary}
                 size={12}
                 boxSize={18}
