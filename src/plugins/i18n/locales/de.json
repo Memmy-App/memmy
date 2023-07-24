@@ -38,7 +38,8 @@
       "accountLogoutConfirm": "Bitte stell sicher, dass du Push-Benachrichtigungen für den Account deaktiviert hast bevor du dich ausloggst, andernfalls könntest du weiterhin Benachrichtigungen von dem Account erhalten.\n\nBist du sicher das du {{0}} abmelden möchtest?",
       "pushNotificationsConfirm": "Damit Push-Benachrichtigungen funktionieren muss Memmy dein Authentifizierungs-Token an unseren Server senden. Aktuell ist das die einzige verlässliche Möglichkeit Push-Benachrichtigungen zu senden. Memmy-Server haben KEINEN Zugriff auf dein Passwort, nur dein Authentifizierungs-Token. Authentifizierungs-Tokens können durch eine Passwort-Änderung widerrufen werden.\n\nDer vollständige Quellcode für die Memmy Push-Benachrichtigunge ist unter https:\/\/github.com\/gkasdorf\/memmy-push verfügbar.\n\nMöchtest du fortfahren?",
       "deleteAccountConfirm": "Um alle Daten bei uns zu löschen musst du lediglich die Push-Benachrichtigungen deaktivieren. Wenn du keine Push-Benachrichtigungen aktiviert hast haben wir auch keine Daten von dir.\n\nUm deinen Account endgültig zu löschen musst du dich auf {{0}} einloggen und zu deinem Profil navigieren. Klicke dann auf \"Account löschen\" um deinen Account endgültig zu löschen.",
-      "registrationError": "Beim Abschluß der Registrierung ist ein Fehler aufgetreten."
+      "registrationError": "Beim Abschluß der Registrierung ist ein Fehler aufgetreten.",
+      "reportPost": "Bitte gib den Grund für deine Meldung an"
     }
   },
   "toast": {
@@ -57,7 +58,9 @@
     "blocked": "{{0}} blockiert",
     "enterUrl": "Gib den URL ein",
     "enterLabel": "Gib das Label ein",
-    "linkError": "Beim Öffnen des Links ist ein Fehler aufgetreten."
+    "linkError": "Beim Öffnen des Links ist ein Fehler aufgetreten.",
+    "textCopied": "Text kopiert",
+    "linkCopied": "Link kopiert"
   },
   "relativeTime": {
     "future": "in %s",
@@ -88,6 +91,7 @@
     "removedByMod": "Kommentar wurde von Moderatoren gelöscht :("
   },
   "settings": {
+    "reportBugBtn": "Bug auf GitHub melden",
     "swipeToVote": "Mit Wisch hoch-/runterwählen",
     "haptics": {
       "Off": "Keine",
