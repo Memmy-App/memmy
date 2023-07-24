@@ -8,7 +8,7 @@ You can now download and run Memmy on your iOS device by using TestFlight. To jo
 
 ## About
 
-An Apollo-inspired iOS client for using [Lemmy](https://github.com/LemmyNet/lemmy), a federated link aggregator. Heavly influenced and inspired by Apollo for Reddit. Thanks [Christian](https://github.com/christianselig).
+An Apollo-inspired iOS client for using [Lemmy](https://github.com/LemmyNet/lemmy), a federated link aggregator. Heavily influenced and inspired by Apollo for Reddit. Thanks [Christian](https://github.com/christianselig).
 
 ## Work in Progress
 This is a work in progress and is not in a functional state - yet. I intend to release builds at least nightly on TestFlight, although I am going a bit fast right now (getting ready for the withdraw from no longer having Apollo!)
@@ -37,7 +37,7 @@ npx pod install
 
 yarn ios
 ```
-A simulator should open with the app running. To change the device type or to deply to your physical device, run `yarn ios --device` and select the device you want to deploy to.
+A simulator should open with the app running. To change the device type or to deploy to your physical device, run `yarn ios --device` and select the device you want to deploy to.
 
 ## Info
 This application uses Expo. The various pluses to using Expo/React Native are the following:

@@ -11,9 +11,10 @@ import {
 
 interface IProps {
   commentId: number;
+  isMod: boolean;
 }
 
-function PostCommentItem({ commentId }: IProps) {
+function PostCommentItem({ commentId, isMod }: IProps) {
   const { postKey } = useRoute<any>().params;
   const comment = usePostComment(postKey, commentId);
 
@@ -68,7 +69,16 @@ function PostCommentItem({ commentId }: IProps) {
     });
   }, [comment.comment.comment.id]);
 
-  return <CommentItem comment={comment} onVote={onVote} onPress={onPress} />;
+  console.log("PCI_isMod: ", isMod);
+
+  return (
+    <CommentItem
+      comment={comment}
+      onVote={onVote}
+      onPress={onPress}
+      isMod={isMod}
+    />
+  );
 }
 
 export default React.memo(PostCommentItem);
