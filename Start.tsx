@@ -56,7 +56,7 @@ function Start({ onReady }: StartProps) {
 
   const [statusBarColor, setStatusBarColor] = useState<StatusBarStyle>("dark");
 
-  const { theme, fontSize, isSystemTextSize, isSystemFont, accentColor } =
+  const { theme, fontSize, isSystemFont, accentColor } =
     useAppSelector(selectSettings);
 
   const glueStackTheme = useAppSelector(selectThemeConfig);
@@ -145,16 +145,8 @@ function Start({ onReady }: StartProps) {
       dispatch(setSetting({ theme: usedTheme }));
     }
 
+    // Disabling Font Scaling for now
     // const newTheme = merge.all([
-    //   {
-    //     components: {
-    //       Text: {
-    //         defaultProps: {
-    //           color: ThemeOptionsMap[usedTheme].colors.textPrimary,
-    //         },
-    //       },
-    //     },
-    //   },
     //   isSystemTextSize
     //     ? {
     //         components: {
@@ -178,14 +170,7 @@ function Start({ onReady }: StartProps) {
 
     setRootViewBackgroundColor(ThemeOptionsMap[usedTheme].colors.bg);
     // ! fontSize has to be here
-  }, [
-    currentTheme,
-    fontSize,
-    getFontScale,
-    isSystemTextSize,
-    isSystemFont,
-    accentColor,
-  ]);
+  }, [currentTheme, fontSize, getFontScale, isSystemFont, accentColor]);
 
   if (!loaded) {
     dispatch(loadSettings());

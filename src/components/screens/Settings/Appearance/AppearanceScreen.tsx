@@ -353,7 +353,8 @@ function AppearanceScreen({ navigation }: IProps) {
           />
         </CSection>
 
-        <CSection header={t("settings.appearance.font.header")}>
+        {/* Disabling Font Scaling for now */}
+        {/* <CSection header={t("settings.appearance.font.header")}>
           <CCell
             title={t("settings.appearance.font.useSystemFont")}
             backgroundColor={theme.colors.fg}
@@ -435,7 +436,7 @@ function AppearanceScreen({ navigation }: IProps) {
               accessory="DisclosureIndicator"
             />
           </AppContextMenuButton>
-        </CSection>
+        </CSection> */}
       </TableView>
     </ScrollView>
   );

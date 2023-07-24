@@ -141,7 +141,7 @@ function KeyboardAccessory({
     <InputAccessoryView nativeID="accessory">
       <LoadingModal loading={uploading} />
       <HStack
-        sx={{ h: 12, bg: theme.colors.bg }}
+        sx={{ h: 48, bg: theme.colors.bg }}
         justifyContent="space-between"
         alignItems="center"
         px="$4"

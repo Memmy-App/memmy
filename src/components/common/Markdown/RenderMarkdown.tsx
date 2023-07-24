@@ -35,17 +35,21 @@ interface MarkdownProps {
 
 function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
+
+  // Disabling Font Scaling for now.
+  // const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
+  const fontSize = 2;
+  const isSystemTextSize = false;
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { fontScale } = useWindowDimensions();
   const fontModifier = fontSizeMap[fontSize];
-  const FONT_SIZE = isSystemTextSize ? 14 / fontScale : 15 + fontModifier;
-  const HEADING_1_SIZE = isSystemTextSize ? 32 / fontScale : 15 + fontModifier;
-  const HEADING_2_SIZE = isSystemTextSize ? 26 / fontScale : 15 + fontModifier;
-  const HEADING_3_SIZE = isSystemTextSize ? 22 / fontScale : 15 + fontModifier;
-  const HEADING_4_SIZE = isSystemTextSize ? 18 / fontScale : 15 + fontModifier;
+  const FONT_SIZE = isSystemTextSize ? 14 / fontScale : 14 + fontModifier;
+  const HEADING_1_SIZE = isSystemTextSize ? 32 / fontScale : 32 + fontModifier;
+  const HEADING_2_SIZE = isSystemTextSize ? 26 / fontScale : 26 + fontModifier;
+  const HEADING_3_SIZE = isSystemTextSize ? 22 / fontScale : 22 + fontModifier;
+  const HEADING_4_SIZE = isSystemTextSize ? 18 / fontScale : 18 + fontModifier;
 
   const onLinkPress = (url): boolean => {
     openLink(url, navigation, theme.colors.bg);

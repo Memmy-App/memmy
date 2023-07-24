@@ -2,14 +2,11 @@ import React, { useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button, Switch, TextInput } from "react-native";
-import {
-  Button as IconButton,
-  Icon,
-  VStack,
-} from "@components/common/Gluestack";
+import { Icon, VStack } from "@components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import { Ionicons } from "@expo/vector-icons";
+import IconButtonWithText from "@components/common/IconButtonWithText";
 import { useTranslation } from "react-i18next";
 import CCell from "../../common/Table/CCell";
 import LoadingModal from "../../common/Loading/LoadingModal";
@@ -82,18 +79,18 @@ function NewPostScreen({
             <CCell
               cellStyle="RightDetail"
               cellAccessoryView={
-                <IconButton onPress={newPost.doUpload}>
-                  <IconButton.Icon
-                    as={
-                      <Icon
-                        as={Ionicons}
-                        name="camera"
-                        size={6}
-                        color={theme.colors.accent}
-                      />
-                    }
-                  />
-                </IconButton>
+                <IconButtonWithText
+                  onPressHandler={newPost.doUpload}
+                  size="3xl"
+                  icon={
+                    <Icon
+                      as={Ionicons}
+                      name="camera"
+                      color={theme.colors.accent}
+                      size="2xl"
+                    />
+                  }
+                />
               }
               cellContentView={
                 <TextInput
