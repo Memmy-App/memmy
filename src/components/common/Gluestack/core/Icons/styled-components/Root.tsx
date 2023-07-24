@@ -1,17 +1,17 @@
-import { AsForwarder } from '@gluestack-style/react';
-import { styled } from '../../styled';
+import { AsForwarder } from "@gluestack-style/react";
+import { styled } from "../../styled";
 
 const Comp: any = styled(
   AsForwarder,
   {
-    fill: 'none',
+    fill: "none",
   },
   {
-    ancestorStyle: ['_icon'],
+    ancestorStyle: ["_icon"],
   },
   {
     propertyTokenMap: {
-      stroke: 'colors',
+      stroke: "colors",
     },
   }
 );

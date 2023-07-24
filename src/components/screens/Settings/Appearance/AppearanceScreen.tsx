@@ -2,15 +2,14 @@ import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Box, HStack, ScrollView, Text } from "@components/common/Gluestack";
+import React, { useMemo, useState } from "react";
 import {
   selectSettings,
   selectThemeOptions,
 } from "@src/slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "@root/store";
-import React, { useState } from "react";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { useTranslation } from "react-i18next";
-import { ContextMenuButton } from "react-native-ios-context-menu";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { FontWeightMap } from "../../../../theme/fontSize";
 import Chip from "../../../common/Chip";
@@ -19,6 +18,7 @@ import CSection from "../../../common/Table/CSection";
 import CTextInput from "../../../common/CTextInput";
 import { showToast } from "../../../../slices/toast/toastSlice";
 import { appIconOptions } from "../../../../types/AppIconType";
+import { AppContextMenuButton } from "../../../common/ContextMenu/App/AppContextMenuButton";
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -42,6 +42,33 @@ function AppearanceScreen({ navigation }: IProps) {
 
   const [accent, setAccent] = useState(settings.accentColor);
   const hexPattern = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+
+  const compactThumbnailPositionOptions = useMemo(
+    () => [
+      {
+        key: "None",
+        title: t("None"),
+      },
+      {
+        key: "Left",
+        title: t("Left"),
+      },
+      {
+        key: "Right",
+        title: t("Right"),
+      },
+    ],
+    [t]
+  );
+
+  const fontWeightOptions = useMemo(
+    () =>
+      Object.keys(FontWeightMap).map((key) => ({
+        key,
+        title: t(key),
+      })),
+    [t]
+  );
 
   return (
     <ScrollView bg={theme.colors.bg} flex={1}>
@@ -144,44 +171,15 @@ function AppearanceScreen({ navigation }: IProps) {
         </CSection>
         {settings.compactView && (
           <CSection header={t("settings.appearance.compact.header")}>
-            <ContextMenuButton
-              isMenuPrimaryAction
+            <AppContextMenuButton
+              options={compactThumbnailPositionOptions}
+              selection={settings.compactThumbnailPosition}
               onPressMenuItem={({ nativeEvent }) => {
                 dispatch(
                   setSetting({
                     compactThumbnailPosition: nativeEvent.actionKey,
                   })
                 );
-              }}
-              menuConfig={{
-                menuTitle: "",
-                // @ts-ignore Types for menuItems are wrong for this library
-                menuItems: [
-                  {
-                    actionKey: "None",
-                    actionTitle: "None",
-                    menuState:
-                      settings.compactThumbnailPosition === "None"
-                        ? "on"
-                        : "off",
-                  },
-                  {
-                    actionKey: "Left",
-                    actionTitle: "Left",
-                    menuState:
-                      settings.compactThumbnailPosition === "Left"
-                        ? "on"
-                        : "off",
-                  },
-                  {
-                    actionKey: "Right",
-                    actionTitle: "Right",
-                    menuState:
-                      settings.compactThumbnailPosition === "Right"
-                        ? "on"
-                        : "off",
-                  },
-                ],
               }}
             >
               <CCell
@@ -190,7 +188,7 @@ function AppearanceScreen({ navigation }: IProps) {
                 detail={settings.compactThumbnailPosition}
                 accessory="DisclosureIndicator"
               />
-            </ContextMenuButton>
+            </AppContextMenuButton>
             <CCell
               cellStyle="RightDetail"
               title={t("settings.appearance.compact.showVotingButtons")}
@@ -415,8 +413,9 @@ function AppearanceScreen({ navigation }: IProps) {
               <Text size="xl">A</Text>
             </HStack>
           </CCell>
-          <ContextMenuButton
-            isMenuPrimaryAction
+          <AppContextMenuButton
+            options={fontWeightOptions}
+            selection={selectedFontWeight}
             onPressMenuItem={({ nativeEvent }) => {
               dispatch(
                 setSetting({
@@ -424,17 +423,6 @@ function AppearanceScreen({ navigation }: IProps) {
                     FontWeightMap[nativeEvent.actionKey] || 400,
                 })
               );
-            }}
-            menuConfig={{
-              menuTitle: "",
-              // @ts-ignore Types for menuItems are wrong for this library
-              menuItems: [
-                ...Object.keys(FontWeightMap).map((option) => ({
-                  actionKey: option,
-                  actionTitle: option,
-                  menuState: selectedFontWeight === option ? "on" : "off",
-                })),
-              ],
             }}
           >
             <CCell
@@ -446,7 +434,7 @@ function AppearanceScreen({ navigation }: IProps) {
               rightDetailColor={theme.colors.textSecondary}
               accessory="DisclosureIndicator"
             />
-          </ContextMenuButton>
+          </AppContextMenuButton>
         </CSection>
       </TableView>
     </ScrollView>

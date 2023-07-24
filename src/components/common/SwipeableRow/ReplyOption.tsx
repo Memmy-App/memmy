@@ -38,7 +38,9 @@ const buzz = () => {
 };
 
 const bookmarkIcon = <SFIcon icon={ICON_MAP.SAVE} color="white" size={14} />;
-const mailOpenedIcon = <SFIcon icon="envelope.open" color="white" size={14} />;
+const mailOpenedIcon = (
+  <SFIcon icon={ICON_MAP.MAIL_OPENED} color="white" size={14} />
+);
 const commentIcon = <SFIcon icon={ICON_MAP.REPLY} color="white" size={14} />;
 
 const screenWidth = Dimensions.get("screen").width;

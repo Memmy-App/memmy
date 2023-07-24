@@ -5,22 +5,22 @@ import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import { useRoute } from "@react-navigation/core";
 import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
-import {
-  ListingTypeContextMenu,
-  listingTypeOptions,
-} from "../../../common/ContextMenu/ListingTypeContextMenu";
+import { ListingTypeContextMenu } from "../../../common/ContextMenu/ListingTypeContextMenu";
 import SFIcon from "../../../common/icons/SFIcon";
 import {
   useFeedListingType,
   useFeedsStore,
 } from "../../../../stores/feeds/feedsStore";
 import loadFeedPosts from "../../../../stores/feeds/actions/loadFeedPosts";
+import { findOptionByKey } from "../../../../helpers/ContextMenuOptionsHelper";
+import { useListingTypeOptions } from "../../../../hooks/contextMenu/useListingTypeOptions";
 
 export function FeedListingTypeButton() {
   const { key } = useRoute();
   const listingType = useFeedListingType(key);
 
   const { colors } = useAppSelector(selectThemeOptions);
+  const listingTypeOptions = useListingTypeOptions();
 
   const onPress = (e: OnPressMenuItemEventObject) => {
     useFeedsStore.setState((state) => {
@@ -39,7 +39,7 @@ export function FeedListingTypeButton() {
     <ListingTypeContextMenu currentSelection={listingType} onPress={onPress}>
       <HStack space="xxs" alignItems="center">
         <Text color={colors.textPrimary} size="md" fontWeight="semibold">
-          {listingTypeOptions[listingType].display}
+          {findOptionByKey(listingTypeOptions, listingType).title}
         </Text>
         <SFIcon
           icon="chevron.down"

@@ -1,11 +1,11 @@
-import { createIcon } from '@gluestack-ui/icon';
-import React from 'react';
-import { Path } from 'react-native-svg';
-import { Root } from '../styled-components';
+import { createIcon } from "@gluestack-ui/icon";
+import React from "react";
+import { Path } from "react-native-svg";
+import { Root } from "../styled-components";
 
 const AtSignIcon: any = createIcon({
   Root,
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <>
@@ -28,6 +28,6 @@ const AtSignIcon: any = createIcon({
   ),
 });
 
-AtSignIcon.displayName = 'AtSignIcon';
+AtSignIcon.displayName = "AtSignIcon";
 
 export { AtSignIcon };

@@ -7,6 +7,7 @@ import {
 import { useAppSelector } from "@root/store";
 import React from "react";
 import SFIcon from "../icons/SFIcon";
+import { ICON_MAP } from "../../../constants/IconMap";
 
 interface IProps {
   data: PostAggregates;
@@ -27,7 +28,9 @@ function VoteData({ data, vote }: IProps) {
     const scoreArrow = (
       <SFIcon
         icon={
-          upvoted || (data.score > 0 && !downvoted) ? "arrow.up" : "arrow.down"
+          upvoted || (data.score > 0 && !downvoted)
+            ? ICON_MAP.UPVOTE
+            : ICON_MAP.DOWNVOTE
         }
         color={color}
         size={10}
@@ -51,14 +54,19 @@ function VoteData({ data, vote }: IProps) {
   return (
     <>
       <HStack alignItems="center">
-        <SFIcon icon="arrow.up" color={upvoteColor} size={10} boxSize={20} />
+        <SFIcon
+          icon={ICON_MAP.UPVOTE}
+          color={upvoteColor}
+          size={10}
+          boxSize={20}
+        />
         <Text color={upvoteColor} size="sm">
           {data.upvotes}
         </Text>
       </HStack>
       <HStack alignItems="center">
         <SFIcon
-          icon="arrow.down"
+          icon={ICON_MAP.DOWNVOTE}
           color={downvoteColor}
           size={10}
           boxSize={20}

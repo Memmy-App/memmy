@@ -7,6 +7,7 @@ import IconButtonWithText from "../../IconButtonWithText";
 import SFIcon from "../../icons/SFIcon";
 import { CommentContextMenu } from "../CommentContextMenu";
 import { ContextMenuOptions } from "../../../../types/ContextMenuOptions";
+import { ICON_MAP } from "../../../../constants/IconMap";
 
 interface IProps {
   onPress: (key: string) => void;
@@ -31,7 +32,7 @@ function CommentHeaderRight({
   if (collapsed) {
     return (
       <SFIcon
-        icon="chevron.down"
+        icon={ICON_MAP.CHEVRON.DOWN}
         size={12}
         color={theme.colors.textSecondary}
       />
@@ -51,7 +52,7 @@ function CommentHeaderRight({
         <IconButtonWithText
           icon={
             <SFIcon
-              icon="ellipsis"
+              icon={ICON_MAP.MORE_OPTIONS}
               size={12}
               color={theme.colors.textSecondary}
             />

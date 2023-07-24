@@ -9,6 +9,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { openLink } from "../../../helpers/LinkHelper";
 import { truncateLink } from "../../../helpers/TextHelper";
 import SFIcon from "../icons/SFIcon";
+import { ICON_MAP } from "../../../constants/IconMap";
 
 interface LinkButtonProps {
   link: string;
@@ -52,7 +53,11 @@ function LinkButton({ link, thumbnail }: LinkButtonProps) {
           mx="$4"
           my="$2"
         >
-          <SFIcon icon="link" color={theme.colors.textSecondary} size={14} />
+          <SFIcon
+            icon={ICON_MAP.LINK}
+            color={theme.colors.textSecondary}
+            size={14}
+          />
           <Text color={theme.colors.textSecondary}>{truncateLink(link)}</Text>
         </HStack>
       </VStack>

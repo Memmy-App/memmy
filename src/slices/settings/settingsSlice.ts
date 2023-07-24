@@ -1,5 +1,5 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { ThemeOptionsArr, ThemeOptionsMap } from "@src/theme/themeOptions";
+import { ThemeOptionsMap } from "@src/theme/themeOptions";
 import { theme as GluestackTheme } from "@root/gluestack-ui.config";
 import { ICustomConfig } from "@gluestack-style/react";
 import { CommentSortType, ListingType, SortType } from "lemmy-js-client";

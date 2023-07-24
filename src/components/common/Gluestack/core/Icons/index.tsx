@@ -1,13 +1,13 @@
-import { createIcon } from '@gluestack-ui/icon';
-import { AsForwarder } from '@gluestack-style/react';
-import { styled } from '../styled';
+import { createIcon } from "@gluestack-ui/icon";
+import { AsForwarder } from "@gluestack-style/react";
+import { styled } from "../styled";
 
 const StyledIcon: any = styled(
   AsForwarder,
   {
-    color: '$backgroundLight400',
+    color: "$backgroundLight400",
     _dark: {
-      color: '$backgroundDark500',
+      color: "$backgroundDark500",
     },
     variants: {
       size: {
@@ -34,15 +34,15 @@ const StyledIcon: any = styled(
       },
     },
     defaultProps: {
-      size: 'md',
+      size: "md",
     },
   },
   {
-    ancestorStyle: ['_icon'],
+    ancestorStyle: ["_icon"],
   },
   {
     propertyTokenMap: {
-      stroke: 'colors',
+      stroke: "colors",
     },
   }
 );
@@ -51,4 +51,4 @@ export const Icon = createIcon({
   Root: StyledIcon,
 });
 
-export * from './Icons';
+export * from "./Icons";

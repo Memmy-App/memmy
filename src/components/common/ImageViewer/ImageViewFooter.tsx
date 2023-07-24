@@ -58,7 +58,7 @@ function ImageViewFooter({ source }: ImageViewFooterProps) {
           onPressHandler={onSave}
           icon={
             <SFIcon
-              icon="square.and.arrow.down"
+              icon={ICON_MAP.DOWNLOAD}
               color={theme.colors.textSecondary}
               size={20}
             />

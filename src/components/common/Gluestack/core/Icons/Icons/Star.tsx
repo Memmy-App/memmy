@@ -1,11 +1,11 @@
-import { createIcon } from '@gluestack-ui/icon';
-import React from 'react';
-import { Path } from 'react-native-svg';
-import { Root } from '../styled-components';
+import { createIcon } from "@gluestack-ui/icon";
+import React from "react";
+import { Path } from "react-native-svg";
+import { Root } from "../styled-components";
 
 const StarIcon: any = createIcon({
   Root,
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <Path
@@ -19,6 +19,6 @@ const StarIcon: any = createIcon({
   ),
 });
 
-StarIcon.displayName = 'StarIcon';
+StarIcon.displayName = "StarIcon";
 
 export { StarIcon };

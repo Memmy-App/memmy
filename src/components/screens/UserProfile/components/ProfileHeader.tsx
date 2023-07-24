@@ -12,6 +12,7 @@ import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React from "react";
 import { StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
 import { ICON_MAP } from "../../../../constants/IconMap";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import { getCakeDay } from "../../../../helpers/TimeHelper";
@@ -24,6 +25,7 @@ interface IProps {
 
 function ProfileHeader({ profile }: IProps) {
   const theme = useAppSelector(selectThemeOptions);
+  const { t } = useTranslation();
 
   if (!profile.profile) return null;
 
@@ -87,7 +89,7 @@ function ProfileHeader({ profile }: IProps) {
         <HStack space="3xl">
           <VStack alignItems="flex-start" space="xs">
             <Text size="sm" color={theme.colors.textSecondary}>
-              Posts
+              {t("Posts")}
             </Text>
             <HStack alignItems="center" space="xs">
               <SFIcon icon="doc.plaintext" size={14} />
@@ -98,7 +100,7 @@ function ProfileHeader({ profile }: IProps) {
           </VStack>
           <VStack alignItems="flex-start" space="xs">
             <Text size="sm" color={theme.colors.textSecondary}>
-              Comments
+              {t("Comments")}
             </Text>
             <HStack alignItems="center" space="xs">
               <SFIcon icon={ICON_MAP.REPLY} size={12} />
@@ -111,10 +113,10 @@ function ProfileHeader({ profile }: IProps) {
         <HStack space="3xl" mt="$1" alignItems="center">
           <VStack alignItems="flex-start" space="xs">
             <Text size="sm" color={theme.colors.textSecondary}>
-              Account Created
+              {t("Account Created")}
             </Text>
             <HStack alignItems="center" space="xs">
-              <SFIcon icon="birthday.cake" size={12} />
+              <SFIcon icon={ICON_MAP.CAKE_DAY} size={12} />
               <Text size="md">
                 {getCakeDay(profile.profile.person.published)}
               </Text>
@@ -123,7 +125,7 @@ function ProfileHeader({ profile }: IProps) {
           <VStack alignItems="flex-start" space="xs">
             <Spacer />
             <HStack alignItems="center" space="xs">
-              <SFIcon icon="person.crop.circle.badge.checkmark" size={14} />
+              <SFIcon icon={ICON_MAP.PROFILE_PUBLISHED} size={14} />
               <Text size="md">
                 {dayjs(profile.profile.person.published).utc(true).fromNow()}
               </Text>

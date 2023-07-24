@@ -121,7 +121,7 @@ function AvatarUsername({
         ))}
       {creator.bot_account && (
         <SFIcon
-          icon="server.rack"
+          icon={ICON_MAP.BOT_ACCOUNT}
           size={12}
           boxSize={20}
           color={theme.colors.info}

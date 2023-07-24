@@ -1,11 +1,11 @@
-import { createIcon } from '@gluestack-ui/icon';
-import React from 'react';
-import { Path } from 'react-native-svg';
-import { Root } from '../styled-components';
+import { createIcon } from "@gluestack-ui/icon";
+import React from "react";
+import { Path } from "react-native-svg";
+import { Root } from "../styled-components";
 
 const BellIcon: any = createIcon({
   Root,
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <Path
@@ -26,6 +26,6 @@ const BellIcon: any = createIcon({
   ),
 });
 
-BellIcon.displayName = 'BellIcon';
+BellIcon.displayName = "BellIcon";
 
 export { BellIcon };

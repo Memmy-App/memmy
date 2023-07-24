@@ -22,6 +22,7 @@ import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
 import CTable from "../../../common/Table/CTable";
 import SFIcon from "../../../common/icons/SFIcon";
+import { ICON_MAP } from "../../../../constants/IconMap";
 
 interface ViewAccountsScreenProps {
   navigation: NativeStackNavigationProp<any>;
@@ -224,7 +225,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
               rightDetailColor={theme.colors.textSecondary}
               cellAccessoryView={
                 <SFIcon
-                  icon="rectangle.portrait.and.arrow.right"
+                  icon={ICON_MAP.LOGOUT}
                   color={theme.colors.textSecondary}
                   size={14}
                 />

@@ -1,11 +1,11 @@
-import { createIcon } from '@gluestack-ui/icon';
-import React from 'react';
-import { Path } from 'react-native-svg';
-import { Root } from '../styled-components';
+import { createIcon } from "@gluestack-ui/icon";
+import React from "react";
+import { Path } from "react-native-svg";
+import { Root } from "../styled-components";
 
 const LinkIcon: any = createIcon({
   Root,
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <Path
@@ -25,11 +25,11 @@ const LinkIcon: any = createIcon({
     </>
   ),
 });
-LinkIcon.displayName = 'LinkIcon';
+LinkIcon.displayName = "LinkIcon";
 
 const ExternalLinkIcon: any = createIcon({
   Root,
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <Path
@@ -57,6 +57,6 @@ const ExternalLinkIcon: any = createIcon({
   ),
 });
 
-ExternalLinkIcon.displayName = 'ExternalLinkIcon';
+ExternalLinkIcon.displayName = "ExternalLinkIcon";
 
 export { LinkIcon, ExternalLinkIcon };

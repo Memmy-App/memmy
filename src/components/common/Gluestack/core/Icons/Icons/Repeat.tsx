@@ -1,11 +1,11 @@
-import { createIcon } from '@gluestack-ui/icon';
-import React from 'react';
-import { Path } from 'react-native-svg';
-import { Root } from '../styled-components';
+import { createIcon } from "@gluestack-ui/icon";
+import React from "react";
+import { Path } from "react-native-svg";
+import { Root } from "../styled-components";
 
 const RepeatIcon: any = createIcon({
   Root,
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <Path
@@ -40,11 +40,11 @@ const RepeatIcon: any = createIcon({
   ),
 });
 
-RepeatIcon.displayName = 'RepeatIcon';
+RepeatIcon.displayName = "RepeatIcon";
 
 const Repeat1Icon: any = createIcon({
   Root,
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <Path
@@ -85,6 +85,6 @@ const Repeat1Icon: any = createIcon({
     </>
   ),
 });
-Repeat1Icon.displayName = 'Repeat1Icon';
+Repeat1Icon.displayName = "Repeat1Icon";
 
 export { RepeatIcon, Repeat1Icon };

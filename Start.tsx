@@ -26,7 +26,6 @@ import { useAppDispatch, useAppSelector } from "./store";
 import getFontScale from "./src/theme/fontSize";
 import { ThemeOptionsArr, ThemeOptionsMap } from "./src/theme/themeOptions";
 import Toast from "./src/components/common/Toast";
-import { systemFontSettings } from "./src/theme/common";
 import { loadFavorites } from "./src/slices/favorites/favoritesActions";
 import { useFiltersStore } from "./src/stores/filters/filtersStore";
 
@@ -57,16 +56,8 @@ function Start({ onReady }: StartProps) {
 
   const [statusBarColor, setStatusBarColor] = useState<StatusBarStyle>("dark");
 
-  const {
-    theme,
-    themeMatchSystem,
-    themeDark,
-    themeLight,
-    fontSize,
-    isSystemTextSize,
-    isSystemFont,
-    accentColor,
-  } = useAppSelector(selectSettings);
+  const { theme, fontSize, isSystemTextSize, isSystemFont, accentColor } =
+    useAppSelector(selectSettings);
 
   const glueStackTheme = useAppSelector(selectThemeConfig);
 

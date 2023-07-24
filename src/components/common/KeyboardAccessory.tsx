@@ -11,6 +11,7 @@ import { ErrorCause } from "../../types/ErrorCause";
 import IconButtonWithText from "./IconButtonWithText";
 import LoadingModal from "./Loading/LoadingModal";
 import SFIcon from "./icons/SFIcon";
+import { ICON_MAP } from "../../constants/IconMap";
 
 function KeyboardAccessory({
   setText,
@@ -147,23 +148,23 @@ function KeyboardAccessory({
       >
         <IconButtonWithText
           onPressHandler={onItalicPress}
-          icon={<SFIcon icon="italic" />}
+          icon={<SFIcon icon={ICON_MAP.ITALIC} />}
         />
         <IconButtonWithText
           onPressHandler={onBoldPress}
-          icon={<SFIcon icon="bold" />}
+          icon={<SFIcon icon={ICON_MAP.BOLD} />}
         />
         <IconButtonWithText
           onPressHandler={onLinkPress}
-          icon={<SFIcon icon="link" />}
+          icon={<SFIcon icon={ICON_MAP.LINK} />}
         />
         <IconButtonWithText
           onPressHandler={onQuotePress}
-          icon={<SFIcon icon="quote.closing" />}
+          icon={<SFIcon icon={ICON_MAP.QUOTE} />}
         />
         <IconButtonWithText
           onPressHandler={onImagePress}
-          icon={<SFIcon icon="photo" />}
+          icon={<SFIcon icon={ICON_MAP.PHOTO} />}
         />
       </HStack>
     </InputAccessoryView>

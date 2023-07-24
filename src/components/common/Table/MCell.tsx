@@ -9,6 +9,7 @@ import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React, { useState } from "react";
 import SFIcon from "../icons/SFIcon";
+import { ICON_MAP } from "../../../constants/IconMap";
 
 interface IProps {
   title: string;
@@ -63,7 +64,7 @@ function MCell({
           (rightAccessory && <>{rightAccessory}</>)}
         {showChevron && (
           <View ml="auto" alignItems="center">
-            <SFIcon icon="chevron.right" size={14} />
+            <SFIcon icon={ICON_MAP.CHEVRON.RIGHT} size={14} />
           </View>
         )}
       </HStack>

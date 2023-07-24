@@ -3,6 +3,7 @@ import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React from "react";
 import SFIcon from "../icons/SFIcon";
+import { ICON_MAP } from "../../../constants/IconMap";
 
 interface IProps {
   onPress: () => void;
@@ -18,7 +19,7 @@ function HideReadFAB({ onPress }: IProps) {
       onPress={onPress}
       placement="bottom right"
     >
-      <SFIcon icon="eye.slash" color="#fff" size={14} />
+      <SFIcon icon={ICON_MAP.HIDE} color="#fff" size={14} />
     </Fab>
   );
 }

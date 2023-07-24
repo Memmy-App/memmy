@@ -1,11 +1,11 @@
-import React from 'react';
-import { createIcon } from '@gluestack-ui/icon';
-import { Root } from '../styled-components';
-import { Path } from 'react-native-svg';
+import React from "react";
+import { createIcon } from "@gluestack-ui/icon";
+import { Path } from "react-native-svg";
+import { Root } from "../styled-components";
 
 const GripVerticalIcon = createIcon({
   Root,
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <Path
@@ -54,6 +54,6 @@ const GripVerticalIcon = createIcon({
   ),
 });
 
-GripVerticalIcon.displayName = 'GripVerticalIcon';
+GripVerticalIcon.displayName = "GripVerticalIcon";
 
 export { GripVerticalIcon };

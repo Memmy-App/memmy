@@ -18,6 +18,7 @@ import { SFIcon } from "../../../../common/icons/SFIcon";
 import setCommunitySubscribed from "../../../../../stores/communities/actions/setCommunitySubscribed";
 import { selectPost } from "../../../../../slices/post/postSlice";
 import { addPost } from "../../../../../stores/posts/actions";
+import { ICON_MAP } from "../../../../../constants/IconMap";
 
 interface IProps {
   communityFullName: string;
@@ -96,7 +97,7 @@ function CommunityHeader({ communityFullName }: IProps) {
           <HStack space="md" borderColor="red">
             <HStack alignItems="center">
               <SFIcon
-                icon="person"
+                icon={ICON_MAP.PERSON}
                 color={theme.colors.textSecondary}
                 size={12}
                 boxSize={18}
@@ -107,7 +108,7 @@ function CommunityHeader({ communityFullName }: IProps) {
             </HStack>
             <HStack space="xs" alignItems="center">
               <SFIcon
-                icon="eye"
+                icon={ICON_MAP.SHOW}
                 color={theme.colors.textSecondary}
                 size={12}
                 boxSize={18}

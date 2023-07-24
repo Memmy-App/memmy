@@ -1,11 +1,11 @@
-import { createIcon } from '@gluestack-ui/icon';
-import React from 'react';
-import { Path } from 'react-native-svg';
-import { Root } from '../styled-components';
+import { createIcon } from "@gluestack-ui/icon";
+import React from "react";
+import { Path } from "react-native-svg";
+import { Root } from "../styled-components";
 
 const EyeIcon: any = createIcon({
   Root,
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <Path
@@ -26,11 +26,11 @@ const EyeIcon: any = createIcon({
   ),
 });
 
-EyeIcon.displayName = 'EyeIcon';
+EyeIcon.displayName = "EyeIcon";
 
 const EyeOffIcon: any = createIcon({
   Root,
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <Path
@@ -65,6 +65,6 @@ const EyeOffIcon: any = createIcon({
   ),
 });
 
-EyeOffIcon.displayName = 'EyeOffIcon';
+EyeOffIcon.displayName = "EyeOffIcon";
 
 export { EyeIcon, EyeOffIcon };

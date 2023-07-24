@@ -1,11 +1,11 @@
-import React from 'react';
-import { createIcon } from '@gluestack-ui/icon';
-import { Root } from '../styled-components';
-import { Path } from 'react-native-svg';
+import React from "react";
+import { createIcon } from "@gluestack-ui/icon";
+import { Path } from "react-native-svg";
+import { Root } from "../styled-components";
 
 const CheckIcon = createIcon({
   Root,
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <Path
@@ -21,7 +21,7 @@ const CheckIcon = createIcon({
 
 const CheckCircleIcon = createIcon({
   Root,
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <Path
@@ -42,7 +42,7 @@ const CheckCircleIcon = createIcon({
   ),
 });
 
-CheckIcon.displayName = 'CheckIcon';
-CheckCircleIcon.displayName = 'CheckCircleIcon';
+CheckIcon.displayName = "CheckIcon";
+CheckCircleIcon.displayName = "CheckCircleIcon";
 
 export { CheckIcon, CheckCircleIcon };

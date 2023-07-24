@@ -91,7 +91,9 @@ const BaseText = styled(
   }
 );
 
-export default function StyledText(props: typeof BaseText & TextProps) {
+export default function StyledText(
+  props: React.ComponentProps<typeof BaseText>
+) {
   const currentTheme = useAppSelector(selectCurrentTheme);
 
   const { children, ...rest } = props;

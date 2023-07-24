@@ -1,11 +1,12 @@
-import React from 'react';
-import { createIcon } from '@gluestack-ui/icon';
-import { Root } from '../styled-components';
-import { Path } from 'react-native-svg';
+import React from "react";
+import { createIcon } from "@gluestack-ui/icon";
+import { Path } from "react-native-svg";
+import { Root } from "../styled-components";
+
 const ChevronUpIcon = createIcon({
   Root,
-  viewBox: '0 0 24 24',
-  d: 'M12 10L8 6L4 10',
+  viewBox: "0 0 24 24",
+  d: "M12 10L8 6L4 10",
   path: (
     <>
       <Path
@@ -21,7 +22,7 @@ const ChevronUpIcon = createIcon({
 
 const ChevronDownIcon = createIcon({
   Root,
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <Path
@@ -37,7 +38,7 @@ const ChevronDownIcon = createIcon({
 
 const ChevronLeftIcon = createIcon({
   Root,
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <Path
@@ -54,7 +55,7 @@ const ChevronLeftIcon = createIcon({
 const ChevronRightIcon = createIcon({
   Root,
 
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <Path
@@ -71,7 +72,7 @@ const ChevronRightIcon = createIcon({
 const ChevronsLeftIcon = createIcon({
   Root,
 
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <Path
@@ -95,7 +96,7 @@ const ChevronsLeftIcon = createIcon({
 const ChevronsRightIcon = createIcon({
   Root,
 
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <Path
@@ -119,7 +120,7 @@ const ChevronsRightIcon = createIcon({
 const ChevronsUpDownIcon = createIcon({
   Root,
 
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   path: (
     <>
       <Path
@@ -140,10 +141,10 @@ const ChevronsUpDownIcon = createIcon({
   ),
 });
 
-ChevronUpIcon.displayName = 'ChevronUpIcon';
-ChevronDownIcon.displayName = 'ChevronDownIcon';
-ChevronLeftIcon.displayName = 'ChevronLeftIcon';
-ChevronRightIcon.displayName = 'ChevronRightIcon';
+ChevronUpIcon.displayName = "ChevronUpIcon";
+ChevronDownIcon.displayName = "ChevronDownIcon";
+ChevronLeftIcon.displayName = "ChevronLeftIcon";
+ChevronRightIcon.displayName = "ChevronRightIcon";
 
 export {
   ChevronUpIcon,
