@@ -170,9 +170,7 @@ export const selectThemeConfig = createSelector(
         ? {
             tokens: {
               colors: {
-                app: {
-                  accent: accentColor,
-                },
+                accent: accentColor,
               },
             },
           }
