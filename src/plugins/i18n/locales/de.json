@@ -16,11 +16,11 @@
       "unknownError": "Unbekannter Fehler",
       "success": "Erfolgreich",
       "noDebugLog": "Es gibt kein Debug-Log.",
-			"debugFileCleared": "Debug-Log geleert.",
+      "debugFileCleared": "Debug-Log geleert.",
       "areYouSure": "Bist du sicher?",
       "info": "Info",
       "serverAuthError": "Fehler beim Authentifizieren mit dem Server.",
-			"deleteAccount": "Konto löschen"
+      "deleteAccount": "Konto löschen"
     },
     "message": {
       "allowCameraRoll": "Bitte erlaube Memmy den Zugriff auf deine Kamera.",
@@ -54,10 +54,10 @@
     "allFieldsRequired": "Alle Felder müssen gefüllt sein.",
     "useUsername": "Bitte gib nur deinen Benutzernamen an (ohne Instanz/@).",
     "passwordsMismatch": "Die Passwörter stimmen nicht überein.",
-    "blocked": "Blockiert {{0}}",
+    "blocked": "{{0}} blockiert",
     "enterUrl": "Gib den URL ein",
     "enterLabel": "Gib das Label ein",
-		"linkError": "Beim Öffnen des Links ist ein Fehler aufgetreten."
+    "linkError": "Beim Öffnen des Links ist ein Fehler aufgetreten."
   },
   "relativeTime": {
     "future": "in %s",
@@ -88,7 +88,7 @@
     "removedByMod": "Kommentar wurde von Moderatoren gelöscht :("
   },
   "settings": {
-		"swipeToVote": "Mit Wisch hoch-/runterwählen",
+    "swipeToVote": "Mit Wisch hoch-/runterwählen",
     "haptics": {
       "Off": "Keine",
       "Light": "Schwach",
@@ -105,12 +105,12 @@
         "useReaderMode": "Lesemodus verwenden"
       },
       "markRead": {
-        "header": "Einstellungen für als gelesen Markieren",
+        "header": "Als gelesen markieren",
         "onPostOpen": "Beim Öffnen eines Beitrages",
         "onImageView": "Beim Ansehen des Bildes",
         "onVote": "Beim Abstimmen",
-				"onFeedScroll": "Beim Vorbei-Scrollen im Feed",
-				"onCommunityScroll": "Beim Vorbei-Scrollen in der Community",
+        "onFeedScroll": "Beim Vorbei-Scrollen im Feed",
+        "onCommunityScroll": "Beim Vorbei-Scrollen in der Community",
         "footer": "\"Gelesene Beiträge im Feed ausblenden\" blendet automatisch gelesene Beiträge aus, wenn der Feed aktualisiert wird. Wenn diese Einstellung aktiviert ist, zeigt die Option \"Zeige blende gelesene Beiträge aus\" eine schwebende Aktionsschaltfläche an, um gelesene Beiträge ohne eine Aktualisierung des Feeds auszublenden."
       }
     },
@@ -137,16 +137,16 @@
         "showVotingButtons": "Abstimm-Buttons anzeigen"
       },
       "font": {
-        "header": "FONT",
+        "header": "Schriften",
         "useSystemFont": "System-Schriftart übernehmen",
         "useSystemFontSize": "System-Schriftgröße übernehmen",
         "textSize": "Textgröße",
-        "postTitleFontWeight": "Schriftstärke für Beitrags-Titel"
+        "postTitleFontWeight": "Stärke für Beitrags-Titel"
       },
-			"gestures": {
-				"header": "GESTURES",
-				"tapToCollapse": "Zum Zusammenklappen antippen"
-			}
+      "gestures": {
+        "header": "Gesten",
+        "tapToCollapse": "Zum Zusammenklappen antippen"
+      }
     },
     "accounts": {
       "current": "Aktuelles Konto",
@@ -160,19 +160,19 @@
         "footer": "Anmeldedaten des Servers, mit dem du dich verbinden möchtest"
       }
     },
-		"filters": {
-			"addKeyword": "Schlüsselwort hinzufügen",
-			"areYouSureKeyword": "Bist du sicher, dass du dieses Schlüsselwort entfernen möchtest?",
-			"removeKeyword": "Filter entfernen",
-			"enterAKeyword": "Zu filterndes Schlüsselwort eingeben.",
-			"noKeywords": "Noch keine Schlüsselwörter gefiltert …",
+    "filters": {
+      "addKeyword": "Schlüsselwort hinzufügen",
+      "areYouSureKeyword": "Bist du sicher, dass du dieses Schlüsselwort entfernen möchtest?",
+      "removeKeyword": "Filter entfernen",
+      "enterAKeyword": "Zu filterndes Schlüsselwort eingeben.",
+      "noKeywords": "Noch keine Schlüsselwörter gefiltert …",
 
-			"addInstance": "Instanz hinzufügen",
-			"removeInstance": "Filter entfernen",
-			"areYouSureInstance": "Bist du sicher, dass du diese Instanz entfernen möchtest?",
-			"enterAnInstance": "Zu filternde Instanz eingeben.",
-			"noInstances": "Noch keine Instanzen gefiltert …"
-		}
+      "addInstance": "Instanz hinzufügen",
+      "removeInstance": "Filter entfernen",
+      "areYouSureInstance": "Bist du sicher, dass du diese Instanz entfernen möchtest?",
+      "enterAnInstance": "Zu filternde Instanz eingeben.",
+      "noInstances": "Noch keine Instanzen gefiltert …"
+    }
   },
   "traverse": {
     "noSubscriptions": "Du hast nichts abonniert."
@@ -294,8 +294,8 @@
   "Add Account": "Konto hinzufügen",
   "Create Account": "Konto erstellen",
   "Mark Post Read On": "Beitrag als gelesen markieren …",
-  "Hide Read Posts": "Gelesen Beiträge ausblenden",
-  "Show Hide Read Button": "Show Hide Read Button",
+  "Hide Read Posts": "Gelesene Beiträge ausblenden",
+  "Show Hide Read Button": "Gelesene-Beiträge-ausblenden-Funktion",
   "View": "Anzeigen",
   "Content": "Inhalt",
   "Appearance": "Darstellung",
@@ -306,7 +306,7 @@
   "Icon": "Icon",
   "General": "Allgemein",
   "Loading": "Lädt",
-  "Welcome": "Wilkommen",
+  "Welcome": "Willkommen",
   "Hubs": "Hubs",
   "Instance": "Instanz",
   "Copy Text": "Text kopieren",
@@ -331,10 +331,10 @@
   "Default Listing Type": "Standard-Ansicht der Feed-Liste",
   "Hide Read Posts on Feed": "Gelesene Beiträge im Feed ausblenden",
   "Hide Read Posts in Communities": "Gelesene Beiträge in Communitys ausblenden",
-	"Show Hide Read Button": "Zeige \"Blende gelesene Beiträge aus\"",
+  "Show Hide Read Button": "Zeige \"Blende gelesene Beiträge aus\"-Funktion",
   "Show Comment Actions": "Kommentar anzeigen Aktionen",
   "NSFW": "NSFW",
-  "NSFW Content": "NSFW Inhalt",
+  "NSFW Content": "NSFW-Inhalt",
   "Sensitive content ahead": "Sensibler Inhalt",
   "Accent Color": "Akzentfarbe",
   "Add": "Neu",
@@ -347,7 +347,7 @@
   "Confirm Password": "Passwort bestätigen",
   "Push Notifications": "Push-Benachrichtigungen",
   "Save": "Speichern",
-  "2FA Token": "2FA Token",
+  "2FA Token": "2FA-Token",
   "Version": "Version",
   "License": "Lizenz",
   "Acknowledgements": "Acknowledgements",
@@ -369,8 +369,8 @@
   "No": "Nein",
   "Join": "Beitreten",
   "Hub Info": "Hub Info",
-  "Other Info": "Weitere Infos",
-  "Legal Info": "Rechtliche Infos",
+  "Other Info": "Weitere Informationen",
+  "Legal Info": "Rechtliche Hinweise",
   "Federate": "Föderieren",
   "User": "Benutzer",
   "User_plural": "Benutzer",
@@ -380,7 +380,7 @@
   "Open Registration": "Frei zugänglich",
   "Subscribed": "Abonniert",
   "Subscribe": "Abonnieren",
-  "Post": "Beitrag erstellen",
+  "Post": "Beitrag",
   "Description": "Beschreibung",
   "Label": "Label",
   "Trending": "Trending",
