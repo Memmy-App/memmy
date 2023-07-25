@@ -132,7 +132,12 @@ function NewCommentScreen({
                 />
               </HStack>
               <HStack space="xs" alignItems="center">
-                <Icon as={Ionicons} name="time-outline" />
+                <Icon
+                  as={Ionicons}
+                  name="time-outline"
+                  color={theme.colors.textSecondary}
+                  size={16}
+                />
                 <Text color={theme.colors.textSecondary}>
                   {dayjs(
                     responseTo.post
