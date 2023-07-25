@@ -41,8 +41,13 @@ export const useAccountStore = create(
           [];
         set((state) => {
           state.accounts = accounts;
+          state.status.loading = false;
+          state.currentAccount = accounts.find((a) => a.isCurrent === true);
         });
       } catch (e) {
+        set((state) => {
+          state.status.loading = false;
+        });
         writeToLog("Error loading accounts.");
         writeToLog(e.toString());
       }
@@ -57,6 +62,9 @@ export const useAccountStore = create(
       });
       account.isCurrent = true;
       accounts.push(account);
+      set((state) => {
+        state.currentAccount = account;
+      });
       await AsyncStorage.setItem("@accounts", JSON.stringify(accounts));
     },
 
@@ -95,9 +103,14 @@ export const useAccountStore = create(
         [];
 
       accounts.forEach((a) => {
-        if (a.username === account.username && a.instance === account.instance)
+        if (
+          a.username === account.username &&
+          a.instance === account.instance
+        ) {
           a.isCurrent = true;
-        else delete a.isCurrent;
+        } else {
+          a.isCurrent = false;
+        }
       });
 
       await AsyncStorage.setItem("@accounts", JSON.stringify(accounts));
