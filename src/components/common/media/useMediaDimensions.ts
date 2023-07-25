@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { Dimensions as RNDimensions } from "react-native";
-import { useAppSelector } from "../../../../../store";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
+import { useAppSelector } from "../../../../store";
+import { selectSettings } from "../../../slices/settings/settingsSlice";
+import { Dimensions } from "./common";
 
-interface UseImageDimensions {
+interface UseMediaDimensions {
   dimensions: AllDimensions;
-  update: (imageDimensions: Dimensions) => void;
+  update: (mediaDimensions: Dimensions) => void;
+  updateWiththumbnail: (
+    mediaDimensions: Dimensions,
+    thumbnailDimensions: Dimensions
+  ) => void;
 }
 
 interface AllDimensions {
@@ -14,17 +19,12 @@ interface AllDimensions {
   actualDimensions: Dimensions;
 }
 
-interface Dimensions {
-  height: number;
-  width: number;
-}
-
 const initialDimensions: Dimensions = {
   height: 0,
   width: 0,
 };
 
-export function useImageDimensions(): UseImageDimensions {
+export function useMediaDimensions(): UseMediaDimensions {
   const { ignoreScreenHeightInFeed } = useAppSelector(selectSettings);
 
   const [dimensions, setDimensions] = useState<AllDimensions>({
@@ -33,24 +33,31 @@ export function useImageDimensions(): UseImageDimensions {
     actualDimensions: initialDimensions,
   });
 
-  const update = (imageDimensions: Dimensions) => {
+  const update = (mediaDimensions: Dimensions) =>
+    updateWiththumbnail(mediaDimensions, mediaDimensions);
+
+  const updateWiththumbnail = (
+    mediaDimensions: Dimensions,
+    thumbnailDimensions: Dimensions
+  ) => {
     setDimensions({
       scaledDimensions: getRatio(
-        imageDimensions.height,
-        imageDimensions.width,
+        thumbnailDimensions.height,
+        thumbnailDimensions.width,
         ignoreScreenHeightInFeed ? 0.9 : 0.6
       ),
       viewerDimensions: getRatio(
-        imageDimensions.height,
-        imageDimensions.width,
+        mediaDimensions.height,
+        mediaDimensions.width,
         0.9
       ),
-      actualDimensions: imageDimensions,
+      actualDimensions: mediaDimensions,
     });
   };
 
   return {
     update,
+    updateWiththumbnail,
     dimensions,
   };
 }
@@ -68,11 +75,11 @@ const getRatio = (
 
   const ratio = Math.min(widthRatio, heightRatio);
 
-  const imageHeight = realHeight * ratio;
-  const imageWidth = realWidth * ratio;
+  const mediaHeight = realHeight * ratio;
+  const mediaWidth = realWidth * ratio;
 
   return {
-    height: imageHeight,
-    width: imageWidth,
+    height: mediaHeight,
+    width: mediaWidth,
   };
 };

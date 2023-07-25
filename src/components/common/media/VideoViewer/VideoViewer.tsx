@@ -1,27 +1,27 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Dimensions as RNDimensions,
   Modal,
   Pressable,
   StyleSheet,
 } from "react-native";
-import FastImage, { OnLoadEvent } from "@gkasdorf/react-native-fast-image";
+import FastImage /* , { OnLoadEvent } */ from "@gkasdorf/react-native-fast-image";
 import Animated, {
-  runOnJS,
+  // runOnJS,
   runOnUI,
   useAnimatedStyle,
   useSharedValue,
-  withDecay,
+  // withDecay,
   withTiming,
 } from "react-native-reanimated";
 import {
   Gesture,
   GestureDetector,
-  GestureStateChangeEvent,
-  GestureUpdateEvent,
-  PanGestureHandlerEventPayload,
-  PinchGestureHandlerEventPayload,
-  TapGestureHandlerEventPayload,
+  // GestureStateChangeEvent,
+  // GestureUpdateEvent,
+  // PanGestureHandlerEventPayload,
+  // PinchGestureHandlerEventPayload,
+  // TapGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import { BlurView } from "expo-blur";
 import { Text, useTheme, View, VStack } from "native-base";
@@ -29,13 +29,16 @@ import { StatusBar } from "expo-status-bar";
 import { IconAlertTriangle } from "tabler-icons-react-native";
 import { useMediaDimensions } from "../useMediaDimensions";
 import ExitButton from "../MediaExitButton";
-import ImageViewFooter from "./ImageViewFooter";
+import VideoViewFooter from "./VideoViewFooter";
 import { useAppSelector } from "../../../../../store";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import ImageButton from "../../Buttons/ImageButton";
-import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
+// import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
 import Toast from "../../Toast";
 import { MediaProps } from "../common";
+import useThumbnail, {
+  UseThumbnail,
+} from "../../../../hooks/media/useThumbnail";
 
 interface MeasureResult {
   x: number;
@@ -49,9 +52,9 @@ interface MeasureResult {
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } =
   RNDimensions.get("screen");
 
-const MAX_SCALE = 3;
+// const MAX_SCALE = 3;
 
-function ImageViewer({
+function VideoViewer({
   source,
   postId,
   heightOverride,
@@ -88,7 +91,7 @@ function ImageViewer({
   const zoomScale = useSharedValue(1);
 
   // The last scale of the image when zooming. We use this to apply to the new value
-  const lastScale = useSharedValue(1);
+  // const lastScale = useSharedValue(1);
 
   // Background color for the viewer. Start at 0 opacity and transition to one
   const backgroundColor = useSharedValue("rgba(0, 0, 0, 0)");
@@ -97,14 +100,14 @@ function ImageViewer({
   const positionX = useSharedValue(0);
   const positionY = useSharedValue(0);
 
-  const lastTransitionX = useSharedValue(0);
-  const lastTransitionY = useSharedValue(0);
+  // const lastTransitionX = useSharedValue(0);
+  // const lastTransitionY = useSharedValue(0);
 
   // Stored heights
-  const imageHeight = useSharedValue(0);
-  const imageWidth = useSharedValue(0);
+  const videoHeight = useSharedValue(0);
+  const videoWidth = useSharedValue(0);
 
-  const lastTap = useSharedValue(0);
+  // const lastTap = useSharedValue(0);
 
   const xCenter = useMemo(
     () => SCREEN_WIDTH / 2 - dimensions.dimensions.viewerDimensions.width / 2,
@@ -155,11 +158,11 @@ function ImageViewer({
   }
 
   // Whenever the image loads we want to set the dimensions
-  const onLoad = (e: OnLoadEvent) => {
-    dimensions.update({
-      height: e.nativeEvent.height,
-      width: e.nativeEvent.width,
-    });
+  const onLoad = (/* e: OnLoadEvent */) => {
+    // dimensions.update({
+    //   height: e.nativeEvent.height,
+    //   width: e.nativeEvent.width,
+    // });
 
     if (nsfw && blurNsfw) {
       setBlurIntensity((prev) => (prev === 99 ? 100 : 99));
@@ -192,17 +195,17 @@ function ImageViewer({
         positionY.value = py;
 
         // Set the size to the initial size
-        imageHeight.value = height;
-        imageWidth.value = width;
+        videoHeight.value = height;
+        videoWidth.value = width;
 
         // Size the image up
-        imageHeight.value = withTiming(
+        videoHeight.value = withTiming(
           dimensions.dimensions.viewerDimensions.height,
           {
             duration: 200,
           }
         );
-        imageWidth.value = withTiming(
+        videoWidth.value = withTiming(
           dimensions.dimensions.viewerDimensions.width,
           {
             duration: 200,
@@ -234,10 +237,10 @@ function ImageViewer({
       positionY.value = withTiming(initialPosition.value.py, { duration: 200 });
 
       // While also changing the size back
-      imageHeight.value = withTiming(initialPosition.value.height, {
+      videoHeight.value = withTiming(initialPosition.value.height, {
         duration: 200,
       });
-      imageWidth.value = withTiming(initialPosition.value.width, {
+      videoWidth.value = withTiming(initialPosition.value.width, {
         duration: 200,
       });
 
@@ -249,8 +252,8 @@ function ImageViewer({
         positionX.value = 0;
         positionY.value = 0;
         zoomScale.value = 1;
-        imageHeight.value = 0;
-        imageWidth.value = 0;
+        videoHeight.value = 0;
+        videoWidth.value = 0;
 
         // Close the modal
         setExpanded(false);
@@ -274,211 +277,237 @@ function ImageViewer({
     accessoriesOpacity.value = withTiming(show ? 1 : 0, { duration: 200 });
   };
 
-  const onPinchStart = () => {
+  //   const onPinchStart = () => {
+  //     "worklet";
+
+  //     if (accessoriesOpacity.value === 1) {
+  //       toggleAccessories(false);
+  //     }
+  //   };
+
+  //   const onPinchUpdate = (
+  //     event: GestureUpdateEvent<PinchGestureHandlerEventPayload>
+  //   ) => {
+  //     "worklet";
+
+  //     zoomScale.value = lastScale.value * event.scale;
+  //   };
+
+  //   const onPinchEnd = () => {
+  //     "worklet";
+
+  //     // If the user has zoomed out past the scale of one, we will reset the scale and display accessories. Play a haptic
+  //     if (zoomScale.value <= 1) {
+  //       zoomScale.value = withTiming(1, { duration: 300 });
+  //       runOnJS(onGenericHapticFeedback)();
+  //       toggleAccessories(true);
+  //       setToCenter();
+  //     } else if (zoomScale.value > MAX_SCALE) {
+  //       // We shouldn't allow zooming past the max scale
+  //       zoomScale.value = withTiming(MAX_SCALE, { duration: 300 });
+  //       runOnJS(onGenericHapticFeedback)();
+  //     }  const onPinchStart = () => {
+
+  //     // We need this saved value for later
+  //     lastScale.value =
+  //       zoomScale.value >= 1
+  //         ? zoomScale.value > MAX_SCALE
+  //           ? MAX_SCALE
+  //           : zoomScale.value
+  //         : 1;
+  //   };
+
+  //   // Double tap result
+  //   const onDoubleTap = (
+  //     event: GestureUpdateEvent<TapGestureHandlerEventPayload>
+  //   ) => {
+  //     "worklet";
+
+  //     // Move back to center and show accessories if we are returning to scale of one
+  //     if (zoomScale.value !== 1) {
+  //       setToCenter();
+
+  //       toggleAccessories(true);
+  //     } else {
+  //       // Otherwise we should hide the accessories
+  //       toggleAccessories(false);
+
+  //       const realHeight = dimensions.dimensions.viewerDimensions.height;
+  //       const realWidth = dimensions.dimensions.viewerDimensions.width;
+
+  //       const newHeight = realHeight * 2;
+  //       const newWidth = realWidth * 2;
+
+  //       const maxTranslateX = (newWidth - SCREEN_WIDTH) / 2;
+  //       const minTranslateX = -(newWidth - SCREEN_WIDTH) / 2;
+
+  //       const currentTransX = (realWidth / 2 - event.x) * 2;
+
+  //       let transX;
+
+  //       if (currentTransX > maxTranslateX) transX = maxTranslateX;
+  //       else if (currentTransX < minTranslateX) transX = minTranslateX;
+  //       else transX = currentTransX;
+
+  //       const maxTranslateY =
+  //         newHeight <= SCREEN_HEIGHT ? 0 : newHeight - SCREEN_HEIGHT;
+  //       const minTranslateY =
+  //         newHeight <= SCREEN_HEIGHT ? 0 : -(newHeight - SCREEN_HEIGHT);
+
+  //       const currentTransY = (realHeight / 2 - event.y) * 2;
+
+  //       let transY;
+
+  //       if (currentTransY > maxTranslateY) transY = maxTranslateY;
+  //       else if (currentTransY < minTranslateY) transY = minTranslateY;
+  //       else transY = currentTransY;
+
+  //       positionX.value = withTiming(transX);
+  //       positionY.value = withTiming(transY);
+  //     }
+
+  //     // Update the scale based off of the current scale
+  //     zoomScale.value = withTiming(zoomScale.value === 1 ? 2 : 1, {
+  //       duration: 300,
+  //     });
+
+  //     // Reset the scale
+  //     lastScale.value = 1;
+  //   };
+
+  //   const onPanBegin = () => {
+  //     "worklet";
+
+  //     // Reset
+  //     lastTransitionX.value = 0;
+  //     lastTransitionY.value = 0;
+
+  //     // Hide accessories
+  //     if (zoomScale.value === 1) {
+  //       if (lastTap.value + 200 < Date.now()) {
+  //         toggleAccessories(!(accessoriesOpacity.value === 1));
+  //       }
+  //     } else {
+  //       toggleAccessories(false);
+  //     }
+
+  //     lastTap.value = Date.now();
+  //   };
+
+  //   const onPanUpdate = (
+  //     event: GestureUpdateEvent<PanGestureHandlerEventPayload>
+  //   ) => {
+  //     "worklet";
+
+  //     if (
+  //       backgroundColor.value === "rgba(0, 0, 0, 1)" &&
+  //       (Math.abs(event.translationX) > 5 || Math.abs(event.translationY) > 5) &&
+  //       zoomScale.value <= 1
+  //     ) {
+  //       backgroundColor.value = withTiming("rgba(0, 0, 0, 0.5)", {
+  //         duration: 300,
+  //       });
+  //     }
+
+  //     // We move the position based on the pan
+  //     positionX.value += event.translationX - lastTransitionX.value;
+  //     positionY.value += event.translationY - lastTransitionY.value;
+
+  //     // Save the last translation for use later
+  //     lastTransitionX.value = event.translationX;
+  //     lastTransitionY.value = event.translationY;
+  //   };
+
+  //   const onPanEnd = (
+  //     event: GestureStateChangeEvent<PanGestureHandlerEventPayload>
+  //   ) => {
+  //     "worklet";
+
+  //     // Get the velocity of the Y axis. Convert it to a postiive number if it is negative.
+  //     const velocity = event.velocityY < 0 ? -event.velocityY : event.velocityY;
+
+  //     // If the velocity is greater than 800 and the current zoom scale is equal to one, we should request close
+  //     if (velocity > 800 && zoomScale.value <= 1) {
+  //       runOnJS(onRequestOpenOrClose)();
+  //       return;
+  //     }
+
+  //     // We should reset to center afterward if the scale is less than one
+  //     if (zoomScale.value <= 1) {
+  //       setToCenter();
+  //       toggleAccessories(false);
+  //     } else {
+  //       // Now we want to add some momentum to the end of the swipe
+  //       // Take the velocity of the swipe and divide that by 1.5. Then, we normalize based off of the zoom scale by
+  //       // dividing by whatever that number is
+
+  //       positionX.value = withDecay({
+  //         velocity: event.velocityX / 1.2,
+  //       });
+  //       positionY.value = withDecay({
+  //         velocity: event.velocityY / 1.2,
+  //       });
+  //     }
+  //   };
+
+  //   // This handles all of our pan gestures
+  //   const panGesture = Gesture.Pan()
+  //     .maxPointers(2)
+  //     .onBegin(onPanBegin)
+  //     .onUpdate(onPanUpdate)
+  //     .onEnd(onPanEnd);
+
+  //   // This handles all of our pinch gestures
+  //   const pinchGesture = Gesture.Pinch()
+  //     .onStart(onPinchStart)
+  //     .onUpdate(onPinchUpdate)
+  //     .onEnd(onPinchEnd);
+
+  //   // This handles our double tap
+  //   // TODO Add a single tap for closing
+  //   const tapGesture = Gesture.Tap()
+  //     .numberOfTaps(2)
+  //     .maxDelay(100)
+  //     .onEnd(onDoubleTap);
+
+  //   const pinchAndPanGestures = Gesture.Simultaneous(panGesture, pinchGesture);
+  //   const allGestures = Gesture.Exclusive(pinchAndPanGestures, tapGesture);
+  const onTap = () => {
     "worklet";
 
-    if (accessoriesOpacity.value === 1) {
-      toggleAccessories(false);
-    }
-  };
-
-  const onPinchUpdate = (
-    event: GestureUpdateEvent<PinchGestureHandlerEventPayload>
-  ) => {
-    "worklet";
-
-    zoomScale.value = lastScale.value * event.scale;
-  };
-
-  const onPinchEnd = () => {
-    "worklet";
-
-    // If the user has zoomed out past the scale of one, we will reset the scale and display accessories. Play a haptic
-    if (zoomScale.value <= 1) {
-      zoomScale.value = withTiming(1, { duration: 300 });
-      runOnJS(onGenericHapticFeedback)();
-      toggleAccessories(true);
-      setToCenter();
-    } else if (zoomScale.value > MAX_SCALE) {
-      // We shouldn't allow zooming past the max scale
-      zoomScale.value = withTiming(MAX_SCALE, { duration: 300 });
-      runOnJS(onGenericHapticFeedback)();
-    }
-
-    // We need this saved value for later
-    lastScale.value =
-      zoomScale.value >= 1
-        ? zoomScale.value > MAX_SCALE
-          ? MAX_SCALE
-          : zoomScale.value
-        : 1;
-  };
-
-  // Double tap result
-  const onDoubleTap = (
-    event: GestureUpdateEvent<TapGestureHandlerEventPayload>
-  ) => {
-    "worklet";
-
-    // Move back to center and show accessories if we are returning to scale of one
-    if (zoomScale.value !== 1) {
-      setToCenter();
-
+    if (accessoriesOpacity.value !== 1) {
+      // Show accessories if they are hidden
       toggleAccessories(true);
     } else {
       // Otherwise we should hide the accessories
       toggleAccessories(false);
-
-      const realHeight = dimensions.dimensions.viewerDimensions.height;
-      const realWidth = dimensions.dimensions.viewerDimensions.width;
-
-      const newHeight = realHeight * 2;
-      const newWidth = realWidth * 2;
-
-      const maxTranslateX = (newWidth - SCREEN_WIDTH) / 2;
-      const minTranslateX = -(newWidth - SCREEN_WIDTH) / 2;
-
-      const currentTransX = (realWidth / 2 - event.x) * 2;
-
-      let transX;
-
-      if (currentTransX > maxTranslateX) transX = maxTranslateX;
-      else if (currentTransX < minTranslateX) transX = minTranslateX;
-      else transX = currentTransX;
-
-      const maxTranslateY =
-        newHeight <= SCREEN_HEIGHT ? 0 : newHeight - SCREEN_HEIGHT;
-      const minTranslateY =
-        newHeight <= SCREEN_HEIGHT ? 0 : -(newHeight - SCREEN_HEIGHT);
-
-      const currentTransY = (realHeight / 2 - event.y) * 2;
-
-      let transY;
-
-      if (currentTransY > maxTranslateY) transY = maxTranslateY;
-      else if (currentTransY < minTranslateY) transY = minTranslateY;
-      else transY = currentTransY;
-
-      positionX.value = withTiming(transX);
-      positionY.value = withTiming(transY);
     }
+  };
 
-    // Update the scale based off of the current scale
-    zoomScale.value = withTiming(zoomScale.value === 1 ? 2 : 1, {
-      duration: 300,
+  const tapGesture = Gesture.Tap().numberOfTaps(1).maxDelay(100).onEnd(onTap);
+
+  const [thumbnail, setThumbnail] = useState<UseThumbnail>(null);
+
+  useEffect(() => {
+    useThumbnail(source).then((payload) => {
+      setThumbnail(payload);
+
+      dimensions.updateWiththumbnail(
+        dimensions.dimensions.actualDimensions,
+        payload.dimensions
+      );
     });
-
-    // Reset the scale
-    lastScale.value = 1;
-  };
-
-  const onPanBegin = () => {
-    "worklet";
-
-    // Reset
-    lastTransitionX.value = 0;
-    lastTransitionY.value = 0;
-
-    // Hide accessories
-    if (zoomScale.value === 1) {
-      if (lastTap.value + 200 < Date.now()) {
-        toggleAccessories(!(accessoriesOpacity.value === 1));
-      }
-    } else {
-      toggleAccessories(false);
-    }
-
-    lastTap.value = Date.now();
-  };
-
-  const onPanUpdate = (
-    event: GestureUpdateEvent<PanGestureHandlerEventPayload>
-  ) => {
-    "worklet";
-
-    if (
-      backgroundColor.value === "rgba(0, 0, 0, 1)" &&
-      (Math.abs(event.translationX) > 5 || Math.abs(event.translationY) > 5) &&
-      zoomScale.value <= 1
-    ) {
-      backgroundColor.value = withTiming("rgba(0, 0, 0, 0.5)", {
-        duration: 300,
-      });
-    }
-
-    // We move the position based on the pan
-    positionX.value += event.translationX - lastTransitionX.value;
-    positionY.value += event.translationY - lastTransitionY.value;
-
-    // Save the last translation for use later
-    lastTransitionX.value = event.translationX;
-    lastTransitionY.value = event.translationY;
-  };
-
-  const onPanEnd = (
-    event: GestureStateChangeEvent<PanGestureHandlerEventPayload>
-  ) => {
-    "worklet";
-
-    // Get the velocity of the Y axis. Convert it to a postiive number if it is negative.
-    const velocity = event.velocityY < 0 ? -event.velocityY : event.velocityY;
-
-    // If the velocity is greater than 800 and the current zoom scale is equal to one, we should request close
-    if (velocity > 800 && zoomScale.value <= 1) {
-      runOnJS(onRequestOpenOrClose)();
-      return;
-    }
-
-    // We should reset to center afterward if the scale is less than one
-    if (zoomScale.value <= 1) {
-      setToCenter();
-      toggleAccessories(false);
-    } else {
-      // Now we want to add some momentum to the end of the swipe
-      // Take the velocity of the swipe and divide that by 1.5. Then, we normalize based off of the zoom scale by
-      // dividing by whatever that number is
-
-      positionX.value = withDecay({
-        velocity: event.velocityX / 1.2,
-      });
-      positionY.value = withDecay({
-        velocity: event.velocityY / 1.2,
-      });
-    }
-  };
-
-  // This handles all of our pan gestures
-  const panGesture = Gesture.Pan()
-    .maxPointers(2)
-    .onBegin(onPanBegin)
-    .onUpdate(onPanUpdate)
-    .onEnd(onPanEnd);
-
-  // This handles all of our pinch gestures
-  const pinchGesture = Gesture.Pinch()
-    .onStart(onPinchStart)
-    .onUpdate(onPinchUpdate)
-    .onEnd(onPinchEnd);
-
-  // This handles our double tap
-  // TODO Add a single tap for closing
-  const tapGesture = Gesture.Tap()
-    .numberOfTaps(2)
-    .maxDelay(100)
-    .onEnd(onDoubleTap);
-
-  const pinchAndPanGestures = Gesture.Simultaneous(panGesture, pinchGesture);
-  const allGestures = Gesture.Exclusive(pinchAndPanGestures, tapGesture);
+  }, [source]);
 
   // This handles our background color styles
   const backgroundStyle = useAnimatedStyle(() => ({
     backgroundColor: backgroundColor.value,
   }));
 
-  // This handles our pinch to zoom styles
-  const scaleStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: zoomScale.value }],
-  }));
+  // // This handles our pinch to zoom styles
+  // const scaleStyle = useAnimatedStyle(() => ({
+  //   transform: [{ scale: zoomScale.value }],
+  // }));
 
   // This handles the position of the image inside the view
   const positionStyle = useAnimatedStyle(() => ({
@@ -489,8 +518,8 @@ function ImageViewer({
   }));
 
   const dimensionsStyle = useAnimatedStyle(() => ({
-    height: imageHeight.value,
-    width: imageWidth.value,
+    height: videoHeight.value,
+    width: videoWidth.value,
   }));
 
   const accessoriesStyle = useAnimatedStyle(() => ({
@@ -524,7 +553,7 @@ function ImageViewer({
                 },
               ]}
               resizeMode="contain"
-              source={{ uri: source }}
+              source={{ uri: thumbnail.uri }}
               onLoad={onLoad}
             />
           </ImageButton>
@@ -551,10 +580,7 @@ function ImageViewer({
                 <BlurView
                   style={[
                     styles.blurView,
-                    {
-                      height: dimensions.dimensions.scaledDimensions.height,
-                      width: dimensions.dimensions.scaledDimensions.width,
-                    },
+                    dimensions.dimensions.scaledDimensions,
                   ]}
                   intensity={blurIntensity}
                   tint={theme.config.initialColorMode}
@@ -579,7 +605,7 @@ function ImageViewer({
                 </BlurView>
                 {!source.includes(".gif") && (
                   <FastImage
-                    source={{ uri: source }}
+                    source={{ uri: thumbnail.uri }}
                     style={[
                       heightOverride
                         ? { height: heightOverride, width: widthOverride }
@@ -592,7 +618,7 @@ function ImageViewer({
               </View>
             )) || (
               <FastImage
-                source={{ uri: source }}
+                source={{ uri: thumbnail.uri }}
                 style={[
                   heightOverride
                     ? { height: heightOverride, width: widthOverride }
@@ -613,19 +639,19 @@ function ImageViewer({
           <ExitButton onPress={onRequestOpenOrClose} />
         </Animated.View>
         <View style={{ flex: 1, zIndex: -1 }}>
-          <GestureDetector gesture={allGestures}>
+          <GestureDetector gesture={tapGesture}>
             <Animated.View style={[styles.imageModal, backgroundStyle]}>
               <Animated.View style={[positionStyle]}>
                 <AnimatedFastImage
                   source={{ uri: source }}
-                  style={[scaleStyle, dimensionsStyle]}
+                  style={[/* scaleStyle, */ dimensionsStyle]}
                 />
               </Animated.View>
             </Animated.View>
           </GestureDetector>
         </View>
         <Animated.View style={[accessoriesStyle]}>
-          <ImageViewFooter source={source} />
+          <VideoViewFooter source={source} />
         </Animated.View>
       </Modal>
     </View>
@@ -658,4 +684,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(ImageViewer);
+export default React.memo(VideoViewer);

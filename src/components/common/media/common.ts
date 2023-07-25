@@ -11,3 +11,8 @@ export interface MediaProps {
   setPostRead?: () => void;
   compactMode?: boolean;
 }
+
+export interface Dimensions {
+  height: number;
+  width: number;
+}
