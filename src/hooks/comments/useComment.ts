@@ -23,13 +23,13 @@ import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 import { PostsStore, usePostsStore } from "../../stores/posts/postsStore";
 import { useInboxStore } from "../../stores/inbox/inboxStore";
 import { ICON_MAP } from "../../constants/IconMap";
-import { ContextMenuOptions } from "../../types/ContextMenuOptions";
+import { ContextMenuOption } from "../../types/ContextMenuOptions";
 
 export interface UseComment {
   onCommentLongPress: (selection?: string) => void;
   onReadPress?: () => Promise<void>;
   onReply: () => void;
-  longPressOptions: ContextMenuOptions;
+  longPressOptions: ContextMenuOption[];
 }
 
 const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
@@ -53,22 +53,37 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
     [comment.comment.comment.id]
   );
 
-  const longPressOptions: ContextMenuOptions = useMemo(
-    () => ({
-      copy_text: { display: t("Copy Text"), icon: ICON_MAP.COPY },
-      copy_link: { display: t("Copy Link"), icon: ICON_MAP.LINK },
-      reply: { display: t("Reply"), icon: ICON_MAP.REPLY },
-      report: { display: t("comment.report"), icon: ICON_MAP.REPORT_POST },
-      ...(isOwnComment && {
-        edit: { display: t("comment.edit"), icon: ICON_MAP.EDIT },
-        delete: {
-          display: t("comment.delete"),
-          icon: ICON_MAP.DELETE,
-          destructive: true,
-        },
-      }),
-    }),
-    [comment.comment.comment.id]
+  const basicOptions = useMemo<ContextMenuOption[]>(
+    () => [
+      { key: "copy_text", title: t("Copy Text"), icon: ICON_MAP.COPY },
+      { key: "copy_link", title: t("Copy Link"), icon: ICON_MAP.LINK },
+      { key: "reply", title: t("Reply"), icon: ICON_MAP.REPLY },
+      {
+        key: "report",
+        title: t("comment.report"),
+        icon: ICON_MAP.REPORT_POST,
+        destructive: true,
+      },
+    ],
+    [t]
+  );
+
+  const ownerOptions = useMemo<ContextMenuOption[]>(
+    () => [
+      { key: "edit", title: t("comment.edit"), icon: ICON_MAP.EDIT },
+      {
+        key: "delete",
+        title: t("comment.delete"),
+        icon: ICON_MAP.DELETE,
+        destructive: true,
+      },
+    ],
+    [t]
+  );
+
+  const longPressOptions = useMemo<ContextMenuOption[]>(
+    () => [...basicOptions, ...(isOwnComment ? ownerOptions : [])],
+    [basicOptions, isOwnComment, ownerOptions]
   );
 
   const onCommentLongPress = useCallback(
@@ -77,10 +92,24 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
 
       if (selection === "copy_text") {
         Clipboard.setString(comment.comment.comment.content);
+        dispatch(
+          showToast({
+            message: t("toast.textCopied"),
+            variant: "success",
+            duration: 2000,
+          })
+        );
       }
 
       if (selection === "copy_link") {
         Clipboard.setString(comment.comment.comment.ap_id);
+        dispatch(
+          showToast({
+            message: t("toast.linkCopied"),
+            variant: "success",
+            duration: 2000,
+          })
+        );
       }
 
       if (selection === "report") {

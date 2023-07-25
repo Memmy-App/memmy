@@ -40,6 +40,7 @@ const useFeedItem = (postId: number): UseFeedItem => {
   const { t } = useTranslation();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
+  const reportReport = useReportPost();
 
   const linkInfo = useMemo(() => getLinkInfo(post.post.url), [post.post.id]);
 
@@ -83,7 +84,7 @@ const useFeedItem = (postId: number): UseFeedItem => {
   }, [post.post.id, post.saved]);
 
   const doReport = useCallback(async () => {
-    useReportPost({ postId: post.post.id, dispatch }).then();
+    reportReport(post.post.id, dispatch);
   }, [post.post.id]);
 
   const blockCreator = useCallback(async () => {

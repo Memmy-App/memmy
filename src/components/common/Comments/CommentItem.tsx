@@ -50,7 +50,7 @@ function CommentItem({
       onVote ? (
         <VoteOption onVote={onVote} vote={comment.comment.my_vote} />
       ) : undefined,
-    [comment.comment.comment.id]
+    [comment.comment.comment.id, comment.comment.my_vote]
   );
 
   return (
