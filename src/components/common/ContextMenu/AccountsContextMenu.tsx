@@ -1,13 +1,12 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
-import { useAppDispatch, useAppSelector } from "../../../../store";
-import { setCurrentAccount } from "../../../slices/accounts/accountsActions";
-import {
-  selectAccounts,
-  selectCurrentAccount,
-} from "../../../slices/accounts/accountsSlice";
 import { ICON_MAP } from "../../../constants/IconMap";
+import {
+  useAccountStore,
+  useAccounts,
+  useCurrentAccount,
+} from "../../../stores/account/accountStore";
 import { ContextMenuOption } from "../../../types/ContextMenuOptions";
 import { AppContextMenuButton } from "./App/AppContextMenuButton";
 
@@ -23,10 +22,9 @@ export function AccountsContextMenu({
   isShortPress = false,
 }: IProps) {
   const { t } = useTranslation();
-  const accounts = useAppSelector(selectAccounts);
-  const currentAccount = useAppSelector(selectCurrentAccount);
-
-  const dispatch = useAppDispatch();
+  const accountStore = useAccountStore();
+  const accounts = useAccounts();
+  const currentAccount = useCurrentAccount();
 
   const options = useMemo<ContextMenuOption[]>(
     () => [
@@ -58,7 +56,7 @@ export function AccountsContextMenu({
       const account = accounts.find(
         (a) => a.username + a.instance === nativeEvent.actionKey
       );
-      dispatch(setCurrentAccount(account));
+      accountStore.setCurrentAccount(account).then();
       navigation.navigate("FeedStack", { screen: "FeedScreen" });
     }
   };

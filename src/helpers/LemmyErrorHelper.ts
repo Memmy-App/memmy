@@ -1,19 +1,22 @@
 import { Alert } from "react-native";
+import store from "../../store";
+import i18n from "../plugins/i18n/i18n";
+import { showToast } from "../slices/toast/toastSlice";
+import {
+  useAccounts,
+  useAccountStore,
+  useCurrentAccount,
+} from "../stores/account/accountStore";
 import {
   alertableErrors,
   lemmyErrors,
   LemmyErrorType,
 } from "../types/lemmy/LemmyErrors";
-import store from "../../store";
-import { showToast } from "../slices/toast/toastSlice";
-import {
-  deleteAccount,
-  setCurrentAccount,
-} from "../slices/accounts/accountsActions";
 import { writeToLog } from "./LogHelper";
-import i18n from "../plugins/i18n/i18n";
 
 export const handleLemmyError = (code: LemmyErrorType | string) => {
+  const accountStore = useAccountStore();
+
   // Log the error to debug
   writeToLog("Lemmy Error:");
   writeToLog(code);
@@ -49,7 +52,8 @@ export const handleLemmyError = (code: LemmyErrorType | string) => {
   // them to log in
   if (error.code === "not_logged_in") {
     // Get the current account
-    const { currentAccount, accounts } = store.getState().accounts;
+    const accounts = useAccounts();
+    const currentAccount = useCurrentAccount();
 
     Alert.alert(
       i18n.t("alert.title.error"),
@@ -68,15 +72,14 @@ export const handleLemmyError = (code: LemmyErrorType | string) => {
     // If there are additional accounts we will switch to that one.
     if (accounts.length > 1) {
       if (accountIndex === 0) {
-        store.dispatch(setCurrentAccount(accounts[1]));
+        accountStore.setCurrentAccount(accounts[1]).then();
       } else {
-        store.dispatch(setCurrentAccount(accounts[0]));
+        accountStore.setCurrentAccount(accounts[0]).then();
       }
     }
 
     // Delete the account
-    store.dispatch(deleteAccount(currentAccount));
-
+    accountStore.deleteAcount(currentAccount).then();
     return;
   }
 

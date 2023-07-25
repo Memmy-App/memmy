@@ -1,26 +1,25 @@
+import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTheme } from "native-base";
 import React, { useEffect, useRef, useState } from "react";
-import { Alert, Button, StyleSheet, TextInput } from "react-native";
-import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useTranslation } from "react-i18next";
-import { getBaseUrl } from "../../../../helpers/LinkHelper";
-import { writeToLog } from "../../../../helpers/LogHelper";
+import { Alert, Button, StyleSheet, TextInput } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useAppDispatch } from "../../../../../store";
 import {
   getInstanceError,
   initialize,
   lemmyAuthToken,
 } from "../../../../LemmyInstance";
-import {
-  addAccount,
-  editAccount,
-} from "../../../../slices/accounts/accountsActions";
-import { selectAccounts } from "../../../../slices/accounts/accountsSlice";
-import { useAppDispatch, useAppSelector } from "../../../../../store";
-import CCell from "../../../common/Table/CCell";
+import { getBaseUrl } from "../../../../helpers/LinkHelper";
+import { writeToLog } from "../../../../helpers/LogHelper";
 import { showToast } from "../../../../slices/toast/toastSlice";
+import {
+  useAccountStore,
+  useAccounts,
+} from "../../../../stores/account/accountStore";
 import ILemmyServer from "../../../../types/lemmy/ILemmyServer";
+import CCell from "../../../common/Table/CCell";
 
 function EditAccountScreen({
   route,
@@ -45,8 +44,9 @@ function EditAccountScreen({
   const { t } = useTranslation();
   const theme = useTheme();
   const dispatch = useAppDispatch();
+  const accountStore = useAccountStore();
 
-  const accounts = useAppSelector(selectAccounts);
+  const accounts = useAccounts();
 
   const headerRight = () => (
     <Button
@@ -145,23 +145,23 @@ function EditAccountScreen({
     }
 
     if (edit.current) {
-      dispatch(
-        editAccount({
+      accountStore
+        .editAccount({
           username: form.username,
           password: form.password,
           token: lemmyAuthToken,
           instance: form.server,
         })
-      );
+        .then();
     } else {
-      dispatch(
-        addAccount({
+      accountStore
+        .addAccount({
           username: form.username,
           password: form.password,
           token: lemmyAuthToken,
           instance: form.server,
         })
-      );
+        .then();
     }
 
     navigation.pop();

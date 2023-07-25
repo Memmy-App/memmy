@@ -1,19 +1,19 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useTheme } from "native-base";
 import { CommunityView } from "lemmy-js-client";
+import { useTheme } from "native-base";
 import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
-import { HStack, Pressable, Text, VStack } from "../../../common/Gluestack";
 import { getCommunityFullName } from "../../../../helpers/LemmyHelpers";
 import { toggleFavorite } from "../../../../slices/favorites/favoritesActions";
+import { HStack, Pressable, Text, VStack } from "../../../common/Gluestack";
 
-import { useAppDispatch, useAppSelector } from "../../../../../store";
+import { useAppDispatch } from "../../../../../store";
 
 import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
-import { selectCurrentAccount } from "../../../../slices/accounts/accountsSlice";
+import { useCurrentAccount } from "../../../../stores/account/accountStore";
 import { PlanetIcon } from "../../../common/icons/PlanetIcon";
 import SFIcon from "../../../common/icons/SFIcon";
 
@@ -50,7 +50,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
     [community.community.id]
   );
 
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currentAccount = useCurrentAccount();
 
   return (
     <Pressable onPress={onPress}>

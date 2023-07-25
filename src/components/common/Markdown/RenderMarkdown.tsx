@@ -8,8 +8,8 @@ import { TextStyle, useWindowDimensions } from "react-native";
 import { useAppSelector } from "../../../../store";
 import { openLink } from "../../../helpers/LinkHelper";
 import { replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
-import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
+import { useCurrentAccount } from "../../../stores/account/accountStore";
 import { fontSizeMap } from "../../../theme/fontSize";
 import ImageViewer from "../ImageViewer/ImageViewer";
 import SpoilerContainer from "./SpoilerContainer";
@@ -31,7 +31,7 @@ interface MarkdownProps {
 }
 
 function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currentAccount = useCurrentAccount();
   const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();

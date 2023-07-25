@@ -1,19 +1,19 @@
-import React, { useCallback, useMemo, useState } from "react";
-import { StyleSheet } from "react-native";
-import { View, Text, useTheme } from "native-base";
-import { CommunityView } from "lemmy-js-client";
-import { useTranslation } from "react-i18next";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
+import { CommunityView } from "lemmy-js-client";
+import { Text, View, useTheme } from "native-base";
+import React, { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet } from "react-native";
 import useTraverse from "../../../hooks/traverse/useTraverse";
 import LoadingView from "../../common/Loading/LoadingView";
-import TraverseItem from "./components/TraverseItem";
-import SearchBar from "../../common/Search/SearchBar";
 import RefreshControl from "../../common/RefreshControl";
+import SearchBar from "../../common/Search/SearchBar";
+import TraverseItem from "./components/TraverseItem";
 
-import { selectFavorites } from "../../../slices/favorites/favoritesSlice";
-import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { useAppSelector } from "../../../../store";
 import { getCommunityFullName } from "../../../helpers/LemmyHelpers";
+import { selectFavorites } from "../../../slices/favorites/favoritesSlice";
+import { useCurrentAccount } from "../../../stores/account/accountStore";
 
 enum ItemType {
   HEADER,
@@ -43,7 +43,7 @@ function TraverseScreen() {
   const itemFilter = (item: CommunityView) =>
     !term || item.community.name.toLowerCase().includes(term.toLowerCase());
 
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currentAccount = useCurrentAccount();
   const favorites =
     useAppSelector(selectFavorites).favorites[
       `${currentAccount.username}@${currentAccount.instance}`

@@ -1,34 +1,33 @@
+import { setRootViewBackgroundColor } from "@pnthach95/react-native-root-view-background";
+import merge from "deepmerge";
 import * as Notifications from "expo-notifications";
 import { StatusBar, StatusBarStyle } from "expo-status-bar";
-import { extendTheme, NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, extendTheme } from "native-base";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { AppState, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import merge from "deepmerge";
-import { setRootViewBackgroundColor } from "@pnthach95/react-native-root-view-background";
-import { GluestackUIProvider } from "./src/components/common/Gluestack";
-import { config } from "./gluestack-ui.config";
 import Stack from "./Stack";
-import MemmyErrorView from "./src/components/common/Loading/MemmyErrorView";
-import { writeToLog } from "./src/helpers/LogHelper";
+import { config } from "./gluestack-ui.config";
 import { lemmyAuthToken, lemmyInstance } from "./src/LemmyInstance";
-import { loadAccounts } from "./src/slices/accounts/accountsActions";
-import { selectAccountsLoaded } from "./src/slices/accounts/accountsSlice";
+import { GluestackUIProvider } from "./src/components/common/Gluestack";
+import MemmyErrorView from "./src/components/common/Loading/MemmyErrorView";
+import Toast from "./src/components/common/Toast";
+import { writeToLog } from "./src/helpers/LogHelper";
+import { loadFavorites } from "./src/slices/favorites/favoritesActions";
 import {
   loadSettings,
   setSetting,
 } from "./src/slices/settings/settingsActions";
 import { selectSettings } from "./src/slices/settings/settingsSlice";
 import { getUnreadCount } from "./src/slices/site/siteActions";
-import { useAppDispatch, useAppSelector } from "./store";
+import { useAccountStore } from "./src/stores/account/accountStore";
+import { useFiltersStore } from "./src/stores/filters/filtersStore";
+import { systemFontSettings } from "./src/theme/common";
 import getFontScale from "./src/theme/fontSize";
 import { darkTheme } from "./src/theme/theme";
 import { ThemeOptionsArr, ThemeOptionsMap } from "./src/theme/themeOptions";
-import Toast from "./src/components/common/Toast";
-import { systemFontSettings } from "./src/theme/common";
-import { loadFavorites } from "./src/slices/favorites/favoritesActions";
-import { useFiltersStore } from "./src/stores/filters/filtersStore";
+import { useAppDispatch, useAppSelector } from "./store";
 
 const logError = (e, info) => {
   writeToLog(e.toString());
@@ -53,7 +52,7 @@ function Start({ onReady }: StartProps) {
   const [loaded, setLoaded] = useState(false);
   const [stackReady, setStackReady] = useState(false);
   const dispatch = useAppDispatch();
-  const accountsLoaded = useAppSelector(selectAccountsLoaded);
+  const accountStore = useAccountStore();
 
   const [statusBarColor, setStatusBarColor] = useState<StatusBarStyle>("dark");
 
@@ -108,10 +107,10 @@ function Start({ onReady }: StartProps) {
   };
 
   useEffect(() => {
-    if (accountsLoaded && stackReady) {
+    if (!accountStore.status.loading && stackReady) {
       onReady();
     }
-  }, [accountsLoaded, stackReady]);
+  }, [accountStore.status.loading, stackReady]);
 
   useEffect(() => {
     if (!loaded) return;
@@ -216,13 +215,13 @@ function Start({ onReady }: StartProps) {
 
   if (!loaded) {
     dispatch(loadSettings());
-    dispatch(loadAccounts());
+    useAccountStore.getState().init();
     dispatch(loadFavorites());
     setLoaded(true);
     useFiltersStore.getState().init();
   }
 
-  if (!accountsLoaded) {
+  if (accountStore.status.loading) {
     return null;
   }
 

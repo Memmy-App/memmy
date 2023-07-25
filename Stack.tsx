@@ -1,19 +1,20 @@
 /* eslint react/no-unstable-nested-components: 0 */
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useTheme, View } from "native-base";
+import { View, useTheme } from "native-base";
 import React from "react";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import { Dimensions } from "react-native";
 import { useTranslation } from "react-i18next";
-import { CustomTabBar } from "./src/components/common/Navigation/CustomTabBar";
+import { Dimensions } from "react-native";
 import LoadingView from "./src/components/common/Loading/LoadingView";
+import { CustomTabBar } from "./src/components/common/Navigation/CustomTabBar";
 import SFIcon from "./src/components/common/icons/SFIcon";
 import EditCommentScreen from "./src/components/screens/Comments/EditCommentScreen";
 import NewCommentScreen from "./src/components/screens/Comments/NewCommentScreen";
 
+import ScreenGestureHandler from "./src/components/common/Navigation/ScreenGestureHandler";
 import CommunityAboutScreen from "./src/components/screens/Feed/CommunityAboutScreen";
 import CommunityFeedScreen from "./src/components/screens/Feed/CommunityFeedScreen";
 import FeedsIndexScreen from "./src/components/screens/Feed/FeedsIndexScreen";
@@ -43,6 +44,9 @@ import IconSelectionScreen from "./src/components/screens/Settings/Appearance/Ic
 import ThemeSelectionScreen from "./src/components/screens/Settings/Appearance/ThemeSelectionScreen";
 import ContentScreen from "./src/components/screens/Settings/Content/ContentScreen";
 import ReadSettingsScreen from "./src/components/screens/Settings/Content/ReadSettingsScreen";
+import FiltersScreen from "./src/components/screens/Settings/Filters/FiltersScreen";
+import InstancesScreen from "./src/components/screens/Settings/Filters/InstancesScreen";
+import KeywordsScreen from "./src/components/screens/Settings/Filters/KeywordsScreen";
 import GeneralSettingsScreen from "./src/components/screens/Settings/General/GeneralSettingsScreen";
 import SettingsIndexScreen from "./src/components/screens/Settings/SettingsIndexScreen";
 import TraverseScreen from "./src/components/screens/Traverse/TraverseScreen";
@@ -51,20 +55,16 @@ import UserCommentsScreen from "./src/components/screens/UserProfile/UserComment
 import UserPostsScreen from "./src/components/screens/UserProfile/UserPostsScreen";
 import UserProfileScreen from "./src/components/screens/UserProfile/UserProfileScreen";
 import ViewerScreen from "./src/components/screens/ViewerScreen";
-import {
-  selectAccounts,
-  selectAccountsLoaded,
-  selectCurrentAccount,
-} from "./src/slices/accounts/accountsSlice";
-import { selectSite } from "./src/slices/site/siteSlice";
-import { useAppSelector } from "./store";
-import { truncateName } from "./src/helpers/TextHelper";
-import ScreenGestureHandler from "./src/components/common/Navigation/ScreenGestureHandler";
 import { ICON_MAP } from "./src/constants/IconMap";
-import FiltersScreen from "./src/components/screens/Settings/Filters/FiltersScreen";
-import KeywordsScreen from "./src/components/screens/Settings/Filters/KeywordsScreen";
-import InstancesScreen from "./src/components/screens/Settings/Filters/InstancesScreen";
+import { truncateName } from "./src/helpers/TextHelper";
 import { selectSettings } from "./src/slices/settings/settingsSlice";
+import { selectSite } from "./src/slices/site/siteSlice";
+import {
+  useAccountStore,
+  useAccounts,
+  useCurrentAccount,
+} from "./src/stores/account/accountStore";
+import { useAppSelector } from "./store";
 
 function CustomDrawerContent() {
   const theme = useTheme();
@@ -582,7 +582,7 @@ const Tab = createBottomTabNavigator();
 function Tabs() {
   const { unread } = useAppSelector(selectSite);
   const { t } = useTranslation();
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currentAccount = useCurrentAccount();
   const settings = useAppSelector(selectSettings);
 
   return (
@@ -676,8 +676,8 @@ interface StackProps {
 function Stack({ onReady }: StackProps) {
   const theme = useTheme();
   const { t } = useTranslation();
-  const accounts = useAppSelector(selectAccounts);
-  const accountsLoaded = useAppSelector(selectAccountsLoaded);
+  const accounts = useAccounts();
+  const accountStore = useAccountStore();
 
   const MyTheme = {
     ...DarkTheme,
@@ -694,7 +694,7 @@ function Stack({ onReady }: StackProps) {
   return (
     <NavigationContainer onReady={onReady} theme={MyTheme}>
       <MainStack.Navigator>
-        {(!accountsLoaded && (
+        {(accountStore.status.loading && (
           <MainStack.Screen
             name="AppLoading"
             component={LoadingView}

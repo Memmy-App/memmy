@@ -5,29 +5,30 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Button, Switch } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../../../../store";
+import { ICON_MAP } from "../../../../constants/IconMap";
 import useNotifications from "../../../../hooks/notifications/useNotifications";
-import { deleteAccount } from "../../../../slices/accounts/accountsActions";
-import {
-  selectAccounts,
-  selectCurrentAccount,
-} from "../../../../slices/accounts/accountsSlice";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { selectSettings } from "../../../../slices/settings/settingsSlice";
+import {
+  useAccountStore,
+  useAccounts,
+  useCurrentAccount,
+} from "../../../../stores/account/accountStore";
 import { Account } from "../../../../types/Account";
 import LoadingModalTransparent from "../../../common/Loading/LoadingModalTransparent";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
 import CTable from "../../../common/Table/CTable";
 import SFIcon from "../../../common/icons/SFIcon";
-import { ICON_MAP } from "../../../../constants/IconMap";
 
 interface ViewAccountsScreenProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
-  const accounts = useAppSelector(selectAccounts);
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const accountStore = useAccountStore();
+  const accounts = useAccounts();
+  const currentAccount = useCurrentAccount();
   const { pushEnabled } = useAppSelector(selectSettings);
 
   const [pushEnabledArr, setPushEnabledArr] = useState([]);
@@ -80,7 +81,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
           text: t("Logout"),
           style: "destructive",
           onPress: () => {
-            dispatch(deleteAccount(account));
+            accountStore.deleteAcount(account).then();
           },
         },
       ]
