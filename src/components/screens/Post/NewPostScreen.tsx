@@ -81,13 +81,12 @@ function NewPostScreen({
               cellAccessoryView={
                 <IconButtonWithText
                   onPressHandler={newPost.doUpload}
-                  size="3xl"
                   icon={
                     <Icon
                       as={Ionicons}
                       name="camera"
                       color={theme.colors.accent}
-                      size="2xl"
+                      size={24}
                     />
                   }
                 />
