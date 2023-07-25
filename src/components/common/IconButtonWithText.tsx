@@ -1,4 +1,4 @@
-import { Box, HStack, Pressable, Text } from "@components/common/Gluestack";
+import { Box, HStack, Pressable, Text } from "@src/components/common/Gluestack";
 import React from "react";
 import { GestureResponderEvent } from "react-native";
 import Animated, {

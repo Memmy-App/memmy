@@ -1,5 +1,10 @@
 import { LemmyHttp } from "lemmy-js-client";
-import { Button, Text, VStack, Pressable } from "@components/common/Gluestack";
+import {
+  Button,
+  Text,
+  VStack,
+  Pressable,
+} from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React, { useEffect, useState } from "react";

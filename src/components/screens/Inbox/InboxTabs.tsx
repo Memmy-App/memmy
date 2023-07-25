@@ -1,5 +1,5 @@
 import React from "react";
-import { HStack } from "@components/common/Gluestack";
+import { HStack } from "@src/components/common/Gluestack";
 import { useTranslation } from "react-i18next";
 import ButtonGroup from "../../common/Buttons/ButtonGroup";
 import GroupButton from "../../common/Buttons/GroupButton";

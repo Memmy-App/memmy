@@ -3,7 +3,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View } from "@components/common/Gluestack";
+import { View } from "@src/components/common/Gluestack";
 import {
   selectSettings,
   selectThemeOptions,

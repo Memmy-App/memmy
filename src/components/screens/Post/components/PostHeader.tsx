@@ -5,7 +5,7 @@ import {
   Pressable,
   Text,
   VStack,
-} from "@components/common/Gluestack";
+} from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import { useRoute } from "@react-navigation/core";

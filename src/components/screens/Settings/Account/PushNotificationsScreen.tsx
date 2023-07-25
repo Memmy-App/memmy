@@ -1,5 +1,5 @@
 import React from "react";
-import { VStack } from "@components/common/Gluestack";
+import { VStack } from "@src/components/common/Gluestack";
 import { useTranslation } from "react-i18next";
 import CTable from "../../../common/Table/CTable";
 import CSection from "../../../common/Table/CSection";

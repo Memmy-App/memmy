@@ -1,6 +1,6 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { Community } from "lemmy-js-client";
-import { HStack, Text } from "@components/common/Gluestack";
+import { HStack, Text } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React from "react";

@@ -1,5 +1,5 @@
 import React from "react";
-import { HStack } from "@components/common/Gluestack";
+import { HStack } from "@src/components/common/Gluestack";
 
 interface Props {
   children: React.ReactNode;

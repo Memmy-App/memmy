@@ -1,5 +1,5 @@
 import { PostView } from "lemmy-js-client";
-import { Box, Text } from "@components/common/Gluestack";
+import { Box, Text } from "@src/components/common/Gluestack";
 import {
   selectSettings,
   selectThemeOptions,

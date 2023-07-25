@@ -1,5 +1,5 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ScrollView, VStack } from "@components/common/Gluestack";
+import { ScrollView, VStack } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import React, { useEffect, useMemo } from "react";
 import { useAppSelector } from "@root/store";

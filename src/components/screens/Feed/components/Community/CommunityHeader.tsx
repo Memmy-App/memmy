@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { HStack, Text, VStack } from "@components/common/Gluestack";
+import { HStack, Text, VStack } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import FastImage from "@gkasdorf/react-native-fast-image";

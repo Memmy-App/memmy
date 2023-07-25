@@ -4,7 +4,12 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CommunityView } from "lemmy-js-client";
 import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
-import { HStack, Pressable, Text, VStack } from "@components/common/Gluestack";
+import {
+  HStack,
+  Pressable,
+  Text,
+  VStack,
+} from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "@root/store";
 import { getCommunityFullName } from "../../../../helpers/LemmyHelpers";

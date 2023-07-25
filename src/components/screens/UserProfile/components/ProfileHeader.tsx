@@ -7,7 +7,7 @@ import {
   Text,
   View,
   VStack,
-} from "@components/common/Gluestack";
+} from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React from "react";

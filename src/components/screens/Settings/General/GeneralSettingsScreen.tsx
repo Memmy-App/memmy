@@ -1,5 +1,5 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
-import { ScrollView } from "@components/common/Gluestack";
+import { ScrollView } from "@src/components/common/Gluestack";
 import React, { useMemo } from "react";
 import {
   selectSettings,

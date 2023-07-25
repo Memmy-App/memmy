@@ -1,4 +1,4 @@
-import { Box, HStack, Pressable, Text } from "@components/common/Gluestack";
+import { Box, HStack, Pressable, Text } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React from "react";

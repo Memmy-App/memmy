@@ -1,6 +1,6 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ScrollView } from "@components/common/Gluestack";
+import { ScrollView } from "@src/components/common/Gluestack";
 import {
   selectSettings,
   selectThemeOptions,

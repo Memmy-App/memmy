@@ -5,7 +5,7 @@ import {
   ScrollView,
   Text,
   View,
-} from "@components/common/Gluestack";
+} from "@src/components/common/Gluestack";
 import {
   selectSettings,
   selectThemeOptions,

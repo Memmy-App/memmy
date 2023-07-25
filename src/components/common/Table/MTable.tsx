@@ -1,5 +1,5 @@
 import React, { Children } from "react";
-import { Divider, Text, VStack } from "@components/common/Gluestack";
+import { Divider, Text, VStack } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 

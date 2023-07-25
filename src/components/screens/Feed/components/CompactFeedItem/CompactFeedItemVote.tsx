@@ -1,4 +1,4 @@
-import { VStack } from "@components/common/Gluestack";
+import { VStack } from "@src/components/common/Gluestack";
 import React from "react";
 import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
 import VoteButton from "../../../../common/Vote/VoteButton";

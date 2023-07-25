@@ -1,6 +1,6 @@
 import React from "react";
 import { KeyboardTypeOptions, StyleSheet, TextInput } from "react-native";
-import { Text, VStack } from "@components/common/Gluestack";
+import { Text, VStack } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 

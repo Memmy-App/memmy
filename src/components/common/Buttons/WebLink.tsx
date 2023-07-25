@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, Text } from "@components/common/Gluestack";
+import { Pressable, Text } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import { useNavigation } from "@react-navigation/native";

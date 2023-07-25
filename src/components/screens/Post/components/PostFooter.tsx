@@ -1,5 +1,5 @@
 import React from "react";
-import { Center, Spinner, Text } from "@components/common/Gluestack";
+import { Center, Spinner, Text } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import { useRoute } from "@react-navigation/core";

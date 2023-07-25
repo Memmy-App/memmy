@@ -1,5 +1,5 @@
 import React from "react";
-import { Spacer } from "@components/common/Gluestack";
+import { Spacer } from "@src/components/common/Gluestack";
 
 function CommentCollapsed() {
   return <Spacer />;

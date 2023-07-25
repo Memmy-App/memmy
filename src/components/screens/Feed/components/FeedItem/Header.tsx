@@ -1,5 +1,5 @@
 import { Community } from "lemmy-js-client";
-import { HStack } from "@components/common/Gluestack";
+import { HStack } from "@src/components/common/Gluestack";
 import React from "react";
 import { UseFeedItem } from "../../../../../hooks/feeds/useFeedItem";
 import CommunityLink from "../../../../common/CommunityLink";

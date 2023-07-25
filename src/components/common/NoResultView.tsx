@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, VStack } from "@components/common/Gluestack";
+import { Text, VStack } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import { useTranslation } from "react-i18next";

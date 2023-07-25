@@ -1,4 +1,4 @@
-import { Pressable, View } from "@components/common/Gluestack";
+import { Pressable, View } from "@src/components/common/Gluestack";
 import React from "react";
 import { StyleSheet } from "react-native";
 import SFIcon from "../icons/SFIcon";

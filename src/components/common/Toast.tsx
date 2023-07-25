@@ -1,4 +1,4 @@
-import { HStack, Text } from "@components/common/Gluestack";
+import { HStack, Text } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "@root/store";
 import React, { useEffect } from "react";

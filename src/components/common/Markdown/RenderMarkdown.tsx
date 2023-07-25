@@ -2,7 +2,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
-import { View } from "@components/common/Gluestack";
+import { View } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
@@ -33,7 +33,7 @@ interface MarkdownProps {
 function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
   const currentAccount = useAppSelector(selectCurrentAccount);
 
-  // Disabling Font Scaling for now.
+  // TODO: Disabling Font Scaling for now.
   // const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
   const fontSize = 4;
   const isSystemTextSize = false;

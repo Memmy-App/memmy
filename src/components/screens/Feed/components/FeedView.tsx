@@ -5,7 +5,7 @@ import {
 } from "@react-navigation/native";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
-import { HStack, View } from "@components/common/Gluestack";
+import { HStack, View } from "@src/components/common/Gluestack";
 import {
   selectSettings,
   selectThemeOptions,

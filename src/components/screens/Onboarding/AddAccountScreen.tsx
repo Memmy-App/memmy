@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Image } from "react-native";
-import { Button, Pressable, Text, VStack } from "@components/common/Gluestack";
+import {
+  Button,
+  Pressable,
+  Text,
+  VStack,
+} from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";

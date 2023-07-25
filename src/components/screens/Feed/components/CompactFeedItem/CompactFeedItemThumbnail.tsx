@@ -1,6 +1,6 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { PostView } from "lemmy-js-client";
-import { Box, Pressable, View } from "@components/common/Gluestack";
+import { Box, Pressable, View } from "@src/components/common/Gluestack";
 import {
   selectSettings,
   selectThemeOptions,

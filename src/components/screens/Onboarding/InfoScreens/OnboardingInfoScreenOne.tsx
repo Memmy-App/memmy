@@ -6,7 +6,7 @@ import {
   Text,
   View,
   VStack,
-} from "@components/common/Gluestack";
+} from "@src/components/common/Gluestack";
 import { ImageBackground, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 

@@ -1,6 +1,6 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { Person } from "lemmy-js-client";
-import { HStack, Text, VStack } from "@components/common/Gluestack";
+import { HStack, Text, VStack } from "@src/components/common/Gluestack";
 import {
   selectSettings,
   selectThemeOptions,

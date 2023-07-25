@@ -1,5 +1,10 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
-import { HStack, Image, ScrollView, Text } from "@components/common/Gluestack";
+import {
+  HStack,
+  Image,
+  ScrollView,
+  Text,
+} from "@src/components/common/Gluestack";
 import {
   selectSettings,
   selectThemeOptions,

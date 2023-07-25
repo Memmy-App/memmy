@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { ScrollView, VStack } from "@components/common/Gluestack";
+import { ScrollView, VStack } from "@src/components/common/Gluestack";
 import {
   selectSettings,
   selectThemeOptions,

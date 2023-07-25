@@ -1,6 +1,6 @@
 import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Button, HStack, Text, VStack } from "@components/common/Gluestack";
+import { Button, HStack, Text, VStack } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import { FlashList } from "@shopify/flash-list";

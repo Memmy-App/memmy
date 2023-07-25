@@ -1,5 +1,5 @@
 import { CommunityModeratorView } from "lemmy-js-client";
-import { VStack } from "@components/common/Gluestack";
+import { VStack } from "@src/components/common/Gluestack";
 import React from "react";
 import AvatarUsername from "../../../../common/AvatarUsername";
 

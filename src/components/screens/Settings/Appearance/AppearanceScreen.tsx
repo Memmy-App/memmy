@@ -1,6 +1,6 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ScrollView, Text } from "@components/common/Gluestack";
+import { ScrollView, Text } from "@src/components/common/Gluestack";
 import React, { useMemo, useState } from "react";
 import {
   selectSettings,
@@ -33,7 +33,7 @@ function AppearanceScreen({ navigation }: IProps) {
     dispatch(setSetting({ [key]: value }));
   };
 
-  // Disabling Font Scaling for now
+  // TODO: Disabling Font Scaling for now
   // const selectedFontWeight =
   //   Object.keys(FontWeightMap).find(
   //     (key) => FontWeightMap[key] === settings.fontWeightPostTitle
@@ -60,7 +60,7 @@ function AppearanceScreen({ navigation }: IProps) {
     [t]
   );
 
-  // Disabling Font Scaling for now
+  // TODO: Disabling Font Scaling for now
   // const fontWeightOptions = useMemo(
   //   () =>
   //     Object.keys(FontWeightMap).map((key) => ({
@@ -353,7 +353,7 @@ function AppearanceScreen({ navigation }: IProps) {
           />
         </CSection>
 
-        {/* Disabling Font Scaling for now */}
+        {/* TODO: Disabling Font Scaling for now */}
         {/* <CSection header={t("settings.appearance.font.header")}>
           <CCell
             title={t("settings.appearance.font.useSystemFont")}

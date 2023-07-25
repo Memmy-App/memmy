@@ -1,4 +1,4 @@
-import { Box, HStack, Text } from "@components/common/Gluestack";
+import { Box, HStack, Text } from "@src/components/common/Gluestack";
 import React from "react";
 import { Dimensions } from "react-native";
 import ImageViewer from "./ImageViewer/ImageViewer";

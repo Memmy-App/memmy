@@ -1,6 +1,6 @@
 import React from "react";
 import { FlashList } from "@shopify/flash-list";
-import { VStack } from "@components/common/Gluestack";
+import { VStack } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import NoResultView from "../../common/NoResultView";

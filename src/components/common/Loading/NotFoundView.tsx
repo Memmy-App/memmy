@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "@components/common/Gluestack";
+import { Text, View } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import { Button, StyleSheet } from "react-native";

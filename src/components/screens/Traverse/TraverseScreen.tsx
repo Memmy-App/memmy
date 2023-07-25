@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { StyleSheet } from "react-native";
-import { Text, View } from "@components/common/Gluestack";
+import { Text, View } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import { CommunityView } from "lemmy-js-client";

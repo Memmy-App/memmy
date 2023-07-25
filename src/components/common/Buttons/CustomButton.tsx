@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { HStack, Pressable, Text } from "@components/common/Gluestack";
+import { HStack, Pressable, Text } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import SFIcon from "../icons/SFIcon";

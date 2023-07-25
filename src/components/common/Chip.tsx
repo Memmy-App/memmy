@@ -1,4 +1,4 @@
-import { Box, Text } from "@components/common/Gluestack";
+import { Box, Text } from "@src/components/common/Gluestack";
 import React from "react";
 
 interface IProps {

@@ -1,5 +1,5 @@
 import { PostView } from "lemmy-js-client";
-import { Box, HStack, Text } from "@components/common/Gluestack";
+import { Box, HStack, Text } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React from "react";

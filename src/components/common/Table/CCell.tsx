@@ -1,6 +1,6 @@
 import React from "react";
 import { Cell } from "@gkasdorf/react-native-tableview-simple";
-import { Text } from "@components/common/Gluestack";
+import { Text } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import { CellInterface } from "@gkasdorf/react-native-tableview-simple/lib/typescript/components/Cell";

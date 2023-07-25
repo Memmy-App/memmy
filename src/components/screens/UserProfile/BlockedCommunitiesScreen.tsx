@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { ScrollView } from "@components/common/Gluestack";
+import { ScrollView } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "@root/store";
 import { useFocusEffect } from "@react-navigation/native";

@@ -24,7 +24,7 @@ import {
   TapGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import { BlurView } from "expo-blur";
-import { Text, View, VStack } from "@components/common/Gluestack";
+import { Text, View, VStack } from "@src/components/common/Gluestack";
 import {
   selectSettings,
   selectThemeOptions,

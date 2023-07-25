@@ -1,4 +1,4 @@
-import { HStack, View } from "@components/common/Gluestack";
+import { HStack, View } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React from "react";

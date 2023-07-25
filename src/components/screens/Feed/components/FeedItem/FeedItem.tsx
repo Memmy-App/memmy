@@ -1,4 +1,4 @@
-import { HStack, Pressable, View } from "@components/common/Gluestack";
+import { HStack, Pressable, View } from "@src/components/common/Gluestack";
 import React, { memo, useCallback, useMemo } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies

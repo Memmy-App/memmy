@@ -1,6 +1,6 @@
 import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Button, Text, VStack } from "@components/common/Gluestack";
+import { Button, Text, VStack } from "@src/components/common/Gluestack";
 import { ImageBackground, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 

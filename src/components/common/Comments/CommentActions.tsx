@@ -1,4 +1,4 @@
-import { HStack } from "@components/common/Gluestack";
+import { HStack } from "@src/components/common/Gluestack";
 import React, { useCallback } from "react";
 import { ICON_MAP } from "../../../constants/IconMap";
 import IconButtonWithText from "../IconButtonWithText";

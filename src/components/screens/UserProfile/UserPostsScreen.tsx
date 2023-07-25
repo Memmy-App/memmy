@@ -1,7 +1,7 @@
 import React from "react";
 import { FlashList } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
-import { VStack } from "@components/common/Gluestack";
+import { VStack } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import { Route } from "@react-navigation/native";

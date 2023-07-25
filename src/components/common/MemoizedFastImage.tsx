@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import FastImage, { ResizeMode } from "@gkasdorf/react-native-fast-image";
-import { Icon, Text, View, VStack } from "@components/common/Gluestack";
+import { Icon, Text, View, VStack } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import { BlurView } from "expo-blur";

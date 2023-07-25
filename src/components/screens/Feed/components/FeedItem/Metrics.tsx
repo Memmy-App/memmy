@@ -1,5 +1,5 @@
 import { PostAggregates } from "lemmy-js-client";
-import { HStack } from "@components/common/Gluestack";
+import { HStack } from "@src/components/common/Gluestack";
 import React from "react";
 import VoteData from "../../../../common/Vote/VoteData";
 import CommentCount from "../../../../common/Comments/CommentCount";

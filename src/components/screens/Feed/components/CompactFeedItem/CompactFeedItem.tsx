@@ -5,7 +5,7 @@ import {
   Text,
   View,
   VStack,
-} from "@components/common/Gluestack";
+} from "@src/components/common/Gluestack";
 import {
   selectSettings,
   selectThemeOptions,
@@ -68,7 +68,7 @@ function CompactFeedItem({ postId }: { postId: number }) {
     [postId, post.saved]
   );
 
-  // Disabling Font Scaling for now;
+  // TODO: Disabling Font Scaling for now;
   // const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
   const fontSize = 2;
   const isSystemTextSize = false;
