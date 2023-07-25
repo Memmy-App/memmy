@@ -1,3 +1,5 @@
+const { setModuleResolverPluginForTsConfig } = require('babel-plugin-module-resolver-tsconfig')
+
 module.exports = function (api) {
   api.cache(true);
   return {
@@ -5,14 +7,7 @@ module.exports = function (api) {
     plugins: [
       "@babel/plugin-proposal-export-namespace-from",
       "react-native-reanimated/plugin",
-      ["module-resolver", {
-        "root": ["./"],
-        "extensions": [".ios.js", ".android.js", ".js", ".ts", ".tsx", ".json"],
-        "alias": {
-          "@root": ".",
-          "@src": "./src",
-        }
-      }]
+      setModuleResolverPluginForTsConfig()
     ],
   };
 };
