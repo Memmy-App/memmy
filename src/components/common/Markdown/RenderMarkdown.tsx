@@ -35,7 +35,7 @@ function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
 
   // Disabling Font Scaling for now.
   // const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
-  const fontSize = 2;
+  const fontSize = 4;
   const isSystemTextSize = false;
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();

@@ -83,7 +83,7 @@ function CompactFeedItem({ postId }: { postId: number }) {
     linkInfo.extType === ExtensionType.GENERIC;
 
   return (
-    <View flex={1} my={0.5}>
+    <View flex={1} my="$0.5">
       <SwipeableRow leftOption={leftOption} rightOption={rightOption}>
         <Pressable onPress={feedItem.onPress}>
           <HStack

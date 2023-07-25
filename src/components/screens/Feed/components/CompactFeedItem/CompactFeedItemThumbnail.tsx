@@ -101,8 +101,8 @@ function CompactFeedItemThumbnail({
                 <View
                   zIndex={1}
                   position="absolute"
-                  bottom={1}
-                  right={1}
+                  bottom="$1"
+                  right="$1"
                   style={styles.circle}
                   justifyContent="center"
                   alignItems="center"

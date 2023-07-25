@@ -31,7 +31,7 @@ function CommentWrapper({ children, depth, onCommentPress }: IProps) {
           }
           borderTopLeftRadius={1}
           borderBottomLeftRadius={1}
-          pl={depth > 2 ? 2 : 0}
+          pl={depth > 2 ? "$2" : "$0"}
           mt="$0"
         >
           {children}

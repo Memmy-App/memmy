@@ -192,7 +192,7 @@ function AddAccountScreen({ route, navigation }: IProps) {
                     onPress={() => navigation.push("Viewer", { type: "terms" })}
                   />
                 ),
-                linkText: <Text mt={1.5} color={theme.colors.accent} />,
+                linkText: <Text mt="$1.5" color={theme.colors.accent} />,
               }}
             />
           </Text>

@@ -45,7 +45,7 @@ function ImageViewFooter({ source }: ImageViewFooterProps) {
   };
 
   return (
-    <View position="absolute" bottom={0} width="100%" zIndex={2}>
+    <View position="absolute" bottom="$0" width="100%" zIndex={2}>
       <HStack
         flex={1}
         mb="$10"

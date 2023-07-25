@@ -33,9 +33,9 @@ function ProfileHeader({ profile }: IProps) {
     <VStack flex={1} backgroundColor={theme.colors.bg} space="lg">
       <View
         backgroundColor={theme.colors.fg}
-        mx={4}
-        mt={2}
-        px={3}
+        mx="$4"
+        mt="$2"
+        px="$3"
         borderRadius="$xl"
       >
         <HStack

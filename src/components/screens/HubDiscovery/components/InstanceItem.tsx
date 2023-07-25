@@ -42,7 +42,7 @@ function InstanceItem({ site }: IProps) {
       <VStack
         backgroundColor={theme.colors.fg}
         mx="$6"
-        my={1.5}
+        my="$1.5"
         borderRadius="$xl"
         p="$2"
         space="sm"

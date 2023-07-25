@@ -321,7 +321,7 @@ function CreateAccountScreen({
                         }
                       />
                     ),
-                    linkText: <Text mt={1.5} color={theme.colors.accent} />,
+                    linkText: <Text mt="$1.5" color={theme.colors.accent} />,
                   }}
                 />
               </Text>
