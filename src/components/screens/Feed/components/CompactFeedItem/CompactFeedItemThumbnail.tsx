@@ -16,6 +16,7 @@ import { selectSettings } from "../../../../../slices/settings/settingsSlice";
 import { lemmyAuthToken, lemmyInstance } from "../../../../../LemmyInstance";
 import SFIcon from "../../../../common/icons/SFIcon";
 import ImageViewer from "../../../../common/media/ImageViewer/ImageViewer";
+import VideoViewer from "../../../../common/media/VideoViewer/VideoViewer";
 
 function CompactFeedItemThumbnail({
   post,
@@ -80,6 +81,19 @@ function CompactFeedItemThumbnail({
             icon="bubble.left.and.bubble.right"
             color={theme.colors.app.textSecondary}
             size={20}
+          />
+        )) ||
+        (linkInfo.extType === ExtensionType.VIDEO && (
+          <VideoViewer
+            source={post.post.url}
+            heightOverride={75}
+            widthOverride={75}
+            style={{
+              borderRadius: 10,
+            }}
+            onPress={onImagePress}
+            nsfw={post.post.nsfw || post.community.nsfw}
+            compactMode
           />
         )) || (
           <Pressable onPress={onLinkPress}>
