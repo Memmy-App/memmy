@@ -112,6 +112,8 @@ PODS:
     - ReactCommon/turbomodule/core
   - ExpoSystemUI (2.4.0):
     - ExpoModulesCore
+  - ExpoVideoThumbnails (7.4.0):
+    - ExpoModulesCore
   - ExpoWebBrowser (12.3.2):
     - ExpoModulesCore
   - EXSplashScreen (0.20.4):
@@ -732,6 +734,7 @@ DEPENDENCIES:
   - ExpoMailComposer (from `../node_modules/expo-mail-composer/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - ExpoSystemUI (from `../node_modules/expo-system-ui/ios`)
+  - ExpoVideoThumbnails (from `../node_modules/expo-video-thumbnails/ios`)
   - ExpoWebBrowser (from `../node_modules/expo-web-browser/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - EXUpdatesInterface (from `../node_modules/expo-updates-interface/ios`)
@@ -900,6 +903,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-modules-core"
   ExpoSystemUI:
     :path: "../node_modules/expo-system-ui/ios"
+  ExpoVideoThumbnails:
+    :path: "../node_modules/expo-video-thumbnails/ios"
   ExpoWebBrowser:
     :path: "../node_modules/expo-web-browser/ios"
   EXSplashScreen:
@@ -1061,6 +1066,7 @@ SPEC CHECKSUMS:
   ExpoMailComposer: feaebd62095efad901ede864b95406f02bf61681
   ExpoModulesCore: f8f3cac222bb0f574c77664d7e05817eaa97434b
   ExpoSystemUI: fa4854e3226e87f86d3383570264c6e4e90bc782
+  ExpoVideoThumbnails: 3b5ec2a802a67b6e1a22d38b4526ef4619dd3938
   ExpoWebBrowser: 2c788f9c07718a780fe6d8bf2f6195c47609faaa
   EXSplashScreen: 89586b0961acd173b04713b7457949b063a659da
   EXUpdatesInterface: 82ed48d417cdcd376c12ca1c2ce390d35500bed6
