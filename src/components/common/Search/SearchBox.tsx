@@ -5,7 +5,7 @@ import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React, { SetStateAction, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Dimensions, TextInput } from "react-native";
+import { Dimensions, Pressable, TextInput } from "react-native";
 import SFIcon from "../icons/SFIcon";
 import { ICON_MAP } from "../../../constants/IconMap";
 
@@ -47,14 +47,15 @@ function SearchBox({
       borderWidth={1}
       py="$1.5"
       px="$2.5"
-      pr="$9"
       space="sm"
+      alignItems="center"
       width={inHeader ? Dimensions.get("screen").width * 0.9 : undefined}
     >
       <SFIcon
         icon={ICON_MAP.SEARCH}
         color={theme.colors.textSecondary}
         size={12}
+        style={{ flexShrink: 1 }}
         boxSize={16}
       />
       <TextInput
@@ -64,7 +65,7 @@ function SearchBox({
         onChangeText={setQuery}
         style={{
           color: theme.colors.textPrimary,
-          width: "100%",
+          flex: 1,
         }}
         placeholderTextColor={theme.colors.textSecondary}
         returnKeyType="search"
@@ -73,8 +74,23 @@ function SearchBox({
         onSubmitEditing={onSubmit}
         autoCorrect={false}
         autoCapitalize="none"
-        clearButtonMode="always"
       />
+      {query && (
+        <Pressable
+          onPress={() => setQuery("")}
+          accessibilityLabel="Clear text"
+          accessibilityRole="button"
+          hitSlop={8}
+        >
+          <SFIcon
+            icon={ICON_MAP.BLOCK}
+            color={theme.colors.textSecondary}
+            style={{ flexShrink: 1 }}
+            size={12}
+            boxSize={16}
+          />
+        </Pressable>
+      )}
     </HStack>
   );
 }
