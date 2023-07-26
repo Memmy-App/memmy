@@ -1,5 +1,5 @@
 import { HStack, Pressable, View } from "@src/components/common/Gluestack";
-import React, { memo, useCallback, useEffect, useMemo } from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import FastImage from "@gkasdorf/react-native-fast-image";
@@ -41,10 +41,6 @@ function FeedItem({ postId, recycled }: FeedItemProps) {
   const postInfo = useFeedPostInfo(key, postId);
   const postRead = useFeedPostRead(key, postId);
   const postCreator = useFeedPostCreator(key, postId);
-
-  useEffect(() => {
-    console.log("renderrrrrrrrrr");
-  }, [postId]);
 
   const onSwipe = useCallback(
     (value: ILemmyVote) => {

@@ -32,7 +32,6 @@ import {
 import { useAppSelector } from "@root/store";
 import { StatusBar } from "expo-status-bar";
 import { IconAlertTriangle } from "tabler-icons-react-native";
-import { setPost } from "@src/slices/post/postSlice";
 import { useImageDimensions } from "./useImageDimensions";
 import ExitButton from "./ImageExitButton";
 import ImageViewFooter from "./ImageViewFooter";

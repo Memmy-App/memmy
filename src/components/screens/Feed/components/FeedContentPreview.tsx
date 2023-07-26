@@ -4,7 +4,7 @@ import {
   selectThemeOptions,
 } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import {
   useFeedPostCommunity,
   useFeedPostInfo,
