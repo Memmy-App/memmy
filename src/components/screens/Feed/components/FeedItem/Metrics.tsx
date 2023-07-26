@@ -20,7 +20,7 @@ function metrics({ postId }: Props) {
 
   return (
     <HStack flex={1} space="sm">
-      <VoteData data={postCounts} vote={postVote} />
+      <VoteData data={postCounts} myVote={postVote} />
       <CommentCount commentCount={postCounts.comments} />
       <DatePublished published={postCounts.published} />
     </HStack>

@@ -2,6 +2,7 @@ import { Divider, HStack, View } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
+import VoteData from "@src/components/common/Vote/VoteData";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import useComment from "../../../hooks/comments/useComment";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
@@ -11,7 +12,6 @@ import AvatarUsername from "../AvatarUsername";
 import { ReplyOption } from "../SwipeableRow/ReplyOption";
 import { SwipeableRow } from "../SwipeableRow/SwipeableRow";
 import { VoteOption } from "../SwipeableRow/VoteOption";
-import SmallVoteIcons from "../Vote/SmallVoteIcons";
 import CommentActions from "./CommentActions";
 import CommentBody from "./CommentBody";
 import CommentCollapsed from "./CommentCollapsed";
@@ -80,10 +80,9 @@ function CommentItem({
                   creator={comment.comment.creator}
                   opId={comment.comment.post.creator_id}
                 />
-                <SmallVoteIcons
-                  upvotes={comment.comment.counts.upvotes}
-                  downvotes={comment.comment.counts.downvotes}
-                  myVote={comment.comment.my_vote as ILemmyVote}
+                <VoteData
+                  data={comment.comment.counts}
+                  myVote={comment.myVote}
                 />
               </HStack>
               <CommentHeaderRight
