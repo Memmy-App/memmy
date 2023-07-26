@@ -165,6 +165,7 @@
       }
     },
     "filters": {
+      "description": "Filter geben dir die Möglichkeit bestimmte Beiträge in deinem Feed automatisch auszublenden basierend auf Schlüsselwörtern im Titel oder Ursprungsinstanzen",
       "header": {
         "keyword": "KEYWORDS",
         "instance": "INSTANCES"
@@ -352,6 +353,7 @@
   "Reply": "Antworten",
   "Report Post": "Post melden",
   "Cancel": "Abbrechen",
+  "Remove": "Löschen",
   "Submit": "Absenden",
   "Retry": "Retry",
   "Language": "Sprache",
@@ -369,7 +371,6 @@
   "Default Listing Type": "Standard-Ansicht der Feed-Liste",
   "Hide Read Posts on Feed": "Gelesene Beiträge im Feed ausblenden",
   "Hide Read Posts in Communities": "Gelesene Beiträge in Communitys ausblenden",
-  "Show Hide Read Button": "Zeige \"Blende gelesene Beiträge aus\"-Funktion",
   "Show Comment Actions": "Kommentar anzeigen Aktionen",
   "NSFW": "NSFW",
   "NSFW Content": "NSFW-Inhalt",

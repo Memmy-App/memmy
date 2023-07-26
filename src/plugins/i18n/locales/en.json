@@ -169,6 +169,11 @@
       }
     },
     "filters": {
+      "description": "Filters allow you to filter posts from your feed based on specific keywords in the title or instances of origin",
+      "header": {
+        "keyword": "KEYWORDS",
+        "instance": "INSTANCES"
+      },
       "add": {
         "keyword": "Add Keyword",
         "instance": "Add Instance"
