@@ -72,6 +72,7 @@ function SearchBox({
         returnKeyLabel="search"
         keyboardAppearance={theme.config.initialColorMode}
         onSubmitEditing={onSubmit}
+        hitSlop={{ left: 32, right: 16, top: 8, bottom: 8 }}
         autoCorrect={false}
         autoCapitalize="none"
       />
