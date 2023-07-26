@@ -1,5 +1,5 @@
 import { CommunityModeratorView } from "lemmy-js-client";
-import { VStack } from "native-base";
+import { VStack } from "@src/components/common/Gluestack";
 import React from "react";
 import AvatarUsername from "../../../../common/AvatarUsername";
 
@@ -9,7 +9,7 @@ interface IProps {
 
 function ModeratorList({ moderators }: IProps) {
   return (
-    <VStack space={1}>
+    <VStack space="xs">
       {moderators.map((moderator) => (
         <AvatarUsername creator={moderator.moderator} isMod showPill={false} />
       ))}

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { HStack, Pressable, Text, useTheme } from "native-base";
+import { HStack, Pressable, Text } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 
 interface IProps {
   onPress: () => void | Promise<void>;
@@ -10,7 +12,7 @@ interface IProps {
 function GroupButton({ onPress, text, selected }: IProps) {
   const [pressedIn, setPressedIn] = useState(false);
 
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const onPressIn = () => {
     setPressedIn(true);
@@ -26,14 +28,14 @@ function GroupButton({ onPress, text, selected }: IProps) {
       onPressOut={onPressOut}
       onPress={onPress}
       opacity={pressedIn ? 0.7 : 1}
-      borderRadius={20}
-      py={1}
-      px={5}
-      m={1}
-      backgroundColor={selected ? theme.colors.app.bg : undefined}
+      borderRadius="$3xl"
+      py="$1"
+      px="$5"
+      m="$1"
+      backgroundColor={selected ? theme.colors.bg : undefined}
     >
-      <HStack space={1.5} alignItems="center" justifyContent="center">
-        <Text fontSize="sm" color={theme.colors.app.textPrimary}>
+      <HStack space="$1.5" alignItems="center" justifyContent="center">
+        <Text size="sm" color={theme.colors.textPrimary}>
           {text}
         </Text>
       </HStack>

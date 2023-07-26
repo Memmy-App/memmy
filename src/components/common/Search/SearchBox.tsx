@@ -1,6 +1,8 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
-import { HStack, useTheme } from "native-base";
+import { HStack } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React, { SetStateAction, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, TextInput } from "react-native";
@@ -24,7 +26,7 @@ function SearchBox({
   autoFocus = true,
   inHeader = false,
 }: IProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const navigation = useNavigation();
   const { t } = useTranslation();
 
@@ -39,19 +41,19 @@ function SearchBox({
 
   return (
     <HStack
-      backgroundColor={theme.colors.app.inputBg}
-      borderRadius={12}
-      borderColor={theme.colors.app.border}
+      backgroundColor={theme.colors.inputBg}
+      borderRadius="$2xl"
+      borderColor={theme.colors.border}
       borderWidth={1}
-      py={1.5}
-      px={2.5}
-      pr={9}
-      space={2}
+      py="$1.5"
+      px="$2.5"
+      pr="$9"
+      space="sm"
       width={inHeader ? Dimensions.get("screen").width * 0.9 : undefined}
     >
       <SFIcon
         icon={ICON_MAP.SEARCH}
-        color={theme.colors.app.textSecondary}
+        color={theme.colors.textSecondary}
         size={12}
         boxSize={16}
       />
@@ -61,10 +63,10 @@ function SearchBox({
         placeholder={t("Search")}
         onChangeText={setQuery}
         style={{
-          color: theme.colors.app.textPrimary,
+          color: theme.colors.textPrimary,
           width: "100%",
         }}
-        placeholderTextColor={theme.colors.app.textSecondary}
+        placeholderTextColor={theme.colors.textSecondary}
         returnKeyType="search"
         returnKeyLabel="search"
         keyboardAppearance={theme.config.initialColorMode}

@@ -1,17 +1,20 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { PostView } from "lemmy-js-client";
-import { Box, Pressable, useTheme, View } from "native-base";
+import { Box, Pressable, View } from "@src/components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useAppSelector } from "../../../../../../store";
 import {
   ExtensionType,
   LinkInfo,
   openLink,
 } from "../../../../../helpers/LinkHelper";
-import { selectSettings } from "../../../../../slices/settings/settingsSlice";
 
 import { lemmyAuthToken, lemmyInstance } from "../../../../../LemmyInstance";
 import SFIcon from "../../../../common/icons/SFIcon";
@@ -27,7 +30,7 @@ function CompactFeedItemThumbnail({
   linkInfo: LinkInfo;
   setPostRead: () => void;
 }) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { markReadOnPostImageView } = useAppSelector(selectSettings);
@@ -48,15 +51,13 @@ function CompactFeedItemThumbnail({
   const onLinkPress = () => {
     if (!post.post.url) return;
 
-    openLink(post.post.url, navigation, theme.colors.app.bg);
+    openLink(post.post.url, navigation, theme.colors.bg);
   };
 
   return (
     <Box
-      width={75}
-      height={75}
-      backgroundColor={theme.colors.app.bg}
-      borderRadius={10}
+      sx={{ h: 75, w: 75, bg: theme.colors.bg }}
+      borderRadius="$xl"
       justifyContent="center"
       alignItems="center"
       alignSelf="center"
@@ -79,7 +80,7 @@ function CompactFeedItemThumbnail({
         (linkInfo.extType === ExtensionType.NONE && (
           <SFIcon
             icon={ICON_MAP.MOST_COMMENTS}
-            color={theme.colors.app.textSecondary}
+            color={theme.colors.textSecondary}
             size={20}
           />
         )) || (
@@ -100,8 +101,8 @@ function CompactFeedItemThumbnail({
                 <View
                   zIndex={1}
                   position="absolute"
-                  bottom={1}
-                  right={1}
+                  bottom="$1"
+                  right="$1"
                   style={styles.circle}
                   justifyContent="center"
                   alignItems="center"
@@ -112,7 +113,7 @@ function CompactFeedItemThumbnail({
             )) || (
               <SFIcon
                 icon="link"
-                color={theme.colors.app.textSecondary}
+                color={theme.colors.textSecondary}
                 size={20}
               />
             )}

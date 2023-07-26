@@ -1,5 +1,16 @@
 import React, { useCallback, useMemo } from "react";
-import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
+import {
+  HStack,
+  Pressable,
+  Text,
+  View,
+  VStack,
+} from "@src/components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { useWindowDimensions } from "react-native";
 
 import { useRoute } from "@react-navigation/core";
@@ -9,11 +20,9 @@ import {
   getBaseUrl,
   getLinkInfo,
 } from "../../../../../helpers/LinkHelper";
-import { useAppSelector } from "../../../../../../store";
 import CompactFeedItemThumbnail from "./CompactFeedItemThumbnail";
 import CompactFeedItemVote from "./CompactFeedItemVote";
 import CompactFeedItemFooter from "./CompactFeedItemFooter";
-import { selectSettings } from "../../../../../slices/settings/settingsSlice";
 
 import { fontSizeMap } from "../../../../../theme/fontSize";
 import { VoteOption } from "../../../../common/SwipeableRow/VoteOption";
@@ -34,7 +43,7 @@ function CompactFeedItem({ postId }: { postId: number }) {
   const feedItem = useFeedItem(postId);
   const post = useFeedPost(key, postId);
 
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const onSwipe = useCallback(
     (value: ILemmyVote) => {
@@ -59,7 +68,11 @@ function CompactFeedItem({ postId }: { postId: number }) {
     [postId, post.saved]
   );
 
-  const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
+  // TODO: Disabling Font Scaling for now;
+  // const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
+  const fontSize = 2;
+  const isSystemTextSize = false;
+
   const { fontScale } = useWindowDimensions();
   const fontModifier = fontSizeMap[fontSize];
   const FONT_SIZE = isSystemTextSize ? 15 / fontScale : 15 + fontModifier;
@@ -70,15 +83,15 @@ function CompactFeedItem({ postId }: { postId: number }) {
     linkInfo.extType === ExtensionType.GENERIC;
 
   return (
-    <View flex={1} my={0.5}>
+    <View flex={1} my="$0.5">
       <SwipeableRow leftOption={leftOption} rightOption={rightOption}>
         <Pressable onPress={feedItem.onPress}>
           <HStack
             flex={1}
-            px={2}
-            py={1}
-            backgroundColor={theme.colors.app.fg}
-            space={2}
+            px="$2"
+            py="$1"
+            backgroundColor={theme.colors.fg}
+            space="sm"
           >
             {compactThumbnailPosition === "Left" && (
               <CompactFeedItemThumbnail
@@ -95,15 +108,15 @@ function CompactFeedItem({ postId }: { postId: number }) {
                 fontWeight={fontWeightPostTitle}
                 color={
                   post.read
-                    ? theme.colors.app.textSecondary
-                    : theme.colors.app.textPrimary
+                    ? theme.colors.textSecondary
+                    : theme.colors.textPrimary
                 }
               >
                 {post.post.name}{" "}
                 {showLink && (
                   <Text
                     fontSize={FONT_SIZE - 1}
-                    color={theme.colors.app.textSecondary}
+                    color={theme.colors.textSecondary}
                   >
                     ({getBaseUrl(linkInfo.link, true)})
                   </Text>
@@ -138,7 +151,7 @@ function CompactFeedItem({ postId }: { postId: number }) {
                   backgroundColor: "transparent",
                   width: 0,
                   height: 0,
-                  borderTopColor: theme.colors.app.bookmark,
+                  borderTopColor: theme.colors.bookmark,
                   borderTopWidth: 15,
                   borderLeftWidth: 15,
                   borderLeftColor: "transparent",

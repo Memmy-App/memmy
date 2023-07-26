@@ -1,11 +1,19 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
-import { HStack, Image, ScrollView, Text, useTheme } from "native-base";
+import {
+  HStack,
+  Image,
+  ScrollView,
+  Text,
+} from "@src/components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
+import { useAppDispatch, useAppSelector } from "@root/store";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { changeIcon } from "react-native-change-icon";
-import { useAppDispatch, useAppSelector } from "../../../../../store";
 import { setSetting } from "../../../../slices/settings/settingsActions";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { appIconOptions } from "../../../../types/AppIconType";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
@@ -15,10 +23,10 @@ function IconSelectionScreen() {
   const settings = useAppSelector(selectSettings);
 
   const dispatch = useAppDispatch();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
+    <ScrollView bg={theme.colors.bg} flex={1}>
       <TableView style={styles.table}>
         <CSection footer="App icons by dizzy@lemmy.ml">
           {Object.entries(appIconOptions).map(([key, value]) => (
@@ -26,7 +34,7 @@ function IconSelectionScreen() {
               key={key}
               cellStyle="RightDetail"
               title={
-                <HStack space={2.5} alignItems="center">
+                <HStack space="mdsm" alignItems="center">
                   <Image
                     style={{ borderRadius: 10, width: 40, height: 40 }}
                     source={value.path}
@@ -40,9 +48,9 @@ function IconSelectionScreen() {
                   <SFIcon icon="checkmark" size={12} />
                 )
               }
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
               onPress={() => {
                 dispatch(setSetting({ appIcon: key }));
                 changeIcon(key);

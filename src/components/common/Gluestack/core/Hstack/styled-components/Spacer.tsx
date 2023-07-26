@@ -6,11 +6,23 @@ export default styled(
   {
     variants: {
       size: {
+        xxxs: {
+          width: `$0`,
+        },
+        xxs: {
+          width: `$0.5`,
+        },
         xs: {
           width: `$1`,
         },
+        smxs: {
+          width: `$1.5`,
+        },
         sm: {
           width: `$2`,
+        },
+        mdsm: {
+          width: `$2.5`,
         },
         md: {
           width: `$3`,
@@ -29,6 +41,18 @@ export default styled(
         },
         "4xl": {
           width: `$8`,
+        },
+        "5xl": {
+          width: `$9`,
+        },
+        "6xl": {
+          width: `$10`,
+        },
+        "7xl": {
+          width: `$11`,
+        },
+        "8xl": {
+          width: `$12`,
         },
       },
     },

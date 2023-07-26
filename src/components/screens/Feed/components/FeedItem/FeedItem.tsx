@@ -1,4 +1,4 @@
-import { HStack, Pressable, View } from "native-base";
+import { HStack, Pressable, View } from "@src/components/common/Gluestack";
 import React, { memo, useCallback, useMemo } from "react";
 import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -55,7 +55,7 @@ function FeedItem({ postId, recycled }: FeedItemProps) {
 
   return (
     <FeedItemContextMenu feedItem={feedItem}>
-      <View py={1}>
+      <View py="$1">
         <SwipeableRow leftOption={leftOption} rightOption={rightOption}>
           <Post>
             <Header
@@ -80,7 +80,7 @@ function FeedItem({ postId, recycled }: FeedItemProps) {
                 setPostRead={() => {}}
               />
 
-              <HStack mx={4} mt={1}>
+              <HStack mx="$4" mt="$1">
                 <AvatarUsername creator={post.creator} />
               </HStack>
 

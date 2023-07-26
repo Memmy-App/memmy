@@ -1,5 +1,5 @@
 import React from "react";
-import { HStack } from "native-base";
+import { HStack } from "@src/components/common/Gluestack";
 
 interface IProps {
   children: React.ReactNode;
@@ -8,11 +8,11 @@ interface IProps {
 function CommentHeaderWrapper({ children }: IProps) {
   return (
     <HStack
-      space={2}
+      space="sm"
       justifyContent="space-between"
       alignItems="center"
       mb={-3}
-      pb={2}
+      pb="$2"
     >
       {children}
     </HStack>

@@ -1,4 +1,6 @@
-import { HStack, Text, useTheme } from "native-base";
+import { HStack, Text } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React from "react";
 import SFIcon from "../icons/SFIcon";
 import { ICON_MAP } from "../../../constants/IconMap";
@@ -13,25 +15,25 @@ function CommentCount({
 }) {
   const unreadCount =
     newComments === commentCount || newComments === 0 ? undefined : newComments;
-  console.log(unreadCount);
-  const { colors } = useTheme();
+
+  const { colors } = useAppSelector(selectThemeOptions);
   return (
-    <HStack space={2}>
-      <HStack alignItems="center" space={0.5}>
+    <HStack space="xxs">
+      <HStack alignItems="center" space="xxs">
         <SFIcon
-          color={colors.app.textSecondary}
+          color={colors.textSecondary}
           icon={ICON_MAP.REPLY}
           size={10}
           boxSize={20}
         />
-        <Text color={colors.app.textSecondary} fontSize="sm">
+        <Text color={colors.textSecondary} size="sm">
           {commentCount}
         </Text>
       </HStack>
       {unreadCount && (
         <Chip
           text={`+${unreadCount}`}
-          color={colors.app.accent}
+          color={colors.accent}
           variant="outlined"
           fontSize="xs"
           my={0}

@@ -1,6 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, useTheme } from "native-base";
+import { ScrollView } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { StyleSheet } from "react-native";
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -13,27 +15,27 @@ interface IProps {
 
 function FiltersScreen({ navigation }: IProps) {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
+    <ScrollView bg={theme.colors.bg} flex={1}>
       <TableView style={styles.table}>
         <CSection header={t("Haptics")}>
           <CCell
             cellStyle="RightDetail"
             title={t("Keywords")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("Keywords")}
           />
           <CCell
             cellStyle="RightDetail"
             title={t("Instances")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("Instances")}
           />

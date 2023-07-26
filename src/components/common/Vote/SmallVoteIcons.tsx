@@ -1,4 +1,6 @@
-import { HStack, Text, useTheme } from "native-base";
+import { HStack, Text } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React from "react";
 import { ICON_MAP } from "../../../constants/IconMap";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
@@ -13,17 +15,17 @@ function SmallVoteIcons({
   downvotes: number;
   myVote: ILemmyVote;
 }) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const upvoteColor =
-    myVote === 1 ? theme.colors.app.upvote : theme.colors.app.textSecondary;
+    myVote === 1 ? theme.colors.upvote : theme.colors.textSecondary;
 
   const downvoteColor =
-    myVote === -1 ? theme.colors.app.downvote : theme.colors.app.textSecondary;
+    myVote === -1 ? theme.colors.downvote : theme.colors.textSecondary;
 
   // TODO: refactor to use VoteData
   return (
-    <HStack space={1}>
+    <HStack space="xs">
       <HStack alignItems="center">
         <SFIcon
           icon={ICON_MAP.UPVOTE}

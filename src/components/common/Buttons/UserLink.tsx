@@ -1,5 +1,7 @@
 import React from "react";
-import { Text, useTheme } from "native-base";
+import { Text } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import Link from "./Link";
 
 function UserLink({
@@ -9,7 +11,7 @@ function UserLink({
   username: string;
   fullUsername: string;
 }) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <Link
@@ -18,7 +20,7 @@ function UserLink({
         fullUsername,
       }}
     >
-      <Text fontWeight="normal" color={theme.colors.app.textSecondary}>
+      <Text fontWeight="normal" color={theme.colors.textSecondary}>
         {username}
       </Text>
     </Link>

@@ -1,11 +1,12 @@
-import { HStack, Text, useTheme } from "native-base";
+import { HStack, Text } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppDispatch, useAppSelector } from "@root/store";
 import React, { useEffect } from "react";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { useAppDispatch, useAppSelector } from "../../../store";
 import {
   hideToast,
   selectToast,
@@ -18,12 +19,12 @@ function Toast(): JSX.Element {
   const { isOpen, message, duration, variant, icon } =
     useAppSelector(selectToast);
   const dispatch = useAppDispatch();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const positionY = useSharedValue(-100);
 
-  const bgColor = theme.colors.app[variant];
-  const textColor = theme.colors.app[`${variant}Text`];
+  const bgColor = theme.colors[variant];
+  const textColor = theme.colors[`${variant}Text`];
 
   const iconMap: Record<ToastVariant, JSX.Element> = {
     info: <SFIcon color={textColor} icon={ICON_MAP.TOAST.INFO} />,
@@ -84,7 +85,7 @@ function Toast(): JSX.Element {
         animatedStyle,
       ]}
     >
-      <HStack justifyContent="center" alignItems="center" space={1}>
+      <HStack justifyContent="center" alignItems="center" space="xs">
         {icon || iconMap[variant]}
         <Text color={textColor} fontWeight="semibold" alignContent="center">
           {message}

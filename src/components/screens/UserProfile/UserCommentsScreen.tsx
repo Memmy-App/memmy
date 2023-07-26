@@ -1,6 +1,8 @@
 import React from "react";
 import { FlashList } from "@shopify/flash-list";
-import { useTheme, VStack } from "native-base";
+import { VStack } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import NoResultView from "../../common/NoResultView";
 import CommentItem from "../../common/Comments/CommentItem";
 import useProfile from "../../../hooks/profile/useProfile";
@@ -17,7 +19,7 @@ interface IProps {
 function UserCommentsScreen({ route }: IProps) {
   const profile = useProfile(false, route?.params?.fullUsername);
 
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const onPressOverride = (item) => {
     const commentPathArr = item.comment.comment.path.split(".");
@@ -60,13 +62,13 @@ function UserCommentsScreen({ route }: IProps) {
   }
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.bg}>
+    <VStack flex={1} backgroundColor={theme.colors.bg}>
       <FlashList
         renderItem={renderComment}
         estimatedItemSize={150}
         data={profile.comments}
         keyExtractor={commentKeyExtractor}
-        ListEmptyComponent={<NoResultView type="profileComments" p={4} />}
+        ListEmptyComponent={<NoResultView type="profileComments" p="$4" />}
         refreshing={profile.loading}
         refreshControl={
           <RefreshControl

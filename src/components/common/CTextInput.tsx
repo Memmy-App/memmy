@@ -1,6 +1,8 @@
 import React from "react";
 import { KeyboardTypeOptions, StyleSheet, TextInput } from "react-native";
-import { Text, useTheme, VStack } from "native-base";
+import { Text, VStack } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 
 interface TextInputProps {
   name: string;
@@ -29,12 +31,12 @@ function CTextInput({
   keyboardType = "default",
   onEnd,
 }: TextInputProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   return (
-    <VStack my={2}>
+    <VStack my="$2">
       {label && (
-        <Text mx={3} pb={1} fontSize={13}>
+        <Text mx="$3" pb="$1" size="sm">
           {label}
         </Text>
       )}
@@ -44,12 +46,12 @@ function CTextInput({
           styles.input,
           style,
           {
-            backgroundColor: theme.colors.app.fg,
-            borderColor: theme.colors.app.border,
-            color: theme.colors.app.textPrimary,
+            backgroundColor: theme.colors.fg,
+            borderColor: theme.colors.border,
+            color: theme.colors.textPrimary,
           },
         ]}
-        placeholderTextColor={theme.colors.app.textSecondary}
+        placeholderTextColor={theme.colors.textSecondary}
         value={value}
         onChangeText={(v) => onChange(name, v)}
         autoCapitalize={autoCapitalize}
