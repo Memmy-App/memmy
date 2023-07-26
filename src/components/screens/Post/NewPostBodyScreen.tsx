@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useTheme } from "native-base";
 import { Button, Dimensions, StyleSheet, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useKeyboard } from "@react-native-community/hooks";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { useTranslation } from "react-i18next";
 import KeyboardAccessory from "../../common/KeyboardAccessory";
 
@@ -14,7 +15,7 @@ interface IProps {
 
 function NewPostBodyScreen({ route, navigation }: IProps) {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const { keyboardHeight } = useKeyboard();
 
   const [body, setBody] = useState(route.params.body ?? "");
@@ -27,11 +28,7 @@ function NewPostBodyScreen({ route, navigation }: IProps) {
 
   const HeaderLeftButton = useCallback(
     () => (
-      <Button
-        title={t("Back")}
-        color={theme.colors.app.accent}
-        onPress={goBack}
-      />
+      <Button title={t("Back")} color={theme.colors.accent} onPress={goBack} />
     ),
     [body]
   );
@@ -48,17 +45,17 @@ function NewPostBodyScreen({ route, navigation }: IProps) {
 
   return (
     <>
-      <KeyboardAwareScrollView style={{ backgroundColor: theme.colors.app.bg }}>
+      <KeyboardAwareScrollView style={{ backgroundColor: theme.colors.bg }}>
         <TextInput
           multiline
           placeholder={t("post.bodyPlaceholder")}
-          placeholderTextColor={theme.colors.app.textSecondary}
+          placeholderTextColor={theme.colors.textSecondary}
           autoCapitalize="sentences"
           style={[
             styles.input,
             {
-              backgroundColor: theme.colors.app.bg,
-              color: theme.colors.app.textPrimary,
+              backgroundColor: theme.colors.bg,
+              color: theme.colors.textPrimary,
               height: Dimensions.get("window").height - keyboardHeight - 120,
             },
           ]}

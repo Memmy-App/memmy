@@ -1,13 +1,14 @@
 import React, { useRef, useState } from "react";
 import FastImage, { ResizeMode } from "@gkasdorf/react-native-fast-image";
-import { Icon, Text, useTheme, View, VStack } from "native-base";
+import { Icon, Text, View, VStack } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet } from "react-native";
+import { DimensionValue, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 import { getRatio } from "../../helpers/ImageHelper";
 import { selectSettings } from "../../slices/settings/settingsSlice";
-import { useAppSelector } from "../../../store";
 
 function MemoizedFastImage({
   postId,
@@ -24,17 +25,17 @@ function MemoizedFastImage({
   recycled?: React.MutableRefObject<{}> | undefined;
   nsfw?: boolean;
   resizeMode?: ResizeMode;
-  imgHeight?: number | string;
-  imgWidth?: number | string;
+  imgHeight?: DimensionValue;
+  imgWidth?: DimensionValue;
   onLoad?: (e) => void;
 }) {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const { ignoreScreenHeightInFeed } = useAppSelector(selectSettings);
 
-  const [height, setHeight] = useState<string | number>(0);
-  const [width, setWidth] = useState<string | number>(0);
+  const [height, setHeight] = useState<DimensionValue>(0);
+  const [width, setWidth] = useState<DimensionValue>(0);
   const [blurIntensity, setBlurIntensity] = useState(99);
 
   const lastPostId = useRef(postId);
@@ -93,15 +94,15 @@ function MemoizedFastImage({
             flex={1}
             alignItems="center"
             justifyContent="center"
-            space={2}
+            space="sm"
           >
             <Icon
               as={Ionicons}
               name="alert-circle"
-              color={theme.colors.app.textSecondary}
+              color={theme.colors.textSecondary}
               size={16}
             />
-            <Text fontSize="xl">{t("NSFW")}</Text>
+            <Text size="xl">{t("NSFW")}</Text>
             <Text>{t("Sensitive content ahead")}</Text>
           </VStack>
         </BlurView>

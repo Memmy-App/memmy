@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, StyleSheet, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useTheme, View } from "native-base";
+import { View } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useTranslation } from "react-i18next";
 import LoadingView from "../../common/Loading/LoadingView";
 import KeyboardAccessory from "../../common/KeyboardAccessory";
 import useEditComment from "../../../hooks/comments/useEditComment";
@@ -14,6 +17,7 @@ interface IProps {
 
 function EditCommentScreen({ route, navigation }: IProps) {
   // Hooks
+  const { t } = useTranslation();
   const editComment = useEditComment(
     route.params.commentId,
     route.params.content,
@@ -24,7 +28,7 @@ function EditCommentScreen({ route, navigation }: IProps) {
     navigation.setOptions({
       headerLeft: () => headerLeft(),
       headerRight: () => headerRight(),
-      title: "Edit Comment",
+      title: t("comment.edit"),
     });
   }, [editComment.content]);
 
@@ -38,22 +42,22 @@ function EditCommentScreen({ route, navigation }: IProps) {
   const inputRef = useRef<TextInput>();
 
   // Other hooks
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const headerLeft = () => (
     <Button
-      title="Cancel"
+      title={t("Cancel")}
       onPress={() => navigation.pop()}
-      color={theme.colors.app.accent}
+      color={theme.colors.accent}
     />
   );
 
   const headerRight = () => (
     <Button
-      title="Submit"
+      title={t("Submit")}
       onPress={() => editComment.doSubmit()}
       disabled={editComment.loading}
-      color={theme.colors.app.accent}
+      color={theme.colors.accent}
     />
   );
 
@@ -63,11 +67,11 @@ function EditCommentScreen({ route, navigation }: IProps) {
 
   return (
     <>
-      <KeyboardAwareScrollView style={{ backgroundColor: theme.colors.app.bg }}>
+      <KeyboardAwareScrollView style={{ backgroundColor: theme.colors.bg }}>
         <View
           flex={1}
           flexDirection="column"
-          backgroundColor={theme.colors.app.bg}
+          backgroundColor={theme.colors.bg}
           justifyContent="space-between"
         >
           <TextInput
@@ -76,8 +80,8 @@ function EditCommentScreen({ route, navigation }: IProps) {
             style={[
               styles.input,
               {
-                backgroundColor: theme.colors.app.bg,
-                color: theme.colors.app.textPrimary,
+                backgroundColor: theme.colors.bg,
+                color: theme.colors.textPrimary,
               },
             ]}
             numberOfLines={20}

@@ -1,21 +1,22 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
-import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
-import React, { useState } from "react";
+import { ScrollView, Text } from "@src/components/common/Gluestack";
+import React, { useMemo, useState } from "react";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
+import { useAppDispatch, useAppSelector } from "@root/store";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { useTranslation } from "react-i18next";
-import { ContextMenuButton } from "react-native-ios-context-menu";
 import { setSetting } from "../../../../slices/settings/settingsActions";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
-import { useAppDispatch, useAppSelector } from "../../../../../store";
-import { FontWeightMap } from "../../../../theme/fontSize";
 import Chip from "../../../common/Chip";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
 import CTextInput from "../../../common/CTextInput";
 import { showToast } from "../../../../slices/toast/toastSlice";
 import { appIconOptions } from "../../../../types/AppIconType";
+import { AppContextMenuButton } from "../../../common/ContextMenu/App/AppContextMenuButton";
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -26,22 +27,51 @@ function AppearanceScreen({ navigation }: IProps) {
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const onChange = (key: string, value: any) => {
     dispatch(setSetting({ [key]: value }));
   };
 
-  const selectedFontWeight =
-    Object.keys(FontWeightMap).find(
-      (key) => FontWeightMap[key] === settings.fontWeightPostTitle
-    ) || "Regular";
+  // TODO: Disabling Font Scaling for now
+  // const selectedFontWeight =
+  //   Object.keys(FontWeightMap).find(
+  //     (key) => FontWeightMap[key] === settings.fontWeightPostTitle
+  //   ) || "Regular";
 
   const [accent, setAccent] = useState(settings.accentColor);
   const hexPattern = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
 
+  const compactThumbnailPositionOptions = useMemo(
+    () => [
+      {
+        key: "None",
+        title: t("None"),
+      },
+      {
+        key: "Left",
+        title: t("Left"),
+      },
+      {
+        key: "Right",
+        title: t("Right"),
+      },
+    ],
+    [t]
+  );
+
+  // TODO: Disabling Font Scaling for now
+  // const fontWeightOptions = useMemo(
+  //   () =>
+  //     Object.keys(FontWeightMap).map((key) => ({
+  //       key,
+  //       title: t(key),
+  //     })),
+  //   [t]
+  // );
+
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
+    <ScrollView bg={theme.colors.bg} flex={1}>
       <TableView style={styles.table}>
         <CSection
           header={t("settings.appearance.appIcon")}
@@ -51,9 +81,9 @@ function AppearanceScreen({ navigation }: IProps) {
             cellStyle="RightDetail"
             title={t("settings.appearance.appIcon")}
             detail={appIconOptions[settings.appIcon].display}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("IconSelection")}
           />
@@ -62,9 +92,9 @@ function AppearanceScreen({ navigation }: IProps) {
           <CCell
             cellStyle="Basic"
             title={t("settings.appearance.totalScore")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.displayTotalScore}
@@ -78,9 +108,9 @@ function AppearanceScreen({ navigation }: IProps) {
           <CCell
             cellStyle="Basic"
             title={t("settings.appearance.imgIgnoreScreenHeight")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.ignoreScreenHeightInFeed}
@@ -94,9 +124,9 @@ function AppearanceScreen({ navigation }: IProps) {
           <CCell
             cellStyle="RightDetail"
             title={t("settings.appearance.showUserInstance")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.showInstanceForUsernames}
@@ -107,9 +137,9 @@ function AppearanceScreen({ navigation }: IProps) {
           <CCell
             cellStyle="RightDetail"
             title={t("settings.appearance.compactView")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.compactView}
@@ -125,9 +155,9 @@ function AppearanceScreen({ navigation }: IProps) {
           <CCell
             cellStyle="RightDetail"
             title="Hide Username"
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.hideUsernameInTab}
@@ -141,44 +171,15 @@ function AppearanceScreen({ navigation }: IProps) {
         </CSection>
         {settings.compactView && (
           <CSection header={t("settings.appearance.compact.header")}>
-            <ContextMenuButton
-              isMenuPrimaryAction
+            <AppContextMenuButton
+              options={compactThumbnailPositionOptions}
+              selection={settings.compactThumbnailPosition}
               onPressMenuItem={({ nativeEvent }) => {
                 dispatch(
                   setSetting({
                     compactThumbnailPosition: nativeEvent.actionKey,
                   })
                 );
-              }}
-              menuConfig={{
-                menuTitle: "",
-                // @ts-ignore Types for menuItems are wrong for this library
-                menuItems: [
-                  {
-                    actionKey: "None",
-                    actionTitle: "None",
-                    menuState:
-                      settings.compactThumbnailPosition === "None"
-                        ? "on"
-                        : "off",
-                  },
-                  {
-                    actionKey: "Left",
-                    actionTitle: "Left",
-                    menuState:
-                      settings.compactThumbnailPosition === "Left"
-                        ? "on"
-                        : "off",
-                  },
-                  {
-                    actionKey: "Right",
-                    actionTitle: "Right",
-                    menuState:
-                      settings.compactThumbnailPosition === "Right"
-                        ? "on"
-                        : "off",
-                  },
-                ],
               }}
             >
               <CCell
@@ -187,13 +188,13 @@ function AppearanceScreen({ navigation }: IProps) {
                 detail={settings.compactThumbnailPosition}
                 accessory="DisclosureIndicator"
               />
-            </ContextMenuButton>
+            </AppContextMenuButton>
             <CCell
               cellStyle="RightDetail"
               title={t("settings.appearance.compact.showVotingButtons")}
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
               cellAccessoryView={
                 <Switch
                   value={settings.compactShowVotingButtons}
@@ -208,9 +209,9 @@ function AppearanceScreen({ navigation }: IProps) {
           <CCell
             cellStyle="Basic"
             title={t("settings.appearance.themes.matchSystem")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.themeMatchSystem}
@@ -227,16 +228,16 @@ function AppearanceScreen({ navigation }: IProps) {
               title={t("Theme")}
               accessory="DisclosureIndicator"
               onPress={() => navigation.push("ThemeSelection")}
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
             >
               <Text
-                ml={4}
-                mb={2}
+                ml="$4"
+                mb="$2"
                 mt={-3}
-                fontSize="xs"
-                color={theme.colors.app.textSecondary}
+                size="xs"
+                color={theme.colors.textSecondary}
               >
                 {`${t("Selected")}: ${settings.theme}`}
               </Text>
@@ -250,16 +251,16 @@ function AppearanceScreen({ navigation }: IProps) {
               onPress={() =>
                 navigation.push("ThemeSelection", { themeProp: "themeLight" })
               }
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
             >
               <Text
-                ml={4}
-                mb={2}
+                ml="$4"
+                mb="$2"
                 mt={-3}
-                fontSize="xs"
-                color={theme.colors.app.textSecondary}
+                size="xs"
+                color={theme.colors.textSecondary}
               >
                 Selected: {settings.themeLight}
               </Text>
@@ -273,16 +274,16 @@ function AppearanceScreen({ navigation }: IProps) {
               onPress={() =>
                 navigation.push("ThemeSelection", { themeProp: "themeDark" })
               }
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
             >
               <Text
-                ml={4}
-                mb={2}
+                ml="$4"
+                mb="$2"
                 mt={-3}
-                fontSize="xs"
-                color={theme.colors.app.textSecondary}
+                size="xs"
+                color={theme.colors.textSecondary}
               >
                 Selected: {settings.themeDark}
               </Text>
@@ -296,7 +297,7 @@ function AppearanceScreen({ navigation }: IProps) {
                 {`${t("Accent Color")}  `}
                 <Chip
                   text="Alpha"
-                  color={theme.colors.app.info}
+                  color={theme.colors.info}
                   variant="outlined"
                 />
               </Text>
@@ -346,18 +347,19 @@ function AppearanceScreen({ navigation }: IProps) {
                 autoCorrect={false}
               />
             }
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
         </CSection>
 
-        <CSection header={t("settings.appearance.font.header")}>
+        {/* TODO: Disabling Font Scaling for now */}
+        {/* <CSection header={t("settings.appearance.font.header")}>
           <CCell
             title={t("settings.appearance.font.useSystemFont")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.isSystemFont}
@@ -367,9 +369,9 @@ function AppearanceScreen({ navigation }: IProps) {
           />
           <CCell
             title={t("settings.appearance.font.useSystemFontSize")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.isSystemTextSize}
@@ -384,36 +386,37 @@ function AppearanceScreen({ navigation }: IProps) {
                 {`${t("settings.appearance.font.textSize")}  `}
                 <Chip
                   text="Alpha"
-                  color={theme.colors.app.info}
+                  color={theme.colors.info}
                   variant="outlined"
                 />
               </Text>
             }
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           >
-            <HStack width="100%" alignItems="center" px={6}>
-              <Text fontSize={13}>A</Text>
+            <HStack width="100%" alignItems="center" px="$6">
+              <Text size="sm">A</Text>
               <Box flex={1}>
                 <Slider
                   disabled={settings.isSystemTextSize}
                   style={{ height: 40, marginHorizontal: 20, marginBottom: 5 }}
                   minimumValue={1}
                   maximumValue={7}
-                  thumbTintColor={theme.colors.app.textPrimary}
-                  minimumTrackTintColor={theme.colors.app.textPrimary}
-                  maximumTrackTintColor={theme.colors.app.textPrimary}
+                  thumbTintColor={theme.colors.textPrimary}
+                  minimumTrackTintColor={theme.colors.textPrimary}
+                  maximumTrackTintColor={theme.colors.textPrimary}
                   step={1}
                   value={settings.fontSize}
                   onSlidingComplete={(v) => onChange("fontSize", v)}
                 />
               </Box>
-              <Text fontSize={19}>A</Text>
+              <Text size="xl">A</Text>
             </HStack>
           </CCell>
-          <ContextMenuButton
-            isMenuPrimaryAction
+          <AppContextMenuButton
+            options={fontWeightOptions}
+            selection={selectedFontWeight}
             onPressMenuItem={({ nativeEvent }) => {
               dispatch(
                 setSetting({
@@ -422,29 +425,18 @@ function AppearanceScreen({ navigation }: IProps) {
                 })
               );
             }}
-            menuConfig={{
-              menuTitle: "",
-              // @ts-ignore Types for menuItems are wrong for this library
-              menuItems: [
-                ...Object.keys(FontWeightMap).map((option) => ({
-                  actionKey: option,
-                  actionTitle: option,
-                  menuState: selectedFontWeight === option ? "on" : "off",
-                })),
-              ],
-            }}
           >
             <CCell
               cellStyle="RightDetail"
               title={t("settings.appearance.font.postTitleFontWeight")}
               detail={selectedFontWeight}
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
               accessory="DisclosureIndicator"
             />
-          </ContextMenuButton>
-        </CSection>
+          </AppContextMenuButton>
+        </CSection> */}
       </TableView>
     </ScrollView>
   );

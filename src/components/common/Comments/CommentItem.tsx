@@ -1,6 +1,7 @@
-import { Divider, HStack, useTheme, View } from "native-base";
+import { Divider, HStack, View } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
-import { useAppSelector } from "../../../../store";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import useComment from "../../../hooks/comments/useComment";
 import { selectSettings } from "../../../slices/settings/settingsSlice";
@@ -34,7 +35,7 @@ function CommentItem({
   onVote,
   onPress,
 }: IProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const settings = useAppSelector(selectSettings);
 
   if (!depth) {
@@ -50,7 +51,7 @@ function CommentItem({
       onVote ? (
         <VoteOption onVote={onVote} vote={comment.comment.my_vote} />
       ) : undefined,
-    [comment.comment.comment.id]
+    [comment.comment.comment.id, comment.comment.my_vote]
   );
 
   return (
@@ -74,7 +75,7 @@ function CommentItem({
         >
           <CommentWrapper depth={depth} onCommentPress={onPress}>
             <CommentHeaderWrapper>
-              <HStack space={1}>
+              <HStack space="xs">
                 <AvatarUsername
                   creator={comment.comment.creator}
                   opId={comment.comment.post.creator_id}
@@ -118,9 +119,9 @@ function CommentItem({
         style={{
           paddingLeft: depth * 12,
         }}
-        backgroundColor={theme.colors.app.fg}
+        backgroundColor={theme.colors.fg}
       >
-        <Divider bg={theme.colors.app.border} />
+        <Divider bg={theme.colors.border} />
       </View>
     </>
   );

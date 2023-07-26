@@ -1,5 +1,7 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
-import { ScrollView, Text, useTheme, VStack } from "native-base";
+import { ScrollView, Text, VStack } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import CommunityCounts from "./components/Community/CommunityCounts";
@@ -19,18 +21,18 @@ function Card({
   title: string;
   spacing?: boolean;
 }) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   return (
     <VStack
       style={{
-        backgroundColor: theme.colors.app.fg,
+        backgroundColor: theme.colors.fg,
         paddingVertical: 10,
         paddingHorizontal: 12,
         borderRadius: 10,
       }}
-      space={spacing ? 2 : 0}
+      space={spacing ? "sm" : "xxxs"}
     >
-      <Text fontSize="xl" fontWeight="bold">
+      <Text size="xl" fontWeight="bold">
         {title}
       </Text>
       {children}
@@ -40,13 +42,13 @@ function Card({
 
 function CommunityAboutScreen({ route }: { route: any }) {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const community = useCommunity(route.params.communityFullName);
   const moderators = useCommunityModerators(route.params.communityFullName);
 
   return (
-    <ScrollView flex={1} backgroundColor={theme.colors.app.bg}>
-      <VStack mx={4}>
+    <ScrollView bg={theme.colors.bg} flex={1}>
+      <VStack mx="$4">
         {route.params.banner && (
           <FastImage
             source={{
@@ -55,18 +57,20 @@ function CommunityAboutScreen({ route }: { route: any }) {
             style={{ height: 200, width: "100%", opacity: 0.5 }}
           />
         )}
-        <VStack py={4} space={2}>
+        <VStack py="$4" space="sm">
           <Card title={t("Description")}>
-            {community.community.description ? (
-              <RenderMarkdown text={community.community.description} />
+            {community?.community.description ? (
+              <RenderMarkdown text={community?.community.description} />
             ) : (
-              <Text italic>There is no description for this community</Text>
+              <Text fontStyle="italic">
+                There is no description for this community
+              </Text>
             )}
           </Card>
-          <Card title="Stats" spacing>
-            <CommunityCounts counts={community.counts} />
+          <Card title={t("Stats")} spacing>
+            <CommunityCounts counts={community?.counts} />
           </Card>
-          <Card title="Moderators" spacing>
+          <Card title={t("Moderators")} spacing>
             <ModeratorList moderators={moderators} />
           </Card>
         </VStack>

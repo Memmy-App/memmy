@@ -1,24 +1,33 @@
-import { Text, useTheme } from "native-base";
+import { Text } from "@src/components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React from "react";
 import { useRoute } from "@react-navigation/core";
-import { useAppSelector } from "../../../../../store";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import { usePostTitle } from "../../../../stores/posts/postsStore";
 
-function Title({ mt, mb }: { mt?: number; mb?: number }) {
+function Title({
+  mt,
+  mb,
+}: {
+  mt?: React.ComponentProps<typeof Text>["mt"];
+  mb?: React.ComponentProps<typeof Text>["mb"];
+}) {
   const { postKey } = useRoute<any>().params;
   const postTitle = usePostTitle(postKey);
 
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const { fontWeightPostTitle } = useAppSelector(selectSettings);
   return (
     <Text
       mt={mt}
       mb={mb}
-      mx={4}
-      fontSize="lg"
+      mx="$4"
+      size="lg"
       fontWeight={fontWeightPostTitle}
-      color={theme.colors.app.textPrimary}
+      color={theme.colors.textPrimary}
     >
       {postTitle}
     </Text>

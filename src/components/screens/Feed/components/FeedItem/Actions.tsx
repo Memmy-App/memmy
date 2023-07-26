@@ -1,4 +1,6 @@
-import { HStack, useTheme } from "native-base";
+import { HStack } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React, { useCallback } from "react";
 import IconButtonWithText from "../../../../common/IconButtonWithText";
 import VoteButton from "../../../../common/Vote/VoteButton";
@@ -13,7 +15,7 @@ interface Props {
   id: number;
 }
 export function actions({ vote, saved, onSave, onVotePress, id }: Props) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const onUpvote = useCallback(() => {
     onVotePress(vote === 1 ? 0 : 1);
@@ -24,17 +26,15 @@ export function actions({ vote, saved, onSave, onVotePress, id }: Props) {
   }, [vote, id]);
 
   return (
-    <HStack space={1} alignItems="center" justifyContent="flex-end">
+    <HStack space="xs" alignItems="center" justifyContent="flex-end">
       <IconButtonWithText
         icon={
           <SFIcon
             icon={ICON_MAP.SAVE}
-            color={
-              saved ? theme.colors.app.bookmarkText : theme.colors.app.accent
-            }
+            color={saved ? theme.colors.bookmarkText : theme.colors.accent}
           />
         }
-        iconBgColor={saved ? theme.colors.app.bookmark : theme.colors.app.fg}
+        iconBgColor={saved ? theme.colors.bookmark : theme.colors.fg}
         onPressHandler={onSave}
       />
       <VoteButton

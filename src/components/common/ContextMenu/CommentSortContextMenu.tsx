@@ -1,13 +1,10 @@
 import { CommentSortType } from "lemmy-js-client";
-import React from "react";
-import {
-  ContextMenuButton,
-  OnPressMenuItemEvent,
-} from "react-native-ios-context-menu";
-import { commentSortOptions } from "../../../constants/SortOptions";
+import React, { PropsWithChildren } from "react";
+import { OnPressMenuItemEvent } from "react-native-ios-context-menu";
+import { AppContextMenuButton } from "./App/AppContextMenuButton";
+import { useCommentSortOptions } from "../../../hooks/contextMenu/useCommentSortOptions";
 
-interface IProps {
-  children: React.ReactNode;
+interface IProps extends PropsWithChildren {
   currentSelection: CommentSortType;
   onPress: OnPressMenuItemEvent;
 }
@@ -17,29 +14,15 @@ export function CommentSortContextMenu({
   currentSelection,
   onPress,
 }: IProps) {
+  const commentSortOptions = useCommentSortOptions();
+
   return (
-    <ContextMenuButton
-      isMenuPrimaryAction
+    <AppContextMenuButton<CommentSortType>
+      options={commentSortOptions}
+      selection={currentSelection}
       onPressMenuItem={onPress}
-      menuConfig={{
-        menuTitle: "",
-        // @ts-ignore Types for menuItems are wrong for this library
-        menuItems: [
-          ...Object.entries(commentSortOptions).map(([key, value]) => ({
-            actionKey: key,
-            actionTitle: value.display,
-            menuState: currentSelection === key ? "on" : "off",
-            icon: {
-              type: "IMAGE_SYSTEM",
-              imageValue: {
-                systemName: value.icon,
-              },
-            },
-          })),
-        ],
-      }}
     >
       {children}
-    </ContextMenuButton>
+    </AppContextMenuButton>
   );
 }

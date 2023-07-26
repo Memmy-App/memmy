@@ -1,4 +1,4 @@
-import { Box, Text } from "native-base";
+import { Box, Text } from "@src/components/common/Gluestack";
 import React from "react";
 
 interface IProps {
@@ -25,9 +25,9 @@ function Chip({ text, color, variant = "filled" }: IProps) {
       <Text
         fontWeight={textWeight}
         color={textColor}
-        fontSize="2xs"
-        mx={1.5}
-        my={0.5}
+        size="2xs"
+        mx="$1.5"
+        my="$0.5"
       >
         {text}
       </Text>

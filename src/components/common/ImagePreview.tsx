@@ -1,4 +1,4 @@
-import { Box, HStack, Text } from "native-base";
+import { Box, HStack, Text } from "@src/components/common/Gluestack";
 import React from "react";
 import { Dimensions } from "react-native";
 import ImageViewer from "./ImageViewer/ImageViewer";
@@ -32,7 +32,7 @@ function ImagePreview({
 
   if (images.length >= 2 && images[0] !== images[1]) {
     return (
-      <HStack space={1}>
+      <HStack space="xs">
         <ImageViewer
           source={images[0]}
           nsfw={isNsfw}
@@ -51,14 +51,9 @@ function ImagePreview({
           widthOverride={Dimensions.get("screen").width / 2}
           setPostRead={setPostRead}
         />
-        <Box position="absolute" right={1} bottom={1}>
-          <Box
-            paddingX={1}
-            margin={0.5}
-            backgroundColor="gray.700"
-            borderRadius={5}
-          >
-            <Text fontSize="2xs">{images.length} IMAGES</Text>
+        <Box position="absolute" right="$1" bottom="$1">
+          <Box px="$1" m="$0.5" backgroundColor="gray700" borderRadius="$md">
+            <Text size="2xs">{images.length} IMAGES</Text>
           </Box>
         </Box>
       </HStack>

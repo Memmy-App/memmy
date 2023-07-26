@@ -1,5 +1,7 @@
 import React from "react";
-import { Pressable, useTheme, VStack } from "native-base";
+import { Pressable, VStack } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 
 interface IProps {
   children: React.ReactNode;
@@ -8,28 +10,29 @@ interface IProps {
 }
 
 function CommentWrapper({ children, depth, onCommentPress }: IProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   return (
     <Pressable onPress={onCommentPress}>
       <VStack
         flex={1}
-        pr={2}
-        space={2}
-        backgroundColor={theme.colors.app.fg}
+        pr="$2"
+        space="sm"
+        backgroundColor={theme.colors.fg}
         style={{
           paddingLeft: depth * 8,
         }}
-        py={1}
+        py="$1"
       >
         <VStack
           borderLeftWidth={depth > 2 ? 2 : 0}
           borderLeftColor={
-            theme.colors.app.comments[depth - 2] ?? theme.colors.app.comments[5]
+            theme.colors.comments[depth - 2] ?? theme.colors.comments[5]
           }
-          borderLeftRadius={1}
-          pl={depth > 2 ? 2 : 0}
-          mt={0}
+          borderTopLeftRadius={1}
+          borderBottomLeftRadius={1}
+          pl={depth > 2 ? "$2" : "$0"}
+          mt="$0"
         >
           {children}
         </VStack>
