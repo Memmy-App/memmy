@@ -1,6 +1,8 @@
 import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Button, HStack, Text, useTheme, VStack } from "native-base";
+import { Button, HStack, Text, VStack } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { FlashList } from "@shopify/flash-list";
 import { GetSiteResponse } from "lemmy-js-client";
 import { IconDoorEnter, IconUser } from "tabler-icons-react-native";
@@ -15,54 +17,54 @@ interface IProps {
 function HubDiscoveryScreen({ navigation }: IProps) {
   const hub = useHubDiscovery();
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const instanceItem = ({ item }: { item: GetSiteResponse }) => (
     <InstanceItem site={item} />
   );
 
   const header = () => (
-    <VStack my={6} mx={6}>
+    <VStack my="$6" mx="$6">
       <Text
-        fontSize="md"
-        color={theme.colors.app.textSecondary}
+        size="md"
+        color={theme.colors.textSecondary}
         fontStyle="italic"
         textAlign="center"
-        pb={2}
+        pb="$2"
       >
         {t("onboarding.hubDiscovery.alreadyHaveServer")}
       </Text>
-      <HStack space="4">
+      <HStack space="lg">
         <Button
           size="lg"
-          colorScheme="lightBlue"
+          variant="solid"
+          action="primary"
           onPress={() => navigation.push("CreateAccount")}
           mt="auto"
-          borderRadius="15"
-          py={2.5}
-          width="50%"
+          borderRadius="$2xl"
+          flexGrow={1}
         >
-          <HStack space={2} alignItems="center">
+          <HStack space="sm" alignItems="center">
             <IconDoorEnter size={24} color="white" />
 
-            <Text fontWeight="semibold" fontSize="lg">
+            <Text fontWeight="semibold" size="lg">
               {t("Join")}
             </Text>
           </HStack>
         </Button>
         <Button
           size="lg"
-          colorScheme="lightBlue"
+          variant="solid"
+          action="primary"
           onPress={() => navigation.push("AddAccount")}
           mt="auto"
-          borderRadius="15"
-          py={2.5}
+          borderRadius="$2xl"
           flexGrow={1}
         >
-          <HStack space={2} alignItems="center">
+          <HStack space="sm" alignItems="center">
             <IconUser size={24} color="white" />
 
-            <Text fontWeight="semibold" fontSize="lg">
+            <Text fontWeight="semibold" size="lg">
               {t("Login")}
             </Text>
           </HStack>
@@ -72,7 +74,7 @@ function HubDiscoveryScreen({ navigation }: IProps) {
   );
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.bg}>
+    <VStack flex={1} backgroundColor={theme.colors.bg}>
       <FlashList
         renderItem={instanceItem}
         data={hub.instances}

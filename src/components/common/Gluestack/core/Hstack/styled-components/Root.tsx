@@ -5,7 +5,6 @@ export default styled(
   View,
   {
     flexDirection: "row",
-
     defaultProps: {
       space: "md",
     },

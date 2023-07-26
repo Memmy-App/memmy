@@ -1,4 +1,6 @@
-import { HStack, useTheme } from "native-base";
+import { HStack } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import IconButtonWithText from "../../../common/IconButtonWithText";
@@ -9,13 +11,13 @@ import usePostActionBar from "../../../../hooks/post/usePostActionBar";
 function PostActionBar() {
   const postActionBar = usePostActionBar();
 
-  const { colors } = useTheme();
+  const { colors } = useAppSelector(selectThemeOptions);
 
   const bubbleIcon = useMemo(
     () => (
       <SFIcon
         icon="bubble.left"
-        color={postActionBar.currentPost.saved && colors.app.bookmarkText}
+        color={postActionBar.currentPost.saved && colors.bookmarkText}
       />
     ),
     []
@@ -25,7 +27,7 @@ function PostActionBar() {
     () => (
       <SFIcon
         icon="square.and.arrow.up"
-        color={postActionBar.currentPost.saved && colors.app.bookmarkText}
+        color={postActionBar.currentPost.saved && colors.bookmarkText}
       />
     ),
     []
@@ -35,7 +37,7 @@ function PostActionBar() {
     () => (
       <SFIcon
         icon="bookmark"
-        color={postActionBar.currentPost.saved && colors.app.bookmarkText}
+        color={postActionBar.currentPost.saved && colors.bookmarkText}
       />
     ),
     [postActionBar.currentPost.saved]
@@ -46,9 +48,9 @@ function PostActionBar() {
     <HStack
       justifyContent="space-between"
       alignItems="center"
-      mb={2}
-      mx={4}
-      py={1}
+      mb="$2"
+      mx="$4"
+      py="$1"
     >
       <VoteButton
         onPressHandler={postActionBar.onUpvotePress}
@@ -70,7 +72,7 @@ function PostActionBar() {
         onPressHandler={postActionBar.onSavePress}
         icon={bookmarkIcon}
         iconBgColor={
-          postActionBar.currentPost.saved ? colors.app.bookmark : "transparent"
+          postActionBar.currentPost.saved ? colors.bookmark : "transparent"
         }
       />
 

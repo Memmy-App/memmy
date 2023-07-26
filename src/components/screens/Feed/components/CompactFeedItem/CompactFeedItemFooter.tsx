@@ -1,5 +1,7 @@
 import { PostView } from "lemmy-js-client";
-import { Box, HStack, Text, useTheme } from "native-base";
+import { Box, HStack, Text } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React from "react";
 import { timeFromNowShort } from "../../../../../helpers/TimeHelper";
 import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
@@ -15,18 +17,18 @@ interface CompactFeedItemFooterProps {
 }
 
 function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
-  const { colors } = useTheme();
+  const { colors } = useAppSelector(selectThemeOptions);
 
   return (
     <>
-      <HStack alignItems="center" space={2}>
+      <HStack alignItems="center" space="sm">
         <HStack>
           <FeaturedIndicator
             featured={post.post.featured_community || post.post.featured_local}
           />
           {post.read && (
-            <Box mr={1}>
-              <IconBookCheck color={colors.app.accent} size={20} />
+            <Box mr="$1">
+              <IconBookCheck color={colors.accent} size={20} />
             </Box>
           )}
           <AvatarUsername
@@ -35,18 +37,18 @@ function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
             link={false}
           />
         </HStack>
-        <Text color={colors.app.textSecondary}>•</Text>
-        <Text color={colors.app.textSecondary}>
+        <Text color={colors.textSecondary}>•</Text>
+        <Text color={colors.textSecondary}>
           {timeFromNowShort(post.post.published)}
         </Text>
       </HStack>
-      <HStack flex={1} alignItems="center" space={2}>
+      <HStack flex={1} alignItems="center" space="sm">
         <SmallVoteIcons
           upvotes={post.counts.upvotes}
           downvotes={post.counts.downvotes}
           myVote={post.my_vote as ILemmyVote}
         />
-        <HStack alignItems="center" space={1}>
+        <HStack alignItems="center" space="xs">
           <CommentCount commentCount={post.counts.comments} />
         </HStack>
         <CommunityLink community={post.community} />

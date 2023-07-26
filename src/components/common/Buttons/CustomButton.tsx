@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { HStack, Pressable, Text, useTheme } from "native-base";
+import { HStack, Pressable, Text } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import SFIcon from "../icons/SFIcon";
 
 function CustomButton({
@@ -20,7 +22,7 @@ function CustomButton({
   const [pressedIn, setPressedIn] = useState(false);
   const [selected, setSelected] = useState(false);
 
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const onPressIn = () => {
     setPressedIn(true);
@@ -42,21 +44,18 @@ function CustomButton({
       onPressOut={onPressOut}
       onPress={onPressBefore}
       opacity={pressedIn ? 0.7 : 1}
-      shadow={pressedIn ? 3 : 0}
-      py={size === "md" ? 2 : 1}
-      borderRadius={size === "md" ? 10 : 20}
-      backgroundColor={
-        !selected ? theme.colors.app.inputBg : theme.colors.app.accent
-      }
+      py={size === "md" ? "$2" : "$1"}
+      borderRadius={size === "md" ? "$xl" : "$3xl"}
+      backgroundColor={!selected ? theme.colors.inputBg : theme.colors.accent}
       flexGrow={1}
     >
-      <HStack space={1.5} alignItems="center" justifyContent="center">
+      <HStack space="smxs" alignItems="center" justifyContent="center">
         {icon && <SFIcon icon={icon} size={size === "md" ? 16 : 14} />}
-        <Text fontSize={size} color={theme.colors.app.textPrimary}>
+        <Text size={size} color={theme.colors.textPrimary}>
           {text}
         </Text>
         {badge && (
-          <Text fontSize={size} color={theme.colors.app.textPrimary}>
+          <Text size={size} color={theme.colors.textPrimary}>
             {badge}
           </Text>
         )}

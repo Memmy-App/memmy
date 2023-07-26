@@ -1,15 +1,19 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useTheme } from "native-base";
 import { CommunityView } from "lemmy-js-client";
 import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
-import { HStack, Pressable, Text, VStack } from "../../../common/Gluestack";
+import {
+  HStack,
+  Pressable,
+  Text,
+  VStack,
+} from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppDispatch, useAppSelector } from "@root/store";
 import { getCommunityFullName } from "../../../../helpers/LemmyHelpers";
 import { toggleFavorite } from "../../../../slices/favorites/favoritesActions";
-
-import { useAppDispatch, useAppSelector } from "../../../../../store";
 
 import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
@@ -23,7 +27,7 @@ interface IProps {
 }
 
 function TraverseItem({ community, isFavorite }: IProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onPress = useCallback(() => {
@@ -56,10 +60,13 @@ function TraverseItem({ community, isFavorite }: IProps) {
     <Pressable onPress={onPress}>
       <HStack
         flex={1}
-        backgroundColor={theme.colors.app.fg}
-        borderRadius={10}
+        backgroundColor={theme.colors.fg}
+        borderRadius="$xl"
         alignItems="center"
-        style={styles.container}
+        paddingHorizontal="$2"
+        paddingVertical="$1"
+        marginHorizontal="$4"
+        marginVertical="$1"
       >
         <VStack>
           <HStack space="sm" alignItems="center">
@@ -69,15 +76,15 @@ function TraverseItem({ community, isFavorite }: IProps) {
                 style={styles.icon}
               />
             ) : (
-              <PlanetIcon color={theme.colors.app.textSecondary} size={24} />
+              <PlanetIcon color={theme.colors.textSecondary} size={24} />
             )}
             <VStack>
-              <Text color={theme.colors.app.textPrimary}>
+              <Text color={theme.colors.textPrimary}>
                 {community.community.name}
               </Text>
               <Text
-                fontSize="$2xs"
-                color={theme.colors.app.textSecondary}
+                size="2xs"
+                color={theme.colors.textSecondary}
                 fontStyle="italic"
               >
                 {getBaseUrl(community.community.actor_id)}
@@ -90,11 +97,11 @@ function TraverseItem({ community, isFavorite }: IProps) {
                 icon="eye"
                 size={8}
                 boxSize={10}
-                color={theme.colors.app.textSecondary}
+                color={theme.colors.textSecondary}
               />
               <Text
-                fontSize="$xs"
-                color={theme.colors.app.textSecondary}
+                size="xs"
+                color={theme.colors.textSecondary}
                 fontStyle="italic"
               >
                 {community.counts.users_active_day.toLocaleString()} online
@@ -105,11 +112,11 @@ function TraverseItem({ community, isFavorite }: IProps) {
                 icon="doc.plaintext"
                 size={8}
                 boxSize={10}
-                color={theme.colors.app.textSecondary}
+                color={theme.colors.textSecondary}
               />
               <Text
-                fontSize="$xs"
-                color={theme.colors.app.textSecondary}
+                size="xs"
+                color={theme.colors.textSecondary}
                 fontStyle="italic"
               >
                 {community.counts.posts.toLocaleString()} posts
@@ -124,7 +131,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
               const communityFullName = getCommunityFullName(community);
               onChange(communityFullName, !isFavorite);
             }}
-            pr={2}
+            pr="$2"
           >
             <SFIcon icon={isFavorite ? "star.fill" : "star"} />
           </Pressable>
@@ -136,12 +143,6 @@ function TraverseItem({ community, isFavorite }: IProps) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    marginHorizontal: 16,
-    marginVertical: 4,
-  },
   icon: {
     height: 24,
     width: 24,

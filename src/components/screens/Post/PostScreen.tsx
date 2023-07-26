@@ -1,6 +1,8 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
-import { HStack, useTheme, VStack } from "native-base";
+import { HStack, VStack } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
@@ -46,7 +48,7 @@ function PostScreen({ navigation }: IProps) {
   const commentsStatus = usePostCommentsStatus(postKey);
 
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   useEffect(() => {
     postHook.doLoad();
@@ -56,7 +58,7 @@ function PostScreen({ navigation }: IProps) {
       title: `${commentCount} ${t("Comment", { count: commentCount })}`,
       // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
-        <HStack space={3}>
+        <HStack space="md">
           <CommentSortButton
             sortType={commentsSort}
             setSortType={postHook.setPostCommentsSort}
@@ -168,7 +170,7 @@ function PostScreen({ navigation }: IProps) {
 
   if (currentPost) {
     return (
-      <VStack flex={1} backgroundColor={theme.colors.app.bg}>
+      <VStack flex={1} backgroundColor={theme.colors.bg}>
         <FlashList
           ListHeaderComponent={<PostHeader />}
           ListFooterComponent={<PostFooter />}

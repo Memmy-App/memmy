@@ -1,5 +1,6 @@
-import { useTheme } from "native-base";
-import { IFontSize } from "native-base/lib/typescript/theme/base/typography";
+import { Text } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
 import { GestureResponderEvent } from "react-native";
 import IconButtonWithText from "../IconButtonWithText";
@@ -12,7 +13,7 @@ interface VoteButtonProps {
   isVoted: boolean;
   text?: string | number;
   isAccented?: boolean;
-  textSize?: IFontSize;
+  size?: React.ComponentProps<typeof Text>["size"];
   iconSize?: number;
 }
 
@@ -22,27 +23,27 @@ function VoteButton({
   isVoted,
   text,
   isAccented,
-  textSize = "lg",
+  size = "lg",
   iconSize = 16,
 }: VoteButtonProps) {
-  const { colors } = useTheme();
+  const { colors } = useAppSelector(selectThemeOptions);
 
-  const color = isAccented ? colors.app.accent : colors.app.textSecondary;
+  const color = isAccented ? colors.accent : colors.textSecondary;
 
-  const voteColor = type === "upvote" ? colors.app.upvote : colors.app.downvote;
+  const voteColor = type === "upvote" ? colors.upvote : colors.downvote;
 
   const icon = useMemo(
     () =>
       type === "upvote" ? (
         <SFIcon
           icon={ICON_MAP.UPVOTE}
-          color={isVoted ? colors.app.upvoteText : color}
+          color={isVoted ? colors.upvoteText : color}
           size={iconSize}
         />
       ) : (
         <SFIcon
           icon={ICON_MAP.DOWNVOTE}
-          color={isVoted ? colors.app.downvoteText : color}
+          color={isVoted ? colors.downvoteText : color}
           size={iconSize}
         />
       ),
@@ -55,7 +56,7 @@ function VoteButton({
       icon={icon}
       iconBgColor={isVoted ? voteColor : "transparent"}
       text={text}
-      textSize={textSize}
+      size={size}
       textColor={isVoted ? voteColor : color}
     />
   );

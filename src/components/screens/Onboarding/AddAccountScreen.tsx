@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Image } from "react-native";
-import { Button, Pressable, Text, useTheme, VStack } from "native-base";
+import {
+  Button,
+  Pressable,
+  Text,
+  VStack,
+} from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Trans, useTranslation } from "react-i18next";
@@ -37,7 +44,7 @@ function AddAccountScreen({ route, navigation }: IProps) {
   const [showTotpToken, setShowTotpToken] = useState(false);
 
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -122,13 +129,13 @@ function AddAccountScreen({ route, navigation }: IProps) {
 
   return (
     <KeyboardAwareScrollView
-      style={{ backgroundColor: theme.colors.app.bg }}
+      style={{ backgroundColor: theme.colors.bg }}
       keyboardShouldPersistTaps="handled"
     >
       <LoadingModal loading={loading} />
 
-      <VStack flex={1} mb={5} space="md" justifyContent="center">
-        <VStack mx={3}>
+      <VStack flex={1} mb="$5" space="md" justifyContent="center">
+        <VStack mx="$3">
           <Image
             source={header}
             style={{
@@ -190,19 +197,20 @@ function AddAccountScreen({ route, navigation }: IProps) {
                     onPress={() => navigation.push("Viewer", { type: "terms" })}
                   />
                 ),
-                linkText: <Text mt={1.5} color={theme.colors.app.accent} />,
+                linkText: <Text mt="$1.5" color={theme.colors.accent} />,
               }}
             />
           </Text>
           <Button
             size="sm"
-            colorScheme="lightBlue"
+            variant="solid"
+            action="primary"
             onPress={onPress}
-            borderRadius="20"
-            mt={3}
-            mx={2}
+            borderRadius="$3xl"
+            mt="$3"
+            mx="$2"
           >
-            <Text fontWeight="semibold" fontSize="lg">
+            <Text fontWeight="semibold" size="lg">
               {t("Login")}
             </Text>
           </Button>

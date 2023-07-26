@@ -2,8 +2,11 @@ import React, { useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button, Switch, TextInput } from "react-native";
-import { Icon, IconButton, useTheme, VStack } from "native-base";
+import { Icon, VStack } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { Ionicons } from "@expo/vector-icons";
+import IconButtonWithText from "@src/components/common/IconButtonWithText";
 import { useTranslation } from "react-i18next";
 import CCell from "../../common/Table/CCell";
 import LoadingModal from "../../common/Loading/LoadingModal";
@@ -27,20 +30,20 @@ function NewPostScreen({
 
   // Other hooks
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   const headerLeft = () => (
     <Button
       title={t("Cancel")}
       onPress={() => navigation.pop()}
-      color={theme.colors.app.accent}
+      color={theme.colors.accent}
     />
   );
   const headerRight = () => (
     <Button
       title={t("Submit")}
       onPress={newPost.doSubmit}
-      color={theme.colors.app.accent}
+      color={theme.colors.accent}
     />
   );
 
@@ -52,8 +55,8 @@ function NewPostScreen({
   }, [newPost.form]);
 
   return (
-    <KeyboardAwareScrollView style={{ backgroundColor: theme.colors.app.bg }}>
-      <VStack flex={1} backgroundColor={theme.colors.app.bg}>
+    <KeyboardAwareScrollView style={{ backgroundColor: theme.colors.bg }}>
+      <VStack flex={1} backgroundColor={theme.colors.bg}>
         <CTable>
           <CSection header={t("post.header")}>
             <CCell
@@ -62,9 +65,9 @@ function NewPostScreen({
                   style={{
                     fontSize: 16,
                     flex: 1,
-                    color: theme.colors.app.textPrimary,
+                    color: theme.colors.textPrimary,
                   }}
-                  placeholderTextColor={theme.colors.app.textSecondary}
+                  placeholderTextColor={theme.colors.textSecondary}
                   placeholder={t("post.title")}
                   value={newPost.form.name}
                   onChangeText={(text) => newPost.onFormChange("name", text)}
@@ -76,16 +79,16 @@ function NewPostScreen({
             <CCell
               cellStyle="RightDetail"
               cellAccessoryView={
-                <IconButton
+                <IconButtonWithText
+                  onPressHandler={newPost.doUpload}
                   icon={
                     <Icon
                       as={Ionicons}
                       name="camera"
-                      size={6}
-                      color={theme.colors.app.accent}
+                      color={theme.colors.accent}
+                      size={24}
                     />
                   }
-                  onPress={newPost.doUpload}
                 />
               }
               cellContentView={
@@ -93,9 +96,9 @@ function NewPostScreen({
                   style={{
                     fontSize: 16,
                     flex: 1,
-                    color: theme.colors.app.textPrimary,
+                    color: theme.colors.textPrimary,
                   }}
-                  placeholderTextColor={theme.colors.app.textSecondary}
+                  placeholderTextColor={theme.colors.textSecondary}
                   placeholder={t("post.link")}
                   value={newPost.form.url}
                   onChangeText={(text) => newPost.onFormChange("url", text)}

@@ -1,8 +1,11 @@
 import { PostAggregates } from "lemmy-js-client";
-import { HStack, Text, useTheme } from "native-base";
+import { HStack, Text } from "@src/components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React from "react";
-import { useAppSelector } from "../../../../store";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
 import SFIcon from "../icons/SFIcon";
 import { ICON_MAP } from "../../../constants/IconMap";
 
@@ -12,15 +15,15 @@ interface IProps {
 }
 
 function VoteData({ data, vote }: IProps) {
-  const { colors } = useTheme();
+  const { colors } = useAppSelector(selectThemeOptions);
   const settings = useAppSelector(selectSettings);
 
   const upvoted = vote === 1;
   const downvoted = vote === -1;
 
   if (settings.displayTotalScore) {
-    const voteColor = upvoted ? colors.app.upvote : colors.app.downvote;
-    const color = upvoted || downvoted ? voteColor : colors.app.textSecondary;
+    const voteColor = upvoted ? colors.upvote : colors.downvote;
+    const color = upvoted || downvoted ? voteColor : colors.textSecondary;
 
     const scoreArrow = (
       <SFIcon
@@ -38,17 +41,15 @@ function VoteData({ data, vote }: IProps) {
     return (
       <HStack alignItems="center">
         {scoreArrow}
-        <Text color={color} fontSize="sm">
+        <Text color={color} size="sm">
           {data.score}
         </Text>
       </HStack>
     );
   }
 
-  const upvoteColor = upvoted ? colors.app.upvote : colors.app.textSecondary;
-  const downvoteColor = downvoted
-    ? colors.app.downvote
-    : colors.app.textSecondary;
+  const upvoteColor = upvoted ? colors.upvote : colors.textSecondary;
+  const downvoteColor = downvoted ? colors.downvote : colors.textSecondary;
 
   return (
     <>
@@ -59,7 +60,7 @@ function VoteData({ data, vote }: IProps) {
           size={10}
           boxSize={20}
         />
-        <Text color={upvoteColor} fontSize="sm">
+        <Text color={upvoteColor} size="sm">
           {data.upvotes}
         </Text>
       </HStack>
@@ -70,7 +71,7 @@ function VoteData({ data, vote }: IProps) {
           size={10}
           boxSize={20}
         />
-        <Text color={downvoteColor} fontSize="sm">
+        <Text color={downvoteColor} size="sm">
           {data.downvotes}
         </Text>
       </HStack>
