@@ -1,26 +1,26 @@
+import { useRoute } from "@react-navigation/core";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useRoute } from "@react-navigation/core";
+import { useAppDispatch, useAppSelector } from "../../../store";
 import {
   onGenericHapticFeedback,
   onVoteHapticFeedback,
 } from "../../helpers/HapticFeedbackHelpers";
-import { useAppDispatch, useAppSelector } from "../../../store";
-import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
-import { getLinkInfo, LinkInfo } from "../../helpers/LinkHelper";
-import { selectSettings } from "../../slices/settings/settingsSlice";
-import { useReportPost } from "../post/useReportPost";
-import { useBlockUser } from "../user/useBlockUser";
-import { setResponseTo } from "../../slices/comments/newCommentSlice";
+import { LinkInfo, getLinkInfo } from "../../helpers/LinkHelper";
 import { shareLink } from "../../helpers/ShareHelper";
-import { addPost } from "../../stores/posts/actions";
-import { useFeedPost, useFeedsStore } from "../../stores/feeds/feedsStore";
-import setFeedVote from "../../stores/feeds/actions/setFeedVote";
 import { determineVotes } from "../../helpers/VoteHelper";
+import { setResponseTo } from "../../slices/comments/newCommentSlice";
+import { selectSettings } from "../../slices/settings/settingsSlice";
 import setFeedRead from "../../stores/feeds/actions/setFeedRead";
 import setFeedSaved from "../../stores/feeds/actions/setFeedSaved";
+import setFeedVote from "../../stores/feeds/actions/setFeedVote";
+import { useFeedPost, useFeedsStore } from "../../stores/feeds/feedsStore";
+import { addPost } from "../../stores/posts/actions";
+import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
+import { useReportPost } from "../post/useReportPost";
+import { useBlockUser } from "../user/useBlockUser";
 
 export interface UseFeedItem {
   onVotePress: (value: ILemmyVote, haptic?: boolean) => Promise<void>;
@@ -68,7 +68,13 @@ const useFeedItem = (postId: number): UseFeedItem => {
   );
 
   const onPress = () => {
-    setFeedRead(key, post.post.id);
+    if (!post.read && markReadOnPostView) setFeedRead(key, post.post.id);
+
+    useFeedsStore.setState((state) => {
+      state.feeds
+        .get(key)
+        .posts.find((p) => p.post.id === postId).unread_comments = 0;
+    });
 
     const postKey = Date.now().toString() + post.post.id;
 
