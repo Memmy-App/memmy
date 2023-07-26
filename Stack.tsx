@@ -12,6 +12,8 @@ import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Dimensions } from "react-native";
 import { useTranslation } from "react-i18next";
+import KeywordsFilterScreen from "@src/components/screens/Settings/Filters/KeywordsFilterScreen";
+import InstanceFiltersScreen from "@src/components/screens/Settings/Filters/InstanceFiltersScreen";
 import { CustomTabBar } from "./src/components/common/Navigation/CustomTabBar";
 import LoadingView from "./src/components/common/Loading/LoadingView";
 import SFIcon from "./src/components/common/icons/SFIcon";
@@ -66,8 +68,6 @@ import { truncateName } from "./src/helpers/TextHelper";
 import ScreenGestureHandler from "./src/components/common/Navigation/ScreenGestureHandler";
 import { ICON_MAP } from "./src/constants/IconMap";
 import FiltersScreen from "./src/components/screens/Settings/Filters/FiltersScreen";
-import KeywordsScreen from "./src/components/screens/Settings/Filters/KeywordsScreen";
-import InstancesScreen from "./src/components/screens/Settings/Filters/InstancesScreen";
 
 function CustomDrawerContent() {
   const theme = useAppSelector(selectThemeOptions);
@@ -366,15 +366,15 @@ function SettingsScreens(stack) {
         }}
       />
       <stack.Screen
-        name="Keywords"
-        component={KeywordsScreen}
+        name="KeywordFilters"
+        component={KeywordsFilterScreen}
         options={{
-          tilte: t("Keywords"),
+          title: t("Keywords"),
         }}
       />
       <stack.Screen
-        name="Instances"
-        component={InstancesScreen}
+        name="InstanceFilters"
+        component={InstanceFiltersScreen}
         options={{
           title: t("Instances"),
         }}

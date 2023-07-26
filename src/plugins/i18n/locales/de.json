@@ -165,17 +165,30 @@
       }
     },
     "filters": {
-      "addKeyword": "Schlüsselwort hinzufügen",
-      "areYouSureKeyword": "Bist du sicher, dass du dieses Schlüsselwort entfernen möchtest?",
-      "removeKeyword": "Filter entfernen",
-      "enterAKeyword": "Zu filterndes Schlüsselwort eingeben.",
-      "noKeywords": "Noch keine Schlüsselwörter gefiltert …",
-
-      "addInstance": "Instanz hinzufügen",
-      "removeInstance": "Filter entfernen",
-      "areYouSureInstance": "Bist du sicher, dass du diese Instanz entfernen möchtest?",
-      "enterAnInstance": "Zu filternde Instanz eingeben.",
-      "noInstances": "Noch keine Instanzen gefiltert …"
+      "header": {
+        "keyword": "KEYWORDS",
+        "instance": "INSTANCES"
+      },
+      "add": {
+        "keyword": "Schlüsselwort hinzufügen",
+        "instance": "Instanz hinzufügen"
+      },
+      "areYouSure":{
+        "keyword": "Bist du sicher, dass du dieses Schlüsselwort entfernen möchtest?",
+        "instance": "Bist du sicher, dass du diese Instanz entfernen möchtest?"
+      },
+      "remove": {
+        "keyword": "Schlüsselwort entfernen",
+        "instance": "Instanz entfernen"
+      },
+      "enter": {
+        "keyword": "Zu filterndes Schlüsselwort eingeben.",
+        "instance": "Zu filternde Instanz eingeben."
+      },
+      "no": {
+        "keyword": "Noch keine Schlüsselwörter gefiltert …",
+        "instance": "Noch keine Instanzen gefiltert …"
+      }
     }
   },
   "traverse": {

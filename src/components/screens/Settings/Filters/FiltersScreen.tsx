@@ -28,7 +28,7 @@ function FiltersScreen({ navigation }: IProps) {
             titleTextColor={theme.colors.textPrimary}
             rightDetailColor={theme.colors.textSecondary}
             accessory="DisclosureIndicator"
-            onPress={() => navigation.push("Keywords")}
+            onPress={() => navigation.push("KeywordFilters")}
           />
           <CCell
             cellStyle="RightDetail"
@@ -37,7 +37,7 @@ function FiltersScreen({ navigation }: IProps) {
             titleTextColor={theme.colors.textPrimary}
             rightDetailColor={theme.colors.textSecondary}
             accessory="DisclosureIndicator"
-            onPress={() => navigation.push("Instances")}
+            onPress={() => navigation.push("InstanceFilters")}
           />
         </CSection>
       </TableView>

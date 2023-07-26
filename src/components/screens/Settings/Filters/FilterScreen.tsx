@@ -6,61 +6,36 @@ import { useAppSelector } from "@root/store";
 import { Alert, Button, StyleSheet } from "react-native";
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import {
+  FilterStoreType,
+  useFiltersStore,
+  useFilterStoreType,
+} from "@src/stores/filters/filtersStore";
+import { getBaseUrl } from "@src/helpers/LinkHelper";
+import { FilterItem } from "@src/components/screens/Settings/Filters/FilterItem";
+import { ParamListBase } from "@react-navigation/native";
 import CSection from "../../../common/Table/CSection";
 import CCell from "../../../common/Table/CCell";
-import {
-  useFiltersStore,
-  useKeywordFilter,
-} from "../../../../stores/filters/filtersStore";
 
-interface IProps {
-  navigation: NativeStackNavigationProp<any>;
+interface FilterScreenProps<
+  ParamList extends ParamListBase,
+  RouteName extends keyof ParamList = string,
+  NavigatorID extends string | undefined = undefined
+> {
+  type: FilterStoreType;
+  navigation: NativeStackNavigationProp<ParamList, RouteName, NavigatorID>;
 }
 
-function KeywordOption({ keyword }: { keyword: string }) {
-  const filtersStore = useFiltersStore();
-  const theme = useAppSelector(selectThemeOptions);
-  const { t } = useTranslation();
-
-  const onKeywordPress = () => {
-    Alert.alert(
-      t("settings.filters.removeKeyword"),
-      t("settings.filters.areYouSureKeyword"),
-      [
-        {
-          text: t("Cancel"),
-          style: "cancel",
-        },
-        {
-          text: t("Remove"),
-          style: "destructive",
-          onPress: () => {
-            filtersStore.removeKeyword(keyword);
-          },
-        },
-      ]
-    );
-  };
-
-  return (
-    <CCell
-      cellStyle="RightDetail"
-      title={keyword}
-      backgroundColor={theme.colors.fg}
-      titleTextColor={theme.colors.textPrimary}
-      rightDetailColor={theme.colors.textSecondary}
-      accessory="DisclosureIndicator"
-      onPress={onKeywordPress}
-    />
-  );
-}
-
-function KeywordsScreen({ navigation }: IProps) {
+export function FilterScreen<
+  ParamList extends ParamListBase,
+  RouteName extends keyof ParamList = string,
+  NavigatorID extends string | undefined = undefined
+>({ type, navigation }: FilterScreenProps<ParamList, RouteName, NavigatorID>) {
   const { t } = useTranslation();
   const theme = useAppSelector(selectThemeOptions);
 
   const filtersStore = useFiltersStore();
-  const keywords = useKeywordFilter();
+  const filters = useFilterStoreType(type);
 
   useEffect(() => {
     navigation.setOptions({
@@ -77,8 +52,8 @@ function KeywordsScreen({ navigation }: IProps) {
 
   const onAddPress = () => {
     Alert.prompt(
-      t("settings.filters.addKeyword"),
-      t("settings.filters.enterAKeyword"),
+      t(`settings.filters.add.${type}`),
+      t(`settings.filters.enter.${type}`),
       [
         {
           text: t("Cancel"),
@@ -89,33 +64,42 @@ function KeywordsScreen({ navigation }: IProps) {
           style: "default",
           onPress: (value?: string) => {
             if (!value) return;
-
-            filtersStore.addKeyword(value.toLowerCase()).then();
+            switch (type) {
+              case "keyword":
+                filtersStore.addKeyword(value.toLowerCase()).then();
+                break;
+              case "instance":
+                filtersStore.addInstance(getBaseUrl(value)).then();
+                break;
+              default:
+                throw new Error(`Unknown filter store type${type}`);
+            }
           },
         },
       ]
     );
   };
 
-  const keywordOptions = useMemo(
-    () => keywords.map((k) => <KeywordOption key={k} keyword={k} />),
-    [keywords]
+  const items = useMemo(
+    () =>
+      filters.map((name) => <FilterItem key={name} type={type} name={name} />),
+    [filters, type]
   );
 
   return (
     <ScrollView bg={theme.colors.bg} flex={1}>
       <TableView style={styles.table}>
-        <CSection header={t("Keywords").toUpperCase()}>
-          {keywords.length < 1 ? (
+        <CSection header={t(`settings.filters.header.${type}`)}>
+          {filters.length < 1 ? (
             <CCell
               cellStyle="RightDetail"
-              title={t("settings.filters.noKeywords")}
+              title={t(`settings.filters.no.${type}`)}
               backgroundColor={theme.colors.fg}
               titleTextColor={theme.colors.textPrimary}
               rightDetailColor={theme.colors.textSecondary}
             />
           ) : (
-            keywordOptions
+            items
           )}
         </CSection>
       </TableView>
@@ -128,5 +112,3 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
 });
-
-export default KeywordsScreen;
