@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
   Dimensions as RNDimensions,
   Modal,
@@ -32,6 +32,7 @@ import {
 import { useAppSelector } from "@root/store";
 import { StatusBar } from "expo-status-bar";
 import { IconAlertTriangle } from "tabler-icons-react-native";
+import { setPost } from "@src/slices/post/postSlice";
 import { useImageDimensions } from "./useImageDimensions";
 import ExitButton from "./ImageExitButton";
 import ImageViewFooter from "./ImageViewFooter";
@@ -183,7 +184,7 @@ function ImageViewer({
   };
 
   // This opens or closes our modal
-  const onRequestOpenOrClose = () => {
+  const onRequestOpenOrClose = useCallback(() => {
     if (!expanded) {
       if (onPress) onPress();
 
@@ -272,7 +273,7 @@ function ImageViewer({
         setExpanded(false);
       }, 200);
     }
-  };
+  }, [onPress, setPostRead, expanded]);
 
   const setToCenter = () => {
     "worklet";

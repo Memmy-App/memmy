@@ -29,7 +29,12 @@ import { VoteOption } from "../../../../common/SwipeableRow/VoteOption";
 import { ReplyOption } from "../../../../common/SwipeableRow/ReplyOption";
 import { SwipeableRow } from "../../../../common/SwipeableRow/SwipeableRow";
 import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
-import { useFeedPost } from "../../../../../stores/feeds/feedsStore";
+import {
+  useFeedPostInfo,
+  useFeedPostRead,
+  useFeedPostSaved,
+  useFeedPostVote,
+} from "../../../../../stores/feeds/feedsStore";
 import { Box } from "../../../../common/Gluestack";
 
 function CompactFeedItem({ postId }: { postId: number }) {
@@ -41,7 +46,11 @@ function CompactFeedItem({ postId }: { postId: number }) {
   const { key } = useRoute();
 
   const feedItem = useFeedItem(postId);
-  const post = useFeedPost(key, postId);
+
+  const postVote = useFeedPostVote(key, postId);
+  const postSaved = useFeedPostSaved(key, postId);
+  const postInfo = useFeedPostInfo(key, postId);
+  const postRead = useFeedPostRead(key, postId);
 
   const theme = useAppSelector(selectThemeOptions);
 
@@ -53,8 +62,8 @@ function CompactFeedItem({ postId }: { postId: number }) {
   );
 
   const leftOption = useMemo(
-    () => <VoteOption onVote={onSwipe} vote={post.my_vote} />,
-    [post.my_vote, postId]
+    () => <VoteOption onVote={onSwipe} vote={postVote} />,
+    [postVote, postId]
   );
 
   const rightOption = useMemo(
@@ -65,7 +74,7 @@ function CompactFeedItem({ postId }: { postId: number }) {
         extraType="save"
       />
     ),
-    [postId, post.saved]
+    [postId, postSaved]
   );
 
   // TODO: Disabling Font Scaling for now;
@@ -77,7 +86,7 @@ function CompactFeedItem({ postId }: { postId: number }) {
   const fontModifier = fontSizeMap[fontSize];
   const FONT_SIZE = isSystemTextSize ? 15 / fontScale : 15 + fontModifier;
 
-  const linkInfo = getLinkInfo(post.post.url);
+  const linkInfo = useMemo(() => getLinkInfo(postInfo.url), [postId]);
   const showLink =
     linkInfo.extType === ExtensionType.VIDEO ||
     linkInfo.extType === ExtensionType.GENERIC;
@@ -95,9 +104,8 @@ function CompactFeedItem({ postId }: { postId: number }) {
           >
             {compactThumbnailPosition === "Left" && (
               <CompactFeedItemThumbnail
-                post={post}
+                postId={postId}
                 linkInfo={feedItem.linkInfo}
-                setPostRead={() => {}}
               />
             )}
 
@@ -107,12 +115,12 @@ function CompactFeedItem({ postId }: { postId: number }) {
                 fontSize={FONT_SIZE}
                 fontWeight={fontWeightPostTitle}
                 color={
-                  post.read
+                  postRead
                     ? theme.colors.textSecondary
                     : theme.colors.textPrimary
                 }
               >
-                {post.post.name}{" "}
+                {postInfo.name}{" "}
                 {showLink && (
                   <Text
                     fontSize={FONT_SIZE - 1}
@@ -123,26 +131,25 @@ function CompactFeedItem({ postId }: { postId: number }) {
                 )}
               </Text>
 
-              <CompactFeedItemFooter post={post} />
+              <CompactFeedItemFooter postId={postId} />
             </VStack>
 
             {compactThumbnailPosition === "Right" && (
               <VStack alignItems="flex-start">
                 <CompactFeedItemThumbnail
-                  post={post}
+                  postId={postId}
                   linkInfo={feedItem.linkInfo}
-                  setPostRead={() => {}}
                 />
               </VStack>
             )}
 
             {compactShowVotingButtons && (
               <CompactFeedItemVote
-                myVote={post.my_vote as ILemmyVote}
+                myVote={postVote as ILemmyVote}
                 onVotePress={feedItem.onVotePress}
               />
             )}
-            {post.saved && (
+            {postSaved && (
               <Box
                 style={{
                   position: "absolute",

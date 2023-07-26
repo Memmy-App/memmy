@@ -1,44 +1,54 @@
-import { PostView } from "lemmy-js-client";
 import { Box, Text } from "@src/components/common/Gluestack";
 import {
   selectSettings,
   selectThemeOptions,
 } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
-import React, { useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
+import {
+  useFeedPostCommunity,
+  useFeedPostInfo,
+  useFeedPostRead,
+} from "@src/stores/feeds/feedsStore";
+import { useRoute } from "@react-navigation/core";
+import setFeedRead from "@src/stores/feeds/actions/setFeedRead";
 import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
 import { findImages } from "../../../../helpers/MarkdownHelper";
 import { truncatePost } from "../../../../helpers/TextHelper";
 import ImagePreview from "../../../common/ImagePreview";
 import LinkButton from "../../../common/Buttons/LinkButton";
-// eslint-disable-next-line import/no-extraneous-dependencies
-// eslint-disable-next-line import/no-extraneous-dependencies
 
 interface IProps {
-  post: PostView;
+  postId: number;
   recycled?: React.MutableRefObject<{}>;
-  setPostRead?: () => void;
 }
 
-function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
+function FeedContentPreview({ postId, recycled }: IProps) {
+  const { key } = useRoute();
+
   const theme = useAppSelector(selectThemeOptions);
   const { fontWeightPostTitle } = useAppSelector(selectSettings);
 
-  const linkInfo = getLinkInfo(post.post.url);
-  const { cleanedText, imageLinks } = findImages(post.post.body, true);
+  const postInfo = useFeedPostInfo(key, postId);
+  const postCommunity = useFeedPostCommunity(key, postId);
+  const postRead = useFeedPostRead(key, postId);
+
+  const linkInfo = useMemo(() => getLinkInfo(postInfo.url), [postId]);
+
+  const { cleanedText, imageLinks } = findImages(postInfo.body, true);
   const body = truncatePost(cleanedText, 100);
 
-  const title = post.post.name;
-  let postUrls = [post.post.url];
+  let postUrls = [postInfo.url];
 
   const isImagePost = linkInfo.extType === ExtensionType.IMAGE;
 
   // handle weird posts where someone just posts a markdown image instead of an image Post
   const isImageMarkdownPost = imageLinks.length > 0;
+
   if (isImageMarkdownPost) {
     // incase we have an image Post with image markdown in the body?
     if (isImagePost) {
-      postUrls = [post.post.url, ...imageLinks];
+      postUrls = [postInfo.url, ...imageLinks];
     } else {
       postUrls = imageLinks;
     }
@@ -49,52 +59,44 @@ function FeedContentPreview({ post, recycled, setPostRead }: IProps) {
     linkInfo.extType === ExtensionType.VIDEO ||
     linkInfo.extType === ExtensionType.GENERIC;
 
-  return useMemo(
-    () => (
-      <Box mb="$1">
-        <Text
-          mx="$4"
-          size="md"
-          fontWeight={fontWeightPostTitle}
-          color={theme.colors.textPrimary}
-          alignItems="center"
-        >
-          {title}
+  const setPostRead = useCallback(() => {
+    setFeedRead(key, postId);
+  }, [postId, postRead]);
+
+  return (
+    <Box mb="$1">
+      <Text
+        mx="$4"
+        size="md"
+        fontWeight={fontWeightPostTitle}
+        color={theme.colors.textPrimary}
+        alignItems="center"
+      >
+        {postInfo.name}
+      </Text>
+      {showImage && (
+        <Box mt="$2">
+          <ImagePreview
+            images={postUrls}
+            postId={postId}
+            isNsfw={postInfo.nsfw || postCommunity.nsfw}
+            recycled={recycled}
+            setPostRead={setPostRead}
+          />
+        </Box>
+      )}
+      {!!body && (
+        <Text color={theme.colors.textSecondary} mx="$4" mt="$2">
+          {body}
         </Text>
-        {showImage && (
-          <Box mt="$2">
-            <ImagePreview
-              images={postUrls}
-              postId={post.post.id}
-              isNsfw={post.post.nsfw || post.community.nsfw}
-              recycled={recycled}
-              setPostRead={setPostRead}
-            />
-          </Box>
-        )}
-        {!!body && (
-          <Text color={theme.colors.textSecondary} mx="$4" mt="$2">
-            {body}
-          </Text>
-        )}
-        {showLink && (
-          <Box mx="$4" mt="$2">
-            <LinkButton
-              link={linkInfo.link}
-              thumbnail={post.post.thumbnail_url}
-            />
-          </Box>
-        )}
-      </Box>
-    ),
-    [
-      post.post.id,
-      post.read,
-      theme.colors.textPrimary,
-      theme.colors.textSecondary,
-      fontWeightPostTitle,
-    ]
+      )}
+      {showLink && (
+        <Box mx="$4" mt="$2">
+          <LinkButton link={linkInfo.link} thumbnail={postInfo.thumbnail_url} />
+        </Box>
+      )}
+    </Box>
   );
 }
 
-export default FeedContentPreview;
+export default React.memo(FeedContentPreview);
