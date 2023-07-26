@@ -1,6 +1,6 @@
-import { Box, HStack, Pressable, Text } from "@src/components/common/Gluestack";
-import React from "react";
-import { GestureResponderEvent } from "react-native";
+import { Box, HStack, Text } from "@src/components/common/Gluestack";
+import React, { useCallback } from "react";
+import { GestureResponderEvent, Pressable } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -30,13 +30,13 @@ function IconButtonWithText({
     transform: [{ scale: scale.value }],
   }));
 
-  const onPressIn = () => {
+  const onPressIn = useCallback(() => {
     scale.value = withTiming(1.4, { duration: 250 });
-  };
+  }, []);
 
-  const onPressOut = () => {
+  const onPressOut = useCallback(() => {
     scale.value = withTiming(1, { duration: 250 });
-  };
+  }, []);
 
   return (
     <Pressable

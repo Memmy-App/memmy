@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
   Dimensions as RNDimensions,
   Modal,
@@ -183,7 +183,7 @@ function ImageViewer({
   };
 
   // This opens or closes our modal
-  const onRequestOpenOrClose = () => {
+  const onRequestOpenOrClose = useCallback(() => {
     if (!expanded) {
       if (onPress) onPress();
 
@@ -272,7 +272,7 @@ function ImageViewer({
         setExpanded(false);
       }, 200);
     }
-  };
+  }, [onPress, setPostRead, expanded]);
 
   const setToCenter = () => {
     "worklet";
