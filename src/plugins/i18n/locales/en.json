@@ -168,17 +168,19 @@
         "footer": "Credentials for the server you are connecting to"
       }
     },
-    "filters": {
-        "addKeyword": "Add Keyword",
-        "areYouSureKeyword": "Are you sure you want to remove this keyword?",
-        "enterAKeyword": "Enter a keyword to filter.",
-        "noKeywords": "No keywords yet...",
+		"filters": {
+			"addKeyword": "Add Keyword",
+			"areYouSureKeyword": "Are you sure you want to remove this keyword?",
+			"enterAKeyword": "Enter a keyword to filter.",
+			"noKeywords": "No keywords yet...",
+			"removeKeyword": "Remove Keyword",
 
-        "addInstance": "Add instance",
-        "areYouSureInstance": "Are you sure you want to remove this instance?",
-        "enterAnInstance": "Enter an instance to filter.",
-        "noInstances": "No instances yet..."
-    }
+			"addInstance": "Add instance",
+			"areYouSureInstance": "Are you sure you want to remove this instance?",
+			"enterAnInstance": "Enter an instance to filter.",
+			"noInstances": "No instances yet...",
+			"removeInstance": "Remove Instance"
+		}
   },
   "traverse": {
     "noSubscriptions": "You don't have any subscriptions.",
