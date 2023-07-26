@@ -1,6 +1,8 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { StyleSheet } from "react-native";
-import { View, Text, useTheme } from "native-base";
+import { Text, View } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { CommunityView } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
@@ -12,7 +14,6 @@ import RefreshControl from "../../common/RefreshControl";
 
 import { selectFavorites } from "../../../slices/favorites/favoritesSlice";
 import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
-import { useAppSelector } from "../../../../store";
 import { getCommunityFullName } from "../../../helpers/LemmyHelpers";
 
 enum ItemType {
@@ -35,7 +36,7 @@ interface SectionListItem {
 
 function TraverseScreen() {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const traverse = useTraverse();
 
   const [term, setTerm] = useState("");
@@ -192,10 +193,10 @@ function TraverseScreen() {
       const { type, value } = item;
       if (type === ItemType.INDEX) {
         return (
-          <View backgroundColor={theme.colors.app.bg}>
+          <View backgroundColor={theme.colors.bg}>
             <Text
               style={styles.alphaIndexHeaderText}
-              fontSize="xl"
+              size="xl"
               fontWeight="semibold"
             >
               {(value as HeaderValue).title}
@@ -229,8 +230,8 @@ function TraverseScreen() {
             textAlign="center"
             justifyContent="center"
             alignSelf="center"
-            py="3"
-            px="4"
+            py="$3"
+            px="$4"
           >
             {(value as HeaderValue).title}
           </Text>
@@ -246,10 +247,9 @@ function TraverseScreen() {
   }
 
   return (
-    <View flex={1}>
+    <View flex={1} style={{ backgroundColor: theme.colors.bg }}>
       {header}
       <FlashList
-        backgroundColor={theme.colors.app.bg}
         refreshControl={
           <RefreshControl
             refreshing={traverse.refreshing}

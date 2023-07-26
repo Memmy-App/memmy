@@ -1,6 +1,8 @@
 import { ListingType } from "lemmy-js-client";
 import React from "react";
-import { HStack, Text, useTheme } from "native-base";
+import { HStack, Text } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { useRoute } from "@react-navigation/core";
 import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
 import { ListingTypeContextMenu } from "../../../common/ContextMenu/ListingTypeContextMenu";
@@ -17,7 +19,7 @@ export function FeedListingTypeButton() {
   const { key } = useRoute();
   const listingType = useFeedListingType(key);
 
-  const { colors } = useTheme();
+  const { colors } = useAppSelector(selectThemeOptions);
   const listingTypeOptions = useListingTypeOptions();
 
   const onPress = (e: OnPressMenuItemEventObject) => {
@@ -35,17 +37,13 @@ export function FeedListingTypeButton() {
 
   return (
     <ListingTypeContextMenu currentSelection={listingType} onPress={onPress}>
-      <HStack space={0.5} alignItems="center">
-        <Text
-          color={colors.app.textPrimary}
-          fontSize="16"
-          fontWeight="semibold"
-        >
+      <HStack space="xxs" alignItems="center">
+        <Text color={colors.textPrimary} size="md" fontWeight="semibold">
           {findOptionByKey(listingTypeOptions, listingType).title}
         </Text>
         <SFIcon
           icon="chevron.down"
-          color={colors.app.textPrimary}
+          color={colors.textPrimary}
           size={12}
           weight="semibold"
         />

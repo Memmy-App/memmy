@@ -1,10 +1,12 @@
-import { Box, HStack, Pressable, Text, useTheme } from "native-base";
+import { Box, HStack, Pressable, Text } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import React from "react";
 import SFIcon from "../icons/SFIcon";
 import { ICON_MAP } from "../../../constants/IconMap";
 
 function SpoilerContainer({ title, node }: { title: string; node: any }) {
-  const { colors } = useTheme();
+  const { colors } = useAppSelector(selectThemeOptions);
   const [showSpoiler, setShowSpoiler] = React.useState(false);
 
   // this is unfortunately the only way right now I could figure out how to access just the text of the content
@@ -19,25 +21,25 @@ function SpoilerContainer({ title, node }: { title: string; node: any }) {
       <HStack alignItems="center">
         {showSpoiler ? (
           <SFIcon
-            color={colors.app.textPrimary}
+            color={colors.textPrimary}
             icon={ICON_MAP.CHEVRON.DOWN}
             size={8}
           />
         ) : (
           <SFIcon
-            color={colors.app.textPrimary}
+            color={colors.textPrimary}
             icon={ICON_MAP.CHEVRON.RIGHT}
             size={8}
           />
         )}
 
-        <Text color={colors.app.textPrimary} bold>
+        <Text color={colors.textPrimary} fontWeight="bold">
           {title}
         </Text>
       </HStack>
       {showSpoiler && (
         <Box>
-          <Text color={colors.app.textPrimary}>{content}</Text>
+          <Text color={colors.textPrimary}>{content}</Text>
         </Box>
       )}
     </Pressable>

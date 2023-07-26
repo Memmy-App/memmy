@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { ImageBackground, StyleSheet } from "react-native";
-import { Button, Text, View, VStack } from "native-base";
+import { Button, Text, View, VStack } from "@src/components/common/Gluestack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
 import { resetInstance } from "../../../LemmyInstance";
@@ -25,18 +25,13 @@ function OnboardingScreen({
         style={styles.background}
         resizeMode="cover"
       >
-        <VStack px={6} pt={32} pb={20} space={12} flex={1}>
-          <Text
-            fontSize="6xl"
-            color="white"
-            fontWeight="semibold"
-            textAlign="left"
-          >
+        <VStack px="$6" pt="$32" pb="$20" space="8xl" flex={1}>
+          <Text size="6xl" color="white" fontWeight="semibold" textAlign="left">
             {t("onboarding.hello")} 👋
           </Text>
           <View>
             <Text
-              fontSize="5xl"
+              size="5xl"
               color="white"
               fontWeight="semibold"
               textAlign="left"
@@ -44,7 +39,7 @@ function OnboardingScreen({
               {t("onboarding.welcomeTo")}
             </Text>
             <Text
-              fontSize="5xl"
+              size="5xl"
               color="white"
               fontWeight="semibold"
               textAlign="left"
@@ -52,28 +47,30 @@ function OnboardingScreen({
               Memmy
             </Text>
           </View>
-          <VStack marginTop="auto" space="4">
+          <VStack marginTop="auto" space="lg">
             <Button
               size="lg"
-              colorScheme="lightBlue"
+              variant="solid"
+              action="primary"
               onPress={() => navigation.push("OnboardingInfoOne")}
               mt="auto"
-              borderRadius="20"
-              py={2.5}
+              borderRadius="$3xl"
+              py="$2.5"
             >
-              <Text fontWeight="semibold" fontSize="lg">
+              <Text fontWeight="semibold" size="lg">
                 {t("onboarding.getStartedBtn")}
               </Text>
             </Button>
             <Button
               size="lg"
-              colorScheme="blueGray"
+              variant="solid"
+              action="secondary"
               onPress={() => navigation.push("HubDiscovery")}
               mt="auto"
-              borderRadius="20"
-              py={2.5}
+              borderRadius="$3xl"
+              py="$2.5"
             >
-              <Text fontWeight="semibold" fontSize="lg">
+              <Text fontWeight="semibold" size="lg">
                 {t("onboarding.hasAccountBtn")}
               </Text>
             </Button>

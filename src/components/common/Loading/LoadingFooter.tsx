@@ -1,17 +1,19 @@
 import React from "react";
-import { Center, Spinner, Text, useTheme } from "native-base";
+import { Center, Spinner, Text } from "@src/components/common/Gluestack";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 
 interface LoadingFooterProps {
   message?: string;
 }
 
 function LoadingFooter({ message = "Loading..." }: LoadingFooterProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   return (
-    <Center my={4}>
+    <Center my="$4">
       <Spinner />
-      <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
+      <Text fontStyle="italic" color={theme.colors.textSecondary}>
         {message}
       </Text>
     </Center>

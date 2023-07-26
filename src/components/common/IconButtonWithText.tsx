@@ -1,8 +1,6 @@
-import { Box, HStack, Pressable, Text } from "native-base";
+import { Box, HStack, Pressable, Text } from "@src/components/common/Gluestack";
 import React from "react";
 import { GestureResponderEvent } from "react-native";
-import { ColorType } from "native-base/lib/typescript/components/types";
-import { IFontSize } from "native-base/lib/typescript/theme/base/typography";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -12,10 +10,10 @@ import Animated, {
 interface IconButtonWithTextProps {
   onPressHandler?: (event: GestureResponderEvent) => void;
   icon: JSX.Element;
-  iconBgColor?: ColorType;
+  iconBgColor?: string;
   text?: string | number;
   textColor?: string;
-  textSize?: IFontSize;
+  size?: React.ComponentProps<typeof Text>["size"];
 }
 
 function IconButtonWithText({
@@ -24,7 +22,7 @@ function IconButtonWithText({
   iconBgColor,
   text,
   textColor,
-  textSize = "lg",
+  size = "lg",
 }: IconButtonWithTextProps) {
   const scale = useSharedValue(1);
 
@@ -47,14 +45,14 @@ function IconButtonWithText({
       onPressOut={onPressOut}
       hitSlop={5}
     >
-      <HStack space={2} alignItems="center">
+      <HStack space="sm" alignItems="center">
         <Animated.View style={animatedStyle}>
-          <Box borderRadius={5} backgroundColor={iconBgColor} padding={0.5}>
+          <Box borderRadius="$md" backgroundColor={iconBgColor} padding="$0.5">
             {icon}
           </Box>
         </Animated.View>
         {text !== undefined && (
-          <Text color={textColor} fontSize={textSize}>
+          <Text color={textColor} size={size}>
             {text}
           </Text>
         )}

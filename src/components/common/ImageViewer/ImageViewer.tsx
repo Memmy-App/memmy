@@ -24,14 +24,17 @@ import {
   TapGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import { BlurView } from "expo-blur";
-import { Text, useTheme, View, VStack } from "native-base";
+import { Text, View, VStack } from "@src/components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
+import { useAppSelector } from "@root/store";
 import { StatusBar } from "expo-status-bar";
 import { IconAlertTriangle } from "tabler-icons-react-native";
 import { useImageDimensions } from "./useImageDimensions";
 import ExitButton from "./ImageExitButton";
 import ImageViewFooter from "./ImageViewFooter";
-import { useAppSelector } from "../../../../store";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
 import ImageButton from "../Buttons/ImageButton";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import Toast from "../Toast";
@@ -79,7 +82,7 @@ function ImageViewer({
   setPostRead,
   compactMode,
 }: IProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
 
   // @ts-ignore
   const nonViewerRef = useRef<View>(null);
@@ -520,7 +523,7 @@ function ImageViewer({
           borderRadius: compactMode ? 10 : 0,
         },
       ]}
-      backgroundColor={theme.colors.app.bg}
+      backgroundColor={theme.colors.bg}
     >
       {buttonMode ? (
         <Pressable
@@ -576,15 +579,15 @@ function ImageViewer({
                     flex={1}
                     alignItems="center"
                     justifyContent="center"
-                    space={2}
+                    space="sm"
                   >
                     <IconAlertTriangle
-                      color={theme.colors.app.textSecondary}
+                      color={theme.colors.textSecondary}
                       size={36}
                     />
                     {!compactMode && (
                       <>
-                        <Text fontSize="xl">NSFW</Text>
+                        <Text size="xl">NSFW</Text>
                         <Text>Sensitive content ahead</Text>
                       </>
                     )}

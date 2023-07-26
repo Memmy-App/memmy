@@ -1,5 +1,5 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Text, VStack } from "native-base";
+import { Text, VStack } from "@src/components/common/Gluestack";
 import React, { useCallback, useEffect, useRef } from "react";
 import { useRoute } from "@react-navigation/core";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
@@ -57,10 +57,10 @@ function FeedsCommunityScreen({
 
   const headerTitle = () => (
     <VStack alignItems="center">
-      <Text fontSize={16} fontWeight="semibold">
+      <Text size="md" fontWeight="semibold">
         {communityName.toString()}
       </Text>
-      <Text fontSize={12}>@{getBaseUrl(actorId?.toString())}</Text>
+      <Text size="md">@{getBaseUrl(actorId?.toString())}</Text>
     </VStack>
   );
 

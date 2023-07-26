@@ -3,7 +3,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useTheme, View } from "native-base";
+import { View } from "@src/components/common/Gluestack";
+import {
+  selectSettings,
+  selectThemeOptions,
+} from "@src/slices/settings/settingsSlice";
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Dimensions } from "react-native";
@@ -64,17 +68,16 @@ import { ICON_MAP } from "./src/constants/IconMap";
 import FiltersScreen from "./src/components/screens/Settings/Filters/FiltersScreen";
 import KeywordsScreen from "./src/components/screens/Settings/Filters/KeywordsScreen";
 import InstancesScreen from "./src/components/screens/Settings/Filters/InstancesScreen";
-import { selectSettings } from "./src/slices/settings/settingsSlice";
 
 function CustomDrawerContent() {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   return (
     <>
       {/* Header */}
       <View
-        height={10}
+        height="$10"
         style={{
-          backgroundColor: theme.colors.app.bg,
+          backgroundColor: theme.colors.bg,
         }}
       />
       <TraverseScreen />
@@ -674,7 +677,7 @@ interface StackProps {
 }
 
 function Stack({ onReady }: StackProps) {
-  const theme = useTheme();
+  const theme = useAppSelector(selectThemeOptions);
   const { t } = useTranslation();
   const accounts = useAppSelector(selectAccounts);
   const accountsLoaded = useAppSelector(selectAccountsLoaded);
@@ -683,11 +686,11 @@ function Stack({ onReady }: StackProps) {
     ...DarkTheme,
     colors: {
       ...DarkTheme.colors,
-      primary: theme.colors.app.accent,
-      background: theme.colors.app.bg,
-      card: theme.colors.app.navBarBg,
-      text: theme.colors.app.textPrimary,
-      border: theme.colors.app.border,
+      primary: theme.colors.accent,
+      background: theme.colors.bg,
+      card: theme.colors.navBarBg,
+      text: theme.colors.textPrimary,
+      border: theme.colors.border,
     },
   };
 
