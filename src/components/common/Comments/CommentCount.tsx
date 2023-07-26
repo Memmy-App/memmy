@@ -18,7 +18,7 @@ function CommentCount({
 
   const { colors } = useAppSelector(selectThemeOptions);
   return (
-    <HStack space="xxs">
+    <HStack space="sm">
       <HStack alignItems="center" space="xxs">
         <SFIcon
           color={colors.textSecondary}

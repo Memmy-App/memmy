@@ -6,8 +6,8 @@ interface IProps {
   color: string;
   variant?: "filled" | "outlined";
   fontSize?: "2xs" | "xs" | "sm";
-  mx?: string;
-  my?: string;
+  mx?: string | number;
+  my?: string | number;
 }
 
 function Chip({
