@@ -7,15 +7,14 @@ import {
 } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useAppSelector } from "../../../../store";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
 
 interface IProps {
   children: React.ReactNode;
 }
 
 function ScreenGestureHandler({ children }: IProps) {
-  const { swipeToVote } = useAppSelector(selectSettings);
+  const swipeToVote = useSettingsStore((state) => state.settings.swipeToVote);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onPanEnd = useCallback(

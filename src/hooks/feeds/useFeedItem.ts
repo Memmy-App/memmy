@@ -3,12 +3,11 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
-import { selectSettings } from "@src/slices/settings/settingsSlice";
 import {
   onGenericHapticFeedback,
   onVoteHapticFeedback,
 } from "@src/helpers/HapticFeedbackHelpers";
-import { useAppDispatch, useAppSelector } from "@root/store";
+import { useAppDispatch } from "@root/store";
 import { ILemmyVote } from "@src/types/lemmy/ILemmyVote";
 import { getLinkInfo, LinkInfo } from "@src/helpers/LinkHelper";
 import { setResponseTo } from "@src/slices/comments/newCommentSlice";
@@ -21,8 +20,10 @@ import {
   useFeedPostRead,
   useFeedPostSaved,
   useFeedPostVote,
+  useFeedsStore,
 } from "@src/stores/feeds/feedsStore";
 import { determineVotes } from "@src/helpers/VoteHelper";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
 import { useReportPost } from "../post/useReportPost";
 import { useBlockUser } from "../user/useBlockUser";
 import { addPost } from "../../stores/posts/actions";
@@ -59,8 +60,12 @@ const useFeedItem = (postId: number): UseFeedItem => {
 
   const linkInfo = useMemo(() => getLinkInfo(postInfo.url), [postId]);
 
-  const { markReadOnPostVote, markReadOnPostView } =
-    useAppSelector(selectSettings);
+  const { markReadOnPostVote, markReadOnPostView } = useSettingsStore(
+    (state) => ({
+      markReadOnPostVote: state.settings.markReadOnPostVote,
+      markReadOnPostView: state.settings.markReadOnPostView,
+    })
+  );
 
   const onVotePress = useCallback(
     async (value: ILemmyVote, haptic = true) => {
@@ -84,6 +89,12 @@ const useFeedItem = (postId: number): UseFeedItem => {
 
   const onPress = useCallback(() => {
     if (!postRead && markReadOnPostView) setFeedRead(key, postId);
+
+    useFeedsStore.setState((state) => {
+      state.feeds
+        .get(key)
+        .posts.find((p) => p.post.id === postId).unread_comments = 0;
+    });
 
     const postKey = Date.now().toString() + postId;
 

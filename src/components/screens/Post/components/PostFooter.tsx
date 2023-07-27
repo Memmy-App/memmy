@@ -1,8 +1,7 @@
 import React from "react";
 import { Center, Spinner, Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { useRoute } from "@react-navigation/core";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import LoadingErrorFooter from "../../../common/Loading/LoadingErrorFooter";
 import NoResultView from "../../../common/NoResultView";
 import loadPostComments from "../../../../stores/posts/actions/loadPostComments";
@@ -16,7 +15,7 @@ function PostFooter() {
   const commentsStatus = usePostCommentsStatus(postKey);
   const comments = usePostComments(postKey);
 
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   if (commentsStatus.commentsLoading) {
     return (

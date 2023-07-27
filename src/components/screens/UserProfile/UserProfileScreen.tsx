@@ -1,10 +1,9 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView, VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import React, { useEffect, useMemo } from "react";
-import { useAppSelector } from "@root/store";
 import { useTranslation } from "react-i18next";
 import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { useAppDispatch } from "../../../../store";
 import { ICON_MAP } from "../../../constants/IconMap";
 import useProfile from "../../../hooks/profile/useProfile";
@@ -29,7 +28,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
   // Hooks
   const profile = useProfile(true, route?.params?.fullUsername);
 
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 

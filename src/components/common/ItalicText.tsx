@@ -1,14 +1,13 @@
 import React from "react";
 import { Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 interface IProps {
   children: string;
 }
 
 function ItalicText({ children }: IProps) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   return (
     <Text py="$3" color={theme.colors.textSecondary} fontStyle="italic">

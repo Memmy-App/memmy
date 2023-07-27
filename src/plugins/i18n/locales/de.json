@@ -165,17 +165,31 @@
       }
     },
     "filters": {
-      "addKeyword": "Schlüsselwort hinzufügen",
-      "areYouSureKeyword": "Bist du sicher, dass du dieses Schlüsselwort entfernen möchtest?",
-      "removeKeyword": "Filter entfernen",
-      "enterAKeyword": "Zu filterndes Schlüsselwort eingeben.",
-      "noKeywords": "Noch keine Schlüsselwörter gefiltert …",
-
-      "addInstance": "Instanz hinzufügen",
-      "removeInstance": "Filter entfernen",
-      "areYouSureInstance": "Bist du sicher, dass du diese Instanz entfernen möchtest?",
-      "enterAnInstance": "Zu filternde Instanz eingeben.",
-      "noInstances": "Noch keine Instanzen gefiltert …"
+      "description": "Filter geben dir die Möglichkeit bestimmte Beiträge in deinem Feed automatisch auszublenden basierend auf Schlüsselwörtern im Titel oder Ursprungsinstanzen",
+      "header": {
+        "keyword": "KEYWORDS",
+        "instance": "INSTANCES"
+      },
+      "add": {
+        "keyword": "Schlüsselwort hinzufügen",
+        "instance": "Instanz hinzufügen"
+      },
+      "areYouSure":{
+        "keyword": "Bist du sicher, dass du dieses Schlüsselwort entfernen möchtest?",
+        "instance": "Bist du sicher, dass du diese Instanz entfernen möchtest?"
+      },
+      "remove": {
+        "keyword": "Schlüsselwort entfernen",
+        "instance": "Instanz entfernen"
+      },
+      "enter": {
+        "keyword": "Zu filterndes Schlüsselwort eingeben.",
+        "instance": "Zu filternde Instanz eingeben."
+      },
+      "no": {
+        "keyword": "Noch keine Schlüsselwörter gefiltert …",
+        "instance": "Noch keine Instanzen gefiltert …"
+      }
     }
   },
   "traverse": {
@@ -339,6 +353,7 @@
   "Reply": "Antworten",
   "Report Post": "Post melden",
   "Cancel": "Abbrechen",
+  "Remove": "Löschen",
   "Submit": "Absenden",
   "Retry": "Retry",
   "Language": "Sprache",
@@ -356,7 +371,6 @@
   "Default Listing Type": "Standard-Ansicht der Feed-Liste",
   "Hide Read Posts on Feed": "Gelesene Beiträge im Feed ausblenden",
   "Hide Read Posts in Communities": "Gelesene Beiträge in Communitys ausblenden",
-  "Show Hide Read Button": "Zeige \"Blende gelesene Beiträge aus\"-Funktion",
   "Show Comment Actions": "Kommentar anzeigen Aktionen",
   "NSFW": "NSFW",
   "NSFW Content": "NSFW-Inhalt",

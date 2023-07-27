@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {
   Dimensions as RNDimensions,
   Modal,
@@ -25,18 +25,17 @@ import {
 } from "react-native-gesture-handler";
 import { BlurView } from "expo-blur";
 import { Text, View, VStack } from "@src/components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { StatusBar } from "expo-status-bar";
 import { IconAlertTriangle } from "tabler-icons-react-native";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
+import { onGenericHapticFeedback } from "@src/helpers/HapticFeedbackHelpers";
 import { useImageDimensions } from "./useImageDimensions";
 import ExitButton from "./ImageExitButton";
 import ImageViewFooter from "./ImageViewFooter";
 import ImageButton from "../Buttons/ImageButton";
-import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import Toast from "../Toast";
 
 interface IProps {
@@ -82,7 +81,7 @@ function ImageViewer({
   setPostRead,
   compactMode,
 }: IProps) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   // @ts-ignore
   const nonViewerRef = useRef<View>(null);
@@ -92,7 +91,10 @@ function ImageViewer({
   const [expanded, setExpanded] = useState<boolean>(false);
 
   // NSFW stuff, we need this hack for some reason
-  const { blurNsfw, markReadOnPostImageView } = useAppSelector(selectSettings);
+  const { blurNsfw, markReadOnPostImageView } = useSettingsStore((state) => ({
+    blurNsfw: state.settings.blurNsfw,
+    markReadOnPostImageView: state.settings.markReadOnPostImageView,
+  }));
   const [blurIntensity, setBlurIntensity] = useState(99);
 
   // Animation stuff
@@ -182,8 +184,14 @@ function ImageViewer({
     }
   };
 
+  const toggleAccessories = (show: boolean) => {
+    "worklet";
+
+    accessoriesOpacity.value = withTiming(show ? 1 : 0, { duration: 200 });
+  };
+
   // This opens or closes our modal
-  const onRequestOpenOrClose = useCallback(() => {
+  const onRequestOpenOrClose = () => {
     if (!expanded) {
       if (onPress) onPress();
 
@@ -272,7 +280,7 @@ function ImageViewer({
         setExpanded(false);
       }, 200);
     }
-  }, [onPress, setPostRead, expanded]);
+  };
 
   const setToCenter = () => {
     "worklet";
@@ -282,12 +290,6 @@ function ImageViewer({
     backgroundColor.value = withTiming("rgba(0, 0, 0, 1)", {
       duration: 300,
     });
-  };
-
-  const toggleAccessories = (show: boolean) => {
-    "worklet";
-
-    accessoriesOpacity.value = withTiming(show ? 1 : 0, { duration: 200 });
   };
 
   const onPinchStart = () => {
