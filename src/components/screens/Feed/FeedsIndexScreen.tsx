@@ -71,7 +71,7 @@ function FeedsIndexScreen({
     if (currentAccount === previousAccount.current) return;
 
     resetInstance();
-    init().then();
+    init().then(() => doLoad());
   }, [currentAccount]);
 
   const init = async () => {
