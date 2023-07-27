@@ -3,22 +3,22 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View } from "@src/components/common/Gluestack";
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Dimensions } from "react-native";
 import { useTranslation } from "react-i18next";
+import { View } from "./src/components/common/Gluestack";
 import {
   useSettingsStore,
   useThemeOptions,
-} from "@src/stores/settings/settingsStore";
+} from "./src/stores/settings/settingsStore";
 
-import { selectSite } from "@src/slices/site/siteSlice";
-import { truncateName } from "@src/helpers/TextHelper";
-import { ICON_MAP } from "@src/constants/IconMap";
-import KeywordsFilterScreen from "@src/components/screens/Settings/Filters/KeywordsFilterScreen";
-import InstanceFiltersScreen from "@src/components/screens/Settings/Filters/InstanceFiltersScreen";
-import { CustomTabBar } from "@src/components/common/Navigation/CustomTabBar";
+import { selectSite } from "./src/slices/site/siteSlice";
+import { truncateName } from "./src/helpers/TextHelper";
+import { ICON_MAP } from "./src/constants/IconMap";
+import KeywordsFilterScreen from "./src/components/screens/Settings/Filters/KeywordsFilterScreen";
+import InstanceFiltersScreen from "./src/components/screens/Settings/Filters/InstanceFiltersScreen";
+import { CustomTabBar } from "./src/components/common/Navigation/CustomTabBar";
 import LoadingView from "./src/components/common/Loading/LoadingView";
 import SFIcon from "./src/components/common/icons/SFIcon";
 import EditCommentScreen from "./src/components/screens/Comments/EditCommentScreen";
