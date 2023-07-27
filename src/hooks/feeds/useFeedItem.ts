@@ -20,6 +20,7 @@ import {
   useFeedPostRead,
   useFeedPostSaved,
   useFeedPostVote,
+  useFeedsStore,
 } from "@src/stores/feeds/feedsStore";
 import { determineVotes } from "@src/helpers/VoteHelper";
 import { useSettingsStore } from "@src/stores/settings/settingsStore";
@@ -88,6 +89,12 @@ const useFeedItem = (postId: number): UseFeedItem => {
 
   const onPress = useCallback(() => {
     if (!postRead && markReadOnPostView) setFeedRead(key, postId);
+
+    useFeedsStore.setState((state) => {
+      state.feeds
+        .get(key)
+        .posts.find((p) => p.post.id === postId).unread_comments = 0;
+    });
 
     const postKey = Date.now().toString() + postId;
 

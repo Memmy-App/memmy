@@ -30,6 +30,7 @@ import { clearNewComment } from "../../../slices/comments/newCommentSlice";
 import PostCommentItem from "./components/PostCommentItem";
 import usePost from "../../../hooks/post/usePost";
 import CommentSortButton from "./components/CommentSortButton";
+import refreshPost from "../../../stores/posts/actions/refreshPost";
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -67,6 +68,11 @@ function PostScreen({ navigation }: IProps) {
       ),
     });
   }, [commentsSort]);
+
+  useEffect(() => {
+    // get post to update unread_count
+    refreshPost(postKey).then();
+  }, []);
 
   useEffect(
     () =>

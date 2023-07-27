@@ -67,6 +67,13 @@ export const useFeedPostRead = (feedKey: string, postId: number) =>
       state.feeds.get(feedKey).posts.find((p) => p.post.id === postId).read
   );
 
+export const useFeedPostUnreadComments = (feedKey: string, postId: number) =>
+  useFeedsStore(
+    (state) =>
+      state.feeds.get(feedKey).posts.find((p) => p.post.id === postId)
+        .unread_comments
+  );
+
 export const useFeedPostCommunity = (feedKey: string, postId: number) =>
   useFeedsStore(
     (state) =>
