@@ -1,6 +1,4 @@
 import { Box, HStack, Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React from "react";
 import { useRoute } from "@react-navigation/core";
 import {
@@ -11,13 +9,13 @@ import {
   useFeedPostRead,
   useFeedPostVote,
 } from "@src/stores/feeds/feedsStore";
-import { timeFromNowShort } from "../../../../../helpers/TimeHelper";
-import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import VoteData from "@src/components/common/Vote/VoteData";
+import { timeFromNowShort } from "@src/helpers/TimeHelper";
 import AvatarUsername from "../../../../common/AvatarUsername";
 import CommentCount from "../../../../common/Comments/CommentCount";
 import CommunityLink from "../../../../common/CommunityLink";
 import FeaturedIndicator from "../../../../common/FeaturedIndicator";
-import SmallVoteIcons from "../../../../common/Vote/SmallVoteIcons";
 import { IconBookCheck } from "../../../../common/icons/IconBookCheck";
 
 interface IProps {
@@ -34,7 +32,7 @@ function CompactFeedItemFooter({ postId }: IProps) {
   const postVote = useFeedPostVote(key, postId);
   const postCommunity = useFeedPostCommunity(key, postId);
 
-  const { colors } = useAppSelector(selectThemeOptions);
+  const { colors } = useThemeOptions();
 
   return (
     <>
@@ -60,11 +58,7 @@ function CompactFeedItemFooter({ postId }: IProps) {
         </Text>
       </HStack>
       <HStack flex={1} alignItems="center" space="sm">
-        <SmallVoteIcons
-          upvotes={postCounts.upvotes}
-          downvotes={postCounts.downvotes}
-          myVote={postVote as ILemmyVote}
-        />
+        <VoteData data={postCounts} myVote={postVote} />
         <HStack alignItems="center" space="xs">
           <CommentCount commentCount={postCounts.comments} />
         </HStack>

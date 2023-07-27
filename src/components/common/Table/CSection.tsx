@@ -1,11 +1,10 @@
 import React from "react";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { Section } from "@gkasdorf/react-native-tableview-simple";
 import { SectionInterface } from "@gkasdorf/react-native-tableview-simple/lib/typescript/components/Section";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 function CSection({ ...props }: SectionInterface) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   return (
     <Section
       roundedCorners

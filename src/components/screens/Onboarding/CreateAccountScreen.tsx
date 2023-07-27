@@ -1,26 +1,25 @@
 import { LemmyHttp } from "lemmy-js-client";
 import {
   Button,
+  Pressable,
   Text,
   VStack,
-  Pressable,
 } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { useEffect, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { Alert, Image, Linking } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Trans, useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import { initialize, lemmyAuthToken } from "../../../LemmyInstance";
+import { useAppDispatch } from "../../../../store";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { writeToLog } from "../../../helpers/LogHelper";
-import { initialize, lemmyAuthToken } from "../../../LemmyInstance";
-import { addAccount } from "../../../slices/accounts/accountsActions";
-import { useAppDispatch } from "../../../../store";
+import { showToast } from "../../../slices/toast/toastSlice";
+import { useAccountStore } from "../../../stores/account/accountStore";
+import ILemmyServer from "../../../types/lemmy/ILemmyServer";
 import CTextInput from "../../common/CTextInput";
 import LoadingModal from "../../common/Loading/LoadingModal";
-import { showToast } from "../../../slices/toast/toastSlice";
-import ILemmyServer from "../../../types/lemmy/ILemmyServer";
 
 const header = require("../../../../assets/header.jpg");
 
@@ -57,9 +56,10 @@ function CreateAccountScreen({
   const [ready, setReady] = useState(false);
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [png, setPng] = useState(undefined);
+  const accountStore = useAccountStore();
 
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -197,14 +197,14 @@ function CreateAccountScreen({
 
     setLoading(false);
 
-    dispatch(
-      addAccount({
+    accountStore
+      .addAccount({
         username: form.username,
         password: form.password,
         instance: serverParsed,
         token: lemmyAuthToken,
       })
-    );
+      .then();
   };
 
   return (

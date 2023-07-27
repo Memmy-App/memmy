@@ -1,44 +1,40 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView } from "@src/components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
-import { useAppDispatch, useAppSelector } from "@root/store";
+import { useAppSelector } from "@root/store";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Button, Switch } from "react-native";
+import setSetting from "@src/stores/settings/actions/setSetting";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import { ICON_MAP } from "../../../../constants/IconMap";
 import useNotifications from "../../../../hooks/notifications/useNotifications";
-import { deleteAccount } from "../../../../slices/accounts/accountsActions";
 import {
-  selectAccounts,
-  selectCurrentAccount,
-} from "../../../../slices/accounts/accountsSlice";
-import { setSetting } from "../../../../slices/settings/settingsActions";
+  useAccountStore,
+  useAccounts,
+  useCurrentAccount,
+} from "../../../../stores/account/accountStore";
 import { Account } from "../../../../types/Account";
 import LoadingModalTransparent from "../../../common/Loading/LoadingModalTransparent";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
 import CTable from "../../../common/Table/CTable";
 import SFIcon from "../../../common/icons/SFIcon";
-import { ICON_MAP } from "../../../../constants/IconMap";
 
 interface ViewAccountsScreenProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
-  const accounts = useAppSelector(selectAccounts);
-  const currentAccount = useAppSelector(selectCurrentAccount);
-  const { pushEnabled } = useAppSelector(selectSettings);
+  const accountStore = useAccountStore();
+  const accounts = useAccounts();
+  const currentAccount = useCurrentAccount();
+  const pushEnabled = useAppSelector((state) => state.settings.pushEnabled);
 
   const [pushEnabledArr, setPushEnabledArr] = useState([]);
 
-  const dispatch = useAppDispatch();
-
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const notifications = useNotifications();
 
   useFocusEffect(
@@ -83,7 +79,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
           text: t("Logout"),
           style: "destructive",
           onPress: () => {
-            dispatch(deleteAccount(account));
+            accountStore.deleteAccount(account);
           },
         },
       ]
@@ -119,14 +115,12 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
       Alert.alert("Error", res.message);
     }
 
-    dispatch(
-      setSetting({
-        pushEnabled: JSON.stringify([
-          ...pushEnabledArr,
-          { username: account.username, instance: account.instance },
-        ]),
-      })
-    );
+    setSetting({
+      pushEnabled: JSON.stringify([
+        ...pushEnabledArr,
+        { username: account.username, instance: account.instance },
+      ]),
+    }).then();
 
     setPushEnabledArr((prev) => [
       ...prev,
@@ -141,16 +135,14 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
       Alert.alert("Error", res.message);
     }
 
-    dispatch(
-      setSetting({
-        pushEnabled: JSON.stringify(
-          pushEnabledArr.map(
-            (x) =>
-              x.username !== account.username && x.instance !== account.instance
-          )
-        ),
-      })
-    );
+    setSetting({
+      pushEnabled: JSON.stringify(
+        pushEnabledArr.map(
+          (x) =>
+            x.username !== account.username && x.instance !== account.instance
+        )
+      ),
+    }).then();
 
     setPushEnabledArr((prev) =>
       prev.map(

@@ -8,7 +8,6 @@ import { useTranslation } from "react-i18next";
 import { produce } from "immer";
 import { useRoute } from "@react-navigation/core";
 import { useAppDispatch, useAppSelector } from "../../../store";
-import { selectCurrentAccount } from "../../slices/accounts/accountsSlice";
 import { selectSite, setUnread } from "../../slices/site/siteSlice";
 import ILemmyComment from "../../types/lemmy/ILemmyComment";
 import { onGenericHapticFeedback } from "../../helpers/HapticFeedbackHelpers";
@@ -24,6 +23,7 @@ import { PostsStore, usePostsStore } from "../../stores/posts/postsStore";
 import { useInboxStore } from "../../stores/inbox/inboxStore";
 import { ICON_MAP } from "../../constants/IconMap";
 import { ContextMenuOption } from "../../types/ContextMenuOptions";
+import { useCurrentAccount } from "../../stores/account/accountStore";
 
 export interface UseComment {
   onCommentLongPress: (selection?: string) => void;
@@ -37,7 +37,7 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
 
   const { t } = useTranslation();
 
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currentAccount = useCurrentAccount();
   const { unread } = useAppSelector(selectSite);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 

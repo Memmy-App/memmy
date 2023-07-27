@@ -1,7 +1,6 @@
 import { Pressable } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React from "react";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 interface CIconButtonProps {
   icon: JSX.Element;
@@ -9,7 +8,7 @@ interface CIconButtonProps {
 }
 
 function HeaderIconButton({ icon, onPress }: CIconButtonProps) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const iconElement = React.Children.only(icon);
   const newIconElement = React.cloneElement(iconElement, {
     color: theme.colors.accent,

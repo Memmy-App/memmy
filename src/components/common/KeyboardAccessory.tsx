@@ -1,9 +1,8 @@
 import { HStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { SetStateAction, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, InputAccessoryView, TextInput } from "react-native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { selectImage } from "../../helpers/ImageHelper";
 import uploadToImgur from "../../helpers/ImgurHelper";
 import { writeToLog } from "../../helpers/LogHelper";
@@ -30,7 +29,7 @@ function KeyboardAccessory({
   const [uploading, setUploading] = useState(false);
 
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const replace = (newText: string) =>
     text.substring(0, selection.start) +

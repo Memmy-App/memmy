@@ -16,10 +16,9 @@ import {
   GestureStateChangeEvent,
   PanGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
 import { Handlers, SwipeableRowGestureContext } from "./types";
 import { SwipeableRowProvider } from "./SwipeableRowProvider";
-import { useAppSelector } from "../../../../store";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
 
 interface Props {
   /**
@@ -47,7 +46,7 @@ interface Props {
 }
 
 export function SwipeableRow({ leftOption, rightOption, children }: Props) {
-  const { swipeToVote } = useAppSelector(selectSettings);
+  const swipeToVote = useSettingsStore((state) => state.settings.swipeToVote);
 
   const [subscribers, setSubscribers] = useState<Handlers[]>([]);
 

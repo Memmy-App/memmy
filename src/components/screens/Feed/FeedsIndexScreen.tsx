@@ -1,22 +1,22 @@
+import { useRoute } from "@react-navigation/core";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useEffect, useRef } from "react";
-import { useRoute } from "@react-navigation/core";
-import { useAppDispatch, useAppSelector } from "../../../../store";
+import { useAppDispatch } from "../../../../store";
 import {
   initialize,
   lemmyInstance,
   resetInstance,
 } from "../../../LemmyInstance";
-import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
-import { Account } from "../../../types/Account";
-import { FeedListingTypeButton } from "./components/FeedListingTypeButton";
-import FeedView from "./components/FeedView";
+import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
+import { getUnreadCount } from "../../../slices/site/siteActions";
+import { useCurrentAccount } from "../../../stores/account/accountStore";
+import addFeed from "../../../stores/feeds/actions/addFeed";
 import loadFeedPosts from "../../../stores/feeds/actions/loadFeedPosts";
 import removeFeed from "../../../stores/feeds/actions/removeFeed";
 import { useFeedStatus } from "../../../stores/feeds/feedsStore";
-import addFeed from "../../../stores/feeds/actions/addFeed";
-import { handleLemmyError } from "../../../helpers/LemmyErrorHelper";
-import { getUnreadCount } from "../../../slices/site/siteActions";
+import { Account } from "../../../types/Account";
+import { FeedListingTypeButton } from "./components/FeedListingTypeButton";
+import FeedView from "./components/FeedView";
 
 function FeedsIndexScreen({
   navigation,
@@ -25,7 +25,7 @@ function FeedsIndexScreen({
 }) {
   const { key } = useRoute();
   // Global State
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currentAccount = useCurrentAccount();
   const status = useFeedStatus(key);
 
   // Refs
@@ -71,7 +71,7 @@ function FeedsIndexScreen({
     if (currentAccount === previousAccount.current) return;
 
     resetInstance();
-    init().then();
+    init().then(() => doLoad());
   }, [currentAccount]);
 
   const init = async () => {

@@ -8,8 +8,6 @@ import {
   Text,
   VStack,
 } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import {
   IconArrowDown,
@@ -22,6 +20,7 @@ import {
   IconX,
 } from "tabler-icons-react-native";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import MTable from "../../common/Table/MTable";
 import MCell from "../../common/Table/MCell";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
@@ -33,7 +32,7 @@ interface IProps {
 
 function InstanceScreen({ route, navigation }: IProps) {
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const site = route.params.site as Site;
   const localSite = route.params.localSite as LocalSite;
   const counts = route.params.counts as SiteAggregates;

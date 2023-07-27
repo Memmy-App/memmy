@@ -1,14 +1,15 @@
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as WebBrowser from "expo-web-browser";
 import { WebBrowserPresentationStyle } from "expo-web-browser";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Alert, Linking } from "react-native";
 
 import axios from "axios";
 import { URL } from "react-native-url-polyfill";
-import { writeToLog } from "./LogHelper";
 import store from "../../store";
 import i18n from "../plugins/i18n/i18n";
 import { showToast } from "../slices/toast/toastSlice";
+import { useCurrentAccount } from "../stores/account/accountStore";
+import { writeToLog } from "./LogHelper";
 
 const imageExtensions = [
   "webp",
@@ -25,7 +26,6 @@ const imageExtensions = [
 ];
 
 const videoExtensions = ["mp4", "mov", "m4a"];
-let { accounts } = store.getState();
 
 export interface LinkInfo {
   extType?: ExtensionType;
@@ -77,11 +77,9 @@ const isPotentialFedSite = (link: string) => {
 
 // Takes in "/c/community@instance" and return "https://instance_url/c/community@instance"
 export const getCommunityLink = (sublink: string): string => {
-  if (!accounts.currentAccount) {
-    ({ accounts } = store.getState());
-  }
+  const currentAccount = useCurrentAccount();
 
-  let instanceUrl = accounts.currentAccount.instance;
+  let instanceUrl = currentAccount.instance;
   if (
     !instanceUrl.startsWith("https://") &&
     !instanceUrl.startsWith("http://")

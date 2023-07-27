@@ -18,7 +18,7 @@ export interface ITheme {
   name: string;
   colors: IColors;
   config: {
-    initialColorMode: "unspecified" | "light" | "dark";
+    initialColorMode?: "light" | "dark";
   };
 }
 
