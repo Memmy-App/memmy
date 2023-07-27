@@ -20,7 +20,9 @@ import {
 import { selectSite } from "@src/slices/site/siteSlice";
 import { truncateName } from "@src/helpers/TextHelper";
 import { ICON_MAP } from "@src/constants/IconMap";
-import { CustomTabBar } from "./src/components/common/Navigation/CustomTabBar";
+import KeywordsFilterScreen from "@src/components/screens/Settings/Filters/KeywordsFilterScreen";
+import InstanceFiltersScreen from "@src/components/screens/Settings/Filters/InstanceFiltersScreen";
+import { CustomTabBar } from "@src/components/common/Navigation/CustomTabBar";
 import LoadingView from "./src/components/common/Loading/LoadingView";
 import SFIcon from "./src/components/common/icons/SFIcon";
 import EditCommentScreen from "./src/components/screens/Comments/EditCommentScreen";
@@ -66,8 +68,6 @@ import ViewerScreen from "./src/components/screens/ViewerScreen";
 import { useAppSelector } from "./store";
 import ScreenGestureHandler from "./src/components/common/Navigation/ScreenGestureHandler";
 import FiltersScreen from "./src/components/screens/Settings/Filters/FiltersScreen";
-import KeywordsScreen from "./src/components/screens/Settings/Filters/KeywordsScreen";
-import InstancesScreen from "./src/components/screens/Settings/Filters/InstancesScreen";
 
 function CustomDrawerContent() {
   const theme = useThemeOptions();
@@ -366,15 +366,15 @@ function SettingsScreens(stack) {
         }}
       />
       <stack.Screen
-        name="Keywords"
-        component={KeywordsScreen}
+        name="KeywordFilters"
+        component={KeywordsFilterScreen}
         options={{
-          tilte: t("Keywords"),
+          title: t("Keywords"),
         }}
       />
       <stack.Screen
-        name="Instances"
-        component={InstancesScreen}
+        name="InstanceFilters"
+        component={InstanceFiltersScreen}
         options={{
           title: t("Instances"),
         }}
