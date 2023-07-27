@@ -1,12 +1,11 @@
 import { Box, HStack, Pressable, Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React from "react";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import SFIcon from "../icons/SFIcon";
 import { ICON_MAP } from "../../../constants/IconMap";
 
 function SpoilerContainer({ title, node }: { title: string; node: any }) {
-  const { colors } = useAppSelector(selectThemeOptions);
+  const { colors } = useThemeOptions();
   const [showSpoiler, setShowSpoiler] = React.useState(false);
 
   // this is unfortunately the only way right now I could figure out how to access just the text of the content

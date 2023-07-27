@@ -5,9 +5,8 @@ import {
   View,
   VStack,
 } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { useState } from "react";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import SFIcon from "../icons/SFIcon";
 import { ICON_MAP } from "../../../constants/IconMap";
 
@@ -38,7 +37,7 @@ function MCell({
   showChevron = false,
   py,
 }: IProps) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const [pressedIn, setPressedIn] = useState(false);
 
   const onPressIn = () => setPressedIn(true);

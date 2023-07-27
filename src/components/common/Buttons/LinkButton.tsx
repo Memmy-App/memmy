@@ -1,12 +1,11 @@
 import { HStack, Text, VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { useCallback, useMemo } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Pressable } from "react-native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { openLink } from "../../../helpers/LinkHelper";
 import { truncateLink } from "../../../helpers/TextHelper";
 import SFIcon from "../icons/SFIcon";
@@ -19,7 +18,7 @@ interface LinkButtonProps {
 
 function LinkButton({ link, thumbnail }: LinkButtonProps) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const onPress = useCallback(() => {
     openLink(link, navigation, theme.colors.bg);

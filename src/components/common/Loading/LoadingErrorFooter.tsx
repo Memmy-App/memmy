@@ -1,8 +1,7 @@
 import React from "react";
 import { Center, Pressable, Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 interface LoadingErrorFooterProps {
   onRetryPress: () => void | Promise<void>;
@@ -14,7 +13,7 @@ function LoadingErrorFooter({
   message,
 }: LoadingErrorFooterProps) {
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   return (
     <Center flex={1} my="$4">

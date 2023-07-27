@@ -1,11 +1,11 @@
 import React, { useCallback } from "react";
 import { ScrollView } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "@root/store";
 import { useFocusEffect } from "@react-navigation/native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { trigger } from "react-native-haptic-feedback";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { selectSite } from "../../../slices/site/siteSlice";
 import {
   getSiteInfo,
@@ -22,7 +22,7 @@ function BlockedCommunitiesScreen() {
 
   // Hooks
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const dispatch = useAppDispatch();
   const { showActionSheetWithOptions } = useActionSheet();
 

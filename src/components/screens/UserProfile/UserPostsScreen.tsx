@@ -2,10 +2,9 @@ import React from "react";
 import { FlashList } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import { VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { Route } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/core";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import useProfile from "../../../hooks/profile/useProfile";
 import CompactFeedItem from "../Feed/components/CompactFeedItem/CompactFeedItem";
 import NoResultView from "../../common/NoResultView";
@@ -36,7 +35,7 @@ function UserPostsScreen({ route }: IProps) {
 
   const postsStatus = useFeedStatus(key);
 
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const noResultViewType = route.params.isSavedPosts
     ? "profileSavedPosts"

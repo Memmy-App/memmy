@@ -1,6 +1,4 @@
 import { Box, HStack, Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React from "react";
 import { useRoute } from "@react-navigation/core";
 import {
@@ -11,6 +9,7 @@ import {
   useFeedPostRead,
   useFeedPostVote,
 } from "@src/stores/feeds/feedsStore";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { timeFromNowShort } from "../../../../../helpers/TimeHelper";
 import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
 import AvatarUsername from "../../../../common/AvatarUsername";
@@ -34,7 +33,7 @@ function CompactFeedItemFooter({ postId }: IProps) {
   const postVote = useFeedPostVote(key, postId);
   const postCommunity = useFeedPostCommunity(key, postId);
 
-  const { colors } = useAppSelector(selectThemeOptions);
+  const { colors } = useThemeOptions();
 
   return (
     <>

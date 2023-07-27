@@ -8,11 +8,10 @@ import {
   View,
   VStack,
 } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { ICON_MAP } from "../../../../constants/IconMap";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import { getCakeDay } from "../../../../helpers/TimeHelper";
@@ -24,7 +23,7 @@ interface IProps {
 }
 
 function ProfileHeader({ profile }: IProps) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const { t } = useTranslation();
 
   if (!profile.profile) return null;

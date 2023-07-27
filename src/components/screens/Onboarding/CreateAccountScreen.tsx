@@ -1,17 +1,16 @@
 import { LemmyHttp } from "lemmy-js-client";
 import {
   Button,
+  Pressable,
   Text,
   VStack,
-  Pressable,
 } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { useEffect, useState } from "react";
 import { Alert, Image, Linking } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Trans, useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { initialize, lemmyAuthToken } from "../../../LemmyInstance";
@@ -59,7 +58,7 @@ function CreateAccountScreen({
   const [png, setPng] = useState(undefined);
 
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const dispatch = useAppDispatch();
 
   useEffect(() => {

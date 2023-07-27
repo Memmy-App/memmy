@@ -1,13 +1,12 @@
 import React from "react";
 import { Cell } from "@gkasdorf/react-native-tableview-simple";
 import { Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { CellInterface } from "@gkasdorf/react-native-tableview-simple/lib/typescript/components/Cell";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 function CCell(props: CellInterface) {
   const { title } = props;
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   return (
     <Cell

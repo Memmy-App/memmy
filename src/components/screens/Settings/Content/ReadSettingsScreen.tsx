@@ -1,27 +1,24 @@
 import React from "react";
 import { VStack } from "@src/components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
-import { useAppDispatch, useAppSelector } from "@root/store";
 import { Switch } from "react-native";
 import { useTranslation } from "react-i18next";
+import {
+  useSettings,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
+import setSetting from "@src/stores/settings/actions/setSetting";
 import CTable from "../../../common/Table/CTable";
 import CSection from "../../../common/Table/CSection";
 import CCell from "../../../common/Table/CCell";
-import { setSetting } from "../../../../slices/settings/settingsActions";
 
 function ReadSettingsScreen() {
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
-  const settings = useAppSelector(selectSettings);
-
-  const dispatch = useAppDispatch();
+  const settings = useSettings();
 
   const onChange = (key: string, value: any) => {
-    dispatch(setSetting({ [key]: value }));
+    setSetting({ [key]: value }).then();
   };
 
   return (
