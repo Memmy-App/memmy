@@ -11,8 +11,7 @@ import Animated, {
 } from "react-native-reanimated";
 import React, { useEffect, useMemo, useState } from "react";
 import { Dimensions, LayoutRectangle, StyleSheet } from "react-native";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { ISwipeableColors } from "./types";
 import { useSwipeableRow } from "./SwipeableRowProvider";
@@ -51,7 +50,7 @@ export function ReplyOption({
   onExtra,
   extraType,
 }: Props) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const [firstStop, secondStop] = stops;
 

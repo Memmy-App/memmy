@@ -1,9 +1,8 @@
 import React from "react";
 import { Text, View } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { Button, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 interface LoadingViewProps {
   onRetryPress: () => void | Promise<void>;
@@ -11,7 +10,7 @@ interface LoadingViewProps {
 
 function LoadingErrorView({ onRetryPress }: LoadingViewProps) {
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   return (
     <View style={styles.container} backgroundColor={theme.colors.bg}>

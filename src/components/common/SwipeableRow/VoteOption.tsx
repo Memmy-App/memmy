@@ -15,8 +15,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
 import { LayoutChangeEvent, LayoutRectangle, StyleSheet } from "react-native";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { useSwipeableRow } from "./SwipeableRowProvider";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { ISwipeableColors } from "./types";
@@ -37,7 +36,7 @@ const buzz = () => {
 };
 
 export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const [firstStop, secondStop] = stops;
   const isFrozen = useSharedValue(false);

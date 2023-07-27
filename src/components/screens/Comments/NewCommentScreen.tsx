@@ -1,28 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Button, StyleSheet, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import {
-  HStack,
-  Icon,
-  Text,
-  View,
-  VStack,
-} from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
+import { HStack, Text, View, VStack } from "@src/components/common/Gluestack";
 import { useAppSelector } from "@root/store";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Ionicons } from "@expo/vector-icons";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
-import { selectNewComment } from "../../../slices/comments/newCommentSlice";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import VoteData from "@src/components/common/Vote/VoteData";
+import { truncateName } from "@src/helpers/TextHelper";
+import { getBaseUrl } from "@src/helpers/LinkHelper";
+import { selectNewComment } from "@src/slices/comments/newCommentSlice";
 import LoadingView from "../../common/Loading/LoadingView";
 import useNewComment from "../../../hooks/comments/useNewComment";
-import { truncateName } from "../../../helpers/TextHelper";
 import RenderMarkdown from "../../common/Markdown/RenderMarkdown";
 import KeyboardAccessory from "../../common/KeyboardAccessory";
-import SmallVoteIcons from "../../common/Vote/SmallVoteIcons";
-import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
 
 function NewCommentScreen({
   navigation,
@@ -46,19 +38,19 @@ function NewCommentScreen({
 
   // Other hooks
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   // Other
-  const myVote = responseTo.post
-    ? responseTo.post.my_vote
-    : responseTo.comment.my_vote;
-
-  const upvotes = responseTo.post
-    ? responseTo.post.counts.upvotes
-    : responseTo.comment.counts.upvotes;
-  const downvotes = responseTo.post
-    ? responseTo.post.counts.downvotes
-    : responseTo.comment.counts.downvotes;
+  const myVote = useMemo(
+    () =>
+      responseTo.post ? responseTo.post.my_vote : responseTo.comment.my_vote,
+    [responseTo]
+  );
+  const voteData = useMemo(
+    () =>
+      responseTo.post ? responseTo.post.counts : responseTo.comment.counts,
+    [responseTo]
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -131,19 +123,9 @@ function NewCommentScreen({
             </Text>
             <HStack space="md" alignItems="center">
               <HStack space="xxxs" alignItems="center">
-                <SmallVoteIcons
-                  upvotes={upvotes}
-                  downvotes={downvotes}
-                  myVote={myVote as ILemmyVote}
-                />
+                <VoteData data={voteData} myVote={myVote} />
               </HStack>
               <HStack space="xs" alignItems="center">
-                <Icon
-                  as={Ionicons}
-                  name="time-outline"
-                  color={theme.colors.textSecondary}
-                  size={16}
-                />
                 <Text color={theme.colors.textSecondary}>
                   {dayjs(
                     responseTo.post

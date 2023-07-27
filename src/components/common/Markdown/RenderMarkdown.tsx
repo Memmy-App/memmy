@@ -3,13 +3,12 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
 import { View } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
 import { TextStyle, useWindowDimensions } from "react-native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { openLink } from "../../../helpers/LinkHelper";
 import { replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
-import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
+import { useCurrentAccount } from "../../../stores/account/accountStore";
 import { fontSizeMap } from "../../../theme/fontSize";
 import ImageViewer from "../ImageViewer/ImageViewer";
 import SpoilerContainer from "./SpoilerContainer";
@@ -31,7 +30,7 @@ interface MarkdownProps {
 }
 
 function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currentAccount = useCurrentAccount();
 
   // TODO: Disabling Font Scaling for now.
   // const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
@@ -53,7 +52,7 @@ function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
     return false;
   };
 
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const fontColor = theme.colors.textPrimary;
 

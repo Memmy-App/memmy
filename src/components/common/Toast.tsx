@@ -1,5 +1,4 @@
 import { HStack, Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "@root/store";
 import React, { useEffect } from "react";
 import Animated, {
@@ -7,6 +6,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import {
   hideToast,
   selectToast,
@@ -19,7 +19,7 @@ function Toast(): JSX.Element {
   const { isOpen, message, duration, variant, icon } =
     useAppSelector(selectToast);
   const dispatch = useAppDispatch();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const positionY = useSharedValue(-100);
 

@@ -6,10 +6,9 @@ import {
   View,
   VStack,
 } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React from "react";
 import { TouchableOpacity } from "react-native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { AccountsContextMenu } from "../ContextMenu/AccountsContextMenu";
 import TabBarGestureHandler from "./TabBarGestureHandler";
@@ -25,7 +24,7 @@ function IconWithText({
   color: string;
   badge?: string;
 }) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   return (
     <VStack style={{ alignItems: "center" }} space="xs">
       <HStack>
@@ -46,7 +45,7 @@ export function CustomTabBar({
   descriptors,
   navigation,
 }: BottomTabBarProps) {
-  const { colors } = useAppSelector(selectThemeOptions);
+  const { colors } = useThemeOptions();
 
   return (
     <TabBarGestureHandler>

@@ -6,14 +6,13 @@ import {
   View,
   VStack,
 } from "@src/components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { useWindowDimensions } from "react-native";
 
 import { useRoute } from "@react-navigation/core";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import useFeedItem from "../../../../../hooks/feeds/useFeedItem";
 import {
   ExtensionType,
@@ -42,7 +41,12 @@ function CompactFeedItem({ postId }: { postId: number }) {
     compactThumbnailPosition,
     compactShowVotingButtons,
     fontWeightPostTitle,
-  } = useAppSelector(selectSettings);
+  } = useSettingsStore((state) => ({
+    compactThumbnailPosition: state.settings.compactThumbnailPosition,
+    compactShowVotingButtons: state.settings.compactShowVotingButtons,
+    fontWeightPostTitle: state.settings.fontWeightPostTitle,
+  }));
+
   const { key } = useRoute();
 
   const feedItem = useFeedItem(postId);
@@ -52,7 +56,7 @@ function CompactFeedItem({ postId }: { postId: number }) {
   const postInfo = useFeedPostInfo(key, postId);
   const postRead = useFeedPostRead(key, postId);
 
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const onSwipe = useCallback(
     (value: ILemmyVote) => {

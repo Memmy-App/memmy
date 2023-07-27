@@ -1,27 +1,29 @@
 import { PostAggregates } from "lemmy-js-client";
 import { HStack, Text } from "@src/components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React from "react";
+import { ICON_MAP } from "@src/constants/IconMap";
+import { CommentAggregates } from "lemmy-js-client/dist/types/CommentAggregates";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import SFIcon from "../icons/SFIcon";
-import { ICON_MAP } from "../../../constants/IconMap";
 
 interface IProps {
-  data: PostAggregates;
-  vote?: number;
+  data: PostAggregates | CommentAggregates;
+  myVote?: number;
 }
 
-function VoteData({ data, vote }: IProps) {
-  const { colors } = useAppSelector(selectThemeOptions);
-  const settings = useAppSelector(selectSettings);
+function VoteData({ data, myVote }: IProps) {
+  const { colors } = useThemeOptions();
+  const displayTotalScore = useSettingsStore(
+    (state) => state.settings.displayTotalScore
+  );
 
-  const upvoted = vote === 1;
-  const downvoted = vote === -1;
+  const upvoted = myVote === 1;
+  const downvoted = myVote === -1;
 
-  if (settings.displayTotalScore) {
+  if (displayTotalScore) {
     const voteColor = upvoted ? colors.upvote : colors.downvote;
     const color = upvoted || downvoted ? voteColor : colors.textSecondary;
 
