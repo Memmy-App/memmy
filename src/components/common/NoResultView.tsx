@@ -1,8 +1,7 @@
 import React from "react";
 import { Text, VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 type MessageType =
   | "comments"
@@ -21,7 +20,7 @@ export interface INoResultViewProps
 
 function NoResultView({ type = "default", ...rest }: INoResultViewProps) {
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   return (
     <VStack flex={1} justifyContent="center" alignItems="center" {...rest}>

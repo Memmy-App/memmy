@@ -1,20 +1,20 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Text, View } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import { CommunityView } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import useTraverse from "../../../hooks/traverse/useTraverse";
 import LoadingView from "../../common/Loading/LoadingView";
 import TraverseItem from "./components/TraverseItem";
 import SearchBar from "../../common/Search/SearchBar";
 import RefreshControl from "../../common/RefreshControl";
 
-import { selectFavorites } from "../../../slices/favorites/favoritesSlice";
-import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { getCommunityFullName } from "../../../helpers/LemmyHelpers";
+import { selectFavorites } from "../../../slices/favorites/favoritesSlice";
+import { useCurrentAccount } from "../../../stores/account/accountStore";
 
 enum ItemType {
   HEADER,
@@ -36,7 +36,7 @@ interface SectionListItem {
 
 function TraverseScreen() {
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const traverse = useTraverse();
 
   const [term, setTerm] = useState("");
@@ -44,7 +44,7 @@ function TraverseScreen() {
   const itemFilter = (item: CommunityView) =>
     !term || item.community.name.toLowerCase().includes(term.toLowerCase());
 
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currentAccount = useCurrentAccount();
   const favorites =
     useAppSelector(selectFavorites).favorites[
       `${currentAccount.username}@${currentAccount.instance}`

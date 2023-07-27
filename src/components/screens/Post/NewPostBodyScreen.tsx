@@ -3,9 +3,8 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button, Dimensions, StyleSheet, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useKeyboard } from "@react-native-community/hooks";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import KeyboardAccessory from "../../common/KeyboardAccessory";
 
 interface IProps {
@@ -15,7 +14,7 @@ interface IProps {
 
 function NewPostBodyScreen({ route, navigation }: IProps) {
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const { keyboardHeight } = useKeyboard();
 
   const [body, setBody] = useState(route.params.body ?? "");

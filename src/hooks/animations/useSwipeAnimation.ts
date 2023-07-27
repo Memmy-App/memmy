@@ -7,8 +7,7 @@ import {
   withSpring,
 } from "react-native-reanimated";
 import { Dimensions } from "react-native";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { onCommentSlideHapticFeedback } from "../../helpers/HapticFeedbackHelpers";
 
 interface UseSwipeAnimationOptions {
@@ -33,7 +32,7 @@ interface UseSwipeAnimation {
 const useSwipeAnimation = (
   options: UseSwipeAnimationOptions
 ): UseSwipeAnimation => {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   // State
   const color = useSharedValue(theme.colors.upvote);
   // const rightIcon = useSharedValue(options.rightLeftOneIcon);

@@ -6,15 +6,14 @@ import {
   Text,
   View,
 } from "@src/components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
-import { useAppDispatch, useAppSelector } from "@root/store";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
-import { setSetting } from "../../../../slices/settings/settingsActions";
+import {
+  useSettings,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
+import setSetting from "@src/stores/settings/actions/setSetting";
 import {
   DarkThemeOptionsArr,
   LightThemeOptionsArr,
@@ -55,11 +54,10 @@ interface IProps {
 
 function ThemeSelectionScreen({ route }: IProps) {
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const themeProp = route.params?.themeProp || "theme";
 
-  const settings = useAppSelector(selectSettings);
+  const settings = useSettings();
   const currentTheme = settings[themeProp];
 
   return (
@@ -88,7 +86,7 @@ function ThemeSelectionScreen({ route }: IProps) {
                 onPress={() => {
                   const themeSetting = {};
                   themeSetting[themeProp] = themeName;
-                  dispatch(setSetting(themeSetting));
+                  setSetting(themeSetting).then();
                 }}
               />
             ))}
@@ -115,7 +113,7 @@ function ThemeSelectionScreen({ route }: IProps) {
                 onPress={() => {
                   const themeSetting = {};
                   themeSetting[themeProp] = themeName;
-                  dispatch(setSetting(themeSetting));
+                  setSetting(themeSetting).then();
                 }}
               >
                 {themeName === "Sunset" ? (

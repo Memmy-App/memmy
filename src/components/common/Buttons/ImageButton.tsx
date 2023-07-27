@@ -1,9 +1,8 @@
 import { HStack, Spacer, Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import SFIcon from "@src/components/common/icons/SFIcon";
 import { ICON_MAP } from "@src/constants/IconMap";
-import { useAppSelector } from "@root/store";
 import React from "react";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { truncateImageLink } from "../../../helpers/TextHelper";
 
 interface ImageButtonProps {
@@ -13,7 +12,7 @@ interface ImageButtonProps {
 }
 
 function ImageButton({ src, marginY = 4, children }: ImageButtonProps) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   return (
     <>
