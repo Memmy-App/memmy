@@ -1,8 +1,5 @@
 import { Box, Text } from "@src/components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React, { useCallback, useMemo } from "react";
 import {

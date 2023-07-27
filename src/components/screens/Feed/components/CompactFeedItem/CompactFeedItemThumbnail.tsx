@@ -1,9 +1,6 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { Box, Pressable, View } from "@src/components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";

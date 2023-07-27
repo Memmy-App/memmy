@@ -19,8 +19,6 @@ import {
 import { useSettingsStore } from "@src/stores/settings/settingsStore";
 import { Handlers, SwipeableRowGestureContext } from "./types";
 import { SwipeableRowProvider } from "./SwipeableRowProvider";
-import { useAppSelector } from "../../../../store";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
 
 interface Props {
   /**
