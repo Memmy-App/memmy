@@ -5,12 +5,13 @@ import {
   ScrollView,
   Text,
 } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { changeIcon } from "react-native-change-icon";
-import { useSettings } from "@src/stores/settings/settingsStore";
+import {
+  useSettings,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import setSetting from "@src/stores/settings/actions/setSetting";
 import { appIconOptions } from "../../../../types/AppIconType";
 import CCell from "../../../common/Table/CCell";
@@ -20,7 +21,7 @@ import SFIcon from "../../../common/icons/SFIcon";
 function IconSelectionScreen() {
   const settings = useSettings();
 
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   return (
     <ScrollView bg={theme.colors.bg} flex={1}>

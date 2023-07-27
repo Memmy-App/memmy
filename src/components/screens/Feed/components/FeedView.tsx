@@ -6,7 +6,6 @@ import {
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import { HStack, View } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { StyleSheet } from "react-native";
@@ -29,7 +28,10 @@ import {
 import { useCommunity } from "@src/stores/communities/communitiesStore";
 import { removeReadPosts } from "@src/helpers/LemmyHelpers";
 import { useSaved, useVoted } from "@src/stores/updates/updatesStore";
-import { useSettingsStore } from "@src/stores/settings/settingsStore";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import LoadingErrorView from "../../../common/Loading/LoadingErrorView";
 import LoadingView from "../../../common/Loading/LoadingView";
 import NoResultView from "../../../common/NoResultView";
@@ -103,7 +105,7 @@ function FeedView({ header }: FeedViewProps) {
   const recycled = useRef({});
 
   // Other Hooks
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const navigation = useNavigation<DrawerNavigationProp<ParamListBase>>();
 
   useScrollToTop(flashList);

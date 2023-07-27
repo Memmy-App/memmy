@@ -4,12 +4,14 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Dimensions } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useSettingsStore } from "@src/stores/settings/settingsStore";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import {
   selectAccounts,
   selectAccountsLoaded,
@@ -68,7 +70,7 @@ import KeywordsScreen from "./src/components/screens/Settings/Filters/KeywordsSc
 import InstancesScreen from "./src/components/screens/Settings/Filters/InstancesScreen";
 
 function CustomDrawerContent() {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   return (
     <>
       {/* Header */}
@@ -678,7 +680,7 @@ interface StackProps {
 }
 
 function Stack({ onReady }: StackProps) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const { t } = useTranslation();
   const accounts = useAppSelector(selectAccounts);
   const accountsLoaded = useAppSelector(selectAccountsLoaded);

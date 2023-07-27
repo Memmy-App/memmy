@@ -1,12 +1,12 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "@root/store";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Button, Switch } from "react-native";
 import setSetting from "@src/stores/settings/actions/setSetting";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import useNotifications from "../../../../hooks/notifications/useNotifications";
 import { deleteAccount } from "../../../../slices/accounts/accountsActions";
 import {
@@ -35,7 +35,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const notifications = useNotifications();
 
   useFocusEffect(

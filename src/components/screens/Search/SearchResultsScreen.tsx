@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import { ScrollView, VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView, SearchType } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
-import { useSettingsStore } from "@src/stores/settings/settingsStore";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import useSearchResult from "../../../hooks/search/useSearchResult";
 import CompactFeedItem from "../Feed/components/CompactFeedItem/CompactFeedItem";
 import LoadingView from "../../common/Loading/LoadingView";
@@ -32,7 +33,7 @@ function SearchResultsScreen({ route }: IProps) {
   const type = route.params.type as SearchType;
 
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const search = useSearchResult(route.params.query, route.params.type);
 
   const compactView = useSettingsStore((state) => state.settings.compactView);

@@ -1,11 +1,6 @@
-import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { ThemeOptionsMap } from "@src/theme/themeOptions";
-import { theme as GluestackTheme } from "@root/gluestack-ui.config";
-import { ICustomConfig } from "@gluestack-style/react";
+import { createSlice } from "@reduxjs/toolkit";
 import { CommentSortType, ListingType, SortType } from "lemmy-js-client";
-import merge from "deepmerge";
 import { loadSettings, setSetting } from "@src/slices/settings/settingsActions";
-import { RootState } from "../../../store";
 import { ThemeOptions } from "../../theme/themeOptions";
 import { HapticOptions } from "../../types/haptics/hapticOptions";
 
@@ -124,56 +119,4 @@ const settingsSlice = createSlice({
     });
   },
 });
-
-export const selectSettingsLoaded = (state: RootState) => state.settings.loaded;
-
-const selectColorScheme = (state: RootState) => state.settings.colorScheme;
-const selectTheme = (state: RootState) => state.settings.theme;
-const selectThemeMatchSystem = (state: RootState) =>
-  state.settings.themeMatchSystem;
-const selectThemeDark = (state: RootState) => state.settings.themeDark;
-const selectThemeLight = (state: RootState) => state.settings.themeLight;
-const selectAccentColor = (state: RootState) => state.settings.accentColor;
-export const selectCurrentTheme = createSelector(
-  [
-    selectColorScheme,
-    selectTheme,
-    selectThemeMatchSystem,
-    selectThemeDark,
-    selectThemeLight,
-  ],
-  (colorScheme, theme, themeMatchSystem, themeDark, themeLight) =>
-    themeMatchSystem
-      ? colorScheme === "light"
-        ? themeLight
-        : themeDark
-      : theme
-);
-export const selectThemeOptions = createSelector(
-  [selectCurrentTheme],
-  (theme) => ThemeOptionsMap[theme]
-);
-export const selectThemeConfig = createSelector(
-  [selectThemeOptions, selectAccentColor],
-  (themeOptions, accentColor) =>
-    merge.all([
-      GluestackTheme,
-      {
-        tokens: {
-          colors: {
-            ...themeOptions.colors,
-          },
-        },
-      },
-      accentColor
-        ? {
-            tokens: {
-              colors: {
-                accent: accentColor,
-              },
-            },
-          }
-        : {},
-    ]) as ICustomConfig
-);
 export default settingsSlice.reducer;

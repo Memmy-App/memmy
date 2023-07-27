@@ -1,10 +1,11 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { Person } from "lemmy-js-client";
 import { HStack, Text, VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import React from "react";
-import { useAppSelector } from "@root/store";
-import { useSettingsStore } from "@src/stores/settings/settingsStore";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import { ICON_MAP } from "@src/constants/IconMap";
 import { getUserFullName } from "@src/helpers/LemmyHelpers";
 import { getBaseUrl } from "@src/helpers/LinkHelper";
@@ -70,7 +71,7 @@ function AvatarUsername({
   const showInstanceForUsernames = useSettingsStore(
     (state) => state.settings.showInstanceForUsernames
   );
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const type = getUserPillType({ user: creator, opId, isMod });
 
   const NameColorMap: Record<

@@ -2,11 +2,13 @@ import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView, Text } from "@src/components/common/Gluestack";
 import React, { useMemo, useState } from "react";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppDispatch, useAppSelector } from "@root/store";
+import { useAppDispatch } from "@root/store";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useSettings } from "@src/stores/settings/settingsStore";
+import {
+  useSettings,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import setSetting from "@src/stores/settings/actions/setSetting";
 import Chip from "../../../common/Chip";
 import CCell from "../../../common/Table/CCell";
@@ -22,7 +24,7 @@ interface IProps {
 
 function AppearanceScreen({ navigation }: IProps) {
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const settings = useSettings();
 

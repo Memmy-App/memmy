@@ -8,12 +8,12 @@ import {
   View,
   VStack,
 } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { selectNewComment } from "../../../slices/comments/newCommentSlice";
 import LoadingView from "../../common/Loading/LoadingView";
 import useNewComment from "../../../hooks/comments/useNewComment";
@@ -46,7 +46,7 @@ function NewCommentScreen({
 
   // Other hooks
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   // Other
   const myVote = responseTo.post

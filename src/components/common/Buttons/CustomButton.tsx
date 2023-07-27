@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { HStack, Pressable, Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import SFIcon from "../icons/SFIcon";
 
 function CustomButton({
@@ -22,7 +21,7 @@ function CustomButton({
   const [pressedIn, setPressedIn] = useState(false);
   const [selected, setSelected] = useState(false);
 
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const onPressIn = () => {
     setPressedIn(true);

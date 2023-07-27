@@ -1,12 +1,13 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
-import { useSettings } from "@src/stores/settings/settingsStore";
+import {
+  useSettings,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import setSetting from "@src/stores/settings/actions/setSetting";
 import { CommentSortContextMenu } from "../../../common/ContextMenu/CommentSortContextMenu";
 import { FeedSortContextMenu } from "../../../common/ContextMenu/FeedSortContextMenu";
@@ -24,7 +25,7 @@ function ContentScreen({
   const settings = useSettings();
 
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const overallSortOptions = useOverallSortOptions();
 
   const onChange = (key: string, value: any) => {

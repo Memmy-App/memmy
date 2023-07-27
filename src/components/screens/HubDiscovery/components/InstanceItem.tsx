@@ -7,8 +7,6 @@ import {
   View,
   VStack,
 } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { StyleSheet } from "react-native";
 import {
@@ -20,6 +18,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 interface IProps {
   site: GetSiteResponse;
@@ -27,7 +26,7 @@ interface IProps {
 
 function InstanceItem({ site }: IProps) {
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onPress = () =>

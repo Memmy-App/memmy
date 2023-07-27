@@ -1,7 +1,5 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { Box, Pressable, View } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -19,7 +17,10 @@ import { lemmyAuthToken, lemmyInstance } from "@src/LemmyInstance";
 import { ICON_MAP } from "@src/constants/IconMap";
 import ImageViewer from "@src/components/common/ImageViewer/ImageViewer";
 import SFIcon from "@src/components/common/icons/SFIcon";
-import { useSettingsStore } from "@src/stores/settings/settingsStore";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 
 interface IProps {
   postId: number;
@@ -33,7 +34,7 @@ function CompactFeedItemThumbnail({ postId, linkInfo }: IProps) {
   const postInfo = useFeedPostInfo(key, postId);
   const postCommunity = useFeedPostCommunity(key, postId);
 
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const markReadOnPostImageView = useSettingsStore(

@@ -1,9 +1,8 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { ScrollView, Text, VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import CommunityCounts from "./components/Community/CommunityCounts";
 import RenderMarkdown from "../../common/Markdown/RenderMarkdown";
 import ModeratorList from "./components/Community/ModeratorList";
@@ -21,7 +20,7 @@ function Card({
   title: string;
   spacing?: boolean;
 }) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   return (
     <VStack
       style={{
@@ -42,7 +41,7 @@ function Card({
 
 function CommunityAboutScreen({ route }: { route: any }) {
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const community = useCommunity(route.params.communityFullName);
   const moderators = useCommunityModerators(route.params.communityFullName);
 

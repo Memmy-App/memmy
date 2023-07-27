@@ -1,9 +1,10 @@
 import { PostAggregates } from "lemmy-js-client";
 import { HStack, Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React from "react";
-import { useSettingsStore } from "@src/stores/settings/settingsStore";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import { ICON_MAP } from "@src/constants/IconMap";
 import SFIcon from "../icons/SFIcon";
 
@@ -13,7 +14,7 @@ interface IProps {
 }
 
 function VoteData({ data, vote }: IProps) {
-  const { colors } = useAppSelector(selectThemeOptions);
+  const { colors } = useThemeOptions();
   const displayTotalScore = useSettingsStore(
     (state) => state.settings.displayTotalScore
   );

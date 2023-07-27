@@ -5,16 +5,15 @@ import { ErrorBoundary } from "react-error-boundary";
 import { AppState, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { setRootViewBackgroundColor } from "@pnthach95/react-native-root-view-background";
-import { useSettingsStore } from "@src/stores/settings/settingsStore";
+import {
+  useSettingsStore,
+  useThemeConfig,
+} from "@src/stores/settings/settingsStore";
 import { GluestackUIProvider } from "@src/components/common/Gluestack";
 import { writeToLog } from "@src/helpers/LogHelper";
 import { lemmyAuthToken, lemmyInstance } from "@src/LemmyInstance";
 import { loadAccounts } from "@src/slices/accounts/accountsActions";
 import { selectAccountsLoaded } from "@src/slices/accounts/accountsSlice";
-import {
-  selectCurrentTheme,
-  selectThemeConfig,
-} from "@src/slices/settings/settingsSlice";
 import { getUnreadCount } from "@src/slices/site/siteActions";
 import { ThemeOptionsArr, ThemeOptionsMap } from "@src/theme/themeOptions";
 import { loadFavorites } from "@src/slices/favorites/favoritesActions";
@@ -60,7 +59,9 @@ function Start({ onReady }: StartProps) {
     accentColor: state.settings.accentColor,
   }));
 
-  const glueStackTheme = useAppSelector(selectThemeConfig);
+  const currentTheme = useSettingsStore((state) => state.settings.theme);
+
+  const glueStackTheme = useThemeConfig();
 
   // Temporary hack for RN issue. TODO Fix this once patched
   // https://github.com/facebook/react-native/issues/35972#issuecomment-1416243681
@@ -80,8 +81,6 @@ function Start({ onReady }: StartProps) {
       clearTimeout(onColorSchemeChange.current);
     }
   }, [colorScheme]);
-
-  const currentTheme = useAppSelector(selectCurrentTheme);
 
   const appState = useRef(AppState.currentState);
 
@@ -143,7 +142,7 @@ function Start({ onReady }: StartProps) {
     if (!ThemeOptionsArr.includes(usedTheme)) {
       usedTheme = "Dark";
 
-      setSetting({ theme: usedTheme });
+      setSetting({ theme: usedTheme }).then();
     }
 
     // TODO: Disabling Font Scaling for now

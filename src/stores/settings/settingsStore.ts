@@ -1,8 +1,11 @@
 import { CommentSortType, ListingType, SortType } from "lemmy-js-client";
-import { ThemeOptions } from "@src/theme/themeOptions";
+import { ThemeOptions, ThemeOptionsMap } from "@src/theme/themeOptions";
 import { HapticOptions } from "@src/types/haptics/hapticOptions";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
+import { theme as GluestackTheme } from "@root/gluestack-ui.config";
+import merge from "deepmerge";
+import { ICustomConfig } from "@gluestack-style/react";
 
 interface SettingsStore {
   settings: SettingsState;
@@ -100,5 +103,43 @@ export const useSettingsStore = create(
     settings: initialState,
   }))
 );
+
+export const useCurrentTheme = () =>
+  useSettingsStore((state) => {
+    if (state.settings.themeMatchSystem) {
+      if (state.settings.colorScheme === "light") {
+        return state.settings.themeLight;
+      }
+      return state.settings.themeDark;
+    }
+    return state.settings.theme;
+  });
+
+export const useThemeOptions = () =>
+  useSettingsStore((state) => ThemeOptionsMap[state.settings.theme]);
+
+export const useThemeConfig = () =>
+  useSettingsStore(
+    (state) =>
+      merge.all([
+        GluestackTheme,
+        {
+          tokens: {
+            colors: {
+              ...ThemeOptionsMap[state.settings.theme].colors,
+            },
+          },
+        },
+        state.settings.accentColor
+          ? {
+              tokens: {
+                colors: {
+                  accent: state.settings.accentColor,
+                },
+              },
+            }
+          : {},
+      ]) as ICustomConfig
+  );
 
 export const useSettings = () => useSettingsStore((state) => state.settings);

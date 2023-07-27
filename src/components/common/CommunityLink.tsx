@@ -1,9 +1,8 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { Community } from "lemmy-js-client";
 import { HStack, Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React from "react";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { getBaseUrl } from "../../helpers/LinkHelper";
 import Link from "./Buttons/Link";
 import { PlanetIcon } from "./icons/PlanetIcon";
@@ -14,7 +13,7 @@ interface CommunityLinkProps {
 }
 
 function CommunityLink({ community, instanceBaseUrl }: CommunityLinkProps) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid

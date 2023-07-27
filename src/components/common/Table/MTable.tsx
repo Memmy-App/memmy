@@ -1,7 +1,6 @@
 import React, { Children } from "react";
 import { Divider, Text, VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 interface IProps {
   header?: string;
@@ -9,7 +8,7 @@ interface IProps {
 }
 
 function MTable({ header, children }: IProps) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const childrenArray = Children.toArray(children);
 
   return (

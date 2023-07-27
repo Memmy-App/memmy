@@ -1,7 +1,6 @@
 import { HStack, Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { timeFromNowShort } from "../../../../helpers/TimeHelper";
 import IconButtonWithText from "../../IconButtonWithText";
 import SFIcon from "../../icons/SFIcon";
@@ -22,7 +21,7 @@ function CommentHeaderRight({
   collapsed,
   contextOptions,
 }: IProps) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const publishedFormatted = useMemo(
     () => timeFromNowShort(published),

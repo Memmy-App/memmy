@@ -3,11 +3,10 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button, Switch, TextInput } from "react-native";
 import { Icon, VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { Ionicons } from "@expo/vector-icons";
 import IconButtonWithText from "@src/components/common/IconButtonWithText";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import CCell from "../../common/Table/CCell";
 import LoadingModal from "../../common/Loading/LoadingModal";
 import useNewPost from "../../../hooks/post/useNewPost";
@@ -30,7 +29,7 @@ function NewPostScreen({
 
   // Other hooks
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const headerLeft = () => (
     <Button

@@ -2,10 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button, StyleSheet, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { View } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import LoadingView from "../../common/Loading/LoadingView";
 import KeyboardAccessory from "../../common/KeyboardAccessory";
 import useEditComment from "../../../hooks/comments/useEditComment";
@@ -42,7 +41,7 @@ function EditCommentScreen({ route, navigation }: IProps) {
   const inputRef = useRef<TextInput>();
 
   // Other hooks
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const headerLeft = () => (
     <Button

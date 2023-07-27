@@ -1,8 +1,9 @@
 import { Divider, HStack, View } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
-import { useSettingsStore } from "@src/stores/settings/settingsStore";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import { getBaseUrl } from "@src/helpers/LinkHelper";
 import { ILemmyVote } from "@src/types/lemmy/ILemmyVote";
 import useComment from "../../../hooks/comments/useComment";
@@ -35,7 +36,7 @@ function CommentItem({
   onVote,
   onPress,
 }: IProps) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const showCommentActions = useSettingsStore(
     (state) => state.settings.showCommentActions

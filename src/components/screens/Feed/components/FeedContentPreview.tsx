@@ -1,6 +1,4 @@
 import { Box, Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { useCallback, useMemo } from "react";
 import {
   useFeedPostCommunity,
@@ -9,7 +7,10 @@ import {
 } from "@src/stores/feeds/feedsStore";
 import { useRoute } from "@react-navigation/core";
 import setFeedRead from "@src/stores/feeds/actions/setFeedRead";
-import { useSettingsStore } from "@src/stores/settings/settingsStore";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
 import { findImages } from "../../../../helpers/MarkdownHelper";
 import { truncatePost } from "../../../../helpers/TextHelper";
@@ -24,7 +25,7 @@ interface IProps {
 function FeedContentPreview({ postId, recycled }: IProps) {
   const { key } = useRoute();
 
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const fontWeightPostTitle = useSettingsStore(
     (state) => state.settings.fontWeightPostTitle
   );
