@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {
   Dimensions as RNDimensions,
   Modal,
@@ -31,11 +31,11 @@ import {
   useSettingsStore,
   useThemeOptions,
 } from "@src/stores/settings/settingsStore";
+import { onGenericHapticFeedback } from "@src/helpers/HapticFeedbackHelpers";
 import { useImageDimensions } from "./useImageDimensions";
 import ExitButton from "./ImageExitButton";
 import ImageViewFooter from "./ImageViewFooter";
 import ImageButton from "../Buttons/ImageButton";
-import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import Toast from "../Toast";
 
 interface IProps {
@@ -184,8 +184,14 @@ function ImageViewer({
     }
   };
 
+  const toggleAccessories = (show: boolean) => {
+    "worklet";
+
+    accessoriesOpacity.value = withTiming(show ? 1 : 0, { duration: 200 });
+  };
+
   // This opens or closes our modal
-  const onRequestOpenOrClose = useCallback(() => {
+  const onRequestOpenOrClose = () => {
     if (!expanded) {
       if (onPress) onPress();
 
@@ -274,7 +280,7 @@ function ImageViewer({
         setExpanded(false);
       }, 200);
     }
-  }, [onPress, setPostRead, expanded]);
+  };
 
   const setToCenter = () => {
     "worklet";
@@ -284,12 +290,6 @@ function ImageViewer({
     backgroundColor.value = withTiming("rgba(0, 0, 0, 1)", {
       duration: 300,
     });
-  };
-
-  const toggleAccessories = (show: boolean) => {
-    "worklet";
-
-    accessoriesOpacity.value = withTiming(show ? 1 : 0, { duration: 200 });
   };
 
   const onPinchStart = () => {

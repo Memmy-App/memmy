@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button, Switch, TextInput } from "react-native";
-import { Icon, VStack } from "@src/components/common/Gluestack";
-import { Ionicons } from "@expo/vector-icons";
+import { VStack } from "@src/components/common/Gluestack";
 import IconButtonWithText from "@src/components/common/IconButtonWithText";
 import { useTranslation } from "react-i18next";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import { SFIcon } from "@src/components/common/icons/SFIcon";
 import CCell from "../../common/Table/CCell";
 import LoadingModal from "../../common/Loading/LoadingModal";
 import useNewPost from "../../../hooks/post/useNewPost";
@@ -80,14 +80,7 @@ function NewPostScreen({
               cellAccessoryView={
                 <IconButtonWithText
                   onPressHandler={newPost.doUpload}
-                  icon={
-                    <Icon
-                      as={Ionicons}
-                      name="camera"
-                      color={theme.colors.accent}
-                      size={24}
-                    />
-                  }
+                  icon={<SFIcon icon="camera" />}
                 />
               }
               cellContentView={
