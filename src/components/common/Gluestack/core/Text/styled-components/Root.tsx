@@ -1,10 +1,12 @@
+import React from "react";
 import { Text } from "react-native";
+import { ThemeOptionsMap } from "@src/theme/themeOptions";
+import { useCurrentTheme } from "@src/stores/settings/settingsStore";
 import { styled } from "../../styled";
 
-export default styled(
+const BaseText = styled(
   Text,
   {
-    color: "$textLight700",
     fontWeight: "$normal",
     fontFamily: "$body",
     fontStyle: "normal",
@@ -71,10 +73,32 @@ export default styled(
     defaultProps: {
       size: "md",
     },
-
-    _dark: {
-      color: "$textDark200",
-    },
   },
-  {}
+  {},
+  {
+    propertyResolver: {
+      color: (rawValue, resolver) => {
+        if (rawValue.includes(":useDefaultText")) {
+          const parts = rawValue.split("-");
+          const theme = parts[1];
+          const resolved = resolver(ThemeOptionsMap[theme].colors.textPrimary);
+          return resolved;
+        }
+        return resolver(rawValue);
+      },
+    },
+  }
 );
+
+export default function StyledText(
+  props: React.ComponentProps<typeof BaseText>
+) {
+  const currentTheme = useCurrentTheme();
+
+  const { children, ...rest } = props;
+  return (
+    <BaseText color={`:useDefaultText-${currentTheme}`} {...rest}>
+      {children}
+    </BaseText>
+  );
+}

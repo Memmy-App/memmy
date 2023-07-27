@@ -1,16 +1,18 @@
-import { Divider, HStack, useTheme, View } from "native-base";
+import { Divider, HStack, View } from "@src/components/common/Gluestack";
 import React, { useMemo } from "react";
-import { useAppSelector } from "../../../../store";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
+import { getBaseUrl } from "@src/helpers/LinkHelper";
+import VoteData from "@src/components/common/Vote/VoteData";
+import { ILemmyVote } from "@src/types/lemmy/ILemmyVote";
 import useComment from "../../../hooks/comments/useComment";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
-import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
 import AvatarUsername from "../AvatarUsername";
 import { ReplyOption } from "../SwipeableRow/ReplyOption";
 import { SwipeableRow } from "../SwipeableRow/SwipeableRow";
 import { VoteOption } from "../SwipeableRow/VoteOption";
-import SmallVoteIcons from "../Vote/SmallVoteIcons";
 import CommentActions from "./CommentActions";
 import CommentBody from "./CommentBody";
 import CommentCollapsed from "./CommentCollapsed";
@@ -34,8 +36,11 @@ function CommentItem({
   onVote,
   onPress,
 }: IProps) {
-  const theme = useTheme();
-  const settings = useAppSelector(selectSettings);
+  const theme = useThemeOptions();
+
+  const showCommentActions = useSettingsStore(
+    (state) => state.settings.showCommentActions
+  );
 
   if (!depth) {
     depth = comment.comment.comment.path.split(".").length;
@@ -74,15 +79,14 @@ function CommentItem({
         >
           <CommentWrapper depth={depth} onCommentPress={onPress}>
             <CommentHeaderWrapper>
-              <HStack space={1}>
+              <HStack space="xs">
                 <AvatarUsername
                   creator={comment.comment.creator}
                   opId={comment.comment.post.creator_id}
                 />
-                <SmallVoteIcons
-                  upvotes={comment.comment.counts.upvotes}
-                  downvotes={comment.comment.counts.downvotes}
-                  myVote={comment.comment.my_vote as ILemmyVote}
+                <VoteData
+                  data={comment.comment.counts}
+                  myVote={comment.myVote}
                 />
               </HStack>
               <CommentHeaderRight
@@ -102,7 +106,7 @@ function CommentItem({
                   content={comment.comment.comment.content}
                   instance={getBaseUrl(comment.comment.comment.ap_id)}
                 />
-                {settings.showCommentActions && (
+                {showCommentActions && (
                   <CommentActions
                     onVote={onVote}
                     myVote={comment.comment.my_vote}
@@ -118,9 +122,9 @@ function CommentItem({
         style={{
           paddingLeft: depth * 12,
         }}
-        backgroundColor={theme.colors.app.fg}
+        backgroundColor={theme.colors.fg}
       >
-        <Divider bg={theme.colors.app.border} />
+        <Divider bg={theme.colors.border} />
       </View>
     </>
   );

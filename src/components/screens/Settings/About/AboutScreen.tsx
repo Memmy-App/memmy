@@ -1,11 +1,12 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as WebBrowser from "expo-web-browser";
-import { ScrollView, useTheme } from "native-base";
+import { ScrollView } from "@src/components/common/Gluestack";
 import React from "react";
-import { useTranslation } from "react-i18next";
 import { Alert, StyleSheet } from "react-native";
 import { getBuildNumber, getVersion } from "react-native-device-info";
+import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { openLink } from "../../../../helpers/LinkHelper";
 import { useCurrentAccount } from "../../../../stores/account/accountStore";
 import CCell from "../../../common/Table/CCell";
@@ -18,19 +19,19 @@ function AboutScreen({
 }) {
   const currentAccount = useCurrentAccount();
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
+    <ScrollView bg={theme.colors.bg} flex={1}>
       <TableView style={styles.table}>
         <CSection>
           <CCell
             cellStyle="RightDetail"
             title={t("Version")}
             detail={`${getVersion()} (${getBuildNumber()})`}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
           <CCell
             cellStyle="Basic"
@@ -41,9 +42,9 @@ function AboutScreen({
                 type: "license",
               })
             }
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
           <CCell
             cellStyle="Basic"
@@ -54,9 +55,9 @@ function AboutScreen({
                 type: "acknowledgements",
               });
             }}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
           <CCell
             cellStyle="Basic"
@@ -65,9 +66,9 @@ function AboutScreen({
             onPress={() => {
               WebBrowser.openBrowserAsync("https://memmy.app/privacy.txt");
             }}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
           <CCell
             cellStyle="Basic"
@@ -78,9 +79,9 @@ function AboutScreen({
                 type: "terms",
               });
             }}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
           <CCell
             cellStyle="Basic"
@@ -89,17 +90,17 @@ function AboutScreen({
             onPress={() => {
               WebBrowser.openBrowserAsync("https://github.com/gkasdorf/memmy");
             }}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
           <CCell
             cellStyle="Basic"
             title={t("Delete Account")}
             accessory="DisclosureIndicator"
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             onPress={() => {
               Alert.alert(
                 t("alert.title.deleteAccount"),
@@ -113,7 +114,7 @@ function AboutScreen({
                       openLink(
                         `https://${currentAccount.instance}`,
                         navigation,
-                        theme.colors.app.bg
+                        theme.colors.bg
                       );
                     },
                   },

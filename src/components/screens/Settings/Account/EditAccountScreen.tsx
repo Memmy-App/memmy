@@ -1,11 +1,11 @@
-import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useTheme } from "native-base";
 import React, { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Alert, Button, StyleSheet, TextInput } from "react-native";
+import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useAppDispatch } from "../../../../../store";
+import { useTranslation } from "react-i18next";
+import { useAppDispatch } from "@root/store";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import {
   getInstanceError,
   initialize,
@@ -42,7 +42,7 @@ function EditAccountScreen({
   const edit = useRef(false);
 
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useThemeOptions();
   const dispatch = useAppDispatch();
   const accountStore = useAccountStore();
 
@@ -53,7 +53,7 @@ function EditAccountScreen({
       title={t("Save")}
       onPress={onSavePress}
       disabled={loading}
-      color={theme.colors.app.accent}
+      color={theme.colors.accent}
     />
   );
 
@@ -169,7 +169,7 @@ function EditAccountScreen({
 
   return (
     <KeyboardAwareScrollView
-      style={{ backgroundColor: theme.colors.app.bg }}
+      style={{ backgroundColor: theme.colors.bg }}
       keyboardShouldPersistTaps="handled"
     >
       <TableView style={styles.table}>
@@ -186,10 +186,10 @@ function EditAccountScreen({
                   fontSize: 16,
                   flex: 1,
                   color: !edit.current
-                    ? theme.colors.app.textPrimary
-                    : theme.colors.app.textSecondary,
+                    ? theme.colors.textPrimary
+                    : theme.colors.textSecondary,
                 }}
-                placeholderTextColor={theme.colors.app.textSecondary}
+                placeholderTextColor={theme.colors.textSecondary}
                 placeholder={t("settings.accounts.server.placeholder")}
                 value={form.server}
                 onChangeText={(text) => onFormChange("server", text)}
@@ -200,9 +200,9 @@ function EditAccountScreen({
                 keyboardType="web-search"
               />
             }
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
         </Section>
 
@@ -219,10 +219,10 @@ function EditAccountScreen({
                   fontSize: 16,
                   flex: 1,
                   color: !edit.current
-                    ? theme.colors.app.textPrimary
-                    : theme.colors.app.textSecondary,
+                    ? theme.colors.textPrimary
+                    : theme.colors.textSecondary,
                 }}
-                placeholderTextColor={theme.colors.app.textSecondary}
+                placeholderTextColor={theme.colors.textSecondary}
                 placeholder={t("Username")}
                 value={form.username}
                 onChangeText={(text) => onFormChange("username", text)}
@@ -232,9 +232,9 @@ function EditAccountScreen({
                 keyboardAppearance={theme.config.initialColorMode}
               />
             }
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
           <CCell
             cellContentView={
@@ -242,9 +242,9 @@ function EditAccountScreen({
                 style={{
                   fontSize: 16,
                   flex: 1,
-                  color: theme.colors.app.textPrimary,
+                  color: theme.colors.textPrimary,
                 }}
-                placeholderTextColor={theme.colors.app.textSecondary}
+                placeholderTextColor={theme.colors.textSecondary}
                 placeholder={t("Password")}
                 value={form.password}
                 onChangeText={(text) => onFormChange("password", text)}
@@ -254,9 +254,9 @@ function EditAccountScreen({
                 keyboardAppearance={theme.config.initialColorMode}
               />
             }
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
           {showTotpToken && (
             <CCell
@@ -265,9 +265,9 @@ function EditAccountScreen({
                   style={{
                     fontSize: 16,
                     flex: 1,
-                    color: theme.colors.app.textPrimary,
+                    color: theme.colors.textPrimary,
                   }}
-                  placeholderTextColor={theme.colors.app.textSecondary}
+                  placeholderTextColor={theme.colors.textSecondary}
                   placeholder={t("2FA Token")}
                   value={form.totpToken}
                   onChangeText={(text) => onFormChange("totpToken", text)}
@@ -278,9 +278,9 @@ function EditAccountScreen({
                   keyboardAppearance={theme.config.initialColorMode}
                 />
               }
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
             />
           )}
         </Section>

@@ -1,5 +1,5 @@
-import { useTheme } from "native-base";
 import React from "react";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { IconBookCheck } from "./icons/IconBookCheck";
 
 interface Props {
@@ -7,10 +7,10 @@ interface Props {
 }
 
 export function IsReadIndicator({ isRead }: Props) {
-  const { colors } = useTheme();
+  const { colors } = useThemeOptions();
 
   if (isRead) {
-    return <IconBookCheck color={colors.app.accent} size={20} />;
+    return <IconBookCheck color={colors.accent} size={20} />;
   }
 
   return null;

@@ -1,8 +1,14 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { Box, HStack, Text, useTheme, View, VStack } from "native-base";
-
+import {
+  Box,
+  HStack,
+  Text,
+  View,
+  VStack,
+} from "@src/components/common/Gluestack";
 import React from "react";
 import { TouchableOpacity } from "react-native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { AccountsContextMenu } from "../ContextMenu/AccountsContextMenu";
 import TabBarGestureHandler from "./TabBarGestureHandler";
@@ -18,16 +24,16 @@ function IconWithText({
   color: string;
   badge?: string;
 }) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
   return (
-    <VStack style={{ alignItems: "center" }} space={1}>
+    <VStack style={{ alignItems: "center" }} space="xs">
       <HStack>
         {icon}
         {badge && (
-          <Box h="2" w="2" bg={theme.colors.app.error} rounded="md" ml={-1.5} />
+          <Box h="$2" w="$2" bg={theme.colors.error} rounded="$md" ml={-1.5} />
         )}
       </HStack>
-      <Text color={color} fontSize={12}>
+      <Text color={color} size="xs">
         {label}
       </Text>
     </VStack>
@@ -39,7 +45,7 @@ export function CustomTabBar({
   descriptors,
   navigation,
 }: BottomTabBarProps) {
-  const { colors } = useTheme();
+  const { colors } = useThemeOptions();
 
   return (
     <TabBarGestureHandler>
@@ -47,11 +53,11 @@ export function CustomTabBar({
         style={{
           flexDirection: "row",
           height: 75,
-          backgroundColor: colors.app.navBarBg,
+          backgroundColor: colors.navBarBg,
           paddingTop: 6,
           paddingHorizontal: 5,
           borderTopWidth: 1,
-          borderTopColor: colors.app.border,
+          borderTopColor: colors.border,
         }}
       >
         {state.routes.map((route, index) => {
@@ -61,9 +67,7 @@ export function CustomTabBar({
 
           const isFocused = state.index === index;
 
-          const color = isFocused
-            ? colors.app.accent
-            : colors.app.textSecondary;
+          const color = isFocused ? colors.accent : colors.textSecondary;
 
           const icon = options.tabBarIcon({
             color,

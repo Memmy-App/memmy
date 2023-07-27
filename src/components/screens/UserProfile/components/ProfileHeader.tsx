@@ -1,9 +1,17 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import dayjs from "dayjs";
-import { Box, HStack, Spacer, Text, useTheme, View, VStack } from "native-base";
+import {
+  Box,
+  HStack,
+  Spacer,
+  Text,
+  View,
+  VStack,
+} from "@src/components/common/Gluestack";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { ICON_MAP } from "../../../../constants/IconMap";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import { getCakeDay } from "../../../../helpers/TimeHelper";
@@ -15,19 +23,19 @@ interface IProps {
 }
 
 function ProfileHeader({ profile }: IProps) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
   const { t } = useTranslation();
 
   if (!profile.profile) return null;
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.bg} space={4}>
+    <VStack flex={1} backgroundColor={theme.colors.bg} space="lg">
       <View
-        backgroundColor={theme.colors.app.fg}
-        mx={4}
-        mt={2}
-        px={3}
-        borderRadius={10}
+        backgroundColor={theme.colors.fg}
+        mx="$4"
+        mt="$2"
+        px="$3"
+        borderRadius="$xl"
       >
         <HStack
           alignItems="center"
@@ -35,9 +43,9 @@ function ProfileHeader({ profile }: IProps) {
           height="100%"
           width="100%"
           zIndex={1}
-          px={5}
-          py={3.5}
-          space={4}
+          px="$5"
+          py="$3.5"
+          space="lg"
         >
           {profile.profile.person.avatar ? (
             <FastImage
@@ -50,10 +58,10 @@ function ProfileHeader({ profile }: IProps) {
             <SFIcon icon={ICON_MAP.USER_AVATAR} size={48} boxSize={64} />
           )}
           <VStack>
-            <Text fontWeight="semibold" fontSize="2xl">
+            <Text fontWeight="semibold" size="2xl">
               {profile.profile.person.name}
             </Text>
-            <Text fontSize="lg">
+            <Text size="lg">
               @{getBaseUrl(profile.profile.person.actor_id)}
             </Text>
           </VStack>
@@ -71,53 +79,53 @@ function ProfileHeader({ profile }: IProps) {
         )}
       </View>
       <VStack
-        py={3}
-        mx={4}
-        px={3}
-        backgroundColor={theme.colors.app.fg}
-        borderRadius={10}
+        py="$3"
+        mx="$4"
+        px="$3"
+        backgroundColor={theme.colors.fg}
+        borderRadius="$xl"
       >
-        <HStack space={7}>
-          <VStack alignItems="start" space={1}>
-            <Text fontSize="sm" color={theme.colors.app.textSecondary}>
+        <HStack space="3xl">
+          <VStack alignItems="flex-start" space="xs">
+            <Text size="sm" color={theme.colors.textSecondary}>
               {t("Posts")}
             </Text>
-            <HStack alignItems="center" space={1}>
+            <HStack alignItems="center" space="xs">
               <SFIcon icon="doc.plaintext" size={14} />
-              <Text fontSize="md">{profile.profile.counts.post_count}</Text>
+              <Text size="md">{profile.profile.counts.post_count}</Text>
               <SFIcon icon="arrow.up.circle" size={14} />
-              <Text fontSize="md">{profile.profile.counts.post_score}</Text>
+              <Text size="md">{profile.profile.counts.post_score}</Text>
             </HStack>
           </VStack>
-          <VStack alignItems="start" space={1}>
-            <Text fontSize="sm" color={theme.colors.app.textSecondary}>
+          <VStack alignItems="flex-start" space="xs">
+            <Text size="sm" color={theme.colors.textSecondary}>
               {t("Comments")}
             </Text>
-            <HStack alignItems="center" space={1}>
+            <HStack alignItems="center" space="xs">
               <SFIcon icon={ICON_MAP.REPLY} size={12} />
-              <Text fontSize="md">{profile.profile.counts.comment_count}</Text>
+              <Text size="md">{profile.profile.counts.comment_count}</Text>
               <SFIcon icon="arrow.up.circle" size={14} />
-              <Text fontSize="md">{profile.profile.counts.comment_score}</Text>
+              <Text size="md">{profile.profile.counts.comment_score}</Text>
             </HStack>
           </VStack>
         </HStack>
-        <HStack space={7} mt={3} alignItems="center">
-          <VStack alignItems="start" space={1}>
-            <Text fontSize="sm" color={theme.colors.app.textSecondary}>
+        <HStack space="3xl" mt="$1" alignItems="center">
+          <VStack alignItems="flex-start" space="xs">
+            <Text size="sm" color={theme.colors.textSecondary}>
               {t("Account Created")}
             </Text>
-            <HStack alignItems="center" space={1}>
+            <HStack alignItems="center" space="xs">
               <SFIcon icon={ICON_MAP.CAKE_DAY} size={12} />
-              <Text fontSize="md">
+              <Text size="md">
                 {getCakeDay(profile.profile.person.published)}
               </Text>
             </HStack>
           </VStack>
-          <VStack alignItems="start" space={1}>
+          <VStack alignItems="flex-start" space="xs">
             <Spacer />
-            <HStack alignItems="center" space={1}>
+            <HStack alignItems="center" space="xs">
               <SFIcon icon={ICON_MAP.PROFILE_PUBLISHED} size={14} />
-              <Text fontSize="md">
+              <Text size="md">
                 {dayjs(profile.profile.person.published).utc(true).fromNow()}
               </Text>
             </HStack>

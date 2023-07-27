@@ -1,7 +1,7 @@
 import React from "react";
-import { Text, useTheme, VStack } from "native-base";
-import { InterfaceVStackProps } from "native-base/lib/typescript/components/primitives/Stack/VStack";
+import { Text, VStack } from "@src/components/common/Gluestack";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 type MessageType =
   | "comments"
@@ -13,19 +13,20 @@ type MessageType =
   | "inbox"
   | "default";
 
-export interface INoResultViewProps extends InterfaceVStackProps {
+export interface INoResultViewProps
+  extends React.ComponentProps<typeof VStack> {
   type?: MessageType;
 }
 
 function NoResultView({ type = "default", ...rest }: INoResultViewProps) {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   return (
     <VStack flex={1} justifyContent="center" alignItems="center" {...rest}>
       <Text
         fontStyle="italic"
-        color={theme.colors.app.textSecondary}
+        color={theme.colors.textSecondary}
         textAlign="center"
       >
         {t(`noResult.${type}`)}

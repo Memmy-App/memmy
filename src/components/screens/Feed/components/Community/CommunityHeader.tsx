@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from "react";
-import { HStack, Text, useTheme, VStack } from "native-base";
+import { HStack, Text, VStack } from "@src/components/common/Gluestack";
+import { useAppSelector } from "@root/store";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import {
   useCommunity,
   useCommunityStatus,
@@ -14,7 +16,6 @@ import { getBaseUrl } from "../../../../../helpers/LinkHelper";
 import CustomButton from "../../../../common/Buttons/CustomButton";
 import { SFIcon } from "../../../../common/icons/SFIcon";
 import setCommunitySubscribed from "../../../../../stores/communities/actions/setCommunitySubscribed";
-import { useAppSelector } from "../../../../../../store";
 import { selectPost } from "../../../../../slices/post/postSlice";
 import { addPost } from "../../../../../stores/posts/actions";
 import { ICON_MAP } from "../../../../../constants/IconMap";
@@ -24,7 +25,7 @@ interface IProps {
 }
 
 function CommunityHeader({ communityFullName }: IProps) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
   const { t } = useTranslation();
 
   const community = useCommunity(communityFullName);
@@ -75,8 +76,8 @@ function CommunityHeader({ communityFullName }: IProps) {
   if (!community || communityStatus.loading) return null;
 
   return (
-    <VStack pt={10} pb={5} px={5}>
-      <HStack alignItems="center" space={5}>
+    <VStack pt="$10" pb="$5" px="$5">
+      <HStack alignItems="center" space="xl">
         {community.community.icon ? (
           <FastImage
             source={{
@@ -89,44 +90,44 @@ function CommunityHeader({ communityFullName }: IProps) {
             }}
           />
         ) : (
-          <PlanetIcon color={theme.colors.app.textSecondary} size={64} />
+          <PlanetIcon color={theme.colors.textSecondary} size={64} />
         )}
 
-        <VStack alignContent="center">
-          <HStack space={3}>
+        <VStack>
+          <HStack space="md" borderColor="red">
             <HStack alignItems="center">
               <SFIcon
                 icon={ICON_MAP.PERSON}
-                color={theme.colors.app.textSecondary}
+                color={theme.colors.textSecondary}
                 size={12}
                 boxSize={18}
               />
-              <Text color={theme.colors.app.textSecondary}>
+              <Text color={theme.colors.textSecondary}>
                 {shortenNumber(community.counts.subscribers)}
               </Text>
             </HStack>
-            <HStack space={1} alignItems="center">
+            <HStack space="xs" alignItems="center">
               <SFIcon
                 icon={ICON_MAP.SHOW}
-                color={theme.colors.app.textSecondary}
+                color={theme.colors.textSecondary}
                 size={12}
                 boxSize={18}
               />
-              <Text color={theme.colors.app.textSecondary}>
+              <Text color={theme.colors.textSecondary}>
                 {community.counts.users_active_month}
               </Text>
             </HStack>
           </HStack>
-          <Text fontSize="3xl" fontWeight="bold">
+          <Text size="3xl" fontWeight="bold">
             {community.community.name}
           </Text>
-          <Text fontSize="md" color={theme.colors.app.textSecondary} mt={-2}>
+          <Text size="md" color={theme.colors.textSecondary} mt={-3}>
             {getBaseUrl(community.community.actor_id)}
           </Text>
         </VStack>
       </HStack>
-      <VStack pt={8}>
-        <HStack justifyContent="space-between" alignItems="center" space={3}>
+      <VStack pt="$8">
+        <HStack justifyContent="space-between" alignItems="center" space="md">
           <CustomButton
             onPress={onSubscribePress}
             icon={

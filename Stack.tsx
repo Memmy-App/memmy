@@ -1,15 +1,25 @@
 /* eslint react/no-unstable-nested-components: 0 */
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View, useTheme } from "native-base";
+import { View } from "@src/components/common/Gluestack";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Dimensions } from "react-native";
+import { useTranslation } from "react-i18next";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
+
+import { selectSite } from "@src/slices/site/siteSlice";
+import { truncateName } from "@src/helpers/TextHelper";
+import { ICON_MAP } from "@src/constants/IconMap";
+import KeywordsFilterScreen from "@src/components/screens/Settings/Filters/KeywordsFilterScreen";
+import InstanceFiltersScreen from "@src/components/screens/Settings/Filters/InstanceFiltersScreen";
+import { CustomTabBar } from "@src/components/common/Navigation/CustomTabBar";
 import LoadingView from "./src/components/common/Loading/LoadingView";
-import { CustomTabBar } from "./src/components/common/Navigation/CustomTabBar";
 import SFIcon from "./src/components/common/icons/SFIcon";
 import EditCommentScreen from "./src/components/screens/Comments/EditCommentScreen";
 import NewCommentScreen from "./src/components/screens/Comments/NewCommentScreen";
@@ -44,9 +54,6 @@ import IconSelectionScreen from "./src/components/screens/Settings/Appearance/Ic
 import ThemeSelectionScreen from "./src/components/screens/Settings/Appearance/ThemeSelectionScreen";
 import ContentScreen from "./src/components/screens/Settings/Content/ContentScreen";
 import ReadSettingsScreen from "./src/components/screens/Settings/Content/ReadSettingsScreen";
-import FiltersScreen from "./src/components/screens/Settings/Filters/FiltersScreen";
-import InstancesScreen from "./src/components/screens/Settings/Filters/InstancesScreen";
-import KeywordsScreen from "./src/components/screens/Settings/Filters/KeywordsScreen";
 import GeneralSettingsScreen from "./src/components/screens/Settings/General/GeneralSettingsScreen";
 import SettingsIndexScreen from "./src/components/screens/Settings/SettingsIndexScreen";
 import TraverseScreen from "./src/components/screens/Traverse/TraverseScreen";
@@ -55,26 +62,23 @@ import UserCommentsScreen from "./src/components/screens/UserProfile/UserComment
 import UserPostsScreen from "./src/components/screens/UserProfile/UserPostsScreen";
 import UserProfileScreen from "./src/components/screens/UserProfile/UserProfileScreen";
 import ViewerScreen from "./src/components/screens/ViewerScreen";
-import { ICON_MAP } from "./src/constants/IconMap";
-import { truncateName } from "./src/helpers/TextHelper";
-import { selectSettings } from "./src/slices/settings/settingsSlice";
-import { selectSite } from "./src/slices/site/siteSlice";
 import {
   useAccountStore,
   useAccounts,
   useCurrentAccount,
 } from "./src/stores/account/accountStore";
 import { useAppSelector } from "./store";
+import FiltersScreen from "./src/components/screens/Settings/Filters/FiltersScreen";
 
 function CustomDrawerContent() {
-  const theme = useTheme();
+  const theme = useThemeOptions();
   return (
     <>
       {/* Header */}
       <View
-        height={10}
+        height="$10"
         style={{
-          backgroundColor: theme.colors.app.bg,
+          backgroundColor: theme.colors.bg,
         }}
       />
       <TraverseScreen />
@@ -363,15 +367,15 @@ function SettingsScreens(stack) {
         }}
       />
       <stack.Screen
-        name="Keywords"
-        component={KeywordsScreen}
+        name="KeywordFilters"
+        component={KeywordsFilterScreen}
         options={{
-          tilte: t("Keywords"),
+          title: t("Keywords"),
         }}
       />
       <stack.Screen
-        name="Instances"
-        component={InstancesScreen}
+        name="InstanceFilters"
+        component={InstanceFiltersScreen}
         options={{
           title: t("Instances"),
         }}
@@ -583,7 +587,10 @@ function Tabs() {
   const { unread } = useAppSelector(selectSite);
   const { t } = useTranslation();
   const currentAccount = useCurrentAccount();
-  const settings = useAppSelector(selectSettings);
+
+  const hideUsernameInTab = useSettingsStore(
+    (state) => state.settings.hideUsernameInTab
+  );
 
   return (
     <ScreenGestureHandler>
@@ -632,7 +639,7 @@ function Tabs() {
             tabBarIcon: ({ color }) => (
               <SFIcon icon={ICON_MAP.USER_AVATAR} color={color} />
             ),
-            tabBarLabel: settings.hideUsernameInTab
+            tabBarLabel: hideUsernameInTab
               ? "Profile"
               : truncateName(currentAccount.username, 10),
             freezeOnBlur: false,
@@ -674,7 +681,7 @@ interface StackProps {
 }
 
 function Stack({ onReady }: StackProps) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
   const { t } = useTranslation();
   const accounts = useAccounts();
   const accountStore = useAccountStore();
@@ -683,11 +690,11 @@ function Stack({ onReady }: StackProps) {
     ...DarkTheme,
     colors: {
       ...DarkTheme.colors,
-      primary: theme.colors.app.accent,
-      background: theme.colors.app.bg,
-      card: theme.colors.app.navBarBg,
-      text: theme.colors.app.textPrimary,
-      border: theme.colors.app.border,
+      primary: theme.colors.accent,
+      background: theme.colors.bg,
+      card: theme.colors.navBarBg,
+      text: theme.colors.textPrimary,
+      border: theme.colors.border,
     },
   };
 

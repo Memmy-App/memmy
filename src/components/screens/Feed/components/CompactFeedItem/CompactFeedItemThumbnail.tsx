@@ -1,62 +1,75 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
-import { PostView } from "lemmy-js-client";
-import { Box, Pressable, useTheme, View } from "native-base";
-import React from "react";
+import { Box, Pressable, View } from "@src/components/common/Gluestack";
+import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useAppSelector } from "../../../../../../store";
+import { useRoute } from "@react-navigation/core";
 import {
-  ExtensionType,
-  LinkInfo,
-  openLink,
-} from "../../../../../helpers/LinkHelper";
-import { selectSettings } from "../../../../../slices/settings/settingsSlice";
+  useFeedPostCommunity,
+  useFeedPostInfo,
+  useFeedPostRead,
+} from "@src/stores/feeds/feedsStore";
+import setFeedRead from "@src/stores/feeds/actions/setFeedRead";
+import { ExtensionType, LinkInfo, openLink } from "@src/helpers/LinkHelper";
 
-import { lemmyAuthToken, lemmyInstance } from "../../../../../LemmyInstance";
-import SFIcon from "../../../../common/icons/SFIcon";
-import ImageViewer from "../../../../common/ImageViewer/ImageViewer";
-import { ICON_MAP } from "../../../../../constants/IconMap";
+import { lemmyAuthToken, lemmyInstance } from "@src/LemmyInstance";
+import { ICON_MAP } from "@src/constants/IconMap";
+import ImageViewer from "@src/components/common/ImageViewer/ImageViewer";
+import SFIcon from "@src/components/common/icons/SFIcon";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 
-function CompactFeedItemThumbnail({
-  post,
-  linkInfo,
-  setPostRead,
-}: {
-  post: PostView;
+interface IProps {
+  postId: number;
   linkInfo: LinkInfo;
-  setPostRead: () => void;
-}) {
-  const theme = useTheme();
+}
+
+function CompactFeedItemThumbnail({ postId, linkInfo }: IProps) {
+  const { key } = useRoute();
+
+  const postRead = useFeedPostRead(key, postId);
+  const postInfo = useFeedPostInfo(key, postId);
+  const postCommunity = useFeedPostCommunity(key, postId);
+
+  const theme = useThemeOptions();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const { markReadOnPostImageView } = useAppSelector(selectSettings);
+  const markReadOnPostImageView = useSettingsStore(
+    (state) => state.settings.markReadOnPostImageView
+  );
 
-  const onImagePress = () => {
+  const setPostRead = useCallback(() => {
+    if (postRead) return;
+
+    setFeedRead(key, postId);
+  }, [postId, postRead]);
+
+  const onImagePress = useCallback(() => {
     lemmyInstance
       .markPostAsRead({
         auth: lemmyAuthToken,
-        post_id: post.post.id,
+        post_id: postId,
         read: true,
       })
       .then();
     if (setPostRead && markReadOnPostImageView) {
       setPostRead();
     }
-  };
+  }, [postId]);
 
-  const onLinkPress = () => {
-    if (!post.post.url) return;
+  const onLinkPress = useCallback(() => {
+    if (!postInfo.url) return;
 
-    openLink(post.post.url, navigation, theme.colors.app.bg);
-  };
+    openLink(postInfo.url, navigation, theme.colors.bg);
+  }, [postId]);
 
   return (
     <Box
-      width={75}
-      height={75}
-      backgroundColor={theme.colors.app.bg}
-      borderRadius={10}
+      sx={{ h: 75, w: 75, bg: theme.colors.bg }}
+      borderRadius="$xl"
       justifyContent="center"
       alignItems="center"
       alignSelf="center"
@@ -64,14 +77,14 @@ function CompactFeedItemThumbnail({
       {(linkInfo.extType === ExtensionType.IMAGE && (
         <>
           <ImageViewer
-            source={post.post.url}
+            source={postInfo.url}
             heightOverride={75}
             widthOverride={75}
             style={{
               borderRadius: 10,
             }}
             onPress={onImagePress}
-            nsfw={post.post.nsfw || post.community.nsfw}
+            nsfw={postInfo.nsfw || postCommunity.nsfw}
             compactMode
           />
         </>
@@ -79,12 +92,12 @@ function CompactFeedItemThumbnail({
         (linkInfo.extType === ExtensionType.NONE && (
           <SFIcon
             icon={ICON_MAP.MOST_COMMENTS}
-            color={theme.colors.app.textSecondary}
+            color={theme.colors.textSecondary}
             size={20}
           />
         )) || (
           <Pressable onPress={onLinkPress}>
-            {(post.post.thumbnail_url && (
+            {(postInfo.thumbnail_url && (
               <>
                 <FastImage
                   resizeMode="cover"
@@ -94,14 +107,14 @@ function CompactFeedItemThumbnail({
                     borderRadius: 10,
                   }}
                   source={{
-                    uri: post.post.thumbnail_url,
+                    uri: postInfo.thumbnail_url,
                   }}
                 />
                 <View
                   zIndex={1}
                   position="absolute"
-                  bottom={1}
-                  right={1}
+                  bottom="$1"
+                  right="$1"
                   style={styles.circle}
                   justifyContent="center"
                   alignItems="center"
@@ -112,7 +125,7 @@ function CompactFeedItemThumbnail({
             )) || (
               <SFIcon
                 icon="link"
-                color={theme.colors.app.textSecondary}
+                color={theme.colors.textSecondary}
                 size={20}
               />
             )}

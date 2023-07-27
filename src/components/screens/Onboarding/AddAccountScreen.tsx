@@ -1,10 +1,17 @@
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Button, Pressable, Text, VStack, useTheme } from "native-base";
 import React, { useEffect, useState } from "react";
-import { Trans, useTranslation } from "react-i18next";
 import { Alert, Image } from "react-native";
+import {
+  Button,
+  Pressable,
+  Text,
+  VStack,
+} from "@src/components/common/Gluestack";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useAppDispatch } from "../../../../store";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Trans, useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import { useAppDispatch } from "@root/store";
+import CTextInput from "../../common/CTextInput";
 import {
   getInstanceError,
   initialize,
@@ -15,7 +22,6 @@ import { writeToLog } from "../../../helpers/LogHelper";
 import { showToast } from "../../../slices/toast/toastSlice";
 import { useAccountStore } from "../../../stores/account/accountStore";
 import ILemmyServer from "../../../types/lemmy/ILemmyServer";
-import CTextInput from "../../common/CTextInput";
 import LoadingModal from "../../common/Loading/LoadingModal";
 
 const header = require("../../../../assets/header.jpg");
@@ -38,7 +44,8 @@ function AddAccountScreen({ route, navigation }: IProps) {
   const accountStore = useAccountStore();
 
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useThemeOptions();
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -123,13 +130,13 @@ function AddAccountScreen({ route, navigation }: IProps) {
 
   return (
     <KeyboardAwareScrollView
-      style={{ backgroundColor: theme.colors.app.bg }}
+      style={{ backgroundColor: theme.colors.bg }}
       keyboardShouldPersistTaps="handled"
     >
       <LoadingModal loading={loading} />
 
-      <VStack flex={1} mb={5} space="md" justifyContent="center">
-        <VStack mx={3}>
+      <VStack flex={1} mb="$5" space="md" justifyContent="center">
+        <VStack mx="$3">
           <Image
             source={header}
             style={{
@@ -191,19 +198,20 @@ function AddAccountScreen({ route, navigation }: IProps) {
                     onPress={() => navigation.push("Viewer", { type: "terms" })}
                   />
                 ),
-                linkText: <Text mt={1.5} color={theme.colors.app.accent} />,
+                linkText: <Text mt="$1.5" color={theme.colors.accent} />,
               }}
             />
           </Text>
           <Button
             size="sm"
-            colorScheme="lightBlue"
+            variant="solid"
+            action="primary"
             onPress={onPress}
-            borderRadius="20"
-            mt={3}
-            mx={2}
+            borderRadius="$3xl"
+            mt="$3"
+            mx="$2"
           >
-            <Text fontWeight="semibold" fontSize="lg">
+            <Text fontWeight="semibold" size="lg">
               {t("Login")}
             </Text>
           </Button>

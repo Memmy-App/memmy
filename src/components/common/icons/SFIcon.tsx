@@ -1,7 +1,7 @@
-import { useTheme } from "native-base";
 import React from "react";
 import { StyleProp, ViewStyle } from "react-native";
 import { SFSymbol, SymbolScale, SymbolWeight } from "react-native-sfsymbols";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 interface IProps {
   icon: string;
@@ -22,11 +22,11 @@ export function SFIcon({
   style = { width: 24, height: 24 },
   color,
 }: IProps) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   return (
     <SFSymbol
-      color={color || theme.colors.app.accent}
+      color={color || theme.colors.accent}
       name={icon}
       weight={weight}
       scale={scale}

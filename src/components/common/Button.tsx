@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, Text } from "native-base";
+import { Pressable, Text } from "@src/components/common/Gluestack";
 
 interface IProps {
   bg: string;

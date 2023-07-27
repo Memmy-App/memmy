@@ -1,12 +1,18 @@
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LemmyHttp } from "lemmy-js-client";
-import { Button, Pressable, Text, VStack, useTheme } from "native-base";
+import {
+  Button,
+  Pressable,
+  Text,
+  VStack,
+} from "@src/components/common/Gluestack";
 import React, { useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Alert, Image, Linking } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useAppDispatch } from "../../../../store";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { initialize, lemmyAuthToken } from "../../../LemmyInstance";
+import { useAppDispatch } from "../../../../store";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { showToast } from "../../../slices/toast/toastSlice";
@@ -53,7 +59,7 @@ function CreateAccountScreen({
   const accountStore = useAccountStore();
 
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useThemeOptions();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -203,11 +209,11 @@ function CreateAccountScreen({
 
   return (
     <KeyboardAwareScrollView
-      style={{ backgroundColor: theme.colors.app.bg }}
+      style={{ backgroundColor: theme.colors.bg }}
       keyboardShouldPersistTaps="handled"
     >
       <LoadingModal loading={loading} />
-      <VStack flex={1} mb={5} space="md" justifyContent="center">
+      <VStack flex={1} mb="$5" space="md" justifyContent="center">
         <Image
           source={header}
           style={{
@@ -218,13 +224,13 @@ function CreateAccountScreen({
           }}
           resizeMode="cover"
         />
-        <VStack mx={3}>
+        <VStack mx="$3">
           {sentEmail ? (
-            <VStack px={4} space="md">
-              <Text fontSize={32} textAlign="center">
+            <VStack px="$4" space="md">
+              <Text size="4xl" textAlign="center">
                 {t("onboarding.checkEmail")}
               </Text>
-              <Text fontSize={18} textAlign="center">
+              <Text size="lg" textAlign="center">
                 {t("onboarding.emailSent", [form.email])}
               </Text>
               <Button
@@ -232,11 +238,13 @@ function CreateAccountScreen({
                 onPress={() => Linking.openURL("message://")}
                 disabled={loading}
               >
-                {t("onboarding.openEmailAppBtn")}
-                Open Email App
+                <Text>
+                  {t("onboarding.openEmailAppBtn")}
+                  Open Email App
+                </Text>
               </Button>
               <Button onPress={() => setReady(true)} disabled={loading}>
-                {t("onboarding.getStartedBtn")}
+                <Text>{t("onboarding.getStartedBtn")}</Text>
               </Button>
             </VStack>
           ) : (
@@ -318,19 +326,20 @@ function CreateAccountScreen({
                         }
                       />
                     ),
-                    linkText: <Text mt={1.5} color={theme.colors.app.accent} />,
+                    linkText: <Text mt="$1.5" color={theme.colors.accent} />,
                   }}
                 />
               </Text>
               <Button
                 size="sm"
-                colorScheme="lightBlue"
+                variant="solid"
+                action="primary"
                 onPress={onPress}
-                borderRadius="20"
-                mt={3}
-                mx={2}
+                borderRadius="$3xl"
+                mt="$3"
+                mx="$2"
               >
-                <Text fontWeight="semibold" fontSize="lg">
+                <Text fontWeight="semibold" size="lg">
                   {t("Create Account")}
                 </Text>
               </Button>

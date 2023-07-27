@@ -1,5 +1,12 @@
-import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
+import {
+  HStack,
+  Pressable,
+  Text,
+  View,
+  VStack,
+} from "@src/components/common/Gluestack";
 import React, { useState } from "react";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import SFIcon from "../icons/SFIcon";
 import { ICON_MAP } from "../../../constants/IconMap";
 
@@ -17,7 +24,7 @@ interface IProps {
 
   onPress?: () => void | Promise<void>;
 
-  py?: number;
+  py?: React.ComponentProps<typeof VStack>["py"];
 }
 
 function MCell({
@@ -30,20 +37,20 @@ function MCell({
   showChevron = false,
   py,
 }: IProps) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
   const [pressedIn, setPressedIn] = useState(false);
 
   const onPressIn = () => setPressedIn(true);
   const onPressOut = () => setPressedIn(false);
 
   const cell = (
-    <VStack space={1} py={py}>
-      <HStack alignItems="center" space={2}>
+    <VStack space="xs" py={py}>
+      <HStack alignItems="center" space="sm">
         {icon && icon}
-        <VStack>
-          <Text fontSize="md">{title}</Text>
+        <VStack flexShrink={1}>
+          <Text size="md">{title}</Text>
           {subtitle && (
-            <Text fontSize="xs" color={theme.colors.app.textSecondary}>
+            <Text size="xs" color={theme.colors.textSecondary}>
               {subtitle}
             </Text>
           )}

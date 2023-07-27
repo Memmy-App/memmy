@@ -24,16 +24,18 @@ import {
   TapGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import { BlurView } from "expo-blur";
-import { Text, useTheme, View, VStack } from "native-base";
+import { Text, View, VStack } from "@src/components/common/Gluestack";
 import { StatusBar } from "expo-status-bar";
 import { IconAlertTriangle } from "tabler-icons-react-native";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
+import { onGenericHapticFeedback } from "@src/helpers/HapticFeedbackHelpers";
 import { useImageDimensions } from "./useImageDimensions";
 import ExitButton from "./ImageExitButton";
 import ImageViewFooter from "./ImageViewFooter";
-import { useAppSelector } from "../../../../store";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
 import ImageButton from "../Buttons/ImageButton";
-import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import Toast from "../Toast";
 
 interface IProps {
@@ -79,7 +81,7 @@ function ImageViewer({
   setPostRead,
   compactMode,
 }: IProps) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   // @ts-ignore
   const nonViewerRef = useRef<View>(null);
@@ -89,7 +91,10 @@ function ImageViewer({
   const [expanded, setExpanded] = useState<boolean>(false);
 
   // NSFW stuff, we need this hack for some reason
-  const { blurNsfw, markReadOnPostImageView } = useAppSelector(selectSettings);
+  const { blurNsfw, markReadOnPostImageView } = useSettingsStore((state) => ({
+    blurNsfw: state.settings.blurNsfw,
+    markReadOnPostImageView: state.settings.markReadOnPostImageView,
+  }));
   const [blurIntensity, setBlurIntensity] = useState(99);
 
   // Animation stuff
@@ -177,6 +182,12 @@ function ImageViewer({
     if (nsfw && blurNsfw) {
       setBlurIntensity((prev) => (prev === 99 ? 100 : 99));
     }
+  };
+
+  const toggleAccessories = (show: boolean) => {
+    "worklet";
+
+    accessoriesOpacity.value = withTiming(show ? 1 : 0, { duration: 200 });
   };
 
   // This opens or closes our modal
@@ -279,12 +290,6 @@ function ImageViewer({
     backgroundColor.value = withTiming("rgba(0, 0, 0, 1)", {
       duration: 300,
     });
-  };
-
-  const toggleAccessories = (show: boolean) => {
-    "worklet";
-
-    accessoriesOpacity.value = withTiming(show ? 1 : 0, { duration: 200 });
   };
 
   const onPinchStart = () => {
@@ -520,7 +525,7 @@ function ImageViewer({
           borderRadius: compactMode ? 10 : 0,
         },
       ]}
-      backgroundColor={theme.colors.app.bg}
+      backgroundColor={theme.colors.bg}
     >
       {buttonMode ? (
         <Pressable
@@ -576,15 +581,15 @@ function ImageViewer({
                     flex={1}
                     alignItems="center"
                     justifyContent="center"
-                    space={2}
+                    space="sm"
                   >
                     <IconAlertTriangle
-                      color={theme.colors.app.textSecondary}
+                      color={theme.colors.textSecondary}
                       size={36}
                     />
                     {!compactMode && (
                       <>
-                        <Text fontSize="xl">NSFW</Text>
+                        <Text size="xl">NSFW</Text>
                         <Text>Sensitive content ahead</Text>
                       </>
                     )}

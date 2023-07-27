@@ -1,14 +1,14 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ScrollView, useTheme } from "native-base";
+import { ScrollView } from "@src/components/common/Gluestack";
+import { useAppSelector } from "@root/store";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Button, Switch } from "react-native";
-import { useAppDispatch, useAppSelector } from "../../../../../store";
+import setSetting from "@src/stores/settings/actions/setSetting";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { ICON_MAP } from "../../../../constants/IconMap";
 import useNotifications from "../../../../hooks/notifications/useNotifications";
-import { setSetting } from "../../../../slices/settings/settingsActions";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import {
   useAccountStore,
   useAccounts,
@@ -29,14 +29,12 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   const accountStore = useAccountStore();
   const accounts = useAccounts();
   const currentAccount = useCurrentAccount();
-  const { pushEnabled } = useAppSelector(selectSettings);
+  const pushEnabled = useAppSelector((state) => state.settings.pushEnabled);
 
   const [pushEnabledArr, setPushEnabledArr] = useState([]);
 
-  const dispatch = useAppDispatch();
-
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useThemeOptions();
   const notifications = useNotifications();
 
   useFocusEffect(
@@ -49,7 +47,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
     <Button
       title={t("Add")}
       onPress={() => navigation.push("EditAccount")}
-      color={theme.colors.app.accent}
+      color={theme.colors.accent}
     />
   );
 
@@ -117,14 +115,12 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
       Alert.alert("Error", res.message);
     }
 
-    dispatch(
-      setSetting({
-        pushEnabled: JSON.stringify([
-          ...pushEnabledArr,
-          { username: account.username, instance: account.instance },
-        ]),
-      })
-    );
+    setSetting({
+      pushEnabled: JSON.stringify([
+        ...pushEnabledArr,
+        { username: account.username, instance: account.instance },
+      ]),
+    }).then();
 
     setPushEnabledArr((prev) => [
       ...prev,
@@ -139,16 +135,14 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
       Alert.alert("Error", res.message);
     }
 
-    dispatch(
-      setSetting({
-        pushEnabled: JSON.stringify(
-          pushEnabledArr.map(
-            (x) =>
-              x.username !== account.username && x.instance !== account.instance
-          )
-        ),
-      })
-    );
+    setSetting({
+      pushEnabled: JSON.stringify(
+        pushEnabledArr.map(
+          (x) =>
+            x.username !== account.username && x.instance !== account.instance
+        )
+      ),
+    }).then();
 
     setPushEnabledArr((prev) =>
       prev.map(
@@ -159,7 +153,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   };
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg}>
+    <ScrollView bg={theme.colors.bg}>
       <LoadingModalTransparent loading={notifications.loading} />
       <CTable>
         <CSection
@@ -170,17 +164,17 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
             cellStyle="RightDetail"
             title={t("Server")}
             detail={currentAccount.instance}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
           <CCell
             cellStyle="RightDetail"
             title={t("Username")}
             detail={currentAccount.username}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
         </CSection>
         {accounts.map((account) => (
@@ -192,16 +186,16 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
               cellStyle="Basic"
               title={t("Edit Account")}
               accessory="DisclosureIndicator"
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
               onPress={() => onAccountPress(account)}
             />
             <CCell
               title={t("Push Notifications")}
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
               cellAccessoryView={
                 <Switch
                   value={
@@ -218,13 +212,13 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
             <CCell
               cellStyle="Basic"
               title={t("Logout")}
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
               cellAccessoryView={
                 <SFIcon
                   icon={ICON_MAP.LOGOUT}
-                  color={theme.colors.app.textSecondary}
+                  color={theme.colors.textSecondary}
                   size={14}
                 />
               }

@@ -1,14 +1,15 @@
 import { CommunityAggregates } from "lemmy-js-client";
-import { HStack, Text, VStack, useTheme } from "native-base";
+import { HStack, Text, VStack } from "@src/components/common/Gluestack";
 import React from "react";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { shortenNumber } from "../../../../../helpers/NumberHelper";
 import { SFIcon } from "../../../../common/icons/SFIcon";
 
 function StatBlock({ icon, text }: { icon: string; text: string }) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
   return (
-    <HStack alignItems="center" space={1.5}>
-      <SFIcon icon={icon} size={14} color={theme.colors.app.textSecondary} />
+    <HStack alignItems="center" space="smxs">
+      <SFIcon icon={icon} size={14} color={theme.colors.textSecondary} />
       <Text>{text}</Text>
     </HStack>
   );
@@ -25,12 +26,12 @@ function CommunityCounts({ counts }: IProps) {
   const usersActiveMonth = shortenNumber(counts.users_active_month);
 
   return (
-    <HStack space={5}>
-      <VStack space={1}>
+    <HStack space="xl">
+      <VStack space="xs">
         <StatBlock icon="person" text={`${subscribers} subscribers`} />
         <StatBlock icon="doc.plaintext" text={`${posts} posts`} />
       </VStack>
-      <VStack space={1}>
+      <VStack space="xs">
         <StatBlock icon="bolt" text={`${usersActiveMonth} users active`} />
         <StatBlock
           icon="bubble.left.and.bubble.right"

@@ -1,8 +1,9 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ScrollView, useTheme, VStack } from "native-base";
+import { ScrollView, VStack } from "@src/components/common/Gluestack";
 import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { useAppDispatch } from "../../../../store";
 import { ICON_MAP } from "../../../constants/IconMap";
 import useProfile from "../../../hooks/profile/useProfile";
@@ -27,7 +28,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
   // Hooks
   const profile = useProfile(true, route?.params?.fullUsername);
 
-  const theme = useTheme();
+  const theme = useThemeOptions();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
@@ -94,7 +95,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
   return (
     <ScrollView
       flex={1}
-      backgroundColor={theme.colors.app.bg}
+      bg={theme.colors.bg}
       refreshControl={
         <RefreshControl
           refreshing={profile.refreshing}
@@ -103,7 +104,7 @@ function UserProfileScreen({ route, navigation }: IProps) {
       }
     >
       <ProfileHeader profile={profile} />
-      <VStack p={4}>
+      <VStack p="$4">
         <MTable>
           <MCell
             title={t("View Comments")}

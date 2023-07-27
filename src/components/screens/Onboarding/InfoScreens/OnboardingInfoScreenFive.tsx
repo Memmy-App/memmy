@@ -1,6 +1,6 @@
 import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Button, Text, VStack } from "native-base";
+import { Button, Text, VStack } from "@src/components/common/Gluestack";
 import { ImageBackground, StyleSheet } from "react-native";
 import { Trans, useTranslation } from "react-i18next";
 
@@ -20,50 +20,48 @@ function OnboardingInfoScreenFive({ navigation }: IProps) {
         style={styles.background}
         resizeMode="cover"
       >
-        <VStack px={6} pt={12} pb={20} space={4} flex={1}>
-          <Text
-            fontSize="3xl"
-            color="white"
-            fontWeight="semibold"
-            textAlign="left"
-          >
+        <VStack px="$6" pt="$12" pb="$20" space="lg" flex={1}>
+          <Text size="3xl" color="white" fontWeight="semibold" textAlign="left">
             <Trans
               i18nKey="onboarding.info.5.1"
-              components={{ emphasis: <Text color="lightBlue.500" /> }}
+              components={{
+                emphasis: (
+                  <Text size="2xl" color="$primary500" fontWeight="semibold" />
+                ),
+              }}
             />
           </Text>
-          <Text
-            fontSize="2xl"
-            color="white"
-            fontWeight="semibold"
-            textAlign="left"
-          >
+          <Text size="2xl" color="white" fontWeight="semibold" textAlign="left">
             <Trans
               i18nKey="onboarding.info.5.2"
-              components={{ emphasis: <Text color="lightBlue.500" /> }}
+              components={{
+                emphasis: (
+                  <Text size="2xl" color="$primary500" fontWeight="semibold" />
+                ),
+              }}
             />
           </Text>
 
-          <Text
-            fontSize="2xl"
-            color="white"
-            fontWeight="semibold"
-            textAlign="left"
-          >
+          <Text size="2xl" color="white" fontWeight="semibold" textAlign="left">
             <Trans
               i18nKey="onboarding.info.5.3"
-              components={{ emphasis: <Text color="lightBlue.500" /> }}
+              components={{
+                emphasis: (
+                  <Text size="2xl" color="$primary500" fontWeight="semibold" />
+                ),
+              }}
             />
           </Text>
 
           <Button
             size="lg"
-            colorScheme="lightBlue"
+            variant="solid"
+            action="primary"
             onPress={() => navigation.push("OnboardingInfoSix")}
-            borderRadius="20"
+            borderRadius="$3xl"
             mt="auto"
           >
-            <Text fontWeight="semibold" fontSize="lg">
+            <Text fontWeight="semibold" size="lg">
               {t("Continue")}
             </Text>
           </Button>

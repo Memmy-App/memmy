@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { CommentSortType, ListingType, SortType } from "lemmy-js-client";
-import { RootState } from "../../../store";
-import { loadSettings, setSetting } from "./settingsActions";
+import { loadSettings, setSetting } from "@src/slices/settings/settingsActions";
 import { ThemeOptions } from "../../theme/themeOptions";
 import { HapticOptions } from "../../types/haptics/hapticOptions";
 
@@ -16,6 +15,7 @@ export interface SettingsState {
   blurNsfw: boolean;
   hideNsfw: boolean;
   compactView: boolean;
+  colorScheme: "light" | "dark" | null | undefined;
   theme: ThemeOptions;
   themeLight: ThemeOptions;
   themeDark: ThemeOptions;
@@ -23,7 +23,7 @@ export interface SettingsState {
   isSystemFont: boolean;
   isSystemTextSize: boolean;
   fontSize: number;
-  fontWeightPostTitle: number;
+  fontWeightPostTitle: string;
   haptics: HapticOptions;
   pushEnabled: string;
   compactThumbnailPosition: "None" | "Left" | "Right";
@@ -61,6 +61,7 @@ const initialState: SettingsState = {
   compactView: false,
   compactThumbnailPosition: "Left",
   compactShowVotingButtons: true,
+  colorScheme: "dark",
   theme: "Dark",
   themeLight: "Light",
   themeDark: "Dark",
@@ -68,7 +69,7 @@ const initialState: SettingsState = {
   isSystemFont: false,
   isSystemTextSize: true,
   fontSize: 2,
-  fontWeightPostTitle: 400,
+  fontWeightPostTitle: "normal",
   haptics: "Medium",
   pushEnabled: "[]",
   markReadOnPostView: true,
@@ -118,7 +119,4 @@ const settingsSlice = createSlice({
     });
   },
 });
-
-export const selectSettings = (state: RootState) => state.settings;
-export const selectSettingsLoaded = (state: RootState) => state.settings.loaded;
 export default settingsSlice.reducer;

@@ -1,16 +1,17 @@
-import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
-import { CommunityView } from "lemmy-js-client";
-import { Text, View, useTheme } from "native-base";
 import React, { useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
+import { Text, View } from "@src/components/common/Gluestack";
+import { useAppSelector } from "@root/store";
+import { CommunityView } from "lemmy-js-client";
+import { useTranslation } from "react-i18next";
+import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import useTraverse from "../../../hooks/traverse/useTraverse";
 import LoadingView from "../../common/Loading/LoadingView";
-import RefreshControl from "../../common/RefreshControl";
-import SearchBar from "../../common/Search/SearchBar";
 import TraverseItem from "./components/TraverseItem";
+import SearchBar from "../../common/Search/SearchBar";
+import RefreshControl from "../../common/RefreshControl";
 
-import { useAppSelector } from "../../../../store";
 import { getCommunityFullName } from "../../../helpers/LemmyHelpers";
 import { selectFavorites } from "../../../slices/favorites/favoritesSlice";
 import { useCurrentAccount } from "../../../stores/account/accountStore";
@@ -35,7 +36,7 @@ interface SectionListItem {
 
 function TraverseScreen() {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useThemeOptions();
   const traverse = useTraverse();
 
   const [term, setTerm] = useState("");
@@ -192,10 +193,10 @@ function TraverseScreen() {
       const { type, value } = item;
       if (type === ItemType.INDEX) {
         return (
-          <View backgroundColor={theme.colors.app.bg}>
+          <View backgroundColor={theme.colors.bg}>
             <Text
               style={styles.alphaIndexHeaderText}
-              fontSize="xl"
+              size="xl"
               fontWeight="semibold"
             >
               {(value as HeaderValue).title}
@@ -229,8 +230,8 @@ function TraverseScreen() {
             textAlign="center"
             justifyContent="center"
             alignSelf="center"
-            py="3"
-            px="4"
+            py="$3"
+            px="$4"
           >
             {(value as HeaderValue).title}
           </Text>
@@ -246,10 +247,9 @@ function TraverseScreen() {
   }
 
   return (
-    <View flex={1}>
+    <View flex={1} style={{ backgroundColor: theme.colors.bg }}>
       {header}
       <FlashList
-        backgroundColor={theme.colors.app.bg}
         refreshControl={
           <RefreshControl
             refreshing={traverse.refreshing}

@@ -37,6 +37,55 @@ export const useFeedPost = (feedKey: string, postId: number) =>
     state.feeds.get(feedKey).posts.find((p) => p.post.id === postId)
   );
 
+export const useFeedPostVote = (feedKey: string, postId: number) =>
+  useFeedsStore(
+    (state) =>
+      state.feeds.get(feedKey).posts.find((p) => p.post.id === postId).my_vote
+  );
+
+export const useFeedPostCounts = (feedKey: string, postId: number) =>
+  useFeedsStore(
+    (state) =>
+      state.feeds.get(feedKey).posts.find((p) => p.post.id === postId).counts
+  );
+
+export const useFeedPostInfo = (feedKey: string, postId: number) =>
+  useFeedsStore(
+    (state) =>
+      state.feeds.get(feedKey).posts.find((p) => p.post.id === postId).post
+  );
+
+export const useFeedPostSaved = (feedKey: string, postId: number) =>
+  useFeedsStore(
+    (state) =>
+      state.feeds.get(feedKey).posts.find((p) => p.post.id === postId).saved
+  );
+
+export const useFeedPostRead = (feedKey: string, postId: number) =>
+  useFeedsStore(
+    (state) =>
+      state.feeds.get(feedKey).posts.find((p) => p.post.id === postId).read
+  );
+
+export const useFeedPostUnreadComments = (feedKey: string, postId: number) =>
+  useFeedsStore(
+    (state) =>
+      state.feeds.get(feedKey).posts.find((p) => p.post.id === postId)
+        .unread_comments
+  );
+
+export const useFeedPostCommunity = (feedKey: string, postId: number) =>
+  useFeedsStore(
+    (state) =>
+      state.feeds.get(feedKey).posts.find((p) => p.post.id === postId).community
+  );
+
+export const useFeedPostCreator = (feedKey: string, postId: number) =>
+  useFeedsStore(
+    (state) =>
+      state.feeds.get(feedKey).posts.find((p) => p.post.id === postId).creator
+  );
+
 export const useFeedStatus = (feedKey: string) =>
   useFeedsStore((state) => state.feeds.get(feedKey)?.status);
 

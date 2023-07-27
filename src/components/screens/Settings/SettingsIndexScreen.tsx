@@ -1,13 +1,19 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Box, HStack, ScrollView, Text, useTheme } from "native-base";
+import {
+  Box,
+  HStack,
+  ScrollView,
+  Text,
+} from "@src/components/common/Gluestack";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Linking, StyleSheet } from "react-native";
 import { Divider } from "react-native-elements";
 import { modelName, osVersion } from "expo-device";
 import { getReadableVersion } from "react-native-device-info";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { ICON_MAP } from "../../../constants/IconMap";
 import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
 import CCell from "../../common/Table/CCell";
@@ -26,7 +32,7 @@ function SettingOptionTitle({
   iconBgColor: string;
 }) {
   return (
-    <HStack space={3} alignItems="center" marginBottom={-1.5}>
+    <HStack space="md" alignItems="center" marginBottom={-1.5}>
       <Box
         style={{
           width: 28,
@@ -50,7 +56,7 @@ function SettingsIndexScreen({
   navigation: NativeStackNavigationProp<any>;
 }) {
   const { t, i18n } = useTranslation();
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   const languages = useMemo<string[]>(
     () => Object.keys(i18n.options.resources),
@@ -98,7 +104,7 @@ function SettingsIndexScreen({
   );
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
+    <ScrollView bg={theme.colors.bg} flex={1}>
       <TableView style={styles.table}>
         <CSection>
           <CCell
@@ -112,9 +118,9 @@ function SettingsIndexScreen({
             }
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("GeneralSettings")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
           <CCell
             cellStyle="Basic"
@@ -127,9 +133,9 @@ function SettingsIndexScreen({
             }
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("Content")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
           <CCell
             cellStyle="Basic"
@@ -142,9 +148,9 @@ function SettingsIndexScreen({
             }
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("Appearance")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
           <CCell
             cellStyle="Basic"
@@ -157,9 +163,9 @@ function SettingsIndexScreen({
             }
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("ViewAccounts")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
           <CCell
             cellStyle="Basic"
@@ -172,9 +178,9 @@ function SettingsIndexScreen({
             }
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("Filters")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
           <CCell
             cellStyle="Basic"
@@ -187,9 +193,9 @@ function SettingsIndexScreen({
             }
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("About")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
           />
         </CSection>
 
@@ -197,18 +203,18 @@ function SettingsIndexScreen({
           <CCell
             cellStyle="Basic"
             title={t("Email Debug Log")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             accessory="DisclosureIndicator"
             onPress={onEmailDebugLogPress}
           />
           <CCell
             cellStyle="Basic"
             title={t("Clear Debug Log")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => {
               try {
@@ -236,7 +242,7 @@ function SettingsIndexScreen({
             cellAccessoryView={
               <SFIcon
                 icon={ICON_MAP.EXTERNAL_LINK}
-                color={theme.colors.app.textSecondary}
+                color={theme.colors.textSecondary}
               />
             }
           />
@@ -257,9 +263,9 @@ function SettingsIndexScreen({
                   cellStyle="RightDetail"
                   title={t("Select Language")}
                   detail={i18n.language}
-                  backgroundColor={theme.colors.app.fg}
-                  titleTextColor={theme.colors.app.textPrimary}
-                  rightDetailColor={theme.colors.app.textSecondary}
+                  backgroundColor={theme.colors.fg}
+                  titleTextColor={theme.colors.textPrimary}
+                  rightDetailColor={theme.colors.textSecondary}
                   accessory="DisclosureIndicator"
                 />
               </AppContextMenuButton>
