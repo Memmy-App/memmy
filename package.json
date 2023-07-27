@@ -87,7 +87,7 @@
     "react-native": "0.72.3",
     "react-native-change-icon": "^4.0.0",
     "react-native-code-push": "^8.0.2",
-    "react-native-device-info": "^10.6.0",
+    "react-native-device-info": "^10.7.0",
     "react-native-dialog": "^9.3.0",
     "react-native-elements": "^3.4.3",
     "react-native-flipper": "0.203.0",
