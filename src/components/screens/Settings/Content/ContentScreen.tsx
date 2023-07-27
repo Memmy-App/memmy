@@ -2,12 +2,12 @@ import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppDispatch, useAppSelector } from "@root/store";
+import { useAppSelector } from "@root/store";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { useSettings } from "@src/stores/settings/settingsStore";
-import { setSetting } from "../../../../slices/settings/settingsActions";
+import setSetting from "@src/stores/settings/actions/setSetting";
 import { CommentSortContextMenu } from "../../../common/ContextMenu/CommentSortContextMenu";
 import { FeedSortContextMenu } from "../../../common/ContextMenu/FeedSortContextMenu";
 import { ListingTypeContextMenu } from "../../../common/ContextMenu/ListingTypeContextMenu";
@@ -24,12 +24,11 @@ function ContentScreen({
   const settings = useSettings();
 
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const theme = useAppSelector(selectThemeOptions);
   const overallSortOptions = useOverallSortOptions();
 
   const onChange = (key: string, value: any) => {
-    dispatch(setSetting({ [key]: value }));
+    setSetting({ [key]: value }).then();
   };
 
   return (
@@ -39,7 +38,7 @@ function ContentScreen({
           <FeedSortContextMenu
             currentSelection={settings.defaultSort}
             onPress={({ nativeEvent }) => {
-              dispatch(setSetting({ defaultSort: nativeEvent.actionKey }));
+              onChange("defaultSort", nativeEvent.actionKey);
             }}
           >
             <CCell
@@ -57,9 +56,7 @@ function ContentScreen({
           <CommentSortContextMenu
             currentSelection={settings.defaultCommentSort}
             onPress={({ nativeEvent }) => {
-              dispatch(
-                setSetting({ defaultCommentSort: nativeEvent.actionKey })
-              );
+              onChange("defaultCommentSort", nativeEvent.actionKey);
             }}
           >
             <CCell
@@ -75,9 +72,7 @@ function ContentScreen({
           <ListingTypeContextMenu
             currentSelection={settings.defaultListingType}
             onPress={({ nativeEvent }) => {
-              dispatch(
-                setSetting({ defaultListingType: nativeEvent.actionKey })
-              );
+              onChange("defaultListingType", nativeEvent.actionKey);
             }}
           >
             <CCell

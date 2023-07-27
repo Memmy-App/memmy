@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "@root/store";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useSettings } from "@src/stores/settings/settingsStore";
-import { setSetting } from "../../../../slices/settings/settingsActions";
+import setSetting from "@src/stores/settings/actions/setSetting";
 import Chip from "../../../common/Chip";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
@@ -22,13 +22,14 @@ interface IProps {
 
 function AppearanceScreen({ navigation }: IProps) {
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const theme = useAppSelector(selectThemeOptions);
 
   const settings = useSettings();
 
+  const dispatch = useAppDispatch();
+
   const onChange = (key: string, value: any) => {
-    dispatch(setSetting({ [key]: value }));
+    setSetting({ [key]: value }).then();
   };
 
   // TODO: Disabling Font Scaling for now
@@ -173,11 +174,9 @@ function AppearanceScreen({ navigation }: IProps) {
               options={compactThumbnailPositionOptions}
               selection={settings.compactThumbnailPosition}
               onPressMenuItem={({ nativeEvent }) => {
-                dispatch(
-                  setSetting({
-                    compactThumbnailPosition: nativeEvent.actionKey,
-                  })
-                );
+                setSetting({
+                  compactThumbnailPosition: nativeEvent.actionKey,
+                }).then();
               }}
             >
               <CCell
@@ -325,10 +324,10 @@ function AppearanceScreen({ navigation }: IProps) {
                         })
                       );
                     }
-                    dispatch(setSetting({ accentColor: hexToCheck }));
+                    setSetting({ accentColor: hexToCheck }).then();
                   } else {
                     setAccent("");
-                    dispatch(setSetting({ accentColor: "" }));
+                    setSetting({ accentColor: "" }).then();
                     dispatch(
                       showToast({
                         message: t("toast.accentColorInvalidHexCode"),

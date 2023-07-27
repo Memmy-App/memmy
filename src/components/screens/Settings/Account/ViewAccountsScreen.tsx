@@ -6,13 +6,13 @@ import { useAppDispatch, useAppSelector } from "@root/store";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Button, Switch } from "react-native";
+import setSetting from "@src/stores/settings/actions/setSetting";
 import useNotifications from "../../../../hooks/notifications/useNotifications";
 import { deleteAccount } from "../../../../slices/accounts/accountsActions";
 import {
   selectAccounts,
   selectCurrentAccount,
 } from "../../../../slices/accounts/accountsSlice";
-import { setSetting } from "../../../../slices/settings/settingsActions";
 import { Account } from "../../../../types/Account";
 import LoadingModalTransparent from "../../../common/Loading/LoadingModalTransparent";
 import CCell from "../../../common/Table/CCell";
@@ -116,14 +116,12 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
       Alert.alert("Error", res.message);
     }
 
-    dispatch(
-      setSetting({
-        pushEnabled: JSON.stringify([
-          ...pushEnabledArr,
-          { username: account.username, instance: account.instance },
-        ]),
-      })
-    );
+    setSetting({
+      pushEnabled: JSON.stringify([
+        ...pushEnabledArr,
+        { username: account.username, instance: account.instance },
+      ]),
+    }).then();
 
     setPushEnabledArr((prev) => [
       ...prev,
@@ -138,16 +136,14 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
       Alert.alert("Error", res.message);
     }
 
-    dispatch(
-      setSetting({
-        pushEnabled: JSON.stringify(
-          pushEnabledArr.map(
-            (x) =>
-              x.username !== account.username && x.instance !== account.instance
-          )
-        ),
-      })
-    );
+    setSetting({
+      pushEnabled: JSON.stringify(
+        pushEnabledArr.map(
+          (x) =>
+            x.username !== account.username && x.instance !== account.instance
+        )
+      ),
+    }).then();
 
     setPushEnabledArr((prev) =>
       prev.map(

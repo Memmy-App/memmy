@@ -2,8 +2,7 @@ import React, { useMemo } from "react";
 import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
 import { useTranslation } from "react-i18next";
 import { useSettingsStore } from "@src/stores/settings/settingsStore";
-import { useAppDispatch } from "../../../../../store";
-import { setSetting } from "../../../../slices/settings/settingsActions";
+import setSetting from "@src/stores/settings/actions/setSetting";
 import SFIcon from "../../../common/icons/SFIcon";
 import { ICON_MAP } from "../../../../constants/IconMap";
 import { AppContextMenuButton } from "../../../common/ContextMenu/App/AppContextMenuButton";
@@ -11,14 +10,13 @@ import { Box } from "../../../common/Gluestack";
 
 export function FeedOverflowButton() {
   const compactView = useSettingsStore((state) => state.settings.compactView);
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
   const onPress = (e: OnPressMenuItemEventObject) => {
     const key = e.nativeEvent.actionKey;
 
     if (key === "large" || key === "compact") {
-      dispatch(setSetting({ compactView: !compactView }));
+      setSetting({ compactView: !compactView }).then();
     }
   };
 

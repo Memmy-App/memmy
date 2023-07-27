@@ -6,12 +6,12 @@ import {
   Text,
 } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppDispatch, useAppSelector } from "@root/store";
+import { useAppSelector } from "@root/store";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { changeIcon } from "react-native-change-icon";
 import { useSettings } from "@src/stores/settings/settingsStore";
-import { setSetting } from "../../../../slices/settings/settingsActions";
+import setSetting from "@src/stores/settings/actions/setSetting";
 import { appIconOptions } from "../../../../types/AppIconType";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
@@ -20,7 +20,6 @@ import SFIcon from "../../../common/icons/SFIcon";
 function IconSelectionScreen() {
   const settings = useSettings();
 
-  const dispatch = useAppDispatch();
   const theme = useAppSelector(selectThemeOptions);
 
   return (
@@ -50,7 +49,7 @@ function IconSelectionScreen() {
               titleTextColor={theme.colors.textPrimary}
               rightDetailColor={theme.colors.textSecondary}
               onPress={() => {
-                dispatch(setSetting({ appIcon: key }));
+                setSetting({ appIcon: key }).then();
                 changeIcon(key);
               }}
             />

@@ -11,7 +11,6 @@ import { writeToLog } from "@src/helpers/LogHelper";
 import { lemmyAuthToken, lemmyInstance } from "@src/LemmyInstance";
 import { loadAccounts } from "@src/slices/accounts/accountsActions";
 import { selectAccountsLoaded } from "@src/slices/accounts/accountsSlice";
-import { setSetting } from "@src/slices/settings/settingsActions";
 import {
   selectCurrentTheme,
   selectThemeConfig,
@@ -21,6 +20,7 @@ import { ThemeOptionsArr, ThemeOptionsMap } from "@src/theme/themeOptions";
 import { loadFavorites } from "@src/slices/favorites/favoritesActions";
 import { useFiltersStore } from "@src/stores/filters/filtersStore";
 import loadSettings from "@src/stores/settings/actions/loadSettings";
+import setSetting from "@src/stores/settings/actions/setSetting";
 import { useAppDispatch, useAppSelector } from "./store";
 import getFontScale from "./src/theme/fontSize";
 import Toast from "./src/components/common/Toast";
@@ -73,7 +73,7 @@ function Start({ onReady }: StartProps) {
   useEffect(() => {
     if (colorScheme !== currentColorScheme) {
       onColorSchemeChange.current = setTimeout(() => {
-        dispatch(setSetting({ colorScheme }));
+        setSetting({ colorScheme }).then();
         setCurrentColorScheme(colorScheme);
       }, 1000);
     } else if (onColorSchemeChange.current) {
@@ -143,7 +143,7 @@ function Start({ onReady }: StartProps) {
     if (!ThemeOptionsArr.includes(usedTheme)) {
       usedTheme = "Dark";
 
-      dispatch(setSetting({ theme: usedTheme }));
+      setSetting({ theme: usedTheme });
     }
 
     // TODO: Disabling Font Scaling for now

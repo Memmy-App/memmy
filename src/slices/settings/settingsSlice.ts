@@ -4,8 +4,8 @@ import { theme as GluestackTheme } from "@root/gluestack-ui.config";
 import { ICustomConfig } from "@gluestack-style/react";
 import { CommentSortType, ListingType, SortType } from "lemmy-js-client";
 import merge from "deepmerge";
+import { loadSettings, setSetting } from "@src/slices/settings/settingsActions";
 import { RootState } from "../../../store";
-import { loadSettings, setSetting } from "./settingsActions";
 import { ThemeOptions } from "../../theme/themeOptions";
 import { HapticOptions } from "../../types/haptics/hapticOptions";
 
