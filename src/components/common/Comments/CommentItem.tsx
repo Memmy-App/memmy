@@ -5,6 +5,7 @@ import {
   useThemeOptions,
 } from "@src/stores/settings/settingsStore";
 import { getBaseUrl } from "@src/helpers/LinkHelper";
+import VoteData from "@src/components/common/Vote/VoteData";
 import { ILemmyVote } from "@src/types/lemmy/ILemmyVote";
 import useComment from "../../../hooks/comments/useComment";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
@@ -12,7 +13,6 @@ import AvatarUsername from "../AvatarUsername";
 import { ReplyOption } from "../SwipeableRow/ReplyOption";
 import { SwipeableRow } from "../SwipeableRow/SwipeableRow";
 import { VoteOption } from "../SwipeableRow/VoteOption";
-import SmallVoteIcons from "../Vote/SmallVoteIcons";
 import CommentActions from "./CommentActions";
 import CommentBody from "./CommentBody";
 import CommentCollapsed from "./CommentCollapsed";
@@ -84,10 +84,9 @@ function CommentItem({
                   creator={comment.comment.creator}
                   opId={comment.comment.post.creator_id}
                 />
-                <SmallVoteIcons
-                  upvotes={comment.comment.counts.upvotes}
-                  downvotes={comment.comment.counts.downvotes}
-                  myVote={comment.comment.my_vote as ILemmyVote}
+                <VoteData
+                  data={comment.comment.counts}
+                  myVote={comment.myVote}
                 />
               </HStack>
               <CommentHeaderRight
