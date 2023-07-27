@@ -1,8 +1,7 @@
 import React from "react";
 import { FlashList } from "@shopify/flash-list";
 import { VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import NoResultView from "../../common/NoResultView";
 import CommentItem from "../../common/Comments/CommentItem";
 import useProfile from "../../../hooks/profile/useProfile";
@@ -19,7 +18,7 @@ interface IProps {
 function UserCommentsScreen({ route }: IProps) {
   const profile = useProfile(false, route?.params?.fullUsername);
 
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const onPressOverride = (item) => {
     const commentPathArr = item.comment.comment.path.split(".");

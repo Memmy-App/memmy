@@ -1,7 +1,6 @@
 import React from "react";
 import { Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import Link from "./Link";
 
 function UserLink({
@@ -11,7 +10,7 @@ function UserLink({
   username: string;
   fullUsername: string;
 }) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <Link

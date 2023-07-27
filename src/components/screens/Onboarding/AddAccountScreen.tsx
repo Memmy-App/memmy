@@ -6,11 +6,10 @@ import {
   Text,
   VStack,
 } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Trans, useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import CTextInput from "../../common/CTextInput";
 import {
   getInstanceError,
@@ -44,7 +43,7 @@ function AddAccountScreen({ route, navigation }: IProps) {
   const [showTotpToken, setShowTotpToken] = useState(false);
 
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const dispatch = useAppDispatch();
 
   useEffect(() => {

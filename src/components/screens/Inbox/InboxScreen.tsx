@@ -1,11 +1,10 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { CommentReplyView } from "lemmy-js-client";
 import { useFocusEffect } from "@react-navigation/native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import useInbox from "../../../hooks/inbox/useInbox";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import HeaderIconButton from "../../common/Buttons/HeaderIconButton";
@@ -26,7 +25,7 @@ function InboxScreen({
 }: {
   navigation: NativeStackNavigationProp<any>;
 }) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const inbox = useInbox();
   const replies = useInboxReplies();
   const status = useInboxStatus();

@@ -1,7 +1,6 @@
 import { HStack, Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React from "react";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { ICON_MAP } from "../../../constants/IconMap";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
 import SFIcon from "../icons/SFIcon";
@@ -15,7 +14,7 @@ function SmallVoteIcons({
   downvotes: number;
   myVote: ILemmyVote;
 }) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const upvoteColor =
     myVote === 1 ? theme.colors.upvote : theme.colors.textSecondary;

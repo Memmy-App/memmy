@@ -1,10 +1,9 @@
 import { ListingType } from "lemmy-js-client";
 import React from "react";
 import { HStack, Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { useRoute } from "@react-navigation/core";
 import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { ListingTypeContextMenu } from "../../../common/ContextMenu/ListingTypeContextMenu";
 import SFIcon from "../../../common/icons/SFIcon";
 import {
@@ -19,7 +18,7 @@ export function FeedListingTypeButton() {
   const { key } = useRoute();
   const listingType = useFeedListingType(key);
 
-  const { colors } = useAppSelector(selectThemeOptions);
+  const { colors } = useThemeOptions();
   const listingTypeOptions = useListingTypeOptions();
 
   const onPress = (e: OnPressMenuItemEventObject) => {

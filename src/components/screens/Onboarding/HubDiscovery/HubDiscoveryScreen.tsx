@@ -1,12 +1,11 @@
 import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Button, HStack, Text, VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { FlashList } from "@shopify/flash-list";
 import { GetSiteResponse } from "lemmy-js-client";
 import { IconDoorEnter, IconUser } from "tabler-icons-react-native";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import useHubDiscovery from "../../../../hooks/hubDiscovery/useHubDiscovery";
 import InstanceItem from "../../HubDiscovery/components/InstanceItem";
 
@@ -17,7 +16,7 @@ interface IProps {
 function HubDiscoveryScreen({ navigation }: IProps) {
   const hub = useHubDiscovery();
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const instanceItem = ({ item }: { item: GetSiteResponse }) => (
     <InstanceItem site={item} />

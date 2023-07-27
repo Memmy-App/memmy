@@ -5,25 +5,23 @@ import {
   ScrollView,
   Text,
 } from "@src/components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
-import { useAppDispatch, useAppSelector } from "@root/store";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { changeIcon } from "react-native-change-icon";
-import { setSetting } from "../../../../slices/settings/settingsActions";
+import {
+  useSettings,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
+import setSetting from "@src/stores/settings/actions/setSetting";
 import { appIconOptions } from "../../../../types/AppIconType";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
 import SFIcon from "../../../common/icons/SFIcon";
 
 function IconSelectionScreen() {
-  const settings = useAppSelector(selectSettings);
+  const settings = useSettings();
 
-  const dispatch = useAppDispatch();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   return (
     <ScrollView bg={theme.colors.bg} flex={1}>
@@ -52,7 +50,7 @@ function IconSelectionScreen() {
               titleTextColor={theme.colors.textPrimary}
               rightDetailColor={theme.colors.textSecondary}
               onPress={() => {
-                dispatch(setSetting({ appIcon: key }));
+                setSetting({ appIcon: key }).then();
                 changeIcon(key);
               }}
             />
