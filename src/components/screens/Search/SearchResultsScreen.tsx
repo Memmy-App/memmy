@@ -1,14 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import { ScrollView, VStack } from "@src/components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView, SearchType } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
 import useSearchResult from "../../../hooks/search/useSearchResult";
 import CompactFeedItem from "../Feed/components/CompactFeedItem/CompactFeedItem";
 import LoadingView from "../../common/Loading/LoadingView";
@@ -37,7 +35,7 @@ function SearchResultsScreen({ route }: IProps) {
   const theme = useAppSelector(selectThemeOptions);
   const search = useSearchResult(route.params.query, route.params.type);
 
-  const { compactView } = useAppSelector(selectSettings);
+  const compactView = useSettingsStore((state) => state.settings.compactView);
 
   const recycled = useRef({});
 

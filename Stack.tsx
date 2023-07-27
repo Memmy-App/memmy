@@ -4,14 +4,20 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View } from "@src/components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Dimensions } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
+import {
+  selectAccounts,
+  selectAccountsLoaded,
+  selectCurrentAccount,
+} from "@src/slices/accounts/accountsSlice";
+import { selectSite } from "@src/slices/site/siteSlice";
+import { truncateName } from "@src/helpers/TextHelper";
+import { ICON_MAP } from "@src/constants/IconMap";
 import { CustomTabBar } from "./src/components/common/Navigation/CustomTabBar";
 import LoadingView from "./src/components/common/Loading/LoadingView";
 import SFIcon from "./src/components/common/icons/SFIcon";
@@ -55,16 +61,8 @@ import UserCommentsScreen from "./src/components/screens/UserProfile/UserComment
 import UserPostsScreen from "./src/components/screens/UserProfile/UserPostsScreen";
 import UserProfileScreen from "./src/components/screens/UserProfile/UserProfileScreen";
 import ViewerScreen from "./src/components/screens/ViewerScreen";
-import {
-  selectAccounts,
-  selectAccountsLoaded,
-  selectCurrentAccount,
-} from "./src/slices/accounts/accountsSlice";
-import { selectSite } from "./src/slices/site/siteSlice";
 import { useAppSelector } from "./store";
-import { truncateName } from "./src/helpers/TextHelper";
 import ScreenGestureHandler from "./src/components/common/Navigation/ScreenGestureHandler";
-import { ICON_MAP } from "./src/constants/IconMap";
 import FiltersScreen from "./src/components/screens/Settings/Filters/FiltersScreen";
 import KeywordsScreen from "./src/components/screens/Settings/Filters/KeywordsScreen";
 import InstancesScreen from "./src/components/screens/Settings/Filters/InstancesScreen";
@@ -586,7 +584,10 @@ function Tabs() {
   const { unread } = useAppSelector(selectSite);
   const { t } = useTranslation();
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const settings = useAppSelector(selectSettings);
+
+  const hideUsernameInTab = useSettingsStore(
+    (state) => state.settings.hideUsernameInTab
+  );
 
   return (
     <ScreenGestureHandler>
@@ -635,7 +636,7 @@ function Tabs() {
             tabBarIcon: ({ color }) => (
               <SFIcon icon={ICON_MAP.USER_AVATAR} color={color} />
             ),
-            tabBarLabel: settings.hideUsernameInTab
+            tabBarLabel: hideUsernameInTab
               ? "Profile"
               : truncateName(currentAccount.username, 10),
             freezeOnBlur: false,

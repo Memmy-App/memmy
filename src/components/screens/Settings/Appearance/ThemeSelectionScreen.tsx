@@ -6,14 +6,12 @@ import {
   Text,
   View,
 } from "@src/components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "@root/store";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
+import { useSettings } from "@src/stores/settings/settingsStore";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import {
   DarkThemeOptionsArr,
@@ -59,7 +57,7 @@ function ThemeSelectionScreen({ route }: IProps) {
   const theme = useAppSelector(selectThemeOptions);
   const themeProp = route.params?.themeProp || "theme";
 
-  const settings = useAppSelector(selectSettings);
+  const settings = useSettings();
   const currentTheme = settings[themeProp];
 
   return (

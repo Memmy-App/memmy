@@ -1,13 +1,11 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { ScrollView } from "@src/components/common/Gluestack";
 import React, { useMemo } from "react";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "@root/store";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Switch } from "react-native";
+import { useSettings } from "@src/stores/settings/settingsStore";
 import { setSetting } from "../../../../slices/settings/settingsActions";
 import { hapticOptionsArr } from "../../../../types/haptics/hapticOptions";
 import CCell from "../../../common/Table/CCell";
@@ -15,7 +13,7 @@ import CSection from "../../../common/Table/CSection";
 import { AppContextMenuButton } from "../../../common/ContextMenu/App/AppContextMenuButton";
 
 function GeneralSettingsScreen() {
-  const settings = useAppSelector(selectSettings);
+  const settings = useSettings();
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();

@@ -1,12 +1,10 @@
 import React from "react";
 import { VStack } from "@src/components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "@root/store";
 import { Switch } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useSettings } from "@src/stores/settings/settingsStore";
 import CTable from "../../../common/Table/CTable";
 import CSection from "../../../common/Table/CSection";
 import CCell from "../../../common/Table/CCell";
@@ -16,7 +14,7 @@ function ReadSettingsScreen() {
   const { t } = useTranslation();
   const theme = useAppSelector(selectThemeOptions);
 
-  const settings = useAppSelector(selectSettings);
+  const settings = useSettings();
 
   const dispatch = useAppDispatch();
 

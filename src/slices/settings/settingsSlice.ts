@@ -125,7 +125,6 @@ const settingsSlice = createSlice({
   },
 });
 
-export const selectSettings = (state: RootState) => state.settings;
 export const selectSettingsLoaded = (state: RootState) => state.settings.loaded;
 
 const selectColorScheme = (state: RootState) => state.settings.colorScheme;

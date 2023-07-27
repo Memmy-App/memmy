@@ -2,11 +2,11 @@ import { Divider, HStack, View } from "@src/components/common/Gluestack";
 import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
-import { getBaseUrl } from "../../../helpers/LinkHelper";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
+import { getBaseUrl } from "@src/helpers/LinkHelper";
+import { ILemmyVote } from "@src/types/lemmy/ILemmyVote";
 import useComment from "../../../hooks/comments/useComment";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
-import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
 import AvatarUsername from "../AvatarUsername";
 import { ReplyOption } from "../SwipeableRow/ReplyOption";
 import { SwipeableRow } from "../SwipeableRow/SwipeableRow";
@@ -36,7 +36,10 @@ function CommentItem({
   onPress,
 }: IProps) {
   const theme = useAppSelector(selectThemeOptions);
-  const settings = useAppSelector(selectSettings);
+
+  const showCommentActions = useSettingsStore(
+    (state) => state.settings.showCommentActions
+  );
 
   if (!depth) {
     depth = comment.comment.comment.path.split(".").length;
@@ -103,7 +106,7 @@ function CommentItem({
                   content={comment.comment.comment.content}
                   instance={getBaseUrl(comment.comment.comment.ap_id)}
                 />
-                {settings.showCommentActions && (
+                {showCommentActions && (
                   <CommentActions
                     onVote={onVote}
                     myVote={comment.comment.my_vote}

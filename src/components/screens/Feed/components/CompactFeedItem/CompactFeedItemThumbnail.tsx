@@ -22,6 +22,7 @@ import { lemmyAuthToken, lemmyInstance } from "@src/LemmyInstance";
 import { ICON_MAP } from "@src/constants/IconMap";
 import ImageViewer from "@src/components/common/ImageViewer/ImageViewer";
 import SFIcon from "@src/components/common/icons/SFIcon";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
 
 interface IProps {
   postId: number;
@@ -38,7 +39,9 @@ function CompactFeedItemThumbnail({ postId, linkInfo }: IProps) {
   const theme = useAppSelector(selectThemeOptions);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const { markReadOnPostImageView } = useAppSelector(selectSettings);
+  const markReadOnPostImageView = useSettingsStore(
+    (state) => state.settings.markReadOnPostImageView
+  );
 
   const setPostRead = useCallback(() => {
     if (postRead) return;

@@ -1,10 +1,7 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView } from "@src/components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "@root/store";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -31,7 +28,7 @@ interface ViewAccountsScreenProps {
 function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   const accounts = useAppSelector(selectAccounts);
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const { pushEnabled } = useAppSelector(selectSettings);
+  const pushEnabled = useAppSelector((state) => state.settings.pushEnabled);
 
   const [pushEnabledArr, setPushEnabledArr] = useState([]);
 

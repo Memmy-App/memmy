@@ -1,16 +1,16 @@
 import React, { useMemo } from "react";
 import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
 import { useTranslation } from "react-i18next";
-import { useAppDispatch, useAppSelector } from "../../../../../store";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
+import { useAppDispatch } from "../../../../../store";
 import { setSetting } from "../../../../slices/settings/settingsActions";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import SFIcon from "../../../common/icons/SFIcon";
 import { ICON_MAP } from "../../../../constants/IconMap";
 import { AppContextMenuButton } from "../../../common/ContextMenu/App/AppContextMenuButton";
 import { Box } from "../../../common/Gluestack";
 
 export function FeedOverflowButton() {
-  const { compactView } = useAppSelector(selectSettings);
+  const compactView = useSettingsStore((state) => state.settings.compactView);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 

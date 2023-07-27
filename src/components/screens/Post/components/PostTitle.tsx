@@ -1,12 +1,10 @@
 import { Text } from "@src/components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
+import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React from "react";
 import { useRoute } from "@react-navigation/core";
-import { usePostTitle } from "../../../../stores/posts/postsStore";
+import { usePostTitle } from "@src/stores/posts/postsStore";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
 
 function Title({
   mt,
@@ -19,7 +17,10 @@ function Title({
   const postTitle = usePostTitle(postKey);
 
   const theme = useAppSelector(selectThemeOptions);
-  const { fontWeightPostTitle } = useAppSelector(selectSettings);
+  const fontWeightPostTitle = useSettingsStore(
+    (state) => state.settings.fontWeightPostTitle
+  );
+
   return (
     <Text
       mt={mt}

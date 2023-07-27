@@ -12,6 +12,7 @@ import {
 } from "@src/stores/feeds/feedsStore";
 import { useRoute } from "@react-navigation/core";
 import setFeedRead from "@src/stores/feeds/actions/setFeedRead";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
 import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
 import { findImages } from "../../../../helpers/MarkdownHelper";
 import { truncatePost } from "../../../../helpers/TextHelper";
@@ -27,7 +28,9 @@ function FeedContentPreview({ postId, recycled }: IProps) {
   const { key } = useRoute();
 
   const theme = useAppSelector(selectThemeOptions);
-  const { fontWeightPostTitle } = useAppSelector(selectSettings);
+  const fontWeightPostTitle = useSettingsStore(
+    (state) => state.settings.fontWeightPostTitle
+  );
 
   const postInfo = useFeedPostInfo(key, postId);
   const postCommunity = useFeedPostCommunity(key, postId);
