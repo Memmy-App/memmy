@@ -116,7 +116,16 @@ export const useCurrentTheme = () =>
   });
 
 export const useThemeOptions = () =>
-  useSettingsStore((state) => ThemeOptionsMap[state.settings.theme]);
+  useSettingsStore(
+    (state) =>
+      ThemeOptionsMap[
+        state.settings.themeMatchSystem
+          ? state.settings.colorScheme === "light"
+            ? state.settings.themeLight
+            : state.settings.themeDark
+          : state.settings.theme
+      ]
+  );
 
 export const useThemeConfig = () =>
   useSettingsStore(
@@ -126,7 +135,13 @@ export const useThemeConfig = () =>
         {
           tokens: {
             colors: {
-              ...ThemeOptionsMap[state.settings.theme].colors,
+              ...ThemeOptionsMap[
+                state.settings.themeMatchSystem
+                  ? state.settings.colorScheme === "light"
+                    ? state.settings.themeLight
+                    : state.settings.themeDark
+                  : state.settings.theme
+              ].colors,
             },
           },
         },
