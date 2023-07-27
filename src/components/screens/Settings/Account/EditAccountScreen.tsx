@@ -15,8 +15,8 @@ import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import { writeToLog } from "../../../../helpers/LogHelper";
 import { showToast } from "../../../../slices/toast/toastSlice";
 import {
-  useAccountStore,
   useAccounts,
+  useAccountStore,
 } from "../../../../stores/account/accountStore";
 import ILemmyServer from "../../../../types/lemmy/ILemmyServer";
 import CCell from "../../../common/Table/CCell";
@@ -145,23 +145,19 @@ function EditAccountScreen({
     }
 
     if (edit.current) {
-      accountStore
-        .editAccount({
-          username: form.username,
-          password: form.password,
-          token: lemmyAuthToken,
-          instance: form.server,
-        })
-        .then();
+      accountStore.editAccount({
+        username: form.username,
+        password: form.password,
+        token: lemmyAuthToken,
+        instance: form.server,
+      });
     } else {
-      accountStore
-        .addAccount({
-          username: form.username,
-          password: form.password,
-          token: lemmyAuthToken,
-          instance: form.server,
-        })
-        .then();
+      accountStore.addAccount({
+        username: form.username,
+        password: form.password,
+        token: lemmyAuthToken,
+        instance: form.server,
+      });
     }
 
     navigation.pop();

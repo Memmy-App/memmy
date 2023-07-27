@@ -56,7 +56,7 @@ export function AccountsContextMenu({
       const account = accounts.find(
         (a) => a.username + a.instance === nativeEvent.actionKey
       );
-      accountStore.setCurrentAccount(account).then();
+      accountStore.setCurrentAccount(account);
       navigation.navigate("FeedStack", { screen: "FeedScreen" });
     }
   };

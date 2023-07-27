@@ -72,14 +72,14 @@ export const handleLemmyError = (code: LemmyErrorType | string) => {
     // If there are additional accounts we will switch to that one.
     if (accounts.length > 1) {
       if (accountIndex === 0) {
-        accountStore.setCurrentAccount(accounts[1]).then();
+        accountStore.setCurrentAccount(accounts[1]);
       } else {
-        accountStore.setCurrentAccount(accounts[0]).then();
+        accountStore.setCurrentAccount(accounts[0]);
       }
     }
 
     // Delete the account
-    accountStore.deleteAcount(currentAccount).then();
+    accountStore.deleteAccount(currentAccount);
     return;
   }
 

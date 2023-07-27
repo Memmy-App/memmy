@@ -115,14 +115,12 @@ function AddAccountScreen({ route, navigation }: IProps) {
     doLogin().then(() => {
       if (!lemmyAuthToken) return;
 
-      accountStore
-        .addAccount({
-          username: form.username,
-          password: form.password,
-          instance: getBaseUrl(form.server),
-          token: lemmyAuthToken,
-        })
-        .then();
+      accountStore.addAccount({
+        username: form.username,
+        password: form.password,
+        instance: getBaseUrl(form.server),
+        token: lemmyAuthToken,
+      });
 
       setLoading(false);
     });

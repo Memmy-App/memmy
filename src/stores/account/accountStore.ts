@@ -16,11 +16,11 @@ interface AccountStore {
 
   init: () => Promise<void>;
 
-  addAccount: (account: Account) => Promise<void>;
-  editAccount: (account: Account) => Promise<void>;
-  deleteAccount: (account: Account) => Promise<void>;
+  addAccount: (account: Account) => void;
+  editAccount: (account: Account) => void;
+  deleteAccount: (account: Account) => void;
 
-  setCurrentAccount: (account: Account) => Promise<void>;
+  setCurrentAccount: (account: Account) => void;
 }
 
 export const useAccountStore = create(
@@ -53,67 +53,78 @@ export const useAccountStore = create(
       }
     },
 
-    addAccount: async (account: Account) => {
-      const accounts =
-        (JSON.parse(await AsyncStorage.getItem("@accounts")) as Account[]) ??
-        [];
-      accounts.forEach((a) => {
-        a.isCurrent = false;
-      });
+    addAccount: (account: Account) => {
       account.isCurrent = true;
-      accounts.push(account);
+
       set((state) => {
-        state.currentAccount = account;
-      });
-      await AsyncStorage.setItem("@accounts", JSON.stringify(accounts));
-    },
-
-    editAccount: async (account: Account) => {
-      const accounts =
-        (JSON.parse(await AsyncStorage.getItem("@accounts")) as Account[]) ??
-        [];
-
-      const index = accounts.findIndex(
-        (a) =>
-          a.username === account.username && a.instance === account.instance
-      );
-
-      accounts[index].password = account.password;
-      accounts[index].token = account.token;
-
-      await AsyncStorage.setItem("@accounts", JSON.stringify(accounts));
-    },
-
-    deleteAccount: async (account: Account) => {
-      const accounts =
-        (JSON.parse(await AsyncStorage.getItem("@accounts")) as Account[]) ??
-        [];
-
-      const updatedAccounts = accounts.filter(
-        (a) =>
-          a.username !== account.username || a.instance !== account.instance
-      );
-
-      await AsyncStorage.setItem("@accounts", JSON.stringify(updatedAccounts));
-    },
-
-    setCurrentAccount: async (account: Account) => {
-      const accounts =
-        (JSON.parse(await AsyncStorage.getItem("@accounts")) as Account[]) ??
-        [];
-
-      accounts.forEach((a) => {
-        if (
-          a.username === account.username &&
-          a.instance === account.instance
-        ) {
-          a.isCurrent = true;
-        } else {
+        state.accounts.forEach((a) => {
           a.isCurrent = false;
-        }
-      });
+        });
 
-      await AsyncStorage.setItem("@accounts", JSON.stringify(accounts));
+        state.accounts.push(account);
+        state.currentAccount = account;
+
+        AsyncStorage.setItem(
+          "@accounts",
+          JSON.stringify(state.accounts)
+        ).then();
+      });
+    },
+
+    editAccount: (account: Account) => {
+      set((state) => {
+        const index = state.accounts.findIndex(
+          (a) =>
+            a.username === account.username && a.instance === account.instance
+        );
+
+        state.accounts[index].password = account.password;
+        state.accounts[index].token = account.token;
+
+        AsyncStorage.setItem(
+          "@accounts",
+          JSON.stringify(state.accounts)
+        ).then();
+      });
+    },
+
+    deleteAccount: (account: Account) => {
+      set((state) => {
+        if (account.isCurrent) {
+          state.accounts[0].isCurrent = true;
+        }
+
+        state.accounts = state.accounts.filter(
+          (a) =>
+            a.instance !== account.instance && a.username !== account.username
+        );
+
+        AsyncStorage.setItem(
+          "@accounts",
+          JSON.stringify(state.accounts)
+        ).then();
+      });
+    },
+
+    setCurrentAccount: (account: Account) => {
+      set((state) => {
+        const { accounts } = state;
+
+        accounts.forEach((a) => {
+          if (
+            a.username === account.username &&
+            a.instance === account.instance
+          ) {
+            a.isCurrent = true;
+
+            state.currentAccount = a;
+          } else {
+            a.isCurrent = false;
+          }
+        });
+
+        AsyncStorage.setItem("@accounts", JSON.stringify(accounts)).then();
+      });
     },
   }))
 );

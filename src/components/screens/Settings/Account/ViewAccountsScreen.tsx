@@ -79,7 +79,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
           text: t("Logout"),
           style: "destructive",
           onPress: () => {
-            accountStore.deleteAcount(account).then();
+            accountStore.deleteAccount(account);
           },
         },
       ]
