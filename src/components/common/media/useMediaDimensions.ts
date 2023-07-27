@@ -81,6 +81,17 @@ const getRatio = (
   realWidth: number,
   modifier: number = 0.6
 ): Dimensions => {
+  realHeight = realHeight || 0; // In case NaN (or falsey values) is passed. Having NaN here will cause the app to crash.
+  realWidth = realWidth || 0;
+
+  if (realHeight === 0 || realWidth === 0) {
+    // Divinding by 0 will cause the app to crash because mediaHeight or mediaWidth will be null, casted to a number becoming NaN (somehow), causing rn bridge to crash.
+    return {
+      height: 0,
+      width: 0,
+    };
+  }
+
   const screenHeight = RNDimensions.get("screen").height * modifier;
   const screenWidth = RNDimensions.get("screen").width;
 
