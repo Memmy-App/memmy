@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { HStack, Text, VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import {
   useCommunity,
   useCommunityStatus,
@@ -25,7 +25,7 @@ interface IProps {
 }
 
 function CommunityHeader({ communityFullName }: IProps) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const { t } = useTranslation();
 
   const community = useCommunity(communityFullName);

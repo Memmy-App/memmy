@@ -1,21 +1,18 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView } from "@src/components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "@root/store";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Button, Switch } from "react-native";
+import setSetting from "@src/stores/settings/actions/setSetting";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import useNotifications from "../../../../hooks/notifications/useNotifications";
 import { deleteAccount } from "../../../../slices/accounts/accountsActions";
 import {
   selectAccounts,
   selectCurrentAccount,
 } from "../../../../slices/accounts/accountsSlice";
-import { setSetting } from "../../../../slices/settings/settingsActions";
 import { Account } from "../../../../types/Account";
 import LoadingModalTransparent from "../../../common/Loading/LoadingModalTransparent";
 import CCell from "../../../common/Table/CCell";
@@ -31,14 +28,14 @@ interface ViewAccountsScreenProps {
 function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   const accounts = useAppSelector(selectAccounts);
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const { pushEnabled } = useAppSelector(selectSettings);
+  const pushEnabled = useAppSelector((state) => state.settings.pushEnabled);
 
   const [pushEnabledArr, setPushEnabledArr] = useState([]);
 
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const notifications = useNotifications();
 
   useFocusEffect(
@@ -119,14 +116,12 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
       Alert.alert("Error", res.message);
     }
 
-    dispatch(
-      setSetting({
-        pushEnabled: JSON.stringify([
-          ...pushEnabledArr,
-          { username: account.username, instance: account.instance },
-        ]),
-      })
-    );
+    setSetting({
+      pushEnabled: JSON.stringify([
+        ...pushEnabledArr,
+        { username: account.username, instance: account.instance },
+      ]),
+    }).then();
 
     setPushEnabledArr((prev) => [
       ...prev,
@@ -141,16 +136,14 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
       Alert.alert("Error", res.message);
     }
 
-    dispatch(
-      setSetting({
-        pushEnabled: JSON.stringify(
-          pushEnabledArr.map(
-            (x) =>
-              x.username !== account.username && x.instance !== account.instance
-          )
-        ),
-      })
-    );
+    setSetting({
+      pushEnabled: JSON.stringify(
+        pushEnabledArr.map(
+          (x) =>
+            x.username !== account.username && x.instance !== account.instance
+        )
+      ),
+    }).then();
 
     setPushEnabledArr((prev) =>
       prev.map(

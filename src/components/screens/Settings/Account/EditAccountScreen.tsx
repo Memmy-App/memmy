@@ -4,8 +4,8 @@ import { Alert, Button, StyleSheet, TextInput } from "react-native";
 import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useTranslation } from "react-i18next";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "@root/store";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import { writeToLog } from "../../../../helpers/LogHelper";
 import {
@@ -43,7 +43,7 @@ function EditAccountScreen({
   const edit = useRef(false);
 
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const dispatch = useAppDispatch();
 
   const accounts = useAppSelector(selectAccounts);

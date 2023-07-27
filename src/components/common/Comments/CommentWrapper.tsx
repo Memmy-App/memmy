@@ -1,7 +1,6 @@
 import React from "react";
 import { Pressable, VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 interface IProps {
   children: React.ReactNode;
@@ -10,7 +9,7 @@ interface IProps {
 }
 
 function CommentWrapper({ children, depth, onCommentPress }: IProps) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   return (
     <Pressable onPress={onCommentPress}>

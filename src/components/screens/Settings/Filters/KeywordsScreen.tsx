@@ -1,11 +1,10 @@
 import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { Alert, Button, StyleSheet } from "react-native";
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import CSection from "../../../common/Table/CSection";
 import CCell from "../../../common/Table/CCell";
 import {
@@ -19,7 +18,7 @@ interface IProps {
 
 function KeywordOption({ keyword }: { keyword: string }) {
   const filtersStore = useFiltersStore();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const { t } = useTranslation();
 
   const onKeywordPress = () => {
@@ -57,7 +56,7 @@ function KeywordOption({ keyword }: { keyword: string }) {
 
 function KeywordsScreen({ navigation }: IProps) {
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const filtersStore = useFiltersStore();
   const keywords = useKeywordFilter();

@@ -1,11 +1,10 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import { HStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { SetStateAction, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Pressable, TextInput } from "react-native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import SFIcon from "../icons/SFIcon";
 import { ICON_MAP } from "../../../constants/IconMap";
 
@@ -26,7 +25,7 @@ function SearchBox({
   autoFocus = true,
   inHeader = false,
 }: IProps) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const navigation = useNavigation();
   const { t } = useTranslation();
 
