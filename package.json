@@ -114,7 +114,7 @@
     "zustand": "^4.3.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.19.3",
+    "@babel/core": "^7.22.6",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@tsconfig/react-native": "^3.0.0",
     "@types/marked": "^5.0.0",
