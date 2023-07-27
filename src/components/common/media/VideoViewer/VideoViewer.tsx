@@ -72,8 +72,8 @@ function VideoViewer({
   const { blurNsfw, markReadOnPostImageView } = useAppSelector(selectSettings);
   const [blurIntensity, setBlurIntensity] = useState(99);
 
-  const video = React.useRef(null);
-  const [status, setStatus] = React.useState({});
+  const video = React.useRef<Video>(null);
+  // const [status, setStatus] = React.useState({});
 
   // Animation stuff
 
@@ -206,6 +206,10 @@ function VideoViewer({
       // Add 50ms to prevent visual bugs
       setTimeout(() => {
         runOnUI(toggleAccessories)(true);
+        if (video.current !== null) {
+          video.current.playAsync();
+          video.current.presentFullscreenPlayer();
+        }
       }, 250);
     } else {
       // Hide our accessories now
@@ -238,6 +242,10 @@ function VideoViewer({
 
         // Close the modal
         setExpanded(false);
+        if (video.current !== null) {
+          video.current.stopAsync();
+          video.current.dismissFullscreenPlayer();
+        }
       }, 200);
     }
   };
@@ -436,9 +444,8 @@ function VideoViewer({
                   source={{ uri: source }}
                   style={[dimensionsStyle]}
                   ref={video}
-                  useNativeControls
                   resizeMode={ResizeMode.CONTAIN}
-                  isLooping
+                  shouldPlay={!expanded}
                   onReadyForDisplay={onVideoReadyForDisplay}
                   // eslint-disable-next-line @typescript-eslint/no-shadow
                   onLoad={(status) => {
@@ -450,9 +457,9 @@ function VideoViewer({
                     }
                   }}
                   // eslint-disable-next-line @typescript-eslint/no-shadow
-                  onPlaybackStatusUpdate={(status) => {
-                    setStatus(status);
-                  }}
+                  // onPlaybackStatusUpdate={(status) => {
+                  //   setStatus(status);
+                  // }}
                 />
               </Animated.View>
             </Animated.View>
