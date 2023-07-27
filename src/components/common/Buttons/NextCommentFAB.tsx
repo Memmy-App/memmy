@@ -1,6 +1,8 @@
-import { Fab, useTheme } from "native-base";
 import React from "react";
-import { IconChevronDown } from "tabler-icons-react-native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import { Fab } from "@src/components/common/Gluestack";
+import { ICON_MAP } from "@src/constants/IconMap";
+import { SFIcon } from "@src/components/common/icons/SFIcon";
 
 interface IProps {
   onPress: () => void;
@@ -8,18 +10,18 @@ interface IProps {
 }
 
 function NextCommentFAB({ onPress, onLongPress }: IProps) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   return (
     <Fab
-      renderInPortal={false}
-      shadow={2}
-      fontSize="md"
-      backgroundColor={theme.colors.app.accent}
-      icon={<IconChevronDown size={24} color="#ffffff" />}
-      p={2}
+      backgroundColor={theme.colors.accent}
+      p="$2"
       onPress={onPress}
-    />
+      onLongPress={onLongPress}
+      placement="bottom right"
+    >
+      <SFIcon icon={ICON_MAP.CHEVRON.DOWN} color="#fff" size={14} />
+    </Fab>
   );
 }
 
