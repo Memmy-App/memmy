@@ -8,7 +8,6 @@ import { setRootViewBackgroundColor } from "@pnthach95/react-native-root-view-ba
 import { useAppDispatch } from "@root/store";
 import {
   useCurrentTheme,
-  useSettingsStore,
   useThemeConfig,
 } from "./src/stores/settings/settingsStore";
 import { GluestackUIProvider } from "./src/components/common/Gluestack";
@@ -51,15 +50,6 @@ function Start({ onReady }: StartProps) {
   const accountStore = useAccountStore();
 
   const [statusBarColor, setStatusBarColor] = useState<StatusBarStyle>("dark");
-
-  const { theme, accentColor } = useSettingsStore((state) => ({
-    theme: state.settings.theme,
-    themeLight: state.settings.themeLight,
-    themeDark: state.settings.themeDark,
-    themeMatchSystem: state.settings.themeMatchSystem,
-    isSystemFont: state.settings.isSystemFont,
-    accentColor: state.settings.accentColor,
-  }));
 
   const currentTheme = useCurrentTheme();
 
@@ -145,7 +135,7 @@ function Start({ onReady }: StartProps) {
     );
 
     setRootViewBackgroundColor(ThemeOptionsMap[currentTheme].colors.bg);
-  }, [currentTheme, currentColorScheme, accentColor]);
+  }, [currentTheme, currentColorScheme]);
 
   if (!loaded) {
     useAccountStore.getState().init();
@@ -167,7 +157,7 @@ function Start({ onReady }: StartProps) {
         <GestureHandlerRootView
           style={{
             flex: 1,
-            backgroundColor: ThemeOptionsMap[theme].colors.bg,
+            backgroundColor: ThemeOptionsMap[currentTheme].colors.bg,
           }}
         >
           <>
