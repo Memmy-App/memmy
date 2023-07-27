@@ -1,9 +1,9 @@
 import { PostView } from "lemmy-js-client";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
 import { usePostsStore } from "../postsStore";
-import store from "../../../../store";
 
 const addPost = (postKey: string, post: PostView) => {
-  const { defaultCommentSort } = store.getState().settings;
+  const { defaultCommentSort } = useSettingsStore.getState().settings;
 
   usePostsStore.setState((state) => {
     state.posts.set(postKey, {
