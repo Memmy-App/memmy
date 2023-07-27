@@ -7,10 +7,11 @@ import { Dimensions } from "./common";
 interface UseMediaDimensions {
   dimensions: AllDimensions;
   update: (mediaDimensions: Dimensions) => void;
-  updateWiththumbnail: (
+  updateWithThumbnail: (
     mediaDimensions: Dimensions,
     thumbnailDimensions: Dimensions
   ) => void;
+  updateWithNoThumbnail: (mediaDimensions: Dimensions) => void;
 }
 
 interface AllDimensions {
@@ -34,9 +35,9 @@ export function useMediaDimensions(): UseMediaDimensions {
   });
 
   const update = (mediaDimensions: Dimensions) =>
-    updateWiththumbnail(mediaDimensions, mediaDimensions);
+    updateWithThumbnail(mediaDimensions, mediaDimensions);
 
-  const updateWiththumbnail = (
+  const updateWithThumbnail = (
     mediaDimensions: Dimensions,
     thumbnailDimensions: Dimensions
   ) => {
@@ -55,9 +56,22 @@ export function useMediaDimensions(): UseMediaDimensions {
     });
   };
 
+  const updateWithNoThumbnail = (mediaDimensions: Dimensions) => {
+    setDimensions({
+      scaledDimensions: dimensions.scaledDimensions,
+      viewerDimensions: getRatio(
+        mediaDimensions.height,
+        mediaDimensions.width,
+        0.9
+      ),
+      actualDimensions: mediaDimensions,
+    });
+  };
+
   return {
     update,
-    updateWiththumbnail,
+    updateWithThumbnail,
+    updateWithNoThumbnail,
     dimensions,
   };
 }

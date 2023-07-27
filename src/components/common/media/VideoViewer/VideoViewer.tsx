@@ -17,7 +17,7 @@ import { BlurView } from "expo-blur";
 import { Text, useTheme, View, VStack } from "native-base";
 import { StatusBar } from "expo-status-bar";
 import { IconAlertTriangle } from "tabler-icons-react-native";
-import { Video, ResizeMode } from "expo-av";
+import { Video, ResizeMode, VideoReadyForDisplayEvent } from "expo-av";
 import { useMediaDimensions } from "../useMediaDimensions";
 import ExitButton from "../MediaExitButton";
 import VideoViewFooter from "./VideoViewFooter";
@@ -30,6 +30,7 @@ import { MediaProps } from "../common";
 import useThumbnail, {
   UseThumbnail,
 } from "../../../../hooks/media/useThumbnail";
+import { writeToLog } from "../../../../helpers/LogHelper";
 
 interface MeasureResult {
   x: number;
@@ -85,11 +86,11 @@ function VideoViewer({
   // Background color for the viewer. Start at 0 opacity and transition to one
   const backgroundColor = useSharedValue("rgba(0, 0, 0, 0)");
 
-  // Position of the image inside the viewer
+  // Animateable position of the video inside the viewer
   const positionX = useSharedValue(0);
   const positionY = useSharedValue(0);
 
-  // Stored heights
+  // Animateable stored heights
   const videoHeight = useSharedValue(0);
   const videoWidth = useSharedValue(0);
 
@@ -141,6 +142,14 @@ function VideoViewer({
     lastPostId.current = postId;
   }
 
+  // When the actual video loads, we want to update the dimensions without modifying the thumbnail dimensions
+  const onVideoReadyForDisplay = (event: VideoReadyForDisplayEvent) => {
+    dimensions.updateWithNoThumbnail({
+      height: event.naturalSize.height,
+      width: event.naturalSize.width,
+    });
+  };
+
   // This opens or closes our modal
   const onRequestOpenOrClose = () => {
     if (!expanded) {
@@ -170,7 +179,7 @@ function VideoViewer({
         videoHeight.value = height;
         videoWidth.value = width;
 
-        // Size the image up
+        // Size the video up
         videoHeight.value = withTiming(
           dimensions.dimensions.viewerDimensions.height,
           {
@@ -269,7 +278,7 @@ function VideoViewer({
     useThumbnail(source).then((payload) => {
       setThumbnail(payload);
 
-      dimensions.updateWiththumbnail(
+      dimensions.updateWithThumbnail(
         dimensions.dimensions.actualDimensions,
         payload.dimensions
       );
@@ -430,6 +439,16 @@ function VideoViewer({
                   useNativeControls
                   resizeMode={ResizeMode.CONTAIN}
                   isLooping
+                  onReadyForDisplay={onVideoReadyForDisplay}
+                  // eslint-disable-next-line @typescript-eslint/no-shadow
+                  onLoad={(status) => {
+                    writeToLog(
+                      `VideoViewer - onLoad (Loaded: ${status.isLoaded})`
+                    );
+                    if ("uri" in status) {
+                      writeToLog(`VideoViewer - onLoad (URI: ${status.uri})`);
+                    }
+                  }}
                   // eslint-disable-next-line @typescript-eslint/no-shadow
                   onPlaybackStatusUpdate={(status) => {
                     setStatus(status);
