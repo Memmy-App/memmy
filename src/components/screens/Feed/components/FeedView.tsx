@@ -6,21 +6,32 @@ import {
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import { HStack, View } from "@src/components/common/Gluestack";
-import {
-  selectSettings,
-  selectThemeOptions,
-} from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { StyleSheet } from "react-native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { useRoute } from "@react-navigation/core";
-import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
+import { ExtensionType, getLinkInfo } from "@src/helpers/LinkHelper";
 import {
   clearUpdateSaved,
   clearUpdateVote,
   selectFeed,
-} from "../../../../slices/feed/feedSlice";
+} from "@src/slices/feed/feedSlice";
+import {
+  useFeedCommunityName,
+  useFeedListingType,
+  useFeedPosts,
+  useFeedSort,
+  useFeedsStore,
+  useFeedStatus,
+} from "@src/stores/feeds/feedsStore";
+import { useCommunity } from "@src/stores/communities/communitiesStore";
+import { removeReadPosts } from "@src/helpers/LemmyHelpers";
+import { useSaved, useVoted } from "@src/stores/updates/updatesStore";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import LoadingErrorView from "../../../common/Loading/LoadingErrorView";
 import LoadingView from "../../../common/Loading/LoadingView";
 import NoResultView from "../../../common/NoResultView";
@@ -34,20 +45,9 @@ import { FeedOverflowButton } from "./FeedOverflowButton";
 import FeedSortButton from "./FeedSortButton";
 import IconButtonWithText from "../../../common/IconButtonWithText";
 import SFIcon from "../../../common/icons/SFIcon";
-import {
-  useFeedCommunityName,
-  useFeedListingType,
-  useFeedPosts,
-  useFeedSort,
-  useFeedsStore,
-  useFeedStatus,
-} from "../../../../stores/feeds/feedsStore";
-import { useCommunity } from "../../../../stores/communities/communitiesStore";
 import loadFeedPosts from "../../../../stores/feeds/actions/loadFeedPosts";
 import HideReadFAB from "../../../common/Buttons/HideReadFAB";
 import setFeedPosts from "../../../../stores/feeds/actions/setFeedPosts";
-import { removeReadPosts } from "../../../../helpers/LemmyHelpers";
-import { useSaved, useVoted } from "../../../../stores/updates/updatesStore";
 import setFeedRead from "../../../../stores/feeds/actions/setFeedRead";
 
 interface FeedViewProps {
@@ -73,13 +73,18 @@ function FeedView({ header }: FeedViewProps) {
     showHideReadButton,
     markReadOnFeedScroll,
     markReadOnCommunityScroll,
-  } = useAppSelector(selectSettings);
+  } = useSettingsStore((state) => ({
+    hideReadPostsOnFeed: state.settings.hideReadPostsOnFeed,
+    showHideReadButton: state.settings.showHideReadButton,
+    markReadOnFeedScroll: state.settings.markReadOnFeedScroll,
+    markReadOnCommunityScroll: state.settings.markReadOnCommunityScroll,
+  }));
 
   const { key } = useRoute();
 
   // Global state props
   const { dropdownVisible } = useAppSelector(selectFeed);
-  const { compactView } = useAppSelector(selectSettings);
+  const compactView = useSettingsStore((state) => state.settings.compactView);
 
   const posts = useFeedPosts(key);
   const status = useFeedStatus(key);
@@ -100,7 +105,7 @@ function FeedView({ header }: FeedViewProps) {
   const recycled = useRef({});
 
   // Other Hooks
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const navigation = useNavigation<DrawerNavigationProp<ParamListBase>>();
 
   useScrollToTop(flashList);
@@ -129,7 +134,7 @@ function FeedView({ header }: FeedViewProps) {
         ),
       });
     }
-  }, [posts, community, dropdownVisible, sortType, compactView]);
+  }, [community, dropdownVisible, sortType, compactView]);
 
   useEffect(() => {
     flashList?.current?.scrollToOffset({
@@ -206,21 +211,12 @@ function FeedView({ header }: FeedViewProps) {
     [compactView]
   );
 
-  const onEndReached = () => loadFeedPosts(key, { refresh: false });
+  const onEndReached = useCallback(
+    () => loadFeedPosts(key, { refresh: false }),
+    []
+  );
 
   const onRefresh = () => loadFeedPosts(key, { refresh: true });
-
-  const getItemType = (item: PostView): string | undefined => {
-    const linkType = getLinkInfo(item.post.url);
-
-    if (linkType.extType === ExtensionType.GENERIC && item.post.thumbnail_url) {
-      return "thumbnail_link";
-    }
-    if (linkType.extType === ExtensionType.IMAGE) {
-      return "image";
-    }
-    return undefined;
-  };
 
   const refreshControl = useMemo(
     () => <RefreshControl refreshing={status?.loading} onRefresh={onRefresh} />,
@@ -273,5 +269,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+const getItemType = (item: PostView): string | undefined => {
+  const linkType = getLinkInfo(item.post.url);
+
+  if (linkType.extType === ExtensionType.GENERIC && item.post.thumbnail_url) {
+    return "thumbnail_link";
+  }
+  if (linkType.extType === ExtensionType.IMAGE) {
+    return "image";
+  }
+  return undefined;
+};
 
 export default FeedView;

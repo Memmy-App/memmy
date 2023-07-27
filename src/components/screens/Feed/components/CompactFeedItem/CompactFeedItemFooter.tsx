@@ -1,57 +1,68 @@
-import { PostView } from "lemmy-js-client";
 import { Box, HStack, Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React from "react";
-import { timeFromNowShort } from "../../../../../helpers/TimeHelper";
-import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
+import { useRoute } from "@react-navigation/core";
+import {
+  useFeedPostCommunity,
+  useFeedPostCounts,
+  useFeedPostCreator,
+  useFeedPostInfo,
+  useFeedPostRead,
+  useFeedPostVote,
+} from "@src/stores/feeds/feedsStore";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import VoteData from "@src/components/common/Vote/VoteData";
+import { timeFromNowShort } from "@src/helpers/TimeHelper";
 import AvatarUsername from "../../../../common/AvatarUsername";
 import CommentCount from "../../../../common/Comments/CommentCount";
 import CommunityLink from "../../../../common/CommunityLink";
 import FeaturedIndicator from "../../../../common/FeaturedIndicator";
-import SmallVoteIcons from "../../../../common/Vote/SmallVoteIcons";
 import { IconBookCheck } from "../../../../common/icons/IconBookCheck";
 
-interface CompactFeedItemFooterProps {
-  post: PostView;
+interface IProps {
+  postId: number;
 }
 
-function CompactFeedItemFooter({ post }: CompactFeedItemFooterProps) {
-  const { colors } = useAppSelector(selectThemeOptions);
+function CompactFeedItemFooter({ postId }: IProps) {
+  const { key } = useRoute();
+
+  const postInfo = useFeedPostInfo(key, postId);
+  const postCreator = useFeedPostCreator(key, postId);
+  const postRead = useFeedPostRead(key, postId);
+  const postCounts = useFeedPostCounts(key, postId);
+  const postVote = useFeedPostVote(key, postId);
+  const postCommunity = useFeedPostCommunity(key, postId);
+
+  const { colors } = useThemeOptions();
 
   return (
     <>
       <HStack alignItems="center" space="sm">
         <HStack>
           <FeaturedIndicator
-            featured={post.post.featured_community || post.post.featured_local}
+            featured={postInfo.featured_community || postInfo.featured_local}
           />
-          {post.read && (
+          {postRead && (
             <Box mr="$1">
               <IconBookCheck color={colors.accent} size={20} />
             </Box>
           )}
           <AvatarUsername
-            creator={post.creator}
+            creator={postCreator}
             showAvatar={false}
             link={false}
           />
         </HStack>
         <Text color={colors.textSecondary}>•</Text>
         <Text color={colors.textSecondary}>
-          {timeFromNowShort(post.post.published)}
+          {timeFromNowShort(postCounts.published)}
         </Text>
       </HStack>
       <HStack flex={1} alignItems="center" space="sm">
-        <SmallVoteIcons
-          upvotes={post.counts.upvotes}
-          downvotes={post.counts.downvotes}
-          myVote={post.my_vote as ILemmyVote}
-        />
+        <VoteData data={postCounts} myVote={postVote} />
         <HStack alignItems="center" space="xs">
-          <CommentCount commentCount={post.counts.comments} />
+          <CommentCount commentCount={postCounts.comments} />
         </HStack>
-        <CommunityLink community={post.community} />
+        <CommunityLink community={postCommunity} />
       </HStack>
     </>
   );

@@ -1,8 +1,7 @@
 import React from "react";
 import { Text } from "react-native";
-import { useAppSelector } from "@root/store";
-import { selectCurrentTheme } from "@src/slices/settings/settingsSlice";
 import { ThemeOptionsMap } from "@src/theme/themeOptions";
+import { useCurrentTheme } from "@src/stores/settings/settingsStore";
 import { styled } from "../../styled";
 
 const BaseText = styled(
@@ -94,7 +93,7 @@ const BaseText = styled(
 export default function StyledText(
   props: React.ComponentProps<typeof BaseText>
 ) {
-  const currentTheme = useAppSelector(selectCurrentTheme);
+  const currentTheme = useCurrentTheme();
 
   const { children, ...rest } = props;
   return (

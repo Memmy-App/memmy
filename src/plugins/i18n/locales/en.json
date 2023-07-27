@@ -168,19 +168,33 @@
         "footer": "Credentials for the server you are connecting to"
       }
     },
-		"filters": {
-			"addKeyword": "Add Keyword",
-			"areYouSureKeyword": "Are you sure you want to remove this keyword?",
-			"enterAKeyword": "Enter a keyword to filter.",
-			"noKeywords": "No keywords yet...",
-			"removeKeyword": "Remove Keyword",
-
-			"addInstance": "Add instance",
-			"areYouSureInstance": "Are you sure you want to remove this instance?",
-			"enterAnInstance": "Enter an instance to filter.",
-			"noInstances": "No instances yet...",
-			"removeInstance": "Remove Instance"
-		}
+    "filters": {
+      "description": "Filters allow you to filter posts from your feed based on specific keywords in the title or instances of origin",
+      "header": {
+        "keyword": "KEYWORDS",
+        "instance": "INSTANCES"
+      },
+      "add": {
+        "keyword": "Add Keyword",
+        "instance": "Add Instance"
+      },
+      "areYouSure":{
+        "keyword":  "Are you sure you want to remove this keyword?",
+        "instance": "Are you sure you want to remove this instance?"
+      },
+      "remove": {
+        "keyword": "Remove Keyword",
+        "instance": "Remove Instance"
+      },
+      "enter": {
+        "keyword": "Enter a keyword to filter.",
+        "instance": "Enter an instance to filter."
+      },
+      "no": {
+        "keyword": "No keywords yet...",
+        "instance": "No instances yet..."
+      }
+    }
   },
   "traverse": {
     "noSubscriptions": "You don't have any subscriptions.",

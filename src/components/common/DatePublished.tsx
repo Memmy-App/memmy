@@ -1,13 +1,12 @@
 import { HStack, Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React from "react";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { ICON_MAP } from "../../constants/IconMap";
 import { timeFromNowShort } from "../../helpers/TimeHelper";
 import SFIcon from "./icons/SFIcon";
 
 function DatePublished({ published }: { published: string }) {
-  const { colors } = useAppSelector(selectThemeOptions);
+  const { colors } = useThemeOptions();
   return (
     <HStack alignItems="center" space="xxs">
       <SFIcon

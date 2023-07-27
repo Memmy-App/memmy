@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Text, View } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useAppSelector } from "@root/store";
 import { CommunityView } from "lemmy-js-client";
 import { useTranslation } from "react-i18next";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import useTraverse from "../../../hooks/traverse/useTraverse";
 import LoadingView from "../../common/Loading/LoadingView";
 import TraverseItem from "./components/TraverseItem";
@@ -36,7 +36,7 @@ interface SectionListItem {
 
 function TraverseScreen() {
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const traverse = useTraverse();
 
   const [term, setTerm] = useState("");

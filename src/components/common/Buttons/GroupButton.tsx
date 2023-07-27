@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { HStack, Pressable, Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 interface IProps {
   onPress: () => void | Promise<void>;
@@ -12,7 +11,7 @@ interface IProps {
 function GroupButton({ onPress, text, selected }: IProps) {
   const [pressedIn, setPressedIn] = useState(false);
 
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const onPressIn = () => {
     setPressedIn(true);

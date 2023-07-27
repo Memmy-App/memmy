@@ -1,9 +1,8 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView, VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { useCallback, useEffect } from "react";
 import { useRoute } from "@react-navigation/core";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import useSearch from "../../../hooks/search/useSearch";
 import SearchBox from "../../common/Search/SearchBox";
 import SearchOptionsList from "../../common/Search/SearchOptionsList";
@@ -18,7 +17,7 @@ function SearchScreen({
   const { key } = useRoute();
 
   const search = useSearch();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   useEffect(() => {
     navigation.setOptions({

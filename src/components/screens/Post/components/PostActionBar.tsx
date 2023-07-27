@@ -1,8 +1,7 @@
 import { HStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import IconButtonWithText from "../../../common/IconButtonWithText";
 import VoteButton from "../../../common/Vote/VoteButton";
 import SFIcon from "../../../common/icons/SFIcon";
@@ -11,7 +10,7 @@ import usePostActionBar from "../../../../hooks/post/usePostActionBar";
 function PostActionBar() {
   const postActionBar = usePostActionBar();
 
-  const { colors } = useAppSelector(selectThemeOptions);
+  const { colors } = useThemeOptions();
 
   const bubbleIcon = useMemo(
     () => (

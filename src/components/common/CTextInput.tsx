@@ -1,8 +1,7 @@
 import React from "react";
 import { KeyboardTypeOptions, StyleSheet, TextInput } from "react-native";
 import { Text, VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 interface TextInputProps {
   name: string;
@@ -31,7 +30,7 @@ function CTextInput({
   keyboardType = "default",
   onEnd,
 }: TextInputProps) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   return (
     <VStack my="$2">

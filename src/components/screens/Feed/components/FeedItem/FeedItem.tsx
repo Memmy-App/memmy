@@ -4,14 +4,21 @@ import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { useRoute } from "@react-navigation/core";
+import {
+  useFeedPostCommunity,
+  useFeedPostCreator,
+  useFeedPostInfo,
+  useFeedPostRead,
+  useFeedPostSaved,
+  useFeedPostVote,
+} from "@src/stores/feeds/feedsStore";
+import { ILemmyVote } from "@src/types/lemmy/ILemmyVote";
+import AvatarUsername from "@src/components/common/AvatarUsername";
+import { FeedItemContextMenu } from "@src/components/common/ContextMenu/FeedItemContextMenu";
+import { ReplyOption } from "@src/components/common/SwipeableRow/ReplyOption";
+import { SwipeableRow } from "@src/components/common/SwipeableRow/SwipeableRow";
+import { VoteOption } from "@src/components/common/SwipeableRow/VoteOption";
 import useFeedItem from "../../../../../hooks/feeds/useFeedItem";
-import { useFeedPost } from "../../../../../stores/feeds/feedsStore";
-import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
-import AvatarUsername from "../../../../common/AvatarUsername";
-import { FeedItemContextMenu } from "../../../../common/ContextMenu/FeedItemContextMenu";
-import { ReplyOption } from "../../../../common/SwipeableRow/ReplyOption";
-import { SwipeableRow } from "../../../../common/SwipeableRow/SwipeableRow";
-import { VoteOption } from "../../../../common/SwipeableRow/VoteOption";
 import FeedContentPreview from "../FeedContentPreview";
 import { Actions } from "./Actions";
 import { Footer } from "./Footer";
@@ -28,7 +35,12 @@ function FeedItem({ postId, recycled }: FeedItemProps) {
   const { key } = useRoute();
 
   const feedItem = useFeedItem(postId);
-  const post = useFeedPost(key, postId);
+  const postVote = useFeedPostVote(key, postId);
+  const postSaved = useFeedPostSaved(key, postId);
+  const postCommunity = useFeedPostCommunity(key, postId);
+  const postInfo = useFeedPostInfo(key, postId);
+  const postRead = useFeedPostRead(key, postId);
+  const postCreator = useFeedPostCreator(key, postId);
 
   const onSwipe = useCallback(
     (value: ILemmyVote) => {
@@ -38,8 +50,8 @@ function FeedItem({ postId, recycled }: FeedItemProps) {
   );
 
   const leftOption = useMemo(
-    () => <VoteOption onVote={onSwipe} vote={post.my_vote} />,
-    [post.my_vote, postId]
+    () => <VoteOption onVote={onSwipe} vote={postVote} />,
+    [postVote, postId]
   );
 
   const rightOption = useMemo(
@@ -50,7 +62,7 @@ function FeedItem({ postId, recycled }: FeedItemProps) {
         extraType="save"
       />
     ),
-    [postId, post.saved]
+    [postId, postSaved]
   );
 
   return (
@@ -59,43 +71,33 @@ function FeedItem({ postId, recycled }: FeedItemProps) {
         <SwipeableRow leftOption={leftOption} rightOption={rightOption}>
           <Post>
             <Header
-              community={post.community}
-              featured={
-                post.post.featured_local || post.post.featured_community
-              }
-              isRead={post.read}
+              community={postCommunity}
+              featured={postInfo.featured_local || postInfo.featured_community}
+              isRead={postRead}
               feedItem={feedItem}
             />
 
             <Pressable onPress={feedItem.onPress}>
               <View style={styles.community}>
-                {post.community.icon && (
-                  <FastImage source={{ uri: post.community.icon }} />
+                {postCommunity.icon && (
+                  <FastImage source={{ uri: postCommunity.icon }} />
                 )}
               </View>
 
-              <FeedContentPreview
-                post={post}
-                recycled={recycled}
-                setPostRead={() => {}}
-              />
+              <FeedContentPreview postId={postId} recycled={recycled} />
 
               <HStack mx="$4" mt="$1">
-                <AvatarUsername creator={post.creator} />
+                <AvatarUsername creator={postCreator} />
               </HStack>
 
               <Footer>
-                <Metrics
-                  data={post.counts}
-                  vote={post.my_vote}
-                  newComments={post.unread_comments}
-                />
+                <Metrics postId={postId} />
                 <Actions
-                  saved={post.saved}
-                  vote={post.my_vote}
+                  saved={postSaved}
+                  vote={postVote}
                   onSave={feedItem.doSave}
                   onVotePress={feedItem.onVotePress}
-                  id={post.post.id}
+                  id={postId}
                 />
               </Footer>
             </Pressable>

@@ -1,13 +1,12 @@
 import { CommunityAggregates } from "lemmy-js-client";
 import { HStack, Text, VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React from "react";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { shortenNumber } from "../../../../../helpers/NumberHelper";
 import { SFIcon } from "../../../../common/icons/SFIcon";
 
 function StatBlock({ icon, text }: { icon: string; text: string }) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   return (
     <HStack alignItems="center" space="smxs">
       <SFIcon icon={icon} size={14} color={theme.colors.textSecondary} />

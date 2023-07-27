@@ -1,11 +1,10 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { HStack, VStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import LoadingView from "../../common/Loading/LoadingView";
 import PostOptionsButton from "./components/PostOptionsButton";
 import PostFooter from "./components/PostFooter";
@@ -49,7 +48,7 @@ function PostScreen({ navigation }: IProps) {
   const commentsStatus = usePostCommentsStatus(postKey);
 
   const { t } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   useEffect(() => {
     postHook.doLoad();
