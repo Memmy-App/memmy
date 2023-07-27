@@ -1,4 +1,4 @@
-import {IColors} from "./common";
+import { IColors } from "./common";
 
 // eslint-disable-next-line import/prefer-default-export
 export const lightThemeColors: IColors = {

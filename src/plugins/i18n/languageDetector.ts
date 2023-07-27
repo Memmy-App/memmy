@@ -1,5 +1,5 @@
 import * as Localization from "expo-localization";
-import {LanguageDetectorModule} from "i18next";
+import { LanguageDetectorModule } from "i18next";
 
 // noinspection JSUnusedGlobalSymbols
 const languageDetector: LanguageDetectorModule = {

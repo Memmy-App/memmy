@@ -1,24 +1,24 @@
 /* Courtesy https://github.com/beardwin/ */
 
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Animated, {
-	Extrapolate,
-	Extrapolation,
-	interpolate,
-	interpolateColor,
-	runOnJS,
-	useAnimatedReaction,
-	useAnimatedStyle,
-	useSharedValue,
-	withSpring,
-	withTiming,
+  Extrapolate,
+  Extrapolation,
+  interpolate,
+  interpolateColor,
+  runOnJS,
+  useAnimatedReaction,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
 } from "react-native-reanimated";
-import {AntDesign} from "@expo/vector-icons";
-import {LayoutChangeEvent, LayoutRectangle, StyleSheet} from "react-native";
-import {useThemeOptions} from "@src/stores/settings/settingsStore";
-import {useSwipeableRow} from "./SwipeableRowProvider";
-import {onGenericHapticFeedback} from "../../../helpers/HapticFeedbackHelpers";
-import {ISwipeableColors} from "./types";
+import { AntDesign } from "@expo/vector-icons";
+import { LayoutChangeEvent, LayoutRectangle, StyleSheet } from "react-native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import { useSwipeableRow } from "./SwipeableRowProvider";
+import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
+import { ISwipeableColors } from "./types";
 
 type Stops = [first: number, second: number];
 const DEFAULT_STOPS: Stops = [75, 150];

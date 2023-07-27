@@ -1,24 +1,24 @@
 /* Courtesy https://github.com/beardwin/ */
 
-import React, {useCallback, useMemo, useState} from "react";
-import {StyleSheet, View} from "react-native";
+import React, { useCallback, useMemo, useState } from "react";
+import { StyleSheet, View } from "react-native";
 import Animated, {
-	Easing,
-	SharedValue,
-	useAnimatedStyle,
-	useDerivedValue,
-	useSharedValue,
-	withTiming,
+  Easing,
+  SharedValue,
+  useAnimatedStyle,
+  useDerivedValue,
+  useSharedValue,
+  withTiming,
 } from "react-native-reanimated";
 import {
-	Gesture,
-	GestureDetector,
-	GestureStateChangeEvent,
-	PanGestureHandlerEventPayload,
+  Gesture,
+  GestureDetector,
+  GestureStateChangeEvent,
+  PanGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
-import {useSettingsStore} from "@src/stores/settings/settingsStore";
-import {Handlers, SwipeableRowGestureContext} from "./types";
-import {SwipeableRowProvider} from "./SwipeableRowProvider";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
+import { Handlers, SwipeableRowGestureContext } from "./types";
+import { SwipeableRowProvider } from "./SwipeableRowProvider";
 
 interface Props {
   /**

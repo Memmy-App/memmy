@@ -1,9 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { writeToLog } from "@src/helpers/LogHelper";
-import {
-  SettingsState,
-  useSettingsStore,
-} from "@src/stores/settings/settingsStore";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
+import { SettingsState } from "@src/slices/settings/settingsSlice";
 
 const loadSettings = async () => {
   try {

@@ -1,5 +1,5 @@
 import React from "react";
-import {Pressable} from "@src/components/common/Gluestack";
+import { Pressable } from "@src/components/common/Gluestack";
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 

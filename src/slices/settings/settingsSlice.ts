@@ -1,17 +1,10 @@
+import { createSlice } from "@reduxjs/toolkit";
 import { CommentSortType, ListingType, SortType } from "lemmy-js-client";
-import { ThemeOptions, ThemeOptionsMap } from "@src/theme/themeOptions";
-import { HapticOptions } from "@src/types/haptics/hapticOptions";
-import { create } from "zustand";
-import { immer } from "zustand/middleware/immer";
-import { theme as GluestackTheme } from "@root/gluestack-ui.config";
-import merge from "deepmerge";
-import { ICustomConfig } from "@gluestack-style/react";
+import { loadSettings, setSetting } from "@src/slices/settings/settingsActions";
+import { ThemeOptions } from "../../theme/themeOptions";
+import { HapticOptions } from "../../types/haptics/hapticOptions";
 
-interface SettingsStore {
-  settings: SettingsState;
-}
-
-interface SettingsState {
+export interface SettingsState {
   swipeGestures: boolean;
   displayImagesInFeed: string;
   defaultSort: SortType;
@@ -98,48 +91,32 @@ const initialState: SettingsState = {
   hideUsernameInTab: false,
 };
 
-export const useSettingsStore = create(
-  immer<SettingsStore>(() => ({
-    settings: initialState,
-  }))
-);
-
-export const useCurrentTheme = () =>
-  useSettingsStore((state) => {
-    if (state.settings.themeMatchSystem) {
-      if (state.settings.colorScheme === "light") {
-        return state.settings.themeLight;
+const settingsSlice = createSlice({
+  name: "settings",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(loadSettings.fulfilled, (state: SettingsState, action) => {
+      if (action.payload) {
+        // eslint-disable-next-line guard-for-in
+        for (const key in action.payload) {
+          state[key] = action.payload[key];
+        }
       }
-      return state.settings.themeDark;
-    }
-    return state.settings.theme;
-  });
 
-export const useThemeOptions = () =>
-  useSettingsStore((state) => ThemeOptionsMap[state.settings.theme]);
+      state.loaded = true;
+    });
 
-export const useThemeConfig = () =>
-  useSettingsStore(
-    (state) =>
-      merge.all([
-        GluestackTheme,
-        {
-          tokens: {
-            colors: {
-              ...ThemeOptionsMap[state.settings.theme].colors,
-            },
-          },
-        },
-        state.settings.accentColor
-          ? {
-              tokens: {
-                colors: {
-                  accent: state.settings.accentColor,
-                },
-              },
-            }
-          : {},
-      ]) as ICustomConfig
-  );
+    builder.addCase(loadSettings.rejected, (state) => {
+      state.loaded = true;
+    });
 
-export const useSettings = () => useSettingsStore((state) => state.settings);
+    builder.addCase(setSetting.fulfilled, (state, action) => {
+      // eslint-disable-next-line guard-for-in
+      for (const key in action.payload) {
+        state[key] = action.payload[key];
+      }
+    });
+  },
+});
+export default settingsSlice.reducer;

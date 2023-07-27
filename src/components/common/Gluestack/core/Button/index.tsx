@@ -1,12 +1,12 @@
 import { createButton } from "@gluestack-ui/button";
 import {
+  Root,
+  Text,
   Group,
   GroupHSpacer,
   GroupVSpacer,
-  Icon,
-  Root,
   Spinner,
-  Text,
+  Icon,
 } from "./styled-components";
 
 export const Button = createButton({

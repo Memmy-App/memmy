@@ -1,8 +1,8 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
-import {GetPost} from "lemmy-js-client";
-import {lemmyInstance} from "../../LemmyInstance";
-import {setPost} from "./postSlice";
-import {handleLemmyError} from "../../helpers/LemmyErrorHelper";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { GetPost } from "lemmy-js-client";
+import { lemmyInstance } from "../../LemmyInstance";
+import { setPost } from "./postSlice";
+import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 
 // eslint-disable-next-line import/prefer-default-export
 export const getPost = createAsyncThunk(
