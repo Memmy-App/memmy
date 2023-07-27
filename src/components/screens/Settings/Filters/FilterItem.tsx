@@ -2,12 +2,11 @@ import {
   FilterStoreType,
   useFiltersStore,
 } from "@src/stores/filters/filtersStore";
-import { useAppSelector } from "@root/store";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
 import { useTranslation } from "react-i18next";
 import { Alert } from "react-native";
 import CCell from "@src/components/common/Table/CCell";
 import React, { useMemo } from "react";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 interface FilterItemProps {
   name: string;
@@ -16,7 +15,7 @@ interface FilterItemProps {
 
 export function FilterItem({ name, type }: FilterItemProps) {
   const filtersStore = useFiltersStore();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
   const { t } = useTranslation();
 
   const alertTitle = useMemo(
