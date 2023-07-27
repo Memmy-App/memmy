@@ -81,10 +81,10 @@ function CompactFeedItem({ postId }: { postId: number }) {
     [postId, postSaved]
   );
 
-  // TODO: Disabling Font Scaling for now;
-  // const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
-  const fontSize = 2;
-  const isSystemTextSize = false;
+  const { fontSize, isSystemTextSize } = useSettingsStore((state) => ({
+    fontSize: state.settings.fontSize,
+    isSystemTextSize: state.settings.isSystemTextSize,
+  }));
 
   const { fontScale } = useWindowDimensions();
   const fontModifier = fontSizeMap[fontSize];

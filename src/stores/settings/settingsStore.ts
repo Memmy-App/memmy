@@ -6,6 +6,7 @@ import { immer } from "zustand/middleware/immer";
 import { theme as GluestackTheme } from "@root/gluestack-ui.config";
 import merge from "deepmerge";
 import { ICustomConfig } from "@gluestack-style/react";
+import { systemFontSettings } from "@src/theme/common";
 
 interface SettingsStore {
   settings: SettingsState;
@@ -154,6 +155,26 @@ export const useThemeConfig = () =>
               },
             }
           : {},
+        state.settings.isSystemTextSize
+          ? {
+              components: {
+                Text: {
+                  defaultProps: {
+                    allowFontScaling: false,
+                  },
+                },
+              },
+            }
+          : {
+              components: {
+                Text: {
+                  defaultProps: {
+                    fontSize: state.settings.fontSize,
+                  },
+                },
+              },
+            },
+        state.settings.isSystemFont ? systemFontSettings : {},
       ]) as ICustomConfig
   );
 
