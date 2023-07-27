@@ -1,8 +1,7 @@
 import { Text } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
 import { GestureResponderEvent } from "react-native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import IconButtonWithText from "../IconButtonWithText";
 import SFIcon from "../icons/SFIcon";
 import { ICON_MAP } from "../../../constants/IconMap";
@@ -26,7 +25,7 @@ function VoteButton({
   size = "lg",
   iconSize = 16,
 }: VoteButtonProps) {
-  const { colors } = useAppSelector(selectThemeOptions);
+  const { colors } = useThemeOptions();
 
   const color = isAccented ? colors.accent : colors.textSecondary;
 

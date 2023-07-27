@@ -5,29 +5,25 @@ import { ErrorBoundary } from "react-error-boundary";
 import { AppState, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { setRootViewBackgroundColor } from "@pnthach95/react-native-root-view-background";
+import { useAppDispatch } from "@root/store";
+import {
+  useSettingsStore,
+  useThemeConfig,
+} from "./src/stores/settings/settingsStore";
 import { GluestackUIProvider } from "./src/components/common/Gluestack";
-import Stack from "./Stack";
-import MemmyErrorView from "./src/components/common/Loading/MemmyErrorView";
 import { writeToLog } from "./src/helpers/LogHelper";
 import { lemmyAuthToken, lemmyInstance } from "./src/LemmyInstance";
-import { loadAccounts } from "./src/slices/accounts/accountsActions";
-import { selectAccountsLoaded } from "./src/slices/accounts/accountsSlice";
-import {
-  loadSettings,
-  setSetting,
-} from "./src/slices/settings/settingsActions";
-import {
-  selectSettings,
-  selectThemeConfig,
-  selectCurrentTheme,
-} from "./src/slices/settings/settingsSlice";
 import { getUnreadCount } from "./src/slices/site/siteActions";
-import { useAppDispatch, useAppSelector } from "./store";
-import getFontScale from "./src/theme/fontSize";
 import { ThemeOptionsArr, ThemeOptionsMap } from "./src/theme/themeOptions";
-import Toast from "./src/components/common/Toast";
-import { loadFavorites } from "./src/slices/favorites/favoritesActions";
 import { useFiltersStore } from "./src/stores/filters/filtersStore";
+import loadSettings from "./src/stores/settings/actions/loadSettings";
+import setSetting from "./src/stores/settings/actions/setSetting";
+import { loadFavorites } from "./src/slices/favorites/favoritesActions";
+import Toast from "./src/components/common/Toast";
+import Stack from "./Stack";
+import MemmyErrorView from "./src/components/common/Loading/MemmyErrorView";
+import { useAccountStore } from "./src/stores/account/accountStore";
+import getFontScale from "./src/theme/fontSize";
 
 const logError = (e, info) => {
   writeToLog(e.toString());
@@ -52,13 +48,19 @@ function Start({ onReady }: StartProps) {
   const [loaded, setLoaded] = useState(false);
   const [stackReady, setStackReady] = useState(false);
   const dispatch = useAppDispatch();
-  const accountsLoaded = useAppSelector(selectAccountsLoaded);
+  const accountStore = useAccountStore();
 
   const [statusBarColor, setStatusBarColor] = useState<StatusBarStyle>("dark");
 
-  const { theme, isSystemFont, accentColor } = useAppSelector(selectSettings);
+  const { theme, isSystemFont, accentColor } = useSettingsStore((state) => ({
+    theme: state.settings.theme,
+    isSystemFont: state.settings.isSystemFont,
+    accentColor: state.settings.accentColor,
+  }));
 
-  const glueStackTheme = useAppSelector(selectThemeConfig);
+  const currentTheme = useSettingsStore((state) => state.settings.theme);
+
+  const glueStackTheme = useThemeConfig();
 
   // Temporary hack for RN issue. TODO Fix this once patched
   // https://github.com/facebook/react-native/issues/35972#issuecomment-1416243681
@@ -71,15 +73,13 @@ function Start({ onReady }: StartProps) {
   useEffect(() => {
     if (colorScheme !== currentColorScheme) {
       onColorSchemeChange.current = setTimeout(() => {
-        dispatch(setSetting({ colorScheme }));
+        setSetting({ colorScheme }).then();
         setCurrentColorScheme(colorScheme);
       }, 1000);
     } else if (onColorSchemeChange.current) {
       clearTimeout(onColorSchemeChange.current);
     }
   }, [colorScheme]);
-
-  const currentTheme = useAppSelector(selectCurrentTheme);
 
   const appState = useRef(AppState.currentState);
 
@@ -90,10 +90,10 @@ function Start({ onReady }: StartProps) {
   };
 
   useEffect(() => {
-    if (accountsLoaded && stackReady) {
+    if (!accountStore.status.loading && stackReady) {
       onReady();
     }
-  }, [accountsLoaded, stackReady]);
+  }, [accountStore.status.loading, stackReady]);
 
   useEffect(() => {
     if (!loaded) return;
@@ -141,7 +141,7 @@ function Start({ onReady }: StartProps) {
     if (!ThemeOptionsArr.includes(usedTheme)) {
       usedTheme = "Dark";
 
-      dispatch(setSetting({ theme: usedTheme }));
+      setSetting({ theme: usedTheme }).then();
     }
 
     // TODO: Disabling Font Scaling for now
@@ -172,14 +172,14 @@ function Start({ onReady }: StartProps) {
   }, [currentTheme, getFontScale, isSystemFont, accentColor]);
 
   if (!loaded) {
-    dispatch(loadSettings());
-    dispatch(loadAccounts());
+    useAccountStore.getState().init();
     dispatch(loadFavorites());
     setLoaded(true);
+    loadSettings().then();
     useFiltersStore.getState().init();
   }
 
-  if (!accountsLoaded) {
+  if (accountStore.status.loading) {
     return null;
   }
 

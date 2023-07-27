@@ -6,9 +6,8 @@ import {
   Text,
   VStack,
 } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import { useRoute } from "@react-navigation/core";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
 import PostContentView from "./PostContentView";
 import AvatarUsername from "../../../common/AvatarUsername";
@@ -28,7 +27,7 @@ function PostHeader() {
 
   const currentPost = useCurrentPost(postKey);
   const postCollapsed = usePostCollapsed(postKey);
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const instanceBaseUrl = useMemo(
     () => getBaseUrl(currentPost.community.actor_id),

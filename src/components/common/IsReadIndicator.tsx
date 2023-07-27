@@ -1,6 +1,5 @@
 import React from "react";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { IconBookCheck } from "./icons/IconBookCheck";
 
 interface Props {
@@ -8,7 +7,7 @@ interface Props {
 }
 
 export function IsReadIndicator({ isRead }: Props) {
-  const { colors } = useAppSelector(selectThemeOptions);
+  const { colors } = useThemeOptions();
 
   if (isRead) {
     return <IconBookCheck color={colors.accent} size={20} />;

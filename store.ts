@@ -4,7 +4,6 @@ import { postSlice } from "./src/slices/post/postSlice";
 import { newCommentSlice } from "./src/slices/comments/newCommentSlice";
 import feedSlice from "./src/slices/feed/feedSlice";
 import settingsSlice from "./src/slices/settings/settingsSlice";
-import accountsSlice from "./src/slices/accounts/accountsSlice";
 import siteSlice from "./src/slices/site/siteSlice";
 import toastSlice from "./src/slices/toast/toastSlice";
 import editCommentSlice from "./src/slices/comments/editCommentSlice";
@@ -16,7 +15,6 @@ const store = configureStore({
     newComment: newCommentSlice.reducer,
     feed: feedSlice,
     settings: settingsSlice,
-    accounts: accountsSlice,
     site: siteSlice,
     toast: toastSlice,
     editComment: editCommentSlice,

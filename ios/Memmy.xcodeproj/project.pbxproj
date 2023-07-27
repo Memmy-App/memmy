@@ -1224,7 +1224,6 @@
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/expo-dev-launcher/EXDevLauncher.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/expo-dev-menu/EXDevMenu.bundle",
-				"${PODS_ROOT}/../../node_modules/react-native-ionicons/fonts/Ionicons.ttf",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (

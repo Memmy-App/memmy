@@ -1,7 +1,9 @@
 import { immer } from "zustand/middleware/immer";
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { writeToLog } from "../../helpers/LogHelper";
+import { writeToLog } from "@src/helpers/LogHelper";
+
+export type FilterStoreType = "keyword" | "instance";
 
 interface FiltersStore {
   keywords: string[];
@@ -105,6 +107,17 @@ export const useFiltersStore = create(
     },
   }))
 );
+
+export const useFilterStoreType = (type: FilterStoreType) => {
+  switch (type) {
+    case "keyword":
+      return useKeywordFilter();
+    case "instance":
+      return useInstancesFilter();
+    default:
+      throw new Error(`Unknown filter store type${type}`);
+  }
+};
 
 export const useKeywordFilter = () =>
   useFiltersStore((state) => state.keywords);

@@ -7,14 +7,13 @@ import {
   ScrollView,
   Text,
 } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Linking, StyleSheet } from "react-native";
 import { Divider } from "react-native-elements";
 import { modelName, osVersion } from "expo-device";
 import { getReadableVersion } from "react-native-device-info";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { ICON_MAP } from "../../../constants/IconMap";
 import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
 import CCell from "../../common/Table/CCell";
@@ -57,7 +56,7 @@ function SettingsIndexScreen({
   navigation: NativeStackNavigationProp<any>;
 }) {
   const { t, i18n } = useTranslation();
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const languages = useMemo<string[]>(
     () => Object.keys(i18n.options.resources),

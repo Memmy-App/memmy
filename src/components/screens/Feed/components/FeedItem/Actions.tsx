@@ -1,7 +1,6 @@
 import { HStack } from "@src/components/common/Gluestack";
-import { selectThemeOptions } from "@src/slices/settings/settingsSlice";
-import { useAppSelector } from "@root/store";
 import React, { useCallback } from "react";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import IconButtonWithText from "../../../../common/IconButtonWithText";
 import VoteButton from "../../../../common/Vote/VoteButton";
 import SFIcon from "../../../../common/icons/SFIcon";
@@ -15,7 +14,7 @@ interface Props {
   id: number;
 }
 export function actions({ vote, saved, onSave, onVotePress, id }: Props) {
-  const theme = useAppSelector(selectThemeOptions);
+  const theme = useThemeOptions();
 
   const onUpvote = useCallback(() => {
     onVotePress(vote === 1 ? 0 : 1);
