@@ -1,6 +1,6 @@
 import React from "react";
-import Svg, { Path } from "react-native-svg";
-import { type TablerIconsProps } from "tabler-icons-react-native";
+import Svg, {Path} from "react-native-svg";
+import {type TablerIconsProps} from "tabler-icons-react-native";
 
 // eslint-disable-next-line import/prefer-default-export
 export function IconBookCheck({

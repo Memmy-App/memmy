@@ -1,7 +1,7 @@
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { ContextMenuOption } from "../../types/ContextMenuOptions";
-import { ICON_MAP } from "../../constants/IconMap";
+import {useMemo} from "react";
+import {useTranslation} from "react-i18next";
+import {ContextMenuOption} from "../../types/ContextMenuOptions";
+import {ICON_MAP} from "../../constants/IconMap";
 // import { useFeedCommunityOptions } from "./useFeedCommunityOptions";
 
 export const useFeedOptions = () => {

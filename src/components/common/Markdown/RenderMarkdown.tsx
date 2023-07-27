@@ -1,16 +1,16 @@
 /* eslint-disable react/no-unstable-nested-components */
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
-import { View } from "@src/components/common/Gluestack";
-import { useAppSelector } from "@root/store";
-import React, { useMemo } from "react";
-import { TextStyle, useWindowDimensions } from "react-native";
-import { useThemeOptions } from "@src/stores/settings/settingsStore";
-import { openLink } from "../../../helpers/LinkHelper";
-import { replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
-import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
-import { fontSizeMap } from "../../../theme/fontSize";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import Markdown, {MarkdownIt} from "@ronradtke/react-native-markdown-display";
+import {View} from "@src/components/common/Gluestack";
+import {useAppSelector} from "@root/store";
+import React, {useMemo} from "react";
+import {TextStyle, useWindowDimensions} from "react-native";
+import {useThemeOptions} from "@src/stores/settings/settingsStore";
+import {openLink} from "../../../helpers/LinkHelper";
+import {replaceNoMarkdown} from "../../../helpers/MarkdownHelper";
+import {selectCurrentAccount} from "../../../slices/accounts/accountsSlice";
+import {fontSizeMap} from "../../../theme/fontSize";
 import ImageViewer from "../ImageViewer/ImageViewer";
 import SpoilerContainer from "./SpoilerContainer";
 

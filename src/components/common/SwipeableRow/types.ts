@@ -1,9 +1,9 @@
 /* Courtesy https://github.com/beardwin/ */
-import { SharedValue } from "react-native-reanimated";
+import {SharedValue} from "react-native-reanimated";
 import {
-  GestureStateChangeEvent,
-  GestureUpdateEvent,
-  PanGestureHandlerEventPayload,
+	GestureStateChangeEvent,
+	GestureUpdateEvent,
+	PanGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 
 export type SwipeableRowGestureContext = {
