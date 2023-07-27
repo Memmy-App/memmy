@@ -84,7 +84,7 @@ function PostScreen({ navigation }: IProps) {
   );
 
   useEffect(() => {
-    if (!newComment) return;
+    if (!newComment || !newComment.comment) return;
 
     // Create a new comment chain
     const lComment: ILemmyComment = {
