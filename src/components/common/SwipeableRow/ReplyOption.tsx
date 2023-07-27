@@ -9,9 +9,9 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { useTheme } from "native-base";
 import React, { useEffect, useMemo, useState } from "react";
 import { Dimensions, LayoutRectangle, StyleSheet } from "react-native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { ISwipeableColors } from "./types";
 import { useSwipeableRow } from "./SwipeableRowProvider";
@@ -37,7 +37,9 @@ const buzz = () => {
 };
 
 const bookmarkIcon = <SFIcon icon={ICON_MAP.SAVE} color="white" size={14} />;
-const mailOpenedIcon = <SFIcon icon="envelope.open" color="white" size={14} />;
+const mailOpenedIcon = (
+  <SFIcon icon={ICON_MAP.MAIL_OPENED} color="white" size={14} />
+);
 const commentIcon = <SFIcon icon={ICON_MAP.REPLY} color="white" size={14} />;
 
 const screenWidth = Dimensions.get("screen").width;
@@ -48,16 +50,24 @@ export function ReplyOption({
   onExtra,
   extraType,
 }: Props) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   const [firstStop, secondStop] = stops;
 
+  const secondColorMap: Record<Icon, string> = {
+    comment: theme.colors.info,
+    save: theme.colors.bookmark,
+    read: theme.colors.success,
+  };
+
+  const secondColor = secondColorMap[extraType ?? "comment"];
+
   const colors: ISwipeableColors = useMemo(
     () => ({
-      first: theme.colors.app.info,
-      second: theme.colors.app.success,
+      first: theme.colors.info,
+      second: secondColor,
     }),
-    [theme]
+    [theme, secondColor]
   );
 
   // The timer used to pulse the icon to indicate it's active
@@ -73,6 +83,7 @@ export function ReplyOption({
         onStart: () => {
           "worklet";
 
+          runOnJS(setIcon)("comment");
           isFrozen.value = false;
         },
         onEnd: () => {
@@ -130,14 +141,16 @@ export function ReplyOption({
   const backgroundStyle = useAnimatedStyle(() => {
     if (isFrozen.value) return {};
 
+    const lastColor = onExtra ? colors.second : colors.first;
+
     const backgroundColor = interpolateColor(
       Math.abs(translateX.value),
-      [-secondStop, -firstStop * 1.5, -firstStop / 2, 0],
+      [0, -firstStop / 2, -firstStop * 1.5, -secondStop],
       [
-        colors.second as string,
-        colors.first as string,
-        colors.first as string,
         "transparent",
+        colors.first as string,
+        colors.first as string,
+        lastColor as string,
       ]
     );
 

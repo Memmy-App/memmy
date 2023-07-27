@@ -1,7 +1,7 @@
-import React from "react";
-import { Text, VStack } from "native-base";
 import { CommunityModeratorView } from "lemmy-js-client";
-import AvatarUsername from "./AvatarUsername";
+import { VStack } from "@src/components/common/Gluestack";
+import React from "react";
+import AvatarUsername from "../../../../common/AvatarUsername";
 
 interface IProps {
   moderators: CommunityModeratorView[];
@@ -9,12 +9,9 @@ interface IProps {
 
 function ModeratorList({ moderators }: IProps) {
   return (
-    <VStack space={1}>
-      <Text fontSize="xl" fontWeight="bold">
-        Mods:
-      </Text>
+    <VStack space="xs">
       {moderators.map((moderator) => (
-        <AvatarUsername creator={moderator.moderator} isMod />
+        <AvatarUsername creator={moderator.moderator} isMod showPill={false} />
       ))}
     </VStack>
   );

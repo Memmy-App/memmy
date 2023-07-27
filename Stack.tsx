@@ -3,17 +3,28 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useTheme, View } from "native-base";
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Dimensions } from "react-native";
 import { useTranslation } from "react-i18next";
+import { View } from "./src/components/common/Gluestack";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "./src/stores/settings/settingsStore";
+
+import { selectSite } from "./src/slices/site/siteSlice";
+import { truncateName } from "./src/helpers/TextHelper";
+import { ICON_MAP } from "./src/constants/IconMap";
+import KeywordsFilterScreen from "./src/components/screens/Settings/Filters/KeywordsFilterScreen";
+import InstanceFiltersScreen from "./src/components/screens/Settings/Filters/InstanceFiltersScreen";
 import { CustomTabBar } from "./src/components/common/Navigation/CustomTabBar";
 import LoadingView from "./src/components/common/Loading/LoadingView";
 import SFIcon from "./src/components/common/icons/SFIcon";
 import EditCommentScreen from "./src/components/screens/Comments/EditCommentScreen";
 import NewCommentScreen from "./src/components/screens/Comments/NewCommentScreen";
 
+import ScreenGestureHandler from "./src/components/common/Navigation/ScreenGestureHandler";
 import CommunityAboutScreen from "./src/components/screens/Feed/CommunityAboutScreen";
 import CommunityFeedScreen from "./src/components/screens/Feed/CommunityFeedScreen";
 import FeedsIndexScreen from "./src/components/screens/Feed/FeedsIndexScreen";
@@ -52,25 +63,22 @@ import UserPostsScreen from "./src/components/screens/UserProfile/UserPostsScree
 import UserProfileScreen from "./src/components/screens/UserProfile/UserProfileScreen";
 import ViewerScreen from "./src/components/screens/ViewerScreen";
 import {
-  selectAccounts,
-  selectAccountsLoaded,
-  selectCurrentAccount,
-} from "./src/slices/accounts/accountsSlice";
-import { selectSite } from "./src/slices/site/siteSlice";
+  useAccountStore,
+  useAccounts,
+  useCurrentAccount,
+} from "./src/stores/account/accountStore";
 import { useAppSelector } from "./store";
-import { truncateName } from "./src/helpers/TextHelper";
-import ScreenGestureHandler from "./src/components/common/Navigation/ScreenGestureHandler";
-import { ICON_MAP } from "./src/constants/IconMap";
+import FiltersScreen from "./src/components/screens/Settings/Filters/FiltersScreen";
 
 function CustomDrawerContent() {
-  const theme = useTheme();
+  const theme = useThemeOptions();
   return (
     <>
       {/* Header */}
       <View
-        height={10}
+        height="$10"
         style={{
-          backgroundColor: theme.colors.app.bg,
+          backgroundColor: theme.colors.bg,
         }}
       />
       <TraverseScreen />
@@ -352,6 +360,27 @@ function SettingsScreens(stack) {
         }}
       />
       <stack.Screen
+        name="Filters"
+        component={FiltersScreen}
+        options={{
+          title: t("Filters"),
+        }}
+      />
+      <stack.Screen
+        name="KeywordFilters"
+        component={KeywordsFilterScreen}
+        options={{
+          title: t("Keywords"),
+        }}
+      />
+      <stack.Screen
+        name="InstanceFilters"
+        component={InstanceFiltersScreen}
+        options={{
+          title: t("Instances"),
+        }}
+      />
+      <stack.Screen
         name="About"
         component={AboutScreen}
         options={{
@@ -557,7 +586,11 @@ const Tab = createBottomTabNavigator();
 function Tabs() {
   const { unread } = useAppSelector(selectSite);
   const { t } = useTranslation();
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currentAccount = useCurrentAccount();
+
+  const hideUsernameInTab = useSettingsStore(
+    (state) => state.settings.hideUsernameInTab
+  );
 
   return (
     <ScreenGestureHandler>
@@ -574,7 +607,7 @@ function Tabs() {
           options={{
             headerShown: false,
             tabBarIcon: ({ color }) => (
-              <SFIcon icon="doc.text.image" color={color} />
+              <SFIcon icon={ICON_MAP.FEED} color={color} />
             ),
             tabBarLabel: t("Feed"),
             freezeOnBlur: false,
@@ -585,7 +618,9 @@ function Tabs() {
           component={InboxStackScreen}
           options={{
             headerShown: false,
-            tabBarIcon: ({ color }) => <SFIcon icon="envelope" color={color} />,
+            tabBarIcon: ({ color }) => (
+              <SFIcon icon={ICON_MAP.INBOX} color={color} />
+            ),
             tabBarLabel: t("Inbox"),
 
             tabBarBadge:
@@ -604,7 +639,9 @@ function Tabs() {
             tabBarIcon: ({ color }) => (
               <SFIcon icon={ICON_MAP.USER_AVATAR} color={color} />
             ),
-            tabBarLabel: truncateName(currentAccount.username, 10),
+            tabBarLabel: hideUsernameInTab
+              ? "Profile"
+              : truncateName(currentAccount.username, 10),
             freezeOnBlur: false,
           }}
         />
@@ -614,7 +651,7 @@ function Tabs() {
           options={{
             headerShown: false,
             tabBarIcon: ({ color }) => (
-              <SFIcon icon="magnifyingglass" color={color} />
+              <SFIcon icon={ICON_MAP.SEARCH} color={color} />
             ),
             tabBarLabel: t("Search"),
             freezeOnBlur: false,
@@ -626,7 +663,9 @@ function Tabs() {
           options={{
             headerShown: false,
             // tabBarIcon: ({ color }) => <IconSettings color={color} />,
-            tabBarIcon: ({ color }) => <SFIcon icon="gear" color={color} />,
+            tabBarIcon: ({ color }) => (
+              <SFIcon icon={ICON_MAP.SETTINGS} color={color} />
+            ),
             tabBarLabel: t("Settings"),
             freezeOnBlur: false,
           }}
@@ -642,27 +681,27 @@ interface StackProps {
 }
 
 function Stack({ onReady }: StackProps) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
   const { t } = useTranslation();
-  const accounts = useAppSelector(selectAccounts);
-  const accountsLoaded = useAppSelector(selectAccountsLoaded);
+  const accounts = useAccounts();
+  const accountStore = useAccountStore();
 
   const MyTheme = {
     ...DarkTheme,
     colors: {
       ...DarkTheme.colors,
-      primary: theme.colors.app.accent,
-      background: theme.colors.app.bg,
-      card: theme.colors.app.navBarBg,
-      text: theme.colors.app.textPrimary,
-      border: theme.colors.app.border,
+      primary: theme.colors.accent,
+      background: theme.colors.bg,
+      card: theme.colors.navBarBg,
+      text: theme.colors.textPrimary,
+      border: theme.colors.border,
     },
   };
 
   return (
     <NavigationContainer onReady={onReady} theme={MyTheme}>
       <MainStack.Navigator>
-        {(!accountsLoaded && (
+        {(accountStore.status.loading && (
           <MainStack.Screen
             name="AppLoading"
             component={LoadingView}

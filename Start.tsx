@@ -1,33 +1,29 @@
 import * as Notifications from "expo-notifications";
 import { StatusBar, StatusBarStyle } from "expo-status-bar";
-import { extendTheme, NativeBaseProvider } from "native-base";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { AppState, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import merge from "deepmerge";
 import { setRootViewBackgroundColor } from "@pnthach95/react-native-root-view-background";
+import { useAppDispatch } from "@root/store";
+import {
+  useSettingsStore,
+  useThemeConfig,
+} from "./src/stores/settings/settingsStore";
 import { GluestackUIProvider } from "./src/components/common/Gluestack";
-import { config } from "./gluestack-ui.config";
-import Stack from "./Stack";
-import MemmyErrorView from "./src/components/common/Loading/MemmyErrorView";
 import { writeToLog } from "./src/helpers/LogHelper";
 import { lemmyAuthToken, lemmyInstance } from "./src/LemmyInstance";
-import { loadAccounts } from "./src/slices/accounts/accountsActions";
-import { selectAccountsLoaded } from "./src/slices/accounts/accountsSlice";
-import {
-  loadSettings,
-  setSetting,
-} from "./src/slices/settings/settingsActions";
-import { selectSettings } from "./src/slices/settings/settingsSlice";
 import { getUnreadCount } from "./src/slices/site/siteActions";
-import { useAppDispatch, useAppSelector } from "./store";
-import getFontScale from "./src/theme/fontSize";
-import { darkTheme } from "./src/theme/theme";
 import { ThemeOptionsArr, ThemeOptionsMap } from "./src/theme/themeOptions";
-import Toast from "./src/components/common/Toast";
-import { systemFontSettings } from "./src/theme/common";
+import { useFiltersStore } from "./src/stores/filters/filtersStore";
+import loadSettings from "./src/stores/settings/actions/loadSettings";
+import setSetting from "./src/stores/settings/actions/setSetting";
 import { loadFavorites } from "./src/slices/favorites/favoritesActions";
+import Toast from "./src/components/common/Toast";
+import Stack from "./Stack";
+import MemmyErrorView from "./src/components/common/Loading/MemmyErrorView";
+import { useAccountStore } from "./src/stores/account/accountStore";
+import getFontScale from "./src/theme/fontSize";
 
 const logError = (e, info) => {
   writeToLog(e.toString());
@@ -52,22 +48,19 @@ function Start({ onReady }: StartProps) {
   const [loaded, setLoaded] = useState(false);
   const [stackReady, setStackReady] = useState(false);
   const dispatch = useAppDispatch();
-  const accountsLoaded = useAppSelector(selectAccountsLoaded);
+  const accountStore = useAccountStore();
 
   const [statusBarColor, setStatusBarColor] = useState<StatusBarStyle>("dark");
 
-  const {
-    theme,
-    themeMatchSystem,
-    themeDark,
-    themeLight,
-    fontSize,
-    isSystemTextSize,
-    isSystemFont,
-    accentColor,
-  } = useAppSelector(selectSettings);
+  const { theme, isSystemFont, accentColor } = useSettingsStore((state) => ({
+    theme: state.settings.theme,
+    isSystemFont: state.settings.isSystemFont,
+    accentColor: state.settings.accentColor,
+  }));
 
-  const [selectedTheme, setSelectedTheme] = useState<any>(darkTheme);
+  const currentTheme = useSettingsStore((state) => state.settings.theme);
+
+  const glueStackTheme = useThemeConfig();
 
   // Temporary hack for RN issue. TODO Fix this once patched
   // https://github.com/facebook/react-native/issues/35972#issuecomment-1416243681
@@ -79,24 +72,14 @@ function Start({ onReady }: StartProps) {
   // Cancel if color scheme immediately switches back
   useEffect(() => {
     if (colorScheme !== currentColorScheme) {
-      onColorSchemeChange.current = setTimeout(
-        () => setCurrentColorScheme(colorScheme),
-        1000
-      );
+      onColorSchemeChange.current = setTimeout(() => {
+        setSetting({ colorScheme }).then();
+        setCurrentColorScheme(colorScheme);
+      }, 1000);
     } else if (onColorSchemeChange.current) {
       clearTimeout(onColorSchemeChange.current);
     }
   }, [colorScheme]);
-
-  const currentTheme = useMemo(
-    () =>
-      themeMatchSystem
-        ? currentColorScheme === "light"
-          ? themeLight
-          : themeDark
-        : theme,
-    [themeMatchSystem, themeDark, themeLight, currentColorScheme]
-  );
 
   const appState = useRef(AppState.currentState);
 
@@ -107,10 +90,10 @@ function Start({ onReady }: StartProps) {
   };
 
   useEffect(() => {
-    if (accountsLoaded && stackReady) {
+    if (!accountStore.status.loading && stackReady) {
       onReady();
     }
-  }, [accountsLoaded, stackReady]);
+  }, [accountStore.status.loading, stackReady]);
 
   useEffect(() => {
     if (!loaded) return;
@@ -158,88 +141,65 @@ function Start({ onReady }: StartProps) {
     if (!ThemeOptionsArr.includes(usedTheme)) {
       usedTheme = "Dark";
 
-      dispatch(setSetting({ theme: usedTheme }));
+      setSetting({ theme: usedTheme }).then();
     }
 
-    const newTheme = extendTheme(
-      merge.all([
-        ThemeOptionsMap[usedTheme],
-        accentColor
-          ? {
-              colors: {
-                app: {
-                  accent: accentColor,
-                },
-              },
-            }
-          : {},
-        {
-          components: {
-            Text: {
-              defaultProps: {
-                color: ThemeOptionsMap[usedTheme].colors.app.textPrimary,
-              },
-            },
-          },
-        },
-        isSystemTextSize
-          ? {
-              components: {
-                Text: {
-                  defaultProps: {
-                    allowFontScaling: false,
-                  },
-                },
-              },
-            }
-          : { fontSizes: getFontScale() },
-        isSystemFont ? systemFontSettings : {},
-      ])
-    );
-    // TODO add fallback
-    setSelectedTheme(newTheme);
+    // TODO: Disabling Font Scaling for now
+    // const newTheme = merge.all([
+    //   isSystemTextSize
+    //     ? {
+    //         components: {
+    //           Text: {
+    //             defaultProps: {
+    //               allowFontScaling: false,
+    //             },
+    //           },
+    //         },
+    //       }
+    //     : { fontSizes: getFontScale() },
+    //   isSystemFont ? systemFontSettings : {},
+    // ]);
+
+    // // TODO add fallback
     setStatusBarColor(
-      newTheme.config.initialColorMode === "dark" ? "light" : "dark"
+      ThemeOptionsMap[usedTheme].config.initialColorMode === "dark"
+        ? "light"
+        : "dark"
     );
 
-    setRootViewBackgroundColor(ThemeOptionsMap[usedTheme].colors.app.bg);
-    // ! fontSize has to be here
-  }, [
-    currentTheme,
-    fontSize,
-    getFontScale,
-    isSystemTextSize,
-    isSystemFont,
-    accentColor,
-  ]);
+    setRootViewBackgroundColor(ThemeOptionsMap[usedTheme].colors.bg);
+    // TODO: fontSize has to be here
+  }, [currentTheme, getFontScale, isSystemFont, accentColor]);
 
   if (!loaded) {
-    dispatch(loadSettings());
-    dispatch(loadAccounts());
+    useAccountStore.getState().init();
     dispatch(loadFavorites());
     setLoaded(true);
+    loadSettings().then();
+    useFiltersStore.getState().init();
   }
 
-  if (!accountsLoaded) {
+  if (accountStore.status.loading) {
     return null;
   }
 
   return (
-    <GluestackUIProvider config={config.theme}>
-      <NativeBaseProvider theme={selectedTheme}>
-        <ErrorBoundary onError={logError} FallbackComponent={MemmyErrorView}>
-          {/* eslint-disable-next-line react/style-prop-object */}
-          <StatusBar style={statusBarColor} />
-          <GestureHandlerRootView
-            style={{ flex: 1, backgroundColor: selectedTheme.colors.app.bg }}
-          >
-            <>
-              <Toast />
-              <Stack onReady={onStackReady} />
-            </>
-          </GestureHandlerRootView>
-        </ErrorBoundary>
-      </NativeBaseProvider>
+    <GluestackUIProvider config={glueStackTheme}>
+      <ErrorBoundary onError={logError} FallbackComponent={MemmyErrorView}>
+        {/* eslint-disable-next-line react/style-prop-object */}
+        <StatusBar style={statusBarColor} />
+        <GestureHandlerRootView
+          style={{
+            flex: 1,
+            backgroundColor: ThemeOptionsMap[theme].colors.bg,
+          }}
+        >
+          <>
+            <Toast />
+            <Stack onReady={onStackReady} />
+          </>
+        </GestureHandlerRootView>
+      </ErrorBoundary>
     </GluestackUIProvider>
   );
 }

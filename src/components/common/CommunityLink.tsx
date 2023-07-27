@@ -1,7 +1,8 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { Community } from "lemmy-js-client";
-import { HStack, Text, useTheme } from "native-base";
+import { HStack, Text } from "@src/components/common/Gluestack";
 import React from "react";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { getBaseUrl } from "../../helpers/LinkHelper";
 import Link from "./Buttons/Link";
 import { PlanetIcon } from "./icons/PlanetIcon";
@@ -12,7 +13,7 @@ interface CommunityLinkProps {
 }
 
 function CommunityLink({ community, instanceBaseUrl }: CommunityLinkProps) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -28,7 +29,7 @@ function CommunityLink({ community, instanceBaseUrl }: CommunityLinkProps) {
       }}
     >
       <HStack>
-        <HStack alignItems="center" space={1}>
+        <HStack alignItems="center" space="xs">
           {community.icon ? (
             <FastImage
               source={{
@@ -37,14 +38,14 @@ function CommunityLink({ community, instanceBaseUrl }: CommunityLinkProps) {
               style={{ height: 18, width: 18, borderRadius: 100 }}
             />
           ) : (
-            <PlanetIcon color={theme.colors.app.textSecondary} size={16} />
+            <PlanetIcon color={theme.colors.textSecondary} size={16} />
           )}
-          <Text color={theme.colors.app.textSecondary} fontWeight="medium">
+          <Text color={theme.colors.textSecondary} fontWeight="medium">
             {community.name}
           </Text>
         </HStack>
         {instanceBaseUrl && (
-          <Text color={theme.colors.app.textSecondary} fontWeight="medium">
+          <Text color={theme.colors.textSecondary} fontWeight="medium">
             @{instanceBaseUrl}
           </Text>
         )}

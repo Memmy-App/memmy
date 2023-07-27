@@ -1,6 +1,6 @@
 /* Courtesy https://github.com/beardwin/ */
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Animated, {
   Extrapolate,
   Extrapolation,
@@ -14,8 +14,8 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
-import { LayoutRectangle, StyleSheet } from "react-native";
-import { useTheme } from "native-base";
+import { LayoutChangeEvent, LayoutRectangle, StyleSheet } from "react-native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { useSwipeableRow } from "./SwipeableRowProvider";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { ISwipeableColors } from "./types";
@@ -36,7 +36,7 @@ const buzz = () => {
 };
 
 export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   const [firstStop, secondStop] = stops;
   const isFrozen = useSharedValue(false);
@@ -47,12 +47,12 @@ export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
     () =>
       vote === -1
         ? {
-            first: theme.colors.app.downvote,
-            second: theme.colors.app.upvote,
+            first: theme.colors.downvote,
+            second: theme.colors.upvote,
           }
         : {
-            first: theme.colors.app.upvote,
-            second: theme.colors.app.downvote,
+            first: theme.colors.upvote,
+            second: theme.colors.downvote,
           },
     [vote, theme]
   );
@@ -202,6 +202,10 @@ export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
     return { transform: [{ scale }] };
   });
 
+  const onLayout = useCallback((event: LayoutChangeEvent) => {
+    setArrow(event.nativeEvent.layout);
+  }, []);
+
   return (
     <>
       <Animated.View style={[styles.background, backgroundStyle]} />
@@ -209,9 +213,7 @@ export function VoteOption({ stops = DEFAULT_STOPS, vote = 0, onVote }: Props) {
         <Animated.View style={[pulse]}>
           <Animated.View
             style={[styles.option, arrowStyle]}
-            onLayout={(event) => {
-              setArrow(event.nativeEvent.layout);
-            }}
+            onLayout={onLayout}
           >
             <AntDesign
               name={vote === -1 ? "arrowdown" : "arrowup"}

@@ -1,5 +1,6 @@
-import React from "react";
-import { Divider, Text, useTheme, VStack } from "native-base";
+import React, { Children } from "react";
+import { Divider, Text, VStack } from "@src/components/common/Gluestack";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 interface IProps {
   header?: string;
@@ -7,24 +8,29 @@ interface IProps {
 }
 
 function MTable({ header, children }: IProps) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
+  const childrenArray = Children.toArray(children);
 
   return (
     <>
       <>
         {header && (
-          <Text fontSize="lg" fontWeight="semibold" pl={1} mt={3} mb={1}>
+          <Text size="lg" fontWeight="semibold" pl="$1" mt="$3" mb="$1">
             {header}
           </Text>
         )}
         <VStack
-          backgroundColor={theme.colors.app.fg}
-          p={3}
-          borderRadius={10}
-          space={3}
-          divider={<Divider backgroundColor={theme.colors.app.border} />}
+          backgroundColor={theme.colors.fg}
+          p="$3"
+          borderRadius="$xl"
+          space="md"
         >
-          {children}
+          {childrenArray.map((child, index) => (
+            <>
+              {index !== 0 && <Divider backgroundColor={theme.colors.border} />}
+              {child}
+            </>
+          ))}
         </VStack>
       </>
     </>

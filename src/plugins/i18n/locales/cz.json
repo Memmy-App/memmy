@@ -92,6 +92,7 @@
     "removedByMod": "Komentář byl smazán moderátorem :("
   },
   "settings": {
+    "reportBugBtn": "Nahlásit chybu na Github",
     "haptics": {
       "Off": "Vypnuto",
       "Light": "Jemné",

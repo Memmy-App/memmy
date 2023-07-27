@@ -1,7 +1,7 @@
-import { useTheme } from "native-base";
-import { IFontSize } from "native-base/lib/typescript/theme/base/typography";
+import { Text } from "@src/components/common/Gluestack";
 import React, { useMemo } from "react";
 import { GestureResponderEvent } from "react-native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import IconButtonWithText from "../IconButtonWithText";
 import SFIcon from "../icons/SFIcon";
 import { ICON_MAP } from "../../../constants/IconMap";
@@ -12,7 +12,7 @@ interface VoteButtonProps {
   isVoted: boolean;
   text?: string | number;
   isAccented?: boolean;
-  textSize?: IFontSize;
+  size?: React.ComponentProps<typeof Text>["size"];
   iconSize?: number;
 }
 
@@ -22,31 +22,31 @@ function VoteButton({
   isVoted,
   text,
   isAccented,
-  textSize = "lg",
+  size = "lg",
   iconSize = 16,
 }: VoteButtonProps) {
-  const { colors } = useTheme();
+  const { colors } = useThemeOptions();
 
-  const color = isAccented ? colors.app.accent : colors.app.textSecondary;
+  const color = isAccented ? colors.accent : colors.textSecondary;
 
-  const voteColor = type === "upvote" ? colors.app.upvote : colors.app.downvote;
+  const voteColor = type === "upvote" ? colors.upvote : colors.downvote;
 
   const icon = useMemo(
     () =>
       type === "upvote" ? (
         <SFIcon
           icon={ICON_MAP.UPVOTE}
-          color={isVoted ? colors.app.upvoteText : color}
+          color={isVoted ? colors.upvoteText : color}
           size={iconSize}
         />
       ) : (
         <SFIcon
           icon={ICON_MAP.DOWNVOTE}
-          color={isVoted ? colors.app.downvoteText : color}
+          color={isVoted ? colors.downvoteText : color}
           size={iconSize}
         />
       ),
-    [isVoted]
+    [isVoted, colors]
   );
 
   return (
@@ -55,7 +55,7 @@ function VoteButton({
       icon={icon}
       iconBgColor={isVoted ? voteColor : "transparent"}
       text={text}
-      textSize={textSize}
+      size={size}
       textColor={isVoted ? voteColor : color}
     />
   );

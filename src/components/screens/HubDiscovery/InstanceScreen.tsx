@@ -6,9 +6,8 @@ import {
   HStack,
   ScrollView,
   Text,
-  useTheme,
   VStack,
-} from "native-base";
+} from "@src/components/common/Gluestack";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import {
   IconArrowDown,
@@ -21,6 +20,7 @@ import {
   IconX,
 } from "tabler-icons-react-native";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import MTable from "../../common/Table/MTable";
 import MCell from "../../common/Table/MCell";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
@@ -32,7 +32,7 @@ interface IProps {
 
 function InstanceScreen({ route, navigation }: IProps) {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useThemeOptions();
   const site = route.params.site as Site;
   const localSite = route.params.localSite as LocalSite;
   const counts = route.params.counts as SiteAggregates;
@@ -44,9 +44,9 @@ function InstanceScreen({ route, navigation }: IProps) {
   }, []);
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1} p={6}>
-      <VStack p={3} borderRadius={10} space={4}>
-        <HStack space={2}>
+    <ScrollView bg={theme.colors.bg} flex={1} p="$6">
+      <VStack p="$3" borderRadius="$xl" space="lg">
+        <HStack space="sm">
           <FastImage
             source={{ uri: site.icon }}
             style={{
@@ -56,56 +56,56 @@ function InstanceScreen({ route, navigation }: IProps) {
             }}
           />
           <VStack flex={1} mt="auto">
-            <HStack space={1}>
-              <IconUserPlus size={18} color={theme.colors.app.accent} />
-              <Text color={theme.colors.app.textSecondary}>
+            <HStack space="xs">
+              <IconUserPlus size={18} color={theme.colors.accent} />
+              <Text color={theme.colors.textSecondary}>
                 {counts.users.toLocaleString()} users
               </Text>
             </HStack>
-            <Text fontSize="2xl" fontWeight="semibold">
+            <Text size="2xl" fontWeight="semibold">
               {site.name}
             </Text>
           </VStack>
         </HStack>
-        <HStack space="4">
+        <HStack space="lg">
           <Button
             size="lg"
-            colorScheme="lightBlue"
+            variant="solid"
+            action="primary"
             onPress={() =>
               navigation.push("CreateAccount", {
                 server: getBaseUrl(site.actor_id),
               })
             }
             mt="auto"
-            borderRadius="15"
-            py={1.5}
-            width="50%"
+            borderRadius="$2xl"
+            flexGrow={1}
           >
-            <HStack space={2} alignItems="center">
+            <HStack space="sm" alignItems="center">
               <IconDoorEnter size={24} color="white" />
 
-              <Text fontWeight="semibold" fontSize="md">
+              <Text fontWeight="semibold" size="md">
                 {t("Join")}
               </Text>
             </HStack>
           </Button>
           <Button
             size="lg"
-            colorScheme="lightBlue"
+            variant="solid"
+            action="primary"
             onPress={() =>
               navigation.push("AddAccount", {
                 server: getBaseUrl(site.actor_id),
               })
             }
             mt="auto"
-            borderRadius="15"
-            py={1.5}
+            borderRadius="$2xl"
             flexGrow={1}
           >
-            <HStack space={2} alignItems="center">
+            <HStack space="sm" alignItems="center">
               <IconDoorEnter size={24} color="white" />
 
-              <Text fontWeight="semibold" fontSize="md">
+              <Text fontWeight="semibold" size="md">
                 {t("Login")}
               </Text>
             </HStack>
@@ -116,12 +116,12 @@ function InstanceScreen({ route, navigation }: IProps) {
       <MTable header={t("Hub Info")}>
         <MCell
           title={t("Create Communities")}
-          icon={<IconHome size={24} color={theme.colors.app.accent} />}
+          icon={<IconHome size={24} color={theme.colors.accent} />}
           rightAccessory={
             localSite.community_creation_admin_only ? (
-              <IconX size={24} color={theme.colors.app.error} />
+              <IconX size={24} color={theme.colors.error} />
             ) : (
-              <IconCheck size={24} color={theme.colors.app.success} />
+              <IconCheck size={24} color={theme.colors.success} />
             )
           }
           subtitle={
@@ -132,12 +132,12 @@ function InstanceScreen({ route, navigation }: IProps) {
         />
         <MCell
           title={t("Federated")}
-          icon={<IconPlanet size={24} color={theme.colors.app.accent} />}
+          icon={<IconPlanet size={24} color={theme.colors.accent} />}
           rightAccessory={
             !localSite.federation_enabled ? (
-              <IconX size={24} color={theme.colors.app.error} />
+              <IconX size={24} color={theme.colors.error} />
             ) : (
-              <IconCheck size={24} color={theme.colors.app.success} />
+              <IconCheck size={24} color={theme.colors.success} />
             )
           }
           subtitle={
@@ -148,12 +148,12 @@ function InstanceScreen({ route, navigation }: IProps) {
         />
         <MCell
           title={t("hubDiscovery.downvote.title")}
-          icon={<IconArrowDown size={24} color={theme.colors.app.accent} />}
+          icon={<IconArrowDown size={24} color={theme.colors.accent} />}
           rightAccessory={
             !localSite.enable_downvotes ? (
-              <IconX size={24} color={theme.colors.app.error} />
+              <IconX size={24} color={theme.colors.error} />
             ) : (
-              <IconCheck size={24} color={theme.colors.app.success} />
+              <IconCheck size={24} color={theme.colors.success} />
             )
           }
           subtitle={
@@ -166,7 +166,7 @@ function InstanceScreen({ route, navigation }: IProps) {
       <MTable header={t("Other Info")}>
         <MCell
           title={t("Legal Info")}
-          icon={<IconHammer size={24} color={theme.colors.app.accent} />}
+          icon={<IconHammer size={24} color={theme.colors.accent} />}
           subtitle={localSite.legal_information}
         />
       </MTable>

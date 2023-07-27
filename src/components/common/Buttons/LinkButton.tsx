@@ -1,12 +1,15 @@
-import { HStack, Pressable, Text, useTheme, VStack } from "native-base";
-import React from "react";
+import { HStack, Text, VStack } from "@src/components/common/Gluestack";
+import React, { useCallback, useMemo } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Pressable } from "react-native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { openLink } from "../../../helpers/LinkHelper";
 import { truncateLink } from "../../../helpers/TextHelper";
 import SFIcon from "../icons/SFIcon";
+import { ICON_MAP } from "../../../constants/IconMap";
 
 interface LinkButtonProps {
   link: string;
@@ -15,17 +18,19 @@ interface LinkButtonProps {
 
 function LinkButton({ link, thumbnail }: LinkButtonProps) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
-  const onPress = () => {
-    openLink(link, navigation, theme.colors.app.bg);
-  };
+  const onPress = useCallback(() => {
+    openLink(link, navigation, theme.colors.bg);
+  }, [link]);
+
+  const truncatedLink = useMemo(() => truncateLink(link), [link]);
 
   return (
     <Pressable onPress={onPress}>
       <VStack
-        borderRadius={5}
-        backgroundColor={theme.colors.app.bg}
+        borderRadius="$md"
+        backgroundColor={theme.colors.bg}
         justifyContent="flex-start"
       >
         {thumbnail && (
@@ -43,19 +48,23 @@ function LinkButton({ link, thumbnail }: LinkButtonProps) {
           />
         )}
 
-        <HStack flexDirection="row" alignItems="center" space={3} mx={4} my={2}>
+        <HStack
+          flexDirection="row"
+          alignItems="center"
+          space="3"
+          mx="$4"
+          my="$2"
+        >
           <SFIcon
-            icon="link"
-            color={theme.colors.app.textSecondary}
+            icon={ICON_MAP.LINK}
+            color={theme.colors.textSecondary}
             size={14}
           />
-          <Text color={theme.colors.app.textSecondary}>
-            {truncateLink(link)}
-          </Text>
+          <Text color={theme.colors.textSecondary}>{truncatedLink}</Text>
         </HStack>
       </VStack>
     </Pressable>
   );
 }
 
-export default LinkButton;
+export default React.memo(LinkButton);

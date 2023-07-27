@@ -505,8 +505,6 @@ PODS:
     - React-Core
   - react-native-flipper (0.203.0):
     - React-Core
-  - react-native-ionicons (4.6.5):
-    - React
   - react-native-ios-context-menu (1.15.3):
     - React-Core
   - react-native-pager-view (6.2.0):
@@ -641,7 +639,7 @@ PODS:
     - React-Core
   - RNCClipboard (1.5.1):
     - React-Core
-  - RNDeviceInfo (10.6.0):
+  - RNDeviceInfo (10.8.0):
     - React-Core
   - RNFastImage (8.6.4):
     - React-Core
@@ -689,7 +687,7 @@ PODS:
     - React-RCTImage
   - RNShare (9.2.0):
     - React-Core
-  - RNSVG (13.4.0):
+  - RNSVG (13.9.0):
     - React-Core
   - RNVectorIcons (9.2.0):
     - React-Core
@@ -780,7 +778,6 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-change-icon (from `../node_modules/react-native-change-icon`)
   - react-native-flipper (from `../node_modules/react-native-flipper`)
-  - react-native-ionicons (from `../node_modules/react-native-ionicons`)
   - react-native-ios-context-menu (from `../node_modules/react-native-ios-context-menu`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-render-html (from `../node_modules/react-native-render-html`)
@@ -949,8 +946,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-change-icon"
   react-native-flipper:
     :path: "../node_modules/react-native-flipper"
-  react-native-ionicons:
-    :path: "../node_modules/react-native-ionicons"
   react-native-ios-context-menu:
     :path: "../node_modules/react-native-ios-context-menu"
   react-native-pager-view:
@@ -1098,7 +1093,6 @@ SPEC CHECKSUMS:
   React-logger: c5b527272d5f22eaa09bb3c3a690fee8f237ae95
   react-native-change-icon: ea9bb7255b09e89f41cbf282df16eade91ab1833
   react-native-flipper: 598f601b6dc19d58f8f58088c6c570917efea2c4
-  react-native-ionicons: 7ce04a8e61c6de2fc3b6798e8b9621b865cb18b1
   react-native-ios-context-menu: e529171ba760a1af7f2ef0729f5a7f4d226171c5
   react-native-pager-view: 0ccb8bf60e2ebd38b1f3669fa3650ecce81db2df
   react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
@@ -1126,7 +1120,7 @@ SPEC CHECKSUMS:
   ReactCommon: 3ccb8fb14e6b3277e38c73b0ff5e4a1b8db017a9
   RNCAsyncStorage: ddc4ee162bfd41b0d2c68bf2d95acd81dd7f1f93
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
-  RNDeviceInfo: 475a4c447168d0ad4c807e48ef5e0963a0f4eb1b
+  RNDeviceInfo: 5795b418ed3451ebcaf39384e6cf51f60cb931c9
   RNFastImage: e583061a26ed90fbab49d526d2ec2d56cfffa465
   RNFlashList: ade81b4e928ebd585dd492014d40fb8d0e848aab
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
@@ -1135,7 +1129,7 @@ SPEC CHECKSUMS:
   RNReanimated: 9f7068e43b9358a46a688d94a5a3adb258139457
   RNScreens: 68fd1060f57dd1023880bf4c05d74784b5392789
   RNShare: b71572a3219740b60ffa7dbcf5d79b08e5625f4a
-  RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2
+  RNSVG: 53c661b76829783cdaf9b7a57258f3d3b4c28315
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d

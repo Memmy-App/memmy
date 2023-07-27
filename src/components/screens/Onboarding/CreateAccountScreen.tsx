@@ -1,19 +1,25 @@
 import { LemmyHttp } from "lemmy-js-client";
-import { Button, Text, VStack, useTheme, Pressable } from "native-base";
+import {
+  Button,
+  Pressable,
+  Text,
+  VStack,
+} from "@src/components/common/Gluestack";
 import React, { useEffect, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { Alert, Image, Linking } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Trans, useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import { initialize, lemmyAuthToken } from "../../../LemmyInstance";
+import { useAppDispatch } from "../../../../store";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 import { writeToLog } from "../../../helpers/LogHelper";
-import { initialize, lemmyAuthToken } from "../../../LemmyInstance";
-import { addAccount } from "../../../slices/accounts/accountsActions";
-import { useAppDispatch } from "../../../../store";
+import { showToast } from "../../../slices/toast/toastSlice";
+import { useAccountStore } from "../../../stores/account/accountStore";
+import ILemmyServer from "../../../types/lemmy/ILemmyServer";
 import CTextInput from "../../common/CTextInput";
 import LoadingModal from "../../common/Loading/LoadingModal";
-import { showToast } from "../../../slices/toast/toastSlice";
-import ILemmyServer from "../../../types/lemmy/ILemmyServer";
 
 const header = require("../../../../assets/header.jpg");
 
@@ -50,9 +56,10 @@ function CreateAccountScreen({
   const [ready, setReady] = useState(false);
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [png, setPng] = useState(undefined);
+  const accountStore = useAccountStore();
 
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useThemeOptions();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -190,23 +197,23 @@ function CreateAccountScreen({
 
     setLoading(false);
 
-    dispatch(
-      addAccount({
+    accountStore
+      .addAccount({
         username: form.username,
         password: form.password,
         instance: serverParsed,
         token: lemmyAuthToken,
       })
-    );
+      .then();
   };
 
   return (
     <KeyboardAwareScrollView
-      style={{ backgroundColor: theme.colors.app.bg }}
+      style={{ backgroundColor: theme.colors.bg }}
       keyboardShouldPersistTaps="handled"
     >
       <LoadingModal loading={loading} />
-      <VStack flex={1} mb={5} space="md" justifyContent="center">
+      <VStack flex={1} mb="$5" space="md" justifyContent="center">
         <Image
           source={header}
           style={{
@@ -217,13 +224,13 @@ function CreateAccountScreen({
           }}
           resizeMode="cover"
         />
-        <VStack mx={3}>
+        <VStack mx="$3">
           {sentEmail ? (
-            <VStack px={4} space="md">
-              <Text fontSize={32} textAlign="center">
+            <VStack px="$4" space="md">
+              <Text size="4xl" textAlign="center">
                 {t("onboarding.checkEmail")}
               </Text>
-              <Text fontSize={18} textAlign="center">
+              <Text size="lg" textAlign="center">
                 {t("onboarding.emailSent", [form.email])}
               </Text>
               <Button
@@ -231,11 +238,13 @@ function CreateAccountScreen({
                 onPress={() => Linking.openURL("message://")}
                 disabled={loading}
               >
-                {t("onboarding.openEmailAppBtn")}
-                Open Email App
+                <Text>
+                  {t("onboarding.openEmailAppBtn")}
+                  Open Email App
+                </Text>
               </Button>
               <Button onPress={() => setReady(true)} disabled={loading}>
-                {t("onboarding.getStartedBtn")}
+                <Text>{t("onboarding.getStartedBtn")}</Text>
               </Button>
             </VStack>
           ) : (
@@ -317,19 +326,20 @@ function CreateAccountScreen({
                         }
                       />
                     ),
-                    linkText: <Text mt={1.5} color={theme.colors.app.accent} />,
+                    linkText: <Text mt="$1.5" color={theme.colors.accent} />,
                   }}
                 />
               </Text>
               <Button
                 size="sm"
-                colorScheme="lightBlue"
+                variant="solid"
+                action="primary"
                 onPress={onPress}
-                borderRadius="20"
-                mt={3}
-                mx={2}
+                borderRadius="$3xl"
+                mt="$3"
+                mx="$2"
               >
-                <Text fontWeight="semibold" fontSize="lg">
+                <Text fontWeight="semibold" size="lg">
                   {t("Create Account")}
                 </Text>
               </Button>

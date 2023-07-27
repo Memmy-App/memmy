@@ -1,103 +1,10 @@
 import React from "react";
-import {
-  ContextMenuButton,
-  ContextMenuView,
-  OnPressMenuItemEvent,
-} from "react-native-ios-context-menu";
-import { ICON_MAP } from "../../../constants/IconMap";
+import { OnPressMenuItemEvent } from "react-native-ios-context-menu";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { UseFeedItem } from "../../../hooks/feeds/useFeedItem";
-import { ContextMenuOptions } from "../../../types/ContextMenuOptions";
-
-export const FEED_OPTIONS: ContextMenuOptions = {
-  Upvote: {
-    display: "Upvote",
-    icon: ICON_MAP.UPVOTE,
-  },
-  Downvote: {
-    display: "Downvote",
-    icon: ICON_MAP.DOWNVOTE,
-  },
-  Reply: {
-    display: "Reply",
-    icon: ICON_MAP.REPLY,
-  },
-  Save: {
-    display: "Save",
-    icon: ICON_MAP.SAVE,
-  },
-  Share: {
-    display: "Share Post",
-    icon: ICON_MAP.SHARE,
-  },
-  Report: {
-    display: "Report Post",
-    icon: ICON_MAP.REPORT_POST,
-  },
-  BlockUser: {
-    display: "Block User",
-    icon: ICON_MAP.BLOCK_USER,
-    destructive: true,
-  },
-  // Community: {
-  //   display: "Community",
-  //   icon: "person.2",
-  // },
-};
-
-const FEED_COMMUNITY_OPTIONS: ContextMenuOptions = {
-  Subscribe: {
-    display: "Subscribe",
-    icon: ICON_MAP.SUBSCRIBE,
-  },
-  BlockCommunity: {
-    display: "Block",
-    icon: "xmark.circle",
-    destructive: true,
-  },
-};
-
-const menuItemsRenderer = () => {
-  const menuItems = Object.entries(FEED_OPTIONS).map(([key, value]) => {
-    if (key === "Community") {
-      return {
-        menuTitle: "Community",
-        actionKey: key,
-        actionTitle: value.display,
-        menuItems: [
-          ...Object.entries(FEED_COMMUNITY_OPTIONS).map(
-            ([commKey, commValue]) => ({
-              actionKey: commKey,
-              actionTitle: commValue.display,
-              ...(commValue.destructive
-                ? { menuAttributes: ["destructive"] }
-                : {}),
-              icon: {
-                type: "IMAGE_SYSTEM",
-                imageValue: {
-                  systemName: commValue.icon,
-                },
-              },
-            })
-          ),
-        ],
-      };
-    }
-    return {
-      actionKey: key,
-      actionTitle: value.display,
-      ...(value.destructive ? { menuAttributes: ["destructive"] } : {}),
-      icon: {
-        type: "IMAGE_SYSTEM",
-        imageValue: {
-          systemName: value.icon,
-        },
-      },
-    };
-  });
-
-  return menuItems;
-};
+import { useFeedOptions } from "../../../hooks/contextMenu/useFeedOptions";
+import { AppContextMenuButton } from "./App/AppContextMenuButton";
+import { AppContextMenuView } from "./App/AppContextMenuView";
 
 interface IProps {
   children: React.ReactNode;
@@ -162,17 +69,12 @@ export function FeedItemContextMenuView({
   children,
   onPress,
 }: IContextMenuProps) {
+  const feedOptions = useFeedOptions();
+
   return (
-    <ContextMenuView
-      onPressMenuItem={onPress}
-      menuConfig={{
-        menuTitle: "",
-        // @ts-ignore Types for menuItems are wrong for this library
-        menuItems: [...menuItemsRenderer()],
-      }}
-    >
+    <AppContextMenuView onPressMenuItem={onPress} options={feedOptions}>
       {children}
-    </ContextMenuView>
+    </AppContextMenuView>
   );
 }
 
@@ -181,17 +83,11 @@ export function FeedItemContextMenuButton({
   children,
   onPress,
 }: IContextMenuProps) {
+  const feedOptions = useFeedOptions();
+
   return (
-    <ContextMenuButton
-      isMenuPrimaryAction
-      onPressMenuItem={onPress}
-      menuConfig={{
-        menuTitle: "",
-        // @ts-ignore Types for menuItems are wrong for this library
-        menuItems: [...menuItemsRenderer()],
-      }}
-    >
+    <AppContextMenuButton options={feedOptions} onPressMenuItem={onPress}>
       {children}
-    </ContextMenuButton>
+    </AppContextMenuButton>
   );
 }

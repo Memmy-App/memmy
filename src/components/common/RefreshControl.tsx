@@ -1,6 +1,6 @@
 import React from "react";
 import { RefreshControl as RNRefreshControl } from "react-native";
-import { useTheme } from "native-base";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 interface IProps {
   refreshing: boolean;
@@ -8,13 +8,13 @@ interface IProps {
 }
 
 function RefreshControl({ refreshing, onRefresh }: IProps) {
-  const { colors } = useTheme();
+  const { colors } = useThemeOptions();
 
   return (
     <RNRefreshControl
       refreshing={refreshing}
       onRefresh={onRefresh}
-      tintColor={colors.app.textSecondary}
+      tintColor={colors.textSecondary}
     />
   );
 }

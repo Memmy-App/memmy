@@ -1,18 +1,19 @@
 import React from "react";
-import { Text, useTheme, View } from "native-base";
+import { Text, View } from "@src/components/common/Gluestack";
 import { Button, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 function NotFoundView() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   return (
-    <View style={styles.container} backgroundColor={theme.colors.app.bg}>
-      <Text fontStyle="italic" color={theme.colors.app.textSecondary}>
+    <View style={styles.container} backgroundColor={theme.colors.bg}>
+      <Text fontStyle="italic" color={theme.colors.textSecondary}>
         {t("notFound.community")}
       </Text>
       <Button title={t("Go Back")} onPress={() => navigation.pop()} />

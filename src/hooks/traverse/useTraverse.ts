@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
 import { CommunityView } from "lemmy-js-client";
+import { useEffect, useState } from "react";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { useAppSelector } from "../../../store";
-import { selectCurrentAccount } from "../../slices/accounts/accountsSlice";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
+import { useCurrentAccount } from "../../stores/account/accountStore";
 
 interface UseTraverse {
   loading: boolean;
@@ -22,7 +21,7 @@ const useTraverse = (): UseTraverse => {
 
   const [subscriptions, setSubscriptions] = useState<CommunityView[]>([]);
 
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currentAccount = useCurrentAccount();
 
   useEffect(() => {
     doLoad().then();

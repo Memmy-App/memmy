@@ -1,7 +1,8 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ScrollView, useTheme, VStack } from "native-base";
+import { ScrollView, VStack } from "@src/components/common/Gluestack";
 import React, { useCallback, useEffect } from "react";
 import { useRoute } from "@react-navigation/core";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import useSearch from "../../../hooks/search/useSearch";
 import SearchBox from "../../common/Search/SearchBox";
 import SearchOptionsList from "../../common/Search/SearchOptionsList";
@@ -16,7 +17,7 @@ function SearchScreen({
   const { key } = useRoute();
 
   const search = useSearch();
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   useEffect(() => {
     navigation.setOptions({
@@ -81,8 +82,8 @@ function SearchScreen({
   }, [search.query]);
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.bg}>
-      <ScrollView px={4} keyboardShouldPersistTaps="handled">
+    <VStack flex={1} backgroundColor={theme.colors.bg}>
+      <ScrollView px="$4" keyboardShouldPersistTaps="handled">
         {!search.query ? (
           <SearchTrendingList communities={search.trending} />
         ) : (

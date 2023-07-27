@@ -1,5 +1,7 @@
+import { themeMap } from "@src/theme/theme";
+
 export const config = {
-  componentPath: "./src/components/common/gluestack",
+  componentPath: "./src/components/common/Gluestack",
   theme: {
     aliases: {
       bg: "backgroundColor",
@@ -23,6 +25,25 @@ export const config = {
       rounded: "borderRadius",
     } as const,
     tokens: {
+      colors: {
+        primary200: "#bae6fd",
+        primary300: "#7dd3fc",
+        primary400: "#38bdf8",
+        primary500: "#0ea5e9",
+        primary600: "#0284c7",
+        primary700: "#0369a1",
+        secondary200: "#e2e8f0",
+        secondary300: "#cbd5e1",
+        secondary400: "#94a3b8",
+        secondary500: "#64748b",
+        secondary600: "#475569",
+        secondary700: "#334155",
+        blue500: "#3b82f6",
+        blue900: "#1e3a8a",
+        gray500: "#71717a",
+        gray700: "#3f3f46",
+        ...themeMap.darkTheme.colors,
+      },
       space: {
         px: "1px",
         "0": 0,
@@ -43,7 +64,9 @@ export const config = {
         "10": 40,
         "11": 44,
         "12": 48,
+        "14": 56,
         "16": 64,
+        "18": 75,
         "20": 80,
         "24": 96,
         "32": 128,
@@ -82,11 +105,12 @@ export const config = {
         none: 0,
         xs: 2,
         sm: 4,
-        md: 6,
+        md: 5,
         lg: 8,
-        xl: 12,
-        "2xl": 16,
-        "3xl": 24,
+        xl: 10,
+        "2xl": 12,
+        "20": 15,
+        "3xl": 20,
         full: 9999,
       },
       breakpoints: {
@@ -139,9 +163,9 @@ export const config = {
         extraBlack: "950",
       },
       fonts: {
-        heading: undefined,
-        body: undefined,
-        mono: undefined,
+        heading: "Inter",
+        body: "Inter",
+        mono: "Inter",
       },
       fontSizes: {
         "2xs": 10,
@@ -298,6 +322,9 @@ export const config = {
     },
   },
 } as const;
+
+export const { theme } = config;
+
 type Config = typeof config.theme;
 declare module "@gluestack-style/react" {
   interface ICustomConfig extends Config {}

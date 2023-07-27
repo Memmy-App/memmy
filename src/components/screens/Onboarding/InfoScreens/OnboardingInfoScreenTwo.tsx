@@ -1,6 +1,6 @@
 import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Button, Text, VStack } from "native-base";
+import { Button, Text, VStack } from "@src/components/common/Gluestack";
 import { ImageBackground, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 
@@ -20,32 +20,23 @@ function OnboardingInfoScreenTwo({ navigation }: IProps) {
         style={styles.background}
         resizeMode="cover"
       >
-        <VStack px={6} pt={12} pb={20} space={4} flex={1}>
-          <Text
-            fontSize="4xl"
-            color="white"
-            fontWeight="semibold"
-            textAlign="left"
-          >
+        <VStack px="$6" pt="$12" pb="$20" space="lg" flex={1}>
+          <Text size="4xl" color="white" fontWeight="semibold" textAlign="left">
             {t("onboarding.info.2.1")}
           </Text>
-          <Text
-            fontSize="3xl"
-            color="white"
-            fontWeight="semibold"
-            textAlign="left"
-          >
+          <Text size="3xl" color="white" fontWeight="semibold" textAlign="left">
             {t("onboarding.info.2.2")}
           </Text>
 
           <Button
             size="lg"
-            colorScheme="lightBlue"
+            variant="solid"
+            action="primary"
             onPress={() => navigation.push("OnboardingInfoThree")}
-            borderRadius="20"
+            borderRadius="$3xl"
             mt="auto"
           >
-            <Text fontWeight="semibold" fontSize="lg">
+            <Text fontWeight="semibold" size="lg">
               {t("Continue")}
             </Text>
           </Button>

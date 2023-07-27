@@ -1,20 +1,4 @@
-import { ICustomTheme } from "native-base";
-import {
-  moodyPurpleTheme,
-  darkTheme,
-  draculaTheme,
-  draculaThemePurple,
-  lightTheme,
-  nightOwlTheme,
-  oksolarDarkTheme,
-  oksolarLightTheme,
-  sleepyRainforestTheme,
-  goldenHourTheme,
-  nauticalTheme,
-  sunsetTheme,
-  oledTheme,
-  embarkTheme,
-} from "./theme";
+import { ITheme, themeMap } from "./theme";
 
 enum EDarkThemeOptions {
   DARK = "Dark",
@@ -47,19 +31,19 @@ export const ThemeOptionsArr = [
 ];
 
 // TODO: should get the type figured out for theme obj
-export const ThemeOptionsMap: Record<ThemeOptions, ICustomTheme> = {
-  Light: lightTheme,
-  Dark: darkTheme,
-  "Dark (OLED)": oledTheme,
-  Dracula: draculaTheme,
-  "Dracula (Purple)": draculaThemePurple,
-  "Moody Purple": moodyPurpleTheme,
-  "Night Owl": nightOwlTheme,
-  "Oksolar Dark": oksolarDarkTheme,
-  "Oksolar Light": oksolarLightTheme,
-  "Sleepy Rainforest": sleepyRainforestTheme,
-  "Golden Hour": goldenHourTheme,
-  Nautical: nauticalTheme,
-  Sunset: sunsetTheme,
-  Embark: embarkTheme,
+export const ThemeOptionsMap: Record<ThemeOptions, ITheme> = {
+  Light: themeMap.lightTheme,
+  Dark: themeMap.darkTheme,
+  "Dark (OLED)": themeMap.oledTheme,
+  Dracula: themeMap.draculaTheme,
+  "Dracula (Purple)": themeMap.draculaThemePurple,
+  "Moody Purple": themeMap.moodyPurpleTheme,
+  "Night Owl": themeMap.nightOwlTheme,
+  "Oksolar Dark": themeMap.oksolarDarkTheme,
+  "Oksolar Light": themeMap.oksolarLightTheme,
+  "Sleepy Rainforest": themeMap.sleepyRainforestTheme,
+  "Golden Hour": themeMap.goldenHourTheme,
+  Nautical: themeMap.nauticalTheme,
+  Sunset: themeMap.sunsetTheme,
+  Embark: themeMap.embarkTheme,
 };

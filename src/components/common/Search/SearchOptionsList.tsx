@@ -36,7 +36,7 @@ function SearchOptionsList({ options }: IProps) {
         <MCell
           title={t("searchOptions.posts")}
           onPress={options.onPostsPress}
-          icon={<SFIcon icon="note.text" />}
+          icon={<SFIcon icon={ICON_MAP.POST} />}
           showChevron
         />
       </MTable>

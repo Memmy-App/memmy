@@ -42,7 +42,8 @@
       "pushNotificationsConfirm": "To make push notifications work, Memmy has to send your authentication token to our server. Right now, this is the only viable way to allow users to receive push notifications. Note that Memmy servers do NOT have access to your password, only your authentication token. Authentication tokens may be revoked by changing your password.\n\nFull source code for the Memmy push notification server is available at https:\/\/github.com\/gkasdorf\/memmy-push.\n\nDo you wish to continue?",
       "deleteAccountConfirm": "To remove all data from Memmy's servers, simply disable push notifications. If you do not have push notifications enabled, we do not have any of your data.\n\nTo delete your Lemmy account, you must first visit {{0}} and sign in. Then navigate to the Profile tab. You may delete your account by pressing \"Delete Account\".",
       "registrationError": "An error occurred while completing registration.",
-      "useUsername": "Please use your username when signing in (no instance/@)."
+      "useUsername": "Please use your username when signing in (no instance/@).",
+      "reportPost": "Please describe your reason for reporting this Post."
     }
   },
   "toast": {
@@ -61,7 +62,9 @@
     "blocked": "Blocked {{0}}",
     "enterUrl": "Enter the URL",
     "enterLabel": "Enter the label",
-		"linkError": "There was an error opening that link"
+    "linkError": "There was an error opening that link",
+    "textCopied": "Text Copied",
+    "linkCopied": "Link Copied"
   },
   "relativeTime": {
     "future": "in %s",
@@ -92,6 +95,8 @@
     "removedByMod": "Comment removed by moderator :("
   },
   "settings": {
+    "reportBugBtn": "Report a Bug on GitHub",
+		"swipeToVote": "Swipe to Vote",
     "haptics": {
       "Off": "Off",
       "Light": "Light",
@@ -112,6 +117,8 @@
         "onPostOpen": "Mark Read on Post Open",
         "onImageView": "Mark Read on Image View",
         "onVote": "Mark Read on Vote",
+				"onFeedScroll": "Mark Read on Feed Scroll",
+				"onCommunityScroll": "Mark Read on Community Scroll",
         "footer": "Hide Read Posts on Feed will automatically hide read posts anytime the feed is refreshed. If Hide Read Posts on Feed is enabled, Show Hide Read Button will show a floating action button to hide read posts without a feed refresh."
       }
     },
@@ -160,6 +167,33 @@
         "header": "Server Credentials",
         "footer": "Credentials for the server you are connecting to"
       }
+    },
+    "filters": {
+      "description": "Filters allow you to filter posts from your feed based on specific keywords in the title or instances of origin",
+      "header": {
+        "keyword": "KEYWORDS",
+        "instance": "INSTANCES"
+      },
+      "add": {
+        "keyword": "Add Keyword",
+        "instance": "Add Instance"
+      },
+      "areYouSure":{
+        "keyword":  "Are you sure you want to remove this keyword?",
+        "instance": "Are you sure you want to remove this instance?"
+      },
+      "remove": {
+        "keyword": "Remove Keyword",
+        "instance": "Remove Instance"
+      },
+      "enter": {
+        "keyword": "Enter a keyword to filter.",
+        "instance": "Enter an instance to filter."
+      },
+      "no": {
+        "keyword": "No keywords yet...",
+        "instance": "No instances yet..."
+      }
     }
   },
   "traverse": {
@@ -172,7 +206,9 @@
     "title": "Title",
     "link": "Link (optional)",
     "body": "Body (optional)",
-    "bodyPlaceholder": "Type away!"
+    "bodyPlaceholder": "Type away!",
+    "share": "Share Post",
+    "report": "Report Post"
   },
   "onboarding": {
     "hello": "Hello",
@@ -262,6 +298,25 @@
   "imageView": {
     "dialogDesc": "Downloading image..."
   },
+  "sort": {
+    "Top": "Top",
+    "top": {
+      "Hour": "Last Hour",
+      "SixHours": "Six Hours",
+      "TwelveHours": "Twelve Hours",
+      "Day": "Day",
+      "Week": "Week",
+      "Month": "Month",
+      "Year": "Year",
+      "AllTime": "All Time"
+    },
+    "Hot": "Hot",
+    "Active": "Active",
+    "New": "Most Comments",
+    "MostComments": "Most Comments",
+    "NewComments": "New Comments",
+    "Old": "Old"
+  },
   "Feed": "Feed",
   "Comments": "Comments",
   "Traverse": "Traverse",
@@ -294,6 +349,9 @@
   "View": "View",
   "Content": "Content",
   "Appearance": "Appearance",
+  "Filters": "Filters",
+  "Keywords": "Keywords",
+  "Instances": "Instances",
   "Theme": "Theme",
   "Icon": "Icon",
   "General": "General",
@@ -306,6 +364,7 @@
   "Reply": "Reply",
   "Report Post": "Report Post",
   "Cancel": "Cancel",
+  "Remove": "Remove",
   "Submit": "Submit",
   "Retry": "Retry",
   "Language": "Language",
@@ -375,5 +434,20 @@
   "Description": "Description",
   "Label": "Label",
   "Trending": "Trending",
-  "Go Back": "Go Back"
+  "Go Back": "Go Back",
+  "Stats": "Stats",
+  "Moderators": "Moderators",
+  "Local": "Local",
+  "Upvote": "Upvote",
+  "Downvote": "Downvote",
+  "Block User": "Block User",
+  "Block": "Block",
+  "Community": "Community",
+  "Post Size": "Post Size",
+  "Compact": "Compact",
+  "Large": "Large",
+  "None": "None",
+  "Left": "Left",
+  "Right": "Right",
+  "Account Created": "Account Created"
 }

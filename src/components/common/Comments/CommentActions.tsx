@@ -1,4 +1,4 @@
-import { HStack } from "native-base";
+import { HStack } from "@src/components/common/Gluestack";
 import React, { useCallback } from "react";
 import { ICON_MAP } from "../../../constants/IconMap";
 import IconButtonWithText from "../IconButtonWithText";
@@ -22,7 +22,7 @@ function CommentActions({ onVote, myVote, onReply }: IProps) {
   }, [onVote]);
 
   return (
-    <HStack justifyContent="flex-end" alignItems="center" space={2} mb={1}>
+    <HStack justifyContent="flex-end" alignItems="center" space="sm" mb="$1">
       <IconButtonWithText
         onPressHandler={onReply}
         icon={<SFIcon icon={ICON_MAP.REPLY} size={12} boxSize={20} />}

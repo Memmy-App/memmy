@@ -1,6 +1,6 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
-import { HStack, useTheme, VStack } from "native-base";
+import { HStack, VStack } from "@src/components/common/Gluestack";
 import React, {
   useCallback,
   useEffect,
@@ -10,6 +10,7 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { WritableDraft } from "immer/src/types/types-external";
 import LoadingView from "../../common/Loading/LoadingView";
 import PostOptionsButton from "./components/PostOptionsButton";
@@ -36,6 +37,7 @@ import { clearNewComment } from "../../../slices/comments/newCommentSlice";
 import PostCommentItem from "./components/PostCommentItem";
 import usePost from "../../../hooks/post/usePost";
 import CommentSortButton from "./components/CommentSortButton";
+import refreshPost from "../../../stores/posts/actions/refreshPost";
 import NextCommentFAB from "../../common/Buttons/NextCommentFAB";
 
 interface ViewToken<T = any> {
@@ -78,7 +80,7 @@ function PostScreen({ navigation }: IProps) {
   const [nextCommentPressed, setNextCommentPressed] = useState(false);
 
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   const flashListRef = useRef(null);
 
@@ -90,7 +92,7 @@ function PostScreen({ navigation }: IProps) {
       title: `${commentCount} ${t("Comment", { count: commentCount })}`,
       // eslint-disable-next-line react/no-unstable-nested-components
       headerRight: () => (
-        <HStack space={3}>
+        <HStack space="md">
           <CommentSortButton
             sortType={commentsSort}
             setSortType={postHook.setPostCommentsSort}
@@ -100,6 +102,11 @@ function PostScreen({ navigation }: IProps) {
       ),
     });
   }, [commentsSort]);
+
+  useEffect(() => {
+    // get post to update unread_count
+    refreshPost(postKey).then();
+  }, []);
 
   const onViewableItemsChanged = useCallback(
     (info?: ViewableItemsChangedType<ILemmyComment>) => {
@@ -127,7 +134,7 @@ function PostScreen({ navigation }: IProps) {
   );
 
   useEffect(() => {
-    if (!newComment) return;
+    if (!newComment || !newComment.comment) return;
 
     // Create a new comment chain
     const lComment: ILemmyComment = {
@@ -242,7 +249,7 @@ function PostScreen({ navigation }: IProps) {
 
   if (currentPost) {
     return (
-      <VStack flex={1} backgroundColor={theme.colors.app.bg}>
+      <VStack flex={1} backgroundColor={theme.colors.bg}>
         <FlashList
           ListHeaderComponent={<PostHeader />}
           ListFooterComponent={<PostFooter />}

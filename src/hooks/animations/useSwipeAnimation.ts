@@ -7,7 +7,7 @@ import {
   withSpring,
 } from "react-native-reanimated";
 import { Dimensions } from "react-native";
-import { useTheme } from "native-base";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { onCommentSlideHapticFeedback } from "../../helpers/HapticFeedbackHelpers";
 
 interface UseSwipeAnimationOptions {
@@ -32,9 +32,9 @@ interface UseSwipeAnimation {
 const useSwipeAnimation = (
   options: UseSwipeAnimationOptions
 ): UseSwipeAnimation => {
-  const theme = useTheme();
+  const theme = useThemeOptions();
   // State
-  const color = useSharedValue(theme.colors.app.upvote);
+  const color = useSharedValue(theme.colors.upvote);
   // const rightIcon = useSharedValue(options.rightLeftOneIcon);
   // const leftIcon = useSharedValue(options.leftRightOneIcon);
 
@@ -58,7 +58,7 @@ const useSwipeAnimation = (
       // eslint-disable-next-line no-param-reassign
       ctx.startX = translateX.value;
       startPos.value = event.absoluteX;
-      color.value = theme.colors.app.upvote;
+      color.value = theme.colors.upvote;
     },
     onActive: (event, ctx) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -157,28 +157,28 @@ const useSwipeAnimation = (
   function setStyles(actionType) {
     switch (actionType) {
       case "leftRightOne": {
-        if (color.value === theme.colors.app.upvote) return;
-        color.value = theme.colors.app.upvote;
+        if (color.value === theme.colors.upvote) return;
+        color.value = theme.colors.upvote;
         setLeftIcon(options.leftRightOneIcon);
         break;
       }
       case "leftRightTwo": {
-        if (color.value === theme.colors.app.downvote) return;
-        color.value = theme.colors.app.downvote;
+        if (color.value === theme.colors.downvote) return;
+        color.value = theme.colors.downvote;
         setLeftIcon(options.leftRightTwoIcon);
         break;
       }
       case "rightLeftOne": {
-        if (color.value === theme.colors.app.info) return;
-        color.value = theme.colors.app.info;
+        if (color.value === theme.colors.info) return;
+        color.value = theme.colors.info;
         setRightIcon(options.rightLeftOneIcon);
         break;
       }
       case "rightLeftTwo": {
         if (!options.onRightLeftTwo) return;
 
-        if (color.value === theme.colors.app.success) return;
-        color.value = theme.colors.app.success;
+        if (color.value === theme.colors.success) return;
+        color.value = theme.colors.success;
         setRightIcon(options.rightLeftTwoIcon);
         break;
       }

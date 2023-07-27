@@ -1,10 +1,12 @@
-import { HStack, Text, useTheme } from "native-base";
+import { HStack, Text } from "@src/components/common/Gluestack";
 import React, { useMemo } from "react";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { timeFromNowShort } from "../../../../helpers/TimeHelper";
 import IconButtonWithText from "../../IconButtonWithText";
 import SFIcon from "../../icons/SFIcon";
 import { CommentContextMenu } from "../CommentContextMenu";
 import { ContextMenuOptions } from "../../../../types/ContextMenuOptions";
+import { ICON_MAP } from "../../../../constants/IconMap";
 
 interface IProps {
   onPress: (key: string) => void;
@@ -19,26 +21,26 @@ function CommentHeaderRight({
   collapsed,
   contextOptions,
 }: IProps) {
-  const theme = useTheme();
-
-  if (collapsed) {
-    return (
-      <SFIcon
-        icon="chevron.down"
-        size={12}
-        color={theme.colors.app.textSecondary}
-      />
-    );
-  }
+  const theme = useThemeOptions();
 
   const publishedFormatted = useMemo(
     () => timeFromNowShort(published),
     [published]
   );
 
+  if (collapsed) {
+    return (
+      <SFIcon
+        icon={ICON_MAP.CHEVRON.DOWN}
+        size={12}
+        color={theme.colors.textSecondary}
+      />
+    );
+  }
+
   return (
-    <HStack alignItems="center" space={2}>
-      <Text color={theme.colors.app.textSecondary}>{publishedFormatted}</Text>
+    <HStack alignItems="center" space="sm">
+      <Text color={theme.colors.textSecondary}>{publishedFormatted}</Text>
       <CommentContextMenu
         isButton
         options={contextOptions}
@@ -49,9 +51,9 @@ function CommentHeaderRight({
         <IconButtonWithText
           icon={
             <SFIcon
-              icon="ellipsis"
+              icon={ICON_MAP.MORE_OPTIONS}
               size={12}
-              color={theme.colors.app.textSecondary}
+              color={theme.colors.textSecondary}
             />
           }
         />

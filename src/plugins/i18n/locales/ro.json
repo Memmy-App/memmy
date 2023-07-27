@@ -92,6 +92,7 @@
       "removedByMod": "Comentariu șters de moderator :("
     },
     "settings": {
+      "reportBugBtn": "Raportați o eroare pe Github",
       "haptics": {
         "Off": "Oprit",
         "Light": "Ușor",
