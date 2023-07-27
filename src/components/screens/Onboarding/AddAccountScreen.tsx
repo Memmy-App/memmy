@@ -10,19 +10,19 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Trans, useTranslation } from "react-i18next";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import { useAppDispatch } from "@root/store";
 import CTextInput from "../../common/CTextInput";
 import {
   getInstanceError,
   initialize,
   lemmyAuthToken,
 } from "../../../LemmyInstance";
-import LoadingModal from "../../common/Loading/LoadingModal";
-import { useAppDispatch } from "../../../../store";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
-import { addAccount } from "../../../slices/accounts/accountsActions";
 import { writeToLog } from "../../../helpers/LogHelper";
 import { showToast } from "../../../slices/toast/toastSlice";
+import { useAccountStore } from "../../../stores/account/accountStore";
 import ILemmyServer from "../../../types/lemmy/ILemmyServer";
+import LoadingModal from "../../common/Loading/LoadingModal";
 
 const header = require("../../../../assets/header.jpg");
 
@@ -41,9 +41,11 @@ function AddAccountScreen({ route, navigation }: IProps) {
   });
   const [loading, setLoading] = useState(false);
   const [showTotpToken, setShowTotpToken] = useState(false);
+  const accountStore = useAccountStore();
 
   const { t } = useTranslation();
   const theme = useThemeOptions();
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -113,14 +115,12 @@ function AddAccountScreen({ route, navigation }: IProps) {
     doLogin().then(() => {
       if (!lemmyAuthToken) return;
 
-      dispatch(
-        addAccount({
-          username: form.username,
-          password: form.password,
-          instance: getBaseUrl(form.server),
-          token: lemmyAuthToken,
-        })
-      );
+      accountStore.addAccount({
+        username: form.username,
+        password: form.password,
+        instance: getBaseUrl(form.server),
+        token: lemmyAuthToken,
+      });
 
       setLoading(false);
     });

@@ -12,9 +12,9 @@ import TraverseItem from "./components/TraverseItem";
 import SearchBar from "../../common/Search/SearchBar";
 import RefreshControl from "../../common/RefreshControl";
 
-import { selectFavorites } from "../../../slices/favorites/favoritesSlice";
-import { selectCurrentAccount } from "../../../slices/accounts/accountsSlice";
 import { getCommunityFullName } from "../../../helpers/LemmyHelpers";
+import { selectFavorites } from "../../../slices/favorites/favoritesSlice";
+import { useCurrentAccount } from "../../../stores/account/accountStore";
 
 enum ItemType {
   HEADER,
@@ -44,7 +44,7 @@ function TraverseScreen() {
   const itemFilter = (item: CommunityView) =>
     !term || item.community.name.toLowerCase().includes(term.toLowerCase());
 
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currentAccount = useCurrentAccount();
   const favorites =
     useAppSelector(selectFavorites).favorites[
       `${currentAccount.username}@${currentAccount.instance}`

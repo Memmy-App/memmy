@@ -10,14 +10,15 @@ import {
   Text,
   VStack,
 } from "@src/components/common/Gluestack";
-import { useAppDispatch, useAppSelector } from "@root/store";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { getCommunityFullName } from "../../../../helpers/LemmyHelpers";
 import { toggleFavorite } from "../../../../slices/favorites/favoritesActions";
 
+import { useAppDispatch } from "../../../../../store";
+
 import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
 import { getBaseUrl } from "../../../../helpers/LinkHelper";
-import { selectCurrentAccount } from "../../../../slices/accounts/accountsSlice";
+import { useCurrentAccount } from "../../../../stores/account/accountStore";
 import { PlanetIcon } from "../../../common/icons/PlanetIcon";
 import SFIcon from "../../../common/icons/SFIcon";
 
@@ -54,7 +55,7 @@ function TraverseItem({ community, isFavorite }: IProps) {
     [community.community.id]
   );
 
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currentAccount = useCurrentAccount();
 
   return (
     <Pressable onPress={onPress}>
