@@ -18,7 +18,7 @@ interface AccountStore {
 
   addAccount: (account: Account) => Promise<void>;
   editAccount: (account: Account) => Promise<void>;
-  deleteAcount: (account: Account) => Promise<void>;
+  deleteAccount: (account: Account) => Promise<void>;
 
   setCurrentAccount: (account: Account) => Promise<void>;
 }
@@ -84,7 +84,7 @@ export const useAccountStore = create(
       await AsyncStorage.setItem("@accounts", JSON.stringify(accounts));
     },
 
-    deleteAcount: async (account: Account) => {
+    deleteAccount: async (account: Account) => {
       const accounts =
         (JSON.parse(await AsyncStorage.getItem("@accounts")) as Account[]) ??
         [];
