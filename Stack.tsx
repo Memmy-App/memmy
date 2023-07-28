@@ -7,6 +7,7 @@ import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Dimensions, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { View } from "./src/components/common/Gluestack";
 import {
   useSettingsStore,
@@ -70,7 +71,6 @@ import {
 import { useAppSelector } from "./store";
 import FiltersScreen from "./src/components/screens/Settings/Filters/FiltersScreen";
 import useProfile from "./src/hooks/profile/useProfile";
-import FastImage from "@gkasdorf/react-native-fast-image";
 
 function CustomDrawerContent() {
   const theme = useThemeOptions();
@@ -642,16 +642,17 @@ function Tabs() {
           component={ProfileStackScreen}
           options={{
             headerShown: false,
-            tabBarIcon: ({ color }) => !hideAvatarInTab && profile.profile?.person?.avatar ? (
-              <FastImage
-                source={{
-                  uri: profile.profile.person.avatar,
-                }}
-                style={styles.avatar}
-              />
-            ) : (
-              <SFIcon icon={ICON_MAP.USER_AVATAR} color={color} />
-            ),
+            tabBarIcon: ({ color }) =>
+              !hideAvatarInTab && profile.profile?.person?.avatar ? (
+                <FastImage
+                  source={{
+                    uri: profile.profile.person.avatar,
+                  }}
+                  style={styles.avatar}
+                />
+              ) : (
+                <SFIcon icon={ICON_MAP.USER_AVATAR} color={color} />
+              ),
             tabBarLabel: hideUsernameInTab
               ? "Profile"
               : truncateName(currentAccount?.username ?? "Profile", 10),
