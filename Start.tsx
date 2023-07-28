@@ -1,28 +1,28 @@
+import React, { useEffect, useRef, useState } from "react";
 import * as Notifications from "expo-notifications";
 import { StatusBar, StatusBarStyle } from "expo-status-bar";
-import React, { useEffect, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { AppState, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { setRootViewBackgroundColor } from "@pnthach95/react-native-root-view-background";
-import { useAppDispatch } from "@root/store";
 import {
   useCurrentTheme,
   useThemeConfig,
-} from "./src/stores/settings/settingsStore";
-import { GluestackUIProvider } from "./src/components/common/Gluestack";
-import { writeToLog } from "./src/helpers/LogHelper";
-import { lemmyAuthToken, lemmyInstance } from "./src/LemmyInstance";
-import { getUnreadCount } from "./src/slices/site/siteActions";
-import { ThemeOptionsMap } from "./src/theme/themeOptions";
-import { useFiltersStore } from "./src/stores/filters/filtersStore";
+} from "@src/stores/settings/settingsStore";
+import { GluestackUIProvider } from "@src/components/common/Gluestack";
+import { writeToLog } from "@src/helpers/LogHelper";
+import { lemmyAuthToken, lemmyInstance } from "@src/LemmyInstance";
+import { getUnreadCount } from "@src/slices/site/siteActions";
+import { ThemeOptionsMap } from "@src/theme/themeOptions";
+import { useFiltersStore } from "@src/stores/filters/filtersStore";
+import { loadFavorites } from "@src/slices/favorites/favoritesActions";
+import { useAccountStore } from "@src/stores/account/accountStore";
 import loadSettings from "./src/stores/settings/actions/loadSettings";
 import setSetting from "./src/stores/settings/actions/setSetting";
-import { loadFavorites } from "./src/slices/favorites/favoritesActions";
 import Toast from "./src/components/common/Toast";
 import Stack from "./Stack";
 import MemmyErrorView from "./src/components/common/Loading/MemmyErrorView";
-import { useAccountStore } from "./src/stores/account/accountStore";
+import { useAppDispatch } from "./store";
 
 const logError = (e, info) => {
   writeToLog(e.toString());

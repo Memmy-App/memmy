@@ -24,8 +24,6 @@ export interface PostState {
   };
 
   collapsed: boolean;
-  showMoreTop: boolean;
-  showMoreChildren: boolean;
 
   communityFullName: string;
 
