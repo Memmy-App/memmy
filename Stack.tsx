@@ -5,7 +5,7 @@ import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { Dimensions } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 import { View } from "./src/components/common/Gluestack";
 import {
@@ -69,6 +69,8 @@ import {
 } from "./src/stores/account/accountStore";
 import { useAppSelector } from "./store";
 import FiltersScreen from "./src/components/screens/Settings/Filters/FiltersScreen";
+import useProfile from "./src/hooks/profile/useProfile";
+import FastImage from "@gkasdorf/react-native-fast-image";
 
 function CustomDrawerContent() {
   const theme = useThemeOptions();
@@ -587,9 +589,13 @@ function Tabs() {
   const { unread } = useAppSelector(selectSite);
   const { t } = useTranslation();
   const currentAccount = useCurrentAccount();
+  const profile = useProfile();
 
   const hideUsernameInTab = useSettingsStore(
     (state) => state.settings.hideUsernameInTab
+  );
+  const hideAvatarInTab = useSettingsStore(
+    (state) => state.settings.hideAvatarInTab
   );
 
   return (
@@ -636,7 +642,14 @@ function Tabs() {
           component={ProfileStackScreen}
           options={{
             headerShown: false,
-            tabBarIcon: ({ color }) => (
+            tabBarIcon: ({ color }) => !hideAvatarInTab && profile.profile?.person?.avatar ? (
+              <FastImage
+                source={{
+                  uri: profile.profile.person.avatar,
+                }}
+                style={styles.avatar}
+              />
+            ) : (
               <SFIcon icon={ICON_MAP.USER_AVATAR} color={color} />
             ),
             tabBarLabel: hideUsernameInTab
@@ -790,5 +803,13 @@ function Stack({ onReady }: StackProps) {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  avatar: {
+    height: 24,
+    width: 24,
+    borderRadius: 24,
+  },
+});
 
 export default Stack;

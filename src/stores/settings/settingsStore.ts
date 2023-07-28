@@ -55,6 +55,7 @@ export interface SettingsState {
   tapToCollapse: boolean;
   swipeToVote: boolean;
   hideUsernameInTab: boolean;
+  hideAvatarInTab: boolean;
 }
 
 const initialState: SettingsState = {
@@ -98,6 +99,7 @@ const initialState: SettingsState = {
   tapToCollapse: true,
   swipeToVote: true,
   hideUsernameInTab: false,
+  hideAvatarInTab: false,
 };
 
 export const useSettingsStore = create(
