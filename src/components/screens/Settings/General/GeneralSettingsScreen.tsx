@@ -99,6 +99,20 @@ function GeneralSettingsScreen() {
               />
             }
           />
+          {!settings.useDefaultBrowser && (
+            <CCell
+              title={t("settings.general.useReaderMode")}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
+              cellAccessoryView={
+                <Switch
+                  value={settings.useReaderMode}
+                  onValueChange={(v) => onChange("useReaderMode", v)}
+                />
+              }
+            />
+          )}
         </CSection>
       </TableView>
     </ScrollView>

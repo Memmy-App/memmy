@@ -91,6 +91,9 @@
     "removedByMod": "Kommentar wurde von Moderatoren gelöscht :("
   },
   "settings": {
+    "general": {
+      "useReaderMode": "Lesemodus verwenden"
+    },
     "reportBugBtn": "Bug auf GitHub melden",
     "swipeToVote": "Mit Wisch hoch-/runterwählen",
     "haptics": {
@@ -104,9 +107,6 @@
         "footer": "Diese Einstellungen haben kein Einfluss auf die NSFW-Einstellungen deines Lemmy-Kontos. Diese Einstellungen werden lediglich lokal in der Memmy-App verwendet (über alle Accounts hinweg).",
         "blur": "NSFW-Inhalt verwischen/trüben",
         "hide": "NSFW-Inhalt ausblenden"
-      },
-      "web": {
-        "useReaderMode": "Lesemodus verwenden"
       },
       "markRead": {
         "header": "Als gelesen markieren",
