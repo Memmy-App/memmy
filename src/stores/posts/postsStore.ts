@@ -25,6 +25,10 @@ export interface PostState {
 
   collapsed: boolean;
 
+  communityFullName: string;
+
+  isOwn: boolean;
+
   commentsState: PostCommentsState;
   rerenderComments: boolean;
 }
@@ -69,6 +73,12 @@ export const usePostComment = (postKey: string, commentId: number) =>
           c.comment.comment.id === commentId
       )
   );
+
+export const usePostCommunityName = (postKey: string) =>
+  usePostsStore((state) => state.posts.get(postKey).communityFullName);
+
+export const usePostIsOwn = (postKey: string) =>
+  usePostsStore((state) => state.posts.get(postKey).isOwn);
 
 export const usePostCommentCollapsed = (postKey: string, commentId: number) =>
   usePostsStore(

@@ -22,6 +22,10 @@ interface UpdatesState {
     commentId: number;
     content: string;
   } | null;
+
+  deletedPost: {
+    postId: number;
+  } | null;
 }
 
 interface Actions {
@@ -36,6 +40,9 @@ interface Actions {
 
   setEditedComment: (commentId: number, content: string) => void;
   clearEditedComment: () => void;
+
+  setPostDeleted: (postId: number) => void;
+  clearPostDeleted: () => void;
 }
 
 export const useUpdatesStore = create<UpdatesState & Actions>()((set) => ({
@@ -43,6 +50,7 @@ export const useUpdatesStore = create<UpdatesState & Actions>()((set) => ({
   saved: null,
   newComment: null,
   editedComment: null,
+  deletedPost: null,
 
   setVoted: (postId: number, value: ILemmyVote) =>
     set((state) => ({
@@ -100,6 +108,20 @@ export const useUpdatesStore = create<UpdatesState & Actions>()((set) => ({
       ...state,
       editedComment: null,
     })),
+
+  setPostDeleted: (postId: number) =>
+    set((state) => ({
+      ...state,
+      deletedPost: {
+        postId,
+      },
+    })),
+
+  clearPostDeleted: () =>
+    set((state) => ({
+      ...state,
+      deletedPost: null,
+    })),
 }));
 
 export const useVoted = () => useUpdatesStore((state) => state.voted);
@@ -107,3 +129,4 @@ export const useSaved = () => useUpdatesStore((state) => state.saved);
 export const useNewComment = () => useUpdatesStore((state) => state.newComment);
 export const useEditedComment = () =>
   useUpdatesStore((state) => state.editedComment);
+export const useDeleted = () => useUpdatesStore((state) => state.deletedPost);

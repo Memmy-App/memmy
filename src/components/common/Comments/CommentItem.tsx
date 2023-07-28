@@ -86,7 +86,7 @@ function CommentItem({
                 />
                 <VoteData
                   data={comment.comment.counts}
-                  myVote={comment.myVote}
+                  myVote={comment.comment.my_vote}
                 />
               </HStack>
               <CommentHeaderRight

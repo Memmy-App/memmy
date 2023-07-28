@@ -62,7 +62,6 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
         key: "report",
         title: t("comment.report"),
         icon: ICON_MAP.REPORT_POST,
-        destructive: true,
       },
     ],
     [t]

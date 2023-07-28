@@ -40,7 +40,6 @@ export const useFeedOptions = () => {
         key: "Report",
         title: t("post.report"),
         icon: ICON_MAP.REPORT_POST,
-        destructive: true,
       },
       {
         key: "BlockUser",

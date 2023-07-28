@@ -5,6 +5,7 @@ import { Alert, Linking } from "react-native";
 
 import axios from "axios";
 import { URL } from "react-native-url-polyfill";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
 import store from "../../store";
 import i18n from "../plugins/i18n/i18n";
 import { showToast } from "../slices/toast/toastSlice";
@@ -168,7 +169,7 @@ const openLemmyLink = (
 };
 
 const openWebLink = (link: string, color = "#000"): void => {
-  const { settings } = store.getState();
+  const { settings } = useSettingsStore.getState();
   const urlPattern =
     /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
 
