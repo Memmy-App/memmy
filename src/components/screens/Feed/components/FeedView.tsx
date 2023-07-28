@@ -173,7 +173,7 @@ function FeedView({ header }: FeedViewProps) {
     }
 
     clearUpdateSaved();
-  });
+  }, [saved]);
 
   const markReadOnScroll = (info?: ViewableItemsChangedType<PostView>) => {
     if (
@@ -211,10 +211,11 @@ function FeedView({ header }: FeedViewProps) {
     [compactView]
   );
 
-  const onEndReached = useCallback(
-    () => loadFeedPosts(key, { refresh: false }),
-    []
-  );
+  const onEndReached = useCallback(() => {
+    if (posts.length === 0) return;
+
+    loadFeedPosts(key, { refresh: false }).then();
+  }, []);
 
   const onRefresh = () => loadFeedPosts(key, { refresh: true });
 
