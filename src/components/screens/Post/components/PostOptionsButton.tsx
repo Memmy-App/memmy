@@ -40,7 +40,6 @@ function CommentSortButton() {
         key: "ReportPost",
         title: t("Report Post"),
         icon: ICON_MAP.REPORT_POST,
-        destructive: true,
       },
       ...(isModerator || isOwn
         ? [
