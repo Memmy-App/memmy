@@ -1,10 +1,18 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { HStack, VStack } from "@src/components/common/Gluestack";
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import { WritableDraft } from "immer/src/types/types-external";
+import ShowMoreButton from "@src/components/common/Comments/ShowMoreButton";
 import LoadingView from "../../common/Loading/LoadingView";
 import PostOptionsButton from "./components/PostOptionsButton";
 import PostFooter from "./components/PostFooter";
@@ -23,14 +31,31 @@ import { removePost } from "../../../stores/posts/actions";
 import {
   useEditedComment,
   useNewComment,
+  useUpdatesStore,
 } from "../../../stores/updates/updatesStore";
 import { ILemmyVote } from "../../../types/lemmy/ILemmyVote";
-import { clearEditComment } from "../../../slices/comments/editCommentSlice";
-import { clearNewComment } from "../../../slices/comments/newCommentSlice";
 import PostCommentItem from "./components/PostCommentItem";
 import usePost from "../../../hooks/post/usePost";
 import CommentSortButton from "./components/CommentSortButton";
 import refreshPost from "../../../stores/posts/actions/refreshPost";
+import NextCommentFAB from "../../common/Buttons/NextCommentFAB";
+
+interface ViewToken<T = any> {
+  item?: T;
+  key: string;
+  index: number | null;
+  isViewable: boolean;
+  timestamp: number;
+}
+
+type ViewableItemsChangedType<T> = {
+  viewableItems?: ViewToken<T>[];
+  changed: ViewToken<T>[];
+};
+
+function isParentComment(commentItem: ILemmyComment) {
+  return commentItem.comment.comment.path.split(".").length === 2;
+}
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -39,16 +64,26 @@ interface IProps {
 function PostScreen({ navigation }: IProps) {
   const { postKey } = useRoute<any>().params;
   const postHook = usePost();
+
   const currentPost = useCurrentPost(postKey);
   const newComment = useNewComment();
   const editedComment = useEditedComment();
   const rerenderComments = usePostRerenderComments(postKey);
   const commentsSort = usePostCommentsSort(postKey);
   const comments = usePostComments(postKey);
+
   const commentsStatus = usePostCommentsStatus(postKey);
+
+  const updates = useUpdatesStore();
+
+  const firstViewableId = useRef(undefined);
+
+  const [nextCommentPressed, setNextCommentPressed] = useState(false);
 
   const { t } = useTranslation();
   const theme = useThemeOptions();
+
+  const flashListRef = useRef(null);
 
   useEffect(() => {
     postHook.doLoad();
@@ -74,6 +109,22 @@ function PostScreen({ navigation }: IProps) {
     refreshPost(postKey).then();
   }, []);
 
+  const onViewableItemsChanged = useCallback(
+    (info?: ViewableItemsChangedType<ILemmyComment>) => {
+      const firstItem = info.viewableItems ? info.viewableItems[0] : null;
+      if (!!firstItem && !!firstItem.item) {
+        // Not sure if this is the right way to do this
+        // Checking if the first item is a parent comment,
+        // We don't want to set firstViewableId to a child comment I think? idk
+        if (isParentComment(firstItem.item)) {
+          firstViewableId.current =
+            firstItem.item.comment.comment.id.toString();
+        }
+      }
+    },
+    []
+  );
+
   useEffect(
     () =>
       // Remove the post when we are finished
@@ -92,6 +143,8 @@ function PostScreen({ navigation }: IProps) {
       collapsed: false,
       hidden: false,
       myVote: newComment.comment.my_vote as ILemmyVote,
+      showMoreChildren: false,
+      showMoreTop: false,
     };
     // If it's a top comment, add it to top of current chain
     if (newComment.isTop) {
@@ -123,7 +176,7 @@ function PostScreen({ navigation }: IProps) {
       });
     }
 
-    clearNewComment();
+    updates.clearNewComment();
   }, [newComment]);
 
   useEffect(() => {
@@ -133,23 +186,50 @@ function PostScreen({ navigation }: IProps) {
       const prev = state.posts.get(postKey);
       const comment = prev.commentsState.comments.find(
         (c) => c.comment.comment.id === editedComment.commentId
-      );
+      ) as WritableDraft<ILemmyComment>;
 
       comment.comment.comment.content = editedComment.content;
     });
 
-    clearEditComment();
+    updates.clearEditedComment();
   }, [editedComment]);
 
   // Get the comments that are visible. Only recal whenever we trigger the render
   const visibleComments = useMemo(
-    () => comments.filter((c) => !c.hidden),
+    () =>
+      comments.filter((c) => !c.hidden || c.showMoreTop || c.showMoreChildren),
     [rerenderComments]
   );
 
   // Comment item renderer
   const commentItem = useCallback(
-    ({ item }) => <PostCommentItem commentId={item.comment.comment.id} />,
+    ({ item }) => {
+      if (item.showMoreTop && item.hidden) {
+        const pathArr = item.comment.comment.path.split(".");
+
+        return (
+          <ShowMoreButton
+            type="top"
+            commentId={Number(pathArr[1])}
+            depth={pathArr.length}
+          />
+        );
+      }
+
+      if (item.showMoreChildren && item.hidden) {
+        const pathArr = item.comment.comment.path.split(".");
+
+        return (
+          <ShowMoreButton
+            type="children"
+            commentId={Number(pathArr[pathArr.length - 2])}
+            depth={pathArr.length}
+          />
+        );
+      }
+
+      return <PostCommentItem commentId={item.comment.comment.id} />;
+    },
     [currentPost.post.id]
   );
 
@@ -173,6 +253,24 @@ function PostScreen({ navigation }: IProps) {
     return <LoadingView />;
   }
 
+  const onFabPress = () => {
+    // console.log("click", firstViewableId);
+    const currentIndex = visibleComments.findIndex(
+      (c) => String(c.comment.comment.id) === firstViewableId.current
+    );
+    if (!nextCommentPressed && currentIndex === 0) {
+      setNextCommentPressed(true);
+      flashListRef.current.scrollToIndex({ index: 0, animated: true });
+      return;
+    }
+
+    const nextItem = visibleComments
+      .slice(currentIndex + 1, visibleComments.length)
+      .find((c) => isParentComment(c as ILemmyComment));
+
+    flashListRef.current.scrollToItem({ item: nextItem, animated: true });
+  };
+
   if (currentPost) {
     return (
       <VStack flex={1} backgroundColor={theme.colors.bg}>
@@ -185,7 +283,10 @@ function PostScreen({ navigation }: IProps) {
           estimatedItemSize={100}
           refreshControl={refreshControl}
           refreshing={commentsStatus.commentsLoading}
+          onViewableItemsChanged={onViewableItemsChanged}
+          ref={flashListRef}
         />
+        <NextCommentFAB onPress={onFabPress} onLongPress={() => {}} />
       </VStack>
     );
   }

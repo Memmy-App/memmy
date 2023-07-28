@@ -24,6 +24,8 @@ export interface PostState {
   };
 
   collapsed: boolean;
+  showMoreTop: boolean;
+  showMoreChildren: boolean;
 
   communityFullName: string;
 
@@ -66,7 +68,12 @@ export const usePostComment = (postKey: string, commentId: number) =>
   usePostsStore((state) =>
     state.posts
       .get(postKey)
-      .commentsState.comments.find((c) => c.comment.comment.id === commentId)
+      .commentsState.comments.find(
+        (c) =>
+          typeof c !== "string" &&
+          typeof c !== "number" &&
+          c.comment.comment.id === commentId
+      )
   );
 
 export const usePostCommunityName = (postKey: string) =>
@@ -78,17 +85,29 @@ export const usePostIsOwn = (postKey: string) =>
 export const usePostCommentCollapsed = (postKey: string, commentId: number) =>
   usePostsStore(
     (state) =>
-      state.posts
-        .get(postKey)
-        .commentsState.comments.find((c) => c.comment.comment.id === commentId)
-        .collapsed
+      (
+        state.posts
+          .get(postKey)
+          .commentsState.comments.find(
+            (c) =>
+              typeof c !== "string" &&
+              typeof c !== "number" &&
+              c.comment.comment.id === commentId
+          ) as ILemmyComment
+      ).collapsed
   );
 
 export const usePostCommentHidden = (postKey: string, commentId: number) =>
   usePostsStore(
     (state) =>
-      state.posts
-        .get(postKey)
-        .commentsState.comments.find((c) => c.comment.comment.id === commentId)
-        .hidden
+      (
+        state.posts
+          .get(postKey)
+          .commentsState.comments.find(
+            (c) =>
+              typeof c !== "string" &&
+              typeof c !== "number" &&
+              c.comment.comment.id === commentId
+          ) as ILemmyComment
+      ).hidden
   );
