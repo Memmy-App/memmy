@@ -13,7 +13,7 @@ interface SettingsStore {
   settings: SettingsState;
 }
 
-interface SettingsState {
+export interface SettingsState {
   swipeGestures: boolean;
   displayImagesInFeed: string;
   defaultSort: SortType;
