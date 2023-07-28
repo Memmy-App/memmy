@@ -8,7 +8,7 @@ export interface PostsStore {
 }
 
 export interface PostCommentsState {
-  comments: (ILemmyComment | number | string)[];
+  comments: ILemmyComment[];
   commentsLoading: boolean;
   commentsError: boolean;
   commentsSort: CommentSortType;
@@ -24,6 +24,8 @@ export interface PostState {
   };
 
   collapsed: boolean;
+  showMoreTop: boolean;
+  showMoreChildren: boolean;
 
   communityFullName: string;
 
