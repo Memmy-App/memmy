@@ -31,6 +31,10 @@ export interface PostState {
 
   commentsState: PostCommentsState;
   rerenderComments: boolean;
+
+  options?: {
+    initialCommentId?: number;
+  };
 }
 
 // Create our store
