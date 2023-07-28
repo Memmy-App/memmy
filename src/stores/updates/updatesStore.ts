@@ -129,3 +129,4 @@ export const useSaved = () => useUpdatesStore((state) => state.saved);
 export const useNewComment = () => useUpdatesStore((state) => state.newComment);
 export const useEditedComment = () =>
   useUpdatesStore((state) => state.editedComment);
+export const useDeleted = () => useUpdatesStore((state) => state.deletedPost);
