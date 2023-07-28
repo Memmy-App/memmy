@@ -230,7 +230,7 @@ function FeedView({ header }: FeedViewProps) {
     if (posts.length === 0) return;
 
     loadFeedPosts(key, { refresh: false }).then();
-  }, []);
+  }, [posts]);
 
   const onRefresh = () => loadFeedPosts(key, { refresh: true });
 
