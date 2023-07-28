@@ -98,6 +98,9 @@
     "removedByMod": "Comment removed by moderator :("
   },
   "settings": {
+    "general": {
+      "useReaderMode": "Use Reader Mode"
+    },
     "reportBugBtn": "Report a Bug on GitHub",
 		"swipeToVote": "Swipe to Vote",
     "haptics": {
@@ -111,9 +114,6 @@
         "footer": "These settings do not affect your Lemmy account NSFW settings. These setting will only apply to the local app (globally on all accounts).",
         "blur": "Blur NSFW Content",
         "hide": "Hide NSFW Content"
-      },
-      "web": {
-        "useReaderMode": "Use Reader Mode"
       },
       "markRead": {
         "header": "MARK READ SETTINGS",
