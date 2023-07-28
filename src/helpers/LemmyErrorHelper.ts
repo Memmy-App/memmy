@@ -15,7 +15,7 @@ import {
 import { writeToLog } from "./LogHelper";
 
 export const handleLemmyError = (code: LemmyErrorType | string) => {
-  const accountStore = useAccountStore();
+  const accountStore = useAccountStore.getState();
 
   // Log the error to debug
   writeToLog("Lemmy Error:");
