@@ -107,6 +107,10 @@ function PostScreen({ navigation }: IProps) {
   useEffect(() => {
     // get post to update unread_count
     refreshPost(postKey).then();
+
+    return () => {
+      removePost(postKey);
+    };
   }, []);
 
   const onViewableItemsChanged = useCallback(
@@ -122,15 +126,6 @@ function PostScreen({ navigation }: IProps) {
         }
       }
     },
-    []
-  );
-
-  useEffect(
-    () =>
-      // Remove the post when we are finished
-      () => {
-        removePost(postKey);
-      },
     []
   );
 
