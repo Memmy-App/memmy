@@ -12,6 +12,7 @@ import { ICON_MAP } from "@src/constants/IconMap";
 import { Pressable } from "react-native";
 import showAllInChain from "@src/stores/posts/actions/showAllInChain";
 import { useRoute } from "@react-navigation/core";
+import { onGenericHapticFeedback } from "@src/helpers/HapticFeedbackHelpers";
 
 interface IProps {
   type: "top" | "children";
@@ -24,6 +25,7 @@ function ShowMoreButton({ type, commentId, depth }: IProps) {
   const { postKey } = useRoute<any>().params;
 
   const onShowMorePress = useCallback(() => {
+    onGenericHapticFeedback();
     showAllInChain(postKey, commentId, type);
   }, [commentId]);
 
