@@ -174,6 +174,22 @@ function AppearanceScreen({ navigation }: IProps) {
               />
             }
           />
+          <CCell
+            cellStyle="RightDetail"
+            title="Hide Avatar Image"
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.hideAvatarInTab}
+                onValueChange={(v) => {
+                  LayoutAnimation.easeInEaseOut();
+                  onChange("hideAvatarInTab", v);
+                }}
+              />
+            }
+          />
         </CSection>
         {settings.compactView && (
           <CSection header={t("settings.appearance.compact.header")}>
