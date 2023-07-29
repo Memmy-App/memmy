@@ -1,29 +1,28 @@
+import React, { useEffect, useRef, useState } from "react";
 import * as Notifications from "expo-notifications";
 import { StatusBar, StatusBarStyle } from "expo-status-bar";
-import React, { useEffect, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { AppState, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { setRootViewBackgroundColor } from "@pnthach95/react-native-root-view-background";
-import { useAppDispatch } from "@root/store";
 import {
-  useSettingsStore,
+  useCurrentTheme,
   useThemeConfig,
-} from "./src/stores/settings/settingsStore";
-import { GluestackUIProvider } from "./src/components/common/Gluestack";
-import { writeToLog } from "./src/helpers/LogHelper";
-import { lemmyAuthToken, lemmyInstance } from "./src/LemmyInstance";
-import { getUnreadCount } from "./src/slices/site/siteActions";
-import { ThemeOptionsArr, ThemeOptionsMap } from "./src/theme/themeOptions";
-import { useFiltersStore } from "./src/stores/filters/filtersStore";
+} from "@src/stores/settings/settingsStore";
+import { GluestackUIProvider } from "@src/components/common/Gluestack";
+import { writeToLog } from "@src/helpers/LogHelper";
+import { lemmyAuthToken, lemmyInstance } from "@src/LemmyInstance";
+import { getUnreadCount } from "@src/slices/site/siteActions";
+import { ThemeOptionsMap } from "@src/theme/themeOptions";
+import { useFiltersStore } from "@src/stores/filters/filtersStore";
+import { loadFavorites } from "@src/slices/favorites/favoritesActions";
+import { useAccountStore } from "@src/stores/account/accountStore";
 import loadSettings from "./src/stores/settings/actions/loadSettings";
 import setSetting from "./src/stores/settings/actions/setSetting";
-import { loadFavorites } from "./src/slices/favorites/favoritesActions";
 import Toast from "./src/components/common/Toast";
 import Stack from "./Stack";
 import MemmyErrorView from "./src/components/common/Loading/MemmyErrorView";
-import { useAccountStore } from "./src/stores/account/accountStore";
-import getFontScale from "./src/theme/fontSize";
+import { useAppDispatch } from "./store";
 
 const logError = (e, info) => {
   writeToLog(e.toString());
@@ -52,13 +51,7 @@ function Start({ onReady }: StartProps) {
 
   const [statusBarColor, setStatusBarColor] = useState<StatusBarStyle>("dark");
 
-  const { theme, isSystemFont, accentColor } = useSettingsStore((state) => ({
-    theme: state.settings.theme,
-    isSystemFont: state.settings.isSystemFont,
-    accentColor: state.settings.accentColor,
-  }));
-
-  const currentTheme = useSettingsStore((state) => state.settings.theme);
+  const currentTheme = useCurrentTheme();
 
   const glueStackTheme = useThemeConfig();
 
@@ -135,41 +128,14 @@ function Start({ onReady }: StartProps) {
   };
 
   useEffect(() => {
-    let usedTheme = currentTheme;
-
-    // @ts-ignore
-    if (!ThemeOptionsArr.includes(usedTheme)) {
-      usedTheme = "Dark";
-
-      setSetting({ theme: usedTheme }).then();
-    }
-
-    // TODO: Disabling Font Scaling for now
-    // const newTheme = merge.all([
-    //   isSystemTextSize
-    //     ? {
-    //         components: {
-    //           Text: {
-    //             defaultProps: {
-    //               allowFontScaling: false,
-    //             },
-    //           },
-    //         },
-    //       }
-    //     : { fontSizes: getFontScale() },
-    //   isSystemFont ? systemFontSettings : {},
-    // ]);
-
-    // // TODO add fallback
     setStatusBarColor(
-      ThemeOptionsMap[usedTheme].config.initialColorMode === "dark"
+      ThemeOptionsMap[currentTheme].config.initialColorMode === "dark"
         ? "light"
         : "dark"
     );
 
-    setRootViewBackgroundColor(ThemeOptionsMap[usedTheme].colors.bg);
-    // TODO: fontSize has to be here
-  }, [currentTheme, getFontScale, isSystemFont, accentColor]);
+    setRootViewBackgroundColor(ThemeOptionsMap[currentTheme].colors.bg);
+  }, [currentTheme, currentColorScheme]);
 
   if (!loaded) {
     useAccountStore.getState().init();
@@ -191,7 +157,7 @@ function Start({ onReady }: StartProps) {
         <GestureHandlerRootView
           style={{
             flex: 1,
-            backgroundColor: ThemeOptionsMap[theme].colors.bg,
+            backgroundColor: ThemeOptionsMap[currentTheme].colors.bg,
           }}
         >
           <>

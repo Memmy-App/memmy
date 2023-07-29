@@ -1,5 +1,6 @@
 import { HStack } from "@src/components/common/Gluestack";
 import React, { useCallback } from "react";
+import { onVoteHapticFeedback } from "@src/helpers/HapticFeedbackHelpers";
 import { ICON_MAP } from "../../../constants/IconMap";
 import IconButtonWithText from "../IconButtonWithText";
 import VoteButton from "../Vote/VoteButton";
@@ -14,10 +15,12 @@ interface IProps {
 
 function CommentActions({ onVote, myVote, onReply }: IProps) {
   const onUpvote = useCallback(() => {
+    onVoteHapticFeedback();
     onVote(1);
   }, [onVote]);
 
   const onDownvote = useCallback(() => {
+    onVoteHapticFeedback();
     onVote(-1);
   }, [onVote]);
 

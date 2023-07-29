@@ -92,6 +92,9 @@
     "removedByMod": "Comentário removido pelo moderador :("
   },
   "settings": {
+    "general": {
+      "useReaderMode": "Utilizar leitor"
+    },
     "reportBugBtn": "Relatar um bug no Github",
     "haptics": {
       "Off": "Desligado",
@@ -104,9 +107,6 @@
         "footer": "Estas configurações não afetam as opções de conteúdo explícito da sua conta Lemmy, apenas ao aplicativo e todas as contas logadas nele.",
         "blur": "Desfoque conteúdo explícito",
         "hide": "Oculte conteúdo explícito"
-      },
-      "web": {
-        "useReaderMode": "Utilizar leitor"
       },
       "markRead": {
         "header": "Opções do Contéudo Lido",

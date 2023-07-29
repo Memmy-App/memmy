@@ -21,13 +21,13 @@ import { ICON_MAP } from "../../../constants/IconMap";
 type Stops = [first: number, second: number];
 const DEFAULT_STOPS: Stops = [-75, -150];
 
-type Icon = "comment" | "save" | "read";
+export type ReplyOptionIcon = "comment" | "Save" | "read" | "Collapse";
 
 interface Props {
   stops?: Stops;
   onReply: () => unknown;
   onExtra?: () => unknown;
-  extraType?: Icon | undefined;
+  extraType?: ReplyOptionIcon | undefined;
 }
 
 const buzz = () => {
@@ -41,6 +41,9 @@ const mailOpenedIcon = (
   <SFIcon icon={ICON_MAP.MAIL_OPENED} color="white" size={14} />
 );
 const commentIcon = <SFIcon icon={ICON_MAP.REPLY} color="white" size={14} />;
+const collapseIcon = (
+  <SFIcon icon={ICON_MAP.COLLAPSE} color="white" size={14} />
+);
 
 const screenWidth = Dimensions.get("screen").width;
 
@@ -54,10 +57,11 @@ export function ReplyOption({
 
   const [firstStop, secondStop] = stops;
 
-  const secondColorMap: Record<Icon, string> = {
+  const secondColorMap: Record<ReplyOptionIcon, string> = {
     comment: theme.colors.info,
-    save: theme.colors.bookmark,
+    Save: theme.colors.bookmark,
     read: theme.colors.success,
+    Collapse: theme.colors.accent,
   };
 
   const secondColor = secondColorMap[extraType ?? "comment"];
@@ -74,7 +78,7 @@ export function ReplyOption({
   const pulseTimer = useSharedValue(0);
   const isFrozen = useSharedValue(false);
   const [iconRect, setIconRect] = useState<LayoutRectangle | null>(null);
-  const [icon, setIcon] = useState<Icon>("comment");
+  const [icon, setIcon] = useState<ReplyOptionIcon>("comment");
   const { subscribe, translateX } = useSwipeableRow();
 
   useEffect(
@@ -212,8 +216,9 @@ export function ReplyOption({
             }}
           >
             {(icon === "comment" && commentIcon) ||
-              (icon === "save" && bookmarkIcon) ||
-              (icon === "read" && mailOpenedIcon)}
+              (icon === "Save" && bookmarkIcon) ||
+              (icon === "read" && mailOpenedIcon) ||
+              (icon === "Collapse" && collapseIcon)}
           </Animated.View>
         </Animated.View>
       </Animated.View>

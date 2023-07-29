@@ -53,7 +53,6 @@ function InboxScreen({
     <InboxReplyItem
       commentId={item.comment.comment.id}
       unread={inbox.topSelected === "unread"}
-      onPress={inbox.onCommentReplyPress}
     />
   );
 
