@@ -46,11 +46,11 @@ function PostCommentItem({ commentId }: IProps) {
     onGenericHapticFeedback();
 
     setCollapsed(postKey, commentId);
-  }, [comment.comment.comment.id]);
+  }, [commentId]);
 
   const voteOption = useMemo(
     () => <VoteOption onVote={onVote} vote={comment.comment.my_vote} />,
-    [comment.comment.comment.id, comment.comment.my_vote]
+    [commentId, comment.comment.my_vote]
   );
 
   const onSwipeLeftSecond = useCallback(() => {
@@ -59,7 +59,7 @@ function PostCommentItem({ commentId }: IProps) {
     } else if (swipeLeftSecond === "Save") {
       commentHook.onSave().then();
     }
-  }, [swipeLeftSecond]);
+  }, [swipeLeftSecond, commentId]);
 
   const replyOption = useMemo(
     () => (
@@ -73,7 +73,7 @@ function PostCommentItem({ commentId }: IProps) {
         onExtra={swipeLeftSecond !== "None" ? onSwipeLeftSecond : undefined}
       />
     ),
-    [comment.comment.comment.id, comment.comment.my_vote, swipeLeftSecond]
+    [commentId, comment.comment.my_vote, swipeLeftSecond]
   );
 
   return (
