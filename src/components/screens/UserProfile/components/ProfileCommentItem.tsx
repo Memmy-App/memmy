@@ -25,7 +25,7 @@ function ProfileCommentItem({ comment }: IProps) {
         Date.now().toString() + comment.comment.post.id.toString();
 
       addPost(postKey, res.post_view, {
-        initialCommentId: comment.comment.post.id,
+        initialCommentId: comment.comment.comment.id,
       });
 
       navigation.push("Post", { postKey });
