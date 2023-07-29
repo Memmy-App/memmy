@@ -8,6 +8,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Dimensions, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 import FastImage from "@gkasdorf/react-native-fast-image";
+import { useMe } from "@src/stores/site/siteStore";
 import { View } from "./src/components/common/Gluestack";
 import {
   useSettingsStore,
@@ -589,7 +590,7 @@ function Tabs() {
   const { unread } = useAppSelector(selectSite);
   const { t } = useTranslation();
   const currentAccount = useCurrentAccount();
-  const profile = useProfile();
+  const me = useMe();
 
   const hideUsernameInTab = useSettingsStore(
     (state) => state.settings.hideUsernameInTab
@@ -643,10 +644,10 @@ function Tabs() {
           options={{
             headerShown: false,
             tabBarIcon: ({ color }) =>
-              !hideAvatarInTab && profile.profile?.person?.avatar ? (
+              !hideAvatarInTab && me?.local_user_view.person.avatar ? (
                 <FastImage
                   source={{
-                    uri: profile.profile.person.avatar,
+                    uri: me?.local_user_view.person.avatar,
                   }}
                   style={styles.avatar}
                 />
