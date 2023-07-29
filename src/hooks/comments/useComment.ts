@@ -7,6 +7,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
 import { produce } from "immer";
 import { useRoute } from "@react-navigation/core";
+import setCollapsed from "@src/stores/posts/actions/setCollapsed";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectSite, setUnread } from "../../slices/site/siteSlice";
 import ILemmyComment from "../../types/lemmy/ILemmyComment";
@@ -30,6 +31,8 @@ export interface UseComment {
   onReadPress?: () => Promise<void>;
   onReply: () => void;
   longPressOptions: ContextMenuOption[];
+  onSave: () => Promise<void>;
+  onCollapseChain: () => void;
 }
 
 const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
@@ -228,11 +231,41 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
     dispatch(setUnread({ type: "replies", amount: unread.replies - 1 }));
   }, [comment.comment.comment.id]);
 
+  const onSave = useCallback(async () => {
+    try {
+      await lemmyInstance.saveComment({
+        auth: lemmyAuthToken,
+        comment_id: comment.comment.comment.id,
+        save: !comment.comment.saved,
+      });
+
+      usePostsStore.setState((state) => {
+        const prev = state.posts
+          .get(postKey)
+          .commentsState.comments.find(
+            (c) => c.comment.comment.id === comment.comment.comment.id
+          );
+
+        prev.comment.saved = !prev.comment.saved;
+      });
+    } catch (e) {
+      handleLemmyError(e.toString());
+    }
+  }, [comment.comment.comment.id, comment.comment.saved]);
+
+  const onCollapseChain = useCallback(() => {
+    const parentId = Number(comment.comment.comment.path.split(".")[1]);
+
+    setCollapsed(postKey, parentId);
+  }, [comment.comment.comment.id]);
+
   return {
     onCommentLongPress,
     onReadPress,
     onReply,
     longPressOptions,
+    onSave,
+    onCollapseChain,
   };
 };
 

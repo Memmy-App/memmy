@@ -64,4 +64,5 @@ export const ICON_MAP = {
     ERROR: "exclamationmark.circle",
     WARN: "exclamationmark.circle",
   },
+  COLLAPSE: "arrow.up.to.line.compact",
 };
