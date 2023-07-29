@@ -102,6 +102,7 @@
       "useReaderMode": "Use Reader Mode"
     },
     "reportBugBtn": "Report a Bug on GitHub",
+		"checkInstanceStatus": "Check Lemmy Status",
 		"swipeToVote": "Swipe to Vote",
     "haptics": {
       "Off": "Off",
