@@ -1,9 +1,9 @@
 import { trigger } from "react-native-haptic-feedback";
 import { Platform } from "react-native";
-import store from "../../store";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
 
 const getHapticFeedbackType = () => {
-  const hapticSetting = store.getState().settings.haptics;
+  const hapticSetting = useSettingsStore.getState().settings.haptics;
 
   if (hapticSetting === "Off") return null;
 

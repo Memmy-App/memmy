@@ -59,7 +59,7 @@ function FeedItem({ postId, recycled }: FeedItemProps) {
       <ReplyOption
         onReply={feedItem.doReply}
         onExtra={feedItem.doSave}
-        extraType="save"
+        extraType="Save"
       />
     ),
     [postId, postSaved]

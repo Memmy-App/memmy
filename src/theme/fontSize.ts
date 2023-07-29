@@ -1,4 +1,4 @@
-import store from "../../store";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
 
 interface IFontSizes {
   "2xs": number;
@@ -54,11 +54,11 @@ export const FontWeightMap: Record<string, string> = {
 };
 
 function getFontScale(): IFontSizes | null {
-  const { settings } = store.getState();
+  const { fontSize, isSystemTextSize } = useSettingsStore.getState().settings;
 
-  const fontSizes = createFontSizes(fontSizeMap[settings.fontSize]);
+  const fontSizes = createFontSizes(fontSizeMap[fontSize]);
 
-  if (!settings.isSystemTextSize) {
+  if (!isSystemTextSize) {
     return fontSizes;
   }
   return null;

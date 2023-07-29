@@ -23,6 +23,7 @@ function EditCommentScreen({ route, navigation }: IProps) {
     route.params.languageId
   );
 
+  // TODO fix this
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => headerLeft(),

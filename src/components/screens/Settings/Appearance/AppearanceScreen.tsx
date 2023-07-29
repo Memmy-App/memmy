@@ -1,6 +1,11 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ScrollView, Text } from "@src/components/common/Gluestack";
+import {
+  Box,
+  HStack,
+  ScrollView,
+  Text,
+} from "@src/components/common/Gluestack";
 import React, { useMemo, useState } from "react";
 import { useAppDispatch } from "@root/store";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
@@ -10,6 +15,8 @@ import {
   useThemeOptions,
 } from "@src/stores/settings/settingsStore";
 import setSetting from "@src/stores/settings/actions/setSetting";
+import { FontWeightMap } from "@src/theme/fontSize";
+import Slider from "@react-native-community/slider";
 import Chip from "../../../common/Chip";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
@@ -34,11 +41,10 @@ function AppearanceScreen({ navigation }: IProps) {
     setSetting({ [key]: value }).then();
   };
 
-  // TODO: Disabling Font Scaling for now
-  // const selectedFontWeight =
-  //   Object.keys(FontWeightMap).find(
-  //     (key) => FontWeightMap[key] === settings.fontWeightPostTitle
-  //   ) || "Regular";
+  const selectedFontWeight =
+    Object.keys(FontWeightMap).find(
+      (key) => FontWeightMap[key] === settings.fontWeightPostTitle
+    ) || "Regular";
 
   const [accent, setAccent] = useState(settings.accentColor);
   const hexPattern = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
@@ -61,15 +67,14 @@ function AppearanceScreen({ navigation }: IProps) {
     [t]
   );
 
-  // TODO: Disabling Font Scaling for now
-  // const fontWeightOptions = useMemo(
-  //   () =>
-  //     Object.keys(FontWeightMap).map((key) => ({
-  //       key,
-  //       title: t(key),
-  //     })),
-  //   [t]
-  // );
+  const fontWeightOptions = useMemo(
+    () =>
+      Object.keys(FontWeightMap).map((key) => ({
+        key,
+        title: t(key),
+      })),
+    [t]
+  );
 
   return (
     <ScrollView bg={theme.colors.bg} flex={1}>
@@ -165,6 +170,22 @@ function AppearanceScreen({ navigation }: IProps) {
                 onValueChange={(v) => {
                   LayoutAnimation.easeInEaseOut();
                   onChange("hideUsernameInTab", v);
+                }}
+              />
+            }
+          />
+          <CCell
+            cellStyle="RightDetail"
+            title="Hide Avatar Image"
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.hideAvatarInTab}
+                onValueChange={(v) => {
+                  LayoutAnimation.easeInEaseOut();
+                  onChange("hideAvatarInTab", v);
                 }}
               />
             }
@@ -352,8 +373,7 @@ function AppearanceScreen({ navigation }: IProps) {
           />
         </CSection>
 
-        {/* TODO: Disabling Font Scaling for now */}
-        {/* <CSection header={t("settings.appearance.font.header")}>
+        <CSection header={t("settings.appearance.font.header")}>
           <CCell
             title={t("settings.appearance.font.useSystemFont")}
             backgroundColor={theme.colors.fg}
@@ -417,12 +437,10 @@ function AppearanceScreen({ navigation }: IProps) {
             options={fontWeightOptions}
             selection={selectedFontWeight}
             onPressMenuItem={({ nativeEvent }) => {
-              dispatch(
-                setSetting({
-                  fontWeightPostTitle:
-                    FontWeightMap[nativeEvent.actionKey] || 400,
-                })
-              );
+              setSetting({
+                fontWeightPostTitle:
+                  FontWeightMap[nativeEvent.actionKey] || 400,
+              }).then();
             }}
           >
             <CCell
@@ -435,7 +453,7 @@ function AppearanceScreen({ navigation }: IProps) {
               accessory="DisclosureIndicator"
             />
           </AppContextMenuButton>
-        </CSection> */}
+        </CSection>
       </TableView>
     </ScrollView>
   );
