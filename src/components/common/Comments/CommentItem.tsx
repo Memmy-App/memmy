@@ -1,4 +1,4 @@
-import { Divider, HStack, View } from "@src/components/common/Gluestack";
+import { Box, Divider, HStack, View } from "@src/components/common/Gluestack";
 import React from "react";
 import {
   useSettingsStore,
@@ -100,6 +100,23 @@ function CommentItem({
             )}
           </CommentWrapper>
         </CommentContextMenu>
+        {comment.comment.saved && (
+          <Box
+            style={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              backgroundColor: "transparent",
+              width: 0,
+              height: 0,
+              borderTopColor: theme.colors.bookmark,
+              borderTopWidth: 15,
+              borderLeftWidth: 15,
+              borderLeftColor: "transparent",
+              zIndex: 1,
+            }}
+          />
+        )}
       </SwipeableRow>
       <View
         style={{
