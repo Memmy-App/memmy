@@ -56,6 +56,8 @@ export interface SettingsState {
   swipeToVote: boolean;
   hideUsernameInTab: boolean;
   hideAvatarInTab: boolean;
+  commentSwipeLeftFirst: "Reply" | "Save" | "Collapse";
+  commentSwipeLeftSecond: "Reply" | "Save" | "Collapse" | "None";
 }
 
 const initialState: SettingsState = {
@@ -100,6 +102,8 @@ const initialState: SettingsState = {
   swipeToVote: true,
   hideUsernameInTab: false,
   hideAvatarInTab: false,
+  commentSwipeLeftFirst: "Reply",
+  commentSwipeLeftSecond: "None",
 };
 
 export const useSettingsStore = create(

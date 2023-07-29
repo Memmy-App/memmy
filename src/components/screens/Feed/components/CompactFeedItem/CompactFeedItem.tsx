@@ -75,7 +75,7 @@ function CompactFeedItem({ postId }: { postId: number }) {
       <ReplyOption
         onReply={feedItem.doReply}
         onExtra={feedItem.doSave}
-        extraType="save"
+        extraType="Save"
       />
     ),
     [postId, postSaved]

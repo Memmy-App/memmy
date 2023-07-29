@@ -109,6 +109,12 @@
       "Medium": "Medium",
       "Heavy": "Heavy"
     },
+		"swipeOptions": {
+			"None": "None",
+			"Reply": "Reply",
+			"Collapse": "Collapse",
+			"Save": "Save"
+		},
     "content": {
       "nsfw": {
         "footer": "These settings do not affect your Lemmy account NSFW settings. These setting will only apply to the local app (globally on all accounts).",

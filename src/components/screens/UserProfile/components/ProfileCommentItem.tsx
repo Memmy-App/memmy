@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import CommentItem from "@src/components/common/Comments/CommentItem";
 import ILemmyComment from "@src/types/lemmy/ILemmyComment";
 import { lemmyAuthToken, lemmyInstance } from "@src/LemmyInstance";
@@ -6,6 +6,8 @@ import { handleLemmyError } from "@src/helpers/LemmyErrorHelper";
 import { addPost } from "@src/stores/posts/actions";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ReplyOption } from "@src/components/common/SwipeableRow/ReplyOption";
+import useComment from "@src/hooks/comments/useComment";
 
 interface IProps {
   comment: ILemmyComment;
@@ -13,6 +15,7 @@ interface IProps {
 
 function ProfileCommentItem({ comment }: IProps) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const commentHook = useComment({ comment });
 
   const onPress = useCallback(async () => {
     try {
@@ -34,7 +37,19 @@ function ProfileCommentItem({ comment }: IProps) {
     }
   }, [comment]);
 
-  return <CommentItem comment={comment} depth={2} onPress={onPress} />;
+  const replyOption = useMemo(
+    () => <ReplyOption onReply={commentHook.onReply} />,
+    [comment.comment.comment.id]
+  );
+
+  return (
+    <CommentItem
+      comment={comment}
+      depth={2}
+      onPress={onPress}
+      replyOption={replyOption}
+    />
+  );
 }
 
 export default React.memo(ProfileCommentItem);
