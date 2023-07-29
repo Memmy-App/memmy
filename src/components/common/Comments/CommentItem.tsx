@@ -25,7 +25,7 @@ interface IProps {
   comment: ILemmyComment;
   depth?: number;
   isUnreadReply?: boolean;
-  onVote: (value: ILemmyVote) => void;
+  onVote?: (value: ILemmyVote) => void;
   onPress: () => unknown;
 }
 

@@ -92,6 +92,9 @@
       "removedByMod": "Comentariu șters de moderator :("
     },
     "settings": {
+      "general": {
+        "useReaderMode": "Utilizați modul pentru cititor digital"
+      },
       "reportBugBtn": "Raportați o eroare pe Github",
       "haptics": {
         "Off": "Oprit",
@@ -104,9 +107,6 @@
           "footer": "Aceste setări nu afectează setările NSFW ale contului tău Lemmy. Aceste setări se vor aplica doar aplicației locale (la nivel global pe toate conturile).",
           "blur": "Blurează Continutul NSFW",
           "hide": "Ascunde Continutul NSFW"
-        },
-        "web": {
-          "useReaderMode": "Utilizați modul pentru cititor digital"
         },
         "markRead": {
           "header": "MARK READ SETTINGS",

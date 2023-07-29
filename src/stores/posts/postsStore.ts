@@ -31,6 +31,10 @@ export interface PostState {
 
   commentsState: PostCommentsState;
   rerenderComments: boolean;
+
+  options?: {
+    initialCommentId?: number;
+  };
 }
 
 // Create our store
@@ -49,6 +53,8 @@ export const usePostCollapsed = (postKey: string) =>
   usePostsStore((state) => state.posts.get(postKey).collapsed);
 export const usePostRerenderComments = (postKey: string) =>
   usePostsStore((state) => state.posts.get(postKey).rerenderComments);
+export const usePostOptions = (postKey: string) =>
+  usePostsStore((state) => state.posts.get(postKey).options);
 
 // Comment state
 export const useCurrentPostState = (postKey: string) =>
