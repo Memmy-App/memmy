@@ -2,8 +2,8 @@ import React from "react";
 import { FlashList } from "@shopify/flash-list";
 import { VStack } from "@src/components/common/Gluestack";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import ProfileCommentItem from "@src/components/screens/UserProfile/components/ProfileCommentItem";
 import NoResultView from "../../common/NoResultView";
-import CommentItem from "../../common/Comments/CommentItem";
 import useProfile from "../../../hooks/profile/useProfile";
 import LoadingView from "../../common/Loading/LoadingView";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";
@@ -20,32 +20,10 @@ function UserCommentsScreen({ route }: IProps) {
 
   const theme = useThemeOptions();
 
-  const onPressOverride = (item) => {
-    const commentPathArr = item.comment.comment.path.split(".");
-
-    if (commentPathArr.length === 2) {
-      profile
-        .onCommentPress(item.comment.post.id, item.comment.comment.id)
-        .then();
-    } else {
-      profile
-        .onCommentPress(
-          item.comment.post.id,
-          Number(commentPathArr[commentPathArr.length - 2])
-        )
-        .then();
-    }
-  };
-
   const commentKeyExtractor = (item) => item.comment.comment.id.toString();
 
   const renderComment = ({ item }: { item: ILemmyComment }) => (
-    <CommentItem
-      comment={item}
-      setComments={profile.setComments}
-      depth={2}
-      onPressOverride={() => onPressOverride(item)}
-    />
+    <ProfileCommentItem comment={item} />
   );
 
   if (!profile.profile) {

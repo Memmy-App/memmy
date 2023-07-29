@@ -4,7 +4,15 @@ import { getBaseUrl } from "@src/helpers/LinkHelper";
 import { useAccountStore } from "@src/stores/account/accountStore";
 import { usePostsStore } from "../postsStore";
 
-const addPost = (postKey: string, post: PostView) => {
+interface AddPostOptions {
+  initialCommentId?: number;
+}
+
+const addPost = (
+  postKey: string,
+  post: PostView,
+  options: AddPostOptions = {}
+) => {
   const { defaultCommentSort } = useSettingsStore.getState().settings;
   const { currentAccount } = useAccountStore.getState();
 
@@ -35,6 +43,8 @@ const addPost = (postKey: string, post: PostView) => {
         comments: [],
         commentsSort: defaultCommentSort,
       },
+
+      options,
     });
   });
 };

@@ -13,6 +13,7 @@ import { useRoute } from "@react-navigation/core";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { WritableDraft } from "immer/src/types/types-external";
 import ShowMoreButton from "@src/components/common/Comments/ShowMoreButton";
+import showAllInChain from "@src/stores/posts/actions/showAllInChain";
 import LoadingView from "../../common/Loading/LoadingView";
 import PostOptionsButton from "./components/PostOptionsButton";
 import PostFooter from "./components/PostFooter";
@@ -24,6 +25,7 @@ import {
   usePostComments,
   usePostCommentsSort,
   usePostCommentsStatus,
+  usePostOptions,
   usePostRerenderComments,
   usePostsStore,
 } from "../../../stores/posts/postsStore";
@@ -71,6 +73,7 @@ function PostScreen({ navigation }: IProps) {
   const rerenderComments = usePostRerenderComments(postKey);
   const commentsSort = usePostCommentsSort(postKey);
   const comments = usePostComments(postKey);
+  const options = usePostOptions(postKey);
 
   const commentsStatus = usePostCommentsStatus(postKey);
 
@@ -80,10 +83,55 @@ function PostScreen({ navigation }: IProps) {
 
   const [nextCommentPressed, setNextCommentPressed] = useState(false);
 
+  const [readyToScroll, setReadyToScroll] = useState(false);
+
   const { t } = useTranslation();
   const theme = useThemeOptions();
 
-  const flashListRef = useRef(null);
+  const flashListRef = useRef<FlashList<any>>(null);
+
+  useEffect(() => {
+    // get post to update unread_count
+    refreshPost(postKey).then();
+
+    return () => {
+      removePost(postKey);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!commentsStatus.commentsLoading && options.initialCommentId) {
+      const comment = comments.find(
+        (c) => c.comment.comment.id === options.initialCommentId
+      );
+
+      // Make sure that the comment is rendered so that we can scroll to it
+      const pathArr = comment.comment.comment.path.split(".");
+
+      if (pathArr.length > 4) {
+        showAllInChain(postKey, Number(pathArr[3]), "children");
+      } else {
+        showAllInChain(postKey, Number(pathArr[1]), "top");
+      }
+
+      setTimeout(() => setReadyToScroll(true), 500);
+    }
+  }, [commentsStatus.commentsLoading]);
+
+  useEffect(() => {
+    if (!readyToScroll) return;
+
+    // Scroll to the comment
+    // We have to get the item again in case anything changed
+    const scrollToItem = visibleComments.find(
+      (c) => c.comment.comment.id === options.initialCommentId
+    );
+
+    flashListRef.current.scrollToItem({
+      animated: true,
+      item: scrollToItem,
+    });
+  }, [readyToScroll]);
 
   useEffect(() => {
     postHook.doLoad();
@@ -104,11 +152,6 @@ function PostScreen({ navigation }: IProps) {
     });
   }, [commentsSort]);
 
-  useEffect(() => {
-    // get post to update unread_count
-    refreshPost(postKey).then();
-  }, []);
-
   const onViewableItemsChanged = useCallback(
     (info?: ViewableItemsChangedType<ILemmyComment>) => {
       const firstItem = info.viewableItems ? info.viewableItems[0] : null;
@@ -122,15 +165,6 @@ function PostScreen({ navigation }: IProps) {
         }
       }
     },
-    []
-  );
-
-  useEffect(
-    () =>
-      // Remove the post when we are finished
-      () => {
-        removePost(postKey);
-      },
     []
   );
 
@@ -254,7 +288,6 @@ function PostScreen({ navigation }: IProps) {
   }
 
   const onFabPress = () => {
-    // console.log("click", firstViewableId);
     const currentIndex = visibleComments.findIndex(
       (c) => String(c.comment.comment.id) === firstViewableId.current
     );
