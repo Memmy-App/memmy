@@ -3,7 +3,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView } from "@src/components/common/Gluestack";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { LayoutAnimation, StyleSheet, Switch } from "react-native";
+import { StyleSheet, Switch } from "react-native";
 import {
   useSettings,
   useThemeOptions,
@@ -141,24 +141,6 @@ function ContentScreen({
               <Switch
                 value={settings.hideNsfw}
                 onValueChange={(v) => onChange("hideNsfw", v)}
-              />
-            }
-          />
-        </CSection>
-        <CSection header="Web">
-          <CCell
-            cellStyle="Basic"
-            title={t("settings.content.web.useReaderMode")}
-            backgroundColor={theme.colors.fg}
-            titleTextColor={theme.colors.textPrimary}
-            rightDetailColor={theme.colors.textSecondary}
-            cellAccessoryView={
-              <Switch
-                value={settings.useReaderMode}
-                onValueChange={(v) => {
-                  LayoutAnimation.easeInEaseOut();
-                  onChange("useReaderMode", v);
-                }}
               />
             }
           />

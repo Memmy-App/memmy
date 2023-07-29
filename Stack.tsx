@@ -5,8 +5,10 @@ import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { Dimensions } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
+import FastImage from "@gkasdorf/react-native-fast-image";
+import { useMe } from "@src/stores/site/siteStore";
 import { View } from "./src/components/common/Gluestack";
 import {
   useSettingsStore,
@@ -24,7 +26,6 @@ import SFIcon from "./src/components/common/icons/SFIcon";
 import EditCommentScreen from "./src/components/screens/Comments/EditCommentScreen";
 import NewCommentScreen from "./src/components/screens/Comments/NewCommentScreen";
 
-import ScreenGestureHandler from "./src/components/common/Navigation/ScreenGestureHandler";
 import CommunityAboutScreen from "./src/components/screens/Feed/CommunityAboutScreen";
 import CommunityFeedScreen from "./src/components/screens/Feed/CommunityFeedScreen";
 import FeedsIndexScreen from "./src/components/screens/Feed/FeedsIndexScreen";
@@ -114,9 +115,14 @@ function FeedDrawerContainerScreen() {
 const FeedStack = createNativeStackNavigator();
 function FeedStackScreen() {
   const { t } = useTranslation();
+  const fullScreenSwipe = !useSettingsStore(
+    (state) => state.settings.swipeToVote
+  );
 
   return (
-    <FeedStack.Navigator screenOptions={{}}>
+    <FeedStack.Navigator
+      screenOptions={{ fullScreenGestureEnabled: fullScreenSwipe }}
+    >
       <FeedStack.Group>
         <FeedStack.Screen
           name="FeedDrawerContainer"
@@ -203,9 +209,14 @@ function FeedStackScreen() {
 const InboxStack = createNativeStackNavigator();
 function InboxStackScreen() {
   const { t } = useTranslation();
+  const fullScreenSwipe = !useSettingsStore(
+    (state) => state.settings.swipeToVote
+  );
 
   return (
-    <InboxStack.Navigator>
+    <InboxStack.Navigator
+      screenOptions={{ fullScreenGestureEnabled: fullScreenSwipe }}
+    >
       <InboxStack.Group>
         <InboxStack.Screen
           name="Inbox"
@@ -394,10 +405,15 @@ function SettingsScreens(stack) {
 
 const SettingsStack = createNativeStackNavigator();
 function SettingsStackScreen() {
+  const fullScreenSwipe = !useSettingsStore(
+    (state) => state.settings.swipeToVote
+  );
+
   return (
     <SettingsStack.Navigator
       screenOptions={{
         freezeOnBlur: true,
+        fullScreenGestureEnabled: fullScreenSwipe,
       }}
     >
       {SettingsScreens(SettingsStack)}
@@ -408,11 +424,15 @@ function SettingsStackScreen() {
 const ProfileStack = createNativeStackNavigator();
 function ProfileStackScreen() {
   const { t } = useTranslation();
+  const fullScreenSwipe = !useSettingsStore(
+    (state) => state.settings.swipeToVote
+  );
 
   return (
     <ProfileStack.Navigator
       screenOptions={{
         freezeOnBlur: true,
+        fullScreenGestureEnabled: fullScreenSwipe,
       }}
     >
       <ProfileStack.Group>
@@ -496,9 +516,14 @@ function ProfileStackScreen() {
 const SearchStack = createNativeStackNavigator();
 function SearchStackScreen() {
   const { t } = useTranslation();
+  const fullScreenSwipe = !useSettingsStore(
+    (state) => state.settings.swipeToVote
+  );
 
   return (
-    <SearchStack.Navigator>
+    <SearchStack.Navigator
+      screenOptions={{ fullScreenGestureEnabled: fullScreenSwipe }}
+    >
       <SearchStack.Group>
         <SearchStack.Screen
           name="Search"
@@ -587,91 +612,101 @@ function Tabs() {
   const { unread } = useAppSelector(selectSite);
   const { t } = useTranslation();
   const currentAccount = useCurrentAccount();
+  const me = useMe();
 
   const hideUsernameInTab = useSettingsStore(
     (state) => state.settings.hideUsernameInTab
   );
+  const hideAvatarInTab = useSettingsStore(
+    (state) => state.settings.hideAvatarInTab
+  );
 
   return (
-    <ScreenGestureHandler>
-      <Tab.Navigator
-        tabBar={(props) => <CustomTabBar {...props} />}
-        screenOptions={{
+    <Tab.Navigator
+      tabBar={(props) => <CustomTabBar {...props} />}
+      screenOptions={{
+        tabBarLabel: t("Feed"),
+        freezeOnBlur: false,
+      }}
+    >
+      <Tab.Screen
+        name="FeedStack"
+        component={FeedStackScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => (
+            <SFIcon icon={ICON_MAP.FEED} color={color} />
+          ),
           tabBarLabel: t("Feed"),
           freezeOnBlur: false,
         }}
-      >
-        <Tab.Screen
-          name="FeedStack"
-          component={FeedStackScreen}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ color }) => (
-              <SFIcon icon={ICON_MAP.FEED} color={color} />
-            ),
-            tabBarLabel: t("Feed"),
-            freezeOnBlur: false,
-          }}
-        />
-        <Tab.Screen
-          name="InboxStack"
-          component={InboxStackScreen}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ color }) => (
-              <SFIcon icon={ICON_MAP.INBOX} color={color} />
-            ),
-            tabBarLabel: t("Inbox"),
+      />
+      <Tab.Screen
+        name="InboxStack"
+        component={InboxStackScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => (
+            <SFIcon icon={ICON_MAP.INBOX} color={color} />
+          ),
+          tabBarLabel: t("Inbox"),
 
-            tabBarBadge:
-              unread.replies + unread.mentions + unread.privateMessage > 0
-                ? // ? unread.replies + unread.mentions + unread.privateMessage
-                  unread.replies
-                : null,
-            freezeOnBlur: false,
-          }}
-        />
-        <Tab.Screen
-          name="ProfileStack"
-          component={ProfileStackScreen}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ color }) => (
+          tabBarBadge:
+            unread.replies + unread.mentions + unread.privateMessage > 0
+              ? // ? unread.replies + unread.mentions + unread.privateMessage
+                unread.replies
+              : null,
+          freezeOnBlur: false,
+        }}
+      />
+      <Tab.Screen
+        name="ProfileStack"
+        component={ProfileStackScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) =>
+            !hideAvatarInTab && me?.local_user_view.person.avatar ? (
+              <FastImage
+                source={{
+                  uri: me?.local_user_view.person.avatar,
+                }}
+                style={styles.avatar}
+              />
+            ) : (
               <SFIcon icon={ICON_MAP.USER_AVATAR} color={color} />
             ),
-            tabBarLabel: hideUsernameInTab
-              ? "Profile"
-              : truncateName(currentAccount.username, 10),
-            freezeOnBlur: false,
-          }}
-        />
-        <Tab.Screen
-          name="SearchStack"
-          component={SearchStackScreen}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ color }) => (
-              <SFIcon icon={ICON_MAP.SEARCH} color={color} />
-            ),
-            tabBarLabel: t("Search"),
-            freezeOnBlur: false,
-          }}
-        />
-        <Tab.Screen
-          name="SettingsStack"
-          component={SettingsStackScreen}
-          options={{
-            headerShown: false,
-            // tabBarIcon: ({ color }) => <IconSettings color={color} />,
-            tabBarIcon: ({ color }) => (
-              <SFIcon icon={ICON_MAP.SETTINGS} color={color} />
-            ),
-            tabBarLabel: t("Settings"),
-            freezeOnBlur: false,
-          }}
-        />
-      </Tab.Navigator>
-    </ScreenGestureHandler>
+          tabBarLabel: hideUsernameInTab
+            ? "Profile"
+            : truncateName(currentAccount?.username ?? "Profile", 10),
+          freezeOnBlur: false,
+        }}
+      />
+      <Tab.Screen
+        name="SearchStack"
+        component={SearchStackScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => (
+            <SFIcon icon={ICON_MAP.SEARCH} color={color} />
+          ),
+          tabBarLabel: t("Search"),
+          freezeOnBlur: false,
+        }}
+      />
+      <Tab.Screen
+        name="SettingsStack"
+        component={SettingsStackScreen}
+        options={{
+          headerShown: false,
+          // tabBarIcon: ({ color }) => <IconSettings color={color} />,
+          tabBarIcon: ({ color }) => (
+            <SFIcon icon={ICON_MAP.SETTINGS} color={color} />
+          ),
+          tabBarLabel: t("Settings"),
+          freezeOnBlur: false,
+        }}
+      />
+    </Tab.Navigator>
   );
 }
 
@@ -790,5 +825,13 @@ function Stack({ onReady }: StackProps) {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  avatar: {
+    height: 24,
+    width: 24,
+    borderRadius: 24,
+  },
+});
 
 export default Stack;

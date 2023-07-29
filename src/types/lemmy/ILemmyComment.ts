@@ -6,6 +6,10 @@ interface ILemmyComment {
   collapsed: boolean;
   hidden: boolean;
   myVote: ILemmyVote;
+  showMoreTop?: boolean;
+  showMoreChildren?: boolean;
+  startedHiddenTop?: boolean;
+  startedHiddenChildren?: boolean;
 }
 
 export default ILemmyComment;

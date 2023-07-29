@@ -25,8 +25,16 @@ export interface PostState {
 
   collapsed: boolean;
 
+  communityFullName: string;
+
+  isOwn: boolean;
+
   commentsState: PostCommentsState;
   rerenderComments: boolean;
+
+  options?: {
+    initialCommentId?: number;
+  };
 }
 
 // Create our store
@@ -45,6 +53,8 @@ export const usePostCollapsed = (postKey: string) =>
   usePostsStore((state) => state.posts.get(postKey).collapsed);
 export const usePostRerenderComments = (postKey: string) =>
   usePostsStore((state) => state.posts.get(postKey).rerenderComments);
+export const usePostOptions = (postKey: string) =>
+  usePostsStore((state) => state.posts.get(postKey).options);
 
 // Comment state
 export const useCurrentPostState = (postKey: string) =>
@@ -62,23 +72,46 @@ export const usePostComment = (postKey: string, commentId: number) =>
   usePostsStore((state) =>
     state.posts
       .get(postKey)
-      .commentsState.comments.find((c) => c.comment.comment.id === commentId)
+      .commentsState.comments.find(
+        (c) =>
+          typeof c !== "string" &&
+          typeof c !== "number" &&
+          c.comment.comment.id === commentId
+      )
   );
+
+export const usePostCommunityName = (postKey: string) =>
+  usePostsStore((state) => state.posts.get(postKey).communityFullName);
+
+export const usePostIsOwn = (postKey: string) =>
+  usePostsStore((state) => state.posts.get(postKey).isOwn);
 
 export const usePostCommentCollapsed = (postKey: string, commentId: number) =>
   usePostsStore(
     (state) =>
-      state.posts
-        .get(postKey)
-        .commentsState.comments.find((c) => c.comment.comment.id === commentId)
-        .collapsed
+      (
+        state.posts
+          .get(postKey)
+          .commentsState.comments.find(
+            (c) =>
+              typeof c !== "string" &&
+              typeof c !== "number" &&
+              c.comment.comment.id === commentId
+          ) as ILemmyComment
+      ).collapsed
   );
 
 export const usePostCommentHidden = (postKey: string, commentId: number) =>
   usePostsStore(
     (state) =>
-      state.posts
-        .get(postKey)
-        .commentsState.comments.find((c) => c.comment.comment.id === commentId)
-        .hidden
+      (
+        state.posts
+          .get(postKey)
+          .commentsState.comments.find(
+            (c) =>
+              typeof c !== "string" &&
+              typeof c !== "number" &&
+              c.comment.comment.id === commentId
+          ) as ILemmyComment
+      ).hidden
   );
