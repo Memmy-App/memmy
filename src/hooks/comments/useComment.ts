@@ -60,6 +60,7 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
     () => [
       { key: "copy_text", title: t("Copy Text"), icon: ICON_MAP.COPY },
       { key: "copy_link", title: t("Copy Link"), icon: ICON_MAP.LINK },
+      { key: "save", title: t("Save"), icon: ICON_MAP.SAVE },
       { key: "reply", title: t("Reply"), icon: ICON_MAP.REPLY },
       {
         key: "report",
@@ -203,6 +204,10 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
 
       if (selection === "reply") {
         onReply();
+      }
+
+      if (selection === "save") {
+        onSave().then();
       }
     },
     [comment.comment.comment.id]
