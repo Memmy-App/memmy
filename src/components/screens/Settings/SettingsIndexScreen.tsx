@@ -14,6 +14,7 @@ import { Divider } from "react-native-elements";
 import { modelName, osVersion } from "expo-device";
 import { getReadableVersion } from "react-native-device-info";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import { openLink } from "@src/helpers/LinkHelper";
 import { ICON_MAP } from "../../../constants/IconMap";
 import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
 import CCell from "../../common/Table/CCell";
@@ -239,6 +240,19 @@ function SettingsIndexScreen({
             cellStyle="Basic"
             title={t("settings.reportBugBtn")}
             onPress={onReportBugPress}
+            cellAccessoryView={
+              <SFIcon
+                icon={ICON_MAP.EXTERNAL_LINK}
+                color={theme.colors.textSecondary}
+              />
+            }
+          />
+          <CCell
+            cellStyle="Basic"
+            title={t("settings.checkInstanceStatus")}
+            onPress={() => {
+              openLink("http://lemmy-status.org/", navigation);
+            }}
             cellAccessoryView={
               <SFIcon
                 icon={ICON_MAP.EXTERNAL_LINK}

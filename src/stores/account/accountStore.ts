@@ -43,6 +43,10 @@ export const useAccountStore = create(
           state.accounts = accounts;
           state.status.loading = false;
           state.currentAccount = accounts.find((a) => a.isCurrent === true);
+
+          if (!state.currentAccount && state.accounts.length > 0) {
+            state.currentAccount = accounts[0];
+          }
         });
       } catch (e) {
         set((state) => {

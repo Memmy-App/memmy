@@ -83,7 +83,7 @@ function SearchBox({
           hitSlop={8}
         >
           <SFIcon
-            icon={ICON_MAP.BLOCK}
+            icon={ICON_MAP.EXIT_SEARCH}
             color={theme.colors.textSecondary}
             style={{ flexShrink: 1 }}
             size={12}

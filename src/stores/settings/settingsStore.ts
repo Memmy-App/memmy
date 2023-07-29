@@ -6,12 +6,14 @@ import { immer } from "zustand/middleware/immer";
 import { theme as GluestackTheme } from "@root/gluestack-ui.config";
 import merge from "deepmerge";
 import { ICustomConfig } from "@gluestack-style/react";
+import { systemFontSettings } from "@src/theme/common";
+import { ITheme } from "@src/theme/theme";
 
 interface SettingsStore {
   settings: SettingsState;
 }
 
-interface SettingsState {
+export interface SettingsState {
   swipeGestures: boolean;
   displayImagesInFeed: string;
   defaultSort: SortType;
@@ -53,6 +55,9 @@ interface SettingsState {
   tapToCollapse: boolean;
   swipeToVote: boolean;
   hideUsernameInTab: boolean;
+  hideAvatarInTab: boolean;
+  commentSwipeLeftFirst: "Reply" | "Save" | "Collapse";
+  commentSwipeLeftSecond: "Reply" | "Save" | "Collapse" | "None";
 }
 
 const initialState: SettingsState = {
@@ -96,6 +101,9 @@ const initialState: SettingsState = {
   tapToCollapse: true,
   swipeToVote: true,
   hideUsernameInTab: false,
+  hideAvatarInTab: false,
+  commentSwipeLeftFirst: "Reply",
+  commentSwipeLeftSecond: "None",
 };
 
 export const useSettingsStore = create(
@@ -115,16 +123,26 @@ export const useCurrentTheme = () =>
     return state.settings.theme;
   });
 
+// @ts-ignore
 export const useThemeOptions = () =>
   useSettingsStore(
     (state) =>
-      ThemeOptionsMap[
-        state.settings.themeMatchSystem
-          ? state.settings.colorScheme === "light"
-            ? state.settings.themeLight
-            : state.settings.themeDark
-          : state.settings.theme
-      ]
+      merge.all([
+        ThemeOptionsMap[
+          state.settings.themeMatchSystem
+            ? state.settings.colorScheme === "light"
+              ? state.settings.themeLight
+              : state.settings.themeDark
+            : state.settings.theme
+        ],
+        state.settings.accentColor
+          ? {
+              colors: {
+                accent: state.settings.accentColor,
+              },
+            }
+          : {},
+      ]) as ITheme
   );
 
 export const useThemeConfig = () =>
@@ -154,6 +172,26 @@ export const useThemeConfig = () =>
               },
             }
           : {},
+        state.settings.isSystemTextSize
+          ? {
+              components: {
+                Text: {
+                  defaultProps: {
+                    allowFontScaling: false,
+                  },
+                },
+              },
+            }
+          : {
+              components: {
+                Text: {
+                  defaultProps: {
+                    fontSize: state.settings.fontSize,
+                  },
+                },
+              },
+            },
+        state.settings.isSystemFont ? systemFontSettings : {},
       ]) as ICustomConfig
   );
 

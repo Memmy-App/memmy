@@ -1,21 +1,21 @@
-import React, { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
+import React, { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch } from "../../../../../../store";
 import { lemmyAuthToken, lemmyInstance } from "../../../../../LemmyInstance";
+import { ICON_MAP } from "../../../../../constants/IconMap";
 import { onGenericHapticFeedback } from "../../../../../helpers/HapticFeedbackHelpers";
+import { getCommunityFullName } from "../../../../../helpers/LemmyHelpers";
 import { getCommunityLink } from "../../../../../helpers/LinkHelper";
 import { writeToLog } from "../../../../../helpers/LogHelper";
 import { shareLink } from "../../../../../helpers/ShareHelper";
 import { showToast } from "../../../../../slices/toast/toastSlice";
-import HeaderIconButton from "../../../../common/Buttons/HeaderIconButton";
-import SFIcon from "../../../../common/icons/SFIcon";
-import { useFeedCommunityName } from "../../../../../stores/feeds/feedsStore";
 import { useCommunity } from "../../../../../stores/communities/communitiesStore";
-import { getCommunityFullName } from "../../../../../helpers/LemmyHelpers";
-import { ICON_MAP } from "../../../../../constants/IconMap";
-import { AppContextMenuButton } from "../../../../common/ContextMenu/App/AppContextMenuButton";
+import { useFeedCommunityName } from "../../../../../stores/feeds/feedsStore";
 import { ContextMenuOption } from "../../../../../types/ContextMenuOptions";
+import HeaderIconButton from "../../../../common/Buttons/HeaderIconButton";
+import { AppContextMenuButton } from "../../../../common/ContextMenu/App/AppContextMenuButton";
+import SFIcon from "../../../../common/icons/SFIcon";
 
 export type Community = {
   id: number;
@@ -31,27 +31,29 @@ function CommunityOverflowButton() {
   const communityName = useFeedCommunityName(routeKey);
   const community = communityName ? useCommunity(communityName) : undefined;
 
-  const options = useMemo<ContextMenuOption[]>(
-    () => [
-      {
-        key: "share",
-        title: "Share",
-        icon: ICON_MAP.SHARE,
-      },
-      {
-        key: "block",
-        title: "Block Community",
-        icon: ICON_MAP.BLOCK,
-        destructive: true,
-      },
-      {
-        key: "unblock",
-        title: "Unblock Community",
-        icon: ICON_MAP.BLOCK,
-      },
-    ],
-    [t]
-  );
+  const options: ContextMenuOption[] = [
+    {
+      key: "share",
+      title: "Share",
+      icon: ICON_MAP.SHARE,
+    },
+    ...(community.blocked
+      ? [
+          {
+            key: "unblock",
+            title: "Unblock Community",
+            icon: ICON_MAP.UNBLOCK,
+          },
+        ]
+      : [
+          {
+            key: "block",
+            title: "Block Community",
+            icon: ICON_MAP.BLOCK,
+            destructive: true,
+          },
+        ]),
+  ];
 
   // TODO: support unblocking community
   const onBlockCommunity = useCallback(() => {
