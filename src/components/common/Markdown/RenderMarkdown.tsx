@@ -5,7 +5,10 @@ import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
 import { View } from "@src/components/common/Gluestack";
 import React, { useMemo } from "react";
 import { TextStyle, useWindowDimensions } from "react-native";
-import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import { openLink } from "../../../helpers/LinkHelper";
 import { replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
 import { useCurrentAccount } from "../../../stores/account/accountStore";
@@ -32,10 +35,10 @@ interface MarkdownProps {
 function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
   const currentAccount = useCurrentAccount();
 
-  // TODO: Disabling Font Scaling for now.
-  // const { fontSize, isSystemTextSize } = useAppSelector(selectSettings);
-  const fontSize = 4;
-  const isSystemTextSize = false;
+  const { fontSize, isSystemTextSize } = useSettingsStore((state) => ({
+    fontSize: state.settings.fontSize,
+    isSystemTextSize: state.settings.isSystemTextSize,
+  }));
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 

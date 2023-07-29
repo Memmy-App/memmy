@@ -1,23 +1,20 @@
 import React, { useCallback, useMemo } from "react";
+import CommentItem from "@src/components/common/Comments/CommentItem";
+import ILemmyComment from "@src/types/lemmy/ILemmyComment";
+import { lemmyAuthToken, lemmyInstance } from "@src/LemmyInstance";
+import { handleLemmyError } from "@src/helpers/LemmyErrorHelper";
+import { addPost } from "@src/stores/posts/actions";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import useComment from "@src/hooks/comments/useComment";
-import { lemmyAuthToken, lemmyInstance } from "@src/LemmyInstance";
-import { addPost } from "@src/stores/posts/actions";
-import { handleLemmyError } from "@src/helpers/LemmyErrorHelper";
 import { ReplyOption } from "@src/components/common/SwipeableRow/ReplyOption";
-import { useInboxReply } from "../../../../stores/inbox/inboxStore";
-import CommentItem from "../../../common/Comments/CommentItem";
+import useComment from "@src/hooks/comments/useComment";
 
 interface IProps {
-  commentId: number;
-  unread: boolean;
+  comment: ILemmyComment;
 }
 
-function InboxReplyItem({ commentId, unread }: IProps) {
+function ProfileCommentItem({ comment }: IProps) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
-  const comment = useInboxReply(commentId);
   const commentHook = useComment({ comment });
 
   const onPress = useCallback(async () => {
@@ -41,13 +38,7 @@ function InboxReplyItem({ commentId, unread }: IProps) {
   }, [comment]);
 
   const replyOption = useMemo(
-    () => (
-      <ReplyOption
-        onReply={commentHook.onReply}
-        extraType={unread ? "read" : undefined}
-        onExtra={unread ? commentHook.onReadPress : undefined}
-      />
-    ),
+    () => <ReplyOption onReply={commentHook.onReply} />,
     [comment.comment.comment.id]
   );
 
@@ -61,4 +52,4 @@ function InboxReplyItem({ commentId, unread }: IProps) {
   );
 }
 
-export default React.memo(InboxReplyItem);
+export default React.memo(ProfileCommentItem);

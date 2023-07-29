@@ -12,11 +12,7 @@ import { StyleSheet } from "react-native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { useRoute } from "@react-navigation/core";
 import { ExtensionType, getLinkInfo } from "@src/helpers/LinkHelper";
-import {
-  clearUpdateSaved,
-  clearUpdateVote,
-  selectFeed,
-} from "@src/slices/feed/feedSlice";
+import { selectFeed } from "@src/slices/feed/feedSlice";
 import {
   useFeedCommunityName,
   useFeedListingType,
@@ -27,7 +23,12 @@ import {
 } from "@src/stores/feeds/feedsStore";
 import { useCommunity } from "@src/stores/communities/communitiesStore";
 import { removeReadPosts } from "@src/helpers/LemmyHelpers";
-import { useSaved, useVoted } from "@src/stores/updates/updatesStore";
+import {
+  useDeleted,
+  useSaved,
+  useUpdatesStore,
+  useVoted,
+} from "@src/stores/updates/updatesStore";
 import {
   useSettingsStore,
   useThemeOptions,
@@ -95,8 +96,10 @@ function FeedView({ header }: FeedViewProps) {
   const sortType = useFeedSort(key);
   const listingType = useFeedListingType(key);
 
+  const updates = useUpdatesStore();
   const voted = useVoted();
   const saved = useSaved();
+  const deleted = useDeleted();
 
   const onViewableItemsChanged = useRef<any>();
 
@@ -156,7 +159,7 @@ function FeedView({ header }: FeedViewProps) {
       });
     }
 
-    clearUpdateVote();
+    updates.clearVoted();
   }, [voted]);
 
   useEffect(() => {
@@ -172,7 +175,19 @@ function FeedView({ header }: FeedViewProps) {
       });
     }
 
-    clearUpdateSaved();
+    updates.clearSaved();
+  }, [saved]);
+
+  useEffect(() => {
+    if (deleted) {
+      useFeedsStore.setState((state) => {
+        const prev = state.feeds.get(key);
+
+        prev.posts = prev.posts.filter((p) => p.post.id !== deleted.postId);
+      });
+
+      updates.clearPostDeleted();
+    }
   });
 
   const markReadOnScroll = (info?: ViewableItemsChangedType<PostView>) => {
@@ -211,10 +226,11 @@ function FeedView({ header }: FeedViewProps) {
     [compactView]
   );
 
-  const onEndReached = useCallback(
-    () => loadFeedPosts(key, { refresh: false }),
-    []
-  );
+  const onEndReached = useCallback(() => {
+    if (posts.length === 0) return;
+
+    loadFeedPosts(key, { refresh: false }).then();
+  }, [posts]);
 
   const onRefresh = () => loadFeedPosts(key, { refresh: true });
 

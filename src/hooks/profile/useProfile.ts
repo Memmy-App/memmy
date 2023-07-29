@@ -1,6 +1,4 @@
 import { useRoute } from "@react-navigation/core";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { PersonView } from "lemmy-js-client";
 import React, {
   SetStateAction,
@@ -9,11 +7,9 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useAppDispatch } from "../../../store";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 import { buildComments } from "../../helpers/LemmyHelpers";
-import { setPost } from "../../slices/post/postSlice";
 import { useCurrentAccount } from "../../stores/account/accountStore";
 import addFeed from "../../stores/feeds/actions/addFeed";
 import removeFeed from "../../stores/feeds/actions/removeFeed";
@@ -34,11 +30,6 @@ export interface UseProfile {
   setComments: React.Dispatch<SetStateAction<ILemmyComment[]>>;
 
   self: boolean;
-
-  onCommentPress: (
-    postId: number,
-    commentId: number | undefined
-  ) => Promise<void>;
 }
 
 const useProfile = (
@@ -54,9 +45,6 @@ const useProfile = (
       fullUsername ?? `${currentAccount.username}@${currentAccount.instance}`,
     [currentAccount]
   );
-
-  const dispatch = useAppDispatch();
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
@@ -124,33 +112,6 @@ const useProfile = (
     }
   };
 
-  const onCommentPress = async (
-    postId: number,
-    commentId: number | undefined = undefined
-  ) => {
-    setLoading(true);
-
-    try {
-      const res = await lemmyInstance.getPost({
-        auth: lemmyAuthToken,
-        id: postId,
-      });
-
-      dispatch(setPost(res.post_view));
-      setLoading(false);
-
-      navigation.push("Post", {
-        commentId: commentId.toString(),
-        showLoadAll: true,
-      });
-    } catch (e) {
-      setLoading(false);
-      setError(true);
-
-      handleLemmyError(e.toString());
-    }
-  };
-
   return {
     loading,
     error,
@@ -165,8 +126,6 @@ const useProfile = (
     self: self.current,
 
     doLoad,
-
-    onCommentPress,
   };
 };
 

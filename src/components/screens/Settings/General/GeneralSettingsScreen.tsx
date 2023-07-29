@@ -8,6 +8,7 @@ import {
   useThemeOptions,
 } from "@src/stores/settings/settingsStore";
 import setSetting from "@src/stores/settings/actions/setSetting";
+import { swipeLeftSecondOptionsArr } from "@src/types/swipes/swipeLeftSecondOptions";
 import { hapticOptionsArr } from "../../../../types/haptics/hapticOptions";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
@@ -20,7 +21,7 @@ function GeneralSettingsScreen() {
   const theme = useThemeOptions();
 
   const onChange = (key: string, value: any) => {
-    setSetting({ [key]: value });
+    setSetting({ [key]: value }).then();
   };
 
   const hapticOptions = useMemo(
@@ -28,6 +29,16 @@ function GeneralSettingsScreen() {
       ...hapticOptionsArr.map((level) => ({
         key: level,
         title: t(`settings.haptics.${level}`),
+      })),
+    ],
+    [t]
+  );
+
+  const swipeLeftSecondOptions = useMemo(
+    () => [
+      ...swipeLeftSecondOptionsArr.map((option) => ({
+        key: option,
+        title: t(`settings.swipeOptions.${option}`),
       })),
     ],
     [t]
@@ -67,6 +78,28 @@ function GeneralSettingsScreen() {
             }
           />
         </CSection>
+        <CSection header={t("Swipes")}>
+          <AppContextMenuButton
+            options={swipeLeftSecondOptions}
+            onPressMenuItem={({ nativeEvent }) => {
+              setSetting({
+                commentSwipeLeftSecond: nativeEvent.actionKey,
+              }).then();
+            }}
+          >
+            <CCell
+              cellStyle="RightDetail"
+              title={t("Swipe Left Second")}
+              detail={t(
+                `settings.swipeOptions.${settings.commentSwipeLeftSecond}`
+              )}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
+              accessory="DisclosureIndicator"
+            />
+          </AppContextMenuButton>
+        </CSection>
         <CSection header={t("Haptics")}>
           <AppContextMenuButton
             options={hapticOptions}
@@ -99,6 +132,20 @@ function GeneralSettingsScreen() {
               />
             }
           />
+          {!settings.useDefaultBrowser && (
+            <CCell
+              title={t("settings.general.useReaderMode")}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
+              cellAccessoryView={
+                <Switch
+                  value={settings.useReaderMode}
+                  onValueChange={(v) => onChange("useReaderMode", v)}
+                />
+              }
+            />
+          )}
         </CSection>
       </TableView>
     </ScrollView>

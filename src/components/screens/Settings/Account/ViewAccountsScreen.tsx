@@ -1,17 +1,19 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView } from "@src/components/common/Gluestack";
-import { useAppSelector } from "@root/store";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Button, Switch } from "react-native";
 import setSetting from "@src/stores/settings/actions/setSetting";
-import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import { ICON_MAP } from "../../../../constants/IconMap";
 import useNotifications from "../../../../hooks/notifications/useNotifications";
 import {
-  useAccountStore,
   useAccounts,
+  useAccountStore,
   useCurrentAccount,
 } from "../../../../stores/account/accountStore";
 import { Account } from "../../../../types/Account";
@@ -29,7 +31,7 @@ function ViewAccountsScreen({ navigation }: ViewAccountsScreenProps) {
   const accountStore = useAccountStore();
   const accounts = useAccounts();
   const currentAccount = useCurrentAccount();
-  const pushEnabled = useAppSelector((state) => state.settings.pushEnabled);
+  const pushEnabled = useSettingsStore((state) => state.settings.pushEnabled);
 
   const [pushEnabledArr, setPushEnabledArr] = useState([]);
 

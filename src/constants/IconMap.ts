@@ -16,8 +16,10 @@ export const ICON_MAP = {
   DELETE: "trash",
   COPY: "doc.on.doc",
   LINK: "link",
-  BLOCK: "xmark.circle",
+  BLOCK: "hand.raised",
+  UNBLOCK: "hand.raised.slash",
   EXIT: "xmark",
+  EXIT_SEARCH: "xmark.circle",
   FILTERS: "eye.slash",
   EXTERNAL_LINK: "arrow.up.forward.square",
   GLOBE: "globe",
@@ -62,4 +64,5 @@ export const ICON_MAP = {
     ERROR: "exclamationmark.circle",
     WARN: "exclamationmark.circle",
   },
+  COLLAPSE: "arrow.up.to.line.compact",
 };
