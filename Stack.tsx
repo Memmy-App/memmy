@@ -71,7 +71,6 @@ import {
 } from "./src/stores/account/accountStore";
 import { useAppSelector } from "./store";
 import FiltersScreen from "./src/components/screens/Settings/Filters/FiltersScreen";
-import useProfile from "./src/hooks/profile/useProfile";
 
 function CustomDrawerContent() {
   const theme = useThemeOptions();
