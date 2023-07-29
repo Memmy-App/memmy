@@ -4,7 +4,7 @@ You can now download and run Memmy on your iOS device by using TestFlight. To jo
 - Screenshotting the issue you are having, then press the image. When you go to save it, you'll have an option to submit feedback. I'll receive the screenshot and your message.
 - Opening an issue here on GitHub. There are also discussions where we can talk about idea or features you are thinking about.
 - Message me on Lemmy or [on the Memmy community](https://lemmy.ml/c/memmy)
-- [Chat on Discord](https://discord.gg/dSHDF9SJB)
+- [Chat on Discord](https://discord.gg/MbufFPhe2e)
 
 ## About
 
