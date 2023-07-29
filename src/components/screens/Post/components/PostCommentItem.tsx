@@ -1,6 +1,9 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useRoute } from "@react-navigation/core";
 import { onGenericHapticFeedback } from "@src/helpers/HapticFeedbackHelpers";
+import { VoteOption } from "@src/components/common/SwipeableRow/VoteOption";
+import { ReplyOption } from "@src/components/common/SwipeableRow/ReplyOption";
+import useComment from "@src/hooks/comments/useComment";
 import CommentItem from "../../../common/Comments/CommentItem";
 import setPostCommentVote from "../../../../stores/posts/actions/setPostCommentVote";
 import { ILemmyVote } from "../../../../types/lemmy/ILemmyVote";
@@ -17,6 +20,7 @@ interface IProps {
 function PostCommentItem({ commentId }: IProps) {
   const { postKey } = useRoute<any>().params;
   const comment = usePostComment(postKey, commentId);
+  const commentHook = useComment({ comment });
 
   const onVote = useCallback(
     (value: ILemmyVote) => {
@@ -71,7 +75,25 @@ function PostCommentItem({ commentId }: IProps) {
     });
   }, [comment.comment.comment.id]);
 
-  return <CommentItem comment={comment} onVote={onVote} onPress={onPress} />;
+  const voteOption = useMemo(
+    () => <VoteOption onVote={onVote} vote={comment.comment.my_vote} />,
+    [comment.comment.comment.id, comment.comment.my_vote]
+  );
+
+  const replyOption = useMemo(
+    () => <ReplyOption onReply={commentHook.onReply} />,
+    [comment.comment.comment.id, comment.comment.my_vote]
+  );
+
+  return (
+    <CommentItem
+      comment={comment}
+      onVote={onVote}
+      onPress={onPress}
+      voteOption={voteOption}
+      replyOption={replyOption}
+    />
+  );
 }
 
 export default React.memo(PostCommentItem);

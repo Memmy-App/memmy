@@ -1,5 +1,5 @@
 import { Divider, HStack, View } from "@src/components/common/Gluestack";
-import React, { useMemo } from "react";
+import React from "react";
 import {
   useSettingsStore,
   useThemeOptions,
@@ -10,9 +10,7 @@ import { ILemmyVote } from "@src/types/lemmy/ILemmyVote";
 import useComment from "../../../hooks/comments/useComment";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import AvatarUsername from "../AvatarUsername";
-import { ReplyOption } from "../SwipeableRow/ReplyOption";
 import { SwipeableRow } from "../SwipeableRow/SwipeableRow";
-import { VoteOption } from "../SwipeableRow/VoteOption";
 import CommentActions from "./CommentActions";
 import CommentBody from "./CommentBody";
 import CommentCollapsed from "./CommentCollapsed";
@@ -24,7 +22,8 @@ import CommentWrapper from "./CommentWrapper";
 interface IProps {
   comment: ILemmyComment;
   depth?: number;
-  isUnreadReply?: boolean;
+  voteOption?: React.ReactElement;
+  replyOption?: React.ReactElement;
   onVote?: (value: ILemmyVote) => void;
   onPress: () => unknown;
 }
@@ -32,9 +31,10 @@ interface IProps {
 function CommentItem({
   comment,
   depth,
-  isUnreadReply,
   onVote,
   onPress,
+  voteOption,
+  replyOption,
 }: IProps) {
   const theme = useThemeOptions();
 
@@ -50,26 +50,9 @@ function CommentItem({
     comment,
   });
 
-  const voteOption = useMemo(
-    () =>
-      onVote ? (
-        <VoteOption onVote={onVote} vote={comment.comment.my_vote} />
-      ) : undefined,
-    [comment.comment.comment.id, comment.comment.my_vote]
-  );
-
   return (
     <>
-      <SwipeableRow
-        leftOption={voteOption}
-        rightOption={
-          <ReplyOption
-            onReply={commentHook.onReply}
-            extraType={isUnreadReply ? "read" : undefined}
-            onExtra={isUnreadReply ? commentHook.onReadPress : undefined}
-          />
-        }
-      >
+      <SwipeableRow leftOption={voteOption} rightOption={replyOption}>
         <CommentContextMenu
           isButton={false}
           onPress={({ nativeEvent }) => {
