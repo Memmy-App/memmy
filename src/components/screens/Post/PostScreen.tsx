@@ -14,6 +14,7 @@ import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { WritableDraft } from "immer/src/types/types-external";
 import ShowMoreButton from "@src/components/common/Comments/ShowMoreButton";
 import showAllInChain from "@src/stores/posts/actions/showAllInChain";
+import { StyleSheet } from "react-native";
 import LoadingView from "../../common/Loading/LoadingView";
 import PostOptionsButton from "./components/PostOptionsButton";
 import PostFooter from "./components/PostFooter";
@@ -318,11 +319,18 @@ function PostScreen({ navigation }: IProps) {
           refreshing={commentsStatus.commentsLoading}
           onViewableItemsChanged={onViewableItemsChanged}
           ref={flashListRef}
+          contentContainerStyle={styles.list}
         />
         <NextCommentFAB onPress={onFabPress} onLongPress={() => {}} />
       </VStack>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  list: {
+    paddingBottom: 80,
+  },
+});
 
 export default PostScreen;
