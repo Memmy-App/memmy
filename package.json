@@ -19,7 +19,7 @@
     "buildAndSubmit": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive && eas submit -p ios --path build.ipa --non-interactive",
     "buildAndSubmitAll": "yarn run buildProd && yarn run buildProdAnd && eas submit -p ios --path build.iap && eas submit -p android build.aab",
     "generate-license": "license-report --only=prod,dev,peer --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author --output=html > assets/license.html",
-    "release": "appcenter codepush release-react --app gavink/Memmy -t 0.5.0",
+    "release": "appcenter codepush release-react --app gavink/Memmy -t 0.5.1",
     "release-staging": "appcenter codepush release-react --app gavink/Memmy -t 10.10.11",
     "promote": "appcenter codepush promote -d Production -s Staging --app gavink/memmy"
   },
@@ -40,7 +40,7 @@
     "@gluestack-ui/spinner": "latest",
     "@gluestack-ui/vstack": "latest",
     "@pnthach95/react-native-root-view-background": "^1.3.0",
-    "@react-native-async-storage/async-storage": "^1.18.2",
+    "@react-native-async-storage/async-storage": "^1.19.0",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/hooks": "^3.0.0",
     "@react-native-community/slider": "^4.4.2",
@@ -48,8 +48,8 @@
     "@react-native/metro-config": "^0.73.0",
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/drawer": "^6.6.3",
-    "@react-navigation/native": "^6.1.6",
-    "@react-navigation/native-stack": "^6.9.12",
+    "@react-navigation/native-stack": "^6.9.13",
+    "@react-navigation/native": "^6.1.7",
     "@reduxjs/toolkit": "^1.9.5",
     "@ronradtke/react-native-markdown-display": "^8.0.0",
     "@shopify/flash-list": "1.4.3",
@@ -121,8 +121,8 @@
     "@types/react": "~18.2.13",
     "@types/react-native": "^0.72.2",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "eslint": "^8.44.0",
     "babel-plugin-module-resolver": "^5.0.0",
-    "eslint": "^7.32.0 || ^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.8.0",
@@ -131,7 +131,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "metro-react-native-babel-preset": "0.76.7",
+    "metro-react-native-babel-preset": "0.77.0",
     "prettier": "^2.8.8",
     "react-dev-utils": "^12.0.1",
     "typescript": "^5.1.3"
@@ -140,6 +140,6 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   }
 }
