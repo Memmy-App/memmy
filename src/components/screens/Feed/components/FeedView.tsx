@@ -7,7 +7,7 @@ import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import { HStack, View } from "@src/components/common/Gluestack";
 import { useAppSelector } from "@root/store";
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { useRoute } from "@react-navigation/core";
@@ -33,6 +33,7 @@ import {
   useSettingsStore,
   useThemeOptions,
 } from "@src/stores/settings/settingsStore";
+import { debounce } from "@src/helpers/GeneralHelper";
 import LoadingErrorView from "../../../common/Loading/LoadingErrorView";
 import LoadingView from "../../../common/Loading/LoadingView";
 import NoResultView from "../../../common/NoResultView";
@@ -100,6 +101,11 @@ function FeedView({ header }: FeedViewProps) {
   const voted = useVoted();
   const saved = useSaved();
   const deleted = useDeleted();
+
+  const [
+    currentViewState,
+    setCurrentViewState,
+  ] = useState({ isLoadingData: false});
 
   const onViewableItemsChanged = useRef<any>();
 
@@ -227,12 +233,27 @@ function FeedView({ header }: FeedViewProps) {
   );
 
   const onEndReached = useCallback(() => {
+    console.log("END REACHED", currentViewState.isLoadingData);
     if (posts.length === 0) return;
 
-    loadFeedPosts(key, { refresh: false }).then();
+    if (!currentViewState.isLoadingData) {
+      currentViewState.isLoadingData = true;
+      console.log("LOAD POSTS - FiedView.onEndReached");
+      loadFeedPosts(key, { refresh: false }).then(() => {
+        console.log("LOAD COMPLETE");
+        currentViewState.isLoadingData = false;
+      });
+    }
   }, [posts]);
 
-  const onRefresh = () => loadFeedPosts(key, { refresh: true });
+  const onRefresh = () => {
+    console.log("LOAD POSTS - FiedView.onRefresh");
+    currentViewState.isLoadingData = true;
+    loadFeedPosts(key, { refresh: true }).then(() => {
+      console.log("LOAD COMPLETE");
+      currentViewState.isLoadingData = false;
+    });
+  };
 
   const refreshControl = useMemo(
     () => <RefreshControl refreshing={status?.loading} onRefresh={onRefresh} />,
@@ -256,7 +277,7 @@ function FeedView({ header }: FeedViewProps) {
             }}
             refreshControl={refreshControl}
             onEndReachedThreshold={0.5}
-            onEndReached={onEndReached}
+            onEndReached={() => debounce(onEndReached(), 100)}
             estimatedItemSize={compactView ? 100 : 500}
             ListFooterComponent={<FeedFooter />}
             ListEmptyComponent={<NoResultView type="posts" />}

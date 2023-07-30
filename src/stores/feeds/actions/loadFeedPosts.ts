@@ -1,4 +1,4 @@
-import { ListingType, SortType } from "lemmy-js-client";
+import { ListingType, PostView, SortType } from "lemmy-js-client";
 import { useSettingsStore } from "@src/stores/settings/settingsStore";
 import { useFeedsStore } from "../feedsStore";
 import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
@@ -53,6 +53,8 @@ const loadFeedPosts = async (
       type_: options.type ?? currentState.listingType,
     });
 
+    const postIds = res.posts.map((p) => p.post.id);
+
     if (!res.posts || res.posts.length === 0) {
       useFeedsStore.setState((state) => {
         const prev = state.feeds.get(feedKey);
@@ -67,19 +69,21 @@ const loadFeedPosts = async (
 
     const { keywords, instances } = useFiltersStore.getState();
 
-    const filtered = [];
+    const filtered = posts.reduce((acc, p) => {
+      if (
+        !(hideNsfw && (p.post.nsfw || p.community.nsfw)) &&
+        !(hideReadPostsOnFeed && !currentState.communityName && p.read) &&
+        !(hideReadPostsInCommunities && currentState.communityName && p.read) &&
+        !keywords.some((i) => p.post.name.toLowerCase().includes(i)) &&
+        !instances.some((i) => getBaseUrl(p.community.actor_id).includes(i)) &&
+        // Filter out repeat posts since Lemmy gets updated constantly
+        !(!options.refresh && currentState.posts.find((i) => i.post.id === p.post.id))
+      ) {
+        acc.push(p);
+      }
 
-    posts.forEach((p) => {
-      if (hideNsfw && (p.post.nsfw || p.community.nsfw)) return;
-      if (hideReadPostsOnFeed && !currentState.communityName && p.read) return;
-      if (hideReadPostsInCommunities && currentState.communityName && p.read)
-        return;
-      if (keywords.some((i) => p.post.name.toLowerCase().includes(i))) return;
-      if (instances.some((i) => getBaseUrl(p.community.actor_id).includes(i)))
-        return;
-
-      filtered.push(p);
-    });
+      return acc;
+    }, [] as PostView[]);
 
     preloadImages(filtered).then();
 
@@ -91,7 +95,7 @@ const loadFeedPosts = async (
         prev.currentPage = 1;
       } else {
         prev.posts = [...prev.posts, ...filtered];
-        prev.currentPage += 1;
+        prev.currentPage = currentState.currentPage + 1;
       }
 
       prev.status.loading = false;
