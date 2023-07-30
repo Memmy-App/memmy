@@ -12,7 +12,7 @@ interface IDebounceOptions {
  * delay: miliseconds to delay the call
  */
 export const debounce = (
-  func: Function,
+  func: (...args: any) => any,
   delay = 200,
   { leading }: IDebounceOptions = {}
 ) => {

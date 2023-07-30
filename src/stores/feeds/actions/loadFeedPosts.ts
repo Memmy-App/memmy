@@ -53,8 +53,6 @@ const loadFeedPosts = async (
       type_: options.type ?? currentState.listingType,
     });
 
-    const postIds = res.posts.map((p) => p.post.id);
-
     if (!res.posts || res.posts.length === 0) {
       useFeedsStore.setState((state) => {
         const prev = state.feeds.get(feedKey);
@@ -77,7 +75,10 @@ const loadFeedPosts = async (
         !keywords.some((i) => p.post.name.toLowerCase().includes(i)) &&
         !instances.some((i) => getBaseUrl(p.community.actor_id).includes(i)) &&
         // Filter out repeat posts since Lemmy gets updated constantly
-        !(!options.refresh && currentState.posts.find((i) => i.post.id === p.post.id))
+        !(
+          !options.refresh &&
+          currentState.posts.find((i) => i.post.id === p.post.id)
+        )
       ) {
         acc.push(p);
       }
