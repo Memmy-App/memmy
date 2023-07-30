@@ -1,17 +1,18 @@
 import { Box, HStack, Text } from "@src/components/common/Gluestack";
 import React from "react";
 import { Dimensions } from "react-native";
-import ImageViewer from "./ImageViewer/ImageViewer";
+import { LinkInfo } from "../../../helpers/LinkHelper";
+import MediaViewer from "./MediaViewer";
 
 interface IProps {
-  images: string[];
+  images: LinkInfo[];
   postId: number;
   isNsfw: boolean;
   recycled?: React.MutableRefObject<{}>;
   setPostRead?: () => void;
 }
 
-function ImagePreview({
+function MediaPreview({
   images,
   postId,
   recycled,
@@ -20,8 +21,8 @@ function ImagePreview({
 }: IProps) {
   if (images.length === 1) {
     return (
-      <ImageViewer
-        source={images[0]}
+      <MediaViewer
+        media={images[0]}
         nsfw={isNsfw}
         postId={postId}
         recycled={recycled}
@@ -33,8 +34,8 @@ function ImagePreview({
   if (images.length >= 2 && images[0] !== images[1]) {
     return (
       <HStack space="xs">
-        <ImageViewer
-          source={images[0]}
+        <MediaViewer
+          media={images[0]}
           nsfw={isNsfw}
           postId={postId}
           recycled={recycled}
@@ -42,8 +43,8 @@ function ImagePreview({
           widthOverride={Dimensions.get("screen").width / 2}
           setPostRead={setPostRead}
         />
-        <ImageViewer
-          source={images[1]}
+        <MediaViewer
+          media={images[1]}
           nsfw={isNsfw}
           postId={postId}
           recycled={recycled}
@@ -63,4 +64,4 @@ function ImagePreview({
   return null;
 }
 
-export default ImagePreview;
+export default MediaPreview;

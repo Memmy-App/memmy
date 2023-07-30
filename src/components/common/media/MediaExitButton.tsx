@@ -8,7 +8,7 @@ interface IProps {
   onPress: () => void;
 }
 
-function ImageExitButton({ onPress }: IProps) {
+function MediaExitButton({ onPress }: IProps) {
   return (
     <View style={[styles.buttonPosition]}>
       <Pressable onPress={onPress} hitSlop={10} padding={1.5}>
@@ -34,4 +34,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ImageExitButton;
+export default MediaExitButton;

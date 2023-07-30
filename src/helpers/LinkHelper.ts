@@ -26,7 +26,7 @@ const imageExtensions = [
   "gifv",
 ];
 
-const videoExtensions = ["mp4", "mov", "m4a"];
+const videoExtensions = ["mp4", "mov", "m4a", "webm", "mkv", "avi"];
 
 export interface LinkInfo {
   extType?: ExtensionType;

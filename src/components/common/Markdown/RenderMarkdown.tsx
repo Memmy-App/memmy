@@ -13,7 +13,7 @@ import { openLink } from "../../../helpers/LinkHelper";
 import { replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
 import { useCurrentAccount } from "../../../stores/account/accountStore";
 import { fontSizeMap } from "../../../theme/fontSize";
-import ImageViewer from "../ImageViewer/ImageViewer";
+import ImageViewer from "../media/ImageViewer/ImageViewer";
 import SpoilerContainer from "./SpoilerContainer";
 
 const MarkdownItInstance = MarkdownIt({ typographer: true }).use(

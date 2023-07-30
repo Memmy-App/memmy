@@ -32,11 +32,12 @@ import {
   useThemeOptions,
 } from "@src/stores/settings/settingsStore";
 import { onGenericHapticFeedback } from "@src/helpers/HapticFeedbackHelpers";
-import { useImageDimensions } from "./useImageDimensions";
-import ExitButton from "./ImageExitButton";
+import { useMediaDimensions } from "../useMediaDimensions";
+import ExitButton from "../MediaExitButton";
 import ImageViewFooter from "./ImageViewFooter";
 import ImageButton from "../Buttons/ImageButton";
 import Toast from "../Toast";
+import {MediaProps} from "@src/components/common/media/common";
 
 interface IProps {
   source: string;
@@ -80,13 +81,13 @@ function ImageViewer({
   buttonMode = false,
   setPostRead,
   compactMode,
-}: IProps) {
+}: MediaProps) {
   const theme = useThemeOptions();
 
   // @ts-ignore
   const nonViewerRef = useRef<View>(null);
 
-  const dimensions = useImageDimensions();
+  const dimensions = useMediaDimensions();
 
   const [expanded, setExpanded] = useState<boolean>(false);
 

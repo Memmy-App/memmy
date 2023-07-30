@@ -14,7 +14,7 @@ import {
 import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
 import { findImages } from "../../../../helpers/MarkdownHelper";
 import { truncatePost } from "../../../../helpers/TextHelper";
-import ImagePreview from "../../../common/ImagePreview";
+import MediaPreview from "../../../common/media/MediaPreview";
 import LinkButton from "../../../common/Buttons/LinkButton";
 
 interface IProps {
@@ -42,6 +42,7 @@ function FeedContentPreview({ postId, recycled }: IProps) {
   let postUrls = [postInfo.url];
 
   const isImagePost = linkInfo.extType === ExtensionType.IMAGE;
+  const isVideoPost = linkInfo.extType === ExtensionType.VIDEO;
 
   // handle weird posts where someone just posts a markdown image instead of an image Post
   const isImageMarkdownPost = imageLinks.length > 0;
@@ -50,15 +51,22 @@ function FeedContentPreview({ postId, recycled }: IProps) {
     // incase we have an image Post with image markdown in the body?
     if (isImagePost) {
       postUrls = [postInfo.url, ...imageLinks];
+      postUrls = [
+        ...postUrls,
+        ...imageLinks.map((link) => ({ extType: ExtensionType.IMAGE, link })),
+      ];
     } else {
-      postUrls = imageLinks;
+      postUrls = imageLinks.map((link) => ({
+        extType: ExtensionType.IMAGE,
+        link,
+      }));
     }
   }
 
-  const showImage = isImagePost || isImageMarkdownPost;
-  const showLink =
-    linkInfo.extType === ExtensionType.VIDEO ||
-    linkInfo.extType === ExtensionType.GENERIC;
+  // handle video posts
+
+  const showMedia = isImagePost || isImageMarkdownPost || isVideoPost;
+  const showLink = linkInfo.extType === ExtensionType.GENERIC;
 
   const setPostRead = useCallback(() => {
     setFeedRead(key, postId);
@@ -75,9 +83,9 @@ function FeedContentPreview({ postId, recycled }: IProps) {
       >
         {postInfo.name}
       </Text>
-      {showImage && (
+      {showMedia && (
         <Box mt="$2">
-          <ImagePreview
+          <MediaPreview
             images={postUrls}
             postId={postId}
             isNsfw={postInfo.nsfw || postCommunity.nsfw}
