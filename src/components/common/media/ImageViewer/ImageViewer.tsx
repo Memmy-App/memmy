@@ -32,26 +32,12 @@ import {
   useThemeOptions,
 } from "@src/stores/settings/settingsStore";
 import { onGenericHapticFeedback } from "@src/helpers/HapticFeedbackHelpers";
+import { MediaProps } from "@src/components/common/media/common";
+import Toast from "@src/components/common/Toast";
+import ImageButton from "@src/components/common/Buttons/ImageButton";
 import { useMediaDimensions } from "../useMediaDimensions";
 import ExitButton from "../MediaExitButton";
 import ImageViewFooter from "./ImageViewFooter";
-import ImageButton from "../Buttons/ImageButton";
-import Toast from "../Toast";
-import {MediaProps} from "@src/components/common/media/common";
-
-interface IProps {
-  source: string;
-  postId?: number;
-  heightOverride?: number;
-  widthOverride?: number;
-  style?: object;
-  onPress?: () => unknown;
-  recycled?: React.MutableRefObject<{}>;
-  nsfw?: boolean;
-  buttonMode?: boolean;
-  setPostRead?: () => void;
-  compactMode?: boolean;
-}
 
 interface MeasureResult {
   x: number;

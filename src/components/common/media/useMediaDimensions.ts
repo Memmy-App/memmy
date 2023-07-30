@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Dimensions as RNDimensions } from "react-native";
-import { useAppSelector } from "../../../../store";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
 import { Dimensions } from "./common";
 
 interface UseMediaDimensions {
@@ -26,7 +25,9 @@ const initialDimensions: Dimensions = {
 };
 
 export function useMediaDimensions(): UseMediaDimensions {
-  const { ignoreScreenHeightInFeed } = useAppSelector(selectSettings);
+  const ignoreScreenHeightInFeed = useSettingsStore(
+    (state) => state.settings.ignoreScreenHeightInFeed
+  );
 
   const [dimensions, setDimensions] = useState<AllDimensions>({
     scaledDimensions: initialDimensions,

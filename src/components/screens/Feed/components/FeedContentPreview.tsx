@@ -51,15 +51,8 @@ function FeedContentPreview({ postId, recycled }: IProps) {
     // incase we have an image Post with image markdown in the body?
     if (isImagePost) {
       postUrls = [postInfo.url, ...imageLinks];
-      postUrls = [
-        ...postUrls,
-        ...imageLinks.map((link) => ({ extType: ExtensionType.IMAGE, link })),
-      ];
     } else {
-      postUrls = imageLinks.map((link) => ({
-        extType: ExtensionType.IMAGE,
-        link,
-      }));
+      postUrls = imageLinks;
     }
   }
 
