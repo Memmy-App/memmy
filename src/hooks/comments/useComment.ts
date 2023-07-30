@@ -233,6 +233,17 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
       commentReply.comment_reply.read = true;
     });
 
+    try {
+      await lemmyInstance.markCommentReplyAsRead({
+        auth: lemmyAuthToken,
+        comment_reply_id: (comment.comment as CommentReplyView).comment_reply
+          .id,
+        read: true,
+      });
+    } catch (e) {
+      handleLemmyError(e.toString());
+    }
+
     dispatch(setUnread({ type: "replies", amount: unread.replies - 1 }));
   }, [comment.comment.comment.id]);
 
