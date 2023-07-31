@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { useMemo } from "react";
+import { useTopSortOptions } from "@src/hooks/contextMenu/useTopSortOptions";
 import { ContextMenuOption } from "../../types/ContextMenuOptions";
 import { ICON_MAP } from "../../constants/IconMap";
-import { useTopSortOptions } from "./useFeedSortOptions";
 
 export const useOverallSortOptions = () => {
   const { t } = useTranslation();
