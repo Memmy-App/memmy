@@ -6788,10 +6788,10 @@ language-tags@=1.0.5:
   dependencies:
     language-subtag-registry "~0.3.2"
 
-lemmy-js-client@^0.18.0-rc.2:
-  version "0.18.0-rc.2"
-  resolved "https://registry.yarnpkg.com/lemmy-js-client/-/lemmy-js-client-0.18.0-rc.2.tgz#6cd8b4dc95de8f2a6f99de56819c141a394dca04"
-  integrity sha512-bnYs89MjlQHwVIr1YIoAvgFkCTWrXDjSgPbCJx8ijrxZXqOKW/KAgWEisfqyFpy3dYpA3/sxFjh7b4sdxM+8VA==
+lemmy-js-client@^0.18.1:
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/lemmy-js-client/-/lemmy-js-client-0.18.1.tgz#28df266eded0ef4a72b05ee6eabebddadfd81a27"
+  integrity sha512-maafUZ9ZJkXthRZmM0+limJmymF2kmN/8SiKufS3V4OVNM72s+wUFFiyhKmA370g23iZRW6SUagE7jNKnqNyYQ==
   dependencies:
     cross-fetch "^3.1.5"
     form-data "^4.0.0"
