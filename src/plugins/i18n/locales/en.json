@@ -327,6 +327,19 @@
     "NewComments": "New Comments",
     "Old": "Old"
   },
+	"mod": {
+		"lockPost": "Lock Post",
+		"unlockPost": "Unlock Post",
+		"featurePost": "Feature Post",
+		"unfeaturePost": "Unfeature Post",
+		"removePost": "Remove Post",
+
+		"toast": {
+			"postRemoved": "Post Removed",
+			"postLocked": "Post Locked",
+			"postUnlocked": "Post Unlocked"
+		}
+	},
   "Feed": "Feed",
   "Comments": "Comments",
   "Traverse": "Traverse",
@@ -460,5 +473,7 @@
   "Left": "Left",
   "Right": "Right",
   "Account Created": "Account Created",
-	"Delete": "Delete"
+	"Delete": "Delete",
+	"Copy All Text": "Copy All Text",
+	"Copy Selected Text": "Copy Selected Text"
 }

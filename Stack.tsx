@@ -9,6 +9,7 @@ import { Dimensions, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { useMe } from "@src/stores/site/siteStore";
+import CopyTextScreen from "@src/components/screens/CopyTextScreen";
 import { View } from "./src/components/common/Gluestack";
 import {
   useSettingsStore,
@@ -201,6 +202,11 @@ function FeedStackScreen() {
           component={NewPostBodyScreen}
           options={{ title: t("New Post") }}
         />
+        <FeedStack.Screen
+          name="CopyText"
+          component={CopyTextScreen}
+          options={{ title: t("Copy Text") }}
+        />
       </FeedStack.Group>
     </FeedStack.Navigator>
   );
@@ -287,6 +293,11 @@ function InboxStackScreen() {
           name="NewPostBody"
           component={NewPostBodyScreen}
           options={{ title: t("New Post") }}
+        />
+        <InboxStack.Screen
+          name="CopyText"
+          component={CopyTextScreen}
+          options={{ title: t("Copy Text") }}
         />
       </InboxStack.Group>
     </InboxStack.Navigator>
@@ -508,6 +519,11 @@ function ProfileStackScreen() {
           component={NewPostBodyScreen}
           options={{ title: t("New Post") }}
         />
+        <ProfileStack.Screen
+          name="CopyText"
+          component={CopyTextScreen}
+          options={{ title: t("Copy Text") }}
+        />
       </ProfileStack.Group>
     </ProfileStack.Navigator>
   );
@@ -601,6 +617,11 @@ function SearchStackScreen() {
           name="NewPostBody"
           component={NewPostBodyScreen}
           options={{ title: t("New Post") }}
+        />
+        <SearchStack.Screen
+          name="CopyText"
+          component={CopyTextScreen}
+          options={{ title: t("Copy Text") }}
         />
       </SearchStack.Group>
     </SearchStack.Navigator>

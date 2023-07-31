@@ -65,4 +65,8 @@ export const ICON_MAP = {
     WARN: "exclamationmark.circle",
   },
   COLLAPSE: "arrow.up.to.line.compact",
+  LOCK: "lock",
+  UNLOCK: "lock.open",
+  PIN: "pin",
+  UNPIN: "pin.slash",
 };
