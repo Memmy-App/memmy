@@ -160,11 +160,16 @@ function ImageViewer({
     };
 
     // Check if we already have the new post's dimensions
-    if (recycled.current[postId]) {
+    const postDimensions = recycled.current[postId];
+    if (
+      postDimensions &&
+      postDimensions.height > 0 &&
+      postDimensions.width > 0
+    ) {
       // If we do let's go ahead and set them
       dimensions.update({
-        height: recycled.current[postId].height,
-        width: recycled.current[postId].width,
+        height: postDimensions.height,
+        width: postDimensions.width,
       });
     }
 
