@@ -8956,10 +8956,10 @@ react-native-sfsymbols@^1.2.1:
   resolved "https://registry.yarnpkg.com/react-native-sfsymbols/-/react-native-sfsymbols-1.2.1.tgz#53422d432dca1e028cfd95a283d69a590d3e3f84"
   integrity sha512-G8TLcTJwUsVhDQV/yatoltWF+BWrEyb5Grmrhzdrc0gH9TgXnjfoJ9QxaWwC/3D6QVuaugosnbmlL69EurgM/w==
 
-react-native-share@^9.2.1:
-  version "9.2.3"
-  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-9.2.3.tgz#14eb07cb1ee503421df0e9a80fdbf3fb0180223b"
-  integrity sha512-y6ju4HS6ydJoPVoacZ/Hp3i47AfI9W4e76Jv00r01dVbr6SCCcuqk37kIbn+kYivdTxOW77UGEbhtBHHtXnhzg==
+react-native-share@^9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-9.2.0.tgz#cd654e6e091b6f1889a9f9a417dfd4e3f1334a62"
+  integrity sha512-zbZdmnOQTR9sW+Dm2eHcEXzcYBReZ/tSeUud9KZzALvO5ywH5qK43x0Q4krIIEsMTaDtT5CWY+cbenXHoF2LFA==
 
 react-native-size-matters@^0.3.1:
   version "0.3.1"
