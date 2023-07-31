@@ -66,17 +66,7 @@ function PostOptionsButton() {
             },
           ]
         : []),
-      ...(isOwn
-        ? [
-            {
-              key: "DeletePost",
-              title: t("Delete Post"),
-              icon: ICON_MAP.DELETE,
-              destructive: true,
-            },
-          ]
-        : []),
-      ...(isModerator
+      ...(isModerator && !isOwn
         ? [
             {
               key: post.post.locked ? "UnlockPost" : "Lock Post",
@@ -97,6 +87,16 @@ function PostOptionsButton() {
             {
               key: "RemovePost",
               title: t("Remove Post"),
+              icon: ICON_MAP.DELETE,
+              destructive: true,
+            },
+          ]
+        : []),
+      ...(isOwn && !isModerator
+        ? [
+            {
+              key: "DeletePost",
+              title: t("Delete Post"),
               icon: ICON_MAP.DELETE,
               destructive: true,
             },
