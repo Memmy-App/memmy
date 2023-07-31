@@ -51,6 +51,7 @@ function CommentSortButton() {
             },
           ]
         : []),
+      y,
     ],
     [t]
   );
