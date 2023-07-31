@@ -1,12 +1,14 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getUserFullName } from "@src/helpers/LemmyHelpers";
 import { Account } from "../../types/Account";
 import { writeToLog } from "../../helpers/LogHelper";
 
 interface AccountStore {
   accounts: Account[];
   currentAccount: Account | null;
+  currentUsername: string | null;
 
   status: {
     loading: boolean;
@@ -27,6 +29,7 @@ export const useAccountStore = create(
   immer<AccountStore>((set) => ({
     accounts: [],
     currentAccount: null,
+    currentUsername: null,
 
     status: {
       loading: true,
@@ -47,6 +50,8 @@ export const useAccountStore = create(
           if (!state.currentAccount && state.accounts.length > 0) {
             state.currentAccount = accounts[0];
           }
+
+          state.currentUsername = `${state.currentAccount.username}@${state.currentAccount.instance}`;
         });
       } catch (e) {
         set((state) => {
@@ -122,6 +127,7 @@ export const useAccountStore = create(
             a.isCurrent = true;
 
             state.currentAccount = a;
+            state.currentUsername = `${state.currentAccount.username}@${state.currentAccount.instance}`;
           } else {
             a.isCurrent = false;
           }
