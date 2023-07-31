@@ -1,3 +1,7 @@
+if (__DEV__) {
+  import("./ReactotronConfig").then(() => console.log("Reactotron Configured"));
+}
+
 import { registerRootComponent } from "expo";
 import "./src/plugins/i18n/i18n";
 
