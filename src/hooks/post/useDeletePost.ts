@@ -1,4 +1,3 @@
-import { PostView } from "lemmy-js-client";
 import { lemmyAuthToken, lemmyInstance } from "@src/LemmyInstance";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,12 +15,12 @@ const useDeletePost = () => {
   const dispatch = useAppDispatch();
   const updatesStore = useUpdatesStore();
 
-  return useCallback(async (post: PostView, pop = false) => {
+  return useCallback(async (postId: number, pop = false) => {
     const onDeletePost = async () => {
       try {
         await lemmyInstance.deletePost({
           auth: lemmyAuthToken,
-          post_id: post.post.id,
+          post_id: postId,
           deleted: true,
         });
 
@@ -32,7 +31,7 @@ const useDeletePost = () => {
         );
 
         if (pop) {
-          updatesStore.setPostDeleted(post.post.id);
+          updatesStore.setPostDeleted(postId);
 
           navigation.pop();
         }
