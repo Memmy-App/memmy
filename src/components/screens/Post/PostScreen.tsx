@@ -10,7 +10,10 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { useRoute } from "@react-navigation/core";
-import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import { WritableDraft } from "immer/src/types/types-external";
 import ShowMoreButton from "@src/components/common/Comments/ShowMoreButton";
 import showAllInChain from "@src/stores/posts/actions/showAllInChain";
@@ -88,6 +91,9 @@ function PostScreen({ navigation }: IProps) {
 
   const { t } = useTranslation();
   const theme = useThemeOptions();
+  const showJumpButton = useSettingsStore(
+    (state) => state.settings.showCommentJumpButton
+  );
 
   const flashListRef = useRef<FlashList<any>>(null);
 
@@ -321,7 +327,9 @@ function PostScreen({ navigation }: IProps) {
           ref={flashListRef}
           contentContainerStyle={styles.list}
         />
-        <NextCommentFAB onPress={onFabPress} onLongPress={() => {}} />
+        {showJumpButton && (
+          <NextCommentFAB onPress={onFabPress} onLongPress={() => {}} />
+        )}
       </VStack>
     );
   }

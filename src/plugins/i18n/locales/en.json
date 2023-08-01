@@ -164,7 +164,8 @@
 			"gestures": {
 				"header": "GESTURES",
 				"tapToCollapse": "Tap to Collapse"
-			}
+			},
+			"showCommentJumpButton": "Show Comment Jump Button"
     },
     "accounts": {
       "current": "Current Account",
