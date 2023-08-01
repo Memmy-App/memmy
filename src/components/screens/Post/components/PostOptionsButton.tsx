@@ -12,17 +12,17 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { showToast } from "@src/slices/toast/toastSlice";
 import Clipboard from "@react-native-community/clipboard";
-import { useAppDispatch } from "../../../../../store";
-import { useReportPost } from "../../../../hooks/post/useReportPost";
-import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
-import SFIcon from "../../../common/icons/SFIcon";
-import { ICON_MAP } from "../../../../constants/IconMap";
+import { useAppDispatch } from "@root/store";
+import { useReportPost } from "@src/hooks/post/useReportPost";
+import { ICON_MAP } from "@src/constants/IconMap";
 import {
-  useCurrentPost,
   usePostCommunityName,
+  usePostInfo,
   usePostIsOwn,
-} from "../../../../stores/posts/postsStore";
-import { ContextMenuOption } from "../../../../types/ContextMenuOptions";
+} from "@src/stores/posts/postsStore";
+import { ContextMenuOption } from "@src/types/ContextMenuOptions";
+import SFIcon from "../../../common/icons/SFIcon";
+import HeaderIconButton from "../../../common/Buttons/HeaderIconButton";
 import { AppContextMenuButton } from "../../../common/ContextMenu/App/AppContextMenuButton";
 
 function PostOptionsButton() {
@@ -31,7 +31,7 @@ function PostOptionsButton() {
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const post = useCurrentPost(postKey);
+  const postInfo = usePostInfo(postKey);
   const postCommunityName = usePostCommunityName(postKey);
   const isModerator = useIsCommunityModerator(postCommunityName);
   const isOwn = usePostIsOwn(postKey);
@@ -52,7 +52,7 @@ function PostOptionsButton() {
         icon: ICON_MAP.REPORT_POST,
       },
 
-      ...(post.post.body
+      ...(postInfo.body
         ? [
             {
               key: "CopyAllText",
@@ -66,23 +66,21 @@ function PostOptionsButton() {
             },
           ]
         : []),
-      ...(isModerator && !isOwn
+      ...(isModerator
         ? [
             {
-              key: post.post.locked ? "UnlockPost" : "Lock Post",
-              title: post.post.locked ? t("mod.unlockPost") : t("mod.lockPost"),
-              icon: post.post.locked ? ICON_MAP.UNLOCK : ICON_MAP.LOCK,
+              key: postInfo.locked ? "UnlockPost" : "LockPost",
+              title: postInfo.locked ? t("mod.unlockPost") : t("mod.lockPost"),
+              icon: postInfo.locked ? ICON_MAP.UNLOCK : ICON_MAP.LOCK,
             },
             {
-              key: post.post.featured_community
+              key: postInfo.featured_community
                 ? "FeaturePost"
                 : "Unfeature Post",
-              title: post.post.featured_community
+              title: postInfo.featured_community
                 ? t("mod.featurePost")
                 : t("mod.unfeaturePost"),
-              icon: post.post.featured_community
-                ? ICON_MAP.UNPIN
-                : ICON_MAP.PIN,
+              icon: postInfo.featured_community ? ICON_MAP.UNPIN : ICON_MAP.PIN,
             },
             {
               key: "RemovePost",
@@ -103,7 +101,7 @@ function PostOptionsButton() {
           ]
         : []),
     ],
-    [t]
+    [t, postInfo]
   );
 
   const onPressMenuItem = async ({
@@ -111,10 +109,10 @@ function PostOptionsButton() {
   }: OnPressMenuItemEventObject) => {
     switch (nativeEvent.actionKey) {
       case "ReportPost":
-        reportPost(post.post.id, dispatch);
+        reportPost(postInfo.id, dispatch);
         break;
       case "CopyAllText":
-        Clipboard.setString(post.post.body ?? "");
+        Clipboard.setString(postInfo.body ?? "");
 
         dispatch(
           showToast({
@@ -123,19 +121,21 @@ function PostOptionsButton() {
         );
         break;
       case "CopySelectedText":
-        navigation.push("CopyText", { text: post.post.body });
+        navigation.push("CopyText", { text: postInfo.body });
 
         break;
       case "DeletePost":
-        deletePost(post, true).then();
+        deletePost(postInfo.id, true).then();
         break;
-      case "FeaturePost" || "UnfeaturePost":
+      case "FeaturePost":
+      case "UnfeaturePost":
         setPostFeatured(
           postKey,
           nativeEvent.actionKey === "FeaturePost"
         ).then();
         break;
-      case "LockPost" || "UnlockPost":
+      case "LockPost":
+      case "UnlockPost":
         setPostLocked(postKey, nativeEvent.actionKey === "LockPost").then();
         break;
       case "RemovePost":
@@ -143,7 +143,7 @@ function PostOptionsButton() {
           await lemmyInstance.removePost({
             auth: lemmyAuthToken,
             removed: true,
-            post_id: post.post.id,
+            post_id: postInfo.id,
           });
 
           dispatch(
