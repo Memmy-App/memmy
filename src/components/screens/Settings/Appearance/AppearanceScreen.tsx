@@ -105,7 +105,6 @@ function AppearanceScreen({ navigation }: IProps) {
               <Switch
                 value={settings.displayTotalScore}
                 onValueChange={(v) => {
-                  LayoutAnimation.easeInEaseOut();
                   onChange("displayTotalScore", v);
                 }}
               />
@@ -121,7 +120,6 @@ function AppearanceScreen({ navigation }: IProps) {
               <Switch
                 value={settings.ignoreScreenHeightInFeed}
                 onValueChange={(v) => {
-                  LayoutAnimation.easeInEaseOut();
                   onChange("ignoreScreenHeightInFeed", v);
                 }}
               />
@@ -156,6 +154,21 @@ function AppearanceScreen({ navigation }: IProps) {
               />
             }
           />
+          <CCell
+            cellStyle="RightDetail"
+            title={t("settings.appearance.showCommentJumpButton")}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.showCommentJumpButton}
+                onValueChange={(v) => {
+                  onChange("showCommentJumpButton", v);
+                }}
+              />
+            }
+          />
         </CSection>
         <CSection header="Tab Bar">
           <CCell
@@ -168,7 +181,6 @@ function AppearanceScreen({ navigation }: IProps) {
               <Switch
                 value={settings.hideUsernameInTab}
                 onValueChange={(v) => {
-                  LayoutAnimation.easeInEaseOut();
                   onChange("hideUsernameInTab", v);
                 }}
               />
@@ -184,7 +196,6 @@ function AppearanceScreen({ navigation }: IProps) {
               <Switch
                 value={settings.hideAvatarInTab}
                 onValueChange={(v) => {
-                  LayoutAnimation.easeInEaseOut();
                   onChange("hideAvatarInTab", v);
                 }}
               />
