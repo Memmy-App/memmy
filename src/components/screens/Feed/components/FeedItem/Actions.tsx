@@ -13,6 +13,7 @@ interface Props {
   onVotePress: (vote: number) => void;
   id: number;
 }
+
 export function actions({ vote, saved, onSave, onVotePress, id }: Props) {
   const theme = useThemeOptions();
 
