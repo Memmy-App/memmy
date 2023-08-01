@@ -18,6 +18,7 @@ import { WritableDraft } from "immer/src/types/types-external";
 import ShowMoreButton from "@src/components/common/Comments/ShowMoreButton";
 import showAllInChain from "@src/stores/posts/actions/showAllInChain";
 import { StyleSheet } from "react-native";
+import { onGenericHapticFeedback } from "@src/helpers/HapticFeedbackHelpers";
 import LoadingView from "../../common/Loading/LoadingView";
 import PostOptionsButton from "./components/PostOptionsButton";
 import PostFooter from "./components/PostFooter";
@@ -83,9 +84,8 @@ function PostScreen({ navigation }: IProps) {
 
   const updates = useUpdatesStore();
 
-  const firstViewableId = useRef(undefined);
-
-  const [nextCommentPressed, setNextCommentPressed] = useState(false);
+  const viewableItems = useRef([]);
+  const lastCommentId = useRef<number | null>(null);
 
   const [readyToScroll, setReadyToScroll] = useState(false);
 
@@ -161,16 +161,7 @@ function PostScreen({ navigation }: IProps) {
 
   const onViewableItemsChanged = useCallback(
     (info?: ViewableItemsChangedType<ILemmyComment>) => {
-      const firstItem = info.viewableItems ? info.viewableItems[0] : null;
-      if (!!firstItem && !!firstItem.item) {
-        // Not sure if this is the right way to do this
-        // Checking if the first item is a parent comment,
-        // We don't want to set firstViewableId to a child comment I think? idk
-        if (isParentComment(firstItem.item)) {
-          firstViewableId.current =
-            firstItem.item.comment.comment.id.toString();
-        }
-      }
+      viewableItems.current = info.viewableItems;
     },
     []
   );
@@ -295,19 +286,35 @@ function PostScreen({ navigation }: IProps) {
   }
 
   const onFabPress = () => {
-    const currentIndex = visibleComments.findIndex(
-      (c) => String(c.comment.comment.id) === firstViewableId.current
-    );
-    if (!nextCommentPressed && currentIndex === 0) {
-      setNextCommentPressed(true);
-      flashListRef.current.scrollToIndex({ index: 0, animated: true });
+    onGenericHapticFeedback();
+
+    // No viewable items
+    if (viewableItems.current.length < 1) return;
+
+    if (lastCommentId.current === null) {
+      const nextItem = visibleComments[0];
+
+      lastCommentId.current = nextItem.comment.comment.id;
+      flashListRef.current.scrollToItem({ item: nextItem, animated: true });
+
       return;
     }
 
-    const nextItem = visibleComments
-      .slice(currentIndex + 1, visibleComments.length)
-      .find((c) => isParentComment(c as ILemmyComment));
+    const currentIndex = visibleComments.findIndex(
+      (c) => c.comment.comment.id === lastCommentId.current
+    );
 
+    const nextItem = visibleComments
+      .slice(currentIndex + 1)
+      .find(
+        (c) =>
+          isParentComment(c as ILemmyComment) &&
+          c.comment.comment.id !== lastCommentId.current
+      );
+
+    if (!nextItem) return;
+
+    lastCommentId.current = nextItem.comment.comment.id;
     flashListRef.current.scrollToItem({ item: nextItem, animated: true });
   };
 
