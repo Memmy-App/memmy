@@ -12,10 +12,10 @@ const showAllInChain = (
       prev.comments = prev.comments.map((c) => {
         if (
           c.comment.comment.path.includes(commentId.toString()) &&
-          c.startedHiddenTop &&
-          c.hidden
+          c.startedHiddenTop
         ) {
           c.hidden = false;
+          c.displayMore = true;
           return c;
         }
 
@@ -25,10 +25,10 @@ const showAllInChain = (
       prev.comments = prev.comments.map((c) => {
         if (
           c.comment.comment.path.includes(commentId.toString()) &&
-          c.startedHiddenChildren &&
-          c.hidden
+          c.startedHiddenChildren
         ) {
           c.hidden = false;
+          c.displayMore = true;
           return c;
         }
 

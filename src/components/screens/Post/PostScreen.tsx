@@ -228,15 +228,14 @@ function PostScreen({ navigation }: IProps) {
 
   // Get the comments that are visible. Only recal whenever we trigger the render
   const visibleComments = useMemo(
-    () =>
-      comments.filter((c) => !c.hidden || c.showMoreTop || c.showMoreChildren),
+    () => comments.filter((c) => !c.hidden),
     [rerenderComments]
   );
 
   // Comment item renderer
   const commentItem = useCallback(
     ({ item }) => {
-      if (item.showMoreTop && item.hidden) {
+      if (item.showMoreTop && !item.displayMore) {
         const pathArr = item.comment.comment.path.split(".");
 
         return (
@@ -248,7 +247,7 @@ function PostScreen({ navigation }: IProps) {
         );
       }
 
-      if (item.showMoreChildren && item.hidden) {
+      if (item.showMoreChildren && !item.displayMore) {
         const pathArr = item.comment.comment.path.split(".");
 
         return (
