@@ -75,11 +75,11 @@ function PostOptionsButton() {
             },
             {
               key: postInfo.featured_community
-                ? "FeaturePost"
-                : "Unfeature Post",
+                ? "UnfeaturePost"
+                : "FeaturePost",
               title: postInfo.featured_community
-                ? t("mod.featurePost")
-                : t("mod.unfeaturePost"),
+                ? t("mod.unfeaturePost")
+                : t("mod.featurePost"),
               icon: postInfo.featured_community ? ICON_MAP.UNPIN : ICON_MAP.PIN,
             },
             {
