@@ -91,7 +91,7 @@ const initialState: SettingsState = {
   markReadOnFeedScroll: false,
   markReadOnCommunityScroll: false,
   ignoreScreenHeightInFeed: false,
-  displayTotalScore: true,
+  displayTotalScore: false,
   useReaderMode: false,
   hideReadPostsOnFeed: false,
   hideReadPostsInCommunities: false,
