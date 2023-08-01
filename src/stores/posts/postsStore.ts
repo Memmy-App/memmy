@@ -47,6 +47,8 @@ export const usePostsStore = create(
 // Post state
 export const useCurrentPost = (postKey: string) =>
   usePostsStore((state) => state.posts.get(postKey).post);
+export const usePostInfo = (postKey: string) =>
+  usePostsStore((state) => state.posts.get(postKey).post.post);
 export const usePostTitle = (postKey: string) =>
   usePostsStore((state) => state.posts.get(postKey).post.post.name);
 export const usePostCollapsed = (postKey: string) =>
