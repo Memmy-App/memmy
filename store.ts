@@ -2,7 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { postSlice } from "./src/slices/post/postSlice";
 import { newCommentSlice } from "./src/slices/comments/newCommentSlice";
-import feedSlice from "./src/slices/feed/feedSlice";
 import siteSlice from "./src/slices/site/siteSlice";
 import toastSlice from "./src/slices/toast/toastSlice";
 import editCommentSlice from "./src/slices/comments/editCommentSlice";
@@ -12,7 +11,6 @@ const store = configureStore({
   reducer: {
     post: postSlice.reducer,
     newComment: newCommentSlice.reducer,
-    feed: feedSlice,
     site: siteSlice,
     toast: toastSlice,
     editComment: editCommentSlice,

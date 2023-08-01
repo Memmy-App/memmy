@@ -6,7 +6,6 @@ import {
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { PostView } from "lemmy-js-client";
 import { HStack, View } from "@src/components/common/Gluestack";
-import { useAppSelector } from "@root/store";
 import React, {
   useCallback,
   useEffect,
@@ -18,7 +17,6 @@ import { StyleSheet } from "react-native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { useRoute } from "@react-navigation/core";
 import { ExtensionType, getLinkInfo } from "@src/helpers/LinkHelper";
-import { selectFeed } from "@src/slices/feed/feedSlice";
 import {
   useFeedCommunityName,
   useFeedListingType,
@@ -91,7 +89,6 @@ function FeedView({ header }: FeedViewProps) {
   const { key } = useRoute();
 
   // Global state props
-  const { dropdownVisible } = useAppSelector(selectFeed);
   const compactView = useSettingsStore((state) => state.settings.compactView);
 
   const posts = useFeedPosts(key);
@@ -146,7 +143,7 @@ function FeedView({ header }: FeedViewProps) {
         ),
       });
     }
-  }, [community, dropdownVisible, sortType, compactView]);
+  }, [community, sortType, compactView]);
 
   useEffect(() => {
     flashList?.current?.scrollToOffset({
