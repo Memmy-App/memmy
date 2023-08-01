@@ -9,7 +9,10 @@ import { useSettingsStore } from "@src/stores/settings/settingsStore";
 import store from "../../store";
 import i18n from "../plugins/i18n/i18n";
 import { showToast } from "../slices/toast/toastSlice";
-import { useCurrentAccount } from "../stores/account/accountStore";
+import {
+  useAccountStore,
+  useCurrentAccount,
+} from "../stores/account/accountStore";
 import { writeToLog } from "./LogHelper";
 
 const imageExtensions = [
@@ -78,7 +81,7 @@ const isPotentialFedSite = (link: string) => {
 
 // Takes in "/c/community@instance" and return "https://instance_url/c/community@instance"
 export const getCommunityLink = (sublink: string): string => {
-  const currentAccount = useCurrentAccount();
+  const { currentAccount } = useAccountStore.getState();
 
   let instanceUrl = currentAccount.instance;
   if (
