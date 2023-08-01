@@ -9,10 +9,7 @@ import { useSettingsStore } from "@src/stores/settings/settingsStore";
 import store from "../../store";
 import i18n from "../plugins/i18n/i18n";
 import { showToast } from "../slices/toast/toastSlice";
-import {
-  useAccountStore,
-  useCurrentAccount,
-} from "../stores/account/accountStore";
+import { useAccountStore } from "../stores/account/accountStore";
 import { writeToLog } from "./LogHelper";
 
 const imageExtensions = [
