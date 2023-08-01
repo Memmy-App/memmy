@@ -58,6 +58,7 @@ export interface SettingsState {
   hideAvatarInTab: boolean;
   commentSwipeLeftFirst: "Reply" | "Save" | "Collapse";
   commentSwipeLeftSecond: "Reply" | "Save" | "Collapse" | "None";
+  showCommentJumpButton: boolean;
 }
 
 const initialState: SettingsState = {
@@ -90,7 +91,7 @@ const initialState: SettingsState = {
   markReadOnFeedScroll: false,
   markReadOnCommunityScroll: false,
   ignoreScreenHeightInFeed: false,
-  displayTotalScore: true,
+  displayTotalScore: false,
   useReaderMode: false,
   hideReadPostsOnFeed: false,
   hideReadPostsInCommunities: false,
@@ -104,6 +105,7 @@ const initialState: SettingsState = {
   hideAvatarInTab: false,
   commentSwipeLeftFirst: "Reply",
   commentSwipeLeftSecond: "None",
+  showCommentJumpButton: true,
 };
 
 export const useSettingsStore = create(
