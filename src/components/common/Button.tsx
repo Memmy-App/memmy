@@ -7,6 +7,7 @@ interface IProps {
   onPress: () => void | Promise<void>;
   onPressIn: () => void | Promise<void>;
   onPressOut: () => void | Promise<void>;
+
   [x: string]: any;
 }
 

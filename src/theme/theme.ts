@@ -1,15 +1,15 @@
 import {
   darkThemeColors,
   draculaThemeColors,
+  embarkThemeColors,
   goldenHourThemeColors,
   moodyPurpleThemeColors,
   nauticalThemeColors,
   nightOwlThemeColors,
-  sleepyRainforestThemeColors,
-  sunsetThemeColors,
   oksolarDarkThemeColors,
   oledThemeColors,
-  embarkThemeColors,
+  sleepyRainforestThemeColors,
+  sunsetThemeColors,
 } from "./darkColors";
 import { IColors } from "./common";
 import { lightThemeColors, oksolarLightThemeColors } from "./lightColors";

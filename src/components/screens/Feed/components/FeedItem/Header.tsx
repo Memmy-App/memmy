@@ -15,6 +15,7 @@ interface Props {
   isRead: boolean;
   feedItem: UseFeedItem;
 }
+
 export function Header({ community, featured, isRead, feedItem }: Props) {
   return (
     <HStack
