@@ -10,6 +10,8 @@ const findAndAddComment = (
   const pathArr = newComment.comment.comment.path.split(".");
 
   for (const comment of chain) {
+    if (!comment.comment) continue;
+
     if (comment.comment.comment.path.includes(pathArr[depth])) {
       if (
         comment.comment.comment.id.toString() === pathArr[pathArr.length - 2]
@@ -39,6 +41,8 @@ const findAndReplaceComment = (
   const pathArr = commentPath.split(".");
 
   for (let comment of chain) {
+    if (!comment.comment) continue;
+
     if (comment.comment.comment.path.includes(pathArr[depth])) {
       if (comment.comment.comment.id.toString() === pathArr[pathArr.length]) {
         comment = {
@@ -74,12 +78,16 @@ function buildComments(comments: CommentView[]): NestedComment[] {
 
   // Prepopulate the dictionary
   for (const comment of comments) {
+    if (!comment?.comment) continue;
+
     commentDict[comment.comment.id] = {
       replies: [],
     };
   }
 
   for (const comment of comments) {
+    if (!comment?.comment) continue;
+
     const { path } = comment.comment;
     const pathIds = path.split(".").map(Number);
     const parentId = pathIds[pathIds.length - 2];
