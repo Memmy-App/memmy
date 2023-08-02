@@ -304,7 +304,9 @@ function PostScreen({ navigation }: IProps) {
     }
 
     const currentIndex = visibleComments.findIndex(
-      (c) => c.comment.comment.id === lastCommentId.current
+      (c) =>
+        c.comment.comment.id ===
+        viewableItems.current[0].item.comment.comment.id
     );
 
     const nextItem = visibleComments
