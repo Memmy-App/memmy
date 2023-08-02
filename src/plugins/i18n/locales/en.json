@@ -1,464 +1,465 @@
 {
-  "noResult": {
-    "comments": "No Comments yet. Time to do your part 🫡",
-    "posts": "No posts found. Maybe you should get a conversation started?",
-    "profileComments": "User has no Comments.",
-    "profilePosts": "User has no posts.",
-    "profileSavedPosts": "User has no saved posts.",
-    "search": "That Search term returned no results.",
-    "inbox": "Nothing found in your inbox.",
-    "default": "No result found :("
-  },
-  "notFound": {
-    "community": "\uD83E\uDD28That content or community was not found \uD83E\uDDD0"
-  },
-  "alert": {
-    "title": {
-      "error": "Error",
-      "permissionsError": "Permissions Error",
-      "unknownError": "Unknown Error",
-      "success": "Success",
-      "noDebugLog": "No debug file exists.",
-      "debugFileCleared": "Debug file cleared.",
-      "areYouSure": "Are you sure?",
-      "info": "Info",
-      "serverAuthError": "Error authenticating with server.",
-      "deleteAccount": "Delete Account",
+	"noResult": {
+		"comments": "No Comments yet. Time to do your part 🫡",
+		"posts": "No posts found. Maybe you should get a conversation started?",
+		"profileComments": "User has no Comments.",
+		"profilePosts": "User has no posts.",
+		"profileSavedPosts": "User has no saved posts.",
+		"search": "That Search term returned no results.",
+		"inbox": "Nothing found in your inbox.",
+		"default": "No result found :("
+	},
+	"notFound": {
+		"community": "\uD83E\uDD28That content or community was not found \uD83E\uDDD0"
+	},
+	"alert": {
+		"title": {
+			"error": "Error",
+			"permissionsError": "Permissions Error",
+			"unknownError": "Unknown Error",
+			"success": "Success",
+			"noDebugLog": "No debug file exists.",
+			"debugFileCleared": "Debug file cleared.",
+			"areYouSure": "Are you sure?",
+			"info": "Info",
+			"serverAuthError": "Error authenticating with server.",
+			"deleteAccount": "Delete Account",
 			"deletePost": "Delete Post"
-    },
-    "message": {
-      "allowCameraRoll": "Please allow Memmy to access your camera roll.",
-      "imgurUploadError": "Error uploading image to Imgur.",
-      "reportComment": "Please describe your reason for reporting this comment.",
-      "allowPushNotifications": "Please allow Memmy to send you push notifications.",
-      "failedToRetrieveToken": "Failed to retrieve token.",
-      "instanceAuthenticationFailed": "Failed to authenticate with Lemmy instance.",
-      "pushNotificationsEnabled": "Successfully enabled push notifications.",
-      "pushNotificationsDisabled": "Successfully disabled push notifications.",
-      "errorFetchingInstanceList": "Error fetching instance list. Try again?",
-      "unknownError": "An unknown error has occurred. Code {{0}}",
-      "sessionExpired": "Your session for {{0}} has expired. Please sign back in to this account.",
-      "cacheCleared": "Cache has been cleared.",
-      "accountLogoutConfirm": "Please make sure push notifications are disabled before logging out of an account, otherwise you may continue to get push notifications for that account.\n\nAre you sure you want to logout {{0}}?",
-      "pushNotificationsConfirm": "To make push notifications work, Memmy has to send your authentication token to our server. Right now, this is the only viable way to allow users to receive push notifications. Note that Memmy servers do NOT have access to your password, only your authentication token. Authentication tokens may be revoked by changing your password.\n\nFull source code for the Memmy push notification server is available at https:\/\/github.com\/gkasdorf\/memmy-push.\n\nDo you wish to continue?",
-      "deleteAccountConfirm": "To remove all data from Memmy's servers, simply disable push notifications. If you do not have push notifications enabled, we do not have any of your data.\n\nTo delete your Lemmy account, you must first visit {{0}} and sign in. Then navigate to the Profile tab. You may delete your account by pressing \"Delete Account\".",
-      "registrationError": "An error occurred while completing registration.",
-      "useUsername": "Please use your username when signing in (no instance/@).",
-      "reportPost": "Please describe your reason for reporting this Post.",
+		},
+		"message": {
+			"allowCameraRoll": "Please allow Memmy to access your camera roll.",
+			"imgurUploadError": "Error uploading image to Imgur.",
+			"reportComment": "Please describe your reason for reporting this comment.",
+			"allowPushNotifications": "Please allow Memmy to send you push notifications.",
+			"failedToRetrieveToken": "Failed to retrieve token.",
+			"instanceAuthenticationFailed": "Failed to authenticate with Lemmy instance.",
+			"pushNotificationsEnabled": "Successfully enabled push notifications.",
+			"pushNotificationsDisabled": "Successfully disabled push notifications.",
+			"errorFetchingInstanceList": "Error fetching instance list. Try again?",
+			"unknownError": "An unknown error has occurred. Code {{0}}",
+			"sessionExpired": "Your session for {{0}} has expired. Please sign back in to this account.",
+			"cacheCleared": "Cache has been cleared.",
+			"accountLogoutConfirm": "Please make sure push notifications are disabled before logging out of an account, otherwise you may continue to get push notifications for that account.\n\nAre you sure you want to logout {{0}}?",
+			"pushNotificationsConfirm": "To make push notifications work, Memmy has to send your authentication token to our server. Right now, this is the only viable way to allow users to receive push notifications. Note that Memmy servers do NOT have access to your password, only your authentication token. Authentication tokens may be revoked by changing your password.\n\nFull source code for the Memmy push notification server is available at https:\/\/github.com\/gkasdorf\/memmy-push.\n\nDo you wish to continue?",
+			"deleteAccountConfirm": "To remove all data from Memmy's servers, simply disable push notifications. If you do not have push notifications enabled, we do not have any of your data.\n\nTo delete your Lemmy account, you must first visit {{0}} and sign in. Then navigate to the Profile tab. You may delete your account by pressing \"Delete Account\".",
+			"registrationError": "An error occurred while completing registration.",
+			"useUsername": "Please use your username when signing in (no instance/@).",
+			"reportPost": "Please describe your reason for reporting this Post.",
 			"deletePost": "Are you sure you want to delete this post?"
-    }
-  },
-  "toast": {
-    "reportSubmitSuccessful": "Report submitted successfully",
-    "commentDeleted": "Comment deleted",
-    "failedToSavePost": "Failed to save Post.",
-    "subscribedTo": "Subscribed to {{0}}",
-    "unsubscribedFrom": "Unsubscribed from {{0}}",
-    "unknownError": "An unknown error has occurred.",
-    "userBlockedSuccess": "User blocked successfully.",
-    "accentColorUpdated": "Accent color updated",
-    "accentColorInvalidHexCode": "Accent color is not a valid hex code",
-    "allFieldsRequired": "All fields are required.",
-    "useUsername": "Please use your username when signing in (no instance/@).",
-    "passwordsMismatch": "Passwords do not match.",
-    "blocked": "Blocked {{0}}",
-    "enterUrl": "Enter the URL",
-    "enterLabel": "Enter the label",
-    "linkError": "There was an error opening that link",
-    "textCopied": "Text Copied",
-    "linkCopied": "Link Copied",
+		}
+	},
+	"toast": {
+		"reportSubmitSuccessful": "Report submitted successfully",
+		"commentDeleted": "Comment deleted",
+		"failedToSavePost": "Failed to save Post.",
+		"subscribedTo": "Subscribed to {{0}}",
+		"unsubscribedFrom": "Unsubscribed from {{0}}",
+		"unknownError": "An unknown error has occurred.",
+		"userBlockedSuccess": "User blocked successfully.",
+		"accentColorUpdated": "Accent color updated",
+		"accentColorInvalidHexCode": "Accent color is not a valid hex code",
+		"allFieldsRequired": "All fields are required.",
+		"useUsername": "Please use your username when signing in (no instance/@).",
+		"passwordsMismatch": "Passwords do not match.",
+		"blocked": "Blocked {{0}}",
+		"enterUrl": "Enter the URL",
+		"enterLabel": "Enter the label",
+		"linkError": "There was an error opening that link",
+		"textCopied": "Text Copied",
+		"linkCopied": "Link Copied",
 		"postDeleted": "Post deleted"
-  },
-  "relativeTime": {
-    "future": "in %s",
-    "past": "%s ago",
-    "s": "1s",
-    "ss": "%ss",
-    "m": "1m",
-    "mm": "%dm",
-    "h": "1h",
-    "hh": "%dh",
-    "d": "1d",
-    "dd": "%dd",
-    "M": "1mo",
-    "MM": "%dmo",
-    "y": "1y",
-    "yy": "%dy"
-  },
-  "profile": {
-    "my": "My Profile"
-  },
-  "comment": {
-    "edit": "Edit Comment",
-    "report": "Report Comment",
-    "delete": "Delete Comment",
-    "replyingToPost": "Replying to Post",
-    "replyingToComment": "Replying to Comment",
-    "deletedByUser": "Comment deleted by user :(",
-    "removedByMod": "Comment removed by moderator :("
-  },
-  "settings": {
-    "general": {
-      "useReaderMode": "Use Reader Mode"
-    },
-    "reportBugBtn": "Report a Bug on GitHub",
+	},
+	"relativeTime": {
+		"future": "in %s",
+		"past": "%s ago",
+		"s": "1s",
+		"ss": "%ss",
+		"m": "1m",
+		"mm": "%dm",
+		"h": "1h",
+		"hh": "%dh",
+		"d": "1d",
+		"dd": "%dd",
+		"M": "1mo",
+		"MM": "%dmo",
+		"y": "1y",
+		"yy": "%dy"
+	},
+	"profile": {
+		"my": "My Profile"
+	},
+	"comment": {
+		"edit": "Edit Comment",
+		"report": "Report Comment",
+		"delete": "Delete Comment",
+		"replyingToPost": "Replying to Post",
+		"replyingToComment": "Replying to Comment",
+		"deletedByUser": "Comment deleted by user :(",
+		"removedByMod": "Comment removed by moderator :("
+	},
+	"settings": {
+		"general": {
+			"useReaderMode": "Use Reader Mode"
+		},
+		"reportBugBtn": "Report a Bug on GitHub",
 		"checkInstanceStatus": "Check Lemmy Status",
 		"swipeToVote": "Swipe to Vote",
-    "haptics": {
-      "Off": "Off",
-      "Light": "Light",
-      "Medium": "Medium",
-      "Heavy": "Heavy"
-    },
+		"haptics": {
+			"Off": "Off",
+			"Light": "Light",
+			"Medium": "Medium",
+			"Heavy": "Heavy"
+		},
 		"swipeOptions": {
 			"None": "None",
 			"Reply": "Reply",
 			"Collapse": "Collapse",
 			"Save": "Save"
 		},
-    "content": {
-      "nsfw": {
-        "footer": "These settings do not affect your Lemmy account NSFW settings. These setting will only apply to the local app (globally on all accounts).",
-        "blur": "Blur NSFW Content",
-        "hide": "Hide NSFW Content"
-      },
-      "markRead": {
-        "header": "MARK READ SETTINGS",
-        "onPostOpen": "Mark Read on Post Open",
-        "onImageView": "Mark Read on Image View",
-        "onVote": "Mark Read on Vote",
+		"content": {
+			"nsfw": {
+				"footer": "These settings do not affect your Lemmy account NSFW settings. These setting will only apply to the local app (globally on all accounts).",
+				"blur": "Blur NSFW Content",
+				"hide": "Hide NSFW Content"
+			},
+			"markRead": {
+				"header": "MARK READ SETTINGS",
+				"onPostOpen": "Mark Read on Post Open",
+				"onImageView": "Mark Read on Image View",
+				"onVote": "Mark Read on Vote",
 				"onFeedScroll": "Mark Read on Feed Scroll",
 				"onCommunityScroll": "Mark Read on Community Scroll",
-        "footer": "Hide Read Posts on Feed will automatically hide read posts anytime the feed is refreshed. If Hide Read Posts on Feed is enabled, Show Hide Read Button will show a floating action button to hide read posts without a feed refresh."
-      }
-    },
-    "appearance": {
-      "themes": {
-        "header": "THEMES",
-        "matchSystem": "Match System Light/Dark Theme",
-        "systemLight": "Theme for System Light",
-        "systemDark": "Theme for System Dark",
-        "light": "Light Themes",
-        "dark": "Dark Themes",
-        "hexCode": {
-          "placeholder": "Input a hex code"
-        }
-      },
-      "appIcon": "App Icon",
-      "totalScore": "Display Total Score",
-      "imgIgnoreScreenHeight": "Images Ignore Screen Height",
-      "showUserInstance": "Show Instance For Username",
-      "compactView": "Compact View",
-      "compact": {
-        "header": "Compact",
-        "thumbPos": "Thumbnails Position",
-        "showVotingButtons": "Show Voting Buttons"
-      },
-      "font": {
-        "header": "FONT",
-        "useSystemFont": "Use System Font",
-        "useSystemFontSize": "Use System Font Size",
-        "textSize": "Text Size",
-        "postTitleFontWeight": "Font Weight - Post Title"
-      },
+				"footer": "Hide Read Posts on Feed will automatically hide read posts anytime the feed is refreshed. If Hide Read Posts on Feed is enabled, Show Hide Read Button will show a floating action button to hide read posts without a feed refresh."
+			}
+		},
+		"appearance": {
+			"themes": {
+				"header": "THEMES",
+				"matchSystem": "Match System Light/Dark Theme",
+				"systemLight": "Theme for System Light",
+				"systemDark": "Theme for System Dark",
+				"light": "Light Themes",
+				"dark": "Dark Themes",
+				"hexCode": {
+					"placeholder": "Input a hex code"
+				}
+			},
+			"appIcon": "App Icon",
+			"totalScore": "Display Total Score",
+			"imgIgnoreScreenHeight": "Images Ignore Screen Height",
+			"showUserInstance": "Show Instance For Username",
+			"compactView": "Compact View",
+			"compact": {
+				"header": "Compact",
+				"thumbPos": "Thumbnails Position",
+				"showVotingButtons": "Show Voting Buttons"
+			},
+			"font": {
+				"header": "FONT",
+				"useSystemFont": "Use System Font",
+				"useSystemFontSize": "Use System Font Size",
+				"textSize": "Text Size",
+				"postTitleFontWeight": "Font Weight - Post Title"
+			},
 			"gestures": {
 				"header": "GESTURES",
 				"tapToCollapse": "Tap to Collapse"
+			},
+			"showCommentJumpButton": "Show Comment Jump Button"
+		},
+		"accounts": {
+			"current": "Current Account",
+			"server": {
+				"header": "Server Address",
+				"footer": "URL for the server you wish to connect",
+				"placeholder": "Server Address"
+			},
+			"credentials": {
+				"header": "Server Credentials",
+				"footer": "Credentials for the server you are connecting to"
 			}
-    },
-    "accounts": {
-      "current": "Current Account",
-      "server": {
-        "header": "Server Address",
-        "footer": "URL for the server you wish to connect",
-        "placeholder": "Server Address"
-      },
-      "credentials": {
-        "header": "Server Credentials",
-        "footer": "Credentials for the server you are connecting to"
-      }
-    },
-    "filters": {
-      "description": "Filters allow you to filter posts from your feed based on specific keywords in the title or instances of origin",
-      "header": {
-        "keyword": "KEYWORDS",
-        "instance": "INSTANCES"
-      },
-      "add": {
-        "keyword": "Add Keyword",
-        "instance": "Add Instance"
-      },
-      "areYouSure":{
-        "keyword":  "Are you sure you want to remove this keyword?",
-        "instance": "Are you sure you want to remove this instance?"
-      },
-      "remove": {
-        "keyword": "Remove Keyword",
-        "instance": "Remove Instance"
-      },
-      "enter": {
-        "keyword": "Enter a keyword to filter.",
-        "instance": "Enter an instance to filter."
-      },
-      "no": {
-        "keyword": "No keywords yet...",
-        "instance": "No instances yet..."
-      }
-    }
-  },
-  "traverse": {
-    "noSubscriptions": "You don't have any subscriptions.",
-    "noSubscriptionsFiltered": "You don't have any subscriptions matching the search.",
-    "noFavoritesFiltered": "You don't have any favorites matching the search."
-  },
-  "post": {
-    "header": "Post Info",
-    "title": "Title",
-    "link": "Link (optional)",
-    "body": "Body (optional)",
-    "bodyPlaceholder": "Type away!",
-    "share": "Share Post",
-    "report": "Report Post"
-  },
-  "onboarding": {
-    "hello": "Hello",
-    "welcomeTo": "Welcome to",
-    "getStartedBtn": "Get Started",
-    "hasAccountBtn": "I Have an Account",
-    "checkEmail": "Check Your Email",
-    "emailSent": "An email was sent to {{0}}. Please verify your account\nthen press log in.",
-    "openEmailAppBtn": "Open Email App",
-    "agreeToTermsOfUse": "By using Memmy, you agree to the <linkAction><linkText>Terms of Use</linkText></linkAction>",
-    "info": {
-      "1": {
-        "1": "Do you already know about the Fediverse?"
-      },
-      "2": {
-        "1": "No worries! \uD83D\uDC4D",
-        "2": "Let's help guide you through it \uD83D\uDE03"
-      },
-      "3": {
-        "1": "Let’s think of the Fediverse like a postal service ✉️",
-        "2": "When you use apps like Instagram, Twitter or Facebook, they <emphasis>exclusively handle the mail for you.</emphasis>",
-        "3": "Everyone receives and sends mail through them. They are <emphasis>centralized.</emphasis>"
-      },
-      "4": {
-        "1": "So how is the Fediverse different? \uD83E\uDD14",
-        "2": "Your mail doesn't go to one central place, but to your <emphasis>hub</emphasis>, a sort of <emphasis>local post office</emphasis>.",
-        "3": "Your <emphasis>hub</emphasis> is responsible for sending your mail to other <emphasis>hubs</emphasis>. They can pick who <emphasis>they wish to send it to</emphasis> \uD83D\uDE9A"
-      },
-      "5": {
-        "1": "Who is my <emphasis>hub?</emphasis> \uD83E\uDD14",
-        "2": "A <emphasis>hub</emphasis> can be started by anyone, like a community group. You choose which one you want to <emphasis>join</emphasis>.",
-        "3": "We will help you select a hub and start posting in it. \uD83E\uDD17"
-      },
-      "6": {
-        "1": "Feeling\noverwhelmed?... \uD83D\uDE14",
-        "2": " This can feel complex. <emphasis>But you have already used the Fediverse before.</emphasis>",
-        "3": "As long as you have used e-mail, <emphasis>you have used the Fediverse.</emphasis>",
-        "4": "The Fediverse operates in a <emphasis>very similar way to how e-mail works.</emphasis>"
-      },
-      "7": {
-        "1": "Let's get started!",
-        "2": "We’ll first set you up with a hub. We’ll give you a list of options to pick from.",
-        "3": "There are many options available with many different communities.",
-        "4": "You can later go back to instance selection to choose another hub."
-      }
-    },
-    "hubDiscovery": {
-      "alreadyHaveServer": "Already have a server?"
-    }
-  },
-  "hubDiscovery": {
-    "createCommunities": {
-      "allowed": "This hub allows user created communities.",
-      "notAllowed": "This hub doesn't allow user created communities."
-    },
-    "federated": {
-      "allowed": "This hub can interact with other hubs.",
-      "notAllowed": "This hub can't interact with other hubs."
-    },
-    "downvote": {
-      "title": "Downvotes Allowed",
-      "allowed": "This hub allows users to downvote.",
-      "notAllowed": "This hub doesn't allow users to downvote."
-    }
-  },
-  "feed": {
-    "footer": {
-      "loading": "Loading more posts...",
-      "loadingError": "Failed to load posts :("
-    }
-  },
-  "searchOptions": {
-    "header": "Select An Option",
-    "communities": "Search Communities",
-    "users": "Search Users",
-    "posts": "Search Posts"
-  },
-  "memmyError": {
-    "title": "Well that's awkward. Memmy encountered an error. Please restart the app...",
-    "description": "We don't like bugs and you probably don't either. If you don't mind, could you please submit the logs? ♥️",
-    "submitBtn": "Submit Logs"
-  },
-  "loadingError": {
-    "text": "Error loading content :(",
-    "retryBtn": "Retry"
-  },
-  "imageView": {
-    "dialogDesc": "Downloading image..."
-  },
-  "sort": {
-    "Top": "Top",
-    "top": {
-      "Hour": "Last Hour",
-      "SixHours": "Six Hours",
-      "TwelveHours": "Twelve Hours",
-      "Day": "Day",
-      "Week": "Week",
-      "Month": "Month",
-      "Year": "Year",
-      "AllTime": "All Time"
-    },
-    "Hot": "Hot",
-    "Active": "Active",
-    "New": "New",
-    "MostComments": "Most Comments",
-    "NewComments": "New Comments",
-    "Old": "Old"
-  },
-  "Feed": "Feed",
-  "Comments": "Comments",
-  "Traverse": "Traverse",
-  "Profile": "Profile",
-  "Search": "Search",
-  "Inbox": "Inbox",
-  "Posts": "Posts",
-  "Saved Posts": "Saved Posts",
-  "New Comment": "New Comment",
-  "New Post": "New Post",
-  "About": "About",
-  "View Comments": "View Comments",
-  "View Posts": "View Posts",
-  "View Saved Posts": "View Saved Posts",
-  "Unread": "Unread",
-  "All": "All",
-  "Replies": "Replies",
-  "Communities": "Communities",
-  "Blocked Communities": "Blocked Communities",
-  "Create Communities": "Create Communities",
-  "Settings": "Settings",
-  "Accounts": "Accounts",
-  "Manage Accounts": "Manage Accounts",
-  "Edit Account": "Edit Account",
-  "Delete Account": "Delete Account",
-  "Add Account": "Add Account",
-  "Create Account": "Create Account",
-  "Mark Post Read On": "Mark Post Read...",
-  "Hide Read Posts": "Hide Read Posts",
-  "View": "View",
-  "Content": "Content",
-  "Appearance": "Appearance",
-  "Filters": "Filters",
-  "Keywords": "Keywords",
-  "Instances": "Instances",
-  "Theme": "Theme",
-  "Icon": "Icon",
-  "General": "General",
-  "Loading": "Loading",
-  "Welcome": "Welcome",
-  "Hubs": "Hubs",
-  "Instance": "Instance",
-  "Copy Text": "Copy Text",
-  "Copy Link": "Copy Link",
-  "Reply": "Reply",
-  "Report Post": "Report Post",
-  "Cancel": "Cancel",
-  "Remove": "Remove",
-  "Submit": "Submit",
-  "Retry": "Retry",
-  "Language": "Language",
-  "Select Language": "Select Language",
-  "Haptics": "Haptics",
-  "Strength": "Strength",
-  "Use Default Browser": "Use Default Browser",
-  "Browser": "Browser",
-  "No blocked communities": "No blocked communities",
-  "Email Debug Log": "Email Debug Log",
-  "Clear Debug Log": "Clear Debug Log",
-  "Clear Cache": "Clear Cache",
-  "Default Sort": "Default Sort",
-  "Default Comment Sort": "Default Comment Sort",
-  "Hide Read Posts on Feed": "Hide Read Posts on Feed",
-  "Hide Read Posts in Communities": "Hide Read Posts in Communities",
-  "Show Hide Read Button": "Show Hide Read Button",
-  "Show Comment Actions": "Show Comment Actions",
-  "NSFW": "NSFW",
-  "NSFW Content": "NSFW Content",
-  "Sensitive content ahead": "Sensitive content ahead",
-  "Accent Color": "Accent Color",
-  "Add": "Add",
-  "Logout": "Logout",
-  "Continue": "Continue",
-  "Server": "Server",
-  "Server Address": "Server Address",
-  "Username": "Username",
-  "Password": "Password",
-  "Confirm Password": "Confirm Password",
-  "Push Notifications": "Push Notifications",
-  "Save": "Save",
-  "2FA Token": "2FA Token",
-  "Version": "Version",
-  "License": "License",
-  "Acknowledgements": "Acknowledgements",
-  "Privacy Policy": "Privacy Policy",
-  "Terms of Use": "Terms of Use",
-  "OK": "OK",
-  "Users": "Users",
-  "Comment": "Comment",
-  "Comment_plural": "Comments",
-  "Back": "Back",
-  "Selected": "Selected",
-  "Favorites": "Favorites",
-  "Subscriptions": "Subscriptions",
-  "Email": "Email",
-  "Captcha Answer": "Captcha Answer",
-  "Link": "Link",
-  "Login": "Login",
-  "Yes": "Yes",
-  "No": "No",
-  "Join": "Join",
-  "Hub Info": "Hub Info",
-  "Other Info": "Other Info",
-  "Legal Info": "Legal Info",
-  "Federate": "Federate",
-  "User": "User",
-  "User_plural": "Users",
-  "Defederated": "Defederated",
-  "Registration Closed": "Registration Closed",
-  "Application Required": "Application Required",
-  "Open Registration": "Open Registration",
-  "Subscribed": "Subscribed",
-  "Subscribe": "Subscribe",
-  "Post": "Post",
-  "Description": "Description",
-  "Label": "Label",
-  "Trending": "Trending",
-  "Go Back": "Go Back",
-  "Stats": "Stats",
-  "Moderators": "Moderators",
-  "Local": "Local",
-  "Upvote": "Upvote",
-  "Downvote": "Downvote",
-  "Block User": "Block User",
-  "Block": "Block",
-  "Community": "Community",
-  "Post Size": "Post Size",
-  "Compact": "Compact",
-  "Large": "Large",
-  "None": "None",
-  "Left": "Left",
-  "Right": "Right",
-  "Account Created": "Account Created",
+		},
+		"filters": {
+			"description": "Filters allow you to filter posts from your feed based on specific keywords in the title or instances of origin",
+			"header": {
+				"keyword": "KEYWORDS",
+				"instance": "INSTANCES"
+			},
+			"add": {
+				"keyword": "Add Keyword",
+				"instance": "Add Instance"
+			},
+			"areYouSure": {
+				"keyword": "Are you sure you want to remove this keyword?",
+				"instance": "Are you sure you want to remove this instance?"
+			},
+			"remove": {
+				"keyword": "Remove Keyword",
+				"instance": "Remove Instance"
+			},
+			"enter": {
+				"keyword": "Enter a keyword to filter.",
+				"instance": "Enter an instance to filter."
+			},
+			"no": {
+				"keyword": "No keywords yet...",
+				"instance": "No instances yet..."
+			}
+		}
+	},
+	"traverse": {
+		"noSubscriptions": "You don't have any subscriptions.",
+		"noSubscriptionsFiltered": "You don't have any subscriptions matching the search.",
+		"noFavoritesFiltered": "You don't have any favorites matching the search."
+	},
+	"post": {
+		"header": "Post Info",
+		"title": "Title",
+		"link": "Link (optional)",
+		"body": "Body (optional)",
+		"bodyPlaceholder": "Type away!",
+		"share": "Share Post",
+		"report": "Report Post"
+	},
+	"onboarding": {
+		"hello": "Hello",
+		"welcomeTo": "Welcome to",
+		"getStartedBtn": "Get Started",
+		"hasAccountBtn": "I Have an Account",
+		"checkEmail": "Check Your Email",
+		"emailSent": "An email was sent to {{0}}. Please verify your account\nthen press log in.",
+		"openEmailAppBtn": "Open Email App",
+		"agreeToTermsOfUse": "By using Memmy, you agree to the <linkAction><linkText>Terms of Use</linkText></linkAction>",
+		"info": {
+			"1": {
+				"1": "Do you already know about the Fediverse?"
+			},
+			"2": {
+				"1": "No worries! \uD83D\uDC4D",
+				"2": "Let's help guide you through it \uD83D\uDE03"
+			},
+			"3": {
+				"1": "Let’s think of the Fediverse like a postal service ✉️",
+				"2": "When you use apps like Instagram, Twitter or Facebook, they <emphasis>exclusively handle the mail for you.</emphasis>",
+				"3": "Everyone receives and sends mail through them. They are <emphasis>centralized.</emphasis>"
+			},
+			"4": {
+				"1": "So how is the Fediverse different? \uD83E\uDD14",
+				"2": "Your mail doesn't go to one central place, but to your <emphasis>hub</emphasis>, a sort of <emphasis>local post office</emphasis>.",
+				"3": "Your <emphasis>hub</emphasis> is responsible for sending your mail to other <emphasis>hubs</emphasis>. They can pick who <emphasis>they wish to send it to</emphasis> \uD83D\uDE9A"
+			},
+			"5": {
+				"1": "Who is my <emphasis>hub?</emphasis> \uD83E\uDD14",
+				"2": "A <emphasis>hub</emphasis> can be started by anyone, like a community group. You choose which one you want to <emphasis>join</emphasis>.",
+				"3": "We will help you select a hub and start posting in it. \uD83E\uDD17"
+			},
+			"6": {
+				"1": "Feeling\noverwhelmed?... \uD83D\uDE14",
+				"2": " This can feel complex. <emphasis>But you have already used the Fediverse before.</emphasis>",
+				"3": "As long as you have used e-mail, <emphasis>you have used the Fediverse.</emphasis>",
+				"4": "The Fediverse operates in a <emphasis>very similar way to how e-mail works.</emphasis>"
+			},
+			"7": {
+				"1": "Let's get started!",
+				"2": "We’ll first set you up with a hub. We’ll give you a list of options to pick from.",
+				"3": "There are many options available with many different communities.",
+				"4": "You can later go back to instance selection to choose another hub."
+			}
+		},
+		"hubDiscovery": {
+			"alreadyHaveServer": "Already have a server?"
+		}
+	},
+	"hubDiscovery": {
+		"createCommunities": {
+			"allowed": "This hub allows user created communities.",
+			"notAllowed": "This hub doesn't allow user created communities."
+		},
+		"federated": {
+			"allowed": "This hub can interact with other hubs.",
+			"notAllowed": "This hub can't interact with other hubs."
+		},
+		"downvote": {
+			"title": "Downvotes Allowed",
+			"allowed": "This hub allows users to downvote.",
+			"notAllowed": "This hub doesn't allow users to downvote."
+		}
+	},
+	"feed": {
+		"footer": {
+			"loading": "Loading more posts...",
+			"loadingError": "Failed to load posts :("
+		}
+	},
+	"searchOptions": {
+		"header": "Select An Option",
+		"communities": "Search Communities",
+		"users": "Search Users",
+		"posts": "Search Posts"
+	},
+	"memmyError": {
+		"title": "Well that's awkward. Memmy encountered an error. Please restart the app...",
+		"description": "We don't like bugs and you probably don't either. If you don't mind, could you please submit the logs? ♥️",
+		"submitBtn": "Submit Logs"
+	},
+	"loadingError": {
+		"text": "Error loading content :(",
+		"retryBtn": "Retry"
+	},
+	"imageView": {
+		"dialogDesc": "Downloading image..."
+	},
+	"sort": {
+		"Top": "Top",
+		"top": {
+			"Hour": "Last Hour",
+			"SixHours": "Six Hours",
+			"TwelveHours": "Twelve Hours",
+			"Day": "Day",
+			"Week": "Week",
+			"Month": "Month",
+			"Year": "Year",
+			"AllTime": "All Time"
+		},
+		"Hot": "Hot",
+		"Active": "Active",
+		"New": "New",
+		"MostComments": "Most Comments",
+		"NewComments": "New Comments",
+		"Old": "Old"
+	},
+	"Feed": "Feed",
+	"Comments": "Comments",
+	"Traverse": "Traverse",
+	"Profile": "Profile",
+	"Search": "Search",
+	"Inbox": "Inbox",
+	"Posts": "Posts",
+	"Saved Posts": "Saved Posts",
+	"New Comment": "New Comment",
+	"New Post": "New Post",
+	"About": "About",
+	"View Comments": "View Comments",
+	"View Posts": "View Posts",
+	"View Saved Posts": "View Saved Posts",
+	"Unread": "Unread",
+	"All": "All",
+	"Replies": "Replies",
+	"Communities": "Communities",
+	"Blocked Communities": "Blocked Communities",
+	"Create Communities": "Create Communities",
+	"Settings": "Settings",
+	"Accounts": "Accounts",
+	"Manage Accounts": "Manage Accounts",
+	"Edit Account": "Edit Account",
+	"Delete Account": "Delete Account",
+	"Add Account": "Add Account",
+	"Create Account": "Create Account",
+	"Mark Post Read On": "Mark Post Read...",
+	"Hide Read Posts": "Hide Read Posts",
+	"View": "View",
+	"Content": "Content",
+	"Appearance": "Appearance",
+	"Filters": "Filters",
+	"Keywords": "Keywords",
+	"Instances": "Instances",
+	"Theme": "Theme",
+	"Icon": "Icon",
+	"General": "General",
+	"Loading": "Loading",
+	"Welcome": "Welcome",
+	"Hubs": "Hubs",
+	"Instance": "Instance",
+	"Copy Text": "Copy Text",
+	"Copy Link": "Copy Link",
+	"Reply": "Reply",
+	"Report Post": "Report Post",
+	"Cancel": "Cancel",
+	"Remove": "Remove",
+	"Submit": "Submit",
+	"Retry": "Retry",
+	"Language": "Language",
+	"Select Language": "Select Language",
+	"Haptics": "Haptics",
+	"Strength": "Strength",
+	"Use Default Browser": "Use Default Browser",
+	"Browser": "Browser",
+	"No blocked communities": "No blocked communities",
+	"Email Debug Log": "Email Debug Log",
+	"Clear Debug Log": "Clear Debug Log",
+	"Clear Cache": "Clear Cache",
+	"Default Sort": "Default Sort",
+	"Default Comment Sort": "Default Comment Sort",
+	"Hide Read Posts on Feed": "Hide Read Posts on Feed",
+	"Hide Read Posts in Communities": "Hide Read Posts in Communities",
+	"Show Hide Read Button": "Show Hide Read Button",
+	"Show Comment Actions": "Show Comment Actions",
+	"NSFW": "NSFW",
+	"NSFW Content": "NSFW Content",
+	"Sensitive content ahead": "Sensitive content ahead",
+	"Accent Color": "Accent Color",
+	"Add": "Add",
+	"Logout": "Logout",
+	"Continue": "Continue",
+	"Server": "Server",
+	"Server Address": "Server Address",
+	"Username": "Username",
+	"Password": "Password",
+	"Confirm Password": "Confirm Password",
+	"Push Notifications": "Push Notifications",
+	"Save": "Save",
+	"2FA Token": "2FA Token",
+	"Version": "Version",
+	"License": "License",
+	"Acknowledgements": "Acknowledgements",
+	"Privacy Policy": "Privacy Policy",
+	"Terms of Use": "Terms of Use",
+	"OK": "OK",
+	"Users": "Users",
+	"Comment": "Comment",
+	"Comment_plural": "Comments",
+	"Back": "Back",
+	"Selected": "Selected",
+	"Favorites": "Favorites",
+	"Subscriptions": "Subscriptions",
+	"Email": "Email",
+	"Captcha Answer": "Captcha Answer",
+	"Link": "Link",
+	"Login": "Login",
+	"Yes": "Yes",
+	"No": "No",
+	"Join": "Join",
+	"Hub Info": "Hub Info",
+	"Other Info": "Other Info",
+	"Legal Info": "Legal Info",
+	"Federate": "Federate",
+	"User": "User",
+	"User_plural": "Users",
+	"Defederated": "Defederated",
+	"Registration Closed": "Registration Closed",
+	"Application Required": "Application Required",
+	"Open Registration": "Open Registration",
+	"Subscribed": "Subscribed",
+	"Subscribe": "Subscribe",
+	"Post": "Post",
+	"Description": "Description",
+	"Label": "Label",
+	"Trending": "Trending",
+	"Go Back": "Go Back",
+	"Stats": "Stats",
+	"Moderators": "Moderators",
+	"Local": "Local",
+	"Upvote": "Upvote",
+	"Downvote": "Downvote",
+	"Block User": "Block User",
+	"Block": "Block",
+	"Community": "Community",
+	"Post Size": "Post Size",
+	"Compact": "Compact",
+	"Large": "Large",
+	"None": "None",
+	"Left": "Left",
+	"Right": "Right",
+	"Account Created": "Account Created",
 	"Delete": "Delete"
 }

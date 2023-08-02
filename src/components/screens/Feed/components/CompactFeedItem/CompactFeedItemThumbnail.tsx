@@ -42,12 +42,6 @@ function CompactFeedItemThumbnail({ postId, linkInfo }: IProps) {
     (state) => state.settings.markReadOnPostImageView
   );
 
-  const setPostRead = useCallback(() => {
-    if (postRead) return;
-
-    setFeedRead(key, postId);
-  }, [postId, postRead]);
-
   const onImagePress = useCallback(() => {
     lemmyInstance
       .markPostAsRead({
@@ -56,10 +50,11 @@ function CompactFeedItemThumbnail({ postId, linkInfo }: IProps) {
         read: true,
       })
       .then();
-    if (setPostRead && markReadOnPostImageView) {
-      setPostRead();
+
+    if (markReadOnPostImageView) {
+      setFeedRead(key, postId);
     }
-  }, [postId]);
+  }, [postId, postRead, markReadOnPostImageView]);
 
   const onLinkPress = useCallback(() => {
     if (!postInfo.url) return;

@@ -6793,10 +6793,10 @@ language-tags@=1.0.5:
   dependencies:
     language-subtag-registry "~0.3.2"
 
-lemmy-js-client@^0.18.0-rc.2:
-  version "0.18.0-rc.2"
-  resolved "https://registry.yarnpkg.com/lemmy-js-client/-/lemmy-js-client-0.18.0-rc.2.tgz#6cd8b4dc95de8f2a6f99de56819c141a394dca04"
-  integrity sha512-bnYs89MjlQHwVIr1YIoAvgFkCTWrXDjSgPbCJx8ijrxZXqOKW/KAgWEisfqyFpy3dYpA3/sxFjh7b4sdxM+8VA==
+lemmy-js-client@^0.18.1:
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/lemmy-js-client/-/lemmy-js-client-0.18.1.tgz#28df266eded0ef4a72b05ee6eabebddadfd81a27"
+  integrity sha512-maafUZ9ZJkXthRZmM0+limJmymF2kmN/8SiKufS3V4OVNM72s+wUFFiyhKmA370g23iZRW6SUagE7jNKnqNyYQ==
   dependencies:
     cross-fetch "^3.1.5"
     form-data "^4.0.0"
@@ -7846,6 +7846,11 @@ minizlib@^2.1.1:
     minipass "^3.0.0"
     yallist "^4.0.0"
 
+mitt@1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/mitt/-/mitt-1.1.3.tgz#528c506238a05dce11cd914a741ea2cc332da9b8"
+  integrity sha512-mUDCnVNsAi+eD6qA0HkRkwYczbLHJ49z17BGe2PYRhZL4wpZUFZGJHU7/5tmvohoma+Hdn0Vh/oJTiPEmgSruA==
+
 mkdirp@^0.5.1, mkdirp@~0.5.1:
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.6.tgz#7def03d2432dcae4ba1d611445c48396062255f6"
@@ -8641,6 +8646,15 @@ qs@^6.11.0, qs@^6.7.0:
   dependencies:
     side-channel "^1.0.4"
 
+query-string@6.10.1:
+  version "6.10.1"
+  resolved "https://registry.yarnpkg.com/query-string/-/query-string-6.10.1.tgz#30b3505f6fca741d5ae541964d1b3ae9dc2a0de8"
+  integrity sha512-SHTUV6gDlgMXg/AQUuLpTiBtW/etZ9JT6k6RCtCyqADquApLX0Aq5oK/s5UeTUAWBG50IExjIr587GqfXRfM4A==
+  dependencies:
+    decode-uri-component "^0.2.0"
+    split-on-first "^1.0.0"
+    strict-uri-encode "^2.0.0"
+
 query-string@^5.0.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-5.1.1.tgz#a78c012b71c17e05f2e3fa2319dd330682efb3cb"
@@ -8857,6 +8871,11 @@ react-native-flipper@0.203.0:
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.203.0.tgz#eada24f45654bb79a985778013fe63d3cb12a37b"
   integrity sha512-6YRqzgGxuvbL99I0DONXcWZjV6z3kUiXopBGSQxbFUa6JXo7kq4+dkPvHBatYbunzh0kg5zx51sUNJIWxhuLIw==
 
+react-native-flipper@^0.164.0:
+  version "0.164.0"
+  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.164.0.tgz#64f6269a86a13a72e30f53ba9f5281d2073a7697"
+  integrity sha512-iJhIe3rqx6okuzBp4AJsTa2b8VRAOGzoLRFx/4HGbaGvu8AurZjz8TTQkhJsRma8dsHN2b6KKZPvGGW3wdWzvA==
+
 react-native-fs@^2.20.0:
   version "2.20.0"
   resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.20.0.tgz#05a9362b473bfc0910772c0acbb73a78dbc810f6"
@@ -8943,15 +8962,15 @@ react-native-render-html@^6.3.4:
     stringify-entities "^3.1.0"
     urijs "^1.19.6"
 
-react-native-safe-area-context@4.6.3:
-  version "4.6.3"
-  resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-4.6.3.tgz#f06cfea05b1c4b018aa9758667a109f619c62b55"
-  integrity sha512-3CeZM9HFXkuqiU9HqhOQp1yxhXw6q99axPWrT+VJkITd67gnPSU03+U27Xk2/cr9XrLUnakM07kj7H0hdPnFiQ==
+react-native-safe-area-context@4.6.4:
+  version "4.6.4"
+  resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-4.6.4.tgz#84a324f28209a91a9a5b802f9339428f2366ebe3"
+  integrity sha512-UWYsokTLZmj8g0cluzoUeGUjQrCTW4slKr2xKmuwQCurAuvSJq/QvfhCrqyea++XrXo46+1Q3wSoP50YXG24jA==
 
-react-native-screens@^3.22.0:
-  version "3.22.0"
-  resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-3.22.0.tgz#7d892baf964fddb642b5eec71a09e2aeb501e578"
-  integrity sha512-csLypBSXIt/egh37YJmokETptZJCtZdoZBsZNLR9n31GesDyVogprT+MM22dEPDuxPxt/mFWq+lSpVwk7khuTw==
+react-native-screens@^3.22.1:
+  version "3.23.0"
+  resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-3.23.0.tgz#7afb9456df3aa2c4a7a19889a44687003b8fb2b4"
+  integrity sha512-SdYGv1/f2o43OVZlBtaHEIfyWa3EjqBWB3m/kH+G7m8tNIi98mh4t5bUL7ISBtaR4Zhrs1sU93Rq6BYoHECdgQ==
   dependencies:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
@@ -8961,28 +8980,28 @@ react-native-sfsymbols@^1.2.1:
   resolved "https://registry.yarnpkg.com/react-native-sfsymbols/-/react-native-sfsymbols-1.2.1.tgz#53422d432dca1e028cfd95a283d69a590d3e3f84"
   integrity sha512-G8TLcTJwUsVhDQV/yatoltWF+BWrEyb5Grmrhzdrc0gH9TgXnjfoJ9QxaWwC/3D6QVuaugosnbmlL69EurgM/w==
 
-react-native-share@^9.2.0:
-  version "9.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-9.2.0.tgz#cd654e6e091b6f1889a9f9a417dfd4e3f1334a62"
-  integrity sha512-zbZdmnOQTR9sW+Dm2eHcEXzcYBReZ/tSeUud9KZzALvO5ywH5qK43x0Q4krIIEsMTaDtT5CWY+cbenXHoF2LFA==
+react-native-share@^9.2.1:
+  version "9.2.3"
+  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-9.2.3.tgz#14eb07cb1ee503421df0e9a80fdbf3fb0180223b"
+  integrity sha512-y6ju4HS6ydJoPVoacZ/Hp3i47AfI9W4e76Jv00r01dVbr6SCCcuqk37kIbn+kYivdTxOW77UGEbhtBHHtXnhzg==
 
 react-native-size-matters@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/react-native-size-matters/-/react-native-size-matters-0.3.1.tgz#24d0cfc335a2c730f6d58bd7b43ea5a41be4b49f"
   integrity sha512-mKOfBLIBFBcs9br1rlZDvxD5+mAl8Gfr5CounwJtxI6Z82rGrMO+Kgl9EIg3RMVf3G855a85YVqHJL2f5EDRlw==
 
-react-native-svg@13.4.0:
-  version "13.4.0"
-  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-13.4.0.tgz#82399ba0956c454144618aa581e2d748dd3f010a"
-  integrity sha512-B3TwK+H0+JuRhYPzF21AgqMt4fjhCwDZ9QUtwNstT5XcslJBXC0FoTkdZo8IEb1Sv4suSqhZwlAY6lwOv3tHag==
+react-native-svg@13.10.0:
+  version "13.10.0"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-13.10.0.tgz#d3c6222ea9cc1e21e2af0fd59dfbeafe7a3d0dc1"
+  integrity sha512-D/oYTmUi5nsA/2Nw4WYlF1UUi3vZqhpESpiEhpYCIFB/EMd6vz4A/uq3tIzZFcfa5z2oAdGSxRU1TaYr8IcPlQ==
   dependencies:
     css-select "^5.1.0"
     css-tree "^1.1.3"
 
-react-native-svg@13.9.0:
-  version "13.9.0"
-  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-13.9.0.tgz#8df8a690dd00362601f074dec5d3a86dd0f99c7f"
-  integrity sha512-Ey18POH0dA0ob/QiwCBVrxIiwflhYuw0P0hBlOHeY4J5cdbs8ngdKHeWC/Kt9+ryP6fNoEQ1PUgPYw2Bs/rp5Q==
+react-native-svg@13.4.0:
+  version "13.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-13.4.0.tgz#82399ba0956c454144618aa581e2d748dd3f010a"
+  integrity sha512-B3TwK+H0+JuRhYPzF21AgqMt4fjhCwDZ9QUtwNstT5XcslJBXC0FoTkdZo8IEb1Sv4suSqhZwlAY6lwOv3tHag==
   dependencies:
     css-select "^5.1.0"
     css-tree "^1.1.3"
@@ -9097,6 +9116,27 @@ react@18.2.0:
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
   dependencies:
     loose-envify "^1.1.0"
+
+reactotron-core-client@2.8.10:
+  version "2.8.10"
+  resolved "https://registry.yarnpkg.com/reactotron-core-client/-/reactotron-core-client-2.8.10.tgz#798f2a7aa9fd7e18e7a510531a613e8ae3008eb0"
+  integrity sha512-SYRO4OCutJzfWMnaULUGVyETZnMDCU5ECNflXyM3Z5Gnfxp/wV6d7jYonhfxHdpU/aGb4Eg15C22myOCXSu6HQ==
+
+"reactotron-plugin-zustand@https://github.com/aylonmuramatsu/reactotron-zustand-plugin.git":
+  version "1.0.0"
+  resolved "https://github.com/aylonmuramatsu/reactotron-zustand-plugin.git#fd8649550356b2c1da1a11ad47e3f84bd331938b"
+
+reactotron-react-native@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/reactotron-react-native/-/reactotron-react-native-5.0.3.tgz#5ab884f33e6ffa0437b8b0f4d93cabb5acb7da24"
+  integrity sha512-uUQ074uw3I9X/pc7FBgrrwrFzfwXDKlxzuekNjzspZz9Y0qVLX1cAm9GTC0ZPsZRvY5wDPY/Il7XfV1YeVSDxA==
+  dependencies:
+    mitt "1.1.3"
+    query-string "6.10.1"
+    reactotron-core-client "2.8.10"
+    rn-host-detect "1.2.0"
+  optionalDependencies:
+    react-native-flipper "^0.164.0"
 
 readable-stream@1.1.x:
   version "1.1.14"
@@ -9369,6 +9409,11 @@ rimraf@~2.6.2:
   integrity sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==
   dependencies:
     glob "^7.1.3"
+
+rn-host-detect@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/rn-host-detect/-/rn-host-detect-1.2.0.tgz#8b0396fc05631ec60c1cb8789e5070cdb04d0da0"
+  integrity sha512-btNg5kzHcjZZ7t7mvvV/4wNJ9e3MPgrWivkRgWURzXL0JJ0pwWlU4zrbmdlz3HHzHOxhBhHB4D+/dbMFfu4/4A==
 
 rtl-detect@^1.0.2:
   version "1.0.4"

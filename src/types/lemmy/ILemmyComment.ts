@@ -10,6 +10,7 @@ interface ILemmyComment {
   showMoreChildren?: boolean;
   startedHiddenTop?: boolean;
   startedHiddenChildren?: boolean;
+  displayMore?: boolean;
 }
 
 export default ILemmyComment;

@@ -61,6 +61,8 @@ const loadPostComments = async (
         // will show a Show More box
         if (depth === 1) {
           if (current === 4) {
+            console.log(comment.comment.comment.content);
+            console.log("Found one.");
             showMoreTop = true;
           }
 
@@ -69,7 +71,7 @@ const loadPostComments = async (
         }
 
         // Figure out if the comment will be hidden or not
-        if (depth >= 4 || current >= 4) {
+        if (depth >= 5 || current >= 6) {
           hidden = true;
         }
 
@@ -78,10 +80,11 @@ const loadPostComments = async (
           myVote: item.comment.my_vote as ILemmyVote,
           collapsed: false,
           hidden,
-          startedHiddenTop: hidden && depth === 1,
-          startedHiddenChildren: hidden && depth !== 1,
+          startedHiddenTop: (showMoreTop || hidden) && depth === 1,
+          startedHiddenChildren: (showMoreChildren || hidden) && depth !== 1,
           showMoreChildren,
           showMoreTop,
+          displayMore: !(showMoreChildren || showMoreTop),
         });
         replyComments.push(...getChildren(item));
       }

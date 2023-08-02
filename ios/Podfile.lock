@@ -515,7 +515,7 @@ PODS:
     - React-Core
   - react-native-root-view-background (1.3.0):
     - React-Core
-  - react-native-safe-area-context (4.6.3):
+  - react-native-safe-area-context (4.6.4):
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
@@ -684,12 +684,12 @@ PODS:
     - React-RCTText
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.22.0):
+  - RNScreens (3.23.0):
     - React-Core
     - React-RCTImage
-  - RNShare (9.2.0):
+  - RNShare (9.2.3):
     - React-Core
-  - RNSVG (13.9.0):
+  - RNSVG (13.10.0):
     - React-Core
   - RNVectorIcons (9.2.0):
     - React-Core
@@ -1103,7 +1103,7 @@ SPEC CHECKSUMS:
   react-native-pager-view: 0ccb8bf60e2ebd38b1f3669fa3650ecce81db2df
   react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
   react-native-root-view-background: 59f34bbd5308d5981d0928e81969929bde013ff4
-  react-native-safe-area-context: 36cc67648134e89465663b8172336a19eeda493d
+  react-native-safe-area-context: 68b07eabfb0d14547d36f6929c0e98d818064f02
   react-native-sfsymbols: bd3a0d3eab185e80b571bae60753dcf5a0d57967
   react-native-slider: 33b8d190b59d4f67a541061bb91775d53d617d9d
   react-native-webview: b8ec89966713985111a14d6e4bf98d8b54bced0d
@@ -1133,9 +1133,9 @@ SPEC CHECKSUMS:
   RNGestureHandler: dec4645026e7401a0899f2846d864403478ff6a5
   RNReactNativeHapticFeedback: afa5bf2794aecbb2dba2525329253da0d66656df
   RNReanimated: 9f7068e43b9358a46a688d94a5a3adb258139457
-  RNScreens: 68fd1060f57dd1023880bf4c05d74784b5392789
-  RNShare: b71572a3219740b60ffa7dbcf5d79b08e5625f4a
-  RNSVG: 53c661b76829783cdaf9b7a57258f3d3b4c28315
+  RNScreens: 6a8a3c6b808aa48dca1780df7b73ea524f602c63
+  RNShare: da6d90b6dc332f51f86498041d6e34211f96b630
+  RNSVG: 80584470ff1ffc7994923ea135a3e5ad825546b9
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d

@@ -1,13 +1,13 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
-import { ICON_MAP } from "../../../constants/IconMap";
+import { ICON_MAP } from "@src/constants/IconMap";
 import {
-  useAccountStore,
   useAccounts,
+  useAccountStore,
   useCurrentAccount,
-} from "../../../stores/account/accountStore";
-import { ContextMenuOption } from "../../../types/ContextMenuOptions";
+} from "@src/stores/account/accountStore";
+import { ContextMenuOption } from "@src/types/ContextMenuOptions";
 import { AppContextMenuButton } from "./App/AppContextMenuButton";
 
 interface IProps {
