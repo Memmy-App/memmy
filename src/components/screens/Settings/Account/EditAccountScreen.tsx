@@ -68,7 +68,6 @@ function EditAccountScreen({
       setForm({
         ...form,
         username: account.username,
-        password: account.password,
         server: account.instance,
       });
 
@@ -147,14 +146,12 @@ function EditAccountScreen({
     if (edit.current) {
       accountStore.editAccount({
         username: form.username,
-        password: form.password,
         token: lemmyAuthToken,
         instance: form.server,
       });
     } else {
       accountStore.addAccount({
         username: form.username,
-        password: form.password,
         token: lemmyAuthToken,
         instance: form.server,
       });
