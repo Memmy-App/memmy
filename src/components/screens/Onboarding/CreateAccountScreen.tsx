@@ -197,14 +197,11 @@ function CreateAccountScreen({
 
     setLoading(false);
 
-    accountStore
-      .addAccount({
-        username: form.username,
-        password: form.password,
-        instance: serverParsed,
-        token: lemmyAuthToken,
-      })
-      .then();
+    accountStore.addAccount({
+      username: form.username,
+      instance: serverParsed,
+      token: lemmyAuthToken,
+    });
   };
 
   return (

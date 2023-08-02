@@ -86,8 +86,6 @@ function AddAccountScreen({ route, navigation }: IProps) {
       totpToken: form.totpToken,
     };
 
-    setLoading(true);
-
     const success = await initialize(server);
 
     setLoading(false);
@@ -117,7 +115,6 @@ function AddAccountScreen({ route, navigation }: IProps) {
 
       accountStore.addAccount({
         username: form.username,
-        password: form.password,
         instance: getBaseUrl(form.server),
         token: lemmyAuthToken,
       });
