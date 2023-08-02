@@ -92,6 +92,10 @@
     "removedByMod": "Komentář byl smazán moderátorem :("
   },
   "settings": {
+    "general": {
+      "useReaderMode": "Použít čtečku"
+    },
+    "reportBugBtn": "Nahlásit chybu na Github",
     "haptics": {
       "Off": "Vypnuto",
       "Light": "Jemné",
@@ -103,9 +107,6 @@
         "footer": "Tyto nastavení nijak neovlivní tvoje NSFW nastavení na tvém účtu. Toto nastavení se projeví pouze lokálně v aplikaci (globálně pro všechny účty).",
         "blur": "Rozmazat NSFW Obsah",
         "hide": "Schovat NSFW Obsah"
-      },
-      "web": {
-        "useReaderMode": "Použít čtečku"
       },
       "markRead": {
         "header": "NASTAVENÍ OZNAČOVANÍ JAKO PŘEČTENO",

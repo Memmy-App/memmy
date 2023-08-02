@@ -1,34 +1,36 @@
-import { HStack, Text, useTheme } from "native-base";
+import { HStack, Text } from "@src/components/common/Gluestack";
+import { useAppDispatch, useAppSelector } from "@root/store";
 import React, { useEffect } from "react";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { useAppDispatch, useAppSelector } from "../../../store";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import {
-  ToastVariant,
   hideToast,
   selectToast,
+  ToastVariant,
 } from "../../slices/toast/toastSlice";
 import SFIcon from "./icons/SFIcon";
+import { ICON_MAP } from "../../constants/IconMap";
 
 function Toast(): JSX.Element {
   const { isOpen, message, duration, variant, icon } =
     useAppSelector(selectToast);
   const dispatch = useAppDispatch();
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   const positionY = useSharedValue(-100);
 
-  const bgColor = theme.colors.app[variant];
-  const textColor = theme.colors.app[`${variant}Text`];
+  const bgColor = theme.colors[variant];
+  const textColor = theme.colors[`${variant}Text`];
 
   const iconMap: Record<ToastVariant, JSX.Element> = {
-    info: <SFIcon color={textColor} icon="checkmark.circle" />,
-    success: <SFIcon color={textColor} icon="checkmark.circle" />,
-    error: <SFIcon color={textColor} icon="exclamationmark.circle" />,
-    warn: <SFIcon color={textColor} icon="exclamationmark.circle" />,
+    info: <SFIcon color={textColor} icon={ICON_MAP.TOAST.INFO} />,
+    success: <SFIcon color={textColor} icon={ICON_MAP.TOAST.SUCCESS} />,
+    error: <SFIcon color={textColor} icon={ICON_MAP.TOAST.ERROR} />,
+    warn: <SFIcon color={textColor} icon={ICON_MAP.TOAST.WARN} />,
   };
 
   useEffect(() => {
@@ -83,7 +85,7 @@ function Toast(): JSX.Element {
         animatedStyle,
       ]}
     >
-      <HStack justifyContent="center" alignItems="center" space={1}>
+      <HStack justifyContent="center" alignItems="center" space="xs">
         {icon || iconMap[variant]}
         <Text color={textColor} fontWeight="semibold" alignContent="center">
           {message}

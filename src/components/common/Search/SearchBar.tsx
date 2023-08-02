@@ -1,6 +1,7 @@
 import React, { SetStateAction, useRef } from "react";
-import { useTheme, VStack } from "native-base";
+import { VStack } from "@src/components/common/Gluestack";
 import { TextInput } from "react-native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import SearchBox from "./SearchBox";
 
 interface IProps {
@@ -11,11 +12,11 @@ interface IProps {
 }
 
 function SearchBar({ query, setQuery, onSubmit, autoFocus = true }: IProps) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
   const inputRef = useRef<TextInput>();
 
   return (
-    <VStack backgroundColor={theme.colors.app.bg} pt={3} pb={2} px={4}>
+    <VStack backgroundColor={theme.colors.bg} pt="$3" pb="$2" px="$4">
       <SearchBox
         query={query}
         setQuery={setQuery}

@@ -1,8 +1,9 @@
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
 import { useFeedsStore } from "../feedsStore";
-import store from "../../../../store";
 
 const addFeed = (feedKey: string, communityName?: string) => {
-  const { defaultSort, defaultListingType } = store.getState().settings;
+  const { defaultSort, defaultListingType } =
+    useSettingsStore.getState().settings;
 
   useFeedsStore.setState((state) => {
     state.feeds.set(feedKey, {

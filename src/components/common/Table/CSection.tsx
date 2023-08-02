@@ -1,15 +1,15 @@
 import React from "react";
 import { Section } from "@gkasdorf/react-native-tableview-simple";
 import { SectionInterface } from "@gkasdorf/react-native-tableview-simple/lib/typescript/components/Section";
-import { useTheme } from "native-base";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 function CSection({ ...props }: SectionInterface) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
   return (
     <Section
       roundedCorners
       hideSurroundingSeparators
-      separatorTintColor={theme.colors.app.border}
+      separatorTintColor={theme.colors.border}
       {...props}
       header={props.header ? props.header.toUpperCase() : ""}
     >

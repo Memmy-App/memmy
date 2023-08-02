@@ -1,6 +1,7 @@
 import { LemmyHttp } from "lemmy-js-client";
 import { Platform } from "react-native";
 import { getReadableVersion } from "react-native-device-info";
+import { useSiteStore } from "@src/stores/site/siteStore";
 import ILemmyServer from "./types/lemmy/ILemmyServer";
 import { writeToLog } from "./helpers/LogHelper";
 import { handleLemmyError } from "./helpers/LemmyErrorHelper";
@@ -34,6 +35,7 @@ const initialize = async (server: ILemmyServer): Promise<boolean> => {
   if (server.auth) {
     writeToLog("Already authenticated. Using existing authentication token.");
     lemmyAuthToken = server.auth;
+    useSiteStore.getState().init();
     return true;
   }
   writeToLog("Attempting login.");
@@ -50,6 +52,9 @@ const initialize = async (server: ILemmyServer): Promise<boolean> => {
   try {
     const res = await lemmyInstance.login(args);
     lemmyAuthToken = res.jwt;
+
+    // Load the site info
+    useSiteStore.getState().init();
     return true;
   } catch (e) {
     resetInstance();

@@ -1,9 +1,10 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
-import { VStack, useTheme } from "native-base";
+import { VStack } from "@src/components/common/Gluestack";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { CommentReplyView } from "lemmy-js-client";
 import { useFocusEffect } from "@react-navigation/native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import useInbox from "../../../hooks/inbox/useInbox";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import HeaderIconButton from "../../common/Buttons/HeaderIconButton";
@@ -24,7 +25,7 @@ function InboxScreen({
 }: {
   navigation: NativeStackNavigationProp<any>;
 }) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
   const inbox = useInbox();
   const replies = useInboxReplies();
   const status = useInboxStatus();
@@ -52,7 +53,6 @@ function InboxScreen({
     <InboxReplyItem
       commentId={item.comment.comment.id}
       unread={inbox.topSelected === "unread"}
-      onPress={inbox.onCommentReplyPress}
     />
   );
 
@@ -88,7 +88,7 @@ function InboxScreen({
   const empty = (!status.loading && status.error && (
     <LoadingErrorView onRetryPress={inbox.doLoad} />
   )) || (
-    <VStack p={4} alignItems="center" justifyContent="center">
+    <VStack p="$4" alignItems="center" justifyContent="center">
       <NoResultView type="inbox" />
     </VStack>
   );
@@ -98,7 +98,7 @@ function InboxScreen({
   }
 
   return (
-    <VStack flex={1} backgroundColor={theme.colors.app.bg}>
+    <VStack flex={1} backgroundColor={theme.colors.bg}>
       <FlashList
         renderItem={replyItem}
         data={items}

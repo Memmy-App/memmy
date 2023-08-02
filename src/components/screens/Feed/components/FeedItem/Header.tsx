@@ -1,5 +1,5 @@
 import { Community } from "lemmy-js-client";
-import { HStack } from "native-base";
+import { HStack } from "@src/components/common/Gluestack";
 import React from "react";
 import { UseFeedItem } from "../../../../../hooks/feeds/useFeedItem";
 import CommunityLink from "../../../../common/CommunityLink";
@@ -7,6 +7,7 @@ import { FeedItemContextMenu } from "../../../../common/ContextMenu/FeedItemCont
 import FeaturedIndicator from "../../../../common/FeaturedIndicator";
 import { IsReadIndicator } from "../../../../common/IsReadIndicator";
 import SFIcon from "../../../../common/icons/SFIcon";
+import { ICON_MAP } from "../../../../../constants/IconMap";
 
 interface Props {
   community: Community;
@@ -17,18 +18,18 @@ interface Props {
 export function Header({ community, featured, isRead, feedItem }: Props) {
   return (
     <HStack
-      mx={4}
-      mt={2}
-      mb={2}
+      mx="$4"
+      mt="$2"
+      mb="$2"
       justifyContent="space-between"
       alignItems="center"
     >
       <CommunityLink community={community} />
-      <HStack space={1} alignItems="center">
+      <HStack space="sm" alignItems="center">
         <FeaturedIndicator featured={featured} />
         <IsReadIndicator isRead={isRead} />
         <FeedItemContextMenu feedItem={feedItem} isButton>
-          <SFIcon icon="ellipsis" size={14} />
+          <SFIcon icon={ICON_MAP.MORE_OPTIONS} size={14} />
         </FeedItemContextMenu>
       </HStack>
     </HStack>

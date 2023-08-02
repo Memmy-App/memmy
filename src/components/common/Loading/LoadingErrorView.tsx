@@ -1,7 +1,8 @@
 import React from "react";
-import { Text, useTheme, View } from "native-base";
+import { Text, View } from "@src/components/common/Gluestack";
 import { Button, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 interface LoadingViewProps {
   onRetryPress: () => void | Promise<void>;
@@ -9,11 +10,11 @@ interface LoadingViewProps {
 
 function LoadingErrorView({ onRetryPress }: LoadingViewProps) {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   return (
-    <View style={styles.container} backgroundColor={theme.colors.app.bg}>
-      <Text fontStyle="italic" color="gray.500">
+    <View style={styles.container} backgroundColor={theme.colors.bg}>
+      <Text fontStyle="italic" color="$gray500">
         {t("loadingError.text")}
       </Text>
       <Button title={t("loadingError.retryBtn")} onPress={onRetryPress} />

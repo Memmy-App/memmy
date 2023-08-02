@@ -1,12 +1,14 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { Person } from "lemmy-js-client";
-import { HStack, Text, useTheme, VStack } from "native-base";
+import { HStack, Text, VStack } from "@src/components/common/Gluestack";
 import React from "react";
-import { useAppSelector } from "../../../store";
-import { ICON_MAP } from "../../constants/IconMap";
-import { getUserFullName } from "../../helpers/LemmyHelpers";
-import { getBaseUrl } from "../../helpers/LinkHelper";
-import { selectSettings } from "../../slices/settings/settingsSlice";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
+import { ICON_MAP } from "@src/constants/IconMap";
+import { getUserFullName } from "@src/helpers/LemmyHelpers";
+import { getBaseUrl } from "@src/helpers/LinkHelper";
 import Link from "./Buttons/Link";
 import Chip from "./Chip";
 import SFIcon from "./icons/SFIcon";
@@ -54,6 +56,7 @@ interface IProps {
   isMod?: boolean;
   children?: React.ReactNode;
   link?: boolean;
+  showPill?: boolean;
 }
 
 function AvatarUsername({
@@ -63,9 +66,12 @@ function AvatarUsername({
   isMod = false,
   children,
   link = true,
+  showPill = true,
 }: IProps) {
-  const { showInstanceForUsernames } = useAppSelector(selectSettings);
-  const theme = useTheme();
+  const showInstanceForUsernames = useSettingsStore(
+    (state) => state.settings.showInstanceForUsernames
+  );
+  const theme = useThemeOptions();
   const type = getUserPillType({ user: creator, opId, isMod });
 
   const NameColorMap: Record<
@@ -73,22 +79,22 @@ function AvatarUsername({
     { textColor: string; bgColor: string; label: string }
   > = {
     admin: {
-      bgColor: theme.colors.app.users.admin,
+      bgColor: theme.colors.users.admin,
       textColor: "#fff",
       label: "ADMIN",
     },
     mod: {
-      bgColor: theme.colors.app.users.mod,
+      bgColor: theme.colors.users.mod,
       textColor: "#fff",
       label: "MOD",
     },
     op: {
-      bgColor: theme.colors.app.users.op,
+      bgColor: theme.colors.users.op,
       textColor: "#fff",
       label: "OP",
     },
     dev: {
-      bgColor: theme.colors.app.users.dev,
+      bgColor: theme.colors.users.dev,
       textColor: "#fff",
       label: "DEV",
     },
@@ -97,7 +103,7 @@ function AvatarUsername({
   const nameProps = NameColorMap[type];
 
   return (
-    <HStack space={1} alignItems="center">
+    <HStack space="xs" alignItems="center">
       {showAvatar &&
         (creator.avatar ? (
           <FastImage
@@ -109,21 +115,21 @@ function AvatarUsername({
         ) : (
           <SFIcon
             icon={ICON_MAP.USER_AVATAR}
-            color={theme.colors.app.textSecondary}
+            color={theme.colors.textSecondary}
             size={14}
             boxSize={22}
           />
         ))}
       {creator.bot_account && (
         <SFIcon
-          icon="server.rack"
+          icon={ICON_MAP.BOT_ACCOUNT}
           size={12}
           boxSize={20}
-          color={theme.colors.app.info}
+          color={theme.colors.info}
         />
       )}
       <VStack>
-        <HStack space={0.5}>
+        <HStack space="xxs">
           <Link
             screen="Profile"
             params={{
@@ -133,12 +139,12 @@ function AvatarUsername({
           >
             <Text
               fontWeight="normal"
-              color={type ? nameProps.bgColor : theme.colors.app.textSecondary}
+              color={type ? nameProps.bgColor : theme.colors.textSecondary}
             >
               {creator.name}
             </Text>
           </Link>
-          {type && (
+          {type && showPill && (
             <Chip
               text={nameProps.label}
               color={nameProps.bgColor}
@@ -147,7 +153,7 @@ function AvatarUsername({
           )}
         </HStack>
         {showInstanceForUsernames && (
-          <Text fontSize="xs" color={theme.colors.app.textPrimary}>
+          <Text size="xs" color={theme.colors.textPrimary}>
             {getBaseUrl(creator.actor_id)}
           </Text>
         )}

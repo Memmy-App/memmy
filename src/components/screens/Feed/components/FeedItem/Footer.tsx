@@ -1,5 +1,5 @@
 import React from "react";
-import { HStack } from "native-base";
+import { HStack } from "@src/components/common/Gluestack";
 
 interface Props {
   children: React.ReactNode;
@@ -7,7 +7,7 @@ interface Props {
 
 export function Footer({ children }: Props) {
   return (
-    <HStack mx={4} alignItems="center" mb={3} mt={1}>
+    <HStack mx="$4" alignItems="center" mb="$3" mt="$1">
       {children}
     </HStack>
   );

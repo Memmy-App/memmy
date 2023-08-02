@@ -1,5 +1,6 @@
-import { HStack, useTheme, View } from "native-base";
 import React from "react";
+import { HStack, View } from "@src/components/common/Gluestack";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { ICON_MAP } from "../../../../constants/IconMap";
 import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
 import { saveImage } from "../../../../helpers/ImageHelper";
@@ -14,7 +15,7 @@ interface VideoViewFooterProps {
 }
 
 function VideoViewFooter({ source }: VideoViewFooterProps) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
   const dispatch = useAppDispatch();
 
   const onSave = async () => {
@@ -48,7 +49,7 @@ function VideoViewFooter({ source }: VideoViewFooterProps) {
         flex={1}
         mb={10}
         mx={10}
-        space={2}
+        space="sm"
         alignItems="center"
         justifyContent="space-between"
       >
@@ -57,7 +58,7 @@ function VideoViewFooter({ source }: VideoViewFooterProps) {
           icon={
             <SFIcon
               icon="square.and.arrow.down"
-              color={theme.colors.app.textSecondary}
+              color={theme.colors.textSecondary}
               size={20}
             />
           }
@@ -67,7 +68,7 @@ function VideoViewFooter({ source }: VideoViewFooterProps) {
           icon={
             <SFIcon
               icon={ICON_MAP.SHARE}
-              color={theme.colors.app.textSecondary}
+              color={theme.colors.textSecondary}
               size={20}
             />
           }

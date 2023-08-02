@@ -9,9 +9,9 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { useTheme } from "native-base";
 import React, { useEffect, useMemo, useState } from "react";
 import { Dimensions, LayoutRectangle, StyleSheet } from "react-native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { ISwipeableColors } from "./types";
 import { useSwipeableRow } from "./SwipeableRowProvider";
@@ -21,13 +21,13 @@ import { ICON_MAP } from "../../../constants/IconMap";
 type Stops = [first: number, second: number];
 const DEFAULT_STOPS: Stops = [-75, -150];
 
-type Icon = "comment" | "save" | "read";
+export type ReplyOptionIcon = "comment" | "Save" | "read" | "Collapse";
 
 interface Props {
   stops?: Stops;
   onReply: () => unknown;
   onExtra?: () => unknown;
-  extraType?: Icon | undefined;
+  extraType?: ReplyOptionIcon | undefined;
 }
 
 const buzz = () => {
@@ -37,8 +37,13 @@ const buzz = () => {
 };
 
 const bookmarkIcon = <SFIcon icon={ICON_MAP.SAVE} color="white" size={14} />;
-const mailOpenedIcon = <SFIcon icon="envelope.open" color="white" size={14} />;
+const mailOpenedIcon = (
+  <SFIcon icon={ICON_MAP.MAIL_OPENED} color="white" size={14} />
+);
 const commentIcon = <SFIcon icon={ICON_MAP.REPLY} color="white" size={14} />;
+const collapseIcon = (
+  <SFIcon icon={ICON_MAP.COLLAPSE} color="white" size={14} />
+);
 
 const screenWidth = Dimensions.get("screen").width;
 
@@ -48,21 +53,22 @@ export function ReplyOption({
   onExtra,
   extraType,
 }: Props) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   const [firstStop, secondStop] = stops;
 
-  const secondColorMap: Record<Icon, string> = {
-    comment: theme.colors.app.info,
-    save: theme.colors.app.bookmark,
-    read: theme.colors.app.success,
+  const secondColorMap: Record<ReplyOptionIcon, string> = {
+    comment: theme.colors.info,
+    Save: theme.colors.bookmark,
+    read: theme.colors.success,
+    Collapse: theme.colors.accent,
   };
 
   const secondColor = secondColorMap[extraType ?? "comment"];
 
   const colors: ISwipeableColors = useMemo(
     () => ({
-      first: theme.colors.app.info,
+      first: theme.colors.info,
       second: secondColor,
     }),
     [theme, secondColor]
@@ -72,7 +78,7 @@ export function ReplyOption({
   const pulseTimer = useSharedValue(0);
   const isFrozen = useSharedValue(false);
   const [iconRect, setIconRect] = useState<LayoutRectangle | null>(null);
-  const [icon, setIcon] = useState<Icon>("comment");
+  const [icon, setIcon] = useState<ReplyOptionIcon>("comment");
   const { subscribe, translateX } = useSwipeableRow();
 
   useEffect(
@@ -210,8 +216,9 @@ export function ReplyOption({
             }}
           >
             {(icon === "comment" && commentIcon) ||
-              (icon === "save" && bookmarkIcon) ||
-              (icon === "read" && mailOpenedIcon)}
+              (icon === "Save" && bookmarkIcon) ||
+              (icon === "read" && mailOpenedIcon) ||
+              (icon === "Collapse" && collapseIcon)}
           </Animated.View>
         </Animated.View>
       </Animated.View>

@@ -7,8 +7,8 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
 import { produce } from "immer";
 import { useRoute } from "@react-navigation/core";
+import setCollapsed from "@src/stores/posts/actions/setCollapsed";
 import { useAppDispatch, useAppSelector } from "../../../store";
-import { selectCurrentAccount } from "../../slices/accounts/accountsSlice";
 import { selectSite, setUnread } from "../../slices/site/siteSlice";
 import ILemmyComment from "../../types/lemmy/ILemmyComment";
 import { onGenericHapticFeedback } from "../../helpers/HapticFeedbackHelpers";
@@ -23,13 +23,16 @@ import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
 import { PostsStore, usePostsStore } from "../../stores/posts/postsStore";
 import { useInboxStore } from "../../stores/inbox/inboxStore";
 import { ICON_MAP } from "../../constants/IconMap";
-import { ContextMenuOptions } from "../../types/ContextMenuOptions";
+import { ContextMenuOption } from "../../types/ContextMenuOptions";
+import { useCurrentAccount } from "../../stores/account/accountStore";
 
 export interface UseComment {
   onCommentLongPress: (selection?: string) => void;
   onReadPress?: () => Promise<void>;
   onReply: () => void;
-  longPressOptions: ContextMenuOptions;
+  longPressOptions: ContextMenuOption[];
+  onSave: () => Promise<void>;
+  onCollapseChain: () => void;
 }
 
 const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
@@ -37,7 +40,7 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
 
   const { t } = useTranslation();
 
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currentAccount = useCurrentAccount();
   const { unread } = useAppSelector(selectSite);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
@@ -53,22 +56,37 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
     [comment.comment.comment.id]
   );
 
-  const longPressOptions: ContextMenuOptions = useMemo(
-    () => ({
-      copy_text: { display: t("Copy Text"), icon: ICON_MAP.COPY },
-      copy_link: { display: t("Copy Link"), icon: ICON_MAP.LINK },
-      reply: { display: t("Reply"), icon: ICON_MAP.REPLY },
-      report: { display: t("comment.report"), icon: ICON_MAP.REPORT_POST },
-      ...(isOwnComment && {
-        edit: { display: t("comment.edit"), icon: ICON_MAP.EDIT },
-        delete: {
-          display: t("comment.delete"),
-          icon: ICON_MAP.DELETE,
-          destructive: true,
-        },
-      }),
-    }),
-    [comment.comment.comment.id]
+  const basicOptions = useMemo<ContextMenuOption[]>(
+    () => [
+      { key: "copy_text", title: t("Copy Text"), icon: ICON_MAP.COPY },
+      { key: "copy_link", title: t("Copy Link"), icon: ICON_MAP.LINK },
+      { key: "save", title: t("Save"), icon: ICON_MAP.SAVE },
+      { key: "reply", title: t("Reply"), icon: ICON_MAP.REPLY },
+      {
+        key: "report",
+        title: t("comment.report"),
+        icon: ICON_MAP.REPORT_POST,
+      },
+    ],
+    [t]
+  );
+
+  const ownerOptions = useMemo<ContextMenuOption[]>(
+    () => [
+      { key: "edit", title: t("comment.edit"), icon: ICON_MAP.EDIT },
+      {
+        key: "delete",
+        title: t("comment.delete"),
+        icon: ICON_MAP.DELETE,
+        destructive: true,
+      },
+    ],
+    [t]
+  );
+
+  const longPressOptions = useMemo<ContextMenuOption[]>(
+    () => [...basicOptions, ...(isOwnComment ? ownerOptions : [])],
+    [basicOptions, isOwnComment, ownerOptions]
   );
 
   const onCommentLongPress = useCallback(
@@ -77,10 +95,24 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
 
       if (selection === "copy_text") {
         Clipboard.setString(comment.comment.comment.content);
+        dispatch(
+          showToast({
+            message: t("toast.textCopied"),
+            variant: "success",
+            duration: 2000,
+          })
+        );
       }
 
       if (selection === "copy_link") {
         Clipboard.setString(comment.comment.comment.ap_id);
+        dispatch(
+          showToast({
+            message: t("toast.linkCopied"),
+            variant: "success",
+            duration: 2000,
+          })
+        );
       }
 
       if (selection === "report") {
@@ -173,6 +205,10 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
       if (selection === "reply") {
         onReply();
       }
+
+      if (selection === "save") {
+        onSave().then();
+      }
     },
     [comment.comment.comment.id]
   );
@@ -200,11 +236,41 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
     dispatch(setUnread({ type: "replies", amount: unread.replies - 1 }));
   }, [comment.comment.comment.id]);
 
+  const onSave = useCallback(async () => {
+    try {
+      await lemmyInstance.saveComment({
+        auth: lemmyAuthToken,
+        comment_id: comment.comment.comment.id,
+        save: !comment.comment.saved,
+      });
+
+      usePostsStore.setState((state) => {
+        const prev = state.posts
+          .get(postKey)
+          .commentsState.comments.find(
+            (c) => c.comment.comment.id === comment.comment.comment.id
+          );
+
+        prev.comment.saved = !prev.comment.saved;
+      });
+    } catch (e) {
+      handleLemmyError(e.toString());
+    }
+  }, [comment.comment.comment.id, comment.comment.saved]);
+
+  const onCollapseChain = useCallback(() => {
+    const parentId = Number(comment.comment.comment.path.split(".")[1]);
+
+    setCollapsed(postKey, parentId);
+  }, [comment.comment.comment.id]);
+
   return {
     onCommentLongPress,
     onReadPress,
     onReply,
     longPressOptions,
+    onSave,
+    onCollapseChain,
   };
 };
 

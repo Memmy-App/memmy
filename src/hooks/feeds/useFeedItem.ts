@@ -6,19 +6,28 @@ import { useRoute } from "@react-navigation/core";
 import {
   onGenericHapticFeedback,
   onVoteHapticFeedback,
-} from "../../helpers/HapticFeedbackHelpers";
-import { useAppDispatch, useAppSelector } from "../../../store";
-import { ILemmyVote } from "../../types/lemmy/ILemmyVote";
-import { getLinkInfo, LinkInfo } from "../../helpers/LinkHelper";
-import { selectSettings } from "../../slices/settings/settingsSlice";
+} from "@src/helpers/HapticFeedbackHelpers";
+import { useAppDispatch } from "@root/store";
+import { ILemmyVote } from "@src/types/lemmy/ILemmyVote";
+import { getLinkInfo, LinkInfo } from "@src/helpers/LinkHelper";
+import { setResponseTo } from "@src/slices/comments/newCommentSlice";
+import { shareLink } from "@src/helpers/ShareHelper";
+import {
+  useFeedPost,
+  useFeedPostCounts,
+  useFeedPostCreator,
+  useFeedPostInfo,
+  useFeedPostRead,
+  useFeedPostSaved,
+  useFeedPostVote,
+  useFeedsStore,
+} from "@src/stores/feeds/feedsStore";
+import { determineVotes } from "@src/helpers/VoteHelper";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
 import { useReportPost } from "../post/useReportPost";
 import { useBlockUser } from "../user/useBlockUser";
-import { setResponseTo } from "../../slices/comments/newCommentSlice";
-import { shareLink } from "../../helpers/ShareHelper";
 import { addPost } from "../../stores/posts/actions";
-import { useFeedPost } from "../../stores/feeds/feedsStore";
 import setFeedVote from "../../stores/feeds/actions/setFeedVote";
-import { determineVotes } from "../../helpers/VoteHelper";
 import setFeedRead from "../../stores/feeds/actions/setFeedRead";
 import setFeedSaved from "../../stores/feeds/actions/setFeedSaved";
 
@@ -35,16 +44,28 @@ export interface UseFeedItem {
 
 const useFeedItem = (postId: number): UseFeedItem => {
   const { key } = useRoute();
+
   const post = useFeedPost(key, postId);
+  const postInfo = useFeedPostInfo(key, postId);
+  const postVote = useFeedPostVote(key, postId);
+  const postCounts = useFeedPostCounts(key, postId);
+  const postRead = useFeedPostRead(key, postId);
+  const postSaved = useFeedPostSaved(key, postId);
+  const postCreator = useFeedPostCreator(key, postId);
 
   const { t } = useTranslation();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
+  const reportReport = useReportPost();
 
-  const linkInfo = useMemo(() => getLinkInfo(post.post.url), [post.post.id]);
+  const linkInfo = useMemo(() => getLinkInfo(postInfo.url), [postId]);
 
-  const { markReadOnPostVote, markReadOnPostView } =
-    useAppSelector(selectSettings);
+  const { markReadOnPostVote, markReadOnPostView } = useSettingsStore(
+    (state) => ({
+      markReadOnPostVote: state.settings.markReadOnPostVote,
+      markReadOnPostView: state.settings.markReadOnPostView,
+    })
+  );
 
   const onVotePress = useCallback(
     async (value: ILemmyVote, haptic = true) => {
@@ -52,61 +73,67 @@ const useFeedItem = (postId: number): UseFeedItem => {
 
       const newValues = determineVotes(
         value,
-        post.my_vote as ILemmyVote,
-        post.counts.upvotes,
-        post.counts.downvotes
+        postVote as ILemmyVote,
+        postCounts.upvotes,
+        postCounts.downvotes
       );
 
-      setFeedVote(key, post.post.id, newValues).then();
+      setFeedVote(key, postId, newValues).then();
 
-      if (!post.read && markReadOnPostVote) {
-        setFeedRead(key, post.post.id);
+      if (!postRead && markReadOnPostVote) {
+        setFeedRead(key, postId);
       }
     },
-    [post.post.id, markReadOnPostVote]
+    [postId, postRead, markReadOnPostVote]
   );
 
-  const onPress = () => {
-    if (!post.read && markReadOnPostView) setFeedRead(key, post.post.id);
+  const onPress = useCallback(() => {
+    if (!postRead && markReadOnPostView) setFeedRead(key, postId);
 
-    const postKey = Date.now().toString() + post.post.id;
+    useFeedsStore.setState((state) => {
+      state.feeds
+        .get(key)
+        .posts.find((p) => p.post.id === postId).unread_comments = 0;
+    });
+
+    const postKey = Date.now().toString() + postId;
 
     addPost(postKey, post);
 
     navigation.push("Post", { postKey });
-  };
+  }, [postRead, postId]);
 
   const doSave = useCallback(async () => {
     onGenericHapticFeedback();
 
-    setFeedSaved(key, post.post.id, !post.saved).then();
-  }, [post.post.id, post.saved]);
+    setFeedSaved(key, postId, !postSaved).then();
+  }, [postId, postSaved]);
 
   const doReport = useCallback(async () => {
-    useReportPost({ postId: post.post.id, dispatch }).then();
-  }, [post.post.id]);
+    reportReport(postId, dispatch);
+  }, [postId]);
 
   const blockCreator = useCallback(async () => {
-    useBlockUser({ personId: post.creator.id, dispatch, t }).then();
-  }, [post.post.id]);
+    useBlockUser({ personId: postCreator.id, dispatch, t }).then();
+  }, [postId]);
 
   const doReply = useCallback(() => {
     dispatch(
       setResponseTo({
         post,
-        languageId: post.post.language_id,
+        languageId: postInfo.language_id,
       })
     );
 
     navigation.push("NewComment");
-  }, [post]);
+  }, [postId]);
 
   const doShare = useCallback(() => {
     shareLink({
-      link: post.post.ap_id,
-      title: post.post.name,
+      link: postInfo.ap_id,
+      title: postInfo.name,
     });
-  }, [post.post.ap_id, post.post.name]);
+  }, [postId]);
 
   return {
     onVotePress,

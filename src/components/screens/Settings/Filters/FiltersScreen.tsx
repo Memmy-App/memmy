@@ -1,9 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, useTheme } from "native-base";
+import { ScrollView, Text } from "@src/components/common/Gluestack";
 import { StyleSheet } from "react-native";
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import CSection from "../../../common/Table/CSection";
 import CCell from "../../../common/Table/CCell";
 
@@ -13,29 +14,32 @@ interface IProps {
 
 function FiltersScreen({ navigation }: IProps) {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
+    <ScrollView bg={theme.colors.bg} flex={1}>
       <TableView style={styles.table}>
-        <CSection header={t("Haptics")}>
+        <Text color="$textSecondary" sx={{ mt: "$5" }}>
+          {t("settings.filters.description")}
+        </Text>
+        <CSection>
           <CCell
             cellStyle="RightDetail"
             title={t("Keywords")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             accessory="DisclosureIndicator"
-            onPress={() => navigation.push("Keywords")}
+            onPress={() => navigation.push("KeywordFilters")}
           />
           <CCell
             cellStyle="RightDetail"
             title={t("Instances")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             accessory="DisclosureIndicator"
-            onPress={() => navigation.push("Instances")}
+            onPress={() => navigation.push("InstanceFilters")}
           />
         </CSection>
       </TableView>

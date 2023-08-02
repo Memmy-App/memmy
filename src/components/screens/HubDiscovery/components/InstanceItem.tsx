@@ -1,6 +1,12 @@
 import React from "react";
 import { GetSiteResponse } from "lemmy-js-client";
-import { HStack, Pressable, Text, useTheme, View, VStack } from "native-base";
+import {
+  HStack,
+  Pressable,
+  Text,
+  View,
+  VStack,
+} from "@src/components/common/Gluestack";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { StyleSheet } from "react-native";
 import {
@@ -12,6 +18,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 interface IProps {
   site: GetSiteResponse;
@@ -19,7 +26,7 @@ interface IProps {
 
 function InstanceItem({ site }: IProps) {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useThemeOptions();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onPress = () =>
@@ -32,66 +39,60 @@ function InstanceItem({ site }: IProps) {
   return (
     <Pressable onPress={onPress}>
       <VStack
-        backgroundColor={theme.colors.app.fg}
-        mx={6}
-        my={1.5}
-        borderRadius={10}
-        p={2}
-        space={2}
+        backgroundColor={theme.colors.fg}
+        mx="$6"
+        my="$1.5"
+        borderRadius="$xl"
+        p="$2"
+        space="sm"
       >
         <HStack>
-          <HStack flex={1} alignItems="center" space={2}>
+          <HStack flex={1} alignItems="center" space="sm">
             <FastImage
               source={{ uri: site.site_view.site.icon }}
               style={styles.image}
             />
-            <Text fontSize="md">{site.site_view.site.name}</Text>
+            <Text size="md">{site.site_view.site.name}</Text>
             <View ml="auto">
-              <IconChevronRight size={32} color={theme.colors.app.accent} />
+              <IconChevronRight size={32} color={theme.colors.accent} />
             </View>
           </HStack>
         </HStack>
         <HStack>
           <Text>{site.site_view.site.description}</Text>
         </HStack>
-        <HStack space={2} pt={1} alignItems="center">
-          <HStack space={1}>
-            <IconUserPlus size={18} color={theme.colors.app.accent} />
-            <Text color={theme.colors.app.textSecondary}>
+        <HStack space="sm" pt="$1" alignItems="center">
+          <HStack space="xs">
+            <IconUserPlus size={18} color={theme.colors.accent} />
+            <Text color={theme.colors.textSecondary}>
               {`${site.site_view.counts.users.toLocaleString()} ${t("User", {
                 count: site.site_view.counts.users,
               })}`}
             </Text>
           </HStack>
           {!site.site_view.local_site.federation_enabled && (
-            <HStack space={1} alignItems="center">
-              <IconExclamationCircle size={18} color={theme.colors.app.warn} />
-              <Text color={theme.colors.app.warn}>{t("Defederated")}</Text>
+            <HStack space="xs" alignItems="center">
+              <IconExclamationCircle size={18} color={theme.colors.warn} />
+              <Text color={theme.colors.warn}>{t("Defederated")}</Text>
             </HStack>
           )}
           {site.site_view.local_site.registration_mode === "Closed" && (
-            <HStack space={1} alignItems="center">
-              <IconExclamationCircle size={18} color={theme.colors.app.warn} />
-              <Text color={theme.colors.app.warn}>
-                {t("Registration Closed")}
-              </Text>
+            <HStack space="xs" alignItems="center">
+              <IconExclamationCircle size={18} color={theme.colors.warn} />
+              <Text color={theme.colors.warn}>{t("Registration Closed")}</Text>
             </HStack>
           )}
           {site.site_view.local_site.registration_mode ===
             "RequireApplication" && (
-            <HStack space={1} alignItems="center">
-              <IconExclamationCircle size={18} color={theme.colors.app.info} />
-              <Text color={theme.colors.app.info}>
-                {t("Application Required")}
-              </Text>
+            <HStack space="xs" alignItems="center">
+              <IconExclamationCircle size={18} color={theme.colors.info} />
+              <Text color={theme.colors.info}>{t("Application Required")}</Text>
             </HStack>
           )}
           {site.site_view.local_site.registration_mode === "Open" && (
-            <HStack space={1} alignItems="center">
-              <IconLockOpen size={18} color={theme.colors.app.success} />
-              <Text color={theme.colors.app.success}>
-                {t("Open Registration")}
-              </Text>
+            <HStack space="xs" alignItems="center">
+              <IconLockOpen size={18} color={theme.colors.success} />
+              <Text color={theme.colors.success}>{t("Open Registration")}</Text>
             </HStack>
           )}
         </HStack>

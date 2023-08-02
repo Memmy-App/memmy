@@ -1,4 +1,4 @@
-import store from "../../store";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
 
 interface IFontSizes {
   "2xs": number;
@@ -46,19 +46,19 @@ export const fontSizeMap: Record<number, number> = {
   7: 3,
 };
 
-export const FontWeightMap: Record<string, number> = {
-  "Regular (Default)": 400,
-  Medium: 500,
-  "Semi-Bold": 600,
-  Bold: 700,
+export const FontWeightMap: Record<string, string> = {
+  "Regular (Default)": "normal",
+  Medium: "medium",
+  "Semi-Bold": "semibold",
+  Bold: "bold",
 };
 
 function getFontScale(): IFontSizes | null {
-  const { settings } = store.getState();
+  const { fontSize, isSystemTextSize } = useSettingsStore.getState().settings;
 
-  const fontSizes = createFontSizes(fontSizeMap[settings.fontSize]);
+  const fontSizes = createFontSizes(fontSizeMap[fontSize]);
 
-  if (!settings.isSystemTextSize) {
+  if (!isSystemTextSize) {
     return fontSizes;
   }
   return null;

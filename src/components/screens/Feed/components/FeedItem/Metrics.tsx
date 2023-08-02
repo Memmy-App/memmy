@@ -1,21 +1,33 @@
-import { PostAggregates } from "lemmy-js-client";
-import { HStack } from "native-base";
+import { HStack } from "@src/components/common/Gluestack";
 import React from "react";
+import {
+  useFeedPostCounts,
+  useFeedPostUnreadComments,
+  useFeedPostVote,
+} from "@src/stores/feeds/feedsStore";
+import { useRoute } from "@react-navigation/core";
 import VoteData from "../../../../common/Vote/VoteData";
 import CommentCount from "../../../../common/Comments/CommentCount";
 import DatePublished from "../../../../common/DatePublished";
 
 interface Props {
-  data: PostAggregates;
-  vote?: number;
+  postId: number;
 }
 
-function metrics({ data, vote }: Props) {
+function metrics({ postId }: Props) {
+  const { key } = useRoute();
+  const postVote = useFeedPostVote(key, postId);
+  const postCounts = useFeedPostCounts(key, postId);
+  const postUnreadComments = useFeedPostUnreadComments(key, postId);
+
   return (
-    <HStack flex={1} space={2}>
-      <VoteData data={data} vote={vote} />
-      <CommentCount commentCount={data.comments} />
-      <DatePublished published={data.published} />
+    <HStack flex={1} space="sm">
+      <VoteData data={postCounts} myVote={postVote} />
+      <CommentCount
+        commentCount={postCounts.comments}
+        newComments={postUnreadComments}
+      />
+      <DatePublished published={postCounts.published} />
     </HStack>
   );
 }

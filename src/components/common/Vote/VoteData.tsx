@@ -1,30 +1,38 @@
 import { PostAggregates } from "lemmy-js-client";
-import { HStack, Text, useTheme } from "native-base";
+import { HStack, Text } from "@src/components/common/Gluestack";
 import React from "react";
-import { useAppSelector } from "../../../../store";
-import { selectSettings } from "../../../slices/settings/settingsSlice";
+import { ICON_MAP } from "@src/constants/IconMap";
+import { CommentAggregates } from "lemmy-js-client/dist/types/CommentAggregates";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import SFIcon from "../icons/SFIcon";
 
 interface IProps {
-  data: PostAggregates;
-  vote?: number;
+  data: PostAggregates | CommentAggregates;
+  myVote?: number;
 }
 
-function VoteData({ data, vote }: IProps) {
-  const { colors } = useTheme();
-  const settings = useAppSelector(selectSettings);
+function VoteData({ data, myVote }: IProps) {
+  const { colors } = useThemeOptions();
+  const displayTotalScore = useSettingsStore(
+    (state) => state.settings.displayTotalScore
+  );
 
-  const upvoted = vote === 1;
-  const downvoted = vote === -1;
+  const upvoted = myVote === 1;
+  const downvoted = myVote === -1;
 
-  if (settings.displayTotalScore) {
-    const voteColor = upvoted ? colors.app.upvote : colors.app.downvote;
-    const color = upvoted || downvoted ? voteColor : colors.app.textSecondary;
+  if (displayTotalScore) {
+    const voteColor = upvoted ? colors.upvote : colors.downvote;
+    const color = upvoted || downvoted ? voteColor : colors.textSecondary;
 
     const scoreArrow = (
       <SFIcon
         icon={
-          upvoted || (data.score > 0 && !downvoted) ? "arrow.up" : "arrow.down"
+          upvoted || (data.score > 0 && !downvoted)
+            ? ICON_MAP.UPVOTE
+            : ICON_MAP.DOWNVOTE
         }
         color={color}
         size={10}
@@ -35,34 +43,37 @@ function VoteData({ data, vote }: IProps) {
     return (
       <HStack alignItems="center">
         {scoreArrow}
-        <Text color={color} fontSize="sm">
+        <Text color={color} size="sm">
           {data.score}
         </Text>
       </HStack>
     );
   }
 
-  const upvoteColor = upvoted ? colors.app.upvote : colors.app.textSecondary;
-  const downvoteColor = downvoted
-    ? colors.app.downvote
-    : colors.app.textSecondary;
+  const upvoteColor = upvoted ? colors.upvote : colors.textSecondary;
+  const downvoteColor = downvoted ? colors.downvote : colors.textSecondary;
 
   return (
     <>
       <HStack alignItems="center">
-        <SFIcon icon="arrow.up" color={upvoteColor} size={10} boxSize={20} />
-        <Text color={upvoteColor} fontSize="sm">
+        <SFIcon
+          icon={ICON_MAP.UPVOTE}
+          color={upvoteColor}
+          size={10}
+          boxSize={20}
+        />
+        <Text color={upvoteColor} size="sm">
           {data.upvotes}
         </Text>
       </HStack>
       <HStack alignItems="center">
         <SFIcon
-          icon="arrow.down"
+          icon={ICON_MAP.DOWNVOTE}
           color={downvoteColor}
           size={10}
           boxSize={20}
         />
-        <Text color={downvoteColor} fontSize="sm">
+        <Text color={downvoteColor} size="sm">
           {data.downvotes}
         </Text>
       </HStack>

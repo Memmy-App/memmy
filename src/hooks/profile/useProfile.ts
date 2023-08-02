@@ -1,3 +1,5 @@
+import { useRoute } from "@react-navigation/core";
+import { PersonView } from "lemmy-js-client";
 import React, {
   SetStateAction,
   useEffect,
@@ -5,20 +7,14 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { PersonView } from "lemmy-js-client";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
-import { useRoute } from "@react-navigation/core";
 import { lemmyAuthToken, lemmyInstance } from "../../LemmyInstance";
-import { useAppDispatch, useAppSelector } from "../../../store";
-import { selectCurrentAccount } from "../../slices/accounts/accountsSlice";
-import { setPost } from "../../slices/post/postSlice";
-import { buildComments } from "../../helpers/LemmyHelpers";
-import ILemmyComment from "../../types/lemmy/ILemmyComment";
 import { handleLemmyError } from "../../helpers/LemmyErrorHelper";
+import { buildComments } from "../../helpers/LemmyHelpers";
+import { useCurrentAccount } from "../../stores/account/accountStore";
 import addFeed from "../../stores/feeds/actions/addFeed";
-import setFeedPosts from "../../stores/feeds/actions/setFeedPosts";
 import removeFeed from "../../stores/feeds/actions/removeFeed";
+import setFeedPosts from "../../stores/feeds/actions/setFeedPosts";
+import ILemmyComment from "../../types/lemmy/ILemmyComment";
 
 export interface UseProfile {
   doLoad: (refresh?: boolean) => Promise<void>;
@@ -34,11 +30,6 @@ export interface UseProfile {
   setComments: React.Dispatch<SetStateAction<ILemmyComment[]>>;
 
   self: boolean;
-
-  onCommentPress: (
-    postId: number,
-    commentId: number | undefined
-  ) => Promise<void>;
 }
 
 const useProfile = (
@@ -48,15 +39,12 @@ const useProfile = (
 ): UseProfile => {
   const { key } = useRoute();
 
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currentAccount = useCurrentAccount();
   const searchUsername = useMemo(
     () =>
       fullUsername ?? `${currentAccount.username}@${currentAccount.instance}`,
     [currentAccount]
   );
-
-  const dispatch = useAppDispatch();
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
@@ -124,33 +112,6 @@ const useProfile = (
     }
   };
 
-  const onCommentPress = async (
-    postId: number,
-    commentId: number | undefined = undefined
-  ) => {
-    setLoading(true);
-
-    try {
-      const res = await lemmyInstance.getPost({
-        auth: lemmyAuthToken,
-        id: postId,
-      });
-
-      dispatch(setPost(res.post_view));
-      setLoading(false);
-
-      navigation.push("Post", {
-        commentId: commentId.toString(),
-        showLoadAll: true,
-      });
-    } catch (e) {
-      setLoading(false);
-      setError(true);
-
-      handleLemmyError(e.toString());
-    }
-  };
-
   return {
     loading,
     error,
@@ -165,8 +126,6 @@ const useProfile = (
     self: self.current,
 
     doLoad,
-
-    onCommentPress,
   };
 };
 

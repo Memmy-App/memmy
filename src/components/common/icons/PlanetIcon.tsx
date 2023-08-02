@@ -1,8 +1,8 @@
 import { IconPlanet } from "tabler-icons-react-native";
 import React from "react";
-import { useTheme } from "native-base";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 
 export function PlanetIcon({ size, color }: { size?: number; color?: string }) {
-  const theme = useTheme();
-  return <IconPlanet color={color || theme.colors.app.accent} size={size} />;
+  const theme = useThemeOptions();
+  return <IconPlanet color={color || theme.colors.accent} size={size} />;
 }

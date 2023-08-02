@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ContextMenuButton, MenuState } from "react-native-ios-context-menu";
-import { useAppDispatch, useAppSelector } from "../../../../store";
-import { setCurrentAccount } from "../../../slices/accounts/accountsActions";
+import { OnPressMenuItemEventObject } from "react-native-ios-context-menu";
+import { ICON_MAP } from "../../../constants/IconMap";
 import {
-  selectAccounts,
-  selectCurrentAccount,
-} from "../../../slices/accounts/accountsSlice";
+  useAccountStore,
+  useAccounts,
+  useCurrentAccount,
+} from "../../../stores/account/accountStore";
+import { ContextMenuOption } from "../../../types/ContextMenuOptions";
+import { AppContextMenuButton } from "./App/AppContextMenuButton";
 
 interface IProps {
   children: React.ReactNode;
@@ -20,62 +22,57 @@ export function AccountsContextMenu({
   isShortPress = false,
 }: IProps) {
   const { t } = useTranslation();
-  const accounts = useAppSelector(selectAccounts);
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const accountStore = useAccountStore();
+  const accounts = useAccounts();
+  const currentAccount = useCurrentAccount();
 
-  const dispatch = useAppDispatch();
+  const options = useMemo<ContextMenuOption[]>(
+    () => [
+      {
+        key: "manage_accounts_menu",
+        title: "",
+        inline: true,
+        options: [
+          {
+            key: "manage_accounts",
+            title: "Manage Accounts",
+            icon: ICON_MAP.CHEVRON.RIGHT,
+          },
+        ],
+      },
+      ...accounts.map((account) => ({
+        key: account.username + account.instance,
+        title: account.username,
+        subtitle: account.instance,
+      })),
+    ],
+    [t, accounts]
+  );
+
+  const onPressMenuItem = ({ nativeEvent }: OnPressMenuItemEventObject) => {
+    if (nativeEvent.actionKey === "manage_accounts") {
+      navigation.navigate("FeedStack", { screen: "ViewAccounts" });
+    } else {
+      const account = accounts.find(
+        (a) => a.username + a.instance === nativeEvent.actionKey
+      );
+      accountStore.setCurrentAccount(account);
+      navigation.navigate("FeedStack", { screen: "FeedDrawerContainer" });
+    }
+  };
+
   return (
-    <ContextMenuButton
+    <AppContextMenuButton
+      isPrimaryAction={isShortPress}
+      options={options}
+      selection={currentAccount.username + currentAccount.instance}
+      title={t("Accounts")}
       style={{
         flex: 1,
       }}
-      onPressMenuItem={({ nativeEvent }) => {
-        if (nativeEvent.actionKey === "manage_accounts") {
-          navigation.navigate("FeedStack", { screen: "ViewAccounts" });
-        } else {
-          const account = accounts.find(
-            (a) => a.username + a.instance === nativeEvent.actionKey
-          );
-          dispatch(setCurrentAccount(account));
-          navigation.navigate("FeedStack", { screen: "FeedScreen" });
-        }
-      }}
-      isMenuPrimaryAction={isShortPress}
-      menuConfig={{
-        menuTitle: t("Accounts"),
-        menuItems: [
-          {
-            type: "menu",
-            menuTitle: "",
-            menuOptions: ["displayInline"],
-            menuItems: [
-              {
-                type: "action",
-                actionKey: "manage_accounts",
-                actionTitle: t("Manage Accounts"),
-                icon: {
-                  type: "IMAGE_SYSTEM",
-                  imageValue: {
-                    systemName: "chevron.right",
-                  },
-                },
-              },
-            ],
-          },
-          ...accounts.map((account) => ({
-            actionKey: account.username + account.instance,
-            actionTitle: account.username,
-            actionSubtitle: account.instance,
-            menuState:
-              currentAccount.username + currentAccount.instance ===
-              account.username + account.instance
-                ? "on"
-                : ("off" as MenuState),
-          })),
-        ],
-      }}
+      onPressMenuItem={onPressMenuItem}
     >
       {children}
-    </ContextMenuButton>
+    </AppContextMenuButton>
   );
 }

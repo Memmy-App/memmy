@@ -3,11 +3,23 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useTheme, View } from "native-base";
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { Dimensions } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
+import FastImage from "@gkasdorf/react-native-fast-image";
+import { useMe } from "@src/stores/site/siteStore";
+import { View } from "./src/components/common/Gluestack";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "./src/stores/settings/settingsStore";
+
+import { selectSite } from "./src/slices/site/siteSlice";
+import { truncateName } from "./src/helpers/TextHelper";
+import { ICON_MAP } from "./src/constants/IconMap";
+import KeywordsFilterScreen from "./src/components/screens/Settings/Filters/KeywordsFilterScreen";
+import InstanceFiltersScreen from "./src/components/screens/Settings/Filters/InstanceFiltersScreen";
 import { CustomTabBar } from "./src/components/common/Navigation/CustomTabBar";
 import LoadingView from "./src/components/common/Loading/LoadingView";
 import SFIcon from "./src/components/common/icons/SFIcon";
@@ -52,28 +64,22 @@ import UserPostsScreen from "./src/components/screens/UserProfile/UserPostsScree
 import UserProfileScreen from "./src/components/screens/UserProfile/UserProfileScreen";
 import ViewerScreen from "./src/components/screens/ViewerScreen";
 import {
-  selectAccounts,
-  selectAccountsLoaded,
-  selectCurrentAccount,
-} from "./src/slices/accounts/accountsSlice";
-import { selectSite } from "./src/slices/site/siteSlice";
+  useAccountStore,
+  useAccounts,
+  useCurrentAccount,
+} from "./src/stores/account/accountStore";
 import { useAppSelector } from "./store";
-import { truncateName } from "./src/helpers/TextHelper";
-import ScreenGestureHandler from "./src/components/common/Navigation/ScreenGestureHandler";
-import { ICON_MAP } from "./src/constants/IconMap";
 import FiltersScreen from "./src/components/screens/Settings/Filters/FiltersScreen";
-import KeywordsScreen from "./src/components/screens/Settings/Filters/KeywordsScreen";
-import InstancesScreen from "./src/components/screens/Settings/Filters/InstancesScreen";
 
 function CustomDrawerContent() {
-  const theme = useTheme();
+  const theme = useThemeOptions();
   return (
     <>
       {/* Header */}
       <View
-        height={10}
+        height="$10"
         style={{
-          backgroundColor: theme.colors.app.bg,
+          backgroundColor: theme.colors.bg,
         }}
       />
       <TraverseScreen />
@@ -109,9 +115,14 @@ function FeedDrawerContainerScreen() {
 const FeedStack = createNativeStackNavigator();
 function FeedStackScreen() {
   const { t } = useTranslation();
+  const fullScreenSwipe = !useSettingsStore(
+    (state) => state.settings.swipeToVote
+  );
 
   return (
-    <FeedStack.Navigator screenOptions={{}}>
+    <FeedStack.Navigator
+      screenOptions={{ fullScreenGestureEnabled: fullScreenSwipe }}
+    >
       <FeedStack.Group>
         <FeedStack.Screen
           name="FeedDrawerContainer"
@@ -198,9 +209,14 @@ function FeedStackScreen() {
 const InboxStack = createNativeStackNavigator();
 function InboxStackScreen() {
   const { t } = useTranslation();
+  const fullScreenSwipe = !useSettingsStore(
+    (state) => state.settings.swipeToVote
+  );
 
   return (
-    <InboxStack.Navigator>
+    <InboxStack.Navigator
+      screenOptions={{ fullScreenGestureEnabled: fullScreenSwipe }}
+    >
       <InboxStack.Group>
         <InboxStack.Screen
           name="Inbox"
@@ -362,15 +378,15 @@ function SettingsScreens(stack) {
         }}
       />
       <stack.Screen
-        name="Keywords"
-        component={KeywordsScreen}
+        name="KeywordFilters"
+        component={KeywordsFilterScreen}
         options={{
-          tilte: t("Keywords"),
+          title: t("Keywords"),
         }}
       />
       <stack.Screen
-        name="Instances"
-        component={InstancesScreen}
+        name="InstanceFilters"
+        component={InstanceFiltersScreen}
         options={{
           title: t("Instances"),
         }}
@@ -389,10 +405,15 @@ function SettingsScreens(stack) {
 
 const SettingsStack = createNativeStackNavigator();
 function SettingsStackScreen() {
+  const fullScreenSwipe = !useSettingsStore(
+    (state) => state.settings.swipeToVote
+  );
+
   return (
     <SettingsStack.Navigator
       screenOptions={{
         freezeOnBlur: true,
+        fullScreenGestureEnabled: fullScreenSwipe,
       }}
     >
       {SettingsScreens(SettingsStack)}
@@ -403,11 +424,15 @@ function SettingsStackScreen() {
 const ProfileStack = createNativeStackNavigator();
 function ProfileStackScreen() {
   const { t } = useTranslation();
+  const fullScreenSwipe = !useSettingsStore(
+    (state) => state.settings.swipeToVote
+  );
 
   return (
     <ProfileStack.Navigator
       screenOptions={{
         freezeOnBlur: true,
+        fullScreenGestureEnabled: fullScreenSwipe,
       }}
     >
       <ProfileStack.Group>
@@ -491,9 +516,14 @@ function ProfileStackScreen() {
 const SearchStack = createNativeStackNavigator();
 function SearchStackScreen() {
   const { t } = useTranslation();
+  const fullScreenSwipe = !useSettingsStore(
+    (state) => state.settings.swipeToVote
+  );
 
   return (
-    <SearchStack.Navigator>
+    <SearchStack.Navigator
+      screenOptions={{ fullScreenGestureEnabled: fullScreenSwipe }}
+    >
       <SearchStack.Group>
         <SearchStack.Screen
           name="Search"
@@ -581,82 +611,102 @@ const Tab = createBottomTabNavigator();
 function Tabs() {
   const { unread } = useAppSelector(selectSite);
   const { t } = useTranslation();
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currentAccount = useCurrentAccount();
+  const me = useMe();
+
+  const hideUsernameInTab = useSettingsStore(
+    (state) => state.settings.hideUsernameInTab
+  );
+  const hideAvatarInTab = useSettingsStore(
+    (state) => state.settings.hideAvatarInTab
+  );
 
   return (
-    <ScreenGestureHandler>
-      <Tab.Navigator
-        tabBar={(props) => <CustomTabBar {...props} />}
-        screenOptions={{
+    <Tab.Navigator
+      tabBar={(props) => <CustomTabBar {...props} />}
+      screenOptions={{
+        tabBarLabel: t("Feed"),
+        freezeOnBlur: false,
+      }}
+    >
+      <Tab.Screen
+        name="FeedStack"
+        component={FeedStackScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => (
+            <SFIcon icon={ICON_MAP.FEED} color={color} />
+          ),
           tabBarLabel: t("Feed"),
           freezeOnBlur: false,
         }}
-      >
-        <Tab.Screen
-          name="FeedStack"
-          component={FeedStackScreen}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ color }) => (
-              <SFIcon icon="doc.text.image" color={color} />
-            ),
-            tabBarLabel: t("Feed"),
-            freezeOnBlur: false,
-          }}
-        />
-        <Tab.Screen
-          name="InboxStack"
-          component={InboxStackScreen}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ color }) => <SFIcon icon="envelope" color={color} />,
-            tabBarLabel: t("Inbox"),
+      />
+      <Tab.Screen
+        name="InboxStack"
+        component={InboxStackScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => (
+            <SFIcon icon={ICON_MAP.INBOX} color={color} />
+          ),
+          tabBarLabel: t("Inbox"),
 
-            tabBarBadge:
-              unread.replies + unread.mentions + unread.privateMessage > 0
-                ? // ? unread.replies + unread.mentions + unread.privateMessage
-                  unread.replies
-                : null,
-            freezeOnBlur: false,
-          }}
-        />
-        <Tab.Screen
-          name="ProfileStack"
-          component={ProfileStackScreen}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ color }) => (
+          tabBarBadge:
+            unread.replies + unread.mentions + unread.privateMessage > 0
+              ? // ? unread.replies + unread.mentions + unread.privateMessage
+                unread.replies
+              : null,
+          freezeOnBlur: false,
+        }}
+      />
+      <Tab.Screen
+        name="ProfileStack"
+        component={ProfileStackScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) =>
+            !hideAvatarInTab && me?.local_user_view.person.avatar ? (
+              <FastImage
+                source={{
+                  uri: me?.local_user_view.person.avatar,
+                }}
+                style={styles.avatar}
+              />
+            ) : (
               <SFIcon icon={ICON_MAP.USER_AVATAR} color={color} />
             ),
-            tabBarLabel: truncateName(currentAccount.username, 10),
-            freezeOnBlur: false,
-          }}
-        />
-        <Tab.Screen
-          name="SearchStack"
-          component={SearchStackScreen}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ color }) => (
-              <SFIcon icon="magnifyingglass" color={color} />
-            ),
-            tabBarLabel: t("Search"),
-            freezeOnBlur: false,
-          }}
-        />
-        <Tab.Screen
-          name="SettingsStack"
-          component={SettingsStackScreen}
-          options={{
-            headerShown: false,
-            // tabBarIcon: ({ color }) => <IconSettings color={color} />,
-            tabBarIcon: ({ color }) => <SFIcon icon="gear" color={color} />,
-            tabBarLabel: t("Settings"),
-            freezeOnBlur: false,
-          }}
-        />
-      </Tab.Navigator>
-    </ScreenGestureHandler>
+          tabBarLabel: hideUsernameInTab
+            ? "Profile"
+            : truncateName(currentAccount?.username ?? "Profile", 10),
+          freezeOnBlur: false,
+        }}
+      />
+      <Tab.Screen
+        name="SearchStack"
+        component={SearchStackScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => (
+            <SFIcon icon={ICON_MAP.SEARCH} color={color} />
+          ),
+          tabBarLabel: t("Search"),
+          freezeOnBlur: false,
+        }}
+      />
+      <Tab.Screen
+        name="SettingsStack"
+        component={SettingsStackScreen}
+        options={{
+          headerShown: false,
+          // tabBarIcon: ({ color }) => <IconSettings color={color} />,
+          tabBarIcon: ({ color }) => (
+            <SFIcon icon={ICON_MAP.SETTINGS} color={color} />
+          ),
+          tabBarLabel: t("Settings"),
+          freezeOnBlur: false,
+        }}
+      />
+    </Tab.Navigator>
   );
 }
 
@@ -666,27 +716,27 @@ interface StackProps {
 }
 
 function Stack({ onReady }: StackProps) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
   const { t } = useTranslation();
-  const accounts = useAppSelector(selectAccounts);
-  const accountsLoaded = useAppSelector(selectAccountsLoaded);
+  const accounts = useAccounts();
+  const accountStore = useAccountStore();
 
   const MyTheme = {
     ...DarkTheme,
     colors: {
       ...DarkTheme.colors,
-      primary: theme.colors.app.accent,
-      background: theme.colors.app.bg,
-      card: theme.colors.app.navBarBg,
-      text: theme.colors.app.textPrimary,
-      border: theme.colors.app.border,
+      primary: theme.colors.accent,
+      background: theme.colors.bg,
+      card: theme.colors.navBarBg,
+      text: theme.colors.textPrimary,
+      border: theme.colors.border,
     },
   };
 
   return (
     <NavigationContainer onReady={onReady} theme={MyTheme}>
       <MainStack.Navigator>
-        {(!accountsLoaded && (
+        {(accountStore.status.loading && (
           <MainStack.Screen
             name="AppLoading"
             component={LoadingView}
@@ -775,5 +825,13 @@ function Stack({ onReady }: StackProps) {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  avatar: {
+    height: 24,
+    width: 24,
+    borderRadius: 24,
+  },
+});
 
 export default Stack;

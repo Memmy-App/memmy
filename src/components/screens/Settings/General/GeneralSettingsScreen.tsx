@@ -1,29 +1,51 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
-import { ScrollView, useTheme } from "native-base";
-import React from "react";
+import { ScrollView } from "@src/components/common/Gluestack";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Switch } from "react-native";
-import { ContextMenuButton } from "react-native-ios-context-menu";
-import { useAppDispatch, useAppSelector } from "../../../../../store";
-import { setSetting } from "../../../../slices/settings/settingsActions";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
+import {
+  useSettings,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
+import setSetting from "@src/stores/settings/actions/setSetting";
+import { swipeLeftSecondOptionsArr } from "@src/types/swipes/swipeLeftSecondOptions";
 import { hapticOptionsArr } from "../../../../types/haptics/hapticOptions";
 import CCell from "../../../common/Table/CCell";
 import CSection from "../../../common/Table/CSection";
+import { AppContextMenuButton } from "../../../common/ContextMenu/App/AppContextMenuButton";
 
 function GeneralSettingsScreen() {
-  const settings = useAppSelector(selectSettings);
+  const settings = useSettings();
 
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   const onChange = (key: string, value: any) => {
-    dispatch(setSetting({ [key]: value }));
+    setSetting({ [key]: value }).then();
   };
 
+  const hapticOptions = useMemo(
+    () => [
+      ...hapticOptionsArr.map((level) => ({
+        key: level,
+        title: t(`settings.haptics.${level}`),
+      })),
+    ],
+    [t]
+  );
+
+  const swipeLeftSecondOptions = useMemo(
+    () => [
+      ...swipeLeftSecondOptionsArr.map((option) => ({
+        key: option,
+        title: t(`settings.swipeOptions.${option}`),
+      })),
+    ],
+    [t]
+  );
+
   return (
-    <ScrollView backgroundColor={theme.colors.app.bg} flex={1}>
+    <ScrollView bg={theme.colors.bg} flex={1}>
       <TableView style={styles.table}>
         <CSection
           header={t("settings.appearance.gestures.header")}
@@ -32,9 +54,9 @@ function GeneralSettingsScreen() {
           <CCell
             cellStyle="Basic"
             title={t("settings.appearance.gestures.tapToCollapse")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.tapToCollapse}
@@ -45,9 +67,9 @@ function GeneralSettingsScreen() {
           <CCell
             cellStyle="Basic"
             title={t("settings.swipeToVote")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.swipeToVote}
@@ -56,41 +78,53 @@ function GeneralSettingsScreen() {
             }
           />
         </CSection>
-        <CSection header={t("Haptics")}>
-          <ContextMenuButton
-            isMenuPrimaryAction
+        <CSection header={t("Swipes")}>
+          <AppContextMenuButton
+            options={swipeLeftSecondOptions}
             onPressMenuItem={({ nativeEvent }) => {
-              dispatch(setSetting({ haptics: nativeEvent.actionKey }));
+              setSetting({
+                commentSwipeLeftSecond: nativeEvent.actionKey,
+              }).then();
             }}
-            menuConfig={{
-              menuTitle: "",
-              // @ts-ignore Types for menuItems are wrong for this library
-              menuItems: [
-                ...hapticOptionsArr.map((option) => ({
-                  actionKey: option,
-                  actionTitle: option,
-                  menuState: settings.haptics === option ? "on" : "off",
-                })),
-              ],
+          >
+            <CCell
+              cellStyle="RightDetail"
+              title={t("Swipe Left Second")}
+              detail={t(
+                `settings.swipeOptions.${settings.commentSwipeLeftSecond}`
+              )}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
+              accessory="DisclosureIndicator"
+            />
+          </AppContextMenuButton>
+        </CSection>
+        <CSection header={t("Haptics")}>
+          <AppContextMenuButton
+            options={hapticOptions}
+            selection={settings.haptics}
+            onPressMenuItem={({ nativeEvent }) => {
+              setSetting({ haptics: nativeEvent.actionKey }).then();
             }}
           >
             <CCell
               cellStyle="RightDetail"
               title={t("Strength")}
               detail={t(`settings.haptics.${settings.haptics}`)}
-              backgroundColor={theme.colors.app.fg}
-              titleTextColor={theme.colors.app.textPrimary}
-              rightDetailColor={theme.colors.app.textSecondary}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
               accessory="DisclosureIndicator"
             />
-          </ContextMenuButton>
+          </AppContextMenuButton>
         </CSection>
         <CSection header={t("Browser")}>
           <CCell
             title={t("Use Default Browser")}
-            backgroundColor={theme.colors.app.fg}
-            titleTextColor={theme.colors.app.textPrimary}
-            rightDetailColor={theme.colors.app.textSecondary}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
             cellAccessoryView={
               <Switch
                 value={settings.useDefaultBrowser}
@@ -98,6 +132,20 @@ function GeneralSettingsScreen() {
               />
             }
           />
+          {!settings.useDefaultBrowser && (
+            <CCell
+              title={t("settings.general.useReaderMode")}
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
+              cellAccessoryView={
+                <Switch
+                  value={settings.useReaderMode}
+                  onValueChange={(v) => onChange("useReaderMode", v)}
+                />
+              }
+            />
+          )}
         </CSection>
       </TableView>
     </ScrollView>

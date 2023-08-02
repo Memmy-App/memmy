@@ -1,5 +1,5 @@
 import React from "react";
-import { HStack } from "native-base";
+import { HStack } from "@src/components/common/Gluestack";
 import { useTranslation } from "react-i18next";
 import ButtonGroup from "../../common/Buttons/ButtonGroup";
 import GroupButton from "../../common/Buttons/GroupButton";
@@ -21,7 +21,7 @@ function InboxTabs({
 
   return (
     <>
-      <HStack pt={2}>
+      <HStack pt="$2">
         <ButtonGroup>
           <GroupButton
             onPress={onUnreadPress}

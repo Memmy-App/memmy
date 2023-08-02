@@ -1,8 +1,8 @@
 import { ListingType, SortType } from "lemmy-js-client";
+import { useSettingsStore } from "@src/stores/settings/settingsStore";
 import { useFeedsStore } from "../feedsStore";
 import { lemmyAuthToken, lemmyInstance } from "../../../LemmyInstance";
 import { preloadImages } from "../../../helpers/ImageHelper";
-import store from "../../../../store";
 import { useFiltersStore } from "../../filters/filtersStore";
 import { getBaseUrl } from "../../../helpers/LinkHelper";
 
@@ -24,7 +24,7 @@ const loadFeedPosts = async (
   loadOptions: ILoadFeedOptions
 ) => {
   const { hideNsfw, hideReadPostsOnFeed, hideReadPostsInCommunities } =
-    store.getState().settings;
+    useSettingsStore.getState().settings;
 
   const options = {
     ...defaultOptions,

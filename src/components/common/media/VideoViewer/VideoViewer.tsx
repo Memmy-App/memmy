@@ -14,15 +14,17 @@ import Animated, {
 } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { BlurView } from "expo-blur";
-import { Text, useTheme, View, VStack } from "native-base";
 import { StatusBar } from "expo-status-bar";
 import { IconAlertTriangle } from "tabler-icons-react-native";
 import { Video, ResizeMode, VideoReadyForDisplayEvent } from "expo-av";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
+import { Text, View, VStack } from "@src/components/common/Gluestack";
 import { useMediaDimensions } from "../useMediaDimensions";
 import ExitButton from "../MediaExitButton";
 import VideoViewFooter from "./VideoViewFooter";
-import { useAppSelector } from "../../../../../store";
-import { selectSettings } from "../../../../slices/settings/settingsSlice";
 import ImageButton from "../../Buttons/ImageButton";
 // import { onGenericHapticFeedback } from "../../../../helpers/HapticFeedbackHelpers";
 import Toast from "../../Toast";
@@ -59,7 +61,7 @@ function VideoViewer({
   setPostRead,
   compactMode,
 }: MediaProps) {
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   // @ts-ignore
   const nonViewerRef = useRef<View>(null);
@@ -69,7 +71,10 @@ function VideoViewer({
   const [expanded, setExpanded] = useState<boolean>(false);
 
   // NSFW stuff, we need this hack for some reason
-  const { blurNsfw, markReadOnPostImageView } = useAppSelector(selectSettings);
+  const { blurNsfw, markReadOnPostImageView } = useSettingsStore((state) => ({
+    blurNsfw: state.settings.blurNsfw,
+    markReadOnPostImageView: state.settings.markReadOnPostImageView,
+  }));
   const [blurIntensity, setBlurIntensity] = useState(99);
 
   const video = React.useRef<Video>(null);
@@ -334,7 +339,7 @@ function VideoViewer({
           borderRadius: compactMode ? 10 : 0,
         },
       ]}
-      backgroundColor={theme.colors.app.bg}
+      backgroundColor={theme.colors.bg}
     >
       {buttonMode ? (
         <Pressable
@@ -387,15 +392,15 @@ function VideoViewer({
                     flex={1}
                     alignItems="center"
                     justifyContent="center"
-                    space={2}
+                    space="sm"
                   >
                     <IconAlertTriangle
-                      color={theme.colors.app.textSecondary}
+                      color={theme.colors.textSecondary}
                       size={36}
                     />
                     {!compactMode && (
                       <>
-                        <Text fontSize="xl">NSFW</Text>
+                        <Text fontSize="$xl">NSFW</Text>
                         <Text>Sensitive content ahead</Text>
                       </>
                     )}

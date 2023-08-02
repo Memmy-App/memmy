@@ -1,7 +1,8 @@
-import { HStack, useTheme } from "native-base";
+import { HStack } from "@src/components/common/Gluestack";
 import React, { SetStateAction, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, InputAccessoryView, TextInput } from "react-native";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { selectImage } from "../../helpers/ImageHelper";
 import uploadToImgur from "../../helpers/ImgurHelper";
 import { writeToLog } from "../../helpers/LogHelper";
@@ -9,6 +10,7 @@ import { ErrorCause } from "../../types/ErrorCause";
 import IconButtonWithText from "./IconButtonWithText";
 import LoadingModal from "./Loading/LoadingModal";
 import SFIcon from "./icons/SFIcon";
+import { ICON_MAP } from "../../constants/IconMap";
 
 function KeyboardAccessory({
   setText,
@@ -27,7 +29,7 @@ function KeyboardAccessory({
   const [uploading, setUploading] = useState(false);
 
   const { t } = useTranslation();
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   const replace = (newText: string) =>
     text.substring(0, selection.start) +
@@ -67,9 +69,7 @@ function KeyboardAccessory({
           "plain-text",
           "",
           "default",
-          {
-            userInterfaceStyle: theme.config.initialColorMode,
-          }
+          { userInterfaceStyle: theme.config.initialColorMode }
         );
       },
       "plain-text",
@@ -140,31 +140,30 @@ function KeyboardAccessory({
     <InputAccessoryView nativeID="accessory">
       <LoadingModal loading={uploading} />
       <HStack
-        backgroundColor={theme.colors.app.bg}
-        height={12}
+        sx={{ h: 48, bg: theme.colors.bg }}
         justifyContent="space-between"
         alignItems="center"
-        px={4}
+        px="$4"
       >
         <IconButtonWithText
           onPressHandler={onItalicPress}
-          icon={<SFIcon icon="italic" />}
+          icon={<SFIcon icon={ICON_MAP.ITALIC} />}
         />
         <IconButtonWithText
           onPressHandler={onBoldPress}
-          icon={<SFIcon icon="bold" />}
+          icon={<SFIcon icon={ICON_MAP.BOLD} />}
         />
         <IconButtonWithText
           onPressHandler={onLinkPress}
-          icon={<SFIcon icon="link" />}
+          icon={<SFIcon icon={ICON_MAP.LINK} />}
         />
         <IconButtonWithText
           onPressHandler={onQuotePress}
-          icon={<SFIcon icon="quote.closing" />}
+          icon={<SFIcon icon={ICON_MAP.QUOTE} />}
         />
         <IconButtonWithText
           onPressHandler={onImagePress}
-          icon={<SFIcon icon="photo" />}
+          icon={<SFIcon icon={ICON_MAP.PHOTO} />}
         />
       </HStack>
     </InputAccessoryView>
