@@ -220,6 +220,8 @@ function PostScreen({ navigation }: IProps) {
         (c) => c.comment.comment.id === editedComment.commentId
       ) as WritableDraft<ILemmyComment>;
 
+      if (!comment) return;
+
       comment.comment.comment.content = editedComment.content;
     });
 
@@ -235,6 +237,8 @@ function PostScreen({ navigation }: IProps) {
   // Comment item renderer
   const commentItem = useCallback(
     ({ item }) => {
+      if (!item.comment?.comment) return null;
+
       if (item.showMoreTop && !item.displayMore) {
         const pathArr = item.comment.comment.path.split(".");
 
