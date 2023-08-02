@@ -1,4 +1,5 @@
 /* eslint-disable no-plusplus */
+
 // https://stackoverflow.com/questions/2685911/is-there-a-way-to-round-numbers-into-a-reader-friendly-format-e-g-1-1k
 
 export function shortenNumber(number: number, decPlaces = 1) {

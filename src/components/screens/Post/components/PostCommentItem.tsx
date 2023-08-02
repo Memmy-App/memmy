@@ -24,6 +24,10 @@ function PostCommentItem({ commentId }: IProps) {
   const comment = usePostComment(postKey, commentId);
   const commentHook = useComment({ comment });
 
+  const tapToCollapse = useSettingsStore(
+    (state) => state.settings.tapToCollapse
+  );
+
   const swipeLeftSecond = useSettingsStore(
     (state) => state.settings.commentSwipeLeftSecond
   );
@@ -44,6 +48,8 @@ function PostCommentItem({ commentId }: IProps) {
 
   const onPress = useCallback(() => {
     onGenericHapticFeedback();
+
+    if (!tapToCollapse) return;
 
     setCollapsed(postKey, commentId);
   }, [commentId]);

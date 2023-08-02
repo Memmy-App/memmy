@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getUserFullName } from "@src/helpers/LemmyHelpers";
 import { Account } from "../../types/Account";
 import { writeToLog } from "../../helpers/LogHelper";
 
@@ -87,7 +86,6 @@ export const useAccountStore = create(
             a.username === account.username && a.instance === account.instance
         );
 
-        state.accounts[index].password = account.password;
         state.accounts[index].token = account.token;
 
         AsyncStorage.setItem(

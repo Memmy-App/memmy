@@ -23,6 +23,7 @@ module.exports = {
     "App.js",
     "index.js",
     "metro.config.js",
+    "ReactotronConfig.js",
   ],
   parserOptions: {
     ecmaVersion: "latest",
@@ -46,6 +47,6 @@ module.exports = {
     "react/jsx-no-useless-fragment": "off",
     "import/prefer-default-export": "off",
     "jsx-a11y/anchor-is-valid": "off",
-    "no-else-return": ["error", {allowElseIf: true}]
+    "no-else-return": ["error", { allowElseIf: true }],
   },
 };
