@@ -76,7 +76,7 @@
     "expo-system-ui": "~2.4.0",
     "expo-web-browser": "~12.3.2",
     "flash-list": "^0.0.1-security",
-    "i18next": "^23.2.10",
+    "i18next": "^23.2.11",
     "immer": "^10.0.2",
     "lemmy-js-client": "^0.18.1",
     "markdown-it-container": "^3.0.0",
