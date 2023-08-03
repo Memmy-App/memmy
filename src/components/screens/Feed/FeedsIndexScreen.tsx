@@ -79,7 +79,6 @@ function FeedsIndexScreen({
       if (!lemmyInstance) {
         await initialize({
           username: currentAccount.username,
-          password: currentAccount.password,
           auth: currentAccount.token,
           server: currentAccount.instance,
         });

@@ -82,7 +82,6 @@ export const useAccountStore = create(
             a.username === account.username && a.instance === account.instance
         );
 
-        state.accounts[index].password = account.password;
         state.accounts[index].token = account.token;
 
         AsyncStorage.setItem(
