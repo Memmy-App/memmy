@@ -19,7 +19,7 @@
     "buildAndSubmit": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive && eas submit -p ios --path build.ipa --non-interactive",
     "buildAndSubmitAll": "yarn run buildProd && yarn run buildProdAnd && eas submit -p ios --path build.iap && eas submit -p android build.aab",
     "generate-license": "license-report --only=prod,dev,peer --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author --output=html > assets/license.html",
-    "release": "appcenter codepush release-react --app gavink/Memmy -t 0.6.0",
+    "release": "appcenter codepush release-react --app gavink/Memmy -t 0.5.1",
     "release-staging": "appcenter codepush release-react --app gavink/Memmy -t 10.10.11",
     "promote": "appcenter codepush promote -d Production -s Staging --app gavink/memmy"
   },
@@ -120,7 +120,7 @@
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@tsconfig/react-native": "^3.0.0",
     "@types/marked": "^5.0.0",
-    "@types/react": "~18.2.13",
+    "@types/react": "~18.2.15",
     "@types/react-native": "^0.72.2",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "babel-plugin-module-resolver": "^5.0.0",
