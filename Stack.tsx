@@ -9,18 +9,23 @@ import { Dimensions, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { useMe } from "@src/stores/site/siteStore";
-import { View } from "./src/components/common/Gluestack";
 import {
   useSettingsStore,
   useThemeOptions,
-} from "./src/stores/settings/settingsStore";
+} from "@src/stores/settings/settingsStore";
+import { selectSite } from "@src/slices/site/siteSlice";
+import { truncateName } from "@src/helpers/TextHelper";
+import { ICON_MAP } from "@src/constants/IconMap";
+import { CustomTabBar } from "@src/components/common/Navigation/CustomTabBar";
+import {
+  useAccountStore,
+  useAccounts,
+  useCurrentAccount,
+} from "@src/stores/account/accountStore";
+import { View } from "./src/components/common/Gluestack";
 
-import { selectSite } from "./src/slices/site/siteSlice";
-import { truncateName } from "./src/helpers/TextHelper";
-import { ICON_MAP } from "./src/constants/IconMap";
 import KeywordsFilterScreen from "./src/components/screens/Settings/Filters/KeywordsFilterScreen";
 import InstanceFiltersScreen from "./src/components/screens/Settings/Filters/InstanceFiltersScreen";
-import { CustomTabBar } from "./src/components/common/Navigation/CustomTabBar";
 import LoadingView from "./src/components/common/Loading/LoadingView";
 import SFIcon from "./src/components/common/icons/SFIcon";
 import EditCommentScreen from "./src/components/screens/Comments/EditCommentScreen";
@@ -63,11 +68,6 @@ import UserCommentsScreen from "./src/components/screens/UserProfile/UserComment
 import UserPostsScreen from "./src/components/screens/UserProfile/UserPostsScreen";
 import UserProfileScreen from "./src/components/screens/UserProfile/UserProfileScreen";
 import ViewerScreen from "./src/components/screens/ViewerScreen";
-import {
-  useAccountStore,
-  useAccounts,
-  useCurrentAccount,
-} from "./src/stores/account/accountStore";
 import { useAppSelector } from "./store";
 import FiltersScreen from "./src/components/screens/Settings/Filters/FiltersScreen";
 
@@ -293,7 +293,7 @@ function InboxStackScreen() {
   );
 }
 
-function SettingsScreens(stack) {
+function SettingsScreens(stack: typeof SettingsStack) {
   const { t } = useTranslation();
   return (
     <>
