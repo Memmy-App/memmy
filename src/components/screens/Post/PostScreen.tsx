@@ -326,6 +326,8 @@ function PostScreen({ navigation }: IProps) {
   }, [visibleComments]);
 
   const onFabLongPress = useCallback(() => {
+    onGenericHapticFeedback();
+
     // Get the current index
     const lastItemIndex = visibleComments.findIndex(
       (c) => c.comment.comment.id === lastCommentId.current
