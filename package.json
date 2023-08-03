@@ -19,7 +19,7 @@
     "buildAndSubmit": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive && eas submit -p ios --path build.ipa --non-interactive",
     "buildAndSubmitAll": "yarn run buildProd && yarn run buildProdAnd && eas submit -p ios --path build.iap && eas submit -p android build.aab",
     "generate-license": "license-report --only=prod,dev,peer --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author --output=html > assets/license.html",
-    "release": "appcenter codepush release-react --app gavink/Memmy -t 0.6.0",
+    "release": "appcenter codepush release-react --app gavink/Memmy -t 0.5.1",
     "release-staging": "appcenter codepush release-react --app gavink/Memmy -t 10.10.11",
     "promote": "appcenter codepush promote -d Production -s Staging --app gavink/memmy"
   },
@@ -126,7 +126,7 @@
     "babel-plugin-module-resolver": "^5.0.0",
     "eslint": "^8.44.0",
     "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
