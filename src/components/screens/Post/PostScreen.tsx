@@ -126,7 +126,7 @@ function PostScreen({ navigation }: IProps) {
   }, [commentsStatus.commentsLoading]);
 
   useEffect(() => {
-    if (!readyToScroll) return;
+    if (!readyToScroll || !options.initialCommentId) return;
 
     // Scroll to the comment
     // We have to get the item again in case anything changed
@@ -280,7 +280,9 @@ function PostScreen({ navigation }: IProps) {
   );
 
   const keyExtractor = useCallback(
-    (item) => item.comment.comment.id.toString(),
+    (item) =>
+      item.comment?.comment?.id.toString() ??
+      Math.floor(100000 + Math.random() * 900000).toString(),
     []
   );
 
