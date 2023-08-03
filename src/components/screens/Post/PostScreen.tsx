@@ -288,7 +288,7 @@ function PostScreen({ navigation }: IProps) {
     return <LoadingView />;
   }
 
-  const onFabPress = () => {
+  const onFabPress = useCallback(() => {
     onGenericHapticFeedback();
 
     // No viewable items
@@ -321,9 +321,9 @@ function PostScreen({ navigation }: IProps) {
 
     lastCommentId.current = nextItem.comment.comment.id;
     flashListRef.current.scrollToItem({ item: nextItem, animated: true });
-  };
+  }, [visibleComments]);
 
-  const onFabLongPress = () => {
+  const onFabLongPress = useCallback(() => {
     // Get the current index
     const lastItemIndex = visibleComments.findIndex(
       (c) => c.comment.comment.id === lastCommentId.current
@@ -360,7 +360,7 @@ function PostScreen({ navigation }: IProps) {
 
     // Update
     lastCommentId.current = nextLastItem.comment.comment.id;
-  };
+  }, [visibleComments]);
 
   if (currentPost) {
     return (
