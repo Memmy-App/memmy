@@ -1,34 +1,66 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import english from "./locales/en.json";
-import german from "./locales/de.json";
-import brazilian_portuguese from "./locales/pt_br.json";
-import czech from "./locales/cz.json";
-import romanian from "./locales/ro.json";
+import { logMessage } from "@react-native-community/cli-doctor/build/tools/healthchecks/common";
 import languageDetector from "./languageDetector";
+import en_US from "./locales/en_US.json";
+import de_DE from "./locales/de_DE.json";
+import pt_BR from "./locales/pt_BR.json";
+import cs_CZ from "./locales/cs_CZ.json";
+import ro_RO from "./locales/ro_RO.json";
+
+type SupportedLocale = "en" | "de" | "pt" | "ro" | "cs";
 
 i18n
   .use(languageDetector)
   .use(initReactI18next)
   .init({
     resources: {
-      en: {
-        translation: english,
+      "en-US": {
+        translation: en_US,
       },
-      de: {
-        translation: german,
+      "de-DE": {
+        translation: de_DE,
       },
-      pt: {
-        translation: brazilian_portuguese,
+      "pt-BR": {
+        translation: pt_BR,
       },
-      ro: {
-        translation: romanian,
+      "ro-RO": {
+        translation: ro_RO,
       },
-      cz: {
-        translation: czech,
+      "cs-CZ": {
+        translation: cs_CZ,
       },
     },
-    fallbackLng: "en",
+    fallbackLng: (code) => {
+      const fallbacks = ["en-US"];
+
+      if (!code) return fallbacks;
+
+      const [locale] = code.split("-") as [SupportedLocale, string];
+
+      switch (locale) {
+        case "en":
+          // already covered
+          break;
+        case "de":
+          fallbacks.push("de-DE");
+          break;
+        case "pt":
+          fallbacks.push("pt-BR");
+          break;
+        case "ro":
+          fallbacks.push("ro-RO");
+          break;
+        case "cs":
+          fallbacks.push("cs-CZ");
+          break;
+        default:
+          logMessage(`Language "${code}" not supported yet.`);
+          break;
+      }
+
+      return fallbacks.reverse();
+    },
     interpolation: {
       escapeValue: false, // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
     },
