@@ -1,6 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import { logMessage } from "@react-native-community/cli-doctor/build/tools/healthchecks/common";
+import { writeToLog } from "@src/helpers/LogHelper";
 import languageDetector from "./languageDetector";
 import en_US from "./locales/en_US.json";
 import de_DE from "./locales/de_DE.json";
@@ -55,7 +55,7 @@ i18n
           fallbacks.push("cs-CZ");
           break;
         default:
-          logMessage(`Language "${code}" not supported yet.`);
+          writeToLog(`Language "${code}" is not yet supported!`);
           break;
       }
 

@@ -676,8 +676,8 @@ function Tabs() {
               <SFIcon icon={ICON_MAP.USER_AVATAR} color={color} />
             ),
           tabBarLabel: hideUsernameInTab
-            ? "Profile"
-            : truncateName(currentAccount?.username ?? "Profile", 10),
+            ? t("Profile")
+            : truncateName(currentAccount?.username ?? t("Profile"), 10),
           freezeOnBlur: false,
         }}
       />
