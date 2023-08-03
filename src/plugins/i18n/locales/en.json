@@ -104,6 +104,11 @@
 		"reportBugBtn": "Report a Bug on GitHub",
 		"checkInstanceStatus": "Check Lemmy Status",
 		"swipeToVote": "Swipe to Vote",
+        "swipe": {
+            "left": {
+                "second": "Swipe Left Second"
+            }
+        },
 		"haptics": {
 			"Off": "Off",
 			"Light": "Light",
@@ -163,6 +168,7 @@
 			},
 			"gestures": {
 				"header": "GESTURES",
+				"footer": "Disabling swipe to vote will allow for full-screen swipe gestures.",
 				"tapToCollapse": "Tap to Collapse"
 			},
 			"showCommentJumpButton": "Show Comment Jump Button"
@@ -328,6 +334,9 @@
 		"NewComments": "New Comments",
 		"Old": "Old"
 	},
+	"community": {
+	    "info": "About",
+	},
 	"Feed": "Feed",
 	"Comments": "Comments",
 	"Traverse": "Traverse",
@@ -416,6 +425,7 @@
 	"Terms of Use": "Terms of Use",
 	"OK": "OK",
 	"Users": "Users",
+	"Users active": "Users active",
 	"Comment": "Comment",
 	"Comment_plural": "Comments",
 	"Back": "Back",
@@ -441,6 +451,7 @@
 	"Open Registration": "Open Registration",
 	"Subscribed": "Subscribed",
 	"Subscribe": "Subscribe",
+	"Subscribers": "Subscribers",
 	"Post": "Post",
 	"Description": "Description",
 	"Label": "Label",
@@ -461,5 +472,8 @@
 	"Left": "Left",
 	"Right": "Right",
 	"Account Created": "Account Created",
-	"Delete": "Delete"
+	"Delete": "Delete",
+	"Block Community": "Block Community",
+	"Unblock Community": "Unblock Community",
+	"Share": "Share"
 }
