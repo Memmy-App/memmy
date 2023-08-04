@@ -34,21 +34,21 @@ function CommunityOverflowButton() {
   const options: ContextMenuOption[] = [
     {
       key: "share",
-      title: "Share",
+      title: t("Share"),
       icon: ICON_MAP.SHARE,
     },
     ...(community.blocked
       ? [
           {
             key: "unblock",
-            title: "Unblock Community",
+            title: t("Unblock Community"),
             icon: ICON_MAP.UNBLOCK,
           },
         ]
       : [
           {
             key: "block",
-            title: "Block Community",
+            title: t("Block Community"),
             icon: ICON_MAP.BLOCK,
             destructive: true,
           },

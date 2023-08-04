@@ -6,36 +6,45 @@ import advancedFormat from "dayjs/plugin/advancedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
 import utc from "dayjs/plugin/utc";
-import german from "./i18n/locales/de.json";
-import english from "./i18n/locales/en.json";
-import czech from "./i18n/locales/cz.json";
-import romanian from "./i18n/locales/ro.json";
-import portuguese from "./i18n/locales/pt_br.json";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import de_DE from "./i18n/locales/de.json";
+import en_US from "./i18n/locales/en.json";
+import cs_CZ from "./i18n/locales/cz.json";
+import ro_RO from "./i18n/locales/ro.json";
+import pt_BR from "./i18n/locales/pt_br.json";
+
+// dayjs locales
+import "dayjs/locale/de";
+import "dayjs/locale/en";
+import "dayjs/locale/cs";
+import "dayjs/locale/ro";
+import "dayjs/locale/pt";
 
 // extend dayjs with plugins
 dayjs.extend(advancedFormat);
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
 dayjs.extend(utc);
+dayjs.extend(localizedFormat);
 
 dayjs.updateLocale("en", {
-  relativeTime: english.relativeTime,
+  relativeTime: en_US.relativeTime,
 });
 
 dayjs.updateLocale("de", {
-  relativeTime: german.relativeTime,
+  relativeTime: de_DE.relativeTime,
 });
 
 dayjs.updateLocale("cz", {
-  relativeTime: czech.relativeTime,
+  relativeTime: cs_CZ.relativeTime,
 });
 
 dayjs.updateLocale("ro", {
-  relativeTime: romanian.relativeTime,
+  relativeTime: ro_RO.relativeTime,
 });
 
 dayjs.updateLocale("pt", {
-  relativeTime: portuguese.relativeTime,
+  relativeTime: pt_BR.relativeTime,
 });
 
 // send it back (for use in other files)
