@@ -15,12 +15,13 @@ import { ExtensionType, LinkInfo, openLink } from "@src/helpers/LinkHelper";
 
 import { lemmyAuthToken, lemmyInstance } from "@src/LemmyInstance";
 import { ICON_MAP } from "@src/constants/IconMap";
-import ImageViewer from "@src/components/common/ImageViewer/ImageViewer";
 import SFIcon from "@src/components/common/icons/SFIcon";
 import {
   useSettingsStore,
   useThemeOptions,
 } from "@src/stores/settings/settingsStore";
+import ImageViewer from "@src/components/common/media/ImageViewer/ImageViewer";
+import VideoViewer from "../../../../common/media/VideoViewer/VideoViewer";
 
 interface IProps {
   postId: number;
@@ -89,6 +90,19 @@ function CompactFeedItemThumbnail({ postId, linkInfo }: IProps) {
             icon={ICON_MAP.MOST_COMMENTS}
             color={theme.colors.textSecondary}
             size={20}
+          />
+        )) ||
+        (linkInfo.extType === ExtensionType.VIDEO && (
+          <VideoViewer
+            source={postInfo.url}
+            heightOverride={75}
+            widthOverride={75}
+            style={{
+              borderRadius: 10,
+            }}
+            onPress={onImagePress}
+            nsfw={postInfo.nsfw || postCommunity.nsfw}
+            compactMode
           />
         )) || (
           <Pressable onPress={onLinkPress}>

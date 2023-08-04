@@ -1,14 +1,14 @@
 import { HStack, View } from "@src/components/common/Gluestack";
 import React from "react";
+import { useAppDispatch } from "@root/store";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
-import { ICON_MAP } from "../../../constants/IconMap";
-import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
-import { saveImage } from "../../../helpers/ImageHelper";
-import { shareLink } from "../../../helpers/ShareHelper";
-import IconButtonWithText from "../IconButtonWithText";
-import SFIcon from "../icons/SFIcon";
-import { useAppDispatch } from "../../../../store";
-import { showToast } from "../../../slices/toast/toastSlice";
+import { onGenericHapticFeedback } from "@src/helpers/HapticFeedbackHelpers";
+import { saveImage } from "@src/helpers/ImageHelper";
+import { showToast } from "@src/slices/toast/toastSlice";
+import { shareLink } from "@src/helpers/ShareHelper";
+import { ICON_MAP } from "@src/constants/IconMap";
+import SFIcon from "../../icons/SFIcon";
+import IconButtonWithText from "../../IconButtonWithText";
 
 interface ImageViewFooterProps {
   source: string;
