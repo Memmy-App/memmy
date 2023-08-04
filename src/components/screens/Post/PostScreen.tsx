@@ -126,7 +126,7 @@ function PostScreen({ navigation }: IProps) {
   }, [commentsStatus.commentsLoading]);
 
   useEffect(() => {
-    if (!readyToScroll) return;
+    if (!readyToScroll || !options.initialCommentId) return;
 
     // Scroll to the comment
     // We have to get the item again in case anything changed
@@ -280,7 +280,9 @@ function PostScreen({ navigation }: IProps) {
   );
 
   const keyExtractor = useCallback(
-    (item) => item.comment.comment.id.toString(),
+    (item) =>
+      item.comment?.comment?.id.toString() ??
+      Math.floor(100000 + Math.random() * 900000).toString(),
     []
   );
 
@@ -288,11 +290,11 @@ function PostScreen({ navigation }: IProps) {
     return <LoadingView />;
   }
 
-  const onFabPress = () => {
+  const onFabPress = useCallback(() => {
     onGenericHapticFeedback();
 
     // No viewable items
-    if (viewableItems.current.length < 1) return;
+    if (visibleComments.length < 1) return;
 
     if (lastCommentId.current === null) {
       const nextItem = visibleComments[0];
@@ -321,7 +323,48 @@ function PostScreen({ navigation }: IProps) {
 
     lastCommentId.current = nextItem.comment.comment.id;
     flashListRef.current.scrollToItem({ item: nextItem, animated: true });
-  };
+  }, [visibleComments]);
+
+  const onFabLongPress = useCallback(() => {
+    onGenericHapticFeedback();
+
+    // Get the current index
+    const lastItemIndex = visibleComments.findIndex(
+      (c) => c.comment.comment.id === lastCommentId.current
+    );
+
+    // Reverse the array
+    const reversed = visibleComments.slice(0, lastItemIndex).reverse();
+
+    // Get the next previous item's index
+    const prevItemIndex = reversed.findIndex(
+      (c) =>
+        isParentComment(c) && c.comment.comment.id !== lastCommentId.current
+    );
+
+    // Return if it didn't exist
+    if (prevItemIndex === -1) return;
+
+    // Scroll to the item
+    flashListRef.current.scrollToItem({
+      item: reversed[prevItemIndex],
+      animated: true,
+    });
+
+    // Update the last ID again
+    const nextLastItem = reversed
+      .slice(prevItemIndex)
+      .find(
+        (c) =>
+          isParentComment(c) && c.comment.comment.id !== lastCommentId.current
+      );
+
+    // If there isn't a last ID, just reset to null
+    if (!nextLastItem) nextLastItem.comment.comment.id = null;
+
+    // Update
+    lastCommentId.current = nextLastItem.comment.comment.id;
+  }, [visibleComments]);
 
   if (currentPost) {
     return (
@@ -340,7 +383,7 @@ function PostScreen({ navigation }: IProps) {
           contentContainerStyle={styles.list}
         />
         {showJumpButton && (
-          <NextCommentFAB onPress={onFabPress} onLongPress={() => {}} />
+          <NextCommentFAB onPress={onFabPress} onLongPress={onFabLongPress} />
         )}
       </VStack>
     );
