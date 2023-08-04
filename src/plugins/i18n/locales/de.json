@@ -154,7 +154,7 @@
 			},
 			"gestures": {
 				"header": "Gesten",
-	   "footer": "Wischen zum Wählen zu deaktivieren erlaubt das nutzen von Vollbild Gesten",
+				"footer": "Wischen zum Wählen zu deaktivieren erlaubt das nutzen von Vollbild Gesten",
 				"tapToCollapse": "Zum Zusammenklappen antippen"
 			}
 		},
