@@ -122,6 +122,8 @@ function ImageViewer({
   const imageHeight = useSharedValue(0);
   const imageWidth = useSharedValue(0);
 
+  const imageOpacity = useSharedValue(1);
+
   const lastTap = useSharedValue(0);
 
   const xCenter = useMemo(
@@ -244,6 +246,7 @@ function ImageViewer({
 
       // Then we handle the fade
       backgroundColor.value = withTiming("rgba(0, 0, 0, 1)", { duration: 200 });
+      imageOpacity.value = 0;
 
       setExpanded(true);
 
@@ -283,6 +286,7 @@ function ImageViewer({
 
         // Close the modal
         setExpanded(false);
+        imageOpacity.value = 1;
       }, 200);
     }
   };
@@ -498,6 +502,10 @@ function ImageViewer({
     backgroundColor: backgroundColor.value,
   }));
 
+  const imageStyle = useAnimatedStyle(() => ({
+    opacity: imageOpacity.value,
+  }));
+
   // This handles our pinch to zoom styles
   const scaleStyle = useAnimatedStyle(() => ({
     transform: [{ scale: zoomScale.value }],
@@ -557,11 +565,10 @@ function ImageViewer({
           onPress={onRequestOpenOrClose}
           ref={nonViewerRef}
           style={{
-            opacity: expanded ? 0 : 1,
             borderRadius: compactMode ? 10 : 0,
           }}
         >
-          <View>
+          <Animated.View style={imageStyle}>
             {(nsfw && blurNsfw && (
               <View
                 style={[
@@ -625,7 +632,7 @@ function ImageViewer({
                 onLoad={onLoad}
               />
             )}
-          </View>
+          </Animated.View>
         </Pressable>
       )}
       <Modal
