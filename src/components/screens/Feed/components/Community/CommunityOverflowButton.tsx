@@ -37,7 +37,7 @@ function CommunityOverflowButton() {
       title: t("Share"),
       icon: ICON_MAP.SHARE,
     },
-    ...(community.blocked
+    ...(community?.blocked
       ? [
           {
             key: "unblock",

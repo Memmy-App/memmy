@@ -28,7 +28,7 @@ function UserPostsScreen({ route }: IProps) {
   const profile = useProfile(
     false,
     route?.params?.fullUsername,
-    route.params.isSavedPosts
+    route?.params?.isSavedPosts
   );
 
   const posts = useFeedPosts(key);
@@ -37,7 +37,7 @@ function UserPostsScreen({ route }: IProps) {
 
   const theme = useThemeOptions();
 
-  const noResultViewType = route.params.isSavedPosts
+  const noResultViewType = route?.params?.isSavedPosts
     ? "profileSavedPosts"
     : "profilePosts";
 
