@@ -628,7 +628,12 @@ function ImageViewer({
           </View>
         </Pressable>
       )}
-      <Modal visible={expanded} transparent>
+      <Modal
+        visible={expanded}
+        transparent
+        statusBarTranslucent
+        style={styles.modal}
+      >
         <Toast />
         {/* eslint-disable-next-line react/style-prop-object */}
         <StatusBar style="dark" />
@@ -656,9 +661,12 @@ function ImageViewer({
 }
 
 const styles = StyleSheet.create({
+  modal: {
+    backgroundColor: "rgba(0, 0, 0, 0)",
+  },
+
   imageModal: {
     flex: 1,
-    backgroundColor: "transparent",
   },
 
   imageContainer: {
