@@ -15,8 +15,8 @@ function Chip({
   color,
   variant = "filled",
   fontSize = "2xs",
-  mx = "$1.5",
-  my = "$0.5",
+  mx = "$1",
+  my = "$0",
 }: IProps) {
   const chipStyles = {
     borderWidth: 1,

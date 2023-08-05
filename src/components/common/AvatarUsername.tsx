@@ -128,7 +128,7 @@ function AvatarUsername({
           color={theme.colors.info}
         />
       )}
-      <VStack>
+      <VStack space="xxxs">
         <HStack space="xxs">
           <Link
             screen="Profile"
@@ -139,6 +139,7 @@ function AvatarUsername({
           >
             <Text
               fontWeight="normal"
+              size="sm"
               color={type ? nameProps.bgColor : theme.colors.textSecondary}
             >
               {creator.name}
