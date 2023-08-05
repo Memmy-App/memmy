@@ -405,7 +405,7 @@ function ImageViewer({
     // Hide accessories
     if (zoomScale.value === 1) {
       if (lastTap.value + 200 < Date.now()) {
-        toggleAccessories(!(accessoriesOpacity.value === 1));
+        toggleAccessories(accessoriesOpacity.value !== 1);
       }
     } else {
       toggleAccessories(false);
