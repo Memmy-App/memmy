@@ -364,28 +364,26 @@ function PostScreen({ navigation }: IProps) {
     else lastCommentId.current = nextLastItem.comment.comment.id;
   }, [visibleComments]);
 
-  if (currentPost) {
-    return (
-      <VStack flex={1} backgroundColor={theme.colors.bg}>
-        <FlashList
-          ListHeaderComponent={<PostHeader />}
-          ListFooterComponent={<PostFooter />}
-          data={visibleComments}
-          renderItem={commentItem}
-          keyExtractor={keyExtractor}
-          estimatedItemSize={100}
-          refreshControl={refreshControl}
-          refreshing={commentsStatus.commentsLoading}
-          onViewableItemsChanged={onViewableItemsChanged}
-          ref={flashListRef}
-          contentContainerStyle={styles.list}
-        />
-        {showJumpButton && (
-          <NextCommentFAB onPress={onFabPress} onLongPress={onFabLongPress} />
-        )}
-      </VStack>
-    );
-  }
+  return (
+    <VStack flex={1} backgroundColor={theme.colors.bg}>
+      <FlashList
+        ListHeaderComponent={<PostHeader />}
+        ListFooterComponent={<PostFooter />}
+        data={visibleComments}
+        renderItem={commentItem}
+        keyExtractor={keyExtractor}
+        estimatedItemSize={100}
+        refreshControl={refreshControl}
+        refreshing={commentsStatus.commentsLoading}
+        onViewableItemsChanged={onViewableItemsChanged}
+        ref={flashListRef}
+        contentContainerStyle={styles.list}
+      />
+      {showJumpButton && (
+        <NextCommentFAB onPress={onFabPress} onLongPress={onFabLongPress} />
+      )}
+    </VStack>
+  );
 }
 
 const styles = StyleSheet.create({

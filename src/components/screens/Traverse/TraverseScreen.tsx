@@ -88,7 +88,7 @@ function TraverseScreen() {
         },
         isFavorite: false,
       });
-    } else if (hasFavorites) {
+    } else {
       // Otherwise
       sectionListItems = sectionListItems.concat(
         filteredFavorites.map((favorite) => ({
@@ -239,7 +239,7 @@ function TraverseScreen() {
       }
       return null;
     },
-    [isFavoriteSubscription, keyExtractor]
+    []
   );
 
   if (traverse.loading) {

@@ -1,5 +1,5 @@
 import { HStack } from "@src/components/common/Gluestack";
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import IconButtonWithText from "../../../../common/IconButtonWithText";
 import VoteButton from "../../../../common/Vote/VoteButton";
@@ -25,15 +25,20 @@ export function actions({ vote, saved, onSave, onVotePress, id }: Props) {
     onVotePress(vote === -1 ? 0 : -1);
   }, [vote, id]);
 
+  const saveIcon = useMemo(
+    () => (
+      <SFIcon
+        icon={ICON_MAP.SAVE}
+        color={saved ? theme.colors.bookmarkText : theme.colors.accent}
+      />
+    ),
+    [saved]
+  );
+
   return (
     <HStack space="xs" alignItems="center" justifyContent="flex-end">
       <IconButtonWithText
-        icon={
-          <SFIcon
-            icon={ICON_MAP.SAVE}
-            color={saved ? theme.colors.bookmarkText : theme.colors.accent}
-          />
-        }
+        icon={saveIcon}
         iconBgColor={saved ? theme.colors.bookmark : theme.colors.fg}
         onPressHandler={onSave}
       />

@@ -151,6 +151,7 @@ function CompactFeedItem({ postId }: { postId: number }) {
               <CompactFeedItemVote
                 myVote={postVote as ILemmyVote}
                 onVotePress={feedItem.onVotePress}
+                id={postInfo.id}
               />
             )}
             {postSaved && (
