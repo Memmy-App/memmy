@@ -265,7 +265,7 @@ function PostScreen({ navigation }: IProps) {
 
       return <PostCommentItem commentId={item.comment.comment.id} />;
     },
-    [currentPost.post.id]
+    [currentPost?.post.id]
   );
 
   // Refresh control
@@ -360,7 +360,7 @@ function PostScreen({ navigation }: IProps) {
       );
 
     // If there isn't a last ID, just reset to null
-    if (!nextLastItem) nextLastItem.comment.comment.id = null;
+    if (!nextLastItem) lastCommentId.current = null;
 
     // Update
     lastCommentId.current = nextLastItem.comment.comment.id;
