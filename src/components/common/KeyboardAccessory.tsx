@@ -1,5 +1,5 @@
 import { HStack } from "@src/components/common/Gluestack";
-import React, { SetStateAction, useMemo, useState } from "react";
+import React, { SetStateAction, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, InputAccessoryView, TextInput } from "react-native";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
