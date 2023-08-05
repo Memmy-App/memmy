@@ -52,7 +52,7 @@ function CommunityLink({ community, instanceBaseUrl }: CommunityLinkProps) {
           <Text
             color={theme.colors.textSecondary}
             fontWeight="medium"
-            size="xs"
+            size="sm"
           >
             @{instanceBaseUrl}
           </Text>
