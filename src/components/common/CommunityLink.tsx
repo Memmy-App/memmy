@@ -40,12 +40,20 @@ function CommunityLink({ community, instanceBaseUrl }: CommunityLinkProps) {
           ) : (
             <PlanetIcon color={theme.colors.textSecondary} size={16} />
           )}
-          <Text color={theme.colors.textSecondary} fontWeight="medium">
+          <Text
+            color={theme.colors.textSecondary}
+            fontWeight="medium"
+            size="sm"
+          >
             {community.name}
           </Text>
         </HStack>
         {instanceBaseUrl && (
-          <Text color={theme.colors.textSecondary} fontWeight="medium">
+          <Text
+            color={theme.colors.textSecondary}
+            fontWeight="medium"
+            size="xs"
+          >
             @{instanceBaseUrl}
           </Text>
         )}
