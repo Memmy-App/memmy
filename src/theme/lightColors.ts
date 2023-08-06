@@ -28,14 +28,17 @@ export const lightThemeColors: IColors = {
   info: "#3398f2",
   infoText: "#fff",
 
-  users: {
-    text: "#fff",
-    mod: "#54CB60",
-    admin: "#FF4848",
-    dev: "#CB66FA",
-    op: "#54CB60",
-    me: "#FFB800",
-  },
+  admin: "#FEF1F1",
+  adminText: "#DC2626",
+
+  mod: "#EDFCF2",
+  modText: "#2A7948",
+
+  dev: "#fcebfe",
+  devText: "#c702c4",
+
+  op: "#EBF8FE",
+  opText: "#0284c7",
 
   comments: {
     1: "#FA6969",
@@ -78,14 +81,17 @@ export const oksolarLightThemeColors: IColors = {
   info: "#2B90D8",
   infoText: "#fff",
 
-  users: {
-    text: "#fff",
-    mod: "#819500",
-    admin: "#FF4848",
-    dev: "#7D80D1",
-    op: "#2B90D8",
-    me: "#AC8300",
-  },
+  admin: "#FEF1F1",
+  adminText: "#DC2626",
+
+  mod: "#EDFCF2",
+  modText: "#2A7948",
+
+  dev: "#fcebfe",
+  devText: "#c702c4",
+
+  op: "#EBF8FE",
+  opText: "#0284c7",
 
   comments: {
     1: "#F23749",
