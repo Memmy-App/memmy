@@ -9,6 +9,7 @@ import { OnPressMenuItemEvent } from "react-native-ios-context-menu";
 import { shareLink } from "@root/src/helpers/ShareHelper";
 import * as Clipboard from "expo-clipboard";
 import * as FileSystem from "expo-file-system";
+import FastImage from "@gkasdorf/react-native-fast-image";
 import { AppContextMenuView } from "./App/AppContextMenuView";
 
 interface IProps extends PropsWithChildren {
@@ -39,10 +40,7 @@ export function ImageContextMenu({ children, source }: IProps) {
 
   const copyToClipboard = async () => {
     try {
-      const { uri } = await FileSystem.downloadAsync(
-        source,
-        `${FileSystem.documentDirectory}bufferimg.png`
-      );
+      const uri = await FastImage.getCachePath({ uri: source });
 
       const image = await FileSystem.readAsStringAsync(uri, {
         encoding: "base64",
