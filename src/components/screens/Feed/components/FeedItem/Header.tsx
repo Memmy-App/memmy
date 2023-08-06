@@ -1,6 +1,7 @@
 import { Community } from "lemmy-js-client";
 import { HStack } from "@src/components/common/Gluestack";
 import React from "react";
+import IconButtonWithText from "@root/src/components/common/IconButtonWithText";
 import { UseFeedItem } from "../../../../../hooks/feeds/useFeedItem";
 import CommunityLink from "../../../../common/CommunityLink";
 import { FeedItemContextMenu } from "../../../../common/ContextMenu/FeedItemContextMenu";
@@ -30,7 +31,9 @@ export function Header({ community, featured, isRead, feedItem }: Props) {
         <FeaturedIndicator featured={featured} />
         <IsReadIndicator isRead={isRead} />
         <FeedItemContextMenu feedItem={feedItem} isButton>
-          <SFIcon icon={ICON_MAP.MORE_OPTIONS} size={14} />
+          <IconButtonWithText
+            icon={<SFIcon icon={ICON_MAP.MORE_OPTIONS} size={14} />}
+          />
         </FeedItemContextMenu>
       </HStack>
     </HStack>
