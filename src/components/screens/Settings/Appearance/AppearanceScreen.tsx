@@ -375,6 +375,19 @@ function AppearanceScreen({ navigation }: IProps) {
                     hexToCheck = `#${hexToCheck}`;
                   }
 
+                  if (accent === "") {
+                    dispatch(
+                      showToast({
+                        message: "Accent color cleared",
+                        duration: 3000,
+                        variant: "info",
+                      })
+                    );
+                    setAccent("");
+                    setSetting({ accentColor: "" }).then();
+                    return;
+                  }
+
                   if (hexPattern.test(hexToCheck)) {
                     if (hexToCheck !== settings.accentColor) {
                       dispatch(
