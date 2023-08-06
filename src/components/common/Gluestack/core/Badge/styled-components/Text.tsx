@@ -4,7 +4,7 @@ import { styled } from "../../styled";
 export default styled(
   Text,
   {
-    fontWeight: "$medium",
+    fontWeight: "$extraBlack",
     fontFamily: "$body",
     textTransform: "uppercase",
   },

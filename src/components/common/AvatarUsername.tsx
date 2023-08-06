@@ -1,16 +1,15 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
-import { Person } from "lemmy-js-client";
-import { HStack, Text, VStack } from "@src/components/common/Gluestack";
-import React from "react";
+import { Badge, HStack, Text, VStack } from "@src/components/common/Gluestack";
+import { ICON_MAP } from "@src/constants/IconMap";
+import { getUserFullName } from "@src/helpers/LemmyHelpers";
+import { getBaseUrl } from "@src/helpers/LinkHelper";
 import {
   useSettingsStore,
   useThemeOptions,
 } from "@src/stores/settings/settingsStore";
-import { ICON_MAP } from "@src/constants/IconMap";
-import { getUserFullName } from "@src/helpers/LemmyHelpers";
-import { getBaseUrl } from "@src/helpers/LinkHelper";
+import { Person } from "lemmy-js-client";
+import React from "react";
 import Link from "./Buttons/Link";
-import Chip from "./Chip";
 import SFIcon from "./icons/SFIcon";
 
 export type NameType = "admin" | "mod" | "dev" | "op";
@@ -74,29 +73,22 @@ function AvatarUsername({
   const theme = useThemeOptions();
   const type = getUserPillType({ user: creator, opId, isMod });
 
-  const NameColorMap: Record<
-    NameType,
-    { textColor: string; bgColor: string; label: string }
-  > = {
+  const NameColorMap: Record<NameType, { color: string; variant: NameType }> = {
     admin: {
-      bgColor: theme.colors.users.admin,
-      textColor: "#fff",
-      label: "ADMIN",
+      color: theme.colors.adminText,
+      variant: "admin",
     },
     mod: {
-      bgColor: theme.colors.users.mod,
-      textColor: "#fff",
-      label: "MOD",
+      color: theme.colors.modText,
+      variant: "mod",
     },
     op: {
-      bgColor: theme.colors.users.op,
-      textColor: "#fff",
-      label: "OP",
+      color: theme.colors.opText,
+      variant: "op",
     },
     dev: {
-      bgColor: theme.colors.users.dev,
-      textColor: "#fff",
-      label: "DEV",
+      color: theme.colors.devText,
+      variant: "dev",
     },
   };
 
@@ -129,7 +121,7 @@ function AvatarUsername({
         />
       )}
       <VStack space="xxxs">
-        <HStack space="xxs">
+        <HStack space="xxs" alignItems="center">
           <Link
             screen="Profile"
             params={{
@@ -140,17 +132,15 @@ function AvatarUsername({
             <Text
               fontWeight="normal"
               size="sm"
-              color={type ? nameProps.bgColor : theme.colors.textSecondary}
+              color={type ? nameProps.color : theme.colors.textSecondary}
             >
               {creator.name}
             </Text>
           </Link>
           {type && showPill && (
-            <Chip
-              text={nameProps.label}
-              color={nameProps.bgColor}
-              variant="filled"
-            />
+            <Badge size="sm" variant="solid" user={nameProps.variant}>
+              <Badge.Text>{nameProps.variant}</Badge.Text>
+            </Badge>
           )}
         </HStack>
         {showInstanceForUsernames && (

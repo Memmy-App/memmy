@@ -7,107 +7,85 @@ export default styled(
   {
     flexDirection: "row",
     alignItems: "center",
-    borderRadius: "$xs",
+    borderRadius: "$sm",
     variants: {
-      action: {
-        error: {
-          bg: "$backgroundLightError",
-          borderColor: "$error300",
-          _icon: {
-            color: "$error600",
-          },
+      user: {
+        admin: {
+          bg: "$admin",
           _text: {
-            color: "$error600",
+            color: "$adminText",
           },
-          _dark: {
-            bg: "$backgroundDarkError",
-            borderColor: "$error700",
-            _text: {
-              color: "$error400",
-            },
-            _icon: {
-              color: "$error400",
-            },
+          _icon: {
+            color: "$adminText",
           },
         },
-        warning: {
-          bg: "$backgroundLightWarning",
-          borderColor: "$warning300",
+        mod: {
+          bg: "$mod",
+          _text: {
+            color: "$modText",
+          },
           _icon: {
-            color: "$warning600",
+            color: "$modText",
+          },
+        },
+        op: {
+          bg: "$op",
+          _text: {
+            color: "$opText",
+          },
+          _icon: {
+            color: "$opText",
+          },
+        },
+        dev: {
+          bg: "$dev",
+          _text: {
+            color: "$devText",
+          },
+          _icon: {
+            color: "$devText",
+          },
+        },
+      },
+      action: {
+        error: {
+          bg: "$error",
+          borderColor: "$error",
+          _icon: {
+            color: "$errorText",
           },
           _text: {
-            color: "$warning600",
+            color: "$errorText",
           },
-          _dark: {
-            bg: "$backgroundDarkWarning",
-            borderColor: "$warning700",
-            _text: {
-              color: "$warning400",
-            },
-            _icon: {
-              color: "$warning400",
-            },
+        },
+        warn: {
+          bg: "$warn",
+          borderColor: "$warn",
+          _icon: {
+            color: "$warnText",
+          },
+          _text: {
+            color: "$warnText",
           },
         },
         success: {
-          bg: "$backgroundLightSuccess",
-          borderColor: "$success300",
+          bg: "$success",
+          borderColor: "$success",
           _icon: {
-            color: "$success600",
+            color: "$successText",
           },
           _text: {
-            color: "$success600",
-          },
-          _dark: {
-            bg: "$backgroundDarkSuccess",
-            borderColor: "$success700",
-            _text: {
-              color: "$success400",
-            },
-            _icon: {
-              color: "$success400",
-            },
+            color: "$successText",
           },
         },
         info: {
-          bg: "$backgroundLightInfo",
-          borderColor: "$info300",
+          bg: "$info",
+          borderColor: "$info",
           _icon: {
-            color: "$info600",
+            color: "$infoText",
           },
           _text: {
-            color: "$info600",
-          },
-          _dark: {
-            bg: "$backgroundDarkInfo",
-            borderColor: "$info700",
-            _text: {
-              color: "$info400",
-            },
-            _icon: {
-              color: "$info400",
-            },
-          },
-        },
-        muted: {
-          bg: "$backgroundLightMuted",
-          borderColor: "$secondary300",
-          _icon: {
-            color: "$secondary600",
-          },
-          _text: {
-            color: "$secondary600",
-          },
-          _dark: {
-            bg: "$backgroundDarkMuted",
-            borderColor: "$secondary700",
-            _text: {
-              color: "$secondary400",
-            },
-            _icon: {
-              color: "$secondary400",
-            },
+            color: "$infoText",
           },
         },
       },
@@ -121,7 +99,7 @@ export default styled(
 
       size: {
         sm: {
-          px: "$2",
+          px: "$1",
           _icon: {
             h: 12,
             w: 12,
@@ -132,18 +110,18 @@ export default styled(
           },
         },
         md: {
-          px: "$2",
+          px: "$1",
           _icon: {
             h: 14,
             w: 14,
           },
           _text: {
             fontSize: "$xs",
-            lineHeight: "$sm",
+            lineHeight: "$xs",
           },
         },
         lg: {
-          px: "$2",
+          px: "$1",
           _icon: {
             h: 16,
             w: 16,
@@ -160,7 +138,6 @@ export default styled(
       opacity: 0.5,
     },
     defaultProps: {
-      action: "info",
       variant: "solid",
       size: "md",
     },

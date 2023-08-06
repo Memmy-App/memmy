@@ -18,23 +18,26 @@ export const darkThemeColors: IColors = {
   downvote: "#1A84E5",
   downvoteText: "#FFF",
 
-  success: "#48C10F",
-  successText: "#fff",
-  error: "#F8372B",
-  errorText: "#fff",
-  warn: "#DEA435",
-  warnText: "#fff",
-  info: "#3398f2",
-  infoText: "#fff",
+  success: "#1C2B21",
+  successText: "#489766",
+  error: "#422B2B",
+  errorText: "#EF4444",
+  warn: "#412F23",
+  warnText: "#fb923c",
+  info: "#1A282E",
+  infoText: "#38bdf8",
 
-  users: {
-    text: "#fff",
-    mod: "#54CB60",
-    admin: "#FF4848",
-    dev: "#CB66FA",
-    op: "#2092FB",
-    me: "#FFB800",
-  },
+  admin: "#422B2B",
+  adminText: "#EF4444",
+
+  mod: "#1C2B21",
+  modText: "#489766",
+
+  dev: "#2e1a2e",
+  devText: "#d538f8",
+
+  op: "#1A282E",
+  opText: "#38bdf8",
 
   comments: {
     1: "#FA6969",
@@ -68,23 +71,26 @@ export const moodyPurpleThemeColors: IColors = {
   downvote: "#1A84E5",
   downvoteText: "#FFF",
 
-  success: "#48C10F",
-  successText: "#fff",
-  error: "#F8372B",
-  errorText: "#fff",
-  warn: "#DEA435",
-  warnText: "#fff",
-  info: "#3398f2",
-  infoText: "#fff",
+  success: "#1C2B21",
+  successText: "#489766",
+  error: "#422B2B",
+  errorText: "#EF4444",
+  warn: "#412F23",
+  warnText: "#fb923c",
+  info: "#1A282E",
+  infoText: "#38bdf8",
 
-  users: {
-    text: "#fff",
-    mod: "#54CB60",
-    admin: "#FF4848",
-    dev: "#CB66FA",
-    op: "#2092FB",
-    me: "#FFB800",
-  },
+  admin: "#422B2B",
+  adminText: "#EF4444",
+
+  mod: "#1C2B21",
+  modText: "#489766",
+
+  dev: "#2e1a2e",
+  devText: "#d538f8",
+
+  op: "#1A282E",
+  opText: "#38bdf8",
 
   comments: {
     1: "#FA6969",
@@ -118,23 +124,26 @@ export const draculaThemeColors: IColors = {
   downvote: "#9580FF",
   downvoteText: "#FFF",
 
-  success: "#48C10F",
-  successText: "#fff",
-  error: "#F8372B",
-  errorText: "#fff",
-  warn: "#DEA435",
-  warnText: "#fff",
-  info: "#3398f2",
-  infoText: "#fff",
+  success: "#1C2B21",
+  successText: "#489766",
+  error: "#422B2B",
+  errorText: "#EF4444",
+  warn: "#412F23",
+  warnText: "#fb923c",
+  info: "#1A282E",
+  infoText: "#38bdf8",
 
-  users: {
-    text: "#fff",
-    mod: "#54CB60",
-    admin: "#FF4848",
-    dev: "#CB66FA",
-    op: "#2092FB",
-    me: "#FFB800",
-  },
+  admin: "#422B2B",
+  adminText: "#EF4444",
+
+  mod: "#1C2B21",
+  modText: "#489766",
+
+  dev: "#2e1a2e",
+  devText: "#d538f8",
+
+  op: "#1A282E",
+  opText: "#38bdf8",
 
   comments: {
     1: "#ff79c6",
@@ -168,23 +177,26 @@ export const nightOwlThemeColors: IColors = {
   downvote: "#1A84E5",
   downvoteText: "#FFF",
 
-  success: "#48C10F",
-  successText: "#fff",
-  error: "#F8372B",
-  errorText: "#fff",
-  warn: "#DEA435",
-  warnText: "#fff",
-  info: "#3398f2",
-  infoText: "#fff",
+  success: "#1C2B21",
+  successText: "#489766",
+  error: "#422B2B",
+  errorText: "#EF4444",
+  warn: "#412F23",
+  warnText: "#fb923c",
+  info: "#1A282E",
+  infoText: "#38bdf8",
 
-  users: {
-    text: "#fff",
-    mod: "#54CB60",
-    admin: "#FF4848",
-    dev: "#CB66FA",
-    op: "#2092FB",
-    me: "#FFB800",
-  },
+  admin: "#422B2B",
+  adminText: "#EF4444",
+
+  mod: "#1C2B21",
+  modText: "#489766",
+
+  dev: "#2e1a2e",
+  devText: "#d538f8",
+
+  op: "#1A282E",
+  opText: "#38bdf8",
 
   comments: {
     1: "#FA6969",
@@ -218,22 +230,26 @@ export const sleepyRainforestThemeColors: IColors = {
   downvote: "#1A84E5",
   downvoteText: "#FFF",
 
-  success: "#48C10F",
-  successText: "#fff",
-  error: "#F8372B",
-  errorText: "#fff",
-  warn: "#DEA435",
-  warnText: "#fff",
-  info: "#3398f2",
-  infoText: "#fff",
-  users: {
-    text: "#fff",
-    mod: "#54CB60",
-    admin: "#FF4848",
-    dev: "#CB66FA",
-    op: "#2092FB",
-    me: "#FFB800",
-  },
+  success: "#1C2B21",
+  successText: "#489766",
+  error: "#422B2B",
+  errorText: "#EF4444",
+  warn: "#412F23",
+  warnText: "#fb923c",
+  info: "#1A282E",
+  infoText: "#38bdf8",
+
+  admin: "#422B2B",
+  adminText: "#EF4444",
+
+  mod: "#1C2B21",
+  modText: "#489766",
+
+  dev: "#2e1a2e",
+  devText: "#d538f8",
+
+  op: "#1A282E",
+  opText: "#38bdf8",
 
   comments: {
     1: "#FA6969",
@@ -267,23 +283,26 @@ export const goldenHourThemeColors: IColors = {
   downvote: "#1A84E5",
   downvoteText: "#FFF",
 
-  success: "#48C10F",
-  successText: "#fff",
-  error: "#F8372B",
-  errorText: "#fff",
-  warn: "#DEA435",
-  warnText: "#fff",
-  info: "#3398f2",
-  infoText: "#fff",
+  success: "#1C2B21",
+  successText: "#489766",
+  error: "#422B2B",
+  errorText: "#EF4444",
+  warn: "#412F23",
+  warnText: "#fb923c",
+  info: "#1A282E",
+  infoText: "#38bdf8",
 
-  users: {
-    text: "#fff",
-    mod: "#54CB60",
-    admin: "#FF4848",
-    dev: "#CB66FA",
-    op: "#2092FB",
-    me: "#FFB800",
-  },
+  admin: "#422B2B",
+  adminText: "#EF4444",
+
+  mod: "#1C2B21",
+  modText: "#489766",
+
+  dev: "#2e1a2e",
+  devText: "#d538f8",
+
+  op: "#1A282E",
+  opText: "#38bdf8",
 
   comments: {
     1: "#FA6969",
@@ -317,23 +336,26 @@ export const nauticalThemeColors: IColors = {
   downvote: "#1A84E5",
   downvoteText: "#FFF",
 
-  success: "#48C10F",
-  successText: "#fff",
-  error: "#F8372B",
-  errorText: "#fff",
-  warn: "#DEA435",
-  warnText: "#fff",
-  info: "#3398f2",
-  infoText: "#fff",
+  success: "#1C2B21",
+  successText: "#489766",
+  error: "#422B2B",
+  errorText: "#EF4444",
+  warn: "#412F23",
+  warnText: "#fb923c",
+  info: "#1A282E",
+  infoText: "#38bdf8",
 
-  users: {
-    text: "#fff",
-    mod: "#54CB60",
-    admin: "#FF4848",
-    dev: "#CB66FA",
-    op: "#2092FB",
-    me: "#FFB800",
-  },
+  admin: "#422B2B",
+  adminText: "#EF4444",
+
+  mod: "#1C2B21",
+  modText: "#489766",
+
+  dev: "#2e1a2e",
+  devText: "#d538f8",
+
+  op: "#1A282E",
+  opText: "#38bdf8",
 
   comments: {
     1: "#FA6969",
@@ -351,6 +373,7 @@ export const nauticalThemeColors: IColors = {
 
 export const sunsetThemeColors: IColors = {
   accent: "#fe7d00",
+  // accentBg: "#332520",
   accentHighlight: "#D6772B",
 
   textPrimary: "#e1e2e6",
@@ -367,23 +390,26 @@ export const sunsetThemeColors: IColors = {
   downvote: "#1A84E5",
   downvoteText: "#FFF",
 
-  success: "#48C10F",
-  successText: "#fff",
-  error: "#F8372B",
-  errorText: "#fff",
-  warn: "#DEA435",
-  warnText: "#fff",
-  info: "#3398f2",
-  infoText: "#fff",
+  success: "#1C2B21",
+  successText: "#489766",
+  error: "#422B2B",
+  errorText: "#EF4444",
+  warn: "#412F23",
+  warnText: "#fb923c",
+  info: "#1A282E",
+  infoText: "#38bdf8",
 
-  users: {
-    text: "#fff",
-    mod: "#54CB60",
-    admin: "#FF4848",
-    dev: "#CB66FA",
-    op: "#2092FB",
-    me: "#FFB800",
-  },
+  admin: "#422B2B",
+  adminText: "#EF4444",
+
+  mod: "#1C2B21",
+  modText: "#489766",
+
+  dev: "#2e1a2e",
+  devText: "#d538f8",
+
+  op: "#1A282E",
+  opText: "#38bdf8",
 
   comments: {
     1: "#FA6969",
@@ -417,23 +443,26 @@ export const oksolarDarkThemeColors: IColors = {
   downvote: "#7D80D1",
   downvoteText: "#FFF",
 
-  success: "#819500",
-  successText: "#fff",
-  error: "#F23749",
-  errorText: "#fff",
-  warn: "#AC8300",
-  warnText: "#fff",
-  info: "#2B90D8",
-  infoText: "#fff",
+  success: "#1C2B21",
+  successText: "#489766",
+  error: "#422B2B",
+  errorText: "#EF4444",
+  warn: "#412F23",
+  warnText: "#fb923c",
+  info: "#1A282E",
+  infoText: "#38bdf8",
 
-  users: {
-    text: "#fff",
-    mod: "#819500",
-    admin: "#FF4848",
-    dev: "#7D80D1",
-    op: "#2B90D8",
-    me: "#AC8300",
-  },
+  admin: "#422B2B",
+  adminText: "#EF4444",
+
+  mod: "#1C2B21",
+  modText: "#489766",
+
+  dev: "#2e1a2e",
+  devText: "#d538f8",
+
+  op: "#1A282E",
+  opText: "#38bdf8",
 
   comments: {
     1: "#F23749",
@@ -467,23 +496,26 @@ export const oledThemeColors: IColors = {
   downvote: "#1A84E5",
   downvoteText: "#FFF",
 
-  success: "#48C10F",
-  successText: "#fff",
-  error: "#F8372B",
-  errorText: "#fff",
-  warn: "#DEA435",
-  warnText: "#fff",
-  info: "#3398f2",
-  infoText: "#fff",
+  success: "#1C2B21",
+  successText: "#489766",
+  error: "#422B2B",
+  errorText: "#EF4444",
+  warn: "#412F23",
+  warnText: "#fb923c",
+  info: "#1A282E",
+  infoText: "#38bdf8",
 
-  users: {
-    text: "#fff",
-    mod: "#54CB60",
-    admin: "#FF4848",
-    dev: "#CB66FA",
-    op: "#2092FB",
-    me: "#FFB800",
-  },
+  admin: "#422B2B",
+  adminText: "#EF4444",
+
+  mod: "#1C2B21",
+  modText: "#489766",
+
+  dev: "#2e1a2e",
+  devText: "#d538f8",
+
+  op: "#1A282E",
+  opText: "#38bdf8",
 
   comments: {
     1: "#FA6969",
@@ -526,14 +558,17 @@ export const embarkThemeColors: IColors = {
   info: "#78A8FF",
   infoText: "#fff",
 
-  users: {
-    text: "#fff",
-    mod: "#7FE9C3",
-    admin: "#F02E6E",
-    dev: "#7676FF",
-    op: "#63F2F1",
-    me: "#FFB800",
-  },
+  admin: "#422B2B",
+  adminText: "#EF4444",
+
+  mod: "#1C2B21",
+  modText: "#489766",
+
+  dev: "#2e1a2e",
+  devText: "#d538f8",
+
+  op: "#1A282E",
+  opText: "#38bdf8",
 
   comments: {
     1: "#F48FB1",
