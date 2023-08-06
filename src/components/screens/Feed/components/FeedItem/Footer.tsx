@@ -7,7 +7,7 @@ interface Props {
 
 export function Footer({ children }: Props) {
   return (
-    <HStack mx="$4" alignItems="center" mb="$2" mt="$1">
+    <HStack mx="$4" alignItems="center" mb="$2">
       {children}
     </HStack>
   );

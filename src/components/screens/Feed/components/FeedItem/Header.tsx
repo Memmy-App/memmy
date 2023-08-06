@@ -19,13 +19,7 @@ interface Props {
 
 export function Header({ community, featured, isRead, feedItem }: Props) {
   return (
-    <HStack
-      mx="$4"
-      mt="$2"
-      mb="$2"
-      justifyContent="space-between"
-      alignItems="center"
-    >
+    <HStack mx="$4" mt="$2" justifyContent="space-between" alignItems="center">
       <CommunityLink community={community} />
       <HStack space="sm" alignItems="center">
         <FeaturedIndicator featured={featured} />
