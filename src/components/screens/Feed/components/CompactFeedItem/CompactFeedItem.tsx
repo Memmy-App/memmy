@@ -12,6 +12,7 @@ import {
   useSettingsStore,
   useThemeOptions,
 } from "@src/stores/settings/settingsStore";
+import removeMd from "remove-markdown";
 import {
   ExtensionType,
   getBaseUrl,
@@ -84,6 +85,8 @@ function CompactFeedItem({ postId }: { postId: number }) {
     linkInfo.extType === ExtensionType.VIDEO ||
     linkInfo.extType === ExtensionType.GENERIC;
 
+  const postTitle = removeMd(postInfo.name);
+
   return (
     <View flex={1} my="$0.5">
       <SwipeableRow leftOption={leftOption} rightOption={rightOption}>
@@ -112,7 +115,7 @@ function CompactFeedItem({ postId }: { postId: number }) {
                     : theme.colors.textPrimary
                 }
               >
-                {postInfo.name}
+                {postTitle}
                 {showLink && (
                   <Text color={theme.colors.textSecondary} size="sm">
                     {" "}
