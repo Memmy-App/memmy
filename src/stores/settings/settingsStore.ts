@@ -59,6 +59,7 @@ export interface SettingsState {
   commentSwipeLeftFirst: "Reply" | "Save" | "Collapse";
   commentSwipeLeftSecond: "Reply" | "Save" | "Collapse" | "None";
   showCommentJumpButton: boolean;
+  commentJumpPlacement: "bottom left" | "bottom right" | "bottom center";
 }
 
 const initialState: SettingsState = {
@@ -106,6 +107,7 @@ const initialState: SettingsState = {
   commentSwipeLeftFirst: "Reply",
   commentSwipeLeftSecond: "None",
   showCommentJumpButton: true,
+  commentJumpPlacement: "bottom right",
 };
 
 export const useSettingsStore = create(

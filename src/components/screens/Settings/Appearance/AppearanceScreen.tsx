@@ -76,6 +76,12 @@ function AppearanceScreen({ navigation }: IProps) {
     [t]
   );
 
+  const commentJumpPlacementOptions = [
+    { key: "bottom right", title: "Bottom Right" },
+    { key: "bottom left", title: "Bottom Left" },
+    { key: "bottom center", title: "Bottom Center" },
+  ];
+
   return (
     <ScrollView bg={theme.colors.bg} flex={1}>
       <TableView style={styles.table}>
@@ -169,6 +175,29 @@ function AppearanceScreen({ navigation }: IProps) {
               />
             }
           />
+          <AppContextMenuButton
+            options={commentJumpPlacementOptions}
+            selection={settings.commentJumpPlacement}
+            onPressMenuItem={({ nativeEvent }) => {
+              setSetting({
+                commentJumpPlacement: nativeEvent.actionKey,
+              }).then();
+            }}
+          >
+            <CCell
+              cellStyle="RightDetail"
+              title="Comment Jump Placement"
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
+              accessory="DisclosureIndicator"
+              detail={
+                commentJumpPlacementOptions.find(
+                  (e) => e.key === settings.commentJumpPlacement
+                ).title
+              }
+            />
+          </AppContextMenuButton>
         </CSection>
         <CSection header="Tab Bar">
           <CCell
