@@ -6,6 +6,7 @@ import {
   useSettingsStore,
   useThemeOptions,
 } from "@src/stores/settings/settingsStore";
+import removeMd from "remove-markdown";
 
 function Title({
   mt,
@@ -22,6 +23,8 @@ function Title({
     (state) => state.settings.fontWeightPostTitle
   );
 
+  const newTitle = removeMd(postTitle);
+
   return (
     <Text
       mt={mt}
@@ -31,7 +34,7 @@ function Title({
       fontWeight={fontWeightPostTitle}
       color={theme.colors.textPrimary}
     >
-      {postTitle}
+      {newTitle}
     </Text>
   );
 }

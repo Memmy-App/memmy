@@ -11,6 +11,7 @@ import {
   useSettingsStore,
   useThemeOptions,
 } from "@src/stores/settings/settingsStore";
+import removeMd from "remove-markdown";
 import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
 import { findImages } from "../../../../helpers/MarkdownHelper";
 import { truncatePost } from "../../../../helpers/TextHelper";
@@ -64,6 +65,9 @@ function FeedContentPreview({ postId, recycled }: IProps) {
     setFeedRead(key, postId);
   }, [postId, postRead]);
 
+  const postTitle = removeMd(postInfo.name);
+  const postBody = removeMd(body);
+
   return (
     <Box mb="$1">
       <Text
@@ -73,7 +77,7 @@ function FeedContentPreview({ postId, recycled }: IProps) {
         color={theme.colors.textPrimary}
         alignItems="center"
       >
-        {postInfo.name}
+        {postTitle}
       </Text>
       {showImage && (
         <Box mt="$2">
@@ -88,7 +92,7 @@ function FeedContentPreview({ postId, recycled }: IProps) {
       )}
       {!!body && (
         <Text color={theme.colors.textSecondary} mx="$4" mt="$2">
-          {body}
+          {postBody}
         </Text>
       )}
       {showLink && (
