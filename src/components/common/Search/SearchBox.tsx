@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { HStack } from "@src/components/common/Gluestack";
 import React, { SetStateAction, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Dimensions, Pressable, TextInput } from "react-native";
+import { Dimensions, Pressable, StyleSheet, TextInput } from "react-native";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import SFIcon from "../icons/SFIcon";
 import { ICON_MAP } from "../../../constants/IconMap";
@@ -54,7 +54,7 @@ function SearchBox({
         icon={ICON_MAP.SEARCH}
         color={theme.colors.textSecondary}
         size={12}
-        style={{ flexShrink: 1 }}
+        style={styles.shrink}
         boxSize={16}
       />
       <TextInput
@@ -85,7 +85,7 @@ function SearchBox({
           <SFIcon
             icon={ICON_MAP.EXIT_SEARCH}
             color={theme.colors.textSecondary}
-            style={{ flexShrink: 1 }}
+            style={styles.shrink}
             size={12}
             boxSize={16}
           />
@@ -94,5 +94,11 @@ function SearchBox({
     </HStack>
   );
 }
+
+const styles = StyleSheet.create({
+  shrink: {
+    flexShrink: 1,
+  },
+});
 
 export default SearchBox;

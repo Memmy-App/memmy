@@ -20,7 +20,7 @@ const BaseText = styled(
         },
         xs: {
           fontSize: "$xs",
-          lineHeight: "$sm",
+          lineHeight: "$xs",
         },
 
         sm: {
@@ -35,7 +35,7 @@ const BaseText = styled(
 
         lg: {
           fontSize: "$lg",
-          lineHeight: "$xl",
+          lineHeight: "$lg",
         },
 
         xl: {

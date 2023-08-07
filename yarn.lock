@@ -2812,10 +2812,10 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
-"@types/marked@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@types/marked/-/marked-5.0.0.tgz#3235b9133054e6586eedabfb77aa7d4a4bafbfcf"
-  integrity sha512-YcZe50jhltsCq7rc9MNZC/4QB/OnA2Pd6hrOSTOFajtabN+38slqgDDCeE/0F83SjkKBQcsZUj7VLWR0H5cKRA==
+"@types/marked@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@types/marked/-/marked-5.0.1.tgz#15acd796d722b91bf00738c8c8539aaf5034f0c6"
+  integrity sha512-Y3pAUzHKh605fN6fvASsz5FDSWbZcs/65Q6xYRmnIP9ZIYz27T4IOmXfH9gWJV1dpi7f1e7z7nBGUTx/a0ptpA==
 
 "@types/node@*":
   version "20.3.1"
@@ -5043,6 +5043,11 @@ expo-build-properties@~0.8.3:
   dependencies:
     ajv "^8.11.0"
     semver "^7.5.3"
+
+expo-clipboard@~4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/expo-clipboard/-/expo-clipboard-4.3.0.tgz#19321dabeab3514c6ab6e7e2e39ac51bab47acc6"
+  integrity sha512-FsPv7FFdVCPGT1P9mnOhB7o6wPMI05Bpuchj58ACGEx8mYfA90CLL/sdQFSS7VmQOxdgUh+De3GDJgHq3JvckA==
 
 expo-constants@^14.4.1, expo-constants@~14.4.2:
   version "14.4.2"
@@ -9271,6 +9276,11 @@ regjsparser@^0.9.1:
   integrity sha512-dQUtn90WanSNl+7mQKcXAgZxvUe7Z0SqXlgzv0za4LwiUhyzBC58yQO3liFoUgu8GiJVInAhJjkj1N0EtQ5nkQ==
   dependencies:
     jsesc "~0.5.0"
+
+remove-markdown@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/remove-markdown/-/remove-markdown-0.5.0.tgz#a596264bbd60b9ceab2e2ae86e5789eee91aee32"
+  integrity sha512-x917M80K97K5IN1L8lUvFehsfhR8cYjGQ/yAMRI9E7JIKivtl5Emo5iD13DhMr+VojzMCiYk8V2byNPwT/oapg==
 
 remove-trailing-slash@^0.1.0:
   version "0.1.1"
