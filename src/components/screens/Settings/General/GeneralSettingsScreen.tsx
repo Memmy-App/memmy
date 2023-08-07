@@ -49,7 +49,7 @@ function GeneralSettingsScreen() {
       <TableView style={styles.table}>
         <CSection
           header={t("settings.appearance.gestures.header")}
-          footer="Disabling swipe to vote will allow for full-screen swipe gestures."
+          footer={t("settings.appearance.gestures.footer")}
         >
           <CCell
             cellStyle="Basic"
@@ -89,7 +89,7 @@ function GeneralSettingsScreen() {
           >
             <CCell
               cellStyle="RightDetail"
-              title={t("Swipe Left Second")}
+              title={t("settings.swipe.left.second")}
               detail={t(
                 `settings.swipeOptions.${settings.commentSwipeLeftSecond}`
               )}

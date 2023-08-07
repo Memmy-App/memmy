@@ -1,10 +1,10 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import english from "./locales/en.json";
-import german from "./locales/de.json";
-import brazilian_portuguese from "./locales/pt_br.json";
-import czech from "./locales/cz.json";
-import romanian from "./locales/ro.json";
+import en_US from "./locales/en.json";
+import de_DE from "./locales/de.json";
+import pt_BR from "./locales/pt_br.json";
+import cs_CZ from "./locales/cz.json";
+import ro_RO from "./locales/ro.json";
 import languageDetector from "./languageDetector";
 
 i18n
@@ -13,19 +13,19 @@ i18n
   .init({
     resources: {
       en: {
-        translation: english,
+        translation: en_US,
       },
       de: {
-        translation: german,
+        translation: de_DE,
       },
       pt: {
-        translation: brazilian_portuguese,
+        translation: pt_BR,
       },
       ro: {
-        translation: romanian,
+        translation: ro_RO,
       },
       cz: {
-        translation: czech,
+        translation: cs_CZ,
       },
     },
     fallbackLng: "en",

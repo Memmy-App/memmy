@@ -69,6 +69,9 @@ function ThemeSelectionScreen({ route }: IProps) {
               <CCell
                 key={themeName}
                 cellStyle="RightDetail"
+                backgroundColor={theme.colors.fg}
+                titleTextColor={theme.colors.textPrimary}
+                rightDetailColor={theme.colors.textSecondary}
                 title={
                   <HStack space="sm">
                     <ThemeColors
@@ -96,6 +99,9 @@ function ThemeSelectionScreen({ route }: IProps) {
               <CCell
                 key={themeName}
                 cellStyle="RightDetail"
+                backgroundColor={theme.colors.fg}
+                titleTextColor={theme.colors.textPrimary}
+                rightDetailColor={theme.colors.textSecondary}
                 title={
                   <HStack space="sm">
                     <ThemeColors

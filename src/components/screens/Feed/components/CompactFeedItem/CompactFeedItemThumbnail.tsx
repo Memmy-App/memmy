@@ -75,9 +75,7 @@ function CompactFeedItemThumbnail({ postId, linkInfo }: IProps) {
             source={postInfo.url}
             heightOverride={75}
             widthOverride={75}
-            style={{
-              borderRadius: 10,
-            }}
+            style={styles.thumbnail}
             onPress={onImagePress}
             nsfw={postInfo.nsfw || postCommunity.nsfw}
             compactMode
@@ -155,6 +153,10 @@ const styles = StyleSheet.create({
     borderRadius: 100 / 2,
     backgroundColor: "white",
     opacity: 0.8,
+  },
+
+  thumbnail: {
+    borderRadius: 10,
   },
 });
 

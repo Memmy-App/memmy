@@ -15,6 +15,7 @@ import { modelName, osVersion } from "expo-device";
 import { getReadableVersion } from "react-native-device-info";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { openLink } from "@src/helpers/LinkHelper";
+import dayjs from "dayjs";
 import { ICON_MAP } from "../../../constants/IconMap";
 import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
 import CCell from "../../common/Table/CCell";
@@ -60,7 +61,7 @@ function SettingsIndexScreen({
   const theme = useThemeOptions();
 
   const languages = useMemo<string[]>(
-    () => Object.keys(i18n.options.resources),
+    () => Object.keys(i18n?.options?.resources ?? []),
     [i18n]
   );
 
@@ -271,6 +272,7 @@ function SettingsIndexScreen({
                 selection={i18n.resolvedLanguage}
                 onPressMenuItem={({ nativeEvent }) => {
                   i18n.changeLanguage(nativeEvent.actionKey);
+                  dayjs.locale(nativeEvent.actionKey.split("-")[0]);
                 }}
               >
                 <CCell

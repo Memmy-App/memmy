@@ -1,13 +1,17 @@
 export const truncateName = (name: string, truncLength = 16): string => {
+  if (!name) return "";
+
   if (name.length <= truncLength) return name;
 
-  return `${name?.slice(0, truncLength)}...`;
+  return `${name.slice(0, truncLength)}...`;
 };
 
 export const truncateLink = (link: string): string => {
+  if (!link) return "";
+
   if (link.length <= 36) return link;
 
-  return `${link?.slice(0, 36)}...`;
+  return `${link.slice(0, 36)}...`;
 };
 
 export const truncateImageLink = (link: string): string => {
