@@ -4,6 +4,11 @@ import { StyleSheet } from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { useRoute } from "@react-navigation/core";
+import AvatarUsername from "@src/components/common/AvatarUsername";
+import { FeedItemContextMenu } from "@src/components/common/ContextMenu/FeedItemContextMenu";
+import { ReplyOption } from "@src/components/common/SwipeableRow/ReplyOption";
+import { SwipeableRow } from "@src/components/common/SwipeableRow/SwipeableRow";
+import { VoteOption } from "@src/components/common/SwipeableRow/VoteOption";
 import {
   useFeedPostCommunity,
   useFeedPostCreator,
@@ -13,11 +18,6 @@ import {
   useFeedPostVote,
 } from "@src/stores/feeds/feedsStore";
 import { ILemmyVote } from "@src/types/lemmy/ILemmyVote";
-import AvatarUsername from "@src/components/common/AvatarUsername";
-import { FeedItemContextMenu } from "@src/components/common/ContextMenu/FeedItemContextMenu";
-import { ReplyOption } from "@src/components/common/SwipeableRow/ReplyOption";
-import { SwipeableRow } from "@src/components/common/SwipeableRow/SwipeableRow";
-import { VoteOption } from "@src/components/common/SwipeableRow/VoteOption";
 import useFeedItem from "../../../../../hooks/feeds/useFeedItem";
 import FeedContentPreview from "../FeedContentPreview";
 import { Actions } from "./Actions";

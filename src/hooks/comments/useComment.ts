@@ -8,6 +8,9 @@ import { useTranslation } from "react-i18next";
 import { produce } from "immer";
 import { useRoute } from "@react-navigation/core";
 import setCollapsed from "@src/stores/posts/actions/setCollapsed";
+import setPostCommentVote from "@root/src/stores/posts/actions/setPostCommentVote";
+import { determineVotes } from "@root/src/helpers/VoteHelper";
+import { ILemmyVote } from "@root/src/types/lemmy/ILemmyVote";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { selectSite, setUnread } from "../../slices/site/siteSlice";
 import ILemmyComment from "../../types/lemmy/ILemmyComment";
@@ -58,6 +61,8 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
 
   const basicOptions = useMemo<ContextMenuOption[]>(
     () => [
+      { key: "upvote", title: t("Upvote"), icon: ICON_MAP.UPVOTE },
+      { key: "downvote", title: t("Downvote"), icon: ICON_MAP.DOWNVOTE },
       { key: "copy_text", title: t("Copy Text"), icon: ICON_MAP.COPY },
       { key: "copy_link", title: t("Copy Link"), icon: ICON_MAP.LINK },
       { key: "save", title: t("Save"), icon: ICON_MAP.SAVE },
@@ -92,6 +97,34 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
   const onCommentLongPress = useCallback(
     async (selection: string) => {
       onGenericHapticFeedback();
+
+      if (selection === "upvote") {
+        const newValues = determineVotes(
+          comment.comment.my_vote === 1 ? 0 : 1,
+          comment.comment.my_vote as ILemmyVote,
+          comment.comment.counts.upvotes,
+          comment.comment.counts.downvotes
+        );
+        setPostCommentVote(
+          postKey,
+          comment.comment.comment.id,
+          newValues
+        ).then();
+      }
+
+      if (selection === "downvote") {
+        const newValues = determineVotes(
+          comment.comment.my_vote === -1 ? 0 : -1,
+          comment.comment.my_vote as ILemmyVote,
+          comment.comment.counts.upvotes,
+          comment.comment.counts.downvotes
+        );
+        setPostCommentVote(
+          postKey,
+          comment.comment.comment.id,
+          newValues
+        ).then();
+      }
 
       if (selection === "copy_text") {
         Clipboard.setString(comment.comment.comment.content);
@@ -210,7 +243,7 @@ const useComment = ({ comment }: { comment: ILemmyComment }): UseComment => {
         onSave().then();
       }
     },
-    [comment.comment.comment.id]
+    [comment.comment.comment.id, comment.comment.my_vote]
   );
 
   const onReply = useCallback(() => {
