@@ -1,9 +1,8 @@
-import { HStack, Text } from "@src/components/common/Gluestack";
+import { Badge, HStack, Text } from "@src/components/common/Gluestack";
 import React from "react";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import SFIcon from "../icons/SFIcon";
 import { ICON_MAP } from "../../../constants/IconMap";
-import Chip from "../Chip";
 
 function CommentCount({
   commentCount,
@@ -17,7 +16,7 @@ function CommentCount({
 
   const { colors } = useThemeOptions();
   return (
-    <HStack space="sm">
+    <HStack space="sm" alignItems="center">
       <HStack alignItems="center" space="xxs">
         <SFIcon
           color={colors.textSecondary}
@@ -30,13 +29,9 @@ function CommentCount({
         </Text>
       </HStack>
       {unreadCount && (
-        <Chip
-          text={`+${unreadCount}`}
-          color={colors.accent}
-          variant="outlined"
-          fontSize="xs"
-          my={0}
-        />
+        <Badge variant="outline" borderColor={colors.accent} size="sm">
+          <Badge.Text color={colors.accent}>+{unreadCount}</Badge.Text>
+        </Badge>
       )}
     </HStack>
   );

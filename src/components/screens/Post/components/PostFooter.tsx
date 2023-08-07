@@ -28,7 +28,7 @@ function PostFooter() {
     );
   }
 
-  if (commentsStatus.commentsLoading) {
+  if (commentsStatus.commentsError) {
     return (
       <LoadingErrorFooter
         onRetryPress={() => loadPostComments(postKey, {})}

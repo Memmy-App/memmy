@@ -68,9 +68,9 @@ function SearchResultsScreen({ route }: IProps) {
 
   if (
     !search.result ||
-    (search?.result?.communities?.length < 1 &&
-      search?.result?.users?.length < 1 &&
-      search?.result?.posts?.length < 1 &&
+    (search.result?.communities?.length < 1 &&
+      search.result?.users?.length < 1 &&
+      search.result?.posts?.length < 1 &&
       posts?.length < 1)
   ) {
     return <NoResultView type="search" />;

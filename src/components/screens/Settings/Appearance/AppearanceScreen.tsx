@@ -1,29 +1,29 @@
 import { TableView } from "@gkasdorf/react-native-tableview-simple";
+import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useAppDispatch } from "@root/store";
 import {
+  Badge,
   Box,
   HStack,
   ScrollView,
   Text,
 } from "@src/components/common/Gluestack";
-import React, { useMemo, useState } from "react";
-import { useAppDispatch } from "@root/store";
-import { LayoutAnimation, StyleSheet, Switch } from "react-native";
-import { useTranslation } from "react-i18next";
+import setSetting from "@src/stores/settings/actions/setSetting";
 import {
   useSettings,
   useThemeOptions,
 } from "@src/stores/settings/settingsStore";
-import setSetting from "@src/stores/settings/actions/setSetting";
 import { FontWeightMap } from "@src/theme/fontSize";
-import Slider from "@react-native-community/slider";
-import Chip from "../../../common/Chip";
-import CCell from "../../../common/Table/CCell";
-import CSection from "../../../common/Table/CSection";
-import CTextInput from "../../../common/CTextInput";
+import React, { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { LayoutAnimation, StyleSheet, Switch } from "react-native";
 import { showToast } from "../../../../slices/toast/toastSlice";
 import { appIconOptions } from "../../../../types/AppIconType";
+import CTextInput from "../../../common/CTextInput";
 import { AppContextMenuButton } from "../../../common/ContextMenu/App/AppContextMenuButton";
+import CCell from "../../../common/Table/CCell";
+import CSection from "../../../common/Table/CSection";
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -75,6 +75,12 @@ function AppearanceScreen({ navigation }: IProps) {
       })),
     [t]
   );
+
+  const commentJumpPlacementOptions = [
+    { key: "bottom right", title: "Bottom Right" },
+    { key: "bottom left", title: "Bottom Left" },
+    { key: "bottom center", title: "Bottom Center" },
+  ];
 
   return (
     <ScrollView bg={theme.colors.bg} flex={1}>
@@ -169,6 +175,29 @@ function AppearanceScreen({ navigation }: IProps) {
               />
             }
           />
+          <AppContextMenuButton
+            options={commentJumpPlacementOptions}
+            selection={settings.commentJumpPlacement}
+            onPressMenuItem={({ nativeEvent }) => {
+              setSetting({
+                commentJumpPlacement: nativeEvent.actionKey,
+              }).then();
+            }}
+          >
+            <CCell
+              cellStyle="RightDetail"
+              title="Comment Jump Placement"
+              backgroundColor={theme.colors.fg}
+              titleTextColor={theme.colors.textPrimary}
+              rightDetailColor={theme.colors.textSecondary}
+              accessory="DisclosureIndicator"
+              detail={
+                commentJumpPlacementOptions.find(
+                  (e) => e.key === settings.commentJumpPlacement
+                ).title
+              }
+            />
+          </AppContextMenuButton>
         </CSection>
         <CSection header="Tab Bar">
           <CCell
@@ -326,11 +355,9 @@ function AppearanceScreen({ navigation }: IProps) {
             title={
               <Text>
                 {`${t("Accent Color")}  `}
-                <Chip
-                  text="Alpha"
-                  color={theme.colors.info}
-                  variant="outlined"
-                />
+                <Badge variant="solid" action="info" size="sm">
+                  <Badge.Text>Alpha</Badge.Text>
+                </Badge>
               </Text>
             }
             cellAccessoryView={
@@ -346,6 +373,19 @@ function AppearanceScreen({ navigation }: IProps) {
 
                   if (hexToCheck && !hexToCheck.includes("#")) {
                     hexToCheck = `#${hexToCheck}`;
+                  }
+
+                  if (accent === "") {
+                    dispatch(
+                      showToast({
+                        message: "Accent color cleared",
+                        duration: 3000,
+                        variant: "info",
+                      })
+                    );
+                    setAccent("");
+                    setSetting({ accentColor: "" }).then();
+                    return;
                   }
 
                   if (hexPattern.test(hexToCheck)) {
@@ -414,11 +454,9 @@ function AppearanceScreen({ navigation }: IProps) {
             title={
               <Text>
                 {`${t("settings.appearance.font.textSize")}  `}
-                <Chip
-                  text="Alpha"
-                  color={theme.colors.info}
-                  variant="outlined"
-                />
+                <Badge variant="solid" action="info" size="sm">
+                  <Badge.Text>Alpha</Badge.Text>
+                </Badge>
               </Text>
             }
             backgroundColor={theme.colors.fg}

@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import RenderMarkdown from "../Markdown/RenderMarkdown";
 import ItalicText from "../ItalicText";
+import { Box } from "../Gluestack";
 
 interface IProps {
   deleted: boolean;
@@ -20,7 +21,11 @@ function CommentBody({ deleted, removed, content, instance }: IProps) {
     return <ItalicText>{t("comment.removedByMod")}</ItalicText>;
   }
 
-  return <RenderMarkdown text={content} instance={instance} />;
+  return (
+    <Box mt={-5}>
+      <RenderMarkdown text={content} instance={instance} />
+    </Box>
+  );
 }
 
 export default React.memo(CommentBody);

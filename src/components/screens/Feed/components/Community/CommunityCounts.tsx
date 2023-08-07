@@ -2,6 +2,7 @@ import { CommunityAggregates } from "lemmy-js-client";
 import { HStack, Text, VStack } from "@src/components/common/Gluestack";
 import React from "react";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import { useTranslation } from "react-i18next";
 import { shortenNumber } from "../../../../../helpers/NumberHelper";
 import { SFIcon } from "../../../../common/icons/SFIcon";
 
@@ -20,6 +21,8 @@ interface IProps {
 }
 
 function CommunityCounts({ counts }: IProps) {
+  const { t } = useTranslation();
+
   const subscribers = shortenNumber(counts.subscribers);
   const posts = shortenNumber(counts.posts);
   const comments = shortenNumber(counts.comments);
@@ -28,14 +31,17 @@ function CommunityCounts({ counts }: IProps) {
   return (
     <HStack space="xl">
       <VStack space="xs">
-        <StatBlock icon="person" text={`${subscribers} subscribers`} />
-        <StatBlock icon="doc.plaintext" text={`${posts} posts`} />
+        <StatBlock icon="person" text={`${subscribers} ${t("Subscribers")}`} />
+        <StatBlock icon="doc.plaintext" text={`${posts} ${t("Posts")}`} />
       </VStack>
       <VStack space="xs">
-        <StatBlock icon="bolt" text={`${usersActiveMonth} users active`} />
+        <StatBlock
+          icon="bolt"
+          text={`${usersActiveMonth} ${t("Users active")}`}
+        />
         <StatBlock
           icon="bubble.left.and.bubble.right"
-          text={`${comments} comments`}
+          text={`${comments} ${t("Comments")}`}
         />
       </VStack>
     </HStack>

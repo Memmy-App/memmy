@@ -27,7 +27,7 @@ export const getSiteInfo = createAsyncThunk(
       }
     };
 
-    const res = get();
+    const res = await get();
 
     if (res === false) {
       return thunkAPI.rejectWithValue(error);

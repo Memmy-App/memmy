@@ -88,7 +88,7 @@ function TraverseScreen() {
         },
         isFavorite: false,
       });
-    } else if (hasFavorites) {
+    } else {
       // Otherwise
       sectionListItems = sectionListItems.concat(
         filteredFavorites.map((favorite) => ({
@@ -193,15 +193,13 @@ function TraverseScreen() {
       const { type, value } = item;
       if (type === ItemType.INDEX) {
         return (
-          <View backgroundColor={theme.colors.bg}>
-            <Text
-              style={styles.alphaIndexHeaderText}
-              size="xl"
-              fontWeight="semibold"
-            >
-              {(value as HeaderValue).title}
-            </Text>
-          </View>
+          <Text
+            style={styles.alphaIndexHeaderText}
+            size="xl"
+            fontWeight="semibold"
+          >
+            {(value as HeaderValue).title}
+          </Text>
         );
       } else if (type === ItemType.HEADER) {
         return (
@@ -239,7 +237,7 @@ function TraverseScreen() {
       }
       return null;
     },
-    [isFavoriteSubscription, keyExtractor]
+    []
   );
 
   if (traverse.loading) {
