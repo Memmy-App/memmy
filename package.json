@@ -121,7 +121,7 @@
     "@babel/core": "^7.22.6",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@tsconfig/react-native": "^3.0.0",
-    "@types/marked": "^5.0.0",
+    "@types/marked": "^5.0.1",
     "@types/react": "~18.2.13",
     "@types/react-native": "^0.72.2",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
