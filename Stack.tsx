@@ -14,6 +14,7 @@ import OnboardingInfoScreenFive from "@src/components/screens/Onboarding/InfoScr
 import OnboardingInfoScreenSix from "@src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenSix";
 import OnboardingInfoScreenSeven from "@src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenSeven";
 import HubDiscoveryScreen from "@src/components/screens/Onboarding/HubDiscoveryScreens/HubDiscoveryScreen";
+import InstanceScreen from "@src/components/screens/Onboarding/HubDiscoveryScreens/InstanceScreen";
 
 // const Drawer = createDrawerNavigator();
 // function FeedDrawerContainerScreen() {
@@ -723,11 +724,11 @@ function Stack({ onReady }: StackProps): React.JSX.Element {
                 component={HubDiscoveryScreen}
                 options={{ title: t("Hubs") }}
               />
-              {/* <MainStack.Screen */}
-              {/*  name="Instance" */}
-              {/*  component={InstanceScreen} */}
-              {/*  options={{ title: t("Instance") }} */}
-              {/* /> */}
+              <MainStack.Screen
+                name="Instance"
+                component={InstanceScreen}
+                options={{ title: t("Instance") }}
+              />
               {/* <MainStack.Screen */}
               {/*  name="AddAccount" */}
               {/*  component={AddAccountScreen} */}
