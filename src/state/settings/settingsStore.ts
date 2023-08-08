@@ -3,6 +3,12 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CommentSortType, ListingType, SortType } from "lemmy-js-client";
+import { ICustomConfig } from "@gluestack-style/react";
+import { merge } from "ramda";
+import { ThemeOptions, ThemeOptionsMap } from "@src/theme/themeOptions";
+import { HapticOptions } from "@src/types/HapticOptions";
+import { ITheme } from "@src/theme/theme";
+import { systemFontSettings } from "@src/theme/common";
 
 export interface SettingsStore {
   swipeGestures: boolean;
@@ -112,3 +118,86 @@ export const useSettingsStore = create(
     }
   )
 );
+
+export const useCurrentTheme = (): string =>
+  useSettingsStore((state) => {
+    if (state.themeMatchSystem) {
+      if (state.colorScheme === "light") {
+        return state.themeLight;
+      }
+      return state.themeDark;
+    }
+    return state.theme;
+  });
+
+// @ts-ignore
+export const useThemeOptions = () =>
+  useSettingsStore(
+    (state) =>
+      merge.all([
+        ThemeOptionsMap[
+          state.themeMatchSystem
+            ? state.colorScheme === "light"
+              ? state.themeLight
+              : state.themeDark
+            : state.theme
+        ],
+        state.accentColor
+          ? {
+              colors: {
+                accent: state.accentColor,
+              },
+            }
+          : {},
+      ]) as ITheme
+  );
+
+export const useThemeConfig = (): object =>
+  useSettingsStore(
+    (state) =>
+      merge.all([
+        GluestackTheme,
+        {
+          tokens: {
+            colors: {
+              ...ThemeOptionsMap[
+                state.themeMatchSystem
+                  ? state.colorScheme === "light"
+                    ? state.themeLight
+                    : state.themeDark
+                  : state.theme
+              ].colors,
+            },
+          },
+        },
+        state.accentColor
+          ? {
+              tokens: {
+                colors: {
+                  accent: state.accentColor,
+                },
+              },
+            }
+          : {},
+        state.isSystemTextSize
+          ? {
+              components: {
+                Text: {
+                  defaultProps: {
+                    allowFontScaling: false,
+                  },
+                },
+              },
+            }
+          : {
+              components: {
+                Text: {
+                  defaultProps: {
+                    fontSize: state.fontSize,
+                  },
+                },
+              },
+            },
+        state.isSystemFont ? systemFontSettings : {},
+      ]) as ICustomConfig
+  );
