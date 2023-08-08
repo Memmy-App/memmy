@@ -635,15 +635,13 @@ PODS:
     - React-perflogger (= 0.72.3)
   - RNCAsyncStorage (1.19.1):
     - React-Core
-  - RNCClipboard (1.5.1):
-    - React-Core
   - RNDeviceInfo (10.8.0):
     - React-Core
   - RNFastImage (8.6.4):
     - React-Core
     - SDWebImage (~> 5.11.1)
     - SDWebImageWebPCoder (~> 0.8.4)
-  - RNFlashList (1.4.3):
+  - RNFlashList (1.5.0):
     - React-Core
   - RNFS (2.20.0):
     - React-Core
@@ -803,7 +801,6 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
-  - "RNCClipboard (from `../node_modules/@react-native-community/clipboard`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFastImage (from `../node_modules/@gkasdorf/react-native-fast-image`)"
   - "RNFlashList (from `../node_modules/@shopify/flash-list`)"
@@ -999,8 +996,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
-  RNCClipboard:
-    :path: "../node_modules/@react-native-community/clipboard"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNFastImage:
@@ -1121,10 +1116,9 @@ SPEC CHECKSUMS:
   React-utils: bcb57da67eec2711f8b353f6e3d33bd8e4b2efa3
   ReactCommon: 3ccb8fb14e6b3277e38c73b0ff5e4a1b8db017a9
   RNCAsyncStorage: f47fe18526970a69c34b548883e1aeceb115e3e1
-  RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNDeviceInfo: 5795b418ed3451ebcaf39384e6cf51f60cb931c9
   RNFastImage: e583061a26ed90fbab49d526d2ec2d56cfffa465
-  RNFlashList: ade81b4e928ebd585dd492014d40fb8d0e848aab
+  RNFlashList: 25b0e092b4470c84db0386d4f5316dc34123bb6d
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: dec4645026e7401a0899f2846d864403478ff6a5
   RNReactNativeHapticFeedback: afa5bf2794aecbb2dba2525329253da0d66656df
