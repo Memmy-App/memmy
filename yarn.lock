@@ -2494,6 +2494,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/slider/-/slider-4.4.2.tgz#1fea0eb3ae31841fe87bd6c4fc67569066e9cf4b"
   integrity sha512-D9bv+3Vd2gairAhnRPAghwccgEmoM7g562pm8i4qB3Esrms5mggF81G3UvCyc0w3jjtFHh8dpQkfEoKiP0NW/Q==
 
+"@react-native-segmented-control/segmented-control@^2.4.2":
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@react-native-segmented-control/segmented-control/-/segmented-control-2.4.2.tgz#ff8a8bebd6c6e41fba6b3ffe29a1ef97405fda21"
+  integrity sha512-sWRzXgM4zfQdlAwYb8KzInwRLQDFI1myzzedZxV6pLYo7WxLgVUsbb4gcb8jqVrQGws3ZtuMebXPIHkCZUCZXg==
+
 "@react-native/assets-registry@^0.72.0":
   version "0.72.0"
   resolved "https://registry.yarnpkg.com/@react-native/assets-registry/-/assets-registry-0.72.0.tgz#c82a76a1d86ec0c3907be76f7faf97a32bbed05d"

@@ -68,7 +68,7 @@ export function ReplyOption({
 
   const colors: ISwipeableColors = useMemo(
     () => ({
-      first: theme.colors.info,
+      first: theme.colors.infoText,
       second: secondColor,
     }),
     [theme, secondColor]
