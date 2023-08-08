@@ -1,0 +1,378 @@
+{
+	"noResult": {
+		"comments": "Žádné komentáře. Čas začít diskuzi 🫡",
+		"posts": "Nebyly nalezeny žádné příspěvky. Možná bys mohl nastartovat konverzaci?",
+		"profileComments": "Uživatel nemá žádné komentáře.",
+		"profilePosts": "Uživatel nemá žádné příspěvky.",
+		"profileSavedPosts": "Uživatel nemá žádné uložené příspěvky.",
+		"search": "Vyhledávaná fráze nevrátila žádné výsledky.",
+		"inbox": "Tvoje schránka je prázdná.",
+		"default": "Nebyly nalezeny žádné výsledky :("
+	},
+	"notFound": {
+		"community": "\uD83E\uDD28Obsah nebo komunita nebyla nalezena \uD83E\uDDD0"
+	},
+	"alert": {
+		"title": {
+			"error": "Chyba",
+			"permissionsError": "Chyba oprávnění",
+			"unknownError": "Neznámá chyba",
+			"success": "Úspěch",
+			"noDebugLog": "Neexistují žádně debug soubory.",
+			"debugFileCleared": "Byl vytvořen debug soubor.",
+			"areYouSure": "Jsi si jistý?",
+			"info": "Info",
+			"serverAuthError": "Chyba autentikace se serverem.",
+			"deleteAccount": "Smazat účet"
+		},
+		"message": {
+			"allowCameraRoll": "Prosím povol Memmy, aby mohla přístupovat k tvému fotoaparátu.",
+			"imgurUploadError": "Chyba nahrávání obrázku na Imgur.",
+			"reportComment": "Prosím popiš proč nahlašuješ tento komentář.",
+			"allowPushNotifications": "Prosím povol Memmy aby ti mohla posílat push notifikace.",
+			"failedToRetrieveToken": "Chyba získávání tokenu.",
+			"instanceAuthenticationFailed": "Chyba autentikace s Lemmy instancí.",
+			"pushNotificationsEnabled": "Push notifikace byly úspěšně povoleny.",
+			"pushNotificationsDisabled": "Push notifikace byly úspěšně zakázány.",
+			"errorFetchingInstanceList": "Chyba získávání seznamu instanci. Zkusit znova?",
+			"unknownError": "Stala se neznámá chuba. Kód chyby {{0}}",
+			"sessionExpired": "Session pro {{0}} vypršela. Prosím přihlaš se znova ke svému účtu.",
+			"cacheCleared": "Vyrovnávací paměť vyčištěna.",
+			"accountLogoutConfirm": "Prosím ujisti se, že push notifikace jsou zakazány než se odhlásíš z účtu, jinak budeš pro tento účet pořád dostávat push notifikace.\n\nOpravdu se chceš odhlásit {{0}}?",
+			"pushNotificationsConfirm": "Aby mohly push notifkace fungovat, Memmy musí odeslat autentikační token na náš server. Zatím je to jediný způsob, jak umožnit uživatelům, aby dostávali push notifikace. Memmy NEODESÍLÁ tvoje heslo, pouze autentikační token. Autentikace lze zamítnout tak, že si změníš heslo.\n\nCelý zdrojový kód pro push notifikační server je k nalezení na https:\/\/github.com\/gkasdorf\/memmy-push.\n\nChceš pokračovat?",
+			"deleteAccountConfirm": "Pro smazání všech dat ze serveru Memmy stačí zakázat push notifikace. Pokud jsou push notifikace zakázané, potom nemáme žádná tvá data.\n\nPro smazáni Lemmy účtu, nejdříve musíš navštívit {{0}} a přihlásit se. Potom přejdi do Profile záložky. Tvůj účet smažeš zmáčknutím \"Delete Account\".",
+			"registrationError": "Nastala chyba při dokončování registrace.",
+			"useUsername": "Prosím použij uživatelské jméno když se přihlšuješ do (no instance/@)."
+		}
+	},
+	"toast": {
+		"reportSubmitSuccessful": "Hlášení úspěšně odesláno",
+		"commentDeleted": "Komentář byl smazán",
+		"failedToSavePost": "Chyba při ukládání příspěvku.",
+		"subscribedTo": "Přihlášen k {{0}}",
+		"unsubscribedFrom": "Odhlášen od {{0}}",
+		"unknownError": "Stala se neznámá chyba.",
+		"userBlockedSuccess": "Uživatel byl úspěšně zablokován.",
+		"accentColorUpdated": "Akcentní barva byla upravena",
+		"accentColorInvalidHexCode": "Akcentní barva není validní hex kód",
+		"allFieldsRequired": "Všechna pole musí být vyplněna.",
+		"useUsername": "Prosím použij své uživatelské jméno když se přihlašuješ do (no instance/@).",
+		"passwordsMismatch": "Hesla nejsou stejná.",
+		"blocked": "Zablokován {{0}}",
+		"enterUrl": "Zadej URL",
+		"enterLabel": "Zadej popisek",
+		"linkError": "Při otevírání odkazu došlo k chybě."
+	},
+	"relativeTime": {
+		"future": "za %s",
+		"past": "přes %s",
+		"s": "1s",
+		"ss": "%ss",
+		"m": "1m",
+		"mm": "%dm",
+		"h": "1h",
+		"hh": "%dh",
+		"d": "1d",
+		"dd": "%dd",
+		"M": "1m",
+		"MM": "%dmo",
+		"y": "1r",
+		"yy": "%dy"
+	},
+	"profile": {
+		"my": "Můj Profil"
+	},
+	"comment": {
+		"edit": "Upravit Komentář",
+		"report": "Nahlásit Komentář",
+		"delete": "Smazat Komentář",
+		"replyingToPost": "Odpovídáš na Příspěvek",
+		"replyingToComment": "Odpovídáš na Komentář",
+		"deletedByUser": "Komentář byl smazán uživatelem :(",
+		"removedByMod": "Komentář byl smazán moderátorem :("
+	},
+	"settings": {
+		"general": {
+			"useReaderMode": "Použít čtečku"
+		},
+		"reportBugBtn": "Nahlásit chybu na Github",
+		"haptics": {
+			"Off": "Vypnuto",
+			"Light": "Jemné",
+			"Medium": "Střední",
+			"Heavy": "Silné"
+		},
+		"content": {
+			"nsfw": {
+				"footer": "Tyto nastavení nijak neovlivní tvoje NSFW nastavení na tvém účtu. Toto nastavení se projeví pouze lokálně v aplikaci (globálně pro všechny účty).",
+				"blur": "Rozmazat NSFW Obsah",
+				"hide": "Schovat NSFW Obsah"
+			},
+			"markRead": {
+				"header": "NASTAVENÍ OZNAČOVANÍ JAKO PŘEČTENO",
+				"onPostOpen": "Označit Příspěvky Jako Přečteny Při Otevření Příspěvku",
+				"onImageView": "Označit Příspěvky Jako Přečteny Při Otevření Obrázku.",
+				"onVote": "Označit Příspěvky Jako Přečteny Při Hlasování.",
+				"footer": "Hide Read Posts on Feed will automatically hide read posts anytime the feed is refreshed. If Hide Read Posts on Feed is enabled, Show Hide Read Button will show a floating action button to hide read posts without a feed refresh."
+			}
+		},
+		"appearance": {
+			"themes": {
+				"header": "TÉMATA",
+				"matchSystem": "Párovat Světlé/Tmavé Nastavení Systému",
+				"systemLight": "Téma pro Systémové Světlé",
+				"systemDark": "Téma pro Systémové Tmavé",
+				"light": "Světlá Témata",
+				"dark": "Tmavá Témata",
+				"hexCode": {
+					"placeholder": "Zadej hex kód"
+				}
+			},
+			"appIcon": "Ikona Aplikace",
+			"totalScore": "Zobrazovat Souhrn Hlasování",
+			"imgIgnoreScreenHeight": "Obrázky Budou Ignorovat Výšku Obrazovky.",
+			"showUserInstance": "Zobrazovat Instanci Pro Uživatele",
+			"compactView": "Kompaktní zobrazení",
+			"compact": {
+				"header": "Kompaktní",
+				"thumbPos": "Pozice Náhledu",
+				"showVotingButtons": "Zobrazovat Tlačítka Hlasování"
+			},
+			"font": {
+				"header": "PÍSMO",
+				"useSystemFont": "Použít Systémové Písmo",
+				"useSystemFontSize": "Použít Systémovou Velikost Písma",
+				"textSize": "Velikost Textu",
+				"postTitleFontWeight": "Tloušťka Písma - Titulek Příspěvku"
+			},
+			"gestures": {
+				"header": "GESTURES",
+				"tapToCollapse": "Klepněte pro sbalení"
+			}
+		},
+		"accounts": {
+			"current": "Aktuální Účet",
+			"server": {
+				"header": "Adresa Serveru",
+				"footer": "URL serveru na který se chceš přihlásit",
+				"placeholder": "Adresa Serveru"
+			},
+			"credentials": {
+				"header": "Přihlašovací Údaje Serveru",
+				"footer": "Přihlašovací údaje pro server, kam se chceš přihlásit"
+			}
+		}
+	},
+	"traverse": {
+		"noSubscriptions": "Nemáš žádné odběry."
+	},
+	"post": {
+		"header": "Informace Příspěvku",
+		"title": "Titulek",
+		"link": "Odkaz (volitelné)",
+		"body": "Obsah (volitelné)",
+		"bodyPlaceholder": "Napiš něco!"
+	},
+	"onboarding": {
+		"hello": "Ahoj",
+		"welcomeTo": "Vítej na",
+		"getStartedBtn": "Začít",
+		"hasAccountBtn": "Mám účet",
+		"checkEmail": "Zkontroluj si email",
+		"emailSent": "Email byl odeslán na {{0}}. Prosím, ověř svůj účet\npotom zmáčkni Přihlásit Se.",
+		"openEmailAppBtn": "Otevřít Emailovou Aplikaci",
+		"agreeToTermsOfUse": "Používaním Memmy souhlasíš s <linkAction><linkText>Podmínkami</linkText></linkAction>",
+		"info": {
+			"1": {
+				"1": "Víš něco o Fediverse?"
+			},
+			"2": {
+				"1": "Nevadí! \uD83D\uDC4D",
+				"2": "Tak si to projdeme \uD83D\uDE03"
+			},
+			"3": {
+				"1": "Představ si Fediverse jako poštovní službu ✉️",
+				"2": "Pokud používáš aplikace jako Instagram, Twitter nebo Facebook, tak <emphasis>všechny zásilky řeší výhradně oni.</emphasis>",
+				"3": "Všichní dostávají a odesilají zásilky přes ně. Jsou <emphasis>centralizovaní.</emphasis>"
+			},
+			"4": {
+				"1": "Tak v čem Fediverse jiné? \uD83E\uDD14",
+				"2": "Tvé zásilky nejdou na žádné centrální místo', ale na tvé <emphasis>depo (hub)</emphasis>, prakticky něco, jako <emphasis>tvá nejbližší pošta</emphasis>.",
+				"3": "Tvoje <emphasis>depo (hub)</emphasis> je odpovědné za odesílání tvých zásilek do jiného <emphasis>depa</emphasis>. můžou se rozhodnout, <emphasis>kam chtějí a nechtějí odesílat</emphasis> \uD83D\uDE9A"
+			},
+			"5": {
+				"1": "A co je tedy moje <emphasis>depo (hub)?</emphasis> \uD83E\uDD14",
+				"2": "<emphasis>Depo (Hub)</emphasis> může být založeno kýmkoliv, třeba komuntiní skupinou. Ty se rozhodneš, kam se chceš <emphasis>přidat</emphasis>.",
+				"3": "Pomůžeme ti vybrat depo (hub) a můžeš začít přispívat. \uD83E\uDD17"
+			},
+			"6": {
+				"1": "Je toho\nhodně?... \uD83D\uDE14",
+				"2": " Může ti to připadat velice komplexní. <emphasis>Ale i když to nevíš, tak už jsi nejspíše Fediverse využil.</emphasis>",
+				"3": "Pokud máš e-mail, <emphasis>tak jsi už použil Fediverse.</emphasis>",
+				"4": "Fediverse funguje <emphasis>velice podobně jako email.</emphasis>"
+			},
+			"7": {
+				"1": "Tak začneme!",
+				"2": "Nejdříve ti najdeme hub. Dáme ti seznam možností, ze kterých si můžeš vybrat.",
+				"3": "Je mnoho různých možností, s různými komunitami.",
+				"4": "Později se můžeš vrátit, a vybrat si jiný hub."
+			}
+		},
+		"hubDiscovery": {
+			"alreadyHaveServer": "Máš server?"
+		}
+	},
+	"hubDiscovery": {
+		"createCommunities": {
+			"allowed": "Tento hub povoluje vytváření komunit.",
+			"notAllowed": "Tento hub nepovoluje vytváření komunit."
+		},
+		"federated": {
+			"allowed": "Tento hub může komunikovat s ostatními huby.",
+			"notAllowed": "Tento hub nemůže komunikovat s ostatními huby"
+		},
+		"downvote": {
+			"title": "Negativní hlasovní povoleno",
+			"allowed": "Tento hub povoluje negativní hlasovaní.",
+			"notAllowed": "Tento hub nepovoluje negativní hlasovaní."
+		}
+	},
+	"feed": {
+		"footer": {
+			"loading": "Načítání dalších příspěvků...",
+			"loadingError": "Chyba při načítání dalších příspěvků :("
+		}
+	},
+	"searchOptions": {
+		"header": "Vyber si Možnost",
+		"communities": "Prohledat Komunity",
+		"users": "Prohledat Uživatele",
+		"posts": "Prohledat Příspěvky"
+	},
+	"memmyError": {
+		"title": "Tak toto je trapné. V Memmy nastala chyba. Prosím, restartuj aplikaci...",
+		"description": "Nemáme rádi chyby, a ty pravděpodobně taky ne. Prosím, pošleš nám záznamy z chyby? ♥️",
+		"submitBtn": "Odeslat Záznamy"
+	},
+	"loadingError": {
+		"text": "Chyba načítání obsahu :(",
+		"retryBtn": "Opakovat"
+	},
+	"imageView": {
+		"dialogDesc": "Stahování obrázku..."
+	},
+	"Feed": "Feed",
+	"Comments": "Komentáře",
+	"Traverse": "Procestovat",
+	"Profile": "Profil",
+	"Search": "Vyhledávání",
+	"Inbox": "Schránka",
+	"Posts": "Příspěvky",
+	"Saved Posts": "Uložené Příspěvky",
+	"New Comment": "Nový Komentář",
+	"New Post": "Nový Příspěvek",
+	"About": "O",
+	"View Comments": "Zobrazit Komentáře",
+	"View Posts": "Zobrazit Příspěvky",
+	"View Saved Posts": "Zobrazit Uložené Příspěvky",
+	"Unread": "Nepřečtené",
+	"All": "Všechny",
+	"Replies": "Odpovědi",
+	"Communities": "Komunity",
+	"Blocked Communities": "Zablokované Komunity",
+	"Create Communities": "Vytvořit komunity",
+	"Settings": "Nastavení",
+	"Accounts": "Účty",
+	"Manage Accounts": "Spravovat Účty",
+	"Edit Account": "Upravit Účty",
+	"Delete Account": "Smazat Účty",
+	"Add Account": "Přidat Účet",
+	"Create Account": "Vytvořit Účet",
+	"Mark Post Read On": "Označit Příspěvek jako přečtený...",
+	"Hide Read Posts": "Hide Read Posts",
+	"Show Hide Read Button": "Show Hide Read Button",
+	"View": "Zobrazit",
+	"Content": "Obsah",
+	"Appearance": "Vzhled",
+	"Theme": "Téma",
+	"Icon": "Ikona",
+	"General": "Obecné",
+	"Loading": "Načítání",
+	"Welcome": "Vitej",
+	"Hubs": "Huby",
+	"Instance": "Instance",
+	"Copy Text": "Kopírovat Text",
+	"Copy Link": "Kopírovat Odkaz",
+	"Reply": "Odpovědět",
+	"Report Post": "Nahlásit Příspěvek",
+	"Cancel": "Zrušit",
+	"Submit": "Odeslat",
+	"Retry": "Opakovat",
+	"Language": "Jazyk",
+	"Select Language": "Vyber si Jazyk",
+	"Haptics": "Vibrace",
+	"Strength": "Síla",
+	"Use Default Browser": "Použít Výchozí Prohlížeč",
+	"Browser": "Prohlížeč",
+	"No blocked communities": "Žádné zablokované komunity",
+	"Email Debug Log": "Odeslat Diagnostické Záznamy Emailem",
+	"Clear Debug Log": "Promazat Diagnostické Záznamy",
+	"Clear Cache": "Promazat Mezipaměť",
+	"Default Sort": "Výchozí Řazení",
+	"Default Comment Sort": "Výchozí Řazení Komentářů",
+	"Hide Read Posts on Feed": "Schovat Přečtené Příspěvky na Feedu",
+	"Hide Read Posts in Communities": "Hide Read Posts in Communities",
+	"Show Comment Actions": "Zobrazit Akce ke Komentáři",
+	"NSFW": "NSFW",
+	"NSFW Content": "NSFW Obsah",
+	"Sensitive content ahead": "Citlivý Obsah",
+	"Accent Color": "Akcentní Barva",
+	"Add": "Přidat",
+	"Logout": "Odhlásit se",
+	"Continue": "Pokračovat",
+	"Server": "Server",
+	"Server Address": "Adresa Serveru",
+	"Username": "Uživatelské Jméno",
+	"Password": "Heslo",
+	"Confirm Password": "Potvrď Heslo",
+	"Push Notifications": "Push Notifikace",
+	"Save": "Uložit",
+	"2FA Token": "2FA Token",
+	"Version": "Verze",
+	"License": "Licence",
+	"Acknowledgements": "Poděkování",
+	"Privacy Policy": "Zásady ochrany osobních údajů",
+	"Terms of Use": "Podmínky Užití",
+	"OK": "OK",
+	"Users": "Uživatelé",
+	"Comment": "Komentuj",
+	"Comment_plural": "Komentáře",
+	"Back": "Zpátky",
+	"Selected": "Vybrané",
+	"Favorites": "Oblibené",
+	"Subscriptions": "Odběry",
+	"Email": "Email",
+	"Captcha Answer": "Captcha Odpověď",
+	"Link": "Odkaz",
+	"Login": "Přihlášní",
+	"Yes": "Ano",
+	"No": "Ne",
+	"Join": "Přidat se",
+	"Hub Info": "Informace o Hubu",
+	"Other Info": "Ostatní Informace",
+	"Legal Info": "Právní Informace",
+	"Federate": "Federovat",
+	"User": "Uživatel",
+	"User_plural": "Uživatelé",
+	"Defederated": "Defederováno",
+	"Registration Closed": "Registrace Uzavřeny",
+	"Application Required": "Je Vyžadováno Scvhálení Registrace",
+	"Open Registration": "Otevřené Registrace",
+	"Subscribed": "Odebíráno",
+	"Subscribe": "Odebírat",
+	"Post": "Příspěvek",
+	"Description": "Popis",
+	"Label": "Popisek",
+	"Trending": "Trendy",
+	"Go Back": "Zpátky"
+}
