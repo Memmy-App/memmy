@@ -4,11 +4,12 @@ import { immer } from "zustand/middleware/immer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CommentSortType, ListingType, SortType } from "lemmy-js-client";
 import { ICustomConfig } from "@gluestack-style/react";
-import { merge } from "ramda";
 import { ThemeOptions, ThemeOptionsMap } from "@src/theme/themeOptions";
 import { HapticOptions } from "@src/types/HapticOptions";
 import { ITheme } from "@src/theme/theme";
 import { systemFontSettings } from "@src/theme/common";
+import { theme as GluestackTheme } from "@root/gluestack-ui.config";
+import merge from "deepmerge";
 
 export interface SettingsStore {
   swipeGestures: boolean;
@@ -131,7 +132,7 @@ export const useCurrentTheme = (): string =>
   });
 
 // @ts-ignore
-export const useThemeOptions = () =>
+export const useThemeOptions = (): ITheme =>
   useSettingsStore(
     (state) =>
       merge.all([
@@ -152,7 +153,7 @@ export const useThemeOptions = () =>
       ]) as ITheme
   );
 
-export const useThemeConfig = (): object =>
+export const useThemeConfig = (): ICustomConfig =>
   useSettingsStore(
     (state) =>
       merge.all([
