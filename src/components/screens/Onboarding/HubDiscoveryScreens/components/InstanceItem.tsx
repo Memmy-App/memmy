@@ -44,7 +44,7 @@ function InstanceItem({ site }: IProps): React.JSX.Element {
             />
             <Text size="md">{site.site_view.site.name}</Text>
             <View ml="auto">
-              <SFIcon icon="chevron.right" />
+              <SFIcon icon="chevron.right" color={theme.colors.textSecondary} />
             </View>
           </HStack>
         </HStack>
@@ -53,7 +53,10 @@ function InstanceItem({ site }: IProps): React.JSX.Element {
         </HStack>
         <HStack space="sm" pt="$1" alignItems="center">
           <HStack space="xs">
-            <SFIcon icon="person.badge.plus" />
+            <SFIcon
+              icon="person.badge.plus"
+              color={theme.colors.textSecondary}
+            />
             <Text color={theme.colors.textSecondary}>
               {`${site.site_view.counts.users.toLocaleString()} ${t("User", {
                 count: site.site_view.counts.users,
@@ -62,27 +65,38 @@ function InstanceItem({ site }: IProps): React.JSX.Element {
           </HStack>
           {!site.site_view.local_site.federation_enabled && (
             <HStack space="xs" alignItems="center">
-              <SFIcon icon="exclamationmark.triangle" />
+              <SFIcon
+                icon="exclamationmark.triangle"
+                color={theme.colors.textSecondary}
+              />
               <Text color={theme.colors.warn}>{t("Defederated")}</Text>
             </HStack>
           )}
           {site.site_view.local_site.registration_mode === "Closed" && (
             <HStack space="xs" alignItems="center">
-              <SFIcon icon="exclamationmark.triangle" />
+              <SFIcon
+                icon="exclamationmark.triangle"
+                color={theme.colors.textSecondary}
+              />
               <Text color={theme.colors.warn}>{t("Registration Closed")}</Text>
             </HStack>
           )}
           {site.site_view.local_site.registration_mode ===
             "RequireApplication" && (
             <HStack space="xs" alignItems="center">
-              <SFIcon icon="exclamationmark.triangle" />
+              <SFIcon
+                icon="exclamationmark.triangle"
+                color={theme.colors.textSecondary}
+              />
               <Text color={theme.colors.info}>{t("Application Required")}</Text>
             </HStack>
           )}
           {site.site_view.local_site.registration_mode === "Open" && (
             <HStack space="xs" alignItems="center">
-              <SFIcon icon="lock.open" />
-              <Text color={theme.colors.success}>{t("Open Registration")}</Text>
+              <SFIcon icon="lock.open" color={theme.colors.textSecondary} />
+              <Text color={theme.colors.successText}>
+                {t("Open Registration")}
+              </Text>
             </HStack>
           )}
         </HStack>

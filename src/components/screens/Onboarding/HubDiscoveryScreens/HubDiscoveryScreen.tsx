@@ -44,7 +44,10 @@ function HubDiscoveryScreen({ navigation }: IProps): React.JSX.Element {
           flexGrow={1}
         >
           <HStack space="sm" alignItems="center">
-            <SFIcon icon="person.badge.plus" />
+            <SFIcon
+              icon="person.badge.plus"
+              color={theme.colors.textSecondary}
+            />
 
             <Text fontWeight="semibold" size="lg">
               {t("Join")}
@@ -61,7 +64,10 @@ function HubDiscoveryScreen({ navigation }: IProps): React.JSX.Element {
           flexGrow={1}
         >
           <HStack space="sm" alignItems="center">
-            <SFIcon icon="person.badge.key" />
+            <SFIcon
+              icon="person.badge.key"
+              color={theme.colors.textSecondary}
+            />
 
             <Text fontWeight="semibold" size="lg">
               {t("Login")}
