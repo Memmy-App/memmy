@@ -6,6 +6,13 @@ import { useThemeOptions } from "@src/state/settings/settingsStore";
 import { useAccountStore } from "@src/state/account/accountStore";
 import OnboardingIndexScreen from "@src/components/screens/Onboarding/OnboardingIndexScreen";
 import LoadingView from "@src/components/common/LoadingView";
+import OnboardingInfoScreenOne from "@src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenOne";
+import OnboardingInfoScreenTwo from "@src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenTwo";
+import OnboardingInfoScreenThree from "@src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenThree";
+import OnboardingInfoScreenFour from "@src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenFour";
+import OnboardingInfoScreenFive from "@src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenFive";
+import OnboardingInfoScreenSix from "@src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenSix";
+import OnboardingInfoScreenSeven from "@src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenSeven";
 
 // const Drawer = createDrawerNavigator();
 // function FeedDrawerContainerScreen() {
@@ -675,41 +682,41 @@ function Stack({ onReady }: StackProps): React.JSX.Element {
                 component={OnboardingIndexScreen}
                 options={{ title: t("Welcome"), headerShown: false }}
               />
-              {/* <MainStack.Screen */}
-              {/*  name="OnboardingInfoOne" */}
-              {/*  component={OnboardingInfoScreenOne} */}
-              {/*  options={{ headerShown: false }} */}
-              {/* /> */}
-              {/* <MainStack.Screen */}
-              {/*  name="OnboardingInfoTwo" */}
-              {/*  component={OnboardingInfoScreenTwo} */}
-              {/*  options={{ headerShown: false }} */}
-              {/* /> */}
-              {/* <MainStack.Screen */}
-              {/*  name="OnboardingInfoThree" */}
-              {/*  component={OnboardingInfoScreenThree} */}
-              {/*  options={{ headerShown: false }} */}
-              {/* /> */}
-              {/* <MainStack.Screen */}
-              {/*  name="OnboardingInfoFour" */}
-              {/*  component={OnboardingInfoScreenFour} */}
-              {/*  options={{ headerShown: false }} */}
-              {/* /> */}
-              {/* <MainStack.Screen */}
-              {/*  name="OnboardingInfoFive" */}
-              {/*  component={OnboardingInfoScreenFive} */}
-              {/*  options={{ headerShown: false }} */}
-              {/* /> */}
-              {/* <MainStack.Screen */}
-              {/*  name="OnboardingInfoSix" */}
-              {/*  component={OnboardingInfoScreenSix} */}
-              {/*  options={{ headerShown: false }} */}
-              {/* /> */}
-              {/* <MainStack.Screen */}
-              {/*  name="OnboardingInfoSeven" */}
-              {/*  component={OnboardingInfoScreenSeven} */}
-              {/*  options={{ headerShown: false }} */}
-              {/* /> */}
+              <MainStack.Screen
+                name="OnboardingInfoOne"
+                component={OnboardingInfoScreenOne}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoTwo"
+                component={OnboardingInfoScreenTwo}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoThree"
+                component={OnboardingInfoScreenThree}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoFour"
+                component={OnboardingInfoScreenFour}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoFive"
+                component={OnboardingInfoScreenFive}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoSix"
+                component={OnboardingInfoScreenSix}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="OnboardingInfoSeven"
+                component={OnboardingInfoScreenSeven}
+                options={{ headerShown: false }}
+              />
               {/* <MainStack.Screen */}
               {/*  name="HubDiscovery" */}
               {/*  component={HubDiscoveryScreen} */}
