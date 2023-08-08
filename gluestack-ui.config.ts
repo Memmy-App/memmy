@@ -5,7 +5,7 @@ export const config = {
   theme: {
     aliases: {
       bg: "backgroundColor",
-      bgColor: "backgroundColor",
+      bgCcolor: "backgroundColor",
       h: "height",
       w: "width",
       p: "padding",

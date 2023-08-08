@@ -3,7 +3,7 @@ import {
   createProvider,
   GluestackUIContextProvider,
 } from "@gluestack-ui/provider";
-import { StyledProvider } from "@gluestack-style/react";
+import { ICustomConfig, StyledProvider } from "@gluestack-style/react";
 import { OverlayProvider } from "@gluestack-ui/overlay";
 import { ToastProvider } from "@gluestack-ui/toast";
 
@@ -11,15 +11,12 @@ const GluestackUIStyledProvider = createProvider({ StyledProvider });
 
 interface IProps {
   children: React.JSX.Element;
-  props: any;
+  config: ICustomConfig;
 }
 
-function GluestackUIProvider({
-  children,
-  ...props
-}: IProps): React.JSX.Element {
+function GluestackUIProvider({ children, config }: IProps): React.JSX.Element {
   return (
-    <GluestackUIStyledProvider {...props} config={{}}>
+    <GluestackUIStyledProvider config={config}>
       <OverlayProvider>
         <ToastProvider>{children}</ToastProvider>
       </OverlayProvider>

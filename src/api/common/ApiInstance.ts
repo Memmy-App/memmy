@@ -84,8 +84,6 @@ class ApiInstance {
     throw new Error();
   }
 
-  /** These are all of the endpoints we utilize in the app * */
-
   async savePost(postId: number, save: boolean): Promise<void> {
     try {
       await this.instance!.savePost({

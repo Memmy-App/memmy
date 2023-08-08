@@ -161,13 +161,8 @@ export const useThemeConfig = (): ICustomConfig =>
         {
           tokens: {
             colors: {
-              ...ThemeOptionsMap[
-                state.themeMatchSystem
-                  ? state.colorScheme === "light"
-                    ? state.themeLight
-                    : state.themeDark
-                  : state.theme
-              ].colors,
+              // TODO Theme
+              ...ThemeOptionsMap.Dracula.colors,
             },
           },
         },
