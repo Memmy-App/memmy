@@ -109,7 +109,7 @@
     "react-native-url-polyfill": "^1.3.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "^0.19.7",
-    "react-native-webview": "^13.2.2",
+    "react-native-webview": "^13.2.3",
     "react-redux": "^8.1.1",
     "reactotron-plugin-zustand": "https://github.com/aylonmuramatsu/reactotron-zustand-plugin.git",
     "reactotron-react-native": "^5.0.3",
