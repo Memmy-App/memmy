@@ -3,7 +3,11 @@
   "compilerOptions": {
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
-    "baseUrl": ".",
+		"strict": true,
+		"strictNullChecks": true,
+		"strictPropertyInitialization": false,
+		"noImplicitReturns": true,
+		"baseUrl": ".",
     "paths": {
       "@root/*": [
         "*"

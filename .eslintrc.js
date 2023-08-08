@@ -48,5 +48,6 @@ module.exports = {
     "import/prefer-default-export": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "no-else-return": ["error", { allowElseIf: true }],
+    "@typescript-eslint/explicit-module-boundary-types": "error",
   },
 };
