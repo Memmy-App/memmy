@@ -1,7 +1,6 @@
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useThemeOptions } from "@src/state/settings/settingsStore";
 import { useAccountStore } from "@src/state/account/accountStore";
@@ -656,7 +655,7 @@ function Stack({ onReady }: StackProps): React.JSX.Element {
   return (
     <NavigationContainer onReady={onReady} theme={MyTheme}>
       <MainStack.Navigator>
-        {(accounts.status.loading && (
+        {(accounts && accounts.status.loading && (
           <MainStack.Screen
             name="AppLoading"
             component={LoadingView}
@@ -746,12 +745,12 @@ function Stack({ onReady }: StackProps): React.JSX.Element {
   );
 }
 
-const styles = StyleSheet.create({
-  avatar: {
-    height: 24,
-    width: 24,
-    borderRadius: 24,
-  },
-});
+// const styles = StyleSheet.create({
+//   avatar: {
+//     height: 24,
+//     width: 24,
+//     borderRadius: 24,
+//   },
+// });
 
 export default Stack;

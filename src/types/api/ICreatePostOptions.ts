@@ -1,4 +1,4 @@
-interface ICreatePostOptions {
+export default interface ICreatePostOptions {
   title: string;
   url?: string;
   body?: string;

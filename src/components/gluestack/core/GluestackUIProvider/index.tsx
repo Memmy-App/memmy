@@ -9,9 +9,17 @@ import { ToastProvider } from "@gluestack-ui/toast";
 
 const GluestackUIStyledProvider = createProvider({ StyledProvider });
 
-function GluestackUIProvider({ children, ...props }: any) {
+interface IProps {
+  children: React.JSX.Element;
+  props: any;
+}
+
+function GluestackUIProvider({
+  children,
+  ...props
+}: IProps): React.JSX.Element {
   return (
-    <GluestackUIStyledProvider {...props}>
+    <GluestackUIStyledProvider {...props} config={{}}>
       <OverlayProvider>
         <ToastProvider>{children}</ToastProvider>
       </OverlayProvider>

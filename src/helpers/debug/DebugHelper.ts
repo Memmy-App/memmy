@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 
 const logFile = `${FileSystem.LibraryDirectoryPath}/lemmy-debug.log`;
 
-const createIfDontExist = async () => {
+const createIfDontExist = async (): Promise<void> => {
   if (!(await FileSystem.exists(logFile))) {
     await FileSystem.touch(logFile)
       .then()
@@ -14,7 +14,7 @@ const createIfDontExist = async () => {
   }
 };
 
-const writeToLog = (text: string) => {
+const writeToLog = (text: string): void => {
   // eslint-disable-next-line no-console
   if (__DEV__) console.log(text);
 
@@ -33,7 +33,7 @@ const deleteLog = (): void => {
   });
 };
 
-const sendLog = async () => {
+const sendLog = async (): Promise<void> => {
   const exists = await FileSystem.exists(logFile);
 
   if (!exists) throw Error("no_file");

@@ -35,7 +35,7 @@ function Start({ onReady }: StartProps): React.JSX.Element {
   const [stackReady, setStackReady] = useState(false);
   const accountStore = useAccountStore();
 
-  const [statusBarColor, setStatusBarColor] = useState<StatusBarStyle>("dark");
+  const [statusBarColor] = useState<StatusBarStyle>("dark");
 
   // const currentTheme = useCurrentTheme();
 
