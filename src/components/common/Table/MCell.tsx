@@ -23,8 +23,6 @@ interface IProps {
   showChevron?: boolean;
 
   onPress?: () => void | Promise<void>;
-
-  py?: React.ComponentProps<typeof VStack>["py"];
 }
 
 function MCell({
@@ -35,7 +33,6 @@ function MCell({
   icon,
   onPress,
   showChevron = false,
-  py,
 }: IProps) {
   const theme = useThemeOptions();
   const [pressedIn, setPressedIn] = useState(false);
@@ -44,7 +41,7 @@ function MCell({
   const onPressOut = () => setPressedIn(false);
 
   const cell = (
-    <VStack space="xs" py={py}>
+    <VStack space="xs" my="$2">
       <HStack alignItems="center" space="sm">
         {icon && icon}
         <VStack flexShrink={1}>

@@ -1,6 +1,6 @@
-import React, { Children } from "react";
 import { Divider, Text, VStack } from "@src/components/common/Gluestack";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import React, { Children } from "react";
 import { View } from "react-native";
 
 interface IProps {
@@ -20,12 +20,7 @@ function MTable({ header, children }: IProps) {
             {header}
           </Text>
         )}
-        <VStack
-          backgroundColor={theme.colors.fg}
-          p="$3"
-          borderRadius="$xl"
-          space="md"
-        >
+        <VStack backgroundColor={theme.colors.fg} px="$3" borderRadius="$xl">
           {childrenArray.map((child, index) => (
             // eslint-disable-next-line react/no-array-index-key
             <View key={index}>
