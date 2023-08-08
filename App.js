@@ -5,7 +5,6 @@ import React from "react";
 
 import { useFonts } from "expo-font";
 import { enableFreeze } from "react-native-screens";
-import store from "./store";
 import Start from "./Start";
 import * as SplashScreen from "expo-splash-screen";
 import codePush from "react-native-code-push";
