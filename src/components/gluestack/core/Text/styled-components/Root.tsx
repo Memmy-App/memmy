@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "react-native";
 import { ThemeOptionsMap } from "@src/theme/themeOptions";
-import { useCurrentTheme } from "@src/stores/settings/settingsStore";
+import { useCurrentTheme } from "@src/state/settings/settingsStore";
 import { styled } from "../../styled";
 
 const BaseText = styled(
@@ -92,7 +92,7 @@ const BaseText = styled(
 
 export default function StyledText(
   props: React.ComponentProps<typeof BaseText>
-) {
+): React.JSX.Element {
   const currentTheme = useCurrentTheme();
 
   const { children, ...rest } = props;

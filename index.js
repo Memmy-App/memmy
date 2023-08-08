@@ -3,10 +3,11 @@ if (__DEV__) {
 }
 
 import { registerRootComponent } from "expo";
-import "./src/plugins/i18n/i18n";
+
+import "./src/locale/i18n";
+import "./src/helpers/DayJs";
 
 import App from "./App";
-import "./src/plugins/DayJs";
 import { enableMapSet } from "immer";
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);

@@ -5,6 +5,7 @@
     "ios": "npx expo run:ios",
     "web": "npx expo start --web",
     "lint": "npx eslint .",
+		"test": "jest",
     "buildProd": "rm -rf build.ipa && eas build -p ios --profile production --output build.ipa --local --non-interactive",
     "buildPrev": "rm -rf preview.ipa && eas build -p ios --profile preview --output preview.ipa --local --non-interactive",
     "buildDev": "rm -rf dev.ipa && eas build -p ios --profile development --output dev.ipa --local --non-interactive",
@@ -116,8 +117,8 @@
     "@babel/core": "^7.22.6",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@tsconfig/react-native": "^3.0.0",
-    "@types/react": "~18.2.15",
     "@types/marked": "^5.0.1",
+    "@types/react": "~18.2.15",
     "@types/react-native": "^0.72.2",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "babel-plugin-module-resolver": "^5.0.0",
@@ -130,6 +131,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "jest": "^29.6.2",
     "metro-react-native-babel-preset": "0.77.0",
     "prettier": "^2.8.8",
     "react-dev-utils": "^12.0.1",
@@ -140,5 +142,8 @@
   "private": true,
   "engines": {
     "node": ">=18"
-  }
+  },
+	"jest": {
+		"preset": "react-native"
+	}
 }

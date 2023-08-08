@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable  global-require */
-import { Provider } from "react-redux";
 import React from "react";
 
 import { useFonts } from "expo-font";
@@ -49,11 +48,7 @@ function App() {
     SplashScreen.hideAsync();
   };
 
-  return (
-    <Provider store={store}>
-      <Start onReady={onReady} />
-    </Provider>
-  );
+  return <Start onReady={onReady} />;
 }
 
 export default codePush(codePushOptions)(App);
