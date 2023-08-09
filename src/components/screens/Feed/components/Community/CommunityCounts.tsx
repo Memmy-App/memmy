@@ -9,9 +9,9 @@ import { SFIcon } from "../../../../common/icons/SFIcon";
 function StatBlock({ icon, text }: { icon: string; text: string }) {
   const theme = useThemeOptions();
   return (
-    <HStack alignItems="center" space="smxs">
+    <HStack alignItems="center" space="sm">
       <SFIcon icon={icon} size={14} color={theme.colors.textSecondary} />
-      <Text>{text}</Text>
+      <Text size="sm">{text}</Text>
     </HStack>
   );
 }

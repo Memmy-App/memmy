@@ -626,7 +626,6 @@ function ImageViewer({
                 <FastImage
                   source={{ uri: source }}
                   style={[
-                    { paddingRight: 10 },
                     heightOverride
                       ? { height: heightOverride, width: widthOverride }
                       : dimensions.dimensions.scaledDimensions,
