@@ -18,7 +18,7 @@ function ImageButton({ src, marginY = 4, children }: ImageButtonProps) {
     <HStack
       backgroundColor={theme.colors.bg}
       borderRadius="$md"
-      px="$2"
+      p="$2"
       alignItems="center"
       space="md"
       my={marginY}

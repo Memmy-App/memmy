@@ -540,7 +540,7 @@ function ImageViewer({
             borderRadius: compactMode ? 10 : 0,
           },
         ]}
-        backgroundColor={theme.colors.bg}
+        backgroundColor={buttonMode ? "transparent" : theme.colors.bg}
       >
         {buttonMode ? (
           <Pressable
@@ -626,11 +626,13 @@ function ImageViewer({
                 <FastImage
                   source={{ uri: source }}
                   style={[
+                    { paddingRight: 10 },
                     heightOverride
                       ? { height: heightOverride, width: widthOverride }
                       : dimensions.dimensions.scaledDimensions,
                     style,
                   ]}
+                  resizeMode="contain"
                   onLoad={onLoad}
                 />
               )}
