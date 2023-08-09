@@ -207,7 +207,7 @@ const useCreateAccount = (): UseCreateAccount => {
     try {
       if (!instance) Alert.alert("No instance");
 
-      const res = await instance?.initialize({
+      await instance?.initialize({
         type: "lemmy",
         host: form.host,
         username: form.username,
