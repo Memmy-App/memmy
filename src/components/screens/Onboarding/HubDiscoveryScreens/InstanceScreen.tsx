@@ -74,7 +74,10 @@ function InstanceScreen({ route, navigation }: IProps): React.JSX.Element {
             flexGrow={1}
           >
             <HStack space="sm" alignItems="center">
-              <SFIcon icon="door.left.hand.open" />
+              <SFIcon
+                icon="door.left.hand.open"
+                color={theme.colors.textPrimary}
+              />
 
               <Text fontWeight="semibold" size="md">
                 {t("Join")}
@@ -87,7 +90,7 @@ function InstanceScreen({ route, navigation }: IProps): React.JSX.Element {
             action="primary"
             onPress={() =>
               navigation.push("AddAccount", {
-                server: getBaseUrl(site.actor_id),
+                host: getBaseUrl(site.actor_id),
               })
             }
             mt="auto"
@@ -95,7 +98,10 @@ function InstanceScreen({ route, navigation }: IProps): React.JSX.Element {
             flexGrow={1}
           >
             <HStack space="sm" alignItems="center">
-              <SFIcon icon="door.left.hand.open" />
+              <SFIcon
+                icon="door.left.hand.open"
+                color={theme.colors.textPrimary}
+              />
 
               <Text fontWeight="semibold" size="md">
                 {t("Login")}

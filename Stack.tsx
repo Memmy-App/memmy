@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useThemeOptions } from "@src/state/settings/settingsStore";
 import { useAccountStore } from "@src/state/account/accountStore";
 import OnboardingIndexScreen from "@src/components/screens/Onboarding/OnboardingIndexScreen";
-import LoadingView from "@src/components/common/LoadingView";
+import LoadingView from "@src/components/common/Loading/LoadingView";
 import OnboardingInfoScreenOne from "@src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenOne";
 import OnboardingInfoScreenTwo from "@src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenTwo";
 import OnboardingInfoScreenThree from "@src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenThree";
@@ -15,6 +15,7 @@ import OnboardingInfoScreenSix from "@src/components/screens/Onboarding/InfoScre
 import OnboardingInfoScreenSeven from "@src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenSeven";
 import HubDiscoveryScreen from "@src/components/screens/Onboarding/HubDiscoveryScreens/HubDiscoveryScreen";
 import InstanceScreen from "@src/components/screens/Onboarding/HubDiscoveryScreens/InstanceScreen";
+import AddAccountScreen from "@src/components/screens/Onboarding/AddAccountScreen";
 
 // const Drawer = createDrawerNavigator();
 // function FeedDrawerContainerScreen() {
@@ -729,11 +730,11 @@ function Stack({ onReady }: StackProps): React.JSX.Element {
                 component={InstanceScreen}
                 options={{ title: t("Instance") }}
               />
-              {/* <MainStack.Screen */}
-              {/*  name="AddAccount" */}
-              {/*  component={AddAccountScreen} */}
-              {/*  options={{ title: t("Add Account") }} */}
-              {/* /> */}
+              <MainStack.Screen
+                name="AddAccount"
+                component={AddAccountScreen}
+                options={{ title: t("Add Account") }}
+              />
               {/* <MainStack.Screen */}
               {/*  name="CreateAccount" */}
               {/*  component={CreateAccountScreen} */}

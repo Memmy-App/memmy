@@ -8,7 +8,8 @@ import { useAccountStore } from "@src/state/account/accountStore";
 import { GluestackUIProvider } from "@src/components/gluestack";
 import { ThemeOptionsMap } from "@src/theme/themeOptions";
 import { useThemeConfig } from "@src/state/settings/settingsStore";
-import ErrorView from "@src/components/common/ErrorView";
+import ErrorView from "@src/components/common/Loading/ErrorView";
+import Toast from "@src/components/common/toast/Toast";
 import Stack from "./Stack";
 
 const logError = (e: any, info: any) => {
@@ -140,6 +141,7 @@ function Start({ onReady }: StartProps): React.JSX.Element {
       <ErrorBoundary onError={logError} FallbackComponent={ErrorView}>
         {/* eslint-disable-next-line react/style-prop-object */}
         <StatusBar style={statusBarColor} />
+        <Toast />
         <GestureHandlerRootView
           style={{
             flex: 1,

@@ -35,7 +35,10 @@ class ApiInstance {
 
   instance: LemmyHttp | null; // TODO Kbin client will need to be added here
 
-  async initialize(options: ApiOptions): Promise<EInitializeResult> {
+  async initialize(
+    options: ApiOptions,
+    signup = false
+  ): Promise<EInitializeResult> {
     if (options.type === "lemmy") {
       this.instance = new LemmyHttp(getBaseUrl(options.host), {
         fetchFunction: undefined,
@@ -49,6 +52,8 @@ class ApiInstance {
 
         return EInitializeResult.SUCCESS;
       }
+
+      if (signup) return EInitializeResult.PASSWORD;
 
       try {
         const res = await this.instance.login({
