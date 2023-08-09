@@ -6,7 +6,6 @@ import getBaseUrl from "@src/helpers/links/getBaseUrl";
 import ILoadingStatus from "@src/types/ILoadingStatus";
 import { useShowToast } from "@src/state/toast/toastStore";
 import { useRoute } from "@react-navigation/core";
-import { Alert } from "react-native";
 
 interface UseAddAccount {
   status: ILoadingStatus;

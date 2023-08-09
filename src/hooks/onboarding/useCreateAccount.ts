@@ -214,8 +214,6 @@ const useCreateAccount = (): UseCreateAccount => {
         password: form.password,
       });
 
-      console.log(res);
-
       addAccount({
         host: form.host,
         username: form.username,

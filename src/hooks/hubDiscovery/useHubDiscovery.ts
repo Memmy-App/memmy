@@ -1,5 +1,4 @@
 import { GetSiteResponse } from "lemmy-js-client";
-import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { writeToLog } from "@src/helpers/debug/DebugHelper";

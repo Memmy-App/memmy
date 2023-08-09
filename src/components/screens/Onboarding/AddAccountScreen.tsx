@@ -6,7 +6,7 @@ import useAddAccount from "@src/hooks/onboarding/useAddAccount";
 import { Button, Image, Text, VStack } from "@src/components/gluestack";
 import { Input } from "react-native-elements";
 import { Trans, useTranslation } from "react-i18next";
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 const header = require("../../../../assets/header.jpg");
