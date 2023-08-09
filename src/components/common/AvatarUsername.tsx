@@ -112,14 +112,6 @@ function AvatarUsername({
             boxSize={22}
           />
         ))}
-      {creator.bot_account && (
-        <SFIcon
-          icon={ICON_MAP.BOT_ACCOUNT}
-          size={12}
-          boxSize={20}
-          color={theme.colors.info}
-        />
-      )}
       <VStack space="xxxs">
         <HStack space="xxs" alignItems="center">
           <Link
@@ -137,6 +129,11 @@ function AvatarUsername({
               {creator.name}
             </Text>
           </Link>
+          {creator.bot_account && (
+            <Badge size="sm" action="info">
+              <Badge.Text>Bot</Badge.Text>
+            </Badge>
+          )}
           {type && showPill && (
             <Badge size="sm" variant="solid" user={nameProps.variant}>
               <Badge.Text>{nameProps.variant}</Badge.Text>
