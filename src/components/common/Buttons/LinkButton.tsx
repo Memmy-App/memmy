@@ -1,15 +1,14 @@
 import { HStack, Text, VStack } from "@src/components/common/Gluestack";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Pressable } from "react-native";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
-import { openLink } from "../../../helpers/LinkHelper";
-import { truncateLink } from "../../../helpers/TextHelper";
-import SFIcon from "../icons/SFIcon";
+import { Pressable } from "react-native";
 import { ICON_MAP } from "../../../constants/IconMap";
+import { openLink } from "../../../helpers/LinkHelper";
+import SFIcon from "../icons/SFIcon";
 
 interface LinkButtonProps {
   link: string;
@@ -23,8 +22,6 @@ function LinkButton({ link, thumbnail }: LinkButtonProps) {
   const onPress = useCallback(() => {
     openLink(link, navigation, theme.colors.bg);
   }, [link]);
-
-  const truncatedLink = useMemo(() => truncateLink(link), [link]);
 
   return (
     <Pressable onPress={onPress}>
@@ -51,7 +48,7 @@ function LinkButton({ link, thumbnail }: LinkButtonProps) {
         <HStack
           flexDirection="row"
           alignItems="center"
-          space="3"
+          space="sm"
           mx="$4"
           my="$2"
         >
@@ -60,7 +57,13 @@ function LinkButton({ link, thumbnail }: LinkButtonProps) {
             color={theme.colors.textSecondary}
             size={14}
           />
-          <Text color={theme.colors.textSecondary}>{truncatedLink}</Text>
+          <Text
+            color={theme.colors.textSecondary}
+            numberOfLines={1}
+            style={{ width: "90%" }}
+          >
+            {link}
+          </Text>
         </HStack>
       </VStack>
     </Pressable>
