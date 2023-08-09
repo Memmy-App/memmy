@@ -109,7 +109,7 @@ function AvatarUsername({
             icon={ICON_MAP.USER_AVATAR}
             color={theme.colors.textSecondary}
             size={14}
-            boxSize={22}
+            boxSize={18}
           />
         ))}
       <VStack space="xxxs">
