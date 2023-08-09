@@ -16,6 +16,7 @@ import OnboardingInfoScreenSeven from "@src/components/screens/Onboarding/InfoSc
 import HubDiscoveryScreen from "@src/components/screens/Onboarding/HubDiscoveryScreens/HubDiscoveryScreen";
 import InstanceScreen from "@src/components/screens/Onboarding/HubDiscoveryScreens/InstanceScreen";
 import AddAccountScreen from "@src/components/screens/Onboarding/AddAccountScreen";
+import ViewerScreen from "@src/components/screens/ViewerScreen";
 
 // const Drawer = createDrawerNavigator();
 // function FeedDrawerContainerScreen() {
@@ -672,7 +673,7 @@ function Stack({ onReady }: StackProps): React.JSX.Element {
             options={{ title: `${t("Loading")}...` }}
           />
         )) ||
-          (accounts && accounts.accounts.length > 0 && (
+          (accounts && accounts.accounts.length > 30 && (
             <MainStack.Screen
               name="Tabs"
               component={LoadingView}
@@ -740,14 +741,14 @@ function Stack({ onReady }: StackProps): React.JSX.Element {
               {/*  component={CreateAccountScreen} */}
               {/*  options={{ title: t("Create Account") }} */}
               {/* /> */}
-              {/* <MainStack.Screen */}
-              {/*  name="Viewer" */}
-              {/*  component={ViewerScreen} */}
-              {/*  options={{ */}
-              {/*    title: t("View"), */}
-              {/*    freezeOnBlur: true, */}
-              {/*  }} */}
-              {/* /> */}
+              <MainStack.Screen
+                name="Viewer"
+                component={ViewerScreen}
+                options={{
+                  title: t("View"),
+                  freezeOnBlur: true,
+                }}
+              />
             </>
           )}
       </MainStack.Navigator>

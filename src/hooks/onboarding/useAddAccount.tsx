@@ -6,6 +6,7 @@ import getBaseUrl from "@src/helpers/links/getBaseUrl";
 import ILoadingStatus from "@src/types/ILoadingStatus";
 import { useShowToast } from "@src/state/toast/toastStore";
 import { useRoute } from "@react-navigation/core";
+import { Alert } from "react-native";
 
 interface UseAddAccount {
   status: ILoadingStatus;
@@ -13,7 +14,7 @@ interface UseAddAccount {
   form: ILemmyServer;
 
   onChange: (key: string, value: string) => void;
-  onLoginPress: () => void;
+  onLoginPress: () => Promise<void>;
 }
 
 const useAddAccount = (): UseAddAccount => {
@@ -44,12 +45,7 @@ const useAddAccount = (): UseAddAccount => {
     }));
   };
 
-  const onLoginPress = useCallback(() => {
-    setStatus({
-      loading: true,
-      error: false,
-    });
-
+  const onLoginPress = useCallback(async () => {
     // Make sure necessary values are set
     if (!form.host || !form.username || !form.password) {
       // Display the toast
@@ -58,6 +54,7 @@ const useAddAccount = (): UseAddAccount => {
         duration: 3000,
         variant: "warn",
       });
+      return;
     }
 
     // Make sure username is not an email
@@ -67,20 +64,30 @@ const useAddAccount = (): UseAddAccount => {
         duration: 3000,
         variant: "warn",
       });
+      return;
     }
 
     // Make sure the server is a valid host
 
+    setStatus({
+      loading: true,
+      error: false,
+    });
+
     // Attempt to sign in
-    createInstance();
+    // createInstance();
     try {
-      instance?.initialize({
+      if (!instance) Alert.alert("No instance");
+
+      const res = await instance?.initialize({
         type: "lemmy",
         host: form.host,
         username: form.username,
         password: form.password,
         totpToken: form.totpToken ?? undefined,
       });
+
+      console.log(res);
 
       addAccount({
         host: form.host,

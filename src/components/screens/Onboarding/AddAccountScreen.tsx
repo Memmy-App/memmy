@@ -53,7 +53,6 @@ function AddAccountScreen({ navigation }: IProps): React.JSX.Element {
             }}
           />
           <Input
-            value={addAccount.form.password}
             label={t("Username")}
             onChange={(e) =>
               addAccount.onChange("username", e.nativeEvent.text)
@@ -65,7 +64,6 @@ function AddAccountScreen({ navigation }: IProps): React.JSX.Element {
             }}
           />
           <Input
-            value={addAccount.form.password}
             label={t("Password")}
             onChange={(e) =>
               addAccount.onChange("password", e.nativeEvent.text)
@@ -78,7 +76,6 @@ function AddAccountScreen({ navigation }: IProps): React.JSX.Element {
             }}
           />
           <Input
-            value={addAccount.form.totpToken}
             placeholder={t("(Optional)")}
             label={t("2FA Token")}
             onChange={(e) =>
