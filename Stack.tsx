@@ -2,8 +2,14 @@ import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useThemeOptions } from "@src/state/settings/settingsStore";
-import { useAccountStore } from "@src/state/account/accountStore";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/state/settings/settingsStore";
+import {
+  useAccountStore,
+  useCurrentAccount,
+} from "@src/state/account/accountStore";
 import OnboardingIndexScreen from "@src/components/screens/Onboarding/OnboardingIndexScreen";
 import LoadingView from "@src/components/common/Loading/LoadingView";
 import OnboardingInfoScreenOne from "@src/components/screens/Onboarding/InfoScreens/OnboardingInfoScreenOne";
@@ -18,6 +24,11 @@ import InstanceScreen from "@src/components/screens/Onboarding/HubDiscoveryScree
 import AddAccountScreen from "@src/components/screens/Onboarding/AddAccountScreen";
 import ViewerScreen from "@src/components/screens/ViewerScreen";
 import CreateAccountScreen from "@src/components/screens/Onboarding/CreateAccountScreen";
+import {
+  BottomTabBarProps,
+  createBottomTabNavigator,
+} from "@react-navigation/bottom-tabs";
+import { CustomTabBar } from "@src/components/common/Navigation/CustomTabBar";
 
 // const Drawer = createDrawerNavigator();
 // function FeedDrawerContainerScreen() {
@@ -539,108 +550,111 @@ import CreateAccountScreen from "@src/components/screens/Onboarding/CreateAccoun
 //   );
 // }
 //
-// const Tab = createBottomTabNavigator();
-// function Tabs() {
-//   const { unread } = useAppSelector(selectSite);
-//   const { t } = useTranslation();
-//   const currentAccount = useCurrentAccount();
-//   const me = useMe();
-//
-//   const hideUsernameInTab = useSettingsStore(
-//     (state) => state.settings.hideUsernameInTab
-//   );
-//   const hideAvatarInTab = useSettingsStore(
-//     (state) => state.settings.hideAvatarInTab
-//   );
-//
-//   return (
-//     <Tab.Navigator
-//       tabBar={(props) => <CustomTabBar {...props} />}
-//       screenOptions={{
-//         tabBarLabel: t("Feed"),
-//         freezeOnBlur: false,
-//       }}
-//     >
-//       <Tab.Screen
-//         name="FeedStack"
-//         component={FeedStackScreen}
-//         options={{
-//           headerShown: false,
-//           tabBarIcon: ({ color }) => (
-//             <SFIcon icon={ICON_MAP.FEED} color={color} />
-//           ),
-//           tabBarLabel: t("Feed"),
-//           freezeOnBlur: false,
-//         }}
-//       />
-//       <Tab.Screen
-//         name="InboxStack"
-//         component={InboxStackScreen}
-//         options={{
-//           headerShown: false,
-//           tabBarIcon: ({ color }) => (
-//             <SFIcon icon={ICON_MAP.INBOX} color={color} />
-//           ),
-//           tabBarLabel: t("Inbox"),
-//
-//           tabBarBadge:
-//             unread.replies + unread.mentions + unread.privateMessage > 0
-//               ? // ? unread.replies + unread.mentions + unread.privateMessage
-//                 unread.replies
-//               : null,
-//           freezeOnBlur: false,
-//         }}
-//       />
-//       <Tab.Screen
-//         name="ProfileStack"
-//         component={ProfileStackScreen}
-//         options={{
-//           headerShown: false,
-//           tabBarIcon: ({ color }) =>
-//             !hideAvatarInTab && me?.local_user_view.person.avatar ? (
-//               <FastImage
-//                 source={{
-//                   uri: me?.local_user_view.person.avatar,
-//                 }}
-//                 style={styles.avatar}
-//               />
-//             ) : (
-//               <SFIcon icon={ICON_MAP.USER_AVATAR} color={color} />
-//             ),
-//           tabBarLabel: hideUsernameInTab
-//             ? "Profile"
-//             : truncateName(currentAccount?.username ?? "Profile", 8),
-//           freezeOnBlur: false,
-//         }}
-//       />
-//       <Tab.Screen
-//         name="SearchStack"
-//         component={SearchStackScreen}
-//         options={{
-//           headerShown: false,
-//           tabBarIcon: ({ color }) => (
-//             <SFIcon icon={ICON_MAP.SEARCH} color={color} />
-//           ),
-//           tabBarLabel: t("Search"),
-//           freezeOnBlur: false,
-//         }}
-//       />
-//       <Tab.Screen
-//         name="SettingsStack"
-//         component={SettingsStackScreen}
-//         options={{
-//           headerShown: false,
-//           // tabBarIcon: ({ color }) => <IconSettings color={color} />,
-//           tabBarIcon: ({ color }) => (
-//             <SFIcon icon={ICON_MAP.SETTINGS} color={color} />
-//           ),
-//           tabBarLabel: t("Settings"),
-//           freezeOnBlur: false,
-//         }}
-//       />
-//     </Tab.Navigator>
-//   );
-// }
+const Tab = createBottomTabNavigator();
+
+function CTabBar(props: BottomTabBarProps) {
+  return <CustomTabBar {...props} />;
+}
+function Tabs() {
+  // const { unread } = useAppSelector(selectSite);
+  const { t } = useTranslation();
+  // const currentAccount = useCurrentAccount();
+  const currentAccount = useCurrentAccount();
+  // const me = useMe();
+
+  const hideUsernameInTab = useSettingsStore(
+    (state) => state.hideUsernameInTab
+  );
+  const hideAvatarInTab = useSettingsStore((state) => state.hideAvatarInTab);
+
+  return (
+    <Tab.Navigator
+      tabBar={CTabBar}
+      screenOptions={{
+        tabBarLabel: t("Feed"),
+        freezeOnBlur: false,
+      }}
+    >
+      {/* <Tab.Screen */}
+      {/*  name="FeedStack" */}
+      {/*  component={FeedStackScreen} */}
+      {/*  options={{ */}
+      {/*    headerShown: false, */}
+      {/*    tabBarIcon: ({ color }) => ( */}
+      {/*      <SFIcon icon={ICON_MAP.FEED} color={color} /> */}
+      {/*    ), */}
+      {/*    tabBarLabel: t("Feed"), */}
+      {/*    freezeOnBlur: false, */}
+      {/*  }} */}
+      {/* /> */}
+      {/* <Tab.Screen */}
+      {/*  name="InboxStack" */}
+      {/*  component={InboxStackScreen} */}
+      {/*  options={{ */}
+      {/*    headerShown: false, */}
+      {/*    tabBarIcon: ({ color }) => ( */}
+      {/*      <SFIcon icon={ICON_MAP.INBOX} color={color} /> */}
+      {/*    ), */}
+      {/*    tabBarLabel: t("Inbox"), */}
+
+      {/*    tabBarBadge: */}
+      {/*      unread.replies + unread.mentions + unread.privateMessage > 0 */}
+      {/*        ? // ? unread.replies + unread.mentions + unread.privateMessage */}
+      {/*          unread.replies */}
+      {/*        : null, */}
+      {/*    freezeOnBlur: false, */}
+      {/*  }} */}
+      {/* /> */}
+      {/* <Tab.Screen */}
+      {/*  name="ProfileStack" */}
+      {/*  component={ProfileStackScreen} */}
+      {/*  options={{ */}
+      {/*    headerShown: false, */}
+      {/*    tabBarIcon: ({ color }) => */}
+      {/*      !hideAvatarInTab && me?.local_user_view.person.avatar ? ( */}
+      {/*        <FastImage */}
+      {/*          source={{ */}
+      {/*            uri: me?.local_user_view.person.avatar, */}
+      {/*          }} */}
+      {/*          style={styles.avatar} */}
+      {/*        /> */}
+      {/*      ) : ( */}
+      {/*        <SFIcon icon={ICON_MAP.USER_AVATAR} color={color} /> */}
+      {/*      ), */}
+      {/*    tabBarLabel: hideUsernameInTab */}
+      {/*      ? "Profile" */}
+      {/*      : truncateName(currentAccount?.username ?? "Profile", 8), */}
+      {/*    freezeOnBlur: false, */}
+      {/*  }} */}
+      {/* /> */}
+      {/* <Tab.Screen */}
+      {/*  name="SearchStack" */}
+      {/*  component={SearchStackScreen} */}
+      {/*  options={{ */}
+      {/*    headerShown: false, */}
+      {/*    tabBarIcon: ({ color }) => ( */}
+      {/*      <SFIcon icon={ICON_MAP.SEARCH} color={color} /> */}
+      {/*    ), */}
+      {/*    tabBarLabel: t("Search"), */}
+      {/*    freezeOnBlur: false, */}
+      {/*  }} */}
+      {/* /> */}
+      {/* <Tab.Screen */}
+      {/*  name="SettingsStack" */}
+      {/*  component={SettingsStackScreen} */}
+      {/*  options={{ */}
+      {/*    headerShown: false, */}
+      {/*    // tabBarIcon: ({ color }) => <IconSettings color={color} />, */}
+      {/*    tabBarIcon: ({ color }) => ( */}
+      {/*      <SFIcon icon={ICON_MAP.SETTINGS} color={color} /> */}
+      {/*    ), */}
+      {/*    tabBarLabel: t("Settings"), */}
+      {/*    freezeOnBlur: false, */}
+      {/*  }} */}
+      {/* /> */}
+    </Tab.Navigator>
+  );
+}
 
 const MainStack = createNativeStackNavigator();
 interface StackProps {
@@ -674,7 +688,7 @@ function Stack({ onReady }: StackProps): React.JSX.Element {
             options={{ title: `${t("Loading")}...` }}
           />
         )) ||
-          (accounts && accounts.accounts.length > 30 && (
+          (accounts && accounts.accounts.length > 0 && (
             <MainStack.Screen
               name="Tabs"
               component={LoadingView}
