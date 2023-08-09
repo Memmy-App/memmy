@@ -1,8 +1,8 @@
 import { HStack, Text } from "@src/components/common/Gluestack";
 import SFIcon from "@src/components/common/icons/SFIcon";
 import { ICON_MAP } from "@src/constants/IconMap";
-import React from "react";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import React from "react";
 import { truncateImageLink } from "../../../helpers/TextHelper";
 
 interface ImageButtonProps {

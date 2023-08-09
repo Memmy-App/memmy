@@ -682,7 +682,6 @@ const styles = StyleSheet.create({
   },
 
   imageContainer: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
