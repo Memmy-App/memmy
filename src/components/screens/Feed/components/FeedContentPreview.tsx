@@ -1,22 +1,21 @@
+import { useRoute } from "@react-navigation/core";
 import { Box, Text } from "@src/components/common/Gluestack";
-import React, { useCallback, useMemo } from "react";
+import setFeedRead from "@src/stores/feeds/actions/setFeedRead";
 import {
   useFeedPostCommunity,
   useFeedPostInfo,
   useFeedPostRead,
 } from "@src/stores/feeds/feedsStore";
-import { useRoute } from "@react-navigation/core";
-import setFeedRead from "@src/stores/feeds/actions/setFeedRead";
 import {
   useSettingsStore,
   useThemeOptions,
 } from "@src/stores/settings/settingsStore";
+import React, { useCallback, useMemo } from "react";
 import removeMd from "remove-markdown";
 import { ExtensionType, getLinkInfo } from "../../../../helpers/LinkHelper";
 import { findImages } from "../../../../helpers/MarkdownHelper";
-import { truncatePost } from "../../../../helpers/TextHelper";
-import ImagePreview from "../../../common/ImagePreview";
 import LinkButton from "../../../common/Buttons/LinkButton";
+import ImagePreview from "../../../common/ImagePreview";
 
 interface IProps {
   postId: number;
@@ -38,7 +37,6 @@ function FeedContentPreview({ postId, recycled }: IProps) {
   const linkInfo = useMemo(() => getLinkInfo(postInfo.url), [postId]);
 
   const { cleanedText, imageLinks } = findImages(postInfo.body, true);
-  const body = truncatePost(cleanedText, 100);
 
   let postUrls = [postInfo.url];
 
@@ -66,7 +64,7 @@ function FeedContentPreview({ postId, recycled }: IProps) {
   }, [postId, postRead]);
 
   const postTitle = removeMd(postInfo.name);
-  const postBody = removeMd(body);
+  const postBody = removeMd(cleanedText);
 
   return (
     <Box mb="$1">
@@ -90,8 +88,14 @@ function FeedContentPreview({ postId, recycled }: IProps) {
           />
         </Box>
       )}
-      {!!body && (
-        <Text color={theme.colors.textSecondary} mx="$4" mt="$2">
+      {!!cleanedText && (
+        <Text
+          color={theme.colors.textSecondary}
+          mx="$4"
+          mt="$1"
+          numberOfLines={2}
+          size="sm"
+        >
           {postBody}
         </Text>
       )}
