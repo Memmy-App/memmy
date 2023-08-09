@@ -1,4 +1,4 @@
-const getBaseUrl = (link?: string, noSubdomain = false): string => {
+export const getBaseUrl = (link?: string, noSubdomain = false): string => {
   if (!link) return "";
 
   if (noSubdomain) {
@@ -20,5 +20,3 @@ const getBaseUrl = (link?: string, noSubdomain = false): string => {
 
   return "";
 };
-
-export default getBaseUrl;

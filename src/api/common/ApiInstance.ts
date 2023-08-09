@@ -43,6 +43,8 @@ class ApiInstance {
 
   captchaPng: string | null;
 
+  initialized: boolean = false;
+
   async initialize(
     options: ApiOptions,
     signup = false,
@@ -80,6 +82,7 @@ class ApiInstance {
 
           this.authToken = res.jwt!;
 
+          this.initialized = true;
           return EInitializeResult.SUCCESS;
         } catch (e: any) {
           if (e.toString() === "captcha_incorrect") {
@@ -98,6 +101,7 @@ class ApiInstance {
         });
         this.authToken = res.jwt!;
 
+        this.initialized = true;
         return EInitializeResult.SUCCESS;
       } catch (e: any) {
         this.resetInstance();
@@ -115,6 +119,7 @@ class ApiInstance {
 
   resetInstance(): void {
     this.instance = null;
+    this.initialized = false;
   }
 
   static handleError(error: string): void {

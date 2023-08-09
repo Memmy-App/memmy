@@ -114,7 +114,7 @@ export const useSettingsStore = create(
       ...initialState,
     })),
     {
-      name: "account",
+      name: "settings",
       storage: createJSONStorage(() => AsyncStorage),
     }
   )

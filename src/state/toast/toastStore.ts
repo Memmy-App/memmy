@@ -27,7 +27,7 @@ interface ToastStore {
   };
 }
 
-export const useAccountStore = create(
+export const useToastStore = create(
   immer<ToastStore>((set) => ({
     state: {
       isOpen: false,
@@ -55,8 +55,8 @@ export const useAccountStore = create(
 );
 
 export const useToastState = (): ToastState =>
-  useAccountStore((state) => state.state);
+  useToastStore((state) => state.state);
 export const useShowToast = (): ((options: ShowToast) => void) =>
-  useAccountStore((state) => state.actions.showToast);
+  useToastStore((state) => state.actions.showToast);
 export const useHideToast = (): (() => void) =>
-  useAccountStore((state) => state.actions.hideToast);
+  useToastStore((state) => state.actions.hideToast);

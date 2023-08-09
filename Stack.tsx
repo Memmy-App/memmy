@@ -681,17 +681,18 @@ function Stack({ onReady }: StackProps): React.JSX.Element {
   return (
     <NavigationContainer onReady={onReady} theme={MyTheme}>
       <MainStack.Navigator>
-        {(accounts && accounts.status.loading && (
-          <MainStack.Screen
-            name="AppLoading"
-            component={LoadingView}
-            options={{ title: `${t("Loading")}...` }}
-          />
-        )) ||
+        {!accounts ||
+          (accounts.status.loading && (
+            <MainStack.Screen
+              name="AppLoading"
+              component={LoadingView}
+              options={{ title: `${t("Loading")}...` }}
+            />
+          )) ||
           (accounts && accounts.accounts.length > 0 && (
             <MainStack.Screen
               name="Tabs"
-              component={LoadingView}
+              component={Tabs}
               options={{ headerShown: false }}
             />
           )) || (
