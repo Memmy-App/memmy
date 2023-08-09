@@ -26,6 +26,7 @@ interface IProps {
   replyOption?: React.ReactElement;
   onVote?: (value: ILemmyVote) => void;
   onPress: () => unknown;
+  showDivider?: boolean;
 }
 
 function CommentItem({
@@ -35,6 +36,7 @@ function CommentItem({
   onPress,
   voteOption,
   replyOption,
+  showDivider = true,
 }: IProps) {
   const theme = useThemeOptions();
 
@@ -118,14 +120,16 @@ function CommentItem({
           />
         )}
       </SwipeableRow>
-      <View
-        style={{
-          paddingLeft: depth * 12,
-        }}
-        backgroundColor={theme.colors.fg}
-      >
-        <Divider bg={theme.colors.border} />
-      </View>
+      {showDivider && (
+        <View
+          style={{
+            paddingLeft: depth * 9,
+          }}
+          backgroundColor={theme.colors.fg}
+        >
+          <Divider bg={theme.colors.border} />
+        </View>
+      )}
     </>
   );
 }

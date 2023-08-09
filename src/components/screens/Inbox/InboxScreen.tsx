@@ -1,11 +1,15 @@
+import { useFocusEffect } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
-import { VStack } from "@src/components/common/Gluestack";
-import React, { useCallback, useEffect, useMemo } from "react";
-import { CommentReplyView } from "lemmy-js-client";
-import { useFocusEffect } from "@react-navigation/native";
+import { Box, Divider, VStack } from "@src/components/common/Gluestack";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import { CommentReplyView } from "lemmy-js-client";
+import React, { useCallback, useEffect, useMemo } from "react";
 import useInbox from "../../../hooks/inbox/useInbox";
+import {
+  useInboxReplies,
+  useInboxStatus,
+} from "../../../stores/inbox/inboxStore";
 import ILemmyComment from "../../../types/lemmy/ILemmyComment";
 import HeaderIconButton from "../../common/Buttons/HeaderIconButton";
 import LoadingErrorView from "../../common/Loading/LoadingErrorView";
@@ -15,10 +19,6 @@ import RefreshControl from "../../common/RefreshControl";
 import SFIcon from "../../common/icons/SFIcon";
 import InboxTabs from "./InboxTabs";
 import InboxReplyItem from "./components/InboxReplyItem";
-import {
-  useInboxReplies,
-  useInboxStatus,
-} from "../../../stores/inbox/inboxStore";
 
 function InboxScreen({
   navigation,
@@ -49,11 +49,35 @@ function InboxScreen({
     });
   }, []);
 
-  const replyItem = ({ item }: { item: ILemmyComment }) => (
-    <InboxReplyItem
-      commentId={item.comment.comment.id}
-      unread={inbox.topSelected === "unread"}
-    />
+  const replyItem = ({
+    item,
+    index,
+  }: {
+    item: ILemmyComment;
+    index: number;
+  }) => (
+    <Box
+      mx="$2"
+      style={{
+        paddingTop: 2,
+        paddingHorizontal: 3,
+        backgroundColor: theme.colors.fg,
+        ...(index === 0
+          ? { borderTopRightRadius: 10, borderTopLeftRadius: 10 }
+          : {}),
+        ...(index === items.length - 1 && {
+          paddingBottom: 2,
+          borderBottomRightRadius: 10,
+          borderBottomLeftRadius: 10,
+        }),
+      }}
+    >
+      <InboxReplyItem
+        commentId={item.comment.comment.id}
+        unread={inbox.topSelected === "unread"}
+      />
+      {index !== items.length - 1 && <Divider bg={theme.colors.border} />}
+    </Box>
   );
 
   const onUnreadPress = () => {

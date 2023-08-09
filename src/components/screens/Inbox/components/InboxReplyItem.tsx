@@ -54,9 +54,10 @@ function InboxReplyItem({ commentId, unread }: IProps) {
   return (
     <CommentItem
       comment={comment}
-      depth={2}
+      depth={1}
       onPress={onPress}
       replyOption={replyOption}
+      showDivider={false}
     />
   );
 }
