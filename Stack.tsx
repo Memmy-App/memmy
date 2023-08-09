@@ -17,6 +17,7 @@ import HubDiscoveryScreen from "@src/components/screens/Onboarding/HubDiscoveryS
 import InstanceScreen from "@src/components/screens/Onboarding/HubDiscoveryScreens/InstanceScreen";
 import AddAccountScreen from "@src/components/screens/Onboarding/AddAccountScreen";
 import ViewerScreen from "@src/components/screens/ViewerScreen";
+import CreateAccountScreen from "@src/components/screens/Onboarding/CreateAccountScreen";
 
 // const Drawer = createDrawerNavigator();
 // function FeedDrawerContainerScreen() {
@@ -736,11 +737,11 @@ function Stack({ onReady }: StackProps): React.JSX.Element {
                 component={AddAccountScreen}
                 options={{ title: t("Add Account") }}
               />
-              {/* <MainStack.Screen */}
-              {/*  name="CreateAccount" */}
-              {/*  component={CreateAccountScreen} */}
-              {/*  options={{ title: t("Create Account") }} */}
-              {/* /> */}
+              <MainStack.Screen
+                name="CreateAccount"
+                component={CreateAccountScreen}
+                options={{ title: t("Create Account") }}
+              />
               <MainStack.Screen
                 name="Viewer"
                 component={ViewerScreen}

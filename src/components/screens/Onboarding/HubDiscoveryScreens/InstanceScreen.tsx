@@ -66,7 +66,7 @@ function InstanceScreen({ route, navigation }: IProps): React.JSX.Element {
             action="primary"
             onPress={() =>
               navigation.push("CreateAccount", {
-                server: getBaseUrl(site.actor_id),
+                host: getBaseUrl(site.actor_id),
               })
             }
             mt="auto"

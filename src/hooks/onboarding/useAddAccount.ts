@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import ILemmyServer from "@src/types/api/ILemmyServer";
-import instance, { createInstance } from "@src/Instance";
+import instance from "@src/Instance";
 import addAccount from "@src/state/account/actions/addAccount";
 import getBaseUrl from "@src/helpers/links/getBaseUrl";
 import ILoadingStatus from "@src/types/ILoadingStatus";
@@ -75,19 +75,14 @@ const useAddAccount = (): UseAddAccount => {
     });
 
     // Attempt to sign in
-    // createInstance();
     try {
-      if (!instance) Alert.alert("No instance");
-
-      const res = await instance?.initialize({
+      await instance?.initialize({
         type: "lemmy",
         host: form.host,
         username: form.username,
         password: form.password,
         totpToken: form.totpToken ?? undefined,
       });
-
-      console.log(res);
 
       addAccount({
         host: form.host,

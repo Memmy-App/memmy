@@ -1,6 +1,7 @@
 import ApiOptions from "@src/types/api/ApiOptions";
 import {
   CommentResponse,
+  GetCaptchaResponse,
   GetCommentsResponse,
   GetCommunityResponse,
   GetPersonDetailsResponse,
@@ -19,11 +20,14 @@ import IGetPostOptions from "@src/types/api/IGetPostOptions";
 import ILemmyVote from "@src/types/api/ILemmyVote";
 import { writeToLog } from "@src/helpers/debug/DebugHelper";
 import ICreatePostOptions from "@src/types/api/ICreatePostOptions";
+import ISignupOptions from "@src/types/api/ISignupOptions";
 
 export enum EInitializeResult {
   SUCCESS,
   PASSWORD,
   TOTP,
+  CAPTCHA,
+  VERIFY_EMAIL,
 }
 
 class ApiInstance {
@@ -35,12 +39,17 @@ class ApiInstance {
 
   instance: LemmyHttp | null; // TODO Kbin client will need to be added here
 
+  captchaUuid: string | null;
+
+  captchaPng: string | null;
+
   async initialize(
     options: ApiOptions,
-    signup = false
+    signup = false,
+    signupOptions?: ISignupOptions
   ): Promise<EInitializeResult> {
     if (options.type === "lemmy") {
-      this.instance = new LemmyHttp(getBaseUrl(options.host), {
+      this.instance = new LemmyHttp(`https://${getBaseUrl(options.host)}`, {
         fetchFunction: undefined,
         headers: {
           "User-Agent": `Memmy ${getReadableVersion()}`,
@@ -53,7 +62,33 @@ class ApiInstance {
         return EInitializeResult.SUCCESS;
       }
 
-      if (signup) return EInitializeResult.PASSWORD;
+      if (signup) {
+        try {
+          const res = await this.instance.register({
+            username: options.username,
+            email: signupOptions?.email,
+            password: options.password!,
+            password_verify: options.password!,
+            show_nsfw: !!signupOptions?.showNsfw,
+            captcha_uuid: signupOptions?.captchaUuid ?? undefined,
+            captcha_answer: signupOptions?.captchaAnswer,
+          });
+
+          if (res.verify_email_sent) {
+            return EInitializeResult.VERIFY_EMAIL;
+          }
+
+          this.authToken = res.jwt!;
+
+          return EInitializeResult.SUCCESS;
+        } catch (e: any) {
+          if (e.toString() === "captcha_incorrect") {
+            return EInitializeResult.CAPTCHA;
+          }
+
+          return EInitializeResult.PASSWORD;
+        }
+      }
 
       try {
         const res = await this.instance.login({
@@ -61,7 +96,7 @@ class ApiInstance {
           password: options.password!,
           totp_2fa_token: options.totpToken ?? undefined,
         });
-        this.authToken = res.jwt ?? "";
+        this.authToken = res.jwt!;
 
         return EInitializeResult.SUCCESS;
       } catch (e: any) {
@@ -87,6 +122,15 @@ class ApiInstance {
     writeToLog(error);
 
     throw new Error();
+  }
+
+  async getCaptcha(): Promise<GetCaptchaResponse | null> {
+    try {
+      return await this.instance!.getCaptcha({});
+    } catch (e: any) {
+      ApiInstance.handleError(e.toString());
+      return null;
+    }
   }
 
   async savePost(postId: number, save: boolean): Promise<void> {
