@@ -540,7 +540,7 @@ function ImageViewer({
             borderRadius: compactMode ? 10 : 0,
           },
         ]}
-        backgroundColor={theme.colors.bg}
+        backgroundColor={buttonMode ? "transparent" : theme.colors.bg}
       >
         {buttonMode ? (
           <Pressable
@@ -631,6 +631,7 @@ function ImageViewer({
                       : dimensions.dimensions.scaledDimensions,
                     style,
                   ]}
+                  resizeMode="contain"
                   onLoad={onLoad}
                 />
               )}
@@ -682,7 +683,6 @@ const styles = StyleSheet.create({
   },
 
   imageContainer: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
