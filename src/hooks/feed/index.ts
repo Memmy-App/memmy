@@ -1,2 +1,3 @@
 export * from "./useMarkReadOnScroll";
-export * from "./useFeedVote";
+export * from "./useOnFeedVote";
+export * from "./useOnFeedSave";

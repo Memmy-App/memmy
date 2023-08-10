@@ -12,11 +12,9 @@ import { useSettingsStore } from "@src/state/settings/settingsStore";
 import setFeedVote from "@src/state/feed/actions/setFeedVote";
 import setFeedRead from "@src/state/feed/actions/setFeedRead";
 
-interface UseFeedVote {
-  onVote: (value: ILemmyVote, haptic?: boolean) => void;
-}
+type UseOnFeedVote = (value: ILemmyVote, haptic: boolean) => void;
 
-export const useFeedVote = (postId: number): UseFeedVote => {
+export const useFeedVote = (postId: number): UseOnFeedVote => {
   const { key } = useRoute();
   const postRead = useFeedPostRead(key, postId);
   const postVote = useFeedPostVote(key, postId);
@@ -26,7 +24,7 @@ export const useFeedVote = (postId: number): UseFeedVote => {
     (state) => state.markReadOnPostVote
   );
 
-  const onVote = useCallback(
+  return useCallback(
     (value: ILemmyVote, haptic = true) => {
       if (haptic) onVoteHapticFeedback();
 
@@ -45,8 +43,4 @@ export const useFeedVote = (postId: number): UseFeedVote => {
     },
     [postId, postRead, postVote, markReadOnPostVote]
   );
-
-  return {
-    onVote,
-  };
 };
