@@ -2,6 +2,9 @@ import React from "react";
 import { OnPressMenuItemEvent } from "react-native-ios-context-menu";
 import { onGenericHapticFeedback } from "@src/helpers/haptics/HapticFeedbackHelper";
 import { useFeedVote, useOnFeedSave } from "@src/hooks/feed";
+import { AppContextMenuView } from "@src/components/contextMenus/AppContextMenuView";
+import { AppContextMenuButton } from "@src/components/contextMenus/AppContextMenuButton";
+import { useFeedOptions } from "@src/components/contextMenus/feed/useFeedOptions";
 
 interface IProps {
   postId: number;
@@ -29,16 +32,16 @@ export function FeedItemContextMenu({
         onSave();
         break;
       case "Reply":
-        feedItem.doReply();
+        // feedItem.doReply();
         break;
       case "Share":
-        feedItem.doShare();
+        // feedItem.doShare();
         break;
       case "Report":
-        feedItem.doReport();
+        // feedItem.doReport();
         break;
       case "BlockUser":
-        feedItem.blockCreator();
+        // feedItem.blockCreator();
         break;
       default:
         break;
@@ -68,7 +71,7 @@ interface IContextMenuProps {
 export function FeedItemContextMenuView({
   children,
   onPress,
-}: IContextMenuProps) {
+}: IContextMenuProps): React.JSX.Element {
   const feedOptions = useFeedOptions();
 
   return (
@@ -82,7 +85,7 @@ export function FeedItemContextMenuView({
 export function FeedItemContextMenuButton({
   children,
   onPress,
-}: IContextMenuProps) {
+}: IContextMenuProps): React.JSX.Element {
   const feedOptions = useFeedOptions();
 
   return (

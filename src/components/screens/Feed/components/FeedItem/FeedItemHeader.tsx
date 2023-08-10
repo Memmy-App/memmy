@@ -11,6 +11,7 @@ import IconButtonWithText from "@src/components/common/Button/IconButtonWithText
 import CommunityLink from "@src/components/common/Link/CommunityLink";
 import FeaturedIndicator from "@src/components/common/icons/FeaturedIndicator";
 import { ReadIndicator } from "@src/components/common/icons/ReadIndicator";
+import { FeedItemContextMenu } from "@src/components/contextMenus/feed/FeedItemContextMenu";
 
 interface IProps {
   postId: number;
@@ -29,7 +30,7 @@ function Header({ postId }: IProps): React.JSX.Element {
       <HStack space="sm" alignItems="center">
         <FeaturedIndicator featured={!!postInfo?.featured_community} />
         <ReadIndicator isRead={!!postRead} />
-        <FeedItemContextMenu isButton>
+        <FeedItemContextMenu postId={postId} isButton>
           <IconButtonWithText icon={ICON_MAP.MORE_OPTIONS} />
         </FeedItemContextMenu>
       </HStack>
