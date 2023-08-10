@@ -16,7 +16,6 @@ interface LinkButtonProps {
 }
 
 function LinkButton({ link, thumbnail }: LinkButtonProps) {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const theme = useThemeOptions();
 
   const onPress = useCallback(() => {

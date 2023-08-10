@@ -5,6 +5,7 @@ import instance from "@src/Instance";
 import { getBaseUrl } from "@src/helpers/links";
 import { preloadImages } from "@src/helpers/image";
 import {
+  useFiltersStore,
   useInstancesFilter,
   useKeywordFilter,
 } from "@src/state/filters/filtersStore";
@@ -67,8 +68,8 @@ export const loadFeedPosts = async (
 
     const { posts } = res;
 
-    const keywordFilter = useKeywordFilter();
-    const instanceFilter = useInstancesFilter();
+    const keywordFilter = useFiltersStore.getState().keywords;
+    const instanceFilter = useFiltersStore.getState().instances;
 
     const filtered = posts.reduce((acc, p) => {
       if (

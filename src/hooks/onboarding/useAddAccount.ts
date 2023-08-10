@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import ILemmyServer from "@src/types/api/ILemmyServer";
 import instance from "@src/Instance";
-import addAccount from "@src/state/account/actions/addAccount";
-import getBaseUrl from "@src/helpers/links/getBaseUrl";
 import ILoadingStatus from "@src/types/ILoadingStatus";
 import { useShowToast } from "@src/state/toast/toastStore";
 import { useRoute } from "@react-navigation/core";
+import { addAccount } from "@src/state/account/actions";
+import { getBaseUrl } from "@src/helpers/links";
 
 interface UseAddAccount {
   status: ILoadingStatus;
@@ -75,7 +75,7 @@ const useAddAccount = (): UseAddAccount => {
 
     // Attempt to sign in
     try {
-      await instance?.initialize({
+      await instance.initialize({
         type: "lemmy",
         host: form.host,
         username: form.username,

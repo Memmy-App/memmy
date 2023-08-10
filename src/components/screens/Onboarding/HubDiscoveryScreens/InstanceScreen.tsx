@@ -15,7 +15,7 @@ import { SFIcon } from "@src/components/common/icons/SFIcon";
 import Table from "@src/components/common/Table/Table";
 import Cell from "@src/components/common/Table/Cell";
 import { ICON_MAP } from "@src/types/constants/IconMap";
-import getBaseUrl from "@src/helpers/links/getBaseUrl";
+import { getBaseUrl } from "@src/helpers/links";
 
 interface IProps {
   route: any;

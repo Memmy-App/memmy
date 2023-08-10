@@ -61,6 +61,7 @@ class ApiInstance {
       if (options.authToken) {
         this.authToken = options.authToken;
 
+        this.initialized = true;
         return EInitializeResult.SUCCESS;
       }
 

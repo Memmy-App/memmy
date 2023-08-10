@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import instance from "@src/Instance";
-import addAccount from "@src/state/account/actions/addAccount";
-import getBaseUrl from "@src/helpers/links/getBaseUrl";
 import ILoadingStatus from "@src/types/ILoadingStatus";
 import { useShowToast } from "@src/state/toast/toastStore";
 import { useRoute } from "@react-navigation/core";
 import { Alert } from "react-native";
 import { EInitializeResult } from "@src/api/common/ApiInstance";
 import { useTranslation } from "react-i18next";
+import { addAccount } from "@src/state/account/actions";
+import { getBaseUrl } from "@src/helpers/links";
 
 interface UseCreateAccount {
   status: ILoadingStatus;

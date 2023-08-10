@@ -78,7 +78,13 @@ function ItemContent({ postId, recycled }: IProps): React.JSX.Element {
       </Text>
       {(isImagePost || isImageMarkdownPost) && <Box mt="$2" />}
       {!!postInfo?.body && (
-        <Text color={theme.colors.textSecondary} mx="$4" mt="$2">
+        <Text
+          color={theme.colors.textSecondary}
+          mx="$4"
+          mt="$1"
+          numberOfLines={2}
+          size="sm"
+        >
           {postBody}
         </Text>
       )}

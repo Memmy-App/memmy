@@ -2,11 +2,11 @@ import React, { useMemo } from "react";
 import { Community } from "lemmy-js-client";
 import { useThemeOptions } from "@src/state/settings/settingsStore";
 import { getBaseUrl } from "@src/helpers/links";
-import { Link } from "@react-navigation/native";
 import { HStack, Text } from "@src/components/gluestack";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { SFIcon } from "@src/components/common/icons/SFIcon";
 import { ICON_MAP } from "@src/types/constants/IconMap";
+import Link from "@src/components/common/Button/Link";
 
 interface IProps {
   community: Community;

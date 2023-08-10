@@ -23,8 +23,9 @@ function FeedScreen({ navigation }: IProps): React.JSX.Element {
   const initialized = useRef(false);
 
   const doLoad = useCallback(() => {
-    console.log("load");
-    if (!currentAccount) return;
+    if (!currentAccount) {
+      return;
+    }
 
     if (!instance.initialized) {
       instance
@@ -41,7 +42,7 @@ function FeedScreen({ navigation }: IProps): React.JSX.Element {
     loadFeedPosts(key, {
       refresh: true,
     }).then();
-  }, []);
+  }, [currentAccount]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -60,7 +61,6 @@ function FeedScreen({ navigation }: IProps): React.JSX.Element {
     if (!status) {
       addFeed(key);
     } else {
-      // doLoad();
       initialized.current = true;
     }
   }, [status]);

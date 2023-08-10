@@ -22,6 +22,9 @@ import { View } from "@src/components/gluestack";
 import { ExtensionType, getLinkInfo } from "@src/helpers/links";
 import { loadFeedPosts } from "@src/state/feed/actions";
 import RefreshControl from "@src/components/common/RefreshControl/RefreshControl";
+import LoadingView from "@src/components/common/Loading/LoadingView";
+import { debounce } from "@src/helpers/general";
+import { FeedItem } from "@src/components/screens/Feed/components/FeedItem";
 
 interface IProps {
   header?: () => React.JSX.Element;
@@ -68,11 +71,13 @@ export function FeedView({ header }: IProps): React.JSX.Element {
 
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<PostView>) => {
+      console.log("rendering item.");
       if (compactView) {
         return null;
       }
 
-      return null;
+      console.log("not compact.");
+      return <FeedItem postId={item.post.id} recycled={recycled} />;
     },
     [compactView]
   );
@@ -113,7 +118,7 @@ export function FeedView({ header }: IProps): React.JSX.Element {
         }}
         refreshControl={refreshControl}
         onEndReachedThreshold={0.5}
-        onEndReached={onEndReached}
+        onEndReached={debounce(onEndReached, 100)}
         estimatedItemSize={compactView ? 100 : 500}
         ref={flashList as any}
         getItemType={getItemType}

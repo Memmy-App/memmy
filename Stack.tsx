@@ -694,10 +694,10 @@ function Stack(): React.JSX.Element {
             options={{ title: `${t("Loading")}...` }}
           />
         )) ||
-          (true && (
+          (accounts && accounts.accounts.length > 0 && (
             <MainStack.Screen
               name="Tabs"
-              component={FeedScreen}
+              component={Tabs}
               options={{ headerShown: false }}
             />
           )) || (

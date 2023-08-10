@@ -57,7 +57,7 @@ function ItemWrapper({ postId, children }: IProps) {
   }, [postId, postRead, markReadOnView]);
 
   return (
-    <View py="$1">
+    <View py="$1" flex={1}>
       <SwipeableRow leftOption={leftOption} rightOption={rightOption}>
         <Pressable onPress={onPress}>{children}</Pressable>
       </SwipeableRow>
