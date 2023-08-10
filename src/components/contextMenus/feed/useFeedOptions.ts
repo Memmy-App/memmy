@@ -4,7 +4,7 @@ import { ICON_MAP } from "@src/types/constants/IconMap";
 import { ContextMenuOption } from "@src/types/ContextMenuOptions";
 // import { useFeedCommunityOptions } from "./useFeedCommunityOptions";
 
-export const useFeedOptions = () => {
+export const useFeedOptions = (): ContextMenuOption[] => {
   const { t } = useTranslation();
 
   // const communityOptions = useFeedCommunityOptions();

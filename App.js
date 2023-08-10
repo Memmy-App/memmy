@@ -14,8 +14,6 @@ const codePushOptions = {
   minimumBackgroundDuration: 30,
 };
 
-SplashScreen.preventAutoHideAsync();
-
 function App() {
   enableFreeze(true);
 
@@ -44,11 +42,7 @@ function App() {
     return null;
   }
 
-  const onReady = () => {
-    SplashScreen.hideAsync();
-  };
-
-  return <Start onReady={onReady} />;
+  return <Start />;
 }
 
 export default codePush(codePushOptions)(App);

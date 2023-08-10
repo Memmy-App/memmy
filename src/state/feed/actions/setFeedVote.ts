@@ -2,7 +2,7 @@ import { IDetermineValue } from "@src/helpers/voting";
 import { useFeedStore } from "@src/state/feed/feedStore";
 import instance from "@src/Instance";
 
-const setFeedVote = async (
+export const setFeedVote = async (
   feedKey: string,
   postId: number,
   newValues: IDetermineValue
@@ -29,5 +29,3 @@ const setFeedVote = async (
     });
   }
 };
-
-export default setFeedVote;

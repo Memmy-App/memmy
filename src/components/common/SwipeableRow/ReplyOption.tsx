@@ -11,12 +11,12 @@ import Animated, {
 } from "react-native-reanimated";
 import React, { useEffect, useMemo, useState } from "react";
 import { Dimensions, LayoutRectangle, StyleSheet } from "react-native";
-import { useThemeOptions } from "@src/stores/settings/settingsStore";
-import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
+import { onGenericHapticFeedback } from "@src/helpers/haptics/HapticFeedbackHelper";
+import { ICON_MAP } from "@src/types/constants/IconMap";
+import { useThemeOptions } from "@src/state/settings/settingsStore";
 import { ISwipeableColors } from "./types";
 import { useSwipeableRow } from "./SwipeableRowProvider";
 import SFIcon from "../icons/SFIcon";
-import { ICON_MAP } from "../../../constants/IconMap";
 
 type Stops = [first: number, second: number];
 const DEFAULT_STOPS: Stops = [-75, -150];
@@ -52,7 +52,7 @@ export function ReplyOption({
   onReply,
   onExtra,
   extraType,
-}: Props) {
+}: Props): React.JSX.Element {
   const theme = useThemeOptions();
 
   const [firstStop, secondStop] = stops;
@@ -128,7 +128,7 @@ export function ReplyOption({
 
       if (hitSecondStop && onExtra) {
         buzz();
-        runOnJS(setIcon)(extraType);
+        runOnJS(setIcon)(extraType!);
       } else if (
         onExtra &&
         current.translateX >= secondStop &&

@@ -3,11 +3,9 @@ import {
   useFeedPostRead,
   useFeedPostSaved,
   useFeedPostVote,
-  useFeedStore,
 } from "@src/state/feed/feedStore";
 import { useRoute } from "@react-navigation/core";
 import { useSettingsStore } from "@src/state/settings/settingsStore";
-import setFeedRead from "@src/state/feed/actions/setFeedRead";
 import { setFeedCommentsRead } from "@src/state/feed/actions";
 import { Pressable } from "react-native";
 import { useFeedVote } from "@src/hooks/feed";
@@ -16,6 +14,7 @@ import { VoteOption } from "@src/components/common/SwipeableRow/VoteOption";
 import { ReplyOption } from "@src/components/common/SwipeableRow/ReplyOption";
 import { View } from "@src/components/gluestack";
 import { SwipeableRow } from "@src/components/common/SwipeableRow/SwipeableRow";
+import { setFeedRead } from "@src/state/feed/actions/setFeedRead";
 
 interface IProps {
   postId: number;

@@ -7,13 +7,17 @@ const SwipeableRowContext = React.createContext<ISwipeableRowContext>({
   subscribe: (_: Handlers) => () => {},
 });
 
-export const useSwipeableRow = () => React.useContext(SwipeableRowContext);
+export const useSwipeableRow = (): ISwipeableRowContext =>
+  React.useContext(SwipeableRowContext);
 
 interface Props extends ISwipeableRowContext {
   children: React.ReactNode;
 }
 
-export function SwipeableRowProvider({ children, ...value }: Props) {
+export function SwipeableRowProvider({
+  children,
+  ...value
+}: Props): React.JSX.Element {
   return (
     <SwipeableRowContext.Provider value={value}>
       {children}

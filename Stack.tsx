@@ -665,14 +665,12 @@ function Tabs() {
 }
 
 const MainStack = createNativeStackNavigator();
-interface StackProps {
-  onReady: () => void;
-}
 
-function Stack({ onReady }: StackProps): React.JSX.Element {
+function Stack(): React.JSX.Element {
   const theme = useThemeOptions();
   const { t } = useTranslation();
   const accounts = useAccountStore();
+  const currentAccount = useCurrentAccount();
 
   const MyTheme = {
     ...DarkTheme,
@@ -687,20 +685,19 @@ function Stack({ onReady }: StackProps): React.JSX.Element {
   };
 
   return (
-    <NavigationContainer onReady={onReady} theme={MyTheme}>
+    <NavigationContainer theme={MyTheme}>
       <MainStack.Navigator>
-        {!accounts ||
-          (accounts.status.loading && (
-            <MainStack.Screen
-              name="AppLoading"
-              component={LoadingView}
-              options={{ title: `${t("Loading")}...` }}
-            />
-          )) ||
-          (accounts && accounts.accounts.length > 0 && (
+        {((!accounts || accounts.status.loading) && (
+          <MainStack.Screen
+            name="AppLoading"
+            component={LoadingView}
+            options={{ title: `${t("Loading")}...` }}
+          />
+        )) ||
+          (true && (
             <MainStack.Screen
               name="Tabs"
-              component={Tabs}
+              component={FeedScreen}
               options={{ headerShown: false }}
             />
           )) || (

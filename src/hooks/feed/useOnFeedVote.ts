@@ -9,8 +9,8 @@ import {
 } from "@src/state/feed/feedStore";
 import { useRoute } from "@react-navigation/core";
 import { useSettingsStore } from "@src/state/settings/settingsStore";
-import setFeedVote from "@src/state/feed/actions/setFeedVote";
-import setFeedRead from "@src/state/feed/actions/setFeedRead";
+import { setFeedVote } from "@src/state/feed/actions";
+import { setFeedRead } from "@src/state/feed/actions/setFeedRead";
 
 type UseOnFeedVote = (value: ILemmyVote, haptic: boolean) => void;
 

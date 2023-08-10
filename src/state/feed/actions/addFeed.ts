@@ -1,7 +1,7 @@
 import { useSettingsStore } from "@src/state/settings/settingsStore";
 import { useFeedStore } from "@src/state/feed/feedStore";
 
-export const addFeed = (feedKey: string, communityName?: string) => {
+export const addFeed = (feedKey: string, communityName?: string): void => {
   const { defaultSort, defaultListingType } = useSettingsStore.getState();
 
   useFeedStore.setState((state) => {

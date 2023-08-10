@@ -3,8 +3,8 @@ import { onGenericHapticFeedback } from "@src/helpers/haptics/HapticFeedbackHelp
 import { useFeedPostRead, useFeedPostVote } from "@src/state/feed/feedStore";
 import { useRoute } from "@react-navigation/core";
 import { useSettingsStore } from "@src/state/settings/settingsStore";
-import setFeedRead from "@src/state/feed/actions/setFeedRead";
 import { setFeedSaved } from "@src/state/feed/actions";
+import { setFeedRead } from "@src/state/feed/actions/setFeedRead";
 
 type UseOnFeedSave = () => void;
 

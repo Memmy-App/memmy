@@ -7,7 +7,7 @@ import IAccount from "@src/types/IAccount";
 import instance from "@src/Instance";
 import { addFeed, loadFeedPosts, removeFeed } from "@src/state/feed/actions";
 import { Text } from "react-native";
-import {FeedView} from "@src/components/screens/Feed/components";
+import { FeedView } from "@src/components/screens/Feed/components";
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -23,6 +23,9 @@ function FeedScreen({ navigation }: IProps): React.JSX.Element {
   const initialized = useRef(false);
 
   const doLoad = useCallback(() => {
+    console.log("load");
+    if (!currentAccount) return;
+
     if (!instance.initialized) {
       instance
         .initialize({
@@ -57,7 +60,7 @@ function FeedScreen({ navigation }: IProps): React.JSX.Element {
     if (!status) {
       addFeed(key);
     } else {
-      doLoad();
+      // doLoad();
       initialized.current = true;
     }
   }, [status]);
@@ -67,7 +70,8 @@ function FeedScreen({ navigation }: IProps): React.JSX.Element {
 
     instance.resetInstance();
     doLoad();
-  });
+    previousAccount.current = currentAccount;
+  }, [currentAccount]);
 
   return <FeedView />;
 }

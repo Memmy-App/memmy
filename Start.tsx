@@ -10,6 +10,7 @@ import { ThemeOptionsMap } from "@src/theme/themeOptions";
 import { useThemeConfig } from "@src/state/settings/settingsStore";
 import ErrorView from "@src/components/common/Loading/ErrorView";
 import Toast from "@src/components/common/toast/Toast";
+import { Alert } from "react-native";
 import Stack from "./Stack";
 
 const logError = (e: any, info: any) => {
@@ -64,16 +65,6 @@ function Start({ onReady }: StartProps): React.JSX.Element {
   // const appState = useRef(AppState.currentState);
 
   // let refreshInterval;
-
-  const onStackReady = () => {
-    setStackReady(true);
-  };
-
-  useEffect(() => {
-    if (!accountStore.status.loading && stackReady) {
-      onReady();
-    }
-  }, [accountStore.status.loading, stackReady]);
 
   // useEffect(() => {
   //   if (!loaded) return;
@@ -148,10 +139,7 @@ function Start({ onReady }: StartProps): React.JSX.Element {
             backgroundColor: ThemeOptionsMap.Dracula.colors.bg,
           }}
         >
-          <>
-            {/* <Toast /> */}
-            <Stack onReady={onStackReady} />
-          </>
+          <Stack />
         </GestureHandlerRootView>
       </ErrorBoundary>
     </GluestackUIProvider>
