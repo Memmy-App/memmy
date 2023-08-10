@@ -27,7 +27,7 @@ interface IProps {
   header?: () => React.JSX.Element;
 }
 
-function FeedView({ header }: IProps): React.JSX.Element {
+export function FeedView({ header }: IProps): React.JSX.Element {
   const { key } = useRoute();
 
   const { hideReadPostsOnFeed, showHideReadButton, compactView } =
@@ -136,5 +136,3 @@ const getItemType = (item: PostView): string | undefined => {
   }
   return undefined;
 };
-
-export default FeedView;

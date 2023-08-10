@@ -69,4 +69,5 @@ export const ICON_MAP = {
   HAMMER: "hammer",
   CHECK: "checkmark",
   XMARK: "xmark",
+  BOOK: "book",
 };
