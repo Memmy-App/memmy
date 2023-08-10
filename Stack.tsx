@@ -29,6 +29,9 @@ import {
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
 import { CustomTabBar } from "@src/components/common/Navigation/CustomTabBar";
+import { SFIcon } from "@src/components/common/icons/SFIcon";
+import { ICON_MAP } from "@src/types/constants/IconMap";
+import FeedScreen from "@src/components/screens/Feed/FeedScreen";
 
 // const Drawer = createDrawerNavigator();
 // function FeedDrawerContainerScreen() {
@@ -54,100 +57,105 @@ import { CustomTabBar } from "@src/components/common/Navigation/CustomTabBar";
 //     </Drawer.Navigator>
 //   );
 // }
-//
-// const FeedStack = createNativeStackNavigator();
-// function FeedStackScreen() {
-//   const { t } = useTranslation();
-//   const fullScreenSwipe = !useSettingsStore(
-//     (state) => state.settings.swipeToVote
-//   );
-//
-//   return (
-//     <FeedStack.Navigator
-//       screenOptions={{ fullScreenGestureEnabled: fullScreenSwipe }}
-//     >
-//       <FeedStack.Group>
-//         <FeedStack.Screen
-//           name="FeedDrawerContainer"
-//           component={FeedDrawerContainerScreen}
-//           options={{
-//             headerShown: false,
-//           }}
-//         />
-//         <FeedStack.Screen name="Post" component={PostScreen} />
-//         <FeedStack.Screen name="Community" component={CommunityFeedScreen} />
-//         <FeedStack.Screen
-//           name="CommunityAbout"
-//           component={CommunityAboutScreen}
-//           options={{ title: t("About") }}
-//         />
-//         <FeedStack.Screen name="Profile" component={UserProfileScreen} />
-//         <FeedStack.Screen
-//           name="UserComments"
-//           component={UserCommentsScreen}
-//           options={{
-//             title: t("Comments"),
-//           }}
-//         />
-//         <FeedStack.Screen
-//           name="UserPosts"
-//           component={UserPostsScreen}
-//           options={{
-//             title: t("Posts"),
-//           }}
-//         />
-//         <FeedStack.Screen
-//           name="UserSavedPosts"
-//           component={UserPostsScreen}
-//           options={{
-//             title: t("Saved Posts"),
-//           }}
-//         />
-//         <FeedStack.Screen
-//           name="ViewAccounts"
-//           component={ViewAccountsScreen}
-//           options={{
-//             title: t("Accounts"),
-//           }}
-//         />
-//         <FeedStack.Screen
-//           name="EditAccount"
-//           component={EditAccountScreen}
-//           options={{
-//             title: t("Edit Account"),
-//           }}
-//         />
-//       </FeedStack.Group>
-//
-//       <FeedStack.Group
-//         screenOptions={{
-//           presentation: "modal",
-//         }}
-//       >
-//         <FeedStack.Screen
-//           name="NewComment"
-//           component={NewCommentScreen}
-//           options={{ title: t("New Comment") }}
-//         />
-//         <SearchStack.Screen
-//           name="EditComment"
-//           component={EditCommentScreen}
-//           options={{ title: t("comment.edit") }}
-//         />
-//         <FeedStack.Screen
-//           name="NewPost"
-//           component={NewPostScreen}
-//           options={{ title: t("New Post") }}
-//         />
-//         <FeedStack.Screen
-//           name="NewPostBody"
-//           component={NewPostBodyScreen}
-//           options={{ title: t("New Post") }}
-//         />
-//       </FeedStack.Group>
-//     </FeedStack.Navigator>
-//   );
-// }
+
+const FeedStack = createNativeStackNavigator();
+function FeedStackScreen() {
+  const { t } = useTranslation();
+  const fullScreenSwipe = !useSettingsStore((state) => state.swipeToVote);
+
+  return (
+    <FeedStack.Navigator
+      screenOptions={{ fullScreenGestureEnabled: fullScreenSwipe }}
+    >
+      <FeedStack.Group>
+        {/* <FeedStack.Screen */}
+        {/*  name="FeedDrawerContainer" */}
+        {/*  component={FeedDrawerContainerScreen} */}
+        {/*  options={{ */}
+        {/*    headerShown: false, */}
+        {/*  }} */}
+        {/* /> */}
+        <FeedStack.Screen
+          name="FeedIndex"
+          component={FeedScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        {/* <FeedStack.Screen name="Post" component={PostScreen} /> */}
+        {/* <FeedStack.Screen name="Community" component={CommunityFeedScreen} /> */}
+        {/* <FeedStack.Screen */}
+        {/*  name="CommunityAbout" */}
+        {/*  component={CommunityAboutScreen} */}
+        {/*  options={{ title: t("About") }} */}
+        {/* /> */}
+        {/* <FeedStack.Screen name="Profile" component={UserProfileScreen} /> */}
+        {/* <FeedStack.Screen */}
+        {/*  name="UserComments" */}
+        {/*  component={UserCommentsScreen} */}
+        {/*  options={{ */}
+        {/*    title: t("Comments"), */}
+        {/*  }} */}
+        {/* /> */}
+        {/* <FeedStack.Screen */}
+        {/*  name="UserPosts" */}
+        {/*  component={UserPostsScreen} */}
+        {/*  options={{ */}
+        {/*    title: t("Posts"), */}
+        {/*  }} */}
+        {/* /> */}
+        {/* <FeedStack.Screen */}
+        {/*  name="UserSavedPosts" */}
+        {/*  component={UserPostsScreen} */}
+        {/*  options={{ */}
+        {/*    title: t("Saved Posts"), */}
+        {/*  }} */}
+        {/* /> */}
+        {/* <FeedStack.Screen */}
+        {/*  name="ViewAccounts" */}
+        {/*  component={ViewAccountsScreen} */}
+        {/*  options={{ */}
+        {/*    title: t("Accounts"), */}
+        {/*  }} */}
+        {/* /> */}
+        {/* <FeedStack.Screen */}
+        {/*  name="EditAccount" */}
+        {/*  component={EditAccountScreen} */}
+        {/*  options={{ */}
+        {/*    title: t("Edit Account"), */}
+        {/*  }} */}
+        {/* /> */}
+      </FeedStack.Group>
+
+      {/* <FeedStack.Group */}
+      {/*  screenOptions={{ */}
+      {/*    presentation: "modal", */}
+      {/*  }} */}
+      {/* > */}
+      {/*  <FeedStack.Screen */}
+      {/*    name="NewComment" */}
+      {/*    component={NewCommentScreen} */}
+      {/*    options={{ title: t("New Comment") }} */}
+      {/*  /> */}
+      {/*  <SearchStack.Screen */}
+      {/*    name="EditComment" */}
+      {/*    component={EditCommentScreen} */}
+      {/*    options={{ title: t("comment.edit") }} */}
+      {/*  /> */}
+      {/*  <FeedStack.Screen */}
+      {/*    name="NewPost" */}
+      {/*    component={NewPostScreen} */}
+      {/*    options={{ title: t("New Post") }} */}
+      {/*  /> */}
+      {/*  <FeedStack.Screen */}
+      {/*    name="NewPostBody" */}
+      {/*    component={NewPostBodyScreen} */}
+      {/*    options={{ title: t("New Post") }} */}
+      {/*  /> */}
+      {/* </FeedStack.Group> */}
+    </FeedStack.Navigator>
+  );
+}
 //
 // const InboxStack = createNativeStackNavigator();
 // function InboxStackScreen() {
@@ -575,18 +583,18 @@ function Tabs() {
         freezeOnBlur: false,
       }}
     >
-      {/* <Tab.Screen */}
-      {/*  name="FeedStack" */}
-      {/*  component={FeedStackScreen} */}
-      {/*  options={{ */}
-      {/*    headerShown: false, */}
-      {/*    tabBarIcon: ({ color }) => ( */}
-      {/*      <SFIcon icon={ICON_MAP.FEED} color={color} /> */}
-      {/*    ), */}
-      {/*    tabBarLabel: t("Feed"), */}
-      {/*    freezeOnBlur: false, */}
-      {/*  }} */}
-      {/* /> */}
+      <Tab.Screen
+        name="FeedStack"
+        component={FeedStackScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => (
+            <SFIcon icon={ICON_MAP.FEED} color={color} />
+          ),
+          tabBarLabel: t("Feed"),
+          freezeOnBlur: false,
+        }}
+      />
       {/* <Tab.Screen */}
       {/*  name="InboxStack" */}
       {/*  component={InboxStackScreen} */}

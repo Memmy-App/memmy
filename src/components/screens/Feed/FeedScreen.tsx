@@ -7,6 +7,7 @@ import IAccount from "@src/types/IAccount";
 import instance from "@src/Instance";
 import { addFeed, loadFeedPosts, removeFeed } from "@src/state/feed/actions";
 import { Text } from "react-native";
+import {FeedView} from "@src/components/screens/Feed/components";
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;

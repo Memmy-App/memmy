@@ -14,13 +14,13 @@ import {
   ListCommunitiesResponse,
   PostResponse,
 } from "lemmy-js-client";
-import getBaseUrl from "@src/helpers/links/getBaseUrl";
 import { getReadableVersion } from "react-native-device-info";
 import IGetPostOptions from "@src/types/api/IGetPostOptions";
 import ILemmyVote from "@src/types/api/ILemmyVote";
 import { writeToLog } from "@src/helpers/debug/DebugHelper";
 import ICreatePostOptions from "@src/types/api/ICreatePostOptions";
 import ISignupOptions from "@src/types/api/ISignupOptions";
+import { getBaseUrl } from "@src/helpers/links";
 
 export enum EInitializeResult {
   SUCCESS,
