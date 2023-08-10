@@ -70,4 +70,5 @@ export const ICON_MAP = {
   CHECK: "checkmark",
   XMARK: "xmark",
   BOOK: "book",
+  WARN_TRIANGLE: "exclamationmark.triangle.fill",
 };

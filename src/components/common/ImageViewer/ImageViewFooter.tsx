@@ -1,35 +1,29 @@
-import { HStack, View } from "@src/components/common/Gluestack";
+import { HStack, View } from "@src/components/gluestack";
 import React from "react";
-import { useThemeOptions } from "@src/stores/settings/settingsStore";
-import { ICON_MAP } from "../../../constants/IconMap";
-import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
-import { saveImage } from "../../../helpers/ImageHelper";
-import { shareLink } from "../../../helpers/ShareHelper";
-import IconButtonWithText from "../IconButtonWithText";
-import SFIcon from "../icons/SFIcon";
-import { useAppDispatch } from "../../../../store";
-import { showToast } from "../../../slices/toast/toastSlice";
+import { onGenericHapticFeedback } from "@src/helpers/haptics/HapticFeedbackHelper";
+import { saveImage } from "@src/helpers/image";
+import { useShowToast } from "@src/state/toast/toastStore";
+import { shareLink } from "@src/helpers/share";
+import IconButtonWithText from "@src/components/common/Button/IconButtonWithText";
+import { ICON_MAP } from "@src/types/constants/IconMap";
 
-interface ImageViewFooterProps {
+interface IProps {
   source: string;
 }
 
-function ImageViewFooter({ source }: ImageViewFooterProps) {
-  const theme = useThemeOptions();
-  const dispatch = useAppDispatch();
+function ImageViewFooter({ source }: IProps): React.JSX.Element {
+  const showToast = useShowToast();
 
   const onSave = async () => {
     onGenericHapticFeedback();
 
     await saveImage(source);
 
-    dispatch(
-      showToast({
-        message: "Image saved.",
-        duration: 1500,
-        variant: "success",
-      })
-    );
+    showToast({
+      message: "Image saved.",
+      duration: 1500,
+      variant: "success",
+    });
   };
 
   const onShare = async () => {
@@ -53,26 +47,8 @@ function ImageViewFooter({ source }: ImageViewFooterProps) {
         alignItems="center"
         justifyContent="space-between"
       >
-        <IconButtonWithText
-          onPressHandler={onSave}
-          icon={
-            <SFIcon
-              icon={ICON_MAP.DOWNLOAD}
-              color={theme.colors.textSecondary}
-              size={20}
-            />
-          }
-        />
-        <IconButtonWithText
-          onPressHandler={onShare}
-          icon={
-            <SFIcon
-              icon={ICON_MAP.SHARE}
-              color={theme.colors.textSecondary}
-              size={20}
-            />
-          }
-        />
+        <IconButtonWithText onPress={onSave} icon={ICON_MAP.DOWNLOAD} />
+        <IconButtonWithText onPress={onShare} icon={ICON_MAP.SHARE} />
       </HStack>
     </View>
   );

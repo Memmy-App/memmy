@@ -14,6 +14,7 @@ import { findImages } from "@src/helpers/markdown";
 import removeMd from "remove-markdown";
 import { Box, Text } from "@src/components/gluestack";
 import LinkButton from "@src/components/common/Button/LinkButton";
+import ImagePreview from "@src/components/common/ImageViewer/ImagePreview";
 
 interface IProps {
   postId: number;
@@ -50,8 +51,8 @@ function ItemContent({ postId, recycled }: IProps): React.JSX.Element {
   const isImageMarkdownPost = useMemo(() => imageLinks.length > 0, [postId]);
 
   if (isImageMarkdownPost) {
-    if (isImagePost) {
-      postUrls = [postInfo?.url, ...imageLinks];
+    if (isImagePost && postInfo?.url) {
+      postUrls = [postInfo.url, ...imageLinks];
     } else {
       postUrls = imageLinks;
     }
@@ -76,7 +77,16 @@ function ItemContent({ postId, recycled }: IProps): React.JSX.Element {
       >
         {postTitle}
       </Text>
-      {(isImagePost || isImageMarkdownPost) && <Box mt="$2" />}
+      {(isImagePost || isImageMarkdownPost) && (
+        <Box mt="$2">
+          <ImagePreview
+            images={postUrls}
+            postId={postId}
+            isNsfw={!!(postInfo?.nsfw || postCommunity?.nsfw)}
+            recycled={recycled}
+          />
+        </Box>
+      )}
       {!!postInfo?.body && (
         <Text
           color={theme.colors.textSecondary}

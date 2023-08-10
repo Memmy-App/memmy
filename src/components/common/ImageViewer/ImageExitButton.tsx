@@ -1,14 +1,14 @@
-import { Pressable, View } from "@src/components/common/Gluestack";
+import { Pressable, View } from "@src/components/gluestack";
 import React from "react";
 import { StyleSheet } from "react-native";
+import { ICON_MAP } from "@src/types/constants/IconMap";
 import SFIcon from "../icons/SFIcon";
-import { ICON_MAP } from "../../../constants/IconMap";
 
 interface IProps {
   onPress: () => void;
 }
 
-function ImageExitButton({ onPress }: IProps) {
+function ImageExitButton({ onPress }: IProps): React.JSX.Element {
   return (
     <View style={[styles.buttonPosition]}>
       <Pressable onPress={onPress} hitSlop={10} padding={1.5}>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Dimensions as RNDimensions } from "react-native";
-import { useSettingsStore } from "@src/stores/settings/settingsStore";
+import { useSettingsStore } from "@src/state/settings/settingsStore";
 
 interface UseImageDimensions {
   dimensions: AllDimensions;
@@ -25,7 +25,7 @@ const initialDimensions: Dimensions = {
 
 export function useImageDimensions(): UseImageDimensions {
   const ignoreScreenHeightInFeed = useSettingsStore(
-    (state) => state.settings.ignoreScreenHeightInFeed
+    (state) => state.ignoreScreenHeightInFeed
   );
 
   const [dimensions, setDimensions] = useState<AllDimensions>({
