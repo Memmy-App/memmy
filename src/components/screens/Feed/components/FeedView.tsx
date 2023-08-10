@@ -71,12 +71,10 @@ export function FeedView({ header }: IProps): React.JSX.Element {
 
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<PostView>) => {
-      console.log("rendering item.");
       if (compactView) {
         return null;
       }
 
-      console.log("not compact.");
       return <FeedItem postId={item.post.id} recycled={recycled} />;
     },
     [compactView]
