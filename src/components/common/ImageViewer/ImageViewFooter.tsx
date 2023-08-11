@@ -1,5 +1,5 @@
 import { HStack, View } from "@src/components/gluestack";
-import React from "react";
+import React, { useCallback } from "react";
 import { onGenericHapticFeedback } from "@src/helpers/haptics/HapticFeedbackHelper";
 import { saveImage } from "@src/helpers/image";
 import { useShowToast } from "@src/state/toast/toastStore";
@@ -14,7 +14,7 @@ interface IProps {
 function ImageViewFooter({ source }: IProps): React.JSX.Element {
   const showToast = useShowToast();
 
-  const onSave = async () => {
+  const onSave = useCallback(async () => {
     onGenericHapticFeedback();
 
     await saveImage(source);
@@ -24,9 +24,9 @@ function ImageViewFooter({ source }: IProps): React.JSX.Element {
       duration: 1500,
       variant: "success",
     });
-  };
+  }, [source]);
 
-  const onShare = async () => {
+  const onShare = useCallback(async () => {
     try {
       await shareLink({
         link: source,
@@ -35,7 +35,7 @@ function ImageViewFooter({ source }: IProps): React.JSX.Element {
     } catch (e) {
       /* Empty */
     }
-  };
+  }, [source]);
 
   return (
     <View position="absolute" bottom="$0" width="100%" zIndex={2}>
@@ -54,5 +54,4 @@ function ImageViewFooter({ source }: IProps): React.JSX.Element {
   );
 }
 
-export default ImageViewFooter;
-// <IconShare2 size={38} color={theme.colors.textSecondary} />
+export default React.memo(ImageViewFooter);
