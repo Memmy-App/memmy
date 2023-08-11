@@ -79,7 +79,7 @@ function FeedStackScreen() {
           name="FeedIndex"
           component={FeedScreen}
           options={{
-            headerShown: false,
+            headerShown: true,
           }}
         />
         {/* <FeedStack.Screen name="Post" component={PostScreen} /> */}

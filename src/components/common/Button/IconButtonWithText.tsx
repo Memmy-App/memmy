@@ -4,7 +4,12 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { GestureResponderEvent, Pressable } from "react-native";
+import {
+  GestureResponderEvent,
+  Pressable,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
 import { Box, HStack, Text } from "@src/components/gluestack";
 import { SFIcon } from "@src/components/common/icons/SFIcon";
 
@@ -17,6 +22,7 @@ interface IProps {
   text?: string;
   textColor?: string;
   size?: React.ComponentProps<typeof Text>["size"];
+  style?: StyleProp<ViewStyle>;
 }
 
 function IconButtonWithText({
@@ -28,6 +34,7 @@ function IconButtonWithText({
   text,
   textColor,
   size,
+  style,
 }: IProps): React.JSX.Element {
   const scale = useSharedValue(1);
 
@@ -53,7 +60,12 @@ function IconButtonWithText({
       <HStack space="sm" alignItems="center">
         <Animated.View style={animatedStyle}>
           <Box borderRadius="$md" padding="$0.5" backgroundColor={iconBgColor}>
-            <SFIcon icon={icon} size={iconSize} color={iconColor} />
+            <SFIcon
+              icon={icon}
+              size={iconSize}
+              color={iconColor}
+              style={style}
+            />
           </Box>
         </Animated.View>
         {text !== undefined && (

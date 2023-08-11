@@ -7,7 +7,6 @@ import { ParamListBase, useNavigation, useRoute } from "@react-navigation/core";
 import {
   useFeedCommunityName,
   useFeedListingType,
-  useFeedPost,
   useFeedPosts,
   useFeedSort,
   useFeedStatus,
@@ -18,13 +17,16 @@ import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { useScrollToTop } from "@react-navigation/native";
 import { PostView } from "lemmy-js-client";
 import { useMarkReadOnScroll } from "@src/hooks/feed";
-import { View } from "@src/components/gluestack";
+import { HStack, View } from "@src/components/gluestack";
 import { ExtensionType, getLinkInfo } from "@src/helpers/links";
 import { loadFeedPosts } from "@src/state/feed/actions";
 import RefreshControl from "@src/components/common/RefreshControl/RefreshControl";
-import LoadingView from "@src/components/common/Loading/LoadingView";
 import { debounce } from "@src/helpers/general";
 import { FeedItem } from "@src/components/screens/Feed/components/FeedItem";
+import IconButtonWithText from "@src/components/common/Button/IconButtonWithText";
+import FeedSortButton from "@src/components/screens/Feed/components/FeedSortButton";
+import { FeedListingTypeButton } from "@src/components/contextMenus/feed/FeedListingTypeButton";
+import { FeedOverflowButton } from "@src/components/contextMenus/feed/FeedOverflowButton";
 
 interface IProps {
   header?: () => React.JSX.Element;
@@ -60,6 +62,32 @@ export function FeedView({ header }: IProps): React.JSX.Element {
 
   // We have to use "as any" here because it's supposed to be a FlatList
   useScrollToTop(flashList as any);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HStack space="md">
+          <FeedSortButton />
+          {community ? <CommunityOverflowButton /> : <FeedOverflowButton />}
+        </HStack>
+      ),
+    });
+
+    if (!community) {
+      navigation.setOptions({
+        // eslint-disable-next-line react/no-unstable-nested-components
+        headerTitle: () => <FeedListingTypeButton />,
+        // eslint-disable-next-line react/no-unstable-nested-components
+        headerLeft: () => (
+          <IconButtonWithText
+            icon="list.dash"
+            style={{ marginLeft: 5 }}
+            onPress={navigation.openDrawer}
+          />
+        ),
+      });
+    }
+  }, [community, sortType, compactView]);
 
   // This handles scrolling to top whenever we change sort options
   useEffect(() => {
