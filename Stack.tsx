@@ -32,6 +32,8 @@ import { CustomTabBar } from "@src/components/common/Navigation/CustomTabBar";
 import { SFIcon } from "@src/components/common/icons/SFIcon";
 import { ICON_MAP } from "@src/types/constants/IconMap";
 import FeedScreen from "@src/components/screens/Feed/FeedScreen";
+import { Community } from "ts-toolbelt";
+import CommunityFeedScreen from "@src/components/screens/Feed/CommunityFeedScreen";
 
 // const Drawer = createDrawerNavigator();
 // function FeedDrawerContainerScreen() {
@@ -83,7 +85,7 @@ function FeedStackScreen() {
           }}
         />
         {/* <FeedStack.Screen name="Post" component={PostScreen} /> */}
-        {/* <FeedStack.Screen name="Community" component={CommunityFeedScreen} /> */}
+        <FeedStack.Screen name="Community" component={CommunityFeedScreen} />
         {/* <FeedStack.Screen */}
         {/*  name="CommunityAbout" */}
         {/*  component={CommunityAboutScreen} */}

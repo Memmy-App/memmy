@@ -27,6 +27,7 @@ import IconButtonWithText from "@src/components/common/Button/IconButtonWithText
 import FeedSortButton from "@src/components/screens/Feed/components/FeedSortButton";
 import { FeedListingTypeButton } from "@src/components/contextMenus/feed/FeedListingTypeButton";
 import { FeedOverflowButton } from "@src/components/contextMenus/feed/FeedOverflowButton";
+import CommunityOverflowButton from "@src/components/contextMenus/feed/CommunityOverflowButton";
 
 interface IProps {
   header?: () => React.JSX.Element;
