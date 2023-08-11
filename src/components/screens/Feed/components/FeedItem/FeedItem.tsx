@@ -9,6 +9,7 @@ import { FeedItemWrapper } from "@src/components/screens/Feed/components/FeedIte
 import { StyleSheet } from "react-native";
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { FeedItemContent } from "@src/components/screens/Feed/components/FeedItem/FeedItemContent";
+import { FeedItemFooter } from "@src/components/screens/Feed/components/FeedItem/FeedItemFooter";
 
 interface IProps {
   postId: number;
@@ -33,6 +34,7 @@ function Item({ postId, recycled }: IProps): React.JSX.Element {
             )}
           </View>
           <FeedItemContent postId={postId} recycled={recycled} />
+          <FeedItemFooter postId={postId} />
         </VStack>
       </FeedItemWrapper>
     </FeedItemContextMenu>

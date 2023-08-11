@@ -36,7 +36,6 @@ import ImageButton from "@src/components/common/Button/ImageButton";
 import { ImageContextMenu } from "@src/components/contextMenus/image/ImageContextMenu";
 import { SFIcon } from "@src/components/common/icons/SFIcon";
 import { ICON_MAP } from "@src/types/constants/IconMap";
-import { setTime } from "@internationalized/date/src/manipulation";
 import ExitButton from "./ImageExitButton";
 import ImageViewFooter from "./ImageViewFooter";
 import { useImageDimensions } from "./useImageDimensions";

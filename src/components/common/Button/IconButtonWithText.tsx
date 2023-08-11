@@ -13,6 +13,7 @@ interface IProps {
   onPress?: (e: GestureResponderEvent) => unknown;
   iconSize?: number;
   iconColor?: string;
+  iconBgColor?: string;
   text?: string;
   textColor?: string;
   size?: React.ComponentProps<typeof Text>["size"];
@@ -22,6 +23,7 @@ function IconButtonWithText({
   icon,
   iconSize,
   iconColor,
+  iconBgColor,
   onPress,
   text,
   textColor,
@@ -50,7 +52,7 @@ function IconButtonWithText({
     >
       <HStack space="sm" alignItems="center">
         <Animated.View style={animatedStyle}>
-          <Box borderRadius="$md" padding="$0.5">
+          <Box borderRadius="$md" padding="$0.5" backgroundColor={iconBgColor}>
             <SFIcon icon={icon} size={iconSize} color={iconColor} />
           </Box>
         </Animated.View>
