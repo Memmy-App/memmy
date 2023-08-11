@@ -36,6 +36,7 @@ import ImageButton from "@src/components/common/Button/ImageButton";
 import { ImageContextMenu } from "@src/components/contextMenus/image/ImageContextMenu";
 import { SFIcon } from "@src/components/common/icons/SFIcon";
 import { ICON_MAP } from "@src/types/constants/IconMap";
+import { setTime } from "@internationalized/date/src/manipulation";
 import ExitButton from "./ImageExitButton";
 import ImageViewFooter from "./ImageViewFooter";
 import { useImageDimensions } from "./useImageDimensions";
@@ -257,7 +258,9 @@ function ImageViewer({
 
       // Then we handle the fade
       backgroundColor.value = withTiming("rgba(0, 0, 0, 1)", { duration: 200 });
-      imageOpacity.value = 0;
+      setTimeout(() => {
+        imageOpacity.value = 0;
+      }, 100);
 
       setExpanded(true);
 
