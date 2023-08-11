@@ -7,7 +7,6 @@ import {
 import {
   useFeedPostCommunity,
   useFeedPostInfo,
-  useFeedPostRead,
 } from "@src/state/feed/feedStore";
 import { ExtensionType, getLinkInfo } from "@src/helpers/links";
 import { findImages } from "@src/helpers/markdown";
@@ -32,11 +31,10 @@ function ItemContent({ postId, recycled }: IProps): React.JSX.Element {
 
   const postInfo = useFeedPostInfo(key, postId);
   const postCommunity = useFeedPostCommunity(key, postId);
-  const postRead = useFeedPostRead(key, postId);
 
   const linkInfo = useMemo(() => getLinkInfo(postInfo?.url), [postId]);
 
-  const { cleanedText, imageLinks } = useMemo(
+  const { imageLinks } = useMemo(
     () => findImages(postInfo?.body, true),
     [postId]
   );
@@ -59,7 +57,9 @@ function ItemContent({ postId, recycled }: IProps): React.JSX.Element {
   }
 
   const showLink = useMemo(
-    () => ExtensionType.VIDEO || ExtensionType.GENERIC,
+    () =>
+      linkInfo.extType === ExtensionType.VIDEO ||
+      linkInfo.extType === ExtensionType.GENERIC,
     [postId]
   );
 

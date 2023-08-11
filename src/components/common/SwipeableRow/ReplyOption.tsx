@@ -9,8 +9,13 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import React, { useEffect, useMemo, useState } from "react";
-import { Dimensions, LayoutRectangle, StyleSheet } from "react-native";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  Dimensions,
+  LayoutChangeEvent,
+  LayoutRectangle,
+  StyleSheet,
+} from "react-native";
 import { onGenericHapticFeedback } from "@src/helpers/haptics/HapticFeedbackHelper";
 import { ICON_MAP } from "@src/types/constants/IconMap";
 import { useThemeOptions } from "@src/state/settings/settingsStore";
@@ -204,17 +209,16 @@ export function ReplyOption({
     return { transform: [{ scale }] };
   });
 
+  const onLayout = useCallback((event: LayoutChangeEvent) => {
+    setIconRect(event.nativeEvent.layout);
+  }, []);
+
   return (
     <>
       <Animated.View style={[styles.background, backgroundStyle]} />
       <Animated.View style={[styles.option, iconOffset]}>
         <Animated.View style={pulse}>
-          <Animated.View
-            style={[styles.option, iconScale]}
-            onLayout={(event) => {
-              setIconRect(event.nativeEvent.layout);
-            }}
-          >
+          <Animated.View style={[styles.option, iconScale]} onLayout={onLayout}>
             {(icon === "comment" && commentIcon) ||
               (icon === "Save" && bookmarkIcon) ||
               (icon === "read" && mailOpenedIcon) ||
