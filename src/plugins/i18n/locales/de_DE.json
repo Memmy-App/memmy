@@ -97,6 +97,11 @@
 		"reportBugBtn": "Bug auf GitHub melden",
 		"checkInstanceStatus": "Lemmy Status prüfen",
 		"swipeToVote": "Mit Wisch hoch-/runterwählen",
+		"swipe": {
+			"left": {
+				"second": "Zweiter Wisch nach Links"
+			}
+		},
 		"haptics": {
 			"Off": "Keine",
 			"Light": "Schwach",
@@ -111,11 +116,11 @@
 			},
 			"markRead": {
 				"header": "Als gelesen markieren",
-				"onPostOpen": "Beim Öffnen eines Beitrages",
-				"onImageView": "Beim Ansehen des Bildes",
-				"onVote": "Beim Abstimmen",
-				"onFeedScroll": "Beim Vorbei-Scrollen im Feed",
-				"onCommunityScroll": "Beim Vorbei-Scrollen in der Community",
+				"onPostOpen": "Öffnen eines Beitrages",
+				"onImageView": "Ansehen des Bildes",
+				"onVote": "Abstimmen",
+				"onFeedScroll": "Vorbei-Scrollen - Feed",
+				"onCommunityScroll": "Vorbei-Scrollen - Community",
 				"footer": "\"Gelesene Beiträge im Feed ausblenden\" blendet automatisch gelesene Beiträge aus, wenn der Feed aktualisiert wird. Wenn diese Einstellung aktiviert ist, zeigt die Option \"Zeige blende gelesene Beiträge aus\" eine schwebende Aktionsschaltfläche an, um gelesene Beiträge ohne eine Aktualisierung des Feeds auszublenden."
 			}
 		},
@@ -150,6 +155,7 @@
 			},
 			"gestures": {
 				"header": "Gesten",
+				"footer": "Wischen zum Wählen zu deaktivieren erlaubt das nutzen von Vollbild Gesten",
 				"tapToCollapse": "Zum Zusammenklappen antippen"
 			}
 		},
@@ -306,6 +312,9 @@
 		"NewComments": "Neue Kommentare",
 		"Old": "Alt"
 	},
+	"community": {
+	    "info": "Info"
+	},
 	"Feed": "Feed",
 	"Comments": "Kommentare",
 	"Traverse": "Abonniert",
@@ -335,7 +344,7 @@
 	"Create Account": "Konto erstellen",
 	"Mark Post Read On": "Beitrag als gelesen markieren …",
 	"Hide Read Posts": "Gelesene Beiträge ausblenden",
-	"Show Hide Read Button": "Gelesene-Beiträge-ausblenden-Funktion",
+	"Show Hide Read Button": "Ausblenden Button anzeigen",
 	"View": "Anzeigen",
 	"Content": "Inhalt",
 	"Appearance": "Darstellung",
@@ -370,8 +379,8 @@
 	"Default Sort": "Standard-Sortierung",
 	"Default Comment Sort": "Standard-Sortierung für Kommentare",
 	"Default Listing Type": "Standard-Ansicht der Feed-Liste",
-	"Hide Read Posts on Feed": "Gelesene Beiträge im Feed ausblenden",
-	"Hide Read Posts in Communities": "Gelesene Beiträge in Communitys ausblenden",
+	"Hide Read Posts on Feed": "Im Feed ausblenden",
+	"Hide Read Posts in Communities": "In Communitys ausblenden",
 	"Show Comment Actions": "Kommentar anzeigen Aktionen",
 	"NSFW": "NSFW",
 	"NSFW Content": "NSFW-Inhalt",
@@ -395,6 +404,7 @@
 	"Terms of Use": "Nutzungsbedingungen",
 	"OK": "OK",
 	"Users": "Benutzer",
+	"Users active": "aktive Nutzer",
 	"Comment": "Kommentar",
 	"Comment_plural": "Kommentare",
 	"Back": "Zurück",
@@ -420,6 +430,7 @@
 	"Open Registration": "Frei zugänglich",
 	"Subscribed": "Abonniert",
 	"Subscribe": "Abonnieren",
+	"Subscribers": "Abos",
 	"Post": "Beitrag",
 	"Description": "Beschreibung",
 	"Label": "Label",
@@ -439,5 +450,8 @@
 	"None": "Keins",
 	"Left": "Links",
 	"Right": "Rechts",
-	"Account Created": "Account Erstellt"
+	"Account Created": "Account Erstellt",
+    "Block Community": "Community blockieren",
+    "Unblock Community": "Community entblocken",
+    "Share": "Teilen"
 }

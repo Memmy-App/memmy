@@ -1,5 +1,8 @@
 import React from "react";
-import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import {
+  useSettings,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
 import { Fab } from "@src/components/common/Gluestack";
 import { ICON_MAP } from "@src/constants/IconMap";
 import { SFIcon } from "@src/components/common/icons/SFIcon";
@@ -11,6 +14,7 @@ interface IProps {
 
 function NextCommentFAB({ onPress, onLongPress }: IProps) {
   const theme = useThemeOptions();
+  const settings = useSettings();
 
   return (
     <Fab
@@ -18,7 +22,7 @@ function NextCommentFAB({ onPress, onLongPress }: IProps) {
       p="$2"
       onPress={onPress}
       onLongPress={onLongPress}
-      placement="bottom right"
+      placement={settings.commentJumpPlacement}
     >
       <SFIcon icon={ICON_MAP.CHEVRON.DOWN} color="#fff" size={14} />
     </Fab>

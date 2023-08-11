@@ -60,7 +60,7 @@ function FeedsCommunityScreen({
       <Text size="md" fontWeight="semibold">
         {communityName.toString()}
       </Text>
-      <Text size="md">@{getBaseUrl(actorId?.toString())}</Text>
+      <Text size="sm">@{getBaseUrl(actorId?.toString())}</Text>
     </VStack>
   );
 

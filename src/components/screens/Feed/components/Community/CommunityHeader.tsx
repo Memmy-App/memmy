@@ -146,7 +146,7 @@ function CommunityHeader({ communityFullName }: IProps) {
           <CustomButton
             onPress={onAboutPress}
             icon="info.circle"
-            text={t("About")}
+            text={t("community.info")}
           />
           <CustomButton onPress={onPostPress} icon="plus" text={t("Post")} />
         </HStack>

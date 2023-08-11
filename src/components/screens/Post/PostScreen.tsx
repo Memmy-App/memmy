@@ -126,7 +126,7 @@ function PostScreen({ navigation }: IProps) {
   }, [commentsStatus.commentsLoading]);
 
   useEffect(() => {
-    if (!readyToScroll) return;
+    if (!readyToScroll || !options.initialCommentId) return;
 
     // Scroll to the comment
     // We have to get the item again in case anything changed
@@ -265,7 +265,7 @@ function PostScreen({ navigation }: IProps) {
 
       return <PostCommentItem commentId={item.comment.comment.id} />;
     },
-    [currentPost.post.id]
+    [currentPost?.post.id]
   );
 
   // Refresh control
@@ -280,7 +280,9 @@ function PostScreen({ navigation }: IProps) {
   );
 
   const keyExtractor = useCallback(
-    (item) => item.comment.comment.id.toString(),
+    (item) =>
+      item.comment?.comment?.id.toString() ??
+      Math.floor(100000 + Math.random() * 900000).toString(),
     []
   );
 
@@ -324,6 +326,8 @@ function PostScreen({ navigation }: IProps) {
   }, [visibleComments]);
 
   const onFabLongPress = useCallback(() => {
+    onGenericHapticFeedback();
+
     // Get the current index
     const lastItemIndex = visibleComments.findIndex(
       (c) => c.comment.comment.id === lastCommentId.current
@@ -356,34 +360,30 @@ function PostScreen({ navigation }: IProps) {
       );
 
     // If there isn't a last ID, just reset to null
-    if (!nextLastItem) nextLastItem.comment.comment.id = null;
-
-    // Update
-    lastCommentId.current = nextLastItem.comment.comment.id;
+    if (!nextLastItem) lastCommentId.current = null;
+    else lastCommentId.current = nextLastItem.comment.comment.id;
   }, [visibleComments]);
 
-  if (currentPost) {
-    return (
-      <VStack flex={1} backgroundColor={theme.colors.bg}>
-        <FlashList
-          ListHeaderComponent={<PostHeader />}
-          ListFooterComponent={<PostFooter />}
-          data={visibleComments}
-          renderItem={commentItem}
-          keyExtractor={keyExtractor}
-          estimatedItemSize={100}
-          refreshControl={refreshControl}
-          refreshing={commentsStatus.commentsLoading}
-          onViewableItemsChanged={onViewableItemsChanged}
-          ref={flashListRef}
-          contentContainerStyle={styles.list}
-        />
-        {showJumpButton && (
-          <NextCommentFAB onPress={onFabPress} onLongPress={onFabLongPress} />
-        )}
-      </VStack>
-    );
-  }
+  return (
+    <VStack flex={1} backgroundColor={theme.colors.bg}>
+      <FlashList
+        ListHeaderComponent={<PostHeader />}
+        ListFooterComponent={<PostFooter />}
+        data={visibleComments}
+        renderItem={commentItem}
+        keyExtractor={keyExtractor}
+        estimatedItemSize={100}
+        refreshControl={refreshControl}
+        refreshing={commentsStatus.commentsLoading}
+        onViewableItemsChanged={onViewableItemsChanged}
+        ref={flashListRef}
+        contentContainerStyle={styles.list}
+      />
+      {showJumpButton && (
+        <NextCommentFAB onPress={onFabPress} onLongPress={onFabLongPress} />
+      )}
+    </VStack>
+  );
 }
 
 const styles = StyleSheet.create({

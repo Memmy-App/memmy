@@ -40,7 +40,9 @@ function CommentHeaderRight({
 
   return (
     <HStack alignItems="center" space="sm">
-      <Text color={theme.colors.textSecondary}>{publishedFormatted}</Text>
+      <Text color={theme.colors.textSecondary} size="sm">
+        {publishedFormatted}
+      </Text>
       <CommentContextMenu
         isButton
         options={contextOptions}

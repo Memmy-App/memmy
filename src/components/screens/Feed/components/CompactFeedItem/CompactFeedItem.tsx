@@ -1,40 +1,39 @@
-import React, { useCallback, useMemo } from "react";
 import {
   HStack,
   Pressable,
   Text,
-  View,
   VStack,
+  View,
 } from "@src/components/common/Gluestack";
-import { useWindowDimensions } from "react-native";
+import React, { useCallback, useMemo } from "react";
 
 import { useRoute } from "@react-navigation/core";
 import {
   useSettingsStore,
   useThemeOptions,
 } from "@src/stores/settings/settingsStore";
-import useFeedItem from "../../../../../hooks/feeds/useFeedItem";
+import removeMd from "remove-markdown";
 import {
   ExtensionType,
   getBaseUrl,
   getLinkInfo,
 } from "../../../../../helpers/LinkHelper";
+import useFeedItem from "../../../../../hooks/feeds/useFeedItem";
+import CompactFeedItemFooter from "./CompactFeedItemFooter";
 import CompactFeedItemThumbnail from "./CompactFeedItemThumbnail";
 import CompactFeedItemVote from "./CompactFeedItemVote";
-import CompactFeedItemFooter from "./CompactFeedItemFooter";
 
-import { fontSizeMap } from "../../../../../theme/fontSize";
-import { VoteOption } from "../../../../common/SwipeableRow/VoteOption";
-import { ReplyOption } from "../../../../common/SwipeableRow/ReplyOption";
-import { SwipeableRow } from "../../../../common/SwipeableRow/SwipeableRow";
-import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
 import {
   useFeedPostInfo,
   useFeedPostRead,
   useFeedPostSaved,
   useFeedPostVote,
 } from "../../../../../stores/feeds/feedsStore";
+import { ILemmyVote } from "../../../../../types/lemmy/ILemmyVote";
 import { Box } from "../../../../common/Gluestack";
+import { ReplyOption } from "../../../../common/SwipeableRow/ReplyOption";
+import { SwipeableRow } from "../../../../common/SwipeableRow/SwipeableRow";
+import { VoteOption } from "../../../../common/SwipeableRow/VoteOption";
 
 function CompactFeedItem({ postId }: { postId: number }) {
   const {
@@ -81,19 +80,12 @@ function CompactFeedItem({ postId }: { postId: number }) {
     [postId, postSaved]
   );
 
-  const { fontSize, isSystemTextSize } = useSettingsStore((state) => ({
-    fontSize: state.settings.fontSize,
-    isSystemTextSize: state.settings.isSystemTextSize,
-  }));
-
-  const { fontScale } = useWindowDimensions();
-  const fontModifier = fontSizeMap[fontSize];
-  const FONT_SIZE = isSystemTextSize ? 15 / fontScale : 15 + fontModifier;
-
   const linkInfo = useMemo(() => getLinkInfo(postInfo.url), [postId]);
   const showLink =
     linkInfo.extType === ExtensionType.VIDEO ||
     linkInfo.extType === ExtensionType.GENERIC;
+
+  const postTitle = removeMd(postInfo.name);
 
   return (
     <View flex={1} my="$0.5">
@@ -113,23 +105,20 @@ function CompactFeedItem({ postId }: { postId: number }) {
               />
             )}
 
-            <VStack flex={1}>
+            <VStack flex={1} justifyContent="space-around">
               <Text
-                flex={1}
-                fontSize={FONT_SIZE}
                 fontWeight={fontWeightPostTitle}
+                size="sm"
                 color={
                   postRead
                     ? theme.colors.textSecondary
                     : theme.colors.textPrimary
                 }
               >
-                {postInfo.name}{" "}
+                {postTitle}
                 {showLink && (
-                  <Text
-                    fontSize={FONT_SIZE - 1}
-                    color={theme.colors.textSecondary}
-                  >
+                  <Text color={theme.colors.textSecondary} size="sm">
+                    {" "}
                     ({getBaseUrl(linkInfo.link, true)})
                   </Text>
                 )}
@@ -151,6 +140,7 @@ function CompactFeedItem({ postId }: { postId: number }) {
               <CompactFeedItemVote
                 myVote={postVote as ILemmyVote}
                 onVotePress={feedItem.onVotePress}
+                id={postInfo.id}
               />
             )}
             {postSaved && (

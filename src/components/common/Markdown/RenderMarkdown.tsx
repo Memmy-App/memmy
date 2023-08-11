@@ -3,12 +3,12 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Markdown, { MarkdownIt } from "@ronradtke/react-native-markdown-display";
 import { View } from "@src/components/common/Gluestack";
-import React, { useMemo } from "react";
-import { TextStyle, useWindowDimensions } from "react-native";
 import {
   useSettingsStore,
   useThemeOptions,
 } from "@src/stores/settings/settingsStore";
+import React, { useMemo } from "react";
+import { TextStyle, useWindowDimensions } from "react-native";
 import { openLink } from "../../../helpers/LinkHelper";
 import { replaceNoMarkdown } from "../../../helpers/MarkdownHelper";
 import { useCurrentAccount } from "../../../stores/account/accountStore";
@@ -191,9 +191,7 @@ function RenderMarkdown({ text, isNote = false, instance }: MarkdownProps) {
               />
             </View>
           ),
-          image: (node) => (
-            <ImageViewer source={node.attributes.src} buttonMode />
-          ),
+          image: (node) => <ImageViewer source={node.attributes.src} />,
         }}
         onLinkPress={onLinkPress}
         markdownit={MarkdownItInstance}

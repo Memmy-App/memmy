@@ -54,7 +54,7 @@ function PostActionBar() {
       <VoteButton
         onPressHandler={postActionBar.onUpvotePress}
         type="upvote"
-        isVoted={postActionBar.currentPost?.my_vote === 1}
+        isVoted={postActionBar.currentPost.my_vote === 1}
         text={postActionBar.currentPost.counts.upvotes}
         isAccented
       />
@@ -62,7 +62,7 @@ function PostActionBar() {
       <VoteButton
         onPressHandler={postActionBar.onDownvotePress}
         type="downvote"
-        isVoted={postActionBar.currentPost?.my_vote === -1}
+        isVoted={postActionBar.currentPost.my_vote === -1}
         text={postActionBar.currentPost.counts.downvotes}
         isAccented
       />

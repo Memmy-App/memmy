@@ -15,15 +15,6 @@ interface ICommentChainColors {
   5: string;
 }
 
-interface IUserColors {
-  text: string;
-  mod: string;
-  admin: string;
-  dev: string;
-  op: string;
-  me: string;
-}
-
 export interface IColors {
   accent: string;
   accentHighlight: string;
@@ -51,7 +42,15 @@ export interface IColors {
   info: string;
   infoText: string;
 
-  users: IUserColors;
+  mod: string;
+  modText: string;
+  admin: string;
+  adminText: string;
+  dev: string;
+  devText: string;
+  op: string;
+  opText: string;
+
   comments: ICommentChainColors;
 
   inputBg: string;

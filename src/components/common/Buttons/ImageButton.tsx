@@ -1,8 +1,8 @@
-import { HStack, Spacer, Text } from "@src/components/common/Gluestack";
+import { HStack, Text } from "@src/components/common/Gluestack";
 import SFIcon from "@src/components/common/icons/SFIcon";
 import { ICON_MAP } from "@src/constants/IconMap";
-import React from "react";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import React from "react";
 import { truncateImageLink } from "../../../helpers/TextHelper";
 
 interface ImageButtonProps {
@@ -15,23 +15,20 @@ function ImageButton({ src, marginY = 4, children }: ImageButtonProps) {
   const theme = useThemeOptions();
 
   return (
-    <>
-      <HStack
-        backgroundColor={theme.colors.bg}
-        borderRadius="$md"
-        padding={2}
-        flexDirection="row"
-        alignItems="center"
-        space="sm"
-        my={marginY}
-      >
-        {children}
-        <Spacer />
-        <Text color={theme.colors.textPrimary}>{truncateImageLink(src)}</Text>
-        <Spacer />
-        <SFIcon icon={ICON_MAP.CHEVRON.RIGHT} />
-      </HStack>
-    </>
+    <HStack
+      backgroundColor={theme.colors.bg}
+      borderRadius="$md"
+      p="$2"
+      alignItems="center"
+      space="md"
+      my={marginY}
+    >
+      {children}
+      <Text color={theme.colors.textPrimary} size="sm" numberOfLines={1}>
+        {truncateImageLink(src)}
+      </Text>
+      <SFIcon icon={ICON_MAP.CHEVRON.RIGHT} />
+    </HStack>
   );
 }
 

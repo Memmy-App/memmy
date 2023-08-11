@@ -1,8 +1,10 @@
-import React from "react";
-import { HStack } from "@src/components/common/Gluestack";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import SegmentedControl from "@react-native-segmented-control/segmented-control";
+import { VStack } from "@src/components/common/Gluestack";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import ButtonGroup from "../../common/Buttons/ButtonGroup";
-import GroupButton from "../../common/Buttons/GroupButton";
+
+import { useThemeOptions } from "@root/src/stores/settings/settingsStore";
 
 function InboxTabs({
   onUnreadPress,
@@ -18,33 +20,37 @@ function InboxTabs({
   bottomSelected: "replies" | "mentions" | "messages";
 }) {
   const { t } = useTranslation();
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const theme = useThemeOptions();
+
+  useEffect(() => {
+    if (selectedIndex === 0) {
+      onUnreadPress();
+    } else {
+      onAllPress();
+    }
+  }, [selectedIndex]);
 
   return (
-    <>
-      <HStack pt="$2">
-        <ButtonGroup>
-          <GroupButton
-            onPress={onUnreadPress}
-            text={t("Unread")}
-            selected={topSelected === "unread"}
-          />
-          <GroupButton
-            onPress={onAllPress}
-            text={t("All")}
-            selected={topSelected === "all"}
-          />
-        </ButtonGroup>
-      </HStack>
-      <HStack>
-        <ButtonGroup>
+    <VStack my="$2" mx="$4" space="sm">
+      <SegmentedControl
+        style={{ flex: 1 }}
+        fontStyle={{ color: theme.colors.textPrimary }}
+        tintColor={theme.colors.bg}
+        values={[t("Unread"), t("All")]}
+        selectedIndex={selectedIndex}
+        onChange={(event) => {
+          setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
+        }}
+      />
+      {/* <ButtonGroup>
           <GroupButton
             onPress={onRepliesPress}
             text={t("Replies")}
             selected={bottomSelected === "replies"}
           />
-        </ButtonGroup>
-      </HStack>
-    </>
+        </ButtonGroup> */}
+    </VStack>
   );
 }
 

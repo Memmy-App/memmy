@@ -7,13 +7,7 @@ interface IProps {
 
 function CommentHeaderWrapper({ children }: IProps) {
   return (
-    <HStack
-      space="sm"
-      justifyContent="space-between"
-      alignItems="center"
-      mb={-3}
-      pb="$2"
-    >
+    <HStack space="sm" justifyContent="space-between" alignItems="center">
       {children}
     </HStack>
   );

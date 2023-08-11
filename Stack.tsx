@@ -677,7 +677,7 @@ function Tabs() {
             ),
           tabBarLabel: hideUsernameInTab
             ? t("Profile")
-            : truncateName(currentAccount?.username ?? t("Profile"), 10),
+            : truncateName(currentAccount?.username ?? t("Profile"), 8),
           freezeOnBlur: false,
         }}
       />

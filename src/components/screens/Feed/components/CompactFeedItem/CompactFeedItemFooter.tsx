@@ -1,6 +1,7 @@
-import { Box, HStack, Text } from "@src/components/common/Gluestack";
-import React from "react";
 import { useRoute } from "@react-navigation/core";
+import { Box, HStack, Text } from "@src/components/common/Gluestack";
+import VoteData from "@src/components/common/Vote/VoteData";
+import { timeFromNowShort } from "@src/helpers/TimeHelper";
 import {
   useFeedPostCommunity,
   useFeedPostCounts,
@@ -10,8 +11,7 @@ import {
   useFeedPostVote,
 } from "@src/stores/feeds/feedsStore";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
-import VoteData from "@src/components/common/Vote/VoteData";
-import { timeFromNowShort } from "@src/helpers/TimeHelper";
+import React from "react";
 import AvatarUsername from "../../../../common/AvatarUsername";
 import CommentCount from "../../../../common/Comments/CommentCount";
 import CommunityLink from "../../../../common/CommunityLink";
@@ -52,8 +52,10 @@ function CompactFeedItemFooter({ postId }: IProps) {
             link={false}
           />
         </HStack>
-        <Text color={colors.textSecondary}>•</Text>
-        <Text color={colors.textSecondary}>
+        <Text color={colors.textSecondary} size="sm">
+          •
+        </Text>
+        <Text color={colors.textSecondary} size="sm">
           {timeFromNowShort(postCounts.published)}
         </Text>
       </HStack>
