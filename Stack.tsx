@@ -92,92 +92,7 @@ function FeedStackScreen() {
     <FeedStack.Navigator
       screenOptions={{ fullScreenGestureEnabled: fullScreenSwipe }}
     >
-      <FeedStack.Group>
-        {/* <FeedStack.Screen */}
-        {/*  name="FeedDrawerContainer" */}
-        {/*  component={FeedDrawerContainerScreen} */}
-        {/*  options={{ */}
-        {/*    headerShown: false, */}
-        {/*  }} */}
-        {/* /> */}
-        <FeedStack.Screen
-          name="FeedIndex"
-          component={FeedScreen}
-          options={{
-            headerShown: true,
-          }}
-        />
-        {/* <FeedStack.Screen name="Post" component={PostScreen} /> */}
-        <FeedStack.Screen name="Community" component={CommunityFeedScreen} />
-        {/* <FeedStack.Screen */}
-        {/*  name="CommunityAbout" */}
-        {/*  component={CommunityAboutScreen} */}
-        {/*  options={{ title: t("About") }} */}
-        {/* /> */}
-        {/* <FeedStack.Screen name="Profile" component={UserProfileScreen} /> */}
-        {/* <FeedStack.Screen */}
-        {/*  name="UserComments" */}
-        {/*  component={UserCommentsScreen} */}
-        {/*  options={{ */}
-        {/*    title: t("Comments"), */}
-        {/*  }} */}
-        {/* /> */}
-        {/* <FeedStack.Screen */}
-        {/*  name="UserPosts" */}
-        {/*  component={UserPostsScreen} */}
-        {/*  options={{ */}
-        {/*    title: t("Posts"), */}
-        {/*  }} */}
-        {/* /> */}
-        {/* <FeedStack.Screen */}
-        {/*  name="UserSavedPosts" */}
-        {/*  component={UserPostsScreen} */}
-        {/*  options={{ */}
-        {/*    title: t("Saved Posts"), */}
-        {/*  }} */}
-        {/* /> */}
-        {/* <FeedStack.Screen */}
-        {/*  name="ViewAccounts" */}
-        {/*  component={ViewAccountsScreen} */}
-        {/*  options={{ */}
-        {/*    title: t("Accounts"), */}
-        {/*  }} */}
-        {/* /> */}
-        {/* <FeedStack.Screen */}
-        {/*  name="EditAccount" */}
-        {/*  component={EditAccountScreen} */}
-        {/*  options={{ */}
-        {/*    title: t("Edit Account"), */}
-        {/*  }} */}
-        {/* /> */}
-      </FeedStack.Group>
-
-      {/* <FeedStack.Group */}
-      {/*  screenOptions={{ */}
-      {/*    presentation: "modal", */}
-      {/*  }} */}
-      {/* > */}
-      {/*  <FeedStack.Screen */}
-      {/*    name="NewComment" */}
-      {/*    component={NewCommentScreen} */}
-      {/*    options={{ title: t("New Comment") }} */}
-      {/*  /> */}
-      {/*  <SearchStack.Screen */}
-      {/*    name="EditComment" */}
-      {/*    component={EditCommentScreen} */}
-      {/*    options={{ title: t("comment.edit") }} */}
-      {/*  /> */}
-      {/*  <FeedStack.Screen */}
-      {/*    name="NewPost" */}
-      {/*    component={NewPostScreen} */}
-      {/*    options={{ title: t("New Post") }} */}
-      {/*  /> */}
-      {/*  <FeedStack.Screen */}
-      {/*    name="NewPostBody" */}
-      {/*    component={NewPostBodyScreen} */}
-      {/*    options={{ title: t("New Post") }} */}
-      {/*  /> */}
-      {/* </FeedStack.Group> */}
+      {MainScreens(FeedStack)}
     </FeedStack.Navigator>
   );
 }
@@ -269,6 +184,115 @@ function FeedStackScreen() {
 //   );
 // }
 //
+
+function MainScreens(
+  stack: TypedNavigator<
+    ParamListBase,
+    StackNavigationState<ParamListBase>,
+    NativeStackNavigationOptions,
+    NativeStackNavigationEventMap,
+    ({
+      id,
+      initialRouteName,
+      children,
+      screenListeners,
+      screenOptions,
+      ...rest
+    }: NativeStackNavigatorProps) => JSX.Element
+  >
+): React.JSX.Element {
+  return (
+    <>
+      <stack.Group>
+        {/* <stack.Screen */}
+        {/*  name="FeedDrawerContainer" */}
+        {/*  component={FeedDrawerContainerScreen} */}
+        {/*  options={{ */}
+        {/*    headerShown: false, */}
+        {/*  }} */}
+        {/* /> */}
+        <stack.Screen
+          name="FeedIndex"
+          component={FeedScreen}
+          options={{
+            headerShown: true,
+          }}
+        />
+        {/* <stack.Screen name="Post" component={PostScreen} /> */}
+        <stack.Screen name="Community" component={CommunityFeedScreen} />
+        {/* <stack.Screen */}
+        {/*  name="CommunityAbout" */}
+        {/*  component={CommunityAboutScreen} */}
+        {/*  options={{ title: t("About") }} */}
+        {/* /> */}
+        {/* <stack.Screen name="Profile" component={UserProfileScreen} /> */}
+        {/* <stack.Screen */}
+        {/*  name="UserComments" */}
+        {/*  component={UserCommentsScreen} */}
+        {/*  options={{ */}
+        {/*    title: t("Comments"), */}
+        {/*  }} */}
+        {/* /> */}
+        {/* <stack.Screen */}
+        {/*  name="UserPosts" */}
+        {/*  component={UserPostsScreen} */}
+        {/*  options={{ */}
+        {/*    title: t("Posts"), */}
+        {/*  }} */}
+        {/* /> */}
+        {/* <stack.Screen */}
+        {/*  name="UserSavedPosts" */}
+        {/*  component={UserPostsScreen} */}
+        {/*  options={{ */}
+        {/*    title: t("Saved Posts"), */}
+        {/*  }} */}
+        {/* /> */}
+        {/* <stack.Screen */}
+        {/*  name="ViewAccounts" */}
+        {/*  component={ViewAccountsScreen} */}
+        {/*  options={{ */}
+        {/*    title: t("Accounts"), */}
+        {/*  }} */}
+        {/* /> */}
+        {/* <stack.Screen */}
+        {/*  name="EditAccount" */}
+        {/*  component={EditAccountScreen} */}
+        {/*  options={{ */}
+        {/*    title: t("Edit Account"), */}
+        {/*  }} */}
+        {/* /> */}
+      </stack.Group>
+
+      {/* <stack.Group */}
+      {/*  screenOptions={{ */}
+      {/*    presentation: "modal", */}
+      {/*  }} */}
+      {/* > */}
+      {/*  <stack.Screen */}
+      {/*    name="NewComment" */}
+      {/*    component={NewCommentScreen} */}
+      {/*    options={{ title: t("New Comment") }} */}
+      {/*  /> */}
+      {/*  <stack.Screen */}
+      {/*    name="EditComment" */}
+      {/*    component={EditCommentScreen} */}
+      {/*    options={{ title: t("comment.edit") }} */}
+      {/*  /> */}
+      {/*  <stack.Screen */}
+      {/*    name="NewPost" */}
+      {/*    component={NewPostScreen} */}
+      {/*    options={{ title: t("New Post") }} */}
+      {/*  /> */}
+      {/*  <stack.Screen */}
+      {/*    name="NewPostBody" */}
+      {/*    component={NewPostBodyScreen} */}
+      {/*    options={{ title: t("New Post") }} */}
+      {/*  /> */}
+      {/* </stack.Group> */}
+    </>
+  );
+}
+
 function SettingsScreens(
   stack: TypedNavigator<
     ParamListBase,
