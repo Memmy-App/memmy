@@ -1,5 +1,14 @@
-import { DarkTheme, NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  DarkTheme,
+  NavigationContainer,
+  StackNavigationState,
+  TypedNavigator,
+} from "@react-navigation/native";
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationEventMap,
+  NativeStackNavigationOptions,
+} from "@react-navigation/native-stack";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -32,8 +41,22 @@ import { CustomTabBar } from "@src/components/common/Navigation/CustomTabBar";
 import { SFIcon } from "@src/components/common/icons/SFIcon";
 import { ICON_MAP } from "@src/types/constants/IconMap";
 import FeedScreen from "@src/components/screens/Feed/FeedScreen";
-import { Community } from "ts-toolbelt";
 import CommunityFeedScreen from "@src/components/screens/Feed/CommunityFeedScreen";
+import SettingsIndexScreen from "@src/components/screens/Settings/SettingsIndexScreen";
+import ViewAccountsScreen from "@src/components/screens/Settings/Account/ViewAccountsScreen";
+import EditAccountScreen from "@src/components/screens/Settings/Account/EditAccountScreen";
+import ReadSettingsScreen from "@src/components/screens/Settings/Content/ReadSettingsScreen";
+import ContentScreen from "@src/components/screens/Settings/Content/ContentScreen";
+import AppearanceScreen from "@src/components/screens/Settings/Appearance/AppearanceScreen";
+import ThemeSelectionScreen from "@src/components/screens/Settings/Appearance/ThemeSelectionScreen";
+import IconSelectionScreen from "@src/components/screens/Settings/Appearance/IconSelectionScreen";
+import GeneralSettingsScreen from "@src/components/screens/Settings/General/GeneralSettingsScreen";
+import FiltersScreen from "@src/components/screens/Settings/Filters/FiltersScreen";
+import KeywordsFilterScreen from "@src/components/screens/Settings/Filters/KeywordsFilterScreen";
+import InstanceFiltersScreen from "@src/components/screens/Settings/Filters/InstanceFiltersScreen";
+import AboutScreen from "@src/components/screens/Settings/About/AboutScreen";
+import { ParamListBase } from "@react-navigation/core";
+import { NativeStackNavigatorProps } from "react-native-screens/lib/typescript/native-stack/types";
 
 // const Drawer = createDrawerNavigator();
 // function FeedDrawerContainerScreen() {
@@ -246,133 +269,146 @@ function FeedStackScreen() {
 //   );
 // }
 //
-// function SettingsScreens(stack) {
-//   const { t } = useTranslation();
-//   return (
-//     <>
-//       <stack.Screen
-//         name="Settings"
-//         component={SettingsIndexScreen}
-//         options={{
-//           title: t("Settings"),
-//         }}
-//       />
-//       <stack.Screen
-//         name="ViewAccounts"
-//         component={ViewAccountsScreen}
-//         options={{
-//           title: t("Accounts"),
-//         }}
-//       />
-//       <stack.Screen
-//         name="EditAccount"
-//         component={EditAccountScreen}
-//         options={{
-//           title: t("Edit Account"),
-//         }}
-//       />
-//       <stack.Screen
-//         name="ReadSettings"
-//         component={ReadSettingsScreen}
-//         options={{
-//           title: t("Hide Read Posts"),
-//         }}
-//       />
-//       <stack.Screen
-//         name="Viewer"
-//         component={ViewerScreen}
-//         options={{
-//           title: t("View"),
-//         }}
-//       />
-//       <stack.Screen
-//         name="Content"
-//         component={ContentScreen}
-//         options={{
-//           title: t("Content"),
-//           freezeOnBlur: true,
-//         }}
-//       />
-//       <stack.Screen
-//         name="Appearance"
-//         component={AppearanceScreen}
-//         options={{
-//           title: t("Appearance"),
-//           freezeOnBlur: true,
-//         }}
-//       />
-//       <stack.Screen
-//         name="ThemeSelection"
-//         component={ThemeSelectionScreen}
-//         options={{
-//           title: t("Theme"),
-//         }}
-//       />
-//       <stack.Screen
-//         name="IconSelection"
-//         component={IconSelectionScreen}
-//         options={{
-//           title: t("Icon"),
-//         }}
-//       />
-//       <stack.Screen
-//         name="GeneralSettings"
-//         component={GeneralSettingsScreen}
-//         options={{
-//           title: t("General"),
-//           freezeOnBlur: true,
-//         }}
-//       />
-//       <stack.Screen
-//         name="Filters"
-//         component={FiltersScreen}
-//         options={{
-//           title: t("Filters"),
-//         }}
-//       />
-//       <stack.Screen
-//         name="KeywordFilters"
-//         component={KeywordsFilterScreen}
-//         options={{
-//           title: t("Keywords"),
-//         }}
-//       />
-//       <stack.Screen
-//         name="InstanceFilters"
-//         component={InstanceFiltersScreen}
-//         options={{
-//           title: t("Instances"),
-//         }}
-//       />
-//       <stack.Screen
-//         name="About"
-//         component={AboutScreen}
-//         options={{
-//           title: t("About"),
-//           freezeOnBlur: true,
-//         }}
-//       />
-//     </>
-//   );
-// }
-//
-// const SettingsStack = createNativeStackNavigator();
-// function SettingsStackScreen() {
-//   const fullScreenSwipe = !useSettingsStore(
-//     (state) => state.settings.swipeToVote
-//   );
-//
-//   return (
-//     <SettingsStack.Navigator
-//       screenOptions={{
-//         freezeOnBlur: true,
-//         fullScreenGestureEnabled: fullScreenSwipe,
-//       }}
-//     >
-//       {SettingsScreens(SettingsStack)}
-//     </SettingsStack.Navigator>
-//   );
-// }
+function SettingsScreens(
+  stack: TypedNavigator<
+    ParamListBase,
+    StackNavigationState<ParamListBase>,
+    NativeStackNavigationOptions,
+    NativeStackNavigationEventMap,
+    ({
+      id,
+      initialRouteName,
+      children,
+      screenListeners,
+      screenOptions,
+      ...rest
+    }: NativeStackNavigatorProps) => JSX.Element
+  >
+) {
+  const { t } = useTranslation();
+  return (
+    <>
+      <stack.Screen
+        name="Settings"
+        component={SettingsIndexScreen}
+        options={{
+          title: t("Settings"),
+        }}
+      />
+      <stack.Screen
+        name="ViewAccounts"
+        component={ViewAccountsScreen}
+        options={{
+          title: t("Accounts"),
+        }}
+      />
+      <stack.Screen
+        name="EditAccount"
+        component={EditAccountScreen}
+        options={{
+          title: t("Edit Account"),
+        }}
+      />
+      <stack.Screen
+        name="ReadSettings"
+        component={ReadSettingsScreen}
+        options={{
+          title: t("Hide Read Posts"),
+        }}
+      />
+      <stack.Screen
+        name="Viewer"
+        component={ViewerScreen}
+        options={{
+          title: t("View"),
+        }}
+      />
+      <stack.Screen
+        name="Content"
+        component={ContentScreen}
+        options={{
+          title: t("Content"),
+          freezeOnBlur: true,
+        }}
+      />
+      <stack.Screen
+        name="Appearance"
+        component={AppearanceScreen}
+        options={{
+          title: t("Appearance"),
+          freezeOnBlur: true,
+        }}
+      />
+      <stack.Screen
+        name="ThemeSelection"
+        component={ThemeSelectionScreen}
+        options={{
+          title: t("Theme"),
+        }}
+      />
+      <stack.Screen
+        name="IconSelection"
+        component={IconSelectionScreen}
+        options={{
+          title: t("Icon"),
+        }}
+      />
+      <stack.Screen
+        name="GeneralSettings"
+        component={GeneralSettingsScreen}
+        options={{
+          title: t("General"),
+          freezeOnBlur: true,
+        }}
+      />
+      <stack.Screen
+        name="Filters"
+        component={FiltersScreen}
+        options={{
+          title: t("Filters"),
+        }}
+      />
+      <stack.Screen
+        name="KeywordFilters"
+        component={KeywordsFilterScreen}
+        options={{
+          title: t("Keywords"),
+        }}
+      />
+      <stack.Screen
+        name="InstanceFilters"
+        component={InstanceFiltersScreen}
+        options={{
+          title: t("Instances"),
+        }}
+      />
+      <stack.Screen
+        name="About"
+        component={AboutScreen}
+        options={{
+          title: t("About"),
+          freezeOnBlur: true,
+        }}
+      />
+    </>
+  );
+}
+
+const SettingsStack = createNativeStackNavigator();
+function SettingsStackScreen(): React.JSX.Element {
+  const fullScreenSwipe = !useSettingsStore((state) => state.swipeToVote);
+
+  return (
+    <SettingsStack.Navigator
+      screenOptions={{
+        freezeOnBlur: true,
+        fullScreenGestureEnabled: fullScreenSwipe,
+      }}
+    >
+      {SettingsScreens(SettingsStack)}
+    </SettingsStack.Navigator>
+  );
+}
 //
 // const ProfileStack = createNativeStackNavigator();
 // function ProfileStackScreen() {
@@ -590,6 +626,7 @@ function Tabs() {
         component={FeedStackScreen}
         options={{
           headerShown: false,
+          // eslint-disable-next-line react/no-unstable-nested-components
           tabBarIcon: ({ color }) => (
             <SFIcon icon={ICON_MAP.FEED} color={color} />
           ),
@@ -649,19 +686,19 @@ function Tabs() {
       {/*    freezeOnBlur: false, */}
       {/*  }} */}
       {/* /> */}
-      {/* <Tab.Screen */}
-      {/*  name="SettingsStack" */}
-      {/*  component={SettingsStackScreen} */}
-      {/*  options={{ */}
-      {/*    headerShown: false, */}
-      {/*    // tabBarIcon: ({ color }) => <IconSettings color={color} />, */}
-      {/*    tabBarIcon: ({ color }) => ( */}
-      {/*      <SFIcon icon={ICON_MAP.SETTINGS} color={color} /> */}
-      {/*    ), */}
-      {/*    tabBarLabel: t("Settings"), */}
-      {/*    freezeOnBlur: false, */}
-      {/*  }} */}
-      {/* /> */}
+      <Tab.Screen
+        name="SettingsStack"
+        component={SettingsStackScreen}
+        options={{
+          headerShown: false,
+          // eslint-disable-next-line react/no-unstable-nested-components
+          tabBarIcon: ({ color }) => (
+            <SFIcon icon={ICON_MAP.SETTINGS} color={color} />
+          ),
+          tabBarLabel: t("Settings"),
+          freezeOnBlur: false,
+        }}
+      />
     </Tab.Navigator>
   );
 }
