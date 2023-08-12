@@ -1,0 +1,141 @@
+import {
+  Cell,
+  Section,
+  TableView,
+} from "@gkasdorf/react-native-tableview-simple";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import * as WebBrowser from "expo-web-browser";
+import { ScrollView } from "@src/components/gluestack";
+import React from "react";
+import { Alert, StyleSheet } from "react-native";
+import { getBuildNumber, getVersion } from "react-native-device-info";
+import { useTranslation } from "react-i18next";
+import { useCurrentAccount } from "@src/state/account/accountStore";
+import { useThemeOptions } from "@src/state/settings/settingsStore";
+import { openLink } from "@src/helpers/links";
+
+interface IProps {
+  navigation: NativeStackNavigationProp<any>;
+}
+
+function AboutScreen({ navigation }: IProps): React.JSX.Element {
+  const currentAccount = useCurrentAccount();
+  const { t } = useTranslation();
+  const theme = useThemeOptions();
+
+  return (
+    <ScrollView bg={theme.colors.bg} flex={1}>
+      <TableView style={styles.table}>
+        <Section>
+          <Cell
+            cellStyle="RightDetail"
+            title={t("Version")}
+            detail={`${getVersion()} (${getBuildNumber()})`}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
+          />
+          <Cell
+            cellStyle="Basic"
+            title={t("License")}
+            accessory="DisclosureIndicator"
+            onPress={() =>
+              navigation.push("Viewer", {
+                type: "license",
+              })
+            }
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
+          />
+          <Cell
+            cellStyle="Basic"
+            title={t("Acknowledgements")}
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              navigation.push("Viewer", {
+                type: "acknowledgements",
+              });
+            }}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
+          />
+          <Cell
+            cellStyle="Basic"
+            title={t("Privacy Policy")}
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              WebBrowser.openBrowserAsync("https://memmy.app/privacy.txt");
+            }}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
+          />
+          <Cell
+            cellStyle="Basic"
+            title={t("Terms of Use")}
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              navigation.push("Viewer", {
+                type: "terms",
+              });
+            }}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
+          />
+          <Cell
+            cellStyle="Basic"
+            title="GitHub"
+            accessory="DisclosureIndicator"
+            onPress={() => {
+              WebBrowser.openBrowserAsync("https://github.com/gkasdorf/memmy");
+            }}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
+          />
+          <Cell
+            cellStyle="Basic"
+            title={t("Delete Account")}
+            accessory="DisclosureIndicator"
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
+            onPress={() => {
+              Alert.alert(
+                t("alert.title.deleteAccount"),
+                t("alert.message.deleteAccountConfirm", [currentAccount?.host]),
+                [
+                  {
+                    text: "Visit Instance",
+                    onPress: () => {
+                      openLink(
+                        `https://${currentAccount?.host}`,
+                        navigation,
+                        theme.colors.bg
+                      );
+                    },
+                  },
+                  {
+                    text: t("OK"),
+                    style: "default",
+                  },
+                ]
+              );
+            }}
+          />
+        </Section>
+      </TableView>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  table: {
+    marginHorizontal: 15,
+  },
+});
+
+export default AboutScreen;
