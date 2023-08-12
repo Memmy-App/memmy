@@ -1,44 +1,44 @@
-import { TableView } from "@gkasdorf/react-native-tableview-simple";
+import {
+  Cell,
+  Section,
+  TableView,
+} from "@gkasdorf/react-native-tableview-simple";
 import Slider from "@react-native-community/slider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useAppDispatch } from "@root/store";
 import {
   Badge,
   Box,
   HStack,
   ScrollView,
   Text,
-} from "@src/components/common/Gluestack";
-import setSetting from "@src/stores/settings/actions/setSetting";
-import {
-  useSettings,
-  useThemeOptions,
-} from "@src/stores/settings/settingsStore";
+} from "@src/components/gluestack";
 import { FontWeightMap } from "@src/theme/fontSize";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LayoutAnimation, StyleSheet, Switch } from "react-native";
-import { showToast } from "../../../../slices/toast/toastSlice";
-import { appIconOptions } from "../../../../types/AppIconType";
-import CTextInput from "../../../common/CTextInput";
-import { AppContextMenuButton } from "../../../common/ContextMenu/App/AppContextMenuButton";
-import CCell from "../../../common/Table/CCell";
-import CSection from "../../../common/Table/CSection";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/state/settings/settingsStore";
+import { setSetting } from "@src/state/settings/actions";
+import { appIconOptions, AppIconType } from "@src/types/AppIconType";
+import { AppContextMenuButton } from "@src/components/contextMenus/AppContextMenuButton";
+import { Input } from "react-native-elements";
+import { useShowToast } from "@src/state/toast/toastStore";
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
-function AppearanceScreen({ navigation }: IProps) {
+function AppearanceScreen({ navigation }: IProps): React.JSX.Element {
   const { t } = useTranslation();
+  const showToast = useShowToast();
   const theme = useThemeOptions();
 
-  const settings = useSettings();
-
-  const dispatch = useAppDispatch();
+  const settings = useSettingsStore();
 
   const onChange = (key: string, value: any) => {
-    setSetting({ [key]: value }).then();
+    setSetting(key, value);
   };
 
   const selectedFontWeight =
@@ -85,23 +85,23 @@ function AppearanceScreen({ navigation }: IProps) {
   return (
     <ScrollView bg={theme.colors.bg} flex={1}>
       <TableView style={styles.table}>
-        <CSection
+        <Section
           header={t("settings.appearance.appIcon")}
           footer="App icons by dizzy@lemmy.ml"
         >
-          <CCell
+          <Cell
             cellStyle="RightDetail"
             title={t("settings.appearance.appIcon")}
-            detail={appIconOptions[settings.appIcon].display}
+            detail={appIconOptions[settings.appIcon as AppIconType].display}
             backgroundColor={theme.colors.fg}
             titleTextColor={theme.colors.textPrimary}
             rightDetailColor={theme.colors.textSecondary}
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("IconSelection")}
           />
-        </CSection>
-        <CSection header="Content">
-          <CCell
+        </Section>
+        <Section header="Content">
+          <Cell
             cellStyle="Basic"
             title={t("settings.appearance.totalScore")}
             backgroundColor={theme.colors.fg}
@@ -116,7 +116,7 @@ function AppearanceScreen({ navigation }: IProps) {
               />
             }
           />
-          <CCell
+          <Cell
             cellStyle="Basic"
             title={t("settings.appearance.imgIgnoreScreenHeight")}
             backgroundColor={theme.colors.fg}
@@ -131,7 +131,7 @@ function AppearanceScreen({ navigation }: IProps) {
               />
             }
           />
-          <CCell
+          <Cell
             cellStyle="RightDetail"
             title={t("settings.appearance.showUserInstance")}
             backgroundColor={theme.colors.fg}
@@ -144,7 +144,7 @@ function AppearanceScreen({ navigation }: IProps) {
               />
             }
           />
-          <CCell
+          <Cell
             cellStyle="RightDetail"
             title={t("settings.appearance.compactView")}
             backgroundColor={theme.colors.fg}
@@ -160,7 +160,7 @@ function AppearanceScreen({ navigation }: IProps) {
               />
             }
           />
-          <CCell
+          <Cell
             cellStyle="RightDetail"
             title={t("settings.appearance.showCommentJumpButton")}
             backgroundColor={theme.colors.fg}
@@ -179,12 +179,10 @@ function AppearanceScreen({ navigation }: IProps) {
             options={commentJumpPlacementOptions}
             selection={settings.commentJumpPlacement}
             onPressMenuItem={({ nativeEvent }) => {
-              setSetting({
-                commentJumpPlacement: nativeEvent.actionKey,
-              }).then();
+              setSetting("commentJumpPlacement", nativeEvent.actionKey);
             }}
           >
-            <CCell
+            <Cell
               cellStyle="RightDetail"
               title="Comment Jump Placement"
               backgroundColor={theme.colors.fg}
@@ -194,13 +192,13 @@ function AppearanceScreen({ navigation }: IProps) {
               detail={
                 commentJumpPlacementOptions.find(
                   (e) => e.key === settings.commentJumpPlacement
-                ).title
+                )!.title
               }
             />
           </AppContextMenuButton>
-        </CSection>
-        <CSection header="Tab Bar">
-          <CCell
+        </Section>
+        <Section header="Tab Bar">
+          <Cell
             cellStyle="RightDetail"
             title="Hide Username"
             backgroundColor={theme.colors.fg}
@@ -215,7 +213,7 @@ function AppearanceScreen({ navigation }: IProps) {
               />
             }
           />
-          <CCell
+          <Cell
             cellStyle="RightDetail"
             title="Hide Avatar Image"
             backgroundColor={theme.colors.fg}
@@ -230,26 +228,24 @@ function AppearanceScreen({ navigation }: IProps) {
               />
             }
           />
-        </CSection>
+        </Section>
         {settings.compactView && (
-          <CSection header={t("settings.appearance.compact.header")}>
+          <Section header={t("settings.appearance.compact.header")}>
             <AppContextMenuButton
               options={compactThumbnailPositionOptions}
               selection={settings.compactThumbnailPosition}
               onPressMenuItem={({ nativeEvent }) => {
-                setSetting({
-                  compactThumbnailPosition: nativeEvent.actionKey,
-                }).then();
+                setSetting("compactThumbnailPosition", nativeEvent.actionKey);
               }}
             >
-              <CCell
+              <Cell
                 cellStyle="RightDetail"
                 title={t("settings.appearance.compact.thumbPos")}
                 detail={settings.compactThumbnailPosition}
                 accessory="DisclosureIndicator"
               />
             </AppContextMenuButton>
-            <CCell
+            <Cell
               cellStyle="RightDetail"
               title={t("settings.appearance.compact.showVotingButtons")}
               backgroundColor={theme.colors.fg}
@@ -262,11 +258,11 @@ function AppearanceScreen({ navigation }: IProps) {
                 />
               }
             />
-          </CSection>
+          </Section>
         )}
 
-        <CSection header={t("settings.appearance.themes.header")}>
-          <CCell
+        <Section header={t("settings.appearance.themes.header")}>
+          <Cell
             cellStyle="Basic"
             title={t("settings.appearance.themes.matchSystem")}
             backgroundColor={theme.colors.fg}
@@ -283,7 +279,7 @@ function AppearanceScreen({ navigation }: IProps) {
             }
           />
           {!settings.themeMatchSystem && (
-            <CCell
+            <Cell
               cellStyle="Basic"
               title={t("Theme")}
               accessory="DisclosureIndicator"
@@ -301,10 +297,10 @@ function AppearanceScreen({ navigation }: IProps) {
               >
                 {`${t("Selected")}: ${settings.theme}`}
               </Text>
-            </CCell>
+            </Cell>
           )}
           {settings.themeMatchSystem && (
-            <CCell
+            <Cell
               cellStyle="Basic"
               title={t("settings.appearance.themes.systemLight")}
               accessory="DisclosureIndicator"
@@ -324,10 +320,10 @@ function AppearanceScreen({ navigation }: IProps) {
               >
                 Selected: {settings.themeLight}
               </Text>
-            </CCell>
+            </Cell>
           )}
           {settings.themeMatchSystem && (
-            <CCell
+            <Cell
               cellStyle="Basic"
               title={t("settings.appearance.themes.systemDark")}
               accessory="DisclosureIndicator"
@@ -347,10 +343,10 @@ function AppearanceScreen({ navigation }: IProps) {
               >
                 Selected: {settings.themeDark}
               </Text>
-            </CCell>
+            </Cell>
           )}
 
-          <CCell
+          <Cell
             cellStyle="RightDetail"
             title={
               <Text>
@@ -361,14 +357,11 @@ function AppearanceScreen({ navigation }: IProps) {
               </Text>
             }
             cellAccessoryView={
-              <CTextInput
+              <Input
                 style={{ minWidth: "40%" }}
-                name="Hex Code"
                 value={accent}
-                onChange={(name, value) => {
-                  setAccent(value);
-                }}
-                onEnd={() => {
+                onChange={(e) => setAccent(e.nativeEvent.text)}
+                onEndEditing={() => {
                   let hexToCheck = accent;
 
                   if (hexToCheck && !hexToCheck.includes("#")) {
@@ -376,39 +369,33 @@ function AppearanceScreen({ navigation }: IProps) {
                   }
 
                   if (accent === "") {
-                    dispatch(
-                      showToast({
-                        message: "Accent color cleared",
-                        duration: 3000,
-                        variant: "info",
-                      })
-                    );
+                    showToast({
+                      message: "Accent color cleared",
+                      duration: 3000,
+                      variant: "info",
+                    });
                     setAccent("");
-                    setSetting({ accentColor: "" }).then();
+                    setSetting("accentColor", "");
                     return;
                   }
 
-                  if (hexPattern.test(hexToCheck)) {
+                  if (hexPattern.test(hexToCheck ?? "")) {
                     if (hexToCheck !== settings.accentColor) {
-                      dispatch(
-                        showToast({
-                          message: t("toast.accentColorUpdated"),
-                          duration: 3000,
-                          variant: "info",
-                        })
-                      );
+                      showToast({
+                        message: t("toast.accentColorUpdated"),
+                        duration: 3000,
+                        variant: "info",
+                      });
                     }
-                    setSetting({ accentColor: hexToCheck }).then();
+                    setSetting("accentColor", hexToCheck ?? "");
                   } else {
                     setAccent("");
-                    setSetting({ accentColor: "" }).then();
-                    dispatch(
-                      showToast({
-                        message: t("toast.accentColorInvalidHexCode"),
-                        duration: 3000,
-                        variant: "error",
-                      })
-                    );
+                    setSetting("accentColor", "");
+                    showToast({
+                      message: t("toast.accentColorInvalidHexCode"),
+                      duration: 3000,
+                      variant: "error",
+                    });
                   }
                 }}
                 placeholder={t(
@@ -422,10 +409,10 @@ function AppearanceScreen({ navigation }: IProps) {
             titleTextColor={theme.colors.textPrimary}
             rightDetailColor={theme.colors.textSecondary}
           />
-        </CSection>
+        </Section>
 
-        <CSection header={t("settings.appearance.font.header")}>
-          <CCell
+        <Section header={t("settings.appearance.font.header")}>
+          <Cell
             title={t("settings.appearance.font.useSystemFont")}
             backgroundColor={theme.colors.fg}
             titleTextColor={theme.colors.textPrimary}
@@ -437,7 +424,7 @@ function AppearanceScreen({ navigation }: IProps) {
               />
             }
           />
-          <CCell
+          <Cell
             title={t("settings.appearance.font.useSystemFontSize")}
             backgroundColor={theme.colors.fg}
             titleTextColor={theme.colors.textPrimary}
@@ -449,7 +436,7 @@ function AppearanceScreen({ navigation }: IProps) {
               />
             }
           />
-          <CCell
+          <Cell
             isDisabled={settings.isSystemTextSize}
             title={
               <Text>
@@ -481,18 +468,18 @@ function AppearanceScreen({ navigation }: IProps) {
               </Box>
               <Text size="xl">A</Text>
             </HStack>
-          </CCell>
+          </Cell>
           <AppContextMenuButton
             options={fontWeightOptions}
             selection={selectedFontWeight}
             onPressMenuItem={({ nativeEvent }) => {
-              setSetting({
-                fontWeightPostTitle:
-                  FontWeightMap[nativeEvent.actionKey] || 400,
-              }).then();
+              setSetting(
+                "fontWeightPostTitle",
+                FontWeightMap[nativeEvent.actionKey] || 400
+              );
             }}
           >
-            <CCell
+            <Cell
               cellStyle="RightDetail"
               title={t("settings.appearance.font.postTitleFontWeight")}
               detail={selectedFontWeight}
@@ -502,7 +489,7 @@ function AppearanceScreen({ navigation }: IProps) {
               accessory="DisclosureIndicator"
             />
           </AppContextMenuButton>
-        </CSection>
+        </Section>
       </TableView>
     </ScrollView>
   );

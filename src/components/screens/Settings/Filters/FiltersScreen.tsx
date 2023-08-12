@@ -1,18 +1,20 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, Text } from "@src/components/common/Gluestack";
+import { ScrollView, Text } from "@src/components/gluestack";
 import { StyleSheet } from "react-native";
-import { TableView } from "@gkasdorf/react-native-tableview-simple";
+import {
+  Cell,
+  Section,
+  TableView,
+} from "@gkasdorf/react-native-tableview-simple";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useThemeOptions } from "@src/stores/settings/settingsStore";
-import CSection from "../../../common/Table/CSection";
-import CCell from "../../../common/Table/CCell";
+import { useThemeOptions } from "@src/state/settings/settingsStore";
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
-function FiltersScreen({ navigation }: IProps) {
+function FiltersScreen({ navigation }: IProps): React.JSX.Element {
   const { t } = useTranslation();
   const theme = useThemeOptions();
 
@@ -22,8 +24,8 @@ function FiltersScreen({ navigation }: IProps) {
         <Text color="$textSecondary" sx={{ mt: "$5" }}>
           {t("settings.filters.description")}
         </Text>
-        <CSection>
-          <CCell
+        <Section>
+          <Cell
             cellStyle="RightDetail"
             title={t("Keywords")}
             backgroundColor={theme.colors.fg}
@@ -32,7 +34,7 @@ function FiltersScreen({ navigation }: IProps) {
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("KeywordFilters")}
           />
-          <CCell
+          <Cell
             cellStyle="RightDetail"
             title={t("Instances")}
             backgroundColor={theme.colors.fg}
@@ -41,7 +43,7 @@ function FiltersScreen({ navigation }: IProps) {
             accessory="DisclosureIndicator"
             onPress={() => navigation.push("InstanceFilters")}
           />
-        </CSection>
+        </Section>
       </TableView>
     </ScrollView>
   );

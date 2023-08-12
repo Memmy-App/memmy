@@ -1,34 +1,32 @@
-import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import {
-  HStack,
-  Image,
-  ScrollView,
-  Text,
-} from "@src/components/common/Gluestack";
+  Cell,
+  Section,
+  TableView,
+} from "@gkasdorf/react-native-tableview-simple";
+import { HStack, Image, ScrollView, Text } from "@src/components/gluestack";
 import React from "react";
 import { StyleSheet } from "react-native";
+// @ts-ignore
 import { changeIcon } from "react-native-change-icon";
 import {
-  useSettings,
+  useSettingsStore,
   useThemeOptions,
-} from "@src/stores/settings/settingsStore";
-import setSetting from "@src/stores/settings/actions/setSetting";
-import { appIconOptions } from "../../../../types/AppIconType";
-import CCell from "../../../common/Table/CCell";
-import CSection from "../../../common/Table/CSection";
+} from "@src/state/settings/settingsStore";
+import { setSetting } from "@src/state/settings/actions";
+import { appIconOptions } from "@src/types/AppIconType";
 import SFIcon from "../../../common/icons/SFIcon";
 
-function IconSelectionScreen() {
-  const settings = useSettings();
+function IconSelectionScreen(): React.JSX.Element {
+  const settings = useSettingsStore();
 
   const theme = useThemeOptions();
 
   return (
     <ScrollView bg={theme.colors.bg} flex={1}>
       <TableView style={styles.table}>
-        <CSection footer="App icons by dizzy@lemmy.ml">
+        <Section footer="App icons by dizzy@lemmy.ml">
           {Object.entries(appIconOptions).map(([key, value]) => (
-            <CCell
+            <Cell
               key={key}
               cellStyle="RightDetail"
               title={
@@ -50,12 +48,12 @@ function IconSelectionScreen() {
               titleTextColor={theme.colors.textPrimary}
               rightDetailColor={theme.colors.textSecondary}
               onPress={() => {
-                setSetting({ appIcon: key }).then();
+                setSetting("appIcon", key);
                 changeIcon(key);
               }}
             />
           ))}
-        </CSection>
+        </Section>
       </TableView>
     </ScrollView>
   );

@@ -1,17 +1,16 @@
 import React from "react";
-import { VStack } from "@src/components/common/Gluestack";
 import { useTranslation } from "react-i18next";
-import CTable from "../../../common/Table/CTable";
-import CSection from "../../../common/Table/CSection";
+import { VStack } from "@src/components/gluestack";
+import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
 
-function PushNotificationsScreen() {
+function PushNotificationsScreen(): React.JSX.Element {
   const { t } = useTranslation();
 
   return (
     <VStack>
-      <CTable>
-        <CSection header={t("Push Notifications")} />
-      </CTable>
+      <TableView>
+        <Section header={t("Push Notifications")} />
+      </TableView>
     </VStack>
   );
 }

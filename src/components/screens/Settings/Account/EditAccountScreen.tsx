@@ -1,38 +1,34 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useEffect, useRef, useState } from "react";
 import { Alert, Button, StyleSheet, TextInput } from "react-native";
-import { Section, TableView } from "@gkasdorf/react-native-tableview-simple";
+import {
+  Cell,
+  Section,
+  TableView,
+} from "@gkasdorf/react-native-tableview-simple";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useTranslation } from "react-i18next";
-import { useAppDispatch } from "@root/store";
-import { useThemeOptions } from "@src/stores/settings/settingsStore";
-import {
-  getInstanceError,
-  initialize,
-  lemmyAuthToken,
-} from "../../../../LemmyInstance";
-import { getBaseUrl } from "../../../../helpers/LinkHelper";
-import { writeToLog } from "../../../../helpers/LogHelper";
-import { showToast } from "../../../../slices/toast/toastSlice";
-import {
-  useAccounts,
-  useAccountStore,
-} from "../../../../stores/account/accountStore";
-import ILemmyServer from "../../../../types/lemmy/ILemmyServer";
-import CCell from "../../../common/Table/CCell";
+import { useThemeOptions } from "@src/state/settings/settingsStore";
+import { useAccountStore } from "@src/state/account/accountStore";
+import { useShowToast } from "@src/state/toast/toastStore";
+import ILemmyServer from "@src/types/api/ILemmyServer";
+import { getBaseUrl } from "@src/helpers/links";
+import instance from "@src/Instance";
+import { writeToLog } from "@src/helpers/debug/DebugHelper";
+import { EInitializeResult } from "@src/api/common/ApiInstance";
+import { addAccount, editAccount } from "@src/state/account/actions";
 
-function EditAccountScreen({
-  route,
-  navigation,
-}: {
-  route;
+interface IProps {
+  route: any;
   navigation: NativeStackNavigationProp<any>;
-}) {
+}
+
+function EditAccountScreen({ route, navigation }: IProps): React.JSX.Element {
   const [form, setForm] = useState<ILemmyServer>({
-    server: "",
+    host: "",
     username: "",
     password: "",
-    auth: "",
+    authToken: "",
     totpToken: "",
   });
 
@@ -42,11 +38,10 @@ function EditAccountScreen({
   const edit = useRef(false);
 
   const { t } = useTranslation();
+  const showToast = useShowToast();
   const theme = useThemeOptions();
-  const dispatch = useAppDispatch();
-  const accountStore = useAccountStore();
 
-  const accounts = useAccounts();
+  const { accounts } = useAccountStore.getState();
 
   const headerRight = () => (
     <Button
@@ -62,13 +57,13 @@ function EditAccountScreen({
       const account = accounts.find(
         (a) =>
           a.username === route.params.username &&
-          a.instance === route.params.instance
+          a.host === route.params.instance
       );
 
       setForm({
         ...form,
-        username: account.username,
-        server: account.instance,
+        username: account!.username,
+        host: account!.host,
       });
 
       edit.current = true;
@@ -89,47 +84,48 @@ function EditAccountScreen({
   };
 
   const onSavePress = async () => {
-    if (!form.server || !form.username || !form.password) {
-      dispatch(
-        showToast({
-          message: t("toast.allFieldsRequired"),
-          duration: 3000,
-          variant: "warn",
-        })
-      );
+    if (!form.host || !form.username || !form.password) {
+      showToast({
+        message: t("toast.allFieldsRequired"),
+        duration: 3000,
+        variant: "warn",
+      });
       return;
     }
 
     if (form.username.includes("@")) {
-      dispatch(
-        showToast({
-          message: t("toast.useUsername"),
-          duration: 3000,
-          variant: "warn",
-        })
-      );
+      showToast({
+        message: t("toast.useUsername"),
+        duration: 3000,
+        variant: "warn",
+      });
       return;
     }
 
     setLoading(true);
-    const serverParsed = getBaseUrl(form.server);
+    const serverParsed = getBaseUrl(form.host);
 
     const server: ILemmyServer = {
       username: form.username,
       password: form.password,
-      server: serverParsed,
+      host: serverParsed,
       totpToken: form.totpToken,
     };
 
-    const success = await initialize(server);
+    const res = await instance.initialize({
+      type: "lemmy",
+      host: server.host,
+      username: server.username,
+      password: server.password,
+      totpToken: server.totpToken,
+    });
 
     setLoading(false);
 
-    if (!success) {
+    if (res !== EInitializeResult.SUCCESS) {
       writeToLog("Error editing account.");
-      writeToLog(getInstanceError());
 
-      if (getInstanceError() === "missing_totp_token") {
+      if (res === EInitializeResult.TOTP) {
         setShowTotpToken(true);
         return;
       }
@@ -137,23 +133,27 @@ function EditAccountScreen({
       return;
     }
 
-    if (!lemmyAuthToken) {
+    if (!instance.authToken) {
       setLoading(false);
       Alert.alert(t("alert.serverAuthError"));
       return;
     }
 
     if (edit.current) {
-      accountStore.editAccount({
+      editAccount({
         username: form.username,
-        token: lemmyAuthToken,
-        instance: form.server,
+        host: form.host,
+        authToken: instance.authToken,
+        fullUsername: `${form.username}@${getBaseUrl(form.host)}`,
+        isCurrentAccount: true,
       });
     } else {
-      accountStore.addAccount({
+      addAccount({
         username: form.username,
-        token: lemmyAuthToken,
-        instance: form.server,
+        host: form.host,
+        authToken: instance.authToken,
+        fullUsername: `${form.username}@${getBaseUrl(form.host)}`,
+        isCurrentAccount: true,
       });
     }
 
@@ -172,7 +172,7 @@ function EditAccountScreen({
           hideSurroundingSeparators
           footer={t("settings.accounts.server.footer")}
         >
-          <CCell
+          <Cell
             cellContentView={
               <TextInput
                 style={{
@@ -184,7 +184,7 @@ function EditAccountScreen({
                 }}
                 placeholderTextColor={theme.colors.textSecondary}
                 placeholder={t("settings.accounts.server.placeholder")}
-                value={form.server}
+                value={form.host}
                 onChangeText={(text) => onFormChange("server", text)}
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -205,7 +205,7 @@ function EditAccountScreen({
           hideSurroundingSeparators
           footer={t("settings.accounts.credentials.footer")}
         >
-          <CCell
+          <Cell
             cellContentView={
               <TextInput
                 style={{
@@ -229,7 +229,7 @@ function EditAccountScreen({
             titleTextColor={theme.colors.textPrimary}
             rightDetailColor={theme.colors.textSecondary}
           />
-          <CCell
+          <Cell
             cellContentView={
               <TextInput
                 style={{
@@ -252,7 +252,7 @@ function EditAccountScreen({
             rightDetailColor={theme.colors.textSecondary}
           />
           {showTotpToken && (
-            <CCell
+            <Cell
               cellContentView={
                 <TextInput
                   style={{

@@ -1,27 +1,29 @@
 import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView } from "@src/components/common/Gluestack";
+import { ScrollView } from "@src/components/gluestack";
 import { Alert, Button, StyleSheet } from "react-native";
-import { TableView } from "@gkasdorf/react-native-tableview-simple";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import {
-  FilterStoreType,
-  useFiltersStore,
-  useFilterStoreType,
-} from "@src/stores/filters/filtersStore";
-import { getBaseUrl } from "@src/helpers/LinkHelper";
+  Cell,
+  Section,
+  TableView,
+} from "@gkasdorf/react-native-tableview-simple";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FilterItem } from "@src/components/screens/Settings/Filters/FilterItem";
-import { ParamListBase } from "@react-navigation/native";
-import CSection from "../../../common/Table/CSection";
-import CCell from "../../../common/Table/CCell";
+import { ParamListBase } from "@react-navigation/core";
+import { useThemeOptions } from "@src/state/settings/settingsStore";
+import {
+  useFiltersStore,
+  useInstancesFilter,
+  useKeywordFilter,
+} from "@src/state/filters/filtersStore";
+import { getBaseUrl } from "@src/helpers/links";
 
 interface FilterScreenProps<
   ParamList extends ParamListBase,
   RouteName extends keyof ParamList = string,
   NavigatorID extends string | undefined = undefined
 > {
-  type: FilterStoreType;
+  type: "instances" | "keywords";
   navigation: NativeStackNavigationProp<ParamList, RouteName, NavigatorID>;
 }
 
@@ -29,12 +31,16 @@ export function FilterScreen<
   ParamList extends ParamListBase,
   RouteName extends keyof ParamList = string,
   NavigatorID extends string | undefined = undefined
->({ type, navigation }: FilterScreenProps<ParamList, RouteName, NavigatorID>) {
+>({
+  type,
+  navigation,
+}: FilterScreenProps<ParamList, RouteName, NavigatorID>): React.JSX.Element {
   const { t } = useTranslation();
   const theme = useThemeOptions();
 
   const filtersStore = useFiltersStore();
-  const filters = useFilterStoreType(type);
+  const filters =
+    type === "instances" ? useInstancesFilter() : useKeywordFilter();
 
   useEffect(() => {
     navigation.setOptions({
@@ -64,11 +70,11 @@ export function FilterScreen<
           onPress: (value?: string) => {
             if (!value) return;
             switch (type) {
-              case "keyword":
-                filtersStore.addKeyword(value.toLowerCase()).then();
+              case "keywords":
+                filtersStore.addKeyword(value.toLowerCase());
                 break;
-              case "instance":
-                filtersStore.addInstance(getBaseUrl(value)).then();
+              case "instances":
+                filtersStore.addInstance(getBaseUrl(value));
                 break;
               default:
                 throw new Error(`Unknown filter store type${type}`);
@@ -88,9 +94,9 @@ export function FilterScreen<
   return (
     <ScrollView bg={theme.colors.bg} flex={1}>
       <TableView style={styles.table}>
-        <CSection header={t(`settings.filters.header.${type}`)}>
+        <Section header={t(`settings.filters.header.${type}`)}>
           {filters.length < 1 ? (
-            <CCell
+            <Cell
               cellStyle="RightDetail"
               title={t(`settings.filters.no.${type}`)}
               backgroundColor={theme.colors.fg}
@@ -100,7 +106,7 @@ export function FilterScreen<
           ) : (
             items
           )}
-        </CSection>
+        </Section>
       </TableView>
     </ScrollView>
   );

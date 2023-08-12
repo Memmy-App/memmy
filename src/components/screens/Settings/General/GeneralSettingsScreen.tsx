@@ -1,27 +1,28 @@
-import { TableView } from "@gkasdorf/react-native-tableview-simple";
-import { ScrollView } from "@src/components/common/Gluestack";
+import {
+  Cell,
+  Section,
+  TableView,
+} from "@gkasdorf/react-native-tableview-simple";
+import { ScrollView } from "@src/components/gluestack";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Switch } from "react-native";
 import {
-  useSettings,
+  useSettingsStore,
   useThemeOptions,
-} from "@src/stores/settings/settingsStore";
-import setSetting from "@src/stores/settings/actions/setSetting";
-import { swipeLeftSecondOptionsArr } from "@src/types/swipes/swipeLeftSecondOptions";
-import { hapticOptionsArr } from "../../../../types/haptics/hapticOptions";
-import CCell from "../../../common/Table/CCell";
-import CSection from "../../../common/Table/CSection";
-import { AppContextMenuButton } from "../../../common/ContextMenu/App/AppContextMenuButton";
+} from "@src/state/settings/settingsStore";
+import { setSetting } from "@src/state/settings/actions";
+import { hapticOptionsArr } from "@src/types/HapticOptions";
+import { AppContextMenuButton } from "@src/components/contextMenus/AppContextMenuButton";
 
-function GeneralSettingsScreen() {
-  const settings = useSettings();
+function GeneralSettingsScreen(): React.JSX.Element {
+  const settings = useSettingsStore();
 
   const { t } = useTranslation();
   const theme = useThemeOptions();
 
   const onChange = (key: string, value: any) => {
-    setSetting({ [key]: value }).then();
+    setSetting(key, value);
   };
 
   const hapticOptions = useMemo(
@@ -34,9 +35,9 @@ function GeneralSettingsScreen() {
     [t]
   );
 
-  const swipeLeftSecondOptions = useMemo(
+  const swipeLeftSecondOptions: any = useMemo(
     () => [
-      ...swipeLeftSecondOptionsArr.map((option) => ({
+      ...swipeLeftSecondOptions.map((option: any) => ({
         key: option,
         title: t(`settings.swipeOptions.${option}`),
       })),
@@ -47,11 +48,11 @@ function GeneralSettingsScreen() {
   return (
     <ScrollView bg={theme.colors.bg} flex={1}>
       <TableView style={styles.table}>
-        <CSection
+        <Section
           header={t("settings.appearance.gestures.header")}
           footer={t("settings.appearance.gestures.footer")}
         >
-          <CCell
+          <Cell
             cellStyle="Basic"
             title={t("settings.appearance.gestures.tapToCollapse")}
             backgroundColor={theme.colors.fg}
@@ -64,7 +65,7 @@ function GeneralSettingsScreen() {
               />
             }
           />
-          <CCell
+          <Cell
             cellStyle="Basic"
             title={t("settings.swipeToVote")}
             backgroundColor={theme.colors.fg}
@@ -77,17 +78,15 @@ function GeneralSettingsScreen() {
               />
             }
           />
-        </CSection>
-        <CSection header={t("Swipes")}>
+        </Section>
+        <Section header={t("Swipes")}>
           <AppContextMenuButton
             options={swipeLeftSecondOptions}
             onPressMenuItem={({ nativeEvent }) => {
-              setSetting({
-                commentSwipeLeftSecond: nativeEvent.actionKey,
-              }).then();
+              setSetting("commentSwipeLeftSecond", nativeEvent.actionKey);
             }}
           >
-            <CCell
+            <Cell
               cellStyle="RightDetail"
               title={t("settings.swipe.left.second")}
               detail={t(
@@ -99,16 +98,16 @@ function GeneralSettingsScreen() {
               accessory="DisclosureIndicator"
             />
           </AppContextMenuButton>
-        </CSection>
-        <CSection header={t("Haptics")}>
+        </Section>
+        <Section header={t("Haptics")}>
           <AppContextMenuButton
             options={hapticOptions}
             selection={settings.haptics}
             onPressMenuItem={({ nativeEvent }) => {
-              setSetting({ haptics: nativeEvent.actionKey }).then();
+              setSetting("haptics", nativeEvent.actionKey);
             }}
           >
-            <CCell
+            <Cell
               cellStyle="RightDetail"
               title={t("Strength")}
               detail={t(`settings.haptics.${settings.haptics}`)}
@@ -118,9 +117,9 @@ function GeneralSettingsScreen() {
               accessory="DisclosureIndicator"
             />
           </AppContextMenuButton>
-        </CSection>
-        <CSection header={t("Browser")}>
-          <CCell
+        </Section>
+        <Section header={t("Browser")}>
+          <Cell
             title={t("Use Default Browser")}
             backgroundColor={theme.colors.fg}
             titleTextColor={theme.colors.textPrimary}
@@ -133,7 +132,7 @@ function GeneralSettingsScreen() {
             }
           />
           {!settings.useDefaultBrowser && (
-            <CCell
+            <Cell
               title={t("settings.general.useReaderMode")}
               backgroundColor={theme.colors.fg}
               titleTextColor={theme.colors.textPrimary}
@@ -146,7 +145,7 @@ function GeneralSettingsScreen() {
               }
             />
           )}
-        </CSection>
+        </Section>
       </TableView>
     </ScrollView>
   );

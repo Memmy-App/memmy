@@ -1,19 +1,16 @@
-import {
-  FilterStoreType,
-  useFiltersStore,
-} from "@src/stores/filters/filtersStore";
 import { useTranslation } from "react-i18next";
 import { Alert } from "react-native";
-import CCell from "@src/components/common/Table/CCell";
 import React, { useMemo } from "react";
-import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import { useFiltersStore } from "@src/state/filters/filtersStore";
+import { useThemeOptions } from "@src/state/settings/settingsStore";
+import { Cell } from "@gkasdorf/react-native-tableview-simple";
 
-interface FilterItemProps {
+interface IProps {
   name: string;
-  type: FilterStoreType;
+  type: "instances" | "keywords";
 }
 
-export function FilterItem({ name, type }: FilterItemProps) {
+export function FilterItem({ name, type }: IProps): React.JSX.Element {
   const filtersStore = useFiltersStore();
   const theme = useThemeOptions();
   const { t } = useTranslation();
@@ -39,9 +36,9 @@ export function FilterItem({ name, type }: FilterItemProps) {
         style: "destructive",
         onPress: () => {
           switch (type) {
-            case "keyword":
+            case "keywords":
               return filtersStore.removeKeyword(name);
-            case "instance":
+            case "instances":
               return filtersStore.removeInstance(name);
             default:
               throw new Error(`unknown filter store type ${type}`);
@@ -52,7 +49,7 @@ export function FilterItem({ name, type }: FilterItemProps) {
   };
 
   return (
-    <CCell
+    <Cell
       cellStyle="RightDetail"
       title={name}
       backgroundColor={theme.colors.fg}

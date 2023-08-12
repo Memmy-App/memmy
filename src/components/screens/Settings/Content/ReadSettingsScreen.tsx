@@ -1,31 +1,33 @@
 import React from "react";
-import { VStack } from "@src/components/common/Gluestack";
+import { VStack } from "@src/components/gluestack";
 import { Switch } from "react-native";
 import { useTranslation } from "react-i18next";
 import {
-  useSettings,
+  useSettingsStore,
   useThemeOptions,
-} from "@src/stores/settings/settingsStore";
-import setSetting from "@src/stores/settings/actions/setSetting";
-import CTable from "../../../common/Table/CTable";
-import CSection from "../../../common/Table/CSection";
-import CCell from "../../../common/Table/CCell";
+} from "@src/state/settings/settingsStore";
+import {
+  Cell,
+  Section,
+  TableView,
+} from "@gkasdorf/react-native-tableview-simple";
+import { setSetting } from "@src/state/settings/actions";
 
-function ReadSettingsScreen() {
+function ReadSettingsScreen(): React.JSX.Element {
   const { t } = useTranslation();
   const theme = useThemeOptions();
 
-  const settings = useSettings();
+  const settings = useSettingsStore();
 
   const onChange = (key: string, value: any) => {
-    setSetting({ [key]: value }).then();
+    setSetting(key, value);
   };
 
   return (
     <VStack backgroundColor={theme.colors.bg}>
-      <CTable>
-        <CSection footer={t("settings.content.markRead.footer")}>
-          <CCell
+      <TableView>
+        <Section footer={t("settings.content.markRead.footer")}>
+          <Cell
             cellStyle="RightDetail"
             title={t("Hide Read Posts on Feed")}
             backgroundColor={theme.colors.fg}
@@ -40,7 +42,7 @@ function ReadSettingsScreen() {
               />
             }
           />
-          <CCell
+          <Cell
             cellStyle="RightDetail"
             title={`${t("Hide Read Posts in Communities")}`}
             backgroundColor={theme.colors.fg}
@@ -53,7 +55,7 @@ function ReadSettingsScreen() {
               />
             }
           />
-          <CCell
+          <Cell
             cellStyle="RightDetail"
             title={t("Show Hide Read Button")}
             backgroundColor={theme.colors.fg}
@@ -68,10 +70,10 @@ function ReadSettingsScreen() {
               />
             }
           />
-        </CSection>
+        </Section>
 
-        <CSection header={t("settings.content.markRead.header")}>
-          <CCell
+        <Section header={t("settings.content.markRead.header")}>
+          <Cell
             cellStyle="RightDetail"
             title={t("settings.content.markRead.onPostOpen")}
             backgroundColor={theme.colors.fg}
@@ -84,7 +86,7 @@ function ReadSettingsScreen() {
               />
             }
           />
-          <CCell
+          <Cell
             cellStyle="RightDetail"
             title={t("settings.content.markRead.onImageView")}
             backgroundColor={theme.colors.fg}
@@ -97,7 +99,7 @@ function ReadSettingsScreen() {
               />
             }
           />
-          <CCell
+          <Cell
             cellStyle="RightDetail"
             title={`${t("settings.content.markRead.onVote")} ↑↓`}
             backgroundColor={theme.colors.fg}
@@ -110,7 +112,7 @@ function ReadSettingsScreen() {
               />
             }
           />
-          <CCell
+          <Cell
             cellStyle="RightDetail"
             title={t("settings.content.markRead.onFeedScroll")}
             backgroundColor={theme.colors.fg}
@@ -125,7 +127,7 @@ function ReadSettingsScreen() {
               />
             }
           />
-          <CCell
+          <Cell
             cellStyle="RightDetail"
             title={t("settings.content.markRead.onCommunityScroll")}
             backgroundColor={theme.colors.fg}
@@ -140,8 +142,8 @@ function ReadSettingsScreen() {
               />
             }
           />
-        </CSection>
-      </CTable>
+        </Section>
+      </TableView>
     </VStack>
   );
 }

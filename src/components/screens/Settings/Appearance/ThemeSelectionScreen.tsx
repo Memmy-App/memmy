@@ -1,27 +1,23 @@
-import { TableView } from "@gkasdorf/react-native-tableview-simple";
 import {
-  Box,
-  HStack,
-  ScrollView,
-  Text,
-  View,
-} from "@src/components/common/Gluestack";
+  Cell,
+  Section,
+  TableView,
+} from "@gkasdorf/react-native-tableview-simple";
+import { Box, HStack, ScrollView, Text, View } from "@src/components/gluestack";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import {
-  useSettings,
+  useSettingsStore,
   useThemeOptions,
-} from "@src/stores/settings/settingsStore";
-import setSetting from "@src/stores/settings/actions/setSetting";
+} from "@src/state/settings/settingsStore";
 import {
   DarkThemeOptionsArr,
   LightThemeOptionsArr,
   ThemeOptionsMap,
-} from "../../../../theme/themeOptions";
-import CCell from "../../../common/Table/CCell";
-import CSection from "../../../common/Table/CSection";
-import SFIcon from "../../../common/icons/SFIcon";
+} from "@src/theme/themeOptions";
+import { SFIcon } from "@src/components/common/icons/SFIcon";
+import { setSetting } from "@src/state/settings/actions";
 
 function ThemeColors({ accent, bg }: { accent: string; bg: string }) {
   return (
@@ -52,21 +48,21 @@ interface IProps {
   route: any;
 }
 
-function ThemeSelectionScreen({ route }: IProps) {
+function ThemeSelectionScreen({ route }: IProps): React.JSX.Element {
   const { t } = useTranslation();
   const theme = useThemeOptions();
   const themeProp = route.params?.themeProp || "theme";
 
-  const settings = useSettings();
-  const currentTheme = settings[themeProp];
+  const settings = useSettingsStore();
+  const currentTheme = settings.theme;
 
   return (
     <View backgroundColor={theme.colors.bg} flex={1}>
       <ScrollView bg={theme.colors.bg} flex={1}>
         <TableView style={styles.table}>
-          <CSection header={t("settings.appearance.themes.light")}>
+          <Section header={t("settings.appearance.themes.light")}>
             {LightThemeOptionsArr.map((themeName) => (
-              <CCell
+              <Cell
                 key={themeName}
                 cellStyle="RightDetail"
                 backgroundColor={theme.colors.fg}
@@ -89,14 +85,14 @@ function ThemeSelectionScreen({ route }: IProps) {
                 onPress={() => {
                   const themeSetting = {};
                   themeSetting[themeProp] = themeName;
-                  setSetting(themeSetting).then();
+                  setSetting("themeSetting", themeSetting);
                 }}
               />
             ))}
-          </CSection>
-          <CSection header={t("settings.appearance.themes.dark")}>
+          </Section>
+          <Section header={t("settings.appearance.themes.dark")}>
             {DarkThemeOptionsArr.map((themeName) => (
-              <CCell
+              <Cell
                 key={themeName}
                 cellStyle="RightDetail"
                 backgroundColor={theme.colors.fg}
@@ -119,7 +115,7 @@ function ThemeSelectionScreen({ route }: IProps) {
                 onPress={() => {
                   const themeSetting = {};
                   themeSetting[themeProp] = themeName;
-                  setSetting(themeSetting).then();
+                  setSetting("themeSetting", themeSetting);
                 }}
               >
                 {themeName === "Sunset" ? (
@@ -133,9 +129,9 @@ function ThemeSelectionScreen({ route }: IProps) {
                     Inspired by the Sunset Theme from Apollo (Christian Selig)
                   </Text>
                 ) : null}
-              </CCell>
+              </Cell>
             ))}
-          </CSection>
+          </Section>
         </TableView>
       </ScrollView>
     </View>

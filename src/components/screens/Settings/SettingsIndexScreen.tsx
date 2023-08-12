@@ -1,28 +1,24 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
-import { TableView } from "@gkasdorf/react-native-tableview-simple";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
-  Box,
-  HStack,
-  ScrollView,
-  Text,
-} from "@src/components/common/Gluestack";
+  Cell,
+  Section,
+  TableView,
+} from "@gkasdorf/react-native-tableview-simple";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Box, HStack, ScrollView, Text } from "@src/components/gluestack";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Linking, StyleSheet } from "react-native";
 import { Divider } from "react-native-elements";
 import { modelName, osVersion } from "expo-device";
 import { getReadableVersion } from "react-native-device-info";
-import { useThemeOptions } from "@src/stores/settings/settingsStore";
-import { openLink } from "@src/helpers/LinkHelper";
 import dayjs from "dayjs";
-import { ICON_MAP } from "../../../constants/IconMap";
-import { deleteLog, sendLog, writeToLog } from "../../../helpers/LogHelper";
-import CCell from "../../common/Table/CCell";
-import CSection from "../../common/Table/CSection";
-import SFIcon from "../../common/icons/SFIcon";
-import { GITHUB_LINK } from "../../../constants/Links";
-import { AppContextMenuButton } from "../../common/ContextMenu/App/AppContextMenuButton";
+import { SFIcon } from "@src/components/common/icons/SFIcon";
+import { useThemeOptions } from "@src/state/settings/settingsStore";
+import { deleteLog, sendLog, writeToLog } from "@src/helpers/debug/DebugHelper";
+import { AppContextMenuButton } from "@src/components/contextMenus/AppContextMenuButton";
+import { ICON_MAP } from "@src/types/constants/IconMap";
+import { openWebLink } from "@src/helpers/links";
 
 function SettingOptionTitle({
   text,
@@ -52,11 +48,11 @@ function SettingOptionTitle({
   );
 }
 
-function SettingsIndexScreen({
-  navigation,
-}: {
+interface IProps {
   navigation: NativeStackNavigationProp<any>;
-}) {
+}
+
+function SettingsIndexScreen({ navigation }: IProps): React.JSX.Element {
   const { t, i18n } = useTranslation();
   const theme = useThemeOptions();
 
@@ -73,7 +69,7 @@ function SettingsIndexScreen({
   const onEmailDebugLogPress = () => {
     sendLog()
       .then()
-      .catch((e) => {
+      .catch((e: any) => {
         if (e.toString() === "Error: no_file") {
           Alert.alert(t("alert.title.noDebugLog"));
         } else {
@@ -90,9 +86,11 @@ function SettingsIndexScreen({
     params.append("template", "bug_report.yml");
     params.append("title", "[Bug] ");
     params.append("version", getReadableVersion());
-    params.append("device", modelName);
-    params.append("osVersion", osVersion);
-    Linking.openURL(`${GITHUB_LINK}/issues/new?${params.toString()}`);
+    params.append("device", modelName ?? "");
+    params.append("osVersion", osVersion ?? "");
+    Linking.openURL(
+      `https://github.com/Memmy-App/memmy/issues/new?${params.toString()}`
+    );
   };
 
   const languageOptions = useMemo(
@@ -108,8 +106,8 @@ function SettingsIndexScreen({
   return (
     <ScrollView bg={theme.colors.bg} flex={1}>
       <TableView style={styles.table}>
-        <CSection>
-          <CCell
+        <Section>
+          <Cell
             cellStyle="Basic"
             title={
               <SettingOptionTitle
@@ -124,7 +122,7 @@ function SettingsIndexScreen({
             titleTextColor={theme.colors.textPrimary}
             rightDetailColor={theme.colors.textSecondary}
           />
-          <CCell
+          <Cell
             cellStyle="Basic"
             title={
               <SettingOptionTitle
@@ -139,7 +137,7 @@ function SettingsIndexScreen({
             titleTextColor={theme.colors.textPrimary}
             rightDetailColor={theme.colors.textSecondary}
           />
-          <CCell
+          <Cell
             cellStyle="Basic"
             title={
               <SettingOptionTitle
@@ -154,7 +152,7 @@ function SettingsIndexScreen({
             titleTextColor={theme.colors.textPrimary}
             rightDetailColor={theme.colors.textSecondary}
           />
-          <CCell
+          <Cell
             cellStyle="Basic"
             title={
               <SettingOptionTitle
@@ -169,7 +167,7 @@ function SettingsIndexScreen({
             titleTextColor={theme.colors.textPrimary}
             rightDetailColor={theme.colors.textSecondary}
           />
-          <CCell
+          <Cell
             cellStyle="Basic"
             title={
               <SettingOptionTitle
@@ -184,7 +182,7 @@ function SettingsIndexScreen({
             titleTextColor={theme.colors.textPrimary}
             rightDetailColor={theme.colors.textSecondary}
           />
-          <CCell
+          <Cell
             cellStyle="Basic"
             title={
               <SettingOptionTitle
@@ -199,10 +197,10 @@ function SettingsIndexScreen({
             titleTextColor={theme.colors.textPrimary}
             rightDetailColor={theme.colors.textSecondary}
           />
-        </CSection>
+        </Section>
 
-        <CSection>
-          <CCell
+        <Section>
+          <Cell
             cellStyle="Basic"
             title={t("Email Debug Log")}
             backgroundColor={theme.colors.fg}
@@ -211,7 +209,7 @@ function SettingsIndexScreen({
             accessory="DisclosureIndicator"
             onPress={onEmailDebugLogPress}
           />
-          <CCell
+          <Cell
             cellStyle="Basic"
             title={t("Clear Debug Log")}
             backgroundColor={theme.colors.fg}
@@ -227,7 +225,7 @@ function SettingsIndexScreen({
               }
             }}
           />
-          <CCell
+          <Cell
             cellStyle="Basic"
             title={t("Clear Cache")}
             accessory="DisclosureIndicator"
@@ -237,7 +235,7 @@ function SettingsIndexScreen({
               onCacheClear();
             }}
           />
-          <CCell
+          <Cell
             cellStyle="Basic"
             title={t("settings.reportBugBtn")}
             onPress={onReportBugPress}
@@ -248,11 +246,11 @@ function SettingsIndexScreen({
               />
             }
           />
-          <CCell
+          <Cell
             cellStyle="Basic"
             title={t("settings.checkInstanceStatus")}
             onPress={() => {
-              openLink("http://lemmy-status.org/", navigation);
+              openWebLink("http://lemmy-status.org/");
             }}
             cellAccessoryView={
               <SFIcon
@@ -261,12 +259,12 @@ function SettingsIndexScreen({
               />
             }
           />
-        </CSection>
+        </Section>
 
         {__DEV__ && (
           <>
             <Divider style={{ margin: 20 }} />
-            <CSection header="🛠️ DEV TOOLS">
+            <Section header="🛠️ DEV TOOLS">
               <AppContextMenuButton
                 options={languageOptions}
                 selection={i18n.resolvedLanguage}
@@ -275,7 +273,7 @@ function SettingsIndexScreen({
                   dayjs.locale(nativeEvent.actionKey.split("-")[0]);
                 }}
               >
-                <CCell
+                <Cell
                   cellStyle="RightDetail"
                   title={t("Select Language")}
                   detail={i18n.language}
@@ -285,7 +283,7 @@ function SettingsIndexScreen({
                   accessory="DisclosureIndicator"
                 />
               </AppContextMenuButton>
-            </CSection>
+            </Section>
           </>
         )}
       </TableView>
