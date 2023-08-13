@@ -61,6 +61,7 @@ function LinkButton({ link, thumbnail }: LinkButtonProps) {
             color={theme.colors.textSecondary}
             numberOfLines={1}
             style={{ width: "90%" }}
+            size="sm"
           >
             {link}
           </Text>
