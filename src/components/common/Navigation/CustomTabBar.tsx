@@ -1,8 +1,9 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { DrawerActions } from "@react-navigation/native";
 import { Box, Text, View, VStack } from "@src/components/common/Gluestack";
+import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { AccountsContextMenu } from "../ContextMenu/AccountsContextMenu";
 import TabBarGestureHandler from "./TabBarGestureHandler";
@@ -87,6 +88,8 @@ export function CustomTabBar({
               canPreventDefault: true,
             });
 
+            navigation.dispatch(DrawerActions.closeDrawer());
+
             if (!isFocused && !event.defaultPrevented) {
               // The `merge: true` option makes sure that the params inside the tab screen are preserved
               // @ts-ignore this is valid, types are wrong from React Navigation
@@ -96,6 +99,10 @@ export function CustomTabBar({
 
           const onLongPress = () => {
             onGenericHapticFeedback();
+
+            if (route.name === "FeedStack") {
+              navigation.dispatch(DrawerActions.toggleDrawer());
+            }
 
             navigation.emit({
               type: "tabLongPress",

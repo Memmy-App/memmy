@@ -102,7 +102,7 @@ function FeedDrawerContainerScreen() {
       }}
     >
       <Drawer.Screen
-        name="FeedScreen"
+        name="FeedStack"
         component={FeedsIndexScreen}
         options={{
           title: t("Feed"),
