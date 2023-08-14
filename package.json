@@ -66,7 +66,7 @@
     "expo-device": "~5.4.0",
     "expo-file-system": "~15.4.2",
     "expo-font": "~11.4.0",
-    "expo-image-picker": "~14.3.1",
+    "expo-image-picker": "~14.3.2",
     "expo-linking": "~5.0.0",
     "expo-localization": "^14.3.0",
     "expo-mail-composer": "~12.3.0",
