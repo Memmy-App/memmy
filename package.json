@@ -70,7 +70,7 @@
     "expo-linking": "~5.0.0",
     "expo-localization": "^14.3.0",
     "expo-mail-composer": "~12.3.0",
-    "expo-media-library": "~15.4.0",
+    "expo-media-library": "~15.4.1",
     "expo-notifications": "^0.20.0",
     "expo-permissions": "~14.2.1",
     "expo-splash-screen": "~0.20.2",
