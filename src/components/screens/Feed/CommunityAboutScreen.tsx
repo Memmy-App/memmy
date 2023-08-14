@@ -1,14 +1,17 @@
 import FastImage from "@gkasdorf/react-native-fast-image";
 import { ScrollView, Text, VStack } from "@src/components/common/Gluestack";
-import React from "react";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
+import loadCommunity from "@root/src/stores/communities/actions/loadCommunity";
 import CommunityCounts from "./components/Community/CommunityCounts";
 import RenderMarkdown from "../../common/Markdown/RenderMarkdown";
+import RefreshControl from "../../common/RefreshControl";
 import ModeratorList from "./components/Community/ModeratorList";
 import {
   useCommunity,
   useCommunityModerators,
+  useCommunityStatus,
 } from "../../../stores/communities/communitiesStore";
 
 function Card({
@@ -42,11 +45,22 @@ function Card({
 function CommunityAboutScreen({ route }: { route: any }) {
   const { t } = useTranslation();
   const theme = useThemeOptions();
-  const community = useCommunity(route.params.communityFullName);
-  const moderators = useCommunityModerators(route.params.communityFullName);
+  const communityName = route.params.communityFullName;
+  const community = useCommunity(communityName);
+  const moderators = useCommunityModerators(communityName);
+  const status = useCommunityStatus(communityName);
+
+  const onRefresh = () => {
+    loadCommunity(communityName).then();
+  };
+
+  const refreshControl = useMemo(
+    () => <RefreshControl refreshing={status?.loading} onRefresh={onRefresh} />,
+    [status?.loading]
+  );
 
   return (
-    <ScrollView bg={theme.colors.bg} flex={1}>
+    <ScrollView bg={theme.colors.bg} flex={1} refreshControl={refreshControl}>
       <VStack mx="$4">
         {route.params.banner && (
           <FastImage
