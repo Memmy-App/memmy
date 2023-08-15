@@ -145,6 +145,24 @@ function ContentScreen({
             }
           />
         </CSection>
+        <CSection
+          header={t("Bot Content")}
+          footer={t("settings.content.botContent.footer")}
+        >
+          <CCell
+            cellStyle="RightDetail"
+            title={t("Hide Bot Content")}
+            backgroundColor={theme.colors.fg}
+            titleTextColor={theme.colors.textPrimary}
+            rightDetailColor={theme.colors.textSecondary}
+            cellAccessoryView={
+              <Switch
+                value={settings.hideBotContent}
+                onValueChange={(v) => onChange("hideBotContent", v)}
+              />
+            }
+          />
+        </CSection>
       </TableView>
     </ScrollView>
   );
