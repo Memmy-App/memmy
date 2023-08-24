@@ -13,7 +13,10 @@ import { useCurrentAccount } from "../../../stores/account/accountStore";
 import addFeed from "../../../stores/feeds/actions/addFeed";
 import loadFeedPosts from "../../../stores/feeds/actions/loadFeedPosts";
 import removeFeed from "../../../stores/feeds/actions/removeFeed";
-import { useFeedStatus } from "../../../stores/feeds/feedsStore";
+import {
+  useFeedListingType,
+  useFeedStatus,
+} from "../../../stores/feeds/feedsStore";
 import { Account } from "../../../types/Account";
 import { FeedListingTypeButton } from "./components/FeedListingTypeButton";
 import FeedView from "./components/FeedView";
@@ -27,6 +30,7 @@ function FeedsIndexScreen({
   // Global State
   const currentAccount = useCurrentAccount();
   const status = useFeedStatus(key);
+  const listingType = useFeedListingType(key);
 
   // Refs
   const previousAccount = useRef<Account | null>(null);
@@ -46,6 +50,10 @@ function FeedsIndexScreen({
   };
 
   useEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => headerTitle(),
+    });
+
     if (initialized.current) return;
 
     if (!status) {
@@ -54,7 +62,7 @@ function FeedsIndexScreen({
       doLoad();
       initialized.current = true;
     }
-  }, [status]);
+  }, [status, listingType]);
 
   useEffect(
     () => () => {
@@ -64,10 +72,6 @@ function FeedsIndexScreen({
   );
 
   useEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => headerTitle(),
-    });
-
     if (currentAccount === previousAccount.current) return;
 
     resetInstance();
