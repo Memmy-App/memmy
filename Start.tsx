@@ -7,6 +7,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { setRootViewBackgroundColor } from "@pnthach95/react-native-root-view-background";
 import {
   useCurrentTheme,
+  useSettingsStore,
   useThemeConfig,
 } from "@src/stores/settings/settingsStore";
 import { GluestackUIProvider } from "@src/components/common/Gluestack";
@@ -84,6 +85,8 @@ function Start({ onReady }: StartProps) {
 
   useEffect(() => {
     if (!accountStore.status.loading && stackReady) {
+      useSettingsStore.getState();
+      useFiltersStore.getState();
       onReady();
     }
   }, [accountStore.status.loading, stackReady]);
@@ -139,10 +142,11 @@ function Start({ onReady }: StartProps) {
 
   if (!loaded) {
     useAccountStore.getState().init();
-    dispatch(loadFavorites());
-    setLoaded(true);
-    loadSettings().then();
     useFiltersStore.getState().init();
+    dispatch(loadFavorites());
+    loadSettings().then(() => {
+      setLoaded(true);
+    });
   }
 
   if (accountStore.status.loading) {

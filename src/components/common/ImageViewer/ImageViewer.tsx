@@ -1,10 +1,4 @@
 import FastImage, { OnLoadEvent } from "@gkasdorf/react-native-fast-image";
-import { Text, VStack, View } from "@src/components/common/Gluestack";
-import { onGenericHapticFeedback } from "@src/helpers/HapticFeedbackHelpers";
-import {
-  useSettingsStore,
-  useThemeOptions,
-} from "@src/stores/settings/settingsStore";
 import { BlurView } from "expo-blur";
 import { StatusBar } from "expo-status-bar";
 import React, { useMemo, useRef, useState } from "react";
@@ -31,13 +25,20 @@ import Animated, {
   withDecay,
   withTiming,
 } from "react-native-reanimated";
-import { IconAlertTriangle } from "tabler-icons-react-native";
-import ImageButton from "../Buttons/ImageButton";
-import { ImageContextMenu } from "../ContextMenu/ImageContextMenu";
-import Toast from "../Toast";
-import ExitButton from "./ImageExitButton";
-import ImageViewFooter from "./ImageViewFooter";
+import {
+  useSettingsStore,
+  useThemeOptions,
+} from "@src/stores/settings/settingsStore";
+import { onGenericHapticFeedback } from "@src/helpers/HapticFeedbackHelpers";
+import { ImageContextMenu } from "@src/components/common/ContextMenu/ImageContextMenu";
+import { Text, View, VStack } from "@src/components/common/Gluestack";
+import ImageButton from "@src/components/common/Buttons/ImageButton";
+import { SFIcon } from "@src/components/common/icons/SFIcon";
+import { ICON_MAP } from "@src/constants/IconMap";
+import Toast from "@src/components/common/Toast";
 import { useImageDimensions } from "./useImageDimensions";
+import ImageViewFooter from "./ImageViewFooter";
+import ExitButton from "./ImageExitButton";
 
 interface IProps {
   source: string;
@@ -152,7 +153,7 @@ function ImageViewer({
   const lastPostId = useRef(postId);
 
   // Check if props have changed
-  if (recycled && postId !== lastPostId.current) {
+  if (recycled && postId && postId !== lastPostId.current) {
     // Save the dimensions for later
     recycled.current = {
       ...recycled.current,
@@ -209,45 +210,56 @@ function ImageViewer({
 
       // If expanded is false, we are opening up. So we want to fade in the background color
       // First we set the position information
-      nonViewerRef.current.measure((x, y, width, height, px, py) => {
-        initialPosition.value = {
-          x,
-          y,
-          width,
-          height,
-          px,
-          py,
-        };
+      nonViewerRef.current.measure(
+        (
+          x: number,
+          y: number,
+          width: number,
+          height: number,
+          px: number,
+          py: number
+        ) => {
+          initialPosition.value = {
+            x,
+            y,
+            width,
+            height,
+            px,
+            py,
+          };
 
-        // Set the position to the initial
-        positionX.value = px;
-        positionY.value = py;
+          // Set the position to the initial
+          positionX.value = px;
+          positionY.value = py;
 
-        // Set the size to the initial size
-        imageHeight.value = height;
-        imageWidth.value = width;
+          // Set the size to the initial size
+          imageHeight.value = height;
+          imageWidth.value = width;
 
-        // Size the image up
-        imageHeight.value = withTiming(
-          dimensions.dimensions.viewerDimensions.height,
-          {
-            duration: 200,
-          }
-        );
-        imageWidth.value = withTiming(
-          dimensions.dimensions.viewerDimensions.width,
-          {
-            duration: 200,
-          }
-        );
+          // Size the image up
+          imageHeight.value = withTiming(
+            dimensions.dimensions.viewerDimensions.height,
+            {
+              duration: 200,
+            }
+          );
+          imageWidth.value = withTiming(
+            dimensions.dimensions.viewerDimensions.width,
+            {
+              duration: 200,
+            }
+          );
 
-        // Move image to the middle
-        runOnUI(setToCenter)();
-      });
+          // Move image to the middle
+          runOnUI(setToCenter)();
+        }
+      );
 
       // Then we handle the fade
       backgroundColor.value = withTiming("rgba(0, 0, 0, 1)", { duration: 200 });
-      imageOpacity.value = 0;
+      setTimeout(() => {
+        imageOpacity.value = 0;
+      }, 100);
 
       setExpanded(true);
 
@@ -597,10 +609,7 @@ function ImageViewer({
                       justifyContent="center"
                       space="sm"
                     >
-                      <IconAlertTriangle
-                        color={theme.colors.textSecondary}
-                        size={36}
-                      />
+                      <SFIcon icon={ICON_MAP.WARN_TRIANGLE} size={36} />
                       {!compactMode && (
                         <>
                           <Text size="xl">NSFW</Text>
