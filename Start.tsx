@@ -18,6 +18,7 @@ import { ThemeOptionsMap } from "@src/theme/themeOptions";
 import { useFiltersStore } from "@src/stores/filters/filtersStore";
 import { loadFavorites } from "@src/slices/favorites/favoritesActions";
 import { useAccountStore } from "@src/stores/account/accountStore";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import loadSettings from "./src/stores/settings/actions/loadSettings";
 import setSetting from "./src/stores/settings/actions/setSetting";
 import Toast from "./src/components/common/Toast";
@@ -154,23 +155,25 @@ function Start({ onReady }: StartProps) {
   }
 
   return (
-    <GluestackUIProvider config={glueStackTheme}>
-      <ErrorBoundary onError={logError} FallbackComponent={MemmyErrorView}>
-        {/* eslint-disable-next-line react/style-prop-object */}
-        <StatusBar style={statusBarColor} />
-        <GestureHandlerRootView
-          style={{
-            flex: 1,
-            backgroundColor: ThemeOptionsMap[currentTheme].colors.bg,
-          }}
-        >
-          <>
-            <Toast />
-            <Stack onReady={onStackReady} />
-          </>
-        </GestureHandlerRootView>
-      </ErrorBoundary>
-    </GluestackUIProvider>
+    <SafeAreaProvider>
+      <GluestackUIProvider config={glueStackTheme}>
+        <ErrorBoundary onError={logError} FallbackComponent={MemmyErrorView}>
+          {/* eslint-disable-next-line react/style-prop-object */}
+          <StatusBar style={statusBarColor} />
+          <GestureHandlerRootView
+            style={{
+              flex: 1,
+              backgroundColor: ThemeOptionsMap[currentTheme].colors.bg,
+            }}
+          >
+            <>
+              <Toast />
+              <Stack onReady={onStackReady} />
+            </>
+          </GestureHandlerRootView>
+        </ErrorBoundary>
+      </GluestackUIProvider>
+    </SafeAreaProvider>
   );
 }
 

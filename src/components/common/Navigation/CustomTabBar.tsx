@@ -4,6 +4,7 @@ import { Box, Text, View, VStack } from "@src/components/common/Gluestack";
 import { useThemeOptions } from "@src/stores/settings/settingsStore";
 import React from "react";
 import { TouchableOpacity } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { onGenericHapticFeedback } from "../../../helpers/HapticFeedbackHelpers";
 import { AccountsContextMenu } from "../ContextMenu/AccountsContextMenu";
 import TabBarGestureHandler from "./TabBarGestureHandler";
@@ -51,16 +52,18 @@ export function CustomTabBar({
   navigation,
 }: BottomTabBarProps) {
   const { colors } = useThemeOptions();
+  const insets = useSafeAreaInsets();
 
   return (
     <TabBarGestureHandler>
       <View
         style={{
           flexDirection: "row",
-          height: 75,
           backgroundColor: colors.navBarBg,
           paddingTop: 6,
-          paddingHorizontal: 5,
+          paddingBottom: insets.bottom,
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
           borderTopWidth: 1,
           borderTopColor: colors.border,
         }}
