@@ -237,7 +237,6 @@ function CreateAccountScreen({
               >
                 <Text>
                   {t("onboarding.openEmailAppBtn")}
-                  Open Email App
                 </Text>
               </Button>
               <Button onPress={() => setReady(true)} disabled={loading}>
