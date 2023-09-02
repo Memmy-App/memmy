@@ -7,11 +7,11 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
 import utc from "dayjs/plugin/utc";
 import localizedFormat from "dayjs/plugin/localizedFormat";
-import de_DE from "./i18n/locales/de.json";
-import en_US from "./i18n/locales/en.json";
-import cs_CZ from "./i18n/locales/cz.json";
-import ro_RO from "./i18n/locales/ro.json";
-import pt_BR from "./i18n/locales/pt_br.json";
+import de_DE from "./i18n/locales/de_DE.json";
+import en_US from "./i18n/locales/en_US.json";
+import cs_CZ from "./i18n/locales/cs_CZ.json";
+import ro_RO from "./i18n/locales/ro_RO.json";
+import pt_BR from "./i18n/locales/pt_BR.json";
 
 // dayjs locales
 import "dayjs/locale/de";

@@ -95,6 +95,7 @@
 			"useReaderMode": "Lesemodus verwenden"
 		},
 		"reportBugBtn": "Bug auf GitHub melden",
+		"checkInstanceStatus": "Lemmy Status prüfen",
 		"swipeToVote": "Mit Wisch hoch-/runterwählen",
 		"swipe": {
 			"left": {

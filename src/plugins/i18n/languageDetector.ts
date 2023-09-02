@@ -4,7 +4,7 @@ import { LanguageDetectorModule } from "i18next";
 // noinspection JSUnusedGlobalSymbols
 const languageDetector: LanguageDetectorModule = {
   type: "languageDetector",
-  detect: () => Localization.locale.split("-")[0],
+  detect: () => Localization.locale,
   init: () => {},
   cacheUserLanguage: () => {},
 };
