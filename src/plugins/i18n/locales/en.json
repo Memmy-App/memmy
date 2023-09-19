@@ -127,6 +127,9 @@
 				"blur": "Blur NSFW Content",
 				"hide": "Hide NSFW Content"
 			},
+			"botContent": { 
+				"footer": "Hide all posts that are made from bot accounts"
+			},
 			"markRead": {
 				"header": "MARK READ SETTINGS",
 				"onPostOpen": "Mark Read on Post Open",
