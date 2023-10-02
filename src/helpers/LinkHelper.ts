@@ -170,15 +170,14 @@ const openLemmyLink = (
 
 const openWebLink = (link: string, color = "#000"): void => {
   const { settings } = useSettingsStore.getState();
-  const urlPattern =
-    /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
 
   try {
     writeToLog(`Trying to open link: ${link}`);
 
-    let fixedLink = decodeURIComponent(link);
-    fixedLink = fixedLink.match(urlPattern)[0];
-    fixedLink = fixedLink.replace("%5D", "");
+    const url = new URL(link);
+    const fixedLink = url.toString().replace("%5D", "");
+
+    writeToLog(`fixed link: ${fixedLink}`);
 
     // TODO Remove this once Expo publishes new fix. For now this will stop matrix crashes
 
@@ -203,7 +202,7 @@ const openWebLink = (link: string, color = "#000"): void => {
         writeToLog(e.toString());
       });
   } catch (e) {
-    writeToLog("Error opening link.");
+    writeToLog(`Error opening link: ${link}`);
     writeToLog(e.toString());
     Alert.alert("Error.", e.toString());
   }
@@ -214,12 +213,29 @@ export const openLink = (
   navigation: NativeStackNavigationProp<any>,
   color = "#000"
 ): void => {
-  const urlPattern =
-    /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
-
   writeToLog(`Trying to open link: ${link}`);
 
-  if (!urlPattern.test(link)) {
+  try {
+    const url = new URL(link);
+    const urlStr = url.toString();
+    const potentialFed = isPotentialFedSite(urlStr);
+
+    if (potentialFed) {
+      isLemmySite(link)
+        .then((isLemmy) => {
+          if (isLemmy) {
+            openLemmyLink(link, navigation, color);
+          } else {
+            openWebLink(link, color);
+          }
+        })
+        .catch(() => {
+          openWebLink(link, color);
+        });
+    } else {
+      openWebLink(link, color);
+    }
+  } catch (err) {
     store.dispatch(
       showToast({
         message: i18n.t("toast.linkError"),
@@ -227,26 +243,7 @@ export const openLink = (
         variant: "error",
       })
     );
-    return;
-  }
-
-  link = link.match(urlPattern)[0];
-
-  const potentialFed = isPotentialFedSite(link);
-  if (potentialFed) {
-    isLemmySite(link)
-      .then((isLemmy) => {
-        if (isLemmy) {
-          openLemmyLink(link, navigation, color);
-        } else {
-          openWebLink(link, color);
-        }
-      })
-      .catch(() => {
-        openWebLink(link, color);
-      });
-  } else {
-    openWebLink(link, color);
+    writeToLog(`Link failed url parsing: ${link}.\nERROR: ${err}`);
   }
 };
 
