@@ -6,7 +6,6 @@ import { Alert, Linking } from "react-native";
 import axios from "axios";
 import { URL } from "react-native-url-polyfill";
 import { useSettingsStore } from "@src/stores/settings/settingsStore";
-import { RegexPattern } from "@src/constants/Regex";
 import store from "../../store";
 import i18n from "../plugins/i18n/i18n";
 import { showToast } from "../slices/toast/toastSlice";
@@ -175,8 +174,8 @@ const openWebLink = (link: string, color = "#000"): void => {
   try {
     writeToLog(`Trying to open link: ${link}`);
 
-    let fixedLink = link.match(RegexPattern.url)[0];
-    fixedLink = fixedLink.replace("%5D", "");
+    const url = new URL(link);
+    const fixedLink = url.toString().replace("%5D", "");
 
     writeToLog(`fixed link: ${fixedLink}`);
 
@@ -203,7 +202,7 @@ const openWebLink = (link: string, color = "#000"): void => {
         writeToLog(e.toString());
       });
   } catch (e) {
-    writeToLog("Error opening link.");
+    writeToLog(`Error opening link: ${link}`);
     writeToLog(e.toString());
     Alert.alert("Error.", e.toString());
   }
@@ -216,7 +215,27 @@ export const openLink = (
 ): void => {
   writeToLog(`Trying to open link: ${link}`);
 
-  if (!RegexPattern.url.test(link)) {
+  try {
+    const url = new URL(link);
+    const urlStr = url.toString();
+    const potentialFed = isPotentialFedSite(urlStr);
+
+    if (potentialFed) {
+      isLemmySite(link)
+        .then((isLemmy) => {
+          if (isLemmy) {
+            openLemmyLink(link, navigation, color);
+          } else {
+            openWebLink(link, color);
+          }
+        })
+        .catch(() => {
+          openWebLink(link, color);
+        });
+    } else {
+      openWebLink(link, color);
+    }
+  } catch (err) {
     store.dispatch(
       showToast({
         message: i18n.t("toast.linkError"),
@@ -224,29 +243,7 @@ export const openLink = (
         variant: "error",
       })
     );
-    return;
-  }
-
-  const linkMatches = link.match(RegexPattern.url);
-  link = linkMatches[0];
-
-  writeToLog(`link matches: ${linkMatches}`);
-
-  const potentialFed = isPotentialFedSite(link);
-  if (potentialFed) {
-    isLemmySite(link)
-      .then((isLemmy) => {
-        if (isLemmy) {
-          openLemmyLink(link, navigation, color);
-        } else {
-          openWebLink(link, color);
-        }
-      })
-      .catch(() => {
-        openWebLink(link, color);
-      });
-  } else {
-    openWebLink(link, color);
+    writeToLog(`Link failed url parsing: ${link}.\nERROR: ${err}`);
   }
 };
 
