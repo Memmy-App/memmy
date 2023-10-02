@@ -6,6 +6,7 @@ import { Alert, Linking } from "react-native";
 import axios from "axios";
 import { URL } from "react-native-url-polyfill";
 import { useSettingsStore } from "@src/stores/settings/settingsStore";
+import { RegexPattern } from "@src/constants/Regex";
 import store from "../../store";
 import i18n from "../plugins/i18n/i18n";
 import { showToast } from "../slices/toast/toastSlice";
@@ -170,15 +171,14 @@ const openLemmyLink = (
 
 const openWebLink = (link: string, color = "#000"): void => {
   const { settings } = useSettingsStore.getState();
-  const urlPattern =
-    /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
 
   try {
     writeToLog(`Trying to open link: ${link}`);
 
-    let fixedLink = decodeURIComponent(link);
-    fixedLink = fixedLink.match(urlPattern)[0];
+    let fixedLink = link.match(RegexPattern.url)[0];
     fixedLink = fixedLink.replace("%5D", "");
+
+    writeToLog(`fixed link: ${fixedLink}`);
 
     // TODO Remove this once Expo publishes new fix. For now this will stop matrix crashes
 
@@ -214,12 +214,9 @@ export const openLink = (
   navigation: NativeStackNavigationProp<any>,
   color = "#000"
 ): void => {
-  const urlPattern =
-    /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/;
-
   writeToLog(`Trying to open link: ${link}`);
 
-  if (!urlPattern.test(link)) {
+  if (!RegexPattern.url.test(link)) {
     store.dispatch(
       showToast({
         message: i18n.t("toast.linkError"),
@@ -230,7 +227,10 @@ export const openLink = (
     return;
   }
 
-  link = link.match(urlPattern)[0];
+  const linkMatches = link.match(RegexPattern.url);
+  link = linkMatches[0];
+
+  writeToLog(`link matches: ${linkMatches}`);
 
   const potentialFed = isPotentialFedSite(link);
   if (potentialFed) {
