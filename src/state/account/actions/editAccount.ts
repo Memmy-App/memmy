@@ -1,5 +1,5 @@
-import { IAccount } from "@types";
-import { useAccountStore } from "@src/state/account/accountStore";
+import { useAccountStore } from '@src/state/account/accountStore';
+import { IAccount } from '@src/types';
 
 export const editAccount = (account: IAccount): void => {
   useAccountStore.setState((state) => {
@@ -9,7 +9,7 @@ export const editAccount = (account: IAccount): void => {
         a.username.toLowerCase() === account.instance.toLowerCase(),
     );
 
-    if (!prev) return;
+    if (prev == null) return;
 
     prev.username = account.username;
     prev.instance = account.instance;

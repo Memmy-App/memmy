@@ -1,2 +1,2 @@
-export * from "./lightThemeColors";
-export * from "./oksolarLightThemeColors";
+export * from './lightThemeColors';
+export * from './oksolarLightThemeColors';

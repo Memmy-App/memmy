@@ -1,5 +1,5 @@
-import { IAccount } from "@types";
-import { useAccountStore } from "@src/state/account/accountStore";
+import { useAccountStore } from '@src/state/account/accountStore'
+import { type IAccount } from '@src/types'
 
 export const deleteAccount = (account: IAccount): void => {
   useAccountStore.setState((state) => {
@@ -7,6 +7,6 @@ export const deleteAccount = (account: IAccount): void => {
       (a) =>
         a.instance.toLowerCase() !== account.instance.toLowerCase() &&
         a.username.toLowerCase() !== account.username.toLowerCase(),
-    );
-  });
-};
+    )
+  })
+}

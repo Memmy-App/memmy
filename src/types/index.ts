@@ -1,1 +1,1 @@
-export * from "./IAccount";
+export * from './IAccount';

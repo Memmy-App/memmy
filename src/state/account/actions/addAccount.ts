@@ -1,11 +1,11 @@
-import { IAccount } from "@types";
-import { useAccountStore } from "@src/state/account/accountStore";
+import { useAccountStore } from '@src/state/account/accountStore';
+import { IAccount } from '@src/types';
 
 export const addAccount = (account: IAccount): void => {
   useAccountStore.setState((state) => {
     const currentAccount = state.accounts.find((a) => a.isCurrentAccount);
 
-    if (currentAccount) {
+    if (currentAccount != null) {
       currentAccount.isCurrentAccount = false;
     }
 
