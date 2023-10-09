@@ -1,17 +1,24 @@
 {
 	"extends": "expo/tsconfig.base",
-  "compilerOptions": {
+	"compilerOptions": {
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
-    "baseUrl": ".",
-    "paths": {
-      "@root/*": [
-        "*"
-      ],
-      "@src/*": [
-        "src/*"
-      ]
-    }
-  },
-  "include": ["**/*.ts", "**/*.tsx"],
+		"strict": true,
+		"strictNullChecks": true,
+		"strictPropertyInitialization": true,
+		"noImplicitReturns": true,
+		"baseUrl": ".",
+		"paths": {
+			"@root/*": [
+				"*"
+			],
+			"@src/*": [
+				"src/*"
+			]
+		}
+	},
+	"include": [
+		"**/*.ts",
+		"**/*.tsx"
+	]
 }
