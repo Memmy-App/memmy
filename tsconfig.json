@@ -14,7 +14,34 @@
 			],
 			"@src/*": [
 				"src/*"
-			]
+			],
+			"@components/*": [
+				"src/components/*"
+			],
+			"@api/*": [
+				"src/api/*"
+			],
+			"@helpers/*": [
+				"src/helpers/*"
+			],
+			"@hooks/*": [
+				"src/hooks/*"
+			],
+			"@locale": [
+				"src/locale"
+			],
+			"@screens": [
+				"src/screens"
+			],
+			"@state": [
+				"src/state"
+			],
+			"@theme": [
+				"src/theme"
+			],
+			"@types": [
+				"src/types"
+			],
 		}
 	},
 	"include": [
