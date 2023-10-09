@@ -28,19 +28,19 @@
 				"src/hooks/*"
 			],
 			"@locale": [
-				"src/locale"
+				"src/locale/*"
 			],
 			"@screens": [
-				"src/screens"
+				"src/screens/*"
 			],
 			"@state": [
-				"src/state"
+				"src/state/*"
 			],
 			"@theme": [
-				"src/theme"
+				"src/theme/*"
 			],
 			"@types": [
-				"src/types"
+				"src/types/*"
 			],
 		}
 	},
