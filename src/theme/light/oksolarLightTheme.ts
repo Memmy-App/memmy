@@ -1,11 +1,11 @@
 import { IColors } from '@src/theme/common';
 
-export const oksolarLightThemeColors: IColors = {
+export const oksolarLightTheme: IColors = {
   accent: '#2B90D8',
   accentHighlight: '#E7F2FF',
 
-  textPrimary: '#002d38',
-  textSecondary: '#657377',
+  color: '#002d38',
+  secondary: '#657377',
 
   fg: '#FDF6E3',
   bg: '#f1e9d2',
@@ -39,13 +39,11 @@ export const oksolarLightThemeColors: IColors = {
   op: '#EBF8FE',
   opText: '#0284c7',
 
-  comments: {
-    1: '#F23749',
-    2: '#D56500',
-    3: '#AC8300',
-    4: '#819500',
-    5: '#259D94',
-  },
+  'comments-1': '#F23749',
+  'comments-2': '#D56500',
+  'comments-3': '#AC8300',
+  'comments-4': '#819500',
+  'comments-5': '#259D94',
 
   inputBg: '#F1E9D2',
 

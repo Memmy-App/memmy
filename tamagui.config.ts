@@ -1,7 +1,12 @@
-import { config } from '@tamagui/config/v2-reanimated';
 import { createTamagui } from 'tamagui';
+import { shorthands } from '@tamagui/shorthands';
+import { customTokens, themes } from '@src/theme';
 
-const tamaguiConfig = createTamagui(config);
+const tamaguiConfig = createTamagui({
+  shorthands,
+  tokens: customTokens,
+  themes,
+});
 
 type Conf = typeof tamaguiConfig;
 

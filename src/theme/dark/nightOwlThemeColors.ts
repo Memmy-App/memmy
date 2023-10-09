@@ -4,8 +4,8 @@ export const nightOwlThemeColors: IColors = {
   accent: '#544AC6',
   accentHighlight: '#1F1932',
 
-  textPrimary: '#C2B8DF',
-  textSecondary: '#8B7C92',
+  color: '#C2B8DF',
+  secondary: '#8B7C92',
 
   fg: '#090909',
   bg: '#000000',

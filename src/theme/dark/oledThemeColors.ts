@@ -4,8 +4,8 @@ export const oledThemeColors: IColors = {
   accent: '#2C9AFF',
   accentHighlight: '#1F2E45',
 
-  textPrimary: '#FFFFFF',
-  textSecondary: '#A7A7A7',
+  color: '#FFFFFF',
+  secondary: '#A7A7A7',
 
   fg: '#000',
   bg: '#0E0E0E',

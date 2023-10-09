@@ -4,8 +4,8 @@ export const goldenHourThemeColors: IColors = {
   accent: '#C7804C',
   accentHighlight: '#382917',
 
-  textPrimary: '#FFEEEE',
-  textSecondary: '#FFD1A7',
+  color: '#FFEEEE',
+  secondary: '#FFD1A7',
 
   fg: '#1D1106',
   bg: '#110404',

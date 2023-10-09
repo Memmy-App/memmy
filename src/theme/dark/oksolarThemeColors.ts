@@ -4,8 +4,8 @@ export const oksolarThemeColors: IColors = {
   accent: '#F23749',
   accentHighlight: '#E7F2FF',
 
-  textPrimary: '#FFF',
-  textSecondary: '#98a8a8',
+  color: '#FFF',
+  secondary: '#98a8a8',
 
   fg: '#002D38',
   bg: '#093946',

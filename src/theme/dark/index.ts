@@ -1,5 +1,5 @@
-export * from './darkThemeColors';
-export * from './draculaThemeColors';
+export * from './darkTheme';
+export * from './draculaTheme';
 export * from './embarkThemeColors';
 export * from './goldenHourThemeColors';
 export * from './moodyPurpleThemeColors';

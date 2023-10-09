@@ -1,6 +1,16 @@
 import React from 'react';
-import { Text } from 'tamagui';
+import { Text, YStack } from 'tamagui';
 
 export default function Feed(): React.JSX.Element {
-  return <Text>Feed Screen</Text>;
+  return (
+    <YStack
+      flex={1}
+      style={{
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Text>Feed Screen</Text>
+    </YStack>
+  );
 }

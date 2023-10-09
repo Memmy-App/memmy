@@ -1,21 +1,21 @@
 import { IColors } from '@src/theme/common';
 
-export const darkThemeColors: IColors = {
-  accent: '#2C9AFF',
-  accentHighlight: '#1F2E45',
+export const draculaTheme: IColors = {
+  accent: '#ff79c6',
+  accentHighlight: '#bd93f9',
 
-  textPrimary: '#FFFFFF',
-  textSecondary: '#B8B9C1',
+  color: '#F8F8F2',
+  secondary: '#b8b8bf',
 
-  fg: '#1B1B1B',
-  bg: '#101010',
-  navBarBg: '#1B1B1B',
+  fg: '#232635',
+  bg: '#1B1D29',
+  navBarBg: '#10141C',
 
-  border: '#242424',
+  border: '#44475a',
 
-  upvote: '#EE923D',
+  upvote: '#FF9580',
   upvoteText: '#FFF',
-  downvote: '#1A84E5',
+  downvote: '#9580FF',
   downvoteText: '#FFF',
 
   success: '#1C2B21',
@@ -39,15 +39,13 @@ export const darkThemeColors: IColors = {
   op: '#1A282E',
   opText: '#38bdf8',
 
-  comments: {
-    1: '#FA6969',
-    2: '#FFB800',
-    3: '#FFE500',
-    4: '#36CF3C',
-    5: '#4BA9FF',
-  },
+  'comments-1': '#ff79c6',
+  'comments-2': '#ffb86c',
+  'comments-3': '#f1fa8c',
+  'comments-4': '#50fa7b',
+  'comments-5': '#8be9fd',
 
-  inputBg: '#2F2F2F',
+  inputBg: '#252837',
 
   bookmark: '#48C10F',
   bookmarkText: '#fff',

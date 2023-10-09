@@ -4,8 +4,8 @@ export const embarkThemeColors: IColors = {
   accent: '#A1EFD3',
   accentHighlight: '#7FE9C3',
 
-  textPrimary: '#CBE3E7',
-  textSecondary: '#a2b5b8',
+  color: '#CBE3E7',
+  secondary: '#a2b5b8',
 
   fg: '#1E1C31',
   bg: '#2D2B40',

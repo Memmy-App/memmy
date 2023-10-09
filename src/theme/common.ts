@@ -7,20 +7,12 @@ export const systemFontSettings = {
   },
 };
 
-interface ICommentChainColors {
-  1: string;
-  2: string;
-  3: string;
-  4: string;
-  5: string;
-}
-
 export interface IColors {
   accent: string;
   accentHighlight: string;
 
-  textPrimary: string;
-  textSecondary: string;
+  color: string;
+  secondary: string;
 
   fg: string;
   bg: string;
@@ -51,7 +43,11 @@ export interface IColors {
   op: string;
   opText: string;
 
-  comments: ICommentChainColors;
+  'comments-1': string;
+  'comments-2': string;
+  'comments-3': string;
+  'comments-4': string;
+  'comments-5': string;
 
   inputBg: string;
 

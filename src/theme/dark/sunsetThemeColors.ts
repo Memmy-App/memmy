@@ -5,8 +5,8 @@ export const sunsetThemeColors: IColors = {
   // accentBg: "#332520",
   accentHighlight: '#D6772B',
 
-  textPrimary: '#e1e2e6',
-  textSecondary: '#b0aeae',
+  color: '#e1e2e6',
+  secondary: '#b0aeae',
 
   fg: '#020E28',
   bg: '#16213B',

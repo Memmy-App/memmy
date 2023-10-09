@@ -4,8 +4,8 @@ export const moodyPurpleThemeColors: IColors = {
   accent: '#8877F1',
   accentHighlight: '#352945',
 
-  textPrimary: '#EDE1FF',
-  textSecondary: '#AEB5ED',
+  color: '#EDE1FF',
+  secondary: '#AEB5ED',
 
   fg: '#1E1529',
   bg: '#120E1D',

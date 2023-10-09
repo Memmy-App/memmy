@@ -4,8 +4,8 @@ export const sleepyRainForestThemeColors: IColors = {
   accent: '#70B944',
   accentHighlight: '#2A382B',
 
-  textPrimary: '#E3FFE2',
-  textSecondary: '#DBFFCE',
+  color: '#E3FFE2',
+  secondary: '#DBFFCE',
 
   fg: '#161D14',
   bg: '#0A1308',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { TamaguiProvider } from 'tamagui';
+import { TamaguiProvider, Theme } from 'tamagui';
 
 import tguiConfig from './tamagui.config';
 import Stack from '@src/components/Stack';
@@ -12,7 +12,9 @@ export default function App(): React.JSX.Element {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <TamaguiProvider config={tguiConfig}>
-        <Stack />
+        <Theme name={'darkTheme'}>
+          <Stack />
+        </Theme>
       </TamaguiProvider>
     </GestureHandlerRootView>
   );

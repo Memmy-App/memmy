@@ -4,8 +4,8 @@ export const nauticalThemeColors: IColors = {
   accent: '#2C9AFF',
   accentHighlight: '#1F2E45',
 
-  textPrimary: '#E2EEFF',
-  textSecondary: '#90B6FF',
+  color: '#E2EEFF',
+  secondary: '#90B6FF',
 
   fg: '#111626',
   bg: '#0C111A',

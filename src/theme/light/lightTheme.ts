@@ -4,8 +4,8 @@ export const lightThemeColors: IColors = {
   accent: '#2092FB',
   accentHighlight: '#E7F2FF',
 
-  textPrimary: '#393939',
-  textSecondary: '#5C5F63',
+  color: '#393939',
+  secondary: '#5C5F63',
 
   fg: '#FFFFFF',
   bg: '#F2F2F2',
@@ -39,13 +39,11 @@ export const lightThemeColors: IColors = {
   op: '#EBF8FE',
   opText: '#0284c7',
 
-  comments: {
-    1: '#FA6969',
-    2: '#FFB800',
-    3: '#FFE500',
-    4: '#36CF3C',
-    5: '#4BA9FF',
-  },
+  'comments-1': '#FA6969',
+  'comments-2': '#FFB800',
+  'comments-3': '#FFE500',
+  'comments-4': '#36CF3C',
+  'comments-5': '#4BA9FF',
 
   inputBg: '#FAFAFA',
 
