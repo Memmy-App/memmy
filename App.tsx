@@ -3,7 +3,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { TamaguiProvider, Theme } from 'tamagui';
 
 import tguiConfig from './tamagui.config';
-import Stack from '@src/components/Stack';
+import Stack from '@components/Navigation/Stack';
 import { enableFreeze } from 'react-native-screens';
 
 export default function App(): React.JSX.Element {
@@ -12,7 +12,7 @@ export default function App(): React.JSX.Element {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <TamaguiProvider config={tguiConfig}>
-        <Theme name={'darkTheme'}>
+        <Theme name={'lightTheme'}>
           <Stack />
         </Theme>
       </TamaguiProvider>
