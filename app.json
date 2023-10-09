@@ -14,7 +14,8 @@
 			"buildNumber": "1",
 			"infoPlist": {
 				"NSPhotoLibraryUsageDescription": "Allow Memmy to access your photos.",
-				"NSPhotoLibraryAddUsageDescription": "Allow Memmy to save photos."
+				"NSPhotoLibraryAddUsageDescription": "Allow Memmy to save photos.",
+				"UIViewControllerBasedStatusBarAppearance": true
 			}
 		},
 		"plugins": [

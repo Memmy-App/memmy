@@ -84,6 +84,6 @@
     <key>UIUserInterfaceStyle</key>
     <string>Light</string>
     <key>UIViewControllerBasedStatusBarAppearance</key>
-    <false/>
+    <true/>
   </dict>
 </plist>

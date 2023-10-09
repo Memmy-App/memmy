@@ -2187,6 +2187,14 @@
     invariant "^2.2.4"
     nullthrows "^1.1.1"
 
+"@react-navigation/bottom-tabs@^7.0.0-alpha.5":
+  version "7.0.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-7.0.0-alpha.5.tgz#42942e12f8d40532f5dca6484e66b62de1e5ca7c"
+  integrity sha512-7+6AveFk7ySWs5gWDpUtO6rPQ3yrDOE7C+xdG/C472tTbOaQVsHoXdQMCFOS4ExCbBuu/o3XOJBMqEbI5VaRlg==
+  dependencies:
+    "@react-navigation/elements" "^2.0.0-alpha.2"
+    color "^4.2.3"
+
 "@react-navigation/core@^7.0.0-alpha.4":
   version "7.0.0-alpha.4"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-7.0.0-alpha.4.tgz#71e0293a111cb3bc03f99a31ef053f33fb2d1ffe"
@@ -2198,6 +2206,19 @@
     query-string "^7.1.3"
     react-is "^18.2.0"
     use-latest-callback "^0.1.5"
+
+"@react-navigation/elements@^2.0.0-alpha.2":
+  version "2.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-2.0.0-alpha.2.tgz#cec8f767c084ca00fd262e5ef14ecfd8f93936e3"
+  integrity sha512-xDPSBc4zBdNgW0oT9dc8jkTGntI3IS35xssTQmbVkVf8TCggV6R/omhPA3x5U3Bex4dO3DRxGePoizG+eM0jVw==
+
+"@react-navigation/native-stack@^7.0.0-alpha.5":
+  version "7.0.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/@react-navigation/native-stack/-/native-stack-7.0.0-alpha.5.tgz#ee22af92c93489d585bea75ca5434cb699f08bbc"
+  integrity sha512-7WdRrEaLX5Zgg20EomDIEo/DmaMiplTOPmaR//LbNB4oCU3ZgB2XZMxquXYLtltTm3CmX2ZU4GLHiotr2QBCxg==
+  dependencies:
+    "@react-navigation/elements" "^2.0.0-alpha.2"
+    warn-once "^0.1.1"
 
 "@react-navigation/native@^7.0.0-alpha.4":
   version "7.0.0-alpha.4"
@@ -4106,10 +4127,26 @@ color-name@1.1.3:
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
   integrity sha512-72fSenhMw2HZMTVHeCA9KCmpEIbzWiQsjN+BHcBbS9vr1mtt+vJjPdksIBNUmKAW8TFUDPJK5SUU3QhE9NEXDw==
 
-color-name@~1.1.4:
+color-name@^1.0.0, color-name@~1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
+
+color-string@^1.9.0:
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/color-string/-/color-string-1.9.1.tgz#4467f9146f036f855b764dfb5bf8582bf342c7a4"
+  integrity sha512-shrVawQFojnZv6xM40anx4CkoDP+fZsw/ZerEMsW/pyzsRbElpsL/DBVW7q3ExxwusdNXI3lXpuhEZkzs8p5Eg==
+  dependencies:
+    color-name "^1.0.0"
+    simple-swizzle "^0.2.2"
+
+color@^4.2.3:
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/color/-/color-4.2.3.tgz#d781ecb5e57224ee43ea9627560107c0e0c6463a"
+  integrity sha512-1rXeuUUiGGrykh+CeBdu5Ie7OJwinCgQY0bc7GCRxy5xVHy+moaqkpL/jqQq0MtQOeYcrqEz4abc5f0KtU7W4A==
+  dependencies:
+    color-convert "^2.0.1"
+    color-string "^1.9.0"
 
 colorette@^1.0.7:
   version "1.4.0"
@@ -5978,6 +6015,11 @@ is-arrayish@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/is-arrayish/-/is-arrayish-0.2.1.tgz#77c99840527aa8ecb1a8ba697b80645a7a926a9d"
   integrity sha512-zz06S8t0ozoDXMG+ube26zeCTNXcKIPJZJi8hBrF4idCLms4CG9QtK7qBl1boi5ODzFpjswb5JPmHCbMpjaYzg==
+
+is-arrayish@^0.3.1:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/is-arrayish/-/is-arrayish-0.3.2.tgz#4574a2ae56f7ab206896fb431eaeed066fdf8f03"
+  integrity sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==
 
 is-async-function@^2.0.0:
   version "2.0.0"
@@ -8690,6 +8732,13 @@ simple-plist@^1.1.0:
     bplist-parser "0.3.1"
     plist "^3.0.5"
 
+simple-swizzle@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/simple-swizzle/-/simple-swizzle-0.2.2.tgz#a4da6b635ffcccca33f70d17cb92592de95e557a"
+  integrity sha512-JA//kQgZtbuY83m+xT+tXJkmJncGMTFT+C+g2h2R9uxkYIrE2yy9sgmcLhCnw57/WSD+Eh3J97FPEDFnbXnDUg==
+  dependencies:
+    is-arrayish "^0.3.1"
+
 sisteransi@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.5.tgz#134d681297756437cc05ca01370d3a7a571075ed"
@@ -9572,7 +9621,7 @@ walker@^1.0.7:
   dependencies:
     makeerror "1.0.12"
 
-warn-once@^0.1.0:
+warn-once@^0.1.0, warn-once@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/warn-once/-/warn-once-0.1.1.tgz#952088f4fb56896e73fd4e6a3767272a3fccce43"
   integrity sha512-VkQZJbO8zVImzYFteBXvBOZEl1qL175WH8VmZcxF2fZAoudNhNDvHi+doCaAEdU2l2vtcIwa2zn0QK5+I1HQ3Q==
