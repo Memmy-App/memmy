@@ -38,5 +38,7 @@ module.exports = {
       }],
     "@typescript-eslint/consistent-type-definitions": [2, "interface"],
     "@typescript-eslint/consistent-type-imports": [2, { prefer: "no-type-imports" }],
+    "react/jsx-curly-brace-presence": [2, { props: "never", children: "never" }],
+    "jsx-quotes": [2, "prefer-double"],
   },
 };

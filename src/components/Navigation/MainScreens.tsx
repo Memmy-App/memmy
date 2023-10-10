@@ -9,7 +9,7 @@ import {
   NativeStackNavigationOptions,
 } from '@react-navigation/native-stack';
 import { NativeStackNavigatorProps } from 'react-native-screens/lib/typescript/native-stack/types';
-import FeedIndexScreen from '@src/screens/Feed/FeedIndexScreen';
+import FeedIndexScreen from '@components/Feed/FeedIndex/FeedIndexScreen';
 
 export default function MainScreens(
   stack: TypedNavigator<

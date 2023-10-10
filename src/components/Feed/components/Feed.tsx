@@ -1,9 +1,10 @@
 import React from 'react';
-import { Text, YStack } from 'tamagui';
+import { Text } from 'tamagui';
+import VStack from '@components/Common/Stack/VStack';
 
 export default function Feed(): React.JSX.Element {
   return (
-    <YStack
+    <VStack
       flex={1}
       style={{
         alignItems: 'center',
@@ -11,6 +12,6 @@ export default function Feed(): React.JSX.Element {
       }}
     >
       <Text>Feed Screen</Text>
-    </YStack>
+    </VStack>
   );
 }
