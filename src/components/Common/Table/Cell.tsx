@@ -16,46 +16,49 @@ interface IProps {
   rightLabel?: string;
 }
 
-export default function Cell({ accessoryRight, accessoryLeft, useChevron, onPress, isFirst, isLast, label, rightLabel }: IProps): React.JSX.Element {
+export default function Cell({
+  accessoryRight,
+  accessoryLeft,
+  useChevron,
+  onPress,
+  isFirst,
+  isLast,
+  label,
+  rightLabel,
+}: IProps): React.JSX.Element {
   return (
     <Pressable onPress={onPress}>
       <VStack
         paddingHorizontal="$3"
-        paddingVertical={(accessoryLeft != null || accessoryRight != null || useChevron === true) ? 8 : 10}
+        paddingVertical={
+          accessoryLeft != null || accessoryRight != null || useChevron === true
+            ? 8
+            : 10
+        }
         backgroundColor="$fg"
-        borderTopRightRadius={(isFirst === true) ? '$3' : undefined}
-        borderTopLeftRadius={(isFirst === true) ? '$3' : undefined}
-        borderBottomRightRadius={(isLast === true) ? '$3' : undefined}
-        borderBottomLeftRadius={(isLast === true) ? '$3' : undefined}
+        borderTopRightRadius={isFirst === true ? '$3' : undefined}
+        borderTopLeftRadius={isFirst === true ? '$3' : undefined}
+        borderBottomRightRadius={isLast === true ? '$3' : undefined}
+        borderBottomLeftRadius={isLast === true ? '$3' : undefined}
       >
         <HStack alignItems="center">
           {accessoryLeft}
           <Text>{label}</Text>
           <HStack marginLeft="auto" alignItems="center" space="$2">
-            {
-              label != null && (
-                <Text color="$secondary">{rightLabel}</Text>
-              )
-            }
+            {label != null && <Text color="$secondary">{rightLabel}</Text>}
             {accessoryRight}
-            {
-              (useChevron === true) && (
-                <ChevronRight size={20} color="$accent" />
-              )
-            }
+            {useChevron === true && <ChevronRight size={20} color="$accent" />}
           </HStack>
         </HStack>
       </VStack>
-      {
-        (isLast !== true) && (
-          <Separator
-            alignSelf="stretch"
-            marginLeft="$3"
-            borderWidth={0.2}
-            borderColor="$fg"
-          />
-        )
-      }
+      {isLast !== true && (
+        <Separator
+          alignSelf="stretch"
+          marginLeft="$3"
+          borderWidth={0.2}
+          borderColor="$fg"
+        />
+      )}
     </Pressable>
   );
 }

@@ -13,18 +13,18 @@ import FeedIndexScreen from '@components/Feed/FeedIndex/FeedIndexScreen';
 
 export default function MainScreens(
   stack: TypedNavigator<
-  ParamListBase,
-  StackNavigationState<ParamListBase>,
-  NativeStackNavigationOptions,
-  NativeStackNavigationEventMap,
-  ({
-    id,
-    initialRoutename,
-    children,
-    screenListeners,
-    screenOptions,
-    ...rest
-  }: NativeStackNavigatorProps) => JSX.Element
+    ParamListBase,
+    StackNavigationState<ParamListBase>,
+    NativeStackNavigationOptions,
+    NativeStackNavigationEventMap,
+    ({
+      id,
+      initialRoutename,
+      children,
+      screenListeners,
+      screenOptions,
+      ...rest
+    }: NativeStackNavigatorProps) => JSX.Element
   >,
 ): React.JSX.Element {
   return (

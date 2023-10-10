@@ -4,7 +4,7 @@ import { TamaguiProvider, Theme } from 'tamagui';
 
 import tguiConfig from './tamagui.config';
 import Stack from '@components/Navigation/Stack';
-import { enableFreeze } from 'react-native-screens';
+import { enableFreeze, enableScreens } from 'react-native-screens';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { enableMapSet } from 'immer';
@@ -13,6 +13,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 const queryClient = new QueryClient();
 
 enableMapSet();
+enableScreens();
 
 void SplashScreen.preventAutoHideAsync();
 

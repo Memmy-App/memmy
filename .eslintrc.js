@@ -2,7 +2,7 @@ module.exports = {
   env: {
     es2021: true,
   },
-  extends: ["plugin:react/recommended", "standard-with-typescript"],
+  extends: ["plugin:react/recommended", "standard-with-typescript", "prettier"],
   overrides: [],
   parserOptions: {
     ecmaVersion: "latest",
@@ -11,7 +11,7 @@ module.exports = {
     parser: "@typescript-eslint/parser",
     project: "./tsconfig.json",
   },
-  plugins: ["react"],
+  plugins: ["react", "prettier"],
   rules: {
     "@typescript-eslint/quotes": [2, "single", { avoidEscape: true }],
     "@typescript-eslint/comma-dangle": [2, "always-multiline"],
@@ -40,5 +40,6 @@ module.exports = {
     "@typescript-eslint/consistent-type-imports": [2, { prefer: "no-type-imports" }],
     "react/jsx-curly-brace-presence": [2, { props: "never", children: "never" }],
     "jsx-quotes": [2, "prefer-double"],
+    "prettier/prettier": ["error", { "singleQuote": true, "trailingComma": "all" }],
   },
 };
