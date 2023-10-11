@@ -6,7 +6,9 @@ export const createMarkdownObject = (
 ): MdToken[] => {
   if (markdown == null) return [];
 
-  const md = MarkdownIt();
+  const md = MarkdownIt({
+    linkify: true,
+  });
   const result = md.parse(markdown, {});
 
   console.log(JSON.stringify(result, null, 2));

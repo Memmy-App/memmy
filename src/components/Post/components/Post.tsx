@@ -10,10 +10,53 @@ function Post(): React.JSX.Element {
 
   const post = usePost(postId);
 
+  const mdString = `
+  **Bold Text**
+
+*Italic Text*
+
+ [a link](https://google.com)
+
+![an image](https://placehold.co/600x400/EEE/31343C)
+
+# heading one
+## heading two
+### heading three
+#### heading four
+##### heading five?
+###### heading six??
+
+~~strike it out~~
+
+> a dumb quote
+
+> a quote
+> thats multiline?
+
+- some
+- list
+- for
+- me
+
+\`some code\`
+
+\`\`\`
+some
+multiline
+code
+\`\`\`
+
+
+::: spoiler spoiler
+spoiler alert
+:::
+
+  `;
+
   return (
     <VStack>
       <Text>{post?.name}</Text>
-      <Markdown>{post?.body}</Markdown>
+      <Markdown>{mdString}</Markdown>
     </VStack>
   );
 }

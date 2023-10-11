@@ -1,11 +1,12 @@
 import MdImage from '@components/Common/Markdown/components/MdImage';
 import { MdToken } from '@src/types';
-import MdParagraph from '@components/Common/Markdown/components/MdParagraph';
 import MdLine from '@components/Common/Markdown/components/MdLine';
+import MdText from '@components/Common/Markdown/components/MdText';
 
 interface IProps {
   token: MdToken;
   children?: React.ReactNode;
+  style?: object;
   [key: string]: any;
 }
 
@@ -15,7 +16,20 @@ export const markdownComponentMap: Record<
 > = {
   inline: MdLine,
   image: MdImage,
-  text: MdParagraph,
+  text: MdText,
+};
+
+export const markdownComponentFontProps: Record<string, object> = {
+  strong_open: {
+    fontWeight: 'bold',
+  },
+
+  em_open: {
+    fontStyle: 'italic',
+  },
 };
 
 export const markdownComponentTypes = Object.keys(markdownComponentMap);
+export const markdownComponentFontTypes = Object.keys(
+  markdownComponentFontProps,
+);

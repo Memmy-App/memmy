@@ -30,6 +30,7 @@ export default function MainFeed(): React.JSX.Element {
         renderItem={renderItem}
         data={postIds}
         keyExtractor={keyExtractor}
+        estimatedItemSize={100}
       />
     </VStack>
   );

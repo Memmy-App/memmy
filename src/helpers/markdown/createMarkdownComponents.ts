@@ -1,9 +1,13 @@
 import React, { createElement, FunctionComponentElement } from 'react';
 import { MdToken } from '@src/types';
 import {
+  markdownComponentFontProps,
+  markdownComponentFontTypes,
   markdownComponentMap,
   markdownComponentTypes,
 } from '@helpers/markdown/markdownComponentMap';
+
+let componentStyle = {};
 
 export const createMarkdownComponents = (
   mdObjArr: MdToken[],
@@ -28,13 +32,29 @@ const createMarkdownComponent = (
   token: MdToken,
   children: Array<React.FunctionComponentElement<any> | null>,
 ): FunctionComponentElement<any> | null => {
-  if (!markdownComponentTypes.includes(token.type)) return null;
+  if (!markdownComponentTypes.includes(token.type)) {
+    if (markdownComponentFontTypes.includes(token.type)) {
+      componentStyle = {
+        ...componentStyle,
+        ...markdownComponentFontProps[token.type],
+      };
+    }
 
-  return createElement(
+    return null;
+  }
+
+  const element = createElement(
     markdownComponentMap[token.type],
     {
       token,
+      style: componentStyle,
     },
     children,
   );
+
+  if (Object.keys(componentStyle).length > 0) {
+    componentStyle = {};
+  }
+
+  return element;
 };
