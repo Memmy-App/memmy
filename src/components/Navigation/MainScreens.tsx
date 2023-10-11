@@ -10,6 +10,7 @@ import {
 } from '@react-navigation/native-stack';
 import { NativeStackNavigatorProps } from 'react-native-screens/lib/typescript/native-stack/types';
 import FeedIndexScreen from '@components/Feed/FeedIndex/FeedIndexScreen';
+import { useTheme } from 'tamagui';
 
 export default function MainScreens(
   stack: TypedNavigator<
@@ -27,6 +28,8 @@ export default function MainScreens(
     }: NativeStackNavigatorProps) => JSX.Element
   >,
 ): React.JSX.Element {
+  const theme = useTheme();
+
   return (
     <>
       <stack.Screen

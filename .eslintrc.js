@@ -38,6 +38,11 @@ module.exports = {
       }],
     "@typescript-eslint/consistent-type-definitions": [2, "interface"],
     "@typescript-eslint/consistent-type-imports": [2, { prefer: "no-type-imports" }],
+    "@typescript-eslint/space-before-function-paren": [2, {
+      "anonymous": "never",
+      "named": "never",
+      "asyncArrow": "always"
+    }],
     "react/jsx-curly-brace-presence": [2, { props: "never", children: "never" }],
     "jsx-quotes": [2, "prefer-double"],
     "prettier/prettier": [2, {

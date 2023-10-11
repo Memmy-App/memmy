@@ -2,7 +2,7 @@ import { addSpaceBeforeCapital } from '@helpers/text/addSpaceBeforeCapital';
 
 export const capitalizeFirstLetter = (
   str: string | null,
-  addSpace: false,
+  addSpace = false,
 ): string => {
   if (str == null) {
     return '';

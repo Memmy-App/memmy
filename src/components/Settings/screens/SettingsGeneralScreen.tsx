@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView } from 'tamagui';
+import ScrollView from '@components/Common/Gui/ScrollView';
 import Table from '@components/Common/Table/Table';
 import { Switch } from 'react-native';
 import { setSetting } from '@src/state/settings/actions/setSetting';

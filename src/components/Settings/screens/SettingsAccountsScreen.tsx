@@ -4,7 +4,7 @@ import {
   useAccounts,
   useCurrentAccount,
 } from '@src/state/account/accountStore';
-import { ScrollView } from 'tamagui';
+import ScrollView from '@components/Common/Gui/ScrollView';
 import Table from '@components/Common/Table/Table';
 import { deleteAccount } from '@src/state/account/actions';
 

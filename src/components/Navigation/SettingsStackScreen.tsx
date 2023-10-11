@@ -7,14 +7,17 @@ import SettingsContentScreen from '@components/Settings/screens/SettingsContentS
 import SettingsReadScreen from '@components/Settings/screens/SettingsReadScreen';
 import SettingsAccountScreen from '@components/Settings/screens/SettingsAccountsScreen';
 import SettingsAboutScreen from '@components/Settings/screens/SettingsAboutScreen';
+import { useScreenOptions } from '@hooks/useScreenOptions';
 
 const SettingsStack = createNativeStackNavigator();
 
 export default function SettingsStackScreen(): React.JSX.Element {
   const { t } = useTranslation();
 
+  const screenOptions = useScreenOptions();
+
   return (
-    <SettingsStack.Navigator>
+    <SettingsStack.Navigator screenOptions={screenOptions}>
       <SettingsStack.Screen
         name="Index"
         component={SettingsIndexScreen}

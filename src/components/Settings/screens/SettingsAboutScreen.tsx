@@ -1,8 +1,8 @@
 import React from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { ScrollView } from 'tamagui';
 import Table from '@components/Common/Table/Table';
 import { getBuildNumber, getReadableVersion } from 'react-native-device-info';
+import ScrollView from '@components/Common/Gui/ScrollView';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;

@@ -9,8 +9,16 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { enableMapSet } from 'immer';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Infinity } from '@tamagui/lucide-icons';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // @ts-expect-error - This is a valid option
+      staleTime: Infinity,
+    },
+  },
+});
 
 enableMapSet();
 enableScreens();
@@ -23,6 +31,7 @@ export default function App(): React.JSX.Element | null {
   const [loaded] = useFonts({
     Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
     InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
+    InterLight: require('@tamagui/font-inter/otf/Inter-Light.otf'),
   });
 
   useEffect(() => {
@@ -37,7 +46,7 @@ export default function App(): React.JSX.Element | null {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <TamaguiProvider config={tguiConfig}>
         <QueryClientProvider client={queryClient}>
-          <Theme name="lightTheme">
+          <Theme name="darkTheme">
             <Stack />
           </Theme>
         </QueryClientProvider>

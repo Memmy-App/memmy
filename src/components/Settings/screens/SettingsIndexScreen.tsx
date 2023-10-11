@@ -1,6 +1,6 @@
 import React from 'react';
 import Table from '@components/Common/Table/Table';
-import { ScrollView } from 'tamagui';
+import ScrollView from '@components/Common/Gui/ScrollView';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import CellIcon from '@components/Common/Table/CellIcon';
 import {

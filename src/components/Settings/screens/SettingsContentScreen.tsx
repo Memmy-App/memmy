@@ -1,6 +1,5 @@
 import React from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { ScrollView } from 'tamagui';
 import Table from '@components/Common/Table/Table';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
 import { Switch } from 'react-native';
@@ -9,6 +8,7 @@ import { setSetting } from '@src/state/settings/actions/setSetting';
 import SortTypeContextMenu from '@components/Common/ContextMenu/components/SortTypeContextMenu';
 import CommentSortTypeContextMenu from '@components/Common/ContextMenu/components/CommentSortTypeContextMenu';
 import { addSpaceBeforeCapital } from '@helpers/text';
+import ScrollView from '@components/Common/Gui/ScrollView';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;

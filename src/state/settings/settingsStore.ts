@@ -67,7 +67,7 @@ export interface SettingsStore {
 
   fontSize: number;
 
-  postTitleWeight: number;
+  postTitleWeight: 'normal' | 'bold';
 
   compactOptions: ICompactOptions;
 
@@ -90,6 +90,8 @@ export interface SettingsStore {
 
   hapticsEnabled: boolean;
   hapticsStrength: IHapticStrengthOption;
+
+  showCommunityIconInFeed: boolean;
 }
 
 const initialState: SettingsStore = {
@@ -134,7 +136,7 @@ const initialState: SettingsStore = {
 
   fontSize: 16,
 
-  postTitleWeight: 600,
+  postTitleWeight: 'bold',
 
   compactOptions: {
     thumbnailPosition: 'left',
@@ -169,6 +171,8 @@ const initialState: SettingsStore = {
 
   hapticsEnabled: true,
   hapticsStrength: 'medium',
+
+  showCommunityIconInFeed: true,
 };
 
 export const useSettingsStore = create(
@@ -188,3 +192,14 @@ export const useSetting = <T extends keyof SettingsStore>(
 ): string | boolean | number | object | object[] => {
   return useSettingsStore((state) => state[setting]);
 };
+
+interface IFeedSettings {
+  defaultSort: SortType;
+  defaultListingType: ListingType;
+}
+
+export const useFeedSettings = (): IFeedSettings =>
+  useSettingsStore((state) => ({
+    defaultSort: state.defaultSort,
+    defaultListingType: state.defaultListingType,
+  }));

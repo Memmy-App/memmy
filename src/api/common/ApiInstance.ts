@@ -21,6 +21,9 @@ import ApiOptions from '@api/common/types/IApiOptions';
 import { ILemmyVote } from '@api/lemmy/types';
 import IGetPostOptions from '@api/common/types/IGetPostOptions';
 import ICreatePostOptions from '@api/common/types/ICreatePostOptions';
+import { useSettingsStore } from '@src/state/settings/settingsStore';
+import { usePostStore } from '@src/state/post/postStore';
+import { useFeedStore } from '@src/state/feed/feedStore';
 
 export enum EInitializeResult {
   SUCCESS,
@@ -144,11 +147,11 @@ class ApiInstance {
     this.initialized = false;
   }
 
-  static handleError(error: string): void {
+  static handleError(error: string): string {
     // TODO Handle errors
     writeToLog(error);
 
-    throw new Error();
+    return 'Not implemented'; // TODO Return the error message
   }
 
   async getCaptcha(): Promise<GetCaptchaResponse | undefined> {
@@ -249,7 +252,10 @@ class ApiInstance {
     }
   }
 
-  async getReplies(page = 1, limit = 50): Promise<GetRepliesResponse | undefined> {
+  async getReplies(
+    page = 1,
+    limit = 50,
+  ): Promise<GetRepliesResponse | undefined> {
     try {
       return await this.instance?.getReplies({
         page,
@@ -261,22 +267,36 @@ class ApiInstance {
     }
   }
 
-  async getPosts(options: IGetPostOptions): Promise<GetPostsResponse | undefined> {
-    // TODO Get defaults from state
+  async getPosts(
+    feedId: string,
+    options: IGetPostOptions = {},
+    addToFeed = true,
+  ): Promise<GetPostsResponse | undefined> {
+    // Get settings
+    const settings = useSettingsStore.getState();
+
+    // Define default options
     const defaultOptions: IGetPostOptions = {
-      sort: 'TopTwelveHour',
       limit: 50,
       page: 1,
-      type: 'All',
+      type: settings.defaultListingType,
+      sort:
+        // TODO This should use a separate option for feed vs community
+        options.communityId != null || options.communityName != null
+          ? settings.defaultSort
+          : settings.defaultSort,
     };
 
+    // Set all our options
     options = {
       ...defaultOptions,
       ...options,
     };
 
+    // Attempt the request
     try {
-      return await this.instance?.getPosts({
+      // Get the posts
+      const res = await this.instance?.getPosts({
         sort: options.sort,
         type_: options.type,
         limit: options.limit,
@@ -284,9 +304,45 @@ class ApiInstance {
         community_id: options.communityId,
         community_name: options.communityName,
       });
+
+      // Add them to the feed
+      if (res != null && addToFeed) {
+        // Create empty array of post ids
+        const postIds: number[] = [];
+
+        usePostStore.setState((state) => {
+          // Add each post to the state
+          for (const post of res.posts) {
+            state.posts.set(post.post.id, {
+              view: post,
+              comments: [],
+              usedBy: [],
+            });
+
+            postIds.push(post.post.id);
+          }
+        });
+
+        // Add the post ids to the feed
+        useFeedStore.setState((state) => {
+          const feed = state.feeds.get(feedId);
+
+          if (feed == null) {
+            state.feeds.set(feedId, {
+              feedId,
+              postIds,
+            });
+          } else {
+            feed.postIds = [...feed.postIds, ...postIds];
+          }
+        });
+      }
+
+      return res;
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
-      return undefined;
+      const errorMsg = ApiInstance.handleError(e.toString());
+
+      throw new Error(errorMsg);
     }
   }
 
@@ -422,7 +478,9 @@ class ApiInstance {
     }
   }
 
-  async createPost(options: ICreatePostOptions): Promise<PostResponse | undefined> {
+  async createPost(
+    options: ICreatePostOptions,
+  ): Promise<PostResponse | undefined> {
     try {
       return await this.instance?.createPost({
         name: options.title,
