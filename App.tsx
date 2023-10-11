@@ -10,6 +10,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { enableMapSet } from 'immer';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Infinity } from '@tamagui/lucide-icons';
+import ImageViewerProvider from '@components/Common/ImageViewer/ImageViewerProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -46,8 +47,10 @@ export default function App(): React.JSX.Element | null {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <TamaguiProvider config={tguiConfig}>
         <QueryClientProvider client={queryClient}>
-          <Theme name="lightTheme">
-            <Stack />
+          <Theme name="darkTheme">
+            <ImageViewerProvider>
+              <Stack />
+            </ImageViewerProvider>
           </Theme>
         </QueryClientProvider>
       </TamaguiProvider>
