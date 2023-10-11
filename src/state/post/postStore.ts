@@ -1,7 +1,12 @@
-import { CommentView, Person, Post, PostView } from 'lemmy-js-client';
+import {
+  CommentView,
+  Person,
+  Post,
+  PostAggregates,
+  PostView,
+} from 'lemmy-js-client';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { getBaseUrl } from '@helpers/links';
 
 export interface PostState {
   view: PostView;
@@ -28,22 +33,8 @@ export const usePostComments = (id: number): CommentView[] =>
 export const usePost = (id: number): Post | undefined =>
   usePostStore((state) => state.posts.get(id))?.view.post;
 
-interface IUsePostVotes {
-  upvotes: number | undefined;
-  downvotes: number | undefined;
-  score: number | undefined;
-}
-
-export const usePostVotes = (id: number): IUsePostVotes =>
-  usePostStore((state) => {
-    const post = state.posts.get(id);
-
-    return {
-      upvotes: post?.view.counts.upvotes,
-      downvotes: post?.view.counts.downvotes,
-      score: post?.view.counts.score,
-    };
-  });
+export const usePostCounts = (id: number): PostAggregates | undefined =>
+  usePostStore((state) => state.posts.get(id))?.view.counts;
 
 export const usePostRead = (id: number): boolean =>
   usePostStore((state) => state.posts.get(id))?.view.read ?? false;
@@ -62,17 +53,11 @@ export interface IPostCommunityName {
   instance: string | undefined;
 }
 
-export const usePostCommunityName = (
-  id: number,
-): IPostCommunityName | undefined =>
-  usePostStore((state) => {
-    const post = state.posts.get(id);
+export const usePostCommunityName = (id: number): string | undefined =>
+  usePostStore((state) => state.posts.get(id))?.view.community.name;
 
-    return {
-      community: post?.view.community.name,
-      instance: getBaseUrl(post?.view.community.actor_id),
-    };
-  });
+export const usePostCommunityActorId = (id: number): string | undefined =>
+  usePostStore((state) => state.posts.get(id))?.view.community.actor_id;
 
 export const usePostCommunityIcon = (id: number): string | undefined =>
   usePostStore((state) => state.posts.get(id))?.view.community.icon;

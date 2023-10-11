@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  usePost,
-  usePostCommunityName,
-  usePostTitle,
-} from '@src/state/post/postStore';
+import { usePost } from '@src/state/post/postStore';
 import FeedItemHeader from '@components/Feed/components/Feed/FeedItem/FeedItemHeader';
 import FeedItemContainer from '@components/Feed/components/Feed/FeedItem/FeedItemContainer';
 import FeedItemFooter from '@components/Feed/components/Feed/FeedItem/FeedItemFooter';
@@ -16,16 +12,13 @@ interface IProps {
 }
 
 function FeedItem({ itemId }: IProps): React.JSX.Element {
-  const postTitle = usePostTitle(itemId);
-  const postCommunityName = usePostCommunityName(itemId);
-
   const post = usePost(itemId);
 
   const isImagePost = post?.url?.includes('.png') ?? false;
 
   return (
     <FeedItemContainer>
-      <FeedItemHeader title={postTitle} communityName={postCommunityName} />
+      <FeedItemHeader itemId={itemId} />
       {isImagePost && <ViewerImage source={post?.url ?? ''} />}
       <FeedItemFooter>
         <FeedItemPostInfo itemId={itemId} />

@@ -7,11 +7,13 @@ import { useFeedPostIds } from '@src/state/feed/feedStore';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import FeedItem from '@components/Feed/components/Feed/FeedItem';
 
-const renderItem = ({ item }: ListRenderItemInfo<number>) => {
+const renderItem = ({
+  item,
+}: ListRenderItemInfo<number>): React.JSX.Element => {
   return <FeedItem itemId={item} />;
 };
 
-const keyExtractor = (item: number) => item.toString();
+const keyExtractor = (item: number): string => item.toString();
 
 export default function MainFeed(): React.JSX.Element {
   // Get the feed ID

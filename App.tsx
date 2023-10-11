@@ -11,6 +11,7 @@ import { enableMapSet } from 'immer';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Infinity } from '@tamagui/lucide-icons';
 import ImageViewerProvider from '@components/Common/ImageViewer/ImageViewerProvider';
+import { LogBox } from 'react-native';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,6 +26,8 @@ enableMapSet();
 enableScreens();
 
 void SplashScreen.preventAutoHideAsync();
+
+LogBox.ignoreAllLogs(true);
 
 export default function App(): React.JSX.Element | null {
   enableFreeze(true);

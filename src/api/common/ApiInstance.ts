@@ -56,13 +56,17 @@ class ApiInstance {
     this.username = options.username;
     this.apiType = 'lemmy';
 
+    const headers = {
+      'User-Agent': `Memmy ${getReadableVersion()}`,
+      ...(options.authToken != null && {
+        Authorization: `Bearer ${options.authToken}`,
+      }),
+    };
+
     if (options.type === 'lemmy') {
       this.instance = new LemmyHttp(`https://${getBaseUrl(options.host)}`, {
         fetchFunction: undefined,
-        headers: {
-          'User-Agent': `Memmy ${getReadableVersion()}`,
-          Authorization: options.authToken ?? `Bearer ${options.authToken}`,
-        },
+        headers,
       });
 
       if (options.authToken != null) {
@@ -215,6 +219,8 @@ class ApiInstance {
           post.view.counts.upvotes = post.view.counts.downvotes + 1;
         }
       }
+
+      post.view.my_vote = vote;
     });
 
     try {

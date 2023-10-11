@@ -1,48 +1,45 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Text, View } from 'tamagui';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
 import VStack from '@components/Common/Stack/VStack';
 import HStack from '@components/Common/Stack/HStack';
 import PostCommunityLabel from '@components/Common/PostCard/PostCommunityLabel';
-import { IPostCommunityName } from '@src/state/post/postStore';
 import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
 import { CircleEllipsis } from '@tamagui/lucide-icons';
 import { Alert } from 'react-native';
+import { usePostTitle } from '@src/state/post/postStore';
 
 interface IProps {
-  title?: string;
-  communityName: IPostCommunityName | undefined;
-  communityIcon?: string;
+  itemId: number;
 }
 
-export default function FeedItemHeader({
-  title,
-  communityName,
-  communityIcon,
-}: IProps): React.JSX.Element {
+function FeedItemHeader({ itemId }: IProps): React.JSX.Element {
+  const postTitle = usePostTitle(itemId);
+
   const fontSize = useSettingsStore((state) => state.fontSize);
   const fontWeight = useSettingsStore((state) => state.postTitleWeight);
+
+  const onEllipsisPress = useCallback((): void => {
+    Alert.alert('Hi!');
+  }, [itemId]);
 
   return (
     <VStack paddingHorizontal="$3" space="$1.5">
       <HStack alignItems="center">
-        <PostCommunityLabel
-          communityName={communityName}
-          communityIcon={communityIcon}
-        />
+        <PostCommunityLabel itemId={itemId} />
         <View marginLeft="auto">
           <AnimatedIconButton
             icon={CircleEllipsis}
             iconSize={18}
-            onPress={() => {
-              Alert.alert('Hi!');
-            }}
+            onPress={onEllipsisPress}
           />
         </View>
       </HStack>
       <Text fontSize={fontSize} fontWeight={fontWeight}>
-        {title}
+        {postTitle}
       </Text>
     </VStack>
   );
 }
+
+export default React.memo(FeedItemHeader);

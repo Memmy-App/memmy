@@ -6,7 +6,7 @@ import {
   Clock,
   MessageSquare,
 } from '@tamagui/lucide-icons';
-import { usePostCommentCount, usePostVotes } from '@src/state/post/postStore';
+import { usePostCommentCount, usePostCounts } from '@src/state/post/postStore';
 import { Text } from 'tamagui';
 
 interface IProps {
@@ -14,7 +14,7 @@ interface IProps {
 }
 
 function PostMetrics({ itemId }: IProps): React.JSX.Element {
-  const postVotes = usePostVotes(itemId);
+  const postCounts = usePostCounts(itemId);
   const postCommentCount = usePostCommentCount(itemId);
 
   return (
@@ -22,13 +22,13 @@ function PostMetrics({ itemId }: IProps): React.JSX.Element {
       <HStack space="$1" alignItems="center">
         <ArrowUp size={14} color="$secondary" />
         <Text color="$secondary" fontSize={13}>
-          {postVotes?.upvotes}
+          {postCounts?.upvotes}
         </Text>
       </HStack>
       <HStack space="$1" alignItems="center">
         <ArrowDown size={14} color="$secondary" />
         <Text color="$secondary" fontSize={13}>
-          {postVotes?.downvotes}
+          {postCounts?.downvotes}
         </Text>
       </HStack>
       <HStack space="$1" alignItems="center">

@@ -4,15 +4,18 @@ import HStack from '@components/Common/Stack/HStack';
 import { Image } from 'expo-image';
 import { Globe } from '@tamagui/lucide-icons';
 import { Text } from 'tamagui';
-import { IPostCommunityName } from '@src/state/post/postStore';
 import { createName } from '@helpers/text';
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {
+  usePostCommunityActorId,
+  usePostCommunityIcon,
+  usePostCommunityName,
+} from '@src/state/post/postStore';
 
 interface IProps {
-  communityName: IPostCommunityName | undefined;
-  communityIcon?: string;
+  itemId: number;
 }
 
 interface ICommunityIconProps {
@@ -38,15 +41,16 @@ function CommunityIcon({
   );
 }
 
-function PostCommunityLabel({
-  communityName,
-  communityIcon,
-}: IProps): React.JSX.Element {
+function PostCommunityLabel({ itemId }: IProps): React.JSX.Element {
+  const communityName = usePostCommunityName(itemId);
+  const actorId = usePostCommunityActorId(itemId);
+  const communityIcon = usePostCommunityIcon(itemId);
+
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const showIcon = useSettingsStore((state) => state.showCommunityIconInFeed);
   const fullName = useMemo(
-    () => createName(communityName?.community, communityName?.instance, true),
+    () => createName(communityName, actorId, true),
     [communityName],
   );
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import HStack from '@components/Common/Stack/HStack';
 import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
 import { ArrowDown, ArrowUp, Bookmark } from '@tamagui/lucide-icons';
@@ -15,15 +15,19 @@ export default function FeedItemActionButtons({
   const postMyVote = usePostMyVote(itemId);
   const postSaved = usePostSaved(itemId);
 
-  const doLikePost = (): void => {
-    if (postMyVote === 0) void instance.likePost(itemId, 1);
-    else void instance.likePost(itemId, 0);
-  };
+  const doSavePost = useCallback(() => {}, [itemId, postSaved]);
 
-  const doDislikePost = (): void => {
-    if (postMyVote === 0) void instance.likePost(itemId, -1);
+  const doLikePost = useCallback((): void => {
+    if (postMyVote === 0 || postMyVote === undefined)
+      void instance.likePost(itemId, 1);
     else void instance.likePost(itemId, 0);
-  };
+  }, [itemId, postMyVote]);
+
+  const doDislikePost = useCallback((): void => {
+    if (postMyVote === 0 || postMyVote === undefined)
+      void instance.likePost(itemId, -1);
+    else void instance.likePost(itemId, 0);
+  }, [itemId, postMyVote]);
 
   return (
     <HStack space="$1.5" marginLeft="auto">
@@ -31,7 +35,7 @@ export default function FeedItemActionButtons({
         icon={Bookmark}
         color={postSaved ? 'white' : '$accent'}
         iconSize={20}
-        onPress={doLikePost}
+        onPress={doSavePost}
         backgroundColor={postSaved ? '$bookmark' : undefined}
       />
       <AnimatedIconButton
