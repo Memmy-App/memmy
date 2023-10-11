@@ -5,7 +5,7 @@ import { Image } from 'expo-image';
 import { Globe } from '@tamagui/lucide-icons';
 import { Text } from 'tamagui';
 import { IPostCommunityName } from '@src/state/post/postStore';
-import { createFullName } from '@helpers/text';
+import { createName } from '@helpers/text';
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -30,8 +30,9 @@ function CommunityIcon({
     <Image
       source={{ uri: communityIcon }}
       style={{
-        width: 14,
-        height: 14,
+        width: 16,
+        height: 16,
+        borderRadius: 25,
       }}
     />
   );
@@ -45,7 +46,7 @@ function PostCommunityLabel({
 
   const showIcon = useSettingsStore((state) => state.showCommunityIconInFeed);
   const fullName = useMemo(
-    () => createFullName(communityName?.community, communityName?.instance),
+    () => createName(communityName?.community, communityName?.instance, true),
     [communityName],
   );
 

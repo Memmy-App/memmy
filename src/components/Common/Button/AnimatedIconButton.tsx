@@ -1,5 +1,5 @@
 import React, { NamedExoticComponent } from 'react';
-import { styled } from 'tamagui';
+import { styled, View } from 'tamagui';
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -13,6 +13,7 @@ interface IProps {
   iconSize: number;
   color?: string;
   onPress: () => unknown | Promise<unknown>;
+  backgroundColor?: string;
 }
 
 function AnimatedIconButton({
@@ -20,6 +21,7 @@ function AnimatedIconButton({
   iconSize,
   color,
   onPress,
+  backgroundColor,
 }: IProps): React.JSX.Element {
   const scale = useSharedValue(1);
 
@@ -50,6 +52,7 @@ function AnimatedIconButton({
   };
 
   const tapGesture = Gesture.Tap()
+    .hitSlop(5)
     .onBegin(onTapBegin)
     .onEnd(onTapEnd)
     .onTouchesCancelled(onTapCancel);
@@ -61,7 +64,9 @@ function AnimatedIconButton({
   return (
     <GestureDetector gesture={tapGesture}>
       <Animated.View style={[scaleStyle]}>
-        <Icon />
+        <View backgroundColor={backgroundColor} borderRadius={3} padding={4}>
+          <Icon />
+        </View>
       </Animated.View>
     </GestureDetector>
   );

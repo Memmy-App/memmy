@@ -76,3 +76,9 @@ export const usePostCommunityName = (
 
 export const usePostCommunityIcon = (id: number): string | undefined =>
   usePostStore((state) => state.posts.get(id))?.view.community.icon;
+
+export const usePostMyVote = (id: number): number | undefined =>
+  usePostStore((state) => state.posts.get(id))?.view.my_vote;
+
+export const usePostSaved = (id: number): boolean =>
+  usePostStore((state) => state.posts.get(id))?.view.saved ?? false;

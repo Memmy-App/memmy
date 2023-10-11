@@ -46,7 +46,7 @@ export default function App(): React.JSX.Element | null {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <TamaguiProvider config={tguiConfig}>
         <QueryClientProvider client={queryClient}>
-          <Theme name="darkTheme">
+          <Theme name="lightTheme">
             <Stack />
           </Theme>
         </QueryClientProvider>

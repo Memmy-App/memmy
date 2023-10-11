@@ -92,6 +92,7 @@ export interface SettingsStore {
   hapticsStrength: IHapticStrengthOption;
 
   showCommunityIconInFeed: boolean;
+  showAvatarInFeed: boolean;
 }
 
 const initialState: SettingsStore = {
@@ -173,6 +174,7 @@ const initialState: SettingsStore = {
   hapticsStrength: 'medium',
 
   showCommunityIconInFeed: true,
+  showAvatarInFeed: true,
 };
 
 export const useSettingsStore = create(
