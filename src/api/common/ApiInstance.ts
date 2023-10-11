@@ -174,14 +174,67 @@ class ApiInstance {
     }
   }
 
-  async likePost(postId: number, score: ILemmyVote): Promise<void> {
+  async likePost(postId: number, vote: ILemmyVote): Promise<void> {
+    let oldValues = {
+      score: 0,
+      upvotes: 0,
+      downvotes: 0,
+    };
+
+    usePostStore.setState((state) => {
+      const post = state.posts.get(postId);
+
+      if (post == null) return;
+
+      oldValues = {
+        score: post.view.counts.score,
+        upvotes: post.view.counts.upvotes,
+        downvotes: post.view.counts.downvotes,
+      };
+
+      if (post.view.my_vote === 1 && vote === 0) {
+        post.view.counts.score = post.view.counts.score - 1;
+        post.view.counts.upvotes = post.view.counts.upvotes - 1;
+      } else if (post.view.my_vote === 1) {
+        post.view.counts.score = post.view.counts.score - 2;
+        post.view.counts.upvotes = post.view.counts.upvotes - 1;
+        post.view.counts.downvotes = post.view.counts.downvotes + 1;
+      } else if (post.view.my_vote === -1 && vote === 0) {
+        post.view.counts.score = post.view.counts.score + 1;
+        post.view.counts.upvotes = post.view.counts.downvotes - 1;
+      } else if (post.view.my_vote === -1) {
+        post.view.counts.score = post.view.counts.score + 2;
+        post.view.counts.upvotes = post.view.counts.upvotes + 1;
+        post.view.counts.downvotes = post.view.counts.downvotes - 1;
+      } else if (post.view.my_vote === 0 || post.view.my_vote === undefined) {
+        if (vote === 1) {
+          post.view.counts.score = post.view.counts.score + 1;
+          post.view.counts.upvotes = post.view.counts.upvotes + 1;
+        } else {
+          post.view.counts.score = post.view.counts.score - 1;
+          post.view.counts.upvotes = post.view.counts.downvotes + 1;
+        }
+      }
+    });
+
     try {
       await this.instance?.likePost({
         post_id: postId,
-        score,
+        score: vote,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      usePostStore.setState((state) => {
+        const post = state.posts.get(postId);
+
+        if (post == null) return;
+
+        post.view.counts.score = oldValues.score;
+        post.view.counts.upvotes = oldValues.upvotes;
+        post.view.counts.downvotes = oldValues.downvotes;
+      });
+
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
     }
   }
 
