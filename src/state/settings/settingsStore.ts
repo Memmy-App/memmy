@@ -5,25 +5,48 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { IHapticStrengthOption } from '@src/types/options';
+
+export interface IGesturePostSettings {
+  enabled: boolean;
+  shortRight: IPostGestureOption;
+  longRight: IPostGestureOption;
+  shortLeft: IPostGestureOption;
+  longLeft: IPostGestureOption;
+}
+
+export interface IGestureCommentSettings {
+  enabled: boolean;
+  collapse: boolean;
+  shortRight: IPostGestureOption;
+  longRight: IPostGestureOption;
+  shortLeft: IPostGestureOption;
+  longLeft: IPostGestureOption;
+}
+
+export interface IGestureSettings {
+  post: IGesturePostSettings;
+  comment: IGestureCommentSettings;
+}
+
+export interface ICompactOptions {
+  thumbnailPosition: 'left' | 'right' | 'none';
+  showVoteButtons: boolean;
+}
+
+export interface IReadOptions {
+  onPostView: boolean;
+  onImageView: boolean;
+  onVote: boolean;
+  onFeedScroll: boolean;
+  onCommunityScroll: boolean;
+
+  hideReadPostsFeed: boolean;
+  hideReadPostsCommunity: boolean;
+}
 
 export interface SettingsStore {
-  gestures: {
-    post: {
-      enabled: boolean,
-      shortRight: IPostGestureOption,
-      longRight: IPostGestureOption,
-      shortLeft: IPostGestureOption,
-      longLeft: IPostGestureOption,
-    },
-    comment: {
-      enabled: boolean,
-      collapse: boolean,
-      shortRight: IPostGestureOption,
-      longRight: IPostGestureOption,
-      shortLeft: IPostGestureOption,
-      longLeft: IPostGestureOption,
-    },
-  };
+  gestures: IGestureSettings;
 
   imagesInFeed: boolean;
 
@@ -46,21 +69,9 @@ export interface SettingsStore {
 
   postTitleWeight: number;
 
-  compactOptions: {
-    thumbnailPosition: 'left' | 'right' | 'none',
-    showVoteButtons: boolean,
-  };
+  compactOptions: ICompactOptions;
 
-  readOptions: {
-    onPostView: boolean,
-    onImageView: boolean,
-    onVote: boolean,
-    onFeedScroll: boolean,
-    onCommunityScroll: boolean,
-
-    hideReadPostsFeed: boolean,
-    hideReadPostsCommunity: boolean,
-  };
+  readOptions: IReadOptions;
 
   imagesIgnoreScreenHeight: boolean;
 
@@ -76,6 +87,9 @@ export interface SettingsStore {
   hideAvatarInTab: boolean;
 
   commentJumpButton: boolean;
+
+  hapticsEnabled: boolean;
+  hapticsStrength: IHapticStrengthOption;
 }
 
 const initialState: SettingsStore = {
@@ -152,6 +166,9 @@ const initialState: SettingsStore = {
   hideAvatarInTab: false,
 
   commentJumpButton: false,
+
+  hapticsEnabled: true,
+  hapticsStrength: 'medium',
 };
 
 export const useSettingsStore = create(
@@ -162,9 +179,12 @@ export const useSettingsStore = create(
     {
       name: 'settings',
       storage: createJSONStorage(() => AsyncStorage),
-    }),
+    },
+  ),
 );
 
-export const useSetting = <T extends keyof SettingsStore>(setting: T): string | boolean | number | object | object[] => {
+export const useSetting = <T extends keyof SettingsStore>(
+  setting: T,
+): string | boolean | number | object | object[] => {
   return useSettingsStore((state) => state[setting]);
 };

@@ -40,6 +40,14 @@ module.exports = {
     "@typescript-eslint/consistent-type-imports": [2, { prefer: "no-type-imports" }],
     "react/jsx-curly-brace-presence": [2, { props: "never", children: "never" }],
     "jsx-quotes": [2, "prefer-double"],
-    "prettier/prettier": ["error", { "singleQuote": true, "trailingComma": "all" }],
+    "prettier/prettier": [2, {
+      endOfLine: "auto",
+      singleQuote: true,
+      semi: true,
+      bracketSpacing: true,
+      trailingComma: "all",
+      tabWidth: 2,
+      printWidth: 80,
+    }],
   },
 };

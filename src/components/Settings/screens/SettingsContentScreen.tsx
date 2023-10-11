@@ -4,6 +4,11 @@ import { ScrollView } from 'tamagui';
 import Table from '@components/Common/Table/Table';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
 import { Switch } from 'react-native';
+import ListingTypeContextMenu from '@components/Common/ContextMenu/components/ListingTypeContextMenu';
+import { setSetting } from '@src/state/settings/actions/setSetting';
+import SortTypeContextMenu from '@components/Common/ContextMenu/components/SortTypeContextMenu';
+import CommentSortTypeContextMenu from '@components/Common/ContextMenu/components/CommentSortTypeContextMenu';
+import { addSpaceBeforeCapital } from '@helpers/text';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -18,20 +23,52 @@ export default function SettingsContentScreen({
     <ScrollView flex={1}>
       <Table.Container>
         <Table.Section header="Defaults">
+          <SortTypeContextMenu
+            selection={settings.defaultSort}
+            onPressMenuItem={(e) => {
+              setSetting('defaultSort', e.nativeEvent.actionKey);
+            }}
+          >
+            <Table.Cell
+              label="Post Sort"
+              rightLabel={addSpaceBeforeCapital(settings.defaultSort)}
+              useChevron
+            />
+          </SortTypeContextMenu>
+
+          <CommentSortTypeContextMenu
+            selection={settings.defaultCommentSort}
+            onPressMenuItem={(e) => {
+              setSetting('defaultCommentSort', e.nativeEvent.actionKey);
+            }}
+          >
+            <Table.Cell
+              label="Comment Sort"
+              rightLabel={settings.defaultCommentSort}
+              useChevron
+            />
+          </CommentSortTypeContextMenu>
+
+          <ListingTypeContextMenu
+            selection={settings.defaultListingType}
+            onPressMenuItem={(e) => {
+              setSetting('defaultListingType', e.nativeEvent.actionKey);
+            }}
+          >
+            <Table.Cell
+              label="Listing Type"
+              rightLabel={settings.defaultListingType}
+              useChevron
+            />
+          </ListingTypeContextMenu>
+        </Table.Section>
+        <Table.Section>
           <Table.Cell
-            label="Post Sort"
-            rightLabel={settings.defaultSort}
+            label="Mark Read Options"
             useChevron
-          />
-          <Table.Cell
-            label="Comment Sort"
-            rightLabel={settings.defaultCommentSort}
-            useChevron
-          />
-          <Table.Cell
-            label="Listing Type"
-            rightLabel={settings.defaultListingType}
-            useChevron
+            onPress={() => {
+              navigation.navigate('Read');
+            }}
           />
         </Table.Section>
         <Table.Section

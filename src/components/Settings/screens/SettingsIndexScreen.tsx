@@ -49,6 +49,9 @@ export default function SettingsIndexScreen({
           <Table.Cell
             label="Accounts"
             useChevron
+            onPress={() => {
+              navigation.navigate('Accounts');
+            }}
             accessoryLeft={<CellIcon bgColor="#00CA48" icon={<User />} />}
           />
           <Table.Cell
@@ -59,6 +62,9 @@ export default function SettingsIndexScreen({
           <Table.Cell
             label="About"
             useChevron
+            onPress={() => {
+              navigation.navigate('About');
+            }}
             accessoryLeft={<CellIcon bgColor="#0368D4" icon={<AtSign />} />}
           />
         </Table.Section>
