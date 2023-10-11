@@ -1,30 +1,36 @@
-import React from 'react';
-import { usePost } from '@src/state/post/postStore';
+import React, { useCallback } from 'react';
 import FeedItemHeader from '@components/Feed/components/Feed/FeedItem/FeedItemHeader';
 import FeedItemContainer from '@components/Feed/components/Feed/FeedItem/FeedItemContainer';
 import FeedItemFooter from '@components/Feed/components/Feed/FeedItem/FeedItemFooter';
 import FeedItemPostInfo from '@components/Feed/components/Feed/FeedItem/FeedItemPostInfo';
 import FeedItemActionButtons from '@components/Feed/components/Feed/FeedItem/FeedItemActionButtons';
-import ViewerImage from '@components/Common/ImageViewer/ViewerImage';
+import { Pressable } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface IProps {
   itemId: number;
 }
 
 function FeedItem({ itemId }: IProps): React.JSX.Element {
-  const post = usePost(itemId);
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const isImagePost = post?.url?.includes('.png') ?? false;
+  const onPress = useCallback(() => {
+    navigation.navigate('Post', {
+      postId: itemId,
+    });
+  }, [itemId]);
 
   return (
-    <FeedItemContainer>
-      <FeedItemHeader itemId={itemId} />
-      {isImagePost && <ViewerImage source={post?.url ?? ''} />}
-      <FeedItemFooter>
-        <FeedItemPostInfo itemId={itemId} />
-        <FeedItemActionButtons itemId={itemId} />
-      </FeedItemFooter>
-    </FeedItemContainer>
+    <Pressable onPress={onPress}>
+      <FeedItemContainer>
+        <FeedItemHeader itemId={itemId} />
+        <FeedItemFooter>
+          <FeedItemPostInfo itemId={itemId} />
+          <FeedItemActionButtons itemId={itemId} />
+        </FeedItemFooter>
+      </FeedItemContainer>
+    </Pressable>
   );
 }
 

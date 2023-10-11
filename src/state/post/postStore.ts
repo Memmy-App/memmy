@@ -24,6 +24,9 @@ export const usePostStore = create(
   })),
 );
 
+export const usePostLoaded = (id: number): boolean =>
+  usePostStore((state) => state.posts.get(id) !== undefined);
+
 export const usePostView = (id: number): PostView | undefined =>
   usePostStore((state) => state.posts.get(id))?.view;
 

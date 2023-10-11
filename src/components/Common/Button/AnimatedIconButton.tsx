@@ -7,6 +7,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { Pressable } from 'react-native';
 
 interface IProps {
   icon: NamedExoticComponent;
@@ -62,13 +63,15 @@ function AnimatedIconButton({
   }));
 
   return (
-    <GestureDetector gesture={tapGesture}>
-      <Animated.View style={[scaleStyle]}>
-        <View backgroundColor={backgroundColor} borderRadius={3} padding={4}>
-          <Icon />
-        </View>
-      </Animated.View>
-    </GestureDetector>
+    <Pressable>
+      <GestureDetector gesture={tapGesture}>
+        <Animated.View style={[scaleStyle]}>
+          <View backgroundColor={backgroundColor} borderRadius={3} padding={4}>
+            <Icon />
+          </View>
+        </Animated.View>
+      </GestureDetector>
+    </Pressable>
   );
 }
 

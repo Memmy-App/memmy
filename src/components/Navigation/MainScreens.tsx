@@ -9,8 +9,9 @@ import {
   NativeStackNavigationOptions,
 } from '@react-navigation/native-stack';
 import { NativeStackNavigatorProps } from 'react-native-screens/lib/typescript/native-stack/types';
-import FeedIndexScreen from '@components/Feed/FeedIndex/FeedIndexScreen';
+import FeedIndexScreen from '@components/Feed/screens/FeedIndexScreen';
 import { useTheme } from 'tamagui';
+import PostScreen from '@components/Post/screens/PostScreen';
 
 export default function MainScreens(
   stack: TypedNavigator<
@@ -35,6 +36,13 @@ export default function MainScreens(
       <stack.Screen
         name="FeedIndex"
         component={FeedIndexScreen}
+        options={{
+          headerShown: true,
+        }}
+      />
+      <stack.Screen
+        name="Post"
+        component={PostScreen}
         options={{
           headerShown: true,
         }}
