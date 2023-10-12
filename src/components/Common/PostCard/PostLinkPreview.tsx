@@ -48,6 +48,7 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
             width="100%"
             paddingHorizontal="$3"
             paddingBottom="$2"
+            paddingTop={postThumbnail == null ? '$2' : undefined}
           >
             <Link size={16} />
             <Separator

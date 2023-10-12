@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable } from 'react-native';
 
 import { useImageViewer } from './ImageViewerProvider';
 import {
@@ -9,6 +9,8 @@ import {
 import { getImageRatio } from '@helpers/image';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
 import { Image, ImageLoadEventData } from 'expo-image';
+import { View } from 'tamagui';
+import { IDimensions } from '@src/types';
 
 interface IProps {
   source: string;
@@ -40,7 +42,8 @@ function ViewerImage({ source }: IProps): React.JSX.Element {
 
     imageViewer.setSource(source);
     imageViewer.setVisible(true);
-  }, [source]);
+    imageViewer.setDimensions!(savedDimensions as unknown as IDimensions);
+  }, [source, savedDimensions]);
 
   const onImageLoad = useCallback(
     (e: ImageLoadEventData) => {
@@ -49,7 +52,6 @@ function ViewerImage({ source }: IProps): React.JSX.Element {
         width: e.source.width,
       };
 
-      imageViewer.setDimensions!(dimensions);
       saveImageDimensions(source, dimensions);
       console.log(savedDimensions);
     },
@@ -57,22 +59,17 @@ function ViewerImage({ source }: IProps): React.JSX.Element {
   );
 
   return (
-    <Pressable onPress={onImagePress}>
-      <Image
-        source={{ uri: source }}
-        style={dimensions}
-        onLoad={onImageLoad}
-        cachePolicy="disk"
-      />
+    <Pressable onPress={onImagePress} style={{ width: '100%' }}>
+      <View justifyContent="center">
+        <Image
+          source={{ uri: source }}
+          style={dimensions}
+          onLoad={onImageLoad}
+          cachePolicy="disk"
+        />
+      </View>
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  image: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default React.memo(ViewerImage);
