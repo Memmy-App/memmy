@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { usePostLink, usePostThumbnail } from '@src/state/post/postStore';
 import { Separator, Text, View } from 'tamagui';
 import { Image } from 'expo-image';
 import HStack from '@components/Common/Stack/HStack';
 import VStack from '@components/Common/Stack/VStack';
 import { ChevronRight, Link } from '@tamagui/lucide-icons';
+import { Pressable } from 'react-native';
+import { openLink } from '@helpers/links';
 
 interface IProps {
   itemId: number;
@@ -16,47 +18,54 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
 
   if (postLink == null) return null;
 
+  const onPress = useCallback(() => {
+    openLink(postLink);
+  }, [itemId]);
+
   return (
-    <View
-      marginVertical="$3"
-      marginHorizontal="$5"
-      backgroundColor="$bg"
-      borderRadius={10}
-    >
-      <VStack space="$2">
-        {postThumbnail != null && (
-          <Image
-            source={{ uri: postThumbnail }}
-            style={{
-              height: 120,
-              borderTopRightRadius: 10,
-              borderTopLeftRadius: 10,
-            }}
-          />
-        )}
-        <HStack
-          alignItems="center"
-          space="$2"
-          width="100%"
-          paddingHorizontal="$3"
-          paddingBottom="$2"
-        >
-          <Link size={16} />
-          <Separator
-            vertical
-            borderColor="$secondary"
-            height={20}
-            opacity={0.5}
-          />
-          <View justifyContent="center" flex={1}>
-            <Text color="$secondary" numberOfLines={1}>
-              {postLink}
-            </Text>
-          </View>
-          <ChevronRight color="$secondary" />
-        </HStack>
-      </VStack>
-    </View>
+    <Pressable onPress={onPress}>
+      <View
+        marginVertical="$3"
+        marginHorizontal="$5"
+        backgroundColor="$bg"
+        borderRadius={10}
+      >
+        <VStack space="$2">
+          {postThumbnail != null && (
+            <Image
+              source={{ uri: postThumbnail }}
+              style={{
+                height: 120,
+                borderTopRightRadius: 10,
+                borderTopLeftRadius: 10,
+              }}
+              contentFit="cover"
+            />
+          )}
+          <HStack
+            alignItems="center"
+            space="$2"
+            width="100%"
+            paddingHorizontal="$3"
+            paddingBottom="$2"
+          >
+            <Link size={16} />
+            <Separator
+              vertical
+              borderColor="$secondary"
+              height={20}
+              opacity={0.5}
+            />
+            <View justifyContent="center" flex={1}>
+              <Text color="$secondary" numberOfLines={1}>
+                {postLink}
+              </Text>
+            </View>
+            <ChevronRight color="$secondary" />
+          </HStack>
+        </VStack>
+      </View>
+    </Pressable>
   );
 }
 
