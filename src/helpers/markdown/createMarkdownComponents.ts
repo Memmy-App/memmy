@@ -6,9 +6,14 @@ import {
   markdownComponentMap,
   markdownComponentTypes,
 } from '@helpers/markdown/markdownComponentMap';
+import MdBlockQuote from '@components/Common/Markdown/components/MdBlockQuote';
+import { Text } from 'tamagui';
 
 let componentStyle = {};
 let otherProps = {};
+let isQuote = false;
+let quoteText = '';
+let isList = false;
 
 export const createMarkdownComponents = (
   mdObjArr: MdToken[],
@@ -23,7 +28,9 @@ export const createMarkdownComponents = (
     }
 
     const component = createMarkdownComponent(token, children);
-    components.push(component);
+    if (component != null) {
+      components.push(component);
+    }
   }
 
   return components;
@@ -34,26 +41,26 @@ const createMarkdownComponent = (
   children: Array<React.FunctionComponentElement<any> | null>,
 ): FunctionComponentElement<any> | null => {
   if (!markdownComponentTypes.includes(token.type)) {
-    if (markdownComponentFontTypes.includes(token.type)) {
+    if (
+      markdownComponentFontTypes.includes(token.tag) &&
+      token.type.includes('open')
+    ) {
       componentStyle = {
         ...componentStyle,
-        ...markdownComponentFontProps[token.type],
+        ...markdownComponentFontProps[token.tag],
       };
     }
 
-    if (token.type === 'link_open') {
-      console.log('Found a link.');
+    const element = handleOtherListTypes(token, children);
+    return element;
+  }
 
-      otherProps = {
-        ...otherProps,
-        href: token.attrs[0][1],
-        link: true,
-      };
-    }
+  if (isQuote && token.type === 'text') {
+    quoteText += ` ${token.content}`;
     return null;
   }
 
-  const element = createElement(
+  let element = createElement(
     markdownComponentMap[token.type],
     {
       token,
@@ -62,6 +69,14 @@ const createMarkdownComponent = (
     },
     children,
   );
+
+  if (isList && token.type === 'text') {
+    // @ts-expect-error - TODO: Fix this
+    element = createElement(Text, {}, [
+      createElement(Text, {}, ['•']),
+      element,
+    ]);
+  }
 
   if (Object.keys(componentStyle).length > 0) {
     componentStyle = {};
@@ -72,4 +87,48 @@ const createMarkdownComponent = (
   }
 
   return element;
+};
+
+const handleOtherListTypes = (
+  token: MdToken,
+  children: Array<React.FunctionComponentElement<any> | null>,
+): React.FunctionComponentElement<any | null> | null => {
+  switch (token.type) {
+    case 'list_item_open': {
+      isList = true;
+      return null;
+    }
+    case 'list_item_close': {
+      isList = false;
+      return null;
+    }
+    case 'blockquote_open': {
+      isQuote = true;
+      return null;
+    }
+    case 'blockquote_close': {
+      const element = createElement(
+        MdBlockQuote,
+        {
+          text: quoteText,
+        },
+        children,
+      );
+
+      isQuote = false;
+      quoteText = '';
+      return element;
+    }
+    case 'link_open': {
+      otherProps = {
+        ...otherProps,
+        href: token.attrs[0][1],
+        link: true,
+      };
+      return null;
+    }
+    default: {
+      return null;
+    }
+  }
 };

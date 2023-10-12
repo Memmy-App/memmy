@@ -15,10 +15,8 @@ function Post(): React.JSX.Element {
 
 *Italic Text* then normal text **Then bold text!** then some more text [with a link](https://google.com)
 
-a really long long long long long long long long long long long long long long line of text
-
  [a link that has a lot of text so it goes off the screen screen screen](https://google.com)
-
+ 
 ![an image](https://placehold.co/600x400/EEE/31343C)
 
 # heading one
@@ -34,6 +32,9 @@ a really long long long long long long long long long long long long long long l
 
 > a quote
 > thats multiline?
+> and goes past
+> the end of
+> the screen lol
 
 - some
 - list

@@ -8,7 +8,9 @@ export const createMarkdownObject = (
 
   const md = MarkdownIt({
     linkify: true,
+    typographer: true,
   });
+
   const result = md.parse(markdown, {});
 
   return result as unknown as MdToken[];

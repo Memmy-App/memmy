@@ -22,14 +22,38 @@ export const markdownComponentMap: Record<
 };
 
 export const markdownComponentFontProps: Record<string, object> = {
-  strong_open: {
+  strong: {
     fontWeight: 'bold',
   },
-  em_open: {
+  em: {
     fontStyle: 'italic',
   },
   h1: {
-    fontSize: 32,
+    fontSize: 34,
+    fontWeight: 'bold',
+  },
+  h2: {
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+  h3: {
+    fontSize: 26,
+    fontWeight: 'bold',
+  },
+  h4: {
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  h5: {
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  h6: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  s: {
+    textDecorationLine: 'line-through',
   },
 };
 
