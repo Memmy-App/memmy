@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { TamaguiProvider, Theme } from 'tamagui';
+import { TamaguiProvider, Theme, useTheme } from 'tamagui';
 
 import tguiConfig from './tamagui.config';
 import Stack from '@components/Navigation/Stack';
@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Infinity } from '@tamagui/lucide-icons';
 import ImageViewerProvider from '@components/Common/ImageViewer/ImageViewerProvider';
 import { LogBox } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -50,13 +51,24 @@ export default function App(): React.JSX.Element | null {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <TamaguiProvider config={tguiConfig}>
         <QueryClientProvider client={queryClient}>
-          <Theme name="darkTheme">
-            <ImageViewerProvider>
-              <Stack />
-            </ImageViewerProvider>
+          <Theme name="lightTheme">
+            <PartTwo />
           </Theme>
         </QueryClientProvider>
       </TamaguiProvider>
     </GestureHandlerRootView>
+  );
+}
+
+function PartTwo(): React.JSX.Element {
+  const theme = useTheme();
+
+  return (
+    <>
+      <StatusBar style={theme.statusBar.val} />
+      <ImageViewerProvider>
+        <Stack />
+      </ImageViewerProvider>
+    </>
   );
 }

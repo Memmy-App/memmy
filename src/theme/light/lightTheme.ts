@@ -49,4 +49,6 @@ export const lightThemeColors: IColors = {
 
   bookmark: '#48C10F',
   bookmarkText: '#fff',
+
+  statusBar: 'dark',
 };

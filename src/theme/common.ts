@@ -53,4 +53,6 @@ export interface IColors {
 
   bookmark: string;
   bookmarkText: string;
+
+  statusBar: 'light' | 'dark';
 }
