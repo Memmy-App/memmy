@@ -7,6 +7,7 @@ import {
 import { View } from 'tamagui';
 import Markdown from '@components/Common/Markdown/Markdown';
 import ViewerImage from '@components/Common/ImageViewer/ViewerImage';
+import PostLinkPreview from '@components/Common/PostCard/PostLinkPreview';
 
 interface IProps {
   itemId: number;
@@ -25,15 +26,16 @@ function FeedItemContent({ itemId }: IProps): React.JSX.Element | null {
     );
   }
 
-  if (postLinkType === 'generic' && postBodyPreview != null) {
-    return (
-      <View marginHorizontal="$3" marginVertical="$3">
-        <Markdown color="$secondary">{postBodyPreview}</Markdown>
-      </View>
-    );
-  }
-
-  return null;
+  return (
+    <View>
+      {postBodyPreview != null && (
+        <View marginHorizontal="$3">
+          <Markdown color="$secondary">{postBodyPreview}</Markdown>
+        </View>
+      )}
+      {postLink != null && <PostLinkPreview itemId={itemId} />}
+    </View>
+  );
 }
 
 export default React.memo(FeedItemContent);

@@ -16,7 +16,6 @@ interface IProps {
 function FeedItemHeader({ itemId }: IProps): React.JSX.Element {
   const postTitle = usePostTitle(itemId);
 
-  const fontSize = useSettingsStore((state) => state.fontSize);
   const fontWeight = useSettingsStore((state) => state.postTitleWeight);
 
   const onEllipsisPress = useCallback((): void => {
@@ -35,7 +34,7 @@ function FeedItemHeader({ itemId }: IProps): React.JSX.Element {
           />
         </View>
       </HStack>
-      <Text fontSize={fontSize} fontWeight={fontWeight}>
+      <Text fontSize={18} fontWeight={fontWeight}>
         {postTitle}
       </Text>
     </VStack>

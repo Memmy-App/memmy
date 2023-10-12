@@ -7,10 +7,7 @@ interface IProps {
   color?: string;
 }
 
-function Markdown({
-  children,
-  color = '$secondary',
-}: IProps): React.JSX.Element {
+function Markdown({ children, color = '$color' }: IProps): React.JSX.Element {
   const components = useMemo(
     () => createMarkdownComponents(children, color),
     [children],
