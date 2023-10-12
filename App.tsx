@@ -65,6 +65,7 @@ function PartTwo(): React.JSX.Element {
 
   return (
     <>
+      {/* @ts-expect-error - This is a valid option */}
       <StatusBar style={theme.statusBar.val} />
       <ImageViewerProvider>
         <Stack />

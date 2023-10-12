@@ -53,7 +53,6 @@ function ViewerImage({ source }: IProps): React.JSX.Element {
       };
 
       saveImageDimensions(source, dimensions);
-      console.log(savedDimensions);
     },
     [imageViewer.setDimensions],
   );
@@ -65,7 +64,6 @@ function ViewerImage({ source }: IProps): React.JSX.Element {
           source={{ uri: source }}
           style={dimensions}
           onLoad={onImageLoad}
-          cachePolicy="disk"
         />
       </View>
     </Pressable>
