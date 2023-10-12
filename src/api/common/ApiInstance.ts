@@ -27,6 +27,9 @@ import { useFeedStore } from '@src/state/feed/feedStore';
 import { cacheImages } from '@helpers/image';
 import { getLinkType } from '@helpers/links/getLinkType';
 import { truncateText } from '@helpers/text';
+import { buildCommentChains } from '@helpers/comments';
+import { addCommentsToPost } from '@src/state/post/actions';
+import { addComments } from '@src/state/comment/actions';
 
 export enum EInitializeResult {
   SUCCESS,
@@ -352,6 +355,7 @@ class ApiInstance {
     // Set all our options
     options = {
       ...defaultOptions,
+      sort: 'TopDay',
       ...options,
     };
 
@@ -379,7 +383,6 @@ class ApiInstance {
           for (const post of res.posts) {
             state.posts.set(post.post.id, {
               view: post,
-              comments: [],
               usedBy: [],
               linkType: getLinkType(post.post.url),
               bodyPreview: truncateText(post.post.body, 200),
@@ -429,11 +432,35 @@ class ApiInstance {
     }
   }
 
-  async getComments(postId: number): Promise<GetCommentsResponse | undefined> {
+  async getComments(
+    postId: number,
+    addToPost = true,
+  ): Promise<GetCommentsResponse | undefined> {
+    const settings = useSettingsStore.getState();
+    const post = usePostStore.getState().posts.get(postId);
+
+    if (post == null) return;
+
     try {
-      return await this.instance?.getComments({
+      const res = await this.instance?.getComments({
         post_id: postId,
+        max_depth: 6,
+        limit: 50,
+        sort: settings.defaultCommentSort,
       });
+
+      if (res === undefined || !addToPost) {
+        return res;
+      }
+
+      console.log(res.comments.length);
+
+      const builtComments = buildCommentChains(res.comments);
+
+      addCommentsToPost(postId, builtComments.commentInfo);
+      addComments(res.comments);
+
+      return res;
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
       return undefined;

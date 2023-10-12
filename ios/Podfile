@@ -37,7 +37,7 @@ elsif podfile_properties.key?('ios.flipper') then
   end
 end
 
-target 'memmy' do
+target 'Memmy' do
   use_expo_modules!
   config = use_native_modules!
 

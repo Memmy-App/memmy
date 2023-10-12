@@ -10,7 +10,13 @@ function PostHeader(): React.JSX.Element {
   const postTitle = usePostTitle(postId);
 
   return (
-    <VStack paddingHorizontal="$3" paddingTop="$3">
+    <VStack
+      paddingHorizontal="$3"
+      paddingTop="$3"
+      paddingBottom="$2"
+      borderBottomWidth={1}
+      borderColor="$bg"
+    >
       <PostCommunityLabel itemId={postId} />
       <Text fontSize="$8" fontWeight="bold">
         {postTitle}

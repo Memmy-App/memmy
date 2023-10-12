@@ -20,6 +20,8 @@ let isQuote = false;
 let quoteText = '';
 let isList = false;
 
+let key = 0;
+
 export const createMarkdownComponents = (
   mdObjArr: MdToken[] | string | undefined,
   colorOverride?: string,
@@ -88,17 +90,22 @@ const createMarkdownComponent = (
     {
       token,
       style: componentStyle,
+      key,
       ...otherProps,
     },
     children,
   );
 
+  key = key + 1;
+
   if (isList && token.type === 'text') {
     // @ts-expect-error - TODO: Fix this
-    element = createElement(Text, {}, [
-      createElement(Text, {}, ['•']),
+    element = createElement(Text, { key }, [
+      createElement(Text, { key: key + 1 }, ['•']),
       element,
     ]);
+
+    key = key + 2;
   }
 
   if (Object.keys(componentStyle).length > 0) {
@@ -136,9 +143,12 @@ const handleOtherListTypes = (
         MdBlockQuote,
         {
           text: quoteText,
+          key,
         },
         children,
       );
+
+      key = key + 1;
 
       isQuote = false;
       quoteText = '';

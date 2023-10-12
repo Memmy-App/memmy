@@ -30,20 +30,22 @@ export default function MainScreens(
 ): React.JSX.Element {
   return (
     <>
-      <stack.Screen
-        name="Feed"
-        component={FeedIndexScreen}
-        options={{
-          headerShown: true,
-        }}
-      />
-      <stack.Screen
-        name="Post"
-        component={PostScreen}
-        options={{
-          headerShown: true,
-        }}
-      />
+      <stack.Group>
+        <stack.Screen
+          name="Feed"
+          component={FeedIndexScreen}
+          options={{
+            headerShown: true,
+          }}
+        />
+        <stack.Screen
+          name="Post"
+          component={PostScreen}
+          options={{
+            headerShown: true,
+          }}
+        />
+      </stack.Group>
     </>
   );
 }

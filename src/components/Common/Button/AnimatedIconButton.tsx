@@ -1,19 +1,18 @@
-import React, { NamedExoticComponent } from 'react';
+import React, { NamedExoticComponent, useCallback } from 'react';
 import { styled, View } from 'tamagui';
 import Animated, {
-  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { Pressable } from 'react-native';
+import { playHaptic } from '@helpers/haptics';
 
 interface IProps {
   icon: NamedExoticComponent;
   iconSize: number;
   color?: string;
-  onPress: () => unknown | Promise<unknown>;
+  onPress?: () => unknown | Promise<unknown>;
   backgroundColor?: string;
 }
 
@@ -32,45 +31,40 @@ function AnimatedIconButton({
     color: color ?? '$accent',
   });
 
+  const onButonPress = useCallback(() => {
+    if (onPress == null) return;
+
+    void playHaptic();
+    onPress();
+  }, [onPress]);
+
   const onTapBegin = (): void => {
     'worklet';
 
-    scale.value = withTiming(1.2, { duration: 100 });
+    scale.value = withTiming(1.2, { duration: 200 });
   };
 
   const onTapEnd = (): void => {
     'worklet';
 
-    scale.value = withTiming(1, { duration: 100 });
-
-    runOnJS(onPress)();
+    scale.value = withTiming(1, { duration: 200 });
   };
-
-  const onTapCancel = (): void => {
-    'worklet';
-
-    scale.value = withTiming(1, { duration: 100 });
-  };
-
-  const tapGesture = Gesture.Tap()
-    .hitSlop(5)
-    .onBegin(onTapBegin)
-    .onEnd(onTapEnd)
-    .onTouchesCancelled(onTapCancel);
 
   const scaleStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
   }));
 
   return (
-    <Pressable>
-      <GestureDetector gesture={tapGesture}>
-        <Animated.View style={[scaleStyle]}>
-          <View backgroundColor={backgroundColor} borderRadius={3} padding={4}>
-            <Icon />
-          </View>
-        </Animated.View>
-      </GestureDetector>
+    <Pressable
+      onPressIn={onTapBegin}
+      onPressOut={onTapEnd}
+      onPress={onButonPress}
+    >
+      <Animated.View style={[scaleStyle]}>
+        <View backgroundColor={backgroundColor} borderRadius={3} padding={4}>
+          <Icon />
+        </View>
+      </Animated.View>
     </Pressable>
   );
 }

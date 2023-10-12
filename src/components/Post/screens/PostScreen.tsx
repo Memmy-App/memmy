@@ -1,21 +1,32 @@
 import React, { useEffect } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { usePostLoaded, usePostTitle } from '@src/state/post/postStore';
+import {
+  usePostCommentsInfo,
+  usePostLoaded,
+  usePostTitle,
+} from '@src/state/post/postStore';
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
 import VStack from '@components/Common/Stack/VStack';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import Post from '@components/Post/components/Post';
+import { useQuery } from '@tanstack/react-query';
+import instance from '@api/Instance';
+import { ICommentInfo } from '@src/types';
+import { Spinner } from 'tamagui';
+import CommentChain from '@components/Common/Comment/CommentChain';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
   route: any;
 }
 
-const renderItem = (item: ListRenderItemInfo<number>): React.JSX.Element => {
-  return <></>;
+const renderItem = (
+  item: ListRenderItemInfo<ICommentInfo>,
+): React.JSX.Element => {
+  return <CommentChain commentInfo={item.item} />;
 };
 
-const keyExtractor = (item: number): string => item.toString();
+const keyExtractor = (item: ICommentInfo): string => item.commentId.toString();
 
 export default function PostScreen({
   navigation,
@@ -25,6 +36,11 @@ export default function PostScreen({
 
   const postLoaded = usePostLoaded(postId);
   const postTitle = usePostTitle(postId);
+  const postCommentsInfo = usePostCommentsInfo(postId);
+
+  const { isLoading } = useQuery(['post', postId], async () => {
+    return await instance.getComments(postId);
+  });
 
   useEffect(() => {
     navigation.setOptions({
@@ -32,16 +48,16 @@ export default function PostScreen({
     });
   }, [postTitle]);
 
-  // First we should check if the post is in the store
-
   if (!postLoaded) return <LoadingScreen />;
 
   return (
     <VStack flex={1}>
-      <FlashList
+      <FlashList<ICommentInfo>
         renderItem={renderItem}
         keyExtractor={keyExtractor}
+        data={postCommentsInfo}
         ListHeaderComponent={<Post />}
+        ListEmptyComponent={<Spinner />}
       />
     </VStack>
   );

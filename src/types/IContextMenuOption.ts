@@ -1,11 +1,13 @@
-export type IContextMenuOptions = IContextMenuOption[];
+export type IContextMenuOptions<Type = string> = Array<
+  IContextMenuOption<Type>
+>;
 
-export interface IContextMenuOption {
+export interface IContextMenuOption<Type = string> {
   title: string;
-  key: string;
+  key: Type;
   subtitle?: string;
   icon?: string;
   destructive?: boolean;
-  options?: IContextMenuOption[];
+  options?: Array<IContextMenuOption<Type>>;
   inline?: boolean;
 }

@@ -1,17 +1,11 @@
-import {
-  CommentView,
-  Person,
-  Post,
-  PostAggregates,
-  PostView,
-} from 'lemmy-js-client';
+import { Person, Post, PostAggregates, PostView } from 'lemmy-js-client';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { LinkType } from '@src/types';
+import { ICommentInfo, LinkType } from '@src/types';
 
 export interface PostState {
   view: PostView;
-  comments: CommentView[];
+  commentInfo?: ICommentInfo[];
   usedBy: string[];
   linkType: LinkType;
   bodyPreview?: string;
@@ -33,8 +27,8 @@ export const usePostLoaded = (id: number): boolean =>
 export const usePostView = (id: number): PostView | undefined =>
   usePostStore((state) => state.posts.get(id))?.view;
 
-export const usePostComments = (id: number): CommentView[] =>
-  usePostStore((state) => state.posts.get(id))?.comments ?? [];
+export const usePostCommentsInfo = (id: number): ICommentInfo[] | undefined =>
+  usePostStore((state) => state.posts.get(id))?.commentInfo;
 
 export const usePost = (id: number): Post | undefined =>
   usePostStore((state) => state.posts.get(id))?.view.post;
@@ -88,3 +82,6 @@ export const usePostLinkType = (id: number): LinkType | undefined =>
 
 export const usePostBodyPreview = (id: number): string | undefined =>
   usePostStore((state) => state.posts.get(id))?.bodyPreview;
+
+export const usePostActorId = (id: number): string | undefined =>
+  usePostStore((state) => state.posts.get(id))?.view.post.ap_id;
