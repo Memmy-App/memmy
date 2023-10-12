@@ -6,7 +6,7 @@ export const getImageRatio = (
   realWidth: number,
   modifier = 0.6,
 ): Dimensions => {
-  const screenHeight = RNDimensions.get('screen').height;
+  const screenHeight = RNDimensions.get('screen').height * modifier;
   const screenWidth = RNDimensions.get('screen').width;
 
   const heightRatio = screenHeight / realHeight;

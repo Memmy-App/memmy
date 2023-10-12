@@ -7,6 +7,7 @@ import FeedItemActionButtons from '@components/Feed/components/Feed/FeedItem/Fee
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import FeedItemContent from '@components/Feed/components/Feed/FeedItem/FeedItemContent';
 
 interface IProps {
   itemId: number;
@@ -25,6 +26,7 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
     <Pressable onPress={onPress}>
       <FeedItemContainer>
         <FeedItemHeader itemId={itemId} />
+        <FeedItemContent itemId={itemId} />
         <FeedItemFooter>
           <FeedItemPostInfo itemId={itemId} />
           <FeedItemActionButtons itemId={itemId} />

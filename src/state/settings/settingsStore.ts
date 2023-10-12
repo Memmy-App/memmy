@@ -135,7 +135,7 @@ const initialState: SettingsStore = {
 
   themeMatchSystem: false,
 
-  fontSize: 16,
+  fontSize: 14,
 
   postTitleWeight: 'bold',
 

@@ -9,6 +9,7 @@ interface IProps {
   style?: object;
   link?: boolean;
   href?: string;
+  color: string;
 }
 
 export default function MdText({
@@ -16,6 +17,7 @@ export default function MdText({
   style,
   link,
   href,
+  color,
 }: IProps): React.JSX.Element {
   const fontSize = useSettingsStore((state) => state.fontSize);
 
@@ -24,12 +26,7 @@ export default function MdText({
   }
 
   return (
-    <Text
-      color="$color"
-      style={style}
-      fontSize={fontSize}
-      wordWrap="break-word"
-    >
+    <Text style={style} fontSize={fontSize} wordWrap="break-word" color={color}>
       {token.content}
     </Text>
   );

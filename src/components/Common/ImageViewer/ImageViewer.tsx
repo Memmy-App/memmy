@@ -117,10 +117,8 @@ function ImageViewer(): React.JSX.Element {
   // <editor-fold desc="Double Tap Zomo">
   const onDoubleTap = (
     event: GestureUpdateEvent<TapGestureHandlerEventPayload>,
-  ) => {
+  ): void => {
     'worklet';
-
-    console.log('hi!');
 
     // If the image is already zoomed, let's just reset it
     if (zoomScale.value !== 1) {
@@ -131,7 +129,7 @@ function ImageViewer(): React.JSX.Element {
     }
 
     // Zoom to the max scale
-    zoomScale.value = withTiming(MAX_SCALE, { duration: 200 });
+    zoomScale.value = withTiming(1.75, { duration: 200 });
     lastScale.value = 1;
   };
 
@@ -180,8 +178,6 @@ function ImageViewer(): React.JSX.Element {
     // First create an absolute value
     const velocity = Math.abs(event.velocityY);
     const translationX = Math.abs(event.translationX);
-
-    console.log(velocity);
 
     if (velocity > 800 && zoomScale.value <= 1 && translationX < 75) {
       runOnJS(onRequestOpenOrClose)();
@@ -270,10 +266,6 @@ function ImageViewer(): React.JSX.Element {
 
   useEffect(() => {
     if (imageViewer.visible) {
-      console.log(viewerDims);
-      setTimeout(() => {
-        console.log(viewerDims);
-      }, 200);
       centerImage();
     }
   }, [imageViewer.visible]);
@@ -283,7 +275,10 @@ function ImageViewer(): React.JSX.Element {
       <GestureDetector gesture={allGestures}>
         <Animated.View style={[styles.imageModal, backgroundStyle]}>
           <Animated.View style={[positionStyle]}>
-            <AnimatedImage style={[viewerDims, scaleStyle]} />
+            <AnimatedImage
+              source={{ uri: imageViewer.source }}
+              style={[viewerDims, scaleStyle]}
+            />
           </Animated.View>
         </Animated.View>
       </GestureDetector>

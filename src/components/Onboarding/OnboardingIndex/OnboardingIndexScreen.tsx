@@ -13,7 +13,9 @@ interface IProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
-export default function OnboardingIndexScreen({ navigation }: IProps): React.JSX.Element {
+export default function OnboardingIndexScreen({
+  navigation,
+}: IProps): React.JSX.Element {
   return (
     <ImageBackground
       source={background}
@@ -27,15 +29,13 @@ export default function OnboardingIndexScreen({ navigation }: IProps): React.JSX
           marginHorizontal={20}
           space="$9"
         >
-          <OnboardingH1>
-            Hello!👋
-          </OnboardingH1>
-          <OnboardingH1>
-            Welcome to the Fediverse
-          </OnboardingH1>
+          <OnboardingH1>Hello!👋</OnboardingH1>
+          <OnboardingH1>Welcome to the Fediverse</OnboardingH1>
 
           <Button
-            onPress={() => { navigation.navigate('OnboardingInstanceList'); }}
+            onPress={() => {
+              navigation.navigate('OnboardingInstanceList');
+            }}
           >
             Get Started
           </Button>

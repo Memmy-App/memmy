@@ -24,6 +24,9 @@ import ICreatePostOptions from '@api/common/types/ICreatePostOptions';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
 import { usePostStore } from '@src/state/post/postStore';
 import { useFeedStore } from '@src/state/feed/feedStore';
+import { cacheImages } from '@helpers/image';
+import { getLinkType } from '@helpers/links/getLinkType';
+import { truncateText } from '@helpers/text';
 
 export enum EInitializeResult {
   SUCCESS,
@@ -364,6 +367,8 @@ class ApiInstance {
         community_name: options.communityName,
       });
 
+      const links: string[] = [];
+
       // Add them to the feed
       if (res != null && addToFeed) {
         // Create empty array of post ids
@@ -376,9 +381,17 @@ class ApiInstance {
               view: post,
               comments: [],
               usedBy: [],
+              linkType: getLinkType(post.post.url),
+              bodyPreview: truncateText(post.post.body, 200),
             });
 
             postIds.push(post.post.id);
+
+            if (post.post.url != null) {
+              links.push(post.post.url);
+            }
+
+            void cacheImages(links);
           }
         });
 

@@ -43,6 +43,7 @@ module.exports = {
       "named": "never",
       "asyncArrow": "always"
     }],
+    "@typescript-eslint/no-non-null-assertion": [0],
     "react/jsx-curly-brace-presence": [2, { props: "never", children: "never" }],
     "jsx-quotes": [2, "prefer-double"],
     "prettier/prettier": [2, {

@@ -7,11 +7,14 @@ import {
 } from 'lemmy-js-client';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
+import { LinkType } from '@src/types';
 
 export interface PostState {
   view: PostView;
   comments: CommentView[];
   usedBy: string[];
+  linkType: LinkType;
+  bodyPreview?: string;
 }
 
 export interface PostStore {
@@ -70,3 +73,18 @@ export const usePostMyVote = (id: number): number | undefined =>
 
 export const usePostSaved = (id: number): boolean =>
   usePostStore((state) => state.posts.get(id))?.view.saved ?? false;
+
+export const usePostLink = (id: number): string | undefined =>
+  usePostStore((state) => state.posts.get(id))?.view.post.url;
+
+export const usePostThumbnail = (id: number): string | undefined =>
+  usePostStore((state) => state.posts.get(id))?.view.post.thumbnail_url;
+
+export const usePostBody = (id: number): string | undefined =>
+  usePostStore((state) => state.posts.get(id))?.view.post.body;
+
+export const usePostLinkType = (id: number): LinkType | undefined =>
+  usePostStore((state) => state.posts.get(id))?.linkType;
+
+export const usePostBodyPreview = (id: number): string | undefined =>
+  usePostStore((state) => state.posts.get(id))?.bodyPreview;

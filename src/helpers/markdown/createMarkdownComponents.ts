@@ -8,23 +8,46 @@ import {
 } from '@helpers/markdown/markdownComponentMap';
 import MdBlockQuote from '@components/Common/Markdown/components/MdBlockQuote';
 import { Text } from 'tamagui';
+import { createMarkdownObject } from '@helpers/markdown/createMarkdownObject';
+
+let color = '$color';
 
 let componentStyle = {};
-let otherProps = {};
+let otherProps = {
+  color,
+};
 let isQuote = false;
 let quoteText = '';
 let isList = false;
 
 export const createMarkdownComponents = (
-  mdObjArr: MdToken[],
+  mdObjArr: MdToken[] | string | undefined,
+  colorOverride?: string,
 ): Array<React.FunctionComponentElement<any> | null> => {
+  if (color != null) {
+    // @ts-expect-error - Weird bug
+    color = colorOverride;
+
+    otherProps = {
+      color,
+    };
+  }
+
+  if (mdObjArr == null) {
+    return [];
+  }
+
+  if (typeof mdObjArr === 'string') {
+    mdObjArr = createMarkdownObject(mdObjArr);
+  }
+
   const components: Array<React.FunctionComponentElement<any> | null> = [];
 
   for (const token of mdObjArr) {
     let children: Array<React.FunctionComponentElement<any> | null> = [];
 
     if (token.children != null && token.children.length > 0) {
-      children = createMarkdownComponents(token.children);
+      children = createMarkdownComponents(token.children, color);
     }
 
     const component = createMarkdownComponent(token, children);
@@ -83,7 +106,9 @@ const createMarkdownComponent = (
   }
 
   if (Object.keys(otherProps).length > 0) {
-    otherProps = {};
+    otherProps = {
+      color,
+    };
   }
 
   return element;

@@ -37,8 +37,6 @@ interface IProps {
 }
 
 function ImageViewerProvider({ children }: IProps): React.JSX.Element {
-  const imageViewer = useImageViewer();
-
   const [source, setSource] = useState<string | undefined>(undefined);
   const [visible, setVisible] = useState<boolean>(false);
   const [dimensions, setDimensions] = useState<Dimensions>({
