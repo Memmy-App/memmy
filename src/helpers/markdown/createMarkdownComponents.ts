@@ -8,6 +8,7 @@ import {
 } from '@helpers/markdown/markdownComponentMap';
 
 let componentStyle = {};
+let otherProps = {};
 
 export const createMarkdownComponents = (
   mdObjArr: MdToken[],
@@ -40,6 +41,15 @@ const createMarkdownComponent = (
       };
     }
 
+    if (token.type === 'link_open') {
+      console.log('Found a link.');
+
+      otherProps = {
+        ...otherProps,
+        href: token.attrs[0][1],
+        link: true,
+      };
+    }
     return null;
   }
 
@@ -48,12 +58,17 @@ const createMarkdownComponent = (
     {
       token,
       style: componentStyle,
+      ...otherProps,
     },
     children,
   );
 
   if (Object.keys(componentStyle).length > 0) {
     componentStyle = {};
+  }
+
+  if (Object.keys(otherProps).length > 0) {
+    otherProps = {};
   }
 
   return element;

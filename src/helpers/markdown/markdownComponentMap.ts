@@ -7,6 +7,8 @@ interface IProps {
   token: MdToken;
   children?: React.ReactNode;
   style?: object;
+  href?: string;
+  link?: boolean;
   [key: string]: any;
 }
 
@@ -23,9 +25,11 @@ export const markdownComponentFontProps: Record<string, object> = {
   strong_open: {
     fontWeight: 'bold',
   },
-
   em_open: {
     fontStyle: 'italic',
+  },
+  h1: {
+    fontSize: 32,
   },
 };
 

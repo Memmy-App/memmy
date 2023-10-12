@@ -13,9 +13,11 @@ function Post(): React.JSX.Element {
   const mdString = `
   **Bold Text**
 
-*Italic Text*
+*Italic Text* then normal text **Then bold text!** then some more text [with a link](https://google.com)
 
- [a link](https://google.com)
+a really long long long long long long long long long long long long long long line of text
+
+ [a link that has a lot of text so it goes off the screen screen screen](https://google.com)
 
 ![an image](https://placehold.co/600x400/EEE/31343C)
 

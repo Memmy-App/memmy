@@ -12,12 +12,8 @@ function MdImage({ token }: IProps): React.JSX.Element {
     width: 1,
   });
 
-  console.log('Created an image: ', token.attrs[0][1]);
-
   const onImageLoad = useCallback(
     (e: ImageLoadEventData) => {
-      console.log('Loaded');
-
       setDimensions({
         height: e.source.height,
         width: e.source.width,

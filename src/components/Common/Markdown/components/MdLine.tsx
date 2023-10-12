@@ -1,6 +1,6 @@
 import React from 'react';
 import { MdToken } from '@src/types';
-import { View } from 'tamagui';
+import { Text } from 'tamagui';
 
 interface IProps {
   token: MdToken;
@@ -8,5 +8,5 @@ interface IProps {
 }
 
 export default function MdLine({ token, children }: IProps): React.JSX.Element {
-  return <View>{children}</View>;
+  return <Text>{children}</Text>;
 }

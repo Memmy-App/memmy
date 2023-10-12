@@ -3,6 +3,7 @@ import {
   createMarkdownComponents,
   createMarkdownObject,
 } from '@helpers/markdown';
+import VStack from '@components/Common/Stack/VStack';
 
 interface IProps {
   children: string | undefined;
@@ -14,7 +15,7 @@ function Markdown({ children }: IProps): React.JSX.Element {
   const obj = createMarkdownObject(children);
   const components = createMarkdownComponents(obj);
 
-  return <>{components}</>;
+  return <VStack>{components}</VStack>;
 }
 
 export default React.memo(Markdown);
