@@ -226,7 +226,7 @@ class ApiInstance {
         post.view.counts.downvotes = post.view.counts.downvotes + 1;
       } else if (post.view.my_vote === -1 && vote === 0) {
         post.view.counts.score = post.view.counts.score + 1;
-        post.view.counts.upvotes = post.view.counts.downvotes - 1;
+        post.view.counts.downvotes = post.view.counts.downvotes - 1;
       } else if (post.view.my_vote === -1) {
         post.view.counts.score = post.view.counts.score + 2;
         post.view.counts.upvotes = post.view.counts.upvotes + 1;
@@ -237,7 +237,7 @@ class ApiInstance {
           post.view.counts.upvotes = post.view.counts.upvotes + 1;
         } else {
           post.view.counts.score = post.view.counts.score - 1;
-          post.view.counts.upvotes = post.view.counts.downvotes + 1;
+          post.view.counts.downvotes = post.view.counts.downvotes + 1;
         }
       }
 

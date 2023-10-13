@@ -157,6 +157,7 @@ const handleOtherListTypes = (
     case 'link_open': {
       otherProps = {
         ...otherProps,
+        // @ts-expect-error - TODO: Fix this
         href: token.attrs[0][1],
         link: true,
       };

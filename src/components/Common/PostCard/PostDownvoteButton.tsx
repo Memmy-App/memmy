@@ -12,15 +12,14 @@ function PostDownvoteButton({ itemId }: IProps): React.JSX.Element {
   const postMyVote = usePostMyVote(itemId);
 
   const doDislikePost = useCallback((): void => {
-    if (postMyVote === 0 || postMyVote === undefined)
-      void instance.likePost(itemId, -1);
-    else void instance.likePost(itemId, 0);
+    if (postMyVote === -1) void instance.likePost(itemId, 0);
+    else void instance.likePost(itemId, -1);
   }, [itemId, postMyVote]);
 
   return (
     <AnimatedIconButton
       icon={ArrowDown}
-      color={postMyVote === 1 ? 'white' : '$accent'}
+      color={postMyVote === -1 ? 'white' : '$accent'}
       iconSize={25}
       onPress={doDislikePost}
       backgroundColor={postMyVote === -1 ? '$downvote' : undefined}

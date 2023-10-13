@@ -5,12 +5,14 @@ import dayjs from 'dayjs';
 
 const logFile = `${FileSystem.LibraryDirectoryPath}/lemmy-debug.log`;
 
-export const createIfDontExist = async(): Promise<void> => {
+export const createIfDontExist = async (): Promise<void> => {
   if (!(await FileSystem.exists(logFile))) {
     await FileSystem.touch(logFile)
       .then()
       // eslint-disable-next-line no-console
-      .catch((e) => { console.log(e.toString()); });
+      .catch((e) => {
+        console.log(e.toString());
+      });
   }
 };
 
@@ -22,7 +24,8 @@ export const writeToLog = (text: string): void => {
   void FileSystem.appendFile(logFile, `\n[${time}] ${text}`).then();
 };
 
-export const readLog = async(): Promise<string> => await FileSystem.readFile(logFile);
+export const readLog = async (): Promise<string> =>
+  await FileSystem.readFile(logFile);
 
 export const deleteLog = (): void => {
   void FileSystem.exists(logFile).then((r) => {
@@ -32,7 +35,7 @@ export const deleteLog = (): void => {
   });
 };
 
-export const sendLog = async(): Promise<void> => {
+export const sendLog = async (): Promise<void> => {
   const exists = await FileSystem.exists(logFile);
 
   if (!exists) throw Error('no_file');
