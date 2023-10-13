@@ -7,22 +7,20 @@ import {
 } from '@src/state/post/postStore';
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
 import VStack from '@components/Common/Stack/VStack';
-import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import Post from '@components/Post/components/Post';
 import { useQuery } from '@tanstack/react-query';
 import instance from '@api/Instance';
 import { ICommentInfo } from '@src/types';
 import { Spinner } from 'tamagui';
 import CommentChain from '@components/Common/Comment/CommentChain';
+import { FlatList } from 'react-native';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
   route: any;
 }
 
-const renderItem = (
-  item: ListRenderItemInfo<ICommentInfo>,
-): React.JSX.Element => {
+const renderItem = (item): React.JSX.Element => {
   return <CommentChain commentInfo={item.item} />;
 };
 
@@ -52,13 +50,12 @@ export default function PostScreen({
 
   return (
     <VStack flex={1}>
-      <FlashList<ICommentInfo>
+      <FlatList
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         data={postCommentsInfo}
         ListHeaderComponent={<Post />}
         ListEmptyComponent={<Spinner />}
-        estimatedItemSize={100}
       />
     </VStack>
   );

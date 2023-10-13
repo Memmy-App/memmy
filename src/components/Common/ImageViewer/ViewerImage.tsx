@@ -51,6 +51,8 @@ function ViewerImage({ source }: IProps): React.JSX.Element {
       width: e.source.width,
     };
 
+    if (savedDimensions != null) return;
+
     saveImageDimensions(source, dimensions);
   }, []);
 
