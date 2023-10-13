@@ -4,7 +4,6 @@
 		"name": "Memmy",
     "slug": "memmyapp",
 		"version": "1.0",
-		"jsEngine": "hermes",
     "android": {
       "package": "com.gkasdorf.memmyapp"
     },
@@ -24,7 +23,11 @@
 				{
 					"ios": {
 						"deploymentTarget": "14.0",
+						"newArchEnabled": false,
 						"flipper": true
+					},
+					"android": {
+						"newArchEnabled": false
 					}
 				}
 			],

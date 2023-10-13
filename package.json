@@ -1,10 +1,10 @@
 {
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.19.3",
+    "@react-native/metro-config": "^0.74.0",
     "@react-navigation/bottom-tabs": "^7.0.0-alpha.5",
     "@react-navigation/native": "^7.0.0-alpha.4",
     "@react-navigation/native-stack": "^7.0.0-alpha.5",
-    "@shopify/flash-list": "^1.6.1",
     "@tamagui/config": "^1.74.12",
     "@tamagui/lucide-icons": "^1.74.12",
     "@tamagui/theme-builder": "^1.74.13",
@@ -18,7 +18,6 @@
     "expo-blur": "^12.6.0",
     "expo-build-properties": "^0.8.3",
     "expo-clipboard": "^4.5.0",
-    "expo-dev-client": "~2.4.11",
     "expo-file-system": "^15.6.0",
     "expo-image": "^1.5.1",
     "expo-image-picker": "^14.5.0",
@@ -77,6 +76,7 @@
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "prebuild": "expo prebuild"
   }
 }

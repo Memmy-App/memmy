@@ -444,8 +444,8 @@ class ApiInstance {
     try {
       const res = await this.instance?.getComments({
         post_id: postId,
-        max_depth: 6,
-        limit: 50,
+        max_depth: 5,
+        limit: 1,
         sort: settings.defaultCommentSort,
       });
 

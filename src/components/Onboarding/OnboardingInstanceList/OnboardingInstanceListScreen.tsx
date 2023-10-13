@@ -1,9 +1,8 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useQuery } from '@tanstack/react-query';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
-import { Alert } from 'react-native';
-import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
+import { Alert, FlatList } from 'react-native';
 import { GetSiteResponse } from 'lemmy-js-client';
 import OnboardingInstanceListItem from '@components/Onboarding/OnboardingInstanceList/components/OnboardingInstanceListItem';
 import VStack from '@components/Common/Stack/VStack';
@@ -18,26 +17,27 @@ interface IProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
-export default function OnboardingInstanceListScreen({ navigation }: IProps): React.JSX.Element {
-  const { isLoading, data } = useQuery(['onboardingInstanceList'], async() => {
+const renderItem = ({ item }) => {
+  return <OnboardingInstanceListItem item={item} />;
+};
+
+export default function OnboardingInstanceListScreen({
+  navigation,
+}: IProps): React.JSX.Element {
+  const { isLoading, data } = useQuery(['onboardingInstanceList'], async () => {
     return await getInstanceList().catch((err): GetSiteResponse[] => {
       Alert.alert('Error', err.message);
       return [];
     });
   });
 
-  const renderItem = useCallback((item: ListRenderItemInfo<GetSiteResponse>) => {
-    return <OnboardingInstanceListItem item={item.item} />;
-  }, []);
-
   return (
     <VStack flex={1}>
       <LoadingOverlay visible={isLoading} />
-      <FlashList
+      <FlatList
         renderItem={renderItem}
         data={data}
         keyExtractor={keyExtractor}
-        estimatedItemSize={100}
         ListHeaderComponent={<OnboardingInstanceListHeader />}
         contentContainerStyle={{
           paddingBottom: 150,
