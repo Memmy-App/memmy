@@ -5,7 +5,7 @@ interface BuildCommentChains {
   commentInfo: ICommentInfo[];
 }
 
-const flattenedComments: ICommentInfo[] = [];
+let flattenedComments: ICommentInfo[] = [];
 
 const flattenComments = (commentsInfo: ICommentInfo[]): void => {
   for (const commentInfo of commentsInfo) {
@@ -18,6 +18,8 @@ export const buildCommentChains = (
   commentViews: CommentView[],
 ): BuildCommentChains => {
   const commentInfo: ICommentInfo[] = [];
+
+  console.log(flattenedComments);
 
   for (const view of commentViews) {
     if (view.comment == null) continue;
@@ -43,9 +45,13 @@ export const buildCommentChains = (
 
   flattenComments(commentInfo);
 
-  return {
+  const res = {
     commentInfo: flattenedComments,
   };
+
+  flattenedComments = [];
+
+  return res;
 };
 
 const buildReplies = (
