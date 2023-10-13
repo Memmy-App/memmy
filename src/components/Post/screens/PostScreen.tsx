@@ -58,7 +58,7 @@ export default function PostScreen({
         data={postCommentsInfo}
         ListHeaderComponent={<Post />}
         ListEmptyComponent={<Spinner />}
-        estimatedItemSize={500}
+        estimatedItemSize={100}
       />
     </VStack>
   );

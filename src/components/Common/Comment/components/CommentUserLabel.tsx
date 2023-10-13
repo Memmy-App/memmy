@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
 import { createName } from '@helpers/text';
 import { Pressable } from 'react-native';
@@ -27,11 +27,11 @@ function CommentUserLabel({
     [userName, userCommunity],
   );
 
-  const onPress = (): void => {
+  const onPress = useCallback((): void => {
     navigation.navigate('User', {
       fullName: createName(userName, userCommunity, true),
     });
-  };
+  }, [userName]);
 
   return (
     <Pressable onPress={onPress} hitSlop={5}>
