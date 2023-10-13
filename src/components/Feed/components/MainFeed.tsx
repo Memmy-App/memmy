@@ -4,8 +4,9 @@ import instance from '@api/Instance';
 import VStack from '@components/Common/Stack/VStack';
 import { useRoute } from '@react-navigation/core';
 import { useFeedPostIds } from '@src/state/feed/feedStore';
-import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
+import { ListRenderItemInfo } from '@shopify/flash-list';
 import FeedItem from '@components/Feed/components/Feed/FeedItem';
+import { FlatList } from 'react-native';
 
 const renderItem = ({
   item,
@@ -26,11 +27,14 @@ export default function MainFeed(): React.JSX.Element {
 
   return (
     <VStack flex={1}>
-      <FlashList
+      <FlatList
         renderItem={renderItem}
         data={postIds}
         keyExtractor={keyExtractor}
-        estimatedItemSize={100}
+        initialNumToRender={5}
+        maxToRenderPerBatch={5}
+        updateCellsBatchingPeriod={100}
+        windowSize={5}
       />
     </VStack>
   );
