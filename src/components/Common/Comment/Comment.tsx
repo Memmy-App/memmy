@@ -1,12 +1,14 @@
 import React, { useMemo } from 'react';
-import { useCommentContent } from '@src/state/comment/commentStore';
 import VStack from '@components/Common/Stack/VStack';
 import CommentHeader from '@components/Common/Comment/components/CommentHeader';
 import CommentContent from '@components/Common/Comment/components/CommentContent';
+import { Pressable } from 'react-native';
 
 interface IProps {
   itemId: number;
   depth?: number;
+  onPress?: () => unknown | Promise<unknown>;
+  collapsed?: boolean;
 }
 
 const depthToColor = (depth: number): string => {
@@ -28,11 +30,18 @@ const depthToColor = (depth: number): string => {
   }
 };
 
-function Comment({ itemId, depth = 0 }: IProps): React.JSX.Element {
-  const commentContent = useCommentContent(itemId);
-
+function Comment({
+  itemId,
+  depth = 0,
+  onPress,
+  collapsed = false,
+}: IProps): React.JSX.Element {
   const borderWidth = useMemo(() => (depth > 0 ? 2 : 0), [depth]);
   const borderColor = useMemo(() => depthToColor(depth), [depth]);
+
+  if (onPress != null) {
+    return <PressableComment itemId={itemId} depth={depth} onPress={onPress} />;
+  }
 
   return (
     <VStack marginVertical="$1" backgroundColor="$fg">
@@ -45,10 +54,22 @@ function Comment({ itemId, depth = 0 }: IProps): React.JSX.Element {
         paddingVertical="$1"
       >
         <CommentHeader itemId={itemId} />
-        <CommentContent itemId={itemId} />
+        {!collapsed && <CommentContent itemId={itemId} />}
       </VStack>
     </VStack>
   );
 }
+
+export const PressableComment = React.memo(function pressableComment({
+  itemId,
+  depth = 0,
+  onPress,
+}: IProps): React.JSX.Element {
+  return (
+    <Pressable onPress={onPress}>
+      <Comment itemId={itemId} depth={depth} />
+    </Pressable>
+  );
+});
 
 export default React.memo(Comment);

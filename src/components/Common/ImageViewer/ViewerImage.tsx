@@ -45,17 +45,14 @@ function ViewerImage({ source }: IProps): React.JSX.Element {
     imageViewer.setDimensions!(savedDimensions as unknown as IDimensions);
   }, [source, savedDimensions]);
 
-  const onImageLoad = useCallback(
-    (e: ImageLoadEventData) => {
-      const dimensions = {
-        height: e.source.height,
-        width: e.source.width,
-      };
+  const onImageLoad = useCallback((e: ImageLoadEventData) => {
+    const dimensions = {
+      height: e.source.height,
+      width: e.source.width,
+    };
 
-      saveImageDimensions(source, dimensions);
-    },
-    [imageViewer.setDimensions],
-  );
+    saveImageDimensions(source, dimensions);
+  }, []);
 
   return (
     <Pressable onPress={onImagePress} style={{ width: '100%' }}>

@@ -3,4 +3,7 @@ export interface ICommentInfo {
   commentId: number;
   replies: ICommentInfo[];
   depth: number;
+  hidden: boolean;
+  collapsed: boolean;
+  path: string;
 }

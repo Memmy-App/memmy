@@ -5,6 +5,15 @@ interface BuildCommentChains {
   commentInfo: ICommentInfo[];
 }
 
+const flattenedComments: ICommentInfo[] = [];
+
+const flattenComments = (commentsInfo: ICommentInfo[]): void => {
+  for (const commentInfo of commentsInfo) {
+    flattenedComments.push(commentInfo);
+    flattenComments(commentInfo.replies);
+  }
+};
+
 export const buildCommentChains = (
   commentViews: CommentView[],
 ): BuildCommentChains => {
@@ -25,12 +34,17 @@ export const buildCommentChains = (
         commentId: id,
         depth: 0,
         replies: buildReplies(id, commentViews),
+        collapsed: false,
+        hidden: false,
+        path,
       });
     }
   }
 
+  flattenComments(commentInfo);
+
   return {
-    commentInfo,
+    commentInfo: flattenedComments,
   };
 };
 
@@ -56,6 +70,9 @@ const buildReplies = (
         commentId: id,
         depth: pathIds.length - 2,
         replies: buildReplies(id, commentViews),
+        collapsed: false,
+        hidden: false,
+        path,
       });
     }
   }
