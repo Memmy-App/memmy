@@ -40,13 +40,9 @@ export default function PostScreen({
   const postTitle = usePostTitle(postId);
   const postCommentsInfo = usePostCommentsInfo(postId);
 
-  const { isLoading, isError, error } = useLoadData(async () => {
+  const { isLoading, isError } = useLoadData(async () => {
     return await instance.getComments(postId);
   });
-
-  useEffect(() => {
-    console.log(error);
-  }, [error]);
 
   useEffect(() => {
     navigation.setOptions({

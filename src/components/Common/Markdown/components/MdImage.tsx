@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import { Image, ImageLoadEventData } from 'expo-image';
+import { ImageLoadEventData } from 'expo-image';
 import { IDimensions, MdToken } from '@src/types';
+import CommentImageButton from '@components/Common/Comment/components/CommentImageButton';
 
 interface IProps {
   token: MdToken;
@@ -22,13 +23,15 @@ function MdImage({ token }: IProps): React.JSX.Element {
     [token],
   );
 
-  return (
-    <Image
-      source={{ uri: token.attrs[0][1] }}
-      onLoad={onImageLoad}
-      style={dimensions}
-    />
-  );
+  // return (
+  //   <Image
+  //     source={{ uri: token.attrs[0][1] }}
+  //     onLoad={onImageLoad}
+  //     style={dimensions}
+  //   />
+  // );
+
+  return <CommentImageButton source={token.attrs[0][1]} />;
 }
 
 export default MdImage;
