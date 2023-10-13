@@ -1,7 +1,3 @@
-export const hapticStrengthOptions = [
-  'light',
-  'medium',
-  'strong',
-] as const;
+export const hapticStrengthOptions = ['light', 'medium', 'strong'] as const;
 
-export type IHapticStrengthOption = typeof hapticStrengthOptions[number];
+export type IHapticStrengthOption = (typeof hapticStrengthOptions)[number];

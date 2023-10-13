@@ -9,19 +9,19 @@ import { IHapticStrengthOption } from '@src/types/options';
 
 export interface IGesturePostSettings {
   enabled: boolean;
-  shortRight: IPostGestureOption;
-  longRight: IPostGestureOption;
-  shortLeft: IPostGestureOption;
-  longLeft: IPostGestureOption;
+  firstRight: IPostGestureOption;
+  secondRight: IPostGestureOption;
+  firstLeft: IPostGestureOption;
+  secondLeft: IPostGestureOption;
 }
 
 export interface IGestureCommentSettings {
   enabled: boolean;
   collapse: boolean;
-  shortRight: IPostGestureOption;
-  longRight: IPostGestureOption;
-  shortLeft: IPostGestureOption;
-  longLeft: IPostGestureOption;
+  firstRight: IPostGestureOption;
+  secondRight: IPostGestureOption;
+  firstLeft: IPostGestureOption;
+  secondLeft: IPostGestureOption;
 }
 
 export interface IGestureSettings {
@@ -100,21 +100,21 @@ const initialState: SettingsStore = {
     post: {
       enabled: true,
 
-      shortLeft: 'upvote',
-      longLeft: 'downvote',
+      firstLeft: 'upvote',
+      secondLeft: 'downvote',
 
-      shortRight: 'save',
-      longRight: 'reply',
+      firstRight: 'save',
+      secondRight: 'reply',
     },
     comment: {
       enabled: true,
       collapse: true,
 
-      shortLeft: 'upvote',
-      longLeft: 'downvote',
+      firstLeft: 'upvote',
+      secondLeft: 'downvote',
 
-      shortRight: 'save',
-      longRight: 'reply',
+      firstRight: 'save',
+      secondRight: 'reply',
     },
   },
 

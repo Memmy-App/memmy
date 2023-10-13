@@ -3,14 +3,15 @@ import instance from '@api/Instance';
 import VStack from '@components/Common/Stack/VStack';
 import { useRoute } from '@react-navigation/core';
 import { useFeedNextPage, useFeedPostIds } from '@src/state/feed/feedStore';
-import { ListRenderItemInfo } from '@shopify/flash-list';
 import FeedItem from '@components/Feed/components/Feed/FeedItem';
 import { FlatList } from 'react-native';
 import { useLoadData } from '@hooks/useLoadData';
 
-const renderItem = ({
-  item,
-}: ListRenderItemInfo<number>): React.JSX.Element => {
+interface RenderItem {
+  item: number;
+}
+
+const renderItem = ({ item }: RenderItem): React.JSX.Element => {
   return <FeedItem itemId={item} />;
 };
 
@@ -22,7 +23,7 @@ export default function MainFeed(): React.JSX.Element {
   const postIds = useFeedPostIds(key);
   const nextPage = useFeedNextPage(key);
 
-  const { isLoading, append } = useLoadData(async () => {
+  const { append } = useLoadData(async () => {
     await instance.getPosts(key, {}, true);
   });
 

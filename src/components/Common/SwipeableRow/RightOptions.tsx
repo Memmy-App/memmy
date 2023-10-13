@@ -61,13 +61,13 @@ export function RightOptions({
           'worklet';
 
           if (translateX.value >= secondStop) {
-            if (onFirst == null) return;
-
-            runOnJS(onFirst)();
-          } else if (translateX.value >= firstStop) {
             if (onSecond == null) return;
 
             runOnJS(onSecond)();
+          } else if (translateX.value >= firstStop) {
+            if (onFirst == null) return;
+
+            runOnJS(onFirst)();
           }
           isFrozen.value = true;
         },
@@ -108,14 +108,14 @@ export function RightOptions({
       if (onSecond != null && secondIcon != null) {
         if (hitSecondStop) {
           buzz();
-          runOnJS(setRenderIcon)(secondIcon);
+          // runOnJS(setRenderIcon)(secondIcon);
         } else if (
           current.translateX <= secondStop &&
           previous != null &&
           previous.translateX >= secondStop
         ) {
           buzz();
-          runOnJS(setRenderIcon)(firstIcon);
+          // runOnJS(setRenderIcon)(firstIcon);
         }
       }
     },

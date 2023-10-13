@@ -7,6 +7,7 @@ import {
   AtSign,
   Cog,
   EyeOff,
+  Hand,
   MessageCircle,
   Paintbrush,
   User,
@@ -45,6 +46,14 @@ export default function SettingsIndexScreen({
             label="Appearance"
             useChevron
             accessoryLeft={<CellIcon bgColor="#BB4BE5" icon={<Paintbrush />} />}
+          />
+          <Table.Cell
+            label="Gestures"
+            useChevron
+            onPress={() => {
+              navigation.navigate('Gestures');
+            }}
+            accessoryLeft={<CellIcon bgColor="#BB4BE5" icon={<Hand />} />}
           />
           <Table.Cell
             label="Accounts"

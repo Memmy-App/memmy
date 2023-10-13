@@ -12,9 +12,8 @@ function PostUpvoteButton({ itemId }: IProps): React.JSX.Element {
   const postMyVote = usePostMyVote(itemId);
 
   const doLikePost = useCallback((): void => {
-    if (postMyVote === 1) void instance.likePost(itemId, 0);
-    else void instance.likePost(itemId, 1);
-  }, [itemId, postMyVote]);
+    void instance.likePost(itemId, 1);
+  }, [itemId]);
 
   return (
     <AnimatedIconButton

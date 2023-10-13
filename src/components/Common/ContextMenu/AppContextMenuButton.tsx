@@ -55,6 +55,7 @@ export function AppContextMenuButton<S = string>(
         icon: {
           type: 'IMAGE_SYSTEM',
           imageValue: {
+            // @ts-expect-error - icon is optional idk
             systemName: option.icon,
           },
         },

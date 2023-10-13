@@ -6,5 +6,6 @@ export * from './IDimensions';
 export * from './ILinkInfo';
 export * from './LinkType';
 export * from './ICommentInfo';
+export * from './ICommentGestureOptions';
 
 export * from './markdown';

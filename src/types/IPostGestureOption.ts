@@ -1,1 +1,9 @@
-export type IPostGestureOption = 'upvote' | 'downvote' | 'save' | 'hide' | 'reply' | null;
+export const postGestureOptions = [
+  'upvote',
+  'downvote',
+  'save',
+  'hide',
+  'reply',
+];
+
+export type IPostGestureOption = (typeof postGestureOptions)[number];

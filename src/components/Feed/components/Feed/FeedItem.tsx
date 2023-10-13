@@ -8,12 +8,11 @@ import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import FeedItemContent from '@components/Feed/components/Feed/FeedItem/FeedItemContent';
-import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
 import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
-import { useTheme } from 'tamagui';
 import { ISwipeableColors } from '@components/Common/SwipeableRow/types';
-import instance from '@api/Instance';
 import { ArrowDown, ArrowUp } from '@tamagui/lucide-icons';
+import { useSwipeOptions } from '@components/Common/SwipeableRow/hooks/useSwipeOptions';
+import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
 
 interface IProps {
   itemId: number;
@@ -22,41 +21,51 @@ interface IProps {
 function FeedItem({ itemId }: IProps): React.JSX.Element {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const theme = useTheme();
-
   const onPress = useCallback(() => {
     navigation.navigate('Post', {
       postId: itemId,
     });
   }, [itemId]);
 
-  const rightColors: ISwipeableColors = useMemo(
+  const swipeLeftOptions = useSwipeOptions('post', 'left');
+
+  console.log(swipeLeftOptions);
+
+  const leftColors: ISwipeableColors = useMemo(
     () => ({
-      first: theme.upvote.val,
-      second: theme.downvote.val,
+      first: swipeLeftOptions.firstColor ?? '$accent',
+      second: swipeLeftOptions.secondColor ?? '$accent',
     }),
-    [theme],
+    [],
   );
 
-  const onRightFirst = useCallback(() => {
-    void instance.likePost(itemId, 1);
-  }, [itemId]);
+  const onLeftFirst = useCallback(() => {
+    if (swipeLeftOptions.firstAction != null) {
+      swipeLeftOptions.firstAction({
+        itemId,
+      });
+    }
+  }, [itemId, swipeLeftOptions]);
 
-  const onRightSecond = useCallback(() => {
-    void instance.likePost(itemId, -1);
+  const onLeftSecond = useCallback(() => {
+    if (swipeLeftOptions.secondAction != null) {
+      swipeLeftOptions.secondAction({
+        itemId,
+      });
+    }
   }, [itemId]);
 
   const rightOption = useMemo(
     () => (
       <RightOptions
-        colors={rightColors}
-        onFirst={onRightFirst}
-        onSecond={onRightSecond}
+        colors={leftColors}
+        onFirst={onLeftFirst}
+        onSecond={onLeftSecond}
         firstIcon={ArrowUp}
         secondIcon={ArrowDown}
       />
     ),
-    [rightColors, onRightFirst, onRightSecond],
+    [leftColors, onLeftFirst, onLeftSecond],
   );
 
   return (

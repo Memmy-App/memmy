@@ -217,6 +217,13 @@ class ApiInstance {
         downvotes: post.view.counts.downvotes,
       };
 
+      if (
+        (post.view.my_vote === 1 && vote === 1) ||
+        (post.view.my_vote === -1 && vote === -1)
+      ) {
+        vote = 0;
+      }
+
       if (post.view.my_vote === 1 && vote === 0) {
         post.view.counts.score = post.view.counts.score - 1;
         post.view.counts.upvotes = post.view.counts.upvotes - 1;
