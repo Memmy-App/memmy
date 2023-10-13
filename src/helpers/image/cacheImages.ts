@@ -7,8 +7,6 @@ export const cacheImages = async (links: string[]): Promise<void> => {
 
   for (const link of links) {
     if (getLinkType(link) === 'image') {
-      console.log('Caching ', link);
-
       imageLinks.push(link);
     }
   }

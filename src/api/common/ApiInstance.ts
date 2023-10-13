@@ -30,6 +30,7 @@ import { truncateText } from '@helpers/text';
 import { buildCommentChains } from '@helpers/comments';
 import { addCommentsToPost } from '@src/state/post/actions';
 import { addComments } from '@src/state/comment/actions';
+import { useSiteStore } from '@src/state/site/siteStore';
 
 export enum EInitializeResult {
   SUCCESS,
@@ -54,6 +55,8 @@ class ApiInstance {
 
   authToken: string | null = null;
 
+  isUpdate: boolean = false;
+
   async initialize(
     options: ApiOptions,
     signup = false,
@@ -75,7 +78,25 @@ class ApiInstance {
         headers,
       });
 
+      // We need to check the lemmy version real fast so we will just get and store the site here
+      // TODO This should be done elsewhere later as to not block loading
+
+      const siteRes = await this.instance.getSite();
+
+      console.log(siteRes.version);
+
+      if (siteRes.version.includes('.19')) {
+        this.isUpdate = true;
+      }
+
+      console.log(this.isUpdate);
+
+      // Save the site info
+      useSiteStore.getState().setSite(siteRes);
+
       if (options.authToken != null) {
+        console.log(options.authToken);
+
         this.initialized = true;
         this.authToken = options.authToken;
 
@@ -132,10 +153,10 @@ class ApiInstance {
           return EInitializeResult.PASSWORD;
         }
 
-        options.authToken = res.jwt;
-        this.authToken = res.jwt;
-
-        void this.initialize(options);
+        await this.initialize({
+          ...options,
+          authToken: res.jwt,
+        });
 
         return EInitializeResult.SUCCESS;
       } catch (e: any) {
@@ -233,6 +254,8 @@ class ApiInstance {
       await this.instance?.likePost({
         post_id: postId,
         score: vote,
+        // @ts-expect-error TODO remove this later
+        auth: this.authToken!,
       });
     } catch (e: any) {
       usePostStore.setState((state) => {
@@ -299,6 +322,8 @@ class ApiInstance {
         sort: 'New',
         limit: 50,
         page: 1,
+        // @ts-expect-error TODO Remove this later
+        auth: this.authToken,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
@@ -310,6 +335,8 @@ class ApiInstance {
     try {
       return await this.instance?.getCommunity({
         name,
+        // @ts-expect-error TODO Remove this later
+        auth: this.authToken,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
@@ -325,6 +352,8 @@ class ApiInstance {
       return await this.instance?.getReplies({
         page,
         limit,
+        // @ts-expect-error TODO remove this later
+        auth: this.authToken!,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
@@ -369,6 +398,8 @@ class ApiInstance {
         page: options.page,
         community_id: options.communityId,
         community_name: options.communityName,
+        // @ts-expect-error TODO Remove this later
+        auth: this.authToken,
       });
 
       const links: string[] = [];
@@ -425,6 +456,8 @@ class ApiInstance {
     try {
       return await this.instance?.getPost({
         id: postId,
+        // @ts-expect-error TODO remove this later
+        auth: this.authToken!,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
@@ -475,6 +508,8 @@ class ApiInstance {
       return await this.instance?.listCommunities({
         page,
         limit,
+        // @ts-expect-error TODO remove this later
+        auth: this.authToken!,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
@@ -487,6 +522,8 @@ class ApiInstance {
       await this.instance?.markPostAsRead({
         post_id: postId,
         read: true,
+        // @ts-expect-error TODO remove this later
+        auth: this.authToken!,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
@@ -501,6 +538,8 @@ class ApiInstance {
       await this.instance?.followCommunity({
         community_id: communityId,
         follow: subscribe,
+        // @ts-expect-error TODO remove this later
+        auth: this.authToken!,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
@@ -512,6 +551,8 @@ class ApiInstance {
       await this.instance?.createCommentReport({
         comment_id: commentId,
         reason,
+        // @ts-expect-error TODO remove this later
+        auth: this.authToken!,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
@@ -523,6 +564,8 @@ class ApiInstance {
       await this.instance?.createPostReport({
         post_id: postId,
         reason,
+        // @ts-expect-error TODO remove this later
+        auth: this.authToken!,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
@@ -534,6 +577,8 @@ class ApiInstance {
       await this.instance?.blockPerson({
         person_id: userId,
         block,
+        // @ts-expect-error TODO remove this later
+        auth: this.authToken!,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
@@ -545,6 +590,8 @@ class ApiInstance {
       await this.instance?.blockCommunity({
         community_id: communityId,
         block,
+        // @ts-expect-error TODO remove this later
+        auth: this.authToken!,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
@@ -556,6 +603,8 @@ class ApiInstance {
       await this.instance?.editComment({
         comment_id: commentId,
         content,
+        // @ts-expect-error TODO remove this later
+        auth: this.authToken!,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
@@ -570,6 +619,8 @@ class ApiInstance {
       return await this.instance?.createComment({
         post_id: postId,
         content,
+        // @ts-expect-error TODO remove this later
+        auth: this.authToken!,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
@@ -588,6 +639,8 @@ class ApiInstance {
         language_id: options.languageId ?? 0, // TODO Fix this
         community_id: options.communityId,
         nsfw: options.nsfw,
+        // @ts-expect-error TODO remove this later
+        auth: this.authToken!,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
@@ -600,6 +653,8 @@ class ApiInstance {
       await this.instance?.deleteComment({
         comment_id: commentId,
         deleted: true,
+        // @ts-expect-error TODO remove this later
+        auth: this.authToken!,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
@@ -611,6 +666,8 @@ class ApiInstance {
       await this.instance?.deletePost({
         post_id: postId,
         deleted: true,
+        // @ts-expect-error TODO remove this later
+        auth: this.authToken!,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());

@@ -25,7 +25,7 @@ export const useLogin = (): UseLogin => {
     error: false,
   });
 
-  const doLogin = async(options: DoLoginOptions): Promise<void> => {
+  const doLogin = async (options: DoLoginOptions): Promise<void> => {
     setStatus({
       loading: true,
       error: false,
