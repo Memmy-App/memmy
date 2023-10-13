@@ -65,13 +65,13 @@ export default function MainFeed(): React.JSX.Element {
         windowSize={3}
         onEndReachedThreshold={0.5}
         onEndReached={onEndReached}
+        removeClippedSubviews={true}
         ListFooterComponent={
           <FeedLoadingIndicator loading={isLoading} error={isError} />
         }
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
         }
-        removeClippedSubviews={true}
       />
     </VStack>
   );

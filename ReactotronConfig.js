@@ -6,6 +6,7 @@ import { usePostStore } from "./src/state/post/postStore";
 import { useFeedStore } from "./src/state/feed/feedStore";
 import { useCommunityStore } from "./src/state/community/communityStore";
 import { useSiteStore } from "./src/state/site/siteStore";
+import { useCommentStore } from "./src/state/comment/commentStore";
 
 Reactotron.setAsyncStorageHandler(AsyncStorage) // AsyncStorage would either come from `react-native` or `@react-native-community/async-storage` depending on where you get it from
   .configure({
@@ -34,6 +35,10 @@ Reactotron.setAsyncStorageHandler(AsyncStorage) // AsyncStorage would either com
         {
           name: "site",
           zustand: useSiteStore,
+        },
+        {
+          name: "comments",
+          zustand: useCommentStore,
         },
       ],
     }),
