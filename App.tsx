@@ -8,20 +8,9 @@ import { enableFreeze, enableScreens } from 'react-native-screens';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { enableMapSet } from 'immer';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Infinity } from '@tamagui/lucide-icons';
 import ImageViewerProvider from '@components/Common/ImageViewer/ImageViewerProvider';
 import { LogBox } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      // @ts-expect-error - This is a valid option
-      staleTime: Infinity,
-    },
-  },
-});
 
 enableMapSet();
 enableScreens();
@@ -50,11 +39,9 @@ export default function App(): React.JSX.Element | null {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <TamaguiProvider config={tguiConfig}>
-        <QueryClientProvider client={queryClient}>
-          <Theme name="lightTheme">
-            <PartTwo />
-          </Theme>
-        </QueryClientProvider>
+        <Theme name="lightTheme">
+          <PartTwo />
+        </Theme>
       </TamaguiProvider>
     </GestureHandlerRootView>
   );

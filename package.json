@@ -8,7 +8,6 @@
     "@tamagui/config": "^1.74.12",
     "@tamagui/lucide-icons": "^1.74.12",
     "@tamagui/theme-builder": "^1.74.13",
-    "@tanstack/react-query": "^4.36.1",
     "@types/markdown-it": "^13.0.2",
     "@types/react": "~18.2.14",
     "axios": "^1.5.1",

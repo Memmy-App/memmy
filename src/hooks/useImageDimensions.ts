@@ -39,14 +39,6 @@ export const useImageDimensions = (): UseImageDimensions => {
   }, [imageViewer.dimensions]);
 
   const update = (): void => {
-    console.log(
-      getRatio(
-        imageViewer.dimensions.height,
-        imageViewer.dimensions.width,
-        0.9,
-      ),
-    );
-
     setDimensions({
       scaled: getRatio(
         imageViewer.dimensions.height,

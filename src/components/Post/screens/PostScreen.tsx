@@ -8,20 +8,23 @@ import {
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
 import VStack from '@components/Common/Stack/VStack';
 import Post from '@components/Post/components/Post';
-import { useQuery } from '@tanstack/react-query';
 import instance from '@api/Instance';
 import { ICommentInfo } from '@src/types';
 import { Spinner } from 'tamagui';
 import CommentChain from '@components/Common/Comment/CommentChain';
 import { FlatList } from 'react-native';
+import { useLoadData } from '@hooks/useLoadData';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
   route: any;
 }
 
-// @ts-expect-error - this is correct
-const renderItem = ({ item }): React.JSX.Element => {
+interface RenderItem {
+  item: ICommentInfo;
+}
+
+const renderItem = ({ item }: RenderItem): React.JSX.Element => {
   return <CommentChain commentInfo={item} />;
 };
 
@@ -37,8 +40,8 @@ export default function PostScreen({
   const postTitle = usePostTitle(postId);
   const postCommentsInfo = usePostCommentsInfo(postId);
 
-  const { isLoading } = useQuery(['post', postId], async () => {
-    return await instance.getComments(postId);
+  const { isLoading } = useLoadData(async () => {
+    return await instance.getPost(postId);
   });
 
   useEffect(() => {

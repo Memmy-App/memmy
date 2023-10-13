@@ -83,20 +83,14 @@ class ApiInstance {
 
       const siteRes = await this.instance.getSite();
 
-      console.log(siteRes.version);
-
       if (siteRes.version.includes('.19')) {
         this.isUpdate = true;
       }
-
-      console.log(this.isUpdate);
 
       // Save the site info
       useSiteStore.getState().setSite(siteRes);
 
       if (options.authToken != null) {
-        console.log(options.authToken);
-
         this.initialized = true;
         this.authToken = options.authToken;
 
@@ -437,11 +431,15 @@ class ApiInstance {
             state.feeds.set(feedId, {
               feedId,
               postIds,
+              nextPage: options.page! + 1,
             });
           } else {
             feed.postIds = [...feed.postIds, ...postIds];
+            feed.nextPage = options.page! + 1;
           }
         });
+
+        return undefined;
       }
 
       return res;
@@ -485,8 +483,6 @@ class ApiInstance {
       if (res === undefined || !addToPost) {
         return res;
       }
-
-      console.log(res.comments.length);
 
       const builtComments = buildCommentChains(res.comments);
 

@@ -15,7 +15,10 @@ interface IProps {
   route: any;
 }
 
-export default function AddAccountModal({ navigation, route }: IProps): React.JSX.Element {
+export default function AddAccountModal({
+  navigation,
+  route,
+}: IProps): React.JSX.Element {
   const [form, setForm] = useState({
     instance: '',
     username: '',
@@ -25,8 +28,6 @@ export default function AddAccountModal({ navigation, route }: IProps): React.JS
   const login = useLogin();
 
   const onLoginPress = (): void => {
-    console.log('Trying login...');
-
     void login.doLogin({
       username: form.username,
       password: form.password,
@@ -42,18 +43,16 @@ export default function AddAccountModal({ navigation, route }: IProps): React.JS
   };
 
   return (
-    <VStack
-      space="$1"
-      marginHorizontal="$3"
-      marginVertical="$2"
-    >
+    <VStack space="$1" marginHorizontal="$3" marginVertical="$2">
       <LoadingOverlay visible={login.status.loading} />
       <InputWrapper>
         <Label icon={<Globe size={12} />}>Instance</Label>
         <TextInput
           size="$3"
           placeholder="Instance"
-          onChangeText={(v) => { onFormChange('instance', v); }}
+          onChangeText={(v) => {
+            onFormChange('instance', v);
+          }}
           autoCorrect={false}
           autoCapitalize="none"
           inputMode="url"
@@ -63,7 +62,9 @@ export default function AddAccountModal({ navigation, route }: IProps): React.JS
         <Label icon={<User size={12} />}>Username</Label>
         <TextInput
           placeholder="Username"
-          onChangeText={(v) => { onFormChange('username', v); }}
+          onChangeText={(v) => {
+            onFormChange('username', v);
+          }}
           autoCorrect={false}
           autoCapitalize="none"
           autoComplete="username"
@@ -73,7 +74,9 @@ export default function AddAccountModal({ navigation, route }: IProps): React.JS
         <Label icon={<Key size={12} />}>Password</Label>
         <TextInput
           placeholder="Password"
-          onChangeText={(v) => { onFormChange('password', v); }}
+          onChangeText={(v) => {
+            onFormChange('password', v);
+          }}
           autoCorrect={false}
           secureTextEntry
           autoComplete="current-password"
