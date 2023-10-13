@@ -59,7 +59,7 @@ function ViewerImage({ source, blurRadius }: IProps): React.JSX.Element {
 
   return (
     <Pressable onPress={onImagePress} style={{ width: '100%' }}>
-      <HStack justifyContent="center" alignItems="center" backgroundColor="$bg">
+      <HStack alignItems="center" backgroundColor="$bg">
         <Image
           source={{ uri: source }}
           style={dimensions}

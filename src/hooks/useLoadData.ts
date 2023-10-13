@@ -4,6 +4,7 @@ interface UseLoadData<DataType = undefined> {
   refresh: (refreshFunc?: () => Promise<DataType>) => void;
   append: (appendFunc: () => Promise<DataType>) => void;
   isLoading: boolean;
+  isRefreshing: boolean;
   isError: boolean;
   error?: string;
   data?: DataType;
@@ -11,6 +12,7 @@ interface UseLoadData<DataType = undefined> {
 
 interface Status<DataType = undefined> {
   isLoading: boolean;
+  isRefreshing: boolean;
   isError: boolean;
   error?: string;
   data?: DataType;
@@ -22,6 +24,7 @@ export const useLoadData = <ReturnType>(
 ): UseLoadData<ReturnType> => {
   const [status, setStatus] = useState<Status<ReturnType>>({
     isLoading: true,
+    isRefreshing: false,
     isError: false,
     error: undefined,
     data: undefined,
@@ -46,50 +49,54 @@ export const useLoadData = <ReturnType>(
     run(func);
   }, []);
 
-  const run = useCallback((func: () => Promise<ReturnType>, append = false) => {
-    if (!status.isLoading) {
-      setStatus({
-        ...status,
-        isLoading: true,
-        isError: false,
-        error: undefined,
-      });
-    }
-
-    void func()
-      .then((data) => {
-        if (append) {
-          setStatus({
-            isLoading: false,
-            isError: false,
-            error: undefined,
-            data: {
-              ...status.data,
-              ...data,
-            },
-          });
-        } else {
-          setStatus({
-            isLoading: false,
-            isError: false,
-            error: undefined,
-            data,
-          });
-        }
-      })
-      .catch((e) => {
+  const run = useCallback(
+    (func: () => Promise<ReturnType>, append = false, refresh = false) => {
+      if (!status.isLoading) {
         setStatus({
-          isLoading: false,
-          isError: true,
-          error: e.message,
+          ...status,
+          isLoading: true,
+          isError: false,
+          isRefreshing: refresh,
+          error: undefined,
         });
-      });
-  }, []);
+      }
+
+      void func()
+        .then((data) => {
+          if (append) {
+            setStatus({
+              ...status,
+              isLoading: false,
+              isError: false,
+              isRefreshing: false,
+              error: undefined,
+            });
+          } else {
+            setStatus({
+              isLoading: false,
+              isError: false,
+              isRefreshing: false,
+              error: undefined,
+              data,
+            });
+          }
+        })
+        .catch((e) => {
+          setStatus({
+            isLoading: false,
+            isError: true,
+            isRefreshing: false,
+            error: e.message,
+          });
+        });
+    },
+    [],
+  );
 
   const refresh = useCallback((refreshFunc?: () => Promise<ReturnType>) => {
     if (refreshFunc == null) refreshFunc = func;
 
-    run(refreshFunc);
+    run(refreshFunc, false, true);
   }, []);
 
   const append = useCallback((appendFunc: () => Promise<ReturnType>) => {

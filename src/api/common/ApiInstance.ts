@@ -385,7 +385,7 @@ class ApiInstance {
 
     // Define default options
     const defaultOptions: IGetPostOptions = {
-      limit: 50,
+      limit: 10,
       page: 1,
       type: settings.defaultListingType,
       sort:
@@ -423,6 +423,7 @@ class ApiInstance {
       if (res != null && addToFeed) {
         // Create empty array of post ids
         const postIds: number[] = [];
+        const currentPosts = useFeedStore.getState().feeds.get(feedId)?.postIds;
 
         usePostStore.setState((state) => {
           if (options.refresh === true) {
@@ -444,7 +445,7 @@ class ApiInstance {
               });
             }
 
-            const index = postIds.indexOf(post.post.id);
+            const index = currentPosts?.indexOf(post.post.id);
 
             if (index === -1) {
               postIds.push(post.post.id);
