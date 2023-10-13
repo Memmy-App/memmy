@@ -4,7 +4,7 @@ import FeedItemContainer from '@components/Feed/components/Feed/FeedItem/FeedIte
 import FeedItemFooter from '@components/Feed/components/Feed/FeedItem/FeedItemFooter';
 import FeedItemPostInfo from '@components/Feed/components/Feed/FeedItem/FeedItemPostInfo';
 import FeedItemActionButtons from '@components/Feed/components/Feed/FeedItem/FeedItemActionButtons';
-import { Pressable } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import FeedItemContent from '@components/Feed/components/Feed/FeedItem/FeedItemContent';
@@ -69,8 +69,8 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
   );
 
   return (
-    <SwipeableRow leftOption={rightOption}>
-      <Pressable onPress={onPress}>
+    <Pressable onPress={onPress} style={styles.pressable}>
+      <SwipeableRow leftOption={rightOption}>
         <FeedItemContainer>
           <FeedItemHeader itemId={itemId} />
           <FeedItemContent itemId={itemId} />
@@ -79,9 +79,15 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
             <FeedItemActionButtons itemId={itemId} />
           </FeedItemFooter>
         </FeedItemContainer>
-      </Pressable>
-    </SwipeableRow>
+      </SwipeableRow>
+    </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  pressable: {
+    marginVertical: 3,
+  },
+});
 
 export default React.memo(FeedItem);

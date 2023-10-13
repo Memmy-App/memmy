@@ -9,7 +9,7 @@ export default function FeedItemContainer({
   children,
 }: IProps): React.JSX.Element {
   return (
-    <VStack backgroundColor="$fg" marginVertical="$1.5" paddingVertical="$2">
+    <VStack backgroundColor="$fg" paddingVertical="$2">
       {children}
     </VStack>
   );
