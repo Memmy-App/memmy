@@ -58,16 +58,22 @@ function ViewerImage({ source, blurRadius }: IProps): React.JSX.Element {
   }, []);
 
   return (
-    <Pressable onPress={onImagePress} style={{ width: '100%' }}>
-      <HStack alignItems="center" backgroundColor="$bg">
+    <HStack>
+      <Pressable
+        onPress={onImagePress}
+        style={{
+          width: '100%',
+        }}
+      >
         <Image
           source={{ uri: source }}
           style={dimensions}
           onLoad={onImageLoad}
           blurRadius={blurRadius}
+          cachePolicy="disk"
         />
-      </HStack>
-    </Pressable>
+      </Pressable>
+    </HStack>
   );
 }
 
