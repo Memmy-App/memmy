@@ -20,8 +20,9 @@ interface IProps {
   route: any;
 }
 
-const renderItem = (item): React.JSX.Element => {
-  return <CommentChain commentInfo={item.item} />;
+// @ts-expect-error - this is correct
+const renderItem = ({ item }): React.JSX.Element => {
+  return <CommentChain commentInfo={item} />;
 };
 
 const keyExtractor = (item: ICommentInfo): string => item.commentId.toString();
@@ -56,6 +57,8 @@ export default function PostScreen({
         data={postCommentsInfo}
         ListHeaderComponent={<Post />}
         ListEmptyComponent={<Spinner />}
+        maxToRenderPerBatch={5}
+        initialNumToRender={10}
       />
     </VStack>
   );
