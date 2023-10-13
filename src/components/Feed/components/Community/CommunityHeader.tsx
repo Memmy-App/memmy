@@ -23,16 +23,17 @@ function CommunityHeader(): React.JSX.Element | null {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   // Get the title
-  const communityTitle = useCommunityName(params.id);
-  const communityBanner = useCommunityBanner(params.id);
-  const communityNsfw = useCommunityNsfw(params.id);
+  const communityTitle = useCommunityName(params?.id);
+  const communityBanner = useCommunityBanner(params?.id);
+  const communityNsfw = useCommunityNsfw(params?.id);
 
   // Load the data
   const { isLoading, data } = useLoadData<
     GetCommunityResponse | number | undefined
   >(
     async () => {
-      return await instance.getCommunity(params.name);
+      if (params?.id == null) return;
+      return await instance.getCommunity(params?.name);
     },
     // We don't want to load the data again if we already have it
     () => {
@@ -53,7 +54,7 @@ function CommunityHeader(): React.JSX.Element | null {
   }
 
   // If we don't have the data and we don't have the ID, then we can't display anything
-  if (!isLoading && data == null && params.id == null) {
+  if (!isLoading && data == null && params?.id == null) {
     return null;
   }
 

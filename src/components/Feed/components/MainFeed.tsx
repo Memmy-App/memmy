@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import instance from '@api/Instance';
 import VStack from '@components/Common/Stack/VStack';
 import { useRoute } from '@react-navigation/core';
@@ -7,6 +7,9 @@ import FeedItem from '@components/Feed/components/Feed/FeedItem';
 import { FlatList, RefreshControl } from 'react-native';
 import { useLoadData } from '@hooks/useLoadData';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
+import { cleanupPosts } from '@helpers/state';
+import IGetPostOptions from '@api/common/types/IGetPostOptions';
+import CommunityHeader from '@components/Feed/components/Community/CommunityHeader';
 
 interface RenderItem {
   item: number;
@@ -20,16 +23,29 @@ const keyExtractor = (item: number): string => item.toString();
 
 export default function MainFeed(): React.JSX.Element {
   // Get the feed ID
-  const { key } = useRoute();
+  const { key, params } = useRoute<any>();
   const postIds = useFeedPostIds(key);
   const nextPage = useFeedNextPage(key);
+
+  useEffect(() => {
+    return () => {
+      cleanupPosts(key);
+    };
+  }, []);
+
+  const defaultOptions = useMemo(
+    (): IGetPostOptions => ({
+      communityName: (params?.name as unknown as string) ?? undefined,
+    }),
+    [params?.name],
+  );
 
   const { isLoading, isRefreshing, isError, append, refresh } = useLoadData(
     async () => {
       await instance.getPosts(
         key,
         {
-          page: 1,
+          ...defaultOptions,
         },
         true,
       );
@@ -39,6 +55,7 @@ export default function MainFeed(): React.JSX.Element {
   const onEndReached = useCallback(() => {
     append(async () => {
       await instance.getPosts(key, {
+        ...defaultOptions,
         page: nextPage,
       });
     });
@@ -47,6 +64,7 @@ export default function MainFeed(): React.JSX.Element {
   const onRefresh = useCallback(() => {
     refresh(async () => {
       await instance.getPosts(key, {
+        ...defaultOptions,
         page: 1,
         refresh: true,
       });
@@ -66,6 +84,7 @@ export default function MainFeed(): React.JSX.Element {
         onEndReachedThreshold={0.5}
         onEndReached={onEndReached}
         removeClippedSubviews={true}
+        ListHeaderComponent={<CommunityHeader />}
         ListFooterComponent={
           <FeedLoadingIndicator loading={isLoading} error={isError} />
         }
