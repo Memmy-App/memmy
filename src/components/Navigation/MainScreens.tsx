@@ -11,6 +11,7 @@ import {
 import { NativeStackNavigatorProps } from 'react-native-screens/lib/typescript/native-stack/types';
 import FeedIndexScreen from '@components/Feed/screens/FeedIndexScreen';
 import PostScreen from '@components/Post/screens/PostScreen';
+import CommunityFeed from '@components/Feed/components/CommunityFeed';
 
 export default function MainScreens(
   stack: TypedNavigator<
@@ -41,6 +42,13 @@ export default function MainScreens(
         <stack.Screen
           name="Post"
           component={PostScreen}
+          options={{
+            headerShown: true,
+          }}
+        />
+        <stack.Screen
+          name="Community"
+          component={CommunityFeed}
           options={{
             headerShown: true,
           }}

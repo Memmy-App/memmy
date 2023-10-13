@@ -11,6 +11,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
   usePostCommunityActorId,
   usePostCommunityIcon,
+  usePostCommunityId,
   usePostCommunityName,
 } from '@src/state/post/postStore';
 
@@ -45,6 +46,7 @@ function PostCommunityLabel({ itemId }: IProps): React.JSX.Element {
   const communityName = usePostCommunityName(itemId);
   const actorId = usePostCommunityActorId(itemId);
   const communityIcon = usePostCommunityIcon(itemId);
+  const communityId = usePostCommunityId(itemId);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
@@ -56,7 +58,8 @@ function PostCommunityLabel({ itemId }: IProps): React.JSX.Element {
 
   const onPress = (): void => {
     navigation.navigate('Community', {
-      fullName,
+      name: fullName,
+      id: communityId,
     });
   };
 

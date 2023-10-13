@@ -18,6 +18,7 @@ interface Status<DataType = undefined> {
 
 export const useLoadData = <ReturnType>(
   func: () => Promise<ReturnType>,
+  cacheFunc?: () => boolean,
 ): UseLoadData<ReturnType> => {
   const [status, setStatus] = useState<Status<ReturnType>>({
     isLoading: true,
@@ -27,6 +28,21 @@ export const useLoadData = <ReturnType>(
   });
 
   useEffect(() => {
+    if (cacheFunc != null) {
+      const res = cacheFunc();
+
+      if (res) {
+        setStatus({
+          ...status,
+          isLoading: false,
+          isError: false,
+          error: undefined,
+        });
+
+        return;
+      }
+    }
+
     run(func);
   }, []);
 

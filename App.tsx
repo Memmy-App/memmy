@@ -12,6 +12,10 @@ import ImageViewerProvider from '@components/Common/ImageViewer/ImageViewerProvi
 import { LogBox } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
+if (__DEV__) {
+  require('./ReactotronConfig');
+}
+
 enableMapSet();
 enableScreens();
 
@@ -39,7 +43,7 @@ export default function App(): React.JSX.Element | null {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <TamaguiProvider config={tguiConfig}>
-        <Theme name="lightTheme">
+        <Theme name="darkTheme">
           <PartTwo />
         </Theme>
       </TamaguiProvider>

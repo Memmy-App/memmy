@@ -31,6 +31,7 @@ import { buildCommentChains } from '@helpers/comments';
 import { addCommentsToPost } from '@src/state/post/actions';
 import { addComments } from '@src/state/comment/actions';
 import { useSiteStore } from '@src/state/site/siteStore';
+import { useCommunityStore } from '@src/state/community/communityStore';
 
 export enum EInitializeResult {
   SUCCESS,
@@ -332,13 +333,25 @@ class ApiInstance {
     }
   }
 
-  async getCommunity(name: string): Promise<GetCommunityResponse | undefined> {
+  async getCommunity(
+    name: string,
+    addToStore = true,
+  ): Promise<GetCommunityResponse | undefined | number> {
     try {
-      return await this.instance?.getCommunity({
+      const res = await this.instance?.getCommunity({
         name,
         // @ts-expect-error TODO Remove this later
         auth: this.authToken,
       });
+
+      if (res == null) return undefined;
+      if (!addToStore) return res;
+
+      useCommunityStore.setState((state) => {
+        state.communities.set(res.community_view.community.id, res);
+      });
+
+      return res.community_view.community.id;
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
       return undefined;
@@ -380,6 +393,7 @@ class ApiInstance {
         options.communityId != null || options.communityName != null
           ? settings.defaultSort
           : settings.defaultSort,
+      refresh: false,
     };
 
     // Set all our options
@@ -411,19 +425,33 @@ class ApiInstance {
         const postIds: number[] = [];
 
         usePostStore.setState((state) => {
+          if (options.refresh === true) {
+            state.posts.clear();
+          }
+
           // Add each post to the state
           for (const post of res.posts) {
-            state.posts.set(post.post.id, {
-              view: post,
-              usedBy: [],
-              linkType: getLinkType(post.post.url),
-              bodyPreview: truncateText(post.post.body, 200),
-            });
+            const currentPost = state.posts.get(post.post.id);
 
-            postIds.push(post.post.id);
+            if (currentPost != null) {
+              currentPost.usedBy.push(feedId);
+            } else {
+              state.posts.set(post.post.id, {
+                view: post,
+                usedBy: [feedId],
+                linkType: getLinkType(post.post.url),
+                bodyPreview: truncateText(post.post.body, 200),
+              });
+            }
 
-            if (post.post.url != null) {
-              links.push(post.post.url);
+            const index = postIds.indexOf(post.post.id);
+
+            if (index === -1) {
+              postIds.push(post.post.id);
+
+              if (post.post.url != null) {
+                links.push(post.post.url);
+              }
             }
 
             void cacheImages(links);

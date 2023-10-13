@@ -9,14 +9,15 @@ import {
 import { getImageRatio } from '@helpers/image';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
 import { Image, ImageLoadEventData } from 'expo-image';
-import { View } from 'tamagui';
 import { IDimensions } from '@src/types';
+import HStack from '@components/Common/Stack/HStack';
 
 interface IProps {
   source: string;
+  blurRadius?: number;
 }
 
-function ViewerImage({ source }: IProps): React.JSX.Element {
+function ViewerImage({ source, blurRadius }: IProps): React.JSX.Element {
   const imageViewer = useImageViewer();
   const savedDimensions = useImageSavedDimensions(source);
 
@@ -58,13 +59,14 @@ function ViewerImage({ source }: IProps): React.JSX.Element {
 
   return (
     <Pressable onPress={onImagePress} style={{ width: '100%' }}>
-      <View justifyContent="center">
+      <HStack justifyContent="center" alignItems="center" backgroundColor="$bg">
         <Image
           source={{ uri: source }}
           style={dimensions}
           onLoad={onImageLoad}
+          blurRadius={blurRadius}
         />
-      </View>
+      </HStack>
     </Pressable>
   );
 }

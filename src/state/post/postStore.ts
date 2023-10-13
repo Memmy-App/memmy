@@ -85,3 +85,12 @@ export const usePostBodyPreview = (id: number): string | undefined =>
 
 export const usePostActorId = (id: number): string | undefined =>
   usePostStore((state) => state.posts.get(id))?.view.post.ap_id;
+
+export const usePostCommunityId = (id: number): number | undefined =>
+  usePostStore((state) => state.posts.get(id))?.view.community.id;
+
+export const usePostNsfw = (id: number): boolean =>
+  usePostStore((state) => state.posts.get(id))?.view.post.nsfw ?? false;
+
+export const usePostCommunityNsfw = (id: number): boolean =>
+  usePostStore((state) => state.posts.get(id))?.view.community.nsfw ?? false;

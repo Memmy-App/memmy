@@ -7,4 +7,5 @@ export default interface IGetPostOptions {
   page?: number;
   sort?: SortType;
   type?: ListingType;
+  refresh?: boolean;
 }

@@ -31,7 +31,7 @@ function AnimatedIconButton({
     color: color ?? '$accent',
   });
 
-  const onButonPress = useCallback(() => {
+  const onButtonPress = useCallback(() => {
     if (onPress == null) return;
 
     void playHaptic();
@@ -58,7 +58,7 @@ function AnimatedIconButton({
     <Pressable
       onPressIn={onTapBegin}
       onPressOut={onTapEnd}
-      onPress={onButonPress}
+      onPress={onButtonPress}
     >
       <Animated.View style={[scaleStyle]}>
         <View backgroundColor={backgroundColor} borderRadius={3} padding={4}>

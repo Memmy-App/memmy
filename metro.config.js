@@ -7,7 +7,7 @@ const config = {
   transformer: {
     getTransformOptions: async() => ({
       transform: {
-        inlineRequires: true,
+        inlineRequires: false,
       }
     })
   }

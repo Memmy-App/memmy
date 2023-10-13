@@ -29,8 +29,6 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
 
   const swipeLeftOptions = useSwipeOptions('post', 'left');
 
-  console.log(swipeLeftOptions);
-
   const leftColors: ISwipeableColors = useMemo(
     () => ({
       first: swipeLeftOptions.firstColor ?? '$accent',

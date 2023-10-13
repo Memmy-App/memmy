@@ -6,6 +6,7 @@ import { useFeedNextPage, useFeedPostIds } from '@src/state/feed/feedStore';
 import FeedItem from '@components/Feed/components/Feed/FeedItem';
 import { FlatList } from 'react-native';
 import { useLoadData } from '@hooks/useLoadData';
+import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
 
 interface RenderItem {
   item: number;
@@ -23,7 +24,7 @@ export default function MainFeed(): React.JSX.Element {
   const postIds = useFeedPostIds(key);
   const nextPage = useFeedNextPage(key);
 
-  const { append } = useLoadData(async () => {
+  const { isLoading, isError, append } = useLoadData(async () => {
     await instance.getPosts(key, {}, true);
   });
 
@@ -47,6 +48,9 @@ export default function MainFeed(): React.JSX.Element {
         windowSize={5}
         onEndReachedThreshold={0.5}
         onEndReached={onEndReached}
+        ListFooterComponent={
+          <FeedLoadingIndicator loading={isLoading} error={isError} />
+        }
       />
     </VStack>
   );

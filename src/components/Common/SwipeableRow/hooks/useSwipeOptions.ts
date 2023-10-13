@@ -41,8 +41,6 @@ export const useSwipeOptions = (
     [theme],
   );
 
-  console.log(swipeColorOptions);
-
   const swipeOptions = useMemo<UseSwipeOptions>(
     () => ({
       firstAction: postSwipeableActions[settings.firstLeft],
