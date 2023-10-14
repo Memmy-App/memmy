@@ -1,8 +1,6 @@
 import React, { useCallback } from 'react';
 import { ICommentInfo } from '@src/types';
-import { View } from 'tamagui';
-import Comment from '@components/Common/Comment/Comment';
-import { Pressable } from 'react-native';
+import { PressableComment } from '@components/Common/Comment/Comment';
 import { setPostCommentHidden } from '@src/state/post/actions/setPostCommentHidden';
 
 interface IProps {
@@ -20,15 +18,12 @@ function CommentChain({ commentInfo }: IProps): React.JSX.Element | null {
   }
 
   return (
-    <Pressable onPress={onCommentPress}>
-      <View>
-        <Comment
-          itemId={commentInfo.commentId}
-          depth={commentInfo.depth}
-          collapsed={commentInfo.collapsed}
-        />
-      </View>
-    </Pressable>
+    <PressableComment
+      onPress={onCommentPress}
+      itemId={commentInfo.commentId}
+      depth={commentInfo.depth}
+      collapsed={commentInfo.collapsed}
+    />
   );
 }
 
