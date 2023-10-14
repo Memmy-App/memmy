@@ -147,13 +147,13 @@ function ImageViewer(): React.JSX.Element {
       if (zoomScale.value !== 1) {
         centerImage();
         zoomScale.value = withTiming(1, { duration: 200 });
-
+        lastScale.value = 1;
         return;
       }
 
       // Zoom to the max scale
       zoomScale.value = withTiming(1.75, { duration: 200 });
-      lastScale.value = 1;
+      lastScale.value = 1.75;
     },
     [],
   );
