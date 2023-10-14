@@ -12,6 +12,7 @@ import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
 import { ISwipeableColors } from '@components/Common/SwipeableRow/types';
 import { useSwipeOptions } from '@components/Common/SwipeableRow/hooks/useSwipeOptions';
 import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
+import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
 
 interface IProps {
   itemId: number;
@@ -26,29 +27,27 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
     });
   }, [itemId]);
 
-  const swipeLeftOptions = useSwipeOptions('post', 'left');
-
-  console.log(swipeLeftOptions);
+  const swipeRightOptions = useSwipeOptions('post', 'left');
 
   const leftColors: ISwipeableColors = useMemo(
     () => ({
-      first: swipeLeftOptions.firstColor ?? '$accent',
-      second: swipeLeftOptions.secondColor ?? '$accent',
+      first: swipeRightOptions.firstColor ?? '$accent',
+      second: swipeRightOptions.secondColor ?? '$accent',
     }),
     [],
   );
 
   const onLeftFirst = useCallback(() => {
-    if (swipeLeftOptions.firstAction != null) {
-      swipeLeftOptions.firstAction({
+    if (swipeRightOptions.firstAction != null) {
+      swipeRightOptions.firstAction({
         itemId,
       });
     }
-  }, [itemId, swipeLeftOptions]);
+  }, [itemId, swipeRightOptions]);
 
   const onLeftSecond = useCallback(() => {
-    if (swipeLeftOptions.secondAction != null) {
-      swipeLeftOptions.secondAction({
+    if (swipeRightOptions.secondAction != null) {
+      swipeRightOptions.secondAction({
         itemId,
       });
     }
@@ -67,9 +66,22 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
     [leftColors, onLeftFirst, onLeftSecond],
   );
 
+  const leftOption = useMemo(
+    () => (
+      <LeftOptions
+        colors={leftColors}
+        onFirst={onLeftFirst}
+        onSecond={onLeftSecond}
+        firstIcon="upvote"
+        secondIcon="downvote"
+      />
+    ),
+    [leftColors, onLeftFirst, onLeftSecond],
+  );
+
   return (
     <Pressable onPress={onPress} style={styles.pressable}>
-      <SwipeableRow leftOption={rightOption}>
+      <SwipeableRow leftOption={rightOption} rightOption={leftOption}>
         <FeedItemContainer>
           <FeedItemHeader itemId={itemId} />
           <FeedItemContent itemId={itemId} />
