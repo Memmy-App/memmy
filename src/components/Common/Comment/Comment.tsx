@@ -3,6 +3,7 @@ import VStack from '@components/Common/Stack/VStack';
 import CommentHeader from '@components/Common/Comment/components/CommentHeader';
 import CommentContent from '@components/Common/Comment/components/CommentContent';
 import { Pressable } from 'react-native';
+import { Separator } from 'tamagui';
 
 interface IProps {
   itemId: number;
@@ -44,10 +45,10 @@ function Comment({
   }
 
   return (
-    <VStack marginVertical="$1" backgroundColor="$fg">
+    <VStack backgroundColor="$fg">
       <VStack
         marginLeft={depth * 10}
-        marginVertical="$1"
+        marginVertical="$2"
         borderLeftColor={borderColor}
         borderLeftWidth={borderWidth}
         paddingHorizontal="$2"
@@ -56,6 +57,7 @@ function Comment({
         <CommentHeader itemId={itemId} />
         {!collapsed && <CommentContent itemId={itemId} />}
       </VStack>
+      <Separator borderColor="$bg" marginLeft={depth * 10 + 10} />
     </VStack>
   );
 }
@@ -64,10 +66,11 @@ export const PressableComment = React.memo(function pressableComment({
   itemId,
   depth = 0,
   onPress,
+  collapsed = false,
 }: IProps): React.JSX.Element {
   return (
     <Pressable onPress={onPress}>
-      <Comment itemId={itemId} depth={depth} />
+      <Comment itemId={itemId} depth={depth} collapsed={collapsed} />
     </Pressable>
   );
 });
