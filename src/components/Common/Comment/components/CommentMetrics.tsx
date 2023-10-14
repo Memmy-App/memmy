@@ -3,9 +3,9 @@ import { useSettingsStore } from '@src/state/settings/settingsStore';
 import HStack from '@components/Common/Stack/HStack';
 import { Text } from 'tamagui';
 import ScoreIcon from '@components/Common/Icons/ScoreIcon';
-import { useCommentVoting } from '@hooks/comments/useCommentVoting';
 import { Pressable } from 'react-native';
 import { ArrowDown, ArrowUp } from '@tamagui/lucide-icons';
+import { useCommentVoting } from '@hooks/comments/useCommentVoting';
 
 interface IProps {
   itemId: number;
