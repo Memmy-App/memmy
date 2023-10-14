@@ -1,17 +1,51 @@
 {
 	"extends": "expo/tsconfig.base",
-  "compilerOptions": {
+	"compilerOptions": {
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
-    "baseUrl": ".",
-    "paths": {
-      "@root/*": [
-        "*"
-      ],
-      "@src/*": [
-        "src/*"
-      ]
-    }
-  },
-  "include": ["**/*.ts", "**/*.tsx"],
+		"strict": true,
+		"strictNullChecks": true,
+		"strictPropertyInitialization": true,
+		"noImplicitReturns": true,
+		"baseUrl": ".",
+		"paths": {
+			"@root/*": [
+				"*"
+			],
+			"@src/*": [
+				"src/*"
+			],
+			"@components/*": [
+				"src/components/*"
+			],
+			"@api/*": [
+				"src/api/*"
+			],
+			"@helpers/*": [
+				"src/helpers/*"
+			],
+			"@hooks/*": [
+				"src/hooks/*"
+			],
+			"@locale": [
+				"src/locale/*"
+			],
+			"@screens": [
+				"src/screens/*"
+			],
+			"@state": [
+				"src/state/*"
+			],
+			"@theme": [
+				"src/theme/*"
+			],
+			"@types": [
+				"src/types/*"
+			]
+		}
+	},
+	"include": [
+		"**/*.ts",
+		"**/*.tsx"
+	]
 }

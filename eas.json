@@ -1,57 +1,18 @@
 {
   "cli": {
-    "version": ">= 3.10.2"
+    "version": ">= 4.1.2"
   },
   "build": {
     "development": {
-      "developmentClient": true,
-      "distribution": "internal",
-      "env": {
-        "API_URL": "http://192.168.1.5:8000/api",
-        "APP_URL": "memmyapp://"
-      }
-    },
-    "simulator": {
-      "developmentClient": true,
-      "distribution": "internal",
-      "ios": {
-        "simulator": true
-      },
-      "env": {
-        "API_URL": "http://192.168.1.5:8000/api",
-        "APP_URL": "memmyapp://"
-      }
-    },
-    "simulatorPrev": {
-      "distribution": "internal",
-      "ios": {
-        "simulator": true
-      },
-      "env": {
-        "API_URL": "https://memmy.app/api",
-        "APP_URL": "memmyapp://"
-      }
+			"developmentClient": true,
+      "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal",
-      "env": {
-        "API_URL": "https://memmy.app/api",
-        "APP_URL": "memmyapp://"
-      }
+      "distribution": "internal"
     },
-    "production": {
-      "autoIncrement": true,
-      "env": {
-        "API_URL": "https://memmy.app/api",
-        "APP_URL": "memmyapp://"
-      }
-    }
+    "production": {}
   },
   "submit": {
-    "production": {
-      "ios": {
-        "ascAppId": "6450204299"
-      }
-    }
+    "production": {}
   }
 }

@@ -1,52 +1,59 @@
 module.exports = {
   env: {
-    browser: true,
     es2021: true,
-    node: true,
   },
-  extends: [
-    "plugin:react/recommended",
-    "airbnb",
-    "airbnb-typescript",
-    "prettier",
-  ],
+  extends: ["plugin:react/recommended", "standard-with-typescript", "prettier"],
   overrides: [],
-  ignorePatterns: [
-    "node_modules/**/*",
-    ".github/**/*",
-    ".expo/**/*",
-    "assets/**/*",
-    ".circleci/**/*",
-    "ios/**/*",
-    "babel.config.js",
-    ".eslintrc.js",
-    "App.js",
-    "index.js",
-    "metro.config.js",
-    "ReactotronConfig.js",
-  ],
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
+    tsconfigRootDir: __dirname,
+    parser: "@typescript-eslint/parser",
     project: "./tsconfig.json",
   },
   plugins: ["react", "prettier"],
   rules: {
-    "prettier/prettier": ["error"],
-    "@typescript-eslint/no-use-before-define": "off",
-    "no-param-reassign": "off",
-    "react/require-default-props": "off",
-    "react/jsx-props-no-spreading": "off",
-    "no-restricted-syntax": "off",
-    "no-continue": "off",
-    "import/no-cycle": "off",
-    "no-nested-ternary": "off",
-    "import/no-extraneous-dependencies": "off",
-    "prefer-destructuring": ["error", { object: true, array: false }],
-    "import/no-named-as-default": "off",
-    "react/jsx-no-useless-fragment": "off",
-    "import/prefer-default-export": "off",
-    "jsx-a11y/anchor-is-valid": "off",
-    "no-else-return": ["error", { allowElseIf: true }],
+    "@typescript-eslint/quotes": [2, "single", { avoidEscape: true }],
+    "@typescript-eslint/comma-dangle": [2, "always-multiline"],
+    "@typescript-eslint/semi": [2, "always"],
+    "@typescript-eslint/space-before-function-paren": [2, "never"],
+    "@typescript-eslint/member-delimiter-style": [2,
+      {
+        "multiline": {
+          "delimiter": "comma",
+          "requireLast": true
+        },
+        "singleline": {
+          "delimiter": "comma",
+          "requireLast": true
+        },
+        "overrides": {
+          "interface": {
+            "multiline": {
+              "delimiter": "semi",
+              "requireLast": true
+            }
+          }
+        }
+      }],
+    "@typescript-eslint/consistent-type-definitions": [2, "interface"],
+    "@typescript-eslint/consistent-type-imports": [2, { prefer: "no-type-imports" }],
+    "@typescript-eslint/space-before-function-paren": [2, {
+      "anonymous": "never",
+      "named": "never",
+      "asyncArrow": "always"
+    }],
+    "@typescript-eslint/no-non-null-assertion": [0],
+    "react/jsx-curly-brace-presence": [2, { props: "never", children: "never" }],
+    "jsx-quotes": [2, "prefer-double"],
+    "prettier/prettier": [2, {
+      endOfLine: "auto",
+      singleQuote: true,
+      semi: true,
+      bracketSpacing: true,
+      trailingComma: "all",
+      tabWidth: 2,
+      printWidth: 80,
+    }],
   },
 };
