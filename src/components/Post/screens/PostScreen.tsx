@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
   usePostCommentsInfo,
@@ -11,10 +11,9 @@ import Post from '@components/Post/components/Post';
 import instance from '@api/Instance';
 import { ICommentInfo } from '@src/types';
 import CommentChain from '@components/Comment/components/CommentChain';
-import { FlatList, ViewToken } from 'react-native';
+import { FlatList } from 'react-native';
 import { useLoadData } from '@hooks/useLoadData';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
-import { useSharedValue } from 'react-native-reanimated';
 
 interface RenderItem {
   item: ICommentInfo;
@@ -37,7 +36,9 @@ export default function PostScreen({
   const postTitle = usePostTitle(postId);
   const postCommentsInfo = usePostCommentsInfo(postId);
 
-  const viewableItems = useSharedValue<ViewToken[]>([]);
+  const postsToShow = useMemo(() => {
+    return postCommentsInfo?.filter((commentInfo) => commentInfo.showInPost);
+  }, [postCommentsInfo]);
 
   const { isLoading, isError } = useLoadData(async () => {
     return await instance.getComments(postId);
@@ -50,7 +51,7 @@ export default function PostScreen({
   }, [postTitle]);
 
   const renderItem = useCallback(({ item }: RenderItem): React.JSX.Element => {
-    return <CommentChain commentInfo={item} viewableItems={viewableItems} />;
+    return <CommentChain commentInfo={item} />;
   }, []);
 
   if (!postLoaded) return <LoadingScreen />;
@@ -59,7 +60,7 @@ export default function PostScreen({
     <VStack flex={1}>
       <FlatList
         renderItem={renderItem}
-        data={postCommentsInfo}
+        data={postsToShow}
         keyExtractor={keyExtractor}
         initialNumToRender={10}
         maxToRenderPerBatch={5}

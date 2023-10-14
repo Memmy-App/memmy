@@ -525,6 +525,7 @@ class ApiInstance {
   async getComments(
     postId: number,
     addToPost = true,
+    parentId?: number,
   ): Promise<GetCommentsResponse | undefined> {
     const settings = useSettingsStore.getState();
     const post = usePostStore.getState().posts.get(postId);
@@ -537,18 +538,20 @@ class ApiInstance {
         max_depth: 5,
         limit: 1,
         sort: settings.defaultCommentSort,
+        ...(parentId != null && { parent_id: parentId }),
       });
 
-      if (res === undefined || !addToPost) {
-        return res;
-      }
+      if (res == null) return res;
 
       const builtComments = buildCommentChains(res.comments);
 
-      addCommentsToPost(postId, builtComments.commentInfo);
       addComments(res.comments);
 
-      return res;
+      if (addToPost) {
+        addCommentsToPost(postId, builtComments.commentInfo);
+      }
+
+      return undefined;
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
       return undefined;

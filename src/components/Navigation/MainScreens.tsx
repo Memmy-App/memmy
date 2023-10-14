@@ -12,6 +12,7 @@ import { NativeStackNavigatorProps } from 'react-native-screens/lib/typescript/n
 import FeedIndexScreen from '@components/Feed/screens/FeedIndexScreen';
 import PostScreen from '@components/Post/screens/PostScreen';
 import MainFeed from '@components/Feed/components/MainFeed';
+import CommentChainScreen from '@components/Comment/screens/CommentChainScreen';
 
 export default function MainScreens(
   stack: TypedNavigator<
@@ -44,6 +45,14 @@ export default function MainScreens(
           component={PostScreen}
           options={{
             headerShown: true,
+          }}
+        />
+        <stack.Screen
+          name="CommentChain"
+          component={CommentChainScreen}
+          options={{
+            headerShown: true,
+            headerTitle: 'More Comments',
           }}
         />
         <stack.Screen

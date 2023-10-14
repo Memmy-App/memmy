@@ -2,17 +2,16 @@ import React, { useCallback } from 'react';
 import { ICommentInfo } from '@src/types';
 import { PressableComment } from '@components/Comment/components/Comment';
 import { setPostCommentHidden } from '@src/state/post/actions/setPostCommentHidden';
-import { ViewToken } from 'react-native';
-import { SharedValue } from 'react-native-reanimated';
+import CommentShowMoreButton from '@components/Comment/components/CommentShowMoreButton';
 
 interface IProps {
   commentInfo: ICommentInfo;
-  viewableItems: SharedValue<ViewToken[]>;
+  ignoreLoadMore?: boolean;
 }
 
 function CommentChain({
   commentInfo,
-  viewableItems,
+  ignoreLoadMore = false,
 }: IProps): React.JSX.Element | null {
   const onCommentPress = useCallback(() => {
     setPostCommentHidden(commentInfo, !commentInfo.collapsed);
@@ -20,6 +19,10 @@ function CommentChain({
 
   if (commentInfo.hidden) {
     return null;
+  }
+
+  if (commentInfo.showLoadMore && !ignoreLoadMore) {
+    return <CommentShowMoreButton commentInfo={commentInfo} />;
   }
 
   return (
