@@ -20,9 +20,9 @@ function CommentImageButton({ source }: IProps): React.JSX.Element {
   const savedDimensions = useImageSavedDimensions(source);
 
   const onPress = useCallback(() => {
-    if (imageViewer.setSource == null || imageViewer.setVisible == null) return;
+    if (imageViewer.setParams == null || imageViewer.setVisible == null) return;
 
-    imageViewer.setSource(source);
+    imageViewer.setParams({ source });
     imageViewer.setVisible(true);
     imageViewer.setDimensions!(savedDimensions as unknown as IDimensions);
   }, [source]);

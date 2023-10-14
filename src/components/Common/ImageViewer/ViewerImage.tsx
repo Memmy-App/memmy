@@ -15,9 +15,10 @@ import HStack from '@components/Common/Stack/HStack';
 interface IProps {
   source: string;
   blurRadius?: number;
+  title?: string;
 }
 
-function ViewerImage({ source, blurRadius }: IProps): React.JSX.Element {
+function ViewerImage({ source, blurRadius, title }: IProps): React.JSX.Element {
   const imageViewer = useImageViewer();
   const savedDimensions = useImageSavedDimensions(source);
 
@@ -39,9 +40,12 @@ function ViewerImage({ source, blurRadius }: IProps): React.JSX.Element {
   }, [savedDimensions]);
 
   const onImagePress = useCallback(() => {
-    if (imageViewer.setSource == null || imageViewer.setVisible == null) return;
+    if (imageViewer.setParams == null || imageViewer.setVisible == null) return;
 
-    imageViewer.setSource(source);
+    imageViewer.setParams({
+      source,
+      title,
+    });
     imageViewer.setVisible(true);
     imageViewer.setDimensions!(savedDimensions as unknown as IDimensions);
   }, [source, savedDimensions]);

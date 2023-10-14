@@ -7,9 +7,16 @@ interface Dimensions {
   width: number;
 }
 
-interface IImageViewerProviderContext {
+interface ImageViewerParams {
   source?: string;
-  setSource: React.Dispatch<SetStateAction<string | undefined>> | undefined;
+  title?: string;
+}
+
+interface IImageViewerProviderContext {
+  params?: ImageViewerParams;
+  setParams:
+    | React.Dispatch<SetStateAction<ImageViewerParams | undefined>>
+    | undefined;
 
   visible: boolean;
   setVisible: React.Dispatch<SetStateAction<boolean>> | undefined;
@@ -19,8 +26,8 @@ interface IImageViewerProviderContext {
 }
 
 const ImageViewerContext = React.createContext<IImageViewerProviderContext>({
-  source: undefined,
-  setSource: undefined,
+  params: undefined,
+  setParams: undefined,
 
   visible: false,
   setVisible: undefined,
@@ -37,7 +44,10 @@ interface IProps {
 }
 
 function ImageViewerProvider({ children }: IProps): React.JSX.Element {
-  const [source, setSource] = useState<string | undefined>(undefined);
+  const [params, setParams] = useState<ImageViewerParams | undefined>({
+    source: undefined,
+    title: undefined,
+  });
   const [visible, setVisible] = useState<boolean>(false);
   const [dimensions, setDimensions] = useState<Dimensions>({
     height: 0,
@@ -47,8 +57,8 @@ function ImageViewerProvider({ children }: IProps): React.JSX.Element {
   return (
     <ImageViewerContext.Provider
       value={{
-        source,
-        setSource,
+        params,
+        setParams,
 
         visible,
         setVisible,

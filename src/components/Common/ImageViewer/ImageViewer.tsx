@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Dimensions as RNDimensions, StyleSheet } from 'react-native';
 import {
   Gesture,
@@ -10,16 +10,20 @@ import {
   TapGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import Animated, {
+  cancelAnimation,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withDecay,
   withTiming,
 } from 'react-native-reanimated';
-import { Image } from 'expo-image';
-import { YStack } from 'tamagui';
 import { useImageViewer } from '@components/Common/ImageViewer/ImageViewerProvider';
 import { getImageRatio } from '@helpers/image/getRatio';
+import VStack from '@components/Common/Stack/VStack';
+import { Image } from 'expo-image';
+import ImageViewerHeader from '@components/Common/ImageViewer/ImageViewerHeader';
+import { View } from 'tamagui';
+import ImageViewerFooter from '@components/Common/ImageViewer/ImageViewerFooter';
 
 interface MeasureResult {
   x: number;
@@ -37,6 +41,8 @@ const MAX_SCALE = 3;
 
 function ImageViewer(): React.JSX.Element {
   const imageViewer = useImageViewer();
+
+  const [accessoriesVisible, setAccessoriesVisible] = useState(true);
 
   const viewerDims = useMemo(() => {
     return getImageRatio(
@@ -80,23 +86,23 @@ function ImageViewer(): React.JSX.Element {
     px: 0,
   });
 
-  const onRequestOpenOrClose = (): void => {
+  const onRequestOpenOrClose = useCallback((): void => {
     if (imageViewer.setVisible == null) return;
 
     if (imageViewer.visible) {
       imageViewer.setVisible(false);
     }
-  };
+  }, [imageViewer.visible]);
 
   // This takes care of moving the image to the center whenever open the image
   // or whenever we want to reset the impage position
-  const centerImage = (): void => {
+  const centerImage = useCallback((): void => {
     'worklet';
 
     positionX.value = withTiming(centerX, { duration: 200 });
     positionY.value = withTiming(centerY, { duration: 200 });
     backgroundColor.value = withTiming('rgba(0,0,0,1)', { duration: 200 });
-  };
+  }, []);
 
   // Animated position style
   const positionStyle = useAnimatedStyle(() => ({
@@ -114,36 +120,58 @@ function ImageViewer(): React.JSX.Element {
     backgroundColor: backgroundColor.value,
   }));
 
-  // <editor-fold desc="Double Tap Zomo">
-  const onDoubleTap = (
-    event: GestureUpdateEvent<TapGestureHandlerEventPayload>,
-  ): void => {
-    'worklet';
+  const onSingleTap = useCallback(() => {
+    cancelAnimation(positionX);
+    cancelAnimation(positionY);
 
-    // If the image is already zoomed, let's just reset it
-    if (zoomScale.value !== 1) {
-      centerImage();
-      zoomScale.value = withTiming(1, { duration: 200 });
-
-      return;
+    if (lastTap.value < Date.now() + 1000) {
+      setAccessoriesVisible((prev) => !prev);
     }
 
-    // Zoom to the max scale
-    zoomScale.value = withTiming(1.75, { duration: 200 });
-    lastScale.value = 1;
-  };
+    lastTap.value = Date.now();
+  }, []);
+
+  const singleTapGesture = useMemo(
+    () => Gesture.Tap().maxDelay(200).onBegin(onSingleTap),
+    [],
+  );
+
+  // <editor-fold desc="Double Tap Zomo">
+  const onDoubleTap = useCallback(
+    (event: GestureUpdateEvent<TapGestureHandlerEventPayload>): void => {
+      'worklet';
+
+      // If the image is already zoomed, let's just reset it
+      if (zoomScale.value !== 1) {
+        centerImage();
+        zoomScale.value = withTiming(1, { duration: 200 });
+
+        return;
+      }
+
+      // Zoom to the max scale
+      zoomScale.value = withTiming(1.75, { duration: 200 });
+      lastScale.value = 1;
+    },
+    [],
+  );
 
   // Create the double tap gesture
-  const tapGesture = Gesture.Tap()
-    .numberOfTaps(2)
-    .maxDelay(200)
-    .onEnd(onDoubleTap);
+  const doubleTapGesture = useMemo(
+    () =>
+      Gesture.Tap()
+        .numberOfTaps(2)
+        .maxDelay(200)
+        .maxDuration(200)
+        .onEnd(onDoubleTap),
+    [],
+  );
 
   // </editor-fold>
 
   // <editor-fold desc="Pan Gestures">
 
-  const onPanBegin = (): void => {
+  const onPanBegin = useCallback((): void => {
     'worklet';
 
     // We need to reset everything first
@@ -151,81 +179,88 @@ function ImageViewer(): React.JSX.Element {
     lastTranslateY.value = 0;
 
     // Later we will hide whatever accessories we might be displaying
-  };
+  }, []);
 
-  const onPanUpdate = (
-    event: GestureUpdateEvent<PanGestureHandlerEventPayload>,
-  ): void => {
-    'worklet';
+  const onPanUpdate = useCallback(
+    (event: GestureUpdateEvent<PanGestureHandlerEventPayload>): void => {
+      'worklet';
 
-    // Move the image
-    positionX.value += event.translationX - lastTranslateX.value;
-    positionY.value += event.translationY - lastTranslateY.value;
+      // Move the image
+      positionX.value += event.translationX - lastTranslateX.value;
+      positionY.value += event.translationY - lastTranslateY.value;
 
-    // Save the last translation
-    lastTranslateX.value = event.translationX;
-    lastTranslateY.value = event.translationY;
-  };
+      // Save the last translation
+      lastTranslateX.value = event.translationX;
+      lastTranslateY.value = event.translationY;
+    },
+    [],
+  );
 
-  const onPanEnd = (
-    event: GestureStateChangeEvent<PanGestureHandlerEventPayload>,
-  ): void => {
-    'worklet';
+  const onPanEnd = useCallback(
+    (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>): void => {
+      'worklet';
 
-    // First see what the velocity is. If it's above the max velocity, and it is
-    // in a vertical direction, we should close the image viewer
+      // First see what the velocity is. If it's above the max velocity, and it is
+      // in a vertical direction, we should close the image viewer
 
-    // First create an absolute value
-    const velocity = Math.abs(event.velocityY);
-    const translationX = Math.abs(event.translationX);
+      // First create an absolute value
+      const velocity = Math.abs(event.velocityY);
+      const translationX = Math.abs(event.translationX);
 
-    if (velocity > 800 && zoomScale.value <= 1 && translationX < 75) {
-      runOnJS(onRequestOpenOrClose)();
+      if (velocity > 800 && zoomScale.value <= 1 && translationX < 75) {
+        runOnJS(onRequestOpenOrClose)();
 
-      return;
-    }
+        return;
+      }
 
-    // We should recenter the image after the pan if we are not zoomed in
-    if (zoomScale.value <= 1) {
-      centerImage();
-      return;
-    }
+      // We should recenter the image after the pan if we are not zoomed in
+      if (zoomScale.value <= 1) {
+        centerImage();
+        return;
+      }
 
-    // Gradually decrease momentum
-    positionX.value = withDecay({
-      velocity: event.velocityX / 1.2,
-    });
-    positionY.value = withDecay({
-      velocity: event.velocityY / 1.2,
-    });
-  };
+      // Gradually decrease momentum
+      positionX.value = withDecay({
+        velocity: event.velocityX / 1.2,
+      });
+      positionY.value = withDecay({
+        velocity: event.velocityY / 1.2,
+      });
+    },
+    [],
+  );
 
-  const panGesture = Gesture.Pan()
-    .maxPointers(2)
-    .onBegin(onPanBegin)
-    .onUpdate(onPanUpdate)
-    .onEnd(onPanEnd);
+  const panGesture = useMemo(
+    () =>
+      Gesture.Pan()
+        .maxPointers(2)
+        .onBegin(onPanBegin)
+        .onUpdate(onPanUpdate)
+        .onEnd(onPanEnd),
+    [],
+  );
 
   // </editor-fold>
 
   // <editor-fold desc="Pinch Gestures">
 
-  const onPinchStart = (): void => {
+  const onPinchStart = useCallback((): void => {
     'worklet';
 
     // We should just hide the accessories. Later
-  };
+  }, []);
 
-  const onPinchUpdate = (
-    event: GestureUpdateEvent<PinchGestureHandlerEventPayload>,
-  ): void => {
-    'worklet';
+  const onPinchUpdate = useCallback(
+    (event: GestureUpdateEvent<PinchGestureHandlerEventPayload>): void => {
+      'worklet';
 
-    // Simply increase the zoom scale
-    zoomScale.value = lastScale.value * event.scale;
-  };
+      // Simply increase the zoom scale
+      zoomScale.value = lastScale.value * event.scale;
+    },
+    [],
+  );
 
-  const onPinchEnd = (): void => {
+  const onPinchEnd = useCallback((): void => {
     'worklet';
 
     // If we have zoomed out past a scale of one, we should just reset the image
@@ -249,20 +284,31 @@ function ImageViewer(): React.JSX.Element {
 
     // Save the last scale
     lastScale.value = zoomScale.value;
-  };
+  }, []);
 
-  const pinchGesture = Gesture.Pinch()
-    .onStart(onPinchStart)
-    .onUpdate(onPinchUpdate)
-    .onEnd(onPinchEnd);
+  const pinchGesture = useMemo(
+    () =>
+      Gesture.Pinch()
+        .onStart(onPinchStart)
+        .onUpdate(onPinchUpdate)
+        .onEnd(onPinchEnd),
+    [],
+  );
 
   // </editor-fold>
 
   // Create our joined gestures
   const panAndPinchGestures = Gesture.Simultaneous(panGesture, pinchGesture);
-  const allGestures = Gesture.Exclusive(panAndPinchGestures, tapGesture);
+  const allGestures = Gesture.Simultaneous(
+    panAndPinchGestures,
+    singleTapGesture,
+    doubleTapGesture,
+  );
 
-  const AnimatedImage = Animated.createAnimatedComponent(Image);
+  const AnimatedImage = useMemo(
+    () => Animated.createAnimatedComponent(Image),
+    [],
+  );
 
   useEffect(() => {
     if (imageViewer.visible) {
@@ -271,18 +317,28 @@ function ImageViewer(): React.JSX.Element {
   }, [imageViewer.visible]);
 
   return (
-    <YStack zIndex={-1} flex={1}>
-      <GestureDetector gesture={allGestures}>
-        <Animated.View style={[styles.imageModal, backgroundStyle]}>
-          <Animated.View style={[positionStyle]}>
-            <AnimatedImage
-              source={{ uri: imageViewer.source }}
-              style={[viewerDims, scaleStyle]}
-            />
+    <GestureDetector gesture={allGestures}>
+      <View flex={1}>
+        <ImageViewerHeader
+          title={imageViewer.params?.title ?? 'Image'}
+          visible={accessoriesVisible}
+        />
+        <VStack zIndex={-1} flex={1}>
+          <Animated.View style={[styles.imageModal, backgroundStyle]}>
+            <Animated.View style={[positionStyle]}>
+              <AnimatedImage
+                source={{ uri: imageViewer.params?.source }}
+                style={[viewerDims, scaleStyle]}
+              />
+            </Animated.View>
           </Animated.View>
-        </Animated.View>
-      </GestureDetector>
-    </YStack>
+        </VStack>
+        <ImageViewerFooter
+          source={imageViewer.params?.source}
+          visible={accessoriesVisible}
+        />
+      </View>
+    </GestureDetector>
   );
 }
 

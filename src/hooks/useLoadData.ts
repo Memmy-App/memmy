@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface UseLoadData<DataType = undefined> {
   refresh: (refreshFunc?: () => Promise<DataType>) => void;
@@ -22,6 +22,8 @@ export const useLoadData = <ReturnType>(
   func: () => Promise<ReturnType>,
   cacheFunc?: () => boolean,
 ): UseLoadData<ReturnType> => {
+  const inProgress = useRef(false);
+
   const [status, setStatus] = useState<Status<ReturnType>>({
     isLoading: true,
     isRefreshing: false,
@@ -51,15 +53,17 @@ export const useLoadData = <ReturnType>(
 
   const run = useCallback(
     (func: () => Promise<ReturnType>, append = false, refresh = false) => {
-      if (!status.isLoading) {
-        setStatus({
-          ...status,
-          isLoading: true,
-          isError: false,
-          isRefreshing: refresh,
-          error: undefined,
-        });
-      }
+      if (inProgress.current) return;
+
+      inProgress.current = true;
+
+      setStatus({
+        ...status,
+        isLoading: true,
+        isError: false,
+        isRefreshing: refresh,
+        error: undefined,
+      });
 
       void func()
         .then((data) => {
@@ -80,6 +84,8 @@ export const useLoadData = <ReturnType>(
               data,
             });
           }
+
+          inProgress.current = false;
         })
         .catch((e) => {
           setStatus({
@@ -88,9 +94,11 @@ export const useLoadData = <ReturnType>(
             isRefreshing: false,
             error: e.message,
           });
+
+          inProgress.current = false;
         });
     },
-    [],
+    [status],
   );
 
   const refresh = useCallback((refreshFunc?: () => Promise<ReturnType>) => {

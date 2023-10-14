@@ -5,6 +5,7 @@ import {
   usePostLink,
   usePostLinkType,
   usePostNsfw,
+  usePostTitle,
 } from '@src/state/post/postStore';
 import { View } from 'tamagui';
 import Markdown from '@components/Common/Markdown/Markdown';
@@ -21,6 +22,7 @@ function FeedItemContent({ itemId }: IProps): React.JSX.Element | null {
   const postLinkType = usePostLinkType(itemId);
   const postNsfw = usePostNsfw(itemId);
   const postCommunityNsfw = usePostCommunityNsfw(itemId);
+  const postTitle = usePostTitle(itemId);
 
   if (postLinkType === 'image') {
     return (
@@ -28,6 +30,7 @@ function FeedItemContent({ itemId }: IProps): React.JSX.Element | null {
         <ViewerImage
           source={postLink!}
           blurRadius={postNsfw || postCommunityNsfw ? 30 : 0}
+          title={postTitle}
         />
       </View>
     );
