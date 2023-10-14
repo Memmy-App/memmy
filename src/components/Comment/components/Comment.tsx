@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import VStack from '@components/Common/Stack/VStack';
-import CommentHeader from '@components/Common/Comment/components/CommentHeader';
-import CommentContent from '@components/Common/Comment/components/CommentContent';
+import CommentHeader from '@components/Comment/components/CommentHeader';
+import CommentContent from '@components/Comment/components/CommentContent';
 import { Pressable } from 'react-native';
 import { Separator } from 'tamagui';
 

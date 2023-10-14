@@ -1,5 +1,5 @@
 import { ICommentInfo } from '@src/types';
-import CommentChain from '@components/Common/Comment/CommentChain';
+import CommentChain from '@components/Comment/components/CommentChain';
 import React from 'react';
 
 export const createCommentReplyComponents = (

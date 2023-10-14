@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { ImageLoadEventData } from 'expo-image';
 import { IDimensions, MdToken } from '@src/types';
-import CommentImageButton from '@components/Common/Comment/components/CommentImageButton';
+import CommentImageButton from '@components/Comment/components/CommentImageButton';
 
 interface IProps {
   token: MdToken;
