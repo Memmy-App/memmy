@@ -46,8 +46,8 @@ export const useSwipeOptions = (
       firstAction: postSwipeableActions[settings.firstLeft],
       secondAction: postSwipeableActions[settings.secondLeft],
 
-      firstColor: '#EE923D',
-      secondColor: '#1A84E5',
+      firstColor: swipeColorOptions[settings.firstLeft],
+      secondColor: swipeColorOptions[settings.secondLeft],
     }),
     [settings.firstLeft, settings.secondLeft, swipeColorOptions],
   );

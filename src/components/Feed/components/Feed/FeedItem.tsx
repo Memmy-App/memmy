@@ -10,7 +10,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import FeedItemContent from '@components/Feed/components/Feed/FeedItem/FeedItemContent';
 import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
 import { ISwipeableColors } from '@components/Common/SwipeableRow/types';
-import { ArrowDown, ArrowUp } from '@tamagui/lucide-icons';
 import { useSwipeOptions } from '@components/Common/SwipeableRow/hooks/useSwipeOptions';
 import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
 
@@ -28,6 +27,8 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
   }, [itemId]);
 
   const swipeLeftOptions = useSwipeOptions('post', 'left');
+
+  console.log(swipeLeftOptions);
 
   const leftColors: ISwipeableColors = useMemo(
     () => ({
@@ -59,8 +60,8 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
         colors={leftColors}
         onFirst={onLeftFirst}
         onSecond={onLeftSecond}
-        firstIcon={ArrowUp}
-        secondIcon={ArrowDown}
+        firstIcon="upvote"
+        secondIcon="downvote"
       />
     ),
     [leftColors, onLeftFirst, onLeftSecond],
