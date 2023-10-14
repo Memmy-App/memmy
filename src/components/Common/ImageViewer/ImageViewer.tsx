@@ -65,7 +65,7 @@ function ImageViewer(): React.JSX.Element {
   const height = useSharedValue(0);
   const width = useSharedValue(0);
 
-  const lastTap = useSharedValue(0);
+  const lastTap = useSharedValue(Date.now());
 
   // Calculate where we should position the image for it to be centered
   const centerX = useMemo(
@@ -124,7 +124,7 @@ function ImageViewer(): React.JSX.Element {
     cancelAnimation(positionX);
     cancelAnimation(positionY);
 
-    if (lastTap.value < Date.now() + 1000) {
+    if (zoomScale.value === 1 && lastTap.value + 200 < Date.now()) {
       setAccessoriesVisible((prev) => !prev);
     }
 
@@ -132,7 +132,7 @@ function ImageViewer(): React.JSX.Element {
   }, []);
 
   const singleTapGesture = useMemo(
-    () => Gesture.Tap().maxDelay(200).onBegin(onSingleTap),
+    () => Gesture.Tap().onStart(onSingleTap),
     [],
   );
 
@@ -140,6 +140,8 @@ function ImageViewer(): React.JSX.Element {
   const onDoubleTap = useCallback(
     (event: GestureUpdateEvent<TapGestureHandlerEventPayload>): void => {
       'worklet';
+
+      runOnJS(setAccessoriesVisible)(false);
 
       // If the image is already zoomed, let's just reset it
       if (zoomScale.value !== 1) {
@@ -299,11 +301,8 @@ function ImageViewer(): React.JSX.Element {
 
   // Create our joined gestures
   const panAndPinchGestures = Gesture.Simultaneous(panGesture, pinchGesture);
-  const allGestures = Gesture.Simultaneous(
-    panAndPinchGestures,
-    singleTapGesture,
-    doubleTapGesture,
-  );
+  const tapGestures = Gesture.Simultaneous(singleTapGesture, doubleTapGesture);
+  const allGestures = Gesture.Exclusive(panAndPinchGestures, tapGestures);
 
   const AnimatedImage = useMemo(
     () => Animated.createAnimatedComponent(Image),
@@ -317,12 +316,12 @@ function ImageViewer(): React.JSX.Element {
   }, [imageViewer.visible]);
 
   return (
-    <GestureDetector gesture={allGestures}>
-      <View flex={1}>
-        <ImageViewerHeader
-          title={imageViewer.params?.title ?? 'Image'}
-          visible={accessoriesVisible}
-        />
+    <View flex={1}>
+      <ImageViewerHeader
+        title={imageViewer.params?.title ?? 'Image'}
+        visible={accessoriesVisible}
+      />
+      <GestureDetector gesture={allGestures}>
         <VStack zIndex={-1} flex={1}>
           <Animated.View style={[styles.imageModal, backgroundStyle]}>
             <Animated.View style={[positionStyle]}>
@@ -333,12 +332,13 @@ function ImageViewer(): React.JSX.Element {
             </Animated.View>
           </Animated.View>
         </VStack>
-        <ImageViewerFooter
-          source={imageViewer.params?.source}
-          visible={accessoriesVisible}
-        />
-      </View>
-    </GestureDetector>
+      </GestureDetector>
+
+      <ImageViewerFooter
+        source={imageViewer.params?.source}
+        visible={accessoriesVisible}
+      />
+    </View>
   );
 }
 
