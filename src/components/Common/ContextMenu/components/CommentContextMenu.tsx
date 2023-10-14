@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { useCommentContextMenu } from '@hooks/useCommentContextMenu';
+import { useCommentContextMenu } from '@hooks/comments/useCommentContextMenu';
 import { AppContextMenuButton } from '@components/Common/ContextMenu/AppContextMenuButton';
 import { createCommentContextMenuOptions } from '@helpers/contextMenu';
 import { OnPressMenuItemEventObject } from 'react-native-ios-context-menu';

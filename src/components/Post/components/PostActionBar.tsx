@@ -15,6 +15,7 @@ function PostActionBar(): React.JSX.Element {
       alignItems="center"
       justifyContent="center"
       borderTopWidth={1}
+      borderBottomWidth={1}
       borderColor="$bg"
       paddingVertical="$2"
     >

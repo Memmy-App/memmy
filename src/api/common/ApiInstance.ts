@@ -32,6 +32,8 @@ import { addCommentsToPost } from '@src/state/post/actions';
 import { addComments } from '@src/state/comment/actions';
 import { useSiteStore } from '@src/state/site/siteStore';
 import { useCommunityStore } from '@src/state/community/communityStore';
+import { voteCalculator, VoteMetrics } from '@helpers/comments/voteCalculator';
+import { useCommentStore } from '@src/state/comment/commentStore';
 
 export enum EInitializeResult {
   SUCCESS,
@@ -40,6 +42,15 @@ export enum EInitializeResult {
   CAPTCHA,
   VERIFY_EMAIL,
 }
+
+const defaultVms: VoteMetrics = {
+  score: 0,
+  upvotes: 0,
+  downvotes: 0,
+
+  myVote: 0,
+  newVote: 0,
+};
 
 class ApiInstance {
   apiType: 'lemmy' | 'kbin' = 'lemmy';
@@ -201,61 +212,36 @@ class ApiInstance {
   }
 
   async likePost(postId: number, vote: ILemmyVote): Promise<void> {
-    let oldValues = {
-      score: 0,
-      upvotes: 0,
-      downvotes: 0,
+    const post = usePostStore.getState().posts.get(postId)?.view;
+
+    if (post == null) return;
+
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { counts, my_vote } = post;
+
+    const oldVms = {
+      score: counts.score,
+      upvotes: counts.upvotes,
+      downvotes: counts.downvotes,
+      myVote: my_vote,
+      newVote: vote,
     };
 
+    const newVms = voteCalculator(oldVms);
+
     usePostStore.setState((state) => {
-      const post = state.posts.get(postId);
+      const post = state.posts.get(postId)!;
 
-      if (post == null) return;
-
-      oldValues = {
-        score: post.view.counts.score,
-        upvotes: post.view.counts.upvotes,
-        downvotes: post.view.counts.downvotes,
-      };
-
-      if (
-        (post.view.my_vote === 1 && vote === 1) ||
-        (post.view.my_vote === -1 && vote === -1)
-      ) {
-        vote = 0;
-      }
-
-      if (post.view.my_vote === 1 && vote === 0) {
-        post.view.counts.score = post.view.counts.score - 1;
-        post.view.counts.upvotes = post.view.counts.upvotes - 1;
-      } else if (post.view.my_vote === 1) {
-        post.view.counts.score = post.view.counts.score - 2;
-        post.view.counts.upvotes = post.view.counts.upvotes - 1;
-        post.view.counts.downvotes = post.view.counts.downvotes + 1;
-      } else if (post.view.my_vote === -1 && vote === 0) {
-        post.view.counts.score = post.view.counts.score + 1;
-        post.view.counts.downvotes = post.view.counts.downvotes - 1;
-      } else if (post.view.my_vote === -1) {
-        post.view.counts.score = post.view.counts.score + 2;
-        post.view.counts.upvotes = post.view.counts.upvotes + 1;
-        post.view.counts.downvotes = post.view.counts.downvotes - 1;
-      } else if (post.view.my_vote === 0 || post.view.my_vote === undefined) {
-        if (vote === 1) {
-          post.view.counts.score = post.view.counts.score + 1;
-          post.view.counts.upvotes = post.view.counts.upvotes + 1;
-        } else {
-          post.view.counts.score = post.view.counts.score - 1;
-          post.view.counts.downvotes = post.view.counts.downvotes + 1;
-        }
-      }
-
-      post.view.my_vote = vote;
+      post.view.counts.score = newVms.score;
+      post.view.counts.upvotes = newVms.upvotes;
+      post.view.counts.downvotes = newVms.downvotes;
+      post.view.my_vote = newVms.newVote;
     });
 
     try {
       await this.instance?.likePost({
         post_id: postId,
-        score: vote,
+        score: newVms.newVote!,
         // @ts-expect-error TODO remove this later
         auth: this.authToken!,
       });
@@ -265,9 +251,9 @@ class ApiInstance {
 
         if (post == null) return;
 
-        post.view.counts.score = oldValues.score;
-        post.view.counts.upvotes = oldValues.upvotes;
-        post.view.counts.downvotes = oldValues.downvotes;
+        post.view.counts.score = oldVms.score;
+        post.view.counts.upvotes = oldVms.upvotes;
+        post.view.counts.downvotes = oldVms.downvotes;
       });
 
       const errMsg = ApiInstance.handleError(e.toString());
@@ -275,14 +261,51 @@ class ApiInstance {
     }
   }
 
-  async likeComment(commentId: number, score: ILemmyVote): Promise<void> {
+  async likeComment(commentId: number, vote: ILemmyVote): Promise<void> {
+    const comment = useCommentStore.getState().comments.get(commentId);
+
+    if (comment == null) return;
+
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { counts, my_vote } = comment;
+
+    const oldVms = {
+      score: counts.score,
+      upvotes: counts.upvotes,
+      downvotes: counts.downvotes,
+      myVote: my_vote,
+      newVote: vote,
+    };
+
+    const newVms = voteCalculator(oldVms);
+
+    useCommentStore.setState((state) => {
+      const comment = state.comments.get(commentId)!;
+
+      comment.counts.score = newVms.score;
+      comment.counts.upvotes = newVms.upvotes;
+      comment.counts.downvotes = newVms.downvotes;
+      comment.my_vote = newVms.newVote;
+    });
+
     try {
       await this.instance?.likeComment({
         comment_id: commentId,
-        score,
+        score: newVms.newVote!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      useCommentStore.setState((state) => {
+        const comment = state.comments.get(commentId);
+
+        if (comment == null) return;
+
+        comment.counts.score = oldVms.score;
+        comment.counts.upvotes = oldVms.upvotes;
+        comment.counts.downvotes = oldVms.downvotes;
+      });
+
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
     }
   }
 

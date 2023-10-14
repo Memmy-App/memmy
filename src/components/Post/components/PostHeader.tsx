@@ -16,6 +16,7 @@ function PostHeader(): React.JSX.Element {
       paddingBottom="$2"
       borderBottomWidth={1}
       borderColor="$bg"
+      space="$1.5"
     >
       <PostCommunityLabel itemId={postId} />
       <Text fontSize="$8" fontWeight="bold">

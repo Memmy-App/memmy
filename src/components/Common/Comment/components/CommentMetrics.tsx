@@ -1,47 +1,52 @@
-import React from 'react';
-import {
-  useCommentDownvotes,
-  useCommentMyVote,
-  useCommentScore,
-  useCommentUpvotes,
-} from '@src/state/comment/commentStore';
+import React, { useMemo } from 'react';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
 import HStack from '@components/Common/Stack/HStack';
 import { Text } from 'tamagui';
 import ScoreIcon from '@components/Common/Icons/ScoreIcon';
-import VoteIcon from '@components/Common/Icons/VoteIcon';
+import { useCommentVoting } from '@hooks/comments/useCommentVoting';
+import { Pressable } from 'react-native';
+import { ArrowDown, ArrowUp } from '@tamagui/lucide-icons';
 
 interface IProps {
   itemId: number;
 }
 
 function CommentMetrics({ itemId }: IProps): React.JSX.Element {
-  const commentUpvotes = useCommentUpvotes(itemId);
-  const commentDownvotes = useCommentDownvotes(itemId);
-  const commentScore = useCommentScore(itemId);
-
-  const commentMyVote = useCommentMyVote(itemId);
+  const voting = useCommentVoting(itemId, true);
 
   const totalScore = useSettingsStore((state) => state.totalScore);
+
+  const upvoteColor = useMemo(
+    () => (voting.myVote === 1 ? '$upvote' : '$secondary'),
+    [voting.myVote],
+  );
+  const downvoteColor = useMemo(
+    () => (voting.myVote === -1 ? '$downvote' : '$secondary'),
+    [voting.myVote],
+  );
 
   if (totalScore) {
     return (
       <HStack space="$1">
-        <ScoreIcon myVote={commentMyVote} />
-        <Text color="$secondary">{commentScore}</Text>
+        <ScoreIcon myVote={voting.myVote} />
+        <Text color="$secondary">{voting.score}</Text>
       </HStack>
     );
   } else {
     return (
       <HStack space="$2">
-        <HStack space="$1">
-          <VoteIcon myVote={commentMyVote} type="up" />
-          <Text color="$secondary">{commentUpvotes}</Text>
-        </HStack>
-        <HStack space="$1">
-          <VoteIcon myVote={commentMyVote} type="down" />
-          <Text color="$secondary">{commentDownvotes}</Text>
-        </HStack>
+        <Pressable onPress={voting.upvote} hitSlop={3}>
+          <HStack space="$1">
+            <ArrowUp size={14} color={upvoteColor} />
+            <Text color={upvoteColor}>{voting.upvotes}</Text>
+          </HStack>
+        </Pressable>
+        <Pressable onPress={voting.downvote} hitSlop={3}>
+          <HStack space="$1">
+            <ArrowDown size={14} color={downvoteColor} />
+            <Text color={downvoteColor}>{voting.downvotes}</Text>
+          </HStack>
+        </Pressable>
       </HStack>
     );
   }
