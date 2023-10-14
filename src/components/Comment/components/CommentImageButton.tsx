@@ -24,7 +24,9 @@ function CommentImageButton({ source }: IProps): React.JSX.Element {
 
     imageViewer.setParams({ source });
     imageViewer.setVisible(true);
-    imageViewer.setDimensions!(savedDimensions as unknown as IDimensions);
+    imageViewer.setDimensions!(
+      savedDimensions?.dimensions as unknown as IDimensions,
+    );
   }, [source, savedDimensions]);
 
   const onImageLoad = useCallback(
@@ -36,7 +38,7 @@ function CommentImageButton({ source }: IProps): React.JSX.Element {
 
       if (savedDimensions != null) return;
 
-      saveImageDimensions(source, dimensions);
+      saveImageDimensions(source, { dimensions });
     },
     [savedDimensions],
   );

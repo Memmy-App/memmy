@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { Pressable } from 'react-native';
 
 import { useImageViewer } from './ImageViewerProvider';
@@ -11,6 +11,9 @@ import { useSettingsStore } from '@src/state/settings/settingsStore';
 import { Image, ImageLoadEventData } from 'expo-image';
 import { IDimensions } from '@src/types';
 import HStack from '@components/Common/Stack/HStack';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const spinner = require('../../../../assets/spinner.svg');
 
 interface IProps {
   source: string;
@@ -26,19 +29,6 @@ function ViewerImage({ source, blurRadius, title }: IProps): React.JSX.Element {
     (state) => state.imagesIgnoreScreenHeight,
   );
 
-  const dimensions = useMemo(() => {
-    if (savedDimensions == null)
-      return {
-        height: 300,
-      };
-
-    return getImageRatio(
-      savedDimensions.height,
-      savedDimensions.width,
-      ignoreHeight ? 0.9 : 0.6,
-    );
-  }, [savedDimensions]);
-
   const onImagePress = useCallback(() => {
     if (imageViewer.setParams == null || imageViewer.setVisible == null) return;
 
@@ -47,19 +37,30 @@ function ViewerImage({ source, blurRadius, title }: IProps): React.JSX.Element {
       title,
     });
     imageViewer.setVisible(true);
-    imageViewer.setDimensions!(savedDimensions as unknown as IDimensions);
+    imageViewer.setDimensions!(
+      savedDimensions?.dimensions as unknown as IDimensions,
+    );
   }, [source, savedDimensions]);
 
-  const onImageLoad = useCallback((e: ImageLoadEventData) => {
-    const dimensions = {
-      height: e.source.height,
-      width: e.source.width,
-    };
+  const onImageLoad = useCallback(
+    (e: ImageLoadEventData) => {
+      const dimensions = {
+        height: e.source.height,
+        width: e.source.width,
+      };
 
-    if (savedDimensions != null) return;
+      const viewerDimensions = getImageRatio(
+        dimensions.height,
+        dimensions.width,
+        ignoreHeight ? 0.9 : 0.6,
+      );
 
-    saveImageDimensions(source, dimensions);
-  }, []);
+      if (savedDimensions != null) return;
+
+      saveImageDimensions(source, { dimensions, viewerDimensions });
+    },
+    [source],
+  );
 
   return (
     <HStack>
@@ -71,10 +72,13 @@ function ViewerImage({ source, blurRadius, title }: IProps): React.JSX.Element {
       >
         <Image
           source={{ uri: source }}
-          style={dimensions}
+          style={savedDimensions?.viewerDimensions ?? { height: 300 }}
           onLoad={onImageLoad}
           blurRadius={blurRadius}
+          placeholder={spinner}
+          placeholderContentFit="scale-down"
           cachePolicy="disk"
+          recyclingKey={source}
         />
       </Pressable>
     </HStack>

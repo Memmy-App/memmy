@@ -8,6 +8,9 @@ import { ChevronRight, Link } from '@tamagui/lucide-icons';
 import { Pressable } from 'react-native';
 import { openLink } from '@helpers/links';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const spinner = require('../../../../assets/spinner.svg');
+
 interface IProps {
   itemId: number;
 }
@@ -40,6 +43,8 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
                 borderTopLeftRadius: 10,
               }}
               contentFit="cover"
+              placeholder={spinner}
+              placeholderContentFit="scale-down"
             />
           )}
           <HStack
