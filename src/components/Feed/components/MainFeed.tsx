@@ -1,7 +1,13 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import instance from '@src/Instance';
 import VStack from '@components/Common/Stack/VStack';
-import { useRoute } from '@react-navigation/core';
+import { useNavigation, useRoute } from '@react-navigation/core';
 import { useFeedNextPage, useFeedPostIds } from '@src/state/feed/feedStore';
 import FeedItem from '@components/Feed/components/Feed/FeedItem';
 import { useLoadData } from '@hooks/useLoadData';
@@ -12,6 +18,14 @@ import CommunityHeader from '@components/Feed/components/Community/CommunityHead
 import { FlashList } from '@shopify/flash-list';
 import RefreshControl from '@components/Common/Gui/RefreshControl';
 import { useScrollToTop } from '@react-navigation/native';
+import { SortType } from 'lemmy-js-client';
+import {
+  useDefaultCommunitySort,
+  useDefaultSort,
+} from '@src/state/settings/settingsStore';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useCurrentAccount } from '@src/state/account/accountStore';
+import SortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/SortTypeContextMenuButton';
 
 interface RenderItem {
   item: number;
@@ -24,29 +38,35 @@ const renderItem = ({ item }: RenderItem): React.JSX.Element => {
 const keyExtractor = (item: number): string => item.toString();
 
 export default function MainFeed(): React.JSX.Element {
-  // Get the feed ID
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { key, params } = useRoute<any>();
+
   const postIds = useFeedPostIds(key);
   const nextPage = useFeedNextPage(key);
+
+  const defaultSort = useDefaultSort();
+  const defaultCommunitySort = useDefaultCommunitySort();
+  const account = useCurrentAccount();
+
+  const [sortType, setSortType] = useState<SortType>(
+    params?.name != null ? defaultCommunitySort ?? 'Hot' : defaultSort ?? 'Hot',
+  );
 
   const flashListRef = useRef<FlashList<number>>();
 
   // @ts-expect-error - This is valid but useScrollToTop expect a ref to a FlatList
   useScrollToTop(flashListRef);
 
-  useEffect(() => {
-    return () => {
-      cleanupPosts(key);
-    };
-  }, []);
-
+  // Define the default options for the requests
   const defaultOptions = useMemo(
     (): IGetPostOptions => ({
       communityName: (params?.name as unknown as string) ?? undefined,
+      sort: sortType,
     }),
-    [params?.name],
+    [params?.name, sortType],
   );
 
+  // Create our data loader and get the initial content
   const { isLoading, isRefreshing, isError, append, refresh } = useLoadData(
     async () => {
       await instance.getPosts(
@@ -59,6 +79,38 @@ export default function MainFeed(): React.JSX.Element {
     },
   );
 
+  // Cleanup posts whenever we leave the screen
+  useEffect(() => {
+    return () => {
+      cleanupPosts(key);
+    };
+  }, []);
+
+  // Update the sort type when it changes
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <SortTypeContextMenuButton
+          sortType={sortType}
+          setSortType={setSortType}
+        />
+      ),
+    });
+
+    // See if we are already loading and if not, we will refresh
+    if (!isLoading) {
+      onRefresh();
+    }
+  }, [sortType]);
+
+  // Update the account username when it changes
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: account?.fullUsername,
+    });
+  }, [account]);
+
+  // Callback for loading more data when we hit the end
   const onEndReached = useCallback(() => {
     append(async () => {
       await instance.getPosts(key, {
@@ -66,8 +118,9 @@ export default function MainFeed(): React.JSX.Element {
         page: nextPage,
       });
     });
-  }, [nextPage]);
+  }, [defaultOptions, nextPage]);
 
+  // Callback for refreshing the data
   const onRefresh = useCallback(() => {
     refresh(async () => {
       await instance.getPosts(key, {
@@ -76,7 +129,7 @@ export default function MainFeed(): React.JSX.Element {
         refresh: true,
       });
     });
-  }, []);
+  }, [defaultOptions]);
 
   return (
     <VStack flex={1}>

@@ -19,18 +19,22 @@ export default function ListingTypeContextMenu({
     {
       key: 'All',
       title: 'All',
+      icon: 'globe',
     },
     {
       key: 'Subscribed',
       title: 'Subscribed',
+      icon: 'heart',
     },
     {
       key: 'Local',
       title: 'Local',
+      icon: 'square.and.arrow.down',
     },
     {
       key: 'Moderated',
       title: 'Moderated',
+      icon: 'shield',
     },
   ];
 

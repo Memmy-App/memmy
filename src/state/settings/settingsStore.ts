@@ -53,6 +53,7 @@ export interface SettingsStore {
   defaultSort: SortType;
   defaultCommentSort: CommentSortType;
   defaultListingType: ListingType;
+  defaultCommunitySort: SortType;
 
   showInstanceForUsernames: boolean;
   blurNsfw: boolean;
@@ -123,6 +124,7 @@ const initialState: SettingsStore = {
   defaultSort: 'Hot',
   defaultCommentSort: 'Top',
   defaultListingType: 'All',
+  defaultCommunitySort: 'TopDay',
 
   showInstanceForUsernames: true,
   blurNsfw: true,
@@ -232,3 +234,12 @@ export const useCommentGesturesSecondRight = (): ICommentGestureOption =>
   useSettingsStore((state) => state.gestures.comment.secondRight);
 export const useCommentGesturesSecondLeft = (): ICommentGestureOption =>
   useSettingsStore((state) => state.gestures.comment.secondLeft);
+
+export const useDefaultSort = (): SortType | undefined =>
+  useSettingsStore((state) => state.defaultSort);
+
+export const useDefaultCommunitySort = (): SortType | undefined =>
+  useSettingsStore((state) => state.defaultCommunitySort);
+
+export const useDefaultCommentSort = (): CommentSortType | undefined =>
+  useSettingsStore((state) => state.defaultCommentSort);

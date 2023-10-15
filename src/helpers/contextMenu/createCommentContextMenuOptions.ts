@@ -13,14 +13,17 @@ export const createCommentContextMenuOptions = (
     {
       key: 'share',
       title: 'Share',
+      icon: 'square.and.arrow.up',
     },
     {
       key: 'upvote',
       title: 'Upvote',
+      icon: 'arrow.up',
     },
     {
       key: 'downvote',
       title: 'Downvote',
+      icon: 'arrow.down',
     },
   ];
 
@@ -30,10 +33,12 @@ export const createCommentContextMenuOptions = (
       {
         key: 'edit',
         title: 'Edit',
+        icon: 'pencil',
       },
       {
         key: 'delete',
         title: 'Delete',
+        icon: 'trash',
       },
     ];
   }
@@ -44,6 +49,7 @@ export const createCommentContextMenuOptions = (
       {
         key: 'remove',
         title: 'Remove',
+        icon: 'trash',
       },
     ];
   }

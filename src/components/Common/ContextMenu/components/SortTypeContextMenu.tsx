@@ -19,18 +19,22 @@ export default function SortTypeContextMenu({
     {
       key: 'Active',
       title: 'Active',
+      icon: 'bolt.badge.clock',
     },
     {
       key: 'Hot',
       title: 'Hot',
+      icon: 'flame',
     },
     {
       key: 'New',
       title: 'New',
+      icon: 'clock.badge',
     },
     {
       key: 'Old',
       title: 'Old',
+      icon: 'clock',
     },
     {
       key: 'Top',
@@ -73,10 +77,12 @@ export default function SortTypeContextMenu({
     {
       key: 'MostComments',
       title: 'Most Comments',
+      icon: 'arrow.up.message',
     },
     {
       key: 'NewComments',
       title: 'New Comments',
+      icon: 'message.badge',
     },
   ];
 

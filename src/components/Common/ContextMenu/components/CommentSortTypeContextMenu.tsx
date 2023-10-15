@@ -19,18 +19,20 @@ export default function CommentSortTypeContextMenu({
     {
       key: 'Hot',
       title: 'Hot',
+      icon: 'flame',
     },
     {
       key: 'Top',
       title: 'Top',
+      icon: 'arrow.up',
     },
     {
       key: 'New',
-      title: 'New',
+      title: 'bolt.badge.clock.fill',
     },
     {
       key: 'Old',
-      title: 'Old',
+      title: 'clock',
     },
   ];
 
