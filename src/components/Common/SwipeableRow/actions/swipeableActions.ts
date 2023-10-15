@@ -6,12 +6,14 @@ import { downvoteCommentOption } from '@components/Common/SwipeableRow/actions/d
 import { savePostOption } from '@components/Common/SwipeableRow/actions/savePostOption';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { replyOption } from '@components/Common/SwipeableRow/actions/replyOption';
+import { customOption } from '@components/Common/SwipeableRow/actions/customOption';
 
 export interface SwipeableActionParams {
   commentId?: number;
   postId?: number;
   screenId?: string;
   navigation: NativeStackNavigationProp<any>;
+  custom?: (params?: SwipeableActionParams) => unknown;
 }
 
 export const postSwipeableActions: Record<
@@ -23,6 +25,7 @@ export const postSwipeableActions: Record<
   save: savePostOption,
   hide: () => {},
   reply: replyOption,
+  custom: customOption,
 };
 
 export const commentSwipeableActions: Record<
@@ -34,4 +37,5 @@ export const commentSwipeableActions: Record<
   save: () => {},
   collapse: () => {},
   reply: () => {},
+  hide: () => {},
 };

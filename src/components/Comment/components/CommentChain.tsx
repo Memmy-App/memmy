@@ -3,6 +3,8 @@ import { ICommentInfo } from '@src/types';
 import { PressableComment } from '@components/Comment/components/Comment';
 import { setPostCommentHidden } from '@src/state/post/actions/setPostCommentHidden';
 import CommentShowMoreButton from '@components/Comment/components/CommentShowMoreButton';
+import { useCommentGesturesCollapse } from '@src/state/settings/settingsStore';
+import { useCommentSwipeOptions } from '@components/Common/SwipeableRow/hooks/useCommentSwipeOptions';
 
 interface IProps {
   commentInfo: ICommentInfo;
@@ -13,9 +15,16 @@ function CommentChain({
   commentInfo,
   ignoreLoadMore = false,
 }: IProps): React.JSX.Element | null {
+  const collapseOnTap = useCommentGesturesCollapse();
+
+  const leftOptions = useCommentSwipeOptions('left');
+  const rightOptions = useCommentSwipeOptions('right');
+
   const onCommentPress = useCallback(() => {
+    if (!collapseOnTap) return;
+
     setPostCommentHidden(commentInfo, !commentInfo.collapsed);
-  }, [commentInfo.collapsed]);
+  }, [commentInfo.collapsed, collapseOnTap]);
 
   if (commentInfo.hidden) {
     return null;
@@ -31,6 +40,8 @@ function CommentChain({
       itemId={commentInfo.commentId}
       depth={commentInfo.depth}
       collapsed={commentInfo.collapsed}
+      leftOptions={leftOptions}
+      rightOptions={rightOptions}
     />
   );
 }

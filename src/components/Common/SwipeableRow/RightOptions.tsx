@@ -17,7 +17,7 @@ import { playHaptic } from '@helpers/haptics';
 import { IconMap, IconType } from '@src/types/IconMap';
 import { styled } from 'tamagui';
 import { SwipeableActionParams } from '@components/Common/SwipeableRow/actions';
-import { useSwipeOptions } from '@components/Common/SwipeableRow/hooks/useSwipeOptions';
+import { UsePostSwipeOptions } from '@components/Common/SwipeableRow/hooks/usePostSwipeOptions';
 
 type Stops = [first: number, second: number];
 const DEFAULT_STOPS: Stops = [-75, -150];
@@ -25,7 +25,7 @@ const [firstStop, secondStop] = DEFAULT_STOPS;
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 
 interface Props {
-  type: 'post' | 'comment';
+  options: UsePostSwipeOptions;
   flipFlop?: boolean;
   actionParams: SwipeableActionParams;
 }
@@ -37,14 +37,14 @@ const buzz = (): void => {
 };
 
 export function RightOptions({
-  type,
+  options,
   flipFlop = false,
   actionParams,
 }: Props): React.JSX.Element {
   const isFrozen = useSharedValue(false);
   const { subscribe, translateX } = useSwipeableRow();
 
-  const { colors, actions, icons } = useSwipeOptions(type, 'right');
+  const { colors, actions, icons } = options;
 
   const [icon, setIcon] = useState<IconType | undefined>(icons.first);
 

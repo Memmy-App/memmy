@@ -1,6 +1,6 @@
 import { IPostGestureOption } from '@src/types/IPostGestureOption';
 import { CommentSortType, ListingType, SortType } from 'lemmy-js-client';
-import { IThemeOption } from '@src/types';
+import { ICommentGestureOption, IThemeOption } from '@src/types';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
@@ -217,3 +217,18 @@ export const usePostGesturesSecondRight = (): IPostGestureOption =>
   useSettingsStore((state) => state.gestures.post.secondRight);
 export const usePostGesturesSecondLeft = (): IPostGestureOption =>
   useSettingsStore((state) => state.gestures.post.secondLeft);
+
+export const useCommentGesturesEnabled = (): boolean =>
+  useSettingsStore((state) => state.gestures.comment.enabled);
+
+export const useCommentGesturesCollapse = (): boolean =>
+  useSettingsStore((state) => state.gestures.comment.collapse);
+
+export const useCommentGesturesFirstRight = (): ICommentGestureOption =>
+  useSettingsStore((state) => state.gestures.comment.firstRight);
+export const useCommentGesturesFirstLeft = (): ICommentGestureOption =>
+  useSettingsStore((state) => state.gestures.comment.firstLeft);
+export const useCommentGesturesSecondRight = (): ICommentGestureOption =>
+  useSettingsStore((state) => state.gestures.comment.secondRight);
+export const useCommentGesturesSecondLeft = (): ICommentGestureOption =>
+  useSettingsStore((state) => state.gestures.comment.secondLeft);

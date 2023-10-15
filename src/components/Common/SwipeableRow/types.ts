@@ -4,6 +4,8 @@ import {
   GestureUpdateEvent,
   PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
+import { SwipeableActionParams } from '@components/Common/SwipeableRow/actions';
+import { IconType } from '@src/types/IconMap';
 
 export interface SwipeableRowGestureContext {
   startX: number;
@@ -32,4 +34,20 @@ export interface ISwipeableRowContext {
 export interface ISwipeableColors {
   first: string;
   second?: string;
+}
+
+export interface ISwipeableOptions {
+  actions: ISwipeableActions;
+  colors: ISwipeableColors;
+  icons: ISwipeableIcons;
+}
+
+export interface ISwipeableActions {
+  first?: (params: SwipeableActionParams) => unknown;
+  second?: (params: SwipeableActionParams) => unknown;
+}
+
+export interface ISwipeableIcons {
+  first?: IconType;
+  second?: IconType;
 }

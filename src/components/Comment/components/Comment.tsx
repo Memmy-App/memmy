@@ -4,12 +4,23 @@ import CommentHeader from '@components/Comment/components/CommentHeader';
 import CommentContent from '@components/Comment/components/CommentContent';
 import { Pressable } from 'react-native';
 import { Separator } from 'tamagui';
+import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
+import { useCommentGesturesEnabled } from '@src/state/settings/settingsStore';
+import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
+import { SwipeableActionParams } from '@components/Common/SwipeableRow/actions';
+import { useCommentPostId } from '@src/state/comment/commentStore';
+import { useNavigation } from '@react-navigation/core';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
+import { ISwipeableOptions } from '@components/Common/SwipeableRow/types';
 
 interface IProps {
   itemId: number;
   depth?: number;
   onPress?: () => unknown | Promise<unknown>;
   collapsed?: boolean;
+  leftOptions?: ISwipeableOptions;
+  rightOptions?: ISwipeableOptions;
 }
 
 const depthToColor = (depth: number): string => {
@@ -36,29 +47,54 @@ function Comment({
   depth = 0,
   onPress,
   collapsed = false,
+  leftOptions,
+  rightOptions,
 }: IProps): React.JSX.Element {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+  const postId = useCommentPostId(itemId);
+  const swipesEnabled = useCommentGesturesEnabled();
+
   const borderWidth = useMemo(() => (depth > 0 ? 2 : 0), [depth]);
   const borderColor = useMemo(() => depthToColor(depth), [depth]);
 
-  if (onPress != null) {
-    return <PressableComment itemId={itemId} depth={depth} onPress={onPress} />;
-  }
+  const actionParams = useMemo<SwipeableActionParams>(
+    () => ({
+      postId,
+      commentId: itemId,
+      navigation,
+    }),
+    [itemId],
+  );
 
   return (
-    <VStack backgroundColor="$fg">
-      <VStack
-        marginLeft={depth * 10}
-        marginVertical="$2"
-        borderLeftColor={borderColor}
-        borderLeftWidth={borderWidth}
-        paddingHorizontal="$2"
-        paddingVertical="$1"
-      >
-        <CommentHeader itemId={itemId} />
-        {!collapsed && <CommentContent itemId={itemId} />}
+    <SwipeableRow
+      leftOption={
+        swipesEnabled && leftOptions?.actions.first != null ? (
+          <LeftOptions options={leftOptions} actionParams={actionParams} />
+        ) : undefined
+      }
+      rightOption={
+        swipesEnabled && rightOptions?.actions.first != null ? (
+          <RightOptions options={rightOptions} actionParams={actionParams} />
+        ) : undefined
+      }
+    >
+      <VStack backgroundColor="$fg">
+        <VStack
+          marginLeft={depth * 10}
+          marginVertical="$2"
+          borderLeftColor={borderColor}
+          borderLeftWidth={borderWidth}
+          paddingHorizontal="$2"
+          paddingVertical="$1"
+        >
+          <CommentHeader itemId={itemId} />
+          {!collapsed && <CommentContent itemId={itemId} />}
+        </VStack>
+        <Separator borderColor="$bg" marginLeft={depth * 10 + 10} />
       </VStack>
-      <Separator borderColor="$bg" marginLeft={depth * 10 + 10} />
-    </VStack>
+    </SwipeableRow>
   );
 }
 
@@ -67,10 +103,18 @@ export const PressableComment = React.memo(function pressableComment({
   depth = 0,
   onPress,
   collapsed = false,
+  leftOptions,
+  rightOptions,
 }: IProps): React.JSX.Element {
   return (
     <Pressable onPress={onPress}>
-      <Comment itemId={itemId} depth={depth} collapsed={collapsed} />
+      <Comment
+        itemId={itemId}
+        depth={depth}
+        collapsed={collapsed}
+        leftOptions={leftOptions}
+        rightOptions={rightOptions}
+      />
     </Pressable>
   );
 });

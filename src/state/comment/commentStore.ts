@@ -46,3 +46,6 @@ export const useCommentSaved = (id: number): boolean =>
 
 export const useCommentMyVote = (id: number): number | undefined =>
   useCommentStore((state) => state.comments.get(id)?.my_vote);
+
+export const useCommentPostId = (id: number): number | undefined =>
+  useCommentStore((state) => state.comments.get(id)?.post.id);

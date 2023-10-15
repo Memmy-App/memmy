@@ -15,7 +15,7 @@ import { StyleSheet } from 'react-native';
 import { playHaptic } from '@helpers/haptics';
 import { SwipeableActionParams } from '@components/Common/SwipeableRow/actions';
 import { useSwipeableRow } from '@components/Common/SwipeableRow/SwipeableRowProvider';
-import { useSwipeOptions } from '@components/Common/SwipeableRow/hooks/useSwipeOptions';
+import { UsePostSwipeOptions } from '@components/Common/SwipeableRow/hooks/usePostSwipeOptions';
 import { IconMap, IconType } from '@src/types/IconMap';
 import { styled } from 'tamagui';
 
@@ -24,7 +24,7 @@ const DEFAULT_STOPS: Stops = [75, 150];
 const [firstStop, secondStop] = DEFAULT_STOPS;
 
 interface Props {
-  type: 'post' | 'comment';
+  options: UsePostSwipeOptions;
   flipFlop?: boolean;
   actionParams: SwipeableActionParams;
 }
@@ -36,14 +36,14 @@ const buzz = (): void => {
 };
 
 export function LeftOptions({
-  type,
+  options,
   flipFlop = false,
   actionParams,
 }: Props): React.JSX.Element {
   const isFrozen = useSharedValue(false);
   const { subscribe, translateX } = useSwipeableRow();
 
-  const { colors, actions, icons } = useSwipeOptions(type, 'left');
+  const { colors, actions, icons } = options;
 
   const [icon, setIcon] = useState<IconType | undefined>(icons.first);
 

@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { createContextMenuOptionsFromStrings } from '@helpers/contextMenu';
 import { ScrollView } from 'tamagui';
 import Table from '@components/Common/Table/Table';
 import { AppContextMenuButton } from '@components/Common/ContextMenu/AppContextMenuButton';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
-import { setPostGestureSetting } from '@src/state/settings/actions';
+import {
+  setCommentGestureSetting,
+  setPostGestureSetting,
+} from '@src/state/settings/actions';
 import { capitalizeFirstLetter } from '@helpers/text';
-import { postGestureOptions } from '@src/types';
+import { commentGestureOptions, postGestureOptions } from '@src/types';
 import { LayoutAnimation, Switch } from 'react-native';
 
 export default function SettingsGesturesScreen(): React.JSX.Element {
   const settings = useSettingsStore();
 
-  const postSwipeOptions =
-    createContextMenuOptionsFromStrings(postGestureOptions);
+  const postSwipeOptions = useMemo(
+    () => createContextMenuOptionsFromStrings(postGestureOptions),
+    [],
+  );
+  const commentSwipeOptions = useMemo(
+    () => createContextMenuOptionsFromStrings(commentGestureOptions),
+    [],
+  );
 
   return (
     <ScrollView flex={1}>
@@ -103,6 +112,113 @@ export default function SettingsGesturesScreen(): React.JSX.Element {
                 rightLabel={
                   capitalizeFirstLetter(settings.gestures.post.secondRight) ??
                   'None'
+                }
+                useChevron
+              />
+            </AppContextMenuButton>
+          )}
+        </Table.Section>
+
+        <Table.Section header="Comment Gestures">
+          <Table.Cell
+            label="Comment Gestures Enabled"
+            accessoryRight={
+              <Switch
+                value={settings.gestures.comment.enabled}
+                onChange={(e) => {
+                  setCommentGestureSetting('enabled', e.nativeEvent.value);
+                }}
+              />
+            }
+          />
+          <Table.Cell
+            label="Tap to Collapse"
+            accessoryRight={
+              <Switch
+                value={settings.gestures.comment.collapse}
+                onChange={(e) => {
+                  setCommentGestureSetting('collapse', e.nativeEvent.value);
+                }}
+              />
+            }
+          />
+          <AppContextMenuButton
+            options={commentSwipeOptions}
+            onPressMenuItem={(e) => {
+              setCommentGestureSetting('firstLeft', e.nativeEvent.actionKey);
+
+              if (e.nativeEvent.actionKey === 'none') {
+                setCommentGestureSetting('secondLeft', 'none');
+              }
+            }}
+          >
+            <Table.Cell
+              label="Left to Right First"
+              rightLabel={
+                capitalizeFirstLetter(settings.gestures.comment.firstLeft) ??
+                'None'
+              }
+              useChevron
+            />
+          </AppContextMenuButton>
+          {settings.gestures.comment.firstLeft !== 'none' && (
+            <AppContextMenuButton
+              options={commentSwipeOptions}
+              onPressMenuItem={(e) => {
+                setCommentGestureSetting('secondLeft', e.nativeEvent.actionKey);
+              }}
+              onLayout={() => {
+                LayoutAnimation.linear();
+              }}
+            >
+              <Table.Cell
+                label="Left to Right Second"
+                rightLabel={
+                  capitalizeFirstLetter(settings.gestures.comment.secondLeft) ??
+                  'None'
+                }
+                useChevron
+              />
+            </AppContextMenuButton>
+          )}
+          <AppContextMenuButton
+            options={commentSwipeOptions}
+            onPressMenuItem={(e) => {
+              setCommentGestureSetting('firstRight', e.nativeEvent.actionKey);
+
+              if (e.nativeEvent.actionKey === 'none') {
+                setCommentGestureSetting('secondRight', 'none');
+              }
+            }}
+          >
+            <Table.Cell
+              label="Right to Left First"
+              rightLabel={
+                capitalizeFirstLetter(settings.gestures.comment.firstRight) ??
+                'None'
+              }
+              useChevron
+            />
+          </AppContextMenuButton>
+          {settings.gestures.comment.firstRight !== 'none' && (
+            <AppContextMenuButton
+              options={commentSwipeOptions}
+              onPressMenuItem={(e) => {
+                setCommentGestureSetting(
+                  'secondRight',
+                  e.nativeEvent.actionKey,
+                );
+              }}
+              onLayout={() => {
+                LayoutAnimation.linear();
+              }}
+            >
+              <Table.Cell
+                label="Right to Left Second"
+                rightLabel={
+                  capitalizeFirstLetter(
+                    settings.gestures.comment.secondRight,
+                  ) ?? 'None'
                 }
                 useChevron
               />

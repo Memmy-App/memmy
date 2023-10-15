@@ -10,12 +10,9 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import FeedItemContent from '@components/Feed/components/Feed/FeedItem/FeedItemContent';
 import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
 import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
-import {
-  usePostGesturesEnabled,
-  usePostGesturesFirstLeft,
-  usePostGesturesFirstRight,
-} from '@src/state/settings/settingsStore';
+import { usePostGesturesEnabled } from '@src/state/settings/settingsStore';
 import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
+import { usePostSwipeOptions } from '@components/Common/SwipeableRow/hooks/usePostSwipeOptions';
 
 interface IProps {
   itemId: number;
@@ -25,8 +22,8 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const gesturesEnabled = usePostGesturesEnabled();
-  const firstLeft = usePostGesturesFirstLeft();
-  const firstRight = usePostGesturesFirstRight();
+  const leftSwipeOptions = usePostSwipeOptions('left');
+  const rightSwipeOptions = usePostSwipeOptions('right');
 
   const onPress = useCallback(() => {
     navigation.navigate('Post', {
@@ -46,13 +43,19 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
     <Pressable onPress={onPress} style={styles.pressable}>
       <SwipeableRow
         leftOption={
-          gesturesEnabled && firstLeft !== 'none' ? (
-            <LeftOptions type="post" actionParams={actionParams} />
+          gesturesEnabled && leftSwipeOptions.actions.first != null ? (
+            <LeftOptions
+              options={leftSwipeOptions}
+              actionParams={actionParams}
+            />
           ) : undefined
         }
         rightOption={
-          gesturesEnabled && firstRight !== 'none' ? (
-            <RightOptions type="post" actionParams={actionParams} />
+          gesturesEnabled && rightSwipeOptions.actions.first !== null ? (
+            <RightOptions
+              options={rightSwipeOptions}
+              actionParams={actionParams}
+            />
           ) : undefined
         }
       >
