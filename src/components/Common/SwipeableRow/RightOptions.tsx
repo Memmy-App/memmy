@@ -17,7 +17,7 @@ import { playHaptic } from '@helpers/haptics';
 import { IconMap, IconType } from '@src/types/IconMap';
 import { styled } from 'tamagui';
 import { SwipeableActionParams } from '@components/Common/SwipeableRow/actions';
-import { UsePostSwipeOptions } from '@components/Common/SwipeableRow/hooks/usePostSwipeOptions';
+import { ISwipeableOptions } from '@components/Common/SwipeableRow/types';
 
 type Stops = [first: number, second: number];
 const DEFAULT_STOPS: Stops = [-75, -150];
@@ -25,7 +25,7 @@ const [firstStop, secondStop] = DEFAULT_STOPS;
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 
 interface Props {
-  options: UsePostSwipeOptions;
+  options: ISwipeableOptions;
   flipFlop?: boolean;
   actionParams: SwipeableActionParams;
 }
@@ -47,6 +47,18 @@ export function RightOptions({
   const { colors, actions, icons } = options;
 
   const [icon, setIcon] = useState<IconType | undefined>(icons.first);
+
+  // We need to do this because functions passed from a worklet using runOnJS are converted to objects
+  const runAction = useCallback(
+    (actionType: 'first' | 'second') => {
+      if (actionType === 'first' && actions.first != null) {
+        actions.first(actionParams);
+      } else if (actionType === 'second' && actions.second != null) {
+        actions.second(actionParams);
+      }
+    },
+    [options.actions],
+  );
 
   const RenderIcon = useMemo(
     () =>
@@ -76,12 +88,13 @@ export function RightOptions({
           if (translateX.value <= secondStop) {
             if (actions.second == null) return;
 
-            runOnJS(actions.second)(actionParams);
+            // runOnJS(actions.second)(actionParams);
+            runOnJS(runAction)('second');
             runOnJS(resetIcon)();
           } else if (translateX.value <= firstStop) {
             if (actions.first == null) return;
 
-            runOnJS(actions.first)(actionParams);
+            runOnJS(runAction)('first');
             runOnJS(resetIcon)();
           }
           isFrozen.value = true;

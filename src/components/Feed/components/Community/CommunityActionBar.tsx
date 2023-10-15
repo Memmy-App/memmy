@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useCommunitySubscribed } from '@src/state/community/communityStore';
-import instance from '@api/Instance';
+import instance from '@src/Instance';
 import { isSubscribed } from '@helpers/lemmy';
 import HStack from '@components/Common/Stack/HStack';
 import ButtonOne from '@components/Common/Button/ButtonOne';

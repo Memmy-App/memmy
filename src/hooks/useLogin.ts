@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import instance from '@api/Instance';
+import instance from '@src/Instance';
 import { addAccount } from '@src/state/account/actions';
 
 interface DoLoginOptions {

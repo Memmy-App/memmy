@@ -8,7 +8,7 @@ import {
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
 import VStack from '@components/Common/Stack/VStack';
 import Post from '@components/Post/components/Post';
-import instance from '@api/Instance';
+import instance from '@src/Instance';
 import { ICommentInfo } from '@src/types';
 import CommentChain from '@components/Comment/components/CommentChain';
 import { FlatList } from 'react-native';

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import instance from '@api/Instance';
+import instance from '@src/Instance';
 import VStack from '@components/Common/Stack/VStack';
 import { useRoute } from '@react-navigation/core';
 import { useFeedNextPage, useFeedPostIds } from '@src/state/feed/feedStore';

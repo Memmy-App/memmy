@@ -6,7 +6,7 @@ import CommunityTitle from '@components/Feed/components/Community/CommunityTitle
 import { useNavigation, useRoute } from '@react-navigation/core';
 import { useLoadData } from '@hooks/useLoadData';
 import { GetCommunityResponse } from 'lemmy-js-client';
-import instance from '@api/Instance';
+import instance from '@src/Instance';
 import { Spinner } from 'tamagui';
 import {
   useCommunityBanner,

@@ -13,6 +13,7 @@ import FeedIndexScreen from '@components/Feed/screens/FeedIndexScreen';
 import PostScreen from '@components/Post/screens/PostScreen';
 import MainFeed from '@components/Feed/components/MainFeed';
 import CommentChainScreen from '@components/Comment/screens/CommentChainScreen';
+import ReplyScreen from '@components/Reply/screens/ReplyScreen';
 
 export default function MainScreens(
   stack: TypedNavigator<
@@ -61,6 +62,17 @@ export default function MainScreens(
           options={{
             headerShown: true,
           }}
+        />
+      </stack.Group>
+      <stack.Group
+        screenOptions={{
+          presentation: 'modal',
+        }}
+      >
+        <stack.Screen
+          name="Reply"
+          component={ReplyScreen}
+          options={{ headerShown: true }}
         />
       </stack.Group>
     </>

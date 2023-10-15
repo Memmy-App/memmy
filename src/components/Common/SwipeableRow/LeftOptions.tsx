@@ -15,16 +15,16 @@ import { StyleSheet } from 'react-native';
 import { playHaptic } from '@helpers/haptics';
 import { SwipeableActionParams } from '@components/Common/SwipeableRow/actions';
 import { useSwipeableRow } from '@components/Common/SwipeableRow/SwipeableRowProvider';
-import { UsePostSwipeOptions } from '@components/Common/SwipeableRow/hooks/usePostSwipeOptions';
 import { IconMap, IconType } from '@src/types/IconMap';
 import { styled } from 'tamagui';
+import { ISwipeableOptions } from '@components/Common/SwipeableRow/types';
 
 type Stops = [first: number, second: number];
 const DEFAULT_STOPS: Stops = [75, 150];
 const [firstStop, secondStop] = DEFAULT_STOPS;
 
 interface Props {
-  options: UsePostSwipeOptions;
+  options: ISwipeableOptions;
   flipFlop?: boolean;
   actionParams: SwipeableActionParams;
 }
@@ -46,6 +46,18 @@ export function LeftOptions({
   const { colors, actions, icons } = options;
 
   const [icon, setIcon] = useState<IconType | undefined>(icons.first);
+
+  // We need to do this because functions passed from a worklet using runOnJS are converted to objects
+  const runAction = useCallback(
+    (actionType: 'first' | 'second') => {
+      if (actionType === 'first' && actions.first != null) {
+        actions.first(actionParams);
+      } else if (actionType === 'second' && actions.second != null) {
+        actions.second(actionParams);
+      }
+    },
+    [options.actions],
+  );
 
   const RenderIcon = useMemo(
     () =>
@@ -75,12 +87,12 @@ export function LeftOptions({
           if (translateX.value >= secondStop) {
             if (actions.second == null) return;
 
-            runOnJS(actions.second)(actionParams);
+            runOnJS(runAction)('second');
             runOnJS(resetIcon)();
           } else if (translateX.value >= firstStop) {
             if (actions.first == null) return;
 
-            runOnJS(actions.first)(actionParams);
+            runOnJS(runAction)('first');
             runOnJS(resetIcon)();
           }
           isFrozen.value = true;

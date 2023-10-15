@@ -31,13 +31,12 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
     });
   }, [itemId]);
 
-  const actionParams = useMemo(
-    () => ({
+  const actionParams = useMemo(() => {
+    return {
       postId: itemId,
       navigation,
-    }),
-    [itemId],
-  );
+    };
+  }, [itemId, navigation]);
 
   return (
     <Pressable onPress={onPress} style={styles.pressable}>

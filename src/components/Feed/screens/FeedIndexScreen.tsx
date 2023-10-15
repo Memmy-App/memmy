@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useCurrentAccount } from '@src/state/account/accountStore';
 import { IAccount } from '@src/types';
-import instance from '@api/Instance';
+import instance from '@src/Instance';
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
 import { Alert } from 'react-native';
 import MainFeed from '@components/Feed/components/MainFeed';

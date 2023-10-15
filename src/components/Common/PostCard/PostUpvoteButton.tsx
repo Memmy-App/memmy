@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import instance from '@api/Instance';
+import instance from '@src/Instance';
 import { usePostMyVote } from '@src/state/post/postStore';
 import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
 import { ArrowUp } from '@tamagui/lucide-icons';

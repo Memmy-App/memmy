@@ -1,5 +1,5 @@
 import { SwipeableActionParams } from '@components/Common/SwipeableRow/actions/swipeableActions';
-import instance from '@api/Instance';
+import instance from '@src/Instance';
 import { playHaptic } from '@helpers/haptics';
 
 export const upvoteCommentOption = ({
