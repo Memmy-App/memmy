@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import instance from '@src/Instance';
 import VStack from '@components/Common/Stack/VStack';
 import { useRoute } from '@react-navigation/core';
@@ -11,6 +11,7 @@ import IGetPostOptions from '@api/common/types/IGetPostOptions';
 import CommunityHeader from '@components/Feed/components/Community/CommunityHeader';
 import { FlashList } from '@shopify/flash-list';
 import RefreshControl from '@components/Common/Gui/RefreshControl';
+import { useScrollToTop } from '@react-navigation/native';
 
 interface RenderItem {
   item: number;
@@ -27,6 +28,11 @@ export default function MainFeed(): React.JSX.Element {
   const { key, params } = useRoute<any>();
   const postIds = useFeedPostIds(key);
   const nextPage = useFeedNextPage(key);
+
+  const flashListRef = useRef<FlashList<number>>();
+
+  // @ts-expect-error - This is valid but useScrollToTop expect a ref to a FlatList
+  useScrollToTop(flashListRef);
 
   useEffect(() => {
     return () => {
@@ -74,7 +80,7 @@ export default function MainFeed(): React.JSX.Element {
 
   return (
     <VStack flex={1}>
-      <FlashList
+      <FlashList<number>
         renderItem={renderItem}
         data={postIds}
         keyExtractor={keyExtractor}
@@ -91,6 +97,8 @@ export default function MainFeed(): React.JSX.Element {
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
         }
+        // @ts-expect-error - This is valid but useScrollToTop expect a ref to a FlatList
+        ref={flashListRef}
       />
     </VStack>
   );

@@ -55,13 +55,13 @@ export default function MainStack(): React.JSX.Element {
             <Stack.Group
               screenOptions={{
                 presentation: 'modal',
+                headerShown: true,
               }}
             >
               <Stack.Screen
                 name="CreateAccount"
                 component={CreateAccountModal}
                 options={{
-                  headerShown: true,
                   headerTitle: 'Create an Account',
                 }}
               />
@@ -69,7 +69,6 @@ export default function MainStack(): React.JSX.Element {
                 name="AddAccount"
                 component={AddAccountModal}
                 options={{
-                  headerShown: true,
                   headerTitle: 'Add an Account',
                 }}
               />

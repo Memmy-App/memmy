@@ -2,36 +2,53 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import FeedStackScreen from '@components/Navigation/FeedStackScreen';
 import SettingsStackScreen from '@components/Navigation/SettingsStackScreen';
-import { useTheme } from 'tamagui';
+import SearchStackScreen from '@components/Navigation/SearchStackScreen';
+import InboxStackScreen from '@components/Navigation/InboxStackScreen';
+import UserStackScreen from '@components/Navigation/UserStackScreen';
+import { Cog, Home, Inbox, Search, User } from '@tamagui/lucide-icons';
 
 const Tab = createBottomTabNavigator();
 
 export default function Tabs(): React.JSX.Element {
-  const theme = useTheme();
-
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarStyle: {
-          backgroundColor: theme.fg.val,
-        },
-        tabBarLabelStyle: {
-          color: theme.color.val,
-        },
+        headerShown: false,
       }}
     >
       <Tab.Screen
         name="Home"
         component={FeedStackScreen}
         options={{
-          headerShown: false,
+          tabBarIcon: ({ color }) => <Home color={color} size={24} />,
+        }}
+      />
+      <Tab.Screen
+        name="Inbox"
+        component={InboxStackScreen}
+        options={{
+          tabBarIcon: ({ color }) => <Inbox color={color} size={24} />,
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={UserStackScreen}
+        options={{
+          tabBarIcon: ({ color }) => <User color={color} size={24} />,
+        }}
+      />
+      <Tab.Screen
+        name="Search"
+        component={SearchStackScreen}
+        options={{
+          tabBarIcon: ({ color }) => <Search color={color} size={24} />,
         }}
       />
       <Tab.Screen
         name="Settings"
         component={SettingsStackScreen}
         options={{
-          headerShown: false,
+          tabBarIcon: ({ color }) => <Cog color={color} size={24} />,
         }}
       />
     </Tab.Navigator>
