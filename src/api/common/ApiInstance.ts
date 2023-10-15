@@ -421,7 +421,7 @@ class ApiInstance {
     // Set all our options
     options = {
       ...defaultOptions,
-      sort: 'TopDay',
+      sort: settings.defaultSort,
       ...options,
     };
 

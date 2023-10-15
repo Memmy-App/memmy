@@ -5,7 +5,7 @@ import { truncateText } from '@helpers/text';
 import { useFeedStore } from '@src/state/feed/feedStore';
 import { cacheImages } from '@helpers/image';
 
-export const addPost = (post: PostView, screenId: string) => {
+export const addPost = (post: PostView, screenId: string): void => {
   usePostStore.setState((state) => {
     const currentPost = state.posts.get(post.post.id);
 
@@ -51,7 +51,7 @@ export const addPosts = (
 
       const index = currentPosts?.indexOf(post.post.id);
 
-      if (index === -1) {
+      if (index == null || index === -1) {
         postIds.push(post.post.id);
 
         if (post.post.url != null) {
@@ -61,21 +61,23 @@ export const addPosts = (
 
       void cacheImages(links);
     }
-  });
 
-  // Add the post ids to the feed
-  useFeedStore.setState((state) => {
-    const feed = state.feeds.get(screenId);
+    // Add the post ids to the feed
+    useFeedStore.setState((state) => {
+      const feed = state.feeds.get(screenId);
 
-    if (feed == null || refresh) {
-      state.feeds.set(screenId, {
-        feedId: screenId,
-        postIds,
-        nextPage: page + 1,
-      });
-    } else {
-      feed.postIds = [...feed.postIds, ...postIds];
-      feed.nextPage = page + 1;
-    }
+      if (feed == null || refresh) {
+        console.log(postIds);
+
+        state.feeds.set(screenId, {
+          feedId: screenId,
+          postIds,
+          nextPage: page + 1,
+        });
+      } else {
+        feed.postIds = [...feed.postIds, ...postIds];
+        feed.nextPage = page + 1;
+      }
+    });
   });
 };
