@@ -18,14 +18,16 @@ import CommunityHeader from '@components/Feed/components/Community/CommunityHead
 import { FlashList } from '@shopify/flash-list';
 import RefreshControl from '@components/Common/Gui/RefreshControl';
 import { useScrollToTop } from '@react-navigation/native';
-import { SortType } from 'lemmy-js-client';
+import { ListingType, SortType } from 'lemmy-js-client';
 import {
   useDefaultCommunitySort,
+  useDefaultListingType,
   useDefaultSort,
 } from '@src/state/settings/settingsStore';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useCurrentAccount } from '@src/state/account/accountStore';
 import SortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/SortTypeContextMenuButton';
+import HStack from '@components/Common/Stack/HStack';
+import ListingTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/ListingTypeContextMenuButton';
 
 interface RenderItem {
   item: number;
@@ -46,10 +48,13 @@ export default function MainFeed(): React.JSX.Element {
 
   const defaultSort = useDefaultSort();
   const defaultCommunitySort = useDefaultCommunitySort();
-  const account = useCurrentAccount();
+  const defaultListingType = useDefaultListingType();
 
   const [sortType, setSortType] = useState<SortType>(
     params?.name != null ? defaultCommunitySort ?? 'Hot' : defaultSort ?? 'Hot',
+  );
+  const [listingType, setListingType] = useState<ListingType>(
+    defaultListingType ?? 'All',
   );
 
   const flashListRef = useRef<FlashList<number>>();
@@ -62,8 +67,9 @@ export default function MainFeed(): React.JSX.Element {
     (): IGetPostOptions => ({
       communityName: (params?.name as unknown as string) ?? undefined,
       sort: sortType,
+      ...(params?.name == null && { type: listingType }),
     }),
-    [params?.name, sortType],
+    [params?.name, sortType, listingType],
   );
 
   // Create our data loader and get the initial content
@@ -90,10 +96,16 @@ export default function MainFeed(): React.JSX.Element {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <SortTypeContextMenuButton
-          sortType={sortType}
-          setSortType={setSortType}
-        />
+        <HStack space="$4">
+          <ListingTypeContextMenuButton
+            listingType={listingType}
+            setListingType={setListingType}
+          />
+          <SortTypeContextMenuButton
+            sortType={sortType}
+            setSortType={setSortType}
+          />
+        </HStack>
       ),
     });
 
@@ -102,7 +114,7 @@ export default function MainFeed(): React.JSX.Element {
       onRefresh();
       flashListRef.current?.scrollToOffset({ offset: 0 });
     }
-  }, [sortType]);
+  }, [sortType, listingType]);
 
   // Callback for loading more data when we hit the end
   const onEndReached = useCallback(() => {
@@ -116,6 +128,8 @@ export default function MainFeed(): React.JSX.Element {
 
   // Callback for refreshing the data
   const onRefresh = useCallback(() => {
+    console.log(defaultOptions);
+
     refresh(async () => {
       await instance.getPosts(key, {
         ...defaultOptions,

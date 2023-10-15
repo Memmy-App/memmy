@@ -243,3 +243,6 @@ export const useDefaultCommunitySort = (): SortType | undefined =>
 
 export const useDefaultCommentSort = (): CommentSortType | undefined =>
   useSettingsStore((state) => state.defaultCommentSort);
+
+export const useDefaultListingType = (): ListingType | undefined =>
+  useSettingsStore((state) => state.defaultListingType);

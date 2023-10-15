@@ -3,6 +3,7 @@ import {
   ArrowUp,
   Bookmark,
   BookmarkCheck,
+  Box,
   CalendarCheck,
   CalendarDays,
   CalendarMinus,
@@ -13,7 +14,10 @@ import {
   Clock11,
   Clock6,
   Flame,
+  Globe,
+  Heart,
   MessageCircle,
+  Shield,
   Zap,
 } from '@tamagui/lucide-icons';
 
@@ -41,6 +45,10 @@ export const IconMap = {
   TopAll: ArrowUp,
   MostComments: MessageCircle,
   NewComments: MessageCircle,
+  Moderated: Shield,
+  Local: Box,
+  Subscribed: Heart,
+  All: Globe,
 };
 
 export type IconType = keyof typeof IconMap;
