@@ -26,7 +26,6 @@ export default function ReplyScreen({
   const viewRef = useRef<RNScrollView>();
 
   const onLayout = useCallback(() => {
-    console.log('layout');
     viewRef.current?.scrollToEnd({ animated: false });
   }, []);
 
