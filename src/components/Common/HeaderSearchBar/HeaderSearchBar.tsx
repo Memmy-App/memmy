@@ -11,12 +11,15 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Button, TextInput } from 'react-native';
 import HStack from '@components/Common/Stack/HStack';
+import { useFocusEffect } from '@react-navigation/core';
 
 interface IProps {
   onChange: (text: string) => unknown;
   onEndEditing?: () => unknown;
   onClear?: () => unknown;
   onFocus?: () => unknown;
+
+  autoFocus?: boolean;
 
   placeholder?: string;
   value?: string;
@@ -28,6 +31,8 @@ function HeaderSearchBar({
   onFocus,
   onClear,
 
+  autoFocus = false,
+
   placeholder,
   value,
 }: IProps): React.JSX.Element {
@@ -38,6 +43,14 @@ function HeaderSearchBar({
 
   const marginRight = useSharedValue(0);
   const buttonOpacity = useSharedValue(0);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (!autoFocus) return;
+
+      inputRef.current?.focus();
+    }, []),
+  );
 
   const onCancelPress = useCallback(() => {
     inputRef.current?.blur();
@@ -108,6 +121,7 @@ function HeaderSearchBar({
           borderWidth={0}
           autoComplete="off"
           autoCorrect={false}
+          autoCapitalize="none"
           placeholderTextColor="$secondary"
           keyboardAppearance={themeColorScheme}
           clearButtonMode="while-editing"
