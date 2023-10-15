@@ -1,5 +1,5 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useMemo } from 'react';
+import { DarkTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Tabs from '@components/Navigation/Tabs';
 import { useAccounts } from '@src/state/account/accountStore';
@@ -7,14 +7,31 @@ import OnboardingIndexScreen from '@components/Onboarding/OnboardingIndex/Onboar
 import OnboardingInstanceListScreen from '@components/Onboarding/OnboardingInstanceList/OnboardingInstanceListScreen';
 import CreateAccountModal from '@components/Account/CreateAccountModal';
 import AddAccountModal from '@components/Account/AddAccountModal';
+import { useTheme } from 'tamagui';
 
 const Stack = createNativeStackNavigator();
 
 export default function MainStack(): React.JSX.Element {
   const accounts = useAccounts();
+  const theme = useTheme();
+
+  const navTheme = useMemo(
+    () => ({
+      ...DarkTheme,
+      colors: {
+        ...DarkTheme.colors,
+        primary: theme.accent.val,
+        background: theme.bg.val,
+        card: theme.navBarBg.val,
+        text: theme.color.val,
+        border: theme.border.val,
+      },
+    }),
+    [theme],
+  );
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={navTheme}>
       <Stack.Navigator>
         {accounts.length < 1 ? (
           <>

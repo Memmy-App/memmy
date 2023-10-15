@@ -11,9 +11,9 @@ import Post from '@components/Post/components/Post';
 import instance from '@src/Instance';
 import { ICommentInfo } from '@src/types';
 import CommentChain from '@components/Comment/components/CommentChain';
-import { FlatList } from 'react-native';
 import { useLoadData } from '@hooks/useLoadData';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
+import { FlashList } from '@shopify/flash-list';
 
 interface RenderItem {
   item: ICommentInfo;
@@ -58,15 +58,11 @@ export default function PostScreen({
 
   return (
     <VStack flex={1}>
-      <FlatList
+      <FlashList
         renderItem={renderItem}
         data={postsToShow}
         keyExtractor={keyExtractor}
-        initialNumToRender={10}
-        maxToRenderPerBatch={5}
-        updateCellsBatchingPeriod={300}
-        windowSize={10}
-        removeClippedSubviews={true}
+        estimatedItemSize={100}
         ListHeaderComponent={<Post />}
         ListEmptyComponent={
           <FeedLoadingIndicator loading={isLoading} error={isError} />

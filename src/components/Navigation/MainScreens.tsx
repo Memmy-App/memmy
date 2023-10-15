@@ -33,47 +33,29 @@ export default function MainScreens(
 ): React.JSX.Element {
   return (
     <>
-      <stack.Group>
-        <stack.Screen
-          name="Feed"
-          component={FeedIndexScreen}
-          options={{
-            headerShown: true,
-          }}
-        />
-        <stack.Screen
-          name="Post"
-          component={PostScreen}
-          options={{
-            headerShown: true,
-          }}
-        />
+      <stack.Group
+        screenOptions={{
+          headerShown: true,
+        }}
+      >
+        <stack.Screen name="Feed" component={FeedIndexScreen} />
+        <stack.Screen name="Post" component={PostScreen} />
         <stack.Screen
           name="CommentChain"
           component={CommentChainScreen}
           options={{
-            headerShown: true,
             headerTitle: 'More Comments',
           }}
         />
-        <stack.Screen
-          name="Community"
-          component={MainFeed}
-          options={{
-            headerShown: true,
-          }}
-        />
+        <stack.Screen name="Community" component={MainFeed} />
       </stack.Group>
       <stack.Group
         screenOptions={{
           presentation: 'modal',
+          headerShown: true,
         }}
       >
-        <stack.Screen
-          name="Reply"
-          component={ReplyScreen}
-          options={{ headerShown: true }}
-        />
+        <stack.Screen name="Reply" component={ReplyScreen} />
       </stack.Group>
     </>
   );
