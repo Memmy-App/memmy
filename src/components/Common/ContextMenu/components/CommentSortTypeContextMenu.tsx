@@ -28,11 +28,13 @@ export default function CommentSortTypeContextMenu({
     },
     {
       key: 'New',
-      title: 'bolt.badge.clock.fill',
+      title: 'New',
+      icon: 'bolt.badge.clock.fill',
     },
     {
       key: 'Old',
-      title: 'clock',
+      title: 'Old',
+      icon: 'clock',
     },
   ];
 

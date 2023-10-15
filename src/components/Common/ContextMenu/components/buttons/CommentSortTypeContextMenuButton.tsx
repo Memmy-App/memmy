@@ -1,31 +1,31 @@
 import React, { useCallback, useMemo } from 'react';
-import { SortType } from 'lemmy-js-client';
-import SortTypeContextMenu from '@components/Common/ContextMenu/components/SortTypeContextMenu';
+import { CommentSortType } from 'lemmy-js-client';
 import { OnPressMenuItemEventObject } from 'react-native-ios-context-menu';
+import CommentSortTypeContextMenu from '@components/Common/ContextMenu/components/CommentSortTypeContextMenu';
 import ContextMenuButton from '@components/Common/ContextMenu/components/buttons/ContextMenuButton';
 import { IconMap } from '@src/types/IconMap';
 
 interface IProps {
-  sortType: SortType;
-  setSortType: React.Dispatch<React.SetStateAction<SortType>>;
+  sortType: CommentSortType;
+  setSortType: React.Dispatch<React.SetStateAction<CommentSortType>>;
 }
 
-function SortTypeContextMenuButton({
+function CommentSortTypeContextMenuButton({
   sortType,
   setSortType,
 }: IProps): React.JSX.Element {
   const onPress = useCallback((e: OnPressMenuItemEventObject) => {
-    setSortType(e.nativeEvent.actionKey as SortType);
+    setSortType(e.nativeEvent.actionKey as CommentSortType);
   }, []);
 
   // @ts-expect-error - TODO Fix this
   const icon = useMemo(() => IconMap[sortType], [sortType]);
 
   return (
-    <SortTypeContextMenu selection={sortType} onPressMenuItem={onPress}>
+    <CommentSortTypeContextMenu selection={sortType} onPressMenuItem={onPress}>
       <ContextMenuButton icon={icon} />
-    </SortTypeContextMenu>
+    </CommentSortTypeContextMenu>
   );
 }
 
-export default React.memo(SortTypeContextMenuButton);
+export default React.memo(CommentSortTypeContextMenuButton);
