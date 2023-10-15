@@ -55,7 +55,11 @@ export default function MainScreens(
           headerShown: true,
         }}
       >
-        <stack.Screen name="Reply" component={ReplyScreen} />
+        <stack.Screen
+          name="Reply"
+          component={ReplyScreen}
+          options={{ gestureEnabled: false }}
+        />
       </stack.Group>
     </>
   );
