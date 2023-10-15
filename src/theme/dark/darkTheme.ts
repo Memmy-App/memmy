@@ -51,4 +51,5 @@ export const darkThemeColors: IColors = {
   bookmarkText: '#fff',
 
   statusBar: 'light',
+  colorScheme: 'dark',
 };
