@@ -72,12 +72,7 @@ export const useLoadData = <ReturnType>(
     void func()
       .then((data) => {
         if (append) {
-          console.log('Appending.');
-          console.log(returnData);
-
           if (returnData != null && data != null) {
-            console.log('Was iterable');
-
             // @ts-expect-error We already checked that data is iterable
             setReturnData((prev) => [...(prev ?? []), ...data]);
           }
@@ -109,8 +104,6 @@ export const useLoadData = <ReturnType>(
         }));
 
         inProgress.current = false;
-
-        console.log(e);
       });
   };
 

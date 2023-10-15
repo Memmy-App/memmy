@@ -22,8 +22,6 @@ export const buildCommentChains = (
 ): BuildCommentChains => {
   const commentInfo: ICommentInfo[] = [];
 
-  console.log(flattenedComments);
-
   for (const view of commentViews) {
     if (view.comment == null) continue;
 
