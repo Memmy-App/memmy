@@ -5,12 +5,24 @@
   "build": {
     "development": {
 			"developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+			"env": {
+				"EXPO_PUBLIC_IS_TEST_FLIGHT": "false"
+			}
     },
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+			"env": {
+				"EXPO_PUBLIC_IS_TEST_FLIGHT": "false"
+			}
+		},
+		"production-tf": {
+			"env": {
+				"EXPO_BUILD_IS_TEST_FLIGHT": "true"
+			}
+		}
   },
   "submit": {
     "production": {}
