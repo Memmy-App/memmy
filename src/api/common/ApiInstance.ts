@@ -10,8 +10,11 @@ import {
   GetSiteResponse,
   GetUnreadCountResponse,
   LemmyHttp,
+  ListCommunities,
   ListCommunitiesResponse,
   PostResponse,
+  Search,
+  SearchResponse,
 } from 'lemmy-js-client';
 import { getReadableVersion } from 'react-native-device-info';
 import { ISignupOptions } from '@api/common/types';
@@ -23,12 +26,8 @@ import IGetPostOptions from '@api/common/types/IGetPostOptions';
 import ICreatePostOptions from '@api/common/types/ICreatePostOptions';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
 import { usePostStore } from '@src/state/post/postStore';
-import { useFeedStore } from '@src/state/feed/feedStore';
-import { cacheImages } from '@helpers/image';
-import { getLinkType } from '@helpers/links/getLinkType';
-import { truncateText } from '@helpers/text';
 import { buildCommentChains } from '@helpers/comments';
-import { addCommentsToPost } from '@src/state/post/actions';
+import { addCommentsToPost, addPosts } from '@src/state/post/actions';
 import { addComments } from '@src/state/comment/actions';
 import { useSiteStore } from '@src/state/site/siteStore';
 import { useCommunityStore } from '@src/state/community/communityStore';
@@ -440,59 +439,9 @@ class ApiInstance {
         auth: this.authToken,
       });
 
-      const links: string[] = [];
-
       // Add them to the feed
       if (res != null && addToFeed) {
-        // Create empty array of post ids
-        const postIds: number[] = [];
-        const currentPosts = useFeedStore.getState().feeds.get(feedId)?.postIds;
-
-        usePostStore.setState((state) => {
-          // Add each post to the state
-          for (const post of res.posts) {
-            const currentPost = state.posts.get(post.post.id);
-
-            if (currentPost != null) {
-              currentPost.usedBy.push(feedId);
-            } else {
-              state.posts.set(post.post.id, {
-                view: post,
-                usedBy: [feedId],
-                linkType: getLinkType(post.post.url),
-                bodyPreview: truncateText(post.post.body, 200),
-              });
-            }
-
-            const index = currentPosts?.indexOf(post.post.id);
-
-            if (index === -1) {
-              postIds.push(post.post.id);
-
-              if (post.post.url != null) {
-                links.push(post.post.url);
-              }
-            }
-
-            void cacheImages(links);
-          }
-        });
-
-        // Add the post ids to the feed
-        useFeedStore.setState((state) => {
-          const feed = state.feeds.get(feedId);
-
-          if (feed == null || options.refresh === true) {
-            state.feeds.set(feedId, {
-              feedId,
-              postIds,
-              nextPage: options.page! + 1,
-            });
-          } else {
-            feed.postIds = [...feed.postIds, ...postIds];
-            feed.nextPage = options.page! + 1;
-          }
-        });
+        addPosts(res.posts, feedId, options.page, options.refresh);
 
         return undefined;
       }
@@ -548,23 +497,6 @@ class ApiInstance {
       }
 
       return undefined;
-    } catch (e: any) {
-      ApiInstance.handleError(e.toString());
-      return undefined;
-    }
-  }
-
-  async listCommunities(
-    page = 1,
-    limit = 50,
-  ): Promise<ListCommunitiesResponse | undefined> {
-    try {
-      return await this.instance?.listCommunities({
-        page,
-        limit,
-        // @ts-expect-error TODO remove this later
-        auth: this.authToken!,
-      });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
       return undefined;
@@ -725,6 +657,51 @@ class ApiInstance {
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
+    }
+  }
+
+  async search(searchOptions: Search): Promise<SearchResponse | undefined> {
+    const defaultOptions: Search = {
+      sort: 'Hot',
+      type_: 'All',
+      limit: 10,
+      // @ts-expect-error TODO remove this later
+      auth: this.authToken!,
+    };
+
+    searchOptions = {
+      ...defaultOptions,
+      ...searchOptions,
+    };
+
+    try {
+      return await this.instance?.search(searchOptions);
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
+    }
+  }
+
+  async listCommunities(
+    options?: ListCommunities,
+  ): Promise<ListCommunitiesResponse | undefined> {
+    const defaultOptions: ListCommunities = {
+      sort: 'TopDay',
+      limit: 15,
+      // @ts-expect-error TODO remove this later
+      auth: this.authToken!,
+    };
+
+    options = {
+      ...defaultOptions,
+      ...options,
+    };
+
+    try {
+      return await this.instance?.listCommunities(options);
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 }

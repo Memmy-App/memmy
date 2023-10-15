@@ -24,9 +24,7 @@ function OnboardingInstanceListItem({ item }: IProps): React.JSX.Element {
   };
 
   return (
-    <Pressable
-      onPress={onPress}
-    >
+    <Pressable onPress={onPress}>
       <VStack
         space="$2"
         padding="$2.5"
@@ -35,41 +33,33 @@ function OnboardingInstanceListItem({ item }: IProps): React.JSX.Element {
         marginVertical="$2"
         marginHorizontal="$3"
       >
-        <HStack
-          space="$3"
-          alignItems="center"
-        >
-          {
-            (item.site_view.site.icon != null)
-              ? (
-              <Image
-                source={{ uri: item.site_view.site.icon }}
-                style={{
-                  width: 35,
-                  height: 35,
-                  borderRadius: 25,
-                }}
-              />
-                )
-              : (
-              <Globe size={30} color="$accent" />
-                )
-          }
+        <HStack space="$3" alignItems="center">
+          {item.site_view.site.icon != null ? (
+            <Image
+              source={{ uri: item.site_view.site.icon }}
+              style={{
+                width: 35,
+                height: 35,
+                borderRadius: 25,
+              }}
+            />
+          ) : (
+            <Globe size={30} color="$accent" />
+          )}
 
           <H5>{item.site_view.site.name}</H5>
-          <ChevronRight size={24} color="$accent" style={{
-            marginLeft: 'auto',
-          }}/>
+          <ChevronRight
+            size={24}
+            color="$accent"
+            style={{
+              marginLeft: 'auto',
+            }}
+          />
         </HStack>
         <HStack>
-          <P1>
-            {item.site_view.site.description ?? 'No description'}
-          </P1>
+          <P1>{item.site_view.site.description ?? 'No description'}</P1>
         </HStack>
-        <HStack
-          alignItems="center"
-          space="$1"
-        >
+        <HStack alignItems="center" space="$1">
           <User size={20} color="$accent" />
           <Text>{item.site_view.counts.users} Users</Text>
           <Spacer />
@@ -78,7 +68,6 @@ function OnboardingInstanceListItem({ item }: IProps): React.JSX.Element {
         </HStack>
       </VStack>
     </Pressable>
-
   );
 }
 

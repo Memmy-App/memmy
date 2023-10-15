@@ -1,7 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { Input, useTheme } from 'tamagui';
-import { Search, X } from '@tamagui/lucide-icons';
-import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
+import { Search } from '@tamagui/lucide-icons';
 import { useThemeColorScheme } from '@hooks/useThemeColorScheme';
 import Animated, {
   useAnimatedStyle,
@@ -18,11 +17,13 @@ interface IProps {
   onEndEditing?: () => unknown;
   onClear?: () => unknown;
   onFocus?: () => unknown;
+  onSearch?: () => unknown;
 
   autoFocus?: boolean;
+  autoClear?: boolean;
 
   placeholder?: string;
-  value?: string;
+  defaultValue?: string;
 }
 
 function HeaderSearchBar({
@@ -30,11 +31,13 @@ function HeaderSearchBar({
   onEndEditing,
   onFocus,
   onClear,
+  onSearch,
 
   autoFocus = false,
+  autoClear = true,
 
   placeholder,
-  value,
+  defaultValue,
 }: IProps): React.JSX.Element {
   const themeColorScheme = useThemeColorScheme();
   const theme = useTheme();
@@ -114,7 +117,7 @@ function HeaderSearchBar({
           flex={1}
           fontSize={16}
           placeholder={placeholder ?? 'Search for a user, community, or post'}
-          value={value}
+          defaultValue={defaultValue}
           onChangeText={onChange}
           onEndEditing={onSearchEndEditing}
           onFocus={onSearchFocus}
@@ -125,19 +128,14 @@ function HeaderSearchBar({
           placeholderTextColor="$secondary"
           keyboardAppearance={themeColorScheme}
           clearButtonMode="while-editing"
+          // @ts-expect-error - this is valid
           ref={inputRef}
           marginRight={5}
+          clearTextOnFocus={autoClear}
+          returnKeyType="search"
+          returnKeyLabel="search"
+          onSubmitEditing={onSearch}
         />
-        <Animated.View
-          style={[{ position: 'absolute', right: 5 }, buttonStyle]}
-        >
-          <AnimatedIconButton
-            onPress={onClear}
-            icon={X}
-            color="$secondary"
-            iconSize={20}
-          />
-        </Animated.View>
       </Animated.View>
       <Animated.View
         style={[{ zIndex: -1, position: 'absolute', right: 10 }, buttonStyle]}

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface UseLoadData<DataType = undefined> {
   refresh: (refreshFunc?: () => Promise<DataType>) => void;
@@ -10,27 +10,28 @@ interface UseLoadData<DataType = undefined> {
   data?: DataType;
 }
 
-interface Status<DataType = undefined> {
+interface Status {
   isLoading: boolean;
   isRefreshing: boolean;
   isError: boolean;
   error?: string;
-  data?: DataType;
 }
 
 export const useLoadData = <ReturnType>(
   func: () => Promise<ReturnType>,
   cacheFunc?: () => boolean,
+  setPage?: React.Dispatch<React.SetStateAction<number>>,
 ): UseLoadData<ReturnType> => {
   const inProgress = useRef(false);
 
-  const [status, setStatus] = useState<Status<ReturnType>>({
+  const [status, setStatus] = useState<Status>({
     isLoading: true,
     isRefreshing: false,
     isError: false,
     error: undefined,
-    data: undefined,
   });
+
+  const [returnData, setReturnData] = useState<ReturnType>();
 
   useEffect(() => {
     if (cacheFunc != null) {
@@ -51,69 +52,82 @@ export const useLoadData = <ReturnType>(
     run(func);
   }, []);
 
-  const run = useCallback(
-    (func: () => Promise<ReturnType>, append = false, refresh = false) => {
-      if (inProgress.current) return;
+  const run = (
+    func: () => Promise<ReturnType>,
+    append = false,
+    refresh = false,
+  ): void => {
+    if (inProgress.current) return;
 
-      inProgress.current = true;
+    inProgress.current = true;
 
-      setStatus({
-        ...status,
-        isLoading: true,
-        isError: false,
-        isRefreshing: refresh,
-        error: undefined,
-      });
+    setStatus({
+      ...status,
+      isLoading: true,
+      isError: false,
+      isRefreshing: refresh,
+      error: undefined,
+    });
 
-      void func()
-        .then((data) => {
-          if (append) {
-            setStatus({
-              ...status,
-              isLoading: false,
-              isError: false,
-              isRefreshing: false,
-              error: undefined,
-            });
-          } else {
-            setStatus({
-              isLoading: false,
-              isError: false,
-              isRefreshing: false,
-              error: undefined,
-              data,
-            });
+    void func()
+      .then((data) => {
+        if (append) {
+          console.log('Appending.');
+          console.log(returnData);
+
+          if (returnData != null && data != null) {
+            console.log('Was iterable');
+
+            // @ts-expect-error We already checked that data is iterable
+            setReturnData((prev) => [...(prev ?? []), ...data]);
           }
 
-          inProgress.current = false;
-        })
-        .catch((e) => {
-          setStatus({
+          setPage?.((prev) => prev + 1);
+        } else {
+          setStatus((prev) => ({
+            ...prev,
             isLoading: false,
-            isError: true,
+            isError: false,
             isRefreshing: false,
-            error: e.message,
-          });
+            error: undefined,
+          }));
 
-          inProgress.current = false;
-        });
-    },
-    [status],
-  );
+          setReturnData(data);
 
-  const refresh = useCallback((refreshFunc?: () => Promise<ReturnType>) => {
+          setPage?.(2);
+        }
+
+        inProgress.current = false;
+      })
+      .catch((e) => {
+        setStatus((prev) => ({
+          ...prev,
+          isLoading: false,
+          isError: true,
+          isRefreshing: false,
+          error: e.message,
+        }));
+
+        inProgress.current = false;
+
+        console.log(e);
+      });
+  };
+
+  const refresh = (refreshFunc?: () => Promise<ReturnType>): void => {
     if (refreshFunc == null) refreshFunc = func;
 
     run(refreshFunc, false, true);
-  }, []);
+  };
 
-  const append = useCallback((appendFunc: () => Promise<ReturnType>) => {
+  const append = (appendFunc: () => Promise<ReturnType>): void => {
     run(appendFunc, true);
-  }, []);
+  };
 
   return {
     ...status,
     refresh,
     append,
+    data: returnData,
   };
 };
