@@ -11,7 +11,7 @@ function ContextMenuButton({ icon }: IProps): React.JSX.Element {
       styled(icon, {
         // @ts-expect-error This is valid
         color: '$accent',
-        size: 20,
+        size: 26,
       }),
     [icon],
   );
