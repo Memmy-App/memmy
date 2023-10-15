@@ -100,15 +100,9 @@ export default function MainFeed(): React.JSX.Element {
     // See if we are already loading and if not, we will refresh
     if (!isLoading) {
       onRefresh();
+      flashListRef.current?.scrollToOffset({ offset: 0 });
     }
   }, [sortType]);
-
-  // Update the account username when it changes
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle: account?.fullUsername,
-    });
-  }, [account]);
 
   // Callback for loading more data when we hit the end
   const onEndReached = useCallback(() => {
