@@ -31,5 +31,5 @@ export interface ISwipeableRowContext {
 
 export interface ISwipeableColors {
   first: string;
-  second: string;
+  second?: string;
 }

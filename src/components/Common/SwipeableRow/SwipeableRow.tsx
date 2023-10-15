@@ -17,7 +17,7 @@ import {
   PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import { Handlers, SwipeableRowGestureContext } from './types';
-import { SwipeableRowProvider } from './SwipeableRowProvider';
+import { SwipeableRowProvider } from '@components/Common/SwipeableRow/SwipeableRowProvider';
 
 interface Props {
   /**

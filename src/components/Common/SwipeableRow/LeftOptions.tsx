@@ -11,25 +11,22 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { Dimensions, StyleSheet } from 'react-native';
-import { useSwipeableRow } from './SwipeableRowProvider';
-import { ISwipeableColors } from './types';
+import { StyleSheet } from 'react-native';
 import { playHaptic } from '@helpers/haptics';
+import { SwipeableActionParams } from '@components/Common/SwipeableRow/actions';
+import { useSwipeableRow } from '@components/Common/SwipeableRow/SwipeableRowProvider';
+import { useSwipeOptions } from '@components/Common/SwipeableRow/hooks/useSwipeOptions';
 import { IconMap, IconType } from '@src/types/IconMap';
 import { styled } from 'tamagui';
 
 type Stops = [first: number, second: number];
-const DEFAULT_STOPS: Stops = [-75, -150];
+const DEFAULT_STOPS: Stops = [75, 150];
 const [firstStop, secondStop] = DEFAULT_STOPS;
-const SCREEN_WIDTH = Dimensions.get('screen').width;
 
 interface Props {
-  colors: ISwipeableColors;
-  onFirst: () => unknown;
-  onSecond?: () => unknown;
+  type: 'post' | 'comment';
   flipFlop?: boolean;
-  firstIcon: IconType;
-  secondIcon?: IconType;
+  actionParams: SwipeableActionParams;
 }
 
 const buzz = (): void => {
@@ -39,26 +36,28 @@ const buzz = (): void => {
 };
 
 export function LeftOptions({
-  colors,
-  onFirst,
-  onSecond,
+  type,
   flipFlop = false,
-  firstIcon,
-  secondIcon,
+  actionParams,
 }: Props): React.JSX.Element {
   const isFrozen = useSharedValue(false);
   const { subscribe, translateX } = useSwipeableRow();
 
-  const [icon, setIcon] = useState<IconType>(firstIcon);
+  const { colors, actions, icons } = useSwipeOptions(type, 'left');
+
+  const [icon, setIcon] = useState<IconType | undefined>(icons.first);
 
   const RenderIcon = useMemo(
-    () => styled(IconMap[icon], { color: 'white', size: 40, marginRight: 5 }),
+    () =>
+      icon != null
+        ? styled(IconMap[icon], { color: 'white', size: 40, marginRight: 5 })
+        : null,
     [icon],
   );
 
   const resetIcon = useCallback(() => {
     setTimeout(() => {
-      setIcon(firstIcon);
+      setIcon(icons.first);
     }, 250);
   }, [icon]);
 
@@ -73,21 +72,21 @@ export function LeftOptions({
         onEnd: () => {
           'worklet';
 
-          if (translateX.value <= secondStop) {
-            if (onSecond == null) return;
+          if (translateX.value >= secondStop) {
+            if (actions.second == null) return;
 
-            runOnJS(onSecond)();
+            runOnJS(actions.second)(actionParams);
             runOnJS(resetIcon)();
-          } else if (translateX.value <= firstStop) {
-            if (onFirst == null) return;
+          } else if (translateX.value >= firstStop) {
+            if (actions.first == null) return;
 
-            runOnJS(onFirst)();
+            runOnJS(actions.first)(actionParams);
             runOnJS(resetIcon)();
           }
           isFrozen.value = true;
         },
       }),
-    [onFirst, onSecond],
+    [actions],
   );
 
   // The timer used to pulse the arrow to indicate it's active
@@ -102,13 +101,13 @@ export function LeftOptions({
 
       const hitFirstStop =
         previous != null &&
-        ((current.translateX <= firstStop && previous.translateX > firstStop) ||
-          (current.translateX > firstStop && previous.translateX <= firstStop));
+        ((current.translateX >= firstStop && previous.translateX < firstStop) ||
+          (current.translateX < firstStop && previous.translateX >= firstStop));
 
       const hitSecondStop =
-        current.translateX <= secondStop &&
+        current.translateX >= secondStop &&
         previous != null &&
-        previous.translateX > secondStop;
+        previous.translateX < secondStop;
 
       if (hitFirstStop) {
         buzz();
@@ -117,17 +116,17 @@ export function LeftOptions({
         });
       }
 
-      if (onSecond != null && secondIcon != null) {
+      if (actions.second != null && icons.second != null) {
         if (hitSecondStop) {
           buzz();
-          runOnJS(setIcon)(secondIcon);
+          runOnJS(setIcon)(icons.second);
         } else if (
-          current.translateX >= secondStop &&
+          current.translateX <= secondStop &&
           previous != null &&
-          previous.translateX <= secondStop
+          previous.translateX >= secondStop
         ) {
           buzz();
-          runOnJS(setIcon)(firstIcon);
+          runOnJS(setIcon)(icons.first);
         }
       }
     },
@@ -141,19 +140,21 @@ export function LeftOptions({
   const backgroundStyle = useAnimatedStyle(() => {
     if (isFrozen.value) return {};
 
-    const backgroundColor = interpolateColor(
-      Math.abs(translateX.value),
-      [0, -firstStop / 2, -firstStop * 1.5, -secondStop],
-      ['transparent', colors.first, colors.first, colors.second],
-    );
+    const backgroundColor =
+      colors.second != null
+        ? interpolateColor(
+            Math.abs(translateX.value),
+            [0, firstStop / 2, firstStop * 1.5, secondStop],
+            ['transparent', colors.first, colors.first, colors.second],
+          )
+        : colors.first;
 
-    const width = SCREEN_WIDTH - translateX.value;
-    const transform = [{ translateX: translateX.value }];
-    return { backgroundColor, width, transform };
+    const width = translateX.value;
+    return { backgroundColor, width };
   });
 
   const pulse = useAnimatedStyle(() => {
-    if (translateX.value > firstStop * 0.99) return {};
+    if (translateX.value < firstStop * 0.99) return {};
 
     const scale = interpolate(
       pulseTimer.value,
@@ -171,7 +172,7 @@ export function LeftOptions({
       <Animated.View style={[styles.option]}>
         <Animated.View style={[pulse]}>
           <Animated.View style={[styles.option]}>
-            <RenderIcon />
+            {RenderIcon != null && <RenderIcon />}
           </Animated.View>
         </Animated.View>
       </Animated.View>

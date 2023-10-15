@@ -1,11 +1,11 @@
 import { addSpaceBeforeCapital } from '@helpers/text/addSpaceBeforeCapital';
 
 export const capitalizeFirstLetter = (
-  str: string | null,
+  str: string | undefined,
   addSpace = false,
-): string => {
+): string | undefined => {
   if (str == null) {
-    return '';
+    return undefined;
   }
 
   let s = str;

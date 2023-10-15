@@ -4,6 +4,7 @@ export const postGestureOptions = [
   'save',
   'hide',
   'reply',
+  'none',
 ];
 
 export type IPostGestureOption = (typeof postGestureOptions)[number];

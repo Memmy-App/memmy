@@ -15,6 +15,7 @@ interface AppContextMenuButtonProps<S = string> extends PropsWithChildren {
   isPrimaryAction?: boolean;
   style?: StyleProp<ViewStyle>;
   onPressMenuItem: OnPressMenuItemEvent;
+  onLayout?: () => void;
 }
 
 export function AppContextMenuButton<S = string>(
@@ -28,6 +29,7 @@ export function AppContextMenuButton<S = string>(
     isPrimaryAction = true,
     style,
     onPressMenuItem,
+    onLayout,
   } = props;
 
   const transformOption = useCallback(
@@ -78,6 +80,7 @@ export function AppContextMenuButton<S = string>(
       menuConfig={menuConfig}
       style={style}
       onPressMenuItem={onPressMenuItem}
+      onLayout={onLayout}
     >
       {children}
     </ContextMenuButton>

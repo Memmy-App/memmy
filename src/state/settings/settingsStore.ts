@@ -205,3 +205,15 @@ export const useFeedSettings = (): IFeedSettings =>
     defaultSort: state.defaultSort,
     defaultListingType: state.defaultListingType,
   }));
+
+export const usePostGesturesEnabled = (): boolean =>
+  useSettingsStore((state) => state.gestures.post.enabled);
+
+export const usePostGesturesFirstRight = (): IPostGestureOption =>
+  useSettingsStore((state) => state.gestures.post.firstRight);
+export const usePostGesturesFirstLeft = (): IPostGestureOption =>
+  useSettingsStore((state) => state.gestures.post.firstLeft);
+export const usePostGesturesSecondRight = (): IPostGestureOption =>
+  useSettingsStore((state) => state.gestures.post.secondRight);
+export const usePostGesturesSecondLeft = (): IPostGestureOption =>
+  useSettingsStore((state) => state.gestures.post.secondLeft);

@@ -1,10 +1,17 @@
-import { ICommentGestureOptions, IPostGestureOption } from '@src/types';
+import { ICommentGestureOption, IPostGestureOption } from '@src/types';
 import { upvotePostOption } from '@components/Common/SwipeableRow/actions/upvotePostOption';
 import { downvotePostOption } from '@components/Common/SwipeableRow/actions/downvotePostOption';
+import { upvoteCommentOption } from '@components/Common/SwipeableRow/actions/upvoteCommentOption';
+import { downvoteCommentOption } from '@components/Common/SwipeableRow/actions/downvoteCommentOption';
+import { savePostOption } from '@components/Common/SwipeableRow/actions/savePostOption';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { replyOption } from '@components/Common/SwipeableRow/actions/replyOption';
 
 export interface SwipeableActionParams {
-  itemId?: number;
+  commentId?: number;
+  postId?: number;
   screenId?: string;
+  navigation: NativeStackNavigationProp<any>;
 }
 
 export const postSwipeableActions: Record<
@@ -13,17 +20,17 @@ export const postSwipeableActions: Record<
 > = {
   upvote: upvotePostOption,
   downvote: downvotePostOption,
-  save: () => {},
+  save: savePostOption,
   hide: () => {},
-  reply: () => {},
+  reply: replyOption,
 };
 
 export const commentSwipeableActions: Record<
-  ICommentGestureOptions,
+  ICommentGestureOption,
   (...args: any[]) => any
 > = {
-  upvote: () => {},
-  downvote: () => {},
+  upvote: upvoteCommentOption,
+  downvote: downvoteCommentOption,
   save: () => {},
   collapse: () => {},
   reply: () => {},

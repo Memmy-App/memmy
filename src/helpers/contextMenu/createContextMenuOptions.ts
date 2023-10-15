@@ -3,6 +3,7 @@ import { capitalizeFirstLetter } from '@helpers/text';
 
 export const createContextMenuOptionsFromStrings = (
   options: string[] | readonly string[],
+  addNone = false,
 ): IContextMenuOptions => {
   const menuOptions = options.map((option: string) => {
     return {
@@ -11,6 +12,12 @@ export const createContextMenuOptionsFromStrings = (
     };
   });
 
+  if (addNone) {
+    menuOptions.push({
+      key: 'none',
+      title: 'None',
+    });
+  }
+
   return menuOptions;
 };
-

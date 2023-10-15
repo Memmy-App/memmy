@@ -1,18 +1,33 @@
 import { useTheme } from 'tamagui';
 import { useMemo } from 'react';
-import { useSettingsStore } from '@src/state/settings/settingsStore';
+import {
+  usePostGesturesFirstLeft,
+  usePostGesturesFirstRight,
+  usePostGesturesSecondLeft,
+  usePostGesturesSecondRight,
+} from '@src/state/settings/settingsStore';
 import {
   postSwipeableActions,
   SwipeableActionParams,
 } from '@components/Common/SwipeableRow/actions';
 import { IPostGestureOption } from '@src/types';
+import { ISwipeableColors } from '@components/Common/SwipeableRow/types';
+import { IconType } from '@src/types/IconMap';
 
-interface UseSwipeOptions {
-  firstAction?: (params: SwipeableActionParams) => unknown;
-  secondAction?: (params: SwipeableActionParams) => unknown;
+export interface UseSwipeOptions {
+  actions: ISwipeableActions;
+  colors: ISwipeableColors;
+  icons: ISwipeableIcons;
+}
 
-  firstColor?: string;
-  secondColor?: string;
+interface ISwipeableActions {
+  first?: (params: SwipeableActionParams) => unknown;
+  second?: (params: SwipeableActionParams) => unknown;
+}
+
+interface ISwipeableIcons {
+  first?: IconType;
+  second?: IconType;
 }
 
 export const useSwipeOptions = (
@@ -21,14 +36,10 @@ export const useSwipeOptions = (
 ): UseSwipeOptions => {
   const theme = useTheme();
 
-  const settings = useSettingsStore((state) => ({
-    firstLeft: state.gestures.post.firstLeft,
-    secondLeft: state.gestures.post.secondLeft,
-    firstRight: state.gestures.post.firstRight,
-    secondRight: state.gestures.post.secondRight,
-
-    enabled: state.gestures.post.enabled,
-  }));
+  const firstLeftPost = usePostGesturesFirstLeft();
+  const firstRightPost = usePostGesturesFirstRight();
+  const secondLeftPost = usePostGesturesSecondLeft();
+  const secondRightPost = usePostGesturesSecondRight();
 
   const swipeColorOptions = useMemo<Record<IPostGestureOption, string>>(
     () => ({
@@ -41,16 +52,48 @@ export const useSwipeOptions = (
     [theme],
   );
 
-  const swipeOptions = useMemo<UseSwipeOptions>(
-    () => ({
-      firstAction: postSwipeableActions[settings.firstLeft],
-      secondAction: postSwipeableActions[settings.secondLeft],
+  const swipeActions = useMemo<ISwipeableActions>(() => {
+    const first = side === 'left' ? firstLeftPost : firstRightPost;
+    const second = side === 'left' ? secondLeftPost : secondRightPost;
 
-      firstColor: swipeColorOptions[settings.firstLeft],
-      secondColor: swipeColorOptions[settings.secondLeft],
-    }),
-    [settings.firstLeft, settings.secondLeft, swipeColorOptions],
-  );
+    return {
+      first: first !== 'none' ? postSwipeableActions[first] : undefined,
+      second: second !== 'none' ? postSwipeableActions[second] : undefined,
+    };
+  }, [firstLeftPost, firstRightPost, secondLeftPost, secondRightPost]);
 
-  return swipeOptions;
+  const swipeColors = useMemo<ISwipeableColors>(() => {
+    const first = side === 'left' ? firstLeftPost : firstRightPost;
+    const second = side === 'left' ? secondLeftPost : secondRightPost;
+
+    return {
+      first:
+        first !== 'none' ? swipeColorOptions[first] ?? '$accent' : '$accent',
+      second:
+        second !== 'none' ? swipeColorOptions[second] ?? undefined : undefined,
+    };
+  }, [
+    firstLeftPost,
+    firstRightPost,
+    secondLeftPost,
+    secondRightPost,
+    swipeColorOptions,
+  ]);
+
+  // @ts-expect-error TODO Fix this
+  const swipeIcons = useMemo<ISwipeableIcons>(() => {
+    const first = side === 'left' ? firstLeftPost : firstRightPost;
+    const second = side === 'left' ? secondLeftPost : secondRightPost;
+
+    return {
+      first: first !== 'none' ? first : undefined,
+      second: second !== 'none' ? second : undefined,
+    };
+  }, [firstLeftPost, firstRightPost, secondLeftPost, secondRightPost]);
+
+  return {
+    actions: swipeActions,
+    colors: swipeColors,
+    icons: swipeIcons,
+  };
 };

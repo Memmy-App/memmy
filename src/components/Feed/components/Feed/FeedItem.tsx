@@ -8,11 +8,14 @@ import { Pressable, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import FeedItemContent from '@components/Feed/components/Feed/FeedItem/FeedItemContent';
-import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
-import { ISwipeableColors } from '@components/Common/SwipeableRow/types';
-import { useSwipeOptions } from '@components/Common/SwipeableRow/hooks/useSwipeOptions';
-import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
 import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
+import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
+import {
+  usePostGesturesEnabled,
+  usePostGesturesFirstLeft,
+  usePostGesturesFirstRight,
+} from '@src/state/settings/settingsStore';
+import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
 
 interface IProps {
   itemId: number;
@@ -21,67 +24,38 @@ interface IProps {
 function FeedItem({ itemId }: IProps): React.JSX.Element {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
+  const gesturesEnabled = usePostGesturesEnabled();
+  const firstLeft = usePostGesturesFirstLeft();
+  const firstRight = usePostGesturesFirstRight();
+
   const onPress = useCallback(() => {
     navigation.navigate('Post', {
       postId: itemId,
     });
   }, [itemId]);
 
-  const swipeRightOptions = useSwipeOptions('post', 'left');
-
-  const leftColors: ISwipeableColors = useMemo(
+  const actionParams = useMemo(
     () => ({
-      first: swipeRightOptions.firstColor ?? '$accent',
-      second: swipeRightOptions.secondColor ?? '$accent',
+      postId: itemId,
+      navigation,
     }),
-    [],
-  );
-
-  const onLeftFirst = useCallback(() => {
-    if (swipeRightOptions.firstAction != null) {
-      swipeRightOptions.firstAction({
-        itemId,
-      });
-    }
-  }, [itemId, swipeRightOptions]);
-
-  const onLeftSecond = useCallback(() => {
-    if (swipeRightOptions.secondAction != null) {
-      swipeRightOptions.secondAction({
-        itemId,
-      });
-    }
-  }, [itemId]);
-
-  const rightOption = useMemo(
-    () => (
-      <RightOptions
-        colors={leftColors}
-        onFirst={onLeftFirst}
-        onSecond={onLeftSecond}
-        firstIcon="upvote"
-        secondIcon="downvote"
-      />
-    ),
-    [leftColors, onLeftFirst, onLeftSecond],
-  );
-
-  const leftOption = useMemo(
-    () => (
-      <LeftOptions
-        colors={leftColors}
-        onFirst={onLeftFirst}
-        onSecond={onLeftSecond}
-        firstIcon="upvote"
-        secondIcon="downvote"
-      />
-    ),
-    [leftColors, onLeftFirst, onLeftSecond],
+    [itemId],
   );
 
   return (
     <Pressable onPress={onPress} style={styles.pressable}>
-      <SwipeableRow leftOption={rightOption} rightOption={leftOption}>
+      <SwipeableRow
+        leftOption={
+          gesturesEnabled && firstLeft !== 'none' ? (
+            <LeftOptions type="post" actionParams={actionParams} />
+          ) : undefined
+        }
+        rightOption={
+          gesturesEnabled && firstRight !== 'none' ? (
+            <RightOptions type="post" actionParams={actionParams} />
+          ) : undefined
+        }
+      >
         <FeedItemContainer>
           <FeedItemHeader itemId={itemId} />
           <FeedItemContent itemId={itemId} />
