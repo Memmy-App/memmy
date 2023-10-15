@@ -29,7 +29,7 @@ function FeedItemContent({ itemId }: IProps): React.JSX.Element | null {
       <View marginVertical="$3" justifyContent="center">
         <ViewerImage
           source={postLink!}
-          blurRadius={postNsfw || postCommunityNsfw ? 30 : 0}
+          blurRadius={postNsfw || postCommunityNsfw ? 90 : 0}
           title={postTitle}
         />
       </View>

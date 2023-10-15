@@ -26,7 +26,7 @@ function PostContent(): React.JSX.Element {
         <View marginVertical="$3">
           <ViewerImage
             source={postLink!}
-            blurRadius={postNsfw || postCommunityNsfw ? 30 : 0}
+            blurRadius={postNsfw || postCommunityNsfw ? 90 : 0}
           />
         </View>
       )}
