@@ -48,6 +48,7 @@
     "react-native-gesture-handler": "^2.13.1",
     "react-native-haptic-feedback": "^2.2.0",
     "react-native-ios-context-menu": "^1.15.3",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-reanimated": "~3.3.0",
     "react-native-safe-area-context": "^4.7.2",
     "react-native-screens": "^3.25.0",

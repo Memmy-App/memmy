@@ -1,21 +1,24 @@
-import { useComment } from '@src/state/comment/commentStore';
 import { useCallback } from 'react';
-import { Alert } from 'react-native';
+import instance from '@src/Instance';
 
 interface UseCommentContextMenu {
-  actionOne: () => void;
+  upvote: () => void;
+  downvote: () => void;
 }
 
 export const useCommentContextMenu = (
   itemId: number,
 ): UseCommentContextMenu => {
-  const comment = useComment(itemId);
+  const upvote = useCallback(() => {
+    void instance.likeComment(itemId, 1);
+  }, [itemId]);
 
-  const actionOne = useCallback(() => {
-    Alert.alert(comment?.comment.ap_id ?? 'nope');
+  const downvote = useCallback(() => {
+    void instance.likeComment(itemId, -1);
   }, [itemId]);
 
   return {
-    actionOne,
+    upvote,
+    downvote,
   };
 };

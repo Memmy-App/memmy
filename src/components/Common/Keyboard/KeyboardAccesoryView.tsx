@@ -17,6 +17,7 @@ export default function KeyboardAccessoryView(
         justifyContent="space-between"
         alignItems="center"
         paddingHorizontal="$3"
+        backgroundColor="$bg"
       >
         <AnimatedIconButton
           icon={Bold}
