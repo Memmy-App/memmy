@@ -30,6 +30,7 @@ export const IconMap = {
   Hot: Flame,
   New: Clock1,
   Old: CalendarMinus,
+  Top: ArrowUp,
   TopHour: Clock1,
   TopSixHour: Clock6,
   TopTwelveHour: Clock11,
