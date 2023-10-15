@@ -21,7 +21,7 @@ export default function SettingsIndexScreen({
   navigation,
 }: IProps): React.JSX.Element {
   return (
-    <ScrollView flex={1}>
+    <ScrollView flex={1} contentInsetAdjustmentBehavior="automatic">
       <Table.Container>
         <Table.Section>
           <Table.Cell

@@ -16,7 +16,7 @@ export default function SettingsStackScreen(): React.JSX.Element {
       <SettingsStack.Screen
         name="Index"
         component={SettingsIndexScreen}
-        options={{ headerTitle: 'Settings' }}
+        options={{ headerTitle: 'Settings', headerLargeTitle: true }}
       />
       <SettingsStack.Screen
         name="General"

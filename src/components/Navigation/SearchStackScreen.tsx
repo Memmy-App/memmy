@@ -12,7 +12,13 @@ export default function SearchStackScreen(): React.JSX.Element {
         headerShown: true,
       }}
     >
-      <SearchStack.Screen name="Search" component={SearchScreen} />
+      <SearchStack.Screen
+        name="Search"
+        component={SearchScreen}
+        options={{
+          headerLargeTitle: true,
+        }}
+      />
       {MainScreens(SearchStack)}
     </SearchStack.Navigator>
   );
