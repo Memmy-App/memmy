@@ -36,6 +36,7 @@ function ProfilePostsTab(): React.JSX.Element {
             error={profileScreenContext.isError}
           />
         }
+        scrollEventThrottle={16}
         // @ts-expect-error - This is valid but useScrollToTop expect a ref to a FlatList
         // ref={mainFeed.flashListRef}
       />
