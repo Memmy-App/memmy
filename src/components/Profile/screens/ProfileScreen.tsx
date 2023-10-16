@@ -1,8 +1,18 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useProfileScreen } from '@components/Profile/hooks/useProfileScreen';
-import ProfileTopTabs from '@components/Profile/components/Tabs/ProfileTopTabs';
-import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  StyleSheet,
+} from 'react-native';
+import { SharedValue, useSharedValue } from 'react-native-reanimated';
+import ProfileHeader from '@components/Profile/components/ProfileHeader';
+import PagerView from 'react-native-pager-view';
+import ProfilePostsTab from '@components/Profile/components/Tabs/ProfilePostsTab';
+import ProfileCommentsTab from '@components/Profile/components/Tabs/ProfileCommentsTab';
+import ProfileAboutTab from '@components/Profile/components/Tabs/ProfileAboutTab';
+import TopTabs from '@components/Common/TopTabs/TopTabs';
 
 interface IProfileScreenContext {
   profileId: number;
@@ -10,6 +20,7 @@ interface IProfileScreenContext {
   isError: boolean;
 
   onScroll: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  contentOffsetY: SharedValue<number> | undefined;
 }
 
 const ProfileScreenContext = React.createContext<IProfileScreenContext>({
@@ -17,6 +28,7 @@ const ProfileScreenContext = React.createContext<IProfileScreenContext>({
   isLoading: true,
   isError: false,
   onScroll: () => {},
+  contentOffsetY: undefined,
 });
 
 export const useProfileScreenContext = (): IProfileScreenContext =>
@@ -30,9 +42,20 @@ export default function ProfileScreen({
   navigation,
 }: IProps): React.JSX.Element {
   const profileScreen = useProfileScreen();
+  const contentOffsetY = useSharedValue(0);
+
+  const [selectedTab, setSelectedTab] = useState(0);
+
+  const pagerViewRef = useRef<PagerView>();
 
   const onScroll = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    console.log(e.nativeEvent);
+    contentOffsetY.value =
+      e.nativeEvent.contentOffset.y >= 0 ? e.nativeEvent.contentOffset.y : 0;
+  }, []);
+
+  const onTabChange = useCallback((index: number) => {
+    setSelectedTab(index);
+    pagerViewRef.current?.setPage(index);
   }, []);
 
   return (
@@ -42,9 +65,31 @@ export default function ProfileScreen({
         isLoading: profileScreen.isLoading,
         isError: profileScreen.isError,
         onScroll,
+        contentOffsetY,
       }}
     >
-      <ProfileTopTabs />
+      <ProfileHeader />
+      <TopTabs
+        onChange={onTabChange}
+        items={['Posts', 'Comments', 'About']}
+        selectedIndex={selectedTab}
+      />
+      <PagerView
+        style={styles.pagerStyle}
+        scrollEnabled={false}
+        // @ts-expect-error - this is valid
+        ref={pagerViewRef}
+      >
+        <ProfilePostsTab />
+        <ProfileCommentsTab />
+        <ProfileAboutTab />
+      </PagerView>
     </ProfileScreenContext.Provider>
   );
 }
+
+const styles = StyleSheet.create({
+  pagerStyle: {
+    flex: 1,
+  },
+});

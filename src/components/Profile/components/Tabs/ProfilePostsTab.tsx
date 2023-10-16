@@ -16,12 +16,12 @@ const renderItem = ({
 
 const keyExtractor = (item: PostView): string => item.post.id.toString();
 
-export default function ProfilePostsTab(): React.JSX.Element {
+function ProfilePostsTab(): React.JSX.Element {
   const profileScreenContext = useProfileScreenContext();
   const profilePosts = useProfilePosts(profileScreenContext.profileId);
 
   return (
-    <VStack flex={1}>
+    <VStack flex={1} backgroundColor="$bg">
       <FlashList<PostView>
         renderItem={renderItem}
         data={profilePosts}
@@ -42,3 +42,5 @@ export default function ProfilePostsTab(): React.JSX.Element {
     </VStack>
   );
 }
+
+export default React.memo(ProfilePostsTab);

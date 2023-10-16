@@ -49,7 +49,11 @@ export default function MainScreens(
           }}
         />
         <stack.Screen name="Community" component={MainFeed} />
-        <stack.Screen name="Profile" component={ProfileScreen} />
+        <stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{ headerShown: false }}
+        />
       </stack.Group>
       <stack.Group
         screenOptions={{

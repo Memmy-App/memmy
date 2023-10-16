@@ -13,6 +13,12 @@
     "preview": {
       "distribution": "internal"
     },
+		"production-internal": {
+			"distribution": "internal",
+			"env": {
+				"EXPO_PUBLIC_IS_TEST_FLIGHT": "true"
+			}
+		},
     "production": {
 			"env": {
 				"EXPO_PUBLIC_IS_TEST_FLIGHT": "false"

@@ -4,8 +4,8 @@ import { IAccount } from '@src/types';
 import instance from '@src/Instance';
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
 import { Alert } from 'react-native';
-import MainFeed from '@components/Feed/components/MainFeed';
 import { useSiteStore } from '@src/state/site/siteStore';
+import MainFeed from '@components/Feed/components/MainFeed';
 
 export default function FeedIndexScreen(): React.JSX.Element {
   const currentAccount = useCurrentAccount();

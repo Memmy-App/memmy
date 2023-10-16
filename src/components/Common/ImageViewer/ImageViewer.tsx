@@ -25,6 +25,8 @@ import ImageViewerHeader from '@components/Common/ImageViewer/ImageViewerHeader'
 import { View } from 'tamagui';
 import ImageViewerFooter from '@components/Common/ImageViewer/ImageViewerFooter';
 
+const AnimatedImage = Animated.createAnimatedComponent(Image);
+
 interface MeasureResult {
   x: number;
   y: number;
@@ -303,11 +305,6 @@ function ImageViewer(): React.JSX.Element {
   const panAndPinchGestures = Gesture.Simultaneous(panGesture, pinchGesture);
   const tapGestures = Gesture.Simultaneous(singleTapGesture, doubleTapGesture);
   const allGestures = Gesture.Exclusive(panAndPinchGestures, tapGestures);
-
-  const AnimatedImage = useMemo(
-    () => Animated.createAnimatedComponent(Image),
-    [],
-  );
 
   useEffect(() => {
     if (imageViewer.visible) {

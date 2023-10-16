@@ -1,4 +1,4 @@
-import { useNavigation, useRoute } from '@react-navigation/core';
+import { useRoute } from '@react-navigation/core';
 import { useLoadData } from '@src/hooks';
 import instance from '@src/Instance';
 import { GetPersonDetailsResponse } from 'lemmy-js-client';
@@ -6,8 +6,6 @@ import React, { useEffect, useState } from 'react';
 import { removeProfile } from '@src/state/profile/actions/removeProfile';
 import { useCurrentAccount } from '@src/state/account/accountStore';
 import { addProfile } from '@src/state/profile/actions';
-import ProfileHeader from '@components/Profile/components/ProfileHeader';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface UseProfileScreen {
   isLoading: boolean;
@@ -19,17 +17,10 @@ interface UseProfileScreen {
 export const useProfileScreen = (): UseProfileScreen => {
   const { key, params } = useRoute<any>();
   const { fullName, personId } = params;
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const currentAccount = useCurrentAccount();
 
   const [profileId, setProfileId] = useState<number>(-1);
-
-  useEffect(() => {
-    navigation.setOptions({
-      header: () => <ProfileHeader profileId={profileId} />,
-    });
-  }, [profileId]);
 
   const { isLoading, isError } = useLoadData<
     GetPersonDetailsResponse | undefined
