@@ -34,7 +34,7 @@ export default function OnboardingIndexScreen({
 
           <Button
             onPress={() => {
-              navigation.navigate('OnboardingInstanceList');
+              navigation.push('OnboardingInstanceList');
             }}
           >
             Get Started

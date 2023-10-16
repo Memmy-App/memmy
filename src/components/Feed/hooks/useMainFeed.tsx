@@ -89,7 +89,7 @@ export const useMainFeed = (): UseMainFeed => {
           <HeaderBackButton
             label="Subscriptions"
             onPress={() => {
-              navigation.navigate('Subscriptions');
+              navigation.push('Subscriptions');
             }}
             style={{ marginLeft: -16 }}
           />

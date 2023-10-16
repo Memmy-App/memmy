@@ -7,7 +7,6 @@ import { useNavigation, useRoute } from '@react-navigation/core';
 import { useLoadData } from '@hooks/useLoadData';
 import { GetCommunityResponse } from 'lemmy-js-client';
 import instance from '@src/Instance';
-import { Spinner } from 'tamagui';
 import {
   useCommunityBanner,
   useCommunityName,
@@ -21,6 +20,8 @@ import { Image } from 'expo-image';
 function CommunityHeader(): React.JSX.Element | null {
   const { params } = useRoute<any>();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+  console.log(params);
 
   // Get the title
   const communityTitle = useCommunityName(params?.id);
@@ -48,13 +49,8 @@ function CommunityHeader(): React.JSX.Element | null {
     });
   }, [communityTitle]);
 
-  // Display loading spinner while getting data
-  if (isLoading) {
-    return <Spinner />;
-  }
-
   // If we don't have the data and we don't have the ID, then we can't display anything
-  if (!isLoading && data == null && params?.id == null) {
+  if (params?.name == null || (!isLoading && data == null)) {
     return null;
   }
 

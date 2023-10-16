@@ -26,7 +26,7 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
   const rightSwipeOptions = usePostSwipeOptions('right');
 
   const onPress = useCallback(() => {
-    navigation.navigate('Post', {
+    navigation.push('Post', {
       postId: itemId,
     });
   }, [itemId]);

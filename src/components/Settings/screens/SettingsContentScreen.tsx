@@ -67,7 +67,7 @@ export default function SettingsContentScreen({
             label="Mark Read Options"
             useChevron
             onPress={() => {
-              navigation.navigate('Read');
+              navigation.push('Read');
             }}
           />
         </Table.Section>

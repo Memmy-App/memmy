@@ -48,7 +48,7 @@ export default function SearchScreen({
   }, []);
 
   const onSearch = useCallback(() => {
-    navigation.navigate('SearchResults', {
+    navigation.push('SearchResults', {
       searchValue,
     });
   }, [searchValue]);

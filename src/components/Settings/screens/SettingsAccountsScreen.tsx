@@ -31,7 +31,7 @@ export default function SettingsAccountScreen({
               label="Edit Account"
               useChevron
               onPress={() => {
-                navigation.navigate('EditAccount', { account });
+                navigation.push('EditAccount', { account });
               }}
             />
             <Table.Cell
@@ -39,7 +39,7 @@ export default function SettingsAccountScreen({
               useChevron
               onPress={() => {
                 deleteAccount(account);
-                navigation.navigate('Feed', { screen: 'FeedIndex' });
+                navigation.push('Feed', { screen: 'FeedIndex' });
               }}
             />
           </Table.Section>

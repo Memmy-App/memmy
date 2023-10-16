@@ -14,7 +14,7 @@ function CommentShowMoreButton({ commentInfo }: IProps): React.JSX.Element {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onPress = useCallback(() => {
-    navigation.navigate('CommentChain', {
+    navigation.push('CommentChain', {
       commentInfo,
     });
   }, []);

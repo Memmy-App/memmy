@@ -29,7 +29,7 @@ function PostUserLabel({
   );
 
   const onPress = useCallback((): void => {
-    navigation.navigate('Profile', {
+    navigation.push('Profile', {
       fullName: name,
     });
   }, [name]);

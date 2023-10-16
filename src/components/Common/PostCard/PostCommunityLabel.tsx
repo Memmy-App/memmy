@@ -57,7 +57,7 @@ function PostCommunityLabel({ itemId }: IProps): React.JSX.Element {
   );
 
   const onPress = useCallback((): void => {
-    navigation.navigate('Community', {
+    navigation.push('Community', {
       name: fullName,
       id: communityId,
     });

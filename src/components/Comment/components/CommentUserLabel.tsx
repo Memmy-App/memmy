@@ -28,7 +28,7 @@ function CommentUserLabel({
   );
 
   const onPress = useCallback((): void => {
-    navigation.navigate('User', {
+    navigation.push('User', {
       fullName: createName(userName, userCommunity, true),
     });
   }, [userName]);

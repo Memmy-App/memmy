@@ -18,7 +18,7 @@ function OnboardingInstanceListItem({ item }: IProps): React.JSX.Element {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onPress = (): void => {
-    navigation.navigate('CreateAccount', {
+    navigation.push('CreateAccount', {
       instance: item.site_view.site.actor_id,
     });
   };

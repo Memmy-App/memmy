@@ -25,8 +25,9 @@ function CommunitySearchResult({ view }: IProps): React.JSX.Element {
   );
 
   const onPress = useCallback(() => {
-    navigation.navigate('Community', {
+    navigation.push('Community', {
       name,
+      communityId: view.community.id,
     });
   }, [view, name]);
 

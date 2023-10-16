@@ -28,7 +28,7 @@ export default function SettingsIndexScreen({
             label="General"
             useChevron
             onPress={() => {
-              navigation.navigate('General');
+              navigation.push('General');
             }}
             accessoryLeft={<CellIcon bgColor="#FF8E00" icon={<Cog />} />}
           />
@@ -36,7 +36,7 @@ export default function SettingsIndexScreen({
             label="Content"
             useChevron
             onPress={() => {
-              navigation.navigate('Content');
+              navigation.push('Content');
             }}
             accessoryLeft={
               <CellIcon bgColor="#F43A9F" icon={<MessageCircle />} />
@@ -51,7 +51,7 @@ export default function SettingsIndexScreen({
             label="Gestures"
             useChevron
             onPress={() => {
-              navigation.navigate('Gestures');
+              navigation.push('Gestures');
             }}
             accessoryLeft={<CellIcon bgColor="#BB4BE5" icon={<Hand />} />}
           />
@@ -59,7 +59,7 @@ export default function SettingsIndexScreen({
             label="Accounts"
             useChevron
             onPress={() => {
-              navigation.navigate('Accounts');
+              navigation.push('Accounts');
             }}
             accessoryLeft={<CellIcon bgColor="#00CA48" icon={<User />} />}
           />
@@ -72,7 +72,7 @@ export default function SettingsIndexScreen({
             label="About"
             useChevron
             onPress={() => {
-              navigation.navigate('About');
+              navigation.push('About');
             }}
             accessoryLeft={<CellIcon bgColor="#0368D4" icon={<AtSign />} />}
           />

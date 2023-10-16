@@ -5,5 +5,5 @@ export const replyOption = ({
   postId,
   navigation,
 }: SwipeableActionParams): void => {
-  navigation.navigate('Reply', { commentId, postId });
+  navigation.push('Reply', { commentId, postId });
 };

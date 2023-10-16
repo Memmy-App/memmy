@@ -11,11 +11,11 @@ export default function OnboardingInstanceListHeader(): React.JSX.Element {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onAddAccountPress = (): void => {
-    navigation.navigate('AddAccount');
+    navigation.push('AddAccount');
   };
 
   const onCreateAccountPress = (): void => {
-    navigation.navigate('CreateAccount');
+    navigation.push('CreateAccount');
   };
 
   return (

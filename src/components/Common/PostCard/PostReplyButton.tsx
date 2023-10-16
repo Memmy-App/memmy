@@ -12,7 +12,7 @@ function PostShareButton({ itemId }: IProps): React.JSX.Element {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onPress = useCallback(() => {
-    navigation.navigate('Reply', { postId: itemId });
+    navigation.push('Reply', { postId: itemId });
   }, [itemId]);
 
   return (

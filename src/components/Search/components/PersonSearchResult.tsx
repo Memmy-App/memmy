@@ -30,7 +30,7 @@ function PersonSearchResult({ view }: IProps): React.JSX.Element {
   );
 
   const onPress = useCallback(() => {
-    navigation.navigate('Community', {
+    navigation.push('Community', {
       name,
     });
   }, [view, name]);

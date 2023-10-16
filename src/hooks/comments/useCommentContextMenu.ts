@@ -35,11 +35,11 @@ export const useCommentContextMenu = (
   };
 
   const ban = (): void => {
-    navigation.navigate('BanFromCommunity', { commentId: itemId });
+    navigation.push('BanFromCommunity', { commentId: itemId });
   };
 
   const edit = (): void => {
-    navigation.navigate('Reply', { commentId: itemId, edit: true });
+    navigation.push('Reply', { commentId: itemId, edit: true });
   };
 
   const delet = (): void => {
