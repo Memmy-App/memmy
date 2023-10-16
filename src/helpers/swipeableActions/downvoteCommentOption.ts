@@ -1,4 +1,4 @@
-import { SwipeableActionParams } from '@components/Common/SwipeableRow/actions/swipeableActions';
+import { SwipeableActionParams } from '@helpers/swipeableActions/swipeableActions';
 import instance from '@src/Instance';
 import { playHaptic } from '@helpers/haptics';
 

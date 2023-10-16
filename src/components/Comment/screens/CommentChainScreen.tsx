@@ -1,10 +1,12 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import VStack from '@components/Common/Stack/VStack';
 import { ICommentInfo } from '@src/types';
 import { usePostCommentsInfo } from '@src/state/post/postStore';
 import { FlatList, ListRenderItemInfo } from 'react-native';
 import CommentChain from '@components/Comment/components/CommentChain';
+import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
+import { useAwaitTransition } from '@hooks/useAwaitTransition';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -22,12 +24,18 @@ export default function CommentChainScreen({
 
   const commentsInfo = usePostCommentsInfo(commentInfo.postId);
 
+  const flashListRef = useRef<FlatList<ICommentInfo>>();
+
+  const awaitTransition = useAwaitTransition();
+
   const commentsToShow = useMemo(
     () =>
-      commentsInfo?.filter((item) =>
-        item.path.includes(commentInfo.parentId!.toString()),
-      ),
-    [],
+      !awaitTransition.transitioning
+        ? commentsInfo?.filter((item) =>
+            item.path.includes(commentInfo.parentId!.toString()),
+          )
+        : [],
+    [awaitTransition.transitioning],
   );
 
   const renderItem = useCallback(
@@ -39,7 +47,7 @@ export default function CommentChainScreen({
 
   return (
     <VStack flex={1} backgroundColor="$bg">
-      <FlatList
+      <FlatList<ICommentInfo>
         renderItem={renderItem}
         data={commentsToShow}
         keyExtractor={keyExtractor}
@@ -47,7 +55,11 @@ export default function CommentChainScreen({
         maxToRenderPerBatch={5}
         updateCellsBatchingPeriod={300}
         windowSize={10}
-        removeClippedSubviews={true}
+        ListEmptyComponent={
+          <FeedLoadingIndicator loading={awaitTransition.transitioning} />
+        }
+        // @ts-expect-error - This is valid
+        ref={flashListRef}
       />
     </VStack>
   );

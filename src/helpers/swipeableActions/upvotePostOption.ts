@@ -1,5 +1,5 @@
 import instance from '@src/Instance';
-import { SwipeableActionParams } from '@components/Common/SwipeableRow/actions/swipeableActions';
+import { SwipeableActionParams } from '@helpers/swipeableActions/swipeableActions';
 import { playHaptic } from '@helpers/haptics';
 
 export const upvotePostOption = ({ postId }: SwipeableActionParams): void => {

@@ -16,7 +16,7 @@ import { useSwipeableRow } from './SwipeableRowProvider';
 import { playHaptic } from '@helpers/haptics';
 import { IconMap, IconType } from '@src/types/IconMap';
 import { styled } from 'tamagui';
-import { SwipeableActionParams } from '@components/Common/SwipeableRow/actions';
+import { SwipeableActionParams } from '@helpers/swipeableActions';
 import { ISwipeableOptions } from '@components/Common/SwipeableRow/types';
 
 type Stops = [first: number, second: number];

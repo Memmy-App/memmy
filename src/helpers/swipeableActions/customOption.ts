@@ -1,4 +1,4 @@
-import { SwipeableActionParams } from '@components/Common/SwipeableRow/actions/swipeableActions';
+import { SwipeableActionParams } from '@helpers/swipeableActions/swipeableActions';
 
 export const customOption = (params: SwipeableActionParams): void => {
   const { custom } = params;

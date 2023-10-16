@@ -61,7 +61,7 @@ export const useMainFeed = (): UseMainFeed => {
   // Define the default options for the requests
   const defaultOptions = useMemo(
     (): IGetPostOptions => ({
-      communityName: (params?.name as unknown as string) ?? undefined,
+      communityName: (params?.name as string) ?? undefined,
       sort: sortType,
       ...(params?.name == null && { type: listingType }),
     }),

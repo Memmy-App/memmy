@@ -60,14 +60,18 @@ export const addPosts = (
         });
       }
 
-      const index = currentPosts?.indexOf(post.post.id);
+      if (!refresh) {
+        const index = currentPosts?.indexOf(post.post.id);
 
-      if (index == null || index === -1) {
-        postIds.push(post.post.id);
+        if (index == null || index === -1) {
+          postIds.push(post.post.id);
 
-        if (post.post.url != null) {
-          links.push(post.post.url);
+          if (post.post.url != null) {
+            links.push(post.post.url);
+          }
         }
+      } else {
+        postIds.push(post.post.id);
       }
 
       void cacheImages(links);
@@ -80,7 +84,7 @@ export const addPosts = (
       if (feed == null || refresh) {
         state.feeds.set(screenId, {
           feedId: screenId,
-          postIds,
+          postIds: [...postIds],
           nextPage: page + 1,
         });
       } else {

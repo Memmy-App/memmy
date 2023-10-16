@@ -26,6 +26,7 @@ import { stripEss } from '@helpers/text';
 import CommentSortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/CommentSortTypeContextMenuButton';
 import { useNewCommentId } from '@src/state/app/appStore';
 import { setNewCommentId } from '@src/state/app/actions';
+import { useAwaitTransition } from '@hooks/useAwaitTransition';
 
 interface RenderItem {
   item: ICommentInfo;
@@ -44,6 +45,8 @@ export default function PostScreen({
 }: IProps): React.JSX.Element {
   const { postId } = route.params;
 
+  const awaitTransition = useAwaitTransition();
+
   const postLoaded = usePostLoaded(postId);
   const postCounts = usePostCounts(postId);
   const postCommentsInfo = usePostCommentsInfo(postId);
@@ -58,9 +61,11 @@ export default function PostScreen({
 
   const flashListRef = useRef<FlashList<ICommentInfo>>();
 
-  const postsToShow = useMemo(() => {
-    return postCommentsInfo?.filter((commentInfo) => commentInfo.showInPost);
-  }, [postCommentsInfo]);
+  const commentsToShow = useMemo(() => {
+    return !awaitTransition.transitioning
+      ? postCommentsInfo?.filter((commentInfo) => commentInfo.showInPost)
+      : [];
+  }, [awaitTransition.transitioning, postCommentsInfo]);
 
   const { isLoading, isError } = useLoadData(async () => {
     return await instance.getComments(postId);
@@ -89,7 +94,9 @@ export default function PostScreen({
   useEffect(() => {
     if (newCommentId == null) return;
 
-    const index = postsToShow?.findIndex((c) => c.commentId === newCommentId);
+    const index = commentsToShow?.findIndex(
+      (c) => c.commentId === newCommentId,
+    );
 
     if (index == null || index === -1) return;
 
@@ -100,7 +107,7 @@ export default function PostScreen({
     });
 
     setNewCommentId(undefined);
-  }, [newCommentId, postsToShow]);
+  }, [newCommentId, commentsToShow]);
 
   const renderItem = useCallback(({ item }: RenderItem): React.JSX.Element => {
     return <CommentChain commentInfo={item} />;
@@ -112,13 +119,17 @@ export default function PostScreen({
     <VStack flex={1}>
       <FlashList<ICommentInfo>
         renderItem={renderItem}
-        data={postsToShow}
+        data={commentsToShow}
         keyExtractor={keyExtractor}
         estimatedItemSize={100}
         ListHeaderComponent={<Post />}
         ListEmptyComponent={
-          <FeedLoadingIndicator loading={isLoading} error={isError} />
+          <FeedLoadingIndicator
+            loading={isLoading || awaitTransition.transitioning}
+            error={isError}
+          />
         }
+        // @ts-expect-error this is valid
         ref={flashListRef}
       />
     </VStack>

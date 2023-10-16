@@ -7,7 +7,7 @@ import { Separator } from 'tamagui';
 import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
 import { useCommentGesturesEnabled } from '@src/state/settings/settingsStore';
 import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
-import { SwipeableActionParams } from '@components/Common/SwipeableRow/actions';
+import { SwipeableActionParams } from '@helpers/swipeableActions';
 import { useCommentPostId } from '@src/state/comment/commentStore';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';

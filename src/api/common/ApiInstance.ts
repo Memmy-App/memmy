@@ -18,6 +18,7 @@ import {
   RemoveComment,
   Search,
   SearchResponse,
+  SortType,
 } from 'lemmy-js-client';
 import { getReadableVersion } from 'react-native-device-info';
 import { ISignupOptions } from '@api/common/types';
@@ -337,20 +338,22 @@ class ApiInstance {
   }
 
   async getPersonDetails(
-    username: string,
+    usernameOrId: string | number,
+    page = 1,
+    sort?: SortType,
   ): Promise<GetPersonDetailsResponse | undefined> {
     try {
       return await this.instance?.getPersonDetails({
-        username,
+        person_id: typeof usernameOrId === 'number' ? usernameOrId : undefined,
+        username: typeof usernameOrId === 'string' ? usernameOrId : undefined,
         sort: 'New',
-        limit: 50,
-        page: 1,
-        // @ts-expect-error TODO Remove this later
-        auth: this.authToken,
+        limit: 20,
+        page,
+        auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
-      return undefined;
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
     }
   }
 
@@ -433,8 +436,7 @@ class ApiInstance {
         page: options.page,
         community_id: options.communityId,
         community_name: options.communityName,
-        // @ts-expect-error TODO Remove this later
-        auth: this.authToken,
+        auth: this.authToken!,
       });
 
       // Add them to the feed

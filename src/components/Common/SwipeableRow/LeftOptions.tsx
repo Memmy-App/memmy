@@ -13,7 +13,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { StyleSheet } from 'react-native';
 import { playHaptic } from '@helpers/haptics';
-import { SwipeableActionParams } from '@components/Common/SwipeableRow/actions';
+import { SwipeableActionParams } from '@helpers/swipeableActions';
 import { useSwipeableRow } from '@components/Common/SwipeableRow/SwipeableRowProvider';
 import { IconMap, IconType } from '@src/types/IconMap';
 import { styled } from 'tamagui';

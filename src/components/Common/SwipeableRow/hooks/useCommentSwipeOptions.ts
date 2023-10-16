@@ -6,7 +6,7 @@ import {
   useCommentGesturesSecondLeft,
   useCommentGesturesSecondRight,
 } from '@src/state/settings/settingsStore';
-import { commentSwipeableActions } from '@components/Common/SwipeableRow/actions';
+import { commentSwipeableActions } from '@helpers/swipeableActions';
 import { IPostGestureOption } from '@src/types';
 import {
   ISwipeableActions,

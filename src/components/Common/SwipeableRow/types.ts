@@ -4,7 +4,7 @@ import {
   GestureUpdateEvent,
   PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
-import { SwipeableActionParams } from '@components/Common/SwipeableRow/actions';
+import { SwipeableActionParams } from '@helpers/swipeableActions';
 import { IconType } from '@src/types/IconMap';
 
 export interface SwipeableRowGestureContext {

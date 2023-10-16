@@ -38,6 +38,7 @@ export default function FeedIndexScreen(): React.JSX.Element {
         void instance
           .getSite()
           .then((site) => {
+            // @ts-expect-error TODO fix this
             setSite(site);
           })
           .then(() => {

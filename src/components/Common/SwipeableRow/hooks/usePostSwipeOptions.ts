@@ -6,7 +6,7 @@ import {
   usePostGesturesSecondLeft,
   usePostGesturesSecondRight,
 } from '@src/state/settings/settingsStore';
-import { postSwipeableActions } from '@components/Common/SwipeableRow/actions';
+import { postSwipeableActions } from '@helpers/swipeableActions';
 import { IPostGestureOption } from '@src/types';
 import {
   ISwipeableActions,
