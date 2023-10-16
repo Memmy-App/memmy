@@ -16,10 +16,15 @@ import {
 import { EventArg, useNavigation, useRoute } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { DraftState } from '@src/state/draft/draftStore';
-import { addOrUpdateDraft, getCommentDraft } from '@src/state/draft/actions';
+import {
+  addOrUpdateDraft,
+  deleteCommentDraft,
+  getCommentDraft,
+} from '@src/state/draft/actions';
 import { useCurrentAccount } from '@src/state/account/accountStore';
 import { CommentResponse } from 'lemmy-js-client';
 import instance from '@src/Instance';
+import { setNewCommentId } from '@src/state/app/actions';
 
 interface UseReplyScreen {
   text: string;
@@ -71,6 +76,7 @@ export const useReplyScreen = (isEdit = false): UseReplyScreen => {
   });
 
   const inputRef = useRef<TextInput>();
+  const saveDraft = useRef(true);
 
   useEffect(() => {
     const draft = getCommentDraft({
@@ -113,7 +119,7 @@ export const useReplyScreen = (isEdit = false): UseReplyScreen => {
   const beforeRemove = (
     e: EventArg<'beforeRemove', true, IBackEvent>,
   ): void => {
-    if (text !== '') {
+    if (text !== '' && saveDraft.current) {
       const newDraft: DraftState = {
         forPost: postId,
         forComment: commentId,
@@ -132,14 +138,12 @@ export const useReplyScreen = (isEdit = false): UseReplyScreen => {
         commentId,
       );
 
-      console.log(res);
+      saveDraft.current = false;
 
-      navigation.getParent()?.setParams({
-        replyId: res.comment_view.comment.id,
-      });
+      setNewCommentId(res.comment_view.comment.id);
+      deleteCommentDraft(postId, account!, commentId);
+
       navigation.pop();
-
-      console.log('got here?');
 
       return res;
     });

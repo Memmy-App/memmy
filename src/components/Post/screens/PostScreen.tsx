@@ -1,10 +1,15 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
   usePostCommentsInfo,
   usePostCounts,
   usePostLoaded,
-  usePostTitle,
 } from '@src/state/post/postStore';
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
 import VStack from '@components/Common/Stack/VStack';
@@ -19,6 +24,8 @@ import { CommentSortType } from 'lemmy-js-client';
 import { useDefaultCommentSort } from '@src/state/settings/settingsStore';
 import { stripEss } from '@helpers/text';
 import CommentSortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/CommentSortTypeContextMenuButton';
+import { useNewCommentId } from '@src/state/app/appStore';
+import { setNewCommentId } from '@src/state/app/actions';
 
 interface RenderItem {
   item: ICommentInfo;
@@ -35,18 +42,21 @@ export default function PostScreen({
   navigation,
   route,
 }: IProps): React.JSX.Element {
-  const { postId, replyId } = route.params;
+  const { postId } = route.params;
 
   const postLoaded = usePostLoaded(postId);
-  const postTitle = usePostTitle(postId);
   const postCounts = usePostCounts(postId);
   const postCommentsInfo = usePostCommentsInfo(postId);
+
+  const newCommentId = useNewCommentId();
 
   const defaultSortType = useDefaultCommentSort();
 
   const [sortType, setSortType] = useState<CommentSortType>(
     defaultSortType ?? 'Top',
   );
+
+  const flashListRef = useRef<FlashList<ICommentInfo>>();
 
   const postsToShow = useMemo(() => {
     return postCommentsInfo?.filter((commentInfo) => commentInfo.showInPost);
@@ -77,9 +87,20 @@ export default function PostScreen({
   }, [sortType]);
 
   useEffect(() => {
-    // Alert.alert(`Got a reply!: ${replyId}`);
-    console.log(postCommentsInfo);
-  }, [postCommentsInfo]);
+    if (newCommentId == null) return;
+
+    const index = postsToShow?.findIndex((c) => c.commentId === newCommentId);
+
+    if (index == null || index === -1) return;
+
+    flashListRef.current?.scrollToIndex({
+      index,
+      animated: true,
+      viewOffset: 80,
+    });
+
+    setNewCommentId(undefined);
+  }, [newCommentId, postsToShow]);
 
   const renderItem = useCallback(({ item }: RenderItem): React.JSX.Element => {
     return <CommentChain commentInfo={item} />;
@@ -89,7 +110,7 @@ export default function PostScreen({
 
   return (
     <VStack flex={1}>
-      <FlashList
+      <FlashList<ICommentInfo>
         renderItem={renderItem}
         data={postsToShow}
         keyExtractor={keyExtractor}
@@ -98,6 +119,7 @@ export default function PostScreen({
         ListEmptyComponent={
           <FeedLoadingIndicator loading={isLoading} error={isError} />
         }
+        ref={flashListRef}
       />
     </VStack>
   );

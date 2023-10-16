@@ -87,8 +87,8 @@ const buildReplies = (
         collapsed: false,
         hidden: false,
         path,
-        showInPost: i <= 3 && depth <= 3,
-        showLoadMore: i === 3 || depth === 3,
+        showInPost: i <= 3 && depth <= 4,
+        showLoadMore: i === 3 || (depth === 4 && i === 0),
         topId: pathIds[1],
         parentId: pathIds[pathIds.length - 2],
       });
