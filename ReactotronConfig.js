@@ -8,6 +8,7 @@ import { useCommunityStore } from "./src/state/community/communityStore";
 import { useSiteStore } from "./src/state/site/siteStore";
 import { useCommentStore } from "./src/state/comment/commentStore";
 import { useDraftStore } from "./src/state/draft/draftStore";
+import { useProfileStore } from "./src/state/profile/profileStore";
 
 Reactotron.setAsyncStorageHandler(AsyncStorage) // AsyncStorage would either come from `react-native` or `@react-native-community/async-storage` depending on where you get it from
   .configure({
@@ -44,6 +45,10 @@ Reactotron.setAsyncStorageHandler(AsyncStorage) // AsyncStorage would either com
         {
           name: "drafts",
           zustand: useDraftStore,
+        },
+        {
+          name: "profile",
+          zustand: useProfileStore,
         },
       ],
     }),

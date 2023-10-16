@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
 import HStack from '@components/Common/Stack/HStack';
 import { Text } from 'tamagui';
@@ -28,11 +28,11 @@ function PostUserLabel({
     [userName, userCommunity],
   );
 
-  const onPress = (): void => {
-    navigation.navigate('User', {
-      fullName: createName(userName, userCommunity, true),
+  const onPress = useCallback((): void => {
+    navigation.navigate('Profile', {
+      fullName: name,
     });
-  };
+  }, [name]);
 
   return (
     <Pressable onPress={onPress} hitSlop={5}>

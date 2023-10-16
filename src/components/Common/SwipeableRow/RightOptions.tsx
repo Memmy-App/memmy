@@ -57,7 +57,7 @@ export function RightOptions({
         actions.second(actionParams);
       }
     },
-    [options.actions],
+    [options.actions, actionParams],
   );
 
   const RenderIcon = useMemo(

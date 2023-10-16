@@ -3,15 +3,13 @@ import VStack from '@components/Common/Stack/VStack';
 import FeedItem from '@components/Feed/components/Feed/FeedItem';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
 import CommunityHeader from '@components/Feed/components/Community/CommunityHeader';
-import { FlashList } from '@shopify/flash-list';
+import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import RefreshControl from '@components/Common/Gui/RefreshControl';
 import { useMainFeed } from '@components/Feed/hooks/useMainFeed';
 
-interface RenderItem {
-  item: number;
-}
-
-const renderItem = ({ item }: RenderItem): React.JSX.Element => {
+const renderItem = ({
+  item,
+}: ListRenderItemInfo<number>): React.JSX.Element => {
   return <FeedItem itemId={item} />;
 };
 

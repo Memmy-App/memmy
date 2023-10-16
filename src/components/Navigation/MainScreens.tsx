@@ -14,6 +14,7 @@ import PostScreen from '@components/Post/screens/PostScreen';
 import MainFeed from '@components/Feed/components/MainFeed';
 import CommentChainScreen from '@components/Comment/screens/CommentChainScreen';
 import ReplyScreen from '@components/Reply/screens/ReplyScreen';
+import ProfileScreen from '@components/Profile/screens/ProfileScreen';
 
 export default function MainScreens(
   stack: TypedNavigator<
@@ -48,6 +49,7 @@ export default function MainScreens(
           }}
         />
         <stack.Screen name="Community" component={MainFeed} />
+        <stack.Screen name="Profile" component={ProfileScreen} />
       </stack.Group>
       <stack.Group
         screenOptions={{

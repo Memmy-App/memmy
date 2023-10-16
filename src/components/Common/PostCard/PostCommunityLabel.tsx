@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
 import HStack from '@components/Common/Stack/HStack';
 import { Image } from 'expo-image';
@@ -56,12 +56,12 @@ function PostCommunityLabel({ itemId }: IProps): React.JSX.Element {
     [communityName],
   );
 
-  const onPress = (): void => {
+  const onPress = useCallback((): void => {
     navigation.navigate('Community', {
       name: fullName,
       id: communityId,
     });
-  };
+  }, [itemId]);
 
   return (
     <Pressable onPress={onPress} hitSlop={5}>

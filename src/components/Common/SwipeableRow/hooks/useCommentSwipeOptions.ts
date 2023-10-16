@@ -9,8 +9,8 @@ import {
 import { commentSwipeableActions } from '@helpers/swipeableActions';
 import { IPostGestureOption } from '@src/types';
 import {
-  ISwipeableActions,
   ISwipeableColors,
+  ISwipeableIcons,
   ISwipeableOptions,
 } from '@components/Common/SwipeableRow/types';
 
@@ -36,7 +36,9 @@ export const useCommentSwipeOptions = (
     [theme],
   );
 
-  const swipeActions = useMemo<ISwipeableActions>(() => {
+  // TODO type this
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const swipeActions = () => {
     const first = side === 'left' ? firstLeft : firstRight;
     const second = side === 'left' ? secondLeft : secondRight;
 
@@ -44,7 +46,7 @@ export const useCommentSwipeOptions = (
       first: first !== 'none' ? commentSwipeableActions[first] : undefined,
       second: second !== 'none' ? commentSwipeableActions[second] : undefined,
     };
-  }, [firstLeft, firstRight, secondLeft, secondRight]);
+  };
 
   const swipeColors = useMemo<ISwipeableColors>(() => {
     const first = side === 'left' ? firstLeft : firstRight;
@@ -70,7 +72,7 @@ export const useCommentSwipeOptions = (
   }, [firstLeft, firstRight, secondLeft, secondRight]);
 
   return {
-    actions: swipeActions,
+    actions: swipeActions(),
     colors: swipeColors,
     icons: swipeIcons,
   };

@@ -271,13 +271,13 @@ class ApiInstance {
 
     if (comment == null) return;
 
-    const { counts } = comment.view;
+    const { counts, my_vote: myVote } = comment.view;
 
     const oldVms = {
       score: counts.score,
       upvotes: counts.upvotes,
       downvotes: counts.downvotes,
-      myVote: comment.view.my_vote,
+      myVote,
       newVote: vote,
     };
 
@@ -286,9 +286,9 @@ class ApiInstance {
     useCommentStore.setState((state) => {
       const comment = state.comments.get(commentId)!;
 
-      counts.score = newVms.score;
-      counts.upvotes = newVms.upvotes;
-      counts.downvotes = newVms.downvotes;
+      comment.view.counts.score = newVms.score;
+      comment.view.counts.upvotes = newVms.upvotes;
+      comment.view.counts.downvotes = newVms.downvotes;
       comment.view.my_vote = newVms.newVote;
     });
 
@@ -304,9 +304,9 @@ class ApiInstance {
 
         if (comment == null) return;
 
-        counts.score = oldVms.score;
-        counts.upvotes = oldVms.upvotes;
-        counts.downvotes = oldVms.downvotes;
+        comment.view.counts.score = oldVms.score;
+        comment.view.counts.upvotes = oldVms.upvotes;
+        comment.view.counts.downvotes = oldVms.downvotes;
       });
 
       const errMsg = ApiInstance.handleError(e.toString());
