@@ -1,8 +1,6 @@
 import React from 'react';
-import VStack from '@components/Common/Stack/VStack';
 import { useProfileScreenContext } from '@components/Profile/screens/ProfileScreen';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
-import CommunityHeader from '@components/Feed/components/Community/CommunityHeader';
 import FeedItem from '@components/Feed/components/Feed/FeedItem';
 import { PostView } from 'lemmy-js-client';
 import { useProfilePosts } from '@src/state/profile/profileStore';
@@ -21,26 +19,20 @@ function ProfilePostsTab(): React.JSX.Element {
   const profilePosts = useProfilePosts(profileScreenContext.profileId);
 
   return (
-    <VStack flex={1} backgroundColor="$bg">
-      <FlashList<PostView>
-        renderItem={renderItem}
-        data={profilePosts}
-        keyExtractor={keyExtractor}
-        onEndReachedThreshold={0.5}
-        estimatedItemSize={300}
-        ListHeaderComponent={<CommunityHeader />}
-        onScroll={profileScreenContext.onScroll}
-        ListEmptyComponent={
-          <FeedLoadingIndicator
-            loading={profileScreenContext.isLoading}
-            error={profileScreenContext.isError}
-          />
-        }
-        scrollEventThrottle={16}
-        // @ts-expect-error - This is valid but useScrollToTop expect a ref to a FlatList
-        // ref={mainFeed.flashListRef}
-      />
-    </VStack>
+    <FlashList<PostView>
+      renderItem={renderItem}
+      data={profilePosts}
+      keyExtractor={keyExtractor}
+      estimatedItemSize={300}
+      onScroll={profileScreenContext.onScroll}
+      ListEmptyComponent={
+        <FeedLoadingIndicator
+          loading={profileScreenContext.isLoading}
+          error={profileScreenContext.isError}
+        />
+      }
+      scrollEventThrottle={16}
+    />
   );
 }
 

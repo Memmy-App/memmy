@@ -28,7 +28,8 @@ export default function TopTabs(props: IProps): React.JSX.Element {
     // @ts-expect-error - this is valid
     <MaterialTabs
       {...props}
-      activeTextStyle={{ color: theme.color?.val }}
+      activeTextStyle={{ color: theme.color?.val, fontWeight: 'bold' }}
+      textStyle={{ color: theme.secondary?.val }}
       barColor={theme.fg.val}
     />
   );

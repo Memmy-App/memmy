@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { TamaguiProvider, Theme, useTheme } from 'tamagui';
+import { TamaguiProvider, Text, Theme, useTheme } from 'tamagui';
 
 import tguiConfig from './tamagui.config';
 import Stack from '@components/Navigation/Stack';
@@ -11,6 +11,8 @@ import { enableMapSet } from 'immer';
 import ImageViewerProvider from '@components/Common/ImageViewer/ImageViewerProvider';
 import { LogBox } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { ErrorBoundary } from 'react-error-boundary';
+import { writeToLog } from '@src/helpers';
 
 if (__DEV__) {
   require('./ReactotronConfig');
@@ -41,13 +43,20 @@ export default function App(): React.JSX.Element | null {
   if (!loaded) return null;
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <TamaguiProvider config={tguiConfig}>
-        <Theme name="darkTheme">
-          <PartTwo />
-        </Theme>
-      </TamaguiProvider>
-    </GestureHandlerRootView>
+    <ErrorBoundary
+      fallback={<Text>Something went wrong</Text>}
+      onError={(e) => {
+        writeToLog(JSON.stringify(e));
+      }}
+    >
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <TamaguiProvider config={tguiConfig}>
+          <Theme name="lightTheme">
+            <PartTwo />
+          </Theme>
+        </TamaguiProvider>
+      </GestureHandlerRootView>
+    </ErrorBoundary>
   );
 }
 

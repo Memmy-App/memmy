@@ -5,6 +5,7 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleSheet,
+  View,
 } from 'react-native';
 import { SharedValue, useSharedValue } from 'react-native-reanimated';
 import ProfileHeader from '@components/Profile/components/ProfileHeader';
@@ -51,6 +52,8 @@ export default function ProfileScreen({
   const onScroll = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
     contentOffsetY.value =
       e.nativeEvent.contentOffset.y >= 0 ? e.nativeEvent.contentOffset.y : 0;
+
+    console.log(contentOffsetY.value);
   }, []);
 
   const onTabChange = useCallback((index: number) => {
@@ -80,9 +83,15 @@ export default function ProfileScreen({
         // @ts-expect-error - this is valid
         ref={pagerViewRef}
       >
-        <ProfilePostsTab />
-        <ProfileCommentsTab />
-        <ProfileAboutTab />
+        <View key={0} style={{ flex: 1 }}>
+          <ProfilePostsTab />
+        </View>
+        <View key={1} style={{ flex: 1 }}>
+          <ProfileCommentsTab />
+        </View>
+        <View key={2} style={{ flex: 1 }}>
+          <ProfileAboutTab />
+        </View>
       </PagerView>
     </ProfileScreenContext.Provider>
   );
