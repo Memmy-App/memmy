@@ -1,4 +1,5 @@
 export type CommentContextMenuOption =
+  | 'reply'
   | 'share'
   | 'edit'
   | 'delete'

@@ -9,6 +9,8 @@ export interface PostState {
   usedBy: string[];
   linkType: LinkType;
   bodyPreview?: string;
+  moderates: boolean;
+  isOwnPost: boolean;
 }
 
 export interface PostStore {
@@ -94,3 +96,9 @@ export const usePostNsfw = (id: number): boolean =>
 
 export const usePostCommunityNsfw = (id: number): boolean =>
   usePostStore((state) => state.posts.get(id))?.view.community.nsfw ?? false;
+
+export const usePostModerates = (id: number): boolean =>
+  usePostStore((state) => state.posts.get(id))?.moderates ?? false;
+
+export const usePostIsOwn = (id: number): boolean =>
+  usePostStore((state) => state.posts.get(id))?.isOwnPost ?? false;

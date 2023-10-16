@@ -35,7 +35,7 @@
     "fuse.js": "^6.6.2",
     "i18next": "^23.5.1",
     "immer": "^10.0.3",
-    "lemmy-js-client": "^0.19.0-rc.13",
+    "lemmy-js-client": "^0.18.1",
     "lodash": "^4.17.21",
     "markdown-it": "^13.0.2",
     "react": "18.2.0",
@@ -57,6 +57,7 @@
     "react-native-svg": "^13.14.0",
     "react-native-web": "~0.19.6",
     "react-native-webview": "^13.6.2",
+    "react-navigation-header-buttons": "^11.1.0",
     "reactotron-plugin-zustand": "^1.0.3",
     "tamagui": "^1.74.12",
     "zustand": "^4.4.3"
@@ -85,11 +86,11 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "prebuild": "expo prebuild",
-		"build-dev-ios": "eas build -p ios --profile development --output dev.ipa --local --non-interactive",
-		"build-dev-android": "eas build -p android --profile development --output dev.ipa --local --non-interactive",
-		"build-prod-ios": "eas build -p ios --profile production --output prod.ipa --local --non-interactive",
-		"build-prod-android": "eas build -p android --profile development --output prod.ipa --local --non-interactive",
-		"build-tf-ios": "eas build -p ios --profile production-tf --output prod.ipa --local --non-interactive",
-		"build-tf-android": "eas build -p android --profile production-tf --output prod.ipa --local --non-interactive"
+    "build-dev-ios": "eas build -p ios --profile development --output dev.ipa --local --non-interactive",
+    "build-dev-android": "eas build -p android --profile development --output dev.ipa --local --non-interactive",
+    "build-prod-ios": "eas build -p ios --profile production --output prod.ipa --local --non-interactive",
+    "build-prod-android": "eas build -p android --profile development --output prod.ipa --local --non-interactive",
+    "build-tf-ios": "eas build -p ios --profile production-tf --output prod.ipa --local --non-interactive",
+    "build-tf-android": "eas build -p android --profile production-tf --output prod.ipa --local --non-interactive"
   }
 }

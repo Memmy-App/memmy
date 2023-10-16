@@ -1,4 +1,6 @@
 import {
+  BanFromCommunity,
+  BanFromCommunityResponse,
   CommentResponse,
   GetCaptchaResponse,
   GetCommentsResponse,
@@ -13,6 +15,7 @@ import {
   ListCommunities,
   ListCommunitiesResponse,
   PostResponse,
+  RemoveComment,
   Search,
   SearchResponse,
 } from 'lemmy-js-client';
@@ -28,8 +31,11 @@ import { useSettingsStore } from '@src/state/settings/settingsStore';
 import { usePostStore } from '@src/state/post/postStore';
 import { buildCommentChains } from '@helpers/comments';
 import { addCommentsToPost, addPosts } from '@src/state/post/actions';
-import { addComments } from '@src/state/comment/actions';
-import { useSiteStore } from '@src/state/site/siteStore';
+import {
+  addComment,
+  addComments,
+  updateComment,
+} from '@src/state/comment/actions';
 import { useCommunityStore } from '@src/state/community/communityStore';
 import { voteCalculator, VoteMetrics } from '@helpers/comments/voteCalculator';
 import { useCommentStore } from '@src/state/comment/commentStore';
@@ -88,18 +94,6 @@ class ApiInstance {
         fetchFunction: undefined,
         headers,
       });
-
-      // We need to check the lemmy version real fast so we will just get and store the site here
-      // TODO This should be done elsewhere later as to not block loading
-
-      const siteRes = await this.instance.getSite();
-
-      if (siteRes.version.includes('.19')) {
-        this.isUpdate = true;
-      }
-
-      // Save the site info
-      useSiteStore.getState().setSite(siteRes);
 
       if (options.authToken != null) {
         this.initialized = true;
@@ -190,6 +184,17 @@ class ApiInstance {
     return 'Not implemented'; // TODO Return the error message
   }
 
+  async getSite(): Promise<GetSiteResponse | undefined> {
+    try {
+      return await this.instance?.getSite({
+        auth: this.authToken!,
+      });
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
   async getCaptcha(): Promise<GetCaptchaResponse | undefined> {
     try {
       return await this.instance?.getCaptcha();
@@ -204,6 +209,7 @@ class ApiInstance {
       await this.instance?.savePost({
         post_id: postId,
         save,
+        auth: this.authToken!,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
@@ -241,7 +247,6 @@ class ApiInstance {
       await this.instance?.likePost({
         post_id: postId,
         score: newVms.newVote!,
-        // @ts-expect-error TODO remove this later
         auth: this.authToken!,
       });
     } catch (e: any) {
@@ -265,14 +270,13 @@ class ApiInstance {
 
     if (comment == null) return;
 
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { counts, my_vote } = comment;
+    const { counts } = comment.view;
 
     const oldVms = {
       score: counts.score,
       upvotes: counts.upvotes,
       downvotes: counts.downvotes,
-      myVote: my_vote,
+      myVote: comment.view.my_vote,
       newVote: vote,
     };
 
@@ -281,16 +285,17 @@ class ApiInstance {
     useCommentStore.setState((state) => {
       const comment = state.comments.get(commentId)!;
 
-      comment.counts.score = newVms.score;
-      comment.counts.upvotes = newVms.upvotes;
-      comment.counts.downvotes = newVms.downvotes;
-      comment.my_vote = newVms.newVote;
+      counts.score = newVms.score;
+      counts.upvotes = newVms.upvotes;
+      counts.downvotes = newVms.downvotes;
+      comment.view.my_vote = newVms.newVote;
     });
 
     try {
       await this.instance?.likeComment({
         comment_id: commentId,
         score: newVms.newVote!,
+        auth: this.authToken!,
       });
     } catch (e: any) {
       useCommentStore.setState((state) => {
@@ -298,9 +303,9 @@ class ApiInstance {
 
         if (comment == null) return;
 
-        comment.counts.score = oldVms.score;
-        comment.counts.upvotes = oldVms.upvotes;
-        comment.counts.downvotes = oldVms.downvotes;
+        counts.score = oldVms.score;
+        counts.upvotes = oldVms.upvotes;
+        counts.downvotes = oldVms.downvotes;
       });
 
       const errMsg = ApiInstance.handleError(e.toString());
@@ -313,24 +318,18 @@ class ApiInstance {
       await this.instance?.saveComment({
         comment_id: commentId,
         save,
+        auth: this.authToken!,
       });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
     }
   }
 
-  async getSite(): Promise<GetSiteResponse | undefined> {
-    try {
-      return await this.instance?.getSite();
-    } catch (e: any) {
-      ApiInstance.handleError(e.toString());
-      return undefined;
-    }
-  }
-
   async getUnreadCount(): Promise<GetUnreadCountResponse | undefined> {
     try {
-      return await this.instance?.getUnreadCount();
+      return await this.instance?.getUnreadCount({
+        auth: this.authToken!,
+      });
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
       return undefined;
@@ -388,7 +387,6 @@ class ApiInstance {
       return await this.instance?.getReplies({
         page,
         limit,
-        // @ts-expect-error TODO remove this later
         auth: this.authToken!,
       });
     } catch (e: any) {
@@ -458,7 +456,6 @@ class ApiInstance {
     try {
       return await this.instance?.getPost({
         id: postId,
-        // @ts-expect-error TODO remove this later
         auth: this.authToken!,
       });
     } catch (e: any) {
@@ -480,7 +477,7 @@ class ApiInstance {
     try {
       const res = await this.instance?.getComments({
         post_id: postId,
-        max_depth: 5,
+        max_depth: 10,
         limit: 1,
         sort: settings.defaultCommentSort,
         ...(parentId != null && { parent_id: parentId }),
@@ -508,7 +505,6 @@ class ApiInstance {
       await this.instance?.markPostAsRead({
         post_id: postId,
         read: true,
-        // @ts-expect-error TODO remove this later
         auth: this.authToken!,
       });
     } catch (e: any) {
@@ -524,7 +520,6 @@ class ApiInstance {
       await this.instance?.followCommunity({
         community_id: communityId,
         follow: subscribe,
-        // @ts-expect-error TODO remove this later
         auth: this.authToken!,
       });
     } catch (e: any) {
@@ -537,7 +532,6 @@ class ApiInstance {
       await this.instance?.createCommentReport({
         comment_id: commentId,
         reason,
-        // @ts-expect-error TODO remove this later
         auth: this.authToken!,
       });
     } catch (e: any) {
@@ -550,7 +544,6 @@ class ApiInstance {
       await this.instance?.createPostReport({
         post_id: postId,
         reason,
-        // @ts-expect-error TODO remove this later
         auth: this.authToken!,
       });
     } catch (e: any) {
@@ -563,7 +556,6 @@ class ApiInstance {
       await this.instance?.blockPerson({
         person_id: userId,
         block,
-        // @ts-expect-error TODO remove this later
         auth: this.authToken!,
       });
     } catch (e: any) {
@@ -576,7 +568,6 @@ class ApiInstance {
       await this.instance?.blockCommunity({
         community_id: communityId,
         block,
-        // @ts-expect-error TODO remove this later
         auth: this.authToken!,
       });
     } catch (e: any) {
@@ -589,7 +580,6 @@ class ApiInstance {
       await this.instance?.editComment({
         comment_id: commentId,
         content,
-        // @ts-expect-error TODO remove this later
         auth: this.authToken!,
       });
     } catch (e: any) {
@@ -600,17 +590,27 @@ class ApiInstance {
   async createComment(
     postId: number,
     content: string,
-  ): Promise<CommentResponse | undefined> {
+    parentId?: number,
+  ): Promise<CommentResponse> {
     try {
-      return await this.instance?.createComment({
+      const res = await this.instance?.createComment({
         post_id: postId,
+        parent_id: parentId,
         content,
-        // @ts-expect-error TODO remove this later
         auth: this.authToken!,
       });
+
+      if (res == null) {
+        const errMsg = ApiInstance.handleError('unknown');
+        throw new Error(errMsg);
+      }
+
+      addComment(res.comment_view);
+
+      return res;
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
-      return undefined;
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
     }
   }
 
@@ -625,7 +625,6 @@ class ApiInstance {
         language_id: options.languageId ?? 0, // TODO Fix this
         community_id: options.communityId,
         nsfw: options.nsfw,
-        // @ts-expect-error TODO remove this later
         auth: this.authToken!,
       });
     } catch (e: any) {
@@ -636,14 +635,21 @@ class ApiInstance {
 
   async deleteComment(commentId: number): Promise<void> {
     try {
-      await this.instance?.deleteComment({
+      const res = await this.instance?.deleteComment({
         comment_id: commentId,
         deleted: true,
-        // @ts-expect-error TODO remove this later
         auth: this.authToken!,
       });
+
+      if (res == null) {
+        const errMsg = ApiInstance.handleError('unknown');
+        throw new Error(errMsg);
+      }
+
+      updateComment(res.comment_view);
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
     }
   }
 
@@ -652,7 +658,6 @@ class ApiInstance {
       await this.instance?.deletePost({
         post_id: postId,
         deleted: true,
-        // @ts-expect-error TODO remove this later
         auth: this.authToken!,
       });
     } catch (e: any) {
@@ -665,8 +670,8 @@ class ApiInstance {
       sort: 'Hot',
       type_: 'All',
       limit: 10,
-      // @ts-expect-error TODO remove this later
       auth: this.authToken!,
+      q: '',
     };
 
     searchOptions = {
@@ -688,7 +693,6 @@ class ApiInstance {
     const defaultOptions: ListCommunities = {
       sort: 'TopDay',
       limit: 15,
-      // @ts-expect-error TODO remove this later
       auth: this.authToken!,
     };
 
@@ -701,6 +705,56 @@ class ApiInstance {
       return await this.instance?.listCommunities(options);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
+    }
+  }
+
+  async modBanFromCommunity(
+    options: Partial<BanFromCommunity>,
+  ): Promise<BanFromCommunityResponse | undefined> {
+    const defaultOptions = {
+      auth: options.auth ?? this.authToken!,
+      ban: true,
+    };
+
+    options = {
+      ...defaultOptions,
+      ...options,
+    };
+
+    try {
+      return await this.instance?.banFromCommunity(options as BanFromCommunity);
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
+    }
+  }
+
+  async modRemoveComment(
+    options: Partial<RemoveComment>,
+  ): Promise<CommentResponse | undefined> {
+    const defaultOptions: Partial<RemoveComment> = {
+      auth: this.authToken!,
+      removed: true,
+    };
+
+    options = {
+      ...defaultOptions,
+      ...options,
+    };
+    try {
+      const res = await this.instance?.removeComment(options as RemoveComment);
+
+      if (res == null) {
+        const errMsg = ApiInstance.handleError('unknown');
+        throw new Error(errMsg);
+      }
+
+      updateComment(res.comment_view);
+
+      return res;
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
     }
   }

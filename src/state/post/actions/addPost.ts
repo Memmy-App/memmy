@@ -4,10 +4,14 @@ import { getLinkType } from '@helpers/links/getLinkType';
 import { truncateText } from '@helpers/text';
 import { useFeedStore } from '@src/state/feed/feedStore';
 import { cacheImages } from '@helpers/image';
+import { useSiteStore } from '@src/state/site/siteStore';
 
 export const addPost = (post: PostView, screenId: string): void => {
   usePostStore.setState((state) => {
     const currentPost = state.posts.get(post.post.id);
+    const moderated = useSiteStore.getState().moderatedIds;
+    const userId =
+      useSiteStore.getState().site?.my_user?.local_user_view.local_user.id;
 
     if (currentPost != null) {
       currentPost.usedBy.push(screenId);
@@ -17,6 +21,8 @@ export const addPost = (post: PostView, screenId: string): void => {
         usedBy: [screenId],
         linkType: getLinkType(post.post.url),
         bodyPreview: truncateText(post.post.body, 200),
+        moderates: moderated?.includes(post.post.community_id) ?? false,
+        isOwnPost: userId === post.post.creator_id,
       });
     }
   });
@@ -32,6 +38,9 @@ export const addPosts = (
 
   const postIds: number[] = [];
   const currentPosts = useFeedStore.getState().feeds.get(screenId)?.postIds;
+  const moderated = useSiteStore.getState().moderatedIds;
+  const userId =
+    useSiteStore.getState().site?.my_user?.local_user_view.local_user.id;
 
   usePostStore.setState((state) => {
     // Add each post to the state
@@ -46,6 +55,8 @@ export const addPosts = (
           usedBy: [screenId],
           linkType: getLinkType(post.post.url),
           bodyPreview: truncateText(post.post.body, 200),
+          moderates: moderated?.includes(post.post.community_id) ?? false,
+          isOwnPost: userId === post.post.creator_id,
         });
       }
 
@@ -67,8 +78,6 @@ export const addPosts = (
       const feed = state.feeds.get(screenId);
 
       if (feed == null || refresh) {
-        console.log(postIds);
-
         state.feeds.set(screenId, {
           feedId: screenId,
           postIds,

@@ -2,7 +2,7 @@ import { IContextMenuOptions } from '@src/types';
 import { CommentContextMenuOption } from '@src/types/contextMenu';
 
 interface CreateCommentContextMenuOptionsParams {
-  isModerator: boolean;
+  moderates: boolean;
   isOwnComment: boolean;
 }
 
@@ -10,6 +10,11 @@ export const createCommentContextMenuOptions = (
   params: CreateCommentContextMenuOptionsParams,
 ): IContextMenuOptions<CommentContextMenuOption> => {
   let arr: IContextMenuOptions<CommentContextMenuOption> = [
+    {
+      key: 'reply',
+      title: 'Reply',
+      icon: 'arrowshape.turn.up.left',
+    },
     {
       key: 'share',
       title: 'Share',
@@ -39,17 +44,19 @@ export const createCommentContextMenuOptions = (
         key: 'delete',
         title: 'Delete',
         icon: 'trash',
+        destructive: true,
       },
     ];
   }
 
-  if (params.isModerator) {
+  if (params.moderates) {
     arr = [
       ...arr,
       {
         key: 'remove',
         title: 'Remove',
         icon: 'trash',
+        destructive: true,
       },
     ];
   }

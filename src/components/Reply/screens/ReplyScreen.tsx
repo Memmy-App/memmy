@@ -8,6 +8,7 @@ import { ScrollView as RNScrollView } from 'react-native';
 import KeyboardAccessoryView from '@components/Common/Keyboard/KeyboardAccesoryView';
 import { useReplyScreen } from '@components/Reply/hooks/useReplyScreen';
 import { useThemeColorScheme } from '@src/hooks';
+import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -18,9 +19,9 @@ export default function ReplyScreen({
   navigation,
   route,
 }: IProps): React.JSX.Element {
-  const { commentId, postId } = route.params;
+  const { commentId, postId, edit } = route.params;
 
-  const replyScreen = useReplyScreen();
+  const replyScreen = useReplyScreen(edit);
   const colorScheme = useThemeColorScheme();
 
   const viewRef = useRef<RNScrollView>();
@@ -33,6 +34,7 @@ export default function ReplyScreen({
     <>
       {/* @ts-expect-error - this is valid */}
       <ScrollView automaticallyAdjustKeyboardInsets={true} ref={viewRef}>
+        <LoadingOverlay visible={replyScreen.isLoading} />
         <VStack space="$2" marginBottom="$2">
           {replyScreen.type === 'comment' ? (
             <Comment itemId={commentId} />

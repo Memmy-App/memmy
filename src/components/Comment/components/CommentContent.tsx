@@ -1,6 +1,11 @@
 import React from 'react';
-import { useCommentContent } from '@src/state/comment/commentStore';
+import {
+  useCommentContent,
+  useCommentDeleted,
+  useCommentRemoved,
+} from '@src/state/comment/commentStore';
 import Markdown from '@components/Common/Markdown/Markdown';
+import { Text } from 'tamagui';
 
 interface IProps {
   itemId: number;
@@ -8,6 +13,24 @@ interface IProps {
 
 function CommentContent({ itemId }: IProps): React.JSX.Element {
   const content = useCommentContent(itemId);
+  const removed = useCommentRemoved(itemId);
+  const deleted = useCommentDeleted(itemId);
+
+  if (deleted) {
+    return (
+      <Text color="$secondary" fontSize={16} fontStyle="italic">
+        Comment was deleted by the user
+      </Text>
+    );
+  }
+
+  if (removed) {
+    return (
+      <Text color="$secondary" fontSize={16} fontStyle="italic">
+        Comment was removed by a moderator
+      </Text>
+    );
+  }
 
   return <Markdown>{content}</Markdown>;
 }

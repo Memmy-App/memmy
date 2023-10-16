@@ -1,4 +1,4 @@
-import { useCommentContent } from '@src/state/comment/commentStore';
+import { useCommentPostId } from '@src/state/comment/commentStore';
 import React, {
   useCallback,
   useEffect,
@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { ITextSelection } from '@src/hooks';
+import { ITextSelection, useLoadData } from '@src/hooks';
 import {
   Button,
   NativeSyntheticEvent,
@@ -18,6 +18,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { DraftState } from '@src/state/draft/draftStore';
 import { addOrUpdateDraft, getCommentDraft } from '@src/state/draft/actions';
 import { useCurrentAccount } from '@src/state/account/accountStore';
+import { CommentResponse } from 'lemmy-js-client';
+import instance from '@src/Instance';
 
 interface UseReplyScreen {
   text: string;
@@ -31,6 +33,8 @@ interface UseReplyScreen {
   ) => void;
 
   type: 'post' | 'comment';
+
+  isLoading: boolean;
 }
 
 interface IBackEventArgs {
@@ -44,16 +48,21 @@ interface IBackEvent {
   action: Readonly<IBackEventArgs>;
 }
 
-export const useReplyScreen = (): UseReplyScreen => {
+export const useReplyScreen = (isEdit = false): UseReplyScreen => {
   const route = useRoute<any>();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { postId, commentId } = route.params;
 
-  const comment = useCommentContent(commentId);
+  const commentPostId = useCommentPostId(commentId);
   const account = useCurrentAccount();
 
-  const type = useMemo(() => (comment != null ? 'comment' : 'post'), [comment]);
+  const { isLoading, refresh: submit } = useLoadData<CommentResponse>();
+
+  const type = useMemo(
+    () => (commentPostId != null ? 'comment' : 'post'),
+    [commentPostId],
+  );
 
   const [text, setText] = useState('');
   const [selection, setSelection] = useState<ITextSelection>({
@@ -115,7 +124,26 @@ export const useReplyScreen = (): UseReplyScreen => {
     }
   };
 
-  const onSubmitPress = useCallback(() => {}, [text]);
+  const onSubmitPress = useCallback(() => {
+    submit(async () => {
+      const res = await instance.createComment(
+        postId ?? commentPostId,
+        text,
+        commentId,
+      );
+
+      console.log(res);
+
+      navigation.getParent()?.setParams({
+        replyId: res.comment_view.comment.id,
+      });
+      navigation.pop();
+
+      console.log('got here?');
+
+      return res;
+    });
+  }, [text]);
 
   const onSelectionChange = useCallback(
     (e: NativeSyntheticEvent<TextInputSelectionChangeEventData>) => {
@@ -134,5 +162,6 @@ export const useReplyScreen = (): UseReplyScreen => {
     inputRef,
     onSelectionChange,
     type,
+    isLoading,
   };
 };

@@ -35,7 +35,7 @@ export default function PostScreen({
   navigation,
   route,
 }: IProps): React.JSX.Element {
-  const { postId } = route.params;
+  const { postId, replyId } = route.params;
 
   const postLoaded = usePostLoaded(postId);
   const postTitle = usePostTitle(postId);
@@ -75,6 +75,11 @@ export default function PostScreen({
       ),
     });
   }, [sortType]);
+
+  useEffect(() => {
+    // Alert.alert(`Got a reply!: ${replyId}`);
+    console.log(postCommentsInfo);
+  }, [postCommentsInfo]);
 
   const renderItem = useCallback(({ item }: RenderItem): React.JSX.Element => {
     return <CommentChain commentInfo={item} />;

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { writeToLog } from '@src/helpers';
 
 interface UseLoadData<DataType = undefined> {
   refresh: (refreshFunc?: () => Promise<DataType>) => void;
@@ -18,14 +19,14 @@ interface Status {
 }
 
 export const useLoadData = <ReturnType>(
-  func: () => Promise<ReturnType>,
+  func?: () => Promise<ReturnType>,
   cacheFunc?: () => boolean,
   setPage?: React.Dispatch<React.SetStateAction<number>>,
 ): UseLoadData<ReturnType> => {
   const inProgress = useRef(false);
 
   const [status, setStatus] = useState<Status>({
-    isLoading: true,
+    isLoading: func != null,
     isRefreshing: false,
     isError: false,
     error: undefined,
@@ -34,6 +35,10 @@ export const useLoadData = <ReturnType>(
   const [returnData, setReturnData] = useState<ReturnType>();
 
   useEffect(() => {
+    if (func == null) {
+      return;
+    }
+
     if (cacheFunc != null) {
       const res = cacheFunc();
 
@@ -95,6 +100,9 @@ export const useLoadData = <ReturnType>(
         inProgress.current = false;
       })
       .catch((e) => {
+        writeToLog('Request Error');
+        writeToLog(e);
+
         setStatus((prev) => ({
           ...prev,
           isLoading: false,
@@ -108,7 +116,9 @@ export const useLoadData = <ReturnType>(
   };
 
   const refresh = (refreshFunc?: () => Promise<ReturnType>): void => {
-    if (refreshFunc == null) refreshFunc = func;
+    if (refreshFunc == null && func != null) refreshFunc = func;
+
+    if (refreshFunc == null) return;
 
     run(refreshFunc, false, true);
   };

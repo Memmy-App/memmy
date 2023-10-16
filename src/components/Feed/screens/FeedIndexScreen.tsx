@@ -5,11 +5,13 @@ import instance from '@src/Instance';
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
 import { Alert } from 'react-native';
 import MainFeed from '@components/Feed/components/MainFeed';
+import { useSiteStore } from '@src/state/site/siteStore';
 
 export default function FeedIndexScreen(): React.JSX.Element {
   const currentAccount = useCurrentAccount();
   const previousAccount = useRef<IAccount | null>(null);
   const [initialized, setInitialized] = useState(false);
+  const setSite = useSiteStore((state) => state.setSite);
 
   // On current account changes
   useEffect(() => {
@@ -32,6 +34,16 @@ export default function FeedIndexScreen(): React.JSX.Element {
       })
       .then(() => {
         // Set initialized
+
+        void instance
+          .getSite()
+          .then((site) => {
+            setSite(site);
+          })
+          .then(() => {
+            setInitialized(true);
+          });
+
         setInitialized(true);
         previousAccount.current = currentAccount;
       })

@@ -6811,10 +6811,10 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-lemmy-js-client@^0.19.0-rc.13:
-  version "0.19.0-rc.13"
-  resolved "https://registry.yarnpkg.com/lemmy-js-client/-/lemmy-js-client-0.19.0-rc.13.tgz#e0e15ba6fe3a08cb85130eea7eec4bd2773999f9"
-  integrity sha512-JP9oEh1+Wfttqx5O5EMAVIR/hFVS66iVKmEo8/Uxw8fJfyUeQo7BhKvG8LTYegBE39Womgyu3KxXb7Jy9DRI5A==
+lemmy-js-client@^0.18.1:
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/lemmy-js-client/-/lemmy-js-client-0.18.1.tgz#28df266eded0ef4a72b05ee6eabebddadfd81a27"
+  integrity sha512-maafUZ9ZJkXthRZmM0+limJmymF2kmN/8SiKufS3V4OVNM72s+wUFFiyhKmA370g23iZRW6SUagE7jNKnqNyYQ==
   dependencies:
     cross-fetch "^3.1.5"
     form-data "^4.0.0"
@@ -8688,6 +8688,13 @@ react-native@0.72.5:
     ws "^6.2.2"
     yargs "^17.6.2"
 
+react-navigation-header-buttons@^11.1.0:
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/react-navigation-header-buttons/-/react-navigation-header-buttons-11.1.0.tgz#6eb6564549a546198990a7e9d8b980a4e3be7d45"
+  integrity sha512-UfjYi8auigITGqORdDBZaLWQjWz2UV1aPXuNqAbPLYW9ySJQkxfOmc3uIjIO3efTUHsuc4Gv+PwBMDLSOVCi2w==
+  dependencies:
+    react-to-imperative "^0.2.0"
+
 react-refresh@^0.14.0:
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.14.0.tgz#4e02825378a5f227079554d4284889354e5f553e"
@@ -8733,6 +8740,11 @@ react-style-singleton@^2.2.1:
     get-nonce "^1.0.0"
     invariant "^2.2.4"
     tslib "^2.0.0"
+
+react-to-imperative@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/react-to-imperative/-/react-to-imperative-0.2.0.tgz#b5f1603a6aba352ae37b6c4ddec0759956b4c063"
+  integrity sha512-MK5hZlTkgz7yk3MZLIxoDa75d9wxAecLS6y6HPD8C/rwdv/2Zezisbs8TzEq9azkHiII9UEQJTTlSlKdiq9xsg==
 
 react@18.2.0:
   version "18.2.0"
