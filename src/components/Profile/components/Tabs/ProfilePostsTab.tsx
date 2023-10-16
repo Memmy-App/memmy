@@ -6,6 +6,7 @@ import CommunityHeader from '@components/Feed/components/Community/CommunityHead
 import FeedItem from '@components/Feed/components/Feed/FeedItem';
 import { PostView } from 'lemmy-js-client';
 import { useProfilePosts } from '@src/state/profile/profileStore';
+import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
 
 const renderItem = ({
   item,
@@ -16,8 +17,8 @@ const renderItem = ({
 const keyExtractor = (item: PostView): string => item.post.id.toString();
 
 export default function ProfilePostsTab(): React.JSX.Element {
-  const profileContext = useProfileScreenContext();
-  const profilePosts = useProfilePosts(profileContext.profileId);
+  const profileScreenContext = useProfileScreenContext();
+  const profilePosts = useProfilePosts(profileScreenContext.profileId);
 
   return (
     <VStack flex={1}>
@@ -28,13 +29,13 @@ export default function ProfilePostsTab(): React.JSX.Element {
         onEndReachedThreshold={0.5}
         estimatedItemSize={300}
         ListHeaderComponent={<CommunityHeader />}
-        onScroll={profileContext.onScroll}
-        // ListFooterComponent={
-        //   <FeedLoadingIndicator
-        //     loading={mainFeed.isLoading && !mainFeed.isRefreshing}
-        //     error={mainFeed.isError}
-        //   />
-        // }
+        onScroll={profileScreenContext.onScroll}
+        ListEmptyComponent={
+          <FeedLoadingIndicator
+            loading={profileScreenContext.isLoading}
+            error={profileScreenContext.isError}
+          />
+        }
         // @ts-expect-error - This is valid but useScrollToTop expect a ref to a FlatList
         // ref={mainFeed.flashListRef}
       />

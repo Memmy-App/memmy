@@ -85,10 +85,10 @@ function ProfileHeader({ profileId }: IProps): React.JSX.Element {
           </HStack>
           <HStack space="$3">
             <Text fontSize="$4" color="$secondary" fontWeight="bold">
-              {personCounts?.post_count} Posts
+              {personCounts?.post_count.toLocaleString()} Posts
             </Text>
             <Text fontSize="$4" color="$secondary" fontWeight="bold">
-              {personCounts?.comment_count} Comments
+              {personCounts?.comment_count.toLocaleString()} Comments
             </Text>
             <Text fontSize="$4" color="$secondary" fontWeight="bold">
               {totalScore} Total Score

@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
   usePostCommentsInfo,
@@ -19,7 +13,7 @@ import { ICommentInfo } from '@src/types';
 import CommentChain from '@components/Comment/components/CommentChain';
 import { useLoadData } from '@hooks/useLoadData';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
-import { FlashList } from '@shopify/flash-list';
+import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { CommentSortType } from 'lemmy-js-client';
 import { useDefaultCommentSort } from '@src/state/settings/settingsStore';
 import { stripEss } from '@helpers/text';
@@ -28,14 +22,16 @@ import { useNewCommentId } from '@src/state/app/appStore';
 import { setNewCommentId } from '@src/state/app/actions';
 import { useAwaitTransition } from '@hooks/useAwaitTransition';
 
-interface RenderItem {
-  item: ICommentInfo;
-}
-
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
   route: any;
 }
+
+const renderItem = ({
+  item,
+}: ListRenderItemInfo<ICommentInfo>): React.JSX.Element => {
+  return <CommentChain commentInfo={item} />;
+};
 
 const keyExtractor = (item: ICommentInfo): string => item.commentId.toString();
 
@@ -108,10 +104,6 @@ export default function PostScreen({
 
     setNewCommentId(undefined);
   }, [newCommentId, commentsToShow]);
-
-  const renderItem = useCallback(({ item }: RenderItem): React.JSX.Element => {
-    return <CommentChain commentInfo={item} />;
-  }, []);
 
   if (!postLoaded) return <LoadingScreen />;
 

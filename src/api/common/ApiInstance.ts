@@ -38,7 +38,7 @@ import {
   updateComment,
 } from '@src/state/comment/actions';
 import { useCommunityStore } from '@src/state/community/communityStore';
-import { voteCalculator, VoteMetrics } from '@helpers/comments/voteCalculator';
+import { voteCalculator } from '@helpers/comments/voteCalculator';
 import { useCommentStore } from '@src/state/comment/commentStore';
 
 export enum EInitializeResult {
@@ -48,15 +48,6 @@ export enum EInitializeResult {
   CAPTCHA,
   VERIFY_EMAIL,
 }
-
-const defaultVms: VoteMetrics = {
-  score: 0,
-  upvotes: 0,
-  downvotes: 0,
-
-  myVote: 0,
-  newVote: 0,
-};
 
 class ApiInstance {
   apiType: 'lemmy' | 'kbin' = 'lemmy';
