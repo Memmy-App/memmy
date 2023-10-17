@@ -99,6 +99,7 @@
     "build-prod-ios": "eas build -p ios --profile production --output prod.ipa --local --non-interactive",
     "build-prod-android": "eas build -p android --profile production --output prod.aab --local --non-interactive",
     "build-tf-ios": "eas build -p ios --profile production-tf --output prod.ipa --local --non-interactive",
-    "build-tf-android": "eas build -p android --profile production-tf --output prod.aab --local --non-interactive"
-  }
+    "build-tf-android": "eas build -p android --profile production-tf --output prod.aab --local --non-interactive",
+		"generate-license": "license-report --only=prod,dev,peer --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author --output=html > assets/license.html"
+	}
 }

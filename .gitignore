@@ -73,7 +73,6 @@ xcuserdata
 .vscode
 
 # Android
-android/
 *.apk
 *.hprof
 /android/**/build
