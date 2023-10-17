@@ -5,11 +5,12 @@ import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { CommentView } from 'lemmy-js-client';
 import Comment from '@components/Comment/components/Comment';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
+import { useTheme } from 'tamagui';
 
 const renderItem = ({
   item,
 }: ListRenderItemInfo<CommentView>): React.JSX.Element => {
-  return <Comment itemId={item.comment.id} />;
+  return <Comment itemId={item.comment.id} space />;
 };
 
 const keyExtractor = (item: CommentView): string => item.comment.id.toString();
@@ -17,6 +18,8 @@ const keyExtractor = (item: CommentView): string => item.comment.id.toString();
 function ProfileCommentsTab(): React.JSX.Element {
   const profileScreenContext = useProfileScreenContext();
   const profileComments = useProfileComments(profileScreenContext.profileId);
+
+  const theme = useTheme();
 
   return (
     <FlashList<CommentView>
@@ -32,6 +35,7 @@ function ProfileCommentsTab(): React.JSX.Element {
           error={profileScreenContext.isError}
         />
       }
+      contentContainerStyle={{ backgroundColor: theme.bg.val }}
     />
   );
 }

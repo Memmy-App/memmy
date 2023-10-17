@@ -1,17 +1,18 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import ProfileScreen from '@components/Profile/screens/ProfileScreen';
+import MainScreens from '@components/Navigation/MainScreens';
 
 const UserStack = createNativeStackNavigator();
 
-export default function UserStackScreen(): React.JSX.Element {
+export default function ProfileStackScreen(): React.JSX.Element {
   return (
     <UserStack.Navigator
       screenOptions={{
         headerShown: true,
       }}
+      initialRouteName="Profile"
     >
-      <UserStack.Screen name="Profile" component={ProfileScreen} />
+      {MainScreens(UserStack)}
     </UserStack.Navigator>
   );
 }

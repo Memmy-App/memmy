@@ -4,7 +4,7 @@ import FeedStackScreen from '@components/Navigation/FeedStackScreen';
 import SettingsStackScreen from '@components/Navigation/SettingsStackScreen';
 import SearchStackScreen from '@components/Navigation/SearchStackScreen';
 import InboxStackScreen from '@components/Navigation/InboxStackScreen';
-import UserStackScreen from '@components/Navigation/UserStackScreen';
+import ProfileStackScreen from '@components/Navigation/ProfileStackScreen';
 import { Cog, Home, Inbox, Search, User } from '@tamagui/lucide-icons';
 
 const Tab = createBottomTabNavigator();
@@ -32,7 +32,7 @@ export default function Tabs(): React.JSX.Element {
       />
       <Tab.Screen
         name="Profile"
-        component={UserStackScreen}
+        component={ProfileStackScreen}
         options={{
           tabBarIcon: ({ color }) => <User color={color} size={24} />,
         }}

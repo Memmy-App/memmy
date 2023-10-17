@@ -3,7 +3,7 @@ import VStack from '@components/Common/Stack/VStack';
 import CommentHeader from '@components/Comment/components/CommentHeader';
 import CommentContent from '@components/Comment/components/CommentContent';
 import { Pressable } from 'react-native';
-import { Separator } from 'tamagui';
+import { Separator, View } from 'tamagui';
 import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
 import { useCommentGesturesEnabled } from '@src/state/settings/settingsStore';
 import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
@@ -21,6 +21,7 @@ interface IProps {
   collapsed?: boolean;
   leftOptions?: ISwipeableOptions;
   rightOptions?: ISwipeableOptions;
+  space?: boolean;
 }
 
 const depthToColor = (depth: number): string => {
@@ -49,6 +50,7 @@ function Comment({
   collapsed = false,
   leftOptions,
   rightOptions,
+  space = false,
 }: IProps): React.JSX.Element {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
@@ -68,33 +70,35 @@ function Comment({
   );
 
   return (
-    <SwipeableRow
-      leftOption={
-        swipesEnabled && leftOptions?.actions.first != null ? (
-          <LeftOptions options={leftOptions} actionParams={actionParams} />
-        ) : undefined
-      }
-      rightOption={
-        swipesEnabled && rightOptions?.actions.first != null ? (
-          <RightOptions options={rightOptions} actionParams={actionParams} />
-        ) : undefined
-      }
-    >
-      <VStack backgroundColor="$fg">
-        <VStack
-          marginLeft={depth * 10}
-          marginVertical="$2"
-          borderLeftColor={borderColor}
-          borderLeftWidth={borderWidth}
-          paddingHorizontal="$2"
-          paddingVertical="$1"
-        >
-          <CommentHeader itemId={itemId} />
-          {!collapsed && <CommentContent itemId={itemId} />}
+    <View marginVertical={space ? 2 : 0}>
+      <SwipeableRow
+        leftOption={
+          swipesEnabled && leftOptions?.actions.first != null ? (
+            <LeftOptions options={leftOptions} actionParams={actionParams} />
+          ) : undefined
+        }
+        rightOption={
+          swipesEnabled && rightOptions?.actions.first != null ? (
+            <RightOptions options={rightOptions} actionParams={actionParams} />
+          ) : undefined
+        }
+      >
+        <VStack backgroundColor="$fg">
+          <VStack
+            marginLeft={depth * 10}
+            marginVertical="$2"
+            borderLeftColor={borderColor}
+            borderLeftWidth={borderWidth}
+            paddingHorizontal="$2"
+            paddingVertical="$1"
+          >
+            <CommentHeader itemId={itemId} />
+            {!collapsed && <CommentContent itemId={itemId} />}
+          </VStack>
+          <Separator borderColor="$bg" marginLeft={depth * 10 + 10} />
         </VStack>
-        <Separator borderColor="$bg" marginLeft={depth * 10 + 10} />
-      </VStack>
-    </SwipeableRow>
+      </SwipeableRow>
+    </View>
   );
 }
 

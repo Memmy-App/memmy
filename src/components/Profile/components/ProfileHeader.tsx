@@ -20,12 +20,14 @@ import Animated, {
   useAnimatedStyle,
 } from 'react-native-reanimated';
 import { useProfileScreenContext } from '@components/Profile/screens/ProfileScreen';
-import { ChevronLeft } from '@tamagui/lucide-icons';
+import { ChevronLeft, User } from '@tamagui/lucide-icons';
 import { Pressable } from 'react-native';
 import { Skeleton } from 'moti/build/skeleton/native';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const headerPlaceholder = require('../../../../assets/headerPlaceholder.jpg');
+
+const AnimatedAvatarPlaceholder = Animated.createAnimatedComponent(User);
 
 function ProfileHeader(): React.JSX.Element {
   const theme = useTheme();
@@ -40,6 +42,8 @@ function ProfileHeader(): React.JSX.Element {
   const personActorId = useProfileActorId(profileId);
   const personCounts = useProfileCounts(profileId);
   const personBio = useProfileBio(profileId);
+
+  const hasParent = navigation.canGoBack();
 
   const personInstance = useMemo(
     () => getBaseUrl(personActorId),
@@ -120,22 +124,24 @@ function ProfileHeader(): React.JSX.Element {
 
   return (
     <Animated.View style={[headerContainerStyle]}>
-      <Pressable
-        style={{
-          zIndex: 2,
-          position: 'absolute',
-          top: 50,
-          left: 10,
-          backgroundColor: 'black',
-          borderRadius: 100,
-          opacity: 0.6,
-          padding: 2,
-          paddingRight: 4,
-        }}
-        onPress={onBackPress}
-      >
-        <ChevronLeft color="white" size={30} />
-      </Pressable>
+      {hasParent && (
+        <Pressable
+          style={{
+            zIndex: 2,
+            position: 'absolute',
+            top: 50,
+            left: 10,
+            backgroundColor: 'black',
+            borderRadius: 100,
+            opacity: 0.6,
+            padding: 2,
+            paddingRight: 4,
+          }}
+          onPress={onBackPress}
+        >
+          <ChevronLeft color="white" size={30} />
+        </Pressable>
+      )}
 
       <VStack flex={1} backgroundColor="$fg" marginTop="$1">
         <VStack
@@ -181,17 +187,21 @@ function ProfileHeader(): React.JSX.Element {
           </Animated.View>
         </VStack>
         <VStack zIndex={1}>
-          <Animated.Image
-            source={{ uri: personAvatar }}
-            style={[
-              {
-                borderRadius: 100,
-                borderColor: theme.bg.val,
-                borderWidth: 2,
-              },
-              avatarStyle,
-            ]}
-          />
+          {personAvatar != null ? (
+            <Animated.Image
+              source={{ uri: personAvatar }}
+              style={[
+                {
+                  borderRadius: 100,
+                  borderColor: theme.bg.val,
+                  borderWidth: 2,
+                },
+                avatarStyle,
+              ]}
+            />
+          ) : (
+            <AnimatedAvatarPlaceholder style={[{}, avatarStyle]} />
+          )}
           <VStack marginHorizontal="$3" space="$2.5" top={110}>
             <HStack alignItems="baseline" space="$2">
               <Skeleton>

@@ -16,7 +16,6 @@ interface UseProfileScreen {
 
 export const useProfileScreen = (): UseProfileScreen => {
   const { key, params } = useRoute<any>();
-  const { fullName, personId } = params;
 
   const currentAccount = useCurrentAccount();
 
@@ -26,7 +25,7 @@ export const useProfileScreen = (): UseProfileScreen => {
     GetPersonDetailsResponse | undefined
   >(async () => {
     const res = await instance.getPersonDetails(
-      fullName ?? personId ?? currentAccount?.username,
+      params?.fullName ?? params?.personId ?? currentAccount?.username,
     );
 
     setProfileId(res?.person_view.person.id ?? -1);

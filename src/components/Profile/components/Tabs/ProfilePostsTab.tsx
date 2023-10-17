@@ -5,6 +5,7 @@ import FeedItem from '@components/Feed/components/Feed/FeedItem';
 import { PostView } from 'lemmy-js-client';
 import { useProfilePosts } from '@src/state/profile/profileStore';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
+import { useTheme } from 'tamagui';
 
 const renderItem = ({
   item,
@@ -17,6 +18,8 @@ const keyExtractor = (item: PostView): string => item.post.id.toString();
 function ProfilePostsTab(): React.JSX.Element {
   const profileScreenContext = useProfileScreenContext();
   const profilePosts = useProfilePosts(profileScreenContext.profileId);
+
+  const theme = useTheme();
 
   return (
     <FlashList<PostView>
@@ -32,6 +35,7 @@ function ProfilePostsTab(): React.JSX.Element {
         />
       }
       scrollEventThrottle={16}
+      contentContainerStyle={{ backgroundColor: theme.bg.val }}
     />
   );
 }
