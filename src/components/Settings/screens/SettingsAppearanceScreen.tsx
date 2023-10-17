@@ -3,13 +3,25 @@ import { ScrollView } from 'tamagui';
 import Table from '@components/Common/Table/Table';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
 import { setSetting } from '@src/state/settings/actions';
+import { INavigationProps } from '@src/types';
 
-export default function SettingsAppearanceScreen(): React.JSX.Element {
+export default function SettingsAppearanceScreen({
+  navigation,
+}: INavigationProps): React.JSX.Element {
   const settings = useSettingsStore();
 
   return (
     <ScrollView flex={1}>
       <Table.Container>
+        <Table.Section header="Themes">
+          <Table.Cell
+            label="Themes"
+            useChevron
+            onPress={() => {
+              navigation.push('Themes');
+            }}
+          />
+        </Table.Section>
         <Table.Section header="Post Appearance">
           <Table.Cell
             label="Images Ignore Screen Height"

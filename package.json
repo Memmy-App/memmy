@@ -65,6 +65,7 @@
     "react-native-webview": "^13.6.2",
     "react-navigation-header-buttons": "^11.1.0",
     "reactotron-plugin-zustand": "^1.0.3",
+    "reanimated-color-picker": "^2.4.0",
     "tamagui": "^1.74.12",
     "zustand": "^4.4.3"
   },

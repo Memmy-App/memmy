@@ -9,6 +9,8 @@ import SettingsAboutScreen from '@components/Settings/screens/SettingsAboutScree
 import SettingsGesturesScreen from '@components/Settings/screens/SettingsGesturesScreen';
 import SettingsIconScreen from '@components/Settings/screens/SettingsIconScreen';
 import SettingsAppearanceScreen from '@components/Settings/screens/SettingsAppearanceScreen';
+import SettingsThemeScreen from '@components/Settings/screens/SettingsThemesScreen';
+import SettingsAccentScreen from '@components/Settings/screens/SettingsAccentScreen';
 
 const SettingsStack = createNativeStackNavigator();
 
@@ -38,6 +40,8 @@ export default function SettingsStackScreen(): React.JSX.Element {
         name="Appearance"
         component={SettingsAppearanceScreen}
       />
+      <SettingsStack.Screen name="Themes" component={SettingsThemeScreen} />
+      <SettingsStack.Screen name="Accent" component={SettingsAccentScreen} />
     </SettingsStack.Navigator>
   );
 }

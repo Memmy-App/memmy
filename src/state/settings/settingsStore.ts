@@ -97,6 +97,8 @@ export interface SettingsStore {
 
   showAvatarInTabBar: boolean;
   showUsernameInTabBar: boolean;
+
+  accentColor: string | undefined;
 }
 
 const initialState: SettingsStore = {
@@ -183,6 +185,8 @@ const initialState: SettingsStore = {
 
   showAvatarInTabBar: true,
   showUsernameInTabBar: true,
+
+  accentColor: undefined,
 };
 
 export const useSettingsStore = create(
@@ -252,3 +256,6 @@ export const useDefaultCommentSort = (): CommentSortType | undefined =>
 
 export const useDefaultListingType = (): ListingType | undefined =>
   useSettingsStore((state) => state.defaultListingType);
+
+export const useAccent = (): string | undefined =>
+  useSettingsStore((state) => state.accentColor);
