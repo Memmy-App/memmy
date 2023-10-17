@@ -200,7 +200,7 @@ function ProfileHeader(): React.JSX.Element {
               ]}
             />
           ) : (
-            <AnimatedAvatarPlaceholder style={[{}, avatarStyle]} />
+            <AnimatedAvatarPlaceholder size={85} style={[{}, avatarStyle]} />
           )}
           <VStack marginHorizontal="$3" space="$2.5" top={110}>
             <HStack alignItems="baseline" space="$2">

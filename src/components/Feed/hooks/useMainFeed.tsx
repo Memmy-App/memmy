@@ -18,9 +18,6 @@ import IGetPostOptions from '@api/common/types/IGetPostOptions';
 import { useLoadData } from '@src/hooks';
 import instance from '@src/Instance';
 import { cleanupPosts } from '@helpers/state';
-import HStack from '@components/Common/Stack/HStack';
-import ListingTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/ListingTypeContextMenuButton';
-import SortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/SortTypeContextMenuButton';
 import { useNavigation, useRoute } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HeaderBackButton } from '@react-navigation/elements';
@@ -84,17 +81,21 @@ export const useMainFeed = (): UseMainFeed => {
   // Add subs button if necessary and cleanup posts whenever we leave the screen
   useEffect(() => {
     navigation.setOptions({
-      ...(params?.name == null && {
-        headerLeft: () => (
-          <HeaderBackButton
-            label="Subscriptions"
-            onPress={() => {
-              navigation.push('Subscriptions');
-            }}
-            style={{ marginLeft: -16 }}
-          />
-        ),
-      }),
+      ...(params?.name == null
+        ? {
+            headerLeft: () => (
+              <HeaderBackButton
+                label="Subscriptions"
+                onPress={() => {
+                  navigation.push('Subscriptions');
+                }}
+                style={{ marginLeft: -16 }}
+              />
+            ),
+          }
+        : {
+            headerShown: false,
+          }),
     });
 
     return () => {
@@ -103,28 +104,28 @@ export const useMainFeed = (): UseMainFeed => {
   }, []);
 
   // Update the sort type when it changes
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <HStack space="$4">
-          <ListingTypeContextMenuButton
-            listingType={listingType}
-            setListingType={setListingType}
-          />
-          <SortTypeContextMenuButton
-            sortType={sortType}
-            setSortType={setSortType}
-          />
-        </HStack>
-      ),
-    });
-
-    // See if we are already loading and if not, we will refresh
-    if (!isLoading) {
-      onRefresh();
-      flashListRef.current?.scrollToOffset({ offset: 0 });
-    }
-  }, [sortType, listingType]);
+  // useEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => (
+  //       <HStack space="$4">
+  //         <ListingTypeContextMenuButton
+  //           listingType={listingType}
+  //           setListingType={setListingType}
+  //         />
+  //         <SortTypeContextMenuButton
+  //           sortType={sortType}
+  //           setSortType={setSortType}
+  //         />
+  //       </HStack>
+  //     ),
+  //   });
+  //
+  //   // See if we are already loading and if not, we will refresh
+  //   if (!isLoading) {
+  //     onRefresh();
+  //     flashListRef.current?.scrollToOffset({ offset: 0 });
+  //   }
+  // }, [sortType, listingType]);
 
   // Callback for loading more data when we hit the end
   const onEndReached = useCallback(() => {

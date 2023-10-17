@@ -2,124 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleIcons</key>
-	<dict>
-		<key>CFBundleAlternateIcons</key>
-		<dict>
-			<key>brown</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>brown</string>
-				</array>
-			</dict>
-			<key>gray</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>gray</string>
-				</array>
-			</dict>
-			<key>light_gray</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>light_gray</string>
-				</array>
-			</dict>
-			<key>pride</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>pride_icon</string>
-				</array>
-			</dict>
-			<key>pink</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>pink_icon</string>
-				</array>
-			</dict>
-			<key>trans_pride</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>trans_pride_icon</string>
-				</array>
-			</dict>
-			<key>yellow</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>yellow_icon</string>
-				</array>
-			</dict>
-			<key>green</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>green_icon</string>
-				</array>
-			</dict>
-			<key>red</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>red_icon</string>
-				</array>
-			</dict>
-			<key>purple</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>purple_icon</string>
-				</array>
-			</dict>
-			<key>blue</key>
-			<dict>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>blue_icon</string>
-				</array>
-			</dict>
-		</dict>
-		<key>CFBundlePrimaryIcon</key>
-		<dict>
-			<key>CFBundleIconName</key>
-			<string>purple</string>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string>purple_icon</string>
-			</array>
-			<key>UIPrerenderedIcon</key>
-			<false/>
-		</dict>
-	</dict>
-	<key>LSApplicationCategoryType</key>
-	<string>public.app-category.social-networking</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -128,6 +10,122 @@
 	<string>Memmy</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundleAlternateIcons</key>
+		<dict>
+			<key>blue</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>blue_icon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>brown</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>brown</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>gray</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>gray</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>green</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>green_icon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>light_gray</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>light_gray</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>pink</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>pink_icon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>pride</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>pride_icon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>purple</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>purple_icon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>red</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>red_icon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>trans_pride</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>trans_pride_icon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>yellow</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>yellow_icon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+		</dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>purple_icon</string>
+			</array>
+			<key>CFBundleIconName</key>
+			<string>purple</string>
+			<key>UIPrerenderedIcon</key>
+			<false/>
+		</dict>
+	</dict>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -152,6 +150,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.social-networking</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -160,17 +160,17 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>localhost</key>
+			<key>localhost:8081</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow $(PRODUCT_NAME) to access your camera</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Allow $(PRODUCT_NAME) to access your microphone</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Allow Memmy App to save photos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

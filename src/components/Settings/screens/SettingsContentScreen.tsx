@@ -30,8 +30,21 @@ export default function SettingsContentScreen({
             }}
           >
             <Table.Cell
-              label="Post Sort"
+              label="Post Sort in Feed"
               rightLabel={addSpaceBeforeCapital(settings.defaultSort)}
+              useChevron
+            />
+          </SortTypeContextMenu>
+
+          <SortTypeContextMenu
+            selection={settings.defaultCommunitySort}
+            onPressMenuItem={(e) => {
+              setSetting('defaultCommunitySort', e.nativeEvent.actionKey);
+            }}
+          >
+            <Table.Cell
+              label="Post Sort in Community"
+              rightLabel={addSpaceBeforeCapital(settings.defaultCommunitySort)}
               useChevron
             />
           </SortTypeContextMenu>

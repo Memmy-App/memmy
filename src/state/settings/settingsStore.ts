@@ -124,7 +124,7 @@ const initialState: SettingsStore = {
   defaultSort: 'Hot',
   defaultCommentSort: 'Top',
   defaultListingType: 'All',
-  defaultCommunitySort: 'TopDay',
+  defaultCommunitySort: 'Hot',
 
   showInstanceForUsernames: true,
   blurNsfw: true,

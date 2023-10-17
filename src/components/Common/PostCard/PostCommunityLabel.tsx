@@ -61,7 +61,7 @@ function PostCommunityLabel({ itemId }: IProps): React.JSX.Element {
       name: fullName,
       id: communityId,
     });
-  }, [itemId]);
+  }, [communityId]);
 
   return (
     <Pressable onPress={onPress} hitSlop={5}>
