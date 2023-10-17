@@ -7,6 +7,7 @@ import SettingsReadScreen from '@components/Settings/screens/SettingsReadScreen'
 import SettingsAccountScreen from '@components/Settings/screens/SettingsAccountsScreen';
 import SettingsAboutScreen from '@components/Settings/screens/SettingsAboutScreen';
 import SettingsGesturesScreen from '@components/Settings/screens/SettingsGesturesScreen';
+import SettingsIconScreen from '@components/Settings/screens/SettingsIconScreen';
 
 const SettingsStack = createNativeStackNavigator();
 
@@ -18,32 +19,20 @@ export default function SettingsStackScreen(): React.JSX.Element {
         component={SettingsIndexScreen}
         options={{ headerTitle: 'Settings', headerLargeTitle: true }}
       />
-      <SettingsStack.Screen
-        name="General"
-        component={SettingsGeneralScreen}
-        options={{ headerTitle: 'General' }}
-      />
-      <SettingsStack.Screen
-        name="Content"
-        component={SettingsContentScreen}
-        options={{ headerTitle: 'Content' }}
-      />
+      <SettingsStack.Screen name="General" component={SettingsGeneralScreen} />
+      <SettingsStack.Screen name="Content" component={SettingsContentScreen} />
       <SettingsStack.Screen
         name="Read"
         component={SettingsReadScreen}
         options={{ headerTitle: 'Read Options' }}
       />
-      <SettingsStack.Screen
-        name="Accounts"
-        component={SettingsAccountScreen}
-        options={{ headerTitle: 'Accounts' }}
-      />
+      <SettingsStack.Screen name="Accounts" component={SettingsAccountScreen} />
       <SettingsStack.Screen
         name="Gestures"
         component={SettingsGesturesScreen}
-        options={{ headerTitle: 'Gestures' }}
       />
       <SettingsStack.Screen name="About" component={SettingsAboutScreen} />
+      <SettingsStack.Screen name="Icon" component={SettingsIconScreen} />
     </SettingsStack.Navigator>
   );
 }

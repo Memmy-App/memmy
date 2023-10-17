@@ -1,5 +1,5 @@
 export type AppIconType =
-  | 'purple_icon'
+  | 'AppIcon'
   | 'blue_icon'
   | 'green_icon'
   | 'yellow_icon'
@@ -16,7 +16,7 @@ export const appIconOptions: Record<
   AppIconType,
   { display: string, path: any, }
 > = {
-  purple_icon: {
+  AppIcon: {
     display: 'Purple (Default)',
     path: require('../../assets/icons/purple_small.png'),
   },
@@ -33,7 +33,7 @@ export const appIconOptions: Record<
     path: require('../../assets/icons/yellow_small.png'),
   },
   red_icon: {
-    display: 'Purple',
+    display: 'Red',
     path: require('../../assets/icons/red_small.png'),
   },
   pink_icon: {
@@ -41,27 +41,27 @@ export const appIconOptions: Record<
     path: require('../../assets/icons/pink_small.png'),
   },
   brown_icon: {
-    display: 'Purple',
+    display: 'Brown',
     path: require('../../assets/icons/brown_small.png'),
   },
   gray_icon: {
-    display: 'Purple',
+    display: 'Gray',
     path: require('../../assets/icons/gray_small.png'),
   },
   light_gray_icon: {
-    display: 'Purple',
+    display: 'Light Gray',
     path: require('../../assets/icons/light_gray_small.png'),
   },
   pride_icon: {
-    display: 'Purple',
+    display: 'Pride',
     path: require('../../assets/icons/pride_small.png'),
   },
   pride_new_icon: {
-    display: 'Purple',
+    display: 'Pride (New)',
     path: require('../../assets/icons/pride_small.png'),
   },
   trans_pride_icon: {
-    display: 'Purple',
+    display: 'Trans Pride',
     path: require('../../assets/icons/trans_pride_small.png'),
   },
 };

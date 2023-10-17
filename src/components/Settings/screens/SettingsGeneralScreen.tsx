@@ -8,8 +8,15 @@ import { AppContextMenuButton } from '@components/Common/ContextMenu/AppContextM
 import { capitalizeFirstLetter } from '@helpers/text';
 import { createContextMenuOptionsFromStrings } from '@helpers/contextMenu';
 import { hapticStrengthOptions } from '@src/types/options';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-export default function SettingsGeneralScreen(): React.JSX.Element {
+interface IProps {
+  navigation: NativeStackNavigationProp<any>;
+}
+
+export default function SettingsGeneralScreen({
+  navigation,
+}: IProps): React.JSX.Element {
   const settings = useSettingsStore();
 
   const contextHapticStrengthOptions = createContextMenuOptionsFromStrings(
@@ -19,6 +26,15 @@ export default function SettingsGeneralScreen(): React.JSX.Element {
   return (
     <ScrollView flex={1}>
       <Table.Container>
+        <Table.Section header="App Icon">
+          <Table.Cell
+            label="Select Icon"
+            onPress={() => {
+              navigation.push('Icon');
+            }}
+            useChevron
+          />
+        </Table.Section>
         <Table.Section header="Haptics">
           <Table.Cell
             label="Enable Haptics"
