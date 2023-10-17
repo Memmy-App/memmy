@@ -1,15 +1,13 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { usePostLink, usePostThumbnail } from '@src/state/post/postStore';
 import { Separator, Text, View } from 'tamagui';
 import { Image } from 'expo-image';
 import HStack from '@components/Common/Stack/HStack';
 import VStack from '@components/Common/Stack/VStack';
 import { ChevronRight, Link } from '@tamagui/lucide-icons';
-import { Pressable } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import { openLink } from '@helpers/links';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const spinner = require('../../../../assets/spinner.svg');
+import LoadingAnimation from '@components/Common/Loading/LoadingAnimation';
 
 interface IProps {
   itemId: number;
@@ -18,6 +16,16 @@ interface IProps {
 function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
   const postLink = usePostLink(itemId);
   const postThumbnail = usePostThumbnail(itemId);
+
+  const [thumbnailLoading, setThumbnailLoading] = useState(false);
+
+  const onLoadStart = useCallback(() => {
+    setThumbnailLoading(true);
+  }, []);
+
+  const onLoadEnd = useCallback(() => {
+    setThumbnailLoading(false);
+  }, []);
 
   if (postLink == null) return null;
 
@@ -35,17 +43,29 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
       >
         <VStack space="$2">
           {postThumbnail != null && (
-            <Image
-              source={{ uri: postThumbnail }}
-              style={{
-                height: 120,
-                borderTopRightRadius: 10,
-                borderTopLeftRadius: 10,
-              }}
-              contentFit="cover"
-              placeholder={spinner}
-              placeholderContentFit="scale-down"
-            />
+            <View
+              style={styles.image}
+              display={thumbnailLoading ? 'none' : 'block'}
+            >
+              <Image
+                source={postThumbnail}
+                style={styles.image}
+                contentFit="cover"
+                recyclingKey={postThumbnail}
+                onLoadStart={onLoadStart}
+                onLoadEnd={onLoadEnd}
+                cachePolicy="none"
+              />
+            </View>
+          )}
+          {thumbnailLoading && (
+            <HStack
+              style={styles.image}
+              alignItems="center"
+              justifyContent="center"
+            >
+              <LoadingAnimation size="small" />
+            </HStack>
           )}
           <HStack
             alignItems="center"
@@ -74,5 +94,13 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  image: {
+    height: 120,
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+  },
+});
 
 export default React.memo(PostLinkPreview);
