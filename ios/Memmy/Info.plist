@@ -14,15 +14,6 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>pride_new_icon</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>pride_new_icon</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
 			<key>blue_icon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
@@ -86,11 +77,11 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
-			<key>purple_icon</key>
+			<key>pride_new_icon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>purple_icon</string>
+					<string>pride_new_icon</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
@@ -158,7 +149,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>6</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.social-networking</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -185,7 +176,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow Memmy App to access your photos</string>
 	<key>UILaunchStoryboardName</key>
-	<string>SplashScreen.storyboard</string>
+	<string>SplashScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
