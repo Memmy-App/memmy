@@ -14,7 +14,16 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>blue</key>
+			<key>pride_new_icon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>pride_new_icon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>blue_icon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
@@ -23,7 +32,7 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
-			<key>brown</key>
+			<key>brown_icon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
@@ -32,7 +41,7 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
-			<key>gray</key>
+			<key>gray_icon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
@@ -41,7 +50,7 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
-			<key>green</key>
+			<key>green_icon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
@@ -50,16 +59,16 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
-			<key>light_gray</key>
+			<key>light_gray_icon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>light_gray</string>
+					<string>light_gray_icon</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
-			<key>pink</key>
+			<key>pink_icon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
@@ -68,7 +77,7 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
-			<key>pride</key>
+			<key>pride_icon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
@@ -77,7 +86,7 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
-			<key>purple</key>
+			<key>purple_icon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
@@ -86,7 +95,7 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
-			<key>red</key>
+			<key>red_icon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
@@ -95,7 +104,7 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
-			<key>trans_pride</key>
+			<key>trans_pride_icon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
@@ -104,7 +113,7 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
-			<key>yellow</key>
+			<key>yellow_icon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
@@ -121,7 +130,7 @@
 				<string>purple_icon</string>
 			</array>
 			<key>CFBundleIconName</key>
-			<string>purple</string>
+			<string>purple_icon</string>
 			<key>UIPrerenderedIcon</key>
 			<false/>
 		</dict>
@@ -149,7 +158,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>4</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.social-networking</string>
 	<key>LSRequiresIPhoneOS</key>
