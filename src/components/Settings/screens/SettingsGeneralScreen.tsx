@@ -57,6 +57,7 @@ export default function SettingsGeneralScreen({
               label="Haptic Strength"
               rightLabel={capitalizeFirstLetter(settings.hapticsStrength)}
               useChevron
+              isLast
             />
           </AppContextMenuButton>
         </Table.Section>

@@ -16,6 +16,8 @@ interface AppContextMenuButtonProps<S = string> extends PropsWithChildren {
   style?: StyleProp<ViewStyle>;
   onPressMenuItem: OnPressMenuItemEvent;
   onLayout?: () => void;
+  isFirst?: boolean;
+  isLast?: boolean;
 }
 
 export function AppContextMenuButton<S = string>(

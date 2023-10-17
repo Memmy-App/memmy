@@ -30,11 +30,7 @@ export default function Cell({
     <Pressable onPress={onPress}>
       <VStack
         paddingHorizontal="$3"
-        paddingVertical={
-          accessoryLeft != null || accessoryRight != null || useChevron === true
-            ? 8
-            : 10
-        }
+        paddingVertical={12}
         backgroundColor="$fg"
         borderTopRightRadius={isFirst === true ? '$3' : undefined}
         borderTopLeftRadius={isFirst === true ? '$3' : undefined}

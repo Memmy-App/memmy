@@ -33,6 +33,7 @@ export default function SettingsContentScreen({
               label="Post Sort in Feed"
               rightLabel={addSpaceBeforeCapital(settings.defaultSort)}
               useChevron
+              isFirst
             />
           </SortTypeContextMenu>
 
@@ -72,6 +73,7 @@ export default function SettingsContentScreen({
               label="Listing Type"
               rightLabel={settings.defaultListingType}
               useChevron
+              isLast
             />
           </ListingTypeContextMenu>
         </Table.Section>

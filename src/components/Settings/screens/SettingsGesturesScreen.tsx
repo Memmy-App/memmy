@@ -114,6 +114,7 @@ export default function SettingsGesturesScreen(): React.JSX.Element {
                   'None'
                 }
                 useChevron
+                isLast
               />
             </AppContextMenuButton>
           )}
@@ -221,6 +222,7 @@ export default function SettingsGesturesScreen(): React.JSX.Element {
                   ) ?? 'None'
                 }
                 useChevron
+                isLast
               />
             </AppContextMenuButton>
           )}

@@ -18,7 +18,12 @@ export default function SettingsIconScreen(): React.JSX.Element {
               accessoryLeft={
                 <Image
                   source={value.path}
-                  style={{ width: 30, height: 30, borderRadius: 10 }}
+                  style={{
+                    width: 30,
+                    height: 30,
+                    borderRadius: 6,
+                    marginRight: 10,
+                  }}
                 />
               }
               useChevron
