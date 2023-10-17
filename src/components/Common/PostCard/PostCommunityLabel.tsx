@@ -53,7 +53,7 @@ function PostCommunityLabel({ itemId }: IProps): React.JSX.Element {
   const showIcon = useSettingsStore((state) => state.showCommunityIconInFeed);
   const fullName = useMemo(
     () => createName(communityName, actorId, true),
-    [communityName],
+    [communityName, actorId],
   );
 
   const onPress = useCallback((): void => {

@@ -21,8 +21,6 @@ function CommunityHeader(): React.JSX.Element | null {
   const { params } = useRoute<any>();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  console.log(params);
-
   // Get the title
   const communityTitle = useCommunityName(params?.id);
   const communityBanner = useCommunityBanner(params?.id);

@@ -1,5 +1,6 @@
+import 'react-native-reanimated';
+
 import React, { useEffect } from 'react';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { TamaguiProvider, Text, Theme, useTheme } from 'tamagui';
 
 import tguiConfig from './tamagui.config';
@@ -13,6 +14,7 @@ import { LogBox } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { ErrorBoundary } from 'react-error-boundary';
 import { writeToLog } from '@src/helpers';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 if (__DEV__) {
   require('./ReactotronConfig');

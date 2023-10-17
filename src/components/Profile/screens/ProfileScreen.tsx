@@ -52,8 +52,6 @@ export default function ProfileScreen({
   const onScroll = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
     contentOffsetY.value =
       e.nativeEvent.contentOffset.y >= 0 ? e.nativeEvent.contentOffset.y : 0;
-
-    console.log(contentOffsetY.value);
   }, []);
 
   const onTabChange = useCallback((index: number) => {

@@ -17,27 +17,20 @@ import Animated, {
   Extrapolate,
   Extrapolation,
   interpolate,
-  SharedValue,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import { Image } from 'expo-image';
 import { useProfileScreenContext } from '@components/Profile/screens/ProfileScreen';
 import { ChevronLeft } from '@tamagui/lucide-icons';
 import { Pressable } from 'react-native';
+import { Skeleton } from 'moti/build/skeleton/native';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const headerPlaceholder = require('../../../../assets/headerPlaceholder.jpg');
-
-const AnimatedImage = Animated.createAnimatedComponent(Image);
-
-interface IProps {
-  profileId: number;
-  contentOffsetY: SharedValue<number>;
-}
 
 function ProfileHeader(): React.JSX.Element {
   const theme = useTheme();
 
-  const { profileId, contentOffsetY } = useProfileScreenContext();
+  const { profileId, contentOffsetY, isLoading } = useProfileScreenContext();
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
@@ -152,12 +145,20 @@ function ProfileHeader(): React.JSX.Element {
           width="100%"
           zIndex={-1}
         >
-          <AnimatedImage
-            source={{ uri: personBanner }}
-            style={[{ width: '100%' }, bannerStyle]}
-            contentFit="cover"
-            placeholder={headerPlaceholder}
-          />
+          {personBanner != null ? (
+            <Animated.Image
+              source={{ uri: personBanner }}
+              style={[{ width: '100%' }, bannerStyle]}
+              resizeMode="cover"
+            />
+          ) : (
+            <Animated.Image
+              source={headerPlaceholder}
+              style={[{ width: '100%' }, bannerStyle]}
+              resizeMode="cover"
+            />
+          )}
+
           <Animated.View
             style={[
               {
@@ -180,7 +181,7 @@ function ProfileHeader(): React.JSX.Element {
           </Animated.View>
         </VStack>
         <VStack zIndex={1}>
-          <AnimatedImage
+          <Animated.Image
             source={{ uri: personAvatar }}
             style={[
               {
@@ -193,12 +194,16 @@ function ProfileHeader(): React.JSX.Element {
           />
           <VStack marginHorizontal="$3" space="$2.5" top={110}>
             <HStack alignItems="baseline" space="$2">
-              <Text fontSize="$8" fontWeight="bold">
-                {personName}
-              </Text>
-              <Text fontSize="$3" color="$secondary">
-                @{personInstance}
-              </Text>
+              <Skeleton>
+                <>
+                  <Text fontSize="$8" fontWeight="bold">
+                    {personName}
+                  </Text>
+                  <Text fontSize="$3" color="$secondary">
+                    @{personInstance}
+                  </Text>
+                </>
+              </Skeleton>
             </HStack>
             <HStack space="$3">
               <Text fontSize="$4" color="$secondary" fontWeight="bold">
