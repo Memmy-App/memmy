@@ -49,4 +49,7 @@ export const draculaTheme: IColors = {
 
   bookmark: '#48C10F',
   bookmarkText: '#fff',
+
+  statusBar: 'light',
+  colorScheme: 'dark',
 };

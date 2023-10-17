@@ -49,4 +49,7 @@ export const oksolarLightTheme: IColors = {
 
   bookmark: '#819500',
   bookmarkText: '#fff',
+
+  statusBar: 'dark',
+  colorScheme: 'light',
 };

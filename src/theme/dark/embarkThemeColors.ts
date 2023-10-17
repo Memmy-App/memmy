@@ -39,16 +39,17 @@ export const embarkThemeColors: IColors = {
   op: '#1A282E',
   opText: '#38bdf8',
 
-  comments: {
-    1: '#F48FB1',
-    2: '#FFE6B3',
-    3: '#A1EFD3',
-    4: '#91DDFF',
-    5: '#D4BFFF',
-  },
+  'comments-1': '#F48FB1',
+  'comments-2': '#FFE6B3',
+  'comments-3': '#A1EFD3',
+  'comments-4': '#91DDFF',
+  'comments-5': '#D4BFFF',
 
   inputBg: '#3E3859',
 
   bookmark: '#7676FF',
   bookmarkText: '#fff',
+
+  statusBar: 'light',
+  colorScheme: 'dark',
 };

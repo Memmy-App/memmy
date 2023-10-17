@@ -40,16 +40,17 @@ export const sunsetThemeColors: IColors = {
   op: '#1A282E',
   opText: '#38bdf8',
 
-  comments: {
-    1: '#FA6969',
-    2: '#FFB800',
-    3: '#FFE500',
-    4: '#36CF3C',
-    5: '#4BA9FF',
-  },
+  'comments-1': '#FA6969',
+  'comments-2': '#FFB800',
+  'comments-3': '#FFE500',
+  'comments-4': '#36CF3C',
+  'comments-5': '#4BA9FF',
 
   inputBg: '#0B1A3C',
 
   bookmark: '#48C10F',
   bookmarkText: '#fff',
+
+  statusBar: 'light',
+  colorScheme: 'dark',
 };

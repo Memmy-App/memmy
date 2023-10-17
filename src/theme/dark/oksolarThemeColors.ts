@@ -39,16 +39,17 @@ export const oksolarThemeColors: IColors = {
   op: '#1A282E',
   opText: '#38bdf8',
 
-  comments: {
-    1: '#F23749',
-    2: '#D56500',
-    3: '#AC8300',
-    4: '#819500',
-    5: '#259D94',
-  },
+  'comments-1': '#F23749',
+  'comments-2': '#D56500',
+  'comments-3': '#AC8300',
+  'comments-4': '#819500',
+  'comments-5': '#259D94',
 
   inputBg: '#012933',
 
   bookmark: '#819500',
   bookmarkText: '#fff',
+
+  statusBar: 'light',
+  colorScheme: 'dark',
 };
