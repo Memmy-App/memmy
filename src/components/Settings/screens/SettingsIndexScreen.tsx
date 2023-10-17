@@ -45,6 +45,9 @@ export default function SettingsIndexScreen({
           <Table.Cell
             label="Appearance"
             useChevron
+            onPress={() => {
+              navigation.push('Appearance');
+            }}
             accessoryLeft={<CellIcon bgColor="#BB4BE5" icon={<Paintbrush />} />}
           />
           <Table.Cell

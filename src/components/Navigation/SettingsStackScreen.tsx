@@ -8,6 +8,7 @@ import SettingsAccountScreen from '@components/Settings/screens/SettingsAccounts
 import SettingsAboutScreen from '@components/Settings/screens/SettingsAboutScreen';
 import SettingsGesturesScreen from '@components/Settings/screens/SettingsGesturesScreen';
 import SettingsIconScreen from '@components/Settings/screens/SettingsIconScreen';
+import SettingsAppearanceScreen from '@components/Settings/screens/SettingsAppearanceScreen';
 
 const SettingsStack = createNativeStackNavigator();
 
@@ -33,6 +34,10 @@ export default function SettingsStackScreen(): React.JSX.Element {
       />
       <SettingsStack.Screen name="About" component={SettingsAboutScreen} />
       <SettingsStack.Screen name="Icon" component={SettingsIconScreen} />
+      <SettingsStack.Screen
+        name="Appearance"
+        component={SettingsAppearanceScreen}
+      />
     </SettingsStack.Navigator>
   );
 }

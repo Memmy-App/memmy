@@ -1,6 +1,6 @@
 import React from 'react';
 import VStack from '@components/Common/Stack/VStack';
-import { Pressable } from 'react-native';
+import { Pressable, Switch } from 'react-native';
 import { Separator, Text } from 'tamagui';
 import HStack from '@components/Common/Stack/HStack';
 import { ChevronRight } from '@tamagui/lucide-icons';
@@ -14,6 +14,9 @@ interface IProps {
   isFirst?: boolean;
   label?: string;
   rightLabel?: string;
+  isSwitch?: boolean;
+  switchValue?: boolean;
+  onSwitchValueChange?: (value: boolean) => void;
 }
 
 export default function Cell({
@@ -25,6 +28,8 @@ export default function Cell({
   isLast,
   label,
   rightLabel,
+  switchValue,
+  onSwitchValueChange,
 }: IProps): React.JSX.Element {
   return (
     <Pressable onPress={onPress}>
@@ -43,6 +48,9 @@ export default function Cell({
           <HStack marginLeft="auto" alignItems="center" space="$2">
             {label != null && <Text color="$secondary">{rightLabel}</Text>}
             {accessoryRight}
+            {switchValue != null && onSwitchValueChange !== null && (
+              <Switch value={switchValue} onValueChange={onSwitchValueChange} />
+            )}
             {useChevron === true && <ChevronRight size={20} color="$accent" />}
           </HStack>
         </HStack>

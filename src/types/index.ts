@@ -7,5 +7,6 @@ export * from './ILinkInfo';
 export * from './LinkType';
 export * from './ICommentInfo';
 export * from './ICommentGestureOptions';
+export * from './INavigationProps';
 
 export * from './markdown';

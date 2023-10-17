@@ -94,6 +94,9 @@ export interface SettingsStore {
 
   showCommunityIconInFeed: boolean;
   showAvatarInFeed: boolean;
+
+  showAvatarInTabBar: boolean;
+  showUsernameInTabBar: boolean;
 }
 
 const initialState: SettingsStore = {
@@ -177,6 +180,9 @@ const initialState: SettingsStore = {
 
   showCommunityIconInFeed: true,
   showAvatarInFeed: true,
+
+  showAvatarInTabBar: true,
+  showUsernameInTabBar: true,
 };
 
 export const useSettingsStore = create(
