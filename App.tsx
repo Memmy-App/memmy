@@ -23,7 +23,7 @@ import { StatusBar } from 'expo-status-bar';
 import { ErrorBoundary } from 'react-error-boundary';
 import { writeToLog } from '@src/helpers';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { lightThemeColors } from '@src/theme/light';
+import { lightTheme } from '@src/theme/light';
 import { useAccent } from '@src/state/settings/settingsStore';
 
 if (__DEV__) {
@@ -60,7 +60,7 @@ export default function App(): React.JSX.Element | null {
     updateTheme({
       name: 'lightTheme',
       theme: {
-        accent: accent ?? lightThemeColors.accent,
+        accent: accent ?? lightTheme.accent,
       },
     });
     update();

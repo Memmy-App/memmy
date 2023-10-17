@@ -1,7 +1,19 @@
 import { tokens } from '@tamagui/themes';
 import { createTokens } from 'tamagui';
-import { lightThemeColors } from '@src/theme/light';
-import { darkThemeColors } from '@src/theme/dark/darkTheme';
+import { lightTheme, oksolarLightTheme } from '@src/theme/light';
+import { darkTheme } from '@src/theme/dark/darkTheme';
+import {
+  draculaTheme,
+  embarkTheme,
+  goldenHourTheme,
+  moodyPurpleTheme,
+  nauticalTheme,
+  nightOwlTheme,
+  oksolarTheme,
+  oledTheme,
+  sleepyRainForestTheme,
+  sunsetTheme,
+} from '@src/theme/dark';
 
 export const customTokens = createTokens({
   ...tokens,
@@ -9,9 +21,42 @@ export const customTokens = createTokens({
     ...tokens.color,
   },
   lightThemeColors: {
-    ...lightThemeColors,
+    ...lightTheme,
   },
   darkThemeColors: {
-    ...darkThemeColors,
+    ...darkTheme,
+  },
+  draculaThemeColors: {
+    ...draculaTheme,
+  },
+  embarkThemeColors: {
+    ...embarkTheme,
+  },
+  goldenHourColors: {
+    ...goldenHourTheme,
+  },
+  moodyPurpleColors: {
+    ...moodyPurpleTheme,
+  },
+  nauticalThemeColors: {
+    ...nauticalTheme,
+  },
+  nightOwlThemeColors: {
+    ...nightOwlTheme,
+  },
+  oksolarThemeColors: {
+    ...oksolarTheme,
+  },
+  oledThemeColors: {
+    ...oledTheme,
+  },
+  sleepyRainForestThemeColors: {
+    ...sleepyRainForestTheme,
+  },
+  sunsetTheme: {
+    ...sunsetTheme,
+  },
+  oksolarLightThemeColors: {
+    ...oksolarLightTheme,
   },
 });

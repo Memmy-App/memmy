@@ -1,6 +1,6 @@
 import { IColors } from '@src/theme/common';
 
-export const embarkThemeColors: IColors = {
+export const embarkTheme: IColors = {
   accent: '#A1EFD3',
   accentHighlight: '#7FE9C3',
 
