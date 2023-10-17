@@ -61,7 +61,7 @@ function ProfileHeader(): React.JSX.Element {
   const headerContainerStyle = useAnimatedStyle(() => ({
     height: interpolate(
       contentOffsetY!.value,
-      [0, 125],
+      [0, 180],
       [310, 100],
       Extrapolate.CLAMP,
     ),
@@ -70,13 +70,13 @@ function ProfileHeader(): React.JSX.Element {
   const bannerStyle = useAnimatedStyle(() => ({
     height: interpolate(
       contentOffsetY!.value,
-      [0, 150],
+      [0, 200],
       [150, 100],
       Extrapolate.CLAMP,
     ),
     opacity: interpolate(
       contentOffsetY!.value,
-      [0, 150],
+      [0, 200],
       [1, 0.5],
       Extrapolate.CLAMP,
     ),
@@ -85,25 +85,25 @@ function ProfileHeader(): React.JSX.Element {
   const avatarStyle = useAnimatedStyle(() => ({
     top: interpolate(
       contentOffsetY!.value,
-      [0, 150],
+      [0, 200],
       [107, 45],
       Extrapolation.CLAMP,
     ),
     height: interpolate(
       contentOffsetY!.value,
-      [0, 150],
+      [0, 200],
       [85, 45],
       Extrapolation.CLAMP,
     ),
     width: interpolate(
       contentOffsetY!.value,
-      [0, 150],
+      [0, 200],
       [85, 45],
       Extrapolation.CLAMP,
     ),
     left: interpolate(
       contentOffsetY!.value,
-      [0, 150],
+      [0, 200],
       [15, 60],
       Extrapolate.CLAMP,
     ),

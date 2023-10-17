@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useCurrentAccount } from '@src/state/account/accountStore';
 import { IAccount } from '@src/types';
 import instance from '@src/Instance';
-import LoadingScreen from '@components/Common/Loading/LoadingScreen';
+import LoadingModal from '@components/Common/Loading/LoadingModal';
 import { Alert } from 'react-native';
 import { useSiteStore } from '@src/state/site/siteStore';
 import MainFeed from '@components/Feed/components/MainFeed';
@@ -53,7 +53,7 @@ export default function FeedIndexScreen(): React.JSX.Element {
       });
   }, [currentAccount]);
 
-  if (!initialized) return <LoadingScreen />;
+  if (!initialized) return <LoadingModal />;
 
   return <MainFeed />;
 }

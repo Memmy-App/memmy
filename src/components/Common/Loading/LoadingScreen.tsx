@@ -1,11 +1,14 @@
 import React from 'react';
-import { View } from 'tamagui';
-import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
+import VStack from '@components/Common/Stack/VStack';
+import Animated, { FadeOut } from 'react-native-reanimated';
+import LoadingAnimation from '@components/Common/Loading/LoadingAnimation';
 
 export default function LoadingScreen(): React.JSX.Element {
   return (
-    <View backgroundColor="$bg" flex={1}>
-      <LoadingOverlay visible={true} />
-    </View>
+    <Animated.View exiting={FadeOut} style={{ flex: 1 }}>
+      <VStack flex={1} justifyContent="center" alignItems="center">
+        <LoadingAnimation size="normal" />
+      </VStack>
+    </Animated.View>
   );
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import VStack from '@components/Common/Stack/VStack';
-import Spinner from '@components/Common/Gui/Spinner';
 import ButtonOne from '@components/Common/Button/ButtonOne';
 import { Text } from 'tamagui';
+import LoadingAnimation from '@components/Common/Loading/LoadingAnimation';
 
 interface IProps {
   loading: boolean;
@@ -36,8 +36,7 @@ function FeedLoadingIndicator({
 
   return (
     <VStack flex={1} alignItems="center" justifyContent="center" padding="$3">
-      <Text color="$secondary">Loading...</Text>
-      <Spinner />
+      <LoadingAnimation size="small" />
     </VStack>
   );
 }

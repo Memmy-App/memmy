@@ -53,7 +53,7 @@ export default function App(): React.JSX.Element | null {
     >
       <GestureHandlerRootView style={{ flex: 1 }}>
         <TamaguiProvider config={tguiConfig}>
-          <Theme name="lightTheme">
+          <Theme name="darkTheme">
             <PartTwo />
           </Theme>
         </TamaguiProvider>

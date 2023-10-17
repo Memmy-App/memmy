@@ -5,7 +5,7 @@ import {
   usePostCounts,
   usePostLoaded,
 } from '@src/state/post/postStore';
-import LoadingScreen from '@components/Common/Loading/LoadingScreen';
+import LoadingModal from '@components/Common/Loading/LoadingModal';
 import VStack from '@components/Common/Stack/VStack';
 import Post from '@components/Post/components/Post';
 import instance from '@src/Instance';
@@ -105,7 +105,7 @@ export default function PostScreen({
     setNewCommentId(undefined);
   }, [newCommentId, commentsToShow]);
 
-  if (!postLoaded) return <LoadingScreen />;
+  if (!postLoaded) return <LoadingModal />;
 
   return (
     <VStack flex={1}>
