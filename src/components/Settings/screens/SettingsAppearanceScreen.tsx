@@ -3,7 +3,7 @@ import { ScrollView } from 'tamagui';
 import Table from '@components/Common/Table/Table';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
 import { setSetting } from '@src/state/settings/actions';
-import { INavigationProps } from '@src/types';
+import { AllThemeOptions, INavigationProps } from '@src/types';
 
 export default function SettingsAppearanceScreen({
   navigation,
@@ -15,12 +15,56 @@ export default function SettingsAppearanceScreen({
       <Table.Container>
         <Table.Section header="Themes">
           <Table.Cell
-            label="Themes"
+            label="Accent Color"
             useChevron
             onPress={() => {
-              navigation.push('Themes');
+              navigation.push('Accent');
             }}
           />
+          <Table.Cell
+            label="Follow System Theme"
+            switchValue={settings.themeMatchSystem}
+            onSwitchValueChange={(v) => {
+              setSetting('themeMatchSystem', v);
+            }}
+          />
+          {!settings.themeMatchSystem ? (
+            <Table.Cell
+              label="Selected Theme"
+              rightLabel={AllThemeOptions[settings.theme]}
+              useChevron
+              onPress={() => {
+                navigation.push('Themes', {
+                  themeType: 'all',
+                });
+              }}
+              isLast
+            />
+          ) : (
+            <>
+              <Table.Cell
+                label="Selected Light Theme"
+                rightLabel={AllThemeOptions[settings.themeLight]}
+                useChevron
+                onPress={() => {
+                  navigation.push('Themes', {
+                    themeType: 'light',
+                  });
+                }}
+              />
+              <Table.Cell
+                label="Selected Dark Theme"
+                rightLabel={AllThemeOptions[settings.themeDark]}
+                useChevron
+                onPress={() => {
+                  navigation.push('Themes', {
+                    themeType: 'dark',
+                  });
+                }}
+                isLast
+              />
+            </>
+          )}
         </Table.Section>
         <Table.Section header="Post Appearance">
           <Table.Cell

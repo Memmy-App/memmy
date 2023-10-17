@@ -1,15 +1,7 @@
 import 'react-native-reanimated';
 
 import React, { useEffect } from 'react';
-import {
-  TamaguiProvider,
-  Text,
-  Theme,
-  updateTheme,
-  useForceUpdate,
-  useIsomorphicLayoutEffect,
-  useTheme,
-} from 'tamagui';
+import { TamaguiProvider, Text, Theme, useTheme } from 'tamagui';
 
 import tguiConfig from './tamagui.config';
 import Stack from '@components/Navigation/Stack';
@@ -23,8 +15,7 @@ import { StatusBar } from 'expo-status-bar';
 import { ErrorBoundary } from 'react-error-boundary';
 import { writeToLog } from '@src/helpers';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { lightTheme } from '@src/theme/light';
-import { useAccent } from '@src/state/settings/settingsStore';
+import { useThemeSettings } from '@hooks/useThemeSettings';
 
 if (__DEV__) {
   require('./ReactotronConfig');
@@ -40,10 +31,6 @@ LogBox.ignoreAllLogs(true);
 export default function App(): React.JSX.Element | null {
   enableFreeze(true);
 
-  const accent = useAccent();
-
-  const update = useForceUpdate();
-
   const [loaded] = useFonts({
     Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
     InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
@@ -56,17 +43,9 @@ export default function App(): React.JSX.Element | null {
     }
   }, [loaded]);
 
-  useIsomorphicLayoutEffect(() => {
-    updateTheme({
-      name: 'lightTheme',
-      theme: {
-        accent: accent ?? lightTheme.accent,
-      },
-    });
-    update();
-  }, [accent]);
+  const themeSettings = useThemeSettings();
 
-  if (!loaded) return null;
+  if (!loaded || !themeSettings.initialized) return null;
 
   return (
     <ErrorBoundary
@@ -77,7 +56,7 @@ export default function App(): React.JSX.Element | null {
     >
       <GestureHandlerRootView style={{ flex: 1 }}>
         <TamaguiProvider config={tguiConfig}>
-          <Theme name="lightTheme">
+          <Theme name={themeSettings.theme}>
             <PartTwo />
           </Theme>
         </TamaguiProvider>

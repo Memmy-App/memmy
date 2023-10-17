@@ -259,3 +259,15 @@ export const useDefaultListingType = (): ListingType | undefined =>
 
 export const useAccent = (): string | undefined =>
   useSettingsStore((state) => state.accentColor);
+
+export const useRegularTheme = (): IThemeOption =>
+  useSettingsStore((state) => state.theme);
+
+export const useLightTheme = (): IThemeOption =>
+  useSettingsStore((state) => state.themeLight);
+
+export const useDarkTheme = (): IThemeOption =>
+  useSettingsStore((state) => state.themeDark);
+
+export const useMatchSystemTheme = (): boolean =>
+  useSettingsStore((state) => state.themeMatchSystem);

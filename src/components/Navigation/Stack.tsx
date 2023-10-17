@@ -12,19 +12,21 @@ import OnboardingInstanceListScreen from '@components/Onboarding/OnboardingInsta
 import CreateAccountModal from '@components/Account/CreateAccountModal';
 import AddAccountModal from '@components/Account/AddAccountModal';
 import { useTheme } from 'tamagui';
+import { useAccent } from '@src/state/settings/settingsStore';
 
 const Stack = createNativeStackNavigator();
 
 export default function MainStack(): React.JSX.Element {
   const accounts = useAccounts();
   const theme = useTheme();
+  const accent = useAccent();
 
   const navTheme: Theme = useMemo(
     () => ({
       ...DarkTheme,
       colors: {
         ...DarkTheme.colors,
-        primary: theme.accent.val,
+        primary: accent ?? theme.accent.val,
         background: theme.bg.val,
         card: theme.navBarBg.val,
         text: theme.color.val,

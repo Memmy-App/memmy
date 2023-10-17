@@ -32,10 +32,10 @@ export const customTokens = createTokens({
   embarkThemeColors: {
     ...embarkTheme,
   },
-  goldenHourColors: {
+  goldenHourThemeColors: {
     ...goldenHourTheme,
   },
-  moodyPurpleColors: {
+  moodyPurpleThemeColors: {
     ...moodyPurpleTheme,
   },
   nauticalThemeColors: {
@@ -50,10 +50,10 @@ export const customTokens = createTokens({
   oledThemeColors: {
     ...oledTheme,
   },
-  sleepyRainForestThemeColors: {
+  sleepyRainforestThemeColors: {
     ...sleepyRainForestTheme,
   },
-  sunsetTheme: {
+  sunsetThemeColors: {
     ...sunsetTheme,
   },
   oksolarLightThemeColors: {
