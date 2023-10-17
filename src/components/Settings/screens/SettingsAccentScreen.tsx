@@ -21,10 +21,12 @@ export default function SettingsAccentScreen({
   const [hex, setHex] = useState(accent ?? theme.accent.val);
 
   useEffect(() => {
-    return navigation.addListener('beforeRemove', () => {
+    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
       setSetting('accentColor', hex);
     });
-  }, [navigation]);
+
+    return unsubscribe;
+  }, [hex]);
 
   const onSelectColor = ({ hex }: returnedResults): void => {
     setHex(hex);

@@ -1,5 +1,9 @@
 import React, { useMemo } from 'react';
-import { DarkTheme, NavigationContainer } from '@react-navigation/native';
+import {
+  DarkTheme,
+  NavigationContainer,
+  Theme,
+} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Tabs from '@components/Navigation/Tabs';
 import { useAccounts } from '@src/state/account/accountStore';
@@ -15,7 +19,7 @@ export default function MainStack(): React.JSX.Element {
   const accounts = useAccounts();
   const theme = useTheme();
 
-  const navTheme = useMemo(
+  const navTheme: Theme = useMemo(
     () => ({
       ...DarkTheme,
       colors: {
