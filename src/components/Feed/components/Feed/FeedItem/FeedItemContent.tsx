@@ -26,7 +26,7 @@ function FeedItemContent({ itemId }: IProps): React.JSX.Element | null {
 
   if (postLinkType === 'image') {
     return (
-      <View marginVertical="$3" justifyContent="center">
+      <View marginVertical="$3" justifyContent="center" backgroundColor="$bg">
         <ViewerImage
           source={postLink!}
           blurRadius={postNsfw || postCommunityNsfw ? 90 : 0}

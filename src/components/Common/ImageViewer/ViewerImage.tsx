@@ -10,7 +10,6 @@ import { getImageRatio } from '@helpers/image';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
 import { Image, ImageLoadEventData } from 'expo-image';
 import { IDimensions } from '@src/types';
-import HStack from '@components/Common/Stack/HStack';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const spinner = require('../../../../assets/spinner.svg');
@@ -44,6 +43,7 @@ function ViewerImage({ source, blurRadius, title }: IProps): React.JSX.Element {
 
   const onImageLoad = useCallback(
     (e: ImageLoadEventData) => {
+      console.log('Loading image');
       const dimensions = {
         height: e.source.height,
         width: e.source.width,
@@ -63,25 +63,18 @@ function ViewerImage({ source, blurRadius, title }: IProps): React.JSX.Element {
   );
 
   return (
-    <HStack>
-      <Pressable
-        onPress={onImagePress}
-        style={{
-          width: '100%',
-        }}
-      >
-        <Image
-          source={{ uri: source }}
-          style={savedDimensions?.viewerDimensions ?? { height: 300 }}
-          onLoad={onImageLoad}
-          blurRadius={blurRadius}
-          placeholder={spinner}
-          placeholderContentFit="scale-down"
-          cachePolicy="disk"
-          recyclingKey={source}
-        />
-      </Pressable>
-    </HStack>
+    <Pressable onPress={onImagePress} style={{ alignItems: 'center' }}>
+      <Image
+        source={source}
+        style={savedDimensions?.viewerDimensions ?? { height: 300, width: 300 }}
+        onLoad={onImageLoad}
+        blurRadius={blurRadius}
+        placeholder={spinner}
+        placeholderContentFit="scale-down"
+        cachePolicy="disk"
+        recyclingKey={source}
+      />
+    </Pressable>
   );
 }
 
