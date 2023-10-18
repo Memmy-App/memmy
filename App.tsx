@@ -35,6 +35,7 @@ export default function App(): React.JSX.Element | null {
     Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
     InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
     InterLight: require('@tamagui/font-inter/otf/Inter-Light.otf'),
+    InterSemiBold: require('@tamagui/font-inter/otf/Inter-SemiBold.otf'),
   });
 
   useEffect(() => {
