@@ -271,3 +271,9 @@ export const useDarkTheme = (): IThemeOption =>
 
 export const useMatchSystemTheme = (): boolean =>
   useSettingsStore((state) => state.themeMatchSystem);
+
+export const useShowAvatarInTabBar = (): boolean =>
+  useSettingsStore((state) => state.showAvatarInTabBar);
+
+export const useShowUsernameInTabBar = (): boolean =>
+  useSettingsStore((state) => state.showUsernameInTabBar);

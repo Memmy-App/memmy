@@ -8,6 +8,14 @@ import ProfileStackScreen from '@components/Navigation/ProfileStackScreen';
 import { Cog, Home, Inbox, Search, User } from '@tamagui/lucide-icons';
 import { EventArg } from '@react-navigation/core';
 import { setHomePress } from '@src/state/app/actions/setHomePress';
+import {
+  useShowAvatarInTabBar,
+  useShowUsernameInTabBar,
+} from '@src/state/settings/settingsStore';
+import { Image } from 'expo-image';
+import { usePersonAvatar } from '@src/state/site/siteStore';
+import { StyleSheet } from 'react-native';
+import { useCurrentAccount } from '@src/state/account/accountStore';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,7 +31,25 @@ const onTabPress = (e: EventArg<'tabPress', true, undefined>): void => {
   lastPress = now;
 };
 
+interface ProfileTabIconProps {
+  color: string;
+}
+
+function ProfileTabIcon({ color }: ProfileTabIconProps): React.JSX.Element {
+  const showAvatarInTabBar = useShowAvatarInTabBar();
+  const personAvatar = usePersonAvatar();
+
+  if (showAvatarInTabBar && personAvatar != null) {
+    return <Image source={personAvatar} style={styles.avatarIcon} />;
+  }
+
+  return <User color={color} size={24} />;
+}
+
 export default function Tabs(): React.JSX.Element {
+  const showUsernameInTabBar = useShowUsernameInTabBar();
+  const account = useCurrentAccount();
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -51,7 +77,11 @@ export default function Tabs(): React.JSX.Element {
         name="Profile"
         component={ProfileStackScreen}
         options={{
-          tabBarIcon: ({ color }) => <User color={color} size={24} />,
+          tabBarIcon: ({ color }) => <ProfileTabIcon color={color} />,
+          tabBarLabel: showUsernameInTabBar ? account?.fullUsername : 'Profile',
+          tabBarLabelStyle: {
+            width: '80%',
+          },
         }}
       />
       <Tab.Screen
@@ -71,3 +101,10 @@ export default function Tabs(): React.JSX.Element {
     </Tab.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  avatarIcon: {
+    height: 24,
+    width: 24,
+  },
+});

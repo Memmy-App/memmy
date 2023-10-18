@@ -35,3 +35,6 @@ export const useModerates = (): CommunityModeratorView[] | undefined =>
 
 export const useModeratedIds = (): number[] | undefined =>
   useSiteStore((state) => state.moderatedIds);
+
+export const usePersonAvatar = (): string | undefined =>
+  useSiteStore((state) => state.site?.my_user?.local_user_view.person.avatar);
