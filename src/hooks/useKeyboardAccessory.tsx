@@ -64,6 +64,8 @@ export const useKeyboardAccessory = (
   }, [text, selection]);
 
   const onLinkPress = useCallback(async () => {
+    const selectedText = getSelected();
+
     Alert.prompt(
       'Link',
       'Enter the URL',
@@ -80,7 +82,7 @@ export const useKeyboardAccessory = (
             });
           },
           'plain-text',
-          '',
+          selectedText,
           'default',
           { userInterfaceStyle: colorScheme },
         );
