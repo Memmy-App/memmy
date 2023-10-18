@@ -15,11 +15,19 @@ const renderItem = ({
 
 const keyExtractor = (item: CommentView): string => item.comment.id.toString();
 
-function ProfileCommentsTab(): React.JSX.Element {
+interface IProps {
+  selected: number;
+}
+
+function ProfileCommentsTab({ selected }: IProps): React.JSX.Element | null {
   const profileScreenContext = useProfileScreenContext();
   const profileComments = useProfileComments(profileScreenContext.profileId);
 
   const theme = useTheme();
+
+  if (selected !== 1) {
+    return null;
+  }
 
   return (
     <FlashList<CommentView>

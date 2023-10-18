@@ -95,7 +95,7 @@ export default function ProfileScreen({
             <ProfilePostsTab />
           </View>
           <View key={1} style={{ flex: 1 }}>
-            <ProfileCommentsTab />
+            <ProfileCommentsTab selected={selectedTab} />
           </View>
           <View key={2} style={{ flex: 1 }}>
             <ProfileAboutTab />
