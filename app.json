@@ -1,55 +1,56 @@
 {
   "expo": {
-		"scheme": "memmyapp",
-		"name": "Memmy",
+    "scheme": "memmyapp",
+    "name": "Memmy",
     "slug": "memmyapp",
-		"version": "1.0",
+    "version": "1.0",
     "android": {
       "package": "com.gkasdorf.memmyapp"
     },
     "ios": {
       "bundleIdentifier": "com.gkasdorf.memmyapp",
-			"supportsTablet": true,
-			"buildNumber": "1",
-			"infoPlist": {
-				"NSPhotoLibraryUsageDescription": "Allow Memmy to access your photos.",
-				"NSPhotoLibraryAddUsageDescription": "Allow Memmy to save photos.",
-				"UIViewControllerBasedStatusBarAppearance": false
-			}
-		},
-		"plugins": [
-			[
-				"expo-build-properties",
-				{
-					"ios": {
-						"deploymentTarget": "14.0",
-						"newArchEnabled": false,
-						"flipper": true
-					},
-					"android": {
-						"newArchEnabled": false
-					}
-				}
-			],
-			[
-				"expo-media-library",
-				{
-					"photosPermission": "Allow Memmy App to access your photos.",
-					"savePhotosPermission": "Allow Memmy App to save photos.",
-					"isAccessMediaLocationEnabled": true
-				}
-			],
-			[
-				"expo-image-picker",
-				{
-					"photosPermission": "Allow Memmy App to access your photos"
-				}
-			]
-		],
-		"extra": {
-			"eas": {
-				"projectId": "ca1ac1e0-c9da-48fc-8cf7-befc49c49d30"
-			}
-		}
-	}
+      "supportsTablet": true,
+      "buildNumber": "11",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Allow Memmy to access your photos.",
+        "NSPhotoLibraryAddUsageDescription": "Allow Memmy to save photos.",
+        "UIViewControllerBasedStatusBarAppearance": false
+      },
+      "userInterfaceStyle": "automatic"
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "14.0",
+            "newArchEnabled": false,
+            "flipper": true
+          },
+          "android": {
+            "newArchEnabled": false
+          }
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow Memmy App to access your photos.",
+          "savePhotosPermission": "Allow Memmy App to save photos.",
+          "isAccessMediaLocationEnabled": true
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Memmy App to access your photos"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ca1ac1e0-c9da-48fc-8cf7-befc49c49d30"
+      }
+    }
+  }
 }

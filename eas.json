@@ -22,15 +22,21 @@
     "production": {
 			"env": {
 				"EXPO_PUBLIC_IS_TEST_FLIGHT": "false"
-			}
+			},
+			"autoIncrement": true
 		},
 		"production-tf": {
 			"env": {
 				"EXPO_BUILD_IS_TEST_FLIGHT": "true"
-			}
+			},
+			"autoIncrement": true
 		}
   },
   "submit": {
-    "production": {}
+		"production": {
+			"ios": {
+				"ascAppId": "6450204299"
+			}
+		}
   }
 }
