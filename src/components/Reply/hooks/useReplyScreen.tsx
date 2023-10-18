@@ -25,6 +25,7 @@ import { useCurrentAccount } from '@src/state/account/accountStore';
 import { CommentResponse } from 'lemmy-js-client';
 import instance from '@src/Instance';
 import { setNewCommentId } from '@src/state/app/actions';
+import { IBackEvent } from '@src/types/IBackEventArgs';
 
 interface UseReplyScreen {
   text: string;
@@ -40,17 +41,6 @@ interface UseReplyScreen {
   type: 'post' | 'comment';
 
   isLoading: boolean;
-}
-
-interface IBackEventArgs {
-  type: string;
-  payload?: object | undefined;
-  source?: string | undefined;
-  target?: string | undefined;
-}
-
-interface IBackEvent {
-  action: Readonly<IBackEventArgs>;
 }
 
 export const useReplyScreen = (isEdit = false): UseReplyScreen => {
