@@ -62,7 +62,7 @@ function CommunityHeader({
   const headerContainerStyle = useAnimatedStyle(() => ({
     height: interpolate(
       contentOffsetY.value,
-      [0, 120],
+      [0, 180],
       [330, 100],
       Extrapolate.CLAMP,
     ),
@@ -72,7 +72,7 @@ function CommunityHeader({
     height: interpolate(
       contentOffsetY.value,
       [0, 200],
-      [150, 150],
+      [150, 105],
       Extrapolate.CLAMP,
     ),
     opacity: interpolate(
@@ -151,6 +151,7 @@ function CommunityHeader({
           position="absolute"
           width="100%"
           zIndex={-1}
+          top={-5}
         >
           {communityBanner != null && !communityNsfw ? (
             <Animated.Image
@@ -218,18 +219,18 @@ function CommunityHeader({
               </Skeleton>
             </HStack>
             <HStack space="$3">
-              <Text fontSize="$4" color="$secondary" fontWeight="bold">
+              <Text fontSize="$2" color="$secondary" fontWeight="$7">
                 {communityCounts?.posts.toLocaleString()} Posts
               </Text>
-              <Text fontSize="$4" color="$secondary" fontWeight="bold">
+              <Text fontSize="$2" color="$secondary" fontWeight="$7">
                 {communityCounts?.comments.toLocaleString()} Comments
               </Text>
-              <Text fontSize="$4" color="$secondary" fontWeight="bold">
+              <Text fontSize="$2" color="$secondary" fontWeight="$7">
                 {communityCounts?.subscribers.toLocaleString()} Subscribers
               </Text>
             </HStack>
             <HStack>
-              <Text fontSize="$5" color="$color" numberOfLines={2}>
+              <Text fontSize="$2" color="$color" numberOfLines={2}>
                 {communityDescription}
               </Text>
             </HStack>
