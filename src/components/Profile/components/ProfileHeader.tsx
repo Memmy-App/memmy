@@ -71,7 +71,7 @@ function ProfileHeader(): React.JSX.Element {
     height: interpolate(
       contentOffsetY!.value,
       [0, 200],
-      [150, 100],
+      [150, 105],
       Extrapolate.CLAMP,
     ),
     opacity: interpolate(
@@ -150,6 +150,7 @@ function ProfileHeader(): React.JSX.Element {
           position="absolute"
           width="100%"
           zIndex={-1}
+          top={-5}
         >
           {personBanner != null ? (
             <Animated.Image
