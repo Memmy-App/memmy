@@ -1,5 +1,10 @@
 import React, { useCallback, useState } from 'react';
-import { usePostLink, usePostThumbnail } from '@src/state/post/postStore';
+import {
+  usePostCommunityNsfw,
+  usePostLink,
+  usePostNsfw,
+  usePostThumbnail,
+} from '@src/state/post/postStore';
 import { Separator, Text, View } from 'tamagui';
 import { Image } from 'expo-image';
 import HStack from '@components/Common/Stack/HStack';
@@ -16,6 +21,8 @@ interface IProps {
 function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
   const postLink = usePostLink(itemId);
   const postThumbnail = usePostThumbnail(itemId);
+  const postNsfw = usePostNsfw(itemId);
+  const postCommunityNsfw = usePostCommunityNsfw(itemId);
 
   const [thumbnailLoading, setThumbnailLoading] = useState(false);
 
@@ -55,6 +62,7 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
                 onLoadStart={onLoadStart}
                 onLoadEnd={onLoadEnd}
                 cachePolicy="none"
+                blurRadius={postNsfw || postCommunityNsfw ? 90 : 0}
               />
             </View>
           )}
