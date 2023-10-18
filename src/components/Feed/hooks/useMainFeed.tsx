@@ -21,6 +21,9 @@ import { cleanupPosts } from '@helpers/state';
 import { useNavigation, useRoute } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HeaderBackButton } from '@react-navigation/elements';
+import HStack from '@components/Common/Stack/HStack';
+import ListingTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/ListingTypeContextMenuButton';
+import SortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/SortTypeContextMenuButton';
 
 interface UseMainFeed {
   postIds: number[];
@@ -91,6 +94,18 @@ export const useMainFeed = (): UseMainFeed => {
                 }}
                 style={{ marginLeft: -16 }}
               />
+            ),
+            headerRight: () => (
+              <HStack space="$4">
+                <ListingTypeContextMenuButton
+                  listingType={listingType}
+                  setListingType={setListingType}
+                />
+                <SortTypeContextMenuButton
+                  sortType={sortType}
+                  setSortType={setSortType}
+                />
+              </HStack>
             ),
           }
         : {
