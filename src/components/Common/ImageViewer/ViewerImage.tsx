@@ -43,7 +43,6 @@ function ViewerImage({ source, blurRadius, title }: IProps): React.JSX.Element {
 
   const onImageLoad = useCallback(
     (e: ImageLoadEventData) => {
-      console.log('Loading image');
       const dimensions = {
         height: e.source.height,
         width: e.source.width,

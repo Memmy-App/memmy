@@ -21,6 +21,7 @@ import { cleanupPosts } from '@helpers/state';
 import { useNavigation, useRoute } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HeaderBackButton } from '@react-navigation/elements';
+import { useLastHomePress } from '@src/state/app/appStore';
 import HStack from '@components/Common/Stack/HStack';
 import ListingTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/ListingTypeContextMenuButton';
 import SortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/SortTypeContextMenuButton';
@@ -45,6 +46,8 @@ export const useMainFeed = (): UseMainFeed => {
   const defaultSort = useDefaultSort();
   const defaultCommunitySort = useDefaultCommunitySort();
   const defaultListingType = useDefaultListingType();
+
+  const lastHomePress = useLastHomePress();
 
   const [sortType, setSortType] = useState<SortType>(
     params?.name != null ? defaultCommunitySort ?? 'Hot' : defaultSort ?? 'Hot',
@@ -95,18 +98,6 @@ export const useMainFeed = (): UseMainFeed => {
                 style={{ marginLeft: -16 }}
               />
             ),
-            headerRight: () => (
-              <HStack space="$4">
-                <ListingTypeContextMenuButton
-                  listingType={listingType}
-                  setListingType={setListingType}
-                />
-                <SortTypeContextMenuButton
-                  sortType={sortType}
-                  setSortType={setSortType}
-                />
-              </HStack>
-            ),
           }
         : {
             headerShown: false,
@@ -118,29 +109,42 @@ export const useMainFeed = (): UseMainFeed => {
     };
   }, []);
 
-  // Update the sort type when it changes
-  // useEffect(() => {
-  //   navigation.setOptions({
-  //     headerRight: () => (
-  //       <HStack space="$4">
-  //         <ListingTypeContextMenuButton
-  //           listingType={listingType}
-  //           setListingType={setListingType}
-  //         />
-  //         <SortTypeContextMenuButton
-  //           sortType={sortType}
-  //           setSortType={setSortType}
-  //         />
-  //       </HStack>
-  //     ),
-  //   });
-  //
-  //   // See if we are already loading and if not, we will refresh
-  //   if (!isLoading) {
-  //     onRefresh();
-  //     flashListRef.current?.scrollToOffset({ offset: 0 });
-  //   }
-  // }, [sortType, listingType]);
+  useEffect(() => {
+    if (params?.name == null) {
+      navigation.setOptions({
+        headerRight: () => (
+          <HStack space="$4">
+            <ListingTypeContextMenuButton
+              listingType={listingType}
+              setListingType={setListingType}
+            />
+            <SortTypeContextMenuButton
+              sortType={sortType}
+              setSortType={setSortType}
+            />
+          </HStack>
+        ),
+      });
+
+      if (!isLoading) {
+        onRefresh();
+        flashListRef.current?.scrollToOffset({ offset: 0, animated: true });
+      }
+    }
+  }, [listingType, sortType]);
+
+  useEffect(() => {
+    if (lastHomePress === 0) return;
+
+    console.log('here');
+    console.log(lastHomePress);
+
+    if (!isLoading) {
+      console.log('refreshing');
+      onRefresh();
+      flashListRef.current?.scrollToOffset({ offset: 0, animated: true });
+    }
+  }, [lastHomePress]);
 
   // Callback for loading more data when we hit the end
   const onEndReached = useCallback(() => {
