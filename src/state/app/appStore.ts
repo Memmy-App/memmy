@@ -1,10 +1,12 @@
 import { immer } from 'zustand/middleware/immer';
 import { create } from 'zustand';
+import { IToast } from '@src/types/IToast';
 
 interface AppStore {
   newPostId?: number;
   newCommentId?: number;
   lastFeedPress: number;
+  toast: IToast | null;
 }
 
 export const useAppStore = create(
@@ -12,6 +14,7 @@ export const useAppStore = create(
     newPostId: undefined,
     newCommentId: undefined,
     lastFeedPress: 0,
+    toast: null,
   })),
 );
 
@@ -23,3 +26,6 @@ export const useNewCommentId = (): number | undefined =>
 
 export const useLastHomePress = (): number =>
   useAppStore((state) => state.lastFeedPress);
+
+export const useToast = (): IToast | null =>
+  useAppStore((state) => state.toast);

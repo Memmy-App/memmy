@@ -16,6 +16,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { writeToLog } from '@src/helpers';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useThemeSettings } from '@hooks/useThemeSettings';
+import AppToast from '@components/Common/Toast/AppToast';
 
 if (__DEV__) {
   require('./ReactotronConfig');
@@ -74,6 +75,7 @@ function PartTwo(): React.JSX.Element {
       {/* @ts-expect-error - This is a valid option */}
       <StatusBar style={theme.statusBar.val} />
       <ImageViewerProvider>
+        <AppToast />
         <Stack />
       </ImageViewerProvider>
     </>
