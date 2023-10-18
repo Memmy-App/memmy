@@ -22,7 +22,6 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useProfileScreenContext } from '@components/Profile/screens/ProfileScreen';
 import { ChevronLeft, User } from '@tamagui/lucide-icons';
-import { Skeleton } from 'moti/build/skeleton/native';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const headerPlaceholder = require('../../../../assets/headerPlaceholder.jpg');
@@ -204,18 +203,15 @@ function ProfileHeader(): React.JSX.Element {
           ) : (
             <AnimatedAvatarPlaceholder size={85} style={[{}, avatarStyle]} />
           )}
+
           <VStack marginHorizontal="$3" space="$2.5" top={110}>
             <HStack alignItems="baseline" space="$2">
-              <Skeleton>
-                <>
-                  <Text fontSize="$8" fontWeight="bold">
-                    {personName}
-                  </Text>
-                  <Text fontSize="$3" color="$secondary">
-                    @{personInstance}
-                  </Text>
-                </>
-              </Skeleton>
+              <Text fontSize="$8" fontWeight="bold">
+                {personName}
+              </Text>
+              <Text fontSize="$3" color="$secondary">
+                @{personInstance}
+              </Text>
             </HStack>
             <HStack space="$3">
               <Text fontSize="$2" color="$secondary" fontWeight="$7">

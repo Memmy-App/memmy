@@ -4,7 +4,6 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { Pressable } from 'react-native';
 import { FontSizeTokens, Text } from 'tamagui';
 import HStack from '@components/Common/Stack/HStack';
 import { playHaptic } from '@helpers/haptics';
@@ -16,6 +15,7 @@ interface IProps {
   icon?: React.NamedExoticComponent;
   disabled?: boolean;
   fontSize?: Variable<any> | FontSizeTokens;
+  backgroundColor?: string;
 }
 
 function ButtonOne({
@@ -23,7 +23,8 @@ function ButtonOne({
   label,
   icon,
   disabled,
-  fontSize = '$5',
+  fontSize = '$3',
+  backgroundColor = '$bg',
 }: IProps): React.JSX.Element {
   const scale = useSharedValue(1);
 
@@ -61,21 +62,22 @@ function ButtonOne({
 
   return (
     <Animated.View style={[{ flex: 1, flexGrow: 1 }, scaleStyle]}>
-      <Pressable
+      <HStack
+        backgroundColor={backgroundColor}
+        borderRadius="$2"
+        padding="$2"
         onPress={onButtonPress}
         onPressIn={onTapBegin}
         onPressOut={onTapEnd}
         disabled={disabled}
       >
-        <HStack backgroundColor="$bg" borderRadius="$2" padding="$2">
-          <HStack space="$2" alignItems="center" flex={1}>
-            {Icon}
-            <Text fontSize={fontSize} margin="auto">
-              {label}
-            </Text>
-          </HStack>
+        <HStack space="$2" alignItems="center" flex={1}>
+          {Icon}
+          <Text fontSize={fontSize} margin="auto">
+            {label}
+          </Text>
         </HStack>
-      </Pressable>
+      </HStack>
     </Animated.View>
   );
 }

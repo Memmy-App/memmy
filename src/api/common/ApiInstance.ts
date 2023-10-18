@@ -2,6 +2,8 @@ import {
   BanFromCommunity,
   BanFromCommunityResponse,
   CommentResponse,
+  CommunityResponse,
+  CreatePost,
   GetCaptchaResponse,
   GetCommentsResponse,
   GetCommunityResponse,
@@ -27,7 +29,6 @@ import { writeToLog } from '@helpers/LogHelper';
 import ApiOptions from '@api/common/types/IApiOptions';
 import { ILemmyVote } from '@api/lemmy/types';
 import IGetPostOptions from '@api/common/types/IGetPostOptions';
-import ICreatePostOptions from '@api/common/types/ICreatePostOptions';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
 import { usePostStore } from '@src/state/post/postStore';
 import { buildCommentChains } from '@helpers/comments';
@@ -40,6 +41,7 @@ import {
 import { useCommunityStore } from '@src/state/community/communityStore';
 import { voteCalculator } from '@helpers/comments/voteCalculator';
 import { useCommentStore } from '@src/state/comment/commentStore';
+import { setSubscribed } from '@src/state/community/actions';
 
 export enum EInitializeResult {
   SUCCESS,
@@ -508,15 +510,25 @@ class ApiInstance {
   async subscribeCommunity(
     communityId: number,
     subscribe: boolean,
-  ): Promise<void> {
+  ): Promise<CommunityResponse> {
     try {
-      await this.instance?.followCommunity({
+      const res = await this.instance?.followCommunity({
         community_id: communityId,
         follow: subscribe,
         auth: this.authToken!,
       });
+
+      if (res == null) {
+        const errMsg = ApiInstance.handleError('unknown');
+        throw new Error(errMsg);
+      }
+
+      setSubscribed(communityId, res.community_view.subscribed);
+
+      return res;
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
     }
   }
 
@@ -608,18 +620,19 @@ class ApiInstance {
   }
 
   async createPost(
-    options: ICreatePostOptions,
+    options: Partial<CreatePost>,
   ): Promise<PostResponse | undefined> {
     try {
-      return await this.instance?.createPost({
-        name: options.title,
-        body: options.body,
-        url: options.url,
-        language_id: options.languageId ?? 0, // TODO Fix this
-        community_id: options.communityId,
-        nsfw: options.nsfw,
+      const defaultOptions: Partial<CreatePost> = {
         auth: this.authToken!,
-      });
+      };
+
+      const res = await this.instance?.createPost(options as CreatePost);
+
+      if (res == null) {
+        const errMsg = ApiInstance.handleError('unknown');
+        throw new Error(errMsg);
+      }
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
       return undefined;

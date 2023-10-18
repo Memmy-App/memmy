@@ -10,6 +10,7 @@ import {
   useCommunityIcon,
   useCommunityName,
   useCommunityNsfw,
+  useCommunitySubscribed,
 } from '@src/state/community/communityStore';
 import { getBaseUrl } from '@helpers/links';
 import Animated, {
@@ -18,12 +19,22 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import { ChevronLeft, Globe } from '@tamagui/lucide-icons';
+import {
+  ChevronLeft,
+  Globe,
+  Star,
+  StarOff,
+  StickyNote,
+} from '@tamagui/lucide-icons';
 import VStack from '@components/Common/Stack/VStack';
 import HStack from '@components/Common/Stack/HStack';
 import { Skeleton } from 'moti/build/skeleton/native';
 import SortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/SortTypeContextMenuButton';
 import { SortType } from 'lemmy-js-client';
+import ButtonOne from '@components/Common/Button/ButtonOne';
+import { isSubscribed } from '@helpers/lemmy';
+import instance from '@src/Instance';
+import { useLoadData } from '@src/hooks';
 
 const AnimatedAvatarPlaceholder = Animated.createAnimatedComponent(Globe);
 
@@ -56,11 +67,29 @@ function CommunityHeader({
   const communityCounts = useCommunityAggregates(params?.id);
   const communityDescription = useCommunityDescription(params?.id);
   const communityActorId = useCommunityActorId(params?.id);
+  const communitySubscribed = useCommunitySubscribed(params?.id);
+
+  const subscribed = useMemo(
+    () => isSubscribed(communitySubscribed),
+    [communitySubscribed],
+  );
+
+  const { isLoading: isSubscribing, refresh: submit } = useLoadData();
+
+  const onSubscribePress = useCallback(() => {
+    submit(async () => {
+      void instance.subscribeCommunity(params.id!, !subscribed).then(() => {});
+    });
+  }, [subscribed]);
 
   const communityInstance = useMemo(
     () => getBaseUrl(communityActorId),
     [communityActorId],
   );
+
+  const onNewPostPress = useCallback(() => {
+    navigation.push('NewPost', { communityId: params?.id });
+  }, []);
 
   const hasParent = navigation.canGoBack();
 
@@ -228,7 +257,21 @@ function CommunityHeader({
               style={[{}, avatarStyle]}
             />
           )}
-          <VStack marginHorizontal="$3" space="$2.5" top={110}>
+          <HStack marginLeft="auto" width="65%" top={70} space="$3" right={10}>
+            <ButtonOne
+              label={subscribed ? 'Subscribed' : 'Subscribe'}
+              icon={subscribed ? Star : StarOff}
+              onPress={onSubscribePress}
+              disabled={isSubscribing}
+            />
+            <ButtonOne
+              label="New Post"
+              icon={StickyNote}
+              onPress={onNewPostPress}
+            />
+          </HStack>
+
+          <VStack marginHorizontal="$3" space="$2.5" top={80}>
             <HStack alignItems="baseline" space="$2">
               <Skeleton>
                 <>
