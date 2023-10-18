@@ -3,14 +3,18 @@ import { styled } from 'tamagui';
 
 interface IProps {
   icon: NamedExoticComponent;
+  color?: string;
 }
 
-function ContextMenuButton({ icon }: IProps): React.JSX.Element {
+function ContextMenuButton({
+  icon,
+  color = '$accent',
+}: IProps): React.JSX.Element {
   const Icon = useMemo(
     () =>
       styled(icon, {
         // @ts-expect-error This is valid
-        color: '$accent',
+        color,
         size: 26,
       }),
     [icon],

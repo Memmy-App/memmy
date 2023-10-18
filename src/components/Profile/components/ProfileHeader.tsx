@@ -18,6 +18,7 @@ import Animated, {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
+  useSharedValue,
 } from 'react-native-reanimated';
 import { useProfileScreenContext } from '@components/Profile/screens/ProfileScreen';
 import { ChevronLeft, User } from '@tamagui/lucide-icons';
@@ -57,11 +58,15 @@ function ProfileHeader(): React.JSX.Element {
     [personCounts?.comment_score, personCounts?.post_score],
   );
 
+  const containerHeight = useSharedValue(
+    personBio != null && personBio.length > 1 ? 330 : 300,
+  );
+
   const headerContainerStyle = useAnimatedStyle(() => ({
     height: interpolate(
       contentOffsetY!.value,
       [0, 180],
-      [310, 100],
+      [containerHeight.value, 100],
       Extrapolate.CLAMP,
     ),
   }));
@@ -213,18 +218,18 @@ function ProfileHeader(): React.JSX.Element {
               </Skeleton>
             </HStack>
             <HStack space="$3">
-              <Text fontSize="$4" color="$secondary" fontWeight="bold">
+              <Text fontSize="$2" color="$secondary" fontWeight="$7">
                 {personCounts?.post_count.toLocaleString()} Posts
               </Text>
-              <Text fontSize="$4" color="$secondary" fontWeight="bold">
+              <Text fontSize="$2" color="$secondary" fontWeight="$7">
                 {personCounts?.comment_count.toLocaleString()} Comments
               </Text>
-              <Text fontSize="$4" color="$secondary" fontWeight="bold">
+              <Text fontSize="$2" color="$secondary" fontWeight="$7">
                 {totalScore} Total Score
               </Text>
             </HStack>
             <HStack>
-              <Text fontSize="$5" color="$color" numberOfLines={2}>
+              <Text fontSize="$2" color="$color" numberOfLines={2}>
                 {personBio}
               </Text>
             </HStack>
