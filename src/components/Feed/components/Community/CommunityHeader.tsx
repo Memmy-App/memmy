@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { Text, useTheme } from 'tamagui';
+import { Text, useTheme, View } from 'tamagui';
 import { useNavigation, useRoute } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
@@ -18,11 +18,12 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import { Pressable } from 'react-native';
 import { ChevronLeft, Globe } from '@tamagui/lucide-icons';
 import VStack from '@components/Common/Stack/VStack';
 import HStack from '@components/Common/Stack/HStack';
 import { Skeleton } from 'moti/build/skeleton/native';
+import SortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/SortTypeContextMenuButton';
+import { SortType } from 'lemmy-js-client';
 
 const AnimatedAvatarPlaceholder = Animated.createAnimatedComponent(Globe);
 
@@ -32,11 +33,15 @@ const headerPlaceholder = require('../../../../../assets/headerPlaceholder.jpg')
 interface IProps {
   isLoading: boolean;
   contentOffsetY: Animated.SharedValue<number>;
+  sortType: SortType;
+  setSortType: React.Dispatch<React.SetStateAction<SortType>>;
 }
 
 function CommunityHeader({
   isLoading,
   contentOffsetY,
+  sortType,
+  setSortType,
 }: IProps): React.JSX.Element {
   const theme = useTheme();
 
@@ -126,23 +131,41 @@ function CommunityHeader({
   return (
     <Animated.View style={[headerContainerStyle]}>
       {hasParent && (
-        <Pressable
-          style={{
-            zIndex: 2,
-            position: 'absolute',
-            top: 50,
-            left: 10,
-            backgroundColor: 'black',
-            borderRadius: 100,
-            opacity: 0.6,
-            padding: 2,
-            paddingRight: 4,
-          }}
+        <View
+          zIndex={2}
+          position="absolute"
+          top={50}
+          left={10}
+          backgroundColor="rgba(0,0,0,0.7)"
+          borderRadius={100}
+          padding={2}
+          paddingRight={4}
           onPress={onBackPress}
         >
           <ChevronLeft color="white" size={30} />
-        </Pressable>
+        </View>
       )}
+
+      <HStack
+        marginRight="auto"
+        zIndex={2}
+        position="absolute"
+        right={10}
+        top={50}
+      >
+        <View
+          backgroundColor="rgba(0,0,0,0.7)"
+          borderRadius={100}
+          padding={4}
+          paddingRight={4}
+        >
+          <SortTypeContextMenuButton
+            sortType={sortType}
+            setSortType={setSortType}
+            color="white"
+          />
+        </View>
+      </HStack>
 
       <VStack flex={1} backgroundColor="$fg" marginTop="$1">
         <VStack
@@ -242,63 +265,3 @@ function CommunityHeader({
 }
 
 export default React.memo(CommunityHeader);
-
-// function CommunityHeader(): React.JSX.Element | null {
-//   const { params } = useRoute<any>();
-//   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-//
-//   // Get the title
-//   const communityTitle = useCommunityName(params?.id);
-//   const communityBanner = useCommunityBanner(params?.id);
-//   const communityNsfw = useCommunityNsfw(params?.id);
-//
-//   // Load the data
-//   const { isLoading, data } = useLoadData<
-//     GetCommunityResponse | number | undefined
-//   >(
-//     async () => {
-//       if (params?.id == null) return;
-//       return await instance.getCommunity(params?.name);
-//     },
-//     // We don't want to load the data again if we already have it
-//     () => {
-//       return communityTitle != null;
-//     },
-//   );
-//
-//   // Set the navigation options once we get the community info
-//   useEffect(() => {
-//     navigation.setOptions({
-//       title: communityTitle,
-//     });
-//   }, [communityTitle]);
-//
-//   // If we don't have the data and we don't have the ID, then we can't display anything
-//   if (params?.name == null || (!isLoading && data == null)) {
-//     return null;
-//   }
-//
-//   // Return component
-//   return (
-//     <VStack backgroundColor="$fg" marginTop="$1">
-//       <VStack alignItems="center" position="absolute" width="100%" zIndex={-1}>
-//         <Image
-//           source={{ uri: communityBanner }}
-//           style={{ width: '100%', height: 137, opacity: 0.15 }}
-//           contentFit="cover"
-//           blurRadius={communityNsfw ? 90 : 3}
-//         />
-//       </VStack>
-//       <VStack padding="$3" space="$2" zIndex={1}>
-//         <HStack alignItems="center" space="$3">
-//           <CommunityIcon itemId={params.id ?? (data as number)} />
-//           <CommunityTitle itemId={params.id ?? (data as number)} />
-//         </HStack>
-//         <CommunityMetrics itemId={params.id ?? (data as number)} />
-//         <CommunityActionBar itemId={params.id ?? (data as number)} />
-//       </VStack>
-//     </VStack>
-//   );
-// }
-//
-// export default React.memo(CommunityHeader);

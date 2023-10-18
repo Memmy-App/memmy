@@ -5,9 +5,9 @@ import VStack from '@components/Common/Stack/VStack';
 import HStack from '@components/Common/Stack/HStack';
 import PostCommunityLabel from '@components/Common/PostCard/PostCommunityLabel';
 import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
-import { CircleEllipsis } from '@tamagui/lucide-icons';
-import { Alert } from 'react-native';
+import { CheckCircle, CircleEllipsis } from '@tamagui/lucide-icons';
 import { usePostTitle } from '@src/state/post/postStore';
+import { setToast } from '@src/state/app/actions';
 
 interface IProps {
   itemId: number;
@@ -19,7 +19,11 @@ function FeedItemHeader({ itemId }: IProps): React.JSX.Element {
   const fontWeight = useSettingsStore((state) => state.postTitleWeight);
 
   const onEllipsisPress = useCallback((): void => {
-    Alert.alert('Hi!');
+    setToast({
+      title: 'A Message',
+      text: 'Hi!',
+      icon: CheckCircle,
+    });
   }, [itemId]);
 
   return (

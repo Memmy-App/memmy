@@ -8,11 +8,13 @@ import { IconMap } from '@src/types/IconMap';
 interface IProps {
   sortType: SortType;
   setSortType: React.Dispatch<React.SetStateAction<SortType>>;
+  color?: string;
 }
 
 function SortTypeContextMenuButton({
   sortType,
   setSortType,
+  color = '$accent',
 }: IProps): React.JSX.Element {
   const onPress = useCallback((e: OnPressMenuItemEventObject) => {
     setSortType(e.nativeEvent.actionKey as SortType);
@@ -23,7 +25,7 @@ function SortTypeContextMenuButton({
 
   return (
     <SortTypeContextMenu selection={sortType} onPressMenuItem={onPress}>
-      <ContextMenuButton icon={icon} />
+      <ContextMenuButton icon={icon} color={color} />
     </SortTypeContextMenu>
   );
 }

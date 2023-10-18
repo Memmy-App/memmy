@@ -34,6 +34,12 @@ interface UseMainFeed {
   isError: boolean;
   onRefresh: () => void;
   flashListRef: React.MutableRefObject<FlashList<number> | undefined>;
+
+  sortType: SortType;
+  listingType: ListingType;
+
+  setSortType: React.Dispatch<React.SetStateAction<SortType>>;
+  setListingType: React.Dispatch<React.SetStateAction<ListingType>>;
 }
 
 export const useMainFeed = (): UseMainFeed => {
@@ -125,22 +131,18 @@ export const useMainFeed = (): UseMainFeed => {
           </HStack>
         ),
       });
+    }
 
-      if (!isLoading) {
-        onRefresh();
-        flashListRef.current?.scrollToOffset({ offset: 0, animated: true });
-      }
+    if (!isLoading) {
+      onRefresh();
+      flashListRef.current?.scrollToOffset({ offset: 0, animated: true });
     }
   }, [listingType, sortType]);
 
   useEffect(() => {
     if (lastHomePress === 0) return;
 
-    console.log('here');
-    console.log(lastHomePress);
-
     if (!isLoading) {
-      console.log('refreshing');
       onRefresh();
       flashListRef.current?.scrollToOffset({ offset: 0, animated: true });
     }
@@ -175,5 +177,11 @@ export const useMainFeed = (): UseMainFeed => {
     onRefresh,
     isError,
     flashListRef,
+
+    sortType,
+    listingType,
+
+    setSortType,
+    setListingType,
   };
 };

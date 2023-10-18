@@ -45,6 +45,8 @@ export default function MainFeed(): React.JSX.Element {
         <CommunityHeader
           isLoading={mainFeed.isLoading}
           contentOffsetY={contentOffsetY}
+          sortType={mainFeed.sortType}
+          setSortType={mainFeed.setSortType}
         />
       )}
       <FlashList<number>

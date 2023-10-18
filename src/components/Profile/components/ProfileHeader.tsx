@@ -8,7 +8,7 @@ import {
   useProfileCounts,
   useProfileName,
 } from '@src/state/profile/profileStore';
-import { Text, useTheme } from 'tamagui';
+import { Text, useTheme, View } from 'tamagui';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import HStack from '@components/Common/Stack/HStack';
@@ -21,7 +21,6 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useProfileScreenContext } from '@components/Profile/screens/ProfileScreen';
 import { ChevronLeft, User } from '@tamagui/lucide-icons';
-import { Pressable } from 'react-native';
 import { Skeleton } from 'moti/build/skeleton/native';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -125,22 +124,19 @@ function ProfileHeader(): React.JSX.Element {
   return (
     <Animated.View style={[headerContainerStyle]}>
       {hasParent && (
-        <Pressable
-          style={{
-            zIndex: 2,
-            position: 'absolute',
-            top: 50,
-            left: 10,
-            backgroundColor: 'black',
-            borderRadius: 100,
-            opacity: 0.6,
-            padding: 2,
-            paddingRight: 4,
-          }}
+        <View
+          zIndex={2}
+          position="absolute"
+          top={50}
+          left={10}
+          backgroundColor="rgba(0,0,0,0.7)"
+          borderRadius={100}
+          padding={2}
+          paddingRight={4}
           onPress={onBackPress}
         >
           <ChevronLeft color="white" size={30} />
-        </Pressable>
+        </View>
       )}
 
       <VStack flex={1} backgroundColor="$fg" marginTop="$1">
