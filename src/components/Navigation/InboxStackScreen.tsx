@@ -12,13 +12,7 @@ export default function InboxStackScreen(): React.JSX.Element {
         headerShown: true,
       }}
     >
-      <InboxStack.Screen
-        name="Inbox"
-        component={InboxScreen}
-        options={{
-          headerLargeTitle: true,
-        }}
-      />
+      <InboxStack.Screen name="Inbox" component={InboxScreen} />
       {MainScreens(InboxStack)}
     </InboxStack.Navigator>
   );

@@ -21,6 +21,7 @@ interface IProps {
 
 function ProfileCommentsTab({ selected }: IProps): React.JSX.Element | null {
   const profileScreenContext = useProfileScreenContext();
+  // TODO no need to store profile comments in global state, we can just return them in the hook
   const profileComments = useProfileComments(profileScreenContext.profileId);
 
   const theme = useTheme();
