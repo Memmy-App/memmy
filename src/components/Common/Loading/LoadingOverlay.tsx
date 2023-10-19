@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal } from 'react-native';
-import { Spinner, Text, View } from 'tamagui';
+import { View } from 'tamagui';
+import LoadingAnimation from '@components/Common/Loading/LoadingAnimation';
 
 interface IProps {
   visible: boolean;
@@ -20,15 +21,7 @@ export default function LoadingOverlay({ visible }: IProps): React.JSX.Element {
         alignItems="center"
         justifyContent="center"
       >
-        <Spinner size="large" color="$accentHighlight" />
-        <Text
-          color="$accentHighlight"
-          marginTop={10}
-          fontSize={20}
-          fontWeight="bold"
-        >
-          Loading...
-        </Text>
+        <LoadingAnimation size="normal" />
       </View>
     </Modal>
   );
