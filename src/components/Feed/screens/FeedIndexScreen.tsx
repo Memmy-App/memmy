@@ -33,19 +33,19 @@ export default function FeedIndexScreen(): React.JSX.Element {
         type: 'lemmy',
       })
       .then(() => {
-        // Set initialized
-
+        // For now we will chain our initial requests here
         void instance
           .getSite()
           .then((site) => {
             // @ts-expect-error TODO fix this
             setSite(site);
           })
+          .then(() => {})
           .then(() => {
+            void instance.getSubscriptions();
             setInitialized(true);
           });
 
-        setInitialized(true);
         previousAccount.current = currentAccount;
       })
       .catch(() => {

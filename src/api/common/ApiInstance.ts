@@ -3,6 +3,7 @@ import {
   BanFromCommunityResponse,
   CommentResponse,
   CommunityResponse,
+  CommunityView,
   CreatePost,
   GetCaptchaResponse,
   GetCommentsResponse,
@@ -42,6 +43,7 @@ import { useCommunityStore } from '@src/state/community/communityStore';
 import { voteCalculator } from '@helpers/comments/voteCalculator';
 import { useCommentStore } from '@src/state/comment/commentStore';
 import { setSubscribed } from '@src/state/community/actions';
+import { setSubscriptions } from '@src/state/settings/actions/setSubscriptions';
 
 export enum EInitializeResult {
   SUCCESS,
@@ -768,6 +770,44 @@ class ApiInstance {
       updateComment(res.comment_view);
 
       return res;
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
+  async getSubscriptions(): Promise<CommunityView[]> {
+    try {
+      let load = true;
+      let page = 1;
+
+      let communities: CommunityView[] = [];
+
+      while (load) {
+        const res = await this.listCommunities({
+          auth: this.authToken!,
+          type_: 'Subscribed',
+          page,
+          limit: 20,
+        });
+
+        if (res === undefined) {
+          const errMsg = ApiInstance.handleError('unknown');
+          throw new Error(errMsg);
+        }
+
+        communities = [...communities, ...res.communities];
+
+        if (res.communities.length === 20) {
+          page++;
+        } else {
+          load = false;
+        }
+      }
+
+      setSubscriptions(communities);
+
+      return communities;
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);

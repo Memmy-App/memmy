@@ -16,6 +16,7 @@ import { Image } from 'expo-image';
 import { usePersonAvatar } from '@src/state/site/siteStore';
 import { StyleSheet } from 'react-native';
 import { useCurrentAccount } from '@src/state/account/accountStore';
+import { setDrawerOpen } from '@src/state/app/actions';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,6 +30,10 @@ const onTabPress = (e: EventArg<'tabPress', true, undefined>): void => {
   }
 
   lastPress = now;
+};
+
+const onTabLongPress = (): void => {
+  setDrawerOpen(true);
 };
 
 interface ProfileTabIconProps {
@@ -64,6 +69,7 @@ export default function Tabs(): React.JSX.Element {
         }}
         listeners={{
           tabPress: onTabPress,
+          tabLongPress: onTabLongPress,
         }}
       />
       <Tab.Screen

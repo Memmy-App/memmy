@@ -20,12 +20,13 @@ import instance from '@src/Instance';
 import { cleanupPosts } from '@helpers/state';
 import { useNavigation, useRoute } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { HeaderBackButton } from '@react-navigation/elements';
 import { useLastHomePress } from '@src/state/app/appStore';
 import HStack from '@components/Common/Stack/HStack';
 import ListingTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/ListingTypeContextMenuButton';
 import SortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/SortTypeContextMenuButton';
 import { setDrawerOpen } from '@src/state/app/actions';
+import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
+import { List } from '@tamagui/lucide-icons';
 
 interface UseMainFeed {
   postIds: number[];
@@ -97,12 +98,18 @@ export const useMainFeed = (): UseMainFeed => {
       ...(params?.name == null
         ? {
             headerLeft: () => (
-              <HeaderBackButton
-                label="Subscriptions"
+              // <HeaderBackButton
+              //   label="Subscriptions"
+              //   onPress={() => {
+              //     setDrawerOpen(true);
+              //   }}
+              //   style={{ marginLeft: -16 }}
+              // />
+              <AnimatedIconButton
+                icon={List}
                 onPress={() => {
                   setDrawerOpen(true);
                 }}
-                style={{ marginLeft: -16 }}
               />
             ),
           }

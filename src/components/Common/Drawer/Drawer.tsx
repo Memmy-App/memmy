@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSubscriptions } from '@src/state/site/siteStore';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { CommunityView } from 'lemmy-js-client';
 import DrawerItem from '@components/Common/Drawer/DrawerItem';
 import VStack from '@components/Common/Stack/VStack';
+import { Separator } from 'tamagui';
+import { addAlphabeticalLabels } from '@src/helpers';
+import DrawerLabel from '@components/Common/Drawer/DrawerLabel';
 
 const getItemType = (item: CommunityView | string): 'community' | 'label' => {
   if ((item as CommunityView).community != null) {
@@ -16,17 +19,13 @@ const getItemType = (item: CommunityView | string): 'community' | 'label' => {
 const renderItem = ({
   item,
 }: ListRenderItemInfo<CommunityView | string>): React.JSX.Element => {
-  // const itemType = getItemType(item);
+  const itemType = getItemType(item);
 
-  console.log(item);
-
-  return <DrawerItem view={item as CommunityView} />;
-
-  // if (itemType === 'community') {
-  //   return 'blah';
-  // } else {
-  //   return 'grr';
-  // }
+  if (itemType === 'community') {
+    return <DrawerItem view={item as CommunityView} />;
+  } else {
+    return <DrawerLabel char={item as string} />;
+  }
 };
 
 const keyExtractor = (item: CommunityView | string): string => {
@@ -40,17 +39,26 @@ const keyExtractor = (item: CommunityView | string): string => {
 export default function Drawer(): React.JSX.Element {
   const subscriptions = useSubscriptions();
 
-  console.log(subscriptions);
+  const subscriptionsWithLabels = useMemo(
+    () => addAlphabeticalLabels(subscriptions),
+    [subscriptions],
+  );
 
   return (
     <VStack flex={1} backgroundColor="$bg">
-      <FlashList<CommunityView | string>
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        data={subscriptions}
-        getItemType={getItemType}
-        estimatedItemSize={80}
-      />
+      <VStack marginTop={100} flex={1}>
+        <FlashList<CommunityView | string>
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          data={subscriptionsWithLabels}
+          getItemType={getItemType}
+          estimatedItemSize={80}
+          ItemSeparatorComponent={() => <Separator />}
+          contentContainerStyle={{
+            paddingBottom: 100,
+          }}
+        />
+      </VStack>
     </VStack>
   );
 }

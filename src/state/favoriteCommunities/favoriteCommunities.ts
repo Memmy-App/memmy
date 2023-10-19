@@ -5,13 +5,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createJSONStorage } from 'zustand/esm/middleware';
 
 interface FavoriteCommunitiesStore {
-  favoriteLists: Map<string, number[]>;
+  favoriteLists: Record<string, number[]>;
 }
 
-export const useFavoriteCommunities = create(
+export const useFavoriteCommunitiesStore = create(
   persist(
     immer<FavoriteCommunitiesStore>(() => ({
-      favoriteLists: new Map<string, number[]>(),
+      favoriteLists: {},
     })),
     {
       name: 'favoriteCommunities',
@@ -23,4 +23,4 @@ export const useFavoriteCommunities = create(
 export const useAccountFavorites = (
   accountFullName: string,
 ): number[] | undefined =>
-  useFavoriteCommunities((state) => state.favoriteLists.get(accountFullName));
+  useFavoriteCommunitiesStore((state) => state.favoriteLists[accountFullName]);

@@ -1,14 +1,14 @@
-import { useFavoriteCommunities } from '@src/state/favoriteCommunities/favoriteCommunities';
+import { useFavoriteCommunitiesStore } from '@src/state';
 
 export const addOrUpdateFavorite = (
   accountName: string,
   communityId: number,
 ): void => {
-  useFavoriteCommunities.setState((state) => {
-    const favorites = state.favoriteLists.get(accountName);
+  useFavoriteCommunitiesStore.setState((state) => {
+    const favorites = state.favoriteLists[accountName];
 
     if (favorites == null) {
-      state.favoriteLists.set(accountName, [communityId]);
+      state.favoriteLists[accountName] = [communityId];
       return;
     }
 

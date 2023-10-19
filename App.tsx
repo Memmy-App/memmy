@@ -99,6 +99,7 @@ function PartTwo(): React.JSX.Element {
           flex: 1,
           backgroundColor: 'black',
         }}
+        swipeEnabled={false}
       >
         <ImageViewerProvider>
           <AppToast />

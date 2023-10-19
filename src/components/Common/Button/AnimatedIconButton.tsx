@@ -10,7 +10,7 @@ import { playHaptic } from '@helpers/haptics';
 
 interface IProps {
   icon: NamedExoticComponent;
-  iconSize: number;
+  iconSize?: number;
   color?: string;
   onPress?: () => unknown | Promise<unknown>;
   backgroundColor?: string;

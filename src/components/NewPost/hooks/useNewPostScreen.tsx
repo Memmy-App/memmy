@@ -144,9 +144,6 @@ export const useNewPostScreen = (isEdit = false): UseNewPostScreen => {
 
       saveDraft.current = false;
 
-      console.log(res);
-      console.log(res?.post_view.post.id);
-
       setNewPostId(res?.post_view.post.id);
       deletePostDraft(communityId, account!);
 

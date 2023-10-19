@@ -1,7 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
 import { CommunityView } from 'lemmy-js-client';
-import { useNavigation } from '@react-navigation/core';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import VStack from '@components/Common/Stack/VStack';
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
@@ -17,7 +15,7 @@ interface IProps {
 }
 
 function DrawerItem({ view }: IProps): React.JSX.Element {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  // const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const currentAccount = useCurrentAccount();
   const favorites = useAccountFavorites(currentAccount!.fullUsername);
@@ -30,7 +28,7 @@ function DrawerItem({ view }: IProps): React.JSX.Element {
   );
 
   const onCommunityPress = useCallback(() => {
-    navigation.navigate('Community', { id: view.community.id });
+    // navigation.navigate('Community', { id: view.community.id });
   }, [view]);
 
   const onFavoritePress = useCallback(() => {
@@ -38,7 +36,14 @@ function DrawerItem({ view }: IProps): React.JSX.Element {
   }, [currentAccount, view]);
 
   return (
-    <HStack space="$2" onPress={onCommunityPress}>
+    <HStack
+      space="$2"
+      onPress={onCommunityPress}
+      alignItems="center"
+      paddingHorizontal="$3"
+      paddingVertical="$2"
+      backgroundColor="$fg"
+    >
       {view.community.icon != null ? (
         <Image source={view.community.icon} style={styles.image} />
       ) : (
@@ -50,7 +55,7 @@ function DrawerItem({ view }: IProps): React.JSX.Element {
           {instance}
         </Text>
       </VStack>
-      <View marginRight="auto" onPress={onFavoritePress}>
+      <View marginLeft="auto" onPress={onFavoritePress}>
         {favorited === true ? (
           <Star color="$accent" />
         ) : (
@@ -65,6 +70,7 @@ const styles = StyleSheet.create({
   image: {
     height: 30,
     width: 30,
+    borderRadius: 100,
   },
 });
 
