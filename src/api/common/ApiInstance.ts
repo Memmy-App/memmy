@@ -475,15 +475,18 @@ class ApiInstance {
     }
   }
 
-  async getPost(postId: number): Promise<GetPostResponse | undefined> {
+  async getPost(postId: number): Promise<GetPostResponse> {
     try {
-      return await this.instance?.getPost({
+      const res = await this.instance!.getPost({
         id: postId,
         auth: this.authToken!,
       });
+
+      return res;
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
-      return undefined;
+      const errMsg = ApiInstance.handleError(e.toString());
+
+      throw new Error(errMsg);
     }
   }
 

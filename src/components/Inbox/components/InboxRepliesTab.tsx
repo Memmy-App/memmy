@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { useInboxReplies } from '@components/Inbox/hooks/useInboxReplies';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { CommentView } from 'lemmy-js-client';
-import Comment from '@components/Comment/components/Comment';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
+import InboxComment from '@components/Inbox/components/InboxComment';
 
 interface IProps {
   selected: number;
@@ -12,7 +12,7 @@ interface IProps {
 const renderItem = ({
   item,
 }: ListRenderItemInfo<CommentView>): React.JSX.Element => {
-  return <Comment itemId={item.comment.id} space />;
+  return <InboxComment itemId={item.comment.id} />;
 };
 
 const keyExtractor = (item: CommentView): string => item.comment.id.toString();
