@@ -473,6 +473,7 @@ class ApiInstance {
 
   async getComments(
     postId: number,
+    communityId: number,
     addToPost = true,
     parentId?: number,
   ): Promise<GetCommentsResponse | undefined> {
@@ -483,9 +484,11 @@ class ApiInstance {
 
     try {
       const res = await this.instance?.getComments({
+        auth: this.authToken!,
         post_id: postId,
+        community_id: communityId,
         max_depth: 10,
-        limit: 1,
+        limit: 20,
         sort: settings.defaultCommentSort,
         ...(parentId != null && { parent_id: parentId }),
       });

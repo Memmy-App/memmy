@@ -5,6 +5,7 @@ import {
   useDefaultCommentSort,
   useNewCommentId,
   usePostCommentsInfo,
+  usePostCommunityId,
   usePostCounts,
   usePostLoaded,
 } from '@src/state';
@@ -46,6 +47,7 @@ export default function PostScreen({
   const postLoaded = usePostLoaded(postId);
   const postCounts = usePostCounts(postId);
   const postCommentsInfo = usePostCommentsInfo(postId);
+  const postCommunityId = usePostCommunityId(postId);
 
   const newCommentId = useNewCommentId();
 
@@ -64,7 +66,7 @@ export default function PostScreen({
   }, [awaitTransition.transitioning, postCommentsInfo]);
 
   const { isLoading, isError } = useLoadData(async () => {
-    return await instance.getComments(postId);
+    return await instance.getComments(postId, postCommunityId!);
   });
 
   useEffect(() => {
