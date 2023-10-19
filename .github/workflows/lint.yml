@@ -23,6 +23,6 @@ jobs:
 
     - name: Run Lint
       run: |
-        ./node_modules/eslint/bin/eslint.js .
+        ./node_modules/eslint/bin/eslint.js . --ext js,jsx,ts,tsx
 
 
