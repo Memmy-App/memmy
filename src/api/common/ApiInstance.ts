@@ -9,6 +9,7 @@ import {
   GetCommentsResponse,
   GetCommunityResponse,
   GetPersonDetailsResponse,
+  GetPersonMentionsResponse,
   GetPostResponse,
   GetPostsResponse,
   GetRepliesResponse,
@@ -387,19 +388,34 @@ class ApiInstance {
     }
   }
 
-  async getReplies(
-    page = 1,
-    limit = 50,
-  ): Promise<GetRepliesResponse | undefined> {
+  async getReplies(page = 1, limit = 50): Promise<GetRepliesResponse> {
     try {
-      return await this.instance?.getReplies({
+      const res = await this.instance?.getReplies({
         page,
         limit,
         auth: this.authToken!,
       });
+
+      return res!;
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
-      return undefined;
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
+  async getMentions(page = 1, limit = 50): Promise<GetPersonMentionsResponse> {
+    try {
+      const res = await this.instance?.getPersonMentions({
+        page,
+        limit,
+        auth: this.authToken!,
+        sort: 'New',
+      });
+
+      return res!;
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
     }
   }
 

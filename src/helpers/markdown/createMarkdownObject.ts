@@ -13,7 +13,5 @@ export const createMarkdownObject = (
 
   const result = md.parse(markdown, {});
 
-  console.log(JSON.stringify(result));
-
   return result as unknown as MdToken[];
 };
