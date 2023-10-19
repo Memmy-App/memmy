@@ -1,19 +1,13 @@
 import React, { useState } from 'react';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Label from '@components/Common/Form/Label';
 import { Globe, Key, User } from '@tamagui/lucide-icons';
 import InputWrapper from '@components/Common/Form/InputWrapper';
 import { Button } from '@components/Common/Button';
-import { useLogin } from '@hooks/useLogin';
+import { useLogin } from '@components/Account/hooks/useLogin';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 import { ScrollView, Spacer } from 'tamagui';
 import TextInput from '@components/Common/Form/TextInput';
 import AppToast from '@components/Common/Toast/AppToast';
-
-interface IProps {
-  navigation: NativeStackNavigationProp<any>;
-  route: any;
-}
 
 export default function AddAccountModal(): React.JSX.Element {
   const [form, setForm] = useState({

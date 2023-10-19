@@ -20,7 +20,7 @@ export const writeToLog = (text: string): void => {
   // eslint-disable-next-line no-console
   if (__DEV__) console.log(text);
 
-  const time = dayjs().utc(true);
+  const time = dayjs().unix();
   void FileSystem.appendFile(logFile, `\n[${time}] ${text}`).then();
 };
 

@@ -40,7 +40,7 @@ const getItemType = (item: ResponseType): ResultType => {
 
 const renderItem = ({
   item,
-}: ListRenderItemInfo<ResponseType>): React.JSX.Element => {
+}: ListRenderItemInfo<ResponseType>): React.JSX.Element | null => {
   const itemType = getItemType(item);
 
   switch (itemType) {
@@ -52,6 +52,8 @@ const renderItem = ({
       return <FeedItem itemId={(item as PostView).post.id} />;
     case 'Comments':
       return <Comment itemId={(item as CommentView).comment.id} />;
+    default:
+      return null;
   }
 };
 

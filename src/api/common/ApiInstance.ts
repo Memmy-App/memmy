@@ -112,8 +112,16 @@ class ApiInstance {
             password: options.password,
             password_verify: options.password,
             show_nsfw: signupOptions != null ? signupOptions.showNsfw : false,
-            captcha_uuid: signupOptions?.captchaUuid ?? undefined,
-            captcha_answer: signupOptions?.captchaAnswer,
+            captcha_uuid:
+              signupOptions?.captchaUuid != null &&
+              signupOptions.captchaUuid !== ''
+                ? signupOptions?.captchaUuid
+                : undefined,
+            captcha_answer:
+              signupOptions?.captchaAnswer != null &&
+              signupOptions.captchaAnswer !== ''
+                ? signupOptions?.captchaAnswer
+                : undefined,
           });
 
           if (res.verify_email_sent) {

@@ -4,8 +4,8 @@ import Tabs from '@components/Navigation/Tabs';
 import { useAccounts } from '@src/state';
 import OnboardingIndexScreen from '@components/Onboarding/OnboardingIndex/OnboardingIndexScreen';
 import OnboardingInstanceListScreen from '@components/Onboarding/OnboardingInstanceList/OnboardingInstanceListScreen';
-import CreateAccountModal from '@components/Account/CreateAccountModal';
-import AddAccountModal from '@components/Account/AddAccountModal';
+import CreateAccountModal from '@components/Account/screens/CreateAccountModal';
+import AddAccountModal from '@components/Account/screens/AddAccountModal';
 
 const Stack = createNativeStackNavigator();
 

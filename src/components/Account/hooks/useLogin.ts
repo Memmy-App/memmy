@@ -64,6 +64,11 @@ export const useLogin = (): UseLogin => {
         }
       }
 
+      if (res !== EInitializeResult.SUCCESS) {
+        Alert.alert('Error', 'An unknown error has occurred.');
+        return;
+      }
+
       addAccount({
         instance: options.instance,
         username: options.username,
@@ -73,6 +78,7 @@ export const useLogin = (): UseLogin => {
       });
     } catch (e) {
       setLoading(false);
+      Alert.alert('Error', 'An unknown error has occurred.');
     }
   };
 

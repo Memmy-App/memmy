@@ -6,4 +6,5 @@ export default interface ApiOptions {
   authToken?: string;
   totpToken?: string;
   captchaAnswer?: string;
+  captchaUuid?: string;
 }
