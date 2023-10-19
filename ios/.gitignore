@@ -28,3 +28,5 @@ project.xcworkspace
 
 # CocoaPods
 /Pods/
+
+fastlane/.env.default
