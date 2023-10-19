@@ -2,7 +2,7 @@ import React from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { LayoutAnimation } from 'react-native';
 import { useSiteLanguages } from '@src/state/site/siteStore';
-import { View } from 'tamagui';
+import { useTheme, View } from 'tamagui';
 
 interface IProps {
   selected: number;
@@ -13,6 +13,8 @@ function LanguagePicker({
   selected,
   setSelected,
 }: IProps): React.JSX.Element | null {
+  const theme = useTheme();
+
   const languages = useSiteLanguages();
 
   if (languages == null) return null;
@@ -23,6 +25,9 @@ function LanguagePicker({
         onLayout={() => LayoutAnimation.easeInEaseOut}
         onValueChange={setSelected}
         selectedValue={selected}
+        itemStyle={{
+          color: theme.color.val,
+        }}
       >
         {languages.map((option, index) => (
           <Picker.Item
