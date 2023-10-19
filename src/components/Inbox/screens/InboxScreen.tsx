@@ -1,15 +1,49 @@
-import React from 'react';
-import { ScrollView, Text } from 'tamagui';
+import React, { useCallback, useRef, useState } from 'react';
+import { View } from 'tamagui';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useInboxScreen } from '@components/Inbox/hooks/useInboxScreen';
+import Animated, { FadeIn } from 'react-native-reanimated';
+import TopTabs from '@components/Common/TopTabs/TopTabs';
+import PagerView from 'react-native-pager-view';
+import { StyleSheet } from 'react-native';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 export default function InboxScreen({ navigation }: IProps): React.JSX.Element {
+  const inboxScreen = useInboxScreen();
+
+  const pagerViewRef = useRef<PagerView>();
+
+  const [selectedTab, setSelectedTab] = useState<number>(0);
+
+  const onTabChange = useCallback((index: number) => {
+    setSelectedTab(index);
+  }, []);
+
   return (
-    <ScrollView flex={1}>
-      <Text>Test</Text>
-    </ScrollView>
+    <Animated.View style={styles.container} entering={FadeIn}>
+      <TopTabs
+        onChange={onTabChange}
+        items={['Comments', 'Mentions', 'Messages']}
+      />
+      <PagerView
+        style={styles.container}
+        scrollEnabled={false}
+        // @ts-expect-error valid
+        ref={pagerViewRef}
+      >
+        <View key={0} style={styles.container}></View>
+        <View key={1} style={styles.container}></View>
+        <View key={2} style={styles.container}></View>
+      </PagerView>
+    </Animated.View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
