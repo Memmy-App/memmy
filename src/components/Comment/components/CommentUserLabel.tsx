@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
 import { createName } from '@helpers/text';
-import { Pressable } from 'react-native';
 import HStack from '@components/Common/Stack/HStack';
 import { Text } from 'tamagui';
 import { useNavigation } from '@react-navigation/core';
@@ -28,20 +27,18 @@ function CommentUserLabel({
   );
 
   const onPress = useCallback((): void => {
-    navigation.push('User', {
+    navigation.push('Profile', {
       fullName: createName(userName, userCommunity, true),
     });
   }, [userName]);
 
   return (
-    <Pressable onPress={onPress} hitSlop={5}>
-      <HStack space="$2" alignItems="center">
-        {showIcon && <UserIcon userIcon={userIcon} />}
-        <Text color="$secondary" fontSize={14}>
-          {userName}
-        </Text>
-      </HStack>
-    </Pressable>
+    <HStack space="$2" alignItems="center" onPress={onPress} hitSlop={5}>
+      {showIcon && <UserIcon userIcon={userIcon} />}
+      <Text color="$secondary" fontSize={14}>
+        {name}
+      </Text>
+    </HStack>
   );
 }
 

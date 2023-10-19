@@ -32,6 +32,9 @@ export const useCommentCreatorName = (id: number): string | undefined =>
 export const useCommentCreatorId = (id: number): number | undefined =>
   useCommentStore((state) => state.comments.get(id)?.view.creator.id);
 
+export const useCommentCreatorActorId = (id: number): string | undefined =>
+  useCommentStore((state) => state.comments.get(id)?.view.creator.actor_id);
+
 export const useCommentContent = (id: number): string | undefined =>
   useCommentStore((state) => state.comments.get(id)?.view.comment.content);
 

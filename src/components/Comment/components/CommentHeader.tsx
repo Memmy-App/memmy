@@ -2,6 +2,7 @@ import React from 'react';
 import HStack from '@components/Common/Stack/HStack';
 import CommentUserLabel from '@components/Comment/components/CommentUserLabel';
 import {
+  useCommentCreatorActorId,
   useCommentCreatorAvatar,
   useCommentCreatorName,
 } from '@src/state/comment/commentStore';
@@ -16,13 +17,14 @@ interface IProps {
 function CommentHeader({ itemId }: IProps): React.JSX.Element {
   const commentCreatorAvatar = useCommentCreatorAvatar(itemId);
   const commentCreatorName = useCommentCreatorName(itemId);
+  const commentCreatorActorId = useCommentCreatorActorId(itemId);
 
   return (
-    <HStack space="$3">
+    <HStack space="$3" alignItems="center">
       <CommentUserLabel
         userIcon={commentCreatorAvatar}
         userName={commentCreatorName}
-        userCommunity=""
+        userCommunity={commentCreatorActorId}
       />
       <CommentMetrics itemId={itemId} />
       <View marginLeft="auto">
