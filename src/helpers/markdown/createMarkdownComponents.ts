@@ -19,6 +19,7 @@ let otherProps = {
 let isQuote = false;
 let quoteText = '';
 let isList = false;
+const isImage = false;
 
 let key = 0;
 
@@ -85,8 +86,14 @@ const createMarkdownComponent = (
     return null;
   }
 
+  let tokenType = token.type;
+
+  if (token.type === 'inline' && token.content.includes('![]')) {
+    tokenType = 'inlineImage';
+  }
+
   let element = createElement(
-    markdownComponentMap[token.type],
+    markdownComponentMap[tokenType],
     {
       token,
       style: componentStyle,

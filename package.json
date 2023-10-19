@@ -108,6 +108,6 @@
     "build-tf-android": "eas build -p android --profile production-tf --output prod.aab --local --non-interactive",
     "generate-license": "license-report --only=prod,dev,peer --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author --output=html > assets/license.html",
     "postinstall": "patch-package",
-    "build-submit-ios": "eas build -p ios --profile production --output build.ipa --local --non-interactive && eas submit -p ios --path build.ipa --non-interactive"
+    "build-submit-ios": "cd ios && fastlane beta"
   }
 }

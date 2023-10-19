@@ -30,3 +30,5 @@ project.xcworkspace
 /Pods/
 
 fastlane/.env.default
+fastlane/report.xml
+*.zip

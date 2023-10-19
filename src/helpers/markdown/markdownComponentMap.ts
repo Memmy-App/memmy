@@ -2,6 +2,7 @@ import MdImage from '@components/Common/Markdown/components/MdImage';
 import { MdToken } from '@src/types';
 import MdLine from '@components/Common/Markdown/components/MdLine';
 import MdText from '@components/Common/Markdown/components/MdText';
+import MdImageWrapper from '@components/Common/Markdown/components/MdImageWrapper';
 
 interface IProps {
   token: MdToken;
@@ -19,6 +20,7 @@ export const markdownComponentMap: Record<
   inline: MdLine,
   image: MdImage,
   text: MdText,
+  inlineImage: MdImageWrapper,
 };
 
 export const markdownComponentFontProps: Record<string, object> = {
