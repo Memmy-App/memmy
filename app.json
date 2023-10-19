@@ -10,7 +10,7 @@
     "ios": {
       "bundleIdentifier": "com.gkasdorf.memmyapp",
       "supportsTablet": true,
-      "buildNumber": "13",
+      "buildNumber": "14",
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "Allow Memmy to access your photos.",
         "NSPhotoLibraryAddUsageDescription": "Allow Memmy to save photos.",

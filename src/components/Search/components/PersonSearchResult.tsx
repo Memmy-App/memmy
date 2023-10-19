@@ -68,7 +68,7 @@ function PersonSearchResult({ view }: IProps): React.JSX.Element {
         </HStack>
         {view.person.bio != null && view.person.bio !== '' && (
           <HStack>
-            <P1 numberOfLines={2}>{view.person.bio ?? 'No description'}</P1>
+            <P1 numberOfLines={2}>{view.person.bio}</P1>
           </HStack>
         )}
         <HStack alignItems="center" space="$3">

@@ -1,4 +1,3 @@
-import React from 'react';
 import { styled, Text } from 'tamagui';
 
 export const OnboardingH1 = styled(Text, {
