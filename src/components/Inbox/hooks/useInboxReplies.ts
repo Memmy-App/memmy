@@ -1,4 +1,4 @@
-import { CommentReplyView } from 'lemmy-js-client';
+import { CommentView } from 'lemmy-js-client';
 import { useLoadData } from '@src/hooks';
 import instance from '@src/Instance';
 import { addComments } from '@src/state';
@@ -8,13 +8,12 @@ interface UseInboxReplies {
   isLoading: boolean;
   isError: boolean;
   isEmpty: boolean;
-  data?: CommentReplyView[];
+  data?: CommentView[];
   doLoad: () => void;
 }
 
 export const useInboxReplies = (): UseInboxReplies => {
-  const { isLoading, isError, data, refresh } =
-    useLoadData<CommentReplyView[]>();
+  const { isLoading, isError, data, refresh } = useLoadData<CommentView[]>();
 
   const isEmpty = useMemo(() => {
     return data == null || data.length < 1;
