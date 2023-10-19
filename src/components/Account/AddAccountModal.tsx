@@ -15,10 +15,7 @@ interface IProps {
   route: any;
 }
 
-export default function AddAccountModal({
-  navigation,
-  route,
-}: IProps): React.JSX.Element {
+export default function AddAccountModal(): React.JSX.Element {
   const [form, setForm] = useState({
     instance: '',
     username: '',
