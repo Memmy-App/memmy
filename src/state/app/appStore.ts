@@ -7,6 +7,7 @@ interface AppStore {
   newCommentId?: number;
   lastFeedPress: number;
   toast: IToast | null;
+  drawerOpen: boolean;
 }
 
 export const useAppStore = create(
@@ -15,6 +16,7 @@ export const useAppStore = create(
     newCommentId: undefined,
     lastFeedPress: 0,
     toast: null,
+    drawerOpen: false,
   })),
 );
 
@@ -29,3 +31,6 @@ export const useLastHomePress = (): number =>
 
 export const useToast = (): IToast | null =>
   useAppStore((state) => state.toast);
+
+export const useDrawerOpen = (): boolean =>
+  useAppStore((state) => state.drawerOpen);

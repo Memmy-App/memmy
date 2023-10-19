@@ -8676,6 +8676,13 @@ react-native-device-info@^10.11.0:
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-10.11.0.tgz#2c9f378f1c3c5eb9aafa803d015b84325991a9aa"
   integrity sha512-qRzhuYOm5ZXQi5dhfJFjDq157oipxcEW/fo0QyMm5+TI6V6/+P/tju+Hif6z0rpLCf7MV7iDVRv2Kqha4D/yvQ==
 
+react-native-drawer-layout@^4.0.0-alpha.1:
+  version "4.0.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/react-native-drawer-layout/-/react-native-drawer-layout-4.0.0-alpha.1.tgz#458f2f060e0d175b161d546aeb306f350e42a3ae"
+  integrity sha512-WVJZKzm/7BFtri6jRfpQVgpZYqkiGNEn5gAy8+rwaUOin/m8E73WEjQwJ89IofgkInlPfW3HVUbA2sVj9tafRw==
+  dependencies:
+    use-latest-callback "^0.1.5"
+
 react-native-flipper@^0.164.0:
   version "0.164.0"
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.164.0.tgz#64f6269a86a13a72e30f53ba9f5281d2073a7697"

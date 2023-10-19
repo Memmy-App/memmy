@@ -10,14 +10,16 @@ import { create } from 'zustand';
 interface SiteStore {
   site?: GetSiteResponse;
   setSite: (site: GetSiteResponse) => void;
-  subscriptions?: CommunityView[];
-  moderated?: CommunityView[];
+  subscriptions: CommunityView[];
+  moderated: CommunityView[];
   moderatedIds?: number[];
 }
 
 export const useSiteStore = create(
   immer<SiteStore>((set) => ({
     site: undefined,
+    subscriptions: [],
+    moderated: [],
 
     setSite: (site: GetSiteResponse) => {
       set((state) => {
@@ -53,3 +55,11 @@ export const useSiteLanguages = (): Language[] | undefined =>
 
 export const useSiteDefaultLanguage = (): number | undefined =>
   useSiteStore((state) => state.site?.discussion_languages[0]);
+
+export const useSubscriptions = (): CommunityView[] =>
+  useSiteStore((state) => state.subscriptions);
+
+export const useSubscription = (id: number): CommunityView | undefined =>
+  useSiteStore((state) =>
+    state.subscriptions.find((c) => c.community.id === id),
+  );

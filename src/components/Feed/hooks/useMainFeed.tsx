@@ -25,6 +25,7 @@ import { useLastHomePress } from '@src/state/app/appStore';
 import HStack from '@components/Common/Stack/HStack';
 import ListingTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/ListingTypeContextMenuButton';
 import SortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/SortTypeContextMenuButton';
+import { setDrawerOpen } from '@src/state/app/actions';
 
 interface UseMainFeed {
   postIds: number[];
@@ -99,7 +100,7 @@ export const useMainFeed = (): UseMainFeed => {
               <HeaderBackButton
                 label="Subscriptions"
                 onPress={() => {
-                  navigation.push('Subscriptions');
+                  setDrawerOpen(true);
                 }}
                 style={{ marginLeft: -16 }}
               />

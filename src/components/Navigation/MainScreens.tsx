@@ -16,6 +16,7 @@ import CommentChainScreen from '@components/Comment/screens/CommentChainScreen';
 import ReplyScreen from '@components/Reply/screens/ReplyScreen';
 import ProfileScreen from '@components/Profile/screens/ProfileScreen';
 import NewPostScreen from '@components/NewPost/screens/NewPostScreen';
+import SubscriptionsScreen from '@components/Subscriptions/screens/SubscriptionsScreen';
 
 export default function MainScreens(
   stack: TypedNavigator<
@@ -72,6 +73,14 @@ export default function MainScreens(
           component={NewPostScreen}
           options={{ gestureEnabled: false, headerTitle: 'New Post' }}
         />
+      </stack.Group>
+      <stack.Group
+        screenOptions={{
+          presentation: 'card',
+          animation: 'fade',
+        }}
+      >
+        <stack.Screen name="Subscriptions" component={SubscriptionsScreen} />
       </stack.Group>
     </>
   );

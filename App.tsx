@@ -18,6 +18,11 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useThemeSettings } from '@hooks/useThemeSettings';
 import AppToast from '@components/Common/Toast/AppToast';
 
+import { Drawer as RNDrawer } from 'react-native-drawer-layout';
+import { useDrawerOpen } from '@src/state/app/appStore';
+import { setDrawerOpen } from '@src/state/app/actions';
+import Drawer from '@components/Common/Drawer/Drawer';
+
 if (__DEV__) {
   require('./ReactotronConfig');
 }
@@ -67,17 +72,39 @@ export default function App(): React.JSX.Element | null {
   );
 }
 
+const setClosed = (): void => {
+  setDrawerOpen(false);
+};
+
+const setOpen = (): void => {
+  setDrawerOpen(true);
+};
+
 function PartTwo(): React.JSX.Element {
   const theme = useTheme();
+
+  const drawerOpen = useDrawerOpen();
 
   return (
     <>
       {/* @ts-expect-error - This is a valid option */}
       <StatusBar style={theme.statusBar.val} />
-      <ImageViewerProvider>
-        <AppToast />
-        <Stack />
-      </ImageViewerProvider>
+
+      <RNDrawer
+        open={drawerOpen}
+        onOpen={setOpen}
+        onClose={setClosed}
+        renderDrawerContent={() => <Drawer />}
+        drawerStyle={{
+          flex: 1,
+          backgroundColor: 'black',
+        }}
+      >
+        <ImageViewerProvider>
+          <AppToast />
+          <Stack />
+        </ImageViewerProvider>
+      </RNDrawer>
     </>
   );
 }
