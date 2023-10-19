@@ -98,6 +98,7 @@ function PartTwo(): React.JSX.Element {
         drawerStyle={{
           flex: 1,
           backgroundColor: 'black',
+          width: '80%',
         }}
         swipeEnabled={false}
       >
