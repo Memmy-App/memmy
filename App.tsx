@@ -20,7 +20,14 @@ import AppToast from '@components/Common/Toast/AppToast';
 
 import { Drawer as RNDrawer } from 'react-native-drawer-layout';
 import Drawer from '@components/Common/Drawer/Drawer';
-import { setDrawerOpen, useAccent, useDrawerOpen } from '@src/state';
+import {
+  setDrawerOpen,
+  useAccent,
+  useAccountStore,
+  useAppUpgraded,
+  useDrawerOpen,
+  useSettingsStore,
+} from '@src/state';
 import {
   DarkTheme,
   NavigationContainer,
@@ -56,7 +63,21 @@ export default function App(): React.JSX.Element | null {
 
   const themeSettings = useThemeSettings();
 
+  const upgraded = useAppUpgraded();
+
+  const resetAccountStore = useAccountStore((state) => state.reset);
+  const resetSettingsStore = useSettingsStore((state) => state.reset);
+
   if (!loaded || !themeSettings.initialized) return null;
+
+  if (upgraded == null || !upgraded) {
+    resetAccountStore();
+    resetSettingsStore();
+
+    useSettingsStore.setState((state) => {
+      state.upgraded = true;
+    });
+  }
 
   return (
     <ErrorBoundary

@@ -6,12 +6,25 @@ import { createJSONStorage } from 'zustand/esm/middleware';
 
 interface FavoriteCommunitiesStore {
   favoriteLists: Record<string, number[]>;
+
+  reset: () => void;
 }
+
+const initialState: Partial<FavoriteCommunitiesStore> = {
+  favoriteLists: {},
+};
 
 export const useFavoriteCommunitiesStore = create(
   persist(
-    immer<FavoriteCommunitiesStore>(() => ({
+    immer<FavoriteCommunitiesStore>((set) => ({
       favoriteLists: {},
+
+      reset: () => {
+        set((state) => ({
+          ...state,
+          ...initialState,
+        }));
+      },
     })),
     {
       name: 'favoriteCommunities',

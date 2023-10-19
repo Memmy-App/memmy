@@ -99,9 +99,13 @@ export interface SettingsStore {
   showUsernameInTabBar: boolean;
 
   accentColor: string | undefined;
+
+  upgraded: boolean;
+
+  reset: () => void;
 }
 
-const initialState: SettingsStore = {
+const initialState: Partial<SettingsStore> = {
   gestures: {
     post: {
       enabled: true,
@@ -186,13 +190,23 @@ const initialState: SettingsStore = {
   showAvatarInTabBar: true,
   showUsernameInTabBar: true,
 
+  upgraded: false,
+
   accentColor: undefined,
 };
 
 export const useSettingsStore = create(
   persist(
-    immer<SettingsStore>(() => ({
+    // @ts-expect-error all good
+    immer<SettingsStore>((set) => ({
       ...initialState,
+
+      reset: () => {
+        set((state) => ({
+          ...state,
+          ...initialState,
+        }));
+      },
     })),
     {
       name: 'settings',
@@ -277,3 +291,6 @@ export const useShowAvatarInTabBar = (): boolean =>
 
 export const useShowUsernameInTabBar = (): boolean =>
   useSettingsStore((state) => state.showUsernameInTabBar);
+
+export const useAppUpgraded = (): boolean | undefined =>
+  useSettingsStore((state) => state.upgraded);

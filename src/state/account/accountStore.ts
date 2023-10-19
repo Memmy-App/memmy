@@ -7,13 +7,27 @@ import { IAccount } from '@src/types';
 interface AccountStore {
   accounts: IAccount[];
   currentAccount: IAccount | null;
+
+  reset: () => void;
 }
+
+const initialState: Partial<AccountStore> = {
+  accounts: [],
+  currentAccount: null,
+};
 
 export const useAccountStore = create(
   persist(
-    immer<AccountStore>(() => ({
+    immer<AccountStore>((set) => ({
       accounts: [],
       currentAccount: null,
+
+      reset: () => {
+        set((state) => ({
+          ...state,
+          ...initialState,
+        }));
+      },
     })),
     {
       name: 'account',

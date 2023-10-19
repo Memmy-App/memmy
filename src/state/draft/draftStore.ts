@@ -17,13 +17,27 @@ export interface DraftState {
 interface DraftStore {
   commentDrafts: DraftState[];
   postDrafts: DraftState[];
+
+  reset: () => void;
 }
+
+const initialState: Partial<DraftStore> = {
+  commentDrafts: [],
+  postDrafts: [],
+};
 
 export const useDraftStore = create(
   persist(
-    immer<DraftStore>((get, set) => ({
+    immer<DraftStore>((set) => ({
       commentDrafts: [],
       postDrafts: [],
+
+      reset: () => {
+        set((state) => ({
+          ...state,
+          ...initialState,
+        }));
+      },
     })),
     {
       name: 'drafts',
