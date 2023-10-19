@@ -70,7 +70,6 @@ function ViewerImage({ source, blurRadius, title }: IProps): React.JSX.Element {
         blurRadius={blurRadius}
         placeholder={spinner}
         placeholderContentFit="scale-down"
-        cachePolicy="disk"
         recyclingKey={source}
       />
     </Pressable>

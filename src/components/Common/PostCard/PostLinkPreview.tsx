@@ -61,7 +61,6 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
                 recyclingKey={postThumbnail}
                 onLoadStart={onLoadStart}
                 onLoadEnd={onLoadEnd}
-                cachePolicy="none"
                 blurRadius={postNsfw || postCommunityNsfw ? 90 : 0}
               />
             </View>
