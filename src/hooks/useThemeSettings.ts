@@ -11,7 +11,7 @@ import {
   useForceUpdate,
   useIsomorphicLayoutEffect,
 } from 'tamagui';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { customTokens } from '@src/theme';
 import { IThemeOption } from '@src/types';
 
@@ -30,16 +30,31 @@ export const useThemeSettings = (): UseThemeSettings => {
   const colorScheme = useColorScheme();
   const update = useForceUpdate();
 
+  const lastColorScheme = useRef(colorScheme);
+  const [usedColorScheme, setUsedColorScheme] = useState(colorScheme);
+
   const [initialized, setInitialized] = useState(false);
   const [theme, setTheme] = useState<IThemeOption>(regularTheme);
+
+  useEffect(() => {
+    if (colorScheme !== lastColorScheme.current) {
+      setTimeout(() => {
+        if (colorScheme === lastColorScheme.current) {
+          setUsedColorScheme(colorScheme);
+        }
+      }, 500);
+    }
+
+    lastColorScheme.current = colorScheme;
+  }, [colorScheme]);
 
   useIsomorphicLayoutEffect(() => {
     let themeToUse: IThemeOption = regularTheme;
 
     if (matchSystem) {
-      if (colorScheme === 'light') {
+      if (usedColorScheme === 'light') {
         themeToUse = lightTheme;
-      } else if (colorScheme === 'dark') {
+      } else if (usedColorScheme === 'dark') {
         themeToUse = darkTheme;
       }
     }
@@ -60,7 +75,14 @@ export const useThemeSettings = (): UseThemeSettings => {
     }
 
     setTheme(themeToUse);
-  }, [accent, lightTheme, darkTheme, colorScheme, matchSystem, regularTheme]);
+  }, [
+    accent,
+    lightTheme,
+    darkTheme,
+    usedColorScheme,
+    matchSystem,
+    regularTheme,
+  ]);
 
   return {
     theme,
