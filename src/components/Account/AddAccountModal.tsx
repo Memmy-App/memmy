@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import VStack from '@components/Common/Stack/VStack';
-import TextInput from '@components/Common/Form/TextInput';
 import Label from '@components/Common/Form/Label';
 import { Globe, Key, User } from '@tamagui/lucide-icons';
 import InputWrapper from '@components/Common/Form/InputWrapper';
 import { Button } from '@components/Common/Button';
 import { useLogin } from '@hooks/useLogin';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
-import { Spacer } from 'tamagui';
+import { ScrollView, Spacer } from 'tamagui';
+import TextInput from '@components/Common/Form/TextInput';
+import AppToast from '@components/Common/Toast/AppToast';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -43,12 +43,18 @@ export default function AddAccountModal({
   };
 
   return (
-    <VStack space="$1" marginHorizontal="$3" marginVertical="$2">
-      <LoadingOverlay visible={login.status.loading} />
+    <ScrollView
+      space="$1"
+      marginHorizontal="$3"
+      marginVertical="$2"
+      automaticallyAdjustKeyboardInsets={true}
+    >
+      <AppToast translate={95} />
+
+      <LoadingOverlay visible={login.loading} />
       <InputWrapper>
         <Label icon={<Globe size={12} />}>Instance</Label>
         <TextInput
-          size="$3"
           placeholder="Instance"
           onChangeText={(v) => {
             onFormChange('instance', v);
@@ -56,6 +62,7 @@ export default function AddAccountModal({
           autoCorrect={false}
           autoCapitalize="none"
           inputMode="url"
+          borderRadius="$3"
         />
       </InputWrapper>
       <InputWrapper>
@@ -68,6 +75,7 @@ export default function AddAccountModal({
           autoCorrect={false}
           autoCapitalize="none"
           autoComplete="username"
+          borderRadius="$3"
         />
       </InputWrapper>
       <InputWrapper>
@@ -80,12 +88,13 @@ export default function AddAccountModal({
           autoCorrect={false}
           secureTextEntry
           autoComplete="current-password"
+          borderRadius="$3"
         />
       </InputWrapper>
       <Spacer />
-      <Button onPress={onLoginPress} disabled={login.status.loading}>
+      <Button onPress={onLoginPress} disabled={login.loading}>
         Login
       </Button>
-    </VStack>
+    </ScrollView>
   );
 }

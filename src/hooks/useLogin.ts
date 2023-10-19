@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import instance from '@src/Instance';
-import { addAccount } from '@src/state';
+import { EInitializeResult } from '@api/common/ApiInstance';
+import { addAccount, setToast } from '@src/state';
+import { Alert } from 'react-native';
+import { useThemeColorScheme } from '@hooks/useThemeColorScheme';
 
 interface DoLoginOptions {
   instance: string;
@@ -11,36 +14,55 @@ interface DoLoginOptions {
   totpToken?: string;
 }
 
-interface LoginStatus {
-  loading: boolean;
-  error: boolean;
-}
-
 interface UseLogin {
-  status: LoginStatus;
+  loading: boolean;
   doLogin: (options: DoLoginOptions) => Promise<void>;
 }
 
 export const useLogin = (): UseLogin => {
-  const [status, setStatus] = useState({
-    loading: false,
-    error: false,
-  });
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const colorScheme = useThemeColorScheme();
 
   const doLogin = async (options: DoLoginOptions): Promise<void> => {
-    setStatus({
-      loading: true,
-      error: false,
-    });
+    setLoading(true);
 
     try {
-      await instance.initialize({
+      const res = await instance.initialize({
         type: 'lemmy',
         host: options.instance,
         username: options.username,
         password: options.password,
         totpToken: options.totpToken,
       });
+
+      setLoading(false);
+
+      switch (res) {
+        case EInitializeResult.PASSWORD: {
+          setToast({
+            text: 'Invalid password. Please try again.',
+          });
+          return;
+        }
+        case EInitializeResult.TOTP: {
+          Alert.prompt(
+            'One-Time Password',
+            'Please enter your one-time password to authenticate with Lemmy.',
+            (t) => {
+              void doLogin({ ...options, totpToken: t });
+            },
+            'plain-text',
+            undefined,
+            'numeric',
+            {
+              cancelable: true,
+              userInterfaceStyle: colorScheme,
+            },
+          );
+          return;
+        }
+      }
 
       addAccount({
         instance: options.instance,
@@ -50,12 +72,9 @@ export const useLogin = (): UseLogin => {
         isCurrentAccount: true,
       });
     } catch (e) {
-      setStatus({
-        loading: false,
-        error: true,
-      });
+      setLoading(false);
     }
   };
 
-  return { status, doLogin };
+  return { doLogin, loading };
 };

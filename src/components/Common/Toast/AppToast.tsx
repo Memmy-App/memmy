@@ -10,7 +10,13 @@ import VStack from '@components/Common/Stack/VStack';
 import { StyleSheet } from 'react-native';
 import HStack from '@components/Common/Stack/HStack';
 
-export default function AppToast(): React.JSX.Element {
+interface IProps {
+  translate?: number;
+}
+
+export default function AppToast({
+  translate = 170,
+}: IProps): React.JSX.Element {
   const toast = useToast();
   const theme = useTheme();
 
@@ -30,7 +36,7 @@ export default function AppToast(): React.JSX.Element {
     if (toast === null) return;
 
     // Display the toast
-    toastPosition.value = 170;
+    toastPosition.value = translate;
 
     // Close the toast after a period of time
     setTimeout(() => {
