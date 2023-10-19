@@ -2,6 +2,7 @@ import {
   CommunityModeratorView,
   CommunityView,
   GetSiteResponse,
+  Language,
 } from 'lemmy-js-client';
 import { immer } from 'zustand/middleware/immer';
 import { create } from 'zustand';
@@ -38,3 +39,17 @@ export const useModeratedIds = (): number[] | undefined =>
 
 export const usePersonAvatar = (): string | undefined =>
   useSiteStore((state) => state.site?.my_user?.local_user_view.person.avatar);
+
+export const useDefaultLanguage = (): number | undefined =>
+  useSiteStore((state) => state.site?.my_user?.discussion_languages[0]);
+
+export const useShowNsfw = (): boolean | undefined =>
+  useSiteStore(
+    (state) => state.site?.my_user?.local_user_view.local_user.show_nsfw,
+  );
+
+export const useSiteLanguages = (): Language[] | undefined =>
+  useSiteStore((state) => state.site?.all_languages);
+
+export const useSiteDefaultLanguage = (): number | undefined =>
+  useSiteStore((state) => state.site?.discussion_languages[0]);

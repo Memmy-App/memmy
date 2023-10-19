@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Input, ScrollView } from 'tamagui';
+import { ScrollView } from 'tamagui';
 import Comment from '@components/Comment/components/Comment';
 import PostReplyContent from '@components/Post/components/PostReplyContent';
 import VStack from '@components/Common/Stack/VStack';
@@ -9,6 +9,7 @@ import KeyboardAccessoryView from '@components/Common/Keyboard/KeyboardAccesoryV
 import { useReplyScreen } from '@components/Reply/hooks/useReplyScreen';
 import { useThemeColorScheme } from '@src/hooks';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
+import TextInput from '@components/Common/Form/TextInput';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -41,25 +42,18 @@ export default function ReplyScreen({
           ) : (
             <PostReplyContent itemId={postId} />
           )}
-          <Input
+          <TextInput
             inputAccessoryViewID="accessory"
             onSelectionChange={replyScreen.onSelectionChange}
             onChangeText={replyScreen.setText}
-            backgroundColor="$fg"
-            borderWidth={0}
-            borderRadius={0}
             fontSize={16}
-            cursorColor="$accent"
             // @ts-expect-error - This is valid shut up
             ref={replyScreen.inputRef}
             autoFocus={true}
             multiline={true}
-            keyboardAppearance={colorScheme}
             scrollEnabled={false}
             onLayout={onLayout}
             placeholder="What do you want to say?"
-            placeholderTextColor="$secondary"
-            color="$color"
           />
         </VStack>
       </ScrollView>

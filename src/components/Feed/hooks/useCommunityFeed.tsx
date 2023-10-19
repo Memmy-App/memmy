@@ -1,8 +1,12 @@
 import { useLoadData } from '@src/hooks';
 import { GetCommunityResponse } from 'lemmy-js-client';
 import instance from '@src/Instance';
-import { useRoute } from '@react-navigation/core';
+import { useNavigation, useRoute } from '@react-navigation/core';
 import { useCommunityName } from '@src/state/community/communityStore';
+import { useEffect } from 'react';
+import { setNewPostId } from '@src/state/app/actions';
+import { useNewPostId } from '@src/state/app/appStore';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface UseCommunityFeed {
   isLoading: boolean;
@@ -11,8 +15,11 @@ interface UseCommunityFeed {
 
 export const useCommunityFeed = (): UseCommunityFeed => {
   const { params } = useRoute<any>();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const communityTitle = useCommunityName(params?.id);
+
+  const newPostId = useNewPostId();
 
   // Load the data
   const { isLoading, isError } = useLoadData<
@@ -27,6 +34,13 @@ export const useCommunityFeed = (): UseCommunityFeed => {
       return communityTitle != null;
     },
   );
+
+  useEffect(() => {
+    if (newPostId == null) return;
+
+    navigation.push('Post', { postId: newPostId });
+    setNewPostId();
+  }, [newPostId]);
 
   return {
     isLoading,

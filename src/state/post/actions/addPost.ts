@@ -6,19 +6,19 @@ import { useFeedStore } from '@src/state/feed/feedStore';
 import { cacheImages } from '@helpers/image';
 import { useSiteStore } from '@src/state/site/siteStore';
 
-export const addPost = (post: PostView, screenId: string): void => {
+export const addPost = (post: PostView, screenId?: string): void => {
   usePostStore.setState((state) => {
     const currentPost = state.posts.get(post.post.id);
     const moderated = useSiteStore.getState().moderatedIds;
     const userId =
       useSiteStore.getState().site?.my_user?.local_user_view.local_user.id;
 
-    if (currentPost != null) {
+    if (currentPost != null && screenId != null) {
       currentPost.usedBy.push(screenId);
     } else {
       state.posts.set(post.post.id, {
         view: post,
-        usedBy: [screenId],
+        usedBy: screenId != null ? [screenId] : [],
         linkType: getLinkType(post.post.url),
         bodyPreview: truncateText(post.post.body, 200),
         moderates: moderated?.includes(post.post.community_id) ?? false,

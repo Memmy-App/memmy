@@ -2156,6 +2156,11 @@
     prompts "^2.4.0"
     semver "^7.5.2"
 
+"@react-native-picker/picker@^2.5.1":
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-2.5.1.tgz#dfa13d5b97bfbedf1f7e7c608181a82f1d58b351"
+  integrity sha512-/sADUfQsosMRYtrqqL3ZYZSECRygj0fXtpRLqxJfwuMEoqfvfn40756R6B1alzusVvDRZFI0ari0iQid56hA/Q==
+
 "@react-native/assets-registry@^0.72.0":
   version "0.72.0"
   resolved "https://registry.yarnpkg.com/@react-native/assets-registry/-/assets-registry-0.72.0.tgz#c82a76a1d86ec0c3907be76f7faf97a32bbed05d"
@@ -2480,7 +2485,7 @@
     "@tamagui/web" "1.74.19"
     moti "^0.25.3"
 
-"@tamagui/animations-react-native@1.74.19":
+"@tamagui/animations-react-native@1.74.19", "@tamagui/animations-react-native@^1.74.19":
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/animations-react-native/-/animations-react-native-1.74.19.tgz#9a0ef2fff854723231a0007b8451206124047d90"
   integrity sha512-c3SOczPfmVgnQ3U24DUXQSt/BTxgnb/q9e2FlStD4tqPuw9xPK+RezVOstaoSurpo3YK8o3cx74evs8AppZY5A==

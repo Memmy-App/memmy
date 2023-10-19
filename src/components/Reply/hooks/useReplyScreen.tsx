@@ -8,7 +8,6 @@ import React, {
 } from 'react';
 import { ITextSelection, useLoadData } from '@src/hooks';
 import {
-  Button,
   NativeSyntheticEvent,
   TextInput,
   TextInputSelectionChangeEventData,
@@ -26,6 +25,7 @@ import { CommentResponse } from 'lemmy-js-client';
 import instance from '@src/Instance';
 import { setNewCommentId } from '@src/state/app/actions';
 import { IBackEvent } from '@src/types/IBackEventArgs';
+import HeaderButton from '@components/Common/Button/HeaderButton';
 
 interface UseReplyScreen {
   text: string;
@@ -79,7 +79,7 @@ export const useReplyScreen = (isEdit = false): UseReplyScreen => {
       headerTitle:
         type === 'comment' ? 'Replying to Comment' : 'Replying to Post',
       headerLeft: () => (
-        <Button
+        <HeaderButton
           title="Back"
           onPress={() => {
             navigation.pop();
@@ -100,7 +100,9 @@ export const useReplyScreen = (isEdit = false): UseReplyScreen => {
     const unsubsribe = navigation.addListener('beforeRemove', beforeRemove);
 
     navigation.setOptions({
-      headerRight: () => <Button title="Submit" onPress={onSubmitPress} />,
+      headerRight: () => (
+        <HeaderButton title="Submit" onPress={onSubmitPress} />
+      ),
     });
 
     return unsubsribe;
@@ -120,7 +122,7 @@ export const useReplyScreen = (isEdit = false): UseReplyScreen => {
     }
   };
 
-  const onSubmitPress = useCallback(() => {
+  const onSubmitPress = (): void => {
     submit(async () => {
       const res = await instance.createComment(
         postId ?? commentPostId,
@@ -137,7 +139,7 @@ export const useReplyScreen = (isEdit = false): UseReplyScreen => {
 
       return res;
     });
-  }, [text]);
+  };
 
   const onSelectionChange = useCallback(
     (e: NativeSyntheticEvent<TextInputSelectionChangeEventData>) => {

@@ -32,7 +32,7 @@ import IGetPostOptions from '@api/common/types/IGetPostOptions';
 import { useSettingsStore } from '@src/state/settings/settingsStore';
 import { usePostStore } from '@src/state/post/postStore';
 import { buildCommentChains } from '@helpers/comments';
-import { addCommentsToPost, addPosts } from '@src/state/post/actions';
+import { addCommentsToPost, addPost, addPosts } from '@src/state/post/actions';
 import {
   addComment,
   addComments,
@@ -627,12 +627,21 @@ class ApiInstance {
         auth: this.authToken!,
       };
 
+      options = {
+        ...defaultOptions,
+        ...options,
+      };
+
       const res = await this.instance?.createPost(options as CreatePost);
 
       if (res == null) {
         const errMsg = ApiInstance.handleError('unknown');
         throw new Error(errMsg);
       }
+
+      addPost(res.post_view);
+
+      return res;
     } catch (e: any) {
       ApiInstance.handleError(e.toString());
       return undefined;

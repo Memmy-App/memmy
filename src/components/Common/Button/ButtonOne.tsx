@@ -16,6 +16,7 @@ interface IProps {
   disabled?: boolean;
   fontSize?: Variable<any> | FontSizeTokens;
   backgroundColor?: string;
+  width?: number;
 }
 
 function ButtonOne({
@@ -25,6 +26,7 @@ function ButtonOne({
   disabled,
   fontSize = '$3',
   backgroundColor = '$bg',
+  width,
 }: IProps): React.JSX.Element {
   const scale = useSharedValue(1);
 
@@ -70,10 +72,11 @@ function ButtonOne({
         onPressIn={onTapBegin}
         onPressOut={onTapEnd}
         disabled={disabled}
+        width={width}
       >
         <HStack space="$2" alignItems="center" flex={1}>
           {Icon}
-          <Text fontSize={fontSize} margin="auto">
+          <Text fontSize={fontSize} margin="auto" numberOfLines={1}>
             {label}
           </Text>
         </HStack>

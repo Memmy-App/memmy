@@ -15,6 +15,7 @@ import MainFeed from '@components/Feed/components/MainFeed';
 import CommentChainScreen from '@components/Comment/screens/CommentChainScreen';
 import ReplyScreen from '@components/Reply/screens/ReplyScreen';
 import ProfileScreen from '@components/Profile/screens/ProfileScreen';
+import NewPostScreen from '@components/NewPost/screens/NewPostScreen';
 
 export default function MainScreens(
   stack: TypedNavigator<
@@ -65,6 +66,11 @@ export default function MainScreens(
           name="Reply"
           component={ReplyScreen}
           options={{ gestureEnabled: false }}
+        />
+        <stack.Screen
+          name="NewPost"
+          component={NewPostScreen}
+          options={{ gestureEnabled: false, headerTitle: 'New Post' }}
         />
       </stack.Group>
     </>

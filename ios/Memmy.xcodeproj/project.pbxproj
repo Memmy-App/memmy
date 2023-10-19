@@ -377,7 +377,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gkasdorf.memmyapp;
-				PRODUCT_NAME = "Memmy";
+				PRODUCT_NAME = Memmy;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "Memmy/Memmy-Bridging-Header.h";
@@ -414,7 +414,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gkasdorf.memmyapp;
-				PRODUCT_NAME = "Memmy";
+				PRODUCT_NAME = Memmy;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "Memmy/Memmy-Bridging-Header.h";

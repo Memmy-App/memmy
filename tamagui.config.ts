@@ -20,6 +20,7 @@ const bodyFont = createInterFont({
     5: '500',
     6: '600',
     7: '700',
+    9: '900',
   },
   face: {
     300: { normal: 'InterLight', italic: 'InterLight-Italic' },
