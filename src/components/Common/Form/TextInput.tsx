@@ -1,3 +1,4 @@
+import React from 'react';
 import { Input, InputProps } from 'tamagui';
 import { useThemeColorScheme } from '@src/hooks';
 
@@ -14,7 +15,7 @@ import { useThemeColorScheme } from '@src/hooks';
 //   },
 // );
 
-export default function TextInput(props: InputProps) {
+export default function TextInput(props: InputProps): React.JSX.Element {
   const colorScheme = useThemeColorScheme();
 
   return (

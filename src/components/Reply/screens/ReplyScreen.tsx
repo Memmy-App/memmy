@@ -7,7 +7,6 @@ import VStack from '@components/Common/Stack/VStack';
 import { ScrollView as RNScrollView } from 'react-native';
 import KeyboardAccessoryView from '@components/Common/Keyboard/KeyboardAccesoryView';
 import { useReplyScreen } from '@components/Reply/hooks/useReplyScreen';
-import { useThemeColorScheme } from '@src/hooks';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 import TextInput from '@components/Common/Form/TextInput';
 
@@ -23,7 +22,6 @@ export default function ReplyScreen({
   const { commentId, postId, edit } = route.params;
 
   const replyScreen = useReplyScreen(edit);
-  const colorScheme = useThemeColorScheme();
 
   const viewRef = useRef<RNScrollView>();
 

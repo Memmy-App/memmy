@@ -12,10 +12,12 @@ export type AppIconType =
   | 'pride_new_icon'
   | 'trans_pride_icon';
 
-export const appIconOptions: Record<
-  AppIconType,
-  { display: string, path: any, }
-> = {
+interface AppIconInfo {
+  display: string;
+  path: any;
+}
+
+export const appIconOptions: Record<AppIconType, AppIconInfo> = {
   AppIcon: {
     display: 'Purple (Default)',
     path: require('../../assets/icons/purple_small.png'),

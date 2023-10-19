@@ -27,14 +27,14 @@ import ImageViewerFooter from '@components/Common/ImageViewer/ImageViewerFooter'
 
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
-interface MeasureResult {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  px: number;
-  py: number;
-}
+// interface MeasureResult {
+//   x: number;
+//   y: number;
+//   width: number;
+//   height: number;
+//   px: number;
+//   py: number;
+// }
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } =
   RNDimensions.get('screen');
@@ -64,8 +64,8 @@ function ImageViewer(): React.JSX.Element {
   const lastTranslateX = useSharedValue(0);
   const lastTranslateY = useSharedValue(0);
 
-  const height = useSharedValue(0);
-  const width = useSharedValue(0);
+  // const height = useSharedValue(0);
+  // const width = useSharedValue(0);
 
   const lastTap = useSharedValue(Date.now());
 
@@ -79,14 +79,14 @@ function ImageViewer(): React.JSX.Element {
     [viewerDims],
   );
 
-  const initialPos = useSharedValue<MeasureResult>({
-    x: 0,
-    y: 0,
-    height: 0,
-    width: 0,
-    py: 0,
-    px: 0,
-  });
+  // const initialPos = useSharedValue<MeasureResult>({
+  //   x: 0,
+  //   y: 0,
+  //   height: 0,
+  //   width: 0,
+  //   py: 0,
+  //   px: 0,
+  // });
 
   const onRequestOpenOrClose = useCallback((): void => {
     if (imageViewer.setVisible == null) return;

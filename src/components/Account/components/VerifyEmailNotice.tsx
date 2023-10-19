@@ -10,6 +10,10 @@ interface IProps {
   doSignup: () => void;
 }
 
+const openEmail = (): void => {
+  void Linking.openURL('message://');
+};
+
 export default function VerifyEmailNotice({
   signup,
   doSignup,
@@ -23,10 +27,7 @@ export default function VerifyEmailNotice({
         An email has been sent to you to verify your email address. Once you
         have done so, press Get Started.
       </Text>
-      <Button
-        onPress={async () => await Linking.openURL('message://')}
-        disabled={signup.loading}
-      >
+      <Button onPress={openEmail} disabled={signup.loading}>
         Open Mail
       </Button>
       <Button onPress={doSignup} disabled={signup.loading}>

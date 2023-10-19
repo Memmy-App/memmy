@@ -70,7 +70,7 @@ export default function SearchResultsScreen({
 
   const [nextPage, setNextPage] = useState(1);
 
-  const [resultType, setResultType] = useState<ResultType>('All');
+  const [resultType /* setResultType */] = useState<ResultType>('All');
 
   const { isLoading, isError, append, data } = useLoadData<ResponseType[]>(
     async (): Promise<ResponseType[]> => {
