@@ -9,15 +9,19 @@ import { Text, View } from 'tamagui';
 import { getBaseUrl } from '@helpers/links';
 import {
   addOrUpdateFavorite,
+  setDrawerOpen,
   useAccountFavorites,
   useCurrentAccount,
 } from '@src/state';
+import { NavigationContainerRefWithCurrent } from '@react-navigation/core';
+import { createName } from '@helpers/text';
 
 interface IProps {
   view: CommunityView;
+  navigation: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
 }
 
-function DrawerItem({ view }: IProps): React.JSX.Element {
+function DrawerItem({ view, navigation }: IProps): React.JSX.Element {
   // const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const currentAccount = useCurrentAccount();
@@ -31,7 +35,11 @@ function DrawerItem({ view }: IProps): React.JSX.Element {
   );
 
   const onCommunityPress = useCallback(() => {
-    // navigation.navigate('Community', { id: view.community.id });
+    setDrawerOpen(false);
+    navigation.navigate('Community', {
+      name: createName(view.community.name, view.community.actor_id, true),
+      id: view.community.id,
+    });
   }, [view]);
 
   const onFavoritePress = useCallback(() => {

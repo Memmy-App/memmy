@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useSubscriptions } from '@src/state';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { CommunityView } from 'lemmy-js-client';
@@ -7,6 +7,7 @@ import VStack from '@components/Common/Stack/VStack';
 import { Separator } from 'tamagui';
 import { addAlphabeticalLabels } from '@src/helpers';
 import DrawerLabel from '@components/Common/Drawer/DrawerLabel';
+import { NavigationContainerRefWithCurrent } from '@react-navigation/core';
 
 const getItemType = (item: CommunityView | string): 'community' | 'label' => {
   if ((item as CommunityView).community != null) {
@@ -15,19 +16,6 @@ const getItemType = (item: CommunityView | string): 'community' | 'label' => {
     return 'label';
   }
 };
-
-const renderItem = ({
-  item,
-}: ListRenderItemInfo<CommunityView | string>): React.JSX.Element => {
-  const itemType = getItemType(item);
-
-  if (itemType === 'community') {
-    return <DrawerItem view={item as CommunityView} />;
-  } else {
-    return <DrawerLabel char={item as string} />;
-  }
-};
-
 const keyExtractor = (item: CommunityView | string): string => {
   const itemType = getItemType(item);
 
@@ -36,12 +24,33 @@ const keyExtractor = (item: CommunityView | string): string => {
   else return item as string;
 };
 
-export default function Drawer(): React.JSX.Element {
+interface IProps {
+  navigation: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
+}
+
+export default function Drawer({ navigation }: IProps): React.JSX.Element {
   const subscriptions = useSubscriptions();
 
   const subscriptionsWithLabels = useMemo(
     () => addAlphabeticalLabels(subscriptions),
     [subscriptions],
+  );
+
+  const renderItem = useCallback(
+    ({
+      item,
+    }: ListRenderItemInfo<CommunityView | string>): React.JSX.Element => {
+      const itemType = getItemType(item);
+
+      if (itemType === 'community') {
+        return (
+          <DrawerItem view={item as CommunityView} navigation={navigation} />
+        );
+      } else {
+        return <DrawerLabel char={item as string} />;
+      }
+    },
+    [],
   );
 
   return (
