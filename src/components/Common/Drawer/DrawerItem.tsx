@@ -7,8 +7,11 @@ import { Globe, Star, StarOff } from '@tamagui/lucide-icons';
 import HStack from '@components/Common/Stack/HStack';
 import { Text, View } from 'tamagui';
 import { getBaseUrl } from '@helpers/links';
-import { useCurrentAccount } from '@src/state/account/accountStore';
-import { addOrUpdateFavorite, useAccountFavorites } from '@src/state';
+import {
+  addOrUpdateFavorite,
+  useAccountFavorites,
+  useCurrentAccount,
+} from '@src/state';
 
 interface IProps {
   view: CommunityView;

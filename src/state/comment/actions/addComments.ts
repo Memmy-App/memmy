@@ -1,7 +1,5 @@
 import { CommentView } from 'lemmy-js-client';
-import { useCommentStore } from '@src/state/comment/commentStore';
-import { useSiteStore } from '@src/state/site/siteStore';
-import { usePostStore } from '@src/state/post/postStore';
+import { useCommentStore, usePostStore, useSiteStore } from '@src/state';
 
 export const addComment = (comment: CommentView): void => {
   const pathArr = comment.comment.path.split('.');

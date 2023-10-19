@@ -14,9 +14,8 @@ import CommunitySearchResult from '@components/Search/components/CommunitySearch
 import PersonSearchResult from '@components/Search/components/PersonSearchResult';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
 import { cleanupPosts } from '@helpers/state';
-import { addPosts } from '@src/state/post/actions';
+import { addComments, addPosts } from '@src/state';
 import FeedItem from '@components/Feed/components/Feed/FeedItem';
-import { addComments } from '@src/state/comment/actions';
 import Comment from '@components/Comment/components/Comment';
 
 interface IProps {

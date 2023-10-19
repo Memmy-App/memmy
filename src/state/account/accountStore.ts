@@ -22,7 +22,8 @@ export const useAccountStore = create(
   ),
 );
 
-export const useAccounts = (): IAccount[] => useAccountStore((state) => state.accounts);
+export const useAccounts = (): IAccount[] =>
+  useAccountStore((state) => state.accounts);
 
 export const useCurrentAccount = (): IAccount | null =>
   useAccountStore((state) => state.currentAccount);

@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useRef } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import VStack from '@components/Common/Stack/VStack';
 import { ICommentInfo } from '@src/types';
-import { usePostCommentsInfo } from '@src/state/post/postStore';
+import { usePostCommentsInfo } from '@src/state';
 import { FlatList, ListRenderItemInfo } from 'react-native';
 import CommentChain from '@components/Comment/components/CommentChain';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
@@ -16,7 +16,6 @@ interface IProps {
 const keyExtractor = (item: ICommentInfo): string => item.commentId.toString();
 
 export default function CommentChainScreen({
-  navigation,
   route,
 }: IProps): React.JSX.Element {
   const params = route.params;

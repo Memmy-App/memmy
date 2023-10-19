@@ -1,10 +1,8 @@
 import { PostView } from 'lemmy-js-client';
-import { usePostStore } from '@src/state/post/postStore';
+import { useFeedStore, usePostStore, useSiteStore } from '@src/state';
 import { getLinkType } from '@helpers/links/getLinkType';
 import { truncateText } from '@helpers/text';
-import { useFeedStore } from '@src/state/feed/feedStore';
 import { cacheImages } from '@helpers/image';
-import { useSiteStore } from '@src/state/site/siteStore';
 
 export const addPost = (post: PostView, screenId?: string): void => {
   usePostStore.setState((state) => {

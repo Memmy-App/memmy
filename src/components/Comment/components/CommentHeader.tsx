@@ -5,7 +5,7 @@ import {
   useCommentCreatorActorId,
   useCommentCreatorAvatar,
   useCommentCreatorName,
-} from '@src/state/comment/commentStore';
+} from '@src/state';
 import CommentMetrics from '@components/Comment/components/CommentMetrics';
 import CommentEllipsisButton from '@components/Comment/components/CommentEllipsisButton';
 import { View } from 'tamagui';

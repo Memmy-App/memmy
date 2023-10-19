@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useSubscriptions } from '@src/state/site/siteStore';
+import { useSubscriptions } from '@src/state';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { CommunityView } from 'lemmy-js-client';
 import DrawerItem from '@components/Common/Drawer/DrawerItem';

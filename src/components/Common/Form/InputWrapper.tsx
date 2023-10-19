@@ -6,11 +6,5 @@ interface IProps {
 }
 
 export default function InputWrapper({ children }: IProps): React.JSX.Element {
-  return (
-    <VStack
-      space="$1"
-    >
-      {children}
-    </VStack>
-  );
+  return <VStack space="$1">{children}</VStack>;
 }

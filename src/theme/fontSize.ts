@@ -31,7 +31,7 @@ export function createFontSizes(modifier: number): IFontSizes {
     '7xl': 72 + modifier,
     '8xl': 96 + modifier,
     '9xl': 128 + modifier,
-  }
+  };
 }
 
 export const fontSizeMap: Record<number, number> = {
@@ -42,28 +42,28 @@ export const fontSizeMap: Record<number, number> = {
   5: 1,
   6: 2,
   7: 3,
-}
+};
 
 export const FontWeightMap: Record<string, string> = {
   'Regular (Default)': 'normal',
   Medium: 'medium',
   'Semi-Bold': 'semibold',
   Bold: 'bold',
-}
+};
 
 function getFontScale(): IFontSizes | null {
   // TODO Use settings for these values
   // const { fontSize, isSystemTextSize } = useSettingsStore.getState();
 
-  const fontSize = 4
-  const isSystemTextSize = false
+  const fontSize = 4;
+  const isSystemTextSize = false;
 
-  const fontSizes = createFontSizes(fontSizeMap[fontSize])
+  const fontSizes = createFontSizes(fontSizeMap[fontSize]);
 
   if (!isSystemTextSize) {
-    return fontSizes
+    return fontSizes;
   }
-  return null
+  return null;
 }
 
-export default getFontScale
+export default getFontScale;

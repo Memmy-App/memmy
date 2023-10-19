@@ -2,10 +2,8 @@ import { useLoadData } from '@src/hooks';
 import { GetCommunityResponse } from 'lemmy-js-client';
 import instance from '@src/Instance';
 import { useNavigation, useRoute } from '@react-navigation/core';
-import { useCommunityName } from '@src/state/community/communityStore';
+import { setNewPostId, useCommunityName, useNewPostId } from '@src/state';
 import { useEffect } from 'react';
-import { setNewPostId } from '@src/state/app/actions';
-import { useNewPostId } from '@src/state/app/appStore';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface UseCommunityFeed {

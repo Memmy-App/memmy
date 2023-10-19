@@ -8,12 +8,13 @@ interface IProps {
   route: any;
 }
 
-export default function CreateAccountModal({ navigation, route }: IProps): React.JSX.Element {
+export default function CreateAccountModal({
+  navigation,
+  route,
+}: IProps): React.JSX.Element {
   return (
     <VStack>
-      <P1>
-        Hello!
-      </P1>
+      <P1>Hello!</P1>
     </VStack>
   );
 }

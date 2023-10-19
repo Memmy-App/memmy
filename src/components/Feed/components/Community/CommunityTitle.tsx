@@ -3,7 +3,7 @@ import {
   useCommunityActorId,
   useCommunityDisplayName,
   useCommunityName,
-} from '@src/state/community/communityStore';
+} from '@src/state';
 import { createFullName } from '@helpers/text';
 import VStack from '@components/Common/Stack/VStack';
 import { Text } from 'tamagui';

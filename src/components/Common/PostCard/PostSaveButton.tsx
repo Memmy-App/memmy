@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
 import { Bookmark } from '@tamagui/lucide-icons';
-import { usePostSaved } from '@src/state/post/postStore';
+import { usePostSaved } from '@src/state';
 
 interface IProps {
   itemId: number;

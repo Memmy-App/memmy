@@ -19,9 +19,8 @@ import { useThemeSettings } from '@hooks/useThemeSettings';
 import AppToast from '@components/Common/Toast/AppToast';
 
 import { Drawer as RNDrawer } from 'react-native-drawer-layout';
-import { useDrawerOpen } from '@src/state/app/appStore';
-import { setDrawerOpen } from '@src/state/app/actions';
 import Drawer from '@components/Common/Drawer/Drawer';
+import { setDrawerOpen, useDrawerOpen } from '@src/state';
 
 if (__DEV__) {
   require('./ReactotronConfig');
@@ -63,6 +62,7 @@ export default function App(): React.JSX.Element | null {
     >
       <GestureHandlerRootView style={{ flex: 1 }}>
         <TamaguiProvider config={tguiConfig}>
+          {/* @ts-expect-error - valid */}
           <Theme name={themeSettings.theme}>
             <PartTwo />
           </Theme>

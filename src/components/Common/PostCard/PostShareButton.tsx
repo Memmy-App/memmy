@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { usePostActorId, usePostLink } from '@src/state/post/postStore';
+import { usePostActorId, usePostLink } from '@src/state';
 import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
 import { Share } from '@tamagui/lucide-icons';
 import { openLink } from '@helpers/links';

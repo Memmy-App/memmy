@@ -7,10 +7,9 @@ import ColorPicker, {
   Preview,
   returnedResults,
 } from 'reanimated-color-picker';
-import { useAccent } from '@src/state/settings/settingsStore';
+import { setSetting, useAccent } from '@src/state';
 import { Spacer, Text, useTheme } from 'tamagui';
 import HStack from '@components/Common/Stack/HStack';
-import { setSetting } from '@src/state/settings/actions';
 
 export default function SettingsAccentScreen({
   navigation,
@@ -21,7 +20,7 @@ export default function SettingsAccentScreen({
   const [hex, setHex] = useState(accent ?? theme.accent.val);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+    const unsubscribe = navigation.addListener('beforeRemove', () => {
       setSetting('accentColor', hex);
     });
 

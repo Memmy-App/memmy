@@ -1,13 +1,11 @@
 import React, { useCallback } from 'react';
 import { Text, View } from 'tamagui';
-import { useSettingsStore } from '@src/state/settings/settingsStore';
+import { setToast, usePostTitle, useSettingsStore } from '@src/state';
 import VStack from '@components/Common/Stack/VStack';
 import HStack from '@components/Common/Stack/HStack';
 import PostCommunityLabel from '@components/Common/PostCard/PostCommunityLabel';
 import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
 import { CheckCircle, CircleEllipsis } from '@tamagui/lucide-icons';
-import { usePostTitle } from '@src/state/post/postStore';
-import { setToast } from '@src/state/app/actions';
 
 interface IProps {
   itemId: number;

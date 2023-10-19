@@ -1,5 +1,5 @@
 import { IAccount } from '@src/types';
-import { useDraftStore } from '@src/state/draft/draftStore';
+import { useDraftStore } from '@src/state';
 
 export const deleteCommentDraft = (
   postId: number,

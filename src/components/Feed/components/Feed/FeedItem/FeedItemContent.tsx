@@ -6,7 +6,7 @@ import {
   usePostLinkType,
   usePostNsfw,
   usePostTitle,
-} from '@src/state/post/postStore';
+} from '@src/state';
 import { View } from 'tamagui';
 import Markdown from '@components/Common/Markdown/Markdown';
 import ViewerImage from '@components/Common/ImageViewer/ViewerImage';

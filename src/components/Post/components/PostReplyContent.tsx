@@ -2,7 +2,7 @@ import React from 'react';
 import VStack from '@components/Common/Stack/VStack';
 import HStack from '@components/Common/Stack/HStack';
 import PostUserLabel from '@components/Common/PostCard/PostUserLabel';
-import { usePostBody, usePostCreator } from '@src/state/post/postStore';
+import { usePostBody, usePostCreator } from '@src/state';
 import PostMetrics from '@components/Common/PostCard/PostMetrics';
 import Markdown from '@components/Common/Markdown/Markdown';
 import FeedItemHeader from '@components/Feed/components/Feed/FeedItem/FeedItemHeader';

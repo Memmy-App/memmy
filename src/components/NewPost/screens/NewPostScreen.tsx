@@ -15,7 +15,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import ButtonOne from '@components/Common/Button/ButtonOne';
-import { useSiteLanguages } from '@src/state/site/siteStore';
+import { useSiteLanguages } from '@src/state';
 import { ScrollView as RNScrollView } from 'react-native';
 
 export default function NewPostScreen(): React.JSX.Element {

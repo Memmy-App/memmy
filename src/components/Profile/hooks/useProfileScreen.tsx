@@ -2,10 +2,8 @@ import { useRoute } from '@react-navigation/core';
 import { useLoadData } from '@src/hooks';
 import instance from '@src/Instance';
 import { GetPersonDetailsResponse } from 'lemmy-js-client';
-import React, { useEffect, useState } from 'react';
-import { removeProfile } from '@src/state/profile/actions/removeProfile';
-import { useCurrentAccount } from '@src/state/account/accountStore';
-import { addProfile } from '@src/state/profile/actions';
+import { useEffect, useState } from 'react';
+import { addProfile, removeProfile, useCurrentAccount } from '@src/state';
 
 interface UseProfileScreen {
   isLoading: boolean;

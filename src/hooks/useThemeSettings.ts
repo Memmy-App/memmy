@@ -4,7 +4,7 @@ import {
   useLightTheme,
   useMatchSystemTheme,
   useRegularTheme,
-} from '@src/state/settings/settingsStore';
+} from '@src/state';
 import { useColorScheme } from 'react-native';
 import {
   updateTheme,

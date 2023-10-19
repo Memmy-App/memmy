@@ -1,6 +1,6 @@
 import React from 'react';
 import { useProfileScreenContext } from '@components/Profile/screens/ProfileScreen';
-import { useProfileComments } from '@src/state/profile/profileStore';
+import { useProfileComments } from '@src/state';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { CommentView } from 'lemmy-js-client';
 import Comment from '@components/Comment/components/Comment';

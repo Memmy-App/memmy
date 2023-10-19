@@ -1,4 +1,4 @@
-import { useAccountStore } from '@src/state/account/accountStore';
+import { useAccountStore } from '@src/state';
 import { IAccount } from '@src/types';
 
 export const addAccount = (account: IAccount): void => {

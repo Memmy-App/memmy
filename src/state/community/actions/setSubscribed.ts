@@ -1,4 +1,4 @@
-import { useCommunityStore } from '@src/state/community/communityStore';
+import { useCommunityStore } from '@src/state';
 import { SubscribedType } from 'lemmy-js-client';
 
 export const setSubscribed = (

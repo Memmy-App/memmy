@@ -1,5 +1,5 @@
 import { CommunityView } from 'lemmy-js-client';
-import { useSiteStore } from '@src/state/site';
+import { useSiteStore } from '@src/state';
 
 export const setSubscriptions = (subscriptions: CommunityView[]): void => {
   const sorted = subscriptions.sort((a, b) =>

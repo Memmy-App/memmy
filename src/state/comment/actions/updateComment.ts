@@ -1,4 +1,4 @@
-import { useCommentStore } from '@src/state/comment/commentStore';
+import { useCommentStore } from '@src/state';
 import { CommentView } from 'lemmy-js-client';
 
 export const updateComment = (comment: CommentView): void => {

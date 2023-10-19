@@ -1,4 +1,4 @@
-import { useSettingsStore } from '@src/state/settings/settingsStore';
+import { useSettingsStore } from '@src/state';
 import { getBaseUrl } from '@helpers/links';
 
 export const createName = (

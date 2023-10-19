@@ -5,7 +5,7 @@ import {
   usePostLink,
   usePostLinkType,
   usePostNsfw,
-} from '@src/state/post/postStore';
+} from '@src/state';
 import { useRoute } from '@react-navigation/core';
 import { View } from 'tamagui';
 import ViewerImage from '@components/Common/ImageViewer/ViewerImage';

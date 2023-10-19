@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRoute } from '@react-navigation/core';
-import { usePostTitle } from '@src/state/post/postStore';
+import { usePostTitle } from '@src/state';
 import PostCommunityLabel from '@components/Common/PostCard/PostCommunityLabel';
 import { Text } from 'tamagui';
 import VStack from '@components/Common/Stack/VStack';

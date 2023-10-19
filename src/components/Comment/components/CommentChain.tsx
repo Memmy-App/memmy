@@ -1,10 +1,9 @@
 import React, { useCallback } from 'react';
 import { ICommentInfo } from '@src/types';
 import { PressableComment } from '@components/Comment/components/Comment';
-import { setPostCommentHidden } from '@src/state/post/actions/setPostCommentHidden';
 import CommentShowMoreButton from '@components/Comment/components/CommentShowMoreButton';
-import { useCommentGesturesCollapse } from '@src/state/settings/settingsStore';
 import { useCommentSwipeOptions } from '@components/Common/SwipeableRow/hooks/useCommentSwipeOptions';
+import { setPostCommentHidden, useCommentGesturesCollapse } from '@src/state';
 
 interface IProps {
   commentInfo: ICommentInfo;

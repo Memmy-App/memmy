@@ -6,11 +6,7 @@ import {
   Clock,
   MessageSquare,
 } from '@tamagui/lucide-icons';
-import {
-  usePostCommentCount,
-  usePostCounts,
-  usePostMyVote,
-} from '@src/state/post/postStore';
+import { usePostCommentCount, usePostCounts, usePostMyVote } from '@src/state';
 import { Text } from 'tamagui';
 
 interface IProps {

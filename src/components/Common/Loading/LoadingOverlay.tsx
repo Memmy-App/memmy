@@ -20,7 +20,7 @@ export default function LoadingOverlay({ visible }: IProps): React.JSX.Element {
         alignItems="center"
         justifyContent="center"
       >
-        <Spinner size="large" color="$accentHighlight"/>
+        <Spinner size="large" color="$accentHighlight" />
         <Text
           color="$accentHighlight"
           marginTop={10}

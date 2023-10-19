@@ -1,5 +1,5 @@
 import { ICommentInfo } from '@src/types';
-import { usePostStore } from '@src/state/post/postStore';
+import { usePostStore } from '@src/state';
 
 export const setPostCommentHidden = (
   commentInfo: ICommentInfo,

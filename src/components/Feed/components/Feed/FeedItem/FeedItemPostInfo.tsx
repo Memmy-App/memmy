@@ -1,7 +1,7 @@
 import React from 'react';
 import PostUserLabel from '@components/Common/PostCard/PostUserLabel';
 import VStack from '@components/Common/Stack/VStack';
-import { usePostCreator } from '@src/state/post/postStore';
+import { usePostCreator } from '@src/state';
 import PostMetrics from '@components/Common/PostCard/PostMetrics';
 
 interface IProps {

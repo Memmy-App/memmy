@@ -6,13 +6,12 @@ import {
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Tabs from '@components/Navigation/Tabs';
-import { useAccounts } from '@src/state/account/accountStore';
+import { useAccent, useAccounts } from '@src/state';
 import OnboardingIndexScreen from '@components/Onboarding/OnboardingIndex/OnboardingIndexScreen';
 import OnboardingInstanceListScreen from '@components/Onboarding/OnboardingInstanceList/OnboardingInstanceListScreen';
 import CreateAccountModal from '@components/Account/CreateAccountModal';
 import AddAccountModal from '@components/Account/AddAccountModal';
 import { useTheme } from 'tamagui';
-import { useAccent } from '@src/state/settings/settingsStore';
 
 const Stack = createNativeStackNavigator();
 

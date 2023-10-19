@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useCurrentAccount } from '@src/state/account/accountStore';
+import { useCurrentAccount, useSiteStore } from '@src/state';
 import { IAccount } from '@src/types';
 import instance from '@src/Instance';
 import LoadingModal from '@components/Common/Loading/LoadingModal';
 import { Alert } from 'react-native';
-import { useSiteStore } from '@src/state/site/siteStore';
 import MainFeed from '@components/Feed/components/MainFeed';
 
 export default function FeedIndexScreen(): React.JSX.Element {

@@ -1,7 +1,4 @@
-import {
-  SettingsStore,
-  useSettingsStore,
-} from '@src/state/settings/settingsStore';
+import { SettingsStore, useSettingsStore } from '@src/state';
 
 export const setSetting = <T extends keyof SettingsStore>(
   setting: T,

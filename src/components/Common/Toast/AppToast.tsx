@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useToast } from '@src/state/app/appStore';
+import { setToast, useToast } from '@src/state';
 import { styled, Text, useTheme } from 'tamagui';
 import Animated, {
   useAnimatedStyle,
@@ -8,7 +8,6 @@ import Animated, {
 } from 'react-native-reanimated';
 import VStack from '@components/Common/Stack/VStack';
 import { StyleSheet } from 'react-native';
-import { setToast } from '@src/state/app/actions';
 import HStack from '@components/Common/Stack/HStack';
 
 export default function AppToast(): React.JSX.Element {

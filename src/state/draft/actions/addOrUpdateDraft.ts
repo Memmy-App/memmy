@@ -1,4 +1,4 @@
-import { DraftState, useDraftStore } from '@src/state/draft/draftStore';
+import { DraftState, useDraftStore } from '@src/state';
 
 export const addOrUpdateDraft = (draftState: DraftState): void => {
   useDraftStore.setState((state) => {

@@ -3,7 +3,7 @@ import { useProfileScreenContext } from '@components/Profile/screens/ProfileScre
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import FeedItem from '@components/Feed/components/Feed/FeedItem';
 import { PostView } from 'lemmy-js-client';
-import { useProfilePosts } from '@src/state/profile/profileStore';
+import { useProfilePosts } from '@src/state';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
 import { useTheme } from 'tamagui';
 

@@ -3,7 +3,7 @@ import {
   useCommentMyVote,
   useCommentScore,
   useCommentUpvotes,
-} from '@src/state/comment/commentStore';
+} from '@src/state';
 import { useCallback } from 'react';
 import instance from '@src/Instance';
 import { playHaptic } from '@helpers/haptics';

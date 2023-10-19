@@ -1,5 +1,4 @@
-import { usePostStore } from '@src/state/post/postStore';
-import { useCommentStore } from '@src/state/comment/commentStore';
+import { useCommentStore, usePostStore } from '@src/state';
 
 export const removePost = (
   postId: number,

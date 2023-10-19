@@ -1,5 +1,5 @@
 import { IHapticStrengthOption } from '@src/types/options';
-import { useSettingsStore } from '@src/state/settings/settingsStore';
+import { useSettingsStore } from '@src/state';
 import { trigger } from 'react-native-haptic-feedback';
 
 const hapticOptions = {

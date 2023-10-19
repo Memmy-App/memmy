@@ -1,9 +1,6 @@
 import React, { useCallback } from 'react';
 import { useImageViewer } from '@components/Common/ImageViewer/ImageViewerProvider';
-import {
-  saveImageDimensions,
-  useImageSavedDimensions,
-} from '@src/state/image/imageStore';
+import { saveImageDimensions, useImageSavedDimensions } from '@src/state';
 import { IDimensions } from '@src/types';
 import { Image, ImageLoadEventData } from 'expo-image';
 import { Pressable } from 'react-native';

@@ -4,7 +4,7 @@ import {
   usePostLink,
   usePostNsfw,
   usePostThumbnail,
-} from '@src/state/post/postStore';
+} from '@src/state';
 import { Separator, Text, View } from 'tamagui';
 import { Image } from 'expo-image';
 import HStack from '@components/Common/Stack/HStack';

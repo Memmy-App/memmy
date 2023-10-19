@@ -3,11 +3,11 @@ import { createContextMenuOptionsFromStrings } from '@helpers/contextMenu';
 import { ScrollView } from 'tamagui';
 import Table from '@components/Common/Table/Table';
 import { AppContextMenuButton } from '@components/Common/ContextMenu/AppContextMenuButton';
-import { useSettingsStore } from '@src/state/settings/settingsStore';
 import {
   setCommentGestureSetting,
   setPostGestureSetting,
-} from '@src/state/settings/actions';
+  useSettingsStore,
+} from '@src/state';
 import { capitalizeFirstLetter } from '@helpers/text';
 import { commentGestureOptions, postGestureOptions } from '@src/types';
 import { LayoutAnimation, Switch } from 'react-native';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { MdToken } from '@src/types';
 import { Text } from 'tamagui';
-import { useSettingsStore } from '@src/state/settings/settingsStore';
+import { useSettingsStore } from '@src/state';
 import MdLink from '@components/Common/Markdown/components/MdLink';
 
 interface IProps {

@@ -10,19 +10,17 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   addOrUpdateDraft,
   deletePostDraft,
+  DraftState,
   getPostDraft,
-} from '@src/state/draft/actions';
-import { useCurrentAccount } from '@src/state/account/accountStore';
-import HeaderButton from '@components/Common/Button/HeaderButton';
-import { DraftState } from '@src/state/draft/draftStore';
-import { PostResponse } from 'lemmy-js-client';
-import instance from '@src/Instance';
-import {
+  setNewPostId,
+  useCommunityDefaultLanguage,
+  useCurrentAccount,
   useDefaultLanguage,
   useSiteDefaultLanguage,
-} from '@src/state/site/siteStore';
-import { useCommunityDefaultLanguage } from '@src/state/community/communityStore';
-import { setNewPostId } from '@src/state/app/actions';
+} from '@src/state';
+import HeaderButton from '@components/Common/Button/HeaderButton';
+import { PostResponse } from 'lemmy-js-client';
+import instance from '@src/Instance';
 
 interface UseNewPostScreen {
   text: string;

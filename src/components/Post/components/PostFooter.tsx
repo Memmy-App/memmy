@@ -3,7 +3,7 @@ import { useRoute } from '@react-navigation/core';
 import VStack from '@components/Common/Stack/VStack';
 import PostMetrics from '@components/Common/PostCard/PostMetrics';
 import PostUserLabel from '@components/Common/PostCard/PostUserLabel';
-import { usePostCreator } from '@src/state/post/postStore';
+import { usePostCreator } from '@src/state';
 
 function PostFooter(): React.JSX.Element {
   const { postId } = useRoute<any>().params;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import instance from '@src/Instance';
-import { addAccount } from '@src/state/account/actions';
+import { addAccount } from '@src/state';
 
 interface DoLoginOptions {
   instance: string;
@@ -11,11 +11,13 @@ interface DoLoginOptions {
   totpToken?: string;
 }
 
+interface LoginStatus {
+  loading: boolean;
+  error: boolean;
+}
+
 interface UseLogin {
-  status: {
-    loading: boolean,
-    error: boolean,
-  };
+  status: LoginStatus;
   doLogin: (options: DoLoginOptions) => Promise<void>;
 }
 

@@ -1,5 +1,4 @@
-import { useFeedStore } from '@src/state/feed/feedStore';
-import { removePost } from '@src/state/post/actions';
+import { removePost, useFeedStore } from '@src/state';
 
 export const cleanupPosts = (screenId: string): void => {
   const postIds = useFeedStore.getState().feeds.get(screenId)?.postIds ?? [];

@@ -2,10 +2,7 @@ import React from 'react';
 import ScrollView from '@components/Common/Gui/ScrollView';
 import Table from '@components/Common/Table/Table';
 import { Switch } from 'react-native';
-import {
-  IReadOptions,
-  useSettingsStore,
-} from '@src/state/settings/settingsStore';
+import { IReadOptions, useSettingsStore } from '@src/state';
 
 export default function SettingsReadScreen(): React.JSX.Element {
   const settings = useSettingsStore();

@@ -1,12 +1,8 @@
 import React from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import {
-  useAccounts,
-  useCurrentAccount,
-} from '@src/state/account/accountStore';
+import { deleteAccount, useAccounts, useCurrentAccount } from '@src/state';
 import ScrollView from '@components/Common/Gui/ScrollView';
 import Table from '@components/Common/Table/Table';
-import { deleteAccount } from '@src/state/account/actions';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;

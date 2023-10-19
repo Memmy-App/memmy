@@ -5,9 +5,9 @@ import { useImageViewer } from './ImageViewerProvider';
 import {
   saveImageDimensions,
   useImageSavedDimensions,
-} from '@src/state/image/imageStore';
+  useSettingsStore,
+} from '@src/state';
 import { getImageRatio } from '@helpers/image';
-import { useSettingsStore } from '@src/state/settings/settingsStore';
 import { Image, ImageLoadEventData } from 'expo-image';
 import { IDimensions } from '@src/types';
 

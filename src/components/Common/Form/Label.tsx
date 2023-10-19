@@ -13,10 +13,7 @@ interface IProps {
 
 export default function Label({ children, icon }: IProps): React.JSX.Element {
   return (
-    <HStack
-      space="$1"
-      alignItems="center"
-    >
+    <HStack space="$1" alignItems="center">
       {icon != null && icon}
       <StyledLabel>{children}</StyledLabel>
     </HStack>

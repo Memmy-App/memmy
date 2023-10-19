@@ -3,7 +3,7 @@ import { ScrollView } from 'tamagui';
 import Table from '@components/Common/Table/Table';
 import { appIconOptions } from '@src/types/AppIconType';
 import { Image } from 'expo-image';
-import { setSetting } from '@src/state/settings/actions';
+import { setSetting } from '@src/state';
 import { changeIcon } from 'react-native-change-icon';
 
 export default function SettingsIconScreen(): React.JSX.Element {

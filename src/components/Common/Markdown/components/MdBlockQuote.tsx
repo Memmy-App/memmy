@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from 'tamagui';
-import { useSettingsStore } from '@src/state/settings/settingsStore';
+import { useSettingsStore } from '@src/state';
 import HStack from '@components/Common/Stack/HStack';
 
 interface IProps {

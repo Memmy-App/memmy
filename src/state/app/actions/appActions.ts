@@ -1,4 +1,4 @@
-import { useAppStore } from '@src/state/app/appStore';
+import { useAppStore } from '@src/state';
 
 export const setNewPostId = (id?: number): void => {
   useAppStore.setState((state) => {

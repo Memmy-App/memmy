@@ -7,7 +7,7 @@ import {
   useProfileBio,
   useProfileCounts,
   useProfileName,
-} from '@src/state/profile/profileStore';
+} from '@src/state';
 import { Text, useTheme, View } from 'tamagui';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -31,7 +31,7 @@ const AnimatedAvatarPlaceholder = Animated.createAnimatedComponent(User);
 function ProfileHeader(): React.JSX.Element {
   const theme = useTheme();
 
-  const { profileId, contentOffsetY, isLoading } = useProfileScreenContext();
+  const { profileId, contentOffsetY } = useProfileScreenContext();
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 

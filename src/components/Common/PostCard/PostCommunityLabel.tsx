@@ -1,5 +1,11 @@
 import React, { useCallback, useMemo } from 'react';
-import { useSettingsStore } from '@src/state/settings/settingsStore';
+import {
+  usePostCommunityActorId,
+  usePostCommunityIcon,
+  usePostCommunityId,
+  usePostCommunityName,
+  useSettingsStore,
+} from '@src/state';
 import HStack from '@components/Common/Stack/HStack';
 import { Image } from 'expo-image';
 import { Globe } from '@tamagui/lucide-icons';
@@ -8,12 +14,6 @@ import { createName } from '@helpers/text';
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import {
-  usePostCommunityActorId,
-  usePostCommunityIcon,
-  usePostCommunityId,
-  usePostCommunityName,
-} from '@src/state/post/postStore';
 
 interface IProps {
   itemId: number;

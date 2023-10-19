@@ -1,4 +1,4 @@
-import { useAppStore } from '@src/state/app/appStore';
+import { useAppStore } from '@src/state';
 import { IToast } from '@src/types/IToast';
 
 const toastDefaults: Partial<IToast> = {

@@ -3,10 +3,7 @@ import { AppContextMenuButton } from '@components/Common/ContextMenu/AppContextM
 import { createCommentContextMenuOptions } from '@helpers/contextMenu';
 import { OnPressMenuItemEventObject } from 'react-native-ios-context-menu';
 import { useCommentContextMenu } from '@hooks/comments';
-import {
-  useCommentIsOwnComment,
-  useCommentModerates,
-} from '@src/state/comment/commentStore';
+import { useCommentIsOwnComment, useCommentModerates } from '@src/state';
 
 interface IProps {
   itemId: number;

@@ -1,5 +1,5 @@
 import { IAccount } from '@src/types';
-import { DraftState, useDraftStore } from '@src/state/draft/draftStore';
+import { DraftState, useDraftStore } from '@src/state';
 
 interface GetDraftOptions {
   forComment?: number;

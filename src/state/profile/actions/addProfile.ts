@@ -1,7 +1,5 @@
 import { GetPersonDetailsResponse } from 'lemmy-js-client';
-import { useProfileStore } from '@src/state/profile/profileStore';
-import { addPosts } from '@src/state/post/actions';
-import { addComments } from '@src/state/comment/actions';
+import { addComments, addPosts, useProfileStore } from '@src/state';
 
 export const addProfile = (
   profile: GetPersonDetailsResponse | undefined,

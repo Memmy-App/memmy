@@ -1,10 +1,13 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
+  setNewCommentId,
+  useDefaultCommentSort,
+  useNewCommentId,
   usePostCommentsInfo,
   usePostCounts,
   usePostLoaded,
-} from '@src/state/post/postStore';
+} from '@src/state';
 import LoadingModal from '@components/Common/Loading/LoadingModal';
 import VStack from '@components/Common/Stack/VStack';
 import Post from '@components/Post/components/Post';
@@ -15,11 +18,8 @@ import { useLoadData } from '@hooks/useLoadData';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { CommentSortType } from 'lemmy-js-client';
-import { useDefaultCommentSort } from '@src/state/settings/settingsStore';
 import { stripEss } from '@helpers/text';
 import CommentSortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/CommentSortTypeContextMenuButton';
-import { useNewCommentId } from '@src/state/app/appStore';
-import { setNewCommentId } from '@src/state/app/actions';
 import { useAwaitTransition } from '@hooks/useAwaitTransition';
 
 interface IProps {

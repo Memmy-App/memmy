@@ -11,7 +11,7 @@ import {
   useCommunityName,
   useCommunityNsfw,
   useCommunitySubscribed,
-} from '@src/state/community/communityStore';
+} from '@src/state';
 import { getBaseUrl } from '@helpers/links';
 import Animated, {
   Extrapolate,

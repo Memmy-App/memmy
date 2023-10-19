@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCommunityAggregates } from '@src/state/community/communityStore';
+import { useCommunityAggregates } from '@src/state';
 import HStack from '@components/Common/Stack/HStack';
 import { MessageCircle, StickyNote, User } from '@tamagui/lucide-icons';
 import { Text } from 'tamagui';

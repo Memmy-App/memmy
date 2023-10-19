@@ -1,7 +1,4 @@
-import {
-  IGestureCommentSettings,
-  useSettingsStore,
-} from '@src/state/settings/settingsStore';
+import { IGestureCommentSettings, useSettingsStore } from '@src/state';
 import { ICommentGestureOption } from '@src/types';
 
 export const setCommentGestureSetting = <

@@ -1,8 +1,7 @@
 import React from 'react';
 import { ScrollView } from 'tamagui';
 import Table from '@components/Common/Table/Table';
-import { useSettingsStore } from '@src/state/settings/settingsStore';
-import { setSetting } from '@src/state/settings/actions';
+import { setSetting, useSettingsStore } from '@src/state';
 import { AllThemeOptions, INavigationProps } from '@src/types';
 
 export default function SettingsAppearanceScreen({

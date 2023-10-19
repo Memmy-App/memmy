@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  useCommunityIcon,
-  useCommunityNsfw,
-} from '@src/state/community/communityStore';
+import { useCommunityIcon, useCommunityNsfw } from '@src/state';
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
 import { Globe } from '@tamagui/lucide-icons';

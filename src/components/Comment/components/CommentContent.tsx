@@ -3,7 +3,7 @@ import {
   useCommentContent,
   useCommentDeleted,
   useCommentRemoved,
-} from '@src/state/comment/commentStore';
+} from '@src/state';
 import Markdown from '@components/Common/Markdown/Markdown';
 import { Text } from 'tamagui';
 

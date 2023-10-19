@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { useSettingsStore } from '@src/state/settings/settingsStore';
+import { useSettingsStore } from '@src/state';
 import HStack from '@components/Common/Stack/HStack';
 import { Text } from 'tamagui';
 import { Pressable } from 'react-native';

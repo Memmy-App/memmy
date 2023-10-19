@@ -1,4 +1,4 @@
-import { usePostStore } from '@src/state/post/postStore';
+import { usePostStore } from '@src/state';
 import { ICommentInfo } from '@src/types';
 
 export const addCommentsToPost = (

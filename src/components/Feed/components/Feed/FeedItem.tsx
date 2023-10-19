@@ -10,7 +10,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import FeedItemContent from '@components/Feed/components/Feed/FeedItem/FeedItemContent';
 import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
 import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
-import { usePostGesturesEnabled } from '@src/state/settings/settingsStore';
+import { usePostGesturesEnabled } from '@src/state';
 import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
 import { usePostSwipeOptions } from '@components/Common/SwipeableRow/hooks/usePostSwipeOptions';
 

@@ -10,9 +10,8 @@ import {
   LightThemeOptions,
 } from '@src/types';
 import { customTokens } from '@src/theme';
-import { setSetting } from '@src/state/settings/actions';
+import { setSetting, useSettingsStore } from '@src/state';
 import { Check } from '@tamagui/lucide-icons';
-import { useSettingsStore } from '@src/state/settings/settingsStore';
 
 interface IThemeColors {
   accent: string;

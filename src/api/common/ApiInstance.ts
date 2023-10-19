@@ -30,20 +30,22 @@ import { writeToLog } from '@helpers/LogHelper';
 import ApiOptions from '@api/common/types/IApiOptions';
 import { ILemmyVote } from '@api/lemmy/types';
 import IGetPostOptions from '@api/common/types/IGetPostOptions';
-import { useSettingsStore } from '@src/state/settings/settingsStore';
-import { usePostStore } from '@src/state/post/postStore';
 import { buildCommentChains } from '@helpers/comments';
-import { addCommentsToPost, addPost, addPosts } from '@src/state/post/actions';
+import { voteCalculator } from '@helpers/comments/voteCalculator';
 import {
   addComment,
   addComments,
+  addCommentsToPost,
+  addPost,
+  addPosts,
+  setSubscribed,
+  setSubscriptions,
   updateComment,
-} from '@src/state/comment/actions';
-import { useCommunityStore } from '@src/state/community/communityStore';
-import { voteCalculator } from '@helpers/comments/voteCalculator';
-import { useCommentStore } from '@src/state/comment/commentStore';
-import { setSubscribed } from '@src/state/community/actions';
-import { setSubscriptions } from '@src/state/settings/actions/setSubscriptions';
+  useCommentStore,
+  useCommunityStore,
+  usePostStore,
+  useSettingsStore,
+} from '@src/state';
 
 export enum EInitializeResult {
   SUCCESS,

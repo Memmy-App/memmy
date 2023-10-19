@@ -1,4 +1,12 @@
-import { useCommentPostId } from '@src/state/comment/commentStore';
+import {
+  addOrUpdateDraft,
+  deleteCommentDraft,
+  DraftState,
+  getCommentDraft,
+  setNewCommentId,
+  useCommentPostId,
+  useCurrentAccount,
+} from '@src/state';
 import React, {
   useCallback,
   useEffect,
@@ -12,19 +20,10 @@ import {
   TextInput,
   TextInputSelectionChangeEventData,
 } from 'react-native';
-import { EventArg, useNavigation, useRoute } from '@react-navigation/core';
+import { useNavigation, useRoute } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { DraftState } from '@src/state/draft/draftStore';
-import {
-  addOrUpdateDraft,
-  deleteCommentDraft,
-  getCommentDraft,
-} from '@src/state/draft/actions';
-import { useCurrentAccount } from '@src/state/account/accountStore';
 import { CommentResponse } from 'lemmy-js-client';
 import instance from '@src/Instance';
-import { setNewCommentId } from '@src/state/app/actions';
-import { IBackEvent } from '@src/types/IBackEventArgs';
 import HeaderButton from '@components/Common/Button/HeaderButton';
 
 interface UseReplyScreen {
@@ -108,9 +107,7 @@ export const useReplyScreen = (isEdit = false): UseReplyScreen => {
     return unsubsribe;
   }, [navigation, text]);
 
-  const beforeRemove = (
-    e: EventArg<'beforeRemove', true, IBackEvent>,
-  ): void => {
+  const beforeRemove = (): void => {
     if (text !== '' && saveDraft.current) {
       const newDraft: DraftState = {
         forPost: postId,

@@ -1,7 +1,4 @@
-import {
-  IGesturePostSettings,
-  useSettingsStore,
-} from '@src/state/settings/settingsStore';
+import { IGesturePostSettings, useSettingsStore } from '@src/state';
 import { IPostGestureOption } from '@src/types';
 
 export const setPostGestureSetting = <T extends keyof IGesturePostSettings>(

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { LayoutAnimation } from 'react-native';
-import { useSiteLanguages } from '@src/state/site/siteStore';
+import { useSiteLanguages } from '@src/state';
 import { useTheme, View } from 'tamagui';
 
 interface IProps {

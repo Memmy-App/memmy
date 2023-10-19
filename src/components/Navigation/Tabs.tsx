@@ -6,23 +6,22 @@ import SearchStackScreen from '@components/Navigation/SearchStackScreen';
 import InboxStackScreen from '@components/Navigation/InboxStackScreen';
 import ProfileStackScreen from '@components/Navigation/ProfileStackScreen';
 import { Cog, Home, Inbox, Search, User } from '@tamagui/lucide-icons';
-import { EventArg } from '@react-navigation/core';
-import { setHomePress } from '@src/state/app/actions/setHomePress';
 import {
+  setDrawerOpen,
+  setHomePress,
+  useCurrentAccount,
+  usePersonAvatar,
   useShowAvatarInTabBar,
   useShowUsernameInTabBar,
-} from '@src/state/settings/settingsStore';
+} from '@src/state';
 import { Image } from 'expo-image';
-import { usePersonAvatar } from '@src/state/site/siteStore';
 import { StyleSheet } from 'react-native';
-import { useCurrentAccount } from '@src/state/account/accountStore';
-import { setDrawerOpen } from '@src/state/app/actions';
 
 const Tab = createBottomTabNavigator();
 
 let lastPress = 0;
 
-const onTabPress = (e: EventArg<'tabPress', true, undefined>): void => {
+const onTabPress = (): void => {
   const now = Date.now();
 
   if (now < lastPress + 200) {
