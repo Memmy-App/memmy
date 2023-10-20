@@ -334,14 +334,14 @@ class ApiInstance {
     }
   }
 
-  async getUnreadCount(): Promise<GetUnreadCountResponse | undefined> {
+  async getUnreadCount(): Promise<GetUnreadCountResponse> {
     try {
-      return await this.instance?.getUnreadCount({
+      return await this.instance!.getUnreadCount({
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
-      return undefined;
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
     }
   }
 

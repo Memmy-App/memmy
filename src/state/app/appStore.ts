@@ -8,6 +8,7 @@ interface AppStore {
   lastFeedPress: number;
   toast: IToast | null;
   drawerOpen: boolean;
+  unread: number;
 }
 
 export const useAppStore = create(
@@ -17,6 +18,7 @@ export const useAppStore = create(
     lastFeedPress: 0,
     toast: null,
     drawerOpen: false,
+    unread: 0,
   })),
 );
 

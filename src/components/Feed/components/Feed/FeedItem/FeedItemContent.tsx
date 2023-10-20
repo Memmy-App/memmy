@@ -40,7 +40,7 @@ function FeedItemContent({ itemId }: IProps): React.JSX.Element | null {
     <View>
       {postBodyPreview != null && (
         <View marginHorizontal="$3">
-          <Markdown color="$secondary">{postBodyPreview}</Markdown>
+          <Markdown color="$color">{postBodyPreview}</Markdown>
         </View>
       )}
       {postLink != null && <PostLinkPreview itemId={itemId} />}

@@ -33,6 +33,7 @@ import {
   NavigationContainer,
   useNavigationContainerRef,
 } from '@react-navigation/native';
+import { useBackgroundChecks } from '@hooks/useBackgroundChecks';
 
 if (__DEV__) {
   require('./ReactotronConfig');
@@ -64,6 +65,8 @@ export default function App(): React.JSX.Element | null {
   const themeSettings = useThemeSettings();
 
   const upgraded = useAppUpgraded();
+
+  useBackgroundChecks();
 
   const resetAccountStore = useAccountStore((state) => state.reset);
   const resetSettingsStore = useSettingsStore((state) => state.reset);
