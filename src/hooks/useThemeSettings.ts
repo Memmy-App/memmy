@@ -92,8 +92,6 @@ export const useThemeSettings = (): UseThemeSettings => {
         ...(accent != null && {
           accent,
         }),
-        content: fontSize,
-        header: fontSize + 4,
       },
     });
 
