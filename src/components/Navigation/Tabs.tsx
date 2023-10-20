@@ -13,6 +13,7 @@ import {
   usePersonAvatar,
   useShowAvatarInTabBar,
   useShowUsernameInTabBar,
+  useUnreadCount,
 } from '@src/state';
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
@@ -53,6 +54,7 @@ function ProfileTabIcon({ color }: ProfileTabIconProps): React.JSX.Element {
 export default function Tabs(): React.JSX.Element {
   const showUsernameInTabBar = useShowUsernameInTabBar();
   const account = useCurrentAccount();
+  const unread = useUnreadCount();
 
   return (
     <Tab.Navigator
@@ -76,6 +78,7 @@ export default function Tabs(): React.JSX.Element {
         component={InboxStackScreen}
         options={{
           tabBarIcon: ({ color }) => <Inbox color={color} size={24} />,
+          tabBarBadge: unread > 0 ? unread.toString() : undefined,
         }}
       />
       <Tab.Screen

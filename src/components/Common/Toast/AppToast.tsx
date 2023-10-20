@@ -33,7 +33,7 @@ export default function AppToast({
 
   useEffect(() => {
     // Do nothing if there is no toast set
-    if (toast === null) return;
+    if (toast == null) return;
 
     // Display the toast
     toastPosition.value = translate;

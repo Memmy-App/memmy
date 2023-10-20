@@ -36,3 +36,6 @@ export const useToast = (): IToast | null =>
 
 export const useDrawerOpen = (): boolean =>
   useAppStore((state) => state.drawerOpen);
+
+export const useUnreadCount = (): number =>
+  useAppStore((state) => state.unread);
