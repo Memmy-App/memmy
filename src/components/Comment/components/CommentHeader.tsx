@@ -20,7 +20,7 @@ function CommentHeader({ itemId }: IProps): React.JSX.Element {
   const commentCreatorActorId = useCommentCreatorActorId(itemId);
 
   return (
-    <HStack space="$3" alignItems="center">
+    <HStack space="$3" alignItems="center" pb="$2">
       <CommentUserLabel
         userIcon={commentCreatorAvatar}
         userName={commentCreatorName}

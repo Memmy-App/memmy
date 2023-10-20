@@ -2,14 +2,17 @@ import React from 'react';
 import {
   usePostBody,
   usePostCommunityNsfw,
+  usePostDeleted,
   usePostLink,
   usePostLinkType,
   usePostNsfw,
+  usePostRemoved,
 } from '@src/state';
 import { useRoute } from '@react-navigation/core';
-import { View } from 'tamagui';
+import { Text, View } from 'tamagui';
 import ViewerImage from '@components/Common/ImageViewer/ViewerImage';
 import Markdown from '@components/Common/Markdown/Markdown';
+import PostLinkPreview from '@components/Common/PostCard/PostLinkPreview';
 
 function PostContent(): React.JSX.Element {
   const { postId } = useRoute<any>().params;
@@ -19,6 +22,28 @@ function PostContent(): React.JSX.Element {
   const postLink = usePostLink(postId);
   const postNsfw = usePostNsfw(postId);
   const postCommunityNsfw = usePostCommunityNsfw(postId);
+  const postRemoved = usePostRemoved(postId);
+  const postDeleted = usePostDeleted(postId);
+
+  if (postDeleted) {
+    return (
+      <View m="$3">
+        <Text color="$secondary" fontSize={16} fontStyle="italic">
+          Post was deleted by the user
+        </Text>
+      </View>
+    );
+  }
+
+  if (postRemoved) {
+    return (
+      <View m="$3">
+        <Text color="$secondary" fontSize={16} fontStyle="italic">
+          Post was removed by a moderator
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View>
@@ -31,10 +56,11 @@ function PostContent(): React.JSX.Element {
         </View>
       )}
       {postBody != null && (
-        <View marginHorizontal="$3" marginVertical="$3">
+        <View margin="$3">
           <Markdown>{postBody}</Markdown>
         </View>
       )}
+      {postLink != null && <PostLinkPreview itemId={postId} />}
     </View>
   );
 }

@@ -67,7 +67,7 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
           )}
           {thumbnailLoading && (
             <HStack
-              style={styles.image}
+              style={styles.loading}
               alignItems="center"
               justifyContent="center"
             >
@@ -107,6 +107,10 @@ const styles = StyleSheet.create({
     height: 120,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
+  },
+
+  loading: {
+    height: 113,
   },
 });
 
