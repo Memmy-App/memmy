@@ -60,7 +60,9 @@ function PostContent(): React.JSX.Element {
           <Markdown>{postBody}</Markdown>
         </View>
       )}
-      {postLink != null && <PostLinkPreview itemId={postId} />}
+      {postLink != null && postLinkType !== 'image' && (
+        <PostLinkPreview itemId={postId} />
+      )}
     </View>
   );
 }
