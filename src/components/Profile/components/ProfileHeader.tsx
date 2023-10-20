@@ -138,6 +138,7 @@ function ProfileHeader(): React.JSX.Element {
           padding={2}
           paddingRight={4}
           onPress={onBackPress}
+          hitSlop={2}
         >
           <ChevronLeft color="white" size={30} />
         </View>
