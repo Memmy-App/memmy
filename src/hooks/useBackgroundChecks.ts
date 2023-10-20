@@ -26,7 +26,7 @@ export const useBackgroundChecks = (): void => {
   useEffect(() => {
     refreshInterval = setInterval(() => {
       void updateCounts();
-    }, 5000);
+    }, 45000);
 
     const appStateListener = AppState.addEventListener(
       'change',
@@ -38,7 +38,7 @@ export const useBackgroundChecks = (): void => {
         ) {
           refreshInterval = setInterval(() => {
             void updateCounts();
-          }, 5000);
+          }, 45000);
         } else if (
           appState.current === 'active' &&
           pattern.test(nextAppState)
