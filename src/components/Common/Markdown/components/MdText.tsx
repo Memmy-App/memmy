@@ -1,7 +1,6 @@
 import React from 'react';
 import { MdToken } from '@src/types';
 import { Text } from 'tamagui';
-import { useSettingsStore } from '@src/state';
 import MdLink from '@components/Common/Markdown/components/MdLink';
 
 interface IProps {
@@ -19,10 +18,8 @@ export default function MdText({
   href,
   color,
 }: IProps): React.JSX.Element {
-  const fontSize = useSettingsStore((state) => state.fontSize);
-
   if (link === true) {
-    return <MdLink token={token} href={href ?? ''} fontSize={fontSize} />;
+    return <MdLink token={token} href={href ?? ''} />;
   }
 
   return (

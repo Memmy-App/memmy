@@ -28,7 +28,6 @@ import {
 } from '@tamagui/lucide-icons';
 import VStack from '@components/Common/Stack/VStack';
 import HStack from '@components/Common/Stack/HStack';
-import { Skeleton } from 'moti/build/skeleton/native';
 import SortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/SortTypeContextMenuButton';
 import { SortType } from 'lemmy-js-client';
 import ButtonOne from '@components/Common/Button/ButtonOne';
@@ -231,7 +230,7 @@ function CommunityHeader({
             ]}
           >
             <HStack space="$2" alignItems="baseline">
-              <Text fontSize="$8" fontWeight="bold" numberOfLines={1}>
+              <Text fontSize="$3" fontWeight="bold" numberOfLines={1}>
                 {communityName}
               </Text>
             </HStack>
@@ -272,18 +271,14 @@ function CommunityHeader({
           </HStack>
 
           <VStack marginHorizontal="$3" space="$2.5" top={80}>
-            <HStack alignItems="baseline" space="$2">
-              <Skeleton>
-                <>
-                  <Text fontSize="$8" fontWeight="bold">
-                    {communityName}
-                  </Text>
-                  <Text fontSize="$3" color="$secondary">
-                    @{communityInstance}
-                  </Text>
-                </>
-              </Skeleton>
-            </HStack>
+            <VStack alignItems="baseline" space="$0.5">
+              <Text fontSize="$5" fontWeight="bold">
+                {communityName}
+              </Text>
+              <Text fontSize="$3" color="$secondary">
+                @{communityInstance}
+              </Text>
+            </VStack>
             <HStack space="$3">
               <Text fontSize="$2" color="$secondary" fontWeight="$7">
                 {communityCounts?.posts.toLocaleString()} Posts
@@ -296,7 +291,7 @@ function CommunityHeader({
               </Text>
             </HStack>
             <HStack>
-              <Text fontSize="$2" color="$color" numberOfLines={2}>
+              <Text fontSize="$3" color="$color" numberOfLines={2}>
                 {communityDescription}
               </Text>
             </HStack>

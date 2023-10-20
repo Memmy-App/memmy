@@ -65,7 +65,9 @@ export const useThemeSettings = (): UseThemeSettings => {
       },
     });
 
-    update();
+    setTimeout(() => {
+      update();
+    }, 500);
 
     setFontInitialized(true);
   }, [fontSize]);
@@ -95,7 +97,9 @@ export const useThemeSettings = (): UseThemeSettings => {
       },
     });
 
-    update();
+    setTimeout(() => {
+      update();
+    }, 500);
 
     if (!initialized) {
       setInitialized(true);

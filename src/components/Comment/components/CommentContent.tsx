@@ -18,7 +18,7 @@ function CommentContent({ itemId }: IProps): React.JSX.Element {
 
   if (deleted) {
     return (
-      <Text color="$secondary" fontSize={16} fontStyle="italic">
+      <Text color="$secondary" fontSize="$3" fontStyle="italic">
         Comment was deleted by the user
       </Text>
     );
@@ -26,7 +26,7 @@ function CommentContent({ itemId }: IProps): React.JSX.Element {
 
   if (removed) {
     return (
-      <Text color="$secondary" fontSize={16} fontStyle="italic">
+      <Text color="$secondary" fontSize="$3" fontStyle="italic">
         Comment was removed by a moderator
       </Text>
     );

@@ -38,7 +38,7 @@ function PostUserLabel({
     <Pressable onPress={onPress} hitSlop={5}>
       <HStack space="$2" alignItems="center">
         {showIcon && <UserIcon userIcon={userIcon} />}
-        <Text color="$secondary" fontSize={13}>
+        <Text color="$secondary" fontSize="$2">
           {name}
         </Text>
       </HStack>

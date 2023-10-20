@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, useTheme } from 'tamagui';
+import { ScrollView } from 'tamagui';
 import Table from '@components/Common/Table/Table';
 import { setSetting, useSettingsStore } from '@src/state';
 import { AllThemeOptions, INavigationProps } from '@src/types';
@@ -9,8 +9,6 @@ export default function SettingsAppearanceScreen({
   navigation,
 }: INavigationProps): React.JSX.Element {
   const settings = useSettingsStore();
-
-  const theme = useTheme();
 
   return (
     <ScrollView flex={1}>
@@ -84,9 +82,6 @@ export default function SettingsAppearanceScreen({
               tapToSeek
               onValueChange={(v) => {
                 setSetting('fontSize', v);
-              }}
-              onSlidingComplete={(v) => {
-                setSetting('theme', 'lightTheme');
               }}
             />
           </Table.CellContainer>

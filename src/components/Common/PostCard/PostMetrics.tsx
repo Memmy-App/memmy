@@ -49,7 +49,7 @@ function PostMetrics({ itemId }: IProps): React.JSX.Element {
       {showTotalScore ? (
         <HStack space="$1" alignItems="center">
           <ScoreIcon myVote={postMyVote} />
-          <Text fontSize={13} color={scoreColor}>
+          <Text fontSize="$2" color={scoreColor}>
             {postCounts?.score}
           </Text>
         </HStack>
@@ -57,13 +57,13 @@ function PostMetrics({ itemId }: IProps): React.JSX.Element {
         <HStack space="$2">
           <HStack space="$1" alignItems="center">
             <ArrowUp size={14} color={upvoteColor} />
-            <Text color={upvoteColor} fontSize={13}>
+            <Text color={upvoteColor} fontSize="$2">
               {postCounts?.upvotes}
             </Text>
           </HStack>
           <HStack space="$1" alignItems="center">
             <ArrowDown size={14} color={downvoteColor} />
-            <Text color={downvoteColor} fontSize={13}>
+            <Text color={downvoteColor} fontSize="$2">
               {postCounts?.downvotes}
             </Text>
           </HStack>
@@ -72,13 +72,13 @@ function PostMetrics({ itemId }: IProps): React.JSX.Element {
 
       <HStack space="$1" alignItems="center">
         <MessageSquare size={14} color="$secondary" />
-        <Text color="$secondary" fontSize={13}>
+        <Text color="$secondary" fontSize="$2">
           {postCommentCount}
         </Text>
       </HStack>
       <HStack space="$1" alignItems="center">
         <Clock size={14} color="$secondary" />
-        <Text color="$secondary" fontSize={13}>
+        <Text color="$secondary" fontSize="$2">
           {postCommentCount}
         </Text>
       </HStack>

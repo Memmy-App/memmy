@@ -13,7 +13,7 @@ function DrawerLabel({ char }: IProps): React.JSX.Element {
       paddingHorizontal="$2"
       paddingVertical="$1"
     >
-      <Text fontSize="$2">{char}</Text>
+      <Text fontSize="$3">{char}</Text>
     </VStack>
   );
 }

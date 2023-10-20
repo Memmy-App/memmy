@@ -30,7 +30,7 @@ function FeedItemHeader({ itemId }: IProps): React.JSX.Element {
           </PostContextMenu>
         </View>
       </HStack>
-      <Text fontSize={18} fontWeight={fontWeight}>
+      <Text fontSize="$5" fontWeight={fontWeight}>
         {postTitle}
       </Text>
     </VStack>

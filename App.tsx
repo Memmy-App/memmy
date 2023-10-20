@@ -26,7 +26,6 @@ import {
   useAccountStore,
   useAppUpgraded,
   useDrawerOpen,
-  useFontSize,
   useSettingsStore,
 } from '@src/state';
 import {
@@ -113,8 +112,6 @@ function PartTwo(): React.JSX.Element {
   const theme = useTheme();
   const accent = useAccent();
 
-  const fontSize = useFontSize();
-
   const navTheme: Theme = useMemo(
     () => ({
       ...DarkTheme,
@@ -125,10 +122,9 @@ function PartTwo(): React.JSX.Element {
         card: theme.navBarBg.val,
         text: theme.color.val,
         border: theme.border.val,
-        fontSize,
       },
     }),
-    [theme, fontSize],
+    [theme],
   );
 
   const navRef = useNavigationContainerRef();
