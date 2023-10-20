@@ -10,6 +10,7 @@ import { useRoute } from '@react-navigation/core';
 import { View } from 'tamagui';
 import ViewerImage from '@components/Common/ImageViewer/ViewerImage';
 import Markdown from '@components/Common/Markdown/Markdown';
+import PostLinkPreview from '@components/Common/PostCard/PostLinkPreview';
 
 function PostContent(): React.JSX.Element {
   const { postId } = useRoute<any>().params;
@@ -35,6 +36,7 @@ function PostContent(): React.JSX.Element {
           <Markdown>{postBody}</Markdown>
         </View>
       )}
+      {postLink != null && <PostLinkPreview itemId={postId} />}
     </View>
   );
 }
