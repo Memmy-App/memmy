@@ -1,6 +1,6 @@
 import { IColors } from '@src/theme/common';
 
-export const oledTheme: Partial<IColors> = {
+export const oledTheme: IColors = {
   accent: '#2C9AFF',
   accentHighlight: '#1F2E45',
 

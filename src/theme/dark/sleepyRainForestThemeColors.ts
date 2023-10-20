@@ -1,6 +1,6 @@
 import { IColors } from '@src/theme/common';
 
-export const sleepyRainForestTheme: Partial<IColors> = {
+export const sleepyRainForestTheme: IColors = {
   accent: '#70B944',
   accentHighlight: '#2A382B',
 

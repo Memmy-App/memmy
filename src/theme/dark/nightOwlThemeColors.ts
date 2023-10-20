@@ -1,6 +1,6 @@
 import { IColors } from '@src/theme/common';
 
-export const nightOwlTheme: Partial<IColors> = {
+export const nightOwlTheme: IColors = {
   accent: '#544AC6',
   accentHighlight: '#1F1932',
 

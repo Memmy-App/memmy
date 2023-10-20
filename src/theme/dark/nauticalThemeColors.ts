@@ -1,6 +1,6 @@
 import { IColors } from '@src/theme/common';
 
-export const nauticalTheme: Partial<IColors> = {
+export const nauticalTheme: IColors = {
   accent: '#2C9AFF',
   accentHighlight: '#1F2E45',
 
