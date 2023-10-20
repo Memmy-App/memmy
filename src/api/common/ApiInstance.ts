@@ -40,7 +40,6 @@ import {
   addCommentsToPost,
   addPost,
   addPosts,
-  removePost,
   setSubscribed,
   setSubscriptions,
   updateComment,
@@ -49,6 +48,7 @@ import {
   usePostStore,
   useSettingsStore,
 } from '@src/state';
+import { updatePost } from '@src/state/post/actions/updatePost';
 
 export enum EInitializeResult {
   SUCCESS,
@@ -707,13 +707,13 @@ class ApiInstance {
 
   async deletePost(postId: number): Promise<void> {
     try {
-      void (await this.instance!.deletePost({
+      const res = await this.instance!.deletePost({
         post_id: postId,
         deleted: true,
         auth: this.authToken!,
-      }));
+      });
 
-      removePost(postId, true);
+      updatePost(res.post_view);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
@@ -828,7 +828,7 @@ class ApiInstance {
     try {
       const res = await this.instance!.removePost(options as RemovePost);
 
-      removePost(options.post_id!, true);
+      updatePost(res.post_view);
 
       return res;
     } catch (e: any) {

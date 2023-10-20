@@ -102,3 +102,9 @@ export const usePostModerates = (id: number): boolean =>
 
 export const usePostIsOwn = (id: number): boolean =>
   usePostStore((state) => state.posts.get(id))?.isOwnPost ?? false;
+
+export const usePostRemoved = (id: number): boolean =>
+  usePostStore((state) => state.posts.get(id))?.view.post.removed ?? false;
+
+export const usePostDeleted = (id: number): boolean =>
+  usePostStore((state) => state.posts.get(id))?.view.post.deleted ?? false;
