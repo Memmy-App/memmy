@@ -146,7 +146,7 @@ const initialState: Partial<SettingsStore> = {
 
   themeMatchSystem: false,
 
-  fontSize: 14,
+  fontSize: 16,
 
   postTitleWeight: 'bold',
 
@@ -294,3 +294,6 @@ export const useShowUsernameInTabBar = (): boolean =>
 
 export const useAppUpgraded = (): boolean | undefined =>
   useSettingsStore((state) => state.upgraded);
+
+export const useFontSize = (): number =>
+  useSettingsStore((state) => state.fontSize);

@@ -1,6 +1,6 @@
 import { IColors } from '@src/theme/common';
 
-export const draculaTheme: IColors = {
+export const draculaTheme: Partial<IColors> = {
   accent: '#ff79c6',
   accentHighlight: '#bd93f9',
 

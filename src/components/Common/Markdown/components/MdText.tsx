@@ -26,7 +26,7 @@ export default function MdText({
   }
 
   return (
-    <Text style={style} fontSize={fontSize} wordWrap="break-word" color={color}>
+    <Text style={style} fontSize="$3" wordWrap="break-word" color={color}>
       {token.content}
     </Text>
   );

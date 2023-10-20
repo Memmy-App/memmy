@@ -28,7 +28,7 @@ function PostContent(): React.JSX.Element {
   if (postDeleted) {
     return (
       <View m="$3">
-        <Text color="$secondary" fontSize={16} fontStyle="italic">
+        <Text color="$secondary" fontSize="$3" fontStyle="italic">
           Post was deleted by the user
         </Text>
       </View>
@@ -38,7 +38,7 @@ function PostContent(): React.JSX.Element {
   if (postRemoved) {
     return (
       <View m="$3">
-        <Text color="$secondary" fontSize={16} fontStyle="italic">
+        <Text color="$secondary" fontSize="$3" fontStyle="italic">
           Post was removed by a moderator
         </Text>
       </View>

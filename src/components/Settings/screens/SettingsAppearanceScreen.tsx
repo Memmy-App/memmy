@@ -1,13 +1,16 @@
 import React from 'react';
-import { ScrollView } from 'tamagui';
+import { ScrollView, useTheme } from 'tamagui';
 import Table from '@components/Common/Table/Table';
 import { setSetting, useSettingsStore } from '@src/state';
 import { AllThemeOptions, INavigationProps } from '@src/types';
+import Slider from '@react-native-community/slider';
 
 export default function SettingsAppearanceScreen({
   navigation,
 }: INavigationProps): React.JSX.Element {
   const settings = useSettingsStore();
+
+  const theme = useTheme();
 
   return (
     <ScrollView flex={1}>
@@ -64,6 +67,29 @@ export default function SettingsAppearanceScreen({
               />
             </>
           )}
+        </Table.Section>
+        <Table.Section header="Font Scale">
+          <Table.Cell
+            label="Font Scale"
+            rightLabel={`${settings.fontSize}pt`}
+          />
+          <Table.CellContainer>
+            <Slider
+              lowerLimit={12}
+              upperLimit={22}
+              minimumValue={12}
+              maximumValue={22}
+              step={2}
+              value={settings.fontSize}
+              tapToSeek
+              onValueChange={(v) => {
+                setSetting('fontSize', v);
+              }}
+              onSlidingComplete={(v) => {
+                setSetting('theme', 'lightTheme');
+              }}
+            />
+          </Table.CellContainer>
         </Table.Section>
         <Table.Section header="Post Appearance">
           <Table.Cell
