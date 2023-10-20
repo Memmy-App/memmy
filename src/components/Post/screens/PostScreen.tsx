@@ -7,9 +7,7 @@ import {
   usePostCommentsInfo,
   usePostCommunityId,
   usePostCounts,
-  usePostLoaded,
 } from '@src/state';
-import LoadingModal from '@components/Common/Loading/LoadingModal';
 import VStack from '@components/Common/Stack/VStack';
 import Post from '@components/Post/components/Post';
 import instance from '@src/Instance';
@@ -22,6 +20,7 @@ import { CommentSortType } from 'lemmy-js-client';
 import { stripEss } from '@helpers/text';
 import CommentSortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/CommentSortTypeContextMenuButton';
 import { useAwaitTransition } from '@hooks/useAwaitTransition';
+import LoadingScreen from '@components/Common/Loading/LoadingScreen';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -40,11 +39,10 @@ export default function PostScreen({
   navigation,
   route,
 }: IProps): React.JSX.Element {
-  const { postId } = route.params;
+  const { postId, scrollToCommentId } = route.params;
 
   const awaitTransition = useAwaitTransition();
 
-  const postLoaded = usePostLoaded(postId);
   const postCounts = usePostCounts(postId);
   const postCommentsInfo = usePostCommentsInfo(postId);
   const postCommunityId = usePostCommunityId(postId);
@@ -66,7 +64,7 @@ export default function PostScreen({
   }, [awaitTransition.transitioning, postCommentsInfo]);
 
   const { isLoading, isError } = useLoadData(async () => {
-    return await instance.getComments(postId, postCommunityId!);
+    return await instance.getComments(postId, postCommunityId ?? 0);
   });
 
   useEffect(() => {
@@ -107,7 +105,28 @@ export default function PostScreen({
     setNewCommentId(undefined);
   }, [newCommentId, commentsToShow]);
 
-  if (!postLoaded) return <LoadingModal />;
+  useEffect(() => {
+    if (!isLoading && scrollToCommentId != null) {
+      const index = commentsToShow?.findIndex(
+        (c) => c.commentId === scrollToCommentId,
+      );
+
+      if (index == null || index < 0) {
+        return;
+      }
+
+      setTimeout(() => {
+        flashListRef.current?.scrollToIndex({
+          index,
+          animated: true,
+        });
+      }, 100);
+    }
+  }, [isLoading]);
+
+  if (postCommunityId == null) {
+    return <LoadingScreen />;
+  }
 
   return (
     <VStack flex={1}>
