@@ -37,6 +37,7 @@ export const addPosts = (
   const postIds: number[] = [];
   const currentPosts = useFeedStore.getState().feeds.get(screenId)?.postIds;
   const moderated = useSiteStore.getState().moderatedIds;
+  console.log(moderated);
   const userId =
     useSiteStore.getState().site?.my_user?.local_user_view.local_user.id;
 
@@ -48,6 +49,7 @@ export const addPosts = (
       if (currentPost != null) {
         currentPost.usedBy.push(screenId);
       } else {
+        console.log(post.post.community_id);
         state.posts.set(post.post.id, {
           view: post,
           usedBy: [screenId],
