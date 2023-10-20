@@ -17,12 +17,13 @@ import {
 } from '@src/state';
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
+import { playHaptic } from '@helpers/haptics';
 
 const Tab = createBottomTabNavigator();
 
 let lastPress = 0;
 
-const onTabPress = (): void => {
+const onHomeTabPress = (): void => {
   const now = Date.now();
 
   if (now < lastPress + 200) {
@@ -30,10 +31,16 @@ const onTabPress = (): void => {
   }
 
   lastPress = now;
+
+  void playHaptic();
 };
 
-const onTabLongPress = (): void => {
+const onHomeTabLongPress = (): void => {
   setDrawerOpen(true);
+};
+
+const onTabPress = (): void => {
+  void playHaptic();
 };
 
 interface ProfileTabIconProps {
@@ -61,6 +68,9 @@ export default function Tabs(): React.JSX.Element {
       screenOptions={{
         headerShown: false,
       }}
+      screenListeners={{
+        tabPress: onTabPress,
+      }}
     >
       <Tab.Screen
         name="Home"
@@ -69,8 +79,8 @@ export default function Tabs(): React.JSX.Element {
           tabBarIcon: ({ color }) => <Home color={color} size={24} />,
         }}
         listeners={{
-          tabPress: onTabPress,
-          tabLongPress: onTabLongPress,
+          tabPress: onHomeTabPress,
+          tabLongPress: onHomeTabLongPress,
         }}
       />
       <Tab.Screen
