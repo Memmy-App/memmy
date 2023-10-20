@@ -55,7 +55,7 @@ export interface SettingsStore {
 
   viewType: 'full' | 'compact';
   compactThumbnailPosition: 'left' | 'right' | 'none';
-  compactShowVoteButtons: boolean;
+  compactVoteButtonPosition: 'left' | 'right' | 'none';
 
   theme: IThemeOption;
   themeLight: IThemeOption;
@@ -136,7 +136,7 @@ const initialState: Partial<SettingsStore> = {
   viewType: 'full',
 
   compactThumbnailPosition: 'left',
-  compactShowVoteButtons: true,
+  compactVoteButtonPosition: 'right',
 
   theme: 'lightTheme',
   themeLight: 'lightTheme',

@@ -4,6 +4,8 @@ import Table from '@components/Common/Table/Table';
 import { setSetting, useSettingsStore } from '@src/state';
 import { AllThemeOptions, INavigationProps } from '@src/types';
 import Slider from '@react-native-community/slider';
+import CompactThumbnailDisplayContextMenu from '@components/Common/ContextMenu/components/CompactThumbnailDisplayContextMenu';
+import { capitalizeFirstLetter } from '@helpers/text';
 
 export default function SettingsAppearanceScreen({
   navigation,
@@ -75,13 +77,41 @@ export default function SettingsAppearanceScreen({
             }}
           />
           {settings.viewType === 'compact' && (
-            <Table.Cell
-              label="Show Vote Buttons"
-              switchValue={settings.viewType === 'compact'}
-              onSwitchValueChange={(v) => {
-                setSetting('compactShowVoteButtons', v);
-              }}
-            />
+            <>
+              <CompactThumbnailDisplayContextMenu
+                selection={settings.compactVoteButtonPosition}
+                onPressMenuItem={(e) => {
+                  setSetting(
+                    'compactVoteButtonPosition',
+                    e.nativeEvent.actionKey,
+                  );
+                }}
+              >
+                <Table.Cell
+                  label="Vote Buttons Position"
+                  rightLabel={capitalizeFirstLetter(
+                    settings.compactVoteButtonPosition,
+                  )}
+                />
+              </CompactThumbnailDisplayContextMenu>
+              <CompactThumbnailDisplayContextMenu
+                selection={settings.compactThumbnailPosition}
+                onPressMenuItem={(e) => {
+                  setSetting(
+                    'compactThumbnailPosition',
+                    e.nativeEvent.actionKey,
+                  );
+                }}
+              >
+                <Table.Cell
+                  label="Thumbnail Position"
+                  rightLabel={capitalizeFirstLetter(
+                    settings.compactThumbnailPosition,
+                  )}
+                  isLast
+                />
+              </CompactThumbnailDisplayContextMenu>
+            </>
           )}
         </Table.Section>
         <Table.Section
