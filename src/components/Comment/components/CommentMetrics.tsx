@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { useSettingsStore } from '@src/state';
-import HStack from '@components/Common/Stack/HStack';
-import { Text } from 'tamagui';
+import { Text, XStack } from 'tamagui';
 import ScoreIcon from '@components/Common/Icons/ScoreIcon';
 import { ArrowDown, ArrowUp } from '@tamagui/lucide-icons';
 import { useCommentVoting } from '@hooks/comments/useCommentVoting';
@@ -35,7 +34,7 @@ function CommentMetrics({ itemId }: IProps): React.JSX.Element {
 
   if (totalScore) {
     return (
-      <HStack
+      <XStack
         space="$1"
         onPress={voting.scoreVote}
         hitSlop={3}
@@ -45,12 +44,12 @@ function CommentMetrics({ itemId }: IProps): React.JSX.Element {
         <Text fontSize="$2" color={scoreColor}>
           {voting.score}
         </Text>
-      </HStack>
+      </XStack>
     );
   } else {
     return (
-      <HStack space="$2">
-        <HStack
+      <XStack space="$2">
+        <XStack
           space="$1"
           onPress={voting.upvote}
           hitSlop={3}
@@ -60,8 +59,8 @@ function CommentMetrics({ itemId }: IProps): React.JSX.Element {
           <Text fontSize="$2" color={upvoteColor}>
             {voting.upvotes}
           </Text>
-        </HStack>
-        <HStack
+        </XStack>
+        <XStack
           space="$1"
           onPress={voting.downvote}
           hitSlop={3}
@@ -71,8 +70,8 @@ function CommentMetrics({ itemId }: IProps): React.JSX.Element {
           <Text fontSize="$2" color={downvoteColor}>
             {voting.downvotes}
           </Text>
-        </HStack>
-      </HStack>
+        </XStack>
+      </XStack>
     );
   }
 }

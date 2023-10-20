@@ -18,9 +18,21 @@ interface IProps {
   source: string;
   blurRadius?: number;
   title?: string;
+  height?: number;
+  width?: number;
+  overrideDimensions?: boolean;
+  borderRadius?: number;
 }
 
-function ViewerImage({ source, blurRadius, title }: IProps): React.JSX.Element {
+function ViewerImage({
+  source,
+  blurRadius,
+  title,
+  height = 300,
+  width = 300,
+  overrideDimensions = false,
+  borderRadius = 0,
+}: IProps): React.JSX.Element {
   const imageViewer = useImageViewer();
   const savedDimensions = useImageSavedDimensions(source);
 
@@ -65,7 +77,12 @@ function ViewerImage({ source, blurRadius, title }: IProps): React.JSX.Element {
     <Pressable onPress={onImagePress} style={{ alignItems: 'center' }}>
       <Image
         source={source}
-        style={savedDimensions?.viewerDimensions ?? { height: 300, width: 300 }}
+        style={[
+          overrideDimensions || savedDimensions?.viewerDimensions == null
+            ? { height, width }
+            : savedDimensions?.viewerDimensions,
+          { borderRadius },
+        ]}
         onLoad={onImageLoad}
         blurRadius={blurRadius}
         placeholder={spinner}

@@ -23,11 +23,11 @@ import instance from '@src/Instance';
 import { cleanupPosts } from '@helpers/state';
 import { useNavigation, useRoute } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import HStack from '@components/Common/Stack/HStack';
 import ListingTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/ListingTypeContextMenuButton';
 import SortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/SortTypeContextMenuButton';
 import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
 import { List } from '@tamagui/lucide-icons';
+import { XStack } from 'tamagui';
 
 interface UseMainFeed {
   postIds: number[];
@@ -128,7 +128,7 @@ export const useMainFeed = (): UseMainFeed => {
     if (params?.name == null) {
       navigation.setOptions({
         headerRight: () => (
-          <HStack space="$4">
+          <XStack space="$4">
             <ListingTypeContextMenuButton
               listingType={listingType}
               setListingType={setListingType}
@@ -137,7 +137,7 @@ export const useMainFeed = (): UseMainFeed => {
               sortType={sortType}
               setSortType={setSortType}
             />
-          </HStack>
+          </XStack>
         ),
       });
     }

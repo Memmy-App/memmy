@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
-import VStack from '@components/Common/Stack/VStack';
+import { Separator, View, YStack } from 'tamagui';
 import CommentHeader from '@components/Comment/components/CommentHeader';
 import CommentContent from '@components/Comment/components/CommentContent';
 import { Pressable } from 'react-native';
-import { Separator, View } from 'tamagui';
 import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
 import { useCommentGesturesEnabled, useCommentPostId } from '@src/state';
 import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
@@ -69,7 +68,7 @@ function Comment({
   );
 
   return (
-    <View marginVertical={space ? 2 : 0}>
+    <View my={space ? 2 : 0}>
       <SwipeableRow
         leftOption={
           swipesEnabled && leftOptions?.actions.first != null ? (
@@ -82,20 +81,20 @@ function Comment({
           ) : undefined
         }
       >
-        <VStack backgroundColor="$fg">
-          <VStack
-            marginLeft={depth * 10}
-            marginVertical="$2"
+        <YStack backgroundColor="$fg">
+          <YStack
+            ml={depth * 10}
+            my="$2"
             borderLeftColor={borderColor}
             borderLeftWidth={borderWidth}
-            paddingHorizontal="$2"
-            paddingVertical="$1"
+            px="$2"
+            py="$1"
           >
             <CommentHeader itemId={itemId} />
             {!collapsed && <CommentContent itemId={itemId} />}
-          </VStack>
-          <Separator borderColor="$bg" marginLeft={depth * 10 + 10} />
-        </VStack>
+          </YStack>
+          <Separator borderColor="$bg" ml={depth * 10 + 10} />
+        </YStack>
       </SwipeableRow>
     </View>
   );

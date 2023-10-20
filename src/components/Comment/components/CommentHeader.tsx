@@ -1,5 +1,4 @@
 import React from 'react';
-import HStack from '@components/Common/Stack/HStack';
 import CommentUserLabel from '@components/Comment/components/CommentUserLabel';
 import {
   useCommentCreatorActorId,
@@ -8,7 +7,7 @@ import {
 } from '@src/state';
 import CommentMetrics from '@components/Comment/components/CommentMetrics';
 import CommentEllipsisButton from '@components/Comment/components/CommentEllipsisButton';
-import { View } from 'tamagui';
+import { View, XStack } from 'tamagui';
 
 interface IProps {
   itemId: number;
@@ -20,17 +19,17 @@ function CommentHeader({ itemId }: IProps): React.JSX.Element {
   const commentCreatorActorId = useCommentCreatorActorId(itemId);
 
   return (
-    <HStack space="$3" alignItems="center" pb="$2">
+    <XStack space="$3" alignItems="center" pb="$2">
       <CommentUserLabel
         userIcon={commentCreatorAvatar}
         userName={commentCreatorName}
         userCommunity={commentCreatorActorId}
       />
       <CommentMetrics itemId={itemId} />
-      <View marginLeft="auto">
+      <View ml="auto">
         <CommentEllipsisButton itemId={itemId} />
       </View>
-    </HStack>
+    </XStack>
   );
 }
 

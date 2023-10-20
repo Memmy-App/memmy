@@ -5,10 +5,8 @@ import {
   usePostNsfw,
   usePostThumbnail,
 } from '@src/state';
-import { Separator, Text, useTheme, View } from 'tamagui';
+import { Separator, Text, useTheme, View, XStack, YStack } from 'tamagui';
 import { Image } from 'expo-image';
-import HStack from '@components/Common/Stack/HStack';
-import VStack from '@components/Common/Stack/VStack';
 import { ChevronRight, Link } from '@tamagui/lucide-icons';
 import { Pressable, StyleSheet } from 'react-native';
 import { openLink } from '@helpers/links';
@@ -44,13 +42,8 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
 
   return (
     <Pressable onPress={onPress}>
-      <View
-        marginVertical="$3"
-        marginHorizontal="$5"
-        backgroundColor="$bg"
-        borderRadius={10}
-      >
-        <VStack space="$2">
+      <View my="$3" mx="$5" backgroundColor="$bg" borderRadius={10}>
+        <YStack space="$2">
           {postThumbnail != null && (
             <View
               style={styles.image}
@@ -68,21 +61,21 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
             </View>
           )}
           {thumbnailLoading && (
-            <HStack
+            <XStack
               style={styles.loading}
               alignItems="center"
               justifyContent="center"
             >
               <LoadingAnimation size="small" />
-            </HStack>
+            </XStack>
           )}
-          <HStack
+          <XStack
             alignItems="center"
             space="$2"
             width="100%"
-            paddingHorizontal="$3"
-            paddingBottom="$2"
-            paddingTop={postThumbnail == null ? '$2' : undefined}
+            px="$3"
+            pb="$2"
+            pt={postThumbnail == null ? '$2' : undefined}
           >
             <Link size={16} />
             <Separator
@@ -97,8 +90,8 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
               </Text>
             </View>
             <ChevronRight color="$secondary" />
-          </HStack>
-        </VStack>
+          </XStack>
+        </YStack>
       </View>
     </Pressable>
   );

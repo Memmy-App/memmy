@@ -1,12 +1,12 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import VStack from '@components/Common/Stack/VStack';
 import { ICommentInfo } from '@src/types';
 import { usePostCommentsInfo } from '@src/state';
 import { FlatList, ListRenderItemInfo } from 'react-native';
 import CommentChain from '@components/Comment/components/CommentChain';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
 import { useAwaitTransition } from '@hooks/useAwaitTransition';
+import { YStack } from 'tamagui';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -45,7 +45,7 @@ export default function CommentChainScreen({
   );
 
   return (
-    <VStack flex={1} backgroundColor="$bg">
+    <YStack flex={1} backgroundColor="$bg">
       <FlatList<ICommentInfo>
         renderItem={renderItem}
         data={commentsToShow}
@@ -60,6 +60,6 @@ export default function CommentChainScreen({
         // @ts-expect-error - This is valid
         ref={flashListRef}
       />
-    </VStack>
+    </YStack>
   );
 }

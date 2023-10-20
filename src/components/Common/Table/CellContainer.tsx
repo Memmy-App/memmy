@@ -1,5 +1,5 @@
 import React from 'react';
-import VStack from '@components/Common/Stack/VStack';
+import { YStack } from 'tamagui';
 
 interface IProps {
   children: React.ReactNode;
@@ -13,9 +13,9 @@ export default function CellContainer({
   isLast,
 }: IProps): React.JSX.Element {
   return (
-    <VStack
-      paddingHorizontal="$3"
-      paddingVertical={12}
+    <YStack
+      px="$3"
+      py={12}
       backgroundColor="$fg"
       borderTopRightRadius={isFirst === true ? '$3' : undefined}
       borderTopLeftRadius={isFirst === true ? '$3' : undefined}
@@ -23,6 +23,6 @@ export default function CellContainer({
       borderBottomLeftRadius={isLast === true ? '$3' : undefined}
     >
       {children}
-    </VStack>
+    </YStack>
   );
 }

@@ -4,8 +4,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { FontSizeTokens, Text } from 'tamagui';
-import HStack from '@components/Common/Stack/HStack';
+import { FontSizeTokens, Text, XStack } from 'tamagui';
 import { playHaptic } from '@helpers/haptics';
 import { Variable } from '@tamagui/web';
 
@@ -64,23 +63,23 @@ function ButtonOne({
 
   return (
     <Animated.View style={[{ flex: 1, flexGrow: 1 }, scaleStyle]}>
-      <HStack
+      <XStack
         backgroundColor={backgroundColor}
         borderRadius="$2"
-        padding="$2"
+        p="$2"
         onPress={onButtonPress}
         onPressIn={onTapBegin}
         onPressOut={onTapEnd}
         disabled={disabled}
         width={width}
       >
-        <HStack space="$2" alignItems="center" flex={1}>
+        <XStack space="$2" alignItems="center" flex={1}>
           {Icon}
-          <Text fontSize={fontSize} margin="auto" numberOfLines={1}>
+          <Text fontSize={fontSize} m="auto" numberOfLines={1}>
             {label}
           </Text>
-        </HStack>
-      </HStack>
+        </XStack>
+      </XStack>
     </Animated.View>
   );
 }

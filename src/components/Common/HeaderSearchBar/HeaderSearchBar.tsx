@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react';
-import { Input, useTheme } from 'tamagui';
+import { Input, useTheme, XStack } from 'tamagui';
 import { Search } from '@tamagui/lucide-icons';
 import { useThemeColorScheme } from '@hooks/useThemeColorScheme';
 import Animated, {
@@ -9,7 +9,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { Button, TextInput } from 'react-native';
-import HStack from '@components/Common/Stack/HStack';
 import { useFocusEffect } from '@react-navigation/core';
 
 interface IProps {
@@ -92,7 +91,7 @@ function HeaderSearchBar({
   }, [onEndEditing]);
 
   return (
-    <HStack backgroundColor="$fg" alignItems="center">
+    <XStack backgroundColor="$fg" alignItems="center">
       <Animated.View
         style={[
           {
@@ -130,7 +129,7 @@ function HeaderSearchBar({
           clearButtonMode="while-editing"
           // @ts-expect-error - this is valid
           ref={inputRef}
-          marginRight={5}
+          mr={5}
           clearTextOnFocus={autoClear}
           returnKeyType="search"
           returnKeyLabel="search"
@@ -146,7 +145,7 @@ function HeaderSearchBar({
           color={theme.accent.val}
         />
       </Animated.View>
-    </HStack>
+    </XStack>
   );
 }
 

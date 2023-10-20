@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import VStack from '@components/Common/Stack/VStack';
+import { Text, useTheme, View, XStack, YStack } from 'tamagui';
 import {
   useProfileActorId,
   useProfileAvatar,
@@ -8,10 +8,8 @@ import {
   useProfileCounts,
   useProfileName,
 } from '@src/state';
-import { Text, useTheme, View } from 'tamagui';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import HStack from '@components/Common/Stack/HStack';
 import { getBaseUrl } from '@helpers/links';
 import Animated, {
   Extrapolate,
@@ -135,8 +133,8 @@ function ProfileHeader(): React.JSX.Element {
           left={10}
           backgroundColor="rgba(0,0,0,0.7)"
           borderRadius={100}
-          padding={2}
-          paddingRight={4}
+          p={2}
+          pr={4}
           onPress={onBackPress}
           hitSlop={2}
         >
@@ -144,8 +142,8 @@ function ProfileHeader(): React.JSX.Element {
         </View>
       )}
 
-      <VStack flex={1} backgroundColor="$fg" marginTop="$1">
-        <VStack
+      <YStack flex={1} backgroundColor="$fg" mt="$1">
+        <YStack
           alignItems="center"
           height={300}
           position="absolute"
@@ -178,17 +176,17 @@ function ProfileHeader(): React.JSX.Element {
               headerLabelStyle,
             ]}
           >
-            <HStack space="$2" alignItems="baseline">
+            <XStack space="$2" alignItems="baseline">
               <Text fontSize="$5" fontWeight="bold" numberOfLines={1}>
                 {personName}
               </Text>
               <Text fontSize="$3" color="$secondary">
                 @{personInstance}
               </Text>
-            </HStack>
+            </XStack>
           </Animated.View>
-        </VStack>
-        <VStack zIndex={1}>
+        </YStack>
+        <YStack zIndex={1}>
           {personAvatar != null ? (
             <Animated.Image
               source={{ uri: personAvatar }}
@@ -205,16 +203,16 @@ function ProfileHeader(): React.JSX.Element {
             <AnimatedAvatarPlaceholder size={85} style={[{}, avatarStyle]} />
           )}
 
-          <VStack marginHorizontal="$3" space="$2.5" top={110}>
-            <VStack space="$0.5">
+          <YStack mx="$3" space="$2.5" top={110}>
+            <YStack space="$0.5">
               <Text fontSize="$5" fontWeight="bold">
                 {personName}
               </Text>
               <Text fontSize="$3" color="$secondary">
                 @{personInstance}
               </Text>
-            </VStack>
-            <HStack space="$3">
+            </YStack>
+            <XStack space="$3">
               <Text fontSize="$2" color="$secondary" fontWeight="$7">
                 {personCounts?.post_count.toLocaleString()} Posts
               </Text>
@@ -224,15 +222,15 @@ function ProfileHeader(): React.JSX.Element {
               <Text fontSize="$2" color="$secondary" fontWeight="$7">
                 {totalScore} Total Score
               </Text>
-            </HStack>
-            <HStack>
+            </XStack>
+            <XStack>
               <Text fontSize="$3" color="$color" numberOfLines={2}>
                 {personBio}
               </Text>
-            </HStack>
-          </VStack>
-        </VStack>
-      </VStack>
+            </XStack>
+          </YStack>
+        </YStack>
+      </YStack>
     </Animated.View>
   );
 }

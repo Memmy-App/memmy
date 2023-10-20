@@ -61,7 +61,7 @@ function AnimatedIconButton({
       onPress={onButtonPress}
     >
       <Animated.View style={[scaleStyle]}>
-        <View backgroundColor={backgroundColor} borderRadius={3} padding={4}>
+        <View backgroundColor={backgroundColor} borderRadius={3} p={4}>
           <Icon />
         </View>
       </Animated.View>

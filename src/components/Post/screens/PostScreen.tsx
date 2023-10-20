@@ -8,7 +8,6 @@ import {
   usePostCommunityId,
   usePostCounts,
 } from '@src/state';
-import VStack from '@components/Common/Stack/VStack';
 import Post from '@components/Post/components/Post';
 import instance from '@src/Instance';
 import { ICommentInfo } from '@src/types';
@@ -21,6 +20,7 @@ import { stripEss } from '@helpers/text';
 import CommentSortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/CommentSortTypeContextMenuButton';
 import { useAwaitTransition } from '@hooks/useAwaitTransition';
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
+import { YStack } from 'tamagui';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -129,7 +129,7 @@ export default function PostScreen({
   }
 
   return (
-    <VStack flex={1}>
+    <YStack flex={1}>
       <FlashList<ICommentInfo>
         renderItem={renderItem}
         data={commentsToShow}
@@ -145,6 +145,6 @@ export default function PostScreen({
         // @ts-expect-error this is valid
         ref={flashListRef}
       />
-    </VStack>
+    </YStack>
   );
 }

@@ -11,5 +11,5 @@ export default function MdImageWrapper({
   token,
   children,
 }: IProps): React.JSX.Element {
-  return <View marginBottom="$2">{children}</View>;
+  return <View mb="$2">{children}</View>;
 }

@@ -20,7 +20,7 @@ interface IThemeColors {
 
 function ThemeColors({ accent, bg }: IThemeColors): React.JSX.Element {
   return (
-    <View borderRadius={8} overflow="hidden" marginRight="$2">
+    <View borderRadius={8} overflow="hidden" mr="$2">
       <View width={25} height={25} backgroundColor={bg}>
         <View
           width={0}

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { createMarkdownComponents } from '@helpers/markdown';
-import VStack from '@components/Common/Stack/VStack';
+import { YStack } from 'tamagui';
 
 interface IProps {
   children: string | undefined;
@@ -13,7 +13,7 @@ function Markdown({ children, color = '$color' }: IProps): React.JSX.Element {
     [children],
   );
 
-  return <VStack>{components}</VStack>;
+  return <YStack>{components}</YStack>;
 }
 
 export default React.memo(Markdown);
