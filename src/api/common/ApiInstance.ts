@@ -20,6 +20,7 @@ import {
   ListCommunitiesResponse,
   PostResponse,
   RemoveComment,
+  RemovePost,
   Search,
   SearchResponse,
   SortType,
@@ -39,6 +40,7 @@ import {
   addCommentsToPost,
   addPost,
   addPosts,
+  removePost,
   setSubscribed,
   setSubscriptions,
   updateComment,
@@ -586,7 +588,8 @@ class ApiInstance {
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
     }
   }
 
@@ -704,13 +707,16 @@ class ApiInstance {
 
   async deletePost(postId: number): Promise<void> {
     try {
-      await this.instance?.deletePost({
+      void (await this.instance!.deletePost({
         post_id: postId,
         deleted: true,
         auth: this.authToken!,
-      });
+      }));
+
+      removePost(postId, true);
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
     }
   }
 
@@ -800,6 +806,29 @@ class ApiInstance {
       }
 
       updateComment(res.comment_view);
+
+      return res;
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
+  async modRemovePost(options: Partial<RemovePost>): Promise<PostResponse> {
+    const defaultOptions: Partial<RemovePost> = {
+      auth: this.authToken!,
+      removed: true,
+    };
+
+    options = {
+      ...defaultOptions,
+      ...options,
+    };
+
+    try {
+      const res = await this.instance!.removePost(options as RemovePost);
+
+      removePost(options.post_id!, true);
 
       return res;
     } catch (e: any) {
