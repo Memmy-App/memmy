@@ -66,7 +66,10 @@ export default function SettingsAppearanceScreen({
             </>
           )}
         </Table.Section>
-        <Table.Section header="Font Scale">
+        <Table.Section
+          header="Font Scale"
+          footer="In an effort to keep things snappy, you will need to 're-render' any screen you're currently on for font sizes to update. I am working on a solution to this in the mean time. You may also restart the app if you feel that is easier."
+        >
           <Table.Cell
             label="Font Scale"
             rightLabel={`${settings.fontSize}pt`}
