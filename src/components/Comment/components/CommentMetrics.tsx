@@ -23,6 +23,15 @@ function CommentMetrics({ itemId }: IProps): React.JSX.Element {
     () => (voting.myVote === -1 ? '$downvote' : '$secondary'),
     [voting.myVote],
   );
+  const scoreColor = useMemo(
+    () =>
+      voting.myVote === 1
+        ? '$upvote'
+        : voting.myVote === -1
+        ? '$downvote'
+        : '$secondary',
+    [voting.myVote],
+  );
 
   if (totalScore) {
     return (
@@ -33,7 +42,7 @@ function CommentMetrics({ itemId }: IProps): React.JSX.Element {
         alignItems="center"
       >
         <ScoreIcon myVote={voting.myVote} />
-        <Text color="$secondary">{voting.score}</Text>
+        <Text color={scoreColor}>{voting.score}</Text>
       </HStack>
     );
   } else {
