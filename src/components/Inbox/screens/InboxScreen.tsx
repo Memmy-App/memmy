@@ -31,13 +31,13 @@ export default function InboxScreen(): React.JSX.Element {
         ref={pagerViewRef}
         initialPage={0}
       >
-        <View key={0} style={styles.container}>
+        <View key={0} flex={1}>
           <InboxRepliesTab selected={selectedTab} />
         </View>
-        <View key={1} style={styles.container}>
+        <View key={1} flex={1}>
           <InboxMentionsTab selected={selectedTab} />
         </View>
-        <View key={2} style={styles.container}></View>
+        <View key={2} flex={1}></View>
       </PagerView>
     </Animated.View>
   );
