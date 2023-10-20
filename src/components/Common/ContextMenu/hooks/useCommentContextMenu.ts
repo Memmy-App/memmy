@@ -12,6 +12,7 @@ interface UseCommentContextMenu {
   edit: () => void;
   delet: () => void;
   remove: () => void;
+  report: () => void;
 }
 
 export const useCommentContextMenu = (
@@ -136,5 +137,6 @@ export const useCommentContextMenu = (
     edit,
     delet,
     remove,
+    report,
   };
 };
