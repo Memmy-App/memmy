@@ -13,6 +13,7 @@
     "@tamagui/config": "^1.74.19",
     "@tamagui/lucide-icons": "^1.74.19",
     "@tamagui/theme-builder": "^1.74.19",
+    "@tamagui/themes": "^1.74.21",
     "@types/lodash": "^4.14.199",
     "@types/markdown-it": "^13.0.2",
     "@types/react": "~18.2.14",
@@ -75,6 +76,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
+    "@tamagui/babel-plugin": "^1.74.21",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^9.0.0",
