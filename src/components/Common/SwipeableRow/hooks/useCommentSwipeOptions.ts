@@ -1,4 +1,3 @@
-import { useTheme } from 'tamagui';
 import { useMemo } from 'react';
 import {
   useCommentGesturesFirstLeft,
@@ -13,6 +12,7 @@ import {
   ISwipeableIcons,
   ISwipeableOptions,
 } from '@components/Common/SwipeableRow/types';
+import { useTheme } from 'tamagui';
 
 export const useCommentSwipeOptions = (
   side: 'right' | 'left',

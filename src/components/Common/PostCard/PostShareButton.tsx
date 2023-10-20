@@ -3,6 +3,7 @@ import { usePostActorId, usePostLink } from '@src/state';
 import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
 import { Share } from '@tamagui/lucide-icons';
 import { openLink } from '@helpers/links';
+import { useTheme } from 'tamagui';
 
 interface IProps {
   itemId: number;
@@ -10,16 +11,18 @@ interface IProps {
 }
 
 function PostShareButton({ itemId, type }: IProps): React.JSX.Element {
+  const theme = useTheme();
+
   const postLink = usePostLink(itemId);
   const postActorId = usePostActorId(itemId);
 
   const onPress = useCallback(() => {
     if (type === 'post' || postLink == null) {
-      openLink(postActorId);
+      openLink(postActorId, theme.navBarBg.val);
       return;
     }
 
-    openLink(postLink);
+    openLink(postLink, theme.navBarBg.val);
   }, [itemId, type]);
 
   return (

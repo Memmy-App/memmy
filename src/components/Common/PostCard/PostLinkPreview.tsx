@@ -5,7 +5,7 @@ import {
   usePostNsfw,
   usePostThumbnail,
 } from '@src/state';
-import { Separator, Text, View } from 'tamagui';
+import { Separator, Text, useTheme, View } from 'tamagui';
 import { Image } from 'expo-image';
 import HStack from '@components/Common/Stack/HStack';
 import VStack from '@components/Common/Stack/VStack';
@@ -19,6 +19,8 @@ interface IProps {
 }
 
 function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
+  const theme = useTheme();
+
   const postLink = usePostLink(itemId);
   const postThumbnail = usePostThumbnail(itemId);
   const postNsfw = usePostNsfw(itemId);
@@ -37,8 +39,8 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
   if (postLink == null) return null;
 
   const onPress = useCallback(() => {
-    openLink(postLink);
-  }, [itemId]);
+    openLink(postLink, theme.navBarBg.val);
+  }, [itemId, theme]);
 
   return (
     <Pressable onPress={onPress}>
