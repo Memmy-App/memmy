@@ -66,7 +66,7 @@ function ButtonOne({
       <XStack
         backgroundColor={backgroundColor}
         borderRadius="$2"
-        padding="$2"
+        p="$2"
         onPress={onButtonPress}
         onPressIn={onTapBegin}
         onPressOut={onTapEnd}
@@ -75,7 +75,7 @@ function ButtonOne({
       >
         <XStack space="$2" alignItems="center" flex={1}>
           {Icon}
-          <Text fontSize={fontSize} margin="auto" numberOfLines={1}>
+          <Text fontSize={fontSize} m="auto" numberOfLines={1}>
             {label}
           </Text>
         </XStack>

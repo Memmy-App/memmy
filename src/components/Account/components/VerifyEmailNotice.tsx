@@ -18,7 +18,7 @@ export default function VerifyEmailNotice({
   doSignup,
 }: IProps): React.JSX.Element {
   return (
-    <YStack paddingHorizontal="$2" space="$2">
+    <YStack px="$2" space="$2">
       <Text fontSize="$7" fontWeight="$6" textAlign="center">
         Check Your Inbox
       </Text>

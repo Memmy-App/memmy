@@ -11,7 +11,7 @@ function PostFooter(): React.JSX.Element {
   const user = usePostCreator(postId);
 
   return (
-    <YStack space="$1.5" paddingVertical="$2" paddingHorizontal="$3">
+    <YStack space="$1.5" py="$2" px="$3">
       <PostUserLabel
         userIcon={user?.avatar}
         userCommunity={user?.actor_id}

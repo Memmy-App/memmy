@@ -66,6 +66,24 @@ export default function SettingsAppearanceScreen({
             </>
           )}
         </Table.Section>
+        <Table.Section header="Feed Display">
+          <Table.Cell
+            label="Compact View"
+            switchValue={settings.viewType === 'compact'}
+            onSwitchValueChange={(v) => {
+              setSetting('viewType', v ? 'compact' : 'full');
+            }}
+          />
+          {settings.viewType === 'compact' && (
+            <Table.Cell
+              label="Show Vote Buttons"
+              switchValue={settings.viewType === 'compact'}
+              onSwitchValueChange={(v) => {
+                setSetting('compactShowVoteButtons', v);
+              }}
+            />
+          )}
+        </Table.Section>
         <Table.Section
           header="Font Scale"
           footer="In an effort to keep things snappy, you will need to 're-render' any screen you're currently on for font sizes to update. I am working on a solution to this in the mean time. You may also restart the app if you feel that is easier."

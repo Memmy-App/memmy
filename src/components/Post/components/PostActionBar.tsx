@@ -17,8 +17,8 @@ function PostActionBar(): React.JSX.Element {
       borderTopWidth={1}
       borderBottomWidth={1}
       borderColor="$bg"
-      paddingVertical="$2"
-      paddingHorizontal="$5"
+      py="$2"
+      px="$5"
     >
       <PostUpvoteButton itemId={postId} />
       <PostDownvoteButton itemId={postId} />

@@ -36,7 +36,7 @@ export default function SettingsAccentScreen({
         value={accent ?? theme.accent.val}
         onComplete={onSelectColor}
       >
-        <XStack justifyContent="center" marginBottom="$1">
+        <XStack justifyContent="center" mb="$1">
           <Text fontSize="$5" right={50}>
             Current
           </Text>

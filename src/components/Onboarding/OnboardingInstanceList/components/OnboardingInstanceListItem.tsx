@@ -25,11 +25,11 @@ function OnboardingInstanceListItem({ item }: IProps): React.JSX.Element {
     <Pressable onPress={onPress}>
       <YStack
         space="$2"
-        padding="$2.5"
+        p="$2.5"
         borderRadius={10}
         backgroundColor="$fg"
-        marginVertical="$2"
-        marginHorizontal="$3"
+        my="$2"
+        mx="$3"
       >
         <XStack space="$3" alignItems="center">
           {item.site_view.site.icon != null ? (

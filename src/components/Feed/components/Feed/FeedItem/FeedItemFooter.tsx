@@ -9,12 +9,7 @@ export default function FeedItemFooter({
   children,
 }: IProps): React.JSX.Element {
   return (
-    <XStack
-      paddingHorizontal="$3"
-      paddingVertical="$1"
-      space="$2"
-      alignItems="center"
-    >
+    <XStack px="$3" py="$1" space="$2" alignItems="center">
       {children}
     </XStack>
   );

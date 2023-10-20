@@ -68,7 +68,7 @@ function Comment({
   );
 
   return (
-    <View marginVertical={space ? 2 : 0}>
+    <View my={space ? 2 : 0}>
       <SwipeableRow
         leftOption={
           swipesEnabled && leftOptions?.actions.first != null ? (
@@ -83,17 +83,17 @@ function Comment({
       >
         <YStack backgroundColor="$fg">
           <YStack
-            marginLeft={depth * 10}
-            marginVertical="$2"
+            ml={depth * 10}
+            my="$2"
             borderLeftColor={borderColor}
             borderLeftWidth={borderWidth}
-            paddingHorizontal="$2"
-            paddingVertical="$1"
+            px="$2"
+            py="$1"
           >
             <CommentHeader itemId={itemId} />
             {!collapsed && <CommentContent itemId={itemId} />}
           </YStack>
-          <Separator borderColor="$bg" marginLeft={depth * 10 + 10} />
+          <Separator borderColor="$bg" ml={depth * 10 + 10} />
         </YStack>
       </SwipeableRow>
     </View>

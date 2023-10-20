@@ -31,14 +31,14 @@ function ImageViewerHeader({
         width="100%"
         backgroundColor="$upvote"
       >
-        <XStack top={80} flex={1} paddingHorizontal="$3">
+        <XStack top={80} flex={1} px="$3">
           <Text fontSize="$6" fontWeight="bold" numberOfLines={1}>
             {title}
           </Text>
         </XStack>
       </YStack>
       <YStack zIndex={2} position="absolute" height={120} width="100%">
-        <View top={60} marginLeft="auto" paddingRight="$3">
+        <View top={60} ml="auto" pr="$3">
           <AnimatedIconButton
             icon={X}
             color="$accent"

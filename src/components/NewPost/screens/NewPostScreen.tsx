@@ -56,13 +56,13 @@ export default function NewPostScreen(): React.JSX.Element {
         ref={viewRef}
       >
         <LoadingOverlay visible={newPostScreen.isLoading} />
-        <YStack marginBottom="$2" marginTop="$2" paddingHorizontal="$3">
+        <YStack mb="$2" mt="$2" px="$3">
           <XStack alignItems="center">
             <NsfwButton
               nsfw={newPostScreen.nsfw}
               setNsfw={newPostScreen.setNsfw}
             />
-            <View marginLeft="auto">
+            <View ml="auto">
               <ButtonOne
                 label={
                   languages == null ||
@@ -89,9 +89,9 @@ export default function NewPostScreen(): React.JSX.Element {
             fontSize="$5"
             // @ts-expect-error - valid
             ref={newPostScreen.inputRef}
-            paddingHorizontal={0}
-            marginTop={5}
-            marginBottom={-5}
+            px={0}
+            mt={5}
+            mb={-5}
           />
           <TextInput
             onChangeText={newPostScreen.setUrl}
@@ -99,8 +99,8 @@ export default function NewPostScreen(): React.JSX.Element {
             fontSize="$3"
             // @ts-expect-error - valid
             ref={newPostScreen.inputRef}
-            paddingHorizontal={0}
-            marginVertical={-5}
+            px={0}
+            my={-5}
             clearButtonMode="always"
           />
           <TextInput
@@ -112,10 +112,10 @@ export default function NewPostScreen(): React.JSX.Element {
             ref={newPostScreen.inputRef}
             multiline={true}
             scrollEnabled={false}
-            paddingHorizontal={0}
+            px={0}
             minHeight={200}
             onLayout={onLayout}
-            marginTop={-5}
+            mt={-5}
             placeholder="Have anything to say?"
           />
         </YStack>

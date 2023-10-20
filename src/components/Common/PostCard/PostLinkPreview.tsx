@@ -42,12 +42,7 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
 
   return (
     <Pressable onPress={onPress}>
-      <View
-        marginVertical="$3"
-        marginHorizontal="$5"
-        backgroundColor="$bg"
-        borderRadius={10}
-      >
+      <View my="$3" mx="$5" backgroundColor="$bg" borderRadius={10}>
         <YStack space="$2">
           {postThumbnail != null && (
             <View
@@ -78,9 +73,9 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
             alignItems="center"
             space="$2"
             width="100%"
-            paddingHorizontal="$3"
-            paddingBottom="$2"
-            paddingTop={postThumbnail == null ? '$2' : undefined}
+            px="$3"
+            pb="$2"
+            pt={postThumbnail == null ? '$2' : undefined}
           >
             <Link size={16} />
             <Separator

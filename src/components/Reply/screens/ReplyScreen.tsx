@@ -33,7 +33,7 @@ export default function ReplyScreen({
       {/* @ts-expect-error - this is valid */}
       <ScrollView automaticallyAdjustKeyboardInsets={true} ref={viewRef}>
         <LoadingOverlay visible={replyScreen.isLoading} />
-        <YStack space="$2" marginBottom="$2">
+        <YStack space="$2" mb="$2">
           {replyScreen.type === 'comment' ? (
             <Comment itemId={commentId} />
           ) : (

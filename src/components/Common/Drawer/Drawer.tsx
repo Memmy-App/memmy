@@ -54,7 +54,7 @@ export default function Drawer({ navigation }: IProps): React.JSX.Element {
 
   return (
     <YStack flex={1} backgroundColor="$bg">
-      <YStack marginTop={100} flex={1}>
+      <YStack mt={100} flex={1}>
         <FlashList<CommunityView | string>
           renderItem={renderItem}
           keyExtractor={keyExtractor}

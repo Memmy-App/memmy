@@ -129,7 +129,7 @@ function HeaderSearchBar({
           clearButtonMode="while-editing"
           // @ts-expect-error - this is valid
           ref={inputRef}
-          marginRight={5}
+          mr={5}
           clearTextOnFocus={autoClear}
           returnKeyType="search"
           returnKeyLabel="search"

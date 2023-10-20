@@ -133,8 +133,8 @@ function ProfileHeader(): React.JSX.Element {
           left={10}
           backgroundColor="rgba(0,0,0,0.7)"
           borderRadius={100}
-          padding={2}
-          paddingRight={4}
+          p={2}
+          pr={4}
           onPress={onBackPress}
           hitSlop={2}
         >
@@ -142,7 +142,7 @@ function ProfileHeader(): React.JSX.Element {
         </View>
       )}
 
-      <YStack flex={1} backgroundColor="$fg" marginTop="$1">
+      <YStack flex={1} backgroundColor="$fg" mt="$1">
         <YStack
           alignItems="center"
           height={300}
@@ -203,7 +203,7 @@ function ProfileHeader(): React.JSX.Element {
             <AnimatedAvatarPlaceholder size={85} style={[{}, avatarStyle]} />
           )}
 
-          <YStack marginHorizontal="$3" space="$2.5" top={110}>
+          <YStack mx="$3" space="$2.5" top={110}>
             <YStack space="$0.5">
               <Text fontSize="$5" fontWeight="bold">
                 {personName}

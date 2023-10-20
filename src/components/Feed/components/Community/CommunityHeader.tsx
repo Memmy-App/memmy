@@ -164,8 +164,8 @@ function CommunityHeader({
           left={10}
           backgroundColor="rgba(0,0,0,0.7)"
           borderRadius={100}
-          padding={2}
-          paddingRight={4}
+          p={2}
+          pr={4}
           onPress={onBackPress}
           hitSlop={2}
         >
@@ -173,19 +173,8 @@ function CommunityHeader({
         </View>
       )}
 
-      <XStack
-        marginRight="auto"
-        zIndex={2}
-        position="absolute"
-        right={10}
-        top={50}
-      >
-        <View
-          backgroundColor="rgba(0,0,0,0.7)"
-          borderRadius={100}
-          padding={4}
-          paddingRight={4}
-        >
+      <XStack mr="auto" zIndex={2} position="absolute" right={10} top={50}>
+        <View backgroundColor="rgba(0,0,0,0.7)" borderRadius={100} p={4} pr={4}>
           <SortTypeContextMenuButton
             sortType={sortType}
             setSortType={setSortType}
@@ -194,7 +183,7 @@ function CommunityHeader({
         </View>
       </XStack>
 
-      <YStack flex={1} backgroundColor="$fg" marginTop="$1">
+      <YStack flex={1} backgroundColor="$fg" mt="$1">
         <YStack
           alignItems="center"
           height={300}
@@ -255,7 +244,7 @@ function CommunityHeader({
               style={[{}, avatarStyle]}
             />
           )}
-          <XStack marginLeft="auto" width="65%" top={70} space="$3" right={10}>
+          <XStack ml="auto" width="65%" top={70} space="$3" right={10}>
             <ButtonOne
               label={subscribed ? 'Subscribed' : 'Subscribe'}
               icon={subscribed ? Star : StarOff}
@@ -269,7 +258,7 @@ function CommunityHeader({
             />
           </XStack>
 
-          <YStack marginHorizontal="$3" space="$2.5" top={80}>
+          <YStack mx="$3" space="$2.5" top={80}>
             <YStack alignItems="baseline" space="$0.5">
               <Text fontSize="$5" fontWeight="bold">
                 {communityName}

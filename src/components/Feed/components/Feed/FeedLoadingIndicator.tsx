@@ -24,7 +24,7 @@ function FeedLoadingIndicator({
           space="$2"
           alignItems="center"
           justifyContent="center"
-          padding="$3"
+          p="$3"
         >
           <Text fontSize="$2" color="$secondary">
             Something went wrong
@@ -41,7 +41,7 @@ function FeedLoadingIndicator({
           space="$2"
           alignItems="center"
           justifyContent="center"
-          padding="$3"
+          p="$3"
         >
           <Text fontSize="$2" color="$secondary">
             Nothing to see here...
@@ -54,7 +54,7 @@ function FeedLoadingIndicator({
   }
 
   return (
-    <YStack flex={1} alignItems="center" justifyContent="center" padding="$3">
+    <YStack flex={1} alignItems="center" justifyContent="center" p="$3">
       <LoadingAnimation size="small" />
     </YStack>
   );

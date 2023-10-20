@@ -15,12 +15,7 @@ export default function Section({
   return (
     <YStack>
       {header != null && (
-        <Text
-          color="$secondary"
-          paddingHorizontal="$3"
-          paddingVertical="$2"
-          fontSize={12}
-        >
+        <Text color="$secondary" px="$3" py="$2" fontSize={12}>
           {header.toUpperCase()}
         </Text>
       )}
@@ -38,12 +33,7 @@ export default function Section({
       })}
 
       {footer != null && (
-        <Text
-          color="$secondary"
-          paddingHorizontal="$3"
-          paddingVertical="$2"
-          fontSize={12}
-        >
+        <Text color="$secondary" px="$3" py="$2" fontSize={12}>
           {footer}
         </Text>
       )}

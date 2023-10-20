@@ -48,7 +48,7 @@ function PostContent(): React.JSX.Element {
   return (
     <View>
       {postLinkType === 'image' && (
-        <View marginVertical="$3">
+        <View my="$3">
           <ViewerImage
             source={postLink!}
             blurRadius={postNsfw || postCommunityNsfw ? 90 : 0}
@@ -56,7 +56,7 @@ function PostContent(): React.JSX.Element {
         </View>
       )}
       {postBody != null && (
-        <View margin="$3">
+        <View m="$3">
           <Markdown>{postBody}</Markdown>
         </View>
       )}

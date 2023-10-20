@@ -22,12 +22,7 @@ export default function OnboardingIndexScreen({
       resizeMode="cover"
     >
       <Theme name="darkTheme">
-        <YStack
-          flex={1}
-          justifyContent="center"
-          marginHorizontal={20}
-          space="$9"
-        >
+        <YStack flex={1} justifyContent="center" mx={20} space="$9">
           <OnboardingH1>Hello!👋</OnboardingH1>
           <OnboardingH1>Welcome to the Fediverse</OnboardingH1>
 

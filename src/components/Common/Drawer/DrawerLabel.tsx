@@ -7,11 +7,7 @@ interface IProps {
 
 function DrawerLabel({ char }: IProps): React.JSX.Element {
   return (
-    <YStack
-      backgroundColor="$inputbg"
-      paddingHorizontal="$2"
-      paddingVertical="$1"
-    >
+    <YStack backgroundColor="$inputbg" px="$2" py="$1">
       <Text fontSize="$3">{char}</Text>
     </YStack>
   );

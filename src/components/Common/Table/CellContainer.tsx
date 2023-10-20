@@ -14,8 +14,8 @@ export default function CellContainer({
 }: IProps): React.JSX.Element {
   return (
     <YStack
-      paddingHorizontal="$3"
-      paddingVertical={12}
+      px="$3"
+      py={12}
       backgroundColor="$fg"
       borderTopRightRadius={isFirst === true ? '$3' : undefined}
       borderTopLeftRadius={isFirst === true ? '$3' : undefined}

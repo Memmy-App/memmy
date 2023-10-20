@@ -50,8 +50,8 @@ function DrawerItem({ view, navigation }: IProps): React.JSX.Element {
       space="$2"
       onPress={onCommunityPress}
       alignItems="center"
-      paddingHorizontal="$3"
-      paddingVertical="$2"
+      px="$3"
+      py="$2"
       backgroundColor="$fg"
     >
       {view.community.icon != null ? (
@@ -65,7 +65,7 @@ function DrawerItem({ view, navigation }: IProps): React.JSX.Element {
           {instance}
         </Text>
       </YStack>
-      <View marginLeft="auto" onPress={onFavoritePress}>
+      <View ml="auto" onPress={onFavoritePress}>
         {favorited === true ? (
           <Star color="$accent" />
         ) : (

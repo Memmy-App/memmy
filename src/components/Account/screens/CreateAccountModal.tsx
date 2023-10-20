@@ -60,8 +60,8 @@ export default function CreateAccountModal({
   return (
     <ScrollView
       space="$1"
-      marginHorizontal="$3"
-      marginVertical="$2"
+      mx="$3"
+      my="$2"
       automaticallyAdjustKeyboardInsets={true}
     >
       <AppToast translate={95} />
@@ -138,7 +138,7 @@ export default function CreateAccountModal({
 
           {signup.captchaPng != null && (
             <>
-              <YStack alignItems="center" marginTop="$3">
+              <YStack alignItems="center" mt="$3">
                 <Image
                   source={{ uri: `data:image/png;base64,${signup.captchaPng}` }}
                   style={{ height: 100, width: '100%' }}

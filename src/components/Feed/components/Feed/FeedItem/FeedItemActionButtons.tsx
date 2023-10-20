@@ -12,7 +12,7 @@ export default function FeedItemActionButtons({
   itemId,
 }: IProps): React.JSX.Element {
   return (
-    <XStack space="$1.5" marginLeft="auto">
+    <XStack space="$1.5" ml="auto">
       <PostSaveButton itemId={itemId} />
       <PostUpvoteButton itemId={itemId} />
       <PostDownvoteButton itemId={itemId} />

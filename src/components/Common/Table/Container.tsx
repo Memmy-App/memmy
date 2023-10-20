@@ -7,13 +7,7 @@ interface IProps {
 
 export default function Container({ children }: IProps): React.JSX.Element {
   return (
-    <YStack
-      marginHorizontal="$3"
-      marginVertical="$2"
-      space="$6"
-      paddingTop="$3"
-      paddingBottom={100}
-    >
+    <YStack mx="$3" my="$2" space="$6" pt="$3" pb={100}>
       {children}
     </YStack>
   );

@@ -18,7 +18,7 @@ export default function OnboardingInstanceListHeader(): React.JSX.Element {
   };
 
   return (
-    <YStack alignItems="center" padding="$2" marginHorizontal="$2" space="$2">
+    <YStack alignItems="center" p="$2" mx="$2" space="$2">
       <P1>Already have an instance?</P1>
       <XStack space="$2">
         <Button width="50%" onPress={onCreateAccountPress}>

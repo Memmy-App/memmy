@@ -26,7 +26,7 @@ function CommentHeader({ itemId }: IProps): React.JSX.Element {
         userCommunity={commentCreatorActorId}
       />
       <CommentMetrics itemId={itemId} />
-      <View marginLeft="auto">
+      <View ml="auto">
         <CommentEllipsisButton itemId={itemId} />
       </View>
     </XStack>

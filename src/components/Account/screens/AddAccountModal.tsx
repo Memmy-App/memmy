@@ -36,8 +36,8 @@ export default function AddAccountModal(): React.JSX.Element {
   return (
     <ScrollView
       space="$1"
-      marginHorizontal="$3"
-      marginVertical="$2"
+      mx="$3"
+      my="$2"
       automaticallyAdjustKeyboardInsets={true}
     >
       <AppToast translate={95} />

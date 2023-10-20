@@ -16,7 +16,7 @@ export default function KeyboardAccessoryView(
         height={30}
         justifyContent="space-between"
         alignItems="center"
-        paddingHorizontal="$3"
+        px="$3"
         backgroundColor="$bg"
       >
         <AnimatedIconButton

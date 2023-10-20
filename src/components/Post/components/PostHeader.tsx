@@ -14,16 +14,16 @@ function PostHeader(): React.JSX.Element {
 
   return (
     <YStack
-      paddingHorizontal="$3"
-      paddingTop="$3"
-      paddingBottom="$2"
+      px="$3"
+      pt="$3"
+      pb="$2"
       borderBottomWidth={1}
       borderColor="$bg"
       space="$1.5"
     >
       <XStack alignItems="center">
         <PostCommunityLabel itemId={postId} />
-        <View marginLeft="auto" padding="$1">
+        <View ml="auto" p="$1">
           <PostContextMenu itemId={postId}>
             <Pressable hitSlop={5}>
               <Ellipsis size={18} color={theme.accent.val} />

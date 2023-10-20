@@ -17,10 +17,10 @@ function FeedItemHeader({ itemId }: IProps): React.JSX.Element {
   const fontWeight = useSettingsStore((state) => state.postTitleWeight);
 
   return (
-    <YStack paddingHorizontal="$3" space="$1.5">
+    <YStack px="$3" space="$1.5">
       <XStack alignItems="center">
         <PostCommunityLabel itemId={itemId} />
-        <View marginLeft="auto" padding="$1">
+        <View ml="auto" p="$1">
           <PostContextMenu itemId={itemId}>
             <Pressable hitSlop={5}>
               <Ellipsis size={18} color={theme.accent.val} />

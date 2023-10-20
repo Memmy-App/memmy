@@ -16,15 +16,10 @@ function PostReplyContent({ itemId }: IProps): React.JSX.Element {
 
   return (
     <YStack backgroundColor="$fg">
-      <YStack
-        marginVertical="$2"
-        paddingHorizontal="$2"
-        paddingVertical="$1"
-        space="$3"
-      >
+      <YStack my="$2" px="$2" py="$1" space="$3">
         <FeedItemHeader itemId={itemId} />
         <Markdown>{postContent}</Markdown>
-        <XStack justifyContent="space-between" paddingHorizontal="$2">
+        <XStack justifyContent="space-between" px="$2">
           <PostUserLabel
             userIcon={user?.avatar}
             userName={user?.name}

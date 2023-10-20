@@ -39,18 +39,13 @@ function CommentImageButton({ source }: IProps): React.JSX.Element {
   );
 
   return (
-    <XStack
-      backgroundColor="$bg"
-      borderRadius={10}
-      marginTop="$1"
-      onPress={onPress}
-    >
+    <XStack backgroundColor="$bg" borderRadius={10} mt="$1" onPress={onPress}>
       <XStack
         alignItems="center"
         space="$2"
-        paddingHorizontal="$3"
-        paddingBottom="$2"
-        paddingTop="$2"
+        px="$3"
+        pb="$2"
+        pt="$2"
         justifyContent="space-between"
         flex={1}
       >

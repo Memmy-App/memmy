@@ -68,7 +68,7 @@ export default function NsfwButton({
           alignItems="center"
           justifyContent="center"
           space="$2"
-          paddingVertical={6}
+          py={6}
         >
           <AlertTriangle color="$accent" size={19} />
           <Text>NSFW</Text>

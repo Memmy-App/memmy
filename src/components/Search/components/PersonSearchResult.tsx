@@ -35,12 +35,7 @@ function PersonSearchResult({ view }: IProps): React.JSX.Element {
 
   return (
     <Pressable onPress={onPress}>
-      <YStack
-        space="$1"
-        padding="$2.5"
-        backgroundColor="$fg"
-        marginVertical="$1.5"
-      >
+      <YStack space="$1" p="$2.5" backgroundColor="$fg" my="$1.5">
         <XStack space="$3" alignItems="center">
           {view.person.avatar != null ? (
             <Image

@@ -22,23 +22,18 @@ function CommentShowMoreButton({ commentInfo }: IProps): React.JSX.Element {
     <Pressable onPress={onPress}>
       <YStack backgroundColor="$fg">
         <YStack
-          marginLeft={commentInfo.depth * 10}
-          marginVertical="$2"
+          ml={commentInfo.depth * 10}
+          my="$2"
           borderLeftColor="$secondary"
           borderLeftWidth={2}
-          paddingHorizontal="$2"
-          paddingVertical="$1"
+          px="$2"
+          py="$1"
         >
-          <Text
-            color="$secondary"
-            fontStyle="italic"
-            marginBottom="$1"
-            margin="auto"
-          >
+          <Text color="$secondary" fontStyle="italic" mb="$1" m="auto">
             Show More Comments...
           </Text>
         </YStack>
-        <Separator borderColor="$bg" marginLeft={commentInfo.depth * 10 + 10} />
+        <Separator borderColor="$bg" ml={commentInfo.depth * 10 + 10} />
       </YStack>
     </Pressable>
   );

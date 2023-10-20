@@ -32,8 +32,8 @@ export default function Cell({
   return (
     <Pressable onPress={onPress}>
       <YStack
-        paddingHorizontal="$3"
-        paddingVertical={12}
+        px="$3"
+        py={12}
         backgroundColor="$fg"
         borderTopRightRadius={isFirst === true ? '$3' : undefined}
         borderTopLeftRadius={isFirst === true ? '$3' : undefined}
@@ -43,7 +43,7 @@ export default function Cell({
         <XStack alignItems="center">
           {accessoryLeft}
           <Text>{label}</Text>
-          <XStack marginLeft="auto" alignItems="center" space="$2">
+          <XStack ml="auto" alignItems="center" space="$2">
             {label != null && <Text color="$secondary">{rightLabel}</Text>}
             {accessoryRight}
             {switchValue != null && onSwitchValueChange !== null && (
@@ -56,7 +56,7 @@ export default function Cell({
       {isLast !== true && (
         <Separator
           alignSelf="stretch"
-          marginLeft="$3"
+          ml="$3"
           borderWidth={0.2}
           borderColor="$fg"
         />
