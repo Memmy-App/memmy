@@ -1,6 +1,7 @@
 import {
   useAccent,
   useDarkTheme,
+  useFontSize,
   useLightTheme,
   useMatchSystemTheme,
   useRegularTheme,
@@ -14,6 +15,7 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import { customTokens } from '@src/theme';
 import { IThemeOption } from '@src/types';
+import { updateFont } from '@tamagui/web';
 
 export interface UseThemeSettings {
   theme: IThemeOption;
@@ -30,9 +32,12 @@ export const useThemeSettings = (): UseThemeSettings => {
   const colorScheme = useColorScheme();
   const update = useForceUpdate();
 
+  const fontSize = useFontSize();
+
   const lastColorScheme = useRef(colorScheme);
   const [usedColorScheme, setUsedColorScheme] = useState(colorScheme);
 
+  const [fontInitialized, setFontInitialized] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [theme, setTheme] = useState<IThemeOption>(regularTheme);
 
@@ -49,6 +54,27 @@ export const useThemeSettings = (): UseThemeSettings => {
   }, [colorScheme]);
 
   useIsomorphicLayoutEffect(() => {
+    updateFont('body', {
+      size: {
+        1: fontSize - 4,
+        2: fontSize - 2,
+        3: fontSize,
+        4: fontSize + 2,
+        5: fontSize + 4,
+        6: fontSize + 6,
+      },
+    });
+
+    setTimeout(() => {
+      update();
+    }, 500);
+
+    setFontInitialized(true);
+  }, [fontSize]);
+
+  useIsomorphicLayoutEffect(() => {
+    if (!fontInitialized) return;
+
     let themeToUse: IThemeOption = regularTheme;
 
     if (matchSystem) {
@@ -66,9 +92,14 @@ export const useThemeSettings = (): UseThemeSettings => {
         ...(accent != null && {
           accent,
         }),
+        content: fontSize,
+        header: fontSize + 4,
       },
     });
-    update();
+
+    setTimeout(() => {
+      update();
+    }, 500);
 
     if (!initialized) {
       setInitialized(true);
@@ -76,12 +107,14 @@ export const useThemeSettings = (): UseThemeSettings => {
 
     setTheme(themeToUse);
   }, [
+    fontInitialized,
     accent,
     lightTheme,
     darkTheme,
     usedColorScheme,
     matchSystem,
     regularTheme,
+    fontSize,
   ]);
 
   return {

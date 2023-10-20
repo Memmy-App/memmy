@@ -1,6 +1,6 @@
 import { IColors } from '@src/theme/common';
 
-export const moodyPurpleTheme: IColors = {
+export const moodyPurpleTheme: Partial<IColors> = {
   accent: '#8877F1',
   accentHighlight: '#352945',
 

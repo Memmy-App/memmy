@@ -100,7 +100,6 @@ export const useSignup = (): UseSignup => {
       }
 
       if (res !== EInitializeResult.SUCCESS) {
-        console.log(res);
         Alert.alert('Error', 'An unknown error has occurred.');
         return;
       }

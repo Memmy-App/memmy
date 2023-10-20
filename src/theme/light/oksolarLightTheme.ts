@@ -1,6 +1,6 @@
 import { IColors } from '@src/theme/common';
 
-export const oksolarLightTheme: IColors = {
+export const oksolarLightTheme: Partial<IColors> = {
   accent: '#2B90D8',
   accentHighlight: '#E7F2FF',
 

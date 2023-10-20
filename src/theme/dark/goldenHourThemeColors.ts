@@ -1,6 +1,6 @@
 import { IColors } from '@src/theme/common';
 
-export const goldenHourTheme: IColors = {
+export const goldenHourTheme: Partial<IColors> = {
   accent: '#C7804C',
   accentHighlight: '#382917',
 

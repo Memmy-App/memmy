@@ -6,7 +6,7 @@ import { createAnimations } from '@tamagui/animations-react-native';
 
 const headingFont = createInterFont();
 const bodyFont = createInterFont({
-  family: 'Inter, sans-serif',
+  family: 'Inter',
   size: {
     1: 12,
     2: 14,

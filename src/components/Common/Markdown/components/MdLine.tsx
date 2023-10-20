@@ -8,5 +8,9 @@ interface IProps {
 }
 
 export default function MdLine({ token, children }: IProps): React.JSX.Element {
-  return <Text marginBottom="$2">{children}</Text>;
+  return (
+    <Text marginBottom="$2" fontSize="$3">
+      {children}
+    </Text>
+  );
 }

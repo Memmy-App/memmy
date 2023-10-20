@@ -35,7 +35,7 @@ function CommentUserLabel({
   return (
     <HStack space="$2" alignItems="center" onPress={onPress} hitSlop={5}>
       {showIcon && <UserIcon userIcon={userIcon} />}
-      <Text color="$secondary" fontSize={14}>
+      <Text fontSize="$3" color="$secondary">
         {name}
       </Text>
     </HStack>

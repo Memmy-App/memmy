@@ -71,7 +71,7 @@ function CommentImageButton({ source }: IProps): React.JSX.Element {
           opacity={0.5}
         />
         <View flex={1}>
-          <Text color="$secondary" numberOfLines={1}>
+          <Text color="$secondary" numberOfLines={1} fontSize="$2">
             {source}
           </Text>
         </View>

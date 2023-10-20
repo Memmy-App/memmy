@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text } from 'tamagui';
-import { useSettingsStore } from '@src/state';
 import HStack from '@components/Common/Stack/HStack';
 
 interface IProps {
@@ -8,8 +7,6 @@ interface IProps {
 }
 
 export default function MdBlockQuote({ text }: IProps): React.JSX.Element {
-  const fontSize = useSettingsStore((state) => state.fontSize);
-
   return (
     <HStack
       backgroundColor="$fg"
@@ -20,7 +17,7 @@ export default function MdBlockQuote({ text }: IProps): React.JSX.Element {
       borderLeftWidth="$1"
       borderLeftColor="$upvote"
     >
-      <Text color="$color" fontSize={fontSize} wordWrap="break-word">
+      <Text color="$color" fontSize="$3" wordWrap="break-word">
         {text}
       </Text>
     </HStack>

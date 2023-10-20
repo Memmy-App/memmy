@@ -178,7 +178,7 @@ function ProfileHeader(): React.JSX.Element {
             ]}
           >
             <HStack space="$2" alignItems="baseline">
-              <Text fontSize="$8" fontWeight="bold" numberOfLines={1}>
+              <Text fontSize="$5" fontWeight="bold" numberOfLines={1}>
                 {personName}
               </Text>
               <Text fontSize="$3" color="$secondary">
@@ -205,14 +205,14 @@ function ProfileHeader(): React.JSX.Element {
           )}
 
           <VStack marginHorizontal="$3" space="$2.5" top={110}>
-            <HStack alignItems="baseline" space="$2">
-              <Text fontSize="$8" fontWeight="bold">
+            <VStack space="$0.5">
+              <Text fontSize="$5" fontWeight="bold">
                 {personName}
               </Text>
               <Text fontSize="$3" color="$secondary">
                 @{personInstance}
               </Text>
-            </HStack>
+            </VStack>
             <HStack space="$3">
               <Text fontSize="$2" color="$secondary" fontWeight="$7">
                 {personCounts?.post_count.toLocaleString()} Posts
@@ -225,7 +225,7 @@ function ProfileHeader(): React.JSX.Element {
               </Text>
             </HStack>
             <HStack>
-              <Text fontSize="$2" color="$color" numberOfLines={2}>
+              <Text fontSize="$3" color="$color" numberOfLines={2}>
                 {personBio}
               </Text>
             </HStack>

@@ -1,6 +1,6 @@
 import { IColors } from '@src/theme/common';
 
-export const sunsetTheme: IColors = {
+export const sunsetTheme: Partial<IColors> = {
   accent: '#fe7d00',
   // accentBg: "#332520",
   accentHighlight: '#D6772B',

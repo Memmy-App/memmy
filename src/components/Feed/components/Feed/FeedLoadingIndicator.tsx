@@ -27,7 +27,9 @@ function FeedLoadingIndicator({
           justifyContent="center"
           padding="$3"
         >
-          <Text color="$secondary">Something went wrong</Text>
+          <Text fontSize="$2" color="$secondary">
+            Something went wrong
+          </Text>
           {retry != null && <ButtonOne label="Retry" onPress={retry} />}
         </VStack>
       );
@@ -42,7 +44,9 @@ function FeedLoadingIndicator({
           justifyContent="center"
           padding="$3"
         >
-          <Text color="$secondary">Nothing to see here...</Text>
+          <Text fontSize="$2" color="$secondary">
+            Nothing to see here...
+          </Text>
         </VStack>
       );
     }

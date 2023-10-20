@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.19.3",
+    "@react-native-community/slider": "^4.4.3",
     "@react-native-picker/picker": "^2.5.1",
     "@react-native/metro-config": "^0.74.0",
     "@react-navigation/bottom-tabs": "^7.0.0-alpha.5",
@@ -12,6 +13,7 @@
     "@tamagui/config": "^1.74.19",
     "@tamagui/lucide-icons": "^1.74.19",
     "@tamagui/theme-builder": "^1.74.19",
+    "@tamagui/themes": "^1.74.21",
     "@types/lodash": "^4.14.199",
     "@types/markdown-it": "^13.0.2",
     "@types/react": "~18.2.14",
@@ -74,6 +76,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
+    "@tamagui/babel-plugin": "^1.74.21",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^9.0.0",
@@ -109,7 +112,7 @@
     "generate-license": "license-report --only=prod,dev,peer --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author --output=html > assets/license.html",
     "postinstall": "patch-package",
     "build-submit-ios": "cd ios && fastlane beta",
-		"lint": "./node_modules/eslint/bin/eslint.js . --ext=js,jsx,ts,tsx",
-		"lint-fix": "./node_modules/eslint/bin/eslint.js --fix"
+    "lint": "./node_modules/eslint/bin/eslint.js . --ext=js,jsx,ts,tsx",
+    "lint-fix": "./node_modules/eslint/bin/eslint.js --fix"
   }
 }

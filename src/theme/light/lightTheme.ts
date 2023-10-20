@@ -1,6 +1,6 @@
 import { IColors } from '@src/theme/common';
 
-export const lightTheme: IColors = {
+export const lightTheme: Partial<IColors> = {
   accent: '#2092FB',
   accentHighlight: '#E7F2FF',
 

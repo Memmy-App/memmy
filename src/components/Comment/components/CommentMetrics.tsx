@@ -42,7 +42,9 @@ function CommentMetrics({ itemId }: IProps): React.JSX.Element {
         alignItems="center"
       >
         <ScoreIcon myVote={voting.myVote} />
-        <Text color={scoreColor}>{voting.score}</Text>
+        <Text fontSize="$2" color={scoreColor}>
+          {voting.score}
+        </Text>
       </HStack>
     );
   } else {
@@ -55,7 +57,9 @@ function CommentMetrics({ itemId }: IProps): React.JSX.Element {
           alignItems="center"
         >
           <ArrowUp size={14} color={upvoteColor} />
-          <Text color={upvoteColor}>{voting.upvotes}</Text>
+          <Text fontSize="$2" color={upvoteColor}>
+            {voting.upvotes}
+          </Text>
         </HStack>
         <HStack
           space="$1"
@@ -64,7 +68,9 @@ function CommentMetrics({ itemId }: IProps): React.JSX.Element {
           alignItems="center"
         >
           <ArrowDown size={14} color={downvoteColor} />
-          <Text color={downvoteColor}>{voting.downvotes}</Text>
+          <Text fontSize="$2" color={downvoteColor}>
+            {voting.downvotes}
+          </Text>
         </HStack>
       </HStack>
     );

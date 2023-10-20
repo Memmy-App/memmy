@@ -33,7 +33,7 @@ function PostHeader(): React.JSX.Element {
           </PostContextMenu>
         </View>
       </HStack>
-      <Text fontSize="$8" fontWeight="bold">
+      <Text fontSize="$5" fontWeight="bold">
         {postTitle}
       </Text>
     </VStack>

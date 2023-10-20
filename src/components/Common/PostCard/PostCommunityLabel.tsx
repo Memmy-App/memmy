@@ -67,7 +67,7 @@ function PostCommunityLabel({ itemId }: IProps): React.JSX.Element {
     <Pressable onPress={onPress} hitSlop={5}>
       <HStack space="$2" alignItems="center">
         {showIcon && <CommunityIcon communityIcon={communityIcon} />}
-        <Text color="$secondary" fontSize={13}>
+        <Text color="$secondary" fontSize="$2">
           {fullName}
         </Text>
       </HStack>
