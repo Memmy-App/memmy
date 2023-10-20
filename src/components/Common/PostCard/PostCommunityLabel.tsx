@@ -6,10 +6,9 @@ import {
   usePostCommunityName,
   useSettingsStore,
 } from '@src/state';
-import HStack from '@components/Common/Stack/HStack';
 import { Image } from 'expo-image';
 import { Globe } from '@tamagui/lucide-icons';
-import { Text } from 'tamagui';
+import { Text, XStack } from 'tamagui';
 import { createName } from '@helpers/text';
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
@@ -65,12 +64,12 @@ function PostCommunityLabel({ itemId }: IProps): React.JSX.Element {
 
   return (
     <Pressable onPress={onPress} hitSlop={5}>
-      <HStack space="$2" alignItems="center">
+      <XStack space="$2" alignItems="center">
         {showIcon && <CommunityIcon communityIcon={communityIcon} />}
         <Text color="$secondary" fontSize="$2">
           {fullName}
         </Text>
-      </HStack>
+      </XStack>
     </Pressable>
   );
 }

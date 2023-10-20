@@ -1,9 +1,8 @@
 import React from 'react';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
-import VStack from '@components/Common/Stack/VStack';
-import HStack from '@components/Common/Stack/HStack';
 import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
 import { Save, Share } from '@tamagui/lucide-icons';
+import { XStack, YStack } from 'tamagui';
 
 interface IProps {
   visible: boolean;
@@ -18,7 +17,7 @@ function ImageViewerFooter({
 
   return (
     <Animated.View entering={FadeIn} exiting={FadeOut}>
-      <VStack
+      <YStack
         zIndex={1}
         position="absolute"
         height={100}
@@ -26,7 +25,7 @@ function ImageViewerFooter({
         bottom={0}
         backgroundColor="black"
       >
-        <HStack
+        <XStack
           flex={1}
           paddingHorizontal="$5"
           paddingVertical="$3"
@@ -34,8 +33,8 @@ function ImageViewerFooter({
         >
           <AnimatedIconButton icon={Save} color="$accent" iconSize={24} />
           <AnimatedIconButton icon={Share} color="$accent" iconSize={24} />
-        </HStack>
-      </VStack>
+        </XStack>
+      </YStack>
     </Animated.View>
   );
 }

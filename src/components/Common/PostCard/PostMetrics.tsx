@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import HStack from '@components/Common/Stack/HStack';
 import {
   ArrowDown,
   ArrowUp,
@@ -12,7 +11,7 @@ import {
   usePostMyVote,
   useSettingsStore,
 } from '@src/state';
-import { Text } from 'tamagui';
+import { Text, XStack } from 'tamagui';
 import ScoreIcon from '@components/Common/Icons/ScoreIcon';
 
 interface IProps {
@@ -45,44 +44,44 @@ function PostMetrics({ itemId }: IProps): React.JSX.Element {
   );
 
   return (
-    <HStack space="$2" alignItems="center">
+    <XStack space="$2" alignItems="center">
       {showTotalScore ? (
-        <HStack space="$1" alignItems="center">
+        <XStack space="$1" alignItems="center">
           <ScoreIcon myVote={postMyVote} />
           <Text fontSize="$2" color={scoreColor}>
             {postCounts?.score}
           </Text>
-        </HStack>
+        </XStack>
       ) : (
-        <HStack space="$2">
-          <HStack space="$1" alignItems="center">
+        <XStack space="$2">
+          <XStack space="$1" alignItems="center">
             <ArrowUp size={14} color={upvoteColor} />
             <Text color={upvoteColor} fontSize="$2">
               {postCounts?.upvotes}
             </Text>
-          </HStack>
-          <HStack space="$1" alignItems="center">
+          </XStack>
+          <XStack space="$1" alignItems="center">
             <ArrowDown size={14} color={downvoteColor} />
             <Text color={downvoteColor} fontSize="$2">
               {postCounts?.downvotes}
             </Text>
-          </HStack>
-        </HStack>
+          </XStack>
+        </XStack>
       )}
 
-      <HStack space="$1" alignItems="center">
+      <XStack space="$1" alignItems="center">
         <MessageSquare size={14} color="$secondary" />
         <Text color="$secondary" fontSize="$2">
           {postCommentCount}
         </Text>
-      </HStack>
-      <HStack space="$1" alignItems="center">
+      </XStack>
+      <XStack space="$1" alignItems="center">
         <Clock size={14} color="$secondary" />
         <Text color="$secondary" fontSize="$2">
           {postCommentCount}
         </Text>
-      </HStack>
-    </HStack>
+      </XStack>
+    </XStack>
   );
 }
 

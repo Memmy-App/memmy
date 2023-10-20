@@ -5,10 +5,8 @@ import {
   usePostNsfw,
   usePostThumbnail,
 } from '@src/state';
-import { Separator, Text, useTheme, View } from 'tamagui';
+import { Separator, Text, useTheme, View, XStack, YStack } from 'tamagui';
 import { Image } from 'expo-image';
-import HStack from '@components/Common/Stack/HStack';
-import VStack from '@components/Common/Stack/VStack';
 import { ChevronRight, Link } from '@tamagui/lucide-icons';
 import { Pressable, StyleSheet } from 'react-native';
 import { openLink } from '@helpers/links';
@@ -50,7 +48,7 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
         backgroundColor="$bg"
         borderRadius={10}
       >
-        <VStack space="$2">
+        <YStack space="$2">
           {postThumbnail != null && (
             <View
               style={styles.image}
@@ -68,15 +66,15 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
             </View>
           )}
           {thumbnailLoading && (
-            <HStack
+            <XStack
               style={styles.loading}
               alignItems="center"
               justifyContent="center"
             >
               <LoadingAnimation size="small" />
-            </HStack>
+            </XStack>
           )}
-          <HStack
+          <XStack
             alignItems="center"
             space="$2"
             width="100%"
@@ -97,8 +95,8 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
               </Text>
             </View>
             <ChevronRight color="$secondary" />
-          </HStack>
-        </VStack>
+          </XStack>
+        </YStack>
       </View>
     </Pressable>
   );

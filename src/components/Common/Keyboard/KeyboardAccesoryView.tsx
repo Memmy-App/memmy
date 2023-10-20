@@ -1,9 +1,9 @@
 import React from 'react';
 import { InputAccessoryView } from 'react-native';
-import HStack from '@components/Common/Stack/HStack';
 import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
 import { Bold, Italic, Link, Quote } from '@tamagui/lucide-icons';
 import { useKeyboardAccessory, UseKeyboardAccessoryOptions } from '@src/hooks';
+import { XStack } from 'tamagui';
 
 export default function KeyboardAccessoryView(
   params: UseKeyboardAccessoryOptions,
@@ -12,7 +12,7 @@ export default function KeyboardAccessoryView(
 
   return (
     <InputAccessoryView nativeID="accessory">
-      <HStack
+      <XStack
         height={30}
         justifyContent="space-between"
         alignItems="center"
@@ -43,7 +43,7 @@ export default function KeyboardAccessoryView(
           color="$accent"
           onPress={accessory.onQuotePress}
         />
-      </HStack>
+      </XStack>
     </InputAccessoryView>
   );
 }

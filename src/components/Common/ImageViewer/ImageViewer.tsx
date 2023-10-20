@@ -19,10 +19,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useImageViewer } from '@components/Common/ImageViewer/ImageViewerProvider';
 import { getImageRatio } from '@helpers/image/getRatio';
-import VStack from '@components/Common/Stack/VStack';
+import { View, YStack } from 'tamagui';
 import { Image } from 'expo-image';
 import ImageViewerHeader from '@components/Common/ImageViewer/ImageViewerHeader';
-import { View } from 'tamagui';
 import ImageViewerFooter from '@components/Common/ImageViewer/ImageViewerFooter';
 
 const AnimatedImage = Animated.createAnimatedComponent(Image);
@@ -319,7 +318,7 @@ function ImageViewer(): React.JSX.Element {
         visible={accessoriesVisible}
       />
       <GestureDetector gesture={allGestures}>
-        <VStack zIndex={-1} flex={1}>
+        <YStack zIndex={-1} flex={1}>
           <Animated.View style={[styles.imageModal, backgroundStyle]}>
             <Animated.View style={[positionStyle]}>
               <AnimatedImage
@@ -328,7 +327,7 @@ function ImageViewer(): React.JSX.Element {
               />
             </Animated.View>
           </Animated.View>
-        </VStack>
+        </YStack>
       </GestureDetector>
 
       <ImageViewerFooter

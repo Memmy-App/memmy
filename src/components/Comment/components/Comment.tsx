@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
-import VStack from '@components/Common/Stack/VStack';
+import { Separator, View, YStack } from 'tamagui';
 import CommentHeader from '@components/Comment/components/CommentHeader';
 import CommentContent from '@components/Comment/components/CommentContent';
 import { Pressable } from 'react-native';
-import { Separator, View } from 'tamagui';
 import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
 import { useCommentGesturesEnabled, useCommentPostId } from '@src/state';
 import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
@@ -82,8 +81,8 @@ function Comment({
           ) : undefined
         }
       >
-        <VStack backgroundColor="$fg">
-          <VStack
+        <YStack backgroundColor="$fg">
+          <YStack
             marginLeft={depth * 10}
             marginVertical="$2"
             borderLeftColor={borderColor}
@@ -93,9 +92,9 @@ function Comment({
           >
             <CommentHeader itemId={itemId} />
             {!collapsed && <CommentContent itemId={itemId} />}
-          </VStack>
+          </YStack>
           <Separator borderColor="$bg" marginLeft={depth * 10 + 10} />
-        </VStack>
+        </YStack>
       </SwipeableRow>
     </View>
   );

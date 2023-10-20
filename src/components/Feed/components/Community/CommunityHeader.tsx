@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { Text, useTheme, View } from 'tamagui';
+import { Text, useTheme, View, XStack, YStack } from 'tamagui';
 import { useNavigation, useRoute } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
@@ -26,8 +26,6 @@ import {
   StarOff,
   StickyNote,
 } from '@tamagui/lucide-icons';
-import VStack from '@components/Common/Stack/VStack';
-import HStack from '@components/Common/Stack/HStack';
 import SortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/SortTypeContextMenuButton';
 import { SortType } from 'lemmy-js-client';
 import ButtonOne from '@components/Common/Button/ButtonOne';
@@ -175,7 +173,7 @@ function CommunityHeader({
         </View>
       )}
 
-      <HStack
+      <XStack
         marginRight="auto"
         zIndex={2}
         position="absolute"
@@ -194,10 +192,10 @@ function CommunityHeader({
             color="white"
           />
         </View>
-      </HStack>
+      </XStack>
 
-      <VStack flex={1} backgroundColor="$fg" marginTop="$1">
-        <VStack
+      <YStack flex={1} backgroundColor="$fg" marginTop="$1">
+        <YStack
           alignItems="center"
           height={300}
           position="absolute"
@@ -230,14 +228,14 @@ function CommunityHeader({
               headerLabelStyle,
             ]}
           >
-            <HStack space="$2" alignItems="baseline">
+            <XStack space="$2" alignItems="baseline">
               <Text fontSize="$3" fontWeight="bold" numberOfLines={1}>
                 {communityName}
               </Text>
-            </HStack>
+            </XStack>
           </Animated.View>
-        </VStack>
-        <VStack zIndex={1}>
+        </YStack>
+        <YStack zIndex={1}>
           {communityIcon != null ? (
             <Animated.Image
               source={{ uri: communityIcon }}
@@ -257,7 +255,7 @@ function CommunityHeader({
               style={[{}, avatarStyle]}
             />
           )}
-          <HStack marginLeft="auto" width="65%" top={70} space="$3" right={10}>
+          <XStack marginLeft="auto" width="65%" top={70} space="$3" right={10}>
             <ButtonOne
               label={subscribed ? 'Subscribed' : 'Subscribe'}
               icon={subscribed ? Star : StarOff}
@@ -269,18 +267,18 @@ function CommunityHeader({
               icon={StickyNote}
               onPress={onNewPostPress}
             />
-          </HStack>
+          </XStack>
 
-          <VStack marginHorizontal="$3" space="$2.5" top={80}>
-            <VStack alignItems="baseline" space="$0.5">
+          <YStack marginHorizontal="$3" space="$2.5" top={80}>
+            <YStack alignItems="baseline" space="$0.5">
               <Text fontSize="$5" fontWeight="bold">
                 {communityName}
               </Text>
               <Text fontSize="$3" color="$secondary">
                 @{communityInstance}
               </Text>
-            </VStack>
-            <HStack space="$3">
+            </YStack>
+            <XStack space="$3">
               <Text fontSize="$2" color="$secondary" fontWeight="$7">
                 {communityCounts?.posts.toLocaleString()} Posts
               </Text>
@@ -290,15 +288,15 @@ function CommunityHeader({
               <Text fontSize="$2" color="$secondary" fontWeight="$7">
                 {communityCounts?.subscribers.toLocaleString()} Subscribers
               </Text>
-            </HStack>
-            <HStack>
+            </XStack>
+            <XStack>
               <Text fontSize="$3" color="$color" numberOfLines={2}>
                 {communityDescription}
               </Text>
-            </HStack>
-          </VStack>
-        </VStack>
-      </VStack>
+            </XStack>
+          </YStack>
+        </YStack>
+      </YStack>
     </Animated.View>
   );
 }

@@ -1,6 +1,5 @@
 import React from 'react';
-import VStack from '@components/Common/Stack/VStack';
-import HStack from '@components/Common/Stack/HStack';
+import { XStack, YStack } from 'tamagui';
 import PostUserLabel from '@components/Common/PostCard/PostUserLabel';
 import { usePostBody, usePostCreator } from '@src/state';
 import PostMetrics from '@components/Common/PostCard/PostMetrics';
@@ -16,8 +15,8 @@ function PostReplyContent({ itemId }: IProps): React.JSX.Element {
   const postContent = usePostBody(itemId);
 
   return (
-    <VStack backgroundColor="$fg">
-      <VStack
+    <YStack backgroundColor="$fg">
+      <YStack
         marginVertical="$2"
         paddingHorizontal="$2"
         paddingVertical="$1"
@@ -25,16 +24,16 @@ function PostReplyContent({ itemId }: IProps): React.JSX.Element {
       >
         <FeedItemHeader itemId={itemId} />
         <Markdown>{postContent}</Markdown>
-        <HStack justifyContent="space-between" paddingHorizontal="$2">
+        <XStack justifyContent="space-between" paddingHorizontal="$2">
           <PostUserLabel
             userIcon={user?.avatar}
             userName={user?.name}
             userCommunity=""
           />
           <PostMetrics itemId={itemId} />
-        </HStack>
-      </VStack>
-    </VStack>
+        </XStack>
+      </YStack>
+    </YStack>
   );
 }
 

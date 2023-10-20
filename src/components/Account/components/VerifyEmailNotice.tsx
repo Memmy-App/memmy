@@ -1,6 +1,5 @@
 import React from 'react';
-import VStack from '@components/Common/Stack/VStack';
-import { Text } from 'tamagui';
+import { Text, YStack } from 'tamagui';
 import { UseSignup } from '@components/Account/hooks/useSignup';
 import { Button } from '@components/Common/Button';
 import { Linking } from 'react-native';
@@ -19,7 +18,7 @@ export default function VerifyEmailNotice({
   doSignup,
 }: IProps): React.JSX.Element {
   return (
-    <VStack paddingHorizontal="$2" space="$2">
+    <YStack paddingHorizontal="$2" space="$2">
       <Text fontSize="$7" fontWeight="$6" textAlign="center">
         Check Your Inbox
       </Text>
@@ -33,6 +32,6 @@ export default function VerifyEmailNotice({
       <Button onPress={doSignup} disabled={signup.loading}>
         <Text>Get Started</Text>
       </Button>
-    </VStack>
+    </YStack>
   );
 }

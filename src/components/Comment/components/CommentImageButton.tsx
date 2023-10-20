@@ -3,9 +3,8 @@ import { useImageViewer } from '@components/Common/ImageViewer/ImageViewerProvid
 import { saveImageDimensions, useImageSavedDimensions } from '@src/state';
 import { IDimensions } from '@src/types';
 import { Image, ImageLoadEventData } from 'expo-image';
-import { Separator, Text, View } from 'tamagui';
+import { Separator, Text, View, XStack } from 'tamagui';
 import { ChevronRight } from '@tamagui/lucide-icons';
-import HStack from '@components/Common/Stack/HStack';
 
 interface IProps {
   source: string;
@@ -40,13 +39,13 @@ function CommentImageButton({ source }: IProps): React.JSX.Element {
   );
 
   return (
-    <HStack
+    <XStack
       backgroundColor="$bg"
       borderRadius={10}
       marginTop="$1"
       onPress={onPress}
     >
-      <HStack
+      <XStack
         alignItems="center"
         space="$2"
         paddingHorizontal="$3"
@@ -76,8 +75,8 @@ function CommentImageButton({ source }: IProps): React.JSX.Element {
           </Text>
         </View>
         <ChevronRight color="$secondary" />
-      </HStack>
-    </HStack>
+      </XStack>
+    </XStack>
   );
 }
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { INavigationProps } from '@src/types';
-import VStack from '@components/Common/Stack/VStack';
+import { Spacer, Text, useTheme, XStack, YStack } from 'tamagui';
 import ColorPicker, {
   HueSlider,
   Panel1,
@@ -8,8 +8,6 @@ import ColorPicker, {
   returnedResults,
 } from 'reanimated-color-picker';
 import { setSetting, useAccent } from '@src/state';
-import { Spacer, Text, useTheme } from 'tamagui';
-import HStack from '@components/Common/Stack/HStack';
 
 export default function SettingsAccentScreen({
   navigation,
@@ -32,26 +30,26 @@ export default function SettingsAccentScreen({
   };
 
   return (
-    <VStack flex={1} alignItems="center" justifyContent="center">
+    <YStack flex={1} alignItems="center" justifyContent="center">
       <ColorPicker
         style={{ width: '70%' }}
         value={accent ?? theme.accent.val}
         onComplete={onSelectColor}
       >
-        <HStack justifyContent="center" marginBottom="$1">
+        <XStack justifyContent="center" marginBottom="$1">
           <Text fontSize="$5" right={50}>
             Current
           </Text>
           <Text fontSize="$5" left={50}>
             New
           </Text>
-        </HStack>
+        </XStack>
         <Preview hideText />
         <Spacer />
         <Panel1 />
         <Spacer />
         <HueSlider />
       </ColorPicker>
-    </VStack>
+    </YStack>
   );
 }

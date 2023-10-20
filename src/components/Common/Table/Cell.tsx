@@ -1,8 +1,6 @@
 import React from 'react';
-import VStack from '@components/Common/Stack/VStack';
+import { Separator, Text, XStack, YStack } from 'tamagui';
 import { Pressable, Switch } from 'react-native';
-import { Separator, Text } from 'tamagui';
-import HStack from '@components/Common/Stack/HStack';
 import { ChevronRight } from '@tamagui/lucide-icons';
 
 interface IProps {
@@ -33,7 +31,7 @@ export default function Cell({
 }: IProps): React.JSX.Element {
   return (
     <Pressable onPress={onPress}>
-      <VStack
+      <YStack
         paddingHorizontal="$3"
         paddingVertical={12}
         backgroundColor="$fg"
@@ -42,19 +40,19 @@ export default function Cell({
         borderBottomRightRadius={isLast === true ? '$3' : undefined}
         borderBottomLeftRadius={isLast === true ? '$3' : undefined}
       >
-        <HStack alignItems="center">
+        <XStack alignItems="center">
           {accessoryLeft}
           <Text>{label}</Text>
-          <HStack marginLeft="auto" alignItems="center" space="$2">
+          <XStack marginLeft="auto" alignItems="center" space="$2">
             {label != null && <Text color="$secondary">{rightLabel}</Text>}
             {accessoryRight}
             {switchValue != null && onSwitchValueChange !== null && (
               <Switch value={switchValue} onValueChange={onSwitchValueChange} />
             )}
             {useChevron === true && <ChevronRight size={20} color="$accent" />}
-          </HStack>
-        </HStack>
-      </VStack>
+          </XStack>
+        </XStack>
+      </YStack>
       {isLast !== true && (
         <Separator
           alignSelf="stretch"

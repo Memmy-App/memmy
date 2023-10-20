@@ -1,6 +1,5 @@
 import React from 'react';
-import { Text } from 'tamagui';
-import HStack from '@components/Common/Stack/HStack';
+import { Text, XStack } from 'tamagui';
 
 interface IProps {
   text: string;
@@ -8,7 +7,7 @@ interface IProps {
 
 export default function MdBlockQuote({ text }: IProps): React.JSX.Element {
   return (
-    <HStack
+    <XStack
       backgroundColor="$fg"
       padding="$2"
       marginVertical="$1"
@@ -20,6 +19,6 @@ export default function MdBlockQuote({ text }: IProps): React.JSX.Element {
       <Text color="$color" fontSize="$3" wordWrap="break-word">
         {text}
       </Text>
-    </HStack>
+    </XStack>
   );
 }

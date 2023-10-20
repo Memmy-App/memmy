@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { ScrollView, Spacer } from 'tamagui';
+import { ScrollView, Spacer, YStack } from 'tamagui';
 import AppToast from '@components/Common/Toast/AppToast';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 import InputWrapper from '@components/Common/Form/InputWrapper';
@@ -16,7 +16,6 @@ import TextInput from '@components/Common/Form/TextInput';
 import { Button } from '@components/Common/Button';
 import { useSignup } from '@components/Account/hooks/useSignup';
 import { Image } from 'expo-image';
-import VStack from '@components/Common/Stack/VStack';
 import VerifyEmailNotice from '@components/Account/components/VerifyEmailNotice';
 
 interface IProps {
@@ -139,12 +138,12 @@ export default function CreateAccountModal({
 
           {signup.captchaPng != null && (
             <>
-              <VStack alignItems="center" marginTop="$3">
+              <YStack alignItems="center" marginTop="$3">
                 <Image
                   source={{ uri: `data:image/png;base64,${signup.captchaPng}` }}
                   style={{ height: 100, width: '100%' }}
                 />
-              </VStack>
+              </YStack>
               <InputWrapper>
                 <Label icon={<ShieldQuestion size={12} />}>Captcha</Label>
                 <TextInput

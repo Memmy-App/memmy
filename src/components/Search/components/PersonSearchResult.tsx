@@ -1,8 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { PersonView } from 'lemmy-js-client';
 import { Pressable } from 'react-native';
-import VStack from '@components/Common/Stack/VStack';
-import HStack from '@components/Common/Stack/HStack';
+import { H5, Text, XStack, YStack } from 'tamagui';
 import { Image } from 'expo-image';
 import {
   ArrowUp,
@@ -11,7 +10,6 @@ import {
   StickyNote,
   User,
 } from '@tamagui/lucide-icons';
-import { H5, Text } from 'tamagui';
 import P1 from '@components/Common/Text/P1';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -37,13 +35,13 @@ function PersonSearchResult({ view }: IProps): React.JSX.Element {
 
   return (
     <Pressable onPress={onPress}>
-      <VStack
+      <YStack
         space="$1"
         padding="$2.5"
         backgroundColor="$fg"
         marginVertical="$1.5"
       >
-        <HStack space="$3" alignItems="center">
+        <XStack space="$3" alignItems="center">
           {view.person.avatar != null ? (
             <Image
               source={{ uri: view.person.avatar }}
@@ -65,31 +63,31 @@ function PersonSearchResult({ view }: IProps): React.JSX.Element {
               marginLeft: 'auto',
             }}
           />
-        </HStack>
+        </XStack>
         {view.person.bio != null && view.person.bio !== '' && (
-          <HStack>
+          <XStack>
             <P1 numberOfLines={2}>{view.person.bio}</P1>
-          </HStack>
+          </XStack>
         )}
-        <HStack alignItems="center" space="$3">
-          <HStack alignItems="center" space="$2" justifyContent="center">
+        <XStack alignItems="center" space="$3">
+          <XStack alignItems="center" space="$2" justifyContent="center">
             <StickyNote size={20} color="$accent" />
             <Text>{view.counts.post_count.toLocaleString()}</Text>
-          </HStack>
-          <HStack alignItems="center" space="$2" justifyContent="center">
+          </XStack>
+          <XStack alignItems="center" space="$2" justifyContent="center">
             <MessageCircle size={20} color="$accent" />
             <Text>{view.counts.comment_count.toLocaleString()}</Text>
-          </HStack>
-          <HStack alignItems="center" space="$2" justifyContent="center">
+          </XStack>
+          <XStack alignItems="center" space="$2" justifyContent="center">
             <ArrowUp size={20} color="$accent" />
             <Text>
               {(
                 view.counts.post_score + view.counts.comment_score
               ).toLocaleString()}
             </Text>
-          </HStack>
-        </HStack>
-      </VStack>
+          </XStack>
+        </XStack>
+      </YStack>
     </Pressable>
   );
 }

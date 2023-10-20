@@ -1,6 +1,5 @@
 import React from 'react';
-import VStack from '@components/Common/Stack/VStack';
-import { Text } from 'tamagui';
+import { Text, YStack } from 'tamagui';
 
 interface IProps {
   char: string;
@@ -8,13 +7,13 @@ interface IProps {
 
 function DrawerLabel({ char }: IProps): React.JSX.Element {
   return (
-    <VStack
+    <YStack
       backgroundColor="$inputbg"
       paddingHorizontal="$2"
       paddingVertical="$1"
     >
       <Text fontSize="$3">{char}</Text>
-    </VStack>
+    </YStack>
   );
 }
 

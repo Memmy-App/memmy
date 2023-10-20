@@ -5,8 +5,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { playHaptic } from '@helpers/haptics';
-import HStack from '@components/Common/Stack/HStack';
-import { Text, useTheme } from 'tamagui';
+import { Text, useTheme, XStack } from 'tamagui';
 import { AlertTriangle } from '@tamagui/lucide-icons';
 
 interface IProps {
@@ -61,7 +60,7 @@ export default function NsfwButton({
   return (
     <Animated.View style={[scaleStyle]}>
       <Animated.View style={[{ borderRadius: 5, width: 90 }, bgStyle]}>
-        <HStack
+        <XStack
           flex={1}
           onPress={onPress}
           onPressIn={onPressIn}
@@ -73,7 +72,7 @@ export default function NsfwButton({
         >
           <AlertTriangle color="$accent" size={19} />
           <Text>NSFW</Text>
-        </HStack>
+        </XStack>
       </Animated.View>
     </Animated.View>
   );

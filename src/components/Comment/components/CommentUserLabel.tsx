@@ -1,8 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { useSettingsStore } from '@src/state';
 import { createName } from '@helpers/text';
-import HStack from '@components/Common/Stack/HStack';
-import { Text } from 'tamagui';
+import { Text, XStack } from 'tamagui';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import UserIcon from '@components/Common/Avatar/UserIcon';
@@ -33,12 +32,12 @@ function CommentUserLabel({
   }, [userName]);
 
   return (
-    <HStack space="$2" alignItems="center" onPress={onPress} hitSlop={5}>
+    <XStack space="$2" alignItems="center" onPress={onPress} hitSlop={5}>
       {showIcon && <UserIcon userIcon={userIcon} />}
       <Text fontSize="$3" color="$secondary">
         {name}
       </Text>
-    </HStack>
+    </XStack>
   );
 }
 

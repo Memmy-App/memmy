@@ -1,6 +1,5 @@
 import React from 'react';
-import VStack from '@components/Common/Stack/VStack';
-import { Text } from 'tamagui';
+import { Text, YStack } from 'tamagui';
 
 interface IProps {
   header?: string;
@@ -14,7 +13,7 @@ export default function Section({
   children,
 }: IProps): React.JSX.Element {
   return (
-    <VStack>
+    <YStack>
       {header != null && (
         <Text
           color="$secondary"
@@ -48,6 +47,6 @@ export default function Section({
           {footer}
         </Text>
       )}
-    </VStack>
+    </YStack>
   );
 }

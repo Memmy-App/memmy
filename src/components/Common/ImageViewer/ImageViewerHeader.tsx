@@ -1,8 +1,6 @@
 import React, { useCallback } from 'react';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
-import VStack from '@components/Common/Stack/VStack';
-import HStack from '@components/Common/Stack/HStack';
-import { Text, View } from 'tamagui';
+import { Text, View, XStack, YStack } from 'tamagui';
 import { X } from '@tamagui/lucide-icons';
 import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
 import { useImageViewer } from '@components/Common/ImageViewer/ImageViewerProvider';
@@ -26,20 +24,20 @@ function ImageViewerHeader({
 
   return (
     <Animated.View entering={FadeIn} exiting={FadeOut}>
-      <VStack
+      <YStack
         zIndex={1}
         position="absolute"
         height={120}
         width="100%"
         backgroundColor="$upvote"
       >
-        <HStack top={80} flex={1} paddingHorizontal="$3">
+        <XStack top={80} flex={1} paddingHorizontal="$3">
           <Text fontSize="$6" fontWeight="bold" numberOfLines={1}>
             {title}
           </Text>
-        </HStack>
-      </VStack>
-      <VStack zIndex={2} position="absolute" height={120} width="100%">
+        </XStack>
+      </YStack>
+      <YStack zIndex={2} position="absolute" height={120} width="100%">
         <View top={60} marginLeft="auto" paddingRight="$3">
           <AnimatedIconButton
             icon={X}
@@ -48,7 +46,7 @@ function ImageViewerHeader({
             onPress={onExitPress}
           />
         </View>
-      </VStack>
+      </YStack>
     </Animated.View>
   );
 }
