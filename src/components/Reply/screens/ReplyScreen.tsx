@@ -37,8 +37,8 @@ export default function ReplyScreen({
         <YStack space="$2" mb="$2">
           {/* eslint-disable-next-line @typescript-eslint/strict-boolean-expressions */}
           {(replyScreen.type === 'comment' && <Comment itemId={commentId} />) ||
-            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
             ((replyId != null || mentionId != null) && (
+              // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
               <InboxComment
                 itemId={replyId ?? mentionId}
                 type={replyId != null ? 'reply' : 'mention'}
