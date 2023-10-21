@@ -16,6 +16,7 @@ import CommentChainScreen from '@components/Comment/screens/CommentChainScreen';
 import ReplyScreen from '@components/Reply/screens/ReplyScreen';
 import ProfileScreen from '@components/Profile/screens/ProfileScreen';
 import NewPostScreen from '@components/NewPost/screens/NewPostScreen';
+import WebViewScreen from '@components/WebViewer/WebViewScreen';
 
 export default function MainScreens(
   stack: TypedNavigator<
@@ -71,6 +72,11 @@ export default function MainScreens(
           name="NewPost"
           component={NewPostScreen}
           options={{ gestureEnabled: false, headerTitle: 'New Post' }}
+        />
+        <stack.Screen
+          name="WebView"
+          component={WebViewScreen}
+          options={{ headerTitle: 'View' }}
         />
       </stack.Group>
     </>

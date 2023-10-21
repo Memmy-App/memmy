@@ -44,6 +44,7 @@ module.exports = {
       "asyncArrow": "always"
     }],
     "@typescript-eslint/no-non-null-assertion": [0],
+    "@typescript-eslint/no-confusing-void-expression": 'off',
     "react/jsx-curly-brace-presence": [2, { props: "never", children: "never" }],
     "jsx-quotes": [2, "prefer-double"],
     "prettier/prettier": [2, {
