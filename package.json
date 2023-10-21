@@ -112,7 +112,7 @@
     "generate-license": "license-report --only=prod,dev,peer --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author --output=html > assets/license.html",
     "postinstall": "patch-package",
     "build-submit-ios": "cd ios && fastlane beta",
-		"build-submit-internal-ios": "cd ios && fastlane betaInternal",
+    "build-submit-internal-ios": "cd ios && fastlane betaInternal",
     "lint": "./node_modules/eslint/bin/eslint.js . --ext=js,jsx,ts,tsx",
     "lint-fix": "./node_modules/eslint/bin/eslint.js . --ext=js,jsx,ts,tsx --fix"
   }
