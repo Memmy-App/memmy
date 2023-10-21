@@ -39,6 +39,7 @@ import {
   addCommentsToPost,
   addPost,
   addPosts,
+  setCommentSaved,
   setSubscribed,
   setSubscriptions,
   setUnread,
@@ -49,7 +50,8 @@ import {
   useSettingsStore,
 } from '@src/state';
 import { updatePost } from '@src/state/post/actions/updatePost';
-import { setReplies, setReplyRead } from '@src/state/inbox/actions';
+import { setAllRead, setReplies, setReplyRead } from '@src/state/inbox/actions';
+import { setPostSaved } from '@src/state/post/actions/setPostSaved';
 
 export enum EInitializeResult {
   SUCCESS,
@@ -214,15 +216,24 @@ class ApiInstance {
     }
   }
 
-  async savePost(postId: number, save: boolean): Promise<void> {
+  async savePost(postId: number): Promise<void> {
     try {
-      await this.instance?.savePost({
+      const post = usePostStore.getState().posts.get(postId);
+
+      if (post == null) return;
+
+      setPostSaved(postId);
+
+      await this.instance!.savePost({
         post_id: postId,
-        save,
+        save: !post.view.saved,
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      setPostSaved(postId);
+
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
     }
   }
 
@@ -339,15 +350,24 @@ class ApiInstance {
     }
   }
 
-  async saveComment(commentId: number, save: boolean): Promise<void> {
+  async saveComment(commentId: number): Promise<void> {
     try {
-      await this.instance?.saveComment({
+      const comment = useCommentStore.getState().comments.get(commentId);
+
+      if (comment == null) return;
+
+      setCommentSaved(commentId);
+
+      await this.instance!.saveComment({
         comment_id: commentId,
-        save,
+        save: !comment.view.saved,
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      setCommentSaved(commentId);
+
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
     }
   }
 
@@ -900,6 +920,7 @@ class ApiInstance {
       });
 
       setUnread(0);
+      setAllRead();
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);

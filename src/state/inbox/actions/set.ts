@@ -5,6 +5,20 @@ import {
 } from 'lemmy-js-client';
 import { useInboxStore } from '@src/state';
 
+export const setAllRead = (): void => {
+  useInboxStore.setState((state) => {
+    state.replies.forEach((c) => {
+      c.comment_reply.read = true;
+    });
+    state.mentions.forEach((c) => {
+      c.person_mention.read = true;
+    });
+    state.privateMessages.forEach((c) => {
+      c.private_message.read = true;
+    });
+  });
+};
+
 export const setReplies = (replies: CommentReplyView[]): void => {
   const replyIds: number[] = [];
 

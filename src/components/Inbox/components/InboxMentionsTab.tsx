@@ -7,6 +7,7 @@ import InboxComment from '@components/Inbox/components/InboxComment';
 
 interface IProps {
   selected: number;
+  unreadOnly: boolean;
 }
 
 const renderItem = ({
@@ -17,7 +18,10 @@ const renderItem = ({
 
 const keyExtractor = (item: CommentView): string => item.comment.id.toString();
 
-function InboxMentionsTab({ selected }: IProps): React.JSX.Element | null {
+function InboxMentionsTab({
+  selected,
+  unreadOnly,
+}: IProps): React.JSX.Element | null {
   const inboxMentions = useInboxMentions();
 
   const initialized = useRef(false);

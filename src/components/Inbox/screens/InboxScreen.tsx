@@ -14,6 +14,7 @@ import InboxRepliesTab from '@components/Inbox/components/InboxRepliesTab';
 import InboxMentionsTab from '@components/Inbox/components/InboxMentionsTab';
 import { INavigationProps } from '@src/types';
 import { Mail, MailCheck, MailOpen } from '@tamagui/lucide-icons';
+import instance from '@src/Instance';
 
 export default function InboxScreen({
   navigation,
@@ -80,7 +81,9 @@ export default function InboxScreen({
     pagerViewRef.current?.setPage(index);
   }, []);
 
-  const onMarkAllReadPress = useCallback(() => {}, []);
+  const onMarkAllReadPress = useCallback(() => {
+    void instance.markInboxRead();
+  }, []);
 
   return (
     <Animated.View style={styles.container} entering={FadeIn}>
@@ -100,7 +103,7 @@ export default function InboxScreen({
           <InboxRepliesTab selected={selectedTab} unreadOnly={unreadOnly} />
         </View>
         <View key={1} flex={1}>
-          <InboxMentionsTab selected={selectedTab} unreadOnly={false} />
+          <InboxMentionsTab selected={selectedTab} unreadOnly={unreadOnly} />
         </View>
         <View key={2} flex={1}></View>
       </PagerView>
