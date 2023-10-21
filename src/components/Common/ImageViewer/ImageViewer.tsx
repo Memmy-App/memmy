@@ -23,6 +23,7 @@ import { View, YStack } from 'tamagui';
 import { Image } from 'expo-image';
 import ImageViewerHeader from '@components/Common/ImageViewer/ImageViewerHeader';
 import ImageViewerFooter from '@components/Common/ImageViewer/ImageViewerFooter';
+import AppToast from '@components/Common/Toast/AppToast';
 
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
@@ -313,6 +314,7 @@ function ImageViewer(): React.JSX.Element {
 
   return (
     <View flex={1}>
+      <AppToast />
       <ImageViewerHeader
         title={imageViewer.params?.title ?? 'Image'}
         visible={accessoriesVisible}
