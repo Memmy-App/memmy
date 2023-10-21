@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useCurrentAccount, useSiteStore } from '@src/state';
 import { IAccount } from '@src/types';
 import instance from '@src/Instance';
-import LoadingModal from '@components/Common/Loading/LoadingModal';
 import { Alert } from 'react-native';
 import MainFeed from '@components/Feed/components/MainFeed';
+import LoadingScreen from '@components/Common/Loading/LoadingScreen';
 
 export default function FeedIndexScreen(): React.JSX.Element {
   const currentAccount = useCurrentAccount();
@@ -18,6 +18,8 @@ export default function FeedIndexScreen(): React.JSX.Element {
     if (currentAccount === previousAccount.current) return;
     // Make sure it is not null
     if (currentAccount == null) return;
+
+    previousAccount.current = currentAccount;
 
     // Reset the instance
     setInitialized(false);
@@ -42,17 +44,16 @@ export default function FeedIndexScreen(): React.JSX.Element {
           .then(() => {})
           .then(() => {
             void instance.getSubscriptions();
+            void instance.getUnreadCount();
             setInitialized(true);
           });
-
-        previousAccount.current = currentAccount;
       })
       .catch(() => {
         Alert.alert('Error initializing.');
       });
   }, [currentAccount]);
 
-  if (!initialized) return <LoadingModal />;
+  if (!initialized) return <LoadingScreen />;
 
   return <MainFeed />;
 }

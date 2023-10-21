@@ -1,11 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
 import { CommunityView } from 'lemmy-js-client';
-import VStack from '@components/Common/Stack/VStack';
+import { Text, View, XStack, YStack } from 'tamagui';
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
 import { Globe, Star, StarOff } from '@tamagui/lucide-icons';
-import HStack from '@components/Common/Stack/HStack';
-import { Text, View } from 'tamagui';
 import { getBaseUrl } from '@helpers/links';
 import {
   addOrUpdateFavorite,
@@ -48,12 +46,12 @@ function DrawerItem({ view, navigation }: IProps): React.JSX.Element {
   }, [currentAccount, view]);
 
   return (
-    <HStack
+    <XStack
       space="$2"
       onPress={onCommunityPress}
       alignItems="center"
-      paddingHorizontal="$3"
-      paddingVertical="$2"
+      px="$3"
+      py="$2"
       backgroundColor="$fg"
     >
       {view.community.icon != null ? (
@@ -61,20 +59,20 @@ function DrawerItem({ view, navigation }: IProps): React.JSX.Element {
       ) : (
         <Globe color="$accent" />
       )}
-      <VStack>
+      <YStack>
         <Text fontSize="$3">{view.community.name}</Text>
         <Text fontSize="$2" color="$secondary">
           {instance}
         </Text>
-      </VStack>
-      <View marginLeft="auto" onPress={onFavoritePress}>
+      </YStack>
+      <View ml="auto" onPress={onFavoritePress}>
         {favorited === true ? (
           <Star color="$accent" />
         ) : (
           <StarOff color="$accent" />
         )}
       </View>
-    </HStack>
+    </XStack>
   );
 }
 

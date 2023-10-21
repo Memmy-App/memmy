@@ -29,11 +29,6 @@ export interface IGestureSettings {
   comment: IGestureCommentSettings;
 }
 
-export interface ICompactOptions {
-  thumbnailPosition: 'left' | 'right' | 'none';
-  showVoteButtons: boolean;
-}
-
 export interface IReadOptions {
   onPostView: boolean;
   onImageView: boolean;
@@ -59,6 +54,8 @@ export interface SettingsStore {
   blurNsfw: boolean;
 
   viewType: 'full' | 'compact';
+  compactThumbnailPosition: 'left' | 'right' | 'none';
+  compactVoteButtonPosition: 'left' | 'right' | 'none';
 
   theme: IThemeOption;
   themeLight: IThemeOption;
@@ -69,8 +66,6 @@ export interface SettingsStore {
   fontSize: number;
 
   postTitleWeight: 'normal' | 'bold';
-
-  compactOptions: ICompactOptions;
 
   readOptions: IReadOptions;
 
@@ -140,20 +135,18 @@ const initialState: Partial<SettingsStore> = {
 
   viewType: 'full',
 
+  compactThumbnailPosition: 'left',
+  compactVoteButtonPosition: 'right',
+
   theme: 'lightTheme',
   themeLight: 'lightTheme',
   themeDark: 'darkTheme',
 
   themeMatchSystem: false,
 
-  fontSize: 14,
+  fontSize: 16,
 
   postTitleWeight: 'bold',
-
-  compactOptions: {
-    thumbnailPosition: 'left',
-    showVoteButtons: true,
-  },
 
   readOptions: {
     onPostView: true,
@@ -294,3 +287,6 @@ export const useShowUsernameInTabBar = (): boolean =>
 
 export const useAppUpgraded = (): boolean | undefined =>
   useSettingsStore((state) => state.upgraded);
+
+export const useFontSize = (): number =>
+  useSettingsStore((state) => state.fontSize);

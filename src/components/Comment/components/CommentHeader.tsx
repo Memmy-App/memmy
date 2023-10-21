@@ -1,36 +1,34 @@
 import React from 'react';
-import HStack from '@components/Common/Stack/HStack';
 import CommentUserLabel from '@components/Comment/components/CommentUserLabel';
-import {
-  useCommentCreatorActorId,
-  useCommentCreatorAvatar,
-  useCommentCreatorName,
-} from '@src/state';
-import CommentMetrics from '@components/Comment/components/CommentMetrics';
-import CommentEllipsisButton from '@components/Comment/components/CommentEllipsisButton';
-import { View } from 'tamagui';
+import { View, XStack } from 'tamagui';
 
 interface IProps {
-  itemId: number;
+  creatorAvatar: string | undefined;
+  userName: string | undefined;
+  userCommunity: string | undefined;
+  EllipsisButton: () => React.JSX.Element;
+  CommentMetrics: () => React.JSX.Element;
 }
 
-function CommentHeader({ itemId }: IProps): React.JSX.Element {
-  const commentCreatorAvatar = useCommentCreatorAvatar(itemId);
-  const commentCreatorName = useCommentCreatorName(itemId);
-  const commentCreatorActorId = useCommentCreatorActorId(itemId);
-
+function CommentHeader({
+  creatorAvatar,
+  userCommunity,
+  userName,
+  EllipsisButton,
+  CommentMetrics,
+}: IProps): React.JSX.Element {
   return (
-    <HStack space="$3" alignItems="center">
+    <XStack space="$3" alignItems="center" pb="$2">
       <CommentUserLabel
-        userIcon={commentCreatorAvatar}
-        userName={commentCreatorName}
-        userCommunity={commentCreatorActorId}
+        userIcon={creatorAvatar}
+        userName={userName}
+        userCommunity={userCommunity}
       />
-      <CommentMetrics itemId={itemId} />
-      <View marginLeft="auto">
-        <CommentEllipsisButton itemId={itemId} />
+      <CommentMetrics />
+      <View ml="auto">
+        <EllipsisButton />
       </View>
-    </HStack>
+    </XStack>
   );
 }
 

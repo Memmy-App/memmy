@@ -3,8 +3,7 @@ import { useSubscriptions } from '@src/state';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { CommunityView } from 'lemmy-js-client';
 import DrawerItem from '@components/Common/Drawer/DrawerItem';
-import VStack from '@components/Common/Stack/VStack';
-import { Separator } from 'tamagui';
+import { Separator, YStack } from 'tamagui';
 import { addAlphabeticalLabels } from '@src/helpers';
 import DrawerLabel from '@components/Common/Drawer/DrawerLabel';
 import { NavigationContainerRefWithCurrent } from '@react-navigation/core';
@@ -54,8 +53,8 @@ export default function Drawer({ navigation }: IProps): React.JSX.Element {
   );
 
   return (
-    <VStack flex={1} backgroundColor="$bg">
-      <VStack marginTop={100} flex={1}>
+    <YStack flex={1} backgroundColor="$bg">
+      <YStack mt={100} flex={1}>
         <FlashList<CommunityView | string>
           renderItem={renderItem}
           keyExtractor={keyExtractor}
@@ -67,7 +66,7 @@ export default function Drawer({ navigation }: IProps): React.JSX.Element {
             paddingBottom: 100,
           }}
         />
-      </VStack>
-    </VStack>
+      </YStack>
+    </YStack>
   );
 }

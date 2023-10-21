@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { ICommentInfo } from '@src/types';
-import VStack from '@components/Common/Stack/VStack';
-import { Separator, Text } from 'tamagui';
+import { Separator, Text, YStack } from 'tamagui';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/core';
 import { Pressable } from 'react-native';
@@ -21,26 +20,21 @@ function CommentShowMoreButton({ commentInfo }: IProps): React.JSX.Element {
 
   return (
     <Pressable onPress={onPress}>
-      <VStack backgroundColor="$fg">
-        <VStack
-          marginLeft={commentInfo.depth * 10}
-          marginVertical="$2"
+      <YStack backgroundColor="$fg">
+        <YStack
+          ml={commentInfo.depth * 10}
+          my="$2"
           borderLeftColor="$secondary"
           borderLeftWidth={2}
-          paddingHorizontal="$2"
-          paddingVertical="$1"
+          px="$2"
+          py="$1"
         >
-          <Text
-            color="$secondary"
-            fontStyle="italic"
-            marginBottom="$1"
-            margin="auto"
-          >
+          <Text color="$secondary" fontStyle="italic" mb="$1" m="auto">
             Show More Comments...
           </Text>
-        </VStack>
-        <Separator borderColor="$bg" marginLeft={commentInfo.depth * 10 + 10} />
-      </VStack>
+        </YStack>
+        <Separator borderColor="$bg" ml={commentInfo.depth * 10 + 10} />
+      </YStack>
     </Pressable>
   );
 }

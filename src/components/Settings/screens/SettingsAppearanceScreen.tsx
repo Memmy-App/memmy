@@ -3,6 +3,9 @@ import { ScrollView } from 'tamagui';
 import Table from '@components/Common/Table/Table';
 import { setSetting, useSettingsStore } from '@src/state';
 import { AllThemeOptions, INavigationProps } from '@src/types';
+import Slider from '@react-native-community/slider';
+import CompactThumbnailDisplayContextMenu from '@components/Common/ContextMenu/components/CompactThumbnailDisplayContextMenu';
+import { capitalizeFirstLetter } from '@helpers/text';
 
 export default function SettingsAppearanceScreen({
   navigation,
@@ -64,6 +67,75 @@ export default function SettingsAppearanceScreen({
               />
             </>
           )}
+        </Table.Section>
+        <Table.Section header="Feed Display">
+          <Table.Cell
+            label="Compact View"
+            switchValue={settings.viewType === 'compact'}
+            onSwitchValueChange={(v) => {
+              setSetting('viewType', v ? 'compact' : 'full');
+            }}
+          />
+          {settings.viewType === 'compact' && (
+            <>
+              <CompactThumbnailDisplayContextMenu
+                selection={settings.compactVoteButtonPosition}
+                onPressMenuItem={(e) => {
+                  setSetting(
+                    'compactVoteButtonPosition',
+                    e.nativeEvent.actionKey,
+                  );
+                }}
+              >
+                <Table.Cell
+                  label="Vote Buttons Position"
+                  rightLabel={capitalizeFirstLetter(
+                    settings.compactVoteButtonPosition,
+                  )}
+                />
+              </CompactThumbnailDisplayContextMenu>
+              <CompactThumbnailDisplayContextMenu
+                selection={settings.compactThumbnailPosition}
+                onPressMenuItem={(e) => {
+                  setSetting(
+                    'compactThumbnailPosition',
+                    e.nativeEvent.actionKey,
+                  );
+                }}
+              >
+                <Table.Cell
+                  label="Thumbnail Position"
+                  rightLabel={capitalizeFirstLetter(
+                    settings.compactThumbnailPosition,
+                  )}
+                  isLast
+                />
+              </CompactThumbnailDisplayContextMenu>
+            </>
+          )}
+        </Table.Section>
+        <Table.Section
+          header="Font Scale"
+          footer="In an effort to keep things snappy, you will need to 're-render' any screen you're currently on for font sizes to update. I am working on a solution to this in the mean time. You may also restart the app if you feel that is easier."
+        >
+          <Table.Cell
+            label="Font Scale"
+            rightLabel={`${settings.fontSize}pt`}
+          />
+          <Table.CellContainer>
+            <Slider
+              lowerLimit={12}
+              upperLimit={22}
+              minimumValue={12}
+              maximumValue={22}
+              step={2}
+              value={settings.fontSize}
+              tapToSeek
+              onValueChange={(v) => {
+                setSetting('fontSize', v);
+              }}
+            />
+          </Table.CellContainer>
         </Table.Section>
         <Table.Section header="Post Appearance">
           <Table.Cell

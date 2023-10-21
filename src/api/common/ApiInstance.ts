@@ -9,10 +9,8 @@ import {
   GetCommentsResponse,
   GetCommunityResponse,
   GetPersonDetailsResponse,
-  GetPersonMentionsResponse,
   GetPostResponse,
   GetPostsResponse,
-  GetRepliesResponse,
   GetSiteResponse,
   GetUnreadCountResponse,
   LemmyHttp,
@@ -20,6 +18,7 @@ import {
   ListCommunitiesResponse,
   PostResponse,
   RemoveComment,
+  RemovePost,
   Search,
   SearchResponse,
   SortType,
@@ -39,14 +38,25 @@ import {
   addCommentsToPost,
   addPost,
   addPosts,
+  setCommentSaved,
   setSubscribed,
   setSubscriptions,
+  setUnread,
   updateComment,
   useCommentStore,
   useCommunityStore,
   usePostStore,
   useSettingsStore,
 } from '@src/state';
+import { updatePost } from '@src/state/post/actions/updatePost';
+import {
+  setAllRead,
+  setMentionRead,
+  setMentions,
+  setReplies,
+  setReplyRead,
+} from '@src/state/inbox/actions';
+import { setPostSaved } from '@src/state/post/actions/setPostSaved';
 
 export enum EInitializeResult {
   SUCCESS,
@@ -206,20 +216,29 @@ class ApiInstance {
     try {
       return await this.instance?.getCaptcha();
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
-      return undefined;
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
-  async savePost(postId: number, save: boolean): Promise<void> {
+  async savePost(postId: number): Promise<void> {
     try {
-      await this.instance?.savePost({
+      const post = usePostStore.getState().posts.get(postId);
+
+      if (post == null) return;
+
+      setPostSaved(postId);
+
+      await this.instance!.savePost({
         post_id: postId,
-        save,
+        save: !post.view.saved,
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      setPostSaved(postId);
+
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
     }
   }
 
@@ -267,6 +286,22 @@ class ApiInstance {
         post.view.counts.downvotes = oldVms.downvotes;
       });
 
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
+  async likeCommentWithoutUpdate(
+    commentId: number,
+    vote: ILemmyVote,
+  ): Promise<void> {
+    try {
+      await this.instance?.likeComment({
+        comment_id: commentId,
+        score: vote,
+        auth: this.authToken!,
+      });
+    } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
     }
@@ -320,26 +355,35 @@ class ApiInstance {
     }
   }
 
-  async saveComment(commentId: number, save: boolean): Promise<void> {
+  async saveComment(commentId: number): Promise<void> {
     try {
-      await this.instance?.saveComment({
+      const comment = useCommentStore.getState().comments.get(commentId);
+
+      if (comment == null) return;
+
+      setCommentSaved(commentId);
+
+      await this.instance!.saveComment({
         comment_id: commentId,
-        save,
+        save: !comment.view.saved,
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      setCommentSaved(commentId);
+
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
     }
   }
 
-  async getUnreadCount(): Promise<GetUnreadCountResponse | undefined> {
+  async getUnreadCount(): Promise<GetUnreadCountResponse> {
     try {
-      return await this.instance?.getUnreadCount({
+      return await this.instance!.getUnreadCount({
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
-      return undefined;
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
     }
   }
 
@@ -383,36 +427,39 @@ class ApiInstance {
 
       return res.community_view.community.id;
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
-      return undefined;
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
-  async getReplies(page = 1, limit = 50): Promise<GetRepliesResponse> {
+  async getReplies(unreadOnly = false, page = 1, limit = 50): Promise<void> {
     try {
-      const res = await this.instance?.getReplies({
+      const res = await this.instance!.getReplies({
         page,
         limit,
+        unread_only: unreadOnly,
         auth: this.authToken!,
+        sort: 'New',
       });
 
-      return res!;
+      setReplies(res.replies);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
     }
   }
 
-  async getMentions(page = 1, limit = 50): Promise<GetPersonMentionsResponse> {
+  async getMentions(unreadOnly: boolean, page = 1, limit = 50): Promise<void> {
     try {
-      const res = await this.instance?.getPersonMentions({
+      const res = await this.instance!.getPersonMentions({
         page,
         limit,
         auth: this.authToken!,
+        unread_only: unreadOnly,
         sort: 'New',
       });
 
-      return res!;
+      setMentions(res.mentions);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
@@ -524,8 +571,8 @@ class ApiInstance {
 
       return undefined;
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
-      return undefined;
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
@@ -537,7 +584,8 @@ class ApiInstance {
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
@@ -574,7 +622,8 @@ class ApiInstance {
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
@@ -586,7 +635,8 @@ class ApiInstance {
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
     }
   }
 
@@ -598,7 +648,8 @@ class ApiInstance {
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
@@ -610,7 +661,8 @@ class ApiInstance {
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
@@ -622,7 +674,8 @@ class ApiInstance {
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
@@ -677,8 +730,8 @@ class ApiInstance {
 
       return res;
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
-      return undefined;
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
@@ -704,13 +757,16 @@ class ApiInstance {
 
   async deletePost(postId: number): Promise<void> {
     try {
-      await this.instance?.deletePost({
+      const res = await this.instance!.deletePost({
         post_id: postId,
         deleted: true,
         auth: this.authToken!,
       });
+
+      updatePost(res.post_view);
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
     }
   }
 
@@ -808,6 +864,29 @@ class ApiInstance {
     }
   }
 
+  async modRemovePost(options: Partial<RemovePost>): Promise<PostResponse> {
+    const defaultOptions: Partial<RemovePost> = {
+      auth: this.authToken!,
+      removed: true,
+    };
+
+    options = {
+      ...defaultOptions,
+      ...options,
+    };
+
+    try {
+      const res = await this.instance!.removePost(options as RemovePost);
+
+      updatePost(res.post_view);
+
+      return res;
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
   async getSubscriptions(): Promise<CommunityView[]> {
     try {
       let load = true;
@@ -840,6 +919,67 @@ class ApiInstance {
       setSubscriptions(communities);
 
       return communities;
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
+  async markInboxRead(): Promise<void> {
+    try {
+      await this.instance!.markAllAsRead({
+        auth: this.authToken!,
+      });
+
+      setUnread(0);
+      setAllRead();
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
+  async markReplyRead(replyId: number): Promise<void> {
+    try {
+      await this.instance!.markCommentReplyAsRead({
+        auth: this.authToken!,
+        comment_reply_id: replyId,
+        read: true,
+      });
+
+      setReplyRead(replyId);
+      setUnread(true);
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
+  async markMentionRead(mentionId: number): Promise<void> {
+    try {
+      await this.instance!.markPersonMentionAsRead({
+        auth: this.authToken!,
+        person_mention_id: mentionId,
+        read: true,
+      });
+
+      setMentionRead(mentionId);
+      setUnread(true);
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
+  async markMessageRead(messageId: number): Promise<void> {
+    try {
+      await this.instance!.markPrivateMessageAsRead({
+        auth: this.authToken!,
+        private_message_id: messageId,
+        read: true,
+      });
+
+      setUnread(true);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);

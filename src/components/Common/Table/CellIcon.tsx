@@ -15,7 +15,7 @@ function CellIcon({ icon, bgColor }: IProps): React.JSX.Element {
       backgroundColor={bgColor}
       justifyContent="center"
       alignItems="center"
-      marginRight={8}
+      mr={8}
     >
       {React.cloneElement(icon as React.ReactElement, {
         color: 'white',

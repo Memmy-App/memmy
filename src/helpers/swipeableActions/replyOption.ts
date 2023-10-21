@@ -3,7 +3,9 @@ import { SwipeableActionParams } from '@helpers/swipeableActions/swipeableAction
 export const replyOption = ({
   commentId,
   postId,
+  replyId,
+  mentionId,
   navigation,
 }: SwipeableActionParams): void => {
-  navigation.push('Reply', { commentId, postId });
+  navigation.push('Reply', { commentId, postId, replyId, mentionId });
 };

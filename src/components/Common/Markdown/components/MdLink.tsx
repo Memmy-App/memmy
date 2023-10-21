@@ -1,29 +1,31 @@
 import React, { useCallback } from 'react';
 import { MdToken } from '@src/types';
 import { openLink } from '@helpers/links';
-import { Pressable } from 'react-native';
-import { Text } from 'tamagui';
+import { Text, useTheme } from 'tamagui';
 
 interface IProps {
   token: MdToken;
   href: string;
-  fontSize: number;
 }
 
-export default function MdLink({
-  token,
-  href,
-  fontSize,
-}: IProps): React.JSX.Element {
+export default function MdLink({ token, href }: IProps): React.JSX.Element {
+  const theme = useTheme();
+
   const onPress = useCallback(() => {
-    openLink(href);
+    openLink(href, theme.navBarBg.val);
   }, []);
 
   return (
-    <Pressable onPress={onPress}>
-      <Text fontSize={fontSize} color="$accent" wordWrap="break-word">
-        {token.content}
-      </Text>
-    </Pressable>
+    <Text
+      fontSize="$3"
+      color="$accent"
+      wordWrap="break-word"
+      textBreakStrategy="simple"
+      onPress={onPress}
+      hitSlop={15}
+      textDecorationLine="underline"
+    >
+      {token.content}
+    </Text>
   );
 }

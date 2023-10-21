@@ -13,15 +13,18 @@ import {
   usePersonAvatar,
   useShowAvatarInTabBar,
   useShowUsernameInTabBar,
+  useUnreadCount,
 } from '@src/state';
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
+import { playHaptic } from '@helpers/haptics';
+import AccountsContextMenu from '@components/Common/ContextMenu/components/AccountsContextMenu';
 
 const Tab = createBottomTabNavigator();
 
 let lastPress = 0;
 
-const onTabPress = (): void => {
+const onHomeTabPress = (): void => {
   const now = Date.now();
 
   if (now < lastPress + 200) {
@@ -29,10 +32,16 @@ const onTabPress = (): void => {
   }
 
   lastPress = now;
+
+  void playHaptic();
 };
 
-const onTabLongPress = (): void => {
+const onHomeTabLongPress = (): void => {
   setDrawerOpen(true);
+};
+
+const onTabPress = (): void => {
+  void playHaptic();
 };
 
 interface ProfileTabIconProps {
@@ -44,20 +53,32 @@ function ProfileTabIcon({ color }: ProfileTabIconProps): React.JSX.Element {
   const personAvatar = usePersonAvatar();
 
   if (showAvatarInTabBar && personAvatar != null) {
-    return <Image source={personAvatar} style={styles.avatarIcon} />;
+    return (
+      <AccountsContextMenu>
+        <Image source={personAvatar} style={styles.avatarIcon} />
+      </AccountsContextMenu>
+    );
   }
 
-  return <User color={color} size={24} />;
+  return (
+    <AccountsContextMenu>
+      <User color={color} size={24} />
+    </AccountsContextMenu>
+  );
 }
 
 export default function Tabs(): React.JSX.Element {
   const showUsernameInTabBar = useShowUsernameInTabBar();
   const account = useCurrentAccount();
+  const unread = useUnreadCount();
 
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
+      }}
+      screenListeners={{
+        tabPress: onTabPress,
       }}
     >
       <Tab.Screen
@@ -67,8 +88,8 @@ export default function Tabs(): React.JSX.Element {
           tabBarIcon: ({ color }) => <Home color={color} size={24} />,
         }}
         listeners={{
-          tabPress: onTabPress,
-          tabLongPress: onTabLongPress,
+          tabPress: onHomeTabPress,
+          tabLongPress: onHomeTabLongPress,
         }}
       />
       <Tab.Screen
@@ -76,6 +97,7 @@ export default function Tabs(): React.JSX.Element {
         component={InboxStackScreen}
         options={{
           tabBarIcon: ({ color }) => <Inbox color={color} size={24} />,
+          tabBarBadge: unread > 0 ? unread.toString() : undefined,
         }}
       />
       <Tab.Screen

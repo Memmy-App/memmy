@@ -26,7 +26,7 @@ function FeedItemContent({ itemId }: IProps): React.JSX.Element | null {
 
   if (postLinkType === 'image') {
     return (
-      <View marginVertical="$3" justifyContent="center" backgroundColor="$bg">
+      <View my="$3" justifyContent="center" backgroundColor="$bg">
         <ViewerImage
           source={postLink!}
           blurRadius={postNsfw || postCommunityNsfw ? 90 : 0}
@@ -39,8 +39,8 @@ function FeedItemContent({ itemId }: IProps): React.JSX.Element | null {
   return (
     <View>
       {postBodyPreview != null && (
-        <View marginHorizontal="$3">
-          <Markdown color="$secondary">{postBodyPreview}</Markdown>
+        <View mx="$3">
+          <Markdown color="$color">{postBodyPreview}</Markdown>
         </View>
       )}
       {postLink != null && <PostLinkPreview itemId={itemId} />}

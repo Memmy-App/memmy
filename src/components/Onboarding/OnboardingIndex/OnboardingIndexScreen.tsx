@@ -1,10 +1,9 @@
 import React from 'react';
-import { Theme } from 'tamagui';
+import { Theme, YStack } from 'tamagui';
 import { ImageBackground } from 'expo-image';
 import { OnboardingH1 } from '@components/Onboarding/components/OnboardingH1';
 import { Button } from '@components/Common/Button';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import VStack from '@components/Common/Stack/VStack';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const background = require('@root/assets/splash.jpg');
@@ -23,12 +22,7 @@ export default function OnboardingIndexScreen({
       resizeMode="cover"
     >
       <Theme name="darkTheme">
-        <VStack
-          flex={1}
-          justifyContent="center"
-          marginHorizontal={20}
-          space="$9"
-        >
+        <YStack flex={1} justifyContent="center" mx={20} space="$9">
           <OnboardingH1>Hello!👋</OnboardingH1>
           <OnboardingH1>Welcome to the Fediverse</OnboardingH1>
 
@@ -39,7 +33,7 @@ export default function OnboardingIndexScreen({
           >
             Get Started
           </Button>
-        </VStack>
+        </YStack>
       </Theme>
     </ImageBackground>
   );

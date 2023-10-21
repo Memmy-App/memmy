@@ -40,7 +40,7 @@
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.23.2.tgz#6a12ced93455827037bfb5ed8492820d60fc32cc"
   integrity sha512-0S9TQMmDHlqAZ2ITT95irXKfxN9bncq8ZCoJhun3nHL/lLUxd2NKBJYoNGWH7S0hz6fRQwWlAWn/ILM0C70KZQ==
 
-"@babel/core@^7.13.16", "@babel/core@^7.19.3", "@babel/core@^7.20.0":
+"@babel/core@^7.13.16", "@babel/core@^7.19.3", "@babel/core@^7.20.0", "@babel/core@^7.21.8":
   version "7.23.2"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.23.2.tgz#ed10df0d580fff67c5f3ee70fd22e2e4c90a9f94"
   integrity sha512-n7s51eWdaWZ3vGT2tD4T7J6eJs3QoBXydv7vkUM06Bf1cbVD2Kc2UrkzhiQwobfV7NwOnQXYL7UBJ5VPU+RGoQ==
@@ -61,7 +61,7 @@
     json5 "^2.2.3"
     semver "^6.3.1"
 
-"@babel/generator@^7.20.0", "@babel/generator@^7.23.0":
+"@babel/generator@^7.20.0", "@babel/generator@^7.21.5", "@babel/generator@^7.23.0":
   version "7.23.0"
   resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.23.0.tgz#df5c386e2218be505b34837acbcb874d7a983420"
   integrity sha512-lN85QRR+5IbYrMWM6Y4pE/noaQtg4pNiqeNGX60eqOfo6gtEj6uw/JagelB8vVztSd7R6M5n1+PQkDbHbBRU4g==
@@ -183,7 +183,7 @@
   dependencies:
     "@babel/types" "^7.22.5"
 
-"@babel/helper-plugin-utils@^7.0.0", "@babel/helper-plugin-utils@^7.10.4", "@babel/helper-plugin-utils@^7.12.13", "@babel/helper-plugin-utils@^7.14.5", "@babel/helper-plugin-utils@^7.18.6", "@babel/helper-plugin-utils@^7.18.9", "@babel/helper-plugin-utils@^7.20.2", "@babel/helper-plugin-utils@^7.22.5", "@babel/helper-plugin-utils@^7.8.0", "@babel/helper-plugin-utils@^7.8.3":
+"@babel/helper-plugin-utils@^7.0.0", "@babel/helper-plugin-utils@^7.10.4", "@babel/helper-plugin-utils@^7.12.13", "@babel/helper-plugin-utils@^7.14.5", "@babel/helper-plugin-utils@^7.18.6", "@babel/helper-plugin-utils@^7.18.9", "@babel/helper-plugin-utils@^7.20.2", "@babel/helper-plugin-utils@^7.21.5", "@babel/helper-plugin-utils@^7.22.5", "@babel/helper-plugin-utils@^7.8.0", "@babel/helper-plugin-utils@^7.8.3":
   version "7.22.5"
   resolved "https://registry.yarnpkg.com/@babel/helper-plugin-utils/-/helper-plugin-utils-7.22.5.tgz#dd7ee3735e8a313b9f7b05a773d892e88e6d7295"
   integrity sha512-uLls06UVKgFG9QD4OeFYLEGteMIAa5kpTPcFL28yuCIIzsf6ZyKZMllKVOCZFhiZ5ptnwX4mtKdWCBE/uT4amg==
@@ -269,7 +269,7 @@
     chalk "^2.4.2"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.13.16", "@babel/parser@^7.20.0", "@babel/parser@^7.22.15", "@babel/parser@^7.23.0":
+"@babel/parser@^7.1.6", "@babel/parser@^7.13.16", "@babel/parser@^7.20.0", "@babel/parser@^7.21.8", "@babel/parser@^7.22.15", "@babel/parser@^7.23.0":
   version "7.23.0"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.23.0.tgz#da950e622420bf96ca0d0f2909cdddac3acd8719"
   integrity sha512-vvPKKdMemU85V9WE/l5wZEmImpCtLqbnTvqDS2U1fJ96KrxoW7KrXhNsNCblQlg8Ck4b85yxdTyelsMUgFUXiw==
@@ -888,7 +888,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.22.5"
 
-"@babel/plugin-transform-react-jsx@^7.0.0", "@babel/plugin-transform-react-jsx@^7.12.17":
+"@babel/plugin-transform-react-jsx@^7.0.0", "@babel/plugin-transform-react-jsx@^7.12.17", "@babel/plugin-transform-react-jsx@^7.22.5":
   version "7.22.15"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-react-jsx/-/plugin-transform-react-jsx-7.22.15.tgz#7e6266d88705d7c49f11c98db8b9464531289cd6"
   integrity sha512-oKckg2eZFa8771O/5vi7XeTvmM6+O9cxZu+kanTU7tD4sin5nO/G8jGJhq8Hvt2Z0kUoEDRayuZLaUlYl8QuGA==
@@ -1134,14 +1134,14 @@
   resolved "https://registry.yarnpkg.com/@babel/regjsgen/-/regjsgen-0.8.0.tgz#f0ba69b075e1f05fb2825b7fad991e7adbb18310"
   integrity sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.18.6", "@babel/runtime@^7.20.0", "@babel/runtime@^7.22.5", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.18.6", "@babel/runtime@^7.20.0", "@babel/runtime@^7.21.5", "@babel/runtime@^7.22.5", "@babel/runtime@^7.8.4":
   version "7.23.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.2.tgz#062b0ac103261d68a966c4c7baf2ae3e62ec3885"
   integrity sha512-mM8eg4yl5D6i3lu2QKPuPH4FArvJ8KhTofbE7jwMUv9KX5mBvwPAqnV3MlyBNqdp9RyRKP6Yck8TrfYrPvX3bg==
   dependencies:
     regenerator-runtime "^0.14.0"
 
-"@babel/template@^7.0.0", "@babel/template@^7.22.15", "@babel/template@^7.22.5":
+"@babel/template@^7.0.0", "@babel/template@^7.20.7", "@babel/template@^7.22.15", "@babel/template@^7.22.5":
   version "7.22.15"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.22.15.tgz#09576efc3830f0430f4548ef971dde1350ef2f38"
   integrity sha512-QPErUVm4uyJa60rkI73qneDacvdvzxshT3kksGqlGWYdOTIUOwJ7RDUL8sGqslY1uXWSL6xMFKEXDS3ox2uF0w==
@@ -1150,7 +1150,7 @@
     "@babel/parser" "^7.22.15"
     "@babel/types" "^7.22.15"
 
-"@babel/traverse@^7.0.0", "@babel/traverse@^7.20.0", "@babel/traverse@^7.23.2":
+"@babel/traverse@^7.0.0", "@babel/traverse@^7.1.6", "@babel/traverse@^7.20.0", "@babel/traverse@^7.21.5", "@babel/traverse@^7.23.2":
   version "7.23.2"
   resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.23.2.tgz#329c7a06735e144a506bdb2cad0268b7f46f4ad8"
   integrity sha512-azpe59SQ48qG6nu2CzcMLbxUudtN+dOM9kDbUqGq3HXUJRlo7i8fvPoxQUzYgLZ4cMVmuZgm8vvBpNeRhd6XSw==
@@ -1166,7 +1166,7 @@
     debug "^4.1.0"
     globals "^11.1.0"
 
-"@babel/types@^7.20.0", "@babel/types@^7.22.15", "@babel/types@^7.22.19", "@babel/types@^7.22.5", "@babel/types@^7.23.0", "@babel/types@^7.4.4":
+"@babel/types@^7.1.6", "@babel/types@^7.20.0", "@babel/types@^7.21.5", "@babel/types@^7.22.15", "@babel/types@^7.22.19", "@babel/types@^7.22.5", "@babel/types@^7.23.0", "@babel/types@^7.4.4":
   version "7.23.0"
   resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.23.0.tgz#8c1f020c9df0e737e4e247c0619f58c68458aaeb"
   integrity sha512-0oIyUfKoI3mSqMvsxBdclDwxXKXAUA8v/apZbc+iSyARYou1o8ZGDxbUYyLFoW2arqS2jDGqJuZvv1d/io1axg==
@@ -1203,6 +1203,116 @@
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.5.tgz#77211291c1900a700b8a78cfafda3160d76949ed"
   integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
+
+"@esbuild/android-arm64@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/android-arm64/-/android-arm64-0.19.5.tgz#276c5f99604054d3dbb733577e09adae944baa90"
+  integrity sha512-5d1OkoJxnYQfmC+Zd8NBFjkhyCNYwM4n9ODrycTFY6Jk1IGiZ+tjVJDDSwDt77nK+tfpGP4T50iMtVi4dEGzhQ==
+
+"@esbuild/android-arm@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/android-arm/-/android-arm-0.19.5.tgz#4a3cbf14758166abaae8ba9c01a80e68342a4eec"
+  integrity sha512-bhvbzWFF3CwMs5tbjf3ObfGqbl/17ict2/uwOSfr3wmxDE6VdS2GqY/FuzIPe0q0bdhj65zQsvqfArI9MY6+AA==
+
+"@esbuild/android-x64@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/android-x64/-/android-x64-0.19.5.tgz#21a3d11cd4613d2d3c5ccb9e746c254eb9265b0a"
+  integrity sha512-9t+28jHGL7uBdkBjL90QFxe7DVA+KGqWlHCF8ChTKyaKO//VLuoBricQCgwhOjA1/qOczsw843Fy4cbs4H3DVA==
+
+"@esbuild/darwin-arm64@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/darwin-arm64/-/darwin-arm64-0.19.5.tgz#714cb839f467d6a67b151ee8255886498e2b9bf6"
+  integrity sha512-mvXGcKqqIqyKoxq26qEDPHJuBYUA5KizJncKOAf9eJQez+L9O+KfvNFu6nl7SCZ/gFb2QPaRqqmG0doSWlgkqw==
+
+"@esbuild/darwin-x64@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/darwin-x64/-/darwin-x64-0.19.5.tgz#2c553e97a6d2b4ae76a884e35e6cbab85a990bbf"
+  integrity sha512-Ly8cn6fGLNet19s0X4unjcniX24I0RqjPv+kurpXabZYSXGM4Pwpmf85WHJN3lAgB8GSth7s5A0r856S+4DyiA==
+
+"@esbuild/freebsd-arm64@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/freebsd-arm64/-/freebsd-arm64-0.19.5.tgz#d554f556718adb31917a0da24277bf84b6ee87f3"
+  integrity sha512-GGDNnPWTmWE+DMchq1W8Sd0mUkL+APvJg3b11klSGUDvRXh70JqLAO56tubmq1s2cgpVCSKYywEiKBfju8JztQ==
+
+"@esbuild/freebsd-x64@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/freebsd-x64/-/freebsd-x64-0.19.5.tgz#288f7358a3bb15d99e73c65c9adaa3dabb497432"
+  integrity sha512-1CCwDHnSSoA0HNwdfoNY0jLfJpd7ygaLAp5EHFos3VWJCRX9DMwWODf96s9TSse39Br7oOTLryRVmBoFwXbuuQ==
+
+"@esbuild/linux-arm64@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/linux-arm64/-/linux-arm64-0.19.5.tgz#95933ae86325c93cb6b5e8333d22120ecfdc901b"
+  integrity sha512-o3vYippBmSrjjQUCEEiTZ2l+4yC0pVJD/Dl57WfPwwlvFkrxoSO7rmBZFii6kQB3Wrn/6GwJUPLU5t52eq2meA==
+
+"@esbuild/linux-arm@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/linux-arm/-/linux-arm-0.19.5.tgz#0acef93aa3e0579e46d33b666627bddb06636664"
+  integrity sha512-lrWXLY/vJBzCPC51QN0HM71uWgIEpGSjSZZADQhq7DKhPcI6NH1IdzjfHkDQws2oNpJKpR13kv7/pFHBbDQDwQ==
+
+"@esbuild/linux-ia32@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/linux-ia32/-/linux-ia32-0.19.5.tgz#b6e5c9e80b42131cbd6b1ddaa48c92835f1ed67f"
+  integrity sha512-MkjHXS03AXAkNp1KKkhSKPOCYztRtK+KXDNkBa6P78F8Bw0ynknCSClO/ztGszILZtyO/lVKpa7MolbBZ6oJtQ==
+
+"@esbuild/linux-loong64@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/linux-loong64/-/linux-loong64-0.19.5.tgz#e5f0cf95a180158b01ff5f417da796a1c09dfbea"
+  integrity sha512-42GwZMm5oYOD/JHqHska3Jg0r+XFb/fdZRX+WjADm3nLWLcIsN27YKtqxzQmGNJgu0AyXg4HtcSK9HuOk3v1Dw==
+
+"@esbuild/linux-mips64el@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/linux-mips64el/-/linux-mips64el-0.19.5.tgz#ae36fb86c7d5f641f3a0c8472e83dcb6ea36a408"
+  integrity sha512-kcjndCSMitUuPJobWCnwQ9lLjiLZUR3QLQmlgaBfMX23UEa7ZOrtufnRds+6WZtIS9HdTXqND4yH8NLoVVIkcg==
+
+"@esbuild/linux-ppc64@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/linux-ppc64/-/linux-ppc64-0.19.5.tgz#7960cb1666f0340ddd9eef7b26dcea3835d472d0"
+  integrity sha512-yJAxJfHVm0ZbsiljbtFFP1BQKLc8kUF6+17tjQ78QjqjAQDnhULWiTA6u0FCDmYT1oOKS9PzZ2z0aBI+Mcyj7Q==
+
+"@esbuild/linux-riscv64@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/linux-riscv64/-/linux-riscv64-0.19.5.tgz#32207df26af60a3a9feea1783fc21b9817bade19"
+  integrity sha512-5u8cIR/t3gaD6ad3wNt1MNRstAZO+aNyBxu2We8X31bA8XUNyamTVQwLDA1SLoPCUehNCymhBhK3Qim1433Zag==
+
+"@esbuild/linux-s390x@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/linux-s390x/-/linux-s390x-0.19.5.tgz#b38d5681db89a3723862dfa792812397b1510a7d"
+  integrity sha512-Z6JrMyEw/EmZBD/OFEFpb+gao9xJ59ATsoTNlj39jVBbXqoZm4Xntu6wVmGPB/OATi1uk/DB+yeDPv2E8PqZGw==
+
+"@esbuild/linux-x64@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/linux-x64/-/linux-x64-0.19.5.tgz#46feba2ad041a241379d150f415b472fe3885075"
+  integrity sha512-psagl+2RlK1z8zWZOmVdImisMtrUxvwereIdyJTmtmHahJTKb64pAcqoPlx6CewPdvGvUKe2Jw+0Z/0qhSbG1A==
+
+"@esbuild/netbsd-x64@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/netbsd-x64/-/netbsd-x64-0.19.5.tgz#3b5c1fb068f26bfc681d31f682adf1bea4ef0702"
+  integrity sha512-kL2l+xScnAy/E/3119OggX8SrWyBEcqAh8aOY1gr4gPvw76la2GlD4Ymf832UCVbmuWeTf2adkZDK+h0Z/fB4g==
+
+"@esbuild/openbsd-x64@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/openbsd-x64/-/openbsd-x64-0.19.5.tgz#ca6830316ca68056c5c88a875f103ad3235e00db"
+  integrity sha512-sPOfhtzFufQfTBgRnE1DIJjzsXukKSvZxloZbkJDG383q0awVAq600pc1nfqBcl0ice/WN9p4qLc39WhBShRTA==
+
+"@esbuild/sunos-x64@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/sunos-x64/-/sunos-x64-0.19.5.tgz#9efc4eb9539a7be7d5a05ada52ee43cda0d8e2dd"
+  integrity sha512-dGZkBXaafuKLpDSjKcB0ax0FL36YXCvJNnztjKV+6CO82tTYVDSH2lifitJ29jxRMoUhgkg9a+VA/B03WK5lcg==
+
+"@esbuild/win32-arm64@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/win32-arm64/-/win32-arm64-0.19.5.tgz#29f8184afa7a02a956ebda4ed638099f4b8ff198"
+  integrity sha512-dWVjD9y03ilhdRQ6Xig1NWNgfLtf2o/STKTS+eZuF90fI2BhbwD6WlaiCGKptlqXlURVB5AUOxUj09LuwKGDTg==
+
+"@esbuild/win32-ia32@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/win32-ia32/-/win32-ia32-0.19.5.tgz#f3de07afb292ecad651ae4bb8727789de2d95b05"
+  integrity sha512-4liggWIA4oDgUxqpZwrDhmEfAH4d0iljanDOK7AnVU89T6CzHon/ony8C5LeOdfgx60x5cnQJFZwEydVlYx4iw==
+
+"@esbuild/win32-x64@0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.19.5.tgz#faad84c41ba12e3a0acb52571df9bff37bee75f6"
+  integrity sha512-czTrygUsB/jlM8qEW5MD8bgYU2Xg14lo6kBDXW6HdxKjh8M5PzETGiSHaz9MtbXBYDloHNUAUW2tMiKW4KM9Mw==
 
 "@eslint-community/eslint-utils@^4.1.2", "@eslint-community/eslint-utils@^4.2.0", "@eslint-community/eslint-utils@^4.4.0":
   version "4.4.0"
@@ -2156,6 +2266,11 @@
     prompts "^2.4.0"
     semver "^7.5.2"
 
+"@react-native-community/slider@^4.4.3":
+  version "4.4.3"
+  resolved "https://registry.yarnpkg.com/@react-native-community/slider/-/slider-4.4.3.tgz#9b9dc639b88f5bfda72bd72a9dff55cbf9f777ed"
+  integrity sha512-WdjvGtqJfqcCiLwtbzie53Z/H6w6dIfRHhlW832D89ySAdE5DxLAsqRhDOG0eacuAxxEB+T9sGCkVMD0fa3aBg==
+
 "@react-native-picker/picker@^2.5.1":
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-2.5.1.tgz#dfa13d5b97bfbedf1f7e7c608181a82f1d58b351"
@@ -2510,6 +2625,33 @@
     "@tamagui/shapes" "1.74.19"
     "@tamagui/text" "1.74.19"
 
+"@tamagui/babel-plugin@^1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/babel-plugin/-/babel-plugin-1.74.21.tgz#d3b4f4046847d7586f9ae217fab9fb8b6989b2d8"
+  integrity sha512-kc7Sxxs97LJU5dyuf0Vy6aXJphecBuNewzn418d4Di4CeGiQ4RoewVFY8MhQiUtdx5CyQsVgQHjJ/kM0BuakCQ==
+  dependencies:
+    "@babel/generator" "^7.21.5"
+    "@babel/helper-plugin-utils" "^7.21.5"
+    "@babel/template" "^7.20.7"
+    "@babel/traverse" "^7.21.5"
+    "@tamagui/simple-hash" "1.74.21"
+    "@tamagui/static" "1.74.21"
+
+"@tamagui/build@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/build/-/build-1.74.21.tgz#ed704f6fcebee76c83a063275f0d476b861868fd"
+  integrity sha512-ZT53hl9s9pQuTu/0FvbCvv12yYzw1aZ+1XzRdMw0xEs19FhzE/gM+BcKLJktUdAvjUhhH+832aQxqNE8vK+dlA==
+  dependencies:
+    "@types/fs-extra" "^9.0.13"
+    chokidar "^3.5.2"
+    esbuild "~0.19.3"
+    execa "^5.0.0"
+    fast-glob "^3.2.11"
+    fs-extra "^11.1.0"
+    get-tsconfig "^4.5.0"
+    lodash.debounce "^4.0.8"
+    typescript "^5.2.2"
+
 "@tamagui/button@1.74.19":
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/button/-/button-1.74.19.tgz#995d31e0c28e2f5210adf1aea266e8ad437dc9ab"
@@ -2546,6 +2688,11 @@
     "@tamagui/use-controllable-state" "1.74.19"
     "@tamagui/use-previous" "1.74.19"
 
+"@tamagui/cli-color@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/cli-color/-/cli-color-1.74.21.tgz#5d7df88c833f285b81f5fe1da3c7fba0f28dc6d2"
+  integrity sha512-6eIYi9WtE6sP3Q6SngO0pT6QUdnC4h/iTQHyAtP1RPrt6GxFSTCJOAUwHUbKg6E3uqlVioJ7JmLBIO223VnMbw==
+
 "@tamagui/collapsible@1.74.19":
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/collapsible/-/collapsible-1.74.19.tgz#f825585f352f4f87b2c805ee7575ff92b37d70f4"
@@ -2576,10 +2723,28 @@
   resolved "https://registry.yarnpkg.com/@tamagui/colors/-/colors-1.74.19.tgz#a49d619dfe7388760d1941c2fa6557ad966480ec"
   integrity sha512-qFyVCy/ZlUfHVjaVSa//8yNercj5w+ASCaBITc76g8zJz8ZCSQesJpzEffJR/QdjtHFSkUrqj7nDTmqpybmnrQ==
 
+"@tamagui/colors@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/colors/-/colors-1.74.21.tgz#365f9fb3c3c6c3253e298e9022a8e4b0ca2cb5b5"
+  integrity sha512-aZoLAS00dfJORTQO+ZziAsxgfkhbrpQgKUWqAzG34hal5/HlXcu24+wMimpcasPqAryd9pRDYxLvPEk+pDgjFw==
+
 "@tamagui/compose-refs@1.74.19":
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/compose-refs/-/compose-refs-1.74.19.tgz#b25edb1dd1b29526a8e45fa0c62da6cf6b08cb9c"
   integrity sha512-C3rVWvGRGLcR+IqA7tliZVpzWRi+9b5LXg+wyRQrT58xJEquvWNBSUlvo/b/8eWfyLj5o1WTXAFikPiDwBdRkg==
+
+"@tamagui/compose-refs@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/compose-refs/-/compose-refs-1.74.21.tgz#9398e31930172382bf514df6eabfee7d40a7a689"
+  integrity sha512-xEUL+x0NgzYPXS00MO6aRKDPzURE5ql7JKq7sLT6Vr+GyCEAfPVaWkBetbze8sw3AT6XocV8qC4COEOBilD0JA==
+
+"@tamagui/config-default@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/config-default/-/config-default-1.74.21.tgz#e7f2f62c96f4d88118ec278e27c8003f98ba4ac1"
+  integrity sha512-Wwm3PFeHlJQoBlBhMgC/W6s6zKIfBaMnAdLDJ4GY4qAR8CIhCgZGzYzw0zXGkm4vRhtmsC4tq0DQ6xg7YDZmFA==
+  dependencies:
+    "@tamagui/core" "1.74.21"
+    "@tamagui/shorthands" "1.74.21"
 
 "@tamagui/config@^1.74.19":
   version "1.74.19"
@@ -2602,6 +2767,11 @@
   resolved "https://registry.yarnpkg.com/@tamagui/constants/-/constants-1.74.19.tgz#33dfb6265db402c837fb12edccb6a057c67d0822"
   integrity sha512-/3uQDfCbsP58UljDfPMKJex+Z18W+++X5FA+UKC+Afu+qKXvYe406byzQIPmXgfHj2G+50SgrPtAixnI8p2flA==
 
+"@tamagui/constants@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/constants/-/constants-1.74.21.tgz#2238eb2abe2766d6509d97da5d4343140d9d674f"
+  integrity sha512-zaa2x+cz5pmq6Y227ABrIl5OfL43lJITpGkgLWa63SWp7RowpaQVLvYQZB1cPxTCXtgLYZGQJL6z1m/RPaaFhQ==
+
 "@tamagui/core@1.74.19":
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/core/-/core-1.74.19.tgz#794e4c980a1c7ef0acf32ab95c4a8d3d2e18d818"
@@ -2611,6 +2781,16 @@
     "@tamagui/react-native-use-responder-events" "1.74.19"
     "@tamagui/use-event" "1.74.19"
     "@tamagui/web" "1.74.19"
+
+"@tamagui/core@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/core/-/core-1.74.21.tgz#8df2835775c85d1e7e551a3c2cf9b1b5c6b20eb8"
+  integrity sha512-NtkxkjsXl+vpDgQbY3JL6zDi39CVqV/z+TXTAxLOMdSP1tGEVwClcP1LIEMnpGPImILxZCVmloKtoNhtl1MtNg==
+  dependencies:
+    "@tamagui/react-native-use-pressable" "1.74.21"
+    "@tamagui/react-native-use-responder-events" "1.74.21"
+    "@tamagui/use-event" "1.74.21"
+    "@tamagui/web" "1.74.21"
 
 "@tamagui/create-context@1.74.19":
   version "1.74.19"
@@ -2623,6 +2803,13 @@
   integrity sha512-Kjfp6g0h6Bh5WIoSWRemPlk53Vv8bpm1u9Gf/Pu4xVyW1SfdIlaNVePiJdSbWpZkpo5Z0Fse5rPPO71TyjNEeg==
   dependencies:
     "@tamagui/web" "1.74.19"
+
+"@tamagui/create-theme@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/create-theme/-/create-theme-1.74.21.tgz#9ddbe36876ef183bcf111c43b27ae6507a236952"
+  integrity sha512-wWlyDiGjFVSCtx6fpyMoVHQJscDJaFpZZpbnIis8JUJvyhRHw6wX4zJYYk4Zw1lmN1WVh1uUl3rdZxaAbMQllA==
+  dependencies:
+    "@tamagui/web" "1.74.21"
 
 "@tamagui/cubic-bezier-animator@1.74.19":
   version "1.74.19"
@@ -2665,6 +2852,11 @@
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/fake-react-native/-/fake-react-native-1.74.19.tgz#4d1fd6f235ed1751b5f68a4033ec8af547a5cf39"
   integrity sha512-kvD9u3HuQ8amKe8Oi33wfw7yoazdUpFJ+sY4h0EL5gX0Fqem1wuseGzyrRn+tZooSeXFlZ/bKqr5oaH9qqbNXw==
+
+"@tamagui/fake-react-native@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/fake-react-native/-/fake-react-native-1.74.21.tgz#9dfa7424195f10e852a1da64b5c655b65e171ea1"
+  integrity sha512-HK++hwFQBP6rbTneLD96HCtzI58v+phMktNXxWmmz7zpYGcXbwCPpjAPzwzkpTRxYetC+dpP/FjrJt5/y72DBQ==
 
 "@tamagui/floating@1.74.19":
   version "1.74.19"
@@ -2725,6 +2917,16 @@
     "@tamagui/get-font-sized" "1.74.19"
     "@tamagui/text" "1.74.19"
 
+"@tamagui/generate-themes@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/generate-themes/-/generate-themes-1.74.21.tgz#0e0ca270cbda886f07af7b93fc410125f080073a"
+  integrity sha512-xWgUPLZ2G69YLbtTe4c1XTp60YBwg6n7wVOoVTwn9nNiLoyd0QTb5PFmn78Gjv4orBmVWK34RD6yorZSAZkJwA==
+  dependencies:
+    "@tamagui/create-theme" "1.74.21"
+    "@tamagui/types" "1.74.21"
+    esbuild-register "^3.4.2"
+    fs-extra "^11.1.0"
+
 "@tamagui/get-button-sized@1.74.19":
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/get-button-sized/-/get-button-sized-1.74.19.tgz#5debfd63b5a01c229388ce2717dd54f7c1145d0f"
@@ -2765,6 +2967,13 @@
   dependencies:
     "@tamagui/core" "1.74.19"
 
+"@tamagui/helpers-node@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/helpers-node/-/helpers-node-1.74.21.tgz#c1adc285023c70349e6b808b9de804cada51903c"
+  integrity sha512-3cltdpV2DmTX/3w3jG9zB5suKfx+HfsHJQ3+etUHOKzSlhOjDGApcNjJ5mP0WHDXpO7aKGXDFZ1bwjLHxDRz1w==
+  dependencies:
+    "@tamagui/types" "1.74.21"
+
 "@tamagui/helpers-tamagui@1.74.19":
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/helpers-tamagui/-/helpers-tamagui-1.74.19.tgz#66a0da8b0047138d15208fe03e1f004262230f15"
@@ -2780,6 +2989,14 @@
   dependencies:
     "@tamagui/constants" "1.74.19"
     "@tamagui/simple-hash" "1.74.19"
+
+"@tamagui/helpers@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/helpers/-/helpers-1.74.21.tgz#104e944aae5250fc76d47bd2deaecf7f1ef51a88"
+  integrity sha512-tc9XIrkP5+1SIYjz/R/epvpbjzxgK9/mKJs1LkyZ22c5OMWAphwLiP2bo4OmYZ91z8HHjWjaWbgP01IN+eBv9A==
+  dependencies:
+    "@tamagui/constants" "1.74.21"
+    "@tamagui/simple-hash" "1.74.21"
 
 "@tamagui/image@1.74.19":
   version "1.74.19"
@@ -2833,6 +3050,13 @@
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/normalize-css-color/-/normalize-css-color-1.74.19.tgz#16ab8de0460b501151d972bef7172cc193172307"
   integrity sha512-m0pWjVeaq00NNKh2OEu9eFnKvUA3g49LIkkA5gngOCD/zabdB9tbmB/xVjSNMUtqMhx1EBZJBv6SeiYYMRPQxQ==
+  dependencies:
+    "@react-native/normalize-color" "^2.1.0"
+
+"@tamagui/normalize-css-color@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/normalize-css-color/-/normalize-css-color-1.74.21.tgz#c022926517bb58c3d1545debe5954b450a3c9b41"
+  integrity sha512-beyGQCqHZKe4XHDEn8zl0A8K5suCGRRZx4Qr4e/+2V5WMwAKszwUk6EmGgJwRul1KUhNhDtmmfyJwiInaNyEKA==
   dependencies:
     "@react-native/normalize-color" "^2.1.0"
 
@@ -2897,6 +3121,11 @@
     "@tamagui/get-token" "1.74.19"
     "@tamagui/stacks" "1.74.19"
 
+"@tamagui/proxy-worm@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/proxy-worm/-/proxy-worm-1.74.21.tgz#55858d50606e54149da480f97059cfc996081796"
+  integrity sha512-2u6ICQoS6jUpR0F71HhUcaPJRIPCTpSe+UtPI4kR8xiM27isKoqF2Pp6YtK4+WY+uvEG7EmBao81AOK79QSRWA==
+
 "@tamagui/radio-group@1.74.19":
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/radio-group/-/radio-group-1.74.19.tgz#847a389febe0eaa208f9bee33aa2a624789a6cfd"
@@ -2919,15 +3148,30 @@
   dependencies:
     "@tamagui/web" "1.74.19"
 
+"@tamagui/react-native-prebuilt@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/react-native-prebuilt/-/react-native-prebuilt-1.74.21.tgz#a4e5c2489db374f9235b4d9eae4cbdbaca02b75e"
+  integrity sha512-ZxIwPkfbDiMY+Z4bcupyTJhQ7MTQuU/PPM5Quz1CYILdqS4HUpsH3fGnmBx8kG1lG4v/47PZXHvnUIJHnIWB4w==
+
 "@tamagui/react-native-use-pressable@1.74.19":
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/react-native-use-pressable/-/react-native-use-pressable-1.74.19.tgz#cec6adcc56468e74bb253aa954c790d68d86cc41"
   integrity sha512-8XWa3Yk4tTASDg4D85F0PBn9KKwc6SVJEyBEw34Z8j5n6t42/HVR/UA+9IYALHcB+CgkqrFSmVMkxzU7tAmAEg==
 
+"@tamagui/react-native-use-pressable@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/react-native-use-pressable/-/react-native-use-pressable-1.74.21.tgz#cc5b208bfec5f76d72e6e9971d3540f4d5b3039d"
+  integrity sha512-LbgB4xJxzd9fFa/C/KQCOq6oI6yhjT8CZXGJH4xnlFGsig+UORzupDXmDkzcNIoozRbGhRTvQCanTaB4hjQS7Q==
+
 "@tamagui/react-native-use-responder-events@1.74.19":
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/react-native-use-responder-events/-/react-native-use-responder-events-1.74.19.tgz#5a7c1c0f8edc4ee7e178fa2d91e142e0433015f5"
   integrity sha512-dDS4u2mrYFXyudqwVDLTutYjGZ+yBIpPUw1wE26gY3Zn2H0eAAOixqWOuDYMsD8lu574oABnbkqouRvOGej54w==
+
+"@tamagui/react-native-use-responder-events@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/react-native-use-responder-events/-/react-native-use-responder-events-1.74.21.tgz#cd8125eca5525a6d4687d1735523d006199fe6ec"
+  integrity sha512-K1H3uhKD8eZrH7wb4F7bXOltCFr5DYr6cfuRJTBmJ2ODTXJlN2cewqKjjPC52R6uJa5ZWT1RLjiGOpvVYNHgNw==
 
 "@tamagui/remove-scroll@1.74.19":
   version "1.74.19"
@@ -3023,10 +3267,20 @@
   resolved "https://registry.yarnpkg.com/@tamagui/shorthands/-/shorthands-1.74.19.tgz#f51be1b19eebb79f8770eae3b44149712e1ccb19"
   integrity sha512-+FyeGozfXpXreAmqrenTXwHBc/y5QMmLBem7v2rpkTYsKG84qA99C2czPF2LRc1t3JJjPw2qm+P2U0WmZccaSw==
 
+"@tamagui/shorthands@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/shorthands/-/shorthands-1.74.21.tgz#1b5e2f1caa6bc574dd9df51bfa3d04a750b7a01b"
+  integrity sha512-HXBhByzVFaQoe1BBm3sgxcYwjlzOLLu5VpMQzLJcRkx1u6y9Lh4pnpeOfe59PydZmNsHjUuHECNpKYeEFZue4Q==
+
 "@tamagui/simple-hash@1.74.19":
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/simple-hash/-/simple-hash-1.74.19.tgz#e74648b2e4625b2de087c1ef22137b8e6c5f5331"
   integrity sha512-XEFRxWZrb22PHDrGj2/rV2F4+v7/eCg5kOkUr0xWrms3l7SyrVWkjli0gEueMyDzwhz6iR2SxGDxzHeZ7sM9mw==
+
+"@tamagui/simple-hash@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/simple-hash/-/simple-hash-1.74.21.tgz#15b381e3094215aa525348ae208abe472efc14e5"
+  integrity sha512-uIyVubiXlyeGf/dQQ5gK/mTp3gOeGvx4SAt/MtYvY3nGfFsGpCpjhvcdnn8DVZmKgBNfGhsVcJxHu4cki8PxhQ==
 
 "@tamagui/slider@1.74.19":
   version "1.74.19"
@@ -3048,6 +3302,43 @@
   integrity sha512-h/nIIGoLnVt6xjlveJwMRd4EebfriVg56aEkUNP8qe+3cay48Da4QXSYi7JE1AVKxNpOapHbE6za247l4igjEQ==
   dependencies:
     "@tamagui/core" "1.74.19"
+
+"@tamagui/static@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/static/-/static-1.74.21.tgz#1e20e7c746cc901311ea102eff2f09297751d30b"
+  integrity sha512-n+vKz1vozUzeVrBQXp/WJtGYGfCa0DhQ/jsxdv0IrzL7YelMSUMQI+vr1jMWG8Zg2RZtBTGijxKu7yiBBzWXHw==
+  dependencies:
+    "@babel/core" "^7.21.8"
+    "@babel/generator" "^7.21.5"
+    "@babel/helper-plugin-utils" "^7.21.5"
+    "@babel/parser" "^7.21.8"
+    "@babel/plugin-transform-react-jsx" "^7.22.5"
+    "@babel/runtime" "^7.21.5"
+    "@babel/traverse" "^7.21.5"
+    "@babel/types" "^7.21.5"
+    "@tamagui/build" "1.74.21"
+    "@tamagui/cli-color" "1.74.21"
+    "@tamagui/config-default" "1.74.21"
+    "@tamagui/core" "1.74.21"
+    "@tamagui/fake-react-native" "1.74.21"
+    "@tamagui/generate-themes" "1.74.21"
+    "@tamagui/helpers" "1.74.21"
+    "@tamagui/helpers-node" "1.74.21"
+    "@tamagui/proxy-worm" "1.74.21"
+    "@tamagui/react-native-prebuilt" "1.74.21"
+    "@tamagui/shorthands" "1.74.21"
+    "@tamagui/types" "1.74.21"
+    babel-literal-to-ast "^2.1.0"
+    esbuild "~0.19.3"
+    esbuild-register "^3.4.2"
+    find-cache-dir "^3.3.2"
+    find-root "^1.1.0"
+    fs-extra "^11.1.0"
+    invariant "^2.2.4"
+    lodash "^4.17.21"
+    react-native-web "^0.19.6"
+    react-native-web-internals "1.74.21"
+    react-native-web-lite "1.74.21"
 
 "@tamagui/switch@1.74.19":
   version "1.74.19"
@@ -3094,6 +3385,13 @@
   dependencies:
     "@tamagui/create-theme" "1.74.19"
 
+"@tamagui/theme-builder@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/theme-builder/-/theme-builder-1.74.21.tgz#8a423553934f69cca7687ea163ec3bf23a509241"
+  integrity sha512-m2xynC6S0YnRFA4CQe09qpktx0aqsmT8Ss8k4NpD8UYhnT0z7VN2G1JpJon3VxmVFSmHwb4ZI8nVQJCKE+sdIw==
+  dependencies:
+    "@tamagui/create-theme" "1.74.21"
+
 "@tamagui/theme@1.74.19":
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/theme/-/theme-1.74.19.tgz#15e0469b647226f6e812ba9cc4eda3c37d08fae1"
@@ -3112,10 +3410,25 @@
     "@tamagui/theme-builder" "1.74.19"
     "@tamagui/web" "1.74.19"
 
+"@tamagui/themes@^1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/themes/-/themes-1.74.21.tgz#ee956a3ef738ebd6bf3a556cdd49e0d10b2a088f"
+  integrity sha512-s6cr5XfxpdATDoYbouUCp8LTzj7/ii+TORe2j6LJ+ibDNGFz9yLWKrTytg5Ab/RJ7b3Kk0mXAPBKQWhtlGdRrg==
+  dependencies:
+    "@tamagui/colors" "1.74.21"
+    "@tamagui/create-theme" "1.74.21"
+    "@tamagui/theme-builder" "1.74.21"
+    "@tamagui/web" "1.74.21"
+
 "@tamagui/timer@1.74.19":
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/timer/-/timer-1.74.19.tgz#c3074f0d5ca23f72a9568fc0c208a356e57ca913"
   integrity sha512-aBOS0yxu2RGHZ7xyv2S6m7V7TFfsla2vqATlgBQQXbwD3zoDwM8Gx960bKk0sdhIZ26LKKGXACbw2kkf3fo6XA==
+
+"@tamagui/timer@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/timer/-/timer-1.74.21.tgz#1d24a135fda42f2eaeb0cbd13fa7f1dec562f31b"
+  integrity sha512-f+4EeYJzNXfWeTw7vpEcV5DdNs8G8E/IJ1bYmOquP87PwhpExJ3HUuVg1jDV4LoMtu/b9Z8sMXEMJELOoqIlfQ==
 
 "@tamagui/toggle-group@1.74.19":
   version "1.74.19"
@@ -3152,6 +3465,11 @@
     "@tamagui/text" "1.74.19"
     "@tamagui/use-controllable-state" "1.74.19"
 
+"@tamagui/types@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/types/-/types-1.74.21.tgz#2402a12ed4141e16cbfcb8df38ca921efbf86619"
+  integrity sha512-qaUKbLA54MRshscsbhcfzDdeV2d2Ymv3qCEbfqOuPMw5h8nVkBp8VDhWqi6aocaTp9iUK6kryLEWmtkqJzBmsw==
+
 "@tamagui/use-callback-ref@1.74.19":
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/use-callback-ref/-/use-callback-ref-1.74.19.tgz#84e2a49650b7e90d2b61f04039d03d3fb4febe02"
@@ -3181,6 +3499,13 @@
   dependencies:
     "@tamagui/constants" "1.74.19"
 
+"@tamagui/use-did-finish-ssr@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/use-did-finish-ssr/-/use-did-finish-ssr-1.74.21.tgz#b8a710a33e144ff330987ba8935ab10d9f7a044d"
+  integrity sha512-zUSyGs8D3kvf399vwr/+6+SBa53I3kp/zgsCBM0el4sUEIeItBCLBtD7chaCiN+Ge/b8m8mGocHtvdu0yRTLBQ==
+  dependencies:
+    "@tamagui/constants" "1.74.21"
+
 "@tamagui/use-direction@1.74.19":
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/use-direction/-/use-direction-1.74.19.tgz#f906207a1952ce57a2d8d68f4c66f14f5b6fd5f4"
@@ -3198,10 +3523,20 @@
   resolved "https://registry.yarnpkg.com/@tamagui/use-event/-/use-event-1.74.19.tgz#ec61fca3a6c853f21cb131b83f86dffb99b2fa5a"
   integrity sha512-jUdlMVUSMGDv0fKfOTdzDTQJVDmrePdkNwNg00r4/J9ynsQyqC0ogUS8bepX3gtpjB7AjxduuVEKdWJbW8OjJQ==
 
+"@tamagui/use-event@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/use-event/-/use-event-1.74.21.tgz#f080cb5d4ac1d230007219fc37d94133ec0e935f"
+  integrity sha512-6zhgYsqZFoQrOjUen/ZLqoSPSmTJHkRkLm2N2oqxMzcSArc+v0Ns2Aa/08wVTEd0htpa4t3XEGKi+3Jo4bGKew==
+
 "@tamagui/use-force-update@1.74.19":
   version "1.74.19"
   resolved "https://registry.yarnpkg.com/@tamagui/use-force-update/-/use-force-update-1.74.19.tgz#e69f1a0b898b8c094cb687b445652f0b8a60a38d"
   integrity sha512-SG9cKqF6K9uNwDxbxCjZ60XJ3kGlHaYbX01Vn3ahBcNfUhKxYKtBegvbCV9rSg/ve2bZp/hoUaod8FWB2Tzc6Q==
+
+"@tamagui/use-force-update@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/use-force-update/-/use-force-update-1.74.21.tgz#79abe356a8df5a2b75cb10da5fb742d1d63cf069"
+  integrity sha512-8VQvt+2T6bgkWTxkI9j7gniXJufRXgKFP7lZITaJkpwldA4DaH0BxoLFavF9ZnVcvGQllCq4bybQrIy8dPg1jw==
 
 "@tamagui/use-keyboard-visible@1.74.19":
   version "1.74.19"
@@ -3246,6 +3581,26 @@
     "@tamagui/timer" "1.74.19"
     "@tamagui/use-did-finish-ssr" "1.74.19"
     "@tamagui/use-force-update" "1.74.19"
+
+"@tamagui/web@1.74.21":
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/@tamagui/web/-/web-1.74.21.tgz#0356f3f77fd083aaf3cd34c95c93dcf691598527"
+  integrity sha512-xe7qZubNyuaGlMud7pDAFGm0BQj21JD0lBtnBxL72oI8lIphexU9cB8fFlFeGjnIipm4IwuRCPMSfEa3s+jxww==
+  dependencies:
+    "@tamagui/compose-refs" "1.74.21"
+    "@tamagui/constants" "1.74.21"
+    "@tamagui/helpers" "1.74.21"
+    "@tamagui/normalize-css-color" "1.74.21"
+    "@tamagui/timer" "1.74.21"
+    "@tamagui/use-did-finish-ssr" "1.74.21"
+    "@tamagui/use-force-update" "1.74.21"
+
+"@types/fs-extra@^9.0.13":
+  version "9.0.13"
+  resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-9.0.13.tgz#7594fbae04fe7f1918ce8b3d213f74ff44ac1f45"
+  integrity sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==
+  dependencies:
+    "@types/node" "*"
 
 "@types/hammerjs@^2.0.36":
   version "2.0.42"
@@ -3610,7 +3965,7 @@ any-promise@^1.0.0:
   resolved "https://registry.yarnpkg.com/any-promise/-/any-promise-1.3.0.tgz#abc6afeedcea52e809cdc0376aed3ce39635d17f"
   integrity sha512-7UvmKalWRt1wgjL1RrGxoSJW/0QZFIegpeGvZG9kjp8vrRu55XTHbwnqq2GpXm9uLbcuhxm3IqX9OB4MZR1b2A==
 
-anymatch@^3.0.3:
+anymatch@^3.0.3, anymatch@~3.1.2:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/anymatch/-/anymatch-3.1.3.tgz#790c58b19ba1720a84205b57c618d5ad8524973e"
   integrity sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==
@@ -3794,6 +4149,15 @@ babel-core@^7.0.0-bridge.0:
   resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-7.0.0-bridge.0.tgz#95a492ddd90f9b4e9a4a1da14eb335b87b634ece"
   integrity sha512-poPX9mZH/5CSanm50Q+1toVci6pv5KSRv/5TWCwtzQS5XEwn40BcCrgIeMFWP9CKKIniKXNxoIOnOq4VVlGXhg==
 
+babel-literal-to-ast@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/babel-literal-to-ast/-/babel-literal-to-ast-2.1.0.tgz#c8b12f9c36a8cee13572d65aabf6cff8adb1e8b3"
+  integrity sha512-CxfpQ0ysQ0bZOhlaPgcWjl79Em16Rhqc6++UAFn0A3duiXmuyhhj8yyl9PYbj0I0CyjrHovdDbp2QEKT7uIMxw==
+  dependencies:
+    "@babel/parser" "^7.1.6"
+    "@babel/traverse" "^7.1.6"
+    "@babel/types" "^7.1.6"
+
 babel-plugin-module-resolver@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-module-resolver/-/babel-plugin-module-resolver-5.0.0.tgz#2b7fc176bd55da25f516abf96015617b4f70fc73"
@@ -3931,6 +4295,11 @@ big-integer@1.6.x, big-integer@^1.6.44:
   resolved "https://registry.yarnpkg.com/big-integer/-/big-integer-1.6.51.tgz#0df92a5d9880560d3ff2d5fd20245c889d130686"
   integrity sha512-GPEid2Y9QU1Exl1rpO9B2IPJGHPSupF5GnVIP0blYvNOMer2bTvSWs1jGOUg04hTmu67nmLsQ9TBo1puaotBHg==
 
+binary-extensions@^2.0.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
+  integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
+
 bl@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/bl/-/bl-4.1.0.tgz#451535264182bec2fbbc83a62ab98cf11d9f7b3a"
@@ -4011,7 +4380,7 @@ brace-expansion@^2.0.1:
   dependencies:
     balanced-match "^1.0.0"
 
-braces@^3.0.2:
+braces@^3.0.2, braces@~3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/braces/-/braces-3.0.2.tgz#3454e1a462ee8d599e236df336cd9ea4f8afe107"
   integrity sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==
@@ -4192,6 +4561,21 @@ charenc@0.0.2, charenc@~0.0.1:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
   integrity sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==
+
+chokidar@^3.5.2:
+  version "3.5.3"
+  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.3.tgz#1cf37c8707b932bd1af1ae22c0432e2acd1903bd"
+  integrity sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==
+  dependencies:
+    anymatch "~3.1.2"
+    braces "~3.0.2"
+    glob-parent "~5.1.2"
+    is-binary-path "~2.1.0"
+    is-glob "~4.0.1"
+    normalize-path "~3.0.0"
+    readdirp "~3.6.0"
+  optionalDependencies:
+    fsevents "~2.3.2"
 
 chownr@^2.0.0:
   version "2.0.0"
@@ -4927,6 +5311,41 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
+esbuild-register@^3.4.2:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/esbuild-register/-/esbuild-register-3.5.0.tgz#449613fb29ab94325c722f560f800dd946dc8ea8"
+  integrity sha512-+4G/XmakeBAsvJuDugJvtyF1x+XJT4FMocynNpxrvEBViirpfUn2PgNpCHedfWhF4WokNsO/OvMKrmJOIJsI5A==
+  dependencies:
+    debug "^4.3.4"
+
+esbuild@~0.19.3:
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.19.5.tgz#53a0e19dfbf61ba6c827d51a80813cf071239a8c"
+  integrity sha512-bUxalY7b1g8vNhQKdB24QDmHeY4V4tw/s6Ak5z+jJX9laP5MoQseTOMemAr0gxssjNcH0MCViG8ONI2kksvfFQ==
+  optionalDependencies:
+    "@esbuild/android-arm" "0.19.5"
+    "@esbuild/android-arm64" "0.19.5"
+    "@esbuild/android-x64" "0.19.5"
+    "@esbuild/darwin-arm64" "0.19.5"
+    "@esbuild/darwin-x64" "0.19.5"
+    "@esbuild/freebsd-arm64" "0.19.5"
+    "@esbuild/freebsd-x64" "0.19.5"
+    "@esbuild/linux-arm" "0.19.5"
+    "@esbuild/linux-arm64" "0.19.5"
+    "@esbuild/linux-ia32" "0.19.5"
+    "@esbuild/linux-loong64" "0.19.5"
+    "@esbuild/linux-mips64el" "0.19.5"
+    "@esbuild/linux-ppc64" "0.19.5"
+    "@esbuild/linux-riscv64" "0.19.5"
+    "@esbuild/linux-s390x" "0.19.5"
+    "@esbuild/linux-x64" "0.19.5"
+    "@esbuild/netbsd-x64" "0.19.5"
+    "@esbuild/openbsd-x64" "0.19.5"
+    "@esbuild/sunos-x64" "0.19.5"
+    "@esbuild/win32-arm64" "0.19.5"
+    "@esbuild/win32-ia32" "0.19.5"
+    "@esbuild/win32-x64" "0.19.5"
+
 escalade@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/escalade/-/escalade-3.1.1.tgz#d8cfdc7000965c5a0174b4a82eaa5c0552742e40"
@@ -5488,7 +5907,7 @@ fast-diff@^1.1.2:
   resolved "https://registry.yarnpkg.com/fast-diff/-/fast-diff-1.3.0.tgz#ece407fa550a64d638536cd727e129c61616e0f0"
   integrity sha512-VxPP4NqbUjj6MaAOafWeUn2cXWLcCtljklUtZf0Ind4XQ+QPtmA0b18zZy0jIQx+ExRVCR/ZQpBmik5lXshNsw==
 
-fast-glob@^3.2.5, fast-glob@^3.2.9, fast-glob@^3.3.0:
+fast-glob@^3.2.11, fast-glob@^3.2.5, fast-glob@^3.2.9, fast-glob@^3.3.0:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.3.1.tgz#784b4e897340f3dbbef17413b3f11acf03c874c4"
   integrity sha512-kNFPyjhh5cKjrUltxs+wFx+ZkbRaxxmZ+X0ZU31SOsxCEtP9VPgtq2teZw1DebupL5GmDaNQ6yKMMVcM41iqDg==
@@ -5614,6 +6033,20 @@ find-cache-dir@^2.0.0:
     make-dir "^2.0.0"
     pkg-dir "^3.0.0"
 
+find-cache-dir@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/find-cache-dir/-/find-cache-dir-3.3.2.tgz#b30c5b6eff0730731aea9bbd9dbecbd80256d64b"
+  integrity sha512-wXZV5emFEjrridIgED11OoUKLxiYjAcqot/NJdAkOhlJ+vGzwhOAfcG5OX1jP+S0PcjEn8bdMJv+g2jwQ3Onig==
+  dependencies:
+    commondir "^1.0.1"
+    make-dir "^3.0.2"
+    pkg-dir "^4.1.0"
+
+find-root@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/find-root/-/find-root-1.1.0.tgz#abcfc8ba76f708c42a97b3d685b7e9450bfb9ce4"
+  integrity sha512-NKfW6bec6GfKc0SGx1e07QZY9PE99u0Bft/0rzSD5k3sO/vwkVUpDUKVm5Gpp5Ue3YfShPFTX2070tDs5kB9Ng==
+
 find-up@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/find-up/-/find-up-3.0.0.tgz#49169f1d7993430646da61ecc5ae355c21c97b73"
@@ -5621,7 +6054,7 @@ find-up@^3.0.0:
   dependencies:
     locate-path "^3.0.0"
 
-find-up@^4.1.0:
+find-up@^4.0.0, find-up@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/find-up/-/find-up-4.1.0.tgz#97afe7d6cdc0bc5928584b7c8d7b16e8a9aa5d19"
   integrity sha512-PpOwAdQ/YlXQ2vj8a3h8IipDuYRi3wceVQQGYWxNINccq40Anw7BlsEXCMbt1Zt+OLA6Fq9suIpIWD0OsnISlw==
@@ -5749,6 +6182,15 @@ fs-extra@9.0.0:
     jsonfile "^6.0.1"
     universalify "^1.0.0"
 
+fs-extra@^11.1.0:
+  version "11.1.1"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-11.1.1.tgz#da69f7c39f3b002378b0954bb6ae7efdc0876e2d"
+  integrity sha512-MGIE4HOvQCeUCzmlHs0vXpih4ysz4wg9qiSAu6cd42lVwPbTM1TjV7RusoyQqMmk/95gdQZX72u+YW+c3eEpFQ==
+  dependencies:
+    graceful-fs "^4.2.0"
+    jsonfile "^6.0.1"
+    universalify "^2.0.0"
+
 fs-extra@^8.1.0, fs-extra@~8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-8.1.0.tgz#49d43c45a88cd9677668cb7be1b46efdb8d2e1c0"
@@ -5780,7 +6222,7 @@ fs.realpath@^1.0.0:
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
 
-fsevents@^2.3.2:
+fsevents@^2.3.2, fsevents@~2.3.2:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6"
   integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
@@ -5860,7 +6302,7 @@ get-symbol-description@^1.0.0:
     call-bind "^1.0.2"
     get-intrinsic "^1.1.1"
 
-get-tsconfig@^4.7.0:
+get-tsconfig@^4.5.0, get-tsconfig@^4.7.0:
   version "4.7.2"
   resolved "https://registry.yarnpkg.com/get-tsconfig/-/get-tsconfig-4.7.2.tgz#0dcd6fb330391d46332f4c6c1bf89a6514c2ddce"
   integrity sha512-wuMsz4leaj5hbGgg4IvDU0bqJagpftG5l5cXIAvo8uZrqn0NJqwtfupTN00VnkQJPcIRrxYrm1Ue24btpCha2A==
@@ -5872,7 +6314,7 @@ getenv@^1.0.0:
   resolved "https://registry.yarnpkg.com/getenv/-/getenv-1.0.0.tgz#874f2e7544fbca53c7a4738f37de8605c3fcfc31"
   integrity sha512-7yetJWqbS9sbn0vIfliPsFgoXMKn/YMF+Wuiog97x+urnSRRRZ7xB+uVkwGKzRgq9CDFfMQnE9ruL5DHv9c6Xg==
 
-glob-parent@^5.1.2:
+glob-parent@^5.1.2, glob-parent@~5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-5.1.2.tgz#869832c58034fe68a4093c17dc15e8340d8401c4"
   integrity sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==
@@ -6304,6 +6746,13 @@ is-bigint@^1.0.1:
   dependencies:
     has-bigints "^1.0.1"
 
+is-binary-path@~2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/is-binary-path/-/is-binary-path-2.1.0.tgz#ea1f7f3b80f064236e83470f86c09c254fb45b09"
+  integrity sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw==
+  dependencies:
+    binary-extensions "^2.0.0"
+
 is-boolean-object@^1.1.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/is-boolean-object/-/is-boolean-object-1.1.2.tgz#5c6dc200246dd9321ae4b885a114bb1f75f63719"
@@ -6392,7 +6841,7 @@ is-glob@^2.0.0:
   dependencies:
     is-extglob "^1.0.0"
 
-is-glob@^4.0.0, is-glob@^4.0.1, is-glob@^4.0.3:
+is-glob@^4.0.0, is-glob@^4.0.1, is-glob@^4.0.3, is-glob@~4.0.1:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/is-glob/-/is-glob-4.0.3.tgz#64f61e42cbbb2eec2071a9dac0b28ba1e65d5084"
   integrity sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==
@@ -7076,6 +7525,13 @@ make-dir@^2.0.0, make-dir@^2.1.0:
   dependencies:
     pify "^4.0.1"
     semver "^5.6.0"
+
+make-dir@^3.0.2:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-3.1.0.tgz#415e967046b3a7f1d185277d84aa58203726a13f"
+  integrity sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==
+  dependencies:
+    semver "^6.0.0"
 
 makeerror@1.0.12:
   version "1.0.12"
@@ -7886,7 +8342,7 @@ node-stream-zip@^1.9.1:
   resolved "https://registry.yarnpkg.com/node-stream-zip/-/node-stream-zip-1.15.0.tgz#158adb88ed8004c6c49a396b50a6a5de3bca33ea"
   integrity sha512-LN4fydt9TqhZhThkZIVQnF9cwjU3qmUH9h78Mx/K7d3VvfRqqwthLwJEUOEL0QPZ0XQmNN7be5Ggit5+4dq3Bw==
 
-normalize-path@^3.0.0:
+normalize-path@^3.0.0, normalize-path@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
   integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
@@ -8324,7 +8780,7 @@ picocolors@^1.0.0:
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
   integrity sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==
 
-picomatch@^2.0.4, picomatch@^2.2.3, picomatch@^2.3.1:
+picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.3, picomatch@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
@@ -8345,6 +8801,13 @@ pkg-dir@^3.0.0:
   integrity sha512-/E57AYkoeQ25qkxMj5PBOVgF8Kiu/h7cYS30Z5+R7WaiCCBfLq58ZI/dSeaEKb9WVJV5n/03QwrN3IeWIFllvw==
   dependencies:
     find-up "^3.0.0"
+
+pkg-dir@^4.1.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-4.2.0.tgz#f099133df7ede422e81d1d8448270eeb3e4261f3"
+  integrity sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==
+  dependencies:
+    find-up "^4.0.0"
 
 pkg-up@^3.1.0:
   version "3.1.0"
@@ -8792,7 +9255,28 @@ react-native-tab-view@^4.0.0-alpha.0:
   dependencies:
     use-latest-callback "^0.1.5"
 
-react-native-web@~0.19.6:
+react-native-web-internals@1.74.21:
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/react-native-web-internals/-/react-native-web-internals-1.74.21.tgz#659af90adfdfef08ca0e85032608f525cf1d97eb"
+  integrity sha512-ZxNZcahNzx8kwofCtgUYF31JRLn3l65279JIYTl6yHhF9Slh2YDp1EeLAd8hSaS5mh/0H/apLDZ66OJ6cXbNUA==
+  dependencies:
+    "@tamagui/normalize-css-color" "1.74.21"
+    "@tamagui/react-native-use-pressable" "1.74.21"
+    "@tamagui/react-native-use-responder-events" "1.74.21"
+    "@tamagui/simple-hash" "1.74.21"
+    styleq "^0.1.3"
+
+react-native-web-lite@1.74.21:
+  version "1.74.21"
+  resolved "https://registry.yarnpkg.com/react-native-web-lite/-/react-native-web-lite-1.74.21.tgz#4cb79b6019455aeee281a7b28fbc320cec71ffdd"
+  integrity sha512-1oiMa9L77+DTD2yzZPPhI29CCvx2H6auo7JaMPjXM7RFRHMWVGsG3+JQ6hph0sZe30sHWx9guRg+3TDHg2nlDg==
+  dependencies:
+    "@tamagui/normalize-css-color" "1.74.21"
+    invariant "^2.2.4"
+    react-native-web-internals "1.74.21"
+    styleq "^0.1.3"
+
+react-native-web@^0.19.6, react-native-web@~0.19.6:
   version "0.19.9"
   resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.19.9.tgz#6ee43e6c64d886b1d739f100fed07927541ee003"
   integrity sha512-m69arZbS6FV+BNSKE6R/NQwUX+CzxCkYM7AJlSLlS8dz3BDzlaxG8Bzqtzv/r3r1YFowhnZLBXVKIwovKDw49g==
@@ -8964,6 +9448,13 @@ readable-stream@~2.3.6:
     safe-buffer "~5.1.1"
     string_decoder "~1.1.1"
     util-deprecate "~1.0.1"
+
+readdirp@~3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/readdirp/-/readdirp-3.6.0.tgz#74a370bd857116e245b29cc97340cd431a02a6c7"
+  integrity sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==
+  dependencies:
+    picomatch "^2.2.1"
 
 readline@^1.3.0:
   version "1.3.0"
@@ -9303,7 +9794,7 @@ semver@^5.5.0, semver@^5.6.0:
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.2.tgz#48d55db737c3287cd4835e17fa13feace1c41ef8"
   integrity sha512-cBznnQ9KjJqU67B52RMC65CMarK2600WFnbkcaiwWq3xy/5haFJlshgnpjovMVJ+Hff49d8GEn0b87C5pDQ10g==
 
-semver@^6.3.1:
+semver@^6.0.0, semver@^6.3.1:
   version "6.3.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.1.tgz#556d2ef8689146e46dcea4bfdd095f3434dffcb4"
   integrity sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==
@@ -10143,7 +10634,7 @@ typed-array-length@^1.0.4:
     for-each "^0.3.3"
     is-typed-array "^1.1.9"
 
-typescript@*:
+typescript@*, typescript@^5.2.2:
   version "5.2.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.2.2.tgz#5ebb5e5a5b75f085f22bc3f8460fba308310fa78"
   integrity sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==

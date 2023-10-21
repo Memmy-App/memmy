@@ -1,9 +1,7 @@
 import React from 'react';
 import { GetSiteResponse } from 'lemmy-js-client';
-import { H5, Spacer, Text } from 'tamagui';
+import { H5, Spacer, Text, XStack, YStack } from 'tamagui';
 import { Image } from 'expo-image';
-import HStack from '@components/Common/Stack/HStack';
-import VStack from '@components/Common/Stack/VStack';
 import { ChevronRight, Globe, StickyNote, User } from '@tamagui/lucide-icons';
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
@@ -25,15 +23,15 @@ function OnboardingInstanceListItem({ item }: IProps): React.JSX.Element {
 
   return (
     <Pressable onPress={onPress}>
-      <VStack
+      <YStack
         space="$2"
-        padding="$2.5"
+        p="$2.5"
         borderRadius={10}
         backgroundColor="$fg"
-        marginVertical="$2"
-        marginHorizontal="$3"
+        my="$2"
+        mx="$3"
       >
-        <HStack space="$3" alignItems="center">
+        <XStack space="$3" alignItems="center">
           {item.site_view.site.icon != null ? (
             <Image
               source={{ uri: item.site_view.site.icon }}
@@ -55,18 +53,18 @@ function OnboardingInstanceListItem({ item }: IProps): React.JSX.Element {
               marginLeft: 'auto',
             }}
           />
-        </HStack>
-        <HStack>
+        </XStack>
+        <XStack>
           <P1>{item.site_view.site.description ?? 'No description'}</P1>
-        </HStack>
-        <HStack alignItems="center" space="$1">
+        </XStack>
+        <XStack alignItems="center" space="$1">
           <User size={20} color="$accent" />
           <Text>{item.site_view.counts.users} Users</Text>
           <Spacer />
           <StickyNote size={20} color="$accent" />
           <Text>{item.site_view.counts.posts} Posts</Text>
-        </HStack>
-      </VStack>
+        </XStack>
+      </YStack>
     </Pressable>
   );
 }

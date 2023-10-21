@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import FeedItem from '@components/Feed/components/Feed/FeedItem';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
 import CommunityHeader from '@components/Feed/components/Community/CommunityHeader';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
@@ -11,11 +10,12 @@ import { useRoute } from '@react-navigation/core';
 import { useCommunityFeed } from '@components/Feed/hooks/useCommunityFeed';
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
 import { useTheme } from 'tamagui';
+import CompactOrFull from '@components/Feed/components/Feed/CompactOrFull';
 
 const renderItem = ({
   item,
 }: ListRenderItemInfo<number>): React.JSX.Element => {
-  return <FeedItem itemId={item} />;
+  return <CompactOrFull itemId={item} />;
 };
 
 const keyExtractor = (item: number): string => item.toString();

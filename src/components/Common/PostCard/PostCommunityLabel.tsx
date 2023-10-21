@@ -6,17 +6,16 @@ import {
   usePostCommunityName,
   useSettingsStore,
 } from '@src/state';
-import HStack from '@components/Common/Stack/HStack';
 import { Image } from 'expo-image';
 import { Globe } from '@tamagui/lucide-icons';
-import { Text } from 'tamagui';
+import { Text, XStack } from 'tamagui';
 import { createName } from '@helpers/text';
-import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface IProps {
   itemId: number;
+  pressable?: boolean;
 }
 
 interface ICommunityIconProps {
@@ -42,7 +41,10 @@ function CommunityIcon({
   );
 }
 
-function PostCommunityLabel({ itemId }: IProps): React.JSX.Element {
+function PostCommunityLabel({
+  itemId,
+  pressable = true,
+}: IProps): React.JSX.Element {
   const communityName = usePostCommunityName(itemId);
   const actorId = usePostCommunityActorId(itemId);
   const communityIcon = usePostCommunityIcon(itemId);
@@ -64,14 +66,17 @@ function PostCommunityLabel({ itemId }: IProps): React.JSX.Element {
   }, [communityId]);
 
   return (
-    <Pressable onPress={onPress} hitSlop={5}>
-      <HStack space="$2" alignItems="center">
-        {showIcon && <CommunityIcon communityIcon={communityIcon} />}
-        <Text color="$secondary" fontSize={13}>
-          {fullName}
-        </Text>
-      </HStack>
-    </Pressable>
+    <XStack
+      space="$2"
+      alignItems="center"
+      onPress={pressable ? onPress : undefined}
+      hitSlop={3}
+    >
+      {showIcon && <CommunityIcon communityIcon={communityIcon} />}
+      <Text color="$secondary" fontSize="$2">
+        {fullName}
+      </Text>
+    </XStack>
   );
 }
 

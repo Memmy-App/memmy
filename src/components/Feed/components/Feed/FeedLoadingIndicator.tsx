@@ -1,7 +1,6 @@
 import React from 'react';
-import VStack from '@components/Common/Stack/VStack';
+import { Text, YStack } from 'tamagui';
 import ButtonOne from '@components/Common/Button/ButtonOne';
-import { Text } from 'tamagui';
 import LoadingAnimation from '@components/Common/Loading/LoadingAnimation';
 
 interface IProps {
@@ -20,30 +19,34 @@ function FeedLoadingIndicator({
   if (!loading) {
     if (error != null && error) {
       return (
-        <VStack
+        <YStack
           flex={1}
           space="$2"
           alignItems="center"
           justifyContent="center"
-          padding="$3"
+          p="$3"
         >
-          <Text color="$secondary">Something went wrong</Text>
+          <Text fontSize="$2" color="$secondary">
+            Something went wrong
+          </Text>
           {retry != null && <ButtonOne label="Retry" onPress={retry} />}
-        </VStack>
+        </YStack>
       );
     }
 
     if (empty === true) {
       return (
-        <VStack
+        <YStack
           flex={1}
           space="$2"
           alignItems="center"
           justifyContent="center"
-          padding="$3"
+          p="$3"
         >
-          <Text color="$secondary">Nothing to see here...</Text>
-        </VStack>
+          <Text fontSize="$2" color="$secondary">
+            Nothing to see here...
+          </Text>
+        </YStack>
       );
     }
 
@@ -51,9 +54,9 @@ function FeedLoadingIndicator({
   }
 
   return (
-    <VStack flex={1} alignItems="center" justifyContent="center" padding="$3">
+    <YStack flex={1} alignItems="center" justifyContent="center" p="$3">
       <LoadingAnimation size="small" />
-    </VStack>
+    </YStack>
   );
 }
 

@@ -1,12 +1,10 @@
 import React, { useCallback, useRef } from 'react';
 import { useNewPostScreen } from '@components/NewPost/hooks/useNewPostScreen';
-import { ScrollView, View } from 'tamagui';
+import { ScrollView, View, XStack, YStack } from 'tamagui';
 import KeyboardAccessoryView from '@components/Common/Keyboard/KeyboardAccesoryView';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
-import VStack from '@components/Common/Stack/VStack';
 import TextInput from '@components/Common/Form/TextInput';
 import NsfwButton from '@components/Common/Button/NsfwButton';
-import HStack from '@components/Common/Stack/HStack';
 import { Languages } from '@tamagui/lucide-icons';
 import LanguagePicker from '@components/Common/LanguagePicker/LanguagePicker';
 import Animated, {
@@ -58,13 +56,13 @@ export default function NewPostScreen(): React.JSX.Element {
         ref={viewRef}
       >
         <LoadingOverlay visible={newPostScreen.isLoading} />
-        <VStack marginBottom="$2" marginTop="$2" paddingHorizontal="$3">
-          <HStack alignItems="center">
+        <YStack mb="$2" mt="$2" px="$3">
+          <XStack alignItems="center">
             <NsfwButton
               nsfw={newPostScreen.nsfw}
               setNsfw={newPostScreen.setNsfw}
             />
-            <View marginLeft="auto">
+            <View ml="auto">
               <ButtonOne
                 label={
                   languages == null ||
@@ -77,7 +75,7 @@ export default function NewPostScreen(): React.JSX.Element {
                 onPress={onLanguagePress}
               />
             </View>
-          </HStack>
+          </XStack>
           <Animated.View style={[pickerStyle]}>
             <LanguagePicker
               selected={newPostScreen.languageId}
@@ -91,9 +89,9 @@ export default function NewPostScreen(): React.JSX.Element {
             fontSize="$5"
             // @ts-expect-error - valid
             ref={newPostScreen.inputRef}
-            paddingHorizontal={0}
-            marginTop={5}
-            marginBottom={-5}
+            px={0}
+            mt={5}
+            mb={-5}
           />
           <TextInput
             onChangeText={newPostScreen.setUrl}
@@ -101,8 +99,8 @@ export default function NewPostScreen(): React.JSX.Element {
             fontSize="$3"
             // @ts-expect-error - valid
             ref={newPostScreen.inputRef}
-            paddingHorizontal={0}
-            marginVertical={-5}
+            px={0}
+            my={-5}
             clearButtonMode="always"
           />
           <TextInput
@@ -114,13 +112,13 @@ export default function NewPostScreen(): React.JSX.Element {
             ref={newPostScreen.inputRef}
             multiline={true}
             scrollEnabled={false}
-            paddingHorizontal={0}
+            px={0}
             minHeight={200}
             onLayout={onLayout}
-            marginTop={-5}
+            mt={-5}
             placeholder="Have anything to say?"
           />
-        </VStack>
+        </YStack>
       </ScrollView>
       <KeyboardAccessoryView
         text={newPostScreen.text}

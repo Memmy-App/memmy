@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
 import { setToast, useToast } from '@src/state';
-import { styled, Text, useTheme } from 'tamagui';
+import { styled, Text, useTheme, XStack, YStack } from 'tamagui';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import VStack from '@components/Common/Stack/VStack';
 import { StyleSheet } from 'react-native';
-import HStack from '@components/Common/Stack/HStack';
 
 interface IProps {
   translate?: number;
@@ -33,7 +31,7 @@ export default function AppToast({
 
   useEffect(() => {
     // Do nothing if there is no toast set
-    if (toast === null) return;
+    if (toast == null) return;
 
     // Display the toast
     toastPosition.value = translate;
@@ -68,19 +66,19 @@ export default function AppToast({
     <Animated.View
       style={[styles.toast, { backgroundColor: theme.info.val }, toastStyle]}
     >
-      <VStack justifyContent="center" alignItems="center" space="$1.5">
+      <YStack justifyContent="center" alignItems="center" space="$1.5">
         {toast?.title != null && (
           <Text fontWeight="$6" fontSize="$5">
             {toast?.title}
           </Text>
         )}
-        <HStack alignItems="center" space="$2">
+        <XStack alignItems="center" space="$2">
           {Icon != null && <Icon />}
           <Text fontWeight="$5" fontSize="$3">
             {toast?.text}
           </Text>
-        </HStack>
-      </VStack>
+        </XStack>
+      </YStack>
     </Animated.View>
   );
 }

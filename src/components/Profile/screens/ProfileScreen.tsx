@@ -24,6 +24,9 @@ interface IProfileScreenContext {
   profileId: number;
   isLoading: boolean;
   isError: boolean;
+  isRefreshing: boolean;
+
+  refresh: () => void;
 
   onScroll: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
   contentOffsetY: SharedValue<number> | undefined;
@@ -33,7 +36,9 @@ const ProfileScreenContext = React.createContext<IProfileScreenContext>({
   profileId: -1,
   isLoading: true,
   isError: false,
+  isRefreshing: false,
   onScroll: () => {},
+  refresh: () => {},
   contentOffsetY: undefined,
 });
 
@@ -64,7 +69,7 @@ export default function ProfileScreen({
     pagerViewRef.current?.setPage(index);
   }, []);
 
-  if (profileScreen.isLoading) {
+  if (profileScreen.isLoading && !profileScreen.isRefreshing) {
     return <LoadingScreen />;
   }
 
@@ -75,6 +80,8 @@ export default function ProfileScreen({
           profileId: profileScreen.profileId,
           isLoading: profileScreen.isLoading,
           isError: profileScreen.isError,
+          isRefreshing: profileScreen.isRefreshing,
+          refresh: profileScreen.refresh,
           onScroll,
           contentOffsetY,
         }}

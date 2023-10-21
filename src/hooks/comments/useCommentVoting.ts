@@ -16,6 +16,7 @@ interface UseCommentVoting {
 
   upvote: () => void;
   downvote: () => void;
+  scoreVote: () => void;
 }
 
 export const useCommentVoting = (
@@ -37,6 +38,20 @@ export const useCommentVoting = (
     if (playHaptics) void playHaptic();
   }, [itemId]);
 
+  const scoreVote = useCallback(() => {
+    switch (myVote) {
+      case 0:
+        void instance.likeComment(itemId, 1);
+        break;
+      case 1:
+        void instance.likeComment(itemId, -1);
+        break;
+      case -1:
+        void instance.likeComment(itemId, 0);
+        break;
+    }
+  }, [itemId, myVote]);
+
   return {
     upvotes,
     downvotes,
@@ -45,5 +60,6 @@ export const useCommentVoting = (
 
     upvote,
     downvote,
+    scoreVote,
   };
 };

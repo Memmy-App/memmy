@@ -1,19 +1,26 @@
 import React, { useMemo } from 'react';
-import HStack from '@components/Common/Stack/HStack';
 import {
   ArrowDown,
   ArrowUp,
   Clock,
   MessageSquare,
 } from '@tamagui/lucide-icons';
-import { usePostCommentCount, usePostCounts, usePostMyVote } from '@src/state';
-import { Text } from 'tamagui';
+import {
+  usePostCommentCount,
+  usePostCounts,
+  usePostMyVote,
+  useSettingsStore,
+} from '@src/state';
+import { Text, XStack } from 'tamagui';
+import ScoreIcon from '@components/Common/Icons/ScoreIcon';
 
 interface IProps {
   itemId: number;
 }
 
 function PostMetrics({ itemId }: IProps): React.JSX.Element {
+  const showTotalScore = useSettingsStore((state) => state.totalScore);
+
   const postCounts = usePostCounts(itemId);
   const postCommentCount = usePostCommentCount(itemId);
   const postMyVote = usePostMyVote(itemId);
@@ -26,34 +33,55 @@ function PostMetrics({ itemId }: IProps): React.JSX.Element {
     () => (postMyVote === -1 ? '$downvote' : '$secondary'),
     [postMyVote],
   );
+  const scoreColor = useMemo(
+    () =>
+      postMyVote === 1
+        ? '$upvote'
+        : postMyVote === -1
+        ? '$downvote'
+        : '$secondary',
+    [postMyVote],
+  );
 
   return (
-    <HStack space="$2" alignItems="center">
-      <HStack space="$1" alignItems="center">
-        <ArrowUp size={14} color={upvoteColor} />
-        <Text color={upvoteColor} fontSize={13}>
-          {postCounts?.upvotes}
-        </Text>
-      </HStack>
-      <HStack space="$1" alignItems="center">
-        <ArrowDown size={14} color={downvoteColor} />
-        <Text color={downvoteColor} fontSize={13}>
-          {postCounts?.downvotes}
-        </Text>
-      </HStack>
-      <HStack space="$1" alignItems="center">
+    <XStack space="$2" alignItems="center">
+      {showTotalScore ? (
+        <XStack space="$1" alignItems="center">
+          <ScoreIcon myVote={postMyVote} />
+          <Text fontSize="$2" color={scoreColor}>
+            {postCounts?.score}
+          </Text>
+        </XStack>
+      ) : (
+        <XStack space="$2">
+          <XStack space="$1" alignItems="center">
+            <ArrowUp size={14} color={upvoteColor} />
+            <Text color={upvoteColor} fontSize="$2">
+              {postCounts?.upvotes}
+            </Text>
+          </XStack>
+          <XStack space="$1" alignItems="center">
+            <ArrowDown size={14} color={downvoteColor} />
+            <Text color={downvoteColor} fontSize="$2">
+              {postCounts?.downvotes}
+            </Text>
+          </XStack>
+        </XStack>
+      )}
+
+      <XStack space="$1" alignItems="center">
         <MessageSquare size={14} color="$secondary" />
-        <Text color="$secondary" fontSize={13}>
+        <Text color="$secondary" fontSize="$2">
           {postCommentCount}
         </Text>
-      </HStack>
-      <HStack space="$1" alignItems="center">
+      </XStack>
+      <XStack space="$1" alignItems="center">
         <Clock size={14} color="$secondary" />
-        <Text color="$secondary" fontSize={13}>
+        <Text color="$secondary" fontSize="$2">
           {postCommentCount}
         </Text>
-      </HStack>
-    </HStack>
+      </XStack>
+    </XStack>
   );
 }
 

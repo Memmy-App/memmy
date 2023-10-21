@@ -19,7 +19,6 @@ let otherProps = {
 let isQuote = false;
 let quoteText = '';
 let isList = false;
-const isImage = false;
 
 let key = 0;
 

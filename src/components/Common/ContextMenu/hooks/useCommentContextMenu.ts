@@ -12,6 +12,7 @@ interface UseCommentContextMenu {
   edit: () => void;
   delet: () => void;
   remove: () => void;
+  report: () => void;
 }
 
 export const useCommentContextMenu = (
@@ -96,6 +97,38 @@ export const useCommentContextMenu = (
     );
   };
 
+  const report = (): void => {
+    Alert.prompt(
+      'Report Comment',
+      'Enter a reason for your report.',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Report',
+          style: 'destructive',
+          onPress: (msg) => {
+            if (msg == null) {
+              Alert.alert('Reason for report is required.');
+              return;
+            }
+
+            void instance.reportComment(itemId, msg);
+          },
+        },
+      ],
+      'plain-text',
+      undefined,
+      undefined,
+      {
+        cancelable: true,
+        userInterfaceStyle: colorScheme,
+      },
+    );
+  };
+
   return {
     reply,
     upvote,
@@ -104,5 +137,6 @@ export const useCommentContextMenu = (
     edit,
     delet,
     remove,
+    report,
   };
 };

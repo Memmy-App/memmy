@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { useSettingsStore } from '@src/state';
-import HStack from '@components/Common/Stack/HStack';
-import { Text } from 'tamagui';
+import { Text, XStack } from 'tamagui';
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -36,12 +35,12 @@ function PostUserLabel({
 
   return (
     <Pressable onPress={onPress} hitSlop={5}>
-      <HStack space="$2" alignItems="center">
+      <XStack space="$2" alignItems="center">
         {showIcon && <UserIcon userIcon={userIcon} />}
-        <Text color="$secondary" fontSize={13}>
+        <Text color="$secondary" fontSize="$2">
           {name}
         </Text>
-      </HStack>
+      </XStack>
     </Pressable>
   );
 }

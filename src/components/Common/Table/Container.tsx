@@ -1,5 +1,5 @@
 import React from 'react';
-import VStack from '@components/Common/Stack/VStack';
+import { YStack } from 'tamagui';
 
 interface IProps {
   children: React.ReactNode;
@@ -7,14 +7,8 @@ interface IProps {
 
 export default function Container({ children }: IProps): React.JSX.Element {
   return (
-    <VStack
-      marginHorizontal="$3"
-      marginVertical="$2"
-      space="$6"
-      paddingTop="$3"
-      paddingBottom={100}
-    >
+    <YStack mx="$3" my="$2" space="$6" pt="$3" pb={100}>
       {children}
-    </VStack>
+    </YStack>
   );
 }

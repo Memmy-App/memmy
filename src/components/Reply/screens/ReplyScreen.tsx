@@ -1,14 +1,14 @@
 import React, { useCallback, useRef } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { ScrollView } from 'tamagui';
+import { ScrollView, YStack } from 'tamagui';
 import Comment from '@components/Comment/components/Comment';
 import PostReplyContent from '@components/Post/components/PostReplyContent';
-import VStack from '@components/Common/Stack/VStack';
 import { ScrollView as RNScrollView } from 'react-native';
 import KeyboardAccessoryView from '@components/Common/Keyboard/KeyboardAccesoryView';
 import { useReplyScreen } from '@components/Reply/hooks/useReplyScreen';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 import TextInput from '@components/Common/Form/TextInput';
+import InboxComment from '@components/Inbox/components/InboxComment';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -19,7 +19,7 @@ export default function ReplyScreen({
   navigation,
   route,
 }: IProps): React.JSX.Element {
-  const { commentId, postId, edit } = route.params;
+  const { commentId, postId, replyId, mentionId, edit } = route.params;
 
   const replyScreen = useReplyScreen(edit);
 
@@ -34,12 +34,16 @@ export default function ReplyScreen({
       {/* @ts-expect-error - this is valid */}
       <ScrollView automaticallyAdjustKeyboardInsets={true} ref={viewRef}>
         <LoadingOverlay visible={replyScreen.isLoading} />
-        <VStack space="$2" marginBottom="$2">
-          {replyScreen.type === 'comment' ? (
-            <Comment itemId={commentId} />
-          ) : (
-            <PostReplyContent itemId={postId} />
-          )}
+        <YStack space="$2" mb="$2">
+          {/* eslint-disable-next-line @typescript-eslint/strict-boolean-expressions */}
+          {(replyScreen.type === 'comment' && <Comment itemId={commentId} />) ||
+            ((replyId != null || mentionId != null) && (
+              // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+              <InboxComment
+                itemId={replyId ?? mentionId}
+                type={replyId != null ? 'reply' : 'mention'}
+              />
+            )) || <PostReplyContent itemId={postId} />}
           <TextInput
             inputAccessoryViewID="accessory"
             onSelectionChange={replyScreen.onSelectionChange}
@@ -53,7 +57,7 @@ export default function ReplyScreen({
             onLayout={onLayout}
             placeholder="What do you want to say?"
           />
-        </VStack>
+        </YStack>
       </ScrollView>
       <KeyboardAccessoryView
         text={replyScreen.text}

@@ -1,9 +1,7 @@
 import React, { useMemo } from 'react';
 import { useSettingsStore } from '@src/state';
-import HStack from '@components/Common/Stack/HStack';
-import { Text } from 'tamagui';
+import { Text, XStack } from 'tamagui';
 import ScoreIcon from '@components/Common/Icons/ScoreIcon';
-import { Pressable } from 'react-native';
 import { ArrowDown, ArrowUp } from '@tamagui/lucide-icons';
 import { useCommentVoting } from '@hooks/comments/useCommentVoting';
 
@@ -24,30 +22,56 @@ function CommentMetrics({ itemId }: IProps): React.JSX.Element {
     () => (voting.myVote === -1 ? '$downvote' : '$secondary'),
     [voting.myVote],
   );
+  const scoreColor = useMemo(
+    () =>
+      voting.myVote === 1
+        ? '$upvote'
+        : voting.myVote === -1
+        ? '$downvote'
+        : '$secondary',
+    [voting.myVote],
+  );
 
   if (totalScore) {
     return (
-      <HStack space="$1">
+      <XStack
+        space="$1"
+        onPress={voting.scoreVote}
+        hitSlop={3}
+        alignItems="center"
+      >
         <ScoreIcon myVote={voting.myVote} />
-        <Text color="$secondary">{voting.score}</Text>
-      </HStack>
+        <Text fontSize="$2" color={scoreColor}>
+          {voting.score}
+        </Text>
+      </XStack>
     );
   } else {
     return (
-      <HStack space="$2">
-        <Pressable onPress={voting.upvote} hitSlop={3}>
-          <HStack space="$1">
-            <ArrowUp size={14} color={upvoteColor} />
-            <Text color={upvoteColor}>{voting.upvotes}</Text>
-          </HStack>
-        </Pressable>
-        <Pressable onPress={voting.downvote} hitSlop={3}>
-          <HStack space="$1">
-            <ArrowDown size={14} color={downvoteColor} />
-            <Text color={downvoteColor}>{voting.downvotes}</Text>
-          </HStack>
-        </Pressable>
-      </HStack>
+      <XStack space="$2">
+        <XStack
+          space="$1"
+          onPress={voting.upvote}
+          hitSlop={3}
+          alignItems="center"
+        >
+          <ArrowUp size={14} color={upvoteColor} />
+          <Text fontSize="$2" color={upvoteColor}>
+            {voting.upvotes}
+          </Text>
+        </XStack>
+        <XStack
+          space="$1"
+          onPress={voting.downvote}
+          hitSlop={3}
+          alignItems="center"
+        >
+          <ArrowDown size={14} color={downvoteColor} />
+          <Text fontSize="$2" color={downvoteColor}>
+            {voting.downvotes}
+          </Text>
+        </XStack>
+      </XStack>
     );
   }
 }
