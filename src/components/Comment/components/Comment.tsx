@@ -13,6 +13,7 @@ import {
   useCommentGesturesEnabled,
   useCommentPostId,
   useCommentRemoved,
+  useCommentSaved,
 } from '@src/state';
 import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
 import { SwipeableActionParams } from '@helpers/swipeableActions';
@@ -70,6 +71,7 @@ function Comment({
   const commentCreatorAvatar = useCommentCreatorAvatar(itemId);
   const commentCreatorName = useCommentCreatorName(itemId);
   const commentCreatorActorId = useCommentCreatorActorId(itemId);
+  const commentSaved = useCommentSaved(itemId);
 
   const swipesEnabled = useCommentGesturesEnabled();
 
@@ -109,6 +111,21 @@ function Comment({
           ) : undefined
         }
       >
+        {!commentSaved && (
+          <View
+            position="absolute"
+            top={0}
+            right={0}
+            width={0}
+            height={0}
+            backgroundColor="transparent"
+            borderTopColor="$bookmark"
+            borderTopWidth={15}
+            borderLeftWidth={15}
+            borderLeftColor="transparent"
+            zIndex={1}
+          />
+        )}
         <YStack backgroundColor="$fg">
           <YStack
             ml={depth * 10}

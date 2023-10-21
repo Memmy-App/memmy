@@ -11,11 +11,12 @@ import {
   useReplyCreatorName,
   useReplyDeleted,
   useReplyPostId,
+  useReplyRead,
   useReplyRemoved,
 } from '@src/state';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 import instance from '@src/Instance';
-import { Separator, YStack } from 'tamagui';
+import { Separator, View, YStack } from 'tamagui';
 import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
 import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
 import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
@@ -46,6 +47,7 @@ function InboxComment({ itemId }: IProps): React.JSX.Element {
   const replyCreatorAvatar = useReplyCreatorAvatar(itemId);
   const replyCreatorName = useReplyCreatorName(itemId);
   const replyCreatorActorId = useReplyCreatorActorId(itemId);
+  const replyRead = useReplyRead(itemId);
 
   const actionParams = useMemo<SwipeableActionParams>(
     () => ({
@@ -102,6 +104,21 @@ function InboxComment({ itemId }: IProps): React.JSX.Element {
           ) : undefined
         }
       >
+        {!replyRead && (
+          <View
+            position="absolute"
+            top={0}
+            right={0}
+            width={0}
+            height={0}
+            backgroundColor="transparent"
+            borderTopColor="$error"
+            borderTopWidth={15}
+            borderLeftWidth={15}
+            borderLeftColor="transparent"
+            zIndex={1}
+          />
+        )}
         <YStack backgroundColor="$fg">
           <YStack my="$2" px="$2" py="$1">
             <CommentHeader

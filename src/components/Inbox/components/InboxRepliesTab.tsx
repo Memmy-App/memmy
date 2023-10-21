@@ -1,13 +1,15 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
 import InboxComment from '@components/Inbox/components/InboxComment';
 import { useLoadData } from '@src/hooks';
 import instance from '@src/Instance';
 import { useReplies } from '@src/state';
+import RefreshControl from '@components/Common/Gui/RefreshControl';
 
 interface IProps {
   selected: number;
+  unreadOnly: boolean;
 }
 
 const renderItem = ({
@@ -18,28 +20,25 @@ const renderItem = ({
 
 const keyExtractor = (item: number): string => item.toString();
 
-function InboxRepliesTab({ selected }: IProps): React.JSX.Element | null {
-  const initialized = useRef(false);
-
+function InboxRepliesTab({
+  selected,
+  unreadOnly,
+}: IProps): React.JSX.Element | null {
   const replies = useReplies();
 
-  const { isLoading, isError, refresh: load } = useLoadData();
+  const { isLoading, isError, isRefreshing, refresh: load } = useLoadData();
 
-  // Lazy loading
   useEffect(() => {
     if (selected !== 0) return;
 
-    if (!initialized.current) {
-      doLoad();
-      initialized.current = true;
-    }
-  }, [selected]);
+    doLoad();
+  }, [unreadOnly]);
 
-  const doLoad = useCallback(() => {
+  const doLoad = useCallback((): void => {
     load(async () => {
-      await instance.getReplies();
+      await instance.getReplies(unreadOnly);
     });
-  }, []);
+  }, [unreadOnly]);
 
   return (
     <FlashList<number>
@@ -55,6 +54,9 @@ function InboxRepliesTab({ selected }: IProps): React.JSX.Element | null {
         />
       }
       contentInsetAdjustmentBehavior="automatic"
+      refreshControl={
+        <RefreshControl refreshing={isRefreshing} onRefresh={doLoad} />
+      }
     />
   );
 }

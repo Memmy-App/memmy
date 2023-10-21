@@ -80,6 +80,9 @@ export const useReplyScore = (id: number): number =>
 export const useReplyMyVote = (id: number): number =>
   useInboxStore((state) => state.replies.get(id)?.my_vote) ?? 0;
 
+export const useReplyRead = (id: number): boolean =>
+  useInboxStore((state) => state.replies.get(id)?.comment_reply.read) ?? false;
+
 export const useMentionPostId = (id: number): number | undefined =>
   useInboxStore((state) => state.mentions.get(id)?.post.id);
 
