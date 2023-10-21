@@ -1,25 +1,24 @@
-import { Asset } from 'expo-asset';
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
-import * as FileSystem from 'expo-file-system';
 import { Alert } from 'react-native';
 import { writeToLog } from '@src/helpers';
 import { setToast } from '@src/state';
+import { getCachePath } from '@root/modules/expo-image-cache-path';
 
 export const saveImage = async (source: string): Promise<void> => {
-  const uri = Asset.fromURI(source).localUri;
+  // Use SDWebImage to get the cache path
+  const localUri = getCachePath(source);
 
-  const cacheDirectory = FileSystem.cacheDirectory;
-  console.log(cacheDirectory);
+  // Make sure that we have a valid URI
+  if (localUri == null) {
+    setToast({
+      text: 'Error saving image...',
+    });
 
-  const res = await FileSystem.readDirectoryAsync(
-    `${cacheDirectory}/com.hackemist.SDImageCache/default`,
-  );
+    return;
+  }
 
-  console.log(res);
-
-  return;
-
+  // Make sure we have permission to save images
   const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
 
   if (status !== 'granted') {
@@ -31,10 +30,9 @@ export const saveImage = async (source: string): Promise<void> => {
     return;
   }
 
+  // Try to save the image
   try {
-    console.log(uri);
-
-    await MediaLibrary.createAssetAsync(uri);
+    await MediaLibrary.createAssetAsync(localUri);
 
     setToast({
       text: 'Image saved successfully!',
