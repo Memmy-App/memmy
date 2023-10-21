@@ -4,6 +4,7 @@ import {
   DraftState,
   getCommentDraft,
   setNewCommentId,
+  setUnread,
   useCommentPostId,
   useCurrentAccount,
 } from '@src/state';
@@ -25,6 +26,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { CommentResponse } from 'lemmy-js-client';
 import instance from '@src/Instance';
 import HeaderButton from '@components/Common/Button/HeaderButton';
+import { setReplyRead } from '@src/state/inbox/actions';
 
 interface UseReplyScreen {
   text: string;
@@ -46,7 +48,7 @@ export const useReplyScreen = (isEdit = false): UseReplyScreen => {
   const route = useRoute<any>();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const { postId, commentId } = route.params;
+  const { postId, commentId, replyId } = route.params;
 
   const commentPostId = useCommentPostId(commentId);
   const account = useCurrentAccount();
@@ -76,7 +78,9 @@ export const useReplyScreen = (isEdit = false): UseReplyScreen => {
 
     navigation.setOptions({
       headerTitle:
-        type === 'comment' ? 'Replying to Comment' : 'Replying to Post',
+        type === 'comment' || replyId != null
+          ? 'Replying to Comment'
+          : 'Replying to Post',
       headerLeft: () => (
         <HeaderButton
           title="Back"
@@ -131,6 +135,12 @@ export const useReplyScreen = (isEdit = false): UseReplyScreen => {
 
       setNewCommentId(res.comment_view.comment.id);
       deleteCommentDraft(postId, account!, commentId);
+
+      // If this is an inbox reply we should update the reply store
+      if (replyId !== null) {
+        setReplyRead(replyId);
+        setUnread(true);
+      }
 
       navigation.pop();
 

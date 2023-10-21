@@ -8,6 +8,7 @@ import KeyboardAccessoryView from '@components/Common/Keyboard/KeyboardAccesoryV
 import { useReplyScreen } from '@components/Reply/hooks/useReplyScreen';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 import TextInput from '@components/Common/Form/TextInput';
+import InboxComment from '@components/Inbox/components/InboxComment';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -18,7 +19,7 @@ export default function ReplyScreen({
   navigation,
   route,
 }: IProps): React.JSX.Element {
-  const { commentId, postId, edit } = route.params;
+  const { commentId, postId, replyId, edit } = route.params;
 
   const replyScreen = useReplyScreen(edit);
 
@@ -34,11 +35,10 @@ export default function ReplyScreen({
       <ScrollView automaticallyAdjustKeyboardInsets={true} ref={viewRef}>
         <LoadingOverlay visible={replyScreen.isLoading} />
         <YStack space="$2" mb="$2">
-          {replyScreen.type === 'comment' ? (
-            <Comment itemId={commentId} />
-          ) : (
-            <PostReplyContent itemId={postId} />
-          )}
+          {(replyScreen.type === 'comment' && <Comment itemId={commentId} />) ||
+            (replyId != null && <InboxComment itemId={replyId} />) || (
+              <PostReplyContent itemId={postId} />
+            )}
           <TextInput
             inputAccessoryViewID="accessory"
             onSelectionChange={replyScreen.onSelectionChange}

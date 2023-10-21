@@ -7,10 +7,17 @@ import { replyOption } from '@helpers/swipeableActions/replyOption';
 import { customOption } from '@helpers/swipeableActions/customOption';
 import { upvoteCommentOption } from '@helpers/swipeableActions/upvoteCommentOption';
 import { downvoteCommentOption } from '@helpers/swipeableActions/downvoteCommentOption';
+import { IReplyGestureOption } from '@src/types/IReplyGestureOptions';
+import { markReplyReadOption } from '@helpers/swipeableActions/markReplyReadOption';
+import { downvoteReplyOption } from '@helpers/swipeableActions/downvoteReplyOption';
+import { upvoteReplyOption } from '@helpers/swipeableActions/upvoteReplyOption';
 
 export interface SwipeableActionParams {
   commentId?: number;
   postId?: number;
+  replyId?: number;
+  messageId?: number;
+  mentionId?: number;
   screenId?: string;
   navigation: NativeStackNavigationProp<any>;
   custom?: (params?: SwipeableActionParams) => unknown;
@@ -38,4 +45,14 @@ export const commentSwipeableActions: Record<
   collapse: () => {},
   reply: replyOption,
   hide: () => {},
+};
+
+export const replySwipeableActions: Record<
+  IReplyGestureOption,
+  (...args: any[]) => any
+> = {
+  upvote: upvoteReplyOption,
+  downvote: downvoteReplyOption,
+  read: markReplyReadOption,
+  reply: replyOption,
 };

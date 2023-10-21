@@ -1,21 +1,37 @@
-import React, { useCallback, useRef, useState } from 'react';
-import { View } from 'tamagui';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useTheme, View } from 'tamagui';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import TopTabs from '@components/Common/TopTabs/TopTabs';
 import PagerView from 'react-native-pager-view';
 import { StyleSheet } from 'react-native';
 import InboxRepliesTab from '@components/Inbox/components/InboxRepliesTab';
 import InboxMentionsTab from '@components/Inbox/components/InboxMentionsTab';
+import { INavigationProps } from '@src/types';
+import { MailOpen } from '@tamagui/lucide-icons';
 
-export default function InboxScreen(): React.JSX.Element {
+export default function InboxScreen({
+  navigation,
+}: INavigationProps): React.JSX.Element {
+  const theme = useTheme();
+
   const pagerViewRef = useRef<PagerView>();
 
   const [selectedTab, setSelectedTab] = useState<number>(0);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <MailOpen onPress={onMarkAllReadPress} color={theme.accent.val} />
+      ),
+    });
+  }, [theme]);
 
   const onTabChange = useCallback((index: number) => {
     setSelectedTab(index);
     pagerViewRef.current?.setPage(index);
   }, []);
+
+  const onMarkAllReadPress = useCallback(() => {}, []);
 
   return (
     <Animated.View style={styles.container} entering={FadeIn}>

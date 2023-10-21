@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
-import { useInboxReplies } from '@components/Inbox/hooks/useInboxReplies';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
-import { CommentView } from 'lemmy-js-client';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
 import InboxComment from '@components/Inbox/components/InboxComment';
+import { useLoadData } from '@src/hooks';
+import instance from '@src/Instance';
+import { useReplies } from '@src/state';
 
 interface IProps {
   selected: number;
@@ -11,36 +12,46 @@ interface IProps {
 
 const renderItem = ({
   item,
-}: ListRenderItemInfo<CommentView>): React.JSX.Element => {
-  return <InboxComment itemId={item.comment.id} />;
+}: ListRenderItemInfo<number>): React.JSX.Element => {
+  return <InboxComment itemId={item} />;
 };
 
-const keyExtractor = (item: CommentView): string => item.comment.id.toString();
+const keyExtractor = (item: number): string => item.toString();
 
 function InboxRepliesTab({ selected }: IProps): React.JSX.Element | null {
-  const inboxReplies = useInboxReplies();
-
   const initialized = useRef(false);
+
+  const replies = useReplies();
+
+  const { isLoading, isError, refresh: load } = useLoadData();
 
   // Lazy loading
   useEffect(() => {
-    if (selected === 0 && !initialized.current) {
-      inboxReplies.doLoad();
+    if (selected !== 0) return;
+
+    if (!initialized.current) {
+      doLoad();
       initialized.current = true;
     }
   }, [selected]);
 
+  const doLoad = useCallback(() => {
+    load(async () => {
+      await instance.getReplies();
+    });
+  }, []);
+
   return (
-    <FlashList<CommentView>
+    <FlashList<number>
       renderItem={renderItem}
-      data={inboxReplies.data}
+      data={replies}
       keyExtractor={keyExtractor}
       estimatedItemSize={150}
       ListFooterComponent={
         <FeedLoadingIndicator
-          loading={inboxReplies.isLoading}
-          error={inboxReplies.isError}
-          empty={inboxReplies.isEmpty}
+          loading={isLoading}
+          error={isError}
+          empty={replies.length < 1}
         />
       }
       contentInsetAdjustmentBehavior="automatic"

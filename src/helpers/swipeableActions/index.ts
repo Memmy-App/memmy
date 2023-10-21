@@ -4,3 +4,6 @@ export * from './downvotePostOption';
 export * from './upvoteCommentOption';
 export * from './downvoteCommentOption';
 export * from './customOption';
+export * from './markReplyReadOption';
+export * from './upvoteReplyOption';
+export * from './downvoteReplyOption';

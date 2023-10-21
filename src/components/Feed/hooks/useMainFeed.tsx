@@ -99,13 +99,6 @@ export const useMainFeed = (): UseMainFeed => {
       ...(params?.name == null
         ? {
             headerLeft: () => (
-              // <HeaderBackButton
-              //   label="Subscriptions"
-              //   onPress={() => {
-              //     setDrawerOpen(true);
-              //   }}
-              //   style={{ marginLeft: -16 }}
-              // />
               <AnimatedIconButton
                 icon={List}
                 onPress={() => {
