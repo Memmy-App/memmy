@@ -12,7 +12,6 @@ import {
   GetPersonMentionsResponse,
   GetPostResponse,
   GetPostsResponse,
-  GetRepliesResponse,
   GetSiteResponse,
   GetUnreadCountResponse,
   LemmyHttp,
@@ -42,6 +41,7 @@ import {
   addPosts,
   setSubscribed,
   setSubscriptions,
+  setUnread,
   updateComment,
   useCommentStore,
   useCommunityStore,
@@ -49,6 +49,7 @@ import {
   useSettingsStore,
 } from '@src/state';
 import { updatePost } from '@src/state/post/actions/updatePost';
+import { setReplies, setReplyRead } from '@src/state/inbox/actions';
 
 export enum EInitializeResult {
   SUCCESS,
@@ -274,6 +275,22 @@ class ApiInstance {
     }
   }
 
+  async likeCommentWithoutUpdate(
+    commentId: number,
+    vote: ILemmyVote,
+  ): Promise<void> {
+    try {
+      await this.instance?.likeComment({
+        comment_id: commentId,
+        score: vote,
+        auth: this.authToken!,
+      });
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
   async likeComment(commentId: number, vote: ILemmyVote): Promise<void> {
     const comment = useCommentStore.getState().comments.get(commentId);
 
@@ -390,15 +407,16 @@ class ApiInstance {
     }
   }
 
-  async getReplies(page = 1, limit = 50): Promise<GetRepliesResponse> {
+  async getReplies(unreadOnly = false, page = 1, limit = 50): Promise<void> {
     try {
-      const res = await this.instance?.getReplies({
+      const res = await this.instance!.getReplies({
         page,
         limit,
+        unread_only: unreadOnly,
         auth: this.authToken!,
       });
 
-      return res!;
+      setReplies(res.replies);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
@@ -869,6 +887,65 @@ class ApiInstance {
       setSubscriptions(communities);
 
       return communities;
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
+  async markInboxRead(): Promise<void> {
+    try {
+      await this.instance!.markAllAsRead({
+        auth: this.authToken!,
+      });
+
+      setUnread(0);
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
+  async markReplyRead(replyId: number): Promise<void> {
+    try {
+      await this.instance!.markCommentReplyAsRead({
+        auth: this.authToken!,
+        comment_reply_id: replyId,
+        read: true,
+      });
+
+      setReplyRead(replyId);
+      setUnread(true);
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
+  async markMentionRead(mentionId: number): Promise<void> {
+    try {
+      await this.instance!.markPersonMentionAsRead({
+        auth: this.authToken!,
+        person_mention_id: mentionId,
+        read: true,
+      });
+
+      setUnread(true);
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
+  async markMessageRead(messageId: number): Promise<void> {
+    try {
+      await this.instance!.markPrivateMessageAsRead({
+        auth: this.authToken!,
+        private_message_id: messageId,
+        read: true,
+      });
+
+      setUnread(true);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
