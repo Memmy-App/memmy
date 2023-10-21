@@ -32,7 +32,7 @@ function ImageViewerHeader({
         backgroundColor="rgba(0,0,0,0.5)"
       >
         <XStack top={80} flex={1} px="$3">
-          <Text fontSize="$6" fontWeight="bold" numberOfLines={1}>
+          <Text fontSize="$6" fontWeight="bold" numberOfLines={1} color="white">
             {title}
           </Text>
         </XStack>
@@ -41,7 +41,7 @@ function ImageViewerHeader({
         <View top={45} ml="auto" pr="$3">
           <AnimatedIconButton
             icon={X}
-            color="$accent"
+            color="white"
             iconSize={28}
             onPress={onExitPress}
           />

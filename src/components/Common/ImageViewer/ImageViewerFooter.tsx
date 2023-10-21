@@ -33,11 +33,11 @@ function ImageViewerFooter({
         <XStack flex={1} px="$5" py="$3" justifyContent="space-between">
           <AnimatedIconButton
             icon={Save}
-            color="$accent"
+            color="white"
             iconSize={24}
             onPress={onImageSave}
           />
-          <AnimatedIconButton icon={Share} color="$accent" iconSize={24} />
+          <AnimatedIconButton icon={Share} color="white" iconSize={24} />
         </XStack>
       </YStack>
     </Animated.View>
