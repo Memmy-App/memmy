@@ -216,8 +216,8 @@ class ApiInstance {
     try {
       return await this.instance?.getCaptcha();
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
-      return undefined;
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
@@ -427,8 +427,8 @@ class ApiInstance {
 
       return res.community_view.community.id;
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
-      return undefined;
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
@@ -571,8 +571,8 @@ class ApiInstance {
 
       return undefined;
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
-      return undefined;
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
@@ -584,7 +584,8 @@ class ApiInstance {
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
@@ -621,7 +622,8 @@ class ApiInstance {
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
@@ -646,7 +648,8 @@ class ApiInstance {
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
@@ -658,7 +661,8 @@ class ApiInstance {
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
@@ -670,7 +674,8 @@ class ApiInstance {
         auth: this.authToken!,
       });
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
@@ -725,8 +730,8 @@ class ApiInstance {
 
       return res;
     } catch (e: any) {
-      ApiInstance.handleError(e.toString());
-      return undefined;
+      const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
     }
   }
 
