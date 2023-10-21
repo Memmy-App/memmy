@@ -1,7 +1,7 @@
 import 'react-native-reanimated';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { TamaguiProvider, Text, Theme, useTheme } from 'tamagui';
+import { TamaguiProvider, Theme, useTheme } from 'tamagui';
 
 import tguiConfig from './tamagui.config';
 import Stack from '@components/Navigation/Stack';
@@ -36,6 +36,7 @@ import {
 } from '@react-navigation/native';
 import { useBackgroundChecks } from '@hooks/useBackgroundChecks';
 import { resetState } from '@src/state/resetState';
+import ErrorScreen from '@components/Error/ErrorScreen';
 
 if (__DEV__) {
   require('./ReactotronConfig');
@@ -60,6 +61,7 @@ export default function App(): React.JSX.Element | null {
 
   useEffect(() => {
     if (loaded) {
+      writeToLog('Memmy has been initialized.');
       void SplashScreen.hideAsync();
     }
   }, [loaded]);
@@ -85,21 +87,21 @@ export default function App(): React.JSX.Element | null {
   }
 
   return (
-    <ErrorBoundary
-      fallback={<Text>Something went wrong</Text>}
-      onError={(e) => {
-        writeToLog(JSON.stringify(e));
-      }}
-    >
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <TamaguiProvider config={tguiConfig}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <TamaguiProvider config={tguiConfig}>
+        <ErrorBoundary
+          fallback={<ErrorScreen />}
+          onError={(e) => {
+            writeToLog(JSON.stringify(e));
+          }}
+        >
           {/* @ts-expect-error - valid */}
           <Theme name={themeSettings.theme}>
             <PartTwo />
           </Theme>
-        </TamaguiProvider>
-      </GestureHandlerRootView>
-    </ErrorBoundary>
+        </ErrorBoundary>
+      </TamaguiProvider>
+    </GestureHandlerRootView>
   );
 }
 
