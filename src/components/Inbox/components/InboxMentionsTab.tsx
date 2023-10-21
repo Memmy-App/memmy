@@ -1,9 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
-import { CommentView } from 'lemmy-js-client';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
-import { useInboxMentions } from '@components/Inbox/hooks/useInboxMentions';
 import InboxComment from '@components/Inbox/components/InboxComment';
+import { useLoadData } from '@src/hooks';
+import instance from '@src/Instance';
+import RefreshControl from '@components/Common/Gui/RefreshControl';
+import { useMentions } from '@src/state';
 
 interface IProps {
   selected: number;
@@ -12,42 +14,51 @@ interface IProps {
 
 const renderItem = ({
   item,
-}: ListRenderItemInfo<CommentView>): React.JSX.Element => {
-  return <InboxComment itemId={item.comment.id} />;
+}: ListRenderItemInfo<number>): React.JSX.Element => {
+  return <InboxComment itemId={item} type="mention" />;
 };
 
-const keyExtractor = (item: CommentView): string => item.comment.id.toString();
+const keyExtractor = (item: number): string => item.toString();
 
 function InboxMentionsTab({
   selected,
   unreadOnly,
 }: IProps): React.JSX.Element | null {
-  const inboxMentions = useInboxMentions();
+  const mentions = useMentions();
 
-  const initialized = useRef(false);
+  const { isLoading, isError, isRefreshing, refresh: load } = useLoadData();
 
   // Lazy loading
   useEffect(() => {
-    if (selected === 1 && !initialized.current) {
-      inboxMentions.doLoad();
-      initialized.current = true;
-    }
-  }, [selected]);
+    if (selected !== 1) return;
+
+    doLoad();
+  }, [selected, unreadOnly]);
+
+  const doLoad = useCallback((): void => {
+    load(async () => {
+      await instance.getMentions(unreadOnly);
+    });
+  }, [unreadOnly]);
 
   return (
-    <FlashList<CommentView>
+    <FlashList<number>
       renderItem={renderItem}
-      data={inboxMentions.data}
+      data={mentions}
+      extraData={mentions}
       keyExtractor={keyExtractor}
       estimatedItemSize={150}
       ListFooterComponent={
         <FeedLoadingIndicator
-          loading={inboxMentions.isLoading}
-          error={inboxMentions.isError}
-          empty={inboxMentions.isEmpty}
+          loading={isLoading}
+          error={isError}
+          empty={mentions.length < 1}
         />
       }
       contentInsetAdjustmentBehavior="automatic"
+      refreshControl={
+        <RefreshControl refreshing={isRefreshing} onRefresh={doLoad} />
+      }
     />
   );
 }

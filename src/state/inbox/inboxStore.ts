@@ -32,7 +32,7 @@ export const usePrivateMessages = (): number[] =>
   useInboxStore((state) => state.privateMessageIds);
 export const useReplies = (): number[] =>
   useInboxStore((state) => state.replyIds);
-export const useMentionIds = (): number[] =>
+export const useMentions = (): number[] =>
   useInboxStore((state) => state.mentionIds);
 
 export const usePrivateMessage = (id: number): PrivateMessageView | undefined =>
@@ -87,7 +87,7 @@ export const useMentionPostId = (id: number): number | undefined =>
   useInboxStore((state) => state.mentions.get(id)?.post.id);
 
 export const useMentionCommentId = (id: number): number | undefined =>
-  useInboxStore((state) => state.replies.get(id)?.comment.id);
+  useInboxStore((state) => state.mentions.get(id)?.comment.id);
 
 export const useMentionContent = (id: number): string | undefined =>
   useInboxStore((state) => state.mentions.get(id)?.comment.content);
@@ -106,6 +106,22 @@ export const useMentionCreatorName = (id: number): string | undefined =>
 
 export const useMentionCreatorActorId = (id: number): string | undefined =>
   useInboxStore((state) => state.mentions.get(id)?.creator.actor_id);
+
+export const useMentionUpvotes = (id: number): number =>
+  useInboxStore((state) => state.mentions.get(id)?.counts.upvotes) ?? 0;
+
+export const useMentionDownvotes = (id: number): number =>
+  useInboxStore((state) => state.mentions.get(id)?.counts.downvotes) ?? 0;
+
+export const useMentionScore = (id: number): number =>
+  useInboxStore((state) => state.mentions.get(id)?.counts.score) ?? 0;
+
+export const useMentionMyVote = (id: number): number =>
+  useInboxStore((state) => state.mentions.get(id)?.my_vote) ?? 0;
+
+export const useMentionRead = (id: number): boolean =>
+  useInboxStore((state) => state.mentions.get(id)?.person_mention.read) ??
+  false;
 
 export const useMessageContent = (id: number): string | undefined =>
   useInboxStore(

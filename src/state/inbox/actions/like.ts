@@ -3,9 +3,16 @@ import { voteCalculator } from '@helpers/comments/voteCalculator';
 import instance from '@src/Instance';
 import { ILemmyVote } from '@api/lemmy/types';
 
-export const likeReply = (replyId: number, vote: number): void => {
+export const likeReply = (
+  replyId: number,
+  vote: number,
+  type: 'reply' | 'mention',
+): void => {
   useInboxStore.setState((state) => {
-    const comment = state.replies.get(replyId);
+    let comment;
+
+    if (type === 'reply') comment = state.replies.get(replyId);
+    else comment = state.mentions.get(replyId);
 
     if (comment == null) return;
 

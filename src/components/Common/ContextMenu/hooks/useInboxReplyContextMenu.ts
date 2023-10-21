@@ -16,6 +16,7 @@ interface UseCommentContextMenu {
 export const useInboxReplyContextMenu = (
   replyId: number,
   commentId: number,
+  type: 'reply' | 'mention',
 ): UseCommentContextMenu => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const colorScheme = useThemeColorScheme();
@@ -23,20 +24,25 @@ export const useInboxReplyContextMenu = (
   const reply = (): void => {
     navigation.push('Reply', {
       commentId,
-      replyId,
+      replyId: type === 'reply' ? replyId : undefined,
+      mentionId: type === 'mention' ? replyId : undefined,
     });
   };
 
   const upvote = (): void => {
-    likeReply(replyId, 1);
+    likeReply(replyId, 1, type);
   };
 
   const downvote = (): void => {
-    likeReply(replyId, -1);
+    likeReply(replyId, -1, type);
   };
 
   const read = (): void => {
-    void instance.markReplyRead(replyId);
+    if (type === 'reply') {
+      void instance.markReplyRead(replyId);
+    } else {
+      void instance.markMentionRead(replyId);
+    }
   };
 
   const report = (): void => {

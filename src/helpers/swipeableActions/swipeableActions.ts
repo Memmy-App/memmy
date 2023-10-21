@@ -12,6 +12,9 @@ import { markReplyReadOption } from '@helpers/swipeableActions/markReplyReadOpti
 import { downvoteReplyOption } from '@helpers/swipeableActions/downvoteReplyOption';
 import { upvoteReplyOption } from '@helpers/swipeableActions/upvoteReplyOption';
 import { saveCommentOption } from '@helpers/swipeableActions/saveCommentOption';
+import { markMentionReadOption } from '@helpers/swipeableActions/markMentionReadOption';
+import { downvoteMentionOption } from '@helpers/swipeableActions/downvoteMentionOption';
+import { upvoteMentionOption } from '@helpers/swipeableActions/upvoteMentionOption';
 
 export interface SwipeableActionParams {
   commentId?: number;
@@ -55,5 +58,15 @@ export const replySwipeableActions: Record<
   upvote: upvoteReplyOption,
   downvote: downvoteReplyOption,
   read: markReplyReadOption,
+  reply: replyOption,
+};
+
+export const mentionSwipeableActions: Record<
+  IReplyGestureOption,
+  (...args: any[]) => any
+> = {
+  upvote: upvoteMentionOption,
+  downvote: downvoteMentionOption,
+  read: markMentionReadOption,
   reply: replyOption,
 };

@@ -19,7 +19,7 @@ export default function ReplyScreen({
   navigation,
   route,
 }: IProps): React.JSX.Element {
-  const { commentId, postId, replyId, edit } = route.params;
+  const { commentId, postId, replyId, mentionId, edit } = route.params;
 
   const replyScreen = useReplyScreen(edit);
 
@@ -38,9 +38,12 @@ export default function ReplyScreen({
           {/* eslint-disable-next-line @typescript-eslint/strict-boolean-expressions */}
           {(replyScreen.type === 'comment' && <Comment itemId={commentId} />) ||
             // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-            (replyId != null && <InboxComment itemId={replyId} />) || (
-              <PostReplyContent itemId={postId} />
-            )}
+            ((replyId != null || mentionId != null) && (
+              <InboxComment
+                itemId={replyId ?? mentionId}
+                type={replyId != null ? 'reply' : 'mention'}
+              />
+            )) || <PostReplyContent itemId={postId} />}
           <TextInput
             inputAccessoryViewID="accessory"
             onSelectionChange={replyScreen.onSelectionChange}

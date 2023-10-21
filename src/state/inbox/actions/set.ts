@@ -45,7 +45,7 @@ export const setMentions = (mentions: PersonMentionView[]): void => {
       state.mentions.set(mention.person_mention.id, mention);
     }
 
-    state.replyIds = mentionIds;
+    state.mentionIds = mentionIds;
   });
 };
 

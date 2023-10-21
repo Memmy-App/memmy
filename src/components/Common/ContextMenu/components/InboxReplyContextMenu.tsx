@@ -7,15 +7,21 @@ import { createInboxReplyMenuOptions } from '@helpers/contextMenu/createInboxRep
 interface IProps {
   itemId: number;
   commentId: number;
+  type: 'reply' | 'mention';
   children: React.ReactNode;
 }
 
 export default function InboxReplyContextMenu({
   itemId,
   commentId,
+  type,
   children,
 }: IProps): React.JSX.Element {
-  const inboxReplyContextMenu = useInboxReplyContextMenu(itemId, commentId);
+  const inboxReplyContextMenu = useInboxReplyContextMenu(
+    itemId,
+    commentId,
+    type,
+  );
 
   const options = useMemo(() => createInboxReplyMenuOptions(), [itemId]);
 

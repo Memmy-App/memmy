@@ -26,7 +26,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { CommentResponse } from 'lemmy-js-client';
 import instance from '@src/Instance';
 import HeaderButton from '@components/Common/Button/HeaderButton';
-import { setReplyRead } from '@src/state/inbox/actions';
+import { setMentionRead, setReplyRead } from '@src/state/inbox/actions';
 
 interface UseReplyScreen {
   text: string;
@@ -48,7 +48,9 @@ export const useReplyScreen = (isEdit = false): UseReplyScreen => {
   const route = useRoute<any>();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const { postId, commentId, replyId } = route.params;
+  const { postId, commentId, replyId, mentionId } = route.params;
+
+  console.log(route.params);
 
   const commentPostId = useCommentPostId(commentId);
   const account = useCurrentAccount();
@@ -139,6 +141,11 @@ export const useReplyScreen = (isEdit = false): UseReplyScreen => {
       // If this is an inbox reply we should update the reply store
       if (replyId !== null) {
         setReplyRead(replyId);
+        setUnread(true);
+      }
+
+      if (mentionId !== null) {
+        setMentionRead(mentionId);
         setUnread(true);
       }
 

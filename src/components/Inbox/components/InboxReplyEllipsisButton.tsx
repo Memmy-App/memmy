@@ -7,16 +7,18 @@ import InboxReplyContextMenu from '@components/Common/ContextMenu/components/Inb
 interface IProps {
   itemId: number;
   commentId: number;
+  type: 'reply' | 'mention';
 }
 
 export default function InboxReplyEllipsisButton({
   itemId,
   commentId,
+  type,
 }: IProps): React.JSX.Element {
   const theme = useTheme();
 
   return (
-    <InboxReplyContextMenu itemId={itemId} commentId={itemId}>
+    <InboxReplyContextMenu itemId={itemId} commentId={commentId} type={type}>
       <Pressable>
         <Ellipsis size={16} color={theme.accent.val} />
       </Pressable>

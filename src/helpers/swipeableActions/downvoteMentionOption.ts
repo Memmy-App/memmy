@@ -3,13 +3,13 @@ import { SwipeableActionParams } from '@helpers/swipeableActions/swipeableAction
 import { playHaptic } from '@helpers/haptics';
 import { likeReply } from '@src/state/inbox/actions';
 
-export const downvoteReplyOption = ({
-  replyId,
+export const downvoteMentionOption = ({
+  mentionId,
   commentId,
 }: SwipeableActionParams): void => {
-  if (replyId == null || commentId == null) return;
+  if (mentionId == null || commentId == null) return;
 
   void instance.likeComment(commentId, -1);
-  likeReply(replyId, -1, 'reply');
+  likeReply(mentionId, -1, 'mention');
   void playHaptic();
 };

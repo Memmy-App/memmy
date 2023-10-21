@@ -8,3 +8,6 @@ export * from './markReplyReadOption';
 export * from './upvoteReplyOption';
 export * from './downvoteReplyOption';
 export * from './saveCommentOption';
+export * from './markMentionReadOption';
+export * from './upvoteMentionOption';
+export * from './downvoteMentionOption';

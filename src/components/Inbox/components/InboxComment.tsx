@@ -4,6 +4,15 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
   addPost,
   useCommentGesturesEnabled,
+  useMentionCommentId,
+  useMentionContent,
+  useMentionCreatorActorId,
+  useMentionCreatorAvatar,
+  useMentionCreatorName,
+  useMentionDeleted,
+  useMentionPostId,
+  useMentionRead,
+  useMentionRemoved,
   useReplyCommentId,
   useReplyContent,
   useReplyCreatorActorId,
@@ -29,9 +38,10 @@ import InboxReplyMetrics from '@components/Inbox/components/InboxReplyMetrics';
 
 interface IProps {
   itemId: number;
+  type: 'reply' | 'mention';
 }
 
-function InboxComment({ itemId }: IProps): React.JSX.Element {
+function InboxComment({ itemId, type }: IProps): React.JSX.Element {
   const swipesEnabled = useCommentGesturesEnabled();
 
   const leftOptions = useInboxReplySwipeOptions('left');
@@ -39,21 +49,36 @@ function InboxComment({ itemId }: IProps): React.JSX.Element {
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const replyPostId = useReplyPostId(itemId);
-  const replyCommentId = useReplyCommentId(itemId);
-  const replyContent = useReplyContent(itemId);
-  const replyRemoved = useReplyRemoved(itemId);
-  const replyDeleted = useReplyDeleted(itemId);
-  const replyCreatorAvatar = useReplyCreatorAvatar(itemId);
-  const replyCreatorName = useReplyCreatorName(itemId);
-  const replyCreatorActorId = useReplyCreatorActorId(itemId);
-  const replyRead = useReplyRead(itemId);
+  const postId =
+    type === 'reply' ? useReplyPostId(itemId) : useMentionPostId(itemId);
+  const commentId =
+    type === 'reply' ? useReplyCommentId(itemId) : useMentionCommentId(itemId);
+  const content =
+    type === 'reply' ? useReplyContent(itemId) : useMentionContent(itemId);
+  const removed =
+    type === 'reply' ? useReplyRemoved(itemId) : useMentionRemoved(itemId);
+  const deleted =
+    type === 'reply' ? useReplyDeleted(itemId) : useMentionDeleted(itemId);
+  const creatorAvatar =
+    type === 'reply'
+      ? useReplyCreatorAvatar(itemId)
+      : useMentionCreatorAvatar(itemId);
+  const creatorName =
+    type === 'reply'
+      ? useReplyCreatorName(itemId)
+      : useMentionCreatorName(itemId);
+  const creatorActorId =
+    type === 'reply'
+      ? useReplyCreatorActorId(itemId)
+      : useMentionCreatorActorId(itemId);
+  const read = type === 'reply' ? useReplyRead(itemId) : useMentionRead(itemId);
 
   const actionParams = useMemo<SwipeableActionParams>(
     () => ({
-      commentId: replyCommentId,
-      replyId: itemId,
-      postId: replyPostId,
+      commentId,
+      replyId: type === 'reply' ? itemId : undefined,
+      mentionId: type === 'mention' ? itemId : undefined,
+      postId,
       navigation,
     }),
     [itemId],
@@ -64,27 +89,33 @@ function InboxComment({ itemId }: IProps): React.JSX.Element {
   const onPress = useCallback(async () => {
     setLoadingPost(true);
 
-    const res = await instance.getPost(replyPostId ?? 0);
+    const res = await instance.getPost(postId ?? 0);
 
     setLoadingPost(false);
 
     addPost(res.post_view);
 
     navigation.push('Post', {
-      replyPostId,
+      replyPostId: postId,
       scrollToCommentId: itemId,
     });
   }, [itemId]);
 
   const ellipsisButton = useCallback(
     () => (
-      <InboxReplyEllipsisButton itemId={itemId} commentId={replyCommentId!} />
+      <InboxReplyEllipsisButton
+        itemId={itemId}
+        commentId={commentId!}
+        type={type}
+      />
     ),
     [itemId],
   );
 
   const commentMetrics = useCallback(
-    () => <InboxReplyMetrics itemId={itemId} commentId={replyCommentId!} />,
+    () => (
+      <InboxReplyMetrics itemId={itemId} commentId={commentId!} type={type} />
+    ),
     [itemId],
   );
 
@@ -104,7 +135,7 @@ function InboxComment({ itemId }: IProps): React.JSX.Element {
           ) : undefined
         }
       >
-        {!replyRead && (
+        {!read && (
           <View
             position="absolute"
             top={0}
@@ -122,16 +153,16 @@ function InboxComment({ itemId }: IProps): React.JSX.Element {
         <YStack backgroundColor="$fg">
           <YStack my="$2" px="$2" py="$1">
             <CommentHeader
-              creatorAvatar={replyCreatorAvatar}
-              userCommunity={replyCreatorActorId}
-              userName={replyCreatorName}
+              creatorAvatar={creatorAvatar}
+              userCommunity={creatorActorId}
+              userName={creatorName}
               EllipsisButton={ellipsisButton}
               CommentMetrics={commentMetrics}
             />
             <CommentContent
-              content={replyContent}
-              deleted={replyDeleted}
-              removed={replyRemoved}
+              content={content}
+              deleted={deleted}
+              removed={removed}
             />
           </YStack>
           <Separator borderColor="$bg" />

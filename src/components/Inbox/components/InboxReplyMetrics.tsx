@@ -8,10 +8,15 @@ import { useInboxReplyVoting } from '@components/Inbox/hooks/useInboxReplyVoting
 interface IProps {
   itemId: number;
   commentId: number;
+  type: 'reply' | 'mention';
 }
 
-function InboxReplyMetrics({ itemId, commentId }: IProps): React.JSX.Element {
-  const voting = useInboxReplyVoting(itemId, commentId);
+function InboxReplyMetrics({
+  itemId,
+  commentId,
+  type,
+}: IProps): React.JSX.Element {
+  const voting = useInboxReplyVoting(itemId, commentId, type);
 
   const totalScore = useSettingsStore((state) => state.totalScore);
 

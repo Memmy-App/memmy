@@ -15,7 +15,7 @@ interface IProps {
 const renderItem = ({
   item,
 }: ListRenderItemInfo<number>): React.JSX.Element => {
-  return <InboxComment itemId={item} />;
+  return <InboxComment itemId={item} type="reply" />;
 };
 
 const keyExtractor = (item: number): string => item.toString();
@@ -32,7 +32,7 @@ function InboxRepliesTab({
     if (selected !== 0) return;
 
     doLoad();
-  }, [unreadOnly]);
+  }, [selected, unreadOnly]);
 
   const doLoad = useCallback((): void => {
     load(async () => {

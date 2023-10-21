@@ -9,7 +9,6 @@ import {
   GetCommentsResponse,
   GetCommunityResponse,
   GetPersonDetailsResponse,
-  GetPersonMentionsResponse,
   GetPostResponse,
   GetPostsResponse,
   GetSiteResponse,
@@ -50,7 +49,13 @@ import {
   useSettingsStore,
 } from '@src/state';
 import { updatePost } from '@src/state/post/actions/updatePost';
-import { setAllRead, setReplies, setReplyRead } from '@src/state/inbox/actions';
+import {
+  setAllRead,
+  setMentionRead,
+  setMentions,
+  setReplies,
+  setReplyRead,
+} from '@src/state/inbox/actions';
 import { setPostSaved } from '@src/state/post/actions/setPostSaved';
 
 export enum EInitializeResult {
@@ -434,6 +439,7 @@ class ApiInstance {
         limit,
         unread_only: unreadOnly,
         auth: this.authToken!,
+        sort: 'New',
       });
 
       setReplies(res.replies);
@@ -443,16 +449,17 @@ class ApiInstance {
     }
   }
 
-  async getMentions(page = 1, limit = 50): Promise<GetPersonMentionsResponse> {
+  async getMentions(unreadOnly: boolean, page = 1, limit = 50): Promise<void> {
     try {
-      const res = await this.instance?.getPersonMentions({
+      const res = await this.instance!.getPersonMentions({
         page,
         limit,
         auth: this.authToken!,
+        unread_only: unreadOnly,
         sort: 'New',
       });
 
-      return res!;
+      setMentions(res.mentions);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
@@ -951,6 +958,7 @@ class ApiInstance {
         read: true,
       });
 
+      setMentionRead(mentionId);
       setUnread(true);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());

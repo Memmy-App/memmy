@@ -7,6 +7,6 @@ export const upvoteReplyOption = ({
   commentId,
 }: SwipeableActionParams): void => {
   if (replyId == null || commentId == null) return;
-  likeReply(replyId, 1);
+  likeReply(replyId, 1, 'reply');
   void playHaptic();
 };

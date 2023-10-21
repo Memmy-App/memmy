@@ -1,5 +1,8 @@
 import { useMemo } from 'react';
-import { replySwipeableActions } from '@helpers/swipeableActions';
+import {
+  mentionSwipeableActions,
+  replySwipeableActions,
+} from '@helpers/swipeableActions';
 import { IPostGestureOption } from '@src/types';
 import {
   ISwipeableColors,
@@ -10,6 +13,7 @@ import { useTheme } from 'tamagui';
 
 export const useInboxReplySwipeOptions = (
   side: 'right' | 'left',
+  type: 'reply' | 'mention',
 ): ISwipeableOptions => {
   const theme = useTheme();
 
@@ -30,8 +34,14 @@ export const useInboxReplySwipeOptions = (
     const second = side === 'left' ? 'downvote' : 'reply';
 
     return {
-      first: replySwipeableActions[first],
-      second: replySwipeableActions[second],
+      first:
+        type === 'reply'
+          ? replySwipeableActions[first]
+          : mentionSwipeableActions[first],
+      second:
+        type === 'reply'
+          ? replySwipeableActions[second]
+          : mentionSwipeableActions[second],
     };
   };
 

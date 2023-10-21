@@ -4,7 +4,8 @@ export const replyOption = ({
   commentId,
   postId,
   replyId,
+  mentionId,
   navigation,
 }: SwipeableActionParams): void => {
-  navigation.push('Reply', { commentId, postId, replyId });
+  navigation.push('Reply', { commentId, postId, replyId, mentionId });
 };
