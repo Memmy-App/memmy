@@ -4,6 +4,7 @@ import { deleteAccount, useAccounts, useCurrentAccount } from '@src/state';
 import ScrollView from '@components/Common/Gui/ScrollView';
 import Table from '@components/Common/Table/Table';
 import HeaderButton from '@components/Common/Button/HeaderButton';
+import AccountsContextMenu from '@components/Common/ContextMenu/components/AccountsContextMenu';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -31,9 +32,19 @@ export default function SettingsAccountScreen({
   return (
     <ScrollView flex={1}>
       <Table.Container>
-        <Table.Section header="Current Account">
+        <Table.Section
+          header="Current Account"
+          footer="You can quickly change accounts by pressing and holding the profile tab button."
+        >
           <Table.Cell label="Server" rightLabel={currentAccount?.instance} />
-          <Table.Cell label="Username" rightLabel={currentAccount?.username} />
+          <AccountsContextMenu>
+            <Table.Cell
+              label="Username"
+              rightLabel={currentAccount?.username}
+              useChevron
+              isLast
+            />
+          </AccountsContextMenu>
         </Table.Section>
         {accounts.map((account, index) => (
           <Table.Section header={account.fullUsername} key={index}>
