@@ -23,7 +23,7 @@ function ImageViewerFooter({
         height={100}
         width="100%"
         bottom={0}
-        backgroundColor="black"
+        backgroundColor="rgba(0,0,0,0.5)"
       >
         <XStack flex={1} px="$5" py="$3" justifyContent="space-between">
           <AnimatedIconButton icon={Save} color="$accent" iconSize={24} />
