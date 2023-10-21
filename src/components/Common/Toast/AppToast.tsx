@@ -68,13 +68,13 @@ export default function AppToast({
     >
       <YStack justifyContent="center" alignItems="center" space="$1.5">
         {toast?.title != null && (
-          <Text fontWeight="$6" fontSize="$5">
+          <Text fontWeight="$6" fontSize="$5" color="white">
             {toast?.title}
           </Text>
         )}
         <XStack alignItems="center" space="$2">
           {Icon != null && <Icon />}
-          <Text fontWeight="$5" fontSize="$3">
+          <Text fontWeight="$5" fontSize="$3" color="white">
             {toast?.text}
           </Text>
         </XStack>
