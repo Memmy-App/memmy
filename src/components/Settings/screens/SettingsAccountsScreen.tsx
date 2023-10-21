@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { deleteAccount, useAccounts, useCurrentAccount } from '@src/state';
 import ScrollView from '@components/Common/Gui/ScrollView';
 import Table from '@components/Common/Table/Table';
+import HeaderButton from '@components/Common/Button/HeaderButton';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -14,6 +15,19 @@ export default function SettingsAccountScreen({
   const accounts = useAccounts();
   const currentAccount = useCurrentAccount();
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderButton
+          title="Add Account"
+          onPress={() => {
+            navigation.navigate('AddAccount');
+          }}
+        />
+      ),
+    });
+  }, []);
+
   return (
     <ScrollView flex={1}>
       <Table.Container>
@@ -23,13 +37,6 @@ export default function SettingsAccountScreen({
         </Table.Section>
         {accounts.map((account, index) => (
           <Table.Section header={account.fullUsername} key={index}>
-            <Table.Cell
-              label="Edit Account"
-              useChevron
-              onPress={() => {
-                navigation.push('EditAccount', { account });
-              }}
-            />
             <Table.Cell
               label="Logout"
               useChevron
