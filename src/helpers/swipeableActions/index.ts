@@ -11,3 +11,4 @@ export * from './saveCommentOption';
 export * from './markMentionReadOption';
 export * from './upvoteMentionOption';
 export * from './downvoteMentionOption';
+export * from './collapseCommentOption';
