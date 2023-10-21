@@ -6,6 +6,7 @@ import { CommentView } from 'lemmy-js-client';
 import Comment from '@components/Comment/components/Comment';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
 import { useTheme } from 'tamagui';
+import RefreshControl from '@components/Common/Gui/RefreshControl';
 
 const renderItem = ({
   item,
@@ -42,6 +43,13 @@ function ProfileCommentsTab({ selected }: IProps): React.JSX.Element | null {
         <FeedLoadingIndicator
           loading={profileScreenContext.isLoading}
           error={profileScreenContext.isError}
+          empty={profileComments != null && profileComments.length < 1}
+        />
+      }
+      refreshControl={
+        <RefreshControl
+          refreshing={profileScreenContext.isRefreshing}
+          onRefresh={profileScreenContext.refresh}
         />
       }
       contentContainerStyle={{ backgroundColor: theme.bg.val }}

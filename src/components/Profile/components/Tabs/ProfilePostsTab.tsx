@@ -6,6 +6,7 @@ import { PostView } from 'lemmy-js-client';
 import { useProfilePosts } from '@src/state';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
 import { useTheme } from 'tamagui';
+import RefreshControl from '@components/Common/Gui/RefreshControl';
 
 const renderItem = ({
   item,
@@ -32,6 +33,13 @@ function ProfilePostsTab(): React.JSX.Element {
         <FeedLoadingIndicator
           loading={profileScreenContext.isLoading}
           error={profileScreenContext.isError}
+          empty={profilePosts != null && profilePosts.length < 1}
+        />
+      }
+      refreshControl={
+        <RefreshControl
+          refreshing={profileScreenContext.isRefreshing}
+          onRefresh={profileScreenContext.refresh}
         />
       }
       scrollEventThrottle={16}

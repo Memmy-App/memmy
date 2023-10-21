@@ -1,6 +1,6 @@
 import 'react-native-reanimated';
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { TamaguiProvider, Text, Theme, useTheme } from 'tamagui';
 
 import tguiConfig from './tamagui.config';
@@ -25,6 +25,7 @@ import {
   useAccent,
   useAccountStore,
   useAppUpgraded,
+  useCurrentAccount,
   useDrawerOpen,
   useSettingsStore,
 } from '@src/state';
@@ -34,6 +35,7 @@ import {
   useNavigationContainerRef,
 } from '@react-navigation/native';
 import { useBackgroundChecks } from '@hooks/useBackgroundChecks';
+import { resetState } from '@src/state/resetState';
 
 if (__DEV__) {
   require('./ReactotronConfig');
@@ -115,6 +117,8 @@ function PartTwo(): React.JSX.Element {
   const theme = useTheme();
   const accent = useAccent();
 
+  const currentAccount = useCurrentAccount();
+
   const navTheme: Theme = useMemo(
     () => ({
       ...DarkTheme,
@@ -131,6 +135,21 @@ function PartTwo(): React.JSX.Element {
   );
 
   const navRef = useNavigationContainerRef();
+
+  /* This is a little trick to completely reset our stack whenever we change accounts.
+     We don't want to have any remnant of leftover screens because the IDs for posts, profiles,
+     will be incorrect. We also will reset most of the stores here so we have a fresh, clean slate.
+     Ensuring that everything is clear *before* the switch, we will do a timeout of 300ms before we actually flip
+     the key
+   */
+  const [key, setKey] = useState(1);
+  useEffect(() => {
+    resetState();
+
+    setTimeout(() => {
+      setKey((prev) => (prev === 1 ? 0 : 1));
+    });
+  }, [currentAccount]);
 
   return (
     <>
@@ -151,7 +170,7 @@ function PartTwo(): React.JSX.Element {
       >
         <ImageViewerProvider>
           <AppToast />
-          <NavigationContainer theme={navTheme} ref={navRef}>
+          <NavigationContainer theme={navTheme} ref={navRef} key={key}>
             <Stack />
           </NavigationContainer>
         </ImageViewerProvider>

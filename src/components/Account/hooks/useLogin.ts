@@ -80,8 +80,6 @@ export const useLogin = (): UseLogin => {
         token: instance.authToken ?? '',
         isCurrentAccount: true,
       });
-
-      navigation.pop();
     } catch (e) {
       setLoading(false);
       Alert.alert('Error', 'An unknown error has occurred.');

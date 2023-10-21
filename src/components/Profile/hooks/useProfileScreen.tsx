@@ -8,6 +8,9 @@ import { addProfile, removeProfile, useCurrentAccount } from '@src/state';
 interface UseProfileScreen {
   isLoading: boolean;
   isError: boolean;
+  isRefreshing: boolean;
+
+  refresh: () => unknown;
 
   profileId: number;
 }
@@ -19,7 +22,7 @@ export const useProfileScreen = (): UseProfileScreen => {
 
   const [profileId, setProfileId] = useState<number>(-1);
 
-  const { isLoading, isError } = useLoadData<
+  const { isLoading, isError, isRefreshing, refresh } = useLoadData<
     GetPersonDetailsResponse | undefined
   >(async () => {
     const res = await instance.getPersonDetails(
@@ -42,6 +45,9 @@ export const useProfileScreen = (): UseProfileScreen => {
   return {
     isLoading,
     isError,
+    isRefreshing,
+
+    refresh,
 
     profileId,
   };
