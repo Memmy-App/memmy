@@ -1,9 +1,13 @@
 import React, { useCallback, useMemo } from 'react';
-import { usePostGesturesEnabled, useSettingsStore } from '@src/state';
+import {
+  usePostGesturesEnabled,
+  usePostSaved,
+  useSettingsStore,
+} from '@src/state';
 import { usePostSwipeOptions } from '@components/Common/SwipeableRow/hooks/usePostSwipeOptions';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useTheme, XStack, YStack } from 'tamagui';
+import { useTheme, View, XStack, YStack } from 'tamagui';
 import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
 import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
 import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
@@ -34,6 +38,8 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
   const gesturesEnabled = usePostGesturesEnabled();
   const leftSwipeOptions = usePostSwipeOptions('left');
   const rightSwipeOptions = usePostSwipeOptions('right');
+
+  const postSaved = usePostSaved(itemId);
 
   const onPress = useCallback(() => {
     navigation.push('Post', {
@@ -68,6 +74,21 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
           ) : undefined
         }
       >
+        {postSaved && (
+          <View
+            position="absolute"
+            top={0}
+            right={0}
+            width={0}
+            height={0}
+            backgroundColor="transparent"
+            borderTopColor="$bookmark"
+            borderTopWidth={15}
+            borderLeftWidth={15}
+            borderLeftColor="transparent"
+            zIndex={1}
+          />
+        )}
         <XStack backgroundColor="$fg" py="$2" px="$2" space="$2">
           {voteButtonPosition === 'left' && (
             <CompactFeedItemVoteButtons itemId={itemId} />

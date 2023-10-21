@@ -11,6 +11,7 @@ import { IReplyGestureOption } from '@src/types/IReplyGestureOptions';
 import { markReplyReadOption } from '@helpers/swipeableActions/markReplyReadOption';
 import { downvoteReplyOption } from '@helpers/swipeableActions/downvoteReplyOption';
 import { upvoteReplyOption } from '@helpers/swipeableActions/upvoteReplyOption';
+import { saveCommentOption } from '@helpers/swipeableActions/saveCommentOption';
 
 export interface SwipeableActionParams {
   commentId?: number;
@@ -41,7 +42,7 @@ export const commentSwipeableActions: Record<
 > = {
   upvote: upvoteCommentOption,
   downvote: downvoteCommentOption,
-  save: () => {},
+  save: saveCommentOption,
   collapse: () => {},
   reply: replyOption,
   hide: () => {},

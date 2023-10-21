@@ -111,7 +111,7 @@ function Comment({
           ) : undefined
         }
       >
-        {!commentSaved && (
+        {commentSaved && (
           <View
             position="absolute"
             top={0}

@@ -7,3 +7,4 @@ export * from './customOption';
 export * from './markReplyReadOption';
 export * from './upvoteReplyOption';
 export * from './downvoteReplyOption';
+export * from './saveCommentOption';
