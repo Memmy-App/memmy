@@ -324,6 +324,7 @@ function ImageViewer(): React.JSX.Element {
               <AnimatedImage
                 source={{ uri: imageViewer.params?.source }}
                 style={[viewerDims, scaleStyle]}
+                enableLiveTextInteraction
               />
             </Animated.View>
           </Animated.View>
