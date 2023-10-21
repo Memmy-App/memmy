@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { usePostContextMenu } from '@components/Common/ContextMenu/hooks';
-import { usePostIsOwn, usePostModerates } from '@src/state';
+import { usePostIsOwn, usePostLinkType, usePostModerates } from '@src/state';
 import { createPostContextMenuOptions } from '@helpers/contextMenu/createPostContextMenuOptions';
 import { OnPressMenuItemEventObject } from 'react-native-ios-context-menu';
 import { AppContextMenuButton } from '@components/Common/ContextMenu/AppContextMenuButton';
@@ -15,6 +15,8 @@ export default function PostContextMenu({
   children,
 }: IProps): React.JSX.Element {
   const postContextMenu = usePostContextMenu(itemId);
+
+  const postLinkType = usePostLinkType(itemId);
   const moderates = usePostModerates(itemId);
   const isOwn = usePostIsOwn(itemId);
 
@@ -23,6 +25,7 @@ export default function PostContextMenu({
       createPostContextMenuOptions({
         moderates,
         isOwnPost: isOwn,
+        isImage: postLinkType === 'image',
       }),
     [itemId],
   );
@@ -50,6 +53,15 @@ export default function PostContextMenu({
           break;
         case 'report':
           postContextMenu.report();
+          break;
+        case 'share':
+          postContextMenu.share();
+          break;
+        case 'shareImage':
+          postContextMenu.shareImage();
+          break;
+        case 'saveImage':
+          postContextMenu.savePostImage();
           break;
       }
     },

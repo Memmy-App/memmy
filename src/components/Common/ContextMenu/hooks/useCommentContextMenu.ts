@@ -3,6 +3,12 @@ import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Alert } from 'react-native';
 import { useThemeColorScheme } from '@src/hooks';
+import {
+  useCommentCreatorActorId,
+  useCommentPostId,
+  usePostTitle,
+} from '@src/state';
+import { shareLink } from '@helpers/share/shareLink';
 
 interface UseCommentContextMenu {
   reply: () => void;
@@ -13,6 +19,7 @@ interface UseCommentContextMenu {
   delet: () => void;
   remove: () => void;
   report: () => void;
+  share: () => void;
 }
 
 export const useCommentContextMenu = (
@@ -20,6 +27,19 @@ export const useCommentContextMenu = (
 ): UseCommentContextMenu => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const colorScheme = useThemeColorScheme();
+
+  const postId = useCommentPostId(itemId);
+  const postTitle = usePostTitle(postId ?? 0);
+  const commentLink = useCommentCreatorActorId(itemId);
+
+  const share = (): void => {
+    if (postTitle == null || commentLink == null) return;
+
+    void shareLink({
+      title: postTitle ?? 'Comment',
+      link: commentLink,
+    });
+  };
 
   const reply = (): void => {
     navigation.push('Reply', {
@@ -130,6 +150,7 @@ export const useCommentContextMenu = (
   };
 
   return {
+    share,
     reply,
     upvote,
     downvote,

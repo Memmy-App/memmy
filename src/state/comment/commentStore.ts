@@ -77,3 +77,6 @@ export const useCommentRemoved = (id: number): boolean =>
   useCommentStore(
     (state) => state.comments.get(id)?.view.comment.removed ?? false,
   );
+
+export const useCommentActorId = (id: number): string | undefined =>
+  useCommentStore((state) => state.comments.get(id)?.view.comment.ap_id);

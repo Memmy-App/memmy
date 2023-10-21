@@ -7,13 +7,9 @@ import { useImageViewer } from '@components/Common/ImageViewer/ImageViewerProvid
 
 interface IProps {
   visible: boolean;
-  title: string;
 }
 
-function ImageViewerHeader({
-  visible,
-  title,
-}: IProps): React.JSX.Element | null {
+function ImageViewerHeader({ visible }: IProps): React.JSX.Element | null {
   const imageViewer = useImageViewer();
 
   const onExitPress = useCallback(() => {
@@ -33,7 +29,7 @@ function ImageViewerHeader({
       >
         <XStack top={80} flex={1} px="$3">
           <Text fontSize="$6" fontWeight="bold" numberOfLines={1} color="white">
-            {title}
+            {imageViewer.params?.title ?? 'Image'}
           </Text>
         </XStack>
       </YStack>

@@ -4,6 +4,7 @@ import { PostContextMenuOption } from '@src/types/contextMenu';
 interface CreatePostContextMenuOptionsParams {
   moderates: boolean;
   isOwnPost: boolean;
+  isImage: boolean;
 }
 
 export const createPostContextMenuOptions = (
@@ -20,6 +21,26 @@ export const createPostContextMenuOptions = (
       title: 'Share',
       icon: 'square.and.arrow.up',
     },
+  ];
+
+  if (params.isImage) {
+    arr = [
+      ...arr,
+      {
+        key: 'shareImage',
+        title: 'Share Image',
+        icon: 'photo',
+      },
+      {
+        key: 'saveImage',
+        title: 'Save Image',
+        icon: 'square.and.arrow.down',
+      },
+    ];
+  }
+
+  arr = [
+    ...arr,
     {
       key: 'upvote',
       title: 'Upvote',

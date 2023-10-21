@@ -7,7 +7,6 @@ import {
   GestureUpdateEvent,
   PanGestureHandlerEventPayload,
   PinchGestureHandlerEventPayload,
-  TapGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import Animated, {
   cancelAnimation,
@@ -139,26 +138,23 @@ function ImageViewer(): React.JSX.Element {
   );
 
   // <editor-fold desc="Double Tap Zomo">
-  const onDoubleTap = useCallback(
-    (event: GestureUpdateEvent<TapGestureHandlerEventPayload>): void => {
-      'worklet';
+  const onDoubleTap = useCallback((): void => {
+    'worklet';
 
-      runOnJS(setAccessoriesVisible)(false);
+    runOnJS(setAccessoriesVisible)(false);
 
-      // If the image is already zoomed, let's just reset it
-      if (zoomScale.value !== 1) {
-        centerImage();
-        zoomScale.value = withTiming(1, { duration: 200 });
-        lastScale.value = 1;
-        return;
-      }
+    // If the image is already zoomed, let's just reset it
+    if (zoomScale.value !== 1) {
+      centerImage();
+      zoomScale.value = withTiming(1, { duration: 200 });
+      lastScale.value = 1;
+      return;
+    }
 
-      // Zoom to the max scale
-      zoomScale.value = withTiming(1.75, { duration: 200 });
-      lastScale.value = 1.75;
-    },
-    [],
-  );
+    // Zoom to the max scale
+    zoomScale.value = withTiming(1.75, { duration: 200 });
+    lastScale.value = 1.75;
+  }, []);
 
   // Create the double tap gesture
   const doubleTapGesture = useMemo(
@@ -315,10 +311,7 @@ function ImageViewer(): React.JSX.Element {
   return (
     <View flex={1}>
       <AppToast />
-      <ImageViewerHeader
-        title={imageViewer.params?.title ?? 'Image'}
-        visible={accessoriesVisible}
-      />
+      <ImageViewerHeader visible={accessoriesVisible} />
       <GestureDetector gesture={allGestures}>
         <YStack zIndex={-1} flex={1}>
           <Animated.View style={[styles.imageModal, backgroundStyle]}>
@@ -333,10 +326,7 @@ function ImageViewer(): React.JSX.Element {
         </YStack>
       </GestureDetector>
 
-      <ImageViewerFooter
-        source={imageViewer.params?.source}
-        visible={accessoriesVisible}
-      />
+      <ImageViewerFooter visible={accessoriesVisible} />
     </View>
   );
 }
