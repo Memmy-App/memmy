@@ -18,6 +18,7 @@ import {
   Heart,
   MailOpen,
   MessageCircle,
+  PanelBottomClose,
   Shield,
   Zap,
 } from '@tamagui/lucide-icons';
@@ -29,6 +30,7 @@ export const IconMap = {
   undefined: CircleEllipsis,
   reply: MessageCircle,
   comment: MessageCircle,
+  collapse: PanelBottomClose,
   save: Bookmark,
   read: MailOpen,
   saved: BookmarkCheck,

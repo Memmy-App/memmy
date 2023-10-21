@@ -1,0 +1,44 @@
+diff --git a/node_modules/expo-image/ios/ImageModule.swift b/node_modules/expo-image/ios/ImageModule.swift
+index f862fc8..13aa055 100644
+--- a/node_modules/expo-image/ios/ImageModule.swift
++++ b/node_modules/expo-image/ios/ImageModule.swift
+@@ -104,6 +104,18 @@ public final class ImageModule: Module {
+         promise.resolve(true)
+       }
+     }
++
++    AsyncFunction("getCachePath") { (url: String?, promise: Promise) in
++      let exists:Bool = await SDImageCache.shared.diskImageExists(withKey: url)
++
++      if(exists) {
++        let path:String? = SDImageCache.shared.cachePath(forKey: url)
++
++        promise.resolve(path)
++      }
++
++      promise.resolve(nil)
++    }
+   }
+ 
+   static func registerCoders() {
+diff --git a/node_modules/expo-image/src/Image.tsx b/node_modules/expo-image/src/Image.tsx
+index 4ff87c9..469657c 100644
+--- a/node_modules/expo-image/src/Image.tsx
++++ b/node_modules/expo-image/src/Image.tsx
+@@ -42,6 +42,16 @@ export class Image extends React.PureComponent<ImageProps> {
+     return await ExpoImageModule.clearDiskCache();
+   }
+ 
++  /**
++   * Asynchronously retrieves disk cache path for given URL if it exists. iOS only?
++   * @platform ios
++   * @return A promise resolving the local path if it exists.
++   * Resolves to null if it does not exist.
++   */
++  static async getCachePath(url: string): Promise<string|null> {
++    return await ExpoImageModule.getCachePath(url);
++  }
++
+   render() {
+     const {
+       style,

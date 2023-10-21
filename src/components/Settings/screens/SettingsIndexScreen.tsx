@@ -12,10 +12,32 @@ import {
   Paintbrush,
   User,
 } from '@tamagui/lucide-icons';
+import { deleteLog, sendLog } from '@src/helpers';
+import { Alert } from 'react-native';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
 }
+
+const onEmailDebugLogPress = async (): Promise<void> => {
+  try {
+    await sendLog();
+  } catch (e: any) {
+    Alert.alert('Error', 'No debug log was found.');
+  }
+};
+
+const onClearDebugLogPress = (): void => {
+  try {
+    deleteLog();
+    Alert.alert('Success', 'Debug log has been cleared.');
+  } catch (e) {
+    Alert.alert(
+      'Error',
+      'Error clearing debug log. There might not be a debug log to clear.',
+    );
+  }
+};
 
 export default function SettingsIndexScreen({
   navigation,
@@ -85,6 +107,16 @@ export default function SettingsIndexScreen({
           <Table.Cell label="Terms" useChevron />
           <Table.Cell label="Report a Bug" useChevron />
           <Table.Cell label="Check Lemmy Service" useChevron />
+          <Table.Cell
+            label="Submit Debug Log"
+            useChevron
+            onPress={onEmailDebugLogPress}
+          />
+          <Table.Cell
+            label="Clear Debug Log"
+            useChevron
+            onPress={onClearDebugLogPress}
+          />
         </Table.Section>
       </Table.Container>
     </ScrollView>

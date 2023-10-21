@@ -11,6 +11,7 @@ import {
   useCommentCreatorName,
   useCommentDeleted,
   useCommentGesturesEnabled,
+  useCommentPath,
   useCommentPostId,
   useCommentRemoved,
   useCommentSaved,
@@ -72,6 +73,7 @@ function Comment({
   const commentCreatorName = useCommentCreatorName(itemId);
   const commentCreatorActorId = useCommentCreatorActorId(itemId);
   const commentSaved = useCommentSaved(itemId);
+  const commentPath = useCommentPath(itemId);
 
   const swipesEnabled = useCommentGesturesEnabled();
 
@@ -82,6 +84,7 @@ function Comment({
     () => ({
       postId,
       commentId: itemId,
+      path: commentPath,
       navigation,
     }),
     [itemId],

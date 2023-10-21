@@ -22,8 +22,12 @@ function CommentChain({
   const onCommentPress = useCallback(() => {
     if (!collapseOnTap) return;
 
-    setPostCommentHidden(commentInfo, !commentInfo.collapsed);
-  }, [commentInfo.collapsed, collapseOnTap]);
+    setPostCommentHidden(
+      commentInfo.commentId,
+      commentInfo.postId,
+      commentInfo.path,
+    );
+  }, [commentInfo.commentId, collapseOnTap]);
 
   if (commentInfo.hidden) {
     return null;
