@@ -1,9 +1,8 @@
 import { SwipeableActionParams } from '@helpers/swipeableActions/swipeableActions';
+import instance from '@src/Instance';
 
 export const markReplyReadOption = ({
-  commentId,
-  postId,
-  navigation,
+  replyId,
 }: SwipeableActionParams): void => {
-  navigation.push('Reply', { commentId, postId });
+  void instance.markReplyRead(replyId!);
 };

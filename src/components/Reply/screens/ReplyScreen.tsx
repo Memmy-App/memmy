@@ -35,7 +35,9 @@ export default function ReplyScreen({
       <ScrollView automaticallyAdjustKeyboardInsets={true} ref={viewRef}>
         <LoadingOverlay visible={replyScreen.isLoading} />
         <YStack space="$2" mb="$2">
+          {/* eslint-disable-next-line @typescript-eslint/strict-boolean-expressions */}
           {(replyScreen.type === 'comment' && <Comment itemId={commentId} />) ||
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
             (replyId != null && <InboxComment itemId={replyId} />) || (
               <PostReplyContent itemId={postId} />
             )}
