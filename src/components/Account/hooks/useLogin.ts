@@ -4,8 +4,6 @@ import { EInitializeResult } from '@api/common/ApiInstance';
 import { addAccount, setToast } from '@src/state';
 import { Alert } from 'react-native';
 import { useThemeColorScheme } from '@hooks/useThemeColorScheme';
-import { useNavigation } from '@react-navigation/core';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface DoLoginOptions {
   instance: string;
@@ -22,8 +20,6 @@ interface UseLogin {
 }
 
 export const useLogin = (): UseLogin => {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
   const [loading, setLoading] = useState<boolean>(false);
 
   const colorScheme = useThemeColorScheme();

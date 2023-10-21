@@ -23,8 +23,6 @@ export default function NsfwButton({
   const bgColor = useSharedValue(theme.bg.val);
 
   const onPress = useCallback(() => {
-    if (onPress == null) return;
-
     void playHaptic();
     setNsfw((prev) => !prev);
   }, [nsfw]);
