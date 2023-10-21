@@ -1,6 +1,6 @@
 import 'react-native-reanimated';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { TamaguiProvider, Text, Theme, useTheme } from 'tamagui';
 
 import tguiConfig from './tamagui.config';
@@ -142,13 +142,20 @@ function PartTwo(): React.JSX.Element {
      Ensuring that everything is clear *before* the switch, we will do a timeout of 300ms before we actually flip
      the key
    */
+  const initialized = useRef(false);
+
   const [key, setKey] = useState(1);
   useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      return;
+    }
+
     resetState();
 
     setTimeout(() => {
       setKey((prev) => (prev === 1 ? 0 : 1));
-    });
+    }, 300);
   }, [currentAccount]);
 
   return (

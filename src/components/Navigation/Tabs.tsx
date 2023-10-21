@@ -18,6 +18,7 @@ import {
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
 import { playHaptic } from '@helpers/haptics';
+import AccountsContextMenu from '@components/Common/ContextMenu/components/AccountsContextMenu';
 
 const Tab = createBottomTabNavigator();
 
@@ -52,10 +53,18 @@ function ProfileTabIcon({ color }: ProfileTabIconProps): React.JSX.Element {
   const personAvatar = usePersonAvatar();
 
   if (showAvatarInTabBar && personAvatar != null) {
-    return <Image source={personAvatar} style={styles.avatarIcon} />;
+    return (
+      <AccountsContextMenu>
+        <Image source={personAvatar} style={styles.avatarIcon} />
+      </AccountsContextMenu>
+    );
   }
 
-  return <User color={color} size={24} />;
+  return (
+    <AccountsContextMenu>
+      <User color={color} size={24} />
+    </AccountsContextMenu>
+  );
 }
 
 export default function Tabs(): React.JSX.Element {

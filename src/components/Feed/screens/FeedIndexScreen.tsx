@@ -44,6 +44,7 @@ export default function FeedIndexScreen(): React.JSX.Element {
           .then(() => {})
           .then(() => {
             void instance.getSubscriptions();
+            void instance.getUnreadCount();
             setInitialized(true);
           });
       })
