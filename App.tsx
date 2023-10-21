@@ -92,7 +92,9 @@ export default function App(): React.JSX.Element | null {
         <ErrorBoundary
           fallback={<ErrorScreen />}
           onError={(e) => {
-            writeToLog(JSON.stringify(e));
+            writeToLog(e.name);
+            writeToLog(e.message);
+            writeToLog(e.stack ?? 'No stack');
           }}
         >
           {/* @ts-expect-error - valid */}

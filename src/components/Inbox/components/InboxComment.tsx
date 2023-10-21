@@ -44,8 +44,8 @@ interface IProps {
 function InboxComment({ itemId, type }: IProps): React.JSX.Element {
   const swipesEnabled = useCommentGesturesEnabled();
 
-  const leftOptions = useInboxReplySwipeOptions('left');
-  const rightOptions = useInboxReplySwipeOptions('right');
+  const leftOptions = useInboxReplySwipeOptions('left', type);
+  const rightOptions = useInboxReplySwipeOptions('right', type);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 

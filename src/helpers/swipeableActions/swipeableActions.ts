@@ -15,6 +15,7 @@ import { saveCommentOption } from '@helpers/swipeableActions/saveCommentOption';
 import { markMentionReadOption } from '@helpers/swipeableActions/markMentionReadOption';
 import { downvoteMentionOption } from '@helpers/swipeableActions/downvoteMentionOption';
 import { upvoteMentionOption } from '@helpers/swipeableActions/upvoteMentionOption';
+import { collapseCommentOption } from '@helpers/swipeableActions/collapseCommentOption';
 
 export interface SwipeableActionParams {
   commentId?: number;
@@ -23,6 +24,7 @@ export interface SwipeableActionParams {
   messageId?: number;
   mentionId?: number;
   screenId?: string;
+  path?: string;
   navigation: NativeStackNavigationProp<any>;
   custom?: (params?: SwipeableActionParams) => unknown;
 }
@@ -46,7 +48,7 @@ export const commentSwipeableActions: Record<
   upvote: upvoteCommentOption,
   downvote: downvoteCommentOption,
   save: saveCommentOption,
-  collapse: () => {},
+  collapse: collapseCommentOption,
   reply: replyOption,
   hide: () => {},
 };
