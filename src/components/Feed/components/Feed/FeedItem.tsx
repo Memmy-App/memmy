@@ -10,9 +10,10 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import FeedItemContent from '@components/Feed/components/Feed/FeedItem/FeedItemContent';
 import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
 import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
-import { usePostGesturesEnabled } from '@src/state';
+import { usePostGesturesEnabled, usePostSaved } from '@src/state';
 import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
 import { usePostSwipeOptions } from '@components/Common/SwipeableRow/hooks/usePostSwipeOptions';
+import { View } from 'tamagui';
 
 interface IProps {
   itemId: number;
@@ -24,6 +25,8 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
   const gesturesEnabled = usePostGesturesEnabled();
   const leftSwipeOptions = usePostSwipeOptions('left');
   const rightSwipeOptions = usePostSwipeOptions('right');
+
+  const postSaved = usePostSaved(itemId);
 
   const onPress = useCallback(() => {
     navigation.push('Post', {
@@ -58,6 +61,21 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
           ) : undefined
         }
       >
+        {postSaved && (
+          <View
+            position="absolute"
+            top={0}
+            right={0}
+            width={0}
+            height={0}
+            backgroundColor="transparent"
+            borderTopColor="$bookmark"
+            borderTopWidth={15}
+            borderLeftWidth={15}
+            borderLeftColor="transparent"
+            zIndex={1}
+          />
+        )}
         <FeedItemContainer>
           <FeedItemHeader itemId={itemId} />
           <FeedItemContent itemId={itemId} />

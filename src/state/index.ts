@@ -10,3 +10,4 @@ export * from './image';
 export * from './post';
 export * from './profile';
 export * from './settings';
+export * from './inbox';

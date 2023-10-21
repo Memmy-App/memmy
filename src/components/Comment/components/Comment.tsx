@@ -1,16 +1,28 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Separator, View, YStack } from 'tamagui';
 import CommentHeader from '@components/Comment/components/CommentHeader';
 import CommentContent from '@components/Comment/components/CommentContent';
 import { Pressable } from 'react-native';
 import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
-import { useCommentGesturesEnabled, useCommentPostId } from '@src/state';
+import {
+  useCommentContent,
+  useCommentCreatorActorId,
+  useCommentCreatorAvatar,
+  useCommentCreatorName,
+  useCommentDeleted,
+  useCommentGesturesEnabled,
+  useCommentPostId,
+  useCommentRemoved,
+  useCommentSaved,
+} from '@src/state';
 import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
 import { SwipeableActionParams } from '@helpers/swipeableActions';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
 import { ISwipeableOptions } from '@components/Common/SwipeableRow/types';
+import CommentEllipsisButton from '@components/Comment/components/CommentEllipsisButton';
+import CommentMetrics from '@components/Comment/components/CommentMetrics';
 
 interface IProps {
   itemId: number;
@@ -53,6 +65,14 @@ function Comment({
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const postId = useCommentPostId(itemId);
+  const commentContent = useCommentContent(itemId);
+  const commentRemoved = useCommentRemoved(itemId);
+  const commentDeleted = useCommentDeleted(itemId);
+  const commentCreatorAvatar = useCommentCreatorAvatar(itemId);
+  const commentCreatorName = useCommentCreatorName(itemId);
+  const commentCreatorActorId = useCommentCreatorActorId(itemId);
+  const commentSaved = useCommentSaved(itemId);
+
   const swipesEnabled = useCommentGesturesEnabled();
 
   const borderWidth = useMemo(() => (depth > 0 ? 2 : 0), [depth]);
@@ -64,6 +84,16 @@ function Comment({
       commentId: itemId,
       navigation,
     }),
+    [itemId],
+  );
+
+  const ellipsisButton = useCallback(
+    () => <CommentEllipsisButton itemId={itemId} />,
+    [itemId],
+  );
+
+  const commentMetrics = useCallback(
+    () => <CommentMetrics itemId={itemId} />,
     [itemId],
   );
 
@@ -81,6 +111,21 @@ function Comment({
           ) : undefined
         }
       >
+        {commentSaved && (
+          <View
+            position="absolute"
+            top={0}
+            right={0}
+            width={0}
+            height={0}
+            backgroundColor="transparent"
+            borderTopColor="$bookmark"
+            borderTopWidth={15}
+            borderLeftWidth={15}
+            borderLeftColor="transparent"
+            zIndex={1}
+          />
+        )}
         <YStack backgroundColor="$fg">
           <YStack
             ml={depth * 10}
@@ -90,8 +135,20 @@ function Comment({
             px="$2"
             py="$1"
           >
-            <CommentHeader itemId={itemId} />
-            {!collapsed && <CommentContent itemId={itemId} />}
+            <CommentHeader
+              creatorAvatar={commentCreatorAvatar}
+              userCommunity={commentCreatorActorId}
+              userName={commentCreatorName}
+              EllipsisButton={ellipsisButton}
+              CommentMetrics={commentMetrics}
+            />
+            {!collapsed && (
+              <CommentContent
+                content={commentContent}
+                deleted={commentDeleted}
+                removed={commentRemoved}
+              />
+            )}
           </YStack>
           <Separator borderColor="$bg" ml={depth * 10 + 10} />
         </YStack>
