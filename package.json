@@ -21,6 +21,7 @@
     "babel-plugin-module-resolver": "^5.0.0",
     "dayjs": "^1.11.10",
     "expo": "^49.0.3",
+    "expo-asset": "^8.10.1",
     "expo-blur": "^12.6.0",
     "expo-build-properties": "^0.8.3",
     "expo-clipboard": "^4.5.0",
@@ -112,7 +113,7 @@
     "generate-license": "license-report --only=prod,dev,peer --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author --output=html > assets/license.html",
     "postinstall": "patch-package",
     "build-submit-ios": "cd ios && fastlane beta",
-		"build-submit-internal-ios": "cd ios && fastlane betaInternal",
+    "build-submit-internal-ios": "cd ios && fastlane betaInternal",
     "lint": "./node_modules/eslint/bin/eslint.js . --ext=js,jsx,ts,tsx",
     "lint-fix": "./node_modules/eslint/bin/eslint.js . --ext=js,jsx,ts,tsx --fix"
   }
