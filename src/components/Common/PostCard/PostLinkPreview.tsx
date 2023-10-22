@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import {
+  useBlurNsfw,
   useMouseLoadingIcon,
   usePostCommunityNsfw,
   usePostLink,
@@ -29,6 +30,7 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
   const theme = useTheme();
 
   const mouse = useMouseLoadingIcon();
+  const blurNsfw = useBlurNsfw();
 
   const postLink = usePostLink(itemId);
   const postThumbnail = usePostThumbnail(itemId);
@@ -67,7 +69,9 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
                 recyclingKey={postThumbnail}
                 onLoadStart={onLoadStart}
                 onLoadEnd={onLoadEnd}
-                blurRadius={postNsfw || postCommunityNsfw ? 90 : 0}
+                blurRadius={
+                  (postNsfw || postCommunityNsfw) && blurNsfw ? 90 : 0
+                }
               />
             </View>
           )}

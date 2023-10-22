@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Post and comment timestamps properly rendered
+- Blur NSFW option working
 
 ### Changed
 

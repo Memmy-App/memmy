@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  useBlurNsfw,
   usePostBody,
   usePostCommunityNsfw,
   usePostDeleted,
@@ -16,6 +17,8 @@ import PostLinkPreview from '@components/Common/PostCard/PostLinkPreview';
 
 function PostContent(): React.JSX.Element {
   const { postId } = useRoute<any>().params;
+
+  const blurNsfw = useBlurNsfw();
 
   const postLinkType = usePostLinkType(postId);
   const postBody = usePostBody(postId);
@@ -51,7 +54,7 @@ function PostContent(): React.JSX.Element {
         <View my="$3">
           <ViewerImage
             source={postLink!}
-            blurRadius={postNsfw || postCommunityNsfw ? 90 : 0}
+            blurRadius={(postNsfw || postCommunityNsfw) && blurNsfw ? 90 : 0}
           />
         </View>
       )}

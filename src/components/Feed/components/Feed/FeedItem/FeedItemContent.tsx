@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  useBlurNsfw,
   usePostBodyPreview,
   usePostCommunityNsfw,
   usePostLink,
@@ -17,6 +18,8 @@ interface IProps {
 }
 
 function FeedItemContent({ itemId }: IProps): React.JSX.Element | null {
+  const blurNsfw = useBlurNsfw();
+
   const postLink = usePostLink(itemId);
   const postBodyPreview = usePostBodyPreview(itemId);
   const postLinkType = usePostLinkType(itemId);
@@ -29,7 +32,7 @@ function FeedItemContent({ itemId }: IProps): React.JSX.Element | null {
       <View my="$3" justifyContent="center" backgroundColor="$bg">
         <ViewerImage
           source={postLink!}
-          blurRadius={postNsfw || postCommunityNsfw ? 90 : 0}
+          blurRadius={(postNsfw || postCommunityNsfw) && blurNsfw ? 90 : 0}
           title={postTitle}
           postId={itemId}
         />

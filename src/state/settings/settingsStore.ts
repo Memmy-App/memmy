@@ -312,3 +312,6 @@ export const useMarkReadOnVote = (): boolean =>
 
 export const useMouseLoadingIcon = (): boolean =>
   useSettingsStore((state) => state.mouseLoadingIcon);
+
+export const useBlurNsfw = (): boolean =>
+  useSettingsStore((state) => state.blurNsfw);
