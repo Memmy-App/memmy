@@ -2,10 +2,10 @@
 
 Ensure you've checked the following before submitting your PR:
 
-- [ ] You've discussed making your changes with a member of the dev team per contributing rules in the README
 - [ ] Your changes are free of any lint errors
 - [ ] Your changes are free of any typescript errors
 - [ ] You've tested your changes
+- [ ] You've listed your changes in CHANGELOG.md
 
 ### Summary
 
