@@ -35,6 +35,7 @@ import CommentContent from '@components/Comment/components/CommentContent';
 import InboxReplyEllipsisButton from '@components/Inbox/components/InboxReplyEllipsisButton';
 import { useInboxReplySwipeOptions } from '@components/Common/SwipeableRow/hooks/useInboxReplySwipeOptions';
 import InboxReplyMetrics from '@components/Inbox/components/InboxReplyMetrics';
+import { setMentionRead, setReplyRead } from '@src/state/inbox/actions';
 
 interface IProps {
   itemId: number;
@@ -87,18 +88,30 @@ function InboxComment({ itemId, type }: IProps): React.JSX.Element {
   const [loadingPost, setLoadingPost] = useState(false);
 
   const onPress = useCallback(async () => {
+    // Display loading
     setLoadingPost(true);
 
-    const res = await instance.getPost(postId ?? 0);
+    // Try to get the post and add it to the store
+    try {
+      const res = await instance.getPost(postId ?? 0);
 
-    setLoadingPost(false);
+      setLoadingPost(false);
+      addPost(res.post_view);
 
-    addPost(res.post_view);
+      // Mark the reply as read
+      if (type === 'reply') setReplyRead(itemId);
+      else setMentionRead(itemId);
 
-    navigation.push('Post', {
-      replyPostId: postId,
-      scrollToCommentId: itemId,
-    });
+      // Set a small timeout
+      setTimeout(() => {
+        navigation.push('Post', {
+          postId,
+          scrollToCommentId: commentId,
+        });
+      }, 100);
+    } catch (e) {
+      setLoadingPost(false);
+    }
   }, [itemId]);
 
   const ellipsisButton = useCallback(
