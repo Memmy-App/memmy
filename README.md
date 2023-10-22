@@ -43,6 +43,12 @@ npx pod install
 yarn ios
 ```
 
+> :heavy_exclamation_mark: Unfortunately we are having issues with the most recent `expo` version which is causing issues with `yarn ios`.
+> Therefore we have to fall back to using `react-native`:
+> ```shell
+> npx react-native run-ios
+> ```
+ 
 A simulator should open with the app running. To change the device type or to deply to your physical device, run `yarn ios --device` and select the device you want to deploy to.
 
 ## Info
