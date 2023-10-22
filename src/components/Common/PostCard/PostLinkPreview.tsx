@@ -1,11 +1,20 @@
 import React, { useCallback, useState } from 'react';
 import {
+  useMouseLoadingIcon,
   usePostCommunityNsfw,
   usePostLink,
   usePostNsfw,
   usePostThumbnail,
 } from '@src/state';
-import { Separator, Text, useTheme, View, XStack, YStack } from 'tamagui';
+import {
+  Separator,
+  Spinner,
+  Text,
+  useTheme,
+  View,
+  XStack,
+  YStack,
+} from 'tamagui';
 import { Image } from 'expo-image';
 import { ChevronRight, Link } from '@tamagui/lucide-icons';
 import { Pressable, StyleSheet } from 'react-native';
@@ -18,6 +27,8 @@ interface IProps {
 
 function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
   const theme = useTheme();
+
+  const mouse = useMouseLoadingIcon();
 
   const postLink = usePostLink(itemId);
   const postThumbnail = usePostThumbnail(itemId);
@@ -62,7 +73,11 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
           )}
           {thumbnailLoading && (
             <XStack height={113} alignItems="center" justifyContent="center">
-              <LoadingAnimation size="small" />
+              {mouse ? (
+                <LoadingAnimation size="small" />
+              ) : (
+                <Spinner color="$accent" size="large" />
+              )}
             </XStack>
           )}
           <XStack

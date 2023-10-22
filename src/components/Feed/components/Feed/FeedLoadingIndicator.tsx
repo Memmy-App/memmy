@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, YStack } from 'tamagui';
+import { Spinner, Text, YStack } from 'tamagui';
 import ButtonOne from '@components/Common/Button/ButtonOne';
 import LoadingAnimation from '@components/Common/Loading/LoadingAnimation';
+import { useMouseLoadingIcon } from '@src/state';
 
 interface IProps {
   loading: boolean;
@@ -16,6 +17,8 @@ function FeedLoadingIndicator({
   retry,
   empty,
 }: IProps): React.JSX.Element | null {
+  const mouse = useMouseLoadingIcon();
+
   if (!loading) {
     if (error != null && error) {
       return (
@@ -55,7 +58,11 @@ function FeedLoadingIndicator({
 
   return (
     <YStack flex={1} alignItems="center" justifyContent="center" p="$3">
-      <LoadingAnimation size="small" />
+      {mouse ? (
+        <LoadingAnimation size="small" />
+      ) : (
+        <Spinner color="$accent" size="small" />
+      )}
     </YStack>
   );
 }

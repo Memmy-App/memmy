@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Loading screens now have an option for whether to display mouse animation (default normal spinner).
+
 ## [Version 1.0.42 (42)] - 2023-10-22T09:52:35Z
 
 ### Added

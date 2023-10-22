@@ -183,6 +183,15 @@ export default function SettingsAppearanceScreen({
             }}
           />
         </Table.Section>
+        <Table.Section header="Other">
+          <Table.Cell
+            label="Mouse Animation for Loading Screens"
+            switchValue={settings.mouseLoadingIcon}
+            onSwitchValueChange={(v) => {
+              setSetting('mouseLoadingIcon', v);
+            }}
+          />
+        </Table.Section>
       </Table.Container>
     </ScrollView>
   );

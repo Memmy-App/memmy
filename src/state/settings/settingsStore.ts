@@ -95,6 +95,8 @@ export interface SettingsStore {
 
   accentColor: string | undefined;
 
+  mouseLoadingIcon: boolean;
+
   upgraded: boolean;
 
   reset: () => void;
@@ -182,6 +184,8 @@ const initialState: Partial<SettingsStore> = {
 
   showAvatarInTabBar: true,
   showUsernameInTabBar: true,
+
+  mouseLoadingIcon: false,
 
   upgraded: false,
 
@@ -305,3 +309,6 @@ export const useMarkReadOnPostView = (): boolean =>
 
 export const useMarkReadOnVote = (): boolean =>
   useSettingsStore((state) => state.readOptions.onVote);
+
+export const useMouseLoadingIcon = (): boolean =>
+  useSettingsStore((state) => state.mouseLoadingIcon);
