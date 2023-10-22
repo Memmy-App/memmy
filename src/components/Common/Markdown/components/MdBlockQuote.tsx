@@ -8,9 +8,10 @@ interface IProps {
 export default function MdBlockQuote({ text }: IProps): React.JSX.Element {
   return (
     <XStack
-      backgroundColor="$fg"
+      backgroundColor="$bg"
       p="$2"
       my="$1"
+      mt={-14}
       mx="$3"
       borderRadius="$2"
       borderLeftWidth="$1"
