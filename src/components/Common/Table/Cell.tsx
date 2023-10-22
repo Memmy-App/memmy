@@ -14,7 +14,7 @@ interface IProps {
   rightLabel?: string;
   isSwitch?: boolean;
   switchValue?: boolean;
-  onSwitchValueChange?: (value: boolean) => void;
+  onSwitchValueChange?: (value: boolean) => void | Promise<void>;
 }
 
 export default function Cell({

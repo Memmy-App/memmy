@@ -16,6 +16,7 @@ import {
   LemmyHttp,
   ListCommunities,
   ListCommunitiesResponse,
+  LocalUser,
   PostResponse,
   RemoveComment,
   RemovePost,
@@ -48,6 +49,7 @@ import {
   useCommunityStore,
   usePostStore,
   useSettingsStore,
+  useSiteStore,
 } from '@src/state';
 import { updatePost } from '@src/state/post/actions/updatePost';
 import {
@@ -990,6 +992,22 @@ class ApiInstance {
       });
 
       setUnread(true);
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
+  async setUserSetting(setting: keyof LocalUser, value: any): Promise<void> {
+    const userAvatar =
+      useSiteStore.getState().site?.my_user?.local_user_view.person.avatar;
+
+    try {
+      await this.instance!.saveUserSettings({
+        auth: this.authToken!,
+        avatar: userAvatar ?? '',
+        [setting]: value,
+      });
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
