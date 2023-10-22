@@ -18,7 +18,7 @@ function CommentHeader({
   CommentMetrics,
 }: IProps): React.JSX.Element {
   return (
-    <XStack space="$3" alignItems="center" pb="$2">
+    <XStack space="$2.5" alignItems="center" pb="$2">
       <CommentUserLabel
         userIcon={creatorAvatar}
         userName={userName}

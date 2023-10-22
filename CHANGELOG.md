@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Post and comment timestamps properly rendered
+
 ### Changed
 
 - Loading screens now have an option for whether to display mouse animation (default normal spinner).

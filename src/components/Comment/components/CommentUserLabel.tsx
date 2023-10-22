@@ -34,7 +34,7 @@ function CommentUserLabel({
   return (
     <XStack space="$2" alignItems="center" onPress={onPress} hitSlop={5}>
       {showIcon && <UserIcon userIcon={userIcon} />}
-      <Text fontSize="$3" color="$secondary">
+      <Text fontSize="$2" color="$secondary">
         {name}
       </Text>
     </XStack>

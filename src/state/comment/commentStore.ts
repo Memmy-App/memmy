@@ -80,3 +80,6 @@ export const useCommentRemoved = (id: number): boolean =>
 
 export const useCommentActorId = (id: number): string | undefined =>
   useCommentStore((state) => state.comments.get(id)?.view.comment.ap_id);
+
+export const useCommentPublished = (id: number): string | undefined =>
+  useCommentStore((state) => state.comments.get(id)?.view.comment.published);

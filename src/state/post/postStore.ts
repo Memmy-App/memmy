@@ -108,3 +108,6 @@ export const usePostRemoved = (id: number): boolean =>
 
 export const usePostDeleted = (id: number): boolean =>
   usePostStore((state) => state.posts.get(id))?.view.post.deleted ?? false;
+
+export const usePostPublished = (id: number): string | undefined =>
+  usePostStore((state) => state.posts.get(id))?.view.counts.published;
