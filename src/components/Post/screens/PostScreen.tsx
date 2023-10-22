@@ -107,20 +107,24 @@ export default function PostScreen({
 
   useEffect(() => {
     if (!isLoading && scrollToCommentId != null) {
-      const index = commentsToShow?.findIndex(
-        (c) => c.commentId === scrollToCommentId,
-      );
-
-      if (index == null || index < 0) {
-        return;
-      }
-
       setTimeout(() => {
-        flashListRef.current?.scrollToIndex({
-          index,
-          animated: true,
-        });
-      }, 100);
+        const index = commentsToShow?.findIndex(
+          (c) => c.commentId === scrollToCommentId,
+        );
+
+        console.log(index);
+
+        if (index == null || index < 0) {
+          return;
+        }
+
+        setTimeout(() => {
+          flashListRef.current?.scrollToIndex({
+            index,
+            animated: true,
+          });
+        }, 250);
+      }, 250);
     }
   }, [isLoading]);
 
