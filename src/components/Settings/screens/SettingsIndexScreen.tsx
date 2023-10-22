@@ -96,6 +96,9 @@ export default function SettingsIndexScreen({
             label="Filters"
             useChevron
             accessoryLeft={<CellIcon bgColor="#ed5a6e" icon={<EyeOff />} />}
+            onPress={() => {
+              navigation.push('Filters');
+            }}
           />
           <Table.Cell
             label="About"

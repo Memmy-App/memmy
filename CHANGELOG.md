@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Keyword and instance filtering for posts
+
 ### Fixed
 
 - Post and comment timestamps properly rendered

@@ -13,6 +13,8 @@ import SettingsThemeScreen from '@components/Settings/screens/SettingsThemesScre
 import SettingsAccentScreen from '@components/Settings/screens/SettingsAccentScreen';
 import AddAccountModal from '@components/Account/screens/AddAccountModal';
 import WebViewScreen from '@components/WebViewer/WebViewScreen';
+import SettingsFiltersScreen from '@components/Settings/screens/SettingsFiltersScreen';
+import SettingsFilterScreen from '@components/Settings/screens/SettingsFilterScreen';
 
 const SettingsStack = createNativeStackNavigator();
 
@@ -54,6 +56,11 @@ export default function SettingsStackScreen(): React.JSX.Element {
         />
         <SettingsStack.Screen name="Themes" component={SettingsThemeScreen} />
         <SettingsStack.Screen name="Accent" component={SettingsAccentScreen} />
+        <SettingsStack.Screen
+          name="Filters"
+          component={SettingsFiltersScreen}
+        />
+        <SettingsStack.Screen name="Filter" component={SettingsFilterScreen} />
       </SettingsStack.Group>
 
       <SettingsStack.Group
