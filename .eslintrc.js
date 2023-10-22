@@ -56,5 +56,6 @@ module.exports = {
       tabWidth: 2,
       printWidth: 80,
     }],
+    "no-console": [2],
   },
 };

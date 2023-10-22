@@ -112,8 +112,6 @@ export default function PostScreen({
           (c) => c.commentId === scrollToCommentId,
         );
 
-        console.log(index);
-
         if (index == null || index < 0) {
           return;
         }

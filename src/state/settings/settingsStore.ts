@@ -290,3 +290,18 @@ export const useAppUpgraded = (): boolean | undefined =>
 
 export const useFontSize = (): number =>
   useSettingsStore((state) => state.fontSize);
+
+export const useMarkReadOnFeedScroll = (): boolean =>
+  useSettingsStore((state) => state.readOptions.onFeedScroll);
+
+export const useMarkReadOnCommunityScroll = (): boolean =>
+  useSettingsStore((state) => state.readOptions.onCommunityScroll);
+
+export const useMarkReadOnImageView = (): boolean =>
+  useSettingsStore((state) => state.readOptions.onImageView);
+
+export const useMarkReadOnPostView = (): boolean =>
+  useSettingsStore((state) => state.readOptions.onPostView);
+
+export const useMarkReadOnVote = (): boolean =>
+  useSettingsStore((state) => state.readOptions.onVote);
