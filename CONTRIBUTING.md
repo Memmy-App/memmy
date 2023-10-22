@@ -196,6 +196,13 @@ into separate PRs.
 If you are adding additional third-party packages or adding native code (the former when new pods are involved or the
 latter in all cases) please be sure to explicitly note that.
 
+### ‼️ Changelog
+
+Please be sure to properly document your changes in the CHANGELOG.md file. You should place your changes under
+[Unreleased] under either ## Added, ## Fixed, ## Removed, or ## Changed. These will automatically be appended to the
+release notes whenever the new version is built. You are free to (in fact encouraged to) add your name and/or GitHub
+profile to the changes.
+
 ## 🎉 Thank You
 
 Your work is appreciated and extremely helpful in continuing the active development of Memmy.
