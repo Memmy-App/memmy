@@ -18,4 +18,4 @@ export const getLinkType = (link?: string): LinkType => {
   return 'generic';
 };
 
-const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'svg'];
+const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'];
