@@ -11,9 +11,7 @@ const updateCounts = async (): Promise<void> => {
 
     const total = res.replies + res.mentions;
     setUnread(total);
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };
 
 let refreshInterval: NodeJS.Timeout | undefined;

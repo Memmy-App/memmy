@@ -11,7 +11,8 @@ export const createIfDontExist = async (): Promise<void> => {
       .then()
       // eslint-disable-next-line no-console
       .catch((e) => {
-        console.log(e.toString());
+        // eslint-disable-next-line no-console
+        console.log(e.toString()); // We should be able to log here
       });
   }
 };
