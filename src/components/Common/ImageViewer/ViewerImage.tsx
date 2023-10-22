@@ -1,10 +1,12 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Pressable } from 'react-native';
 
 import { useImageViewer } from './ImageViewerProvider';
 import {
+  markPostRead,
   saveImageDimensions,
   useImageSavedDimensions,
+  useMarkReadOnImagePress,
   useSettingsStore,
 } from '@src/state';
 import { getImageRatio } from '@helpers/image';
@@ -22,6 +24,7 @@ interface IProps {
   width?: number;
   overrideDimensions?: boolean;
   borderRadius?: number;
+  postId?: number;
 }
 
 function ViewerImage({
@@ -32,26 +35,44 @@ function ViewerImage({
   width = 300,
   overrideDimensions = false,
   borderRadius = 0,
+  postId,
 }: IProps): React.JSX.Element {
   const imageViewer = useImageViewer();
   const savedDimensions = useImageSavedDimensions(source);
+  const markReadOnImagePress = useMarkReadOnImagePress();
+
+  const loaded = useRef(false);
 
   const ignoreHeight = useSettingsStore(
     (state) => state.imagesIgnoreScreenHeight,
   );
 
   const onImagePress = useCallback(() => {
-    if (imageViewer.setParams == null || imageViewer.setVisible == null) return;
+    // figure out if we want to do something
+    if (
+      !loaded.current ||
+      imageViewer.setParams == null ||
+      imageViewer.setVisible == null
+    )
+      return;
 
+    // Set the params
     imageViewer.setParams({
       source,
       title,
     });
+    // Display the viewer
     imageViewer.setVisible(true);
+    // Set the viewer dimensions
     imageViewer.setDimensions!(
       savedDimensions?.dimensions as unknown as IDimensions,
     );
-  }, [source, savedDimensions]);
+
+    // Now see if we want to mark the post as read
+    if (postId != null && markReadOnImagePress) {
+      markPostRead(postId);
+    }
+  }, [source, savedDimensions, markReadOnImagePress]);
 
   const onImageLoad = useCallback(
     (e: ImageLoadEventData) => {
@@ -69,6 +90,8 @@ function ViewerImage({
       if (savedDimensions != null) return;
 
       saveImageDimensions(source, { dimensions, viewerDimensions });
+
+      loaded.current = true;
     },
     [source],
   );

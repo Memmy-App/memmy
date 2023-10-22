@@ -296,3 +296,6 @@ export const useMarkReadOnFeedScroll = (): boolean =>
 
 export const useMarkReadOnCommunityScroll = (): boolean =>
   useSettingsStore((state) => state.readOptions.onCommunityScroll);
+
+export const useMarkReadOnImagePress = (): boolean =>
+  useSettingsStore((state) => state.readOptions.onImageView);

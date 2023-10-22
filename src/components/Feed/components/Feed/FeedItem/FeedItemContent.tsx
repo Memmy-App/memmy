@@ -31,6 +31,7 @@ function FeedItemContent({ itemId }: IProps): React.JSX.Element | null {
           source={postLink!}
           blurRadius={postNsfw || postCommunityNsfw ? 90 : 0}
           title={postTitle}
+          postId={itemId}
         />
       </View>
     );
