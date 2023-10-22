@@ -58,7 +58,10 @@ export const addPosts = (
 
       const keywordPattern = new RegExp(filters.keywordFilters.join('|'), 'i');
 
-      if (keywordPattern.test(post.post.name)) {
+      if (
+        filters.keywordFilters.length > 0 &&
+        keywordPattern.test(post.post.name)
+      ) {
         continue;
       }
 

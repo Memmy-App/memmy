@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Version 1.0 (44)] - 2023-10-22T12:33:47Z
+
+### Fixed
+
+- Keyword filters
+
+## [Version 1.0 (43)] - 2023-10-22T12:11:01Z
+
 ### Added
 
 - Keyword and instance filtering for posts
