@@ -19,11 +19,17 @@ function FeedItemHeader({ itemId }: IProps): React.JSX.Element {
   const fontWeight = useSettingsStore((state) => state.postTitleWeight);
 
   return (
-    <YStack px="$3" space="$1.5">
+    <YStack px="$3" py="$1" space="$1.5">
       <XStack alignItems="center">
         <PostCommunityLabel itemId={itemId} />
         <XStack ml="auto" p="$1" pr="$2" space="$3">
-          {postRead && <BookOpenCheck color="$accent" size={20} />}
+          {postRead && (
+            <BookOpenCheck
+              color="$accent"
+              size={20}
+              style={{ marginVertical: -1 }}
+            />
+          )}
           <PostContextMenu itemId={itemId}>
             <Pressable hitSlop={5}>
               <Ellipsis size={18} color={theme.accent.val} />

@@ -6,7 +6,7 @@ import {
   markPostRead,
   saveImageDimensions,
   useImageSavedDimensions,
-  useMarkReadOnImagePress,
+  useMarkReadOnImageView,
   useSettingsStore,
 } from '@src/state';
 import { getImageRatio } from '@helpers/image';
@@ -39,7 +39,7 @@ function ViewerImage({
 }: IProps): React.JSX.Element {
   const imageViewer = useImageViewer();
   const savedDimensions = useImageSavedDimensions(source);
-  const markReadOnImagePress = useMarkReadOnImagePress();
+  const markReadOnImagePress = useMarkReadOnImageView();
 
   const loaded = useRef(false);
 

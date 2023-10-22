@@ -297,5 +297,11 @@ export const useMarkReadOnFeedScroll = (): boolean =>
 export const useMarkReadOnCommunityScroll = (): boolean =>
   useSettingsStore((state) => state.readOptions.onCommunityScroll);
 
-export const useMarkReadOnImagePress = (): boolean =>
+export const useMarkReadOnImageView = (): boolean =>
   useSettingsStore((state) => state.readOptions.onImageView);
+
+export const useMarkReadOnPostView = (): boolean =>
+  useSettingsStore((state) => state.readOptions.onPostView);
+
+export const useMarkReadOnVote = (): boolean =>
+  useSettingsStore((state) => state.readOptions.onVote);

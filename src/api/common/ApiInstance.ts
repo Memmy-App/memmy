@@ -271,6 +271,13 @@ class ApiInstance {
     });
 
     try {
+      // Handle marking the post read
+      const markReadOnVote = useSettingsStore.getState().readOptions.onVote;
+
+      if (markReadOnVote) {
+        markPostRead(postId);
+      }
+
       await this.instance?.likePost({
         post_id: postId,
         score: newVms.newVote!,
