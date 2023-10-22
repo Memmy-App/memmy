@@ -61,11 +61,7 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
             </View>
           )}
           {thumbnailLoading && (
-            <XStack
-              style={styles.loading}
-              alignItems="center"
-              justifyContent="center"
-            >
+            <XStack height={113} alignItems="center" justifyContent="center">
               <LoadingAnimation size="small" />
             </XStack>
           )}
