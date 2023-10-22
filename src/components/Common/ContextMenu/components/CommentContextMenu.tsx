@@ -48,6 +48,9 @@ export default function CommentContextMenu({
         case 'edit':
           commentContextMenu.edit();
           break;
+        case 'share':
+          commentContextMenu.share();
+          break;
       }
     },
     [commentContextMenu],

@@ -2,9 +2,17 @@ import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useThemeColorScheme } from '@src/hooks';
 import instance from '@src/Instance';
-import { setToast, usePostCommunityId } from '@src/state';
+import {
+  setToast,
+  usePostActorId,
+  usePostCommunityId,
+  usePostLink,
+  usePostTitle,
+} from '@src/state';
 import { Alert } from 'react-native';
 import { CheckCircle } from '@tamagui/lucide-icons';
+import { shareLink } from '@helpers/share/shareLink';
+import { saveImage } from '@helpers/image';
 
 interface UsePostContextMenu {
   reply: () => void;
@@ -15,12 +23,47 @@ interface UsePostContextMenu {
   delet: () => void;
   remove: () => void;
   report: () => void;
+  share: () => void;
+  savePostImage: () => void;
+  shareImage: () => void;
 }
 
 export const usePostContextMenu = (itemId: number): UsePostContextMenu => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   const communityId = usePostCommunityId(itemId);
+  const postTitle = usePostTitle(itemId);
+  const postActorId = usePostActorId(itemId);
+  const postLink = usePostLink(itemId);
+
   const colorScheme = useThemeColorScheme();
+
+  const share = (): void => {
+    if (postTitle == null || postActorId == null) {
+      return;
+    }
+
+    void shareLink({
+      title: postTitle,
+      link: postActorId,
+    });
+  };
+
+  const savePostImage = (): void => {
+    if (postLink == null) return;
+
+    void saveImage(postLink);
+  };
+
+  const shareImage = (): void => {
+    if (postTitle == null || postLink == null) return;
+
+    void shareLink({
+      title: postTitle,
+      link: postLink,
+      isImage: true,
+    });
+  };
 
   const reply = (): void => {
     navigation.push('Reply', {
@@ -139,6 +182,9 @@ export const usePostContextMenu = (itemId: number): UsePostContextMenu => {
   };
 
   return {
+    share,
+    shareImage,
+    savePostImage,
     reply,
     upvote,
     downvote,

@@ -12,6 +12,7 @@ import SettingsAppearanceScreen from '@components/Settings/screens/SettingsAppea
 import SettingsThemeScreen from '@components/Settings/screens/SettingsThemesScreen';
 import SettingsAccentScreen from '@components/Settings/screens/SettingsAccentScreen';
 import AddAccountModal from '@components/Account/screens/AddAccountModal';
+import WebViewScreen from '@components/WebViewer/WebViewScreen';
 
 const SettingsStack = createNativeStackNavigator();
 
@@ -66,6 +67,11 @@ export default function SettingsStackScreen(): React.JSX.Element {
           options={{
             headerTitle: 'Add Account',
           }}
+        />
+        <SettingsStack.Screen
+          name="WebView"
+          component={WebViewScreen}
+          options={{ headerTitle: 'View' }}
         />
       </SettingsStack.Group>
     </SettingsStack.Navigator>

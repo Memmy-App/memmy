@@ -50,8 +50,6 @@ export const useReplyScreen = (isEdit = false): UseReplyScreen => {
 
   const { postId, commentId, replyId, mentionId } = route.params;
 
-  console.log(route.params);
-
   const commentPostId = useCommentPostId(commentId);
   const account = useCurrentAccount();
 

@@ -7,7 +7,6 @@ import {
   GestureUpdateEvent,
   PanGestureHandlerEventPayload,
   PinchGestureHandlerEventPayload,
-  TapGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import Animated, {
   cancelAnimation,
@@ -23,6 +22,7 @@ import { View, YStack } from 'tamagui';
 import { Image } from 'expo-image';
 import ImageViewerHeader from '@components/Common/ImageViewer/ImageViewerHeader';
 import ImageViewerFooter from '@components/Common/ImageViewer/ImageViewerFooter';
+import AppToast from '@components/Common/Toast/AppToast';
 
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
@@ -138,26 +138,23 @@ function ImageViewer(): React.JSX.Element {
   );
 
   // <editor-fold desc="Double Tap Zomo">
-  const onDoubleTap = useCallback(
-    (event: GestureUpdateEvent<TapGestureHandlerEventPayload>): void => {
-      'worklet';
+  const onDoubleTap = useCallback((): void => {
+    'worklet';
 
-      runOnJS(setAccessoriesVisible)(false);
+    runOnJS(setAccessoriesVisible)(false);
 
-      // If the image is already zoomed, let's just reset it
-      if (zoomScale.value !== 1) {
-        centerImage();
-        zoomScale.value = withTiming(1, { duration: 200 });
-        lastScale.value = 1;
-        return;
-      }
+    // If the image is already zoomed, let's just reset it
+    if (zoomScale.value !== 1) {
+      centerImage();
+      zoomScale.value = withTiming(1, { duration: 200 });
+      lastScale.value = 1;
+      return;
+    }
 
-      // Zoom to the max scale
-      zoomScale.value = withTiming(1.75, { duration: 200 });
-      lastScale.value = 1.75;
-    },
-    [],
-  );
+    // Zoom to the max scale
+    zoomScale.value = withTiming(1.75, { duration: 200 });
+    lastScale.value = 1.75;
+  }, []);
 
   // Create the double tap gesture
   const doubleTapGesture = useMemo(
@@ -313,10 +310,8 @@ function ImageViewer(): React.JSX.Element {
 
   return (
     <View flex={1}>
-      <ImageViewerHeader
-        title={imageViewer.params?.title ?? 'Image'}
-        visible={accessoriesVisible}
-      />
+      <AppToast />
+      <ImageViewerHeader visible={accessoriesVisible} />
       <GestureDetector gesture={allGestures}>
         <YStack zIndex={-1} flex={1}>
           <Animated.View style={[styles.imageModal, backgroundStyle]}>
@@ -324,16 +319,14 @@ function ImageViewer(): React.JSX.Element {
               <AnimatedImage
                 source={{ uri: imageViewer.params?.source }}
                 style={[viewerDims, scaleStyle]}
+                enableLiveTextInteraction
               />
             </Animated.View>
           </Animated.View>
         </YStack>
       </GestureDetector>
 
-      <ImageViewerFooter
-        source={imageViewer.params?.source}
-        visible={accessoriesVisible}
-      />
+      <ImageViewerFooter visible={accessoriesVisible} />
     </View>
   );
 }

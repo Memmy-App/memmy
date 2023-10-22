@@ -14,6 +14,8 @@ import {
 } from '@tamagui/lucide-icons';
 import { deleteLog, sendLog } from '@src/helpers';
 import { Alert } from 'react-native';
+import { openLink } from '@helpers/links';
+import { useTheme } from 'tamagui';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -42,6 +44,8 @@ const onClearDebugLogPress = (): void => {
 export default function SettingsIndexScreen({
   navigation,
 }: IProps): React.JSX.Element {
+  const theme = useTheme();
+
   return (
     <ScrollView flex={1} contentInsetAdjustmentBehavior="automatic">
       <Table.Container>
@@ -103,10 +107,16 @@ export default function SettingsIndexScreen({
           />
         </Table.Section>
         <Table.Section header="Memmy">
-          <Table.Cell label="Privacy" useChevron />
-          <Table.Cell label="Terms" useChevron />
-          <Table.Cell label="Report a Bug" useChevron />
-          <Table.Cell label="Check Lemmy Service" useChevron />
+          <Table.Cell
+            label="Report a Bug"
+            useChevron
+            onPress={() => {
+              void openLink(
+                'https://github.com/Memmy-App/memmy/issues/new?assignees=&labels=bug%2Ctriage&projects=&template=bug_report.yml&title=%5BBug%5D%3A+',
+                theme.navBarBg.val,
+              );
+            }}
+          />
           <Table.Cell
             label="Submit Debug Log"
             useChevron

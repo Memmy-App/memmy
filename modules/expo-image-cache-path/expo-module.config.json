@@ -1,0 +1,9 @@
+{
+  "platforms": ["ios", "android", "web"],
+  "ios": {
+    "modules": ["ExpoImageCachePathModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.imagecachepath.ExpoImageCachePathModule"]
+  }
+}
