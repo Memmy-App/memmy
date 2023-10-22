@@ -29,7 +29,7 @@ export const usePostSwipeOptions = (
       upvote: theme.upvote.val,
       downvote: theme.downvote.val,
       save: theme.bookmark.val,
-      hide: theme.warn.val,
+      // hide: theme.warn.val, TODO we will replace this with something else eventually
       reply: theme.accent.val,
     }),
     [theme],
