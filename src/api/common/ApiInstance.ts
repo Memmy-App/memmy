@@ -38,6 +38,7 @@ import {
   addCommentsToPost,
   addPost,
   addPosts,
+  markPostRead,
   setCommentSaved,
   setSubscribed,
   setSubscriptions,
@@ -578,11 +579,13 @@ class ApiInstance {
 
   async markPostRead(postId: number): Promise<void> {
     try {
-      await this.instance?.markPostAsRead({
+      await this.instance!.markPostAsRead({
         post_id: postId,
         read: true,
         auth: this.authToken!,
       });
+
+      markPostRead(postId);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString);
       throw new Error(errMsg);

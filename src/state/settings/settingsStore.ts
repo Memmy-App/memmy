@@ -290,3 +290,9 @@ export const useAppUpgraded = (): boolean | undefined =>
 
 export const useFontSize = (): number =>
   useSettingsStore((state) => state.fontSize);
+
+export const useMarkReadOnFeedScroll = (): boolean =>
+  useSettingsStore((state) => state.readOptions.onFeedScroll);
+
+export const useMarkReadOnCommunityScroll = (): boolean =>
+  useSettingsStore((state) => state.readOptions.onCommunityScroll);
