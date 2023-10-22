@@ -2,10 +2,16 @@ import React from 'react';
 import ScrollView from '@components/Common/Gui/ScrollView';
 import Table from '@components/Common/Table/Table';
 import { Switch } from 'react-native';
-import { IReadOptions, useSettingsStore } from '@src/state';
+import {
+  IReadOptions,
+  setUserSetting,
+  useSettingsStore,
+  useShowReadPosts,
+} from '@src/state';
 
 export default function SettingsReadScreen(): React.JSX.Element {
   const settings = useSettingsStore();
+  const showReadPosts = useShowReadPosts();
 
   const setReadOption = <T extends keyof IReadOptions>(
     key: T,
@@ -21,26 +27,11 @@ export default function SettingsReadScreen(): React.JSX.Element {
       <Table.Container>
         <Table.Section header="Read Options">
           <Table.Cell
-            label="Hide Read Posts on Feed"
-            accessoryRight={
-              <Switch
-                value={settings.readOptions.hideReadPostsFeed}
-                onChange={(e) => {
-                  setReadOption('hideReadPostsFeed', e.nativeEvent.value);
-                }}
-              />
-            }
-          />
-          <Table.Cell
-            label="Hide Read Posts in Communites"
-            accessoryRight={
-              <Switch
-                value={settings.readOptions.hideReadPostsCommunity}
-                onChange={(e) => {
-                  setReadOption('hideReadPostsCommunity', e.nativeEvent.value);
-                }}
-              />
-            }
+            label="Show Read Posts"
+            switchValue={showReadPosts}
+            onSwitchValueChange={(v) => {
+              void setUserSetting('show_read_posts', v);
+            }}
           />
         </Table.Section>
 
