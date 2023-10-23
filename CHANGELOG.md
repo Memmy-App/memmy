@@ -20,12 +20,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Can supply a color token to toast
 - Post share button provides you with the option to share the Lemmy post URL, post's link, or the post's image.
 - Same options are now under the post ellipsis context menu
+- Improved layout of username/instance in comments
+- Added margin to the comment ellipsis button
+- Improved pressability of context menu buttons
 
 ### Added
 
 - Going to a post now only loads the comments of the parent ID. Press show all to see all comments.
 - Post can be collapsed
 - All Lemmy errors are now toastable
+- Option to show or hide user instances in comments
 
 ## [Version 1.0 (44)] - 2023-10-22T12:33:47Z
 

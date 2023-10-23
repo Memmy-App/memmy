@@ -25,7 +25,7 @@ function CommentHeader({
         userCommunity={userCommunity}
       />
       <CommentMetrics />
-      <View ml="auto">
+      <View ml="auto" mr="$2.5">
         <EllipsisButton />
       </View>
     </XStack>

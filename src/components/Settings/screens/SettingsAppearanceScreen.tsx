@@ -167,6 +167,15 @@ export default function SettingsAppearanceScreen({
             }}
           />
         </Table.Section>
+        <Table.Section header="Comment Appearance">
+          <Table.Cell
+            label="Show User Instance"
+            switchValue={settings.showInstanceForUsernames}
+            onSwitchValueChange={(v) => {
+              setSetting('showInstanceForUsernames', v);
+            }}
+          />
+        </Table.Section>
         <Table.Section header="Tab Bar Appearance">
           <Table.Cell
             label="Display Avatar in Tab Bar"

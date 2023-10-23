@@ -1,10 +1,11 @@
-import React, { useCallback, useMemo } from 'react';
-import { useSettingsStore } from '@src/state';
+import React, { useCallback } from 'react';
+import { useSettingsStore, useShowCommunityInComment } from '@src/state';
 import { createName } from '@helpers/text';
-import { Text, XStack } from 'tamagui';
+import { Text, XStack, YStack } from 'tamagui';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import UserIcon from '@components/Common/Avatar/UserIcon';
+import { getBaseUrl } from '@helpers/links';
 
 interface IProps {
   userName: string | undefined;
@@ -19,11 +20,7 @@ function CommentUserLabel({
 }: IProps): React.JSX.Element {
   const showIcon = useSettingsStore((state) => state.showAvatarInFeed);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
-  const name = useMemo(
-    () => createName(userName, userCommunity),
-    [userName, userCommunity],
-  );
+  const showCommunity = useShowCommunityInComment();
 
   const onPress = useCallback((): void => {
     navigation.push('Profile', {
@@ -34,9 +31,16 @@ function CommentUserLabel({
   return (
     <XStack space="$2" alignItems="center" onPress={onPress} hitSlop={5}>
       {showIcon && <UserIcon userIcon={userIcon} />}
-      <Text fontSize="$2" color="$secondary">
-        {name}
-      </Text>
+      <YStack>
+        <Text fontSize="$2" color="$secondary" numberOfLines={1}>
+          {userName}
+        </Text>
+        {showCommunity && (
+          <Text fontSize="$2" color="$secondary" numberOfLines={1}>
+            {getBaseUrl(userCommunity)}
+          </Text>
+        )}
+      </YStack>
     </XStack>
   );
 }

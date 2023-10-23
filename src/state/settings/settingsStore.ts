@@ -315,3 +315,6 @@ export const useMouseLoadingIcon = (): boolean =>
 
 export const useBlurNsfw = (): boolean =>
   useSettingsStore((state) => state.blurNsfw);
+
+export const useShowCommunityInComment = (): boolean =>
+  useSettingsStore((state) => state.showInstanceForUsernames);

@@ -83,6 +83,12 @@ export function AppContextMenuButton<S = string>(
       style={style}
       onPressMenuItem={onPressMenuItem}
       onLayout={onLayout}
+      hitSlop={{
+        top: 30,
+        right: 30,
+        left: 30,
+        bottom: 30,
+      }}
     >
       {children}
     </ContextMenuButton>
