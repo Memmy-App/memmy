@@ -74,7 +74,7 @@ function ViewerImage({
     }
   }, [source, savedDimensions, markReadOnImagePress]);
 
-  const onImageLoad = useCallback(
+  const onLoad = useCallback(
     (e: ImageLoadEventData) => {
       const dimensions = {
         height: e.source.height,
@@ -90,11 +90,13 @@ function ViewerImage({
       if (savedDimensions != null) return;
 
       saveImageDimensions(source, { dimensions, viewerDimensions });
-
-      loaded.current = true;
     },
     [source],
   );
+
+  const onLoadEnd = useCallback(() => {
+    loaded.current = true;
+  }, []);
 
   return (
     <Pressable onPress={onImagePress} style={{ alignItems: 'center' }}>
@@ -106,7 +108,8 @@ function ViewerImage({
             : savedDimensions?.viewerDimensions,
           { borderRadius },
         ]}
-        onLoad={onImageLoad}
+        onLoad={onLoad}
+        onLoadEnd={onLoadEnd}
         blurRadius={blurRadius}
         placeholder={spinner}
         placeholderContentFit="scale-down"
