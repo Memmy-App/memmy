@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Effectively handle loading a post with a specific comment ID
 - Can supply a color token to toast
 - Post share button provides you with the option to share the Lemmy post URL, post's link, or the post's image.
+- Same options are now under the post ellipsis context menu
 
 ### Added
 

@@ -3,6 +3,7 @@ export type PostContextMenuOption =
   | 'share'
   | 'shareImage'
   | 'saveImage'
+  | 'shareLink'
   | 'edit'
   | 'delete'
   | 'remove'

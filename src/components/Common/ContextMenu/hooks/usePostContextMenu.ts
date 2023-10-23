@@ -25,7 +25,7 @@ interface UsePostContextMenu {
   report: () => void;
   share: () => void;
   savePostImage: () => void;
-  shareImage: () => void;
+  shareUrl: (isImage: boolean) => void;
 }
 
 export const usePostContextMenu = (itemId: number): UsePostContextMenu => {
@@ -55,13 +55,13 @@ export const usePostContextMenu = (itemId: number): UsePostContextMenu => {
     void saveImage(postLink);
   };
 
-  const shareImage = (): void => {
+  const shareUrl = (isImage: boolean): void => {
     if (postTitle == null || postLink == null) return;
 
     void shareLink({
       title: postTitle,
       link: postLink,
-      isImage: true,
+      isImage,
     });
   };
 
@@ -183,7 +183,7 @@ export const usePostContextMenu = (itemId: number): UsePostContextMenu => {
 
   return {
     share,
-    shareImage,
+    shareUrl,
     savePostImage,
     reply,
     upvote,
