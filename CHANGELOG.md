@@ -14,6 +14,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changes
 
 - Improved feed performance
+- Remove line from header of post
+- Effectively handle loading a post with a specific comment ID
+
+### Added
+
+- Going to a post now only loads the comments of the parent ID. Press show all to see all comments.
+- Post can be collapsed
 
 ## [Version 1.0 (44)] - 2023-10-22T12:33:47Z
 

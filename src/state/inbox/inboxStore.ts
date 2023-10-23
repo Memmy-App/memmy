@@ -83,6 +83,9 @@ export const useReplyMyVote = (id: number): number =>
 export const useReplyRead = (id: number): boolean =>
   useInboxStore((state) => state.replies.get(id)?.comment_reply.read) ?? false;
 
+export const useReplyPath = (id: number): string | undefined =>
+  useInboxStore((state) => state.replies.get(id)?.comment.path);
+
 export const useReplyPublished = (id: number): string | undefined =>
   useInboxStore((state) => state.replies.get(id)?.counts.published);
 
@@ -128,6 +131,9 @@ export const useMentionRead = (id: number): boolean =>
 
 export const useMentionPublished = (id: number): string | undefined =>
   useInboxStore((state) => state.mentions.get(id)?.counts.published);
+
+export const useMentionPath = (id: number): string | undefined =>
+  useInboxStore((state) => state.mentions.get(id)?.comment.path);
 
 export const useMessageContent = (id: number): string | undefined =>
   useInboxStore(

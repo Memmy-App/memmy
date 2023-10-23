@@ -10,14 +10,7 @@ function PostHeader(): React.JSX.Element {
   const postTitle = usePostTitle(postId);
 
   return (
-    <YStack
-      px="$3"
-      pt="$3"
-      pb="$2"
-      borderBottomWidth={1}
-      borderColor="$bg"
-      space="$1.5"
-    >
+    <YStack px="$3" pt="$3" pb="$2" borderColor="$bg" space="$1.5">
       <XStack alignItems="center">
         <PostCommunityLabel itemId={postId} />
         <PostContextButton itemId={postId} />

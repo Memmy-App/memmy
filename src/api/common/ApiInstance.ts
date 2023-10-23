@@ -2,12 +2,11 @@ import {
   BanFromCommunity,
   BanFromCommunityResponse,
   CommentResponse,
-  CommentSortType,
   CommunityResponse,
   CommunityView,
   CreatePost,
   GetCaptchaResponse,
-  GetCommentsResponse,
+  GetComments,
   GetCommunityResponse,
   GetPersonDetailsResponse,
   GetPostResponse,
@@ -61,6 +60,7 @@ import {
   setReplyRead,
 } from '@src/state/inbox/actions';
 import { setPostSaved } from '@src/state/post/actions/setPostSaved';
+import { ICommentInfo } from '@src/types';
 
 export enum EInitializeResult {
   SUCCESS,
@@ -549,40 +549,37 @@ class ApiInstance {
   }
 
   async getComments(
-    postId: number,
-    communityId: number,
-    sort: CommentSortType,
+    options: Partial<GetComments>,
     addToPost = true,
-    parentId?: number,
-  ): Promise<GetCommentsResponse | undefined> {
-    const post = usePostStore.getState().posts.get(postId);
+  ): Promise<ICommentInfo[] | null> {
+    const post = usePostStore.getState().posts.get(options.post_id!);
 
-    if (post == null) return;
+    if (addToPost && post == null) return null;
+
+    const defaultOptions: Partial<GetComments> = {
+      auth: this.authToken!,
+      max_depth: 4,
+    };
+
+    options = {
+      ...defaultOptions,
+      ...options,
+    };
 
     try {
-      const res = await this.instance?.getComments({
-        auth: this.authToken!,
-        post_id: postId,
-        community_id: communityId,
-        max_depth: 10,
-        sort,
-        limit: 20,
-        ...(parentId != null && { parent_id: parentId }),
-      });
-
-      if (res == null) return res;
+      const res = await this.instance!.getComments(options as GetComments);
 
       const builtComments = buildCommentChains(res.comments);
 
       addComments(res.comments);
 
       if (addToPost) {
-        addCommentsToPost(postId, builtComments.commentInfo);
+        addCommentsToPost(options.post_id!, builtComments.commentInfo);
       }
 
-      return undefined;
+      return builtComments.commentInfo;
     } catch (e: any) {
-      const errMsg = ApiInstance.handleError(e.toString);
+      const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
     }
   }

@@ -22,21 +22,22 @@ export const buildCommentChains = (
 ): BuildCommentChains => {
   const commentInfo: ICommentInfo[] = [];
 
+  const rootLevel = commentViews[0].comment.path.split('.').length;
+
   for (const view of commentViews) {
     if (view.comment == null) continue;
 
     const { path, id } = view.comment;
 
     const pathIds = path.split('.').map(Number);
-    const parentId = pathIds[pathIds.length - 2];
-    const isRoot = parentId === 0;
+    const isRoot = pathIds.length === rootLevel;
 
     if (isRoot) {
       commentInfo.push({
         postId: view.post.id,
         commentId: id,
         depth: 0,
-        replies: buildReplies(id, commentViews),
+        replies: buildReplies(id, commentViews, rootLevel),
         collapsed: false,
         hidden: false,
         path,
@@ -61,6 +62,7 @@ export const buildCommentChains = (
 const buildReplies = (
   parentId: number,
   commentViews: CommentView[],
+  rootLevel: number,
 ): ICommentInfo[] => {
   const replies: ICommentInfo[] = [];
 
@@ -82,8 +84,8 @@ const buildReplies = (
       replies.push({
         postId: view.post.id,
         commentId: id,
-        depth: pathIds.length - 2,
-        replies: buildReplies(id, commentViews),
+        depth: pathIds.length - rootLevel,
+        replies: buildReplies(id, commentViews, rootLevel),
         collapsed: false,
         hidden: false,
         path,

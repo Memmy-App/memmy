@@ -10,6 +10,7 @@ import {
   useMentionCreatorAvatar,
   useMentionCreatorName,
   useMentionDeleted,
+  useMentionPath,
   useMentionPostId,
   useMentionRead,
   useMentionRemoved,
@@ -19,6 +20,7 @@ import {
   useReplyCreatorAvatar,
   useReplyCreatorName,
   useReplyDeleted,
+  useReplyPath,
   useReplyPostId,
   useReplyRead,
   useReplyRemoved,
@@ -73,6 +75,7 @@ function InboxComment({ itemId, type }: IProps): React.JSX.Element {
       ? useReplyCreatorActorId(itemId)
       : useMentionCreatorActorId(itemId);
   const read = type === 'reply' ? useReplyRead(itemId) : useMentionRead(itemId);
+  const path = type === 'reply' ? useReplyPath(itemId) : useMentionPath(itemId);
 
   const actionParams = useMemo<SwipeableActionParams>(
     () => ({
@@ -94,7 +97,6 @@ function InboxComment({ itemId, type }: IProps): React.JSX.Element {
     // Try to get the post and add it to the store
     try {
       const res = await instance.getPost(postId ?? 0);
-
       setLoadingPost(false);
       addPost(res.post_view);
 
@@ -102,13 +104,15 @@ function InboxComment({ itemId, type }: IProps): React.JSX.Element {
       if (type === 'reply') setReplyRead(itemId);
       else setMentionRead(itemId);
 
-      // Set a small timeout
-      setTimeout(() => {
-        navigation.push('Post', {
-          postId,
-          scrollToCommentId: commentId,
-        });
-      }, 100);
+      const pathArr = path!.split('.');
+      const parentId =
+        path?.length === 2 ? itemId : pathArr[pathArr.length - 2];
+
+      // Send to the post
+      navigation.push('Post', {
+        postId,
+        parentCommentId: parentId,
+      });
     } catch (e) {
       setLoadingPost(false);
     }
