@@ -570,7 +570,7 @@ class ApiInstance {
 
     const defaultOptions: Partial<GetComments> = {
       auth: this.authToken!,
-      max_depth: 4,
+      max_depth: 8,
     };
 
     options = {

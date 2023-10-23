@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useSettingsStore, useShowCommunityInComment } from '@src/state';
+import { useHideCommunityInComment, useSettingsStore } from '@src/state';
 import { createName } from '@helpers/text';
 import { Text, XStack, YStack } from 'tamagui';
 import { useNavigation } from '@react-navigation/core';
@@ -20,7 +20,7 @@ function CommentUserLabel({
 }: IProps): React.JSX.Element {
   const showIcon = useSettingsStore((state) => state.showAvatarInFeed);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const showCommunity = useShowCommunityInComment();
+  const hideCommunity = useHideCommunityInComment();
 
   const onPress = useCallback((): void => {
     navigation.push('Profile', {
@@ -35,7 +35,7 @@ function CommentUserLabel({
         <Text fontSize="$2" color="$secondary" numberOfLines={1}>
           {userName}
         </Text>
-        {showCommunity && (
+        {!hideCommunity && (
           <Text fontSize="$2" color="$secondary" numberOfLines={1}>
             {getBaseUrl(userCommunity)}
           </Text>

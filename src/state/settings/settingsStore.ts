@@ -50,7 +50,7 @@ export interface SettingsStore {
   defaultListingType: ListingType;
   defaultCommunitySort: SortType;
 
-  showInstanceForUsernames: boolean;
+  hideInstanceForUsernames: boolean;
   blurNsfw: boolean;
 
   viewType: 'full' | 'compact';
@@ -132,7 +132,7 @@ const initialState: Partial<SettingsStore> = {
   defaultListingType: 'All',
   defaultCommunitySort: 'Hot',
 
-  showInstanceForUsernames: true,
+  hideInstanceForUsernames: true,
   blurNsfw: true,
 
   viewType: 'full',
@@ -316,5 +316,5 @@ export const useMouseLoadingIcon = (): boolean =>
 export const useBlurNsfw = (): boolean =>
   useSettingsStore((state) => state.blurNsfw);
 
-export const useShowCommunityInComment = (): boolean =>
-  useSettingsStore((state) => state.showInstanceForUsernames);
+export const useHideCommunityInComment = (): boolean =>
+  useSettingsStore((state) => state.hideInstanceForUsernames);

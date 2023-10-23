@@ -29,7 +29,7 @@ function CommentChain({
     );
   }, [commentInfo.commentId, collapseOnTap]);
 
-  if (commentInfo.hidden) {
+  if (commentInfo.hidden || !commentInfo.showInPost) {
     return null;
   }
 

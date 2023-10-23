@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 a memory leak when resizing images with Reanimated. For now, going to keep the feature disabled as a PR has already been
 submitted as a fix. This was significant enough in testing for iOS to terminate the app.
 - Images for now move into the view from their original position.
+- Improve showing additional comments
 
 ### Added
 
