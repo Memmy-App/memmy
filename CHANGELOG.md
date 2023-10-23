@@ -34,6 +34,7 @@ submitted as a fix. This was significant enough in testing for iOS to terminate 
 - Post can be collapsed
 - All Lemmy errors are now toastable
 - Option to show or hide user instances in comments
+- Added clamp to image viewer so that it cannot leave the screen.
 
 ## [Version 1.0 (44)] - 2023-10-22T12:33:47Z
 

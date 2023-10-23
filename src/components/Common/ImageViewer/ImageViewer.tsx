@@ -17,6 +17,7 @@ import {
 import Animated, {
   cancelAnimation,
   runOnJS,
+  useAnimatedRef,
   useAnimatedStyle,
   useSharedValue,
   withDecay,
@@ -85,15 +86,7 @@ function ImageViewer(): React.JSX.Element {
 
   const lastTap = useSharedValue(Date.now());
 
-  // Calculate where we should position the image for it to be centered
-  const centerX = useMemo(
-    () => SCREEN_WIDTH / 2 - viewerDims.width / 2,
-    [viewerDims],
-  );
-  const centerY = useMemo(
-    () => SCREEN_HEIGHT / 2 - viewerDims.height / 2,
-    [viewerDims],
-  );
+  const animatedImageRef = useAnimatedRef();
 
   useEffect(() => {
     if (imageViewer.visible) {
@@ -166,8 +159,8 @@ function ImageViewer(): React.JSX.Element {
   const centerImage = useCallback((): void => {
     'worklet';
 
-    positionX.value = withTiming(centerX, { duration: 200 });
-    positionY.value = withTiming(centerY, { duration: 200 });
+    positionX.value = withTiming(0, { duration: 200 });
+    positionY.value = withTiming(0, { duration: 200 });
   }, []);
 
   // Animated position style
@@ -186,7 +179,7 @@ function ImageViewer(): React.JSX.Element {
     backgroundColor: backgroundColor.value,
   }));
 
-  //
+  // TODO Wait for expo fix
   // const dimensionsStyle = useAnimatedStyle(() => ({
   //   height: height.value,
   //   width: width.value,
@@ -224,7 +217,7 @@ function ImageViewer(): React.JSX.Element {
 
     // Zoom to the max scale
     zoomScale.value = withTiming(1.75, { duration: 200 });
-    lastScale.value = 1.75;
+    lastScale.value = 1.75; // TODO set this back to 1.75
   }, []);
 
   // Create the double tap gesture
@@ -271,34 +264,71 @@ function ImageViewer(): React.JSX.Element {
     (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>): void => {
       'worklet';
 
-      // First see what the velocity is. If it's above the max velocity, and it is
-      // in a vertical direction, we should close the image viewer
+      // First let's see if we need to make any calculations. We will just be dismissing the image if the velocity of X
+      // is too high, so 'ets check that first.
 
-      // const xClamp = clamp(lastTranslateX.value, )
+      // // First create an absolute value
 
-      // First create an absolute value
       const velocity = Math.abs(event.velocityY);
       const translationX = Math.abs(event.translationX);
 
       if (velocity > 800 && zoomScale.value <= 1 && translationX < 75) {
+        // Just dismiss and return
         runOnJS(onRequestClose)();
-
         return;
       }
 
-      // We should recenter the image after the pan if we are not zoomed in
-      if (zoomScale.value <= 1) {
-        centerImage();
-        return;
+      // We need to get a measurement so we know how large the image is.
+      const width = viewerDims.width * zoomScale.value;
+      const height = viewerDims.height * zoomScale.value;
+
+      // Next we need to determine the furthest positionX can go. Let's calculate that
+      const mostX = ((zoomScale.value - 1) * viewerDims.width) / 2;
+
+      if (width < SCREEN_WIDTH) {
+        // We always bring the image to zero if it is smaller than the viewport width
+        positionX.value = withTiming(0, { duration: 200 });
+      } else if (Math.abs(positionX.value) > mostX) {
+        // If we've exceeded the limit, we want to bring the image back to center.
+        positionX.value = withTiming(
+          Math.sign(positionX.value) === 1 ? mostX : -mostX,
+          { duration: 300 },
+        );
+        runOnJS(playHaptic)();
+      } else {
+        // Otherwise, we can continue. We need to set a clamp on this value so we don't go outside the boundaries.
+        // We will also use a rubber band effect so that if we do go outside the clamp it isn't jarring
+        positionX.value = withDecay({
+          velocity: event.velocityX / 1.2,
+          clamp: [-mostX, mostX],
+          rubberBandEffect: true,
+          velocityFactor: 0.5 * zoomScale.value,
+          rubberBandFactor: 2,
+        });
       }
 
-      // Gradually decrease momentum
-      positionX.value = withDecay({
-        velocity: event.velocityX / 1.2,
-      });
-      positionY.value = withDecay({
-        velocity: event.velocityY / 1.2,
-      });
+      const mostY = ((zoomScale.value - 1) * viewerDims.height) / 2;
+
+      if (height < SCREEN_HEIGHT) {
+        positionY.value = withTiming(0, { duration: 200 });
+      } else if (Math.abs(positionY.value) > mostY) {
+        // If we've exceeded the limit, we want to bring the image back to center.
+        positionY.value = withTiming(
+          Math.sign(positionY.value) === 1 ? mostY : -mostY,
+          { duration: 300 },
+        );
+        runOnJS(playHaptic)();
+      } else {
+        // Otherwise, we can continue. We need to set a clamp on this value so we don't go outside the boundaries.
+        // We will also use a rubber band effect so that if we do go outside the clamp it isn't jarring
+        positionY.value = withDecay({
+          velocity: event.velocityY / 1.2,
+          clamp: [-mostY, mostY],
+          rubberBandEffect: true,
+          velocityFactor: 0.5 * zoomScale.value,
+          rubberBandFactor: 2,
+        });
+      }
     },
     [],
   );
@@ -384,10 +414,11 @@ function ImageViewer(): React.JSX.Element {
       <GestureDetector gesture={allGestures}>
         <YStack zIndex={-1} flex={1}>
           <Animated.View style={[styles.imageModal, backgroundStyle]}>
-            <Animated.View style={[positionStyle]}>
+            <Animated.View style={[positionStyle, { alignItems: 'center' }]}>
               <AnimatedImage
                 source={{ uri: imageViewer.params?.source }}
                 style={[viewerDims, scaleStyle]}
+                ref={animatedImageRef}
               />
             </Animated.View>
           </Animated.View>
@@ -402,6 +433,7 @@ function ImageViewer(): React.JSX.Element {
 const styles = StyleSheet.create({
   imageModal: {
     flex: 1,
+    justifyContent: 'center',
   },
 
   imageContainer: {
