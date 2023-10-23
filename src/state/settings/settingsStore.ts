@@ -56,6 +56,7 @@ export interface SettingsStore {
   viewType: 'full' | 'compact';
   compactThumbnailPosition: 'left' | 'right' | 'none';
   compactVoteButtonPosition: 'left' | 'right' | 'none';
+  compactShowUsername: boolean;
 
   theme: IThemeOption;
   themeLight: IThemeOption;
@@ -139,6 +140,7 @@ const initialState: Partial<SettingsStore> = {
 
   compactThumbnailPosition: 'left',
   compactVoteButtonPosition: 'right',
+  compactShowUsername: false,
 
   theme: 'lightTheme',
   themeLight: 'lightTheme',
@@ -318,3 +320,6 @@ export const useBlurNsfw = (): boolean =>
 
 export const useHideCommunityInComment = (): boolean =>
   useSettingsStore((state) => state.hideInstanceForUsernames);
+
+export const useCompactShowUsername = (): boolean =>
+  useSettingsStore((state) => state.compactShowUsername);

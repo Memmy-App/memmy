@@ -38,6 +38,7 @@ submitted as a fix. This was significant enough in testing for iOS to terminate 
 - Option to show or hide user instances in comments
 - Added clamp to image viewer so that it cannot leave the screen.
 - Pressing a comment in the profile comments list takes you to the comment
+- Show username in compact (not a fan of how this looks, will play around with it later)
 
 ## [Version 1.0 (44)] - 2023-10-22T12:33:47Z
 
