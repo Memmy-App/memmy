@@ -36,7 +36,7 @@ export const useCommentContextMenu = (
     if (postTitle == null || commentLink == null) return;
 
     void shareLink({
-      title: postTitle ?? 'Comment',
+      title: postTitle,
       link: commentLink,
     });
   };

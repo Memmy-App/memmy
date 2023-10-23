@@ -16,7 +16,6 @@ module.exports = {
     "@typescript-eslint/quotes": [2, "single", { avoidEscape: true }],
     "@typescript-eslint/comma-dangle": [2, "always-multiline"],
     "@typescript-eslint/semi": [2, "always"],
-    "@typescript-eslint/space-before-function-paren": [2, "never"],
     "@typescript-eslint/member-delimiter-style": [2,
       {
         "multiline": {

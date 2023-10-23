@@ -3,7 +3,7 @@ import { PressableComment } from '@components/Comment/components/Comment';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import instance from '@src/Instance';
-import { addPost, useCommentPath, useCommentPostId } from '@src/state';
+import { addPost, useCommentPostId } from '@src/state';
 import { useProfileScreenContext } from '@components/Profile/screens/ProfileScreen';
 
 interface IProps {
@@ -15,7 +15,6 @@ function ProfileComment({ itemId }: IProps): React.JSX.Element {
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const commentPath = useCommentPath(itemId);
   const commentPostId = useCommentPostId(itemId);
 
   const onPress = useCallback(async () => {

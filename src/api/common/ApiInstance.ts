@@ -506,7 +506,7 @@ class ApiInstance {
         // TODO This should use a separate option for feed vs community
         options.communityId != null || options.communityName != null
           ? settings.defaultSort
-          : settings.defaultSort,
+          : settings.defaultCommunitySort,
       refresh: false,
     };
 

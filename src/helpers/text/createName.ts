@@ -6,7 +6,7 @@ export const createName = (
   partTwo?: string,
   ignoreSettings = false,
 ): string => {
-  const showFullName = useSettingsStore.getState().showInstanceForUsernames;
+  const showFullName = useSettingsStore.getState().hideInstanceForUsernames;
 
   if (partOne == null || partTwo == null) return '';
 
