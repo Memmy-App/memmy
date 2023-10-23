@@ -3,15 +3,15 @@ import { useProfileScreenContext } from '@components/Profile/screens/ProfileScre
 import { useProfileComments } from '@src/state';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { CommentView } from 'lemmy-js-client';
-import Comment from '@components/Comment/components/Comment';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
 import { useTheme } from 'tamagui';
 import RefreshControl from '@components/Common/Gui/RefreshControl';
+import ProfileComment from '@components/Profile/components/Tabs/ProfileComment';
 
 const renderItem = ({
   item,
 }: ListRenderItemInfo<CommentView>): React.JSX.Element => {
-  return <Comment itemId={item.comment.id} space />;
+  return <ProfileComment itemId={item.comment.id} />;
 };
 
 const keyExtractor = (item: CommentView): string => item.comment.id.toString();
