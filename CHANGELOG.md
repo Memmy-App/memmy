@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Version 1.0 (46)] - 2023-10-23T11:20:39Z
+
 ### Fixed
 
 - Fix comment sorting
