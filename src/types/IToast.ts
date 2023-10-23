@@ -6,4 +6,5 @@ export interface IToast {
   duration: number;
   onPress?: () => unknown;
   icon?: NamedExoticComponent;
+  color?: string;
 }

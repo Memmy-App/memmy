@@ -43,6 +43,7 @@ import {
   setCommentSaved,
   setSubscribed,
   setSubscriptions,
+  setToast,
   setUnread,
   updateComment,
   useCommentStore,
@@ -60,7 +61,7 @@ import {
   setReplyRead,
 } from '@src/state/inbox/actions';
 import { setPostSaved } from '@src/state/post/actions/setPostSaved';
-import { ICommentInfo } from '@src/types';
+import { ICommentInfo, lemmyErrors } from '@src/types';
 
 export enum EInitializeResult {
   SUCCESS,
@@ -199,10 +200,21 @@ class ApiInstance {
   }
 
   static handleError(error: string): string {
-    // TODO Handle errors
+    // Write the error to the log
     writeToLog(error);
 
-    return 'Not implemented'; // TODO Return the error message
+    let lemmyError = lemmyErrors.find((e) => e.code === error);
+
+    if (lemmyError == null) {
+      lemmyError = lemmyErrors[0];
+    }
+
+    setToast({
+      text: lemmyError.message,
+      color: '$warn',
+    });
+
+    return lemmyError.code;
   }
 
   async getSite(): Promise<GetSiteResponse | undefined> {
