@@ -2,6 +2,7 @@ import {
   BanFromCommunity,
   BanFromCommunityResponse,
   CommentResponse,
+  CommentSortType,
   CommunityResponse,
   CommunityView,
   CreatePost,
@@ -550,10 +551,10 @@ class ApiInstance {
   async getComments(
     postId: number,
     communityId: number,
+    sort: CommentSortType,
     addToPost = true,
     parentId?: number,
   ): Promise<GetCommentsResponse | undefined> {
-    const settings = useSettingsStore.getState();
     const post = usePostStore.getState().posts.get(postId);
 
     if (post == null) return;
@@ -564,8 +565,8 @@ class ApiInstance {
         post_id: postId,
         community_id: communityId,
         max_depth: 10,
+        sort,
         limit: 20,
-        sort: settings.defaultCommentSort,
         ...(parentId != null && { parent_id: parentId }),
       });
 

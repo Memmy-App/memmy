@@ -21,6 +21,7 @@ import CommentSortTypeContextMenuButton from '@components/Common/ContextMenu/com
 import { useAwaitTransition } from '@hooks/useAwaitTransition';
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
 import { YStack } from 'tamagui';
+import RefreshControl from '@components/Common/Gui/RefreshControl';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -51,6 +52,8 @@ export default function PostScreen({
 
   const defaultSortType = useDefaultCommentSort();
 
+  const initialized = useRef(false);
+
   const [sortType, setSortType] = useState<CommentSortType>(
     defaultSortType ?? 'Top',
   );
@@ -63,9 +66,13 @@ export default function PostScreen({
       : [];
   }, [awaitTransition.transitioning, postCommentsInfo]);
 
-  const { isLoading, isError } = useLoadData(async () => {
-    return await instance.getComments(postId, postCommunityId ?? 0);
-  });
+  const { isLoading, isError, isRefreshing, refresh } = useLoadData(
+    async () => {
+      await instance.getComments(postId, postCommunityId ?? 0, sortType);
+
+      initialized.current = true;
+    },
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -84,6 +91,12 @@ export default function PostScreen({
           setSortType={setSortType}
         />
       ),
+    });
+
+    if (!initialized.current) return;
+
+    refresh(async () => {
+      await instance.getComments(postId, postCommunityId ?? 0, sortType);
     });
   }, [sortType]);
 
@@ -140,9 +153,15 @@ export default function PostScreen({
         ListHeaderComponent={<Post />}
         ListEmptyComponent={
           <FeedLoadingIndicator
-            loading={isLoading || awaitTransition.transitioning}
+            loading={
+              (isLoading && !isRefreshing) || awaitTransition.transitioning
+            }
             error={isError}
+            empty={commentsToShow != null && commentsToShow.length < 1}
           />
+        }
+        refreshControl={
+          <RefreshControl onRefresh={refresh} refreshing={isRefreshing} />
         }
         // @ts-expect-error this is valid
         ref={flashListRef}
