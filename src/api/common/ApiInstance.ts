@@ -583,7 +583,7 @@ class ApiInstance {
 
       const builtComments = buildCommentChains(res.comments);
 
-      addComments(res.comments);
+      addComments(res.comments, options.post_id ?? undefined);
 
       if (addToPost) {
         addCommentsToPost(options.post_id!, builtComments.commentInfo);

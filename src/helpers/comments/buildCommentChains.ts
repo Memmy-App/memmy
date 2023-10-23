@@ -22,6 +22,10 @@ export const buildCommentChains = (
 ): BuildCommentChains => {
   const commentInfo: ICommentInfo[] = [];
 
+  if (commentViews.length < 1) {
+    return { commentInfo };
+  }
+
   const rootLevel = commentViews[0].comment.path.split('.').length;
 
   for (const view of commentViews) {
