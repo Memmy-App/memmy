@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Dimensions as RNDimensions, StyleSheet } from 'react-native';
 import {
   Gesture,
@@ -23,6 +29,8 @@ import { Image } from 'expo-image';
 import ImageViewerHeader from '@components/Common/ImageViewer/ImageViewerHeader';
 import ImageViewerFooter from '@components/Common/ImageViewer/ImageViewerFooter';
 import AppToast from '@components/Common/Toast/AppToast';
+import { playHaptic } from '@helpers/haptics';
+import { ViewMeasurement } from '@src/types/ViewMeasurement';
 
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
@@ -52,6 +60,15 @@ function ImageViewer(): React.JSX.Element {
     );
   }, [imageViewer.dimensions]);
 
+  const initialPosition = useRef<ViewMeasurement>({
+    x: 0,
+    y: 0,
+    px: 0,
+    py: 0,
+    height: 0,
+    width: 0,
+  });
+
   const zoomScale = useSharedValue(1);
   const lastScale = useSharedValue(1);
 
@@ -63,8 +80,8 @@ function ImageViewer(): React.JSX.Element {
   const lastTranslateX = useSharedValue(0);
   const lastTranslateY = useSharedValue(0);
 
-  // const height = useSharedValue(0);
-  // const width = useSharedValue(0);
+  const height = useSharedValue(0);
+  const width = useSharedValue(0);
 
   const lastTap = useSharedValue(Date.now());
 
@@ -78,22 +95,71 @@ function ImageViewer(): React.JSX.Element {
     [viewerDims],
   );
 
-  // const initialPos = useSharedValue<MeasureResult>({
-  //   x: 0,
-  //   y: 0,
-  //   height: 0,
-  //   width: 0,
-  //   py: 0,
-  //   px: 0,
-  // });
-
-  const onRequestOpenOrClose = useCallback((): void => {
-    if (imageViewer.setVisible == null) return;
-
+  useEffect(() => {
     if (imageViewer.visible) {
-      imageViewer.setVisible(false);
+      // First we measure the image and store the values
+      imageViewer.viewerRef?.current?.measure((x, y, w, h, px, py) => {
+        // Store the initial position for later
+        initialPosition.current = {
+          x,
+          y,
+          width: w,
+          height: h,
+          px,
+          py,
+        };
+
+        // FAde in the background
+        backgroundColor.value = withTiming('rgba(0,0,0,1)', { duration: 200 });
+
+        // Set the initial position
+        positionX.value = px;
+        positionY.value = py;
+
+        // TODO Waiting on Expo patch for images
+        // SEt the initial size
+        // height.value = h;
+        // width.value = w;
+
+        // Center the image from the initial position and size the image up
+        centerImage();
+
+        // TODO Waiting on Expo patch for images
+        // height.value = withTiming(viewerDims.height, { duration: 200 });
+        // width.value = withTiming(viewerDims.width, { duration: 200 });
+      });
     }
   }, [imageViewer.visible]);
+
+  const onRequestClose = useCallback((): void => {
+    if (imageViewer.visible) {
+      setAccessoriesVisible(false);
+
+      // Fade out the background
+      backgroundColor.value = withTiming('rgba(0,0,0,0)', { duration: 200 });
+
+      // Set the image back to the original position
+      positionX.value = withTiming(initialPosition.current.px, {
+        duration: 200,
+      });
+      positionY.value = withTiming(initialPosition.current.py, {
+        duration: 200,
+      });
+
+      // Set the image back to the original dimensions
+      height.value = withTiming(initialPosition.current.height, {
+        duration: 200,
+      });
+      width.value = withTiming(initialPosition.current.width, {
+        duration: 200,
+      });
+
+      // Dismiss the modal
+      setTimeout(() => {
+        imageViewer.setVisible?.(false);
+      }, 200);
+    }
+  }, []);
 
   // This takes care of moving the image to the center whenever open the image
   // or whenever we want to reset the impage position
@@ -102,7 +168,6 @@ function ImageViewer(): React.JSX.Element {
 
     positionX.value = withTiming(centerX, { duration: 200 });
     positionY.value = withTiming(centerY, { duration: 200 });
-    backgroundColor.value = withTiming('rgba(0,0,0,1)', { duration: 200 });
   }, []);
 
   // Animated position style
@@ -120,6 +185,12 @@ function ImageViewer(): React.JSX.Element {
   const backgroundStyle = useAnimatedStyle(() => ({
     backgroundColor: backgroundColor.value,
   }));
+
+  //
+  // const dimensionsStyle = useAnimatedStyle(() => ({
+  //   height: height.value,
+  //   width: width.value,
+  // }));
 
   const onSingleTap = useCallback(() => {
     cancelAnimation(positionX);
@@ -203,12 +274,14 @@ function ImageViewer(): React.JSX.Element {
       // First see what the velocity is. If it's above the max velocity, and it is
       // in a vertical direction, we should close the image viewer
 
+      // const xClamp = clamp(lastTranslateX.value, )
+
       // First create an absolute value
       const velocity = Math.abs(event.velocityY);
       const translationX = Math.abs(event.translationX);
 
       if (velocity > 800 && zoomScale.value <= 1 && translationX < 75) {
-        runOnJS(onRequestOpenOrClose)();
+        runOnJS(onRequestClose)();
 
         return;
       }
@@ -269,6 +342,7 @@ function ImageViewer(): React.JSX.Element {
       centerImage();
 
       lastScale.value = 1;
+      runOnJS(playHaptic)();
 
       return;
     }
@@ -278,6 +352,7 @@ function ImageViewer(): React.JSX.Element {
       zoomScale.value = withTiming(MAX_SCALE, { duration: 200 });
 
       lastScale.value = MAX_SCALE;
+      runOnJS(playHaptic)();
 
       return;
     }
@@ -302,12 +377,6 @@ function ImageViewer(): React.JSX.Element {
   const tapGestures = Gesture.Simultaneous(singleTapGesture, doubleTapGesture);
   const allGestures = Gesture.Exclusive(panAndPinchGestures, tapGestures);
 
-  useEffect(() => {
-    if (imageViewer.visible) {
-      centerImage();
-    }
-  }, [imageViewer.visible]);
-
   return (
     <View flex={1}>
       <AppToast />
@@ -319,7 +388,6 @@ function ImageViewer(): React.JSX.Element {
               <AnimatedImage
                 source={{ uri: imageViewer.params?.source }}
                 style={[viewerDims, scaleStyle]}
-                enableLiveTextInteraction
               />
             </Animated.View>
           </Animated.View>
