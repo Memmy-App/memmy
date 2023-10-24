@@ -1,5 +1,7 @@
 # memmy - An iOS and Android client for Lemmy
 
+[![DeepScan grade](https://deepscan.io/api/teams/21853/projects/25231/branches/786154/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=21853&pid=25231&bid=786154)
+
 ## TestFlight Builds
 
 You can now download and run Memmy on your iOS device by using TestFlight. To join the beta group and start doom scrolling, [click here and join the group](https://testflight.apple.com/join/6jaRU6rD). Please submit feedback either by
