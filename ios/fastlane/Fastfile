@@ -32,7 +32,7 @@ def ensure_temp_keychain(name, password)
 end
 
 platform :ios do
-  lane :beta do
+  lane :betaGithub do
     keychain_name = TEMP_KEYCHAIN_USER
     keychain_password = TEMP_KEYCHAIN_PASSWORD
     ensure_temp_keychain(keychain_name, keychain_password)
@@ -112,5 +112,59 @@ platform :ios do
     )
 
     delete_temp_keychain(keychain_name)
+  end
+end
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+    increment_build_number(xcodeproj: "Memmy.xcodeproj")
+    version_number = get_version_number
+    build_number = get_build_number
+    changelog = read_changelog(
+      changelog_path: '../CHANGELOG.md',
+      section_identifier: '[Unreleased]',
+      excluded_markdown_elements: ['-', '###']
+    )
+    build_app(workspace: "Memmy.xcworkspace", scheme: "Memmy")
+    upload_to_testflight(
+      localized_build_info: {
+        "default": {
+          whats_new: changelog,
+        }
+      },
+      distribute_external: true,
+      groups: [
+        "Alpha",
+        "Internal",
+      ]
+    )
+    stamp_changelog(
+      changelog_path: '../CHANGELOG.md',
+      section_identifier: "Version #{version_number} (#{build_number})",
+      should_stamp_date: true,
+      stamp_datetime_format: '%FT%TZ'
+    )
+  end
+end
+
+platform :ios do
+  desc "Push a new beta build to TestFlight"
+  lane :betaInternal do
+    increment_build_number(xcodeproj: "Memmy.xcodeproj")
+    build_app(workspace: "Memmy.xcworkspace", scheme: "Memmy")
+    upload_to_testflight(
+      localized_build_info: {
+        "default": {
+          whats_new: "Here's some more changes for you all!",
+        }
+      },
+      distribute_external: true,
+      groups: [
+        "Internal",
+      ]
+    )
   end
 end
