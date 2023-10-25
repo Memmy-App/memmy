@@ -9,6 +9,7 @@ APPLE_ISSUER_ID = ENV["APPLE_ISSUER_ID"]
 APPLE_KEY_ID = ENV["APPLE_KEY_ID"]
 APPLE_KEY_CONTENT = ENV["APPLE_KEY_CONTENT"]
 GIT_AUTHORIZATION = ENV["GIT_AUTHORIZATION"]
+GH_TOKEN = ENV["GH_TOKEN"]
 
 def delete_temp_keychain(name)
   delete_keychain(
@@ -76,8 +77,8 @@ platform :ios do
       export_method: "app-store",
       export_options: {
         provisioningProfiles: {
-	  DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
-	}
+	      DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
+	    }
       }
     )
 
@@ -89,7 +90,7 @@ platform :ios do
       distribute_external: true,
       notify_external_testers: true,
       groups: [
-	"Internal",
+	    "Internal",
       ],
       ipa: "./Memmy.ipa"
     )
@@ -101,10 +102,13 @@ platform :ios do
       stamp_datetime_format: "%FT%TZ"
     )
 
-    push_to_git_remote(
-      remote: "origin",
-      local_branch: "main",
-      remote_branch: "main",
+    commit_github_file(
+      repository_name: "Memmy-App/memmy",
+      server_url: "https://api.github.com",
+      api_token: GH_TOKEN,
+      message: "[bot] Update Changelog",
+      branch: "main",
+      path: "CHANGELOG.md"
     )
 
     delete_temp_keychain(keychain_name)
