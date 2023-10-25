@@ -7,18 +7,15 @@ import { ScrollView as RNScrollView } from 'react-native';
 import KeyboardAccessoryView from '@components/Common/Keyboard/KeyboardAccesoryView';
 import { useReplyScreen } from '@components/Reply/hooks/useReplyScreen';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
-import TextInput from '@components/Common/Form/TextInput';
 import InboxComment from '@components/Inbox/components/InboxComment';
+import TextInput from '@components/Common/Form/TextInput';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
   route: any;
 }
 
-export default function ReplyScreen({
-  navigation,
-  route,
-}: IProps): React.JSX.Element {
+export default function ReplyScreen({ route }: IProps): React.JSX.Element {
   const { commentId, postId, replyId, mentionId, edit } = route.params;
 
   const replyScreen = useReplyScreen(edit);
