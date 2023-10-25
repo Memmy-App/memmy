@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed typo in checking whether to show the community name in comments
 - Fixed text formatting buttons not working.
 - Fixed error not displaying whenever trying to post or vote on a community you are banned on.
+- Save post button works
 
 ### Changes
 
