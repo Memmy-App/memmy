@@ -15,7 +15,8 @@ export const addPost = (post: PostView, screenId?: string): void => {
     const currentPost = state.posts.get(post.post.id);
     const moderated = useSiteStore.getState().moderatedIds;
     const userId =
-      useSiteStore.getState().site?.my_user?.local_user_view.local_user.id;
+      useSiteStore.getState().site?.my_user?.local_user_view.local_user
+        .person_id;
 
     if (currentPost != null && screenId != null) {
       currentPost.usedBy.push(screenId);
@@ -26,7 +27,7 @@ export const addPost = (post: PostView, screenId?: string): void => {
         linkType: getLinkType(post.post.url),
         bodyPreview: truncateText(post.post.body, 200),
         moderates: moderated?.includes(post.post.community_id) ?? false,
-        isOwnPost: userId === post.post.creator_id,
+        isOwnPost: userId === post.creator.id,
       });
     }
   });
@@ -44,7 +45,7 @@ export const addPosts = (
   const currentPosts = useFeedStore.getState().feeds.get(screenId)?.postIds;
   const moderated = useSiteStore.getState().moderatedIds;
   const userId =
-    useSiteStore.getState().site?.my_user?.local_user_view.local_user.id;
+    useSiteStore.getState().site?.my_user?.local_user_view.local_user.person_id;
 
   const filters = useFilterStore.getState();
 
@@ -76,7 +77,7 @@ export const addPosts = (
           linkType: getLinkType(post.post.url),
           bodyPreview: truncateText(post.post.body, 200),
           moderates: moderated?.includes(post.post.community_id) ?? false,
-          isOwnPost: userId === post.post.creator_id,
+          isOwnPost: userId === post.creator.id,
         });
       }
 
