@@ -4,6 +4,7 @@ import { CommentContextMenuOption } from '@src/types/contextMenu';
 interface CreateCommentContextMenuOptionsParams {
   moderates: boolean;
   isOwnComment: boolean;
+  isSaved: boolean;
 }
 
 export const createCommentContextMenuOptions = (
@@ -19,6 +20,11 @@ export const createCommentContextMenuOptions = (
       key: 'share',
       title: 'Share',
       icon: 'square.and.arrow.up',
+    },
+    {
+      key: 'save',
+      title: params.isSaved ? 'Unsave' : 'Save',
+      icon: 'bookmark',
     },
     {
       key: 'upvote',

@@ -91,7 +91,7 @@ export default function MainFeed(): React.JSX.Element {
 
   return (
     <Animated.View style={{ flex: 1 }} entering={FadeIn}>
-      {params?.id != null && (
+      {(params?.id != null || params?.name != null) && (
         <CommunityHeader
           isLoading={mainFeed.isLoading}
           contentOffsetY={contentOffsetY}

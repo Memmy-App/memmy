@@ -20,6 +20,7 @@ interface UseCommentContextMenu {
   remove: () => void;
   report: () => void;
   share: () => void;
+  save: () => void;
 }
 
 export const useCommentContextMenu = (
@@ -149,6 +150,10 @@ export const useCommentContextMenu = (
     );
   };
 
+  const save = (): void => {
+    void instance.saveComment(itemId);
+  };
+
   return {
     share,
     reply,
@@ -159,5 +164,6 @@ export const useCommentContextMenu = (
     delet,
     remove,
     report,
+    save,
   };
 };

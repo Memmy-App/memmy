@@ -3,7 +3,11 @@ import { AppContextMenuButton } from '@components/Common/ContextMenu/AppContextM
 import { createCommentContextMenuOptions } from '@helpers/contextMenu';
 import { OnPressMenuItemEventObject } from 'react-native-ios-context-menu';
 import { useCommentContextMenu } from '@hooks/comments';
-import { useCommentIsOwnComment, useCommentModerates } from '@src/state';
+import {
+  useCommentIsOwnComment,
+  useCommentModerates,
+  useCommentSaved,
+} from '@src/state';
 
 interface IProps {
   itemId: number;
@@ -17,14 +21,16 @@ export default function CommentContextMenu({
   const commentContextMenu = useCommentContextMenu(itemId);
   const moderates = useCommentModerates(itemId);
   const isOwn = useCommentIsOwnComment(itemId);
+  const isSaved = useCommentSaved(itemId);
 
   const options = useMemo(
     () =>
       createCommentContextMenuOptions({
         moderates,
         isOwnComment: isOwn,
+        isSaved,
       }),
-    [itemId],
+    [itemId, isSaved, isOwn],
   );
 
   const onItemPress = useCallback(
@@ -50,6 +56,9 @@ export default function CommentContextMenu({
           break;
         case 'share':
           commentContextMenu.share();
+          break;
+        case 'save':
+          commentContextMenu.save();
           break;
       }
     },

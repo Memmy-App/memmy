@@ -8,6 +8,7 @@ import { CommunityView } from 'lemmy-js-client';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
 import { useFocusEffect } from '@react-navigation/core';
 import CommunitySearchResult from '@components/Search/components/CommunitySearchResult';
+import { Alert } from 'react-native';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -48,18 +49,56 @@ export default function SearchScreen({
   }, []);
 
   const onSearch = useCallback(() => {
-    navigation.push('SearchResults', {
-      searchValue,
-    });
+    const pushToSearch = (): void => {
+      navigation.push('SearchResults', {
+        searchValue,
+      });
+    };
+
+    // We first want to see if this is a user or a community
+    const instanceSplit = searchValue.split('@');
+
+    if (instanceSplit.length > 1 && Boolean(new URL(instanceSplit[0]))) {
+      Alert.alert(
+        'Is this a user or an instance?',
+        'It looks like you may have entered a user or community that you would like to look up. Would you like to ' +
+          'go directly to that page?',
+        [
+          {
+            text: 'User',
+            onPress: () => {
+              navigation.navigate('Profile', {
+                fullName: searchValue.trim(),
+              });
+            },
+          },
+          {
+            text: 'Community',
+            onPress: () => {
+              navigation.navigate('Community', {
+                name: searchValue.trim(),
+              });
+            },
+          },
+          {
+            text: 'Search',
+            onPress: () => {
+              pushToSearch();
+            },
+            style: 'default',
+          },
+        ],
+      );
+
+      return;
+    }
+
+    pushToSearch();
   }, [searchValue]);
 
   const onClear = useCallback(() => {
     setSearchValue('');
   }, []);
-
-  // const searchDebounce = useMemo(() => {
-  //   return debounce(onSearchTextChange, 300);
-  // }, []);
 
   const onTrendingEndReached = useCallback(() => {
     trendingAppend(async () => {
