@@ -17,12 +17,13 @@ function CommentImageButton({ source }: IProps): React.JSX.Element {
   const viewerRef = useRef<View | undefined>();
 
   const onPress = useCallback(() => {
-    if (imageViewer.setParams == null || imageViewer.setVisible == null) return;
+    // TODO We should handle this better later
+    if (savedDimensions == null) return;
 
     imageViewer.setViewerRef?.(viewerRef);
-    imageViewer.setParams({ source });
-    imageViewer.setVisible(true);
-    imageViewer.setDimensions!(
+    imageViewer.setParams?.({ source });
+    imageViewer.setVisible?.(true);
+    imageViewer.setDimensions?.(
       savedDimensions?.dimensions as unknown as IDimensions,
     );
   }, [source, savedDimensions]);
