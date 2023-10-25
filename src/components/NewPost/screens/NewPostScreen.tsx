@@ -15,6 +15,7 @@ import Animated, {
 import ButtonOne from '@components/Common/Button/ButtonOne';
 import { useSiteLanguages } from '@src/state';
 import { ScrollView as RNScrollView } from 'react-native';
+import AppToast from '@components/Common/Toast/AppToast';
 
 export default function NewPostScreen(): React.JSX.Element {
   const newPostScreen = useNewPostScreen();
@@ -56,6 +57,7 @@ export default function NewPostScreen(): React.JSX.Element {
         ref={viewRef}
       >
         <LoadingOverlay visible={newPostScreen.isLoading} />
+        <AppToast translate={100} />
         <YStack mb="$2" mt="$2" px="$3">
           <XStack alignItems="center">
             <NsfwButton

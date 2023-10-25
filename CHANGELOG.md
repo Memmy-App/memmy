@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fixed typo in checking whether to show the community name in comments
+- Fixed text formatting buttons not working.
+- Fixed error not displaying whenever trying to post or vote on a community you are banned on.
+
+### Changes
+
+- Toast added to both reply and post screen
 
 ## [Version 1.0 (46)] - 2023-10-23T11:20:39Z
 

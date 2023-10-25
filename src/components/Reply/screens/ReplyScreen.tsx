@@ -9,6 +9,7 @@ import { useReplyScreen } from '@components/Reply/hooks/useReplyScreen';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 import InboxComment from '@components/Inbox/components/InboxComment';
 import TextInput from '@components/Common/Form/TextInput';
+import AppToast from '@components/Common/Toast/AppToast';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -30,6 +31,7 @@ export default function ReplyScreen({ route }: IProps): React.JSX.Element {
     <>
       {/* @ts-expect-error - this is valid */}
       <ScrollView automaticallyAdjustKeyboardInsets={true} ref={viewRef}>
+        <AppToast translate={100} />
         <LoadingOverlay visible={replyScreen.isLoading} />
         <YStack space="$2" mb="$2">
           {/* eslint-disable-next-line @typescript-eslint/strict-boolean-expressions */}
