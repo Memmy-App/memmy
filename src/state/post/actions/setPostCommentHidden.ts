@@ -25,3 +25,28 @@ export const setPostCommentHidden = (
     }
   });
 };
+
+export const showMoreCommentsNexted = (
+  commentId: number,
+  postId: number,
+): void => {
+  usePostStore.setState((state) => {
+    const postComments = state.posts.get(postId)?.commentInfo;
+
+    if (postComments == null) return;
+
+    const currentComment = postComments.find((c) => c.commentId === commentId);
+
+    if (currentComment == null) return;
+
+    currentComment.showLoadMore = false;
+    const pathArr = currentComment.path.split('.');
+    const parentId = pathArr[pathArr.length - 2];
+
+    for (const comment of postComments) {
+      if (comment.path.includes(parentId)) {
+        comment.showInPost = true;
+      }
+    }
+  });
+};

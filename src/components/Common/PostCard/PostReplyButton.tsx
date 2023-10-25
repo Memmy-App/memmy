@@ -8,7 +8,7 @@ interface IProps {
   itemId: number;
 }
 
-function PostShareButton({ itemId }: IProps): React.JSX.Element {
+function PostReplyButton({ itemId }: IProps): React.JSX.Element {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onPress = useCallback(() => {
@@ -27,4 +27,4 @@ function PostShareButton({ itemId }: IProps): React.JSX.Element {
   );
 }
 
-export default React.memo(PostShareButton);
+export default React.memo(PostReplyButton);

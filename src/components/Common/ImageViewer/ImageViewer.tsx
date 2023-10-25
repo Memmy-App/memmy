@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Dimensions as RNDimensions, StyleSheet } from 'react-native';
 import {
   Gesture,
@@ -11,6 +17,7 @@ import {
 import Animated, {
   cancelAnimation,
   runOnJS,
+  useAnimatedRef,
   useAnimatedStyle,
   useSharedValue,
   withDecay,
@@ -23,6 +30,8 @@ import { Image } from 'expo-image';
 import ImageViewerHeader from '@components/Common/ImageViewer/ImageViewerHeader';
 import ImageViewerFooter from '@components/Common/ImageViewer/ImageViewerFooter';
 import AppToast from '@components/Common/Toast/AppToast';
+import { playHaptic } from '@helpers/haptics';
+import { ViewMeasurement } from '@src/types/ViewMeasurement';
 
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
@@ -52,6 +61,15 @@ function ImageViewer(): React.JSX.Element {
     );
   }, [imageViewer.dimensions]);
 
+  const initialPosition = useRef<ViewMeasurement>({
+    x: 0,
+    y: 0,
+    px: 0,
+    py: 0,
+    height: 0,
+    width: 0,
+  });
+
   const zoomScale = useSharedValue(1);
   const lastScale = useSharedValue(1);
 
@@ -63,46 +81,86 @@ function ImageViewer(): React.JSX.Element {
   const lastTranslateX = useSharedValue(0);
   const lastTranslateY = useSharedValue(0);
 
-  // const height = useSharedValue(0);
-  // const width = useSharedValue(0);
+  const height = useSharedValue(0);
+  const width = useSharedValue(0);
 
   const lastTap = useSharedValue(Date.now());
 
-  // Calculate where we should position the image for it to be centered
-  const centerX = useMemo(
-    () => SCREEN_WIDTH / 2 - viewerDims.width / 2,
-    [viewerDims],
-  );
-  const centerY = useMemo(
-    () => SCREEN_HEIGHT / 2 - viewerDims.height / 2,
-    [viewerDims],
-  );
+  const animatedImageRef = useAnimatedRef();
 
-  // const initialPos = useSharedValue<MeasureResult>({
-  //   x: 0,
-  //   y: 0,
-  //   height: 0,
-  //   width: 0,
-  //   py: 0,
-  //   px: 0,
-  // });
-
-  const onRequestOpenOrClose = useCallback((): void => {
-    if (imageViewer.setVisible == null) return;
-
+  useEffect(() => {
     if (imageViewer.visible) {
-      imageViewer.setVisible(false);
+      // First we measure the image and store the values
+      imageViewer.viewerRef?.current?.measure((x, y, w, h, px, py) => {
+        // Store the initial position for later
+        initialPosition.current = {
+          x,
+          y,
+          width: w,
+          height: h,
+          px,
+          py,
+        };
+
+        // FAde in the background
+        backgroundColor.value = withTiming('rgba(0,0,0,1)', { duration: 200 });
+
+        // Set the initial position
+        positionX.value = px;
+        positionY.value = py;
+
+        // TODO Waiting on Expo patch for images
+        // SEt the initial size
+        // height.value = h;
+        // width.value = w;
+
+        // Center the image from the initial position and size the image up
+        centerImage();
+
+        // TODO Waiting on Expo patch for images
+        // height.value = withTiming(viewerDims.height, { duration: 200 });
+        // width.value = withTiming(viewerDims.width, { duration: 200 });
+      });
     }
   }, [imageViewer.visible]);
+
+  const onRequestClose = useCallback((): void => {
+    if (imageViewer.visible) {
+      setAccessoriesVisible(false);
+
+      // Fade out the background
+      backgroundColor.value = withTiming('rgba(0,0,0,0)', { duration: 200 });
+
+      // Set the image back to the original position
+      positionX.value = withTiming(initialPosition.current.px, {
+        duration: 200,
+      });
+      positionY.value = withTiming(initialPosition.current.py, {
+        duration: 200,
+      });
+
+      // Set the image back to the original dimensions
+      height.value = withTiming(initialPosition.current.height, {
+        duration: 200,
+      });
+      width.value = withTiming(initialPosition.current.width, {
+        duration: 200,
+      });
+
+      // Dismiss the modal
+      setTimeout(() => {
+        imageViewer.setVisible?.(false);
+      }, 200);
+    }
+  }, []);
 
   // This takes care of moving the image to the center whenever open the image
   // or whenever we want to reset the impage position
   const centerImage = useCallback((): void => {
     'worklet';
 
-    positionX.value = withTiming(centerX, { duration: 200 });
-    positionY.value = withTiming(centerY, { duration: 200 });
-    backgroundColor.value = withTiming('rgba(0,0,0,1)', { duration: 200 });
+    positionX.value = withTiming(0, { duration: 200 });
+    positionY.value = withTiming(0, { duration: 200 });
   }, []);
 
   // Animated position style
@@ -120,6 +178,12 @@ function ImageViewer(): React.JSX.Element {
   const backgroundStyle = useAnimatedStyle(() => ({
     backgroundColor: backgroundColor.value,
   }));
+
+  // TODO Wait for expo fix
+  // const dimensionsStyle = useAnimatedStyle(() => ({
+  //   height: height.value,
+  //   width: width.value,
+  // }));
 
   const onSingleTap = useCallback(() => {
     cancelAnimation(positionX);
@@ -153,7 +217,7 @@ function ImageViewer(): React.JSX.Element {
 
     // Zoom to the max scale
     zoomScale.value = withTiming(1.75, { duration: 200 });
-    lastScale.value = 1.75;
+    lastScale.value = 1.75; // TODO set this back to 1.75
   }, []);
 
   // Create the double tap gesture
@@ -200,32 +264,71 @@ function ImageViewer(): React.JSX.Element {
     (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>): void => {
       'worklet';
 
-      // First see what the velocity is. If it's above the max velocity, and it is
-      // in a vertical direction, we should close the image viewer
+      // First let's see if we need to make any calculations. We will just be dismissing the image if the velocity of X
+      // is too high, so 'ets check that first.
 
-      // First create an absolute value
+      // // First create an absolute value
+
       const velocity = Math.abs(event.velocityY);
       const translationX = Math.abs(event.translationX);
 
       if (velocity > 800 && zoomScale.value <= 1 && translationX < 75) {
-        runOnJS(onRequestOpenOrClose)();
-
+        // Just dismiss and return
+        runOnJS(onRequestClose)();
         return;
       }
 
-      // We should recenter the image after the pan if we are not zoomed in
-      if (zoomScale.value <= 1) {
-        centerImage();
-        return;
+      // We need to get a measurement so we know how large the image is.
+      const width = viewerDims.width * zoomScale.value;
+      const height = viewerDims.height * zoomScale.value;
+
+      // Next we need to determine the furthest positionX can go. Let's calculate that
+      const mostX = ((zoomScale.value - 1) * viewerDims.width) / 2;
+
+      if (width < SCREEN_WIDTH) {
+        // We always bring the image to zero if it is smaller than the viewport width
+        positionX.value = withTiming(0, { duration: 200 });
+      } else if (Math.abs(positionX.value) > mostX) {
+        // If we've exceeded the limit, we want to bring the image back to center.
+        positionX.value = withTiming(
+          Math.sign(positionX.value) === 1 ? mostX : -mostX,
+          { duration: 300 },
+        );
+        runOnJS(playHaptic)();
+      } else {
+        // Otherwise, we can continue. We need to set a clamp on this value so we don't go outside the boundaries.
+        // We will also use a rubber band effect so that if we do go outside the clamp it isn't jarring
+        positionX.value = withDecay({
+          velocity: event.velocityX / 1.2,
+          clamp: [-mostX, mostX],
+          rubberBandEffect: true,
+          velocityFactor: 0.5 * zoomScale.value,
+          rubberBandFactor: 2,
+        });
       }
 
-      // Gradually decrease momentum
-      positionX.value = withDecay({
-        velocity: event.velocityX / 1.2,
-      });
-      positionY.value = withDecay({
-        velocity: event.velocityY / 1.2,
-      });
+      const mostY = ((zoomScale.value - 1) * viewerDims.height) / 2;
+
+      if (height < SCREEN_HEIGHT) {
+        positionY.value = withTiming(0, { duration: 200 });
+      } else if (Math.abs(positionY.value) > mostY) {
+        // If we've exceeded the limit, we want to bring the image back to center.
+        positionY.value = withTiming(
+          Math.sign(positionY.value) === 1 ? mostY : -mostY,
+          { duration: 300 },
+        );
+        runOnJS(playHaptic)();
+      } else {
+        // Otherwise, we can continue. We need to set a clamp on this value so we don't go outside the boundaries.
+        // We will also use a rubber band effect so that if we do go outside the clamp it isn't jarring
+        positionY.value = withDecay({
+          velocity: event.velocityY / 1.2,
+          clamp: [-mostY, mostY],
+          rubberBandEffect: true,
+          velocityFactor: 0.5 * zoomScale.value,
+          rubberBandFactor: 2,
+        });
+      }
     },
     [],
   );
@@ -269,6 +372,7 @@ function ImageViewer(): React.JSX.Element {
       centerImage();
 
       lastScale.value = 1;
+      runOnJS(playHaptic)();
 
       return;
     }
@@ -278,6 +382,7 @@ function ImageViewer(): React.JSX.Element {
       zoomScale.value = withTiming(MAX_SCALE, { duration: 200 });
 
       lastScale.value = MAX_SCALE;
+      runOnJS(playHaptic)();
 
       return;
     }
@@ -302,12 +407,6 @@ function ImageViewer(): React.JSX.Element {
   const tapGestures = Gesture.Simultaneous(singleTapGesture, doubleTapGesture);
   const allGestures = Gesture.Exclusive(panAndPinchGestures, tapGestures);
 
-  useEffect(() => {
-    if (imageViewer.visible) {
-      centerImage();
-    }
-  }, [imageViewer.visible]);
-
   return (
     <View flex={1}>
       <AppToast />
@@ -315,11 +414,11 @@ function ImageViewer(): React.JSX.Element {
       <GestureDetector gesture={allGestures}>
         <YStack zIndex={-1} flex={1}>
           <Animated.View style={[styles.imageModal, backgroundStyle]}>
-            <Animated.View style={[positionStyle]}>
+            <Animated.View style={[positionStyle, { alignItems: 'center' }]}>
               <AnimatedImage
                 source={{ uri: imageViewer.params?.source }}
                 style={[viewerDims, scaleStyle]}
-                enableLiveTextInteraction
+                ref={animatedImageRef}
               />
             </Animated.View>
           </Animated.View>
@@ -334,6 +433,7 @@ function ImageViewer(): React.JSX.Element {
 const styles = StyleSheet.create({
   imageModal: {
     flex: 1,
+    justifyContent: 'center',
   },
 
   imageContainer: {

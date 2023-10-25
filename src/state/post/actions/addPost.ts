@@ -1,8 +1,14 @@
 import { PostView } from 'lemmy-js-client';
-import { useFeedStore, usePostStore, useSiteStore } from '@src/state';
+import {
+  useFeedStore,
+  useFilterStore,
+  usePostStore,
+  useSiteStore,
+} from '@src/state';
 import { getLinkType } from '@helpers/links/getLinkType';
 import { truncateText } from '@helpers/text';
 import { cacheImages } from '@helpers/image';
+import { getBaseUrl } from '@helpers/links';
 
 export const addPost = (post: PostView, screenId?: string): void => {
   usePostStore.setState((state) => {
@@ -40,9 +46,25 @@ export const addPosts = (
   const userId =
     useSiteStore.getState().site?.my_user?.local_user_view.local_user.id;
 
+  const filters = useFilterStore.getState();
+
   usePostStore.setState((state) => {
     // Add each post to the state
     for (const post of posts) {
+      // Check the filters first
+      if (filters.instanceFilters.includes(getBaseUrl(post.post.ap_id))) {
+        continue;
+      }
+
+      const keywordPattern = new RegExp(filters.keywordFilters.join('|'), 'i');
+
+      if (
+        filters.keywordFilters.length > 0 &&
+        keywordPattern.test(post.post.name)
+      ) {
+        continue;
+      }
+
       const currentPost = state.posts.get(post.post.id);
 
       if (currentPost != null) {

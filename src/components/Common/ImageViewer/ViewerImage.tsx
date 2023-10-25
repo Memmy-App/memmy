@@ -1,18 +1,26 @@
-import React, { useCallback } from 'react';
-import { Pressable } from 'react-native';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { Pressable, View } from 'react-native';
 
 import { useImageViewer } from './ImageViewerProvider';
 import {
+  markPostRead,
   saveImageDimensions,
   useImageSavedDimensions,
+  useMarkReadOnImageView,
   useSettingsStore,
 } from '@src/state';
 import { getImageRatio } from '@helpers/image';
 import { Image, ImageLoadEventData } from 'expo-image';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
 import { IDimensions } from '@src/types';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const spinner = require('../../../../assets/spinner.svg');
+
+const AnimatedImage = Animated.createAnimatedComponent(Image);
 
 interface IProps {
   source: string;
@@ -22,6 +30,7 @@ interface IProps {
   width?: number;
   overrideDimensions?: boolean;
   borderRadius?: number;
+  postId?: number;
 }
 
 function ViewerImage({
@@ -32,28 +41,66 @@ function ViewerImage({
   width = 300,
   overrideDimensions = false,
   borderRadius = 0,
+  postId,
 }: IProps): React.JSX.Element {
   const imageViewer = useImageViewer();
   const savedDimensions = useImageSavedDimensions(source);
+  const markReadOnImagePress = useMarkReadOnImageView();
+
+  const loaded = useRef(false);
+  const viewerRef = useRef<View>();
 
   const ignoreHeight = useSettingsStore(
     (state) => state.imagesIgnoreScreenHeight,
   );
 
-  const onImagePress = useCallback(() => {
-    if (imageViewer.setParams == null || imageViewer.setVisible == null) return;
+  const opacity = useSharedValue(1);
 
-    imageViewer.setParams({
+  const imageStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
+
+  useEffect(() => {
+    if (opacity.value === 0) {
+      opacity.value = 1;
+    }
+  }, [imageViewer.visible]);
+
+  const onImagePress = useCallback(() => {
+    // figure out if we want to do something
+    if (
+      !loaded.current ||
+      imageViewer.setParams == null ||
+      imageViewer.setVisible == null
+    ) {
+      return;
+    }
+
+    // Set the viewer ref
+    imageViewer.setViewerRef?.(viewerRef);
+    imageViewer.setParams?.({
       source,
       title,
     });
-    imageViewer.setVisible(true);
-    imageViewer.setDimensions!(
+    // Display the viewer
+    imageViewer.setVisible?.(true);
+    // Set the viewer dimensions
+    imageViewer.setDimensions?.(
       savedDimensions?.dimensions as unknown as IDimensions,
     );
-  }, [source, savedDimensions]);
 
-  const onImageLoad = useCallback(
+    // Set the opacity of the image to zero. Use a slight timeout so that we don't get a flicker
+    setTimeout(() => {
+      opacity.value = 0;
+    }, 100);
+
+    // Now see if we want to mark the post as read
+    if (postId != null && markReadOnImagePress) {
+      markPostRead(postId);
+    }
+  }, [source, savedDimensions, markReadOnImagePress]);
+
+  const onLoad = useCallback(
     (e: ImageLoadEventData) => {
       const dimensions = {
         height: e.source.height,
@@ -73,17 +120,28 @@ function ViewerImage({
     [source],
   );
 
+  const onLoadEnd = useCallback(() => {
+    loaded.current = true;
+  }, []);
+
   return (
-    <Pressable onPress={onImagePress} style={{ alignItems: 'center' }}>
-      <Image
+    <Pressable
+      onPress={onImagePress}
+      style={{ alignItems: 'center' }}
+      // @ts-expect-error valid
+      ref={viewerRef}
+    >
+      <AnimatedImage
         source={source}
         style={[
           overrideDimensions || savedDimensions?.viewerDimensions == null
             ? { height, width }
             : savedDimensions?.viewerDimensions,
           { borderRadius },
+          imageStyle,
         ]}
-        onLoad={onImageLoad}
+        onLoad={onLoad}
+        onLoadEnd={onLoadEnd}
         blurRadius={blurRadius}
         placeholder={spinner}
         placeholderContentFit="scale-down"

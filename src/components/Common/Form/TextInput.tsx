@@ -2,20 +2,7 @@ import React from 'react';
 import { Input, InputProps } from 'tamagui';
 import { useThemeColorScheme } from '@src/hooks';
 
-// export default styled(
-//   Input,
-//   {
-//     color: '$color',
-//     borderColor: '$accent',
-//     backgroundColor: '$fg',
-//     size: '$3',
-//   },
-//   {
-//     isInput: true,
-//   },
-// );
-
-export default function TextInput(props: InputProps): React.JSX.Element {
+function TextInput(props: InputProps, ref: any): React.JSX.Element {
   const colorScheme = useThemeColorScheme();
 
   return (
@@ -27,7 +14,10 @@ export default function TextInput(props: InputProps): React.JSX.Element {
       color="$color"
       cursorColor="$accent"
       keyboardAppearance={colorScheme}
+      ref={ref}
       {...props}
     />
   );
 }
+
+export default React.forwardRef<InputProps>(TextInput);

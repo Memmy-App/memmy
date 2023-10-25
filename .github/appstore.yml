@@ -1,0 +1,60 @@
+#name: App Store Deploy
+#on:
+#  push:
+#    branches: [ main ]
+#
+#jobs:
+#  deploy:
+#    name: Deploy to TestFlight
+#    runs-on: macos-latest
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#
+#      - name: Setup node
+#        uses: actions/setup-node@v1
+#        with:
+#          node-version: 18
+#
+#      - name: Install Node deps
+#        run: yarn install
+#
+##      - name: Run Lint
+##        run: |
+##          ./node_modules/eslint/bin/eslint.js . --ext js,jsx,ts,tsx
+#
+#      - name: Setup Ruby
+#        uses: ruby/setup-ruby@v1
+#        with:
+#          ruby-version: '2.7'
+#          bundler-cache: true
+#          working-directory: 'ios'
+#
+#      - name: Add Fastlane Plugins
+#        run: |
+#          cd ios
+#          gem install fastlane
+#          fastlane add_plugin changelog
+#
+#      - name: Fastlane Action
+#        uses: maierj/fastlane-action@v3.0.0
+#        with:
+#          lane: 'beta'
+#          subdirectory: 'ios'
+#          bundler-cache: true
+#        env:
+#          APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
+#          DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
+#          DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'
+#          DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
+#          FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
+#          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
+#          MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+#          GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
+#          PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
+#          TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+#          TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+#          APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
+#          APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
+#          APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'

@@ -25,6 +25,7 @@ export default function PostContextMenu({
       createPostContextMenuOptions({
         moderates,
         isOwnPost: isOwn,
+        isLink: postLinkType !== 'none',
         isImage: postLinkType === 'image',
       }),
     [itemId],
@@ -57,8 +58,11 @@ export default function PostContextMenu({
         case 'share':
           postContextMenu.share();
           break;
+        case 'shareLink':
+          postContextMenu.shareUrl(false);
+          break;
         case 'shareImage':
-          postContextMenu.shareImage();
+          postContextMenu.shareUrl(true);
           break;
         case 'saveImage':
           postContextMenu.savePostImage();

@@ -1,16 +1,23 @@
 import React, { useMemo } from 'react';
-import { useSettingsStore } from '@src/state';
+import { useCommentPublished, useSettingsStore } from '@src/state';
 import { Text, XStack } from 'tamagui';
 import ScoreIcon from '@components/Common/Icons/ScoreIcon';
-import { ArrowDown, ArrowUp } from '@tamagui/lucide-icons';
+import { ArrowDown, ArrowUp, Clock } from '@tamagui/lucide-icons';
 import { useCommentVoting } from '@hooks/comments/useCommentVoting';
+import { getTimeFrom } from '@helpers/time';
 
 interface IProps {
   itemId: number;
 }
 
 function CommentMetrics({ itemId }: IProps): React.JSX.Element {
+  const commentPublished = useCommentPublished(itemId);
   const voting = useCommentVoting(itemId, true);
+
+  const timestamp = useMemo(
+    () => getTimeFrom(commentPublished),
+    [commentPublished],
+  );
 
   const totalScore = useSettingsStore((state) => state.totalScore);
 
@@ -34,16 +41,22 @@ function CommentMetrics({ itemId }: IProps): React.JSX.Element {
 
   if (totalScore) {
     return (
-      <XStack
-        space="$1"
-        onPress={voting.scoreVote}
-        hitSlop={3}
-        alignItems="center"
-      >
-        <ScoreIcon myVote={voting.myVote} />
-        <Text fontSize="$2" color={scoreColor}>
-          {voting.score}
-        </Text>
+      <XStack space="$2">
+        <XStack
+          space="$1"
+          onPress={voting.scoreVote}
+          hitSlop={3}
+          alignItems="center"
+        >
+          <ScoreIcon myVote={voting.myVote} />
+          <Text fontSize="$2" color={scoreColor}>
+            {voting.score}
+          </Text>
+        </XStack>
+        <XStack space="$1">
+          <Clock size={14} color="$secondary" />
+          <Text>{timestamp}</Text>
+        </XStack>
       </XStack>
     );
   } else {
@@ -69,6 +82,12 @@ function CommentMetrics({ itemId }: IProps): React.JSX.Element {
           <ArrowDown size={14} color={downvoteColor} />
           <Text fontSize="$2" color={downvoteColor}>
             {voting.downvotes}
+          </Text>
+        </XStack>
+        <XStack space="$1.5" alignItems="center">
+          <Clock size={14} color="$secondary" />
+          <Text fontSize="$2" color="$secondary">
+            {timestamp}
           </Text>
         </XStack>
       </XStack>

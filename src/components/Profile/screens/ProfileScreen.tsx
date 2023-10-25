@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { SetStateAction, useCallback, useRef, useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useProfileScreen } from '@components/Profile/hooks/useProfileScreen';
 import {
@@ -19,6 +19,7 @@ import ProfileCommentsTab from '@components/Profile/components/Tabs/ProfileComme
 import ProfileAboutTab from '@components/Profile/components/Tabs/ProfileAboutTab';
 import TopTabs from '@components/Common/TopTabs/TopTabs';
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
+import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 
 interface IProfileScreenContext {
   profileId: number;
@@ -30,6 +31,7 @@ interface IProfileScreenContext {
 
   onScroll: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
   contentOffsetY: SharedValue<number> | undefined;
+  setPostLoading?: React.Dispatch<SetStateAction<boolean>>;
 }
 
 const ProfileScreenContext = React.createContext<IProfileScreenContext>({
@@ -56,6 +58,7 @@ export default function ProfileScreen({
   const contentOffsetY = useSharedValue(0);
 
   const [selectedTab, setSelectedTab] = useState(0);
+  const [postLoading, setPostLoading] = useState(false);
 
   const pagerViewRef = useRef<PagerView>();
 
@@ -75,6 +78,7 @@ export default function ProfileScreen({
 
   return (
     <Animated.View style={{ flex: 1 }} entering={FadeIn}>
+      <LoadingOverlay visible={postLoading} />
       <ProfileScreenContext.Provider
         value={{
           profileId: profileScreen.profileId,
@@ -84,6 +88,7 @@ export default function ProfileScreen({
           refresh: profileScreen.refresh,
           onScroll,
           contentOffsetY,
+          setPostLoading,
         }}
       >
         <ProfileHeader />

@@ -1,13 +1,16 @@
 import React from 'react';
 import { Modal } from 'react-native';
-import { View } from 'tamagui';
+import { Spinner, View } from 'tamagui';
 import LoadingAnimation from '@components/Common/Loading/LoadingAnimation';
+import { useMouseLoadingIcon } from '@src/state';
 
 interface IProps {
   visible: boolean;
 }
 
 export default function LoadingOverlay({ visible }: IProps): React.JSX.Element {
+  const mouse = useMouseLoadingIcon();
+
   return (
     <Modal visible={visible} transparent={true}>
       <View
@@ -21,7 +24,11 @@ export default function LoadingOverlay({ visible }: IProps): React.JSX.Element {
         alignItems="center"
         justifyContent="center"
       >
-        <LoadingAnimation size="normal" />
+        {mouse ? (
+          <LoadingAnimation size="normal" />
+        ) : (
+          <Spinner color="$accent" size="large" />
+        )}
       </View>
     </Modal>
   );

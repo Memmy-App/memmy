@@ -10,7 +10,12 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import FeedItemContent from '@components/Feed/components/Feed/FeedItem/FeedItemContent';
 import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
 import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
-import { usePostGesturesEnabled, usePostSaved } from '@src/state';
+import {
+  markPostRead,
+  useMarkReadOnPostView,
+  usePostGesturesEnabled,
+  usePostSaved,
+} from '@src/state';
 import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
 import { usePostSwipeOptions } from '@components/Common/SwipeableRow/hooks/usePostSwipeOptions';
 import { View } from 'tamagui';
@@ -27,12 +32,18 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
   const rightSwipeOptions = usePostSwipeOptions('right');
 
   const postSaved = usePostSaved(itemId);
+  const markReadOnView = useMarkReadOnPostView();
 
   const onPress = useCallback(() => {
     navigation.push('Post', {
       postId: itemId,
     });
-  }, [itemId]);
+
+    // Should we mark it read?
+    if (markReadOnView) {
+      markPostRead(itemId);
+    }
+  }, [itemId, markReadOnView]);
 
   const actionParams = useMemo(() => {
     return {

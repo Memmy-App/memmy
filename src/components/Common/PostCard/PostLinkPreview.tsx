@@ -1,11 +1,21 @@
 import React, { useCallback, useState } from 'react';
 import {
+  useBlurNsfw,
+  useMouseLoadingIcon,
   usePostCommunityNsfw,
   usePostLink,
   usePostNsfw,
   usePostThumbnail,
 } from '@src/state';
-import { Separator, Text, useTheme, View, XStack, YStack } from 'tamagui';
+import {
+  Separator,
+  Spinner,
+  Text,
+  useTheme,
+  View,
+  XStack,
+  YStack,
+} from 'tamagui';
 import { Image } from 'expo-image';
 import { ChevronRight, Link } from '@tamagui/lucide-icons';
 import { Pressable, StyleSheet } from 'react-native';
@@ -18,6 +28,9 @@ interface IProps {
 
 function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
   const theme = useTheme();
+
+  const mouse = useMouseLoadingIcon();
+  const blurNsfw = useBlurNsfw();
 
   const postLink = usePostLink(itemId);
   const postThumbnail = usePostThumbnail(itemId);
@@ -56,17 +69,19 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
                 recyclingKey={postThumbnail}
                 onLoadStart={onLoadStart}
                 onLoadEnd={onLoadEnd}
-                blurRadius={postNsfw || postCommunityNsfw ? 90 : 0}
+                blurRadius={
+                  (postNsfw || postCommunityNsfw) && blurNsfw ? 90 : 0
+                }
               />
             </View>
           )}
           {thumbnailLoading && (
-            <XStack
-              style={styles.loading}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <LoadingAnimation size="small" />
+            <XStack height={113} alignItems="center" justifyContent="center">
+              {mouse ? (
+                <LoadingAnimation size="small" />
+              ) : (
+                <Spinner color="$accent" size="large" />
+              )}
             </XStack>
           )}
           <XStack

@@ -1,5 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import {
+  useCompactShowUsername,
+  usePostCreator,
   usePostGesturesEnabled,
   usePostSaved,
   useSettingsStore,
@@ -19,6 +21,7 @@ import PostContextMenu from '@components/Common/ContextMenu/components/PostConte
 import Ellipsis from '@components/Common/Icons/Ellipsis';
 import { Pressable } from 'react-native';
 import CompactFeedItemVoteButtons from '@components/Feed/components/Feed/CompactFeedItem/CompactFeedItemVoteButtons';
+import PostUserLabel from '@components/Common/PostCard/PostUserLabel';
 
 interface IProps {
   itemId: number;
@@ -36,8 +39,13 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
   );
 
   const gesturesEnabled = usePostGesturesEnabled();
+
   const leftSwipeOptions = usePostSwipeOptions('left');
   const rightSwipeOptions = usePostSwipeOptions('right');
+
+  const postUser = usePostCreator(itemId);
+
+  const showUsername = useCompactShowUsername();
 
   const postSaved = usePostSaved(itemId);
 
@@ -89,7 +97,13 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
             zIndex={1}
           />
         )}
-        <XStack backgroundColor="$fg" py="$2" px="$2" space="$2">
+        <XStack
+          backgroundColor="$fg"
+          py="$2"
+          px="$2"
+          space="$2"
+          alignItems="center"
+        >
           {voteButtonPosition === 'left' && (
             <CompactFeedItemVoteButtons itemId={itemId} />
           )}
@@ -99,6 +113,13 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
           <YStack flex={1} space="$1.5" justifyContent="space-between">
             <CompactFeedItemTitle itemId={itemId} />
             <PostCommunityLabel itemId={itemId} pressable={false} />
+            {showUsername && (
+              <PostUserLabel
+                userName={postUser?.name}
+                userCommunity={postUser?.actor_id}
+                userIcon={postUser?.avatar}
+              />
+            )}
             <XStack justifyContent="space-between">
               <PostMetrics itemId={itemId} />
               <PostContextMenu itemId={itemId}>

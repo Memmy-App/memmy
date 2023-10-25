@@ -18,14 +18,14 @@ function CommentHeader({
   CommentMetrics,
 }: IProps): React.JSX.Element {
   return (
-    <XStack space="$3" alignItems="center" pb="$2">
+    <XStack space="$2.5" alignItems="center" pb="$2">
       <CommentUserLabel
         userIcon={creatorAvatar}
         userName={userName}
         userCommunity={userCommunity}
       />
       <CommentMetrics />
-      <View ml="auto">
+      <View ml="auto" mr="$2.5">
         <EllipsisButton />
       </View>
     </XStack>

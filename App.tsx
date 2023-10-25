@@ -1,5 +1,7 @@
 import 'react-native-reanimated';
 
+import '@src//plugins/dayjs';
+
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { TamaguiProvider, Theme, useTheme } from 'tamagui';
 

@@ -1,5 +1,5 @@
 import React, { SetStateAction, useState } from 'react';
-import { Modal } from 'react-native';
+import { Modal, View } from 'react-native';
 import ImageViewer from '@components/Common/ImageViewer/ImageViewer';
 
 interface Dimensions {
@@ -23,6 +23,11 @@ interface IImageViewerProviderContext {
 
   dimensions: Dimensions;
   setDimensions?: React.Dispatch<SetStateAction<Dimensions>> | undefined;
+
+  viewerRef?: React.MutableRefObject<View | undefined> | null;
+  setViewerRef?: React.Dispatch<
+    SetStateAction<React.MutableRefObject<View | undefined> | null>
+  >;
 }
 
 const ImageViewerContext = React.createContext<IImageViewerProviderContext>({
@@ -33,6 +38,7 @@ const ImageViewerContext = React.createContext<IImageViewerProviderContext>({
   setVisible: undefined,
 
   dimensions: { height: 0, width: 0 },
+
   setDimensions: undefined,
 });
 
@@ -54,6 +60,10 @@ function ImageViewerProvider({ children }: IProps): React.JSX.Element {
     width: 0,
   });
 
+  const [viewerRef, setViewerRef] = useState<React.MutableRefObject<
+    View | undefined
+  > | null>(null);
+
   return (
     <ImageViewerContext.Provider
       value={{
@@ -65,6 +75,9 @@ function ImageViewerProvider({ children }: IProps): React.JSX.Element {
 
         dimensions,
         setDimensions,
+
+        viewerRef,
+        setViewerRef,
       }}
     >
       <Modal visible={visible} transparent statusBarTranslucent>

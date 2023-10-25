@@ -1,8 +1,12 @@
 import React from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Table from '@components/Common/Table/Table';
-import { setSetting, useSettingsStore } from '@src/state';
-import { Switch } from 'react-native';
+import {
+  setSetting,
+  setUserSetting,
+  useSettingsStore,
+  useShowNsfw,
+} from '@src/state';
 import ListingTypeContextMenu from '@components/Common/ContextMenu/components/ListingTypeContextMenu';
 import SortTypeContextMenu from '@components/Common/ContextMenu/components/SortTypeContextMenu';
 import CommentSortTypeContextMenu from '@components/Common/ContextMenu/components/CommentSortTypeContextMenu';
@@ -17,6 +21,7 @@ export default function SettingsContentScreen({
   navigation,
 }: IProps): React.JSX.Element {
   const settings = useSettingsStore();
+  const showNsfw = useShowNsfw();
 
   return (
     <ScrollView flex={1}>
@@ -89,8 +94,20 @@ export default function SettingsContentScreen({
           header="NSFW Content"
           footer="The Show NSFW setting is determined by your Lemmy account's NSFW settings while the Blur NSFW setting is set locally."
         >
-          <Table.Cell label="Show NSFW Content" accessoryRight={<Switch />} />
-          <Table.Cell label="Blur NSFW Content" accessoryRight={<Switch />} />
+          <Table.Cell
+            label="Show NSFW Content"
+            switchValue={showNsfw}
+            onSwitchValueChange={async (v) => {
+              await setUserSetting('show_nsfw', v);
+            }}
+          />
+          <Table.Cell
+            label="Blur NSFW Content"
+            switchValue={settings.blurNsfw}
+            onSwitchValueChange={(v) => {
+              setSetting('blurNsfw', v);
+            }}
+          />
         </Table.Section>
       </Table.Container>
     </ScrollView>

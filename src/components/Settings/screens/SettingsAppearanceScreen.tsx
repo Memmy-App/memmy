@@ -6,6 +6,7 @@ import { AllThemeOptions, INavigationProps } from '@src/types';
 import Slider from '@react-native-community/slider';
 import CompactThumbnailDisplayContextMenu from '@components/Common/ContextMenu/components/CompactThumbnailDisplayContextMenu';
 import { capitalizeFirstLetter } from '@helpers/text';
+import { LayoutAnimation } from 'react-native';
 
 export default function SettingsAppearanceScreen({
   navigation,
@@ -74,6 +75,9 @@ export default function SettingsAppearanceScreen({
             switchValue={settings.viewType === 'compact'}
             onSwitchValueChange={(v) => {
               setSetting('viewType', v ? 'compact' : 'full');
+              LayoutAnimation.configureNext(
+                LayoutAnimation.Presets.easeInEaseOut,
+              );
             }}
           />
           {settings.viewType === 'compact' && (
@@ -108,9 +112,16 @@ export default function SettingsAppearanceScreen({
                   rightLabel={capitalizeFirstLetter(
                     settings.compactThumbnailPosition,
                   )}
-                  isLast
                 />
               </CompactThumbnailDisplayContextMenu>
+              <Table.Cell
+                label="Show Usernames"
+                switchValue={settings.compactShowUsername}
+                onSwitchValueChange={(v) => {
+                  setSetting('compactShowUsername', v);
+                }}
+                isLast
+              />
             </>
           )}
         </Table.Section>
@@ -167,6 +178,15 @@ export default function SettingsAppearanceScreen({
             }}
           />
         </Table.Section>
+        <Table.Section header="Comment Appearance">
+          <Table.Cell
+            label="Hide User Instance"
+            switchValue={settings.hideInstanceForUsernames}
+            onSwitchValueChange={(v) => {
+              setSetting('hideInstanceForUsernames', v);
+            }}
+          />
+        </Table.Section>
         <Table.Section header="Tab Bar Appearance">
           <Table.Cell
             label="Display Avatar in Tab Bar"
@@ -180,6 +200,15 @@ export default function SettingsAppearanceScreen({
             switchValue={settings.showAvatarInTabBar}
             onSwitchValueChange={(v) => {
               setSetting('showUsernameInTabBar', v);
+            }}
+          />
+        </Table.Section>
+        <Table.Section header="Other">
+          <Table.Cell
+            label="Mouse Animation for Loading Screens"
+            switchValue={settings.mouseLoadingIcon}
+            onSwitchValueChange={(v) => {
+              setSetting('mouseLoadingIcon', v);
             }}
           />
         </Table.Section>

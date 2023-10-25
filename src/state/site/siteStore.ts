@@ -45,10 +45,10 @@ export const usePersonAvatar = (): string | undefined =>
 export const useDefaultLanguage = (): number | undefined =>
   useSiteStore((state) => state.site?.my_user?.discussion_languages[0]);
 
-export const useShowNsfw = (): boolean | undefined =>
+export const useShowNsfw = (): boolean =>
   useSiteStore(
     (state) => state.site?.my_user?.local_user_view.local_user.show_nsfw,
-  );
+  ) ?? false;
 
 export const useSiteLanguages = (): Language[] | undefined =>
   useSiteStore((state) => state.site?.all_languages);
@@ -63,3 +63,8 @@ export const useSubscription = (id: number): CommunityView | undefined =>
   useSiteStore((state) =>
     state.subscriptions.find((c) => c.community.id === id),
   );
+
+export const useShowReadPosts = (): boolean =>
+  useSiteStore(
+    (state) => state.site?.my_user?.local_user_view.local_user.show_read_posts,
+  ) ?? false;

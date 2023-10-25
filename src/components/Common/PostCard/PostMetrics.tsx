@@ -9,10 +9,12 @@ import {
   usePostCommentCount,
   usePostCounts,
   usePostMyVote,
+  usePostPublished,
   useSettingsStore,
 } from '@src/state';
 import { Text, XStack } from 'tamagui';
 import ScoreIcon from '@components/Common/Icons/ScoreIcon';
+import { getTimeFrom } from '@helpers/time';
 
 interface IProps {
   itemId: number;
@@ -24,6 +26,9 @@ function PostMetrics({ itemId }: IProps): React.JSX.Element {
   const postCounts = usePostCounts(itemId);
   const postCommentCount = usePostCommentCount(itemId);
   const postMyVote = usePostMyVote(itemId);
+  const postPublished = usePostPublished(itemId);
+
+  const timestamp = useMemo(() => getTimeFrom(postPublished), [postPublished]);
 
   const upvoteColor = useMemo(
     () => (postMyVote === 1 ? '$upvote' : '$secondary'),
@@ -78,7 +83,7 @@ function PostMetrics({ itemId }: IProps): React.JSX.Element {
       <XStack space="$1" alignItems="center">
         <Clock size={14} color="$secondary" />
         <Text color="$secondary" fontSize="$2">
-          {postCommentCount}
+          {timestamp}
         </Text>
       </XStack>
     </XStack>

@@ -50,12 +50,13 @@ export interface SettingsStore {
   defaultListingType: ListingType;
   defaultCommunitySort: SortType;
 
-  showInstanceForUsernames: boolean;
+  hideInstanceForUsernames: boolean;
   blurNsfw: boolean;
 
   viewType: 'full' | 'compact';
   compactThumbnailPosition: 'left' | 'right' | 'none';
   compactVoteButtonPosition: 'left' | 'right' | 'none';
+  compactShowUsername: boolean;
 
   theme: IThemeOption;
   themeLight: IThemeOption;
@@ -95,6 +96,8 @@ export interface SettingsStore {
 
   accentColor: string | undefined;
 
+  mouseLoadingIcon: boolean;
+
   upgraded: boolean;
 
   reset: () => void;
@@ -130,13 +133,14 @@ const initialState: Partial<SettingsStore> = {
   defaultListingType: 'All',
   defaultCommunitySort: 'Hot',
 
-  showInstanceForUsernames: true,
+  hideInstanceForUsernames: true,
   blurNsfw: true,
 
   viewType: 'full',
 
   compactThumbnailPosition: 'left',
   compactVoteButtonPosition: 'right',
+  compactShowUsername: false,
 
   theme: 'lightTheme',
   themeLight: 'lightTheme',
@@ -182,6 +186,8 @@ const initialState: Partial<SettingsStore> = {
 
   showAvatarInTabBar: true,
   showUsernameInTabBar: true,
+
+  mouseLoadingIcon: false,
 
   upgraded: false,
 
@@ -290,3 +296,30 @@ export const useAppUpgraded = (): boolean | undefined =>
 
 export const useFontSize = (): number =>
   useSettingsStore((state) => state.fontSize);
+
+export const useMarkReadOnFeedScroll = (): boolean =>
+  useSettingsStore((state) => state.readOptions.onFeedScroll);
+
+export const useMarkReadOnCommunityScroll = (): boolean =>
+  useSettingsStore((state) => state.readOptions.onCommunityScroll);
+
+export const useMarkReadOnImageView = (): boolean =>
+  useSettingsStore((state) => state.readOptions.onImageView);
+
+export const useMarkReadOnPostView = (): boolean =>
+  useSettingsStore((state) => state.readOptions.onPostView);
+
+export const useMarkReadOnVote = (): boolean =>
+  useSettingsStore((state) => state.readOptions.onVote);
+
+export const useMouseLoadingIcon = (): boolean =>
+  useSettingsStore((state) => state.mouseLoadingIcon);
+
+export const useBlurNsfw = (): boolean =>
+  useSettingsStore((state) => state.blurNsfw);
+
+export const useHideCommunityInComment = (): boolean =>
+  useSettingsStore((state) => state.hideInstanceForUsernames);
+
+export const useCompactShowUsername = (): boolean =>
+  useSettingsStore((state) => state.compactShowUsername);

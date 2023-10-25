@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { setToast, useToast } from '@src/state';
-import { styled, Text, useTheme, XStack, YStack } from 'tamagui';
+import { styled, Text, XStack, YStack } from 'tamagui';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -16,7 +16,6 @@ export default function AppToast({
   translate = 170,
 }: IProps): React.JSX.Element {
   const toast = useToast();
-  const theme = useTheme();
 
   const toastPosition = useSharedValue(-100);
 
@@ -63,10 +62,16 @@ export default function AppToast({
   }));
 
   return (
-    <Animated.View
-      style={[styles.toast, { backgroundColor: theme.info.val }, toastStyle]}
-    >
-      <YStack justifyContent="center" alignItems="center" space="$1.5">
+    <Animated.View style={[styles.toast, toastStyle]}>
+      <YStack
+        justifyContent="center"
+        alignItems="center"
+        space="$1.5"
+        backgroundColor={toast?.color}
+        py="$4"
+        px="$2"
+        borderRadius="$4"
+      >
         {toast?.title != null && (
           <Text fontWeight="$6" fontSize="$5" color="white">
             {toast?.title}

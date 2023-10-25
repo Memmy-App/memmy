@@ -19,8 +19,15 @@ const flattenComments = (commentsInfo: ICommentInfo[]): void => {
 
 export const buildCommentChains = (
   commentViews: CommentView[],
+  ignoreLevels = false,
 ): BuildCommentChains => {
   const commentInfo: ICommentInfo[] = [];
+
+  if (commentViews.length < 1) {
+    return { commentInfo };
+  }
+
+  const rootLevel = commentViews[0].comment.path.split('.').length;
 
   for (const view of commentViews) {
     if (view.comment == null) continue;
@@ -28,15 +35,14 @@ export const buildCommentChains = (
     const { path, id } = view.comment;
 
     const pathIds = path.split('.').map(Number);
-    const parentId = pathIds[pathIds.length - 2];
-    const isRoot = parentId === 0;
+    const isRoot = pathIds.length === rootLevel;
 
     if (isRoot) {
       commentInfo.push({
         postId: view.post.id,
         commentId: id,
         depth: 0,
-        replies: buildReplies(id, commentViews),
+        replies: buildReplies(id, commentViews, rootLevel, ignoreLevels),
         collapsed: false,
         hidden: false,
         path,
@@ -61,6 +67,8 @@ export const buildCommentChains = (
 const buildReplies = (
   parentId: number,
   commentViews: CommentView[],
+  rootLevel: number,
+  ignoreLevels: boolean,
 ): ICommentInfo[] => {
   const replies: ICommentInfo[] = [];
 
@@ -82,12 +90,12 @@ const buildReplies = (
       replies.push({
         postId: view.post.id,
         commentId: id,
-        depth: pathIds.length - 2,
-        replies: buildReplies(id, commentViews),
+        depth: pathIds.length - rootLevel,
+        replies: buildReplies(id, commentViews, rootLevel, ignoreLevels),
         collapsed: false,
         hidden: false,
         path,
-        showInPost: i <= 3 && depth <= 4,
+        showInPost: (i <= 3 && depth <= 3) || (depth === 4 && i === 0),
         showLoadMore: i === 3 || (depth === 4 && i === 0),
         topId: pathIds[1],
         parentId: pathIds[pathIds.length - 2],

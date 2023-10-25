@@ -71,7 +71,7 @@ export const addComment = (comment: CommentView): void => {
   });
 };
 
-export const addComments = (comments: CommentView[]): void => {
+export const addComments = (comments: CommentView[], postId?: number): void => {
   const moderated = useSiteStore.getState().moderatedIds;
   const userId =
     useSiteStore.getState().site?.my_user?.local_user_view.local_user.person_id;
@@ -88,6 +88,8 @@ export const addComments = (comments: CommentView[]): void => {
       });
     }
 
-    state.postComments.set(comments[0].post.id, postComments);
+    if (postId != null) {
+      state.postComments.set(postId, postComments);
+    }
   });
 };

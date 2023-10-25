@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
   setNewCommentId,
@@ -21,6 +21,23 @@ import CommentSortTypeContextMenuButton from '@components/Common/ContextMenu/com
 import { useAwaitTransition } from '@hooks/useAwaitTransition';
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
 import { YStack } from 'tamagui';
+import RefreshControl from '@components/Common/Gui/RefreshControl';
+
+interface IPostScreenContext {
+  refresh?: () => void;
+  postCollapsed: boolean;
+  setPostCollapsed?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const PostScreenContext: React.Context<IPostScreenContext> =
+  React.createContext<IPostScreenContext>({
+    refresh: undefined,
+    postCollapsed: false,
+    setPostCollapsed: undefined,
+  });
+
+export const usePostScreenContext = (): IPostScreenContext =>
+  React.useContext(PostScreenContext);
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -39,10 +56,13 @@ export default function PostScreen({
   navigation,
   route,
 }: IProps): React.JSX.Element {
-  const { postId, scrollToCommentId } = route.params;
+  const { postId, parentCommentId } = route.params;
 
   const awaitTransition = useAwaitTransition();
 
+  const [postCollapsed, setPostCollapsed] = useState<boolean>(
+    parentCommentId != null,
+  );
   const postCounts = usePostCounts(postId);
   const postCommentsInfo = usePostCommentsInfo(postId);
   const postCommunityId = usePostCommunityId(postId);
@@ -51,21 +71,33 @@ export default function PostScreen({
 
   const defaultSortType = useDefaultCommentSort();
 
+  const initialized = useRef(false);
+
   const [sortType, setSortType] = useState<CommentSortType>(
     defaultSortType ?? 'Top',
   );
 
   const flashListRef = useRef<FlashList<ICommentInfo>>();
 
-  const commentsToShow = useMemo(() => {
-    return !awaitTransition.transitioning
-      ? postCommentsInfo?.filter((commentInfo) => commentInfo.showInPost)
-      : [];
-  }, [awaitTransition.transitioning, postCommentsInfo]);
+  const { isLoading, isError, isRefreshing, refresh } = useLoadData(
+    async () => {
+      await instance.getComments({
+        post_id: postId,
+        community_id: postCommunityId ?? undefined,
+        sort: sortType,
+        parent_id: parentCommentId ?? undefined,
+        ...(parentCommentId != null && {
+          max_depth: 10,
+        }),
+      });
 
-  const { isLoading, isError } = useLoadData(async () => {
-    return await instance.getComments(postId, postCommunityId ?? 0);
-  });
+      if (parentCommentId != null) {
+        flashListRef.current?.scrollToEnd({ animated: true });
+      }
+
+      initialized.current = true;
+    },
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -85,12 +117,24 @@ export default function PostScreen({
         />
       ),
     });
+
+    if (!initialized.current) return;
+
+    flashListRef.current?.scrollToOffset({ offset: 0, animated: true });
+
+    refresh(async () => {
+      await instance.getComments({
+        post_id: postId,
+        community_id: postCommunityId ?? undefined,
+        sort: sortType,
+      });
+    });
   }, [sortType]);
 
   useEffect(() => {
     if (newCommentId == null) return;
 
-    const index = commentsToShow?.findIndex(
+    const index = postCommentsInfo?.findIndex(
       (c) => c.commentId === newCommentId,
     );
 
@@ -103,52 +147,53 @@ export default function PostScreen({
     });
 
     setNewCommentId(undefined);
-  }, [newCommentId, commentsToShow]);
+  }, [newCommentId, postCommentsInfo]);
 
-  useEffect(() => {
-    if (!isLoading && scrollToCommentId != null) {
-      setTimeout(() => {
-        const index = commentsToShow?.findIndex(
-          (c) => c.commentId === scrollToCommentId,
-        );
-
-        console.log(index);
-
-        if (index == null || index < 0) {
-          return;
-        }
-
-        setTimeout(() => {
-          flashListRef.current?.scrollToIndex({
-            index,
-            animated: true,
-          });
-        }, 250);
-      }, 250);
-    }
-  }, [isLoading]);
+  const onRefresh = useCallback(() => {
+    refresh(async () => {
+      await instance.getComments({
+        post_id: postId,
+        community_id: postCommunityId ?? undefined,
+        sort: sortType,
+      });
+    });
+  }, []);
 
   if (postCommunityId == null) {
     return <LoadingScreen />;
   }
 
   return (
-    <YStack flex={1}>
-      <FlashList<ICommentInfo>
-        renderItem={renderItem}
-        data={commentsToShow}
-        keyExtractor={keyExtractor}
-        estimatedItemSize={100}
-        ListHeaderComponent={<Post />}
-        ListEmptyComponent={
-          <FeedLoadingIndicator
-            loading={isLoading || awaitTransition.transitioning}
-            error={isError}
-          />
-        }
-        // @ts-expect-error this is valid
-        ref={flashListRef}
-      />
-    </YStack>
+    <PostScreenContext.Provider
+      value={{
+        refresh: onRefresh,
+        postCollapsed,
+        setPostCollapsed,
+      }}
+    >
+      <YStack flex={1}>
+        <FlashList<ICommentInfo>
+          renderItem={renderItem}
+          data={postCommentsInfo}
+          keyExtractor={keyExtractor}
+          estimatedItemSize={100}
+          ListHeaderComponent={<Post />}
+          ListEmptyComponent={
+            <FeedLoadingIndicator
+              loading={
+                (isLoading && !isRefreshing) || awaitTransition.transitioning
+              }
+              error={isError}
+              empty={postCommentsInfo != null && postCommentsInfo.length < 1}
+            />
+          }
+          refreshControl={
+            <RefreshControl onRefresh={onRefresh} refreshing={isRefreshing} />
+          }
+          // @ts-expect-error this is valid
+          ref={flashListRef}
+        />
+      </YStack>
+    </PostScreenContext.Provider>
   );
 }

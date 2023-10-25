@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  useBlurNsfw,
   usePostCommunityNsfw,
   usePostLink,
   usePostLinkType,
@@ -18,6 +19,8 @@ interface IProps {
 }
 
 function CompactFeedItemThumbnail({ itemId }: IProps): React.JSX.Element {
+  const blurNsfw = useBlurNsfw();
+
   const postLink = usePostLink(itemId);
   const postLinkType = usePostLinkType(itemId);
   const postNsfw = usePostNsfw(itemId);
@@ -30,7 +33,7 @@ function CompactFeedItemThumbnail({ itemId }: IProps): React.JSX.Element {
       <YStack justifyContent="center" borderRadius="$2">
         <ViewerImage
           source={postLink!}
-          blurRadius={postNsfw || postCommunityNsfw ? 90 : 0}
+          blurRadius={(postNsfw || postCommunityNsfw) && blurNsfw ? 90 : 0}
           title={postTitle}
           overrideDimensions
           height={65}

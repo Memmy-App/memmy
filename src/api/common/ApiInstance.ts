@@ -6,7 +6,7 @@ import {
   CommunityView,
   CreatePost,
   GetCaptchaResponse,
-  GetCommentsResponse,
+  GetComments,
   GetCommunityResponse,
   GetPersonDetailsResponse,
   GetPostResponse,
@@ -16,6 +16,7 @@ import {
   LemmyHttp,
   ListCommunities,
   ListCommunitiesResponse,
+  LocalUser,
   PostResponse,
   RemoveComment,
   RemovePost,
@@ -38,15 +39,18 @@ import {
   addCommentsToPost,
   addPost,
   addPosts,
+  markPostRead,
   setCommentSaved,
   setSubscribed,
   setSubscriptions,
+  setToast,
   setUnread,
   updateComment,
   useCommentStore,
   useCommunityStore,
   usePostStore,
   useSettingsStore,
+  useSiteStore,
 } from '@src/state';
 import { updatePost } from '@src/state/post/actions/updatePost';
 import {
@@ -57,6 +61,7 @@ import {
   setReplyRead,
 } from '@src/state/inbox/actions';
 import { setPostSaved } from '@src/state/post/actions/setPostSaved';
+import { ICommentInfo, lemmyErrors } from '@src/types';
 
 export enum EInitializeResult {
   SUCCESS,
@@ -195,10 +200,21 @@ class ApiInstance {
   }
 
   static handleError(error: string): string {
-    // TODO Handle errors
+    // Write the error to the log
     writeToLog(error);
 
-    return 'Not implemented'; // TODO Return the error message
+    let lemmyError = lemmyErrors.find((e) => e.code === error);
+
+    if (lemmyError == null) {
+      lemmyError = lemmyErrors[0];
+    }
+
+    setToast({
+      text: lemmyError.message,
+      color: '$warn',
+    });
+
+    return lemmyError.code;
   }
 
   async getSite(): Promise<GetSiteResponse | undefined> {
@@ -270,6 +286,13 @@ class ApiInstance {
     });
 
     try {
+      // Handle marking the post read
+      const markReadOnVote = useSettingsStore.getState().readOptions.onVote;
+
+      if (markReadOnVote) {
+        markPostRead(postId);
+      }
+
       await this.instance?.likePost({
         post_id: postId,
         score: newVms.newVote!,
@@ -284,6 +307,7 @@ class ApiInstance {
         post.view.counts.score = oldVms.score;
         post.view.counts.upvotes = oldVms.upvotes;
         post.view.counts.downvotes = oldVms.downvotes;
+        post.view.my_vote = oldVms.myVote;
       });
 
       const errMsg = ApiInstance.handleError(e.toString());
@@ -348,6 +372,7 @@ class ApiInstance {
         comment.view.counts.score = oldVms.score;
         comment.view.counts.upvotes = oldVms.upvotes;
         comment.view.counts.downvotes = oldVms.downvotes;
+        comment.view.my_vote = oldVms.myVote;
       });
 
       const errMsg = ApiInstance.handleError(e.toString());
@@ -483,7 +508,7 @@ class ApiInstance {
         // TODO This should use a separate option for feed vs community
         options.communityId != null || options.communityName != null
           ? settings.defaultSort
-          : settings.defaultSort,
+          : settings.defaultCommunitySort,
       refresh: false,
     };
 
@@ -538,51 +563,50 @@ class ApiInstance {
   }
 
   async getComments(
-    postId: number,
-    communityId: number,
+    options: Partial<GetComments>,
     addToPost = true,
-    parentId?: number,
-  ): Promise<GetCommentsResponse | undefined> {
-    const settings = useSettingsStore.getState();
-    const post = usePostStore.getState().posts.get(postId);
+  ): Promise<ICommentInfo[] | null> {
+    const post = usePostStore.getState().posts.get(options.post_id!);
 
-    if (post == null) return;
+    if (addToPost && post == null) return null;
+
+    const defaultOptions: Partial<GetComments> = {
+      auth: this.authToken!,
+      max_depth: 8,
+    };
+
+    options = {
+      ...defaultOptions,
+      ...options,
+    };
 
     try {
-      const res = await this.instance?.getComments({
-        auth: this.authToken!,
-        post_id: postId,
-        community_id: communityId,
-        max_depth: 10,
-        limit: 20,
-        sort: settings.defaultCommentSort,
-        ...(parentId != null && { parent_id: parentId }),
-      });
-
-      if (res == null) return res;
+      const res = await this.instance!.getComments(options as GetComments);
 
       const builtComments = buildCommentChains(res.comments);
 
-      addComments(res.comments);
+      addComments(res.comments, options.post_id ?? undefined);
 
       if (addToPost) {
-        addCommentsToPost(postId, builtComments.commentInfo);
+        addCommentsToPost(options.post_id!, builtComments.commentInfo);
       }
 
-      return undefined;
+      return builtComments.commentInfo;
     } catch (e: any) {
-      const errMsg = ApiInstance.handleError(e.toString);
+      const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
     }
   }
 
   async markPostRead(postId: number): Promise<void> {
     try {
-      await this.instance?.markPostAsRead({
+      await this.instance!.markPostAsRead({
         post_id: postId,
         read: true,
         auth: this.authToken!,
       });
+
+      markPostRead(postId);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString);
       throw new Error(errMsg);
@@ -980,6 +1004,22 @@ class ApiInstance {
       });
 
       setUnread(true);
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
+  async setUserSetting(setting: keyof LocalUser, value: any): Promise<void> {
+    const userAvatar =
+      useSiteStore.getState().site?.my_user?.local_user_view.person.avatar;
+
+    try {
+      await this.instance!.saveUserSettings({
+        auth: this.authToken!,
+        avatar: userAvatar ?? '',
+        [setting]: value,
+      });
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);

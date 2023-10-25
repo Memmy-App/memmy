@@ -1,21 +1,16 @@
 import React, { useCallback } from 'react';
 import { ICommentInfo } from '@src/types';
 import { Separator, Text, YStack } from 'tamagui';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/core';
 import { Pressable } from 'react-native';
+import { showMoreCommentsNexted } from '@src/state';
 
 interface IProps {
   commentInfo: ICommentInfo;
 }
 
 function CommentShowMoreButton({ commentInfo }: IProps): React.JSX.Element {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
   const onPress = useCallback(() => {
-    navigation.push('CommentChain', {
-      commentInfo,
-    });
+    showMoreCommentsNexted(commentInfo.commentId, commentInfo.postId);
   }, []);
 
   return (

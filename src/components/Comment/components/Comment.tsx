@@ -167,6 +167,7 @@ export const PressableComment = React.memo(function pressableComment({
   collapsed = false,
   leftOptions,
   rightOptions,
+  space,
 }: IProps): React.JSX.Element {
   return (
     <Pressable onPress={onPress}>
@@ -176,6 +177,7 @@ export const PressableComment = React.memo(function pressableComment({
         collapsed={collapsed}
         leftOptions={leftOptions}
         rightOptions={rightOptions}
+        space={space}
       />
     </Pressable>
   );

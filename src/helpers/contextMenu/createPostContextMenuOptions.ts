@@ -5,6 +5,7 @@ interface CreatePostContextMenuOptionsParams {
   moderates: boolean;
   isOwnPost: boolean;
   isImage: boolean;
+  isLink: boolean;
 }
 
 export const createPostContextMenuOptions = (
@@ -18,12 +19,23 @@ export const createPostContextMenuOptions = (
     },
     {
       key: 'share',
-      title: 'Share',
+      title: 'Share Post',
       icon: 'square.and.arrow.up',
     },
   ];
 
-  if (params.isImage) {
+  if (params.isLink && !params.isImage) {
+    arr = [
+      ...arr,
+      {
+        key: 'shareLink',
+        title: 'Share Link',
+        icon: 'link',
+      },
+    ];
+  }
+
+  if (params.isLink && params.isImage) {
     arr = [
       ...arr,
       {

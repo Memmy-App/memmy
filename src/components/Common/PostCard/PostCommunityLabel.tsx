@@ -22,7 +22,7 @@ interface ICommunityIconProps {
   communityIcon?: string;
 }
 
-function CommunityIcon({
+function CommunityIconInner({
   communityIcon,
 }: ICommunityIconProps): React.JSX.Element {
   if (communityIcon == null) {
@@ -40,6 +40,8 @@ function CommunityIcon({
     />
   );
 }
+
+const CommunityIcon = React.memo(CommunityIconInner);
 
 function PostCommunityLabel({
   itemId,

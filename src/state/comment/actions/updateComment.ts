@@ -12,3 +12,16 @@ export const updateComment = (comment: CommentView): void => {
     current.view.comment.deleted = comment.comment.deleted;
   });
 };
+
+export const updateCommentContent = (
+  commentId: number,
+  content: string,
+): void => {
+  useCommentStore.setState((state) => {
+    const current = state.comments.get(commentId);
+
+    if (current == null) return;
+
+    current.view.comment.content = content;
+  });
+};
