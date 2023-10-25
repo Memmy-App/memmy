@@ -307,6 +307,7 @@ class ApiInstance {
         post.view.counts.score = oldVms.score;
         post.view.counts.upvotes = oldVms.upvotes;
         post.view.counts.downvotes = oldVms.downvotes;
+        post.view.my_vote = oldVms.myVote;
       });
 
       const errMsg = ApiInstance.handleError(e.toString());
@@ -371,6 +372,7 @@ class ApiInstance {
         comment.view.counts.score = oldVms.score;
         comment.view.counts.upvotes = oldVms.upvotes;
         comment.view.counts.downvotes = oldVms.downvotes;
+        comment.view.my_vote = oldVms.myVote;
       });
 
       const errMsg = ApiInstance.handleError(e.toString());
