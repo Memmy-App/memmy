@@ -53,7 +53,8 @@ export type LemmyErrorType =
   | 'could_not_generate_totp'
   | 'could_not_find_object'
   | 'incorrect_login'
-  | 'unknown';
+  | 'unknown'
+  | 'community_ban';
 
 interface LemmyError {
   code: LemmyErrorType;
@@ -108,6 +109,10 @@ export const lemmyErrors: LemmyError[] = [
   },
   {
     code: 'banned_from_community',
+    message: 'You are banned from this community.',
+  },
+  {
+    code: 'community_ban',
     message: 'You are banned from this community.',
   },
   {
