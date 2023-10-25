@@ -690,13 +690,18 @@ class ApiInstance {
     }
   }
 
-  async editComment(commentId: number, content: string): Promise<void> {
+  async editComment(
+    commentId: number,
+    content: string,
+  ): Promise<CommentResponse> {
     try {
-      await this.instance?.editComment({
+      const res = await this.instance!.editComment({
         comment_id: commentId,
         content,
         auth: this.authToken!,
       });
+
+      return res;
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString);
       throw new Error(errMsg);
