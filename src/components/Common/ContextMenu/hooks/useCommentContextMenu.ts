@@ -60,7 +60,7 @@ export const useCommentContextMenu = (
   };
 
   const edit = (): void => {
-    navigation.push('Reply', { commentId: itemId, edit: true });
+    navigation.push('EditReply', { commentId: itemId });
   };
 
   const delet = (): void => {
