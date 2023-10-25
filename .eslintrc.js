@@ -35,7 +35,7 @@ module.exports = {
           }
         }
       }],
-    "@typescript-eslint/consistent-type-definitions": [2, "interface"],
+    "@typescript-eslint/consistent-type-definitions": [1, "interface"],
     "@typescript-eslint/consistent-type-imports": [2, { prefer: "no-type-imports" }],
     "@typescript-eslint/space-before-function-paren": [2, {
       "anonymous": "never",
