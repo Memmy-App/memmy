@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Version 1.0 (53)] - 2023-10-25T09:24:16Z
+
 ### Fixed
 
 - Fixed typo in checking whether to show the community name in comments
