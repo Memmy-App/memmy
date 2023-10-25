@@ -128,7 +128,16 @@ platform :ios do
       section_identifier: '[Unreleased]',
       excluded_markdown_elements: ['-', '###']
     )
-    build_app(workspace: "Memmy.xcworkspace", scheme: "Memmy")
+    build_app(
+      workspace: "Memmy.xcworkspace",
+      scheme: "Memmy",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "com.gkasdorf.memmyapp" => "match AppStore com.gkasdorf.memmyapp 1698187990"
+        }
+      }
+    )
     upload_to_testflight(
       localized_build_info: {
         "default": {
@@ -168,3 +177,19 @@ platform :ios do
     )
   end
 end
+
+platform :ios do
+  desc "Bump version and update changelog"
+  lane :bump do
+    increment_build_number(xcodeproj: "Memmy.xcodeproj")
+    version_number = get_version_number
+    build_number = get_build_number
+    stamp_changelog(
+      changelog_path: '../CHANGELOG.md',
+      section_identifier: "Version #{version_number} (#{build_number})",
+      should_stamp_date: true,
+      stamp_datetime_format: '%FT%TZ'
+    )
+  end
+end
+
