@@ -94,6 +94,7 @@ export default function NewPostScreen(): React.JSX.Element {
             px={0}
             mt={5}
             mb={-5}
+            defaultValue={newPostScreen.title}
           />
           <TextInput
             onChangeText={newPostScreen.setUrl}
@@ -104,6 +105,10 @@ export default function NewPostScreen(): React.JSX.Element {
             px={0}
             my={-5}
             clearButtonMode="always"
+            defaultValue={newPostScreen.url}
+            keyboardType="url"
+            autoCorrect={false}
+            autoCapitalize="none"
           />
           <TextInput
             inputAccessoryViewID="accessory"
@@ -119,6 +124,7 @@ export default function NewPostScreen(): React.JSX.Element {
             onLayout={onLayout}
             mt={-5}
             placeholder="Have anything to say?"
+            defaultValue={newPostScreen.text}
           />
         </YStack>
       </ScrollView>

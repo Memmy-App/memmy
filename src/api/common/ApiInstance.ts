@@ -5,6 +5,7 @@ import {
   CommunityResponse,
   CommunityView,
   CreatePost,
+  EditPost,
   GetCaptchaResponse,
   GetComments,
   GetCommunityResponse,
@@ -704,6 +705,22 @@ class ApiInstance {
       return res;
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString);
+      throw new Error(errMsg);
+    }
+  }
+
+  async editPost(options: Partial<EditPost>): Promise<PostResponse> {
+    options = {
+      auth: this.authToken!,
+      ...options,
+    };
+
+    try {
+      const res = await this.instance!.editPost(options as EditPost);
+
+      return res;
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
     }
   }

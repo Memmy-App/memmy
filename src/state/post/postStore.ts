@@ -111,3 +111,6 @@ export const usePostDeleted = (id: number): boolean =>
 
 export const usePostPublished = (id: number): string | undefined =>
   usePostStore((state) => state.posts.get(id))?.view.counts.published;
+
+export const usePostLanguageId = (id: number): number | undefined =>
+  usePostStore((state) => state.posts.get(id))?.view.post.language_id;
