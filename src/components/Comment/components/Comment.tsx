@@ -15,6 +15,7 @@ import {
   useCommentPostId,
   useCommentRemoved,
   useCommentSaved,
+  useShowCommentButtons,
 } from '@src/state';
 import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
 import { SwipeableActionParams } from '@helpers/swipeableActions';
@@ -24,6 +25,7 @@ import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
 import { ISwipeableOptions } from '@components/Common/SwipeableRow/types';
 import CommentEllipsisButton from '@components/Comment/components/CommentEllipsisButton';
 import CommentMetrics from '@components/Comment/components/CommentMetrics';
+import CommentActionBar from '@components/Comment/components/CommentActionBar';
 
 interface IProps {
   itemId: number;
@@ -76,6 +78,7 @@ function Comment({
   const commentPath = useCommentPath(itemId);
 
   const swipesEnabled = useCommentGesturesEnabled();
+  const showButtons = useShowCommentButtons();
 
   const borderWidth = useMemo(() => (depth > 0 ? 2 : 0), [depth]);
   const borderColor = useMemo(() => depthToColor(depth), [depth]);
@@ -152,6 +155,7 @@ function Comment({
                 removed={commentRemoved}
               />
             )}
+            {showButtons && <CommentActionBar itemId={itemId} />}
           </YStack>
           <Separator borderColor="$bg" ml={depth * 10 + 10} />
         </YStack>

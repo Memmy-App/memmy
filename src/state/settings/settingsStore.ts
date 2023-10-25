@@ -98,6 +98,8 @@ export interface SettingsStore {
 
   mouseLoadingIcon: boolean;
 
+  showCommentButtons: boolean;
+
   upgraded: boolean;
 
   reset: () => void;
@@ -186,6 +188,8 @@ const initialState: Partial<SettingsStore> = {
 
   showAvatarInTabBar: true,
   showUsernameInTabBar: true,
+
+  showCommentButtons: false,
 
   mouseLoadingIcon: false,
 
@@ -323,3 +327,6 @@ export const useHideCommunityInComment = (): boolean =>
 
 export const useCompactShowUsername = (): boolean =>
   useSettingsStore((state) => state.compactShowUsername);
+
+export const useShowCommentButtons = (): boolean =>
+  useSettingsStore((state) => state.showCommentButtons);

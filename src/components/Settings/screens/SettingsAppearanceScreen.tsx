@@ -180,6 +180,13 @@ export default function SettingsAppearanceScreen({
         </Table.Section>
         <Table.Section header="Comment Appearance">
           <Table.Cell
+            label="Show Buttons"
+            switchValue={settings.showCommentButtons}
+            onSwitchValueChange={(v) => {
+              setSetting('showCommentButtons', v);
+            }}
+          />
+          <Table.Cell
             label="Hide User Instance"
             switchValue={settings.hideInstanceForUsernames}
             onSwitchValueChange={(v) => {
