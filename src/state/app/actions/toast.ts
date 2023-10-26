@@ -3,7 +3,7 @@ import { IToast } from '@src/types/IToast';
 
 const toastDefaults: Partial<IToast> = {
   duration: 3000,
-  color: '$info',
+  color: '$success',
 };
 
 export const setToast = (toast?: Partial<IToast>): void => {
