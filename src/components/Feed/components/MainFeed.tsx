@@ -9,7 +9,7 @@ import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { useRoute } from '@react-navigation/core';
 import { useCommunityFeed } from '@components/Feed/hooks/useCommunityFeed';
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
-import { useTheme } from 'tamagui';
+import { useTheme, View } from 'tamagui';
 import CompactOrFull from '@components/Feed/components/Feed/CompactOrFull';
 import {
   markPostRead,
@@ -18,6 +18,7 @@ import {
   useSettingsStore,
 } from '@src/state';
 import { ViewableItemsChanged } from '@src/types/ViewToken';
+import CommunityInfo from '@components/Feed/components/Community/CommunityInfo';
 
 const renderItem = ({
   item,
@@ -99,33 +100,38 @@ export default function MainFeed(): React.JSX.Element {
           setSortType={mainFeed.setSortType}
         />
       )}
-      <FlashList<number>
-        renderItem={renderItem}
-        data={mainFeed.postIds}
-        keyExtractor={keyExtractor}
-        onEndReachedThreshold={0.5}
-        onEndReached={mainFeed.onEndReached}
-        estimatedItemSize={300}
-        scrollEventThrottle={16}
-        onScroll={onScroll}
-        ListFooterComponent={
-          <FeedLoadingIndicator
-            loading={mainFeed.isLoading && !mainFeed.isRefreshing}
-            error={mainFeed.isError}
-          />
-        }
-        refreshControl={
-          <RefreshControl
-            refreshing={mainFeed.isRefreshing}
-            onRefresh={mainFeed.onRefresh}
-          />
-        }
-        contentContainerStyle={{ backgroundColor: theme.bg.val }}
-        // @ts-expect-error - This is valid but useScrollToTop expect a ref to a FlatList
-        ref={mainFeed.flashListRef}
-        // @ts-expect-error - This is valid but it doesn't like the typing for some reason
-        viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
-      />
+      <View flex={1} zIndex={-1}>
+        <FlashList<number>
+          renderItem={renderItem}
+          data={mainFeed.postIds}
+          keyExtractor={keyExtractor}
+          onEndReachedThreshold={0.5}
+          onEndReached={mainFeed.onEndReached}
+          estimatedItemSize={300}
+          scrollEventThrottle={16}
+          onScroll={onScroll}
+          ListHeaderComponent={params?.id != null ? <CommunityInfo /> : null}
+          ListFooterComponent={
+            <FeedLoadingIndicator
+              loading={mainFeed.isLoading && !mainFeed.isRefreshing}
+              error={mainFeed.isError}
+            />
+          }
+          refreshControl={
+            <RefreshControl
+              refreshing={mainFeed.isRefreshing}
+              onRefresh={mainFeed.onRefresh}
+            />
+          }
+          contentContainerStyle={{ backgroundColor: theme.bg.val }}
+          // @ts-expect-error - This is valid but useScrollToTop expect a ref to a FlatList
+          ref={mainFeed.flashListRef}
+          // @ts-expect-error - This is valid but it doesn't like the typing for some reason
+          viewabilityConfigCallbackPairs={
+            viewabilityConfigCallbackPairs.current
+          }
+        />
+      </View>
     </Animated.View>
   );
 }

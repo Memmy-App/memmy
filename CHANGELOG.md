@@ -16,6 +16,7 @@ produce any false negatives.
 ### Changes
 
 - Profile header is now less "jarring" when animating
+- Community header is also now less jarring.
 
 ## [Version 1.0 (53)] - 2023-10-25T09:24:16Z
 

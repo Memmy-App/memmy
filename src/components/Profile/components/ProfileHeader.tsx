@@ -107,7 +107,7 @@ function ProfileHeader(): React.JSX.Element {
   }, []);
 
   return (
-    <Animated.View style={[{ backgroundColor: 'green' }, headerContainerStyle]}>
+    <Animated.View style={[headerContainerStyle]}>
       {hasParent && (
         <View
           zIndex={2}
@@ -182,7 +182,7 @@ function ProfileHeader(): React.JSX.Element {
               ]}
             />
           ) : (
-            <AnimatedAvatarPlaceholder size={85} style={[{}, avatarStyle]} />
+            <AnimatedAvatarPlaceholder size={85} style={[avatarStyle]} />
           )}
         </YStack>
       </YStack>

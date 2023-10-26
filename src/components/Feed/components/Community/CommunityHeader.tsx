@@ -1,42 +1,26 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { Text, useTheme, View, XStack, YStack } from 'tamagui';
 import { useNavigation, useRoute } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
-  useCommunityActorId,
-  useCommunityAggregates,
   useCommunityBanner,
-  useCommunityDescription,
   useCommunityIcon,
   useCommunityName,
   useCommunityNsfw,
-  useCommunitySubscribed,
 } from '@src/state';
-import { getBaseUrl } from '@helpers/links';
 import Animated, {
   Extrapolate,
   Extrapolation,
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import {
-  ChevronLeft,
-  Globe,
-  Star,
-  StarOff,
-  StickyNote,
-} from '@tamagui/lucide-icons';
+import { ChevronLeft, Globe } from '@tamagui/lucide-icons';
 import SortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/SortTypeContextMenuButton';
 import { SortType } from 'lemmy-js-client';
-import ButtonOne from '@components/Common/Button/ButtonOne';
-import { isSubscribed } from '@helpers/lemmy';
-import instance from '@src/Instance';
-import { useLoadData } from '@src/hooks';
-
-const AnimatedAvatarPlaceholder = Animated.createAnimatedComponent(Globe);
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const headerPlaceholder = require('../../../../../assets/headerPlaceholder.jpg');
+const AnimatedAvatarPlaceholder = Animated.createAnimatedComponent(Globe);
 
 interface IProps {
   isLoading: boolean;
@@ -46,7 +30,6 @@ interface IProps {
 }
 
 function CommunityHeader({
-  isLoading,
   contentOffsetY,
   sortType,
   setSortType,
@@ -61,32 +44,6 @@ function CommunityHeader({
   const communityBanner = useCommunityBanner(params?.id);
   const communityNsfw = useCommunityNsfw(params?.id);
   const communityIcon = useCommunityIcon(params?.id);
-  const communityCounts = useCommunityAggregates(params?.id);
-  const communityDescription = useCommunityDescription(params?.id);
-  const communityActorId = useCommunityActorId(params?.id);
-  const communitySubscribed = useCommunitySubscribed(params?.id);
-
-  const subscribed = useMemo(
-    () => isSubscribed(communitySubscribed),
-    [communitySubscribed],
-  );
-
-  const { isLoading: isSubscribing, refresh: submit } = useLoadData();
-
-  const onSubscribePress = useCallback(() => {
-    submit(async () => {
-      void instance.subscribeCommunity(params.id!, !subscribed).then(() => {});
-    });
-  }, [subscribed]);
-
-  const communityInstance = useMemo(
-    () => getBaseUrl(communityActorId),
-    [communityActorId],
-  );
-
-  const onNewPostPress = useCallback(() => {
-    navigation.push('NewPost', { communityId: params?.id });
-  }, []);
 
   const hasParent = navigation.canGoBack();
 
@@ -94,7 +51,7 @@ function CommunityHeader({
     height: interpolate(
       contentOffsetY.value,
       [0, 180],
-      [330, 100],
+      [150, 105],
       Extrapolate.CLAMP,
     ),
   }));
@@ -118,25 +75,25 @@ function CommunityHeader({
     top: interpolate(
       contentOffsetY.value,
       [0, 100],
-      [107, 45],
+      [110, 45],
       Extrapolation.CLAMP,
     ),
     height: interpolate(
       contentOffsetY.value,
       [0, 100],
-      [85, 45],
+      [75, 45],
       Extrapolation.CLAMP,
     ),
     width: interpolate(
       contentOffsetY.value,
       [0, 100],
-      [85, 45],
+      [75, 45],
       Extrapolation.CLAMP,
     ),
     left: interpolate(
       contentOffsetY.value,
       [0, 100],
-      [15, 60],
+      [25, 60],
       Extrapolate.CLAMP,
     ),
   }));
@@ -186,7 +143,6 @@ function CommunityHeader({
       <YStack flex={1} backgroundColor="$fg" mt="$1">
         <YStack
           alignItems="center"
-          height={300}
           position="absolute"
           width="100%"
           zIndex={-1}
@@ -224,7 +180,7 @@ function CommunityHeader({
             </XStack>
           </Animated.View>
         </YStack>
-        <YStack zIndex={1}>
+        <YStack zIndex={2}>
           {communityIcon != null ? (
             <Animated.Image
               source={{ uri: communityIcon }}
@@ -241,49 +197,9 @@ function CommunityHeader({
             <AnimatedAvatarPlaceholder
               size={85}
               color={theme.accent.val}
-              style={[{}, avatarStyle]}
+              style={[avatarStyle]}
             />
           )}
-          <XStack ml="auto" width="65%" top={70} space="$3" right={10}>
-            <ButtonOne
-              label={subscribed ? 'Subscribed' : 'Subscribe'}
-              icon={subscribed ? Star : StarOff}
-              onPress={onSubscribePress}
-              disabled={isSubscribing}
-            />
-            <ButtonOne
-              label="New Post"
-              icon={StickyNote}
-              onPress={onNewPostPress}
-            />
-          </XStack>
-
-          <YStack mx="$3" space="$2.5" top={80}>
-            <YStack alignItems="baseline" space="$0.5">
-              <Text fontSize="$5" fontWeight="bold">
-                {communityName}
-              </Text>
-              <Text fontSize="$3" color="$secondary">
-                @{communityInstance}
-              </Text>
-            </YStack>
-            <XStack space="$3">
-              <Text fontSize="$2" color="$secondary" fontWeight="$7">
-                {communityCounts?.posts.toLocaleString()} Posts
-              </Text>
-              <Text fontSize="$2" color="$secondary" fontWeight="$7">
-                {communityCounts?.comments.toLocaleString()} Comments
-              </Text>
-              <Text fontSize="$2" color="$secondary" fontWeight="$7">
-                {communityCounts?.subscribers.toLocaleString()} Subscribers
-              </Text>
-            </XStack>
-            <XStack>
-              <Text fontSize="$3" color="$color" numberOfLines={2}>
-                {communityDescription}
-              </Text>
-            </XStack>
-          </YStack>
         </YStack>
       </YStack>
     </Animated.View>
