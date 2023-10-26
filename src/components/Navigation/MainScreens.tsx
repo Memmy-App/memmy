@@ -18,6 +18,7 @@ import ProfileScreen from '@components/Profile/screens/ProfileScreen';
 import NewPostScreen from '@components/NewPost/screens/NewPostScreen';
 import WebViewScreen from '@components/WebViewer/WebViewScreen';
 import EditReplyScreen from '@components/Reply/screens/EditReplyScreen';
+import CommunityModeratorListScreen from '@components/Community/screens/CommunityModeratorListScreen';
 
 export default function MainScreens(
   stack: TypedNavigator<
@@ -83,6 +84,11 @@ export default function MainScreens(
           name="WebView"
           component={WebViewScreen}
           options={{ headerTitle: 'View' }}
+        />
+        <stack.Screen
+          name="CommunityModerators"
+          component={CommunityModeratorListScreen}
+          options={{ headerTitle: 'Moderators' }}
         />
       </stack.Group>
     </>
