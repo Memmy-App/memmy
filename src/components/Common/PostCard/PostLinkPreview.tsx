@@ -19,14 +19,18 @@ import {
 import { Image } from 'expo-image';
 import { ChevronRight, Link } from '@tamagui/lucide-icons';
 import { Pressable, StyleSheet } from 'react-native';
-import { openLink } from '@helpers/links';
+import { LinkHandler } from '@helpers/links';
 import LoadingAnimation from '@components/Common/Loading/LoadingAnimation';
+import { useNavigation } from '@react-navigation/core';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface IProps {
   itemId: number;
 }
 
 function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   const theme = useTheme();
 
   const mouse = useMouseLoadingIcon();
@@ -50,7 +54,8 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
   if (postLink == null) return null;
 
   const onPress = useCallback(() => {
-    openLink(postLink, theme.navBarBg.val);
+    const handler = new LinkHandler(postLink, theme.navBarBg.val, navigation);
+    void handler.handleLink();
   }, [itemId, theme]);
 
   return (

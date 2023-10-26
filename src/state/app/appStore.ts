@@ -9,6 +9,7 @@ interface AppStore {
   toast: IToast | null;
   drawerOpen: boolean;
   unread: number;
+  isLoading: boolean;
 }
 
 export const useAppStore = create(
@@ -19,6 +20,7 @@ export const useAppStore = create(
     toast: null,
     drawerOpen: false,
     unread: 0,
+    isLoading: false,
   })),
 );
 
@@ -39,3 +41,6 @@ export const useDrawerOpen = (): boolean =>
 
 export const useUnreadCount = (): number =>
   useAppStore((state) => state.unread);
+
+export const useIsAppLoading = (): boolean =>
+  useAppStore((state) => state.isLoading);

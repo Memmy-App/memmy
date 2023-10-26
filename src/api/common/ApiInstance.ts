@@ -816,7 +816,7 @@ class ApiInstance {
     }
   }
 
-  async search(searchOptions: Search): Promise<SearchResponse | undefined> {
+  async search(searchOptions: Search): Promise<SearchResponse> {
     const defaultOptions: Search = {
       sort: 'Hot',
       type_: 'All',
@@ -831,7 +831,7 @@ class ApiInstance {
     };
 
     try {
-      return await this.instance?.search(searchOptions);
+      return await this.instance!.search(searchOptions);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString);
       throw new Error(errMsg);

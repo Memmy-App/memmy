@@ -1,7 +1,9 @@
 import React, { useCallback } from 'react';
 import { MdToken } from '@src/types';
-import { openLink } from '@helpers/links';
 import { Text, useTheme } from 'tamagui';
+import { useNavigation } from '@react-navigation/core';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { LinkHandler } from '@helpers/links';
 
 interface IProps {
   token: MdToken;
@@ -10,9 +12,11 @@ interface IProps {
 
 export default function MdLink({ token, href }: IProps): React.JSX.Element {
   const theme = useTheme();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onPress = useCallback(() => {
-    openLink(href, theme.navBarBg.val);
+    const handler = new LinkHandler(href, theme.navBarBg.val, navigation);
+    void handler.handleLink();
   }, []);
 
   return (

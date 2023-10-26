@@ -29,6 +29,7 @@ import {
   useAppUpgraded,
   useCurrentAccount,
   useDrawerOpen,
+  useIsAppLoading,
   useSettingsStore,
 } from '@src/state';
 import {
@@ -39,6 +40,7 @@ import {
 import { useBackgroundChecks } from '@hooks/useBackgroundChecks';
 import { resetState } from '@src/state/resetState';
 import ErrorScreen from '@components/Error/ErrorScreen';
+import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 
 if (__DEV__) {
   require('./ReactotronConfig');
@@ -119,6 +121,7 @@ const setOpen = (): void => {
 
 function PartTwo(): React.JSX.Element {
   const drawerOpen = useDrawerOpen();
+  const isAppLoading = useIsAppLoading();
 
   const theme = useTheme();
   const accent = useAccent();
@@ -168,6 +171,8 @@ function PartTwo(): React.JSX.Element {
     <>
       {/* @ts-expect-error - This is a valid option */}
       <StatusBar style={theme.statusBar.val} />
+
+      <LoadingOverlay visible={isAppLoading} />
 
       <RNDrawer
         open={drawerOpen}
