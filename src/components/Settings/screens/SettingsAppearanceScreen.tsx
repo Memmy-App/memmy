@@ -69,7 +69,30 @@ export default function SettingsAppearanceScreen({
             </>
           )}
         </Table.Section>
-        <Table.Section header="Feed Display">
+        <Table.Section
+          header="Font Scale"
+          footer="In an effort to keep things snappy, you will need to 're-render' any screen you're currently on for font sizes to update. I am working on a solution to this in the mean time. You may also restart the app if you feel that is easier."
+        >
+          <Table.Cell
+            label="Font Scale"
+            rightLabel={`${settings.fontSize}pt`}
+          />
+          <Table.CellContainer>
+            <Slider
+              lowerLimit={12}
+              upperLimit={22}
+              minimumValue={12}
+              maximumValue={22}
+              step={2}
+              value={settings.fontSize}
+              tapToSeek
+              onValueChange={(v) => {
+                setSetting('fontSize', v);
+              }}
+            />
+          </Table.CellContainer>
+        </Table.Section>
+        <Table.Section header="Feed Appearance">
           <Table.Cell
             label="Compact View"
             switchValue={settings.viewType === 'compact'}
@@ -96,6 +119,7 @@ export default function SettingsAppearanceScreen({
                   rightLabel={capitalizeFirstLetter(
                     settings.compactVoteButtonPosition,
                   )}
+                  useChevron
                 />
               </CompactThumbnailDisplayContextMenu>
               <CompactThumbnailDisplayContextMenu
@@ -112,6 +136,7 @@ export default function SettingsAppearanceScreen({
                   rightLabel={capitalizeFirstLetter(
                     settings.compactThumbnailPosition,
                   )}
+                  useChevron
                 />
               </CompactThumbnailDisplayContextMenu>
               <Table.Cell
@@ -120,33 +145,24 @@ export default function SettingsAppearanceScreen({
                 onSwitchValueChange={(v) => {
                   setSetting('compactShowUsername', v);
                 }}
+              />
+              <Table.Cell
+                label="Show Avatars"
+                switchValue={settings.showAvatarInFeed}
+                onSwitchValueChange={(v) => {
+                  setSetting('showAvatarInFeed', v);
+                }}
+              />
+              <Table.Cell
+                label="Show Community Icons"
+                switchValue={settings.showCommunityIconInFeed}
+                onSwitchValueChange={(v) => {
+                  setSetting('showCommunityIconInFeed', v);
+                }}
                 isLast
               />
             </>
           )}
-        </Table.Section>
-        <Table.Section
-          header="Font Scale"
-          footer="In an effort to keep things snappy, you will need to 're-render' any screen you're currently on for font sizes to update. I am working on a solution to this in the mean time. You may also restart the app if you feel that is easier."
-        >
-          <Table.Cell
-            label="Font Scale"
-            rightLabel={`${settings.fontSize}pt`}
-          />
-          <Table.CellContainer>
-            <Slider
-              lowerLimit={12}
-              upperLimit={22}
-              minimumValue={12}
-              maximumValue={22}
-              step={2}
-              value={settings.fontSize}
-              tapToSeek
-              onValueChange={(v) => {
-                setSetting('fontSize', v);
-              }}
-            />
-          </Table.CellContainer>
         </Table.Section>
         <Table.Section header="Post Appearance">
           <Table.Cell

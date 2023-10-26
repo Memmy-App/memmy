@@ -20,7 +20,7 @@ function PostUserLabel({
 }: IProps): React.JSX.Element {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const showIcon = useSettingsStore((state) => state.showAvatarInFeed);
+  const showAvatar = useSettingsStore((state) => state.showAvatarInFeed);
 
   const name = useMemo(
     () => createName(userName, userCommunity),
@@ -36,7 +36,7 @@ function PostUserLabel({
   return (
     <Pressable onPress={onPress} hitSlop={5}>
       <XStack space="$2" alignItems="center">
-        {showIcon && <UserIcon userIcon={userIcon} />}
+        {showAvatar && <UserIcon userIcon={userIcon} />}
         <Text color="$secondary" fontSize="$2">
           {name}
         </Text>
