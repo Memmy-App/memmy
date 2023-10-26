@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Adjusted color of subscribe and new post buttons
+
 ## [Version 1.0 (54)] - 2023-10-26T11:09:48Z
 
 ### Added

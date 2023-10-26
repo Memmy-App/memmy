@@ -56,11 +56,13 @@ function CommunityInfo(): React.JSX.Element {
           icon={subscribed ? Star : StarOff}
           onPress={onSubscribePress}
           disabled={isSubscribing}
+          backgroundColor="$fg"
         />
         <ButtonOne
           label="New Post"
           icon={StickyNote}
           onPress={onNewPostPress}
+          backgroundColor="$fg"
         />
       </XStack>
 
