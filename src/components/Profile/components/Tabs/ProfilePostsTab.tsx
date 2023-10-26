@@ -7,6 +7,7 @@ import { useProfilePosts } from '@src/state';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
 import { useTheme } from 'tamagui';
 import RefreshControl from '@components/Common/Gui/RefreshControl';
+import ProfileInfo from '@components/Profile/components/ProfileInfo';
 
 const renderItem = ({
   item,
@@ -29,6 +30,7 @@ function ProfilePostsTab(): React.JSX.Element {
       keyExtractor={keyExtractor}
       estimatedItemSize={300}
       onScroll={profileScreenContext.onScroll}
+      ListHeaderComponent={<ProfileInfo />}
       ListEmptyComponent={
         <FeedLoadingIndicator
           loading={profileScreenContext.isLoading}

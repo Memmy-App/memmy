@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 outside the user's instance. Linking to outside comments and posts is experimental however in testing the results did
 produce any false negatives.
 
+### Changes
+
+- Profile header is now less "jarring" when animating
+
 ## [Version 1.0 (53)] - 2023-10-25T09:24:16Z
 
 ### Fixed

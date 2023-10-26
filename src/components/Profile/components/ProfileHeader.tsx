@@ -4,8 +4,6 @@ import {
   useProfileActorId,
   useProfileAvatar,
   useProfileBanner,
-  useProfileBio,
-  useProfileCounts,
   useProfileName,
 } from '@src/state';
 import { useNavigation } from '@react-navigation/core';
@@ -16,7 +14,6 @@ import Animated, {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
-  useSharedValue,
 } from 'react-native-reanimated';
 import { useProfileScreenContext } from '@components/Profile/screens/ProfileScreen';
 import { ChevronLeft, User } from '@tamagui/lucide-icons';
@@ -37,8 +34,6 @@ function ProfileHeader(): React.JSX.Element {
   const personBanner = useProfileBanner(profileId);
   const personAvatar = useProfileAvatar(profileId);
   const personActorId = useProfileActorId(profileId);
-  const personCounts = useProfileCounts(profileId);
-  const personBio = useProfileBio(profileId);
 
   const hasParent = navigation.canGoBack();
 
@@ -47,23 +42,11 @@ function ProfileHeader(): React.JSX.Element {
     [personActorId],
   );
 
-  const totalScore = useMemo(
-    () =>
-      (
-        (personCounts?.comment_score ?? 0) + (personCounts?.post_score ?? 0)
-      ).toLocaleString(),
-    [personCounts?.comment_score, personCounts?.post_score],
-  );
-
-  const containerHeight = useSharedValue(
-    personBio != null && personBio.length > 1 ? 330 : 300,
-  );
-
   const headerContainerStyle = useAnimatedStyle(() => ({
     height: interpolate(
       contentOffsetY!.value,
       [0, 180],
-      [containerHeight.value, 100],
+      [150, 105],
       Extrapolate.CLAMP,
     ),
   }));
@@ -87,25 +70,25 @@ function ProfileHeader(): React.JSX.Element {
     top: interpolate(
       contentOffsetY!.value,
       [0, 200],
-      [107, 45],
+      [90, 45],
       Extrapolation.CLAMP,
     ),
     height: interpolate(
       contentOffsetY!.value,
       [0, 200],
-      [85, 45],
+      [75, 45],
       Extrapolation.CLAMP,
     ),
     width: interpolate(
       contentOffsetY!.value,
       [0, 200],
-      [85, 45],
+      [75, 45],
       Extrapolation.CLAMP,
     ),
     left: interpolate(
       contentOffsetY!.value,
       [0, 200],
-      [15, 60],
+      [25, 60],
       Extrapolate.CLAMP,
     ),
   }));
@@ -124,7 +107,7 @@ function ProfileHeader(): React.JSX.Element {
   }, []);
 
   return (
-    <Animated.View style={[headerContainerStyle]}>
+    <Animated.View style={[{ backgroundColor: 'green' }, headerContainerStyle]}>
       {hasParent && (
         <View
           zIndex={2}
@@ -145,7 +128,6 @@ function ProfileHeader(): React.JSX.Element {
       <YStack flex={1} backgroundColor="$fg" mt="$1">
         <YStack
           alignItems="center"
-          height={300}
           position="absolute"
           width="100%"
           zIndex={-1}
@@ -186,7 +168,7 @@ function ProfileHeader(): React.JSX.Element {
             </XStack>
           </Animated.View>
         </YStack>
-        <YStack zIndex={1}>
+        <YStack zIndex={2}>
           {personAvatar != null ? (
             <Animated.Image
               source={{ uri: personAvatar }}
@@ -202,33 +184,6 @@ function ProfileHeader(): React.JSX.Element {
           ) : (
             <AnimatedAvatarPlaceholder size={85} style={[{}, avatarStyle]} />
           )}
-
-          <YStack mx="$3" space="$2.5" top={110}>
-            <YStack space="$0.5">
-              <Text fontSize="$5" fontWeight="bold">
-                {personName}
-              </Text>
-              <Text fontSize="$3" color="$secondary">
-                @{personInstance}
-              </Text>
-            </YStack>
-            <XStack space="$3">
-              <Text fontSize="$2" color="$secondary" fontWeight="$7">
-                {personCounts?.post_count.toLocaleString()} Posts
-              </Text>
-              <Text fontSize="$2" color="$secondary" fontWeight="$7">
-                {personCounts?.comment_count.toLocaleString()} Comments
-              </Text>
-              <Text fontSize="$2" color="$secondary" fontWeight="$7">
-                {totalScore} Total Score
-              </Text>
-            </XStack>
-            <XStack>
-              <Text fontSize="$3" color="$color" numberOfLines={2}>
-                {personBio}
-              </Text>
-            </XStack>
-          </YStack>
         </YStack>
       </YStack>
     </Animated.View>

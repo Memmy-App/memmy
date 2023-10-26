@@ -7,6 +7,7 @@ import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIn
 import { useTheme } from 'tamagui';
 import RefreshControl from '@components/Common/Gui/RefreshControl';
 import ProfileComment from '@components/Profile/components/Tabs/ProfileComment';
+import ProfileInfo from '@components/Profile/components/ProfileInfo';
 
 const renderItem = ({
   item,
@@ -27,10 +28,6 @@ function ProfileCommentsTab({ selected }: IProps): React.JSX.Element | null {
 
   const theme = useTheme();
 
-  if (selected !== 1) {
-    return null;
-  }
-
   return (
     <FlashList<CommentView>
       renderItem={renderItem}
@@ -39,6 +36,7 @@ function ProfileCommentsTab({ selected }: IProps): React.JSX.Element | null {
       estimatedItemSize={100}
       onScroll={profileScreenContext.onScroll}
       scrollEventThrottle={16}
+      ListHeaderComponent={<ProfileInfo />}
       ListEmptyComponent={
         <FeedLoadingIndicator
           loading={profileScreenContext.isLoading}

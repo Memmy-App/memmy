@@ -17,7 +17,6 @@ import PagerView from 'react-native-pager-view';
 import ProfilePostsTab from '@components/Profile/components/Tabs/ProfilePostsTab';
 import ProfileCommentsTab from '@components/Profile/components/Tabs/ProfileCommentsTab';
 import ProfileAboutTab from '@components/Profile/components/Tabs/ProfileAboutTab';
-import TopTabs from '@components/Common/TopTabs/TopTabs';
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 
@@ -32,6 +31,11 @@ interface IProfileScreenContext {
   onScroll: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
   contentOffsetY: SharedValue<number> | undefined;
   setPostLoading?: React.Dispatch<SetStateAction<boolean>>;
+
+  selectedTab: number;
+  setSelectedTab?: React.Dispatch<SetStateAction<number>>;
+
+  pagerViewRef?: React.MutableRefObject<PagerView | undefined>;
 }
 
 const ProfileScreenContext = React.createContext<IProfileScreenContext>({
@@ -42,6 +46,10 @@ const ProfileScreenContext = React.createContext<IProfileScreenContext>({
   onScroll: () => {},
   refresh: () => {},
   contentOffsetY: undefined,
+
+  selectedTab: 0,
+  setSelectedTab: undefined,
+  pagerViewRef: undefined,
 });
 
 export const useProfileScreenContext = (): IProfileScreenContext =>
@@ -67,11 +75,6 @@ export default function ProfileScreen({
       e.nativeEvent.contentOffset.y >= 0 ? e.nativeEvent.contentOffset.y : 0;
   }, []);
 
-  const onTabChange = useCallback((index: number) => {
-    setSelectedTab(index);
-    pagerViewRef.current?.setPage(index);
-  }, []);
-
   if (profileScreen.isLoading && !profileScreen.isRefreshing) {
     return <LoadingScreen />;
   }
@@ -89,14 +92,12 @@ export default function ProfileScreen({
           onScroll,
           contentOffsetY,
           setPostLoading,
+          selectedTab,
+          setSelectedTab,
+          pagerViewRef,
         }}
       >
         <ProfileHeader />
-        <TopTabs
-          onChange={onTabChange}
-          items={['Posts', 'Comments', 'About']}
-          selectedIndex={selectedTab}
-        />
         <PagerView
           style={styles.pagerStyle}
           scrollEnabled={false}
@@ -121,5 +122,6 @@ export default function ProfileScreen({
 const styles = StyleSheet.create({
   pagerStyle: {
     flex: 1,
+    zIndex: -1,
   },
 });
