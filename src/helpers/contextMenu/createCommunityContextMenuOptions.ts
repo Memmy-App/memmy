@@ -20,11 +20,12 @@ export const createCommunityContextMenuOptions = ({
       title: 'Moderators',
       icon: 'person.badge.shield.checkmark',
     },
-    {
-      key: 'modLog',
-      title: 'Mod Log',
-      icon: 'checkmark.shield',
-    },
+    // TODO Going to need to implement some nice logic for these. Lots of different types
+    // {
+    //   key: 'modLog',
+    //   title: 'Mod Log',
+    //   icon: 'checkmark.shield',
+    // },
     {
       key: 'block',
       title: blocked ? 'Unblock' : 'Block',
