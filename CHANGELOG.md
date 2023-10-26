@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Adjusted color of subscribe and new post buttons
+- Adjusted post and comment context menu hit slops
 
 ### Added
 

@@ -15,7 +15,7 @@ export default function CommentEllipsisButton({
 
   return (
     <CommentContextMenu itemId={itemId}>
-      <Pressable>
+      <Pressable hitSlop={120}>
         <Ellipsis size={16} color={theme.accent.val} />
       </Pressable>
     </CommentContextMenu>

@@ -14,7 +14,7 @@ function PostContextButton({ itemId }: IProps): React.JSX.Element {
   return (
     <XStack ml="auto" p="$1" pr="$2" space="$3">
       <PostContextMenu itemId={itemId}>
-        <Pressable hitSlop={5}>
+        <Pressable hitSlop={120}>
           <Ellipsis size={18} color={theme.accent.val} />
         </Pressable>
       </PostContextMenu>
