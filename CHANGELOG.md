@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Version 1.0 (54)] - 2023-10-26T11:09:48Z
+
 ### Added
 
 - All Lemmy links will *attempt* to go to their respective post/comment/community/user. This includes links that are
