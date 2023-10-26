@@ -6,4 +6,5 @@ export type CommentContextMenuOption =
   | 'remove'
   | 'upvote'
   | 'downvote'
-  | 'save';
+  | 'save'
+  | 'report';

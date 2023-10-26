@@ -646,6 +646,10 @@ class ApiInstance {
         reason,
         auth: this.authToken!,
       });
+
+      setToast({
+        text: 'Comment reported successfully!',
+      });
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString);
       throw new Error(errMsg);
@@ -658,6 +662,10 @@ class ApiInstance {
         post_id: postId,
         reason,
         auth: this.authToken!,
+      });
+
+      setToast({
+        text: 'Post reported successfully!',
       });
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());

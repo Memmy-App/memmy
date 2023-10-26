@@ -72,6 +72,7 @@ export const createPostContextMenuOptions = (
         key: 'report',
         title: 'Report',
         icon: 'exclamationmark.shield',
+        destructive: true,
       },
     ];
   }

@@ -38,6 +38,18 @@ export const createCommentContextMenuOptions = (
     },
   ];
 
+  if (!params.isOwnComment && !params.moderates) {
+    arr = [
+      ...arr,
+      {
+        key: 'report',
+        title: 'Report',
+        icon: 'exclamationmark.shield',
+        destructive: true,
+      },
+    ];
+  }
+
   if (params.isOwnComment) {
     arr = [
       ...arr,

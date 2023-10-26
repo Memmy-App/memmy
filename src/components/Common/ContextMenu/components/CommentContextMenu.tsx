@@ -60,6 +60,9 @@ export default function CommentContextMenu({
         case 'save':
           commentContextMenu.save();
           break;
+        case 'report':
+          commentContextMenu.report();
+          break;
       }
     },
     [commentContextMenu],

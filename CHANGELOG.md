@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Adjusted color of subscribe and new post buttons
 - Adjusted post and comment context menu hit slops
+- Comment report options are now visible
 
 ### Added
 
