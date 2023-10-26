@@ -41,10 +41,10 @@ function CommunityHeader({
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const communityName = useCommunityName(params?.id);
-  const communityBanner = useCommunityBanner(params?.id);
-  const communityNsfw = useCommunityNsfw(params?.id);
-  const communityIcon = useCommunityIcon(params?.id);
+  const communityName = useCommunityName(params?.communityId);
+  const communityBanner = useCommunityBanner(params?.communityId);
+  const communityNsfw = useCommunityNsfw(params?.communityId);
+  const communityIcon = useCommunityIcon(params?.communityId);
 
   const hasParent = navigation.canGoBack();
 
@@ -140,7 +140,7 @@ function CommunityHeader({
         space="$3"
       >
         <View backgroundColor="rgba(0,0,0,0.7)" borderRadius={100} p={4} pr={4}>
-          <CommunityContextMenuButton itemId={params?.id} />
+          <CommunityContextMenuButton itemId={params?.communityId} />
         </View>
         <View backgroundColor="rgba(0,0,0,0.7)" borderRadius={100} p={4} pr={4}>
           <SortTypeContextMenuButton

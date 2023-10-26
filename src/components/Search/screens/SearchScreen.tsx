@@ -76,7 +76,7 @@ export default function SearchScreen({
             text: 'Community',
             onPress: () => {
               navigation.navigate('Community', {
-                name: searchValue.trim(),
+                communityName: searchValue.trim(),
               });
             },
           },

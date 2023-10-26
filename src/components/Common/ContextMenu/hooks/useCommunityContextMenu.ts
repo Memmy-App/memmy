@@ -34,7 +34,7 @@ export const useCommunityContextMenu = (
   };
 
   const moderators = (): void => {
-    navigation.navigate('Moderators', {
+    navigation.navigate('CommunityModerators', {
       communityId: itemId,
     });
   };

@@ -30,7 +30,7 @@ export default function CommunityContextMenu({
         contextMenu.block();
         break;
       }
-      case 'modlog': {
+      case 'modLog': {
         contextMenu.modLog();
         break;
       }

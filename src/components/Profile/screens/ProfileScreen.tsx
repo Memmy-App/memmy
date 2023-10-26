@@ -1,5 +1,4 @@
 import React, { SetStateAction, useCallback, useRef, useState } from 'react';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useProfileScreen } from '@components/Profile/hooks/useProfileScreen';
 import {
   NativeScrollEvent,
@@ -55,13 +54,7 @@ const ProfileScreenContext = React.createContext<IProfileScreenContext>({
 export const useProfileScreenContext = (): IProfileScreenContext =>
   React.useContext(ProfileScreenContext);
 
-interface IProps {
-  navigation: NativeStackNavigationProp<any>;
-}
-
-export default function ProfileScreen({
-  navigation,
-}: IProps): React.JSX.Element {
+export default function ProfileScreen(): React.JSX.Element {
   const profileScreen = useProfileScreen();
   const contentOffsetY = useSharedValue(0);
 

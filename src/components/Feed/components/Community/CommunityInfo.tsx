@@ -20,11 +20,11 @@ function CommunityInfo(): React.JSX.Element {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { params } = useRoute<any>();
 
-  const communityCounts = useCommunityAggregates(params?.id);
-  const communityDescription = useCommunityDescription(params?.id);
-  const communityActorId = useCommunityActorId(params?.id);
-  const communitySubscribed = useCommunitySubscribed(params?.id);
-  const communityName = useCommunityName(params?.id);
+  const communityCounts = useCommunityAggregates(params?.communityId);
+  const communityDescription = useCommunityDescription(params?.communityId);
+  const communityActorId = useCommunityActorId(params?.communityId);
+  const communitySubscribed = useCommunitySubscribed(params?.communityId);
+  const communityName = useCommunityName(params?.communityId);
 
   const subscribed = useMemo(
     () => isSubscribed(communitySubscribed),
@@ -45,7 +45,7 @@ function CommunityInfo(): React.JSX.Element {
   );
 
   const onNewPostPress = useCallback(() => {
-    navigation.push('NewPost', { communityId: params?.id });
+    navigation.push('NewPost', { communityId: params?.communityId });
   }, []);
 
   return (

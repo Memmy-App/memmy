@@ -59,7 +59,9 @@ export const useMainFeed = (): UseMainFeed => {
   const lastHomePress = useLastHomePress();
 
   const [sortType, setSortType] = useState<SortType>(
-    params?.name != null ? defaultCommunitySort ?? 'Hot' : defaultSort ?? 'Hot',
+    params?.communityName != null
+      ? defaultCommunitySort ?? 'Hot'
+      : defaultSort ?? 'Hot',
   );
   const [listingType, setListingType] = useState<ListingType>(
     defaultListingType ?? 'All',
@@ -73,11 +75,11 @@ export const useMainFeed = (): UseMainFeed => {
   // Define the default options for the requests
   const defaultOptions = useMemo(
     (): IGetPostOptions => ({
-      communityName: (params?.name as string) ?? undefined,
+      communityName: (params?.communityName as string) ?? undefined,
       sort: sortType,
-      ...(params?.name == null && { type: listingType }),
+      ...(params?.communityName == null && { type: listingType }),
     }),
-    [params?.name, sortType, listingType],
+    [params?.communityName, sortType, listingType],
   );
 
   // Create our data loader and get the initial content
@@ -96,7 +98,7 @@ export const useMainFeed = (): UseMainFeed => {
   // Add subs button if necessary and cleanup posts whenever we leave the screen
   useEffect(() => {
     navigation.setOptions({
-      ...(params?.name == null
+      ...(params?.communityName == null
         ? {
             headerLeft: () => (
               <AnimatedIconButton
@@ -118,7 +120,7 @@ export const useMainFeed = (): UseMainFeed => {
   }, []);
 
   useEffect(() => {
-    if (params?.name == null) {
+    if (params?.communityName == null) {
       navigation.setOptions({
         headerRight: () => (
           <XStack space="$4">

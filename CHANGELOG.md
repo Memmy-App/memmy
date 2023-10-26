@@ -15,6 +15,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Options to display or hide avatars and community icons in the feeds and post screens.
 - Block community options
+- Community moderator list
+- Community info screen
+
+### Internal
+
+- Refactored names for more clarity
 
 ## [Version 1.0 (54)] - 2023-10-26T11:09:48Z
 

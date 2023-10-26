@@ -1,6 +1,6 @@
 export type CommunityContextMenuOption =
   | 'block'
   | 'info'
-  | 'modlog'
+  | 'modLog'
   | 'moderators'
   | 'bannedUsers';

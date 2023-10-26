@@ -19,6 +19,7 @@ import NewPostScreen from '@components/NewPost/screens/NewPostScreen';
 import WebViewScreen from '@components/WebViewer/WebViewScreen';
 import EditReplyScreen from '@components/Reply/screens/EditReplyScreen';
 import CommunityModeratorListScreen from '@components/Community/screens/CommunityModeratorListScreen';
+import CommunityInfoScreen from '@components/Community/screens/CommunityInfoScreen';
 
 export default function MainScreens(
   stack: TypedNavigator<
@@ -89,6 +90,11 @@ export default function MainScreens(
           name="CommunityModerators"
           component={CommunityModeratorListScreen}
           options={{ headerTitle: 'Moderators' }}
+        />
+        <stack.Screen
+          name="CommunityInfo"
+          component={CommunityInfoScreen}
+          options={{ headerTitle: 'Community Info' }}
         />
       </stack.Group>
     </>

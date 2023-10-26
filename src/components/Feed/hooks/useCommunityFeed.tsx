@@ -15,7 +15,7 @@ export const useCommunityFeed = (): UseCommunityFeed => {
   const { params } = useRoute<any>();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const communityTitle = useCommunityName(params?.id);
+  const communityTitle = useCommunityName(params?.communityId);
 
   const newPostId = useNewPostId();
 
@@ -24,9 +24,9 @@ export const useCommunityFeed = (): UseCommunityFeed => {
     GetCommunityResponse | number | undefined
   >(
     async () => {
-      if (params?.id == null) return;
+      if (params?.communityId == null) return;
       // TODO Fix this so that we don't require a community ID
-      return await instance.getCommunity(params?.name);
+      return await instance.getCommunity(params?.communityName);
     },
     // We don't want to load the data again if we already have it
     () => {

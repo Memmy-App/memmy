@@ -62,8 +62,8 @@ function PostCommunityLabel({
 
   const onPress = useCallback((): void => {
     navigation.push('Community', {
-      name: fullName,
-      id: communityId,
+      communityName: fullName,
+      communityId,
     });
   }, [communityId]);
 

@@ -72,8 +72,8 @@ export default function MainFeed(): React.JSX.Element {
 
       // If id is null, this is the main feed. See if we should mark read
       if (
-        (params?.id == null && markReadOnFeedScroll) ||
-        (params?.id != null && markReadOnCommunityScroll)
+        (params?.communityId == null && markReadOnFeedScroll) ||
+        (params?.communityId != null && markReadOnCommunityScroll)
       ) {
         // Mark the first viewable post as read
         markPostRead(item);
@@ -86,13 +86,13 @@ export default function MainFeed(): React.JSX.Element {
     { viewabilityConfig, onViewableItemsChanged },
   ]);
 
-  if (params?.id != null && communityFeed.isLoading) {
+  if (params?.communityId != null && communityFeed.isLoading) {
     return <LoadingScreen />;
   }
 
   return (
     <Animated.View style={{ flex: 1 }} entering={FadeIn}>
-      {(params?.id != null || params?.name != null) && (
+      {(params?.communityId != null || params?.communityName != null) && (
         <CommunityHeader
           isLoading={mainFeed.isLoading}
           contentOffsetY={contentOffsetY}
@@ -110,7 +110,9 @@ export default function MainFeed(): React.JSX.Element {
           estimatedItemSize={300}
           scrollEventThrottle={16}
           onScroll={onScroll}
-          ListHeaderComponent={params?.id != null ? <CommunityInfo /> : null}
+          ListHeaderComponent={
+            params?.communityId != null ? <CommunityInfo /> : null
+          }
           ListFooterComponent={
             <FeedLoadingIndicator
               loading={mainFeed.isLoading && !mainFeed.isRefreshing}

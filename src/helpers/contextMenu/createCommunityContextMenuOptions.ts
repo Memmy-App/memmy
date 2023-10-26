@@ -16,7 +16,7 @@ export const createCommunityContextMenuOptions = ({
       icon: 'info.circle',
     },
     {
-      key: 'mods',
+      key: 'moderators',
       title: 'Moderators',
       icon: 'person.badge.shield.checkmark',
     },
