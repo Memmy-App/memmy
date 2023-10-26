@@ -68,3 +68,7 @@ export const useCommunityNsfw = (id: number): boolean =>
 export const useCommunityDefaultLanguage = (id: number): number | undefined =>
   useCommunityStore((state) => state.communities.get(id))
     ?.discussion_languages[0];
+
+export const useCommunityBlocked = (id: number): boolean =>
+  useCommunityStore((state) => state.communities.get(id))?.community_view
+    .blocked ?? false;

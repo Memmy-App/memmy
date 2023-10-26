@@ -18,7 +18,6 @@ function SortTypeContextMenuButton({
     setListingType(e.nativeEvent.actionKey as ListingType);
   }, []);
 
-  // @ts-expect-error - TODO Fix this
   const icon = useMemo(() => IconMap[listingType], [listingType]);
 
   return (

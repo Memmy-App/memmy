@@ -17,6 +17,7 @@ import Animated, {
 import { ChevronLeft, Globe } from '@tamagui/lucide-icons';
 import SortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/SortTypeContextMenuButton';
 import { SortType } from 'lemmy-js-client';
+import CommunityContextMenuButton from '@components/Common/ContextMenu/components/buttons/CommunityContextMenuButton';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const headerPlaceholder = require('../../../../../assets/headerPlaceholder.jpg');
@@ -130,7 +131,17 @@ function CommunityHeader({
         </View>
       )}
 
-      <XStack mr="auto" zIndex={2} position="absolute" right={10} top={50}>
+      <XStack
+        mr="auto"
+        zIndex={2}
+        position="absolute"
+        right={10}
+        top={50}
+        space="$3"
+      >
+        <View backgroundColor="rgba(0,0,0,0.7)" borderRadius={100} p={4} pr={4}>
+          <CommunityContextMenuButton itemId={params?.id} />
+        </View>
         <View backgroundColor="rgba(0,0,0,0.7)" borderRadius={100} p={4} pr={4}>
           <SortTypeContextMenuButton
             sortType={sortType}

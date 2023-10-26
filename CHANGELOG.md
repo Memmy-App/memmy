@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Adjusted color of subscribe and new post buttons
 
+### Added
+
+- Options to display or hide avatars and community icons in the feeds and post screens.
+- Block community options
+
 ## [Version 1.0 (54)] - 2023-10-26T11:09:48Z
 
 ### Added

@@ -665,10 +665,10 @@ class ApiInstance {
     }
   }
 
-  async blockUser(userId: number, block: boolean): Promise<void> {
+  async blockPerson(personId: number, block: boolean): Promise<void> {
     try {
-      await this.instance?.blockPerson({
-        person_id: userId,
+      await this.instance!.blockPerson({
+        person_id: personId,
         block,
         auth: this.authToken!,
       });
@@ -680,13 +680,21 @@ class ApiInstance {
 
   async blockCommunity(communityId: number, block: boolean): Promise<void> {
     try {
-      await this.instance?.blockCommunity({
+      const res = await this.instance!.blockCommunity({
         community_id: communityId,
         block,
         auth: this.authToken!,
       });
+
+      useCommunityStore.setState((state) => {
+        const community = state.communities.get(communityId);
+
+        if (community == null) return;
+
+        community.community_view.blocked = res.blocked;
+      });
     } catch (e: any) {
-      const errMsg = ApiInstance.handleError(e.toString);
+      const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
     }
   }
