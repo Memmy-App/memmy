@@ -118,6 +118,6 @@
     "lint-fix": "./node_modules/eslint/bin/eslint.js . --ext=js,jsx,ts,tsx --fix",
 
 		"deploy-ios-local": "./bin/deploy-ios-local.sh",
-		"deploy-ios": "./bin/deploy-ios-github.sh",
+		"deploy-ios": "./bin/deploy-ios-github.sh"
   }
 }
