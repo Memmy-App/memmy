@@ -1,8 +1,10 @@
 import {
+  CommunityBlockView,
   CommunityModeratorView,
   CommunityView,
   GetSiteResponse,
   Language,
+  PersonBlockView,
 } from 'lemmy-js-client';
 import { immer } from 'zustand/middleware/immer';
 import { create } from 'zustand';
@@ -68,3 +70,9 @@ export const useShowReadPosts = (): boolean =>
   useSiteStore(
     (state) => state.site?.my_user?.local_user_view.local_user.show_read_posts,
   ) ?? false;
+
+export const useBlockedPersons = (): PersonBlockView[] | undefined =>
+  useSiteStore((state) => state.site?.my_user?.person_blocks);
+
+export const useBlockedCommunities = (): CommunityBlockView[] | undefined =>
+  useSiteStore((state) => state.site?.my_user?.community_blocks);

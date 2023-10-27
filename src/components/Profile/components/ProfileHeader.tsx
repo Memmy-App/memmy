@@ -70,7 +70,7 @@ function ProfileHeader(): React.JSX.Element {
     top: interpolate(
       contentOffsetY!.value,
       [0, 200],
-      [90, 45],
+      [110, 45],
       Extrapolation.CLAMP,
     ),
     height: interpolate(

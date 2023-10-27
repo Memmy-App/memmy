@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Community moderator list
 - Community info screen
 - Icons will now fill when needed
+- Person blocking
 
 ### Internal
 

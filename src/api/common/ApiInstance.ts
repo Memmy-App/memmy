@@ -675,13 +675,39 @@ class ApiInstance {
 
   async blockPerson(personId: number, block: boolean): Promise<void> {
     try {
-      await this.instance!.blockPerson({
+      const res = await this.instance!.blockPerson({
         person_id: personId,
         block,
         auth: this.authToken!,
       });
+
+      useSiteStore.setState((state) => {
+        const myUser = state.site?.my_user;
+
+        if (myUser == null) return;
+
+        const index = myUser.person_blocks.findIndex(
+          (b) => b.person.id === personId,
+        );
+
+        if (block) {
+          if (index === -1) {
+            myUser.person_blocks = [
+              ...myUser.person_blocks,
+              {
+                person: res.person_view.person,
+                target: res.person_view.person,
+              },
+            ];
+          }
+        } else {
+          myUser.person_blocks = myUser.person_blocks?.filter(
+            (b) => b.person.id !== personId,
+          );
+        }
+      });
     } catch (e: any) {
-      const errMsg = ApiInstance.handleError(e.toString);
+      const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
     }
   }
