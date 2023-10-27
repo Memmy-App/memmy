@@ -87,6 +87,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.33.2",
+    "license-report": "^6.5.0",
     "patch-package": "^8.0.0",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.0.3",
@@ -112,12 +113,11 @@
     "build-tf-android": "eas build -p android --profile production-tf --output prod.aab --local --non-interactive",
     "build-submit-ios": "cd ios && fastlane beta",
     "build-submit-internal-ios": "cd ios && fastlane betaInternal",
-		"generate-license": "license-report --only=prod,dev,peer --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author --output=html > assets/license.html",
-		"postinstall": "patch-package",
+    "generate-license": "./node_modules/license-report/index.js --only=prod,dev,peer --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author --output=html > assets/license.html",
+    "postinstall": "patch-package",
     "lint": "./node_modules/eslint/bin/eslint.js . --ext=js,jsx,ts,tsx",
     "lint-fix": "./node_modules/eslint/bin/eslint.js . --ext=js,jsx,ts,tsx --fix",
-
-		"deploy-ios-local": "./bin/deploy-ios-local.sh",
-		"deploy-ios": "./bin/deploy-ios-github.sh"
+    "deploy-ios-local": "./bin/deploy-ios-local.sh",
+    "deploy-ios": "./bin/deploy-ios-github.sh"
   }
 }
