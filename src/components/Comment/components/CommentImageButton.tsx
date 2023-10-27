@@ -52,6 +52,7 @@ function CommentImageButton({ source, content }: IProps): React.JSX.Element {
             height: 85,
             width: 105,
             borderRadius: 10,
+            marginTop: 10,
           }}
           onLoad={onImageLoad}
           contentFit="contain"

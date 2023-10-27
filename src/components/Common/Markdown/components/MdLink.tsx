@@ -26,7 +26,7 @@ export default function MdLink({ token, href }: IProps): React.JSX.Element {
       wordWrap="break-word"
       textBreakStrategy="simple"
       onPress={onPress}
-      hitSlop={15}
+      hitSlop={100}
       textDecorationLine="underline"
     >
       {token.content}
