@@ -3,3 +3,4 @@ ios/
 android/
 *.config.js
 ReactotronConfig.js
+assets/license.html
