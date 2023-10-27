@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Version 1.0 (56)] - 2023-10-27T08:40:00Z
+
 ### Fixed
 
 - Some images in comments not rendering correctly
