@@ -18,7 +18,6 @@ import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { CommentSortType } from 'lemmy-js-client';
 import { stripEss } from '@helpers/text';
 import CommentSortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/CommentSortTypeContextMenuButton';
-import { useAwaitTransition } from '@hooks/useAwaitTransition';
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
 import { YStack } from 'tamagui';
 import RefreshControl from '@components/Common/Gui/RefreshControl';
@@ -57,8 +56,6 @@ export default function PostScreen({
   route,
 }: IProps): React.JSX.Element {
   const { postId, parentCommentId } = route.params;
-
-  const awaitTransition = useAwaitTransition();
 
   const [postCollapsed, setPostCollapsed] = useState<boolean>(
     parentCommentId != null,
@@ -180,9 +177,7 @@ export default function PostScreen({
           ListHeaderComponent={<Post />}
           ListEmptyComponent={
             <FeedLoadingIndicator
-              loading={
-                (isLoading && !isRefreshing) || awaitTransition.transitioning
-              }
+              loading={isLoading && !isRefreshing}
               error={isError}
               empty={postCommentsInfo != null && postCommentsInfo.length < 1}
             />
