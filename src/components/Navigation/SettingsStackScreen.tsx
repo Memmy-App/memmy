@@ -15,6 +15,8 @@ import AddAccountModal from '@components/Account/screens/AddAccountModal';
 import WebViewScreen from '@components/WebViewer/WebViewScreen';
 import SettingsFiltersScreen from '@components/Settings/screens/SettingsFiltersScreen';
 import SettingsFilterScreen from '@components/Settings/screens/SettingsFilterScreen';
+import SettingsBlockedPersonsScreen from '@components/Settings/screens/SettingsBlockedPersonsScreen';
+import SettingsBlockedCommunitiesScreen from '@components/Settings/screens/SettingsBlockedCommunitiesScreen';
 
 const SettingsStack = createNativeStackNavigator();
 
@@ -61,6 +63,20 @@ export default function SettingsStackScreen(): React.JSX.Element {
           component={SettingsFiltersScreen}
         />
         <SettingsStack.Screen name="Filter" component={SettingsFilterScreen} />
+        <SettingsStack.Screen
+          name="BlockedUsers"
+          component={SettingsBlockedPersonsScreen}
+          options={{
+            headerTitle: 'Blocked Users',
+          }}
+        />
+        <SettingsStack.Screen
+          name="BlockedCommunities"
+          component={SettingsBlockedCommunitiesScreen}
+          options={{
+            headerTitle: 'Blocked Communities',
+          }}
+        />
       </SettingsStack.Group>
 
       <SettingsStack.Group

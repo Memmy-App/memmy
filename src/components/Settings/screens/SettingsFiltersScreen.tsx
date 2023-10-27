@@ -21,6 +21,18 @@ export default function SettingsFiltersScreen({
             useChevron
           />
         </Table.Section>
+        <Table.Section header="Blocks">
+          <Table.Cell
+            label="Blocked Users"
+            onPress={() => navigation.navigate('BlockedUsers')}
+            useChevron
+          />
+          <Table.Cell
+            label="Blocked Communities"
+            onPress={() => navigation.navigate('BlockedCommunities')}
+            useChevron
+          />
+        </Table.Section>
       </Table.Container>
     </ScrollView>
   );

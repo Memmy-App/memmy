@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Community info screen
 - Icons will now fill when needed
 - Person blocking
+- Screens listing community and user blocks with the ability to remove those blocks
 
 ### Internal
 

@@ -702,7 +702,7 @@ class ApiInstance {
           }
         } else {
           myUser.person_blocks = myUser.person_blocks?.filter(
-            (b) => b.person.id !== personId,
+            (b) => b.target.id !== personId,
           );
         }
       });
@@ -726,6 +726,32 @@ class ApiInstance {
         if (community == null) return;
 
         community.community_view.blocked = res.blocked;
+      });
+
+      useSiteStore.setState((state) => {
+        const myUser = state.site?.my_user;
+
+        if (myUser == null) return;
+
+        const index = myUser.community_blocks.findIndex(
+          (b) => b.community.id === communityId,
+        );
+
+        if (block) {
+          if (index === -1) {
+            myUser.community_blocks = [
+              ...myUser.community_blocks,
+              {
+                person: state.site!.my_user!.local_user_view.person,
+                community: res.community_view.community,
+              },
+            ];
+          }
+        } else {
+          myUser.community_blocks = myUser.community_blocks?.filter(
+            (b) => b.community.id !== communityId,
+          );
+        }
       });
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());

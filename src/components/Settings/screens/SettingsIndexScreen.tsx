@@ -93,7 +93,7 @@ export default function SettingsIndexScreen({
             accessoryLeft={<CellIcon bgColor="#00CA48" icon={<User />} />}
           />
           <Table.Cell
-            label="Filters"
+            label="Filters and Blocking"
             useChevron
             accessoryLeft={<CellIcon bgColor="#ed5a6e" icon={<EyeOff />} />}
             onPress={() => {
