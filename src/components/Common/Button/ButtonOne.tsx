@@ -4,7 +4,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { FontSizeTokens, Text, XStack } from 'tamagui';
+import { FontSizeTokens, Text, useTheme, XStack } from 'tamagui';
 import { playHaptic } from '@helpers/haptics';
 import { Variable } from '@tamagui/web';
 
@@ -12,6 +12,7 @@ interface IProps {
   onPress?: () => unknown;
   label?: string;
   icon?: React.NamedExoticComponent;
+  isIconFilled?: boolean;
   disabled?: boolean;
   fontSize?: Variable<any> | FontSizeTokens;
   backgroundColor?: string;
@@ -22,20 +23,26 @@ function ButtonOne({
   onPress,
   label,
   icon,
+  isIconFilled = false,
   disabled,
   fontSize = '$3',
   backgroundColor = '$bg',
   width,
 }: IProps): React.JSX.Element {
   const scale = useSharedValue(1);
+  const theme = useTheme();
 
   const Icon = useMemo(
     () =>
       icon != null
-        ? // @ts-expect-error - defining color
-          React.createElement(icon, { color: '$accent', size: 16 })
+        ? React.createElement(icon, {
+            // @ts-expect-error - defining color
+            color: '$accent',
+            size: 20,
+            fill: isIconFilled ? theme.accent.val : theme.bg.val,
+          })
         : null,
-    [icon],
+    [icon, isIconFilled],
   );
 
   const onButtonPress = useCallback(() => {

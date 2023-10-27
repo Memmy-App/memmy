@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Block community options
 - Community moderator list
 - Community info screen
+- Icons will now fill when needed
 
 ### Internal
 

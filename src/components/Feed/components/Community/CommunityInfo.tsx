@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { Text, XStack, YStack } from 'tamagui';
 import ButtonOne from '@components/Common/Button/ButtonOne';
-import { Star, StarOff, StickyNote } from '@tamagui/lucide-icons';
+import { Star, StickyNote } from '@tamagui/lucide-icons';
 import {
   useCommunityActorId,
   useCommunityAggregates,
@@ -35,7 +35,9 @@ function CommunityInfo(): React.JSX.Element {
 
   const onSubscribePress = useCallback(() => {
     submit(async () => {
-      void instance.subscribeCommunity(params.id!, !subscribed).then(() => {});
+      void instance
+        .subscribeCommunity(params.communityId!, !subscribed)
+        .then(() => {});
     });
   }, [subscribed]);
 
@@ -53,7 +55,8 @@ function CommunityInfo(): React.JSX.Element {
       <XStack ml="auto" width="65%" py="$2" space="$3" right={10}>
         <ButtonOne
           label={subscribed ? 'Subscribed' : 'Subscribe'}
-          icon={subscribed ? Star : StarOff}
+          icon={Star}
+          isIconFilled={subscribed}
           onPress={onSubscribePress}
           disabled={isSubscribing}
           backgroundColor="$fg"
