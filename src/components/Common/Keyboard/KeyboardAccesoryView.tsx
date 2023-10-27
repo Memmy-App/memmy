@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputAccessoryView } from 'react-native';
 import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
-import { Bold, Italic, Link, Quote } from '@tamagui/lucide-icons';
+import { Bold, Camera, Italic, Link, Quote } from '@tamagui/lucide-icons';
 import { useKeyboardAccessory, UseKeyboardAccessoryOptions } from '@src/hooks';
 import { XStack } from 'tamagui';
 
@@ -13,7 +13,7 @@ export default function KeyboardAccessoryView(
   return (
     <InputAccessoryView nativeID="accessory">
       <XStack
-        height={30}
+        height={40}
         justifyContent="space-between"
         alignItems="center"
         px="$3"
@@ -39,6 +39,12 @@ export default function KeyboardAccessoryView(
         />
         <AnimatedIconButton
           icon={Quote}
+          iconSize={20}
+          color="$accent"
+          onPress={accessory.onQuotePress}
+        />
+        <AnimatedIconButton
+          icon={Camera}
           iconSize={20}
           color="$accent"
           onPress={accessory.onQuotePress}

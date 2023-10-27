@@ -27,6 +27,7 @@ import HeaderButton from '@components/Common/Button/HeaderButton';
 import { PostResponse } from 'lemmy-js-client';
 import instance from '@src/Instance';
 import { updatePost } from '@src/state/post/actions/updatePost';
+import { selectImage, uploadImage } from '@helpers/image';
 
 interface UseNewPostScreen {
   text: string;
@@ -52,6 +53,10 @@ interface UseNewPostScreen {
   ) => void;
 
   isLoading: boolean;
+
+  onUploadImagePress: () => Promise<void>;
+
+  isUploading: boolean;
 }
 
 export const useNewPostScreen = (isEdit = false): UseNewPostScreen => {
@@ -85,6 +90,7 @@ export const useNewPostScreen = (isEdit = false): UseNewPostScreen => {
   const [languageId, setLanguageId] = useState(
     postLanguage ?? userLanguage ?? communityLanguage ?? siteLanguage ?? 0,
   );
+  const [isUploading, setIsUploading] = useState(false);
 
   const [selection, setSelection] = useState<ITextSelection>({
     start: 0,
@@ -186,6 +192,20 @@ export const useNewPostScreen = (isEdit = false): UseNewPostScreen => {
     });
   };
 
+  const onUploadImagePress = useCallback(async () => {
+    const imageUri = await selectImage();
+
+    if (imageUri == null) return;
+
+    setIsUploading(true);
+
+    const res = await uploadImage(imageUri);
+
+    setIsUploading(false);
+
+    setUrl(res ?? '');
+  }, []);
+
   const onSelectionChange = useCallback(
     (e: NativeSyntheticEvent<TextInputSelectionChangeEventData>) => {
       setSelection({
@@ -218,5 +238,9 @@ export const useNewPostScreen = (isEdit = false): UseNewPostScreen => {
     inputRef,
 
     isLoading,
+
+    onUploadImagePress,
+
+    isUploading,
   };
 };

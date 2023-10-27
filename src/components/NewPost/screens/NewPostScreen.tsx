@@ -5,7 +5,7 @@ import KeyboardAccessoryView from '@components/Common/Keyboard/KeyboardAccesoryV
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 import TextInput from '@components/Common/Form/TextInput';
 import NsfwButton from '@components/Common/Button/NsfwButton';
-import { Languages } from '@tamagui/lucide-icons';
+import { Camera, Languages } from '@tamagui/lucide-icons';
 import LanguagePicker from '@components/Common/LanguagePicker/LanguagePicker';
 import Animated, {
   useAnimatedStyle,
@@ -16,6 +16,7 @@ import ButtonOne from '@components/Common/Button/ButtonOne';
 import { useSiteLanguages } from '@src/state';
 import { ScrollView as RNScrollView } from 'react-native';
 import AppToast from '@components/Common/Toast/AppToast';
+import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
 
 export default function NewPostScreen(): React.JSX.Element {
   const newPostScreen = useNewPostScreen();
@@ -44,7 +45,7 @@ export default function NewPostScreen(): React.JSX.Element {
   };
 
   const onLayout = useCallback(() => {
-    viewRef.current?.scrollToEnd();
+    viewRef.current?.scrollToEnd({ animated: false });
   }, []);
 
   return (
@@ -56,7 +57,9 @@ export default function NewPostScreen(): React.JSX.Element {
         // @ts-expect-error valid ref
         ref={viewRef}
       >
-        <LoadingOverlay visible={newPostScreen.isLoading} />
+        <LoadingOverlay
+          visible={newPostScreen.isLoading || newPostScreen.isUploading}
+        />
         <AppToast translate={100} />
         <YStack mb="$2" mt="$2" px="$3">
           <XStack alignItems="center">
@@ -85,47 +88,58 @@ export default function NewPostScreen(): React.JSX.Element {
             />
           </Animated.View>
 
-          <TextInput
-            onChangeText={newPostScreen.setTitle}
-            placeholder="Title"
-            fontSize="$5"
-            // @ts-expect-error - valid
-            ref={newPostScreen.inputRef}
-            px={0}
-            mt={5}
-            mb={-5}
-            defaultValue={newPostScreen.title}
-          />
-          <TextInput
-            onChangeText={newPostScreen.setUrl}
-            placeholder="Link (optional)"
-            fontSize="$3"
-            // @ts-expect-error - valid
-            ref={newPostScreen.inputRef}
-            px={0}
-            my={-5}
-            clearButtonMode="always"
-            defaultValue={newPostScreen.url}
-            keyboardType="url"
-            autoCorrect={false}
-            autoCapitalize="none"
-          />
-          <TextInput
-            inputAccessoryViewID="accessory"
-            onSelectionChange={newPostScreen.onSelectionChange}
-            onChangeText={newPostScreen.setText}
-            fontSize={16}
-            // @ts-expect-error - This is valid shut up
-            ref={newPostScreen.inputRef}
-            multiline={true}
-            scrollEnabled={false}
-            px={0}
-            minHeight={200}
-            onLayout={onLayout}
-            mt={-5}
-            placeholder="Have anything to say?"
-            defaultValue={newPostScreen.text}
-          />
+          <YStack space="$2">
+            <TextInput
+              onChangeText={newPostScreen.setTitle}
+              placeholder="Title"
+              fontSize="$6"
+              // @ts-expect-error - valid
+              ref={newPostScreen.inputRef}
+              px={0}
+              mt={5}
+              mb={-5}
+              defaultValue={newPostScreen.title}
+            />
+            <XStack alignItems="center">
+              <TextInput
+                onChangeText={newPostScreen.setUrl}
+                placeholder="Link (optional)"
+                fontSize="$5"
+                // @ts-expect-error - valid
+                ref={newPostScreen.inputRef}
+                px={0}
+                my={-5}
+                clearButtonMode="always"
+                defaultValue={newPostScreen.url}
+                keyboardType="url"
+                autoCorrect={false}
+                autoCapitalize="none"
+              />
+              <AnimatedIconButton
+                onPress={newPostScreen.onUploadImagePress}
+                icon={Camera}
+                iconSize={26}
+                color="$accent"
+                floatRight
+              />
+            </XStack>
+            <TextInput
+              inputAccessoryViewID="accessory"
+              onSelectionChange={newPostScreen.onSelectionChange}
+              onChangeText={newPostScreen.setText}
+              fontSize="$3"
+              // @ts-expect-error - This is valid shut up
+              ref={newPostScreen.inputRef}
+              multiline={true}
+              scrollEnabled={false}
+              px={0}
+              minHeight={200}
+              onLayout={onLayout}
+              mt={-5}
+              placeholder="Have anything to say?"
+              defaultValue={newPostScreen.text}
+            />
+          </YStack>
         </YStack>
       </ScrollView>
       <KeyboardAccessoryView

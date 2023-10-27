@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Some images in comments not rendering correctly
+- Stutter in new post screen when scrolling
+
+### Added
+
+- Upload pictures to instance
 
 ## [Version 1.0 (55)] - 2023-10-27T01:11:18Z
 

@@ -5775,13 +5775,6 @@ expo-dev-menu@3.2.1:
     expo-dev-menu-interface "1.3.0"
     semver "^7.5.3"
 
-expo-file-system@^15.6.0:
-  version "15.6.0"
-  resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-15.6.0.tgz#03e483ef8f8f50039862580a8e88ac43e17dbc19"
-  integrity sha512-a2hvSWPQLgzw6/u7QuVjVs44Zqgkq3EQJ94tUpw9GbAxj2RsdS3tPnzakBb3Mc6VoQ2Aop6FIgSKeYCeYJAzsg==
-  dependencies:
-    uuid "^3.4.0"
-
 expo-file-system@~15.4.0, expo-file-system@~15.4.4:
   version "15.4.4"
   resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-15.4.4.tgz#b29e0507b57ee0cc7173cf8844aaf992e411f518"

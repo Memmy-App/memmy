@@ -14,6 +14,7 @@ interface IProps {
   color?: string;
   onPress?: () => unknown | Promise<unknown>;
   backgroundColor?: string;
+  floatRight?: boolean;
 }
 
 function AnimatedIconButton({
@@ -22,6 +23,7 @@ function AnimatedIconButton({
   color,
   onPress,
   backgroundColor,
+  floatRight = false,
 }: IProps): React.JSX.Element {
   const scale = useSharedValue(1);
 
@@ -59,6 +61,7 @@ function AnimatedIconButton({
       onPressIn={onTapBegin}
       onPressOut={onTapEnd}
       onPress={onButtonPress}
+      style={{ marginLeft: floatRight ? 'auto' : undefined }}
     >
       <Animated.View style={[scaleStyle]}>
         <View backgroundColor={backgroundColor} borderRadius={3} p={4}>
