@@ -54,7 +54,7 @@ function ProfileHeader(): React.JSX.Element {
 
   return (
     <>
-      <YStack mx="$3" space="$2.5" pt={isSelf ? '$7' : undefined} pb="$2">
+      <YStack mx="$3" space="$2.5" pt={isSelf ? '$10' : undefined} pb="$2">
         {!isSelf && (
           <XStack ml="auto" width="30%" py="$2" space="$3" right={10}>
             <ButtonOne

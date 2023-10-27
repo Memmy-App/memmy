@@ -109,7 +109,6 @@ export default function NewPostScreen(): React.JSX.Element {
                 ref={newPostScreen.inputRef}
                 px={0}
                 my={-5}
-                clearButtonMode="always"
                 defaultValue={newPostScreen.url}
                 keyboardType="url"
                 autoCorrect={false}

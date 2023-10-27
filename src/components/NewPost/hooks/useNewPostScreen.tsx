@@ -1,5 +1,6 @@
 import { ITextSelection, useLoadData } from '@src/hooks';
 import {
+  Alert,
   NativeSyntheticEvent,
   TextInput,
   TextInputSelectionChangeEventData,
@@ -21,6 +22,7 @@ import {
   usePostLink,
   usePostNsfw,
   usePostTitle,
+  useSettingsStore,
   useSiteDefaultLanguage,
 } from '@src/state';
 import HeaderButton from '@components/Common/Button/HeaderButton';
@@ -59,11 +61,13 @@ interface UseNewPostScreen {
   isUploading: boolean;
 }
 
-export const useNewPostScreen = (isEdit = false): UseNewPostScreen => {
+export const useNewPostScreen = (): UseNewPostScreen => {
   const route = useRoute<any>();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { communityId, postId } = route.params;
+
+  const useImgur = useSettingsStore((state) => state.useImgur);
 
   // Get the possible language options
   const userLanguage = useDefaultLanguage();
@@ -192,18 +196,40 @@ export const useNewPostScreen = (isEdit = false): UseNewPostScreen => {
     });
   };
 
-  const onUploadImagePress = useCallback(async () => {
-    const imageUri = await selectImage();
+  const onUploadImagePress = useCallback(async (forceImgur = false) => {
+    try {
+      const imageUri = await selectImage();
 
-    if (imageUri == null) return;
+      if (imageUri == null) return;
 
-    setIsUploading(true);
+      setIsUploading(true);
 
-    const res = await uploadImage(imageUri);
+      const res = await uploadImage(imageUri, useImgur || forceImgur);
 
-    setIsUploading(false);
+      setIsUploading(false);
 
-    setUrl(res ?? '');
+      setUrl(res ?? '');
+    } catch (e) {
+      setIsUploading(false);
+      Alert.alert('Error', 'There was an error uploading the image.', [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Try Again',
+          onPress: () => {
+            void onUploadImagePress();
+          },
+        },
+        {
+          text: `Try Using ${!useImgur ? 'Imgur' : 'Your Instance'}`,
+          onPress: () => {
+            void onUploadImagePress(!useImgur);
+          },
+        },
+      ]);
+    }
   }, []);
 
   const onSelectionChange = useCallback(

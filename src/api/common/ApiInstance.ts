@@ -438,10 +438,9 @@ class ApiInstance {
     addToStore = true,
   ): Promise<GetCommunityResponse | undefined | number> {
     try {
-      const res = await this.instance?.getCommunity({
+      const res = await this.instance!.getCommunity({
         name,
-        // @ts-expect-error TODO Remove this later
-        auth: this.authToken,
+        auth: this.authToken!,
       });
 
       if (res == null) return undefined;
@@ -550,12 +549,10 @@ class ApiInstance {
 
   async getPost(postId: number): Promise<GetPostResponse> {
     try {
-      const res = await this.instance!.getPost({
+      return await this.instance!.getPost({
         id: postId,
         auth: this.authToken!,
       });
-
-      return res;
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
 
@@ -619,16 +616,11 @@ class ApiInstance {
     subscribe: boolean,
   ): Promise<CommunityResponse> {
     try {
-      const res = await this.instance?.followCommunity({
+      const res = await this.instance!.followCommunity({
         community_id: communityId,
         follow: subscribe,
         auth: this.authToken!,
       });
-
-      if (res == null) {
-        const errMsg = ApiInstance.handleError('unknown');
-        throw new Error(errMsg);
-      }
 
       setSubscribed(communityId, res.community_view.subscribed);
 
@@ -764,13 +756,11 @@ class ApiInstance {
     content: string,
   ): Promise<CommentResponse> {
     try {
-      const res = await this.instance!.editComment({
+      return await this.instance!.editComment({
         comment_id: commentId,
         content,
         auth: this.authToken!,
       });
-
-      return res;
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString);
       throw new Error(errMsg);
@@ -784,9 +774,7 @@ class ApiInstance {
     };
 
     try {
-      const res = await this.instance!.editPost(options as EditPost);
-
-      return res;
+      return await this.instance!.editPost(options as EditPost);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
@@ -799,17 +787,12 @@ class ApiInstance {
     parentId?: number,
   ): Promise<CommentResponse> {
     try {
-      const res = await this.instance?.createComment({
+      const res = await this.instance!.createComment({
         post_id: postId,
         parent_id: parentId,
         content,
         auth: this.authToken!,
       });
-
-      if (res == null) {
-        const errMsg = ApiInstance.handleError('unknown');
-        throw new Error(errMsg);
-      }
 
       addComment(res.comment_view);
 
@@ -833,12 +816,7 @@ class ApiInstance {
         ...options,
       };
 
-      const res = await this.instance?.createPost(options as CreatePost);
-
-      if (res == null) {
-        const errMsg = ApiInstance.handleError('unknown');
-        throw new Error(errMsg);
-      }
+      const res = await this.instance!.createPost(options as CreatePost);
 
       addPost(res.post_view);
 
@@ -851,16 +829,11 @@ class ApiInstance {
 
   async deleteComment(commentId: number): Promise<void> {
     try {
-      const res = await this.instance?.deleteComment({
+      const res = await this.instance!.deleteComment({
         comment_id: commentId,
         deleted: true,
         auth: this.authToken!,
       });
-
-      if (res == null) {
-        const errMsg = ApiInstance.handleError('unknown');
-        throw new Error(errMsg);
-      }
 
       updateComment(res.comment_view);
     } catch (e: any) {
@@ -962,12 +935,7 @@ class ApiInstance {
       ...options,
     };
     try {
-      const res = await this.instance?.removeComment(options as RemoveComment);
-
-      if (res == null) {
-        const errMsg = ApiInstance.handleError('unknown');
-        throw new Error(errMsg);
-      }
+      const res = await this.instance!.removeComment(options as RemoveComment);
 
       updateComment(res.comment_view);
 

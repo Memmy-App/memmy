@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { Alert, TextInput } from 'react-native';
 import { useThemeColorScheme } from '@hooks/useThemeColorScheme';
 import { selectImage, uploadImage } from '@helpers/image';
+import { useSettingsStore } from '@src/state';
 
 export interface ITextSelection {
   start: number;
@@ -28,6 +29,8 @@ export const useKeyboardAccessory = (
   options: UseKeyboardAccessoryOptions,
 ): UseKeyboardAccessory => {
   const colorScheme = useThemeColorScheme();
+
+  const useImgur = useSettingsStore((state) => state.useImgur);
 
   const { text, setText, selection, inputRef } = options;
 
@@ -111,34 +114,61 @@ export const useKeyboardAccessory = (
     });
   }, [text, selection]);
 
-  const onImageUploadPress = useCallback(async () => {
-    const imageUri = await selectImage();
+  const onImageUploadPress = useCallback(
+    async (overrideImgur = false) => {
+      const imageUri = await selectImage();
 
-    if (imageUri == null) return;
+      if (imageUri == null) return;
 
-    setIsUploading(true);
+      setIsUploading(true);
 
-    const url = await uploadImage(imageUri);
+      try {
+        const url = await uploadImage(imageUri, useImgur || overrideImgur);
 
-    setIsUploading(false);
+        setIsUploading(false);
 
-    Alert.prompt(
-      'Alt Text',
-      'Enter the alt text for the image. If left blank, the alt text will be set to the image URL.',
-      (altText) => {
-        const newText = replace(`![${altText !== '' ? altText : url}](${url})`);
+        Alert.prompt(
+          'Alt Text',
+          'Enter the alt text for the image. If left blank, the alt text will be set to the image URL.',
+          (altText) => {
+            const newText = replace(
+              `![${altText !== '' ? altText : url}](${url})`,
+            );
 
-        inputRef.current?.setNativeProps({
-          selection: { start: selection.end, end: selection.end },
-          text: newText,
-        });
-      },
-      'plain-text',
-      '',
-      'default',
-      { userInterfaceStyle: colorScheme },
-    );
-  }, [text, selection]);
+            inputRef.current?.setNativeProps({
+              selection: { start: selection.end, end: selection.end },
+              text: newText,
+            });
+          },
+          'plain-text',
+          '',
+          'default',
+          { userInterfaceStyle: colorScheme },
+        );
+      } catch (e) {
+        setIsUploading(false);
+        Alert.alert('Error', 'There was an error uploading the image.', [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'Try Again',
+            onPress: () => {
+              void onImageUploadPress();
+            },
+          },
+          {
+            text: `Try Using ${!useImgur ? 'Imgur' : 'Your Instance'}`,
+            onPress: () => {
+              void onImageUploadPress(!useImgur);
+            },
+          },
+        ]);
+      }
+    },
+    [text, selection],
+  );
 
   return {
     onBoldPress,

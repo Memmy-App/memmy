@@ -1,8 +1,9 @@
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import { Alert } from 'react-native';
-import { useAccountStore } from '@src/state';
+import { useAccountStore, useSettingsStore } from '@src/state';
 import fs from 'react-native-fs';
+import axios from 'axios';
 
 const imageTypes: Record<string, string> = {
   jpg: 'image/jpeg',
@@ -39,7 +40,16 @@ export const selectImage = async (): Promise<string | null> => {
   return res.assets[0].uri;
 };
 
-export const uploadImage = async (uri: string): Promise<string | null> => {
+export const uploadImage = async (
+  uri: string,
+  forceImgur = false,
+): Promise<string | null> => {
+  const useImgur = useSettingsStore.getState().useImgur;
+
+  if (useImgur || forceImgur) {
+    return await uploadImageWithImgur(uri);
+  }
+
   const extension = uri.split('.').pop();
 
   if (extension == null || imageTypes[extension] == null) {
@@ -72,10 +82,41 @@ export const uploadImage = async (uri: string): Promise<string | null> => {
 
     const fileName = JSON.parse(res.body).files[0].file;
 
-    const url = `https://${currentAccount.instance}/pictrs/image/${fileName}`;
-
-    return url;
+    return `https://${currentAccount.instance}/pictrs/image/${fileName}`;
   } catch (e: any) {
+    throw new Error();
+  }
+};
+
+export const uploadImageWithImgur = async (
+  uri: string,
+): Promise<string | null> => {
+  const extension = uri.split('.').pop();
+
+  if (extension == null || imageTypes[extension] == null) {
+    Alert.alert('Error', 'Invalid image type.');
     return null;
+  }
+
+  try {
+    const formData = new FormData();
+
+    formData.append('image', {
+      uri,
+      name: `image.${extension}`,
+      type: imageTypes[extension],
+    } as any);
+
+    const res = await axios.post('https://api.imgur.com/3/image', formData, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+        Authorization: 'Client-ID 2969d60a8c6616b',
+      },
+    });
+
+    return res.data.data.link;
+  } catch (e: any) {
+    throw new Error();
   }
 };

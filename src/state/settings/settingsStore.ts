@@ -100,6 +100,8 @@ export interface SettingsStore {
 
   showCommentButtons: boolean;
 
+  useImgur: boolean;
+
   upgraded: boolean;
 
   reset: () => void;
@@ -192,6 +194,8 @@ const initialState: Partial<SettingsStore> = {
   showCommentButtons: false,
 
   mouseLoadingIcon: false,
+
+  useImgur: false,
 
   upgraded: false,
 

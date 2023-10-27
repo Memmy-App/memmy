@@ -84,6 +84,15 @@ export default function SettingsGeneralScreen({
             }
           />
         </Table.Section>
+        <Table.Section header="Images">
+          <Table.Cell
+            label="Use Imgur for Uploads"
+            switchValue={settings.useImgur}
+            onSwitchValueChange={(v) => {
+              setSetting('useImgur', v);
+            }}
+          />
+        </Table.Section>
       </Table.Container>
     </ScrollView>
   );
