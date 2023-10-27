@@ -220,7 +220,7 @@ export default function SettingsAppearanceScreen({
           />
           <Table.Cell
             label="Display Username in Tab Bar"
-            switchValue={settings.showAvatarInTabBar}
+            switchValue={settings.showUsernameInTabBar}
             onSwitchValueChange={(v) => {
               setSetting('showUsernameInTabBar', v);
             }}

@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Issue where user was unable to enable the display of username in the tab bar
+
+### Added
+
+- Imgur image upload fallback
+
 ## [Version 1.0 (56)] - 2023-10-27T08:40:00Z
 
 ### Fixed
