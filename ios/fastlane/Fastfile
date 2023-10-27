@@ -70,14 +70,13 @@ platform :ios do
       api_key: api_key
     )
 
-    gym(
-      configuration: "Release",
+    build_app(
       workspace: "Memmy.xcworkspace",
       scheme: "Memmy",
       export_method: "app-store",
       export_options: {
         provisioningProfiles: {
-	      DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
+          "com.gkasdorf.memmyapp" => "match AppStore com.gkasdorf.memmyapp 1698187990"
 	    }
       }
     )
