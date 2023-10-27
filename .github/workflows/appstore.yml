@@ -46,7 +46,7 @@ jobs:
       - name: 🏗️ Build 👷 and ✈️ Deploy 🚛 to App Store 🤌
         uses: maierj/fastlane-action@v3.0.0
         with:
-          lane: 'beta'
+          lane: 'betaGithub'
           subdirectory: 'ios'
           bundler-cache: true
         env:
