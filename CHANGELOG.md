@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Upload pictures to instance
+- Add uploading to keyboard accessory
 
 ## [Version 1.0 (55)] - 2023-10-27T01:11:18Z
 

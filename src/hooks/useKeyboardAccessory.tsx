@@ -1,6 +1,7 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Alert, TextInput } from 'react-native';
 import { useThemeColorScheme } from '@hooks/useThemeColorScheme';
+import { selectImage, uploadImage } from '@helpers/image';
 
 export interface ITextSelection {
   start: number;
@@ -19,6 +20,8 @@ interface UseKeyboardAccessory {
   onItalicPress: () => void;
   onLinkPress: () => Promise<void>;
   onQuotePress: () => void;
+  onImageUploadPress: () => Promise<void>;
+  isUploading: boolean;
 }
 
 export const useKeyboardAccessory = (
@@ -27,6 +30,8 @@ export const useKeyboardAccessory = (
   const colorScheme = useThemeColorScheme();
 
   const { text, setText, selection, inputRef } = options;
+
+  const [isUploading, setIsUploading] = useState(false);
 
   const getSelected = (): string =>
     text.substring(selection.start, selection.end);
@@ -106,10 +111,41 @@ export const useKeyboardAccessory = (
     });
   }, [text, selection]);
 
+  const onImageUploadPress = useCallback(async () => {
+    const imageUri = await selectImage();
+
+    if (imageUri == null) return;
+
+    setIsUploading(true);
+
+    const url = await uploadImage(imageUri);
+
+    setIsUploading(false);
+
+    Alert.prompt(
+      'Alt Text',
+      'Enter the alt text for the image. If left blank, the alt text will be set to the image URL.',
+      (altText) => {
+        const newText = replace(`![${altText !== '' ? altText : url}](${url})`);
+
+        inputRef.current?.setNativeProps({
+          selection: { start: selection.end, end: selection.end },
+          text: newText,
+        });
+      },
+      'plain-text',
+      '',
+      'default',
+      { userInterfaceStyle: colorScheme },
+    );
+  }, [text, selection]);
+
   return {
     onBoldPress,
     onItalicPress,
     onLinkPress,
     onQuotePress,
+    onImageUploadPress,
+    isUploading,
   };
 };

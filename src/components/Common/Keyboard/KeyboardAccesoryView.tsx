@@ -4,6 +4,7 @@ import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
 import { Bold, Camera, Italic, Link, Quote } from '@tamagui/lucide-icons';
 import { useKeyboardAccessory, UseKeyboardAccessoryOptions } from '@src/hooks';
 import { XStack } from 'tamagui';
+import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 
 export default function KeyboardAccessoryView(
   params: UseKeyboardAccessoryOptions,
@@ -12,6 +13,7 @@ export default function KeyboardAccessoryView(
 
   return (
     <InputAccessoryView nativeID="accessory">
+      <LoadingOverlay visible={accessory.isUploading} />
       <XStack
         height={40}
         justifyContent="space-between"
@@ -47,7 +49,7 @@ export default function KeyboardAccessoryView(
           icon={Camera}
           iconSize={20}
           color="$accent"
-          onPress={accessory.onQuotePress}
+          onPress={accessory.onImageUploadPress}
         />
       </XStack>
     </InputAccessoryView>
