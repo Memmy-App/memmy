@@ -10,10 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Issue where user was unable to enable the display of username in the tab bar
+- Issue where posts with one comment would say "1 Commen"
 
 ### Added
 
 - Imgur image upload fallback
+- Full width swipes
+- Reply button in comments if you have them enabled
 
 ## [Version 1.0 (56)] - 2023-10-27T08:40:00Z
 

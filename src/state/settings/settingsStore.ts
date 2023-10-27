@@ -43,6 +43,8 @@ export interface IReadOptions {
 export interface SettingsStore {
   gestures: IGestureSettings;
 
+  fullWidthSwipes: boolean;
+
   imagesInFeed: boolean;
 
   defaultSort: SortType;
@@ -129,6 +131,8 @@ const initialState: Partial<SettingsStore> = {
       secondRight: 'reply',
     },
   },
+
+  fullWidthSwipes: false,
 
   imagesInFeed: true,
 
@@ -334,3 +338,6 @@ export const useCompactShowUsername = (): boolean =>
 
 export const useShowCommentButtons = (): boolean =>
   useSettingsStore((state) => state.showCommentButtons);
+
+export const useFullWidthSwipes = (): boolean =>
+  useSettingsStore((state) => state.fullWidthSwipes);

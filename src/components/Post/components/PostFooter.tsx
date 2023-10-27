@@ -13,6 +13,7 @@ function PostFooter(): React.JSX.Element {
   return (
     <YStack space="$1.5" py="$2" px="$3">
       <PostUserLabel
+        userId={user?.id}
         userIcon={user?.avatar}
         userCommunity={user?.actor_id}
         userName={user?.name}

@@ -16,6 +16,7 @@ export default function FeedItemPostInfo({
   return (
     <YStack space="$2">
       <PostUserLabel
+        userId={postUser?.id}
         userName={postUser?.name}
         userCommunity={postUser?.actor_id}
         userIcon={postUser?.avatar}

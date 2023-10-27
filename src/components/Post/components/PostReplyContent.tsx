@@ -21,6 +21,7 @@ function PostReplyContent({ itemId }: IProps): React.JSX.Element {
         <Markdown>{postContent}</Markdown>
         <XStack justifyContent="space-between" px="$2">
           <PostUserLabel
+            userId={user?.id}
             userIcon={user?.avatar}
             userName={user?.name}
             userCommunity=""

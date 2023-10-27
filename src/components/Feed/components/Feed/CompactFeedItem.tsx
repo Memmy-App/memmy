@@ -115,6 +115,7 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
             <PostCommunityLabel itemId={itemId} pressable={false} />
             {showUsername && (
               <PostUserLabel
+                userId={postUser?.id}
                 userName={postUser?.name}
                 userCommunity={postUser?.actor_id}
                 userIcon={postUser?.avatar}

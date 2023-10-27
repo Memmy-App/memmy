@@ -9,6 +9,7 @@ import UserIcon from '@components/Common/Avatar/UserIcon';
 import AdminBadge from '@components/Common/Badge/AdminBadge';
 
 interface IProps {
+  userId?: number;
   userName?: string;
   userCommunity?: string;
   userIcon?: string;
@@ -17,6 +18,7 @@ interface IProps {
 }
 
 function PostUserLabel({
+  userId,
   userName,
   userCommunity,
   userIcon,
@@ -34,7 +36,7 @@ function PostUserLabel({
 
   const onPress = useCallback((): void => {
     navigation.push('Profile', {
-      fullName: name,
+      personId: userId,
     });
   }, [name]);
 

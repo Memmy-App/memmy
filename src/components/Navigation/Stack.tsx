@@ -13,11 +13,7 @@ export default function MainStack(): React.JSX.Element {
   const accounts = useAccounts();
 
   return (
-    <Stack.Navigator
-      screenOptions={{
-        fullScreenGestureEnabled: true,
-      }}
-    >
+    <Stack.Navigator>
       {accounts.length < 1 ? (
         <>
           <Stack.Group>

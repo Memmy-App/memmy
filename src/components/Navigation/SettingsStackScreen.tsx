@@ -17,12 +17,17 @@ import SettingsFiltersScreen from '@components/Settings/screens/SettingsFiltersS
 import SettingsFilterScreen from '@components/Settings/screens/SettingsFilterScreen';
 import SettingsBlockedPersonsScreen from '@components/Settings/screens/SettingsBlockedPersonsScreen';
 import SettingsBlockedCommunitiesScreen from '@components/Settings/screens/SettingsBlockedCommunitiesScreen';
+import { useFullWidthSwipes } from '@src/state';
 
 const SettingsStack = createNativeStackNavigator();
 
 export default function SettingsStackScreen(): React.JSX.Element {
+  const fullWidthSwipes = useFullWidthSwipes();
+
   return (
-    <SettingsStack.Navigator>
+    <SettingsStack.Navigator
+      screenOptions={{ fullScreenGestureEnabled: fullWidthSwipes }}
+    >
       <SettingsStack.Group>
         <SettingsStack.Screen
           name="Index"
