@@ -6,9 +6,7 @@ import {
   useCommentGesturesEnabled,
   useMentionCommentId,
   useMentionContent,
-  useMentionCreatorActorId,
-  useMentionCreatorAvatar,
-  useMentionCreatorName,
+  useMentionCreator,
   useMentionDeleted,
   useMentionPath,
   useMentionPostId,
@@ -16,9 +14,7 @@ import {
   useMentionRemoved,
   useReplyCommentId,
   useReplyContent,
-  useReplyCreatorActorId,
-  useReplyCreatorAvatar,
-  useReplyCreatorName,
+  useReplyCreator,
   useReplyDeleted,
   useReplyPath,
   useReplyPostId,
@@ -62,18 +58,8 @@ function InboxComment({ itemId, type }: IProps): React.JSX.Element {
     type === 'reply' ? useReplyRemoved(itemId) : useMentionRemoved(itemId);
   const deleted =
     type === 'reply' ? useReplyDeleted(itemId) : useMentionDeleted(itemId);
-  const creatorAvatar =
-    type === 'reply'
-      ? useReplyCreatorAvatar(itemId)
-      : useMentionCreatorAvatar(itemId);
-  const creatorName =
-    type === 'reply'
-      ? useReplyCreatorName(itemId)
-      : useMentionCreatorName(itemId);
-  const creatorActorId =
-    type === 'reply'
-      ? useReplyCreatorActorId(itemId)
-      : useMentionCreatorActorId(itemId);
+  const creator =
+    type === 'reply' ? useReplyCreator(itemId) : useMentionCreator(itemId);
   const read = type === 'reply' ? useReplyRead(itemId) : useMentionRead(itemId);
   const path = type === 'reply' ? useReplyPath(itemId) : useMentionPath(itemId);
 
@@ -170,11 +156,12 @@ function InboxComment({ itemId, type }: IProps): React.JSX.Element {
         <YStack backgroundColor="$fg">
           <YStack my="$2" px="$2" py="$1">
             <CommentHeader
-              creatorAvatar={creatorAvatar}
-              userCommunity={creatorActorId}
-              userName={creatorName}
+              creatorAvatar={creator?.avatar}
+              userCommunity={creator?.actor_id}
+              userName={creator?.name}
               EllipsisButton={ellipsisButton}
               CommentMetrics={commentMetrics}
+              isAdmin={creator?.admin}
             />
             <CommentContent
               content={content}

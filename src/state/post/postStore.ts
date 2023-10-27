@@ -114,3 +114,9 @@ export const usePostPublished = (id: number): string | undefined =>
 
 export const usePostLanguageId = (id: number): number | undefined =>
   usePostStore((state) => state.posts.get(id))?.view.post.language_id;
+
+export const usePostCreatorAdmin = (id: number): boolean =>
+  usePostStore((state) => state.posts.get(id))?.view.creator.admin ?? false;
+
+export const usePostCreatorId = (id?: number): number | undefined =>
+  usePostStore((state) => state.posts.get(id ?? 0))?.view.creator.id;

@@ -46,6 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - All Lemmy links will *attempt* to go to their respective post/comment/community/user. This includes links that are
 outside the user's instance. Linking to outside comments and posts is experimental however in testing the results did
 produce any false negatives.
+- OP and admin badges
 
 ### Changes
 

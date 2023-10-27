@@ -6,17 +6,22 @@ import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { createName } from '@helpers/text';
 import UserIcon from '@components/Common/Avatar/UserIcon';
+import AdminBadge from '@components/Common/Badge/AdminBadge';
 
 interface IProps {
   userName?: string;
   userCommunity?: string;
   userIcon?: string;
+  isAdmin?: boolean;
+  isSelf?: boolean;
 }
 
 function PostUserLabel({
   userName,
   userCommunity,
   userIcon,
+  isAdmin,
+  isSelf,
 }: IProps): React.JSX.Element {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
@@ -40,6 +45,8 @@ function PostUserLabel({
         <Text color="$secondary" fontSize="$2">
           {name}
         </Text>
+        {isAdmin === true && <AdminBadge />}
+        {isSelf === true && <AdminBadge />}
       </XStack>
     </Pressable>
   );

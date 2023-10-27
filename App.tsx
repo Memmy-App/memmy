@@ -12,7 +12,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { enableMapSet } from 'immer';
 import ImageViewerProvider from '@components/Common/ImageViewer/ImageViewerProvider';
-import { LogBox } from 'react-native';
+import { Alert, LogBox } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { ErrorBoundary } from 'react-error-boundary';
 import { writeToLog } from '@src/helpers';
@@ -25,6 +25,7 @@ import Drawer from '@components/Common/Drawer/Drawer';
 import {
   setDrawerOpen,
   useAccent,
+  useAccounts,
   useAccountStore,
   useAppUpgraded,
   useCurrentAccount,
@@ -53,6 +54,8 @@ void SplashScreen.preventAutoHideAsync();
 
 LogBox.ignoreAllLogs(true);
 
+// We are going to set a weird global here just so we can tell users about the upgrade
+
 export default function App(): React.JSX.Element | null {
   enableFreeze(true);
 
@@ -63,16 +66,31 @@ export default function App(): React.JSX.Element | null {
     InterSemiBold: require('@tamagui/font-inter/otf/Inter-SemiBold.otf'),
   });
 
+  const upgraded = useAppUpgraded();
+  const accounts = useAccounts();
+
   useEffect(() => {
     if (loaded) {
       writeToLog('Memmy has been initialized.');
       void SplashScreen.hideAsync();
+
+      if ((upgraded == null || !upgraded) && accounts.length > 0) {
+        resetAccountStore();
+        resetSettingsStore();
+
+        Alert.alert(
+          'Upgrade',
+          'There have been a lot of changes between the last release and this one. In an effort to improve a wide range of things, the way we store user settings has been changed. You will need to add your account again to get started.',
+        );
+
+        useSettingsStore.setState((state) => {
+          state.upgraded = true;
+        });
+      }
     }
   }, [loaded]);
 
   const themeSettings = useThemeSettings();
-
-  const upgraded = useAppUpgraded();
 
   useBackgroundChecks();
 
@@ -80,15 +98,6 @@ export default function App(): React.JSX.Element | null {
   const resetSettingsStore = useSettingsStore((state) => state.reset);
 
   if (!loaded || !themeSettings.initialized) return null;
-
-  if (upgraded == null || !upgraded) {
-    resetAccountStore();
-    resetSettingsStore();
-
-    useSettingsStore.setState((state) => {
-      state.upgraded = true;
-    });
-  }
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

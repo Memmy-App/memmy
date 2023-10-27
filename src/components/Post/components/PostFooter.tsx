@@ -16,6 +16,7 @@ function PostFooter(): React.JSX.Element {
         userIcon={user?.avatar}
         userCommunity={user?.actor_id}
         userName={user?.name}
+        isAdmin={user?.admin}
       />
       <PostMetrics itemId={postId} />
     </YStack>

@@ -6,13 +6,13 @@ export const createName = (
   partTwo?: string,
   ignoreSettings = false,
 ): string => {
-  const showFullName = useSettingsStore.getState().hideInstanceForUsernames;
+  const hideFullUsername = useSettingsStore.getState().hideInstanceForUsernames;
 
   if (partOne == null || partTwo == null) return '';
 
   partTwo = getBaseUrl(partTwo);
 
-  if (!showFullName && !ignoreSettings) {
+  if (hideFullUsername && !ignoreSettings) {
     return partOne;
   }
 

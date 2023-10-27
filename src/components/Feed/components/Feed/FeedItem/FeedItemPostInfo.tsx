@@ -19,6 +19,7 @@ export default function FeedItemPostInfo({
         userName={postUser?.name}
         userCommunity={postUser?.actor_id}
         userIcon={postUser?.avatar}
+        isAdmin={postUser?.admin}
       />
       <PostMetrics itemId={itemId} />
     </YStack>

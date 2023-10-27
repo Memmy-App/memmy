@@ -118,6 +118,7 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
                 userName={postUser?.name}
                 userCommunity={postUser?.actor_id}
                 userIcon={postUser?.avatar}
+                isAdmin={postUser?.admin}
               />
             )}
             <XStack justifyContent="space-between">

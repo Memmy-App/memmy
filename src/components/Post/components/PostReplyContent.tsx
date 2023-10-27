@@ -24,6 +24,7 @@ function PostReplyContent({ itemId }: IProps): React.JSX.Element {
             userIcon={user?.avatar}
             userName={user?.name}
             userCommunity=""
+            isAdmin={user?.admin}
           />
           <PostMetrics itemId={itemId} />
         </XStack>

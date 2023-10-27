@@ -6,15 +6,14 @@ import { Pressable } from 'react-native';
 import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
 import {
   useCommentContent,
-  useCommentCreatorActorId,
-  useCommentCreatorAvatar,
-  useCommentCreatorName,
+  useCommentCreator,
   useCommentDeleted,
   useCommentGesturesEnabled,
   useCommentPath,
   useCommentPostId,
   useCommentRemoved,
   useCommentSaved,
+  usePostCreatorId,
   useShowCommentButtons,
 } from '@src/state';
 import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
@@ -68,14 +67,13 @@ function Comment({
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const postId = useCommentPostId(itemId);
+  const postCreatorId = usePostCreatorId(postId);
   const commentContent = useCommentContent(itemId);
   const commentRemoved = useCommentRemoved(itemId);
   const commentDeleted = useCommentDeleted(itemId);
-  const commentCreatorAvatar = useCommentCreatorAvatar(itemId);
-  const commentCreatorName = useCommentCreatorName(itemId);
-  const commentCreatorActorId = useCommentCreatorActorId(itemId);
   const commentSaved = useCommentSaved(itemId);
   const commentPath = useCommentPath(itemId);
+  const commentCreator = useCommentCreator(itemId);
 
   const swipesEnabled = useCommentGesturesEnabled();
   const showButtons = useShowCommentButtons();
@@ -142,11 +140,13 @@ function Comment({
             py="$1"
           >
             <CommentHeader
-              creatorAvatar={commentCreatorAvatar}
-              userCommunity={commentCreatorActorId}
-              userName={commentCreatorName}
+              creatorAvatar={commentCreator?.avatar}
+              userCommunity={commentCreator?.actor_id}
+              userName={commentCreator?.name}
+              isAdmin={commentCreator?.admin}
               EllipsisButton={ellipsisButton}
               CommentMetrics={commentMetrics}
+              isOp={commentCreator?.id === postCreatorId}
             />
             {!collapsed && (
               <CommentContent

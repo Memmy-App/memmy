@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, Theme, YStack } from 'tamagui';
 import { ImageBackground } from 'expo-image';
 import { Button } from '@components/Common/Button';
@@ -10,6 +10,8 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 const background = require('@root/assets/splash.jpg');
 
 export default function OnboardingIndexScreen(): React.JSX.Element {
+  useEffect(() => {}, []);
+
   return (
     <ImageBackground
       source={background}

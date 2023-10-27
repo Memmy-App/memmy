@@ -1,4 +1,4 @@
-import { CommentView } from 'lemmy-js-client';
+import { CommentView, Person } from 'lemmy-js-client';
 import { immer } from 'zustand/middleware/immer';
 import { create } from 'zustand';
 
@@ -83,3 +83,6 @@ export const useCommentActorId = (id: number): string | undefined =>
 
 export const useCommentPublished = (id: number): string | undefined =>
   useCommentStore((state) => state.comments.get(id)?.view.comment.published);
+
+export const useCommentCreator = (id: number): Person | undefined =>
+  useCommentStore((state) => state.comments.get(id)?.view.creator);

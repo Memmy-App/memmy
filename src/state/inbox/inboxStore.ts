@@ -1,5 +1,6 @@
 import {
   CommentReplyView,
+  Person,
   PersonMentionView,
   PrivateMessageView,
 } from 'lemmy-js-client';
@@ -59,6 +60,9 @@ export const useReplyRemoved = (id: number): boolean =>
 export const useReplyDeleted = (id: number): boolean =>
   useInboxStore((state) => state.replies.get(id)?.comment.deleted) ?? false;
 
+export const useReplyCreator = (id: number): Person | undefined =>
+  useInboxStore((state) => state.replies.get(id)?.creator);
+
 export const useReplyCreatorAvatar = (id: number): string | undefined =>
   useInboxStore((state) => state.replies.get(id)?.creator.avatar);
 
@@ -103,6 +107,9 @@ export const useMentionRemoved = (id: number): boolean =>
 
 export const useMentionDeleted = (id: number): boolean =>
   useInboxStore((state) => state.mentions.get(id)?.comment.deleted) ?? false;
+
+export const useMentionCreator = (id: number): Person | undefined =>
+  useInboxStore((state) => state.mentions.get(id)?.creator);
 
 export const useMentionCreatorAvatar = (id: number): string | undefined =>
   useInboxStore((state) => state.mentions.get(id)?.creator.avatar);
