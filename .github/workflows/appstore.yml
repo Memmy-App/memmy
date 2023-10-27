@@ -9,46 +9,41 @@ jobs:
     runs-on: macos-13
 
     steps:
-      - name: ⬇️ Checkout
+      - name: 📂 Checkout
         uses: actions/checkout@v3
 
-      - name: 🔧 Setup node
+      - name: 📦 Install Node
         uses: actions/setup-node@v1
         with:
           node-version: 18
 
-      - name: ⛏️ Install Node deps
-        run: yarn install
+      - name: 📦 Install Node Dependencies
+        run: |
+          yarn install
 
-#      - name: 🧐 Run Lint
-#        run: |
-#          ./node_modules/eslint/bin/eslint.js . --ext js,jsx,ts,tsx
+      - name: 🔎 Run Lint
+        run: |
+          ./node_modules/eslint/bin/eslint.js . --ext js,jsx,ts,tsx
 
       # Setup XCode
-      - name: 🔨 Install XCode
+      - name: 📱 Setup XCode
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: 15.0
 
-      - name: 🪛 Setup Ruby
+      - name: 📦 Install Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7'
           bundler-cache: true
           working-directory: 'ios'
 
-      - name: ⚙️ Set Git Config
+      - name: 🚧 Prepare the environment
         run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
+          chmod +x ./bin/deploy-ios-github.sh
+          ./bin/deploy-ios-github.sh
 
-      - name: 🔌 Add Fastlane Plugins
-        run: |
-          cd ios
-          gem install fastlane
-          fastlane add_plugin changelog
-
-      - name: 👷 Build and ✈️ Deploy
+      - name: 🏗️ Build 👷 and ✈️ Deploy 🚛 to App Store 🤌
         uses: maierj/fastlane-action@v3.0.0
         with:
           lane: 'beta'
