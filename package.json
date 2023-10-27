@@ -110,11 +110,14 @@
     "build-prod-android": "eas build -p android --profile production --output prod.aab --local --non-interactive",
     "build-tf-ios": "eas build -p ios --profile production-tf --output prod.ipa --local --non-interactive",
     "build-tf-android": "eas build -p android --profile production-tf --output prod.aab --local --non-interactive",
-    "generate-license": "license-report --only=prod,dev,peer --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author --output=html > assets/license.html",
-    "postinstall": "patch-package",
     "build-submit-ios": "cd ios && fastlane beta",
     "build-submit-internal-ios": "cd ios && fastlane betaInternal",
+		"generate-license": "license-report --only=prod,dev,peer --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author --output=html > assets/license.html",
+		"postinstall": "patch-package",
     "lint": "./node_modules/eslint/bin/eslint.js . --ext=js,jsx,ts,tsx",
-    "lint-fix": "./node_modules/eslint/bin/eslint.js . --ext=js,jsx,ts,tsx --fix"
+    "lint-fix": "./node_modules/eslint/bin/eslint.js . --ext=js,jsx,ts,tsx --fix",
+
+		"deploy-ios-local": "./bin/deploy-ios-local.sh",
+		"deploy-ios": "./bin/deploy-ios-github.sh",
   }
 }
