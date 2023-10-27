@@ -36,8 +36,12 @@ function DrawerItem({ view, navigation }: IProps): React.JSX.Element {
     setDrawerOpen(false);
     // @ts-expect-error this is valid
     navigation.navigate('Community', {
-      name: createName(view.community.name, view.community.actor_id, true),
-      id: view.community.id,
+      communityName: createName(
+        view.community.name,
+        view.community.actor_id,
+        true,
+      ),
+      communityId: view.community.id,
     });
   }, [view]);
 

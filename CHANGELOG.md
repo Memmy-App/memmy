@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Drawer not going to community
+
+## [Version 1.0 (58)] - 2023-10-27T10:59:52Z
+
+### Fixed
+
 - Issue where user was unable to enable the display of username in the tab bar
 - Issue where posts with one comment would say "1 Commen"
 
