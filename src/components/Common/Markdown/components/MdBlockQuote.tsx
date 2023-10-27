@@ -10,7 +10,6 @@ export default function MdBlockQuote({ text }: IProps): React.JSX.Element {
     <XStack
       backgroundColor="$bg"
       p="$2"
-      mt="$1"
       mb="$2.5"
       mt={-14}
       mx="$3"

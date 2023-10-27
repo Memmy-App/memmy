@@ -1,40 +1,69 @@
 import React from 'react';
-import { Theme, YStack } from 'tamagui';
+import { Text, Theme, YStack } from 'tamagui';
 import { ImageBackground } from 'expo-image';
-import { OnboardingH1 } from '@components/Onboarding/components/OnboardingH1';
 import { Button } from '@components/Common/Button';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/core';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const background = require('@root/assets/splash.jpg');
 
-interface IProps {
-  navigation: NativeStackNavigationProp<any>;
-}
-
-export default function OnboardingIndexScreen({
-  navigation,
-}: IProps): React.JSX.Element {
+export default function OnboardingIndexScreen(): React.JSX.Element {
   return (
     <ImageBackground
       source={background}
       style={{ width: '100%', height: '100%' }}
-      resizeMode="cover"
+      contentFit="cover"
     >
       <Theme name="darkTheme">
-        <YStack flex={1} justifyContent="center" mx={20} space="$9">
-          <OnboardingH1>Hello!👋</OnboardingH1>
-          <OnboardingH1>Welcome to the Fediverse</OnboardingH1>
-
-          <Button
-            onPress={() => {
-              navigation.push('OnboardingInstanceList');
-            }}
-          >
-            Get Started
-          </Button>
-        </YStack>
+        <PartOne />
       </Theme>
     </ImageBackground>
+  );
+}
+
+function PartOne(): React.JSX.Element {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+  return (
+    <Animated.View
+      style={{ flex: 1 }}
+      entering={FadeIn.duration(1000)}
+      exiting={FadeOut}
+    >
+      <YStack flex={1} justifyContent="center" mx={20} space="$6">
+        <Text fontSize={42} fontWeight="bold">
+          Hello! 👋
+        </Text>
+        <Text fontSize={36} fontWeight="bold">
+          Let&apos;s get you started. Do you already have a Lemmy instance?
+          account
+        </Text>
+
+        <YStack space="$3">
+          <Button
+            color="white"
+            backgroundColor="#000"
+            onPress={() => {
+              navigation.push('AddAccount');
+            }}
+            fontSize={20}
+          >
+            Yes, I&apos;m Ready to Sign In
+          </Button>
+          <Button
+            color="white"
+            backgroundColor="#000"
+            onPress={() => {
+              navigation.navigate('OnboardingInstanceList');
+            }}
+            fontSize={20}
+          >
+            No, I Need One
+          </Button>
+        </YStack>
+      </YStack>
+    </Animated.View>
   );
 }
