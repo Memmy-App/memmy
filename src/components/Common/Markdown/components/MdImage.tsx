@@ -7,7 +7,9 @@ interface IProps {
 }
 
 function MdImage({ token }: IProps): React.JSX.Element {
-  return <CommentImageButton source={token.attrs[0][1]} />;
+  return (
+    <CommentImageButton source={token.attrs[0][1]} content={token.content} />
+  );
 }
 
 export default MdImage;
