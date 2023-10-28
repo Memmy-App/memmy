@@ -5695,7 +5695,7 @@ expo-application@~5.3.0:
   resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-5.3.1.tgz#074bbfc6bb5d65ae74a67f5288fa3eb582237e53"
   integrity sha512-HR2+K+Hm33vLw/TfbFaHrvUbRRNRco8R+3QaCKy7eJC2LFfT05kZ15ynGaKfB5DJ/oqPV3mxXVR/EfwmE++hoA==
 
-expo-asset@^8.10.1, expo-asset@~8.10.1:
+expo-asset@~8.10.1:
   version "8.10.1"
   resolved "https://registry.yarnpkg.com/expo-asset/-/expo-asset-8.10.1.tgz#a7e8cf1c555ab8f844599822cb084fee95a93644"
   integrity sha512-5VMTESxgY9GBsspO/esY25SKEa7RyascVkLe/OcL1WgblNFm7xCCEEUIW8VWS1nHJQGYxpMZPr3bEfjMpdWdyA==
@@ -5707,11 +5707,6 @@ expo-asset@^8.10.1, expo-asset@~8.10.1:
     md5-file "^3.2.3"
     path-browserify "^1.0.0"
     url-parse "^1.5.9"
-
-expo-blur@^12.6.0:
-  version "12.6.0"
-  resolved "https://registry.yarnpkg.com/expo-blur/-/expo-blur-12.6.0.tgz#70f8d63671d175802a7a30c168088f6a9fdd8ffb"
-  integrity sha512-yrZYu4mQX4ZJtSrjNVMuB9kCMB8Xerk5Zn5iES6ojmGAk+yxJ/jdyhaUVqbpaA8LBmspdKgQz2dW8+9wa8dSAg==
 
 expo-build-properties@^0.8.3:
   version "0.8.3"
@@ -9339,11 +9334,6 @@ react-native-keyboard-aware-scroll-view@^0.9.5:
   dependencies:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
-
-react-native-linear-gradient@^2.8.3:
-  version "2.8.3"
-  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.8.3.tgz#9a116649f86d74747304ee13db325e20b21e564f"
-  integrity sha512-KflAXZcEg54PXkLyflaSZQ3PJp4uC4whM7nT/Uot9m0e/qxFV3p6uor1983D1YOBJbJN7rrWdqIjq0T42jOJyA==
 
 react-native-material-tabs@^4.2.0:
   version "4.2.0"
