@@ -53,13 +53,13 @@ export default function ReplyScreen({ route }: IProps): React.JSX.Element {
             height="100%"
           />
         </YStack>
-        <KeyboardAccessoryView
-          text={replyScreen.text}
-          setText={replyScreen.setText}
-          selection={replyScreen.selection}
-          inputRef={replyScreen.inputRef}
-        />
       </KeyboardAwareScrollView>
+      <KeyboardAccessoryView
+        text={replyScreen.text}
+        setText={replyScreen.setText}
+        selection={replyScreen.selection}
+        inputRef={replyScreen.inputRef}
+      />
     </YStack>
   );
 }

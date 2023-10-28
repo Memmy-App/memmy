@@ -127,13 +127,13 @@ export default function NewPostScreen(): React.JSX.Element {
             />
           </YStack>
         </YStack>
-        <KeyboardAccessoryView
-          text={newPostScreen.text}
-          setText={newPostScreen.setText}
-          selection={newPostScreen.selection}
-          inputRef={newPostScreen.inputRef}
-        />
       </KeyboardAwareScrollView>
+      <KeyboardAccessoryView
+        text={newPostScreen.text}
+        setText={newPostScreen.setText}
+        selection={newPostScreen.selection}
+        inputRef={newPostScreen.inputRef}
+      />
     </YStack>
   );
 }
