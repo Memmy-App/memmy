@@ -65,7 +65,7 @@ body:
       description: |
         Which version of iOS are you running?
       options:
-        - 17.x Beta
+        - 17.x
         - 16.x
         - 15.x
         - 14.x
