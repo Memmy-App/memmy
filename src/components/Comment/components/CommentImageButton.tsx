@@ -43,7 +43,13 @@ function CommentImageButton({ source, content }: IProps): React.JSX.Element {
   );
 
   return (
-    <XStack onPress={onPress} hitSlop={3} borderRadius={10} m="$1">
+    <XStack
+      onPress={onPress}
+      hitSlop={3}
+      borderRadius={10}
+      m="$1"
+      flexShrink={1}
+    >
       {/* @ts-expect-error this is valid */}
       <View ref={viewerRef}>
         <Image
@@ -60,43 +66,6 @@ function CommentImageButton({ source, content }: IProps): React.JSX.Element {
       </View>
     </XStack>
   );
-
-  // return (
-  //   <XStack
-  //     backgroundColor="$bg"
-  //     borderRadius={10}
-  //     mt="$1"
-  //     onPress={onPress}
-  //     alignItems="center"
-  //     space="$2"
-  //     px="$3"
-  //     pb="$2"
-  //     pt="$2"
-  //     justifyContent="space-between"
-  //     flex={1}
-  //     width="100%"
-  //   >
-  //     {/* @ts-expect-error this is valid */}
-  //     <View ref={viewerRef}>
-  //       <Image
-  //         source={{ uri: source }}
-  //         style={{
-  //           height: 30,
-  //           width: 40,
-  //           borderRadius: 10,
-  //         }}
-  //         onLoad={onImageLoad}
-  //       />
-  //     </View>
-  //     <Separator vertical borderColor="$secondary" height={20} opacity={0.5} />
-  //     <XStack flex={1}>
-  //       <Text color="$secondary" numberOfLines={1} fontSize="$2">
-  //         {content != null && content !== '' ? content : source}
-  //       </Text>
-  //     </XStack>
-  //     <ChevronRight color="$secondary" />
-  //   </XStack>
-  // );
 }
 
 export default React.memo(CommentImageButton);
