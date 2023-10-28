@@ -16,6 +16,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import { IDimensions } from '@src/types';
+import { writeToLog } from '@src/helpers';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const spinner = require('../../../../assets/spinner.svg');
@@ -102,20 +103,25 @@ function ViewerImage({
 
   const onLoad = useCallback(
     (e: ImageLoadEventData) => {
-      const dimensions = {
-        height: e.source.height,
-        width: e.source.width,
-      };
+      try {
+        const dimensions = {
+          height: e.source.height,
+          width: e.source.width,
+        };
 
-      const viewerDimensions = getImageRatio(
-        dimensions.height,
-        dimensions.width,
-        ignoreHeight ? 0.9 : 0.6,
-      );
+        const viewerDimensions = getImageRatio(
+          dimensions.height,
+          dimensions.width,
+          ignoreHeight ? 0.9 : 0.6,
+        );
 
-      if (savedDimensions != null) return;
+        if (savedDimensions != null) return;
 
-      saveImageDimensions(source, { dimensions, viewerDimensions });
+        saveImageDimensions(source, { dimensions, viewerDimensions });
+      } catch (e: any) {
+        writeToLog('Image issues!');
+        writeToLog(e);
+      }
     },
     [source],
   );
