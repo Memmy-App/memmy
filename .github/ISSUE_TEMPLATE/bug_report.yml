@@ -5,6 +5,7 @@ title: "[Bug]: "
 labels:
   - bug
   - triage
+  - Public
 body:
   - type: markdown
     attributes:
