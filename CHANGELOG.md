@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Drawer not going to community
 - The hitbox of an image is no longer 100% of the width of the screen
 - Comment reply button replies to the correct comment
+- Reply and post screens no longer flicker when scrolling due to increasing input field size
 
 ### Changes
 

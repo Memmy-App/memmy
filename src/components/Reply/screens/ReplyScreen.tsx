@@ -1,15 +1,15 @@
-import React, { useCallback, useRef } from 'react';
+import React from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { ScrollView, YStack } from 'tamagui';
+import { YStack } from 'tamagui';
 import Comment from '@components/Comment/components/Comment';
 import PostReplyContent from '@components/Post/components/PostReplyContent';
-import { ScrollView as RNScrollView } from 'react-native';
 import KeyboardAccessoryView from '@components/Common/Keyboard/KeyboardAccesoryView';
 import { useReplyScreen } from '@components/Reply/hooks/useReplyScreen';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 import InboxComment from '@components/Inbox/components/InboxComment';
 import TextInput from '@components/Common/Form/TextInput';
 import AppToast from '@components/Common/Toast/AppToast';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -21,16 +21,12 @@ export default function ReplyScreen({ route }: IProps): React.JSX.Element {
 
   const replyScreen = useReplyScreen(edit);
 
-  const viewRef = useRef<RNScrollView>();
-
-  const onLayout = useCallback(() => {
-    viewRef.current?.scrollToEnd({ animated: false });
-  }, []);
-
   return (
-    <>
-      {/* @ts-expect-error - this is valid */}
-      <ScrollView automaticallyAdjustKeyboardInsets={true} ref={viewRef}>
+    <YStack backgroundColor="$fg" flex={1}>
+      <KeyboardAwareScrollView
+        automaticallyAdjustKeyboardInsets={true}
+        style={{ marginBottom: 10 }}
+      >
         <AppToast translate={100} />
         <LoadingOverlay visible={replyScreen.isLoading} />
         <YStack space="$2" mb="$2">
@@ -53,17 +49,17 @@ export default function ReplyScreen({ route }: IProps): React.JSX.Element {
             autoFocus={true}
             multiline={true}
             scrollEnabled={false}
-            onLayout={onLayout}
             placeholder="What do you want to say?"
+            height="100%"
           />
         </YStack>
-      </ScrollView>
-      <KeyboardAccessoryView
-        text={replyScreen.text}
-        setText={replyScreen.setText}
-        selection={replyScreen.selection}
-        inputRef={replyScreen.inputRef}
-      />
-    </>
+        <KeyboardAccessoryView
+          text={replyScreen.text}
+          setText={replyScreen.setText}
+          selection={replyScreen.selection}
+          inputRef={replyScreen.inputRef}
+        />
+      </KeyboardAwareScrollView>
+    </YStack>
   );
 }

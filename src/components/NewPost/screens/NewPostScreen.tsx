@@ -1,6 +1,6 @@
-import React, { useCallback, useRef } from 'react';
+import React from 'react';
 import { useNewPostScreen } from '@components/NewPost/hooks/useNewPostScreen';
-import { ScrollView, View, XStack, YStack } from 'tamagui';
+import { View, XStack, YStack } from 'tamagui';
 import KeyboardAccessoryView from '@components/Common/Keyboard/KeyboardAccesoryView';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 import TextInput from '@components/Common/Form/TextInput';
@@ -14,9 +14,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import ButtonOne from '@components/Common/Button/ButtonOne';
 import { useSiteLanguages } from '@src/state';
-import { ScrollView as RNScrollView } from 'react-native';
 import AppToast from '@components/Common/Toast/AppToast';
 import AnimatedIconButton from '@components/Common/Button/AnimatedIconButton';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function NewPostScreen(): React.JSX.Element {
   const newPostScreen = useNewPostScreen();
@@ -25,8 +25,6 @@ export default function NewPostScreen(): React.JSX.Element {
   const pickerOpacity = useSharedValue(0);
 
   const languages = useSiteLanguages();
-
-  const viewRef = useRef<RNScrollView>();
 
   const pickerStyle = useAnimatedStyle(() => ({
     height: pickerHeight.value,
@@ -44,19 +42,9 @@ export default function NewPostScreen(): React.JSX.Element {
     });
   };
 
-  const onLayout = useCallback(() => {
-    viewRef.current?.scrollToEnd({ animated: false });
-  }, []);
-
   return (
-    <>
-      <ScrollView
-        flex={1}
-        backgroundColor="$fg"
-        automaticallyAdjustKeyboardInsets={true}
-        // @ts-expect-error valid ref
-        ref={viewRef}
-      >
+    <YStack backgroundColor="$fg" flex={1}>
+      <KeyboardAwareScrollView automaticallyAdjustKeyboardInsets={true}>
         <LoadingOverlay
           visible={newPostScreen.isLoading || newPostScreen.isUploading}
         />
@@ -132,21 +120,20 @@ export default function NewPostScreen(): React.JSX.Element {
               multiline={true}
               scrollEnabled={false}
               px={0}
-              minHeight={200}
-              onLayout={onLayout}
+              height="100%"
               mt={-5}
               placeholder="Have anything to say?"
               defaultValue={newPostScreen.text}
             />
           </YStack>
         </YStack>
-      </ScrollView>
-      <KeyboardAccessoryView
-        text={newPostScreen.text}
-        setText={newPostScreen.setText}
-        selection={newPostScreen.selection}
-        inputRef={newPostScreen.inputRef}
-      />
-    </>
+        <KeyboardAccessoryView
+          text={newPostScreen.text}
+          setText={newPostScreen.setText}
+          selection={newPostScreen.selection}
+          inputRef={newPostScreen.inputRef}
+        />
+      </KeyboardAwareScrollView>
+    </YStack>
   );
 }
