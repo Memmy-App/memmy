@@ -5801,10 +5801,10 @@ expo-image-picker@^14.5.0:
   dependencies:
     expo-image-loader "~4.4.0"
 
-expo-image@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/expo-image/-/expo-image-1.5.1.tgz#98a306488637a255761e4b79e8bacc8ec8fd9eab"
-  integrity sha512-133chFSiaiZDeHRmABo/D+j/ByhPjhRwa4X2vgok1E6I2BapJ8n6ZiXODbABNH02EDYssV4Ih71tAWpheMzl/g==
+expo-image@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/expo-image/-/expo-image-1.6.0.tgz#76becf9bafef49297a1a5b7d3c28a9e1768e2968"
+  integrity sha512-DjTubSHJHHUyQ2AU3FGoU2mtmb6fIDQw0ccMMWPX0vvXo6o1c1AbXPuQnIp8/sQy11ZhaKB3BLV3jWIU4c+qeQ==
 
 expo-json-utils@~0.7.0:
   version "0.7.1"

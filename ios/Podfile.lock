@@ -85,7 +85,7 @@ PODS:
     - ExpoModulesCore
   - ExpoClipboard (4.5.0):
     - ExpoModulesCore
-  - ExpoImage (1.5.1):
+  - ExpoImage (1.6.0):
     - ExpoModulesCore
     - SDWebImage (~> 5.17.0)
     - SDWebImageAVIFCoder (~> 0.10.1)
@@ -1032,7 +1032,7 @@ SPEC CHECKSUMS:
   expo-dev-menu-interface: bda969497e73dadc2663c479e0fa726ca79a306e
   ExpoBlur: 9e6da7c2bd4a0c5de7e57124694d0a380d7962f7
   ExpoClipboard: d2f0e44d50e5ba07b02f5fb7bd280178b420e24e
-  ExpoImage: bbd451559f49f78d858592fe1d4d74aedb3d900b
+  ExpoImage: 64cd716d10414edf59342de32043857a58e9a2a3
   ExpoImageCachePath: 5bb1072da668ab3938c7d11b717d76920a41a1b7
   ExpoImagePicker: 9e5c745cb3e56ee00e1cfe5d6af59caab66ecf1a
   ExpoKeepAwake: be4cbd52d9b177cde0fd66daa1913afa3161fc1d
