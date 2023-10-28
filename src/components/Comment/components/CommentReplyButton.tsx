@@ -15,7 +15,7 @@ function CommentVoteButton({ itemId }: IProps): React.JSX.Element {
   const postId = useCommentPostId(itemId);
 
   const onPress = useCallback(() => {
-    navigation.push('Reply', { itemId, postId });
+    navigation.push('Reply', { commentId: itemId, postId });
   }, [itemId]);
 
   return (
