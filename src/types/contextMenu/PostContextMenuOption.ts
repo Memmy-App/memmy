@@ -9,4 +9,6 @@ export type PostContextMenuOption =
   | 'remove'
   | 'upvote'
   | 'downvote'
-  | 'report';
+  | 'report'
+  | 'copyImage'
+  | 'copyText';

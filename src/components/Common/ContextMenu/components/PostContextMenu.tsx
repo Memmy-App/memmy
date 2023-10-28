@@ -61,11 +61,17 @@ export default function PostContextMenu({
         case 'shareLink':
           postContextMenu.shareUrl(false);
           break;
+        case 'copyText':
+          postContextMenu.copyText();
+          break;
         case 'shareImage':
           postContextMenu.shareUrl(true);
           break;
         case 'saveImage':
           postContextMenu.savePostImage();
+          break;
+        case 'copyImage':
+          postContextMenu.copyPostImage();
           break;
       }
     },

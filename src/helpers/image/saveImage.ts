@@ -4,6 +4,8 @@ import { Alert } from 'react-native';
 import { writeToLog } from '@src/helpers';
 import { setToast } from '@src/state';
 import { getCachePath } from '@root/modules/expo-image-cache-path';
+import * as Clipboard from 'expo-clipboard';
+import * as FileSystem from 'expo-file-system';
 
 export const saveImage = async (source: string): Promise<void> => {
   // Use SDWebImage to get the cache path
@@ -42,6 +44,36 @@ export const saveImage = async (source: string): Promise<void> => {
 
     setToast({
       text: 'Error saving image...',
+    });
+  }
+};
+
+export const copyImageToClipboard = async (source: string): Promise<void> => {
+  try {
+    // Use SDWebImage to get the cache path
+    const uri = getCachePath(source);
+
+    // Make sure that we have a valid URI
+    if (uri == null) {
+      setToast({
+        text: 'Error saving image...',
+      });
+
+      return;
+    }
+
+    const image = await FileSystem.readAsStringAsync(uri, {
+      encoding: 'base64',
+    });
+
+    await Clipboard.setImageAsync(image);
+
+    setToast({
+      text: 'Image copied.',
+    });
+  } catch (err) {
+    setToast({
+      text: 'Error copying image.',
     });
   }
 };

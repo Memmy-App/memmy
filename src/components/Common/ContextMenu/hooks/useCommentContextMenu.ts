@@ -7,8 +7,11 @@ import {
   useCommentCreatorActorId,
   useCommentPostId,
   usePostTitle,
+  setToast,
+  useCommentStore,
 } from '@src/state';
 import { shareLink } from '@helpers/share/shareLink';
+import * as Clipboard from 'expo-clipboard';
 
 interface UseCommentContextMenu {
   reply: () => void;
@@ -21,6 +24,7 @@ interface UseCommentContextMenu {
   report: () => void;
   share: () => void;
   save: () => void;
+  copy: () => void;
 }
 
 export const useCommentContextMenu = (
@@ -154,6 +158,34 @@ export const useCommentContextMenu = (
     void instance.saveComment(itemId);
   };
 
+  const copy = (): void => {
+    const comment = useCommentStore.getState().comments.get(itemId);
+
+    if (comment?.view.comment.content === undefined) {
+      setToast({
+        text: 'Error copying comment body.',
+      });
+      return;
+    }
+    Clipboard.setStringAsync(comment.view.comment.content)
+      .then((success) => {
+        if (success) {
+          setToast({
+            text: 'Copied comment to clipboard!',
+          });
+        } else {
+          setToast({
+            text: 'Failed to copy comment to clipboard!',
+          });
+        }
+      })
+      .catch((_) => {
+        setToast({
+          text: 'Failed to copy comment to clipboard!',
+        });
+      });
+  };
+
   return {
     share,
     reply,
@@ -165,5 +197,6 @@ export const useCommentContextMenu = (
     remove,
     report,
     save,
+    copy,
   };
 };
