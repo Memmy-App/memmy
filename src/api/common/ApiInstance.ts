@@ -42,6 +42,8 @@ import {
   addPosts,
   markPostRead,
   setCommentSaved,
+  setCommentScores,
+  setPostScores,
   setSubscribed,
   setSubscriptions,
   setToast,
@@ -79,15 +81,9 @@ class ApiInstance {
 
   instance: LemmyHttp | null = null; // TODO Kbin client will need to be added here
 
-  captchaUuid: string | null = null;
-
-  captchaPng: string | null = null;
-
   initialized: boolean = false;
 
   authToken: string | null = null;
-
-  isUpdate: boolean = false;
 
   async initialize(
     options: ApiOptions,
@@ -204,23 +200,31 @@ class ApiInstance {
     // Write the error to the log
     writeToLog(error);
 
+    // Find the applicable error
     let lemmyError = lemmyErrors.find((e) => e.code === error);
 
+    // If the error is not found, just set it to the unknown error type
     if (lemmyError == null) {
       lemmyError = lemmyErrors[0];
     }
 
+    // Display athe error to the user
     setToast({
       text: lemmyError.message,
       color: '$warn',
     });
 
+    // Return the error incase we use it
     return lemmyError.code;
   }
 
-  async getSite(): Promise<GetSiteResponse | undefined> {
+  /**
+   * Get the site information
+   * @returns {Promise<GetSiteResponse>}
+   */
+  async getSite(): Promise<GetSiteResponse> {
     try {
-      return await this.instance?.getSite({
+      return await this.instance!.getSite({
         auth: this.authToken!,
       });
     } catch (e: any) {
@@ -229,29 +233,43 @@ class ApiInstance {
     }
   }
 
-  async getCaptcha(): Promise<GetCaptchaResponse | undefined> {
+  /**
+   * Get a captcha from the site
+   * @returns {Promise<GetCaptchaResponse>}
+   */
+  async getCaptcha(): Promise<GetCaptchaResponse> {
     try {
-      return await this.instance?.getCaptcha();
+      return await this.instance!.getCaptcha();
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString);
       throw new Error(errMsg);
     }
   }
 
+  /**
+   * Save a post and update the store
+   * @param {number} postId
+   * @returns {Promise<void>}
+   */
   async savePost(postId: number): Promise<void> {
     try {
+      // Find the post in the store
       const post = usePostStore.getState().posts.get(postId);
 
+      // If the post is not found, just return
       if (post == null) return;
 
+      // Set the post to saved
       setPostSaved(postId);
 
+      // Submit the request
       await this.instance!.savePost({
         post_id: postId,
         save: !post.view.saved,
         auth: this.authToken!,
       });
     } catch (e: any) {
+      // Revert the change if the save fails
       setPostSaved(postId);
 
       const errMsg = ApiInstance.handleError(e.toString());
@@ -259,69 +277,70 @@ class ApiInstance {
     }
   }
 
+  /**
+   * Like a post. This will update the store as well as mark the post as read if the setting is enabled
+   * @param {number} postId
+   * @param {ILemmyVote} vote
+   * @returns {Promise<void>}
+   */
   async likePost(postId: number, vote: ILemmyVote): Promise<void> {
+    // Find the post in the store
     const post = usePostStore.getState().posts.get(postId)?.view;
 
+    // Return if the post is not found
     if (post == null) return;
 
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { counts, my_vote } = post;
+    const { counts, my_vote: myVote } = post;
+    const { score, upvotes, downvotes } = counts;
 
     const oldVms = {
-      score: counts.score,
-      upvotes: counts.upvotes,
-      downvotes: counts.downvotes,
-      myVote: my_vote,
+      score,
+      upvotes,
+      downvotes,
+      myVote,
       newVote: vote,
     };
 
+    // Calculate the new values
     const newVms = voteCalculator(oldVms);
 
-    usePostStore.setState((state) => {
-      const post = state.posts.get(postId)!;
-
-      post.view.counts.score = newVms.score;
-      post.view.counts.upvotes = newVms.upvotes;
-      post.view.counts.downvotes = newVms.downvotes;
-      post.view.my_vote = newVms.newVote;
-    });
+    // Set the new scores
+    setPostScores(postId, newVms);
 
     try {
-      // Handle marking the post read
+      // Submit the read request as well if we need to
       const markReadOnVote = useSettingsStore.getState().readOptions.onVote;
-
       if (markReadOnVote) {
         markPostRead(postId);
       }
 
-      await this.instance?.likePost({
+      // Submit the request
+      await this.instance!.likePost({
+        auth: this.authToken!,
         post_id: postId,
         score: newVms.newVote!,
-        auth: this.authToken!,
       });
     } catch (e: any) {
-      usePostStore.setState((state) => {
-        const post = state.posts.get(postId);
-
-        if (post == null) return;
-
-        post.view.counts.score = oldVms.score;
-        post.view.counts.upvotes = oldVms.upvotes;
-        post.view.counts.downvotes = oldVms.downvotes;
-        post.view.my_vote = oldVms.myVote;
-      });
+      // Revert the changes if the request fails
+      setPostScores(postId, oldVms);
 
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
     }
   }
 
+  /**
+   * Like a comment without updating the store
+   * @param {number} commentId
+   * @param {ILemmyVote} vote
+   * @returns {Promise<void>}
+   */
   async likeCommentWithoutUpdate(
     commentId: number,
     vote: ILemmyVote,
   ): Promise<void> {
     try {
-      await this.instance?.likeComment({
+      await this.instance!.likeComment({
         comment_id: commentId,
         score: vote,
         auth: this.authToken!,
@@ -332,49 +351,43 @@ class ApiInstance {
     }
   }
 
+  /**
+   * Likes a comment and updates the store.
+   * @param {number} commentId
+   * @param {ILemmyVote} vote
+   * @returns {Promise<void>}
+   */
   async likeComment(commentId: number, vote: ILemmyVote): Promise<void> {
     const comment = useCommentStore.getState().comments.get(commentId);
 
     if (comment == null) return;
 
     const { counts, my_vote: myVote } = comment.view;
+    const { score, upvotes, downvotes } = counts;
 
+    // Save the old values
     const oldVms = {
-      score: counts.score,
-      upvotes: counts.upvotes,
-      downvotes: counts.downvotes,
+      score,
+      upvotes,
+      downvotes,
       myVote,
       newVote: vote,
     };
 
+    // Calculate the new values and set them
     const newVms = voteCalculator(oldVms);
-
-    useCommentStore.setState((state) => {
-      const comment = state.comments.get(commentId)!;
-
-      comment.view.counts.score = newVms.score;
-      comment.view.counts.upvotes = newVms.upvotes;
-      comment.view.counts.downvotes = newVms.downvotes;
-      comment.view.my_vote = newVms.newVote;
-    });
+    setCommentScores(commentId, newVms);
 
     try {
-      await this.instance?.likeComment({
+      // Try to like the comment
+      await this.instance!.likeComment({
         comment_id: commentId,
         score: newVms.newVote!,
         auth: this.authToken!,
       });
     } catch (e: any) {
-      useCommentStore.setState((state) => {
-        const comment = state.comments.get(commentId);
-
-        if (comment == null) return;
-
-        comment.view.counts.score = oldVms.score;
-        comment.view.counts.upvotes = oldVms.upvotes;
-        comment.view.counts.downvotes = oldVms.downvotes;
-        comment.view.my_vote = oldVms.myVote;
-      });
+      // Revert the changes if the request fails
+      setCommentScores(commentId, oldVms);
 
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
