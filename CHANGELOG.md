@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Version 1.1 (61)] - 2023-10-28T05:11:20Z
+
 ### Fixed
 
 - Drawer not going to community
