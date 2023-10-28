@@ -31,6 +31,7 @@ export default function AccountsContextMenu({
       options={options}
       onPressMenuItem={onPress}
       isPrimaryAction={false}
+      noPressable
     >
       {children}
     </AppContextMenuButton>

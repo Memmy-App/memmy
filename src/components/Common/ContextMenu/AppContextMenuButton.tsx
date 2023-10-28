@@ -18,6 +18,7 @@ interface AppContextMenuButtonProps<S = string> extends PropsWithChildren {
   onLayout?: () => void;
   isFirst?: boolean;
   isLast?: boolean;
+  noPressable?: boolean;
 }
 
 export function AppContextMenuButton<S = string>(
@@ -32,6 +33,7 @@ export function AppContextMenuButton<S = string>(
     style,
     onPressMenuItem,
     onLayout,
+    noPressable = false,
   } = props;
 
   const transformOption = useCallback(
@@ -75,6 +77,26 @@ export function AppContextMenuButton<S = string>(
     }),
     [options, title, transformOption],
   );
+
+  if (noPressable) {
+    return (
+      <ContextMenuButton
+        isMenuPrimaryAction={isPrimaryAction}
+        menuConfig={menuConfig}
+        style={[styles.button, style]}
+        onPressMenuItem={onPressMenuItem}
+        onLayout={onLayout}
+        hitSlop={{
+          top: 10,
+          bottom: 10,
+          left: 10,
+          right: 10,
+        }}
+      >
+        {children}
+      </ContextMenuButton>
+    );
+  }
 
   return (
     <Pressable hitSlop={10}>

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Hotfix to revert change that made keyboard accessory view not pressable
+- Fix issue where profile could not be pressed
 
 ## [Version 1.1 (61)] - 2023-10-28T05:11:20Z
 
