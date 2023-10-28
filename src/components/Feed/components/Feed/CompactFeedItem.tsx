@@ -125,7 +125,7 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
             <XStack justifyContent="space-between">
               <PostMetrics itemId={itemId} />
               <PostContextMenu itemId={itemId}>
-                <Pressable hitSlop={120}>
+                <Pressable>
                   <Ellipsis color={theme.accent.val} />
                 </Pressable>
               </PostContextMenu>

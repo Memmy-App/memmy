@@ -68,15 +68,14 @@ function PostCommunityLabel({
   }, [communityId]);
 
   return (
-    <XStack
-      space="$2"
-      alignItems="center"
-      onPress={pressable ? onPress : undefined}
-      hitSlop={3}
-      flexShrink={1}
-    >
+    <XStack space="$2" alignItems="center">
       {showIcon && <CommunityIcon communityIcon={communityIcon} />}
-      <Text color="$secondary" fontSize="$2">
+      <Text
+        color="$secondary"
+        fontSize="$2"
+        onPress={pressable ? onPress : undefined}
+        hitSlop={3}
+      >
         {fullName}
       </Text>
     </XStack>

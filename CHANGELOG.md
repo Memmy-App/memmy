@@ -10,8 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Drawer not going to community
-- Hitbox of an image is no longer 100% of the width of the screen
-- Hitbox for user labels is no longer 100% of the width of the view
+- The hitbox of an image is no longer 100% of the width of the screen
+
+### Changes
+
+- Prevent accidental pushes to the next screen when trying to use context menu (again...)
 
 ## [Version 1.0 (58)] - 2023-10-27T10:59:52Z
 

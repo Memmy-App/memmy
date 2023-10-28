@@ -4,7 +4,7 @@ import {
 } from 'react-native-ios-context-menu';
 import React, { PropsWithChildren, useCallback, useMemo } from 'react';
 import { MenuConfig } from 'react-native-ios-context-menu/lib/typescript/types/MenuConfig';
-import { StyleProp, ViewStyle } from 'react-native';
+import { Pressable, StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { MenuElementConfig } from 'react-native-ios-context-menu/src/types/MenuConfig';
 import { IContextMenuOption } from '@src/types';
 
@@ -77,20 +77,28 @@ export function AppContextMenuButton<S = string>(
   );
 
   return (
-    <ContextMenuButton
-      isMenuPrimaryAction={isPrimaryAction}
-      menuConfig={menuConfig}
-      style={style}
-      onPressMenuItem={onPressMenuItem}
-      onLayout={onLayout}
-      hitSlop={{
-        top: 30,
-        right: 30,
-        left: 30,
-        bottom: 30,
-      }}
-    >
-      {children}
-    </ContextMenuButton>
+    <Pressable hitSlop={10}>
+      <ContextMenuButton
+        isMenuPrimaryAction={isPrimaryAction}
+        menuConfig={menuConfig}
+        style={[styles.button, style]}
+        onPressMenuItem={onPressMenuItem}
+        onLayout={onLayout}
+        hitSlop={{
+          top: 10,
+          bottom: 10,
+          left: 10,
+          right: 10,
+        }}
+      >
+        {children}
+      </ContextMenuButton>
+    </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    zIndex: 5,
+  },
+});

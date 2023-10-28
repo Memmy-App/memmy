@@ -1,7 +1,6 @@
 import React from 'react';
 import Ellipsis from '@components/Common/Icons/Ellipsis';
 import { useTheme } from 'tamagui';
-import { Pressable } from 'react-native';
 import InboxReplyContextMenu from '@components/Common/ContextMenu/components/InboxReplyContextMenu';
 
 interface IProps {
@@ -19,9 +18,7 @@ export default function InboxReplyEllipsisButton({
 
   return (
     <InboxReplyContextMenu itemId={itemId} commentId={commentId} type={type}>
-      <Pressable>
-        <Ellipsis size={16} color={theme.accent.val} />
-      </Pressable>
+      <Ellipsis size={16} color={theme.accent.val} />
     </InboxReplyContextMenu>
   );
 }
