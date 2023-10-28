@@ -28,7 +28,6 @@ import {
 import HeaderButton from '@components/Common/Button/HeaderButton';
 import { PostResponse } from 'lemmy-js-client';
 import instance from '@src/Instance';
-import { updatePost } from '@src/state/post/actions/updatePost';
 import { selectImage, uploadImage } from '@helpers/image';
 
 interface UseNewPostScreen {
@@ -160,7 +159,7 @@ export const useNewPostScreen = (): UseNewPostScreen => {
     submit(async () => {
       // We have to just edit the post if the post ID is not null
       if (postId != null) {
-        const res = await instance.editPost({
+        await instance.editPost({
           post_id: postId,
           name: title,
           body: text !== '' ? text : undefined,
@@ -168,8 +167,6 @@ export const useNewPostScreen = (): UseNewPostScreen => {
           nsfw,
           language_id: languageId,
         });
-
-        updatePost(res.post_view);
 
         navigation.pop();
 

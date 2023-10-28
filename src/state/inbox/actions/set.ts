@@ -5,7 +5,7 @@ import {
 } from 'lemmy-js-client';
 import { useInboxStore } from '@src/state';
 
-export const setAllRead = (): void => {
+export const setAllRepliesRead = (): void => {
   useInboxStore.setState((state) => {
     state.replies.forEach((c) => {
       c.comment_reply.read = true;
@@ -19,7 +19,7 @@ export const setAllRead = (): void => {
   });
 };
 
-export const setReplies = (replies: CommentReplyView[]): void => {
+export const addReplies = (replies: CommentReplyView[]): void => {
   const replyIds: number[] = [];
 
   useInboxStore.setState((state) => {
@@ -34,7 +34,7 @@ export const setReplies = (replies: CommentReplyView[]): void => {
   });
 };
 
-export const setMentions = (mentions: PersonMentionView[]): void => {
+export const addMentions = (mentions: PersonMentionView[]): void => {
   const mentionIds: number[] = [];
 
   useInboxStore.setState((state) => {
@@ -49,7 +49,7 @@ export const setMentions = (mentions: PersonMentionView[]): void => {
   });
 };
 
-export const setPrivateMessages = (messages: PrivateMessageView[]): void => {
+export const addPrivateMessages = (messages: PrivateMessageView[]): void => {
   const messageIds: number[] = [];
 
   useInboxStore.setState((state) => {

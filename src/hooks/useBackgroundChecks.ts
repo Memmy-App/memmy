@@ -1,16 +1,12 @@
 import { useEffect, useRef } from 'react';
 import { AppState } from 'react-native';
 import instance from '@src/Instance';
-import { setUnread } from '@src/state';
 
 const updateCounts = async (): Promise<void> => {
   if (!instance.initialized) return;
 
   try {
-    const res = await instance.getUnreadCount();
-
-    const total = res.replies + res.mentions;
-    setUnread(total);
+    await instance.getUnreadCount();
   } catch (e) {}
 };
 

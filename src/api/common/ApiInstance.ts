@@ -13,7 +13,6 @@ import {
   GetPostResponse,
   GetPostsResponse,
   GetSiteResponse,
-  GetUnreadCountResponse,
   LemmyHttp,
   ListCommunities,
   ListCommunitiesResponse,
@@ -38,6 +37,7 @@ import {
   addComment,
   addComments,
   addCommentsToPost,
+  addCommunity,
   addPost,
   addPosts,
   markPostRead,
@@ -57,10 +57,10 @@ import {
 } from '@src/state';
 import { updatePost } from '@src/state/post/actions/updatePost';
 import {
-  setAllRead,
+  addMentions,
+  addReplies,
+  setAllRepliesRead,
   setMentionRead,
-  setMentions,
-  setReplies,
   setReplyRead,
 } from '@src/state/inbox/actions';
 import { setPostSaved } from '@src/state/post/actions/setPostSaved';
@@ -394,14 +394,18 @@ class ApiInstance {
     }
   }
 
+  /**
+   * Saves a comment and updates the store
+   * @param {number} commentId
+   * @returns {Promise<void>}
+   */
   async saveComment(commentId: number): Promise<void> {
+    const comment = useCommentStore.getState().comments.get(commentId);
+    if (comment == null) return;
+
+    setCommentSaved(commentId);
+
     try {
-      const comment = useCommentStore.getState().comments.get(commentId);
-
-      if (comment == null) return;
-
-      setCommentSaved(commentId);
-
       await this.instance!.saveComment({
         comment_id: commentId,
         save: !comment.view.saved,
@@ -415,11 +419,21 @@ class ApiInstance {
     }
   }
 
-  async getUnreadCount(): Promise<GetUnreadCountResponse> {
+  /**
+   * Retrieves the unread count from the server and updates the store
+   * @returns {Promise<number>}
+   */
+  async getUnreadCount(): Promise<number> {
     try {
-      return await this.instance!.getUnreadCount({
+      const res = await this.instance!.getUnreadCount({
         auth: this.authToken!,
       });
+
+      const total = res.replies + res.mentions;
+
+      setUnread(total);
+
+      return total;
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
@@ -430,9 +444,9 @@ class ApiInstance {
     usernameOrId: string | number,
     page = 1,
     sort?: SortType,
-  ): Promise<GetPersonDetailsResponse | undefined> {
+  ): Promise<GetPersonDetailsResponse> {
     try {
-      return await this.instance?.getPersonDetails({
+      return await this.instance!.getPersonDetails({
         person_id: typeof usernameOrId === 'number' ? usernameOrId : undefined,
         username: typeof usernameOrId === 'string' ? usernameOrId : undefined,
         sort: 'New',
@@ -446,22 +460,25 @@ class ApiInstance {
     }
   }
 
+  /**
+   * Gets a community from the server and adds it to the store
+   * @param {string} name
+   * @param {boolean} addToStore - Only add to the store if we want to. Defaults to true.
+   * @returns {Promise<GetCommunityResponse | number>}
+   */
   async getCommunity(
     name: string,
     addToStore = true,
-  ): Promise<GetCommunityResponse | undefined | number> {
+  ): Promise<GetCommunityResponse | number> {
     try {
       const res = await this.instance!.getCommunity({
         name,
         auth: this.authToken!,
       });
 
-      if (res == null) return undefined;
       if (!addToStore) return res;
 
-      useCommunityStore.setState((state) => {
-        state.communities.set(res.community_view.community.id, res);
-      });
+      addCommunity(res);
 
       return res.community_view.community.id;
     } catch (e: any) {
@@ -470,6 +487,13 @@ class ApiInstance {
     }
   }
 
+  /**
+   * Get a user's post and comment replies.
+   * @param {boolean} unreadOnly - Default false
+   * @param {number} page - Default 1
+   * @param {number} limit - Default 50
+   * @returns {Promise<void>}
+   */
   async getReplies(unreadOnly = false, page = 1, limit = 50): Promise<void> {
     try {
       const res = await this.instance!.getReplies({
@@ -480,13 +504,20 @@ class ApiInstance {
         sort: 'New',
       });
 
-      setReplies(res.replies);
+      addReplies(res.replies);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
     }
   }
 
+  /**
+   * Get a user's post and comment replies.
+   * @param {boolean} unreadOnly - Default false
+   * @param {number} page - Default 1
+   * @param {number} limit - Default 50
+   * @returns {Promise<void>}
+   */
   async getMentions(unreadOnly: boolean, page = 1, limit = 50): Promise<void> {
     try {
       const res = await this.instance!.getPersonMentions({
@@ -497,13 +528,20 @@ class ApiInstance {
         sort: 'New',
       });
 
-      setMentions(res.mentions);
+      addMentions(res.mentions);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
     }
   }
 
+  /**
+   * Get posts from a community or the main feed
+   * @param {string} feedId
+   * @param {IGetPostOptions} options
+   * @param {boolean} addToFeed
+   * @returns {Promise<GetPostsResponse | undefined>}
+   */
   async getPosts(
     feedId: string,
     options: IGetPostOptions = {},
@@ -517,38 +555,31 @@ class ApiInstance {
       limit: 25,
       page: 1,
       type: settings.defaultListingType,
-      sort:
-        // TODO This should use a separate option for feed vs community
-        options.communityId != null || options.communityName != null
-          ? settings.defaultSort
-          : settings.defaultCommunitySort,
       refresh: false,
     };
 
     // Set all our options
     options = {
       ...defaultOptions,
-      sort: settings.defaultSort,
       ...options,
     };
 
     // Attempt the request
     try {
       // Get the posts
-      const res = await this.instance?.getPosts({
+      const res = await this.instance!.getPosts({
+        auth: this.authToken!,
         sort: options.sort,
         type_: options.type,
         limit: options.limit,
         page: options.page,
         community_id: options.communityId,
         community_name: options.communityName,
-        auth: this.authToken!,
       });
 
       // Add them to the feed
-      if (res != null && addToFeed) {
+      if (addToFeed) {
         addPosts(res.posts, feedId, options.page, options.refresh);
-
         return undefined;
       }
 
@@ -560,12 +591,19 @@ class ApiInstance {
     }
   }
 
-  async getPost(postId: number): Promise<GetPostResponse> {
+  /**
+   * Get a single post and add it to the store
+   * @param {number} postId
+   * @returns {Promise<GetPostResponse>}
+   */
+  async getPost(postId: number): Promise<void> {
     try {
-      return await this.instance!.getPost({
+      const res = await this.instance!.getPost({
         id: postId,
         auth: this.authToken!,
       });
+
+      addPost(res.post_view);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
 
@@ -573,6 +611,12 @@ class ApiInstance {
     }
   }
 
+  /**
+   * Get comments
+   * @param {Partial<GetComments>} options
+   * @param {boolean} addToPost
+   * @returns {Promise<ICommentInfo[] | null>}
+   */
   async getComments(
     options: Partial<GetComments>,
     addToPost = true,
@@ -609,6 +653,11 @@ class ApiInstance {
     }
   }
 
+  /**
+   * Mark a post as read and update the store
+   * @param {number} postId
+   * @returns {Promise<void>}
+   */
   async markPostRead(postId: number): Promise<void> {
     try {
       await this.instance!.markPostAsRead({
@@ -624,10 +673,18 @@ class ApiInstance {
     }
   }
 
+  /**
+   * Subscribe to a community and update the store
+   * @param {number} communityId
+   * @param {boolean} subscribe
+   * @returns {Promise<CommunityResponse>}
+   */
   async subscribeCommunity(
     communityId: number,
     subscribe: boolean,
   ): Promise<CommunityResponse> {
+    setSubscribed(communityId, subscribe ? 'Subscribed' : 'NotSubscribed');
+
     try {
       const res = await this.instance!.followCommunity({
         community_id: communityId,
@@ -635,10 +692,10 @@ class ApiInstance {
         auth: this.authToken!,
       });
 
-      setSubscribed(communityId, res.community_view.subscribed);
-
       return res;
     } catch (e: any) {
+      setSubscribed(communityId, !subscribe ? 'Subscribed' : 'NotSubscribed');
+
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
     }
@@ -646,7 +703,7 @@ class ApiInstance {
 
   async reportComment(commentId: number, reason: string): Promise<void> {
     try {
-      await this.instance?.createCommentReport({
+      await this.instance!.createCommentReport({
         comment_id: commentId,
         reason,
         auth: this.authToken!,
@@ -663,7 +720,7 @@ class ApiInstance {
 
   async reportPost(postId: number, reason: string): Promise<void> {
     try {
-      await this.instance?.createPostReport({
+      await this.instance!.createPostReport({
         post_id: postId,
         reason,
         auth: this.authToken!,
@@ -764,30 +821,31 @@ class ApiInstance {
     }
   }
 
-  async editComment(
-    commentId: number,
-    content: string,
-  ): Promise<CommentResponse> {
+  async editComment(commentId: number, content: string): Promise<void> {
     try {
-      return await this.instance!.editComment({
+      const res = await this.instance!.editComment({
         comment_id: commentId,
         content,
         auth: this.authToken!,
       });
+
+      updateComment(res.comment_view);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString);
       throw new Error(errMsg);
     }
   }
 
-  async editPost(options: Partial<EditPost>): Promise<PostResponse> {
+  async editPost(options: Partial<EditPost>): Promise<void> {
     options = {
       auth: this.authToken!,
       ...options,
     };
 
     try {
-      return await this.instance!.editPost(options as EditPost);
+      const res = await this.instance!.editPost(options as EditPost);
+
+      updatePost(res.post_view);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
@@ -816,20 +874,12 @@ class ApiInstance {
     }
   }
 
-  async createPost(
-    options: Partial<CreatePost>,
-  ): Promise<PostResponse | undefined> {
+  async createPost(options: Partial<CreatePost>): Promise<PostResponse> {
     try {
-      const defaultOptions: Partial<CreatePost> = {
+      const res = await this.instance!.createPost({
         auth: this.authToken!,
-      };
-
-      options = {
-        ...defaultOptions,
         ...options,
-      };
-
-      const res = await this.instance!.createPost(options as CreatePost);
+      } as CreatePost);
 
       addPost(res.post_view);
 
@@ -894,20 +944,16 @@ class ApiInstance {
 
   async listCommunities(
     options?: ListCommunities,
-  ): Promise<ListCommunitiesResponse | undefined> {
-    const defaultOptions: ListCommunities = {
+  ): Promise<ListCommunitiesResponse> {
+    options = {
+      auth: this.authToken!,
       sort: 'TopDay',
       limit: 15,
-      auth: this.authToken!,
-    };
-
-    options = {
-      ...defaultOptions,
       ...options,
     };
 
     try {
-      return await this.instance?.listCommunities(options);
+      return await this.instance!.listCommunities(options);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString);
       throw new Error(errMsg);
@@ -1027,7 +1073,7 @@ class ApiInstance {
       });
 
       setUnread(0);
-      setAllRead();
+      setAllRepliesRead();
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);

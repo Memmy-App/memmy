@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
-  addPost,
   useCommentGesturesEnabled,
   useMentionCommentId,
   useMentionContent,
@@ -82,9 +81,8 @@ function InboxComment({ itemId, type }: IProps): React.JSX.Element {
 
     // Try to get the post and add it to the store
     try {
-      const res = await instance.getPost(postId ?? 0);
+      await instance.getPost(postId ?? 0);
       setLoadingPost(false);
-      addPost(res.post_view);
 
       // Mark the reply as read
       if (type === 'reply') setReplyRead(itemId);

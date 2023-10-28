@@ -3,7 +3,7 @@ import { openLink } from '@helpers/links/openLink';
 import { LemmyHttp } from 'lemmy-js-client';
 import { getBaseUrl } from '@helpers/links/getBaseUrl';
 import { getReadableVersion } from 'react-native-device-info';
-import { addPost, setAppLoading, useAccountStore } from '@src/state';
+import { setAppLoading, useAccountStore } from '@src/state';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import instance from '@src/Instance';
 
@@ -220,8 +220,7 @@ export class LinkHandler {
     setAppLoading(true);
 
     try {
-      const res = await instance.getPost(postId);
-      addPost(res.post_view);
+      await instance.getPost(postId);
 
       // Send to the post
       this.navigation.push('Post', {
@@ -252,8 +251,7 @@ export class LinkHandler {
     setAppLoading(true);
 
     try {
-      const res = await instance.getPost(ids[0]);
-      addPost(res.post_view);
+      await instance.getPost(ids[0]);
 
       // Send to the post
       this.navigation.push('Post', {

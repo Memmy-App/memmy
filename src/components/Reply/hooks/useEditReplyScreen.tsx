@@ -8,7 +8,7 @@ import React, {
 import { useNavigation, useRoute } from '@react-navigation/core';
 import { ITextSelection, useLoadData } from '@src/hooks';
 import instance from '@src/Instance';
-import { updateComment, useCommentContent } from '@src/state';
+import { useCommentContent } from '@src/state';
 import {
   NativeSyntheticEvent,
   TextInput,
@@ -46,10 +46,7 @@ export const useEditReplyScreen = (): UseEditReplyScreen => {
 
   const onSubmitPress = (): void => {
     submit(async () => {
-      const res = await instance.editComment(commentId, text);
-
-      updateComment(res.comment_view);
-
+      await instance.editComment(commentId, text);
       navigation.pop();
     });
   };

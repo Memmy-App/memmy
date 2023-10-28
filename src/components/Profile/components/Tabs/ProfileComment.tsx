@@ -3,7 +3,7 @@ import { PressableComment } from '@components/Comment/components/Comment';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import instance from '@src/Instance';
-import { addPost, useCommentPostId } from '@src/state';
+import { useCommentPostId } from '@src/state';
 import { useProfileScreenContext } from '@components/Profile/screens/ProfileScreen';
 
 interface IProps {
@@ -23,9 +23,8 @@ function ProfileComment({ itemId }: IProps): React.JSX.Element {
 
     // Try to get the post and add it to the store
     try {
-      const res = await instance.getPost(commentPostId ?? 0);
+      await instance.getPost(commentPostId ?? 0);
       profileScreen.setPostLoading?.(false);
-      addPost(res.post_view);
 
       // Send to the post
       navigation.push('Post', {
