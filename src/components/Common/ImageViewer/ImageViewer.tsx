@@ -303,7 +303,7 @@ function ImageViewer(): React.JSX.Element {
           clamp: [-mostX, mostX],
           rubberBandEffect: true,
           velocityFactor: 0.5 * zoomScale.value,
-          rubberBandFactor: 2,
+          rubberBandFactor: 2, // TODO This value is no longer valid in updated Reanimated
         });
       }
 
