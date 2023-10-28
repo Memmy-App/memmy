@@ -73,6 +73,7 @@ function PostCommunityLabel({
       alignItems="center"
       onPress={pressable ? onPress : undefined}
       hitSlop={3}
+      flexShrink={1}
     >
       {showIcon && <CommunityIcon communityIcon={communityIcon} />}
       <Text color="$secondary" fontSize="$2">
