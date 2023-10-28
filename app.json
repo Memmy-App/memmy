@@ -5,8 +5,10 @@
     "slug": "memmyapp",
     "version": "1.0",
     "android": {
-      "package": "com.gkasdorf.memmyapp"
+      "package": "com.gkasdorf.memmyapp",
+      "versionCode": 2
     },
+    "icon": "./assets/mouse.png",
     "ios": {
       "bundleIdentifier": "com.gkasdorf.memmyapp",
       "supportsTablet": true,

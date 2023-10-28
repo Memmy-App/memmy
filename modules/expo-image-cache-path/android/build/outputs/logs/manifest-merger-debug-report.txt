@@ -1,0 +1,25 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml:1:1-2:12
+INJECTED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml:1:1-2:12
+INJECTED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml:1:1-2:12
+	package
+		INJECTED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml
+		ADDED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml:1:1-2:12
+		INJECTED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml:1:1-2:12
+uses-sdk
+INJECTED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml
+INJECTED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml
+INJECTED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml
+INJECTED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml
+		ADDED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml
+		INJECTED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml
+		ADDED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml
+		INJECTED from /Users/gavinkasdorf/Projects/memmy3/modules/expo-image-cache-path/android/src/main/AndroidManifest.xml
