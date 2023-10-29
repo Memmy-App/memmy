@@ -1,11 +1,11 @@
-import { useCommunityStore } from '@src/state';
+import { useDataStore } from '@src/state';
 import { SubscribedType } from 'lemmy-js-client';
 
 export const setSubscribed = (
   communityId: number,
   subscribed: SubscribedType,
 ): void => {
-  useCommunityStore.setState((state) => {
+  useDataStore.setState((state) => {
     const community = state.communities.get(communityId);
 
     if (community == null) return;
