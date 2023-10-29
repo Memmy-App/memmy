@@ -3,10 +3,10 @@ import {
   PersonMentionView,
   PrivateMessageView,
 } from 'lemmy-js-client';
-import { useInboxStore } from '@src/state';
+import { useDataStore } from '@src/state';
 
 export const setAllRepliesRead = (): void => {
-  useInboxStore.setState((state) => {
+  useDataStore.setState((state) => {
     state.replies.forEach((c) => {
       c.comment_reply.read = true;
     });
@@ -19,47 +19,33 @@ export const setAllRepliesRead = (): void => {
   });
 };
 
-export const addReplies = (replies: CommentReplyView[]): void => {
-  const replyIds: number[] = [];
+interface AddRepliesParams {
+  replies: CommentReplyView[] | PersonMentionView[] | PrivateMessageView[];
+  type: 'reply' | 'mention' | 'message';
+}
 
-  useInboxStore.setState((state) => {
+export const addReplies = ({ replies, type }: AddRepliesParams): void => {
+  useDataStore.setState((state) => {
     for (let i = 0; i < replies.length; i++) {
       const reply = replies[i];
 
-      replyIds.push(reply.comment_reply.id);
-      state.replies.set(reply.comment_reply.id, reply);
+      switch (type) {
+        case 'reply': {
+          const r = reply as CommentReplyView;
+          state.replies.set(r.comment_reply.id, r);
+          break;
+        }
+        case 'mention': {
+          const r = reply as PersonMentionView;
+          state.mentions.set(r.person_mention.id, r);
+          break;
+        }
+        case 'message': {
+          const r = reply as PrivateMessageView;
+          state.privateMessages.set(r.private_message.id, r);
+          break;
+        }
+      }
     }
-
-    state.replyIds = replyIds;
-  });
-};
-
-export const addMentions = (mentions: PersonMentionView[]): void => {
-  const mentionIds: number[] = [];
-
-  useInboxStore.setState((state) => {
-    for (let i = 0; i < mentions.length; i++) {
-      const mention = mentions[i];
-
-      mentionIds.push(mention.person_mention.id);
-      state.mentions.set(mention.person_mention.id, mention);
-    }
-
-    state.mentionIds = mentionIds;
-  });
-};
-
-export const addPrivateMessages = (messages: PrivateMessageView[]): void => {
-  const messageIds: number[] = [];
-
-  useInboxStore.setState((state) => {
-    for (let i = 0; i < messages.length; i++) {
-      const message = messages[i];
-
-      messageIds.push(message.private_message.id);
-      state.privateMessages.set(message.private_message.id, message);
-    }
-
-    state.replyIds = messageIds;
   });
 };

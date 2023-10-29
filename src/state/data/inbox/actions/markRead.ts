@@ -1,27 +1,32 @@
-import { useInboxStore } from '@src/state';
+import { useDataStore } from '@src/state';
+import { CommentReplyView, PersonMentionView } from 'lemmy-js-client';
 
-export const setReplyRead = (replyId: number): void => {
-  useInboxStore.setState((state) => {
-    const reply = state.replies.get(replyId);
+interface SetReplyReadParams {
+  itemId: number;
+  type: 'reply' | 'mention';
+}
 
-    if (reply == null) return;
-
-    reply.comment_reply.read = true;
-  });
-};
-
-export const setMentionRead = (mentionId: number): void => {
-  useInboxStore.setState((state) => {
-    const reply = state.mentions.get(mentionId);
+export const setReplyRead = ({ itemId, type }: SetReplyReadParams): void => {
+  useDataStore.setState((state) => {
+    const reply = state[type === 'reply' ? 'replies' : 'mentions'].get(itemId);
 
     if (reply == null) return;
 
-    reply.person_mention.read = true;
+    switch (type) {
+      case 'reply': {
+        (reply as CommentReplyView).comment_reply.read = true;
+        break;
+      }
+      case 'mention': {
+        (reply as PersonMentionView).person_mention.read = true;
+        break;
+      }
+    }
   });
 };
 
 export const setMessageRead = (messageId: number): void => {
-  useInboxStore.setState((state) => {
+  useDataStore.setState((state) => {
     const reply = state.privateMessages.get(messageId);
 
     if (reply == null) return;
