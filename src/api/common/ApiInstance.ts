@@ -10,7 +10,6 @@ import {
   GetComments,
   GetCommunityResponse,
   GetPersonDetailsResponse,
-  GetPostResponse,
   GetPostsResponse,
   GetSiteResponse,
   LemmyHttp,
@@ -876,6 +875,7 @@ class ApiInstance {
 
   async createPost(options: Partial<CreatePost>): Promise<PostResponse> {
     try {
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       const res = await this.instance!.createPost({
         auth: this.authToken!,
         ...options,
