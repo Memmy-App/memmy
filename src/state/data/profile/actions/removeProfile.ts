@@ -1,7 +1,11 @@
-import { useProfileStore } from '@src/state';
+import { useDataStore } from '@src/state';
 
-export const removeProfile = (profileId?: number): void => {
-  useProfileStore.setState((state) => {
+interface RemoveProfileParams {
+  profileId?: number;
+}
+
+export const removeProfile = ({ profileId }: RemoveProfileParams): void => {
+  useDataStore.setState((state) => {
     if (profileId == null) return;
 
     state.profiles.delete(profileId);

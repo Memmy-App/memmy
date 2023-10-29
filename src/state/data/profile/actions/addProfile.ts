@@ -1,16 +1,20 @@
 import { GetPersonDetailsResponse } from 'lemmy-js-client';
-import { addComments, addPosts, useProfileStore } from '@src/state';
+import { addComments, addPosts, useDataStore } from '@src/state';
 
-export const addProfile = (
-  profile: GetPersonDetailsResponse | undefined,
-  screenId: string,
-): void => {
+interface AddProfileParams {
+  profile: GetPersonDetailsResponse;
+  screenId: string;
+}
+
+export const addProfile = ({ profile, screenId }: AddProfileParams): void => {
   if (profile == null) return;
 
-  useProfileStore.setState((state) => {
+  useDataStore.setState((state) => {
     state.profiles.set(profile.person_view.person.id, profile);
   });
 
   addPosts(profile?.posts, screenId);
-  addComments(profile?.comments);
+  addComments({
+    comments: profile?.comments,
+  });
 };
