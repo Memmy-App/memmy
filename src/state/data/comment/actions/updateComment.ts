@@ -1,7 +1,11 @@
 import { useDataStore } from '@src/state';
 import { CommentView } from 'lemmy-js-client';
 
-export const updateComment = (comment: CommentView): void => {
+interface UpdateCommentParams {
+  comment: CommentView;
+}
+
+export const updateComment = ({ comment }: UpdateCommentParams): void => {
   useDataStore.setState((state) => {
     const current = state.comments.get(comment.comment.id);
 

@@ -1,6 +1,10 @@
 import { useDataStore } from '@src/state';
 
-export const setCommentSaved = (commentId: number): void => {
+interface SetCommentSavedParams {
+  commentId: number;
+}
+
+export const setCommentSaved = ({ commentId }: SetCommentSavedParams): void => {
   useDataStore.setState((state) => {
     const comment = state.comments.get(commentId);
 
