@@ -1,5 +1,4 @@
 node_modules/
-/android
 .expo/
 dist/
 npm-debug.*
@@ -73,7 +72,6 @@ xcuserdata
 .history/
 .vscode
 
-/android
 
 # Android
 *.apk
