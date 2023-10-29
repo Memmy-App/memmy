@@ -1,5 +1,5 @@
 import { LocalUser } from 'lemmy-js-client';
-import { useSiteStore } from '@src/state';
+import { useDataStore } from '@src/state';
 import instance from '@src/Instance';
 
 type ValueOption =
@@ -35,8 +35,8 @@ export const setUserSetting = async (
   // First we will set the setting so that our switches cooperate with us and so that we can get the current value
   let oldValue: ValueOption;
 
-  useSiteStore.setState((state) => {
-    const settings = state?.site?.my_user?.local_user_view.local_user;
+  useDataStore.setState((state) => {
+    const settings = state.site?.site?.my_user?.local_user_view.local_user;
 
     if (settings == null) return;
 
@@ -48,8 +48,8 @@ export const setUserSetting = async (
   try {
     await instance.setUserSetting(setting, value);
   } catch (e) {
-    useSiteStore.setState((state) => {
-      const settings = state?.site?.my_user?.local_user_view.local_user;
+    useDataStore.setState((state) => {
+      const settings = state.site?.site?.my_user?.local_user_view.local_user;
 
       if (settings == null) return;
 
