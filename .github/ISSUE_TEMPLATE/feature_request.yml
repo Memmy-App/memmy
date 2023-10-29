@@ -4,7 +4,6 @@ title: "[Feature]: "
 labels:
   - enhancement
   - triage
-  - Public
 body:
   - type: markdown
     attributes:
