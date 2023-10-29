@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Add subtitle to account switch context menu
+
 ## [Version 1.1 (63)] - 2023-10-28T09:59:45Z
 
 ### Fixed
