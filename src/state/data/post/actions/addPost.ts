@@ -1,21 +1,24 @@
 import { PostView } from 'lemmy-js-client';
-import {
-  useFeedStore,
-  useFilterStore,
-  usePostStore,
-  useSiteStore,
-} from '@src/state';
+import { useDataStore, useFilterStore } from '@src/state';
 import { getLinkType } from '@helpers/links/getLinkType';
 import { truncateText } from '@helpers/text';
 import { cacheImages } from '@helpers/image';
 import { getBaseUrl } from '@helpers/links';
 
-export const addPost = (post: PostView, screenId?: string): void => {
-  usePostStore.setState((state) => {
+interface AddOrUpdatePostParams {
+  post: PostView;
+  screenId?: string;
+}
+
+export const addOrUpdatePost = ({
+  post,
+  screenId,
+}: AddOrUpdatePostParams): void => {
+  useDataStore.setState((state) => {
     const currentPost = state.posts.get(post.post.id);
-    const moderated = useSiteStore.getState().moderatedIds;
+    const moderated = useDataStore.getState().site?.moderatedIds;
     const userId =
-      useSiteStore.getState().site?.my_user?.local_user_view.local_user
+      useDataStore.getState().site?.site?.my_user?.local_user_view.local_user
         .person_id;
 
     if (currentPost != null && screenId != null) {
@@ -33,31 +36,38 @@ export const addPost = (post: PostView, screenId?: string): void => {
   });
 };
 
-export const addPosts = (
-  posts: PostView[],
-  screenId: string,
+interface AddPostsParams {
+  posts: PostView[];
+  screenId: string;
+  page?: number;
+  refresh?: boolean;
+}
+
+export const addPosts = ({
+  posts,
+  screenId,
   page = 1,
   refresh = false,
-): void => {
+}: AddPostsParams): void => {
   const links: string[] = [];
 
   const postIds: number[] = [];
-  const currentPosts = useFeedStore.getState().feeds.get(screenId)?.postIds;
-  const moderated = useSiteStore.getState().moderatedIds;
+  const currentPosts = useDataStore.getState().feeds.get(screenId)?.postIds;
+  const moderated = useDataStore.getState().site?.moderatedIds;
   const userId =
-    useSiteStore.getState().site?.my_user?.local_user_view.local_user.person_id;
+    useDataStore.getState().site?.site?.my_user?.local_user_view.local_user
+      .person_id;
 
   const filters = useFilterStore.getState();
+  const keywordPattern = new RegExp(filters.keywordFilters.join('|'), 'i');
 
-  usePostStore.setState((state) => {
+  useDataStore.setState((state) => {
     // Add each post to the state
     for (const post of posts) {
       // Check the filters first
       if (filters.instanceFilters.includes(getBaseUrl(post.post.ap_id))) {
         continue;
       }
-
-      const keywordPattern = new RegExp(filters.keywordFilters.join('|'), 'i');
 
       if (
         filters.keywordFilters.length > 0 &&
@@ -89,6 +99,8 @@ export const addPosts = (
 
           if (post.post.url != null) {
             links.push(post.post.url);
+          } else if (post.post.thumbnail_url != null) {
+            links.push(post.post.thumbnail_url);
           }
         }
       } else {
@@ -99,19 +111,17 @@ export const addPosts = (
     }
 
     // Add the post ids to the feed
-    useFeedStore.setState((state) => {
-      const feed = state.feeds.get(screenId);
+    const feed = state.feeds.get(screenId);
 
-      if (feed == null || refresh) {
-        state.feeds.set(screenId, {
-          feedId: screenId,
-          postIds: [...postIds],
-          nextPage: page + 1,
-        });
-      } else {
-        feed.postIds = [...feed.postIds, ...postIds];
-        feed.nextPage = page + 1;
-      }
-    });
+    if (feed == null || refresh) {
+      state.feeds.set(screenId, {
+        feedId: screenId,
+        postIds: [...postIds],
+        nextPage: page + 1,
+      });
+    } else {
+      feed.postIds = [...feed.postIds, ...postIds];
+      feed.nextPage = page + 1;
+    }
   });
 };

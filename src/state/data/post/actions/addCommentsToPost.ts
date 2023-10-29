@@ -1,11 +1,16 @@
-import { usePostStore } from '@src/state';
 import { ICommentInfo } from '@src/types';
+import { useDataStore } from '@src/state';
 
-export const addCommentsToPost = (
-  postId: number,
-  commentInfo: ICommentInfo[],
-): void => {
-  usePostStore.setState((state) => {
+interface AddCommentsToPostParams {
+  postId: number;
+  commentInfo: ICommentInfo[];
+}
+
+export const addCommentsToPost = ({
+  postId,
+  commentInfo,
+}: AddCommentsToPostParams): void => {
+  useDataStore.setState((state) => {
     const post = state.posts.get(postId);
 
     if (post == null) return;

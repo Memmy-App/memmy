@@ -1,18 +1,21 @@
-import { usePostStore } from '@src/state';
+import { useDataStore } from '@src/state';
 
-export const setPostCommentHidden = (
-  commentId: number,
-  postId: number,
-  path: string,
-): void => {
-  usePostStore.setState((state) => {
+interface SetPostCommentHiddenParams {
+  commentId: number;
+  postId: number;
+  path: string;
+}
+
+export const setPostCommentHidden = ({
+  commentId,
+  postId,
+  path,
+}: SetPostCommentHiddenParams): void => {
+  useDataStore.setState((state) => {
     const postComments = state.posts.get(postId)?.commentInfo;
+    const currentComment = postComments?.find((c) => c.commentId === commentId);
 
-    if (postComments == null) return;
-
-    const currentComment = postComments.find((c) => c.commentId === commentId);
-
-    if (currentComment == null) return;
+    if (postComments == null || currentComment == null) return;
 
     const hidden = !currentComment.collapsed;
 
@@ -26,11 +29,16 @@ export const setPostCommentHidden = (
   });
 };
 
-export const showMoreCommentsNexted = (
-  commentId: number,
-  postId: number,
-): void => {
-  usePostStore.setState((state) => {
+interface ShowMoreCommentsNextedParams {
+  commentId: number;
+  postId: number;
+}
+
+export const showMoreCommentsNexted = ({
+  commentId,
+  postId,
+}: ShowMoreCommentsNextedParams): void => {
+  useDataStore.setState((state) => {
     const postComments = state.posts.get(postId)?.commentInfo;
 
     if (postComments == null) return;

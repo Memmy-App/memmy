@@ -1,7 +1,11 @@
-import { usePostStore } from '@src/state';
+import { useDataStore } from '@src/state';
 
-export const setPostSaved = (postId: number): void => {
-  usePostStore.setState((state) => {
+interface SetPostSavedParams {
+  postId: number;
+}
+
+export const setPostSaved = ({ postId }: SetPostSavedParams): void => {
+  useDataStore.setState((state) => {
     const post = state.posts.get(postId);
 
     if (post == null) return;

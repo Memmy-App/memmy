@@ -37,7 +37,7 @@ import {
   addComments,
   addCommentsToPost,
   addCommunity,
-  addPost,
+  addOrUpdatePost,
   addPosts,
   markPostRead,
   setCommentSaved,
@@ -602,7 +602,7 @@ class ApiInstance {
         auth: this.authToken!,
       });
 
-      addPost(res.post_view);
+      addOrUpdatePost(res.post_view);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
 
@@ -881,7 +881,7 @@ class ApiInstance {
         ...options,
       } as CreatePost);
 
-      addPost(res.post_view);
+      addOrUpdatePost(res.post_view);
 
       return res;
     } catch (e: any) {

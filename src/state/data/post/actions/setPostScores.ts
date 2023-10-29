@@ -1,8 +1,16 @@
 import { VoteMetrics } from '@helpers/comments/voteCalculator';
-import { usePostStore } from '@src/state';
+import { useDataStore } from '@src/state';
 
-export const setPostScores = (postId: number, scores: VoteMetrics): void => {
-  usePostStore.setState((state) => {
+interface SetPostScoresParams {
+  postId: number;
+  scores: VoteMetrics;
+}
+
+export const setPostScores = ({
+  postId,
+  scores,
+}: SetPostScoresParams): void => {
+  useDataStore.setState((state) => {
     const post = state.posts.get(postId)?.view;
 
     if (post == null) return;

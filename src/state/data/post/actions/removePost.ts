@@ -1,38 +1,37 @@
-import { useCommentStore, usePostStore } from '@src/state';
+import { useDataStore } from '@src/state';
 
-export const removePost = (
-  postId: number,
-  screenIdOrOverride: string | boolean,
-): void => {
-  if (typeof screenIdOrOverride === 'boolean' && screenIdOrOverride) {
-    usePostStore.setState((state) => {
+interface RemovePostParams {
+  postId: number;
+  screenIdOrOverride: string | boolean;
+}
+
+export const removePost = ({
+  postId,
+  screenIdOrOverride,
+}: RemovePostParams): void => {
+  useDataStore.setState((state) => {
+    if (typeof screenIdOrOverride === 'boolean') {
       state.posts.delete(postId);
-    });
+    }
 
-    return;
-  }
-
-  usePostStore.setState((state) => {
     const post = state.posts.get(postId);
-
     if (post == null) return;
 
+    // Update the used by array
     post.usedBy = post.usedBy.filter(
       (screenId) => screenId !== screenIdOrOverride,
     );
 
     if (post.usedBy.length < 1) {
-      useCommentStore.setState((state) => {
-        const postComments = state.postComments.get(postId);
+      const postComments = state.postComments.get(postId);
 
-        if (postComments != null) {
-          for (let i = 0; i < postComments.length; i++) {
-            state.comments.delete(postComments[i]);
-          }
-
-          state.postComments.delete(postId);
+      if (postComments != null) {
+        for (let i = 0; i < postComments.length; i++) {
+          state.comments.delete(postComments[i]);
         }
-      });
+
+        state.postComments.delete(postId);
+      }
 
       state.posts.delete(postId);
     }

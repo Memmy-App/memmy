@@ -1,8 +1,12 @@
 import { PostView } from 'lemmy-js-client';
-import { usePostStore } from '@src/state';
+import { useDataStore } from '@src/state';
 
-export const updatePost = (post: PostView): void => {
-  usePostStore.setState((state) => {
+interface UpdatePostParams {
+  post: PostView;
+}
+
+export const updatePost = ({ post }: UpdatePostParams): void => {
+  useDataStore.setState((state) => {
     const current = state.posts.get(post.post.id);
 
     if (current == null) return;
