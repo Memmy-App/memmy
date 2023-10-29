@@ -47,7 +47,8 @@
         {
           "photosPermission": "Allow Memmy App to access your photos"
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "extra": {
       "eas": {

@@ -1,6 +1,7 @@
+import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
-import '@src//plugins/dayjs';
+import '@src/plugins/dayjs';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { TamaguiProvider, Theme, useTheme } from 'tamagui';
@@ -16,7 +17,6 @@ import { LogBox } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { ErrorBoundary } from 'react-error-boundary';
 import { writeToLog } from '@src/helpers';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useThemeSettings } from '@hooks/useThemeSettings';
 import AppToast from '@components/Common/Toast/AppToast';
 
@@ -93,23 +93,21 @@ export default function App(): React.JSX.Element | null {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <TamaguiProvider config={tguiConfig}>
-        <ErrorBoundary
-          fallback={<ErrorScreen />}
-          onError={(e) => {
-            writeToLog(e.name);
-            writeToLog(e.message);
-            writeToLog(e.stack ?? 'No stack');
-          }}
-        >
-          {/* @ts-expect-error - valid */}
-          <Theme name={themeSettings.theme}>
-            <PartTwo />
-          </Theme>
-        </ErrorBoundary>
-      </TamaguiProvider>
-    </GestureHandlerRootView>
+    <TamaguiProvider config={tguiConfig}>
+      <ErrorBoundary
+        fallback={<ErrorScreen />}
+        onError={(e) => {
+          writeToLog(e.name);
+          writeToLog(e.message);
+          writeToLog(e.stack ?? 'No stack');
+        }}
+      >
+        {/* @ts-expect-error - valid */}
+        <Theme name={themeSettings.theme}>
+          <PartTwo />
+        </Theme>
+      </ErrorBoundary>
+    </TamaguiProvider>
   );
 }
 
