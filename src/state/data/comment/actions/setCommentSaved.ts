@@ -1,7 +1,7 @@
-import { useCommentStore } from '@src/state';
+import { useDataStore } from '@src/state';
 
 export const setCommentSaved = (commentId: number): void => {
-  useCommentStore.setState((state) => {
+  useDataStore.setState((state) => {
     const comment = state.comments.get(commentId);
 
     if (comment == null) return;

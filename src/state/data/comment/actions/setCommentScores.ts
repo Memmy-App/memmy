@@ -1,11 +1,11 @@
 import { VoteMetrics } from '@helpers/comments/voteCalculator';
-import { useCommentStore } from '@src/state';
+import { useDataStore } from '@src/state';
 
 export const setCommentScores = (
   commentId: number,
   scores: VoteMetrics,
 ): void => {
-  useCommentStore.setState((state) => {
+  useDataStore.setState((state) => {
     const comment = state.comments.get(commentId)?.view;
 
     if (comment == null) return;
