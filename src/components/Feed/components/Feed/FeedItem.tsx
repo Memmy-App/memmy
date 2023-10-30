@@ -11,7 +11,7 @@ import FeedItemContent from '@components/Feed/components/Feed/FeedItem/FeedItemC
 import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
 import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
 import {
-  markPostRead,
+  setPostRead,
   useMarkReadOnPostView,
   usePostGesturesEnabled,
   usePostSaved,
@@ -41,7 +41,7 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
 
     // Should we mark it read?
     if (markReadOnView) {
-      markPostRead(itemId);
+      setPostRead(itemId);
     }
   }, [itemId, markReadOnView]);
 

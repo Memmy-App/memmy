@@ -12,7 +12,7 @@ import LoadingScreen from '@components/Common/Loading/LoadingScreen';
 import { useTheme, View } from 'tamagui';
 import CompactOrFull from '@components/Feed/components/Feed/CompactOrFull';
 import {
-  markPostRead,
+  setPostRead,
   useMarkReadOnCommunityScroll,
   useMarkReadOnFeedScroll,
   useSettingsStore,
@@ -76,7 +76,7 @@ export default function MainFeed(): React.JSX.Element {
         (params?.communityId != null && markReadOnCommunityScroll)
       ) {
         // Mark the first viewable post as read
-        markPostRead(item);
+        setPostRead(item);
       }
     },
     [markReadOnFeedScroll, markReadOnCommunityScroll],

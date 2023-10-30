@@ -5,7 +5,7 @@ interface MarkPostReadParams {
   postId: number;
 }
 
-export const markPostRead = ({ postId }: MarkPostReadParams): void => {
+export const setPostRead = ({ postId }: MarkPostReadParams): void => {
   useDataStore.setState((state) => {
     const post = state.posts.get(postId);
 
