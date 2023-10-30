@@ -776,7 +776,7 @@ class ApiInstance {
       });
 
       useDataStore.setState((state) => {
-        const myUser = state.site?.site?.my_user;
+        const myUser = state.site.site?.my_user;
 
         if (myUser == null) return;
 
@@ -816,7 +816,7 @@ class ApiInstance {
 
       useDataStore.setState((state) => {
         const community = state.communities.get(communityId);
-        const myUser = state.site?.site?.my_user;
+        const myUser = state.site.site?.my_user;
 
         if (community != null) {
           community.community_view.blocked = res.blocked;
@@ -833,7 +833,7 @@ class ApiInstance {
             myUser.community_blocks = [
               ...myUser.community_blocks,
               {
-                person: state.site!.site!.my_user!.local_user_view.person,
+                person: state.site.site!.my_user!.local_user_view.person,
                 community: res.community_view.community,
               },
             ];
@@ -1170,8 +1170,7 @@ class ApiInstance {
   async setUserSetting(setting: keyof LocalUser, value: any): Promise<void> {
     // We have to get the user avatar here because if we don't send the user avatar with the request it will fail.
     const userAvatar =
-      useDataStore.getState().site?.site?.my_user?.local_user_view.person
-        .avatar;
+      useDataStore.getState().site.site?.my_user?.local_user_view.person.avatar;
 
     try {
       await this.instance!.saveUserSettings({

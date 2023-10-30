@@ -88,7 +88,7 @@ export const addComments = ({ comments, postId }: AddCommentsParams): void => {
   useDataStore.setState((state) => {
     const moderated = state.site?.moderatedIds;
     const userId =
-      state.site?.site?.my_user?.local_user_view.local_user.person_id;
+      state.site.site?.my_user?.local_user_view.local_user.person_id;
 
     for (const comment of comments) {
       postComments.push(comment.comment.id);

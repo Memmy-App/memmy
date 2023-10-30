@@ -36,7 +36,7 @@ export const setUserSetting = async (
   let oldValue: ValueOption;
 
   useDataStore.setState((state) => {
-    const settings = state.site?.site?.my_user?.local_user_view.local_user;
+    const settings = state.site.site?.my_user?.local_user_view.local_user;
 
     if (settings == null) return;
 
@@ -49,7 +49,7 @@ export const setUserSetting = async (
     await instance.setUserSetting(setting, value);
   } catch (e) {
     useDataStore.setState((state) => {
-      const settings = state.site?.site?.my_user?.local_user_view.local_user;
+      const settings = state.site.site?.my_user?.local_user_view.local_user;
 
       if (settings == null) return;
 

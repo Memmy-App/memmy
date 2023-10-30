@@ -18,7 +18,7 @@ export const addOrUpdatePost = ({
     const currentPost = state.posts.get(post.post.id);
     const moderated = useDataStore.getState().site?.moderatedIds;
     const userId =
-      useDataStore.getState().site?.site?.my_user?.local_user_view.local_user
+      useDataStore.getState().site.site?.my_user?.local_user_view.local_user
         .person_id;
 
     if (currentPost != null && screenId != null) {
@@ -55,7 +55,7 @@ export const addPosts = ({
   const currentPosts = useDataStore.getState().feeds.get(screenId)?.postIds;
   const moderated = useDataStore.getState().site?.moderatedIds;
   const userId =
-    useDataStore.getState().site?.site?.my_user?.local_user_view.local_user
+    useDataStore.getState().site.site?.my_user?.local_user_view.local_user
       .person_id;
 
   const filters = useFilterStore.getState();
