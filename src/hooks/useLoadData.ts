@@ -35,9 +35,7 @@ export const useLoadData = <ReturnType>(
   const [returnData, setReturnData] = useState<ReturnType>();
 
   useEffect(() => {
-    if (func == null) {
-      return;
-    }
+    if (func == null) return;
 
     if (cacheFunc != null) {
       const res = cacheFunc();

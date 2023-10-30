@@ -53,8 +53,6 @@ void SplashScreen.preventAutoHideAsync();
 
 LogBox.ignoreAllLogs(true);
 
-// We are going to set a weird global here just so we can tell users about the upgrade
-
 export default function App(): React.JSX.Element | null {
   enableFreeze(true);
 
