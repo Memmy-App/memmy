@@ -41,7 +41,9 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
 
     // Should we mark it read?
     if (markReadOnView) {
-      setPostRead(itemId);
+      setPostRead({
+        postId: itemId,
+      });
     }
   }, [itemId, markReadOnView]);
 

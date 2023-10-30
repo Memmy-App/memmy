@@ -97,7 +97,9 @@ function ViewerImage({
 
     // Now see if we want to mark the post as read
     if (postId != null && markReadOnImagePress) {
-      setPostRead(postId);
+      setPostRead({
+        postId,
+      });
     }
   }, [source, savedDimensions, markReadOnImagePress]);
 

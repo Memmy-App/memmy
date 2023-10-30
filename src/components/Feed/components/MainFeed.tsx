@@ -76,7 +76,9 @@ export default function MainFeed(): React.JSX.Element {
         (params?.communityId != null && markReadOnCommunityScroll)
       ) {
         // Mark the first viewable post as read
-        setPostRead(item);
+        setPostRead({
+          postId: item,
+        });
       }
     },
     [markReadOnFeedScroll, markReadOnCommunityScroll],
