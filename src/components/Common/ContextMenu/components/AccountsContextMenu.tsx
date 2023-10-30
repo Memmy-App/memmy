@@ -16,9 +16,8 @@ export default function AccountsContextMenu({
     return accounts.map((a) => ({
       key: a.fullUsername,
       title: a.username,
-      ...(a.isCurrentAccount && {
-        icon: 'checkmark',
-      }),
+      subtitle: a.instance,
+      icon: a.isCurrentAccount ? 'checkmark' : 'server.rack',
     }));
   }, [accounts]);
 
