@@ -8,11 +8,13 @@ import {
   usePostCommunityId,
   usePostLink,
   usePostTitle,
+  usePostBody,
 } from '@src/state';
 import { Alert } from 'react-native';
 import { CheckCircle } from '@tamagui/lucide-icons';
 import { shareLink } from '@helpers/share/shareLink';
-import { saveImage } from '@helpers/image';
+import { saveImage, copyImageToClipboard } from '@helpers/image';
+import * as Clipboard from 'expo-clipboard';
 
 interface UsePostContextMenu {
   reply: () => void;
@@ -25,7 +27,9 @@ interface UsePostContextMenu {
   report: () => void;
   share: () => void;
   savePostImage: () => void;
+  copyPostImage: () => void;
   shareUrl: (isImage: boolean) => void;
+  copyText: () => void;
 }
 
 export const usePostContextMenu = (itemId: number): UsePostContextMenu => {
@@ -35,6 +39,7 @@ export const usePostContextMenu = (itemId: number): UsePostContextMenu => {
   const postTitle = usePostTitle(itemId);
   const postActorId = usePostActorId(itemId);
   const postLink = usePostLink(itemId);
+  const postBody = usePostBody(itemId);
 
   const colorScheme = useThemeColorScheme();
 
@@ -55,6 +60,12 @@ export const usePostContextMenu = (itemId: number): UsePostContextMenu => {
     void saveImage(postLink);
   };
 
+  const copyPostImage = (): void => {
+    if (postLink == null) return;
+
+    void copyImageToClipboard(postLink);
+  };
+
   const shareUrl = (isImage: boolean): void => {
     if (postTitle == null || postLink == null) return;
 
@@ -63,6 +74,16 @@ export const usePostContextMenu = (itemId: number): UsePostContextMenu => {
       link: postLink,
       isImage,
     });
+  };
+
+  const copyText = (): void => {
+    if (postBody === undefined) {
+      setToast({
+        text: 'Error copying post body.',
+      });
+      return;
+    }
+    void Clipboard.setStringAsync(postBody);
   };
 
   const reply = (): void => {
@@ -193,5 +214,7 @@ export const usePostContextMenu = (itemId: number): UsePostContextMenu => {
     delet,
     remove,
     report,
+    copyText,
+    copyPostImage,
   };
 };
