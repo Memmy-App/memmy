@@ -1,6 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
 import {
+  setPostRead,
   useCompactShowUsername,
+  useMarkReadOnPostView,
   usePostCreator,
   usePostGesturesEnabled,
   usePostSaved,
@@ -37,6 +39,7 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
   const voteButtonPosition = useSettingsStore(
     (state) => state.compactVoteButtonPosition,
   );
+  const markReadOnPostView = useMarkReadOnPostView();
 
   const gesturesEnabled = usePostGesturesEnabled();
 
@@ -50,6 +53,12 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
   const postSaved = usePostSaved(itemId);
 
   const onPress = useCallback(() => {
+    if (markReadOnPostView) {
+      setPostRead({
+        postId: itemId,
+      });
+    }
+
     navigation.push('Post', {
       postId: itemId,
     });
