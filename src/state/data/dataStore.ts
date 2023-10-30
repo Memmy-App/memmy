@@ -32,7 +32,7 @@ interface DataStore {
   profiles: Map<number, GetPersonDetailsResponse>;
   // Map of all feeds by screen id
   feeds: Map<string, FeedState>;
-  site?: SiteState;
+  site: SiteState;
 }
 
 export const useDataStore = create(
@@ -46,6 +46,11 @@ export const useDataStore = create(
     privateMessages: new Map(),
     profiles: new Map(),
     feeds: new Map(),
-    site: undefined,
+    site: {
+      site: undefined,
+      subscriptions: [],
+      moderated: [],
+      moderatedIds: [],
+    },
   })),
 );
