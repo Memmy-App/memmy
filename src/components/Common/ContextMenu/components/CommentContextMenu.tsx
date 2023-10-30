@@ -60,6 +60,9 @@ export default function CommentContextMenu({
         case 'save':
           commentContextMenu.save();
           break;
+        case 'copy':
+          commentContextMenu.copy();
+          break;
         case 'report':
           commentContextMenu.report();
           break;
