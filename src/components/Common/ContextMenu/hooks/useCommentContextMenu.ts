@@ -4,11 +4,11 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Alert } from 'react-native';
 import { useThemeColorScheme } from '@src/hooks';
 import {
+  setToast,
   useCommentCreatorActorId,
   useCommentPostId,
+  useDataStore,
   usePostTitle,
-  setToast,
-  useCommentStore,
 } from '@src/state';
 import { shareLink } from '@helpers/share/shareLink';
 import * as Clipboard from 'expo-clipboard';
@@ -24,7 +24,7 @@ interface UseCommentContextMenu {
   report: () => void;
   share: () => void;
   save: () => void;
-  copy: () => void;
+  copy: () => Promise<void>;
 }
 
 export const useCommentContextMenu = (
@@ -158,8 +158,8 @@ export const useCommentContextMenu = (
     void instance.saveComment(itemId);
   };
 
-  const copy = (): void => {
-    const comment = useCommentStore.getState().comments.get(itemId);
+  const copy = async (): Promise<void> => {
+    const comment = useDataStore.getState().comments.get(itemId);
 
     if (comment?.view.comment.content === undefined) {
       setToast({
@@ -167,23 +167,24 @@ export const useCommentContextMenu = (
       });
       return;
     }
-    Clipboard.setStringAsync(comment.view.comment.content)
-      .then((success) => {
-        if (success) {
-          setToast({
-            text: 'Copied comment to clipboard!',
-          });
-        } else {
-          setToast({
-            text: 'Failed to copy comment to clipboard!',
-          });
-        }
-      })
-      .catch((_) => {
+
+    try {
+      const res = await Clipboard.setStringAsync(comment.view.comment.content);
+
+      if (res) {
+        setToast({
+          text: 'Copied comment to clipboard!',
+        });
+      } else {
         setToast({
           text: 'Failed to copy comment to clipboard!',
         });
+      }
+    } catch (e: any) {
+      setToast({
+        text: 'Failed to copy comment to clipboard!',
       });
+    }
   };
 
   return {
