@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Version 1.1 (68)] - 2023-10-30T06:19:50Z
+
 ### Changes
 
 - Prefetch thumbnail images to reduce empty loading spaces
