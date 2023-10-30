@@ -25,8 +25,8 @@ export const useSiteLanguages = (): Language[] | undefined =>
 export const useSiteDefaultLanguage = (): number | undefined =>
   useDataStore((state) => state.site.site?.discussion_languages[0]);
 
-export const useSubscriptions = (): CommunityView[] | undefined =>
-  useDataStore((state) => state.site?.subscriptions);
+export const useSubscriptions = (): CommunityView[] =>
+  useDataStore((state) => state.site.subscriptions);
 
 export const useShowReadPosts = (): boolean =>
   useDataStore(

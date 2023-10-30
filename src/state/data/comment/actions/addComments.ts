@@ -21,7 +21,7 @@ export const addComment = ({ comment }: AddCommentParams): void => {
       view: comment,
       isOwnComment: true,
       moderates:
-        state.site?.moderatedIds?.includes(comment.community.id) ?? false,
+        state.site.moderatedIds?.includes(comment.community.id) ?? false,
     });
 
     // Get the index of the parent in our array
@@ -86,7 +86,7 @@ export const addComments = ({ comments, postId }: AddCommentsParams): void => {
   const postComments: number[] = [];
 
   useDataStore.setState((state) => {
-    const moderated = state.site?.moderatedIds;
+    const moderated = state.site.moderatedIds;
     const userId =
       state.site.site?.my_user?.local_user_view.local_user.person_id;
 
