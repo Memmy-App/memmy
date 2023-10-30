@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changes
+
+- Prefetch thumbnail images to reduce empty loading spaces
+
 ### Fixed
 
 - Add subtitle to account switch context menu
