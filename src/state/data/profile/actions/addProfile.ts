@@ -13,7 +13,11 @@ export const addProfile = ({ profile, screenId }: AddProfileParams): void => {
     state.profiles.set(profile.person_view.person.id, profile);
   });
 
-  addPosts(profile?.posts, screenId);
+  addPosts({
+    posts: profile?.posts,
+    screenId,
+  });
+
   addComments({
     comments: profile?.comments,
   });

@@ -8,7 +8,6 @@ import {
   PersonView,
   PostView,
 } from 'lemmy-js-client';
-import { orderSearch } from '@helpers/search';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import CommunitySearchResult from '@components/Search/components/CommunitySearchResult';
 import PersonSearchResult from '@components/Search/components/PersonSearchResult';
@@ -17,6 +16,7 @@ import { cleanupPosts } from '@helpers/state';
 import { addComments, addPosts } from '@src/state';
 import FeedItem from '@components/Feed/components/Feed/FeedItem';
 import Comment from '@components/Comment/components/Comment';
+import { orderSearch } from '@helpers/search/orderSearch';
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -87,11 +87,16 @@ export default function SearchResultsScreen({
       }
 
       if (res.posts.length > 0) {
-        addPosts(res.posts, key);
+        addPosts({
+          posts: res.posts,
+          screenId: key,
+        });
       }
 
       if (res.comments.length > 0) {
-        addComments(res.comments);
+        addComments({
+          comments: res.comments,
+        });
       }
 
       const before = [
@@ -132,11 +137,16 @@ export default function SearchResultsScreen({
       }
 
       if (res.posts.length > 0) {
-        addPosts(res.posts, key);
+        addPosts({
+          posts: res.posts,
+          screenId: key,
+        });
       }
 
       if (res.comments.length > 0) {
-        addComments(res.comments);
+        addComments({
+          comments: res.comments,
+        });
       }
 
       const before = [

@@ -22,11 +22,11 @@ function CommentChain({
   const onCommentPress = useCallback(() => {
     if (!collapseOnTap) return;
 
-    setPostCommentHidden(
-      commentInfo.commentId,
-      commentInfo.postId,
-      commentInfo.path,
-    );
+    setPostCommentHidden({
+      commentId: commentInfo.commentId,
+      postId: commentInfo.postId,
+      path: commentInfo.path,
+    });
   }, [commentInfo.commentId, collapseOnTap]);
 
   if (commentInfo.hidden || !commentInfo.showInPost) {

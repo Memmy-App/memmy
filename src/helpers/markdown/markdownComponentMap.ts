@@ -19,6 +19,7 @@ export const markdownComponentMap: Record<
 > = {
   inline: MdLine,
   image: MdImage,
+  // @ts-expect-error TODO Fix this
   text: MdText,
   inlineImage: MdImageWrapper,
 };

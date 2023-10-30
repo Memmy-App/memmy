@@ -229,6 +229,7 @@ export const useSettingsStore = create(
 export const useSetting = <T extends keyof SettingsStore>(
   setting: T,
 ): string | boolean | number | object | object[] => {
+  // @ts-expect-error TODO Type this better
   return useSettingsStore((state) => state[setting]);
 };
 

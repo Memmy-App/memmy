@@ -10,7 +10,10 @@ interface IProps {
 
 function CommentShowMoreButton({ commentInfo }: IProps): React.JSX.Element {
   const onPress = useCallback(() => {
-    showMoreCommentsNexted(commentInfo.commentId, commentInfo.postId);
+    showMoreCommentsNexted({
+      commentId: commentInfo.commentId,
+      postId: commentInfo.postId,
+    });
   }, []);
 
   return (

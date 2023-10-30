@@ -126,7 +126,7 @@ function PartTwo(): React.JSX.Element {
 
   const currentAccount = useCurrentAccount();
 
-  const navTheme: Theme = useMemo(
+  const navTheme = useMemo(
     () => ({
       ...DarkTheme,
       colors: {

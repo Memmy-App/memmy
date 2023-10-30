@@ -18,7 +18,6 @@ function CommentSortTypeContextMenuButton({
     setSortType(e.nativeEvent.actionKey as CommentSortType);
   }, []);
 
-  // @ts-expect-error - TODO Fix this
   const icon = useMemo(() => IconMap[sortType], [sortType]);
 
   return (

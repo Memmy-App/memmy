@@ -24,10 +24,13 @@ interface DataStore {
   communities: Map<number, GetCommunityResponse>;
   // Map of all replies
   replies: Map<number, CommentReplyView>;
+  replyIds: number[];
   // Map of all mentions
   mentions: Map<number, PersonMentionView>;
+  mentionIds: number[];
   // Map of all private messages
   privateMessages: Map<number, PrivateMessageView>;
+  privateMessageIds: number[];
   // Map of all profiles
   profiles: Map<number, GetPersonDetailsResponse>;
   // Map of all feeds by screen id
@@ -42,8 +45,11 @@ export const useDataStore = create(
     postComments: new Map(),
     communities: new Map(),
     replies: new Map(),
+    replyIds: [],
     mentions: new Map(),
+    mentionIds: [],
     privateMessages: new Map(),
+    privateMessageIds: [],
     profiles: new Map(),
     feeds: new Map(),
     site: {

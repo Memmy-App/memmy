@@ -1,12 +1,12 @@
 import { useDataStore } from '@src/state';
 import { Person, PersonMentionView } from 'lemmy-js-client';
 
-// export const usePrivateMessages = (): number[] =>
-//   useDataStore((state) => state.privateMessageIds);
-// export const useReplies = (): number[] =>
-//   useDataStore((state) => state.replyIds);
-// export const useMentions = (): number[] =>
-//   useDataStore((state) => state.mentionIds);
+export const usePrivateMessages = (): number[] =>
+  useDataStore((state) => state.privateMessageIds);
+export const useReplies = (): number[] =>
+  useDataStore((state) => state.replyIds);
+export const useMentions = (): number[] =>
+  useDataStore((state) => state.mentionIds);
 
 export const useMention = (id: number): PersonMentionView | undefined =>
   useDataStore((state) => state.mentions.get(id));

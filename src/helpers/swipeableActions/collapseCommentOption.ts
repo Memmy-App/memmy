@@ -6,5 +6,9 @@ export const collapseCommentOption = ({
   path,
   postId,
 }: SwipeableActionParams): void => {
-  setPostCommentHidden(commentId!, postId!, path!);
+  setPostCommentHidden({
+    commentId: commentId!,
+    postId: postId!,
+    path: path!,
+  });
 };

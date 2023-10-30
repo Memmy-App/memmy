@@ -18,8 +18,11 @@ export const resetState = (): void => {
     state.communities.clear();
     state.feeds.clear();
     state.privateMessages.clear();
+    state.privateMessageIds = [];
     state.replies.clear();
+    state.replyIds = [];
     state.mentions.clear();
+    state.mentionIds = [];
     state.profiles.clear();
     state.posts.clear();
     state.site.site = undefined;

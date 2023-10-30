@@ -30,7 +30,10 @@ export const useProfileScreen = (): UseProfileScreen => {
     );
 
     setProfileId(res?.person_view.person.id ?? -1);
-    addProfile(res, key);
+    addProfile({
+      profile: res,
+      screenId: key,
+    });
 
     return res;
   });
@@ -38,7 +41,9 @@ export const useProfileScreen = (): UseProfileScreen => {
   // Remove the profile whenever we leave the screen
   useEffect(() => {
     return () => {
-      removeProfile(profileId);
+      removeProfile({
+        profileId,
+      });
     };
   }, []);
 
