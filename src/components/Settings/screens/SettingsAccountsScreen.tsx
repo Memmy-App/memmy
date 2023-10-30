@@ -41,7 +41,6 @@ export default function SettingsAccountScreen({
             <Table.Cell
               label="Username"
               rightLabel={currentAccount?.username}
-              useChevron
               isLast
             />
           </AccountsContextMenu>
