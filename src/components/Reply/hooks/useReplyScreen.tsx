@@ -4,6 +4,7 @@ import {
   DraftState,
   getCommentDraft,
   setNewCommentId,
+  setReplyRead,
   setUnread,
   useCommentPostId,
   useCurrentAccount,
@@ -26,7 +27,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { CommentResponse } from 'lemmy-js-client';
 import instance from '@src/Instance';
 import HeaderButton from '@components/Common/Button/HeaderButton';
-import { setMentionRead, setReplyRead } from '@src/state/inbox/actions';
 
 interface UseReplyScreen {
   text: string;
@@ -138,12 +138,18 @@ export const useReplyScreen = (isEdit = false): UseReplyScreen => {
 
       // If this is an inbox reply we should update the reply store
       if (replyId !== null) {
-        setReplyRead(replyId);
+        setReplyRead({
+          itemId: replyId,
+          type: 'reply',
+        });
         setUnread(true);
       }
 
       if (mentionId !== null) {
-        setMentionRead(mentionId);
+        setReplyRead({
+          itemId: mentionId,
+          type: 'mention',
+        });
         setUnread(true);
       }
 

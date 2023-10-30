@@ -1,6 +1,6 @@
 import { SwipeableActionParams } from '@helpers/swipeableActions/swipeableActions';
 import { playHaptic } from '@helpers/haptics';
-import { likeReply } from '@src/state/inbox/actions';
+import { likeReply } from '@src/state';
 
 export const upvoteMentionOption = ({
   mentionId,
