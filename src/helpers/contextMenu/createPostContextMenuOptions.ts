@@ -32,6 +32,11 @@ export const createPostContextMenuOptions = (
         title: 'Share Link',
         icon: 'link',
       },
+      {
+        key: 'copyText',
+        title: 'Copy Text',
+        icon: 'clipboard',
+      },
     ];
   }
 
@@ -47,6 +52,11 @@ export const createPostContextMenuOptions = (
         key: 'saveImage',
         title: 'Save Image',
         icon: 'square.and.arrow.down',
+      },
+      {
+        key: 'copyImage',
+        title: 'Copy Image',
+        icon: 'clipboard',
       },
     ];
   }

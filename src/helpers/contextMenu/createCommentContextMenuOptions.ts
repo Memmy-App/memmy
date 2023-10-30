@@ -27,6 +27,11 @@ export const createCommentContextMenuOptions = (
       icon: 'bookmark',
     },
     {
+      key: 'copy',
+      title: 'Copy',
+      icon: 'clipboard',
+    },
+    {
       key: 'upvote',
       title: 'Upvote',
       icon: 'arrow.up',
