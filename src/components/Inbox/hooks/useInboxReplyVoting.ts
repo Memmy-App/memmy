@@ -1,4 +1,5 @@
 import {
+  likeReply,
   useMentionDownvotes,
   useMentionMyVote,
   useMentionScore,
@@ -9,7 +10,6 @@ import {
   useReplyUpvotes,
 } from '@src/state';
 import { useCallback } from 'react';
-import { likeReply } from '@src/state/inbox/actions';
 
 interface UseInboxReplyVoting {
   upvotes: number | undefined;

@@ -3,8 +3,8 @@ import { Pressable, View } from 'react-native';
 
 import { useImageViewer } from './ImageViewerProvider';
 import {
-  markPostRead,
   saveImageDimensions,
+  setPostRead,
   useImageSavedDimensions,
   useMarkReadOnImageView,
   useSettingsStore,
@@ -97,7 +97,7 @@ function ViewerImage({
 
     // Now see if we want to mark the post as read
     if (postId != null && markReadOnImagePress) {
-      markPostRead(postId);
+      setPostRead(postId);
     }
   }, [source, savedDimensions, markReadOnImagePress]);
 

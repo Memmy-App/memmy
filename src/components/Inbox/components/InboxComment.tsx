@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
+  setReplyRead,
   useCommentGesturesEnabled,
   useMentionCommentId,
   useMentionContent,
@@ -32,7 +33,6 @@ import CommentContent from '@components/Comment/components/CommentContent';
 import InboxReplyEllipsisButton from '@components/Inbox/components/InboxReplyEllipsisButton';
 import { useInboxReplySwipeOptions } from '@components/Common/SwipeableRow/hooks/useInboxReplySwipeOptions';
 import InboxReplyMetrics from '@components/Inbox/components/InboxReplyMetrics';
-import { setMentionRead, setReplyRead } from '@src/state/inbox/actions';
 
 interface IProps {
   itemId: number;
@@ -85,8 +85,8 @@ function InboxComment({ itemId, type }: IProps): React.JSX.Element {
       setLoadingPost(false);
 
       // Mark the reply as read
-      if (type === 'reply') setReplyRead(itemId);
-      else setMentionRead(itemId);
+      if (type === 'reply') setReplyRead({ itemId, type: 'reply' });
+      else setReplyRead({ itemId, type: 'mention' });
 
       const pathArr = path!.split('.');
       const parentId =

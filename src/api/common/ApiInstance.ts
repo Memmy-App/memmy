@@ -37,33 +37,26 @@ import {
   addComments,
   addCommentsToPost,
   addCommunity,
-  addPost,
+  addOrUpdatePost,
   addPosts,
-  markPostRead,
+  addReplies,
+  setAllRepliesRead,
   setCommentSaved,
   setCommentScores,
+  setPostRead,
+  setPostSaved,
   setPostScores,
+  setReplyRead,
   setSubscribed,
   setSubscriptions,
   setToast,
   setUnread,
   updateComment,
-  useCommentStore,
-  useCommunityStore,
-  usePostStore,
+  useDataStore,
   useSettingsStore,
-  useSiteStore,
 } from '@src/state';
-import { updatePost } from '@src/state/post/actions/updatePost';
-import {
-  addMentions,
-  addReplies,
-  setAllRepliesRead,
-  setMentionRead,
-  setReplyRead,
-} from '@src/state/inbox/actions';
-import { setPostSaved } from '@src/state/post/actions/setPostSaved';
 import { ICommentInfo, lemmyErrors } from '@src/types';
+import { updatePost } from '@src/state/data/post/actions/updatePost';
 
 export enum EInitializeResult {
   SUCCESS,
@@ -253,13 +246,13 @@ class ApiInstance {
   async savePost(postId: number): Promise<void> {
     try {
       // Find the post in the store
-      const post = usePostStore.getState().posts.get(postId);
+      const post = useDataStore.getState().posts.get(postId);
 
       // If the post is not found, just return
       if (post == null) return;
 
       // Set the post to saved
-      setPostSaved(postId);
+      setPostSaved({ postId });
 
       // Submit the request
       await this.instance!.savePost({
@@ -269,7 +262,7 @@ class ApiInstance {
       });
     } catch (e: any) {
       // Revert the change if the save fails
-      setPostSaved(postId);
+      setPostSaved({ postId });
 
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
@@ -284,7 +277,7 @@ class ApiInstance {
    */
   async likePost(postId: number, vote: ILemmyVote): Promise<void> {
     // Find the post in the store
-    const post = usePostStore.getState().posts.get(postId)?.view;
+    const post = useDataStore.getState().posts.get(postId)?.view;
 
     // Return if the post is not found
     if (post == null) return;
@@ -304,13 +297,18 @@ class ApiInstance {
     const newVms = voteCalculator(oldVms);
 
     // Set the new scores
-    setPostScores(postId, newVms);
+    setPostScores({
+      postId,
+      scores: newVms,
+    });
 
     try {
       // Submit the read request as well if we need to
       const markReadOnVote = useSettingsStore.getState().readOptions.onVote;
       if (markReadOnVote) {
-        markPostRead(postId);
+        setPostRead({
+          postId,
+        });
       }
 
       // Submit the request
@@ -321,7 +319,10 @@ class ApiInstance {
       });
     } catch (e: any) {
       // Revert the changes if the request fails
-      setPostScores(postId, oldVms);
+      setPostScores({
+        postId,
+        scores: oldVms,
+      });
 
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
@@ -357,7 +358,7 @@ class ApiInstance {
    * @returns {Promise<void>}
    */
   async likeComment(commentId: number, vote: ILemmyVote): Promise<void> {
-    const comment = useCommentStore.getState().comments.get(commentId);
+    const comment = useDataStore.getState().comments.get(commentId);
 
     if (comment == null) return;
 
@@ -375,7 +376,10 @@ class ApiInstance {
 
     // Calculate the new values and set them
     const newVms = voteCalculator(oldVms);
-    setCommentScores(commentId, newVms);
+    setCommentScores({
+      commentId,
+      scores: newVms,
+    });
 
     try {
       // Try to like the comment
@@ -386,7 +390,10 @@ class ApiInstance {
       });
     } catch (e: any) {
       // Revert the changes if the request fails
-      setCommentScores(commentId, oldVms);
+      setCommentScores({
+        commentId,
+        scores: oldVms,
+      });
 
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
@@ -399,10 +406,10 @@ class ApiInstance {
    * @returns {Promise<void>}
    */
   async saveComment(commentId: number): Promise<void> {
-    const comment = useCommentStore.getState().comments.get(commentId);
+    const comment = useDataStore.getState().comments.get(commentId);
     if (comment == null) return;
 
-    setCommentSaved(commentId);
+    setCommentSaved({ commentId });
 
     try {
       await this.instance!.saveComment({
@@ -411,7 +418,7 @@ class ApiInstance {
         auth: this.authToken!,
       });
     } catch (e: any) {
-      setCommentSaved(commentId);
+      setCommentSaved({ commentId });
 
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
@@ -477,7 +484,9 @@ class ApiInstance {
 
       if (!addToStore) return res;
 
-      addCommunity(res);
+      addCommunity({
+        communityResponse: res,
+      });
 
       return res.community_view.community.id;
     } catch (e: any) {
@@ -503,7 +512,10 @@ class ApiInstance {
         sort: 'New',
       });
 
-      addReplies(res.replies);
+      addReplies({
+        replies: res.replies,
+        type: 'reply',
+      });
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
@@ -527,7 +539,10 @@ class ApiInstance {
         sort: 'New',
       });
 
-      addMentions(res.mentions);
+      addReplies({
+        replies: res.mentions,
+        type: 'mention',
+      });
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
@@ -578,7 +593,12 @@ class ApiInstance {
 
       // Add them to the feed
       if (addToFeed) {
-        addPosts(res.posts, feedId, options.page, options.refresh);
+        addPosts({
+          posts: res.posts,
+          screenId: feedId,
+          page: options.page,
+          refresh: options.refresh,
+        });
         return undefined;
       }
 
@@ -602,7 +622,9 @@ class ApiInstance {
         auth: this.authToken!,
       });
 
-      addPost(res.post_view);
+      addOrUpdatePost({
+        post: res.post_view,
+      });
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
 
@@ -620,7 +642,7 @@ class ApiInstance {
     options: Partial<GetComments>,
     addToPost = true,
   ): Promise<ICommentInfo[] | null> {
-    const post = usePostStore.getState().posts.get(options.post_id!);
+    const post = useDataStore.getState().posts.get(options.post_id!);
 
     if (addToPost && post == null) return null;
 
@@ -639,10 +661,16 @@ class ApiInstance {
 
       const builtComments = buildCommentChains(res.comments);
 
-      addComments(res.comments, options.post_id ?? undefined);
+      addComments({
+        comments: res.comments,
+        postId: options.post_id ?? undefined,
+      });
 
       if (addToPost) {
-        addCommentsToPost(options.post_id!, builtComments.commentInfo);
+        addCommentsToPost({
+          postId: options.post_id!,
+          commentInfo: builtComments.commentInfo,
+        });
       }
 
       return builtComments.commentInfo;
@@ -665,7 +693,7 @@ class ApiInstance {
         auth: this.authToken!,
       });
 
-      markPostRead(postId);
+      setPostRead({ postId });
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString);
       throw new Error(errMsg);
@@ -682,7 +710,10 @@ class ApiInstance {
     communityId: number,
     subscribe: boolean,
   ): Promise<CommunityResponse> {
-    setSubscribed(communityId, subscribe ? 'Subscribed' : 'NotSubscribed');
+    setSubscribed({
+      communityId,
+      subscribed: subscribe ? 'Subscribed' : 'NotSubscribed',
+    });
 
     try {
       const res = await this.instance!.followCommunity({
@@ -693,8 +724,10 @@ class ApiInstance {
 
       return res;
     } catch (e: any) {
-      setSubscribed(communityId, !subscribe ? 'Subscribed' : 'NotSubscribed');
-
+      setSubscribed({
+        communityId,
+        subscribed: !subscribe ? 'Subscribed' : 'NotSubscribed',
+      });
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
     }
@@ -742,8 +775,8 @@ class ApiInstance {
         auth: this.authToken!,
       });
 
-      useSiteStore.setState((state) => {
-        const myUser = state.site?.my_user;
+      useDataStore.setState((state) => {
+        const myUser = state.site.site?.my_user;
 
         if (myUser == null) return;
 
@@ -781,16 +814,13 @@ class ApiInstance {
         auth: this.authToken!,
       });
 
-      useCommunityStore.setState((state) => {
+      useDataStore.setState((state) => {
         const community = state.communities.get(communityId);
+        const myUser = state.site.site?.my_user;
 
-        if (community == null) return;
-
-        community.community_view.blocked = res.blocked;
-      });
-
-      useSiteStore.setState((state) => {
-        const myUser = state.site?.my_user;
+        if (community != null) {
+          community.community_view.blocked = res.blocked;
+        }
 
         if (myUser == null) return;
 
@@ -803,7 +833,7 @@ class ApiInstance {
             myUser.community_blocks = [
               ...myUser.community_blocks,
               {
-                person: state.site!.my_user!.local_user_view.person,
+                person: state.site.site!.my_user!.local_user_view.person,
                 community: res.community_view.community,
               },
             ];
@@ -828,7 +858,9 @@ class ApiInstance {
         auth: this.authToken!,
       });
 
-      updateComment(res.comment_view);
+      updateComment({
+        comment: res.comment_view,
+      });
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString);
       throw new Error(errMsg);
@@ -844,7 +876,7 @@ class ApiInstance {
     try {
       const res = await this.instance!.editPost(options as EditPost);
 
-      updatePost(res.post_view);
+      updatePost({ post: res.post_view });
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
@@ -864,7 +896,9 @@ class ApiInstance {
         auth: this.authToken!,
       });
 
-      addComment(res.comment_view);
+      addComment({
+        comment: res.comment_view,
+      });
 
       return res;
     } catch (e: any) {
@@ -881,7 +915,9 @@ class ApiInstance {
         ...options,
       } as CreatePost);
 
-      addPost(res.post_view);
+      addOrUpdatePost({
+        post: res.post_view,
+      });
 
       return res;
     } catch (e: any) {
@@ -898,7 +934,9 @@ class ApiInstance {
         auth: this.authToken!,
       });
 
-      updateComment(res.comment_view);
+      updateComment({
+        comment: res.comment_view,
+      });
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
@@ -913,7 +951,7 @@ class ApiInstance {
         auth: this.authToken!,
       });
 
-      updatePost(res.post_view);
+      updatePost({ post: res.post_view });
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);
@@ -996,7 +1034,9 @@ class ApiInstance {
     try {
       const res = await this.instance!.removeComment(options as RemoveComment);
 
-      updateComment(res.comment_view);
+      updateComment({
+        comment: res.comment_view,
+      });
 
       return res;
     } catch (e: any) {
@@ -1019,7 +1059,7 @@ class ApiInstance {
     try {
       const res = await this.instance!.removePost(options as RemovePost);
 
-      updatePost(res.post_view);
+      updatePost({ post: res.post_view });
 
       return res;
     } catch (e: any) {
@@ -1088,7 +1128,7 @@ class ApiInstance {
         read: true,
       });
 
-      setReplyRead(replyId);
+      setReplyRead({ itemId: replyId, type: 'reply' });
       setUnread(true);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
@@ -1104,7 +1144,7 @@ class ApiInstance {
         read: true,
       });
 
-      setMentionRead(mentionId);
+      setReplyRead({ itemId: mentionId, type: 'mention' });
       setUnread(true);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
@@ -1128,8 +1168,9 @@ class ApiInstance {
   }
 
   async setUserSetting(setting: keyof LocalUser, value: any): Promise<void> {
+    // We have to get the user avatar here because if we don't send the user avatar with the request it will fail.
     const userAvatar =
-      useSiteStore.getState().site?.my_user?.local_user_view.person.avatar;
+      useDataStore.getState().site.site?.my_user?.local_user_view.person.avatar;
 
     try {
       await this.instance!.saveUserSettings({

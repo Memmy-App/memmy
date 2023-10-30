@@ -1,13 +1,18 @@
-import { removePost, useFeedStore } from '@src/state';
+import { removePost, useDataStore } from '@src/state';
 
 export const cleanupPosts = (screenId: string): void => {
-  const postIds = useFeedStore.getState().feeds.get(screenId)?.postIds ?? [];
+  useDataStore.setState((state) => {
+    const postIds = state.feeds.get(screenId)?.postIds ?? [];
 
-  for (let i = 0; i < postIds.length; i++) {
-    const postId = postIds[i];
+    for (let i = 0; i < postIds.length; i++) {
+      const postId = postIds[i];
 
-    removePost(postId, screenId);
-  }
+      removePost({
+        postId,
+        screenIdOrOverride: screenId,
+      });
+    }
 
-  useFeedStore.getState().feeds.delete(screenId);
+    state.feeds.delete(screenId);
+  });
 };

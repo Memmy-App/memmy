@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useCurrentAccount, useSiteStore } from '@src/state';
+import { setSite, useCurrentAccount } from '@src/state';
 import { IAccount } from '@src/types';
 import instance from '@src/Instance';
 import { Alert } from 'react-native';
@@ -10,7 +10,6 @@ export default function FeedIndexScreen(): React.JSX.Element {
   const currentAccount = useCurrentAccount();
   const previousAccount = useRef<IAccount | null>(null);
   const [initialized, setInitialized] = useState(false);
-  const setSite = useSiteStore((state) => state.setSite);
 
   // On current account changes
   useEffect(() => {
@@ -38,7 +37,6 @@ export default function FeedIndexScreen(): React.JSX.Element {
         void instance
           .getSite()
           .then((site) => {
-            // @ts-expect-error TODO fix this
             setSite(site);
           })
           .then(() => {})
