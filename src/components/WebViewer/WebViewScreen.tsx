@@ -8,6 +8,8 @@ const licenseHtml = require('../../../assets/licenseAgreement.html');
 const terms = require('../../../assets/terms.html');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const acknowledgements = require('../../../assets/license.html');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const privacy = require('../../../assets/privacy.html');
 
 export default function WebViewScreen({
   route,
@@ -30,7 +32,7 @@ export default function WebViewScreen({
       break;
     }
     case 'privacy': {
-      content = 'https://memmy.app/privacy.txt';
+      content = privacy;
       break;
     }
     default: {

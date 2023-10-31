@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Crash when viewing privacy policy
+
+## [Version 1.1 (69)] - 2023-10-31T00:35:16Z
+
+### Fixed
+
 - Opening posts from compact view now marks them as read (if enabled)
 - Ignores depth whenever viewing particular comment chains (so images are not hidden, i.e. when viewing from inbox)
 - Viewing a top level comment from inbox now takes you to the comment
