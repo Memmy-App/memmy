@@ -46,7 +46,6 @@ import {
 import { getBaseUrl } from '@helpers/links/getBaseUrl';
 import { writeToLog } from '@helpers/LogHelper';
 import ApiOptions from '@api/common/types/IApiOptions';
-import { ILemmyVote } from '@api/lemmy/types';
 import IGetPostOptions from '@api/common/types/IGetPostOptions';
 import { buildCommentChains } from '@helpers/comments';
 import { voteCalculator } from '@helpers/comments/voteCalculator';
