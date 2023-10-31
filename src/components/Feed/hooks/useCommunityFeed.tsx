@@ -26,7 +26,9 @@ export const useCommunityFeed = (): UseCommunityFeed => {
     async () => {
       if (params?.communityId == null) return;
       // TODO Fix this so that we don't require a community ID
-      return await instance.getCommunity(params?.communityName);
+      return await instance.getCommunity({
+        communityName: params?.communityName,
+      });
     },
     // We don't want to load the data again if we already have it
     () => {

@@ -51,7 +51,10 @@ export default function SettingsBlockedPersonsScreen(): React.JSX.Element {
                     {
                       text: 'Unblock',
                       onPress: () => {
-                        void instance.blockPerson(view.target.id, false);
+                        void instance.blockPerson({
+                          personId: view.target.id,
+                          block: false,
+                        });
                       },
                     },
                   ],

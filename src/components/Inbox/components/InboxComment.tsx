@@ -81,7 +81,7 @@ function InboxComment({ itemId, type }: IProps): React.JSX.Element {
 
     // Try to get the post and add it to the store
     try {
-      await instance.getPost(postId ?? 0);
+      await instance.getPost({ postId: postId ?? 0 });
       setLoadingPost(false);
 
       // Mark the reply as read

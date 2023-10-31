@@ -125,11 +125,11 @@ export const useReplyScreen = (isEdit = false): UseReplyScreen => {
 
   const onSubmitPress = (): void => {
     submit(async () => {
-      const res = await instance.createComment(
-        postId ?? commentPostId,
-        text,
-        commentId,
-      );
+      const res = await instance.createComment({
+        postId: postId ?? commentPostId,
+        content: text,
+        parentId: commentId,
+      });
 
       saveDraft.current = false;
 

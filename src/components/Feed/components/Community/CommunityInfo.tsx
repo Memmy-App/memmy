@@ -36,7 +36,10 @@ function CommunityInfo(): React.JSX.Element {
   const onSubscribePress = useCallback(() => {
     submit(async () => {
       void instance
-        .subscribeCommunity(params.communityId!, !subscribed)
+        .subscribeCommunity({
+          communityId: params.communityId!,
+          subscribe: !subscribed,
+        })
         .then(() => {});
     });
   }, [subscribed]);

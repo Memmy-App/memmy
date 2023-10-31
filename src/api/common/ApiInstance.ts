@@ -21,10 +21,28 @@ import {
   RemovePost,
   Search,
   SearchResponse,
-  SortType,
 } from 'lemmy-js-client';
 import { getReadableVersion } from 'react-native-device-info';
-import { ISignupOptions } from '@api/common/types';
+import {
+  IBlockCommunityParams,
+  IBlockPersonParams,
+  ICommentParams,
+  ICreateCommentParams,
+  ICreatePostParams,
+  IEditCommentParams,
+  IEditPostParams,
+  IGetCommentsParams,
+  IGetCommunityParams,
+  IGetPersonDetailsParams,
+  IGetRepliesParams,
+  ILikeCommentParams,
+  ILikePostParams,
+  IPostParams,
+  IReportCommentParams,
+  IReportPostParams,
+  ISignupOptions,
+  ISubscribeCommunityParams,
+} from '@api/common/types';
 import { getBaseUrl } from '@helpers/links/getBaseUrl';
 import { writeToLog } from '@helpers/LogHelper';
 import ApiOptions from '@api/common/types/IApiOptions';
@@ -243,7 +261,7 @@ class ApiInstance {
    * @param {number} postId
    * @returns {Promise<void>}
    */
-  async savePost(postId: number): Promise<void> {
+  async savePost({ postId }: IPostParams): Promise<void> {
     try {
       // Find the post in the store
       const post = useDataStore.getState().posts.get(postId);
@@ -275,7 +293,7 @@ class ApiInstance {
    * @param {ILemmyVote} vote
    * @returns {Promise<void>}
    */
-  async likePost(postId: number, vote: ILemmyVote): Promise<void> {
+  async likePost({ postId, vote }: ILikePostParams): Promise<void> {
     // Find the post in the store
     const post = useDataStore.getState().posts.get(postId)?.view;
 
@@ -335,10 +353,10 @@ class ApiInstance {
    * @param {ILemmyVote} vote
    * @returns {Promise<void>}
    */
-  async likeCommentWithoutUpdate(
-    commentId: number,
-    vote: ILemmyVote,
-  ): Promise<void> {
+  async likeCommentWithoutUpdate({
+    commentId,
+    vote,
+  }: ILikeCommentParams): Promise<void> {
     try {
       await this.instance!.likeComment({
         comment_id: commentId,
@@ -357,7 +375,7 @@ class ApiInstance {
    * @param {ILemmyVote} vote
    * @returns {Promise<void>}
    */
-  async likeComment(commentId: number, vote: ILemmyVote): Promise<void> {
+  async likeComment({ commentId, vote }: ILikeCommentParams): Promise<void> {
     const comment = useDataStore.getState().comments.get(commentId);
 
     if (comment == null) return;
@@ -405,7 +423,7 @@ class ApiInstance {
    * @param {number} commentId
    * @returns {Promise<void>}
    */
-  async saveComment(commentId: number): Promise<void> {
+  async saveComment({ commentId }: ICommentParams): Promise<void> {
     const comment = useDataStore.getState().comments.get(commentId);
     if (comment == null) return;
 
@@ -446,11 +464,11 @@ class ApiInstance {
     }
   }
 
-  async getPersonDetails(
-    usernameOrId: string | number,
+  async getPersonDetails({
+    usernameOrId,
     page = 1,
-    sort?: SortType,
-  ): Promise<GetPersonDetailsResponse> {
+    sort,
+  }: IGetPersonDetailsParams): Promise<GetPersonDetailsResponse> {
     try {
       return await this.instance!.getPersonDetails({
         person_id: typeof usernameOrId === 'number' ? usernameOrId : undefined,
@@ -472,13 +490,13 @@ class ApiInstance {
    * @param {boolean} addToStore - Only add to the store if we want to. Defaults to true.
    * @returns {Promise<GetCommunityResponse | number>}
    */
-  async getCommunity(
-    name: string,
+  async getCommunity({
+    communityName,
     addToStore = true,
-  ): Promise<GetCommunityResponse | number> {
+  }: IGetCommunityParams): Promise<GetCommunityResponse | number> {
     try {
       const res = await this.instance!.getCommunity({
-        name,
+        name: communityName,
         auth: this.authToken!,
       });
 
@@ -502,7 +520,11 @@ class ApiInstance {
    * @param {number} limit - Default 50
    * @returns {Promise<void>}
    */
-  async getReplies(unreadOnly = false, page = 1, limit = 50): Promise<void> {
+  async getReplies({
+    unreadOnly = false,
+    page = 1,
+    limit = 50,
+  }: IGetRepliesParams): Promise<void> {
     try {
       const res = await this.instance!.getReplies({
         page,
@@ -529,7 +551,11 @@ class ApiInstance {
    * @param {number} limit - Default 50
    * @returns {Promise<void>}
    */
-  async getMentions(unreadOnly: boolean, page = 1, limit = 50): Promise<void> {
+  async getMentions({
+    unreadOnly = false,
+    page = 1,
+    limit = 50,
+  }: IGetRepliesParams): Promise<void> {
     try {
       const res = await this.instance!.getPersonMentions({
         page,
@@ -615,7 +641,7 @@ class ApiInstance {
    * @param {number} postId
    * @returns {Promise<GetPostResponse>}
    */
-  async getPost(postId: number): Promise<void> {
+  async getPost({ postId }: IPostParams): Promise<void> {
     try {
       const res = await this.instance!.getPost({
         id: postId,
@@ -638,10 +664,10 @@ class ApiInstance {
    * @param {boolean} addToPost
    * @returns {Promise<ICommentInfo[] | null>}
    */
-  async getComments(
-    options: Partial<GetComments>,
+  async getComments({
+    options,
     addToPost = true,
-  ): Promise<ICommentInfo[] | null> {
+  }: IGetCommentsParams): Promise<ICommentInfo[] | null> {
     const post = useDataStore.getState().posts.get(options.post_id!);
 
     if (addToPost && post == null) return null;
@@ -685,7 +711,7 @@ class ApiInstance {
    * @param {number} postId
    * @returns {Promise<void>}
    */
-  async markPostRead(postId: number): Promise<void> {
+  async markPostRead({ postId }: IPostParams): Promise<void> {
     try {
       await this.instance!.markPostAsRead({
         post_id: postId,
@@ -706,10 +732,10 @@ class ApiInstance {
    * @param {boolean} subscribe
    * @returns {Promise<CommunityResponse>}
    */
-  async subscribeCommunity(
-    communityId: number,
-    subscribe: boolean,
-  ): Promise<CommunityResponse> {
+  async subscribeCommunity({
+    communityId,
+    subscribe,
+  }: ISubscribeCommunityParams): Promise<CommunityResponse> {
     setSubscribed({
       communityId,
       subscribed: subscribe ? 'Subscribed' : 'NotSubscribed',
@@ -733,7 +759,10 @@ class ApiInstance {
     }
   }
 
-  async reportComment(commentId: number, reason: string): Promise<void> {
+  async reportComment({
+    commentId,
+    reason,
+  }: IReportCommentParams): Promise<void> {
     try {
       await this.instance!.createCommentReport({
         comment_id: commentId,
@@ -750,7 +779,7 @@ class ApiInstance {
     }
   }
 
-  async reportPost(postId: number, reason: string): Promise<void> {
+  async reportPost({ postId, reason }: IReportPostParams): Promise<void> {
     try {
       await this.instance!.createPostReport({
         post_id: postId,
@@ -767,7 +796,7 @@ class ApiInstance {
     }
   }
 
-  async blockPerson(personId: number, block: boolean): Promise<void> {
+  async blockPerson({ personId, block }: IBlockPersonParams): Promise<void> {
     try {
       const res = await this.instance!.blockPerson({
         person_id: personId,
@@ -806,7 +835,10 @@ class ApiInstance {
     }
   }
 
-  async blockCommunity(communityId: number, block: boolean): Promise<void> {
+  async blockCommunity({
+    communityId,
+    block,
+  }: IBlockCommunityParams): Promise<void> {
     try {
       const res = await this.instance!.blockCommunity({
         community_id: communityId,
@@ -850,7 +882,7 @@ class ApiInstance {
     }
   }
 
-  async editComment(commentId: number, content: string): Promise<void> {
+  async editComment({ commentId, content }: IEditCommentParams): Promise<void> {
     try {
       const res = await this.instance!.editComment({
         comment_id: commentId,
@@ -867,7 +899,7 @@ class ApiInstance {
     }
   }
 
-  async editPost(options: Partial<EditPost>): Promise<void> {
+  async editPost({ options }: IEditPostParams): Promise<void> {
     options = {
       auth: this.authToken!,
       ...options,
@@ -883,11 +915,11 @@ class ApiInstance {
     }
   }
 
-  async createComment(
-    postId: number,
-    content: string,
-    parentId?: number,
-  ): Promise<CommentResponse> {
+  async createComment({
+    postId,
+    content,
+    parentId,
+  }: ICreateCommentParams): Promise<CommentResponse> {
     try {
       const res = await this.instance!.createComment({
         post_id: postId,
@@ -907,7 +939,7 @@ class ApiInstance {
     }
   }
 
-  async createPost(options: Partial<CreatePost>): Promise<PostResponse> {
+  async createPost({ options }: ICreatePostParams): Promise<PostResponse> {
     try {
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       const res = await this.instance!.createPost({
@@ -926,7 +958,7 @@ class ApiInstance {
     }
   }
 
-  async deleteComment(commentId: number): Promise<void> {
+  async deleteComment({ commentId }: ICommentParams): Promise<void> {
     try {
       const res = await this.instance!.deleteComment({
         comment_id: commentId,
@@ -943,7 +975,7 @@ class ApiInstance {
     }
   }
 
-  async deletePost(postId: number): Promise<void> {
+  async deletePost({ postId }: IPostParams): Promise<void> {
     try {
       const res = await this.instance!.deletePost({
         post_id: postId,

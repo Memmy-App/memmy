@@ -4,5 +4,5 @@ import instance from '@src/Instance';
 export const saveCommentOption = ({
   commentId,
 }: SwipeableActionParams): void => {
-  void instance.saveComment(commentId!);
+  void instance.saveComment({ commentId: commentId! });
 };

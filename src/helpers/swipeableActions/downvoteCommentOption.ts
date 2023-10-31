@@ -7,6 +7,9 @@ export const downvoteCommentOption = ({
 }: SwipeableActionParams): void => {
   if (commentId == null) return;
 
-  void instance.likeComment(commentId, -1);
+  void instance.likeComment({
+    commentId,
+    vote: -1,
+  });
   void playHaptic();
 };

@@ -19,7 +19,10 @@ export const useCommunityContextMenu = (
 
   const block = (): void => {
     try {
-      void instance.blockCommunity(itemId, !blocked);
+      void instance.blockCommunity({
+        communityId: itemId,
+        block: !blocked,
+      });
 
       setToast({
         text: `Community ${blocked ? 'unblocked' : 'blocked'}!`,

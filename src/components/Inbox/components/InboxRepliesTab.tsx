@@ -36,7 +36,9 @@ function InboxRepliesTab({
 
   const doLoad = useCallback((): void => {
     load(async () => {
-      await instance.getReplies(unreadOnly);
+      await instance.getReplies({
+        unreadOnly,
+      });
     });
   }, [unreadOnly]);
 

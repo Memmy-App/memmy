@@ -29,25 +29,40 @@ export const useCommentVoting = (
   const myVote = useCommentMyVote(itemId);
 
   const upvote = useCallback(() => {
-    void instance.likeComment(itemId, 1);
+    void instance.likeComment({
+      commentId: itemId,
+      vote: 1,
+    });
     if (playHaptics) void playHaptic();
   }, [itemId]);
 
   const downvote = useCallback(() => {
-    void instance.likeComment(itemId, -1);
+    void instance.likeComment({
+      commentId: itemId,
+      vote: -1,
+    });
     if (playHaptics) void playHaptic();
   }, [itemId]);
 
   const scoreVote = useCallback(() => {
     switch (myVote) {
       case 0:
-        void instance.likeComment(itemId, 1);
+        void instance.likeComment({
+          commentId: itemId,
+          vote: 1,
+        });
         break;
       case 1:
-        void instance.likeComment(itemId, -1);
+        void instance.likeComment({
+          commentId: itemId,
+          vote: -1,
+        });
         break;
       case -1:
-        void instance.likeComment(itemId, 0);
+        void instance.likeComment({
+          commentId: itemId,
+          vote: 0,
+        });
         break;
     }
   }, [itemId, myVote]);

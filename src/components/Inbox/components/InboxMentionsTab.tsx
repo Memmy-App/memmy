@@ -37,7 +37,7 @@ function InboxMentionsTab({
 
   const doLoad = useCallback((): void => {
     load(async () => {
-      await instance.getMentions(unreadOnly);
+      await instance.getMentions({ unreadOnly });
     });
   }, [unreadOnly]);
 

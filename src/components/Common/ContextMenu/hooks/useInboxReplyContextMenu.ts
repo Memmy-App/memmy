@@ -57,13 +57,13 @@ export const useInboxReplyContextMenu = (
         {
           text: 'Report',
           style: 'destructive',
-          onPress: (msg) => {
-            if (msg == null) {
+          onPress: (reason) => {
+            if (reason == null) {
               Alert.alert('Reason for report is required.');
               return;
             }
 
-            void instance.reportComment(commentId, msg);
+            void instance.reportComment({ commentId, reason });
           },
         },
       ],

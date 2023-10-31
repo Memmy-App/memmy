@@ -27,10 +27,10 @@ export const likeReply = (
     });
 
     // Like the comment but don't update the comment state
-    void instance.likeCommentWithoutUpdate(
-      comment.comment.id,
-      newVms.newVote as ILemmyVote,
-    );
+    void instance.likeCommentWithoutUpdate({
+      commentId: comment.comment.id,
+      vote: newVms.newVote as ILemmyVote,
+    });
 
     comment.counts.score = newVms.score;
     comment.counts.upvotes = newVms.upvotes;

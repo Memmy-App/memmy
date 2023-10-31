@@ -12,7 +12,10 @@ function PostUpvoteButton({ itemId }: IProps): React.JSX.Element {
   const postMyVote = usePostMyVote(itemId);
 
   const doLikePost = useCallback((): void => {
-    void instance.likePost(itemId, 1);
+    void instance.likePost({
+      postId: itemId,
+      vote: 1,
+    });
   }, [itemId]);
 
   return (

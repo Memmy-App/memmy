@@ -39,7 +39,10 @@ function CommentVoteButton({ itemId, type }: IProps): React.JSX.Element {
   }, [itemId, type, commentMyVote]);
 
   const doLikeComment = useCallback((): void => {
-    void instance.likeComment(itemId, type === 'upvote' ? 1 : -1);
+    void instance.likeComment({
+      commentId: itemId,
+      vote: type === 'upvote' ? 1 : -1,
+    });
   }, [itemId, type]);
 
   return (

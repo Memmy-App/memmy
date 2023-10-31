@@ -220,7 +220,7 @@ export class LinkHandler {
     setAppLoading(true);
 
     try {
-      await instance.getPost(postId);
+      await instance.getPost({ postId });
 
       // Send to the post
       this.navigation.push('Post', {
@@ -251,7 +251,7 @@ export class LinkHandler {
     setAppLoading(true);
 
     try {
-      await instance.getPost(ids[0]);
+      await instance.getPost({ postId: ids[0] });
 
       // Send to the post
       this.navigation.push('Post', {

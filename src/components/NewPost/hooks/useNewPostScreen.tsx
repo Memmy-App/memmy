@@ -160,12 +160,14 @@ export const useNewPostScreen = (): UseNewPostScreen => {
       // We have to just edit the post if the post ID is not null
       if (postId != null) {
         await instance.editPost({
-          post_id: postId,
-          name: title,
-          body: text !== '' ? text : undefined,
-          url: url !== '' ? url : undefined,
-          nsfw,
-          language_id: languageId,
+          options: {
+            post_id: postId,
+            name: title,
+            body: text !== '' ? text : undefined,
+            url: url !== '' ? url : undefined,
+            nsfw,
+            language_id: languageId,
+          },
         });
 
         navigation.pop();
@@ -174,12 +176,14 @@ export const useNewPostScreen = (): UseNewPostScreen => {
       }
 
       const res = await instance.createPost({
-        community_id: communityId,
-        name: title,
-        body: text !== '' ? text : undefined,
-        url: url !== '' ? url : undefined,
-        nsfw,
-        language_id: languageId,
+        options: {
+          community_id: communityId,
+          name: title,
+          body: text !== '' ? text : undefined,
+          url: url !== '' ? url : undefined,
+          nsfw,
+          language_id: languageId,
+        },
       });
 
       saveDraft.current = false;

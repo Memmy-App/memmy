@@ -53,11 +53,17 @@ export const useCommentContextMenu = (
   };
 
   const upvote = (): void => {
-    void instance.likeComment(itemId, 1);
+    void instance.likeComment({
+      commentId: itemId,
+      vote: 1,
+    });
   };
 
   const downvote = (): void => {
-    void instance.likeComment(itemId, -1);
+    void instance.likeComment({
+      commentId: itemId,
+      vote: -1,
+    });
   };
 
   const ban = (): void => {
@@ -81,7 +87,7 @@ export const useCommentContextMenu = (
           text: 'Delete',
           style: 'destructive',
           onPress: () => {
-            void instance.deleteComment(itemId);
+            void instance.deleteComment({ commentId: itemId });
           },
         },
       ],
@@ -134,13 +140,13 @@ export const useCommentContextMenu = (
         {
           text: 'Report',
           style: 'destructive',
-          onPress: (msg) => {
-            if (msg == null) {
+          onPress: (reason) => {
+            if (reason == null) {
               Alert.alert('Reason for report is required.');
               return;
             }
 
-            void instance.reportComment(itemId, msg);
+            void instance.reportComment({ commentId: itemId, reason });
           },
         },
       ],
@@ -155,7 +161,7 @@ export const useCommentContextMenu = (
   };
 
   const save = (): void => {
-    void instance.saveComment(itemId);
+    void instance.saveComment({ commentId: itemId });
   };
 
   const copy = async (): Promise<void> => {

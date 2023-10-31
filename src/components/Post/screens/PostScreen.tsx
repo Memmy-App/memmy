@@ -79,13 +79,15 @@ export default function PostScreen({
   const { isLoading, isError, isRefreshing, refresh } = useLoadData(
     async () => {
       await instance.getComments({
-        post_id: postId,
-        community_id: postCommunityId ?? undefined,
-        sort: sortType,
-        parent_id: parentCommentId ?? undefined,
-        ...(parentCommentId != null && {
-          max_depth: 10,
-        }),
+        options: {
+          post_id: postId,
+          community_id: postCommunityId ?? undefined,
+          sort: sortType,
+          parent_id: parentCommentId ?? undefined,
+          ...(parentCommentId != null && {
+            max_depth: 10,
+          }),
+        },
       });
 
       if (parentCommentId != null) {
@@ -121,9 +123,11 @@ export default function PostScreen({
 
     refresh(async () => {
       await instance.getComments({
-        post_id: postId,
-        community_id: postCommunityId ?? undefined,
-        sort: sortType,
+        options: {
+          post_id: postId,
+          community_id: postCommunityId ?? undefined,
+          sort: sortType,
+        },
       });
     });
   }, [sortType]);
@@ -149,9 +153,11 @@ export default function PostScreen({
   const onRefresh = useCallback(() => {
     refresh(async () => {
       await instance.getComments({
-        post_id: postId,
-        community_id: postCommunityId ?? undefined,
-        sort: sortType,
+        options: {
+          post_id: postId,
+          community_id: postCommunityId ?? undefined,
+          sort: sortType,
+        },
       });
     });
   }, []);

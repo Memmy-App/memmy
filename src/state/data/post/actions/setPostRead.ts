@@ -13,6 +13,6 @@ export const setPostRead = ({ postId }: MarkPostReadParams): void => {
     if (post == null || post.view.read) return;
 
     post.view.read = true;
-    void instance.markPostRead(postId);
+    void instance.markPostRead({ postId });
   });
 };

@@ -5,15 +5,15 @@ import instance from '@src/Instance';
 import {
   setToast,
   usePostActorId,
+  usePostBody,
   usePostCommunityId,
   usePostLink,
   usePostTitle,
-  usePostBody,
 } from '@src/state';
 import { Alert } from 'react-native';
 import { CheckCircle } from '@tamagui/lucide-icons';
 import { shareLink } from '@helpers/share/shareLink';
-import { saveImage, copyImageToClipboard } from '@helpers/image';
+import { copyImageToClipboard, saveImage } from '@helpers/image';
 import * as Clipboard from 'expo-clipboard';
 
 interface UsePostContextMenu {
@@ -93,11 +93,11 @@ export const usePostContextMenu = (itemId: number): UsePostContextMenu => {
   };
 
   const upvote = (): void => {
-    void instance.likePost(itemId, 1);
+    void instance.likePost({ postId: itemId, vote: 1 });
   };
 
   const downvote = (): void => {
-    void instance.likePost(itemId, -1);
+    void instance.likePost({ postId: itemId, vote: -1 });
   };
 
   const ban = (): void => {
@@ -124,7 +124,7 @@ export const usePostContextMenu = (itemId: number): UsePostContextMenu => {
           text: 'Delete',
           style: 'destructive',
           onPress: () => {
-            void instance.deletePost(itemId).then(() => {
+            void instance.deletePost({ postId: itemId }).then(() => {
               setToast({
                 text: 'Post deleted successfully!',
                 icon: CheckCircle,
@@ -182,13 +182,13 @@ export const usePostContextMenu = (itemId: number): UsePostContextMenu => {
         {
           text: 'Report',
           style: 'destructive',
-          onPress: (msg) => {
-            if (msg == null) {
+          onPress: (reason) => {
+            if (reason == null) {
               Alert.alert('Reason for report is required.');
               return;
             }
 
-            void instance.reportPost(itemId, msg);
+            void instance.reportPost({ postId: itemId, reason });
           },
         },
       ],

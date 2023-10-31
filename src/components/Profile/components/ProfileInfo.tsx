@@ -49,7 +49,10 @@ function ProfileHeader(): React.JSX.Element {
   );
 
   const onBlockPress = useCallback(() => {
-    void instance.blockPerson(profileId, !isBlocked);
+    void instance.blockPerson({
+      personId: profileId,
+      block: !isBlocked,
+    });
   }, [isBlocked]);
 
   return (

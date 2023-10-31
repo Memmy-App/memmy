@@ -12,7 +12,7 @@ function PostSaveButton({ itemId }: IProps): React.JSX.Element {
   const postSaved = usePostSaved(itemId);
 
   const doSavePost = useCallback(() => {
-    void instance.savePost(itemId);
+    void instance.savePost({ postId: itemId });
   }, [itemId, postSaved]);
 
   return (

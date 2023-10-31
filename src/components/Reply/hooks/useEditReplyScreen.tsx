@@ -46,7 +46,7 @@ export const useEditReplyScreen = (): UseEditReplyScreen => {
 
   const onSubmitPress = (): void => {
     submit(async () => {
-      await instance.editComment(commentId, text);
+      await instance.editComment({ commentId, content: text });
       navigation.pop();
     });
   };

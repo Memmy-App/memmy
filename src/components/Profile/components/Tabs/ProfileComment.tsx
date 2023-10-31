@@ -23,7 +23,7 @@ function ProfileComment({ itemId }: IProps): React.JSX.Element {
 
     // Try to get the post and add it to the store
     try {
-      await instance.getPost(commentPostId ?? 0);
+      await instance.getPost({ postId: commentPostId ?? 0 });
       profileScreen.setPostLoading?.(false);
 
       // Send to the post

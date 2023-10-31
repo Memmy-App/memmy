@@ -25,9 +25,10 @@ export const useProfileScreen = (): UseProfileScreen => {
   const { isLoading, isError, isRefreshing, refresh } = useLoadData<
     GetPersonDetailsResponse | undefined
   >(async () => {
-    const res = await instance.getPersonDetails(
-      params?.fullName ?? params?.personId ?? currentAccount?.username,
-    );
+    const res = await instance.getPersonDetails({
+      usernameOrId:
+        params?.fullName ?? params?.personId ?? currentAccount?.username,
+    });
 
     setProfileId(res?.person_view.person.id ?? -1);
     addProfile({

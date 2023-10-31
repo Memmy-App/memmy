@@ -2,5 +2,5 @@ import { SwipeableActionParams } from '@helpers/swipeableActions/swipeableAction
 import instance from '@src/Instance';
 
 export const savePostOption = ({ postId }: SwipeableActionParams): void => {
-  void instance.savePost(postId!);
+  void instance.savePost({ postId: postId! });
 };

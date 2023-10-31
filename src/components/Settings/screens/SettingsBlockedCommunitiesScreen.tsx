@@ -52,7 +52,10 @@ export default function SettingsBlockedCommunitiesScreen(): React.JSX.Element {
                     {
                       text: 'Unblock',
                       onPress: () => {
-                        void instance.blockCommunity(view.community.id, false);
+                        void instance.blockCommunity({
+                          communityId: view.community.id,
+                          block: false,
+                        });
                       },
                     },
                   ],
