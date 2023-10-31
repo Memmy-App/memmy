@@ -90,7 +90,7 @@ function InboxComment({ itemId, type }: IProps): React.JSX.Element {
 
       const pathArr = path!.split('.');
       const parentId =
-        pathArr.length === 2 ? itemId : pathArr[pathArr.length - 2];
+        pathArr.length === 2 ? pathArr[1] : pathArr[pathArr.length - 2];
 
       // Send to the post
       navigation.push('Post', {
