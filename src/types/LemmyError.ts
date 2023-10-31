@@ -13,6 +13,7 @@ export type LemmyErrorType =
   | 'deleted'
   | 'banned_from_community'
   | 'couldnt_find_community'
+  | 'couldnt_find_post'
   | 'could_not_create_comment'
   | 'edit_comment_not_allowed'
   | 'language_not_allowed'
@@ -118,6 +119,10 @@ export const lemmyErrors: LemmyError[] = [
   {
     code: 'couldnt_find_community',
     message: 'Unable to find the requested community.',
+  },
+  {
+    code: 'couldnt_find_post',
+    message: 'Unable to find that post. It may have been deleted.',
   },
   {
     code: 'could_not_create_comment',
