@@ -666,6 +666,7 @@ class ApiInstance {
   async getComments({
     options,
     addToPost = true,
+    ignoreDepth,
   }: IGetCommentsParams): Promise<ICommentInfo[] | null> {
     const post = useDataStore.getState().posts.get(options.post_id!);
 
@@ -684,7 +685,7 @@ class ApiInstance {
     try {
       const res = await this.instance!.getComments(options as GetComments);
 
-      const builtComments = buildCommentChains(res.comments);
+      const builtComments = buildCommentChains(res.comments, ignoreDepth);
 
       addComments({
         comments: res.comments,

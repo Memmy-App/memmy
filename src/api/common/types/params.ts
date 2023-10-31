@@ -37,6 +37,7 @@ export interface IGetRepliesParams {
 export interface IGetCommentsParams {
   options: Partial<GetComments>;
   addToPost?: boolean;
+  ignoreDepth?: boolean;
 }
 
 export interface ISubscribeCommunityParams {

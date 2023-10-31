@@ -19,7 +19,7 @@ const flattenComments = (commentsInfo: ICommentInfo[]): void => {
 
 export const buildCommentChains = (
   commentViews: CommentView[],
-  ignoreLevels = false,
+  ignoreDepth = false,
 ): BuildCommentChains => {
   const commentInfo: ICommentInfo[] = [];
 
@@ -42,7 +42,7 @@ export const buildCommentChains = (
         postId: view.post.id,
         commentId: id,
         depth: 0,
-        replies: buildReplies(id, commentViews, rootLevel, ignoreLevels),
+        replies: buildReplies(id, commentViews, rootLevel, ignoreDepth),
         collapsed: false,
         hidden: false,
         path,
@@ -68,7 +68,7 @@ const buildReplies = (
   parentId: number,
   commentViews: CommentView[],
   rootLevel: number,
-  ignoreLevels: boolean,
+  ignoreDepth: boolean,
 ): ICommentInfo[] => {
   const replies: ICommentInfo[] = [];
 
@@ -91,12 +91,13 @@ const buildReplies = (
         postId: view.post.id,
         commentId: id,
         depth: pathIds.length - rootLevel,
-        replies: buildReplies(id, commentViews, rootLevel, ignoreLevels),
+        replies: buildReplies(id, commentViews, rootLevel, ignoreDepth),
         collapsed: false,
         hidden: false,
         path,
-        showInPost: (i <= 3 && depth <= 3) || (depth === 4 && i === 0),
-        showLoadMore: i === 3 || (depth === 4 && i === 0),
+        showInPost:
+          ignoreDepth || (i <= 3 && depth <= 3) || (depth === 4 && i === 0),
+        showLoadMore: !ignoreDepth && (i === 3 || (depth === 4 && i === 0)),
         topId: pathIds[1],
         parentId: pathIds[pathIds.length - 2],
       });

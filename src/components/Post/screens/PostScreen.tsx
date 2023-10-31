@@ -88,6 +88,7 @@ export default function PostScreen({
             max_depth: 10,
           }),
         },
+        ignoreDepth: parentCommentId != null,
       });
 
       if (parentCommentId != null) {

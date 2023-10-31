@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Opening posts from compact view now marks them as read (if enabled)
+- Ignores depth whenever viewing particular comment chains (so images are not hidden, i.e. when viewing from inbox)
+
 ### Added
 
 - Informative error when unable to find a post (in case it was deleted)
