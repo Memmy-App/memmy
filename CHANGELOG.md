@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Version 1.1 (74)] - 2023-11-01T11:10:21Z
+
 ### Changes
 
 - Another performance boost. Swipeables have been reworked considerably in the background, resulting in better scroll
@@ -18,6 +20,8 @@ section (as well as animations).
 ### Fixed
 
 - Crash when viewing privacy policy
+
+## [Version 1.1 (72)] - 2023-11-01T10:36:28Z
 
 ## [Version 1.1 (69)] - 2023-10-31T00:35:16Z
 
