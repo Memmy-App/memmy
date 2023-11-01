@@ -104,7 +104,6 @@ jarjar-rules.txt
 .kernel-ngrok-url
 
 # Template files
-/android/app/src/main/AndroidManifest.xml
 /android/app/google-services.json
 /apps/bare-expo/android/app/google-services.json
 /apps/bare-expo/ios/BareExpo/GoogleService-Info.plist
