@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 performance. Another update to markdown rendering should offer some additional improvements in the comments
 section (as well as animations).
 - Upgraded expo-image version to provide better and more performant rendering of WebP and other animated images
+- Images now scale up from their original position and size. Performance of the scaling images should be optimal now.
 
 ### Fixed
 

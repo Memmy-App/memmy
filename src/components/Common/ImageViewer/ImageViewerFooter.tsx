@@ -17,13 +17,13 @@ function ImageViewerFooter({ visible }: IProps): React.JSX.Element | null {
   if (!visible) return null;
 
   const onImageSave = useCallback(() => {
-    void saveImage(imageViewer.params!.source!);
+    void saveImage(imageViewer.params.source!);
   }, [imageViewer.params?.source]);
 
   const onSharePress = useCallback(() => {
     void shareLink({
-      title: imageViewer.params?.title ?? 'Image',
-      link: imageViewer.params!.source!,
+      title: imageViewer.params.title ?? 'Image',
+      link: imageViewer.params.source!,
       isImage: true,
     });
   }, [imageViewer.params?.source]);

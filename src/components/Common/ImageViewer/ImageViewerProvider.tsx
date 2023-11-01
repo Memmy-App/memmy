@@ -28,7 +28,10 @@ interface IImageViewerProviderContext {
   >;
 }
 
+// @eslint-
 const ImageViewerContext = React.createContext<IImageViewerProviderContext>(
+  // Trickery
+  // eslint-disable-next-line
   {} as IImageViewerProviderContext,
 );
 

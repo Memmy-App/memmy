@@ -13,7 +13,7 @@ function ImageViewerHeader({ visible }: IProps): React.JSX.Element | null {
   const imageViewer = useImageViewer();
 
   const onExitPress = useCallback(() => {
-    imageViewer.setVisible!(false);
+    imageViewer.setVisible(false);
   }, []);
 
   if (!visible) return null;
