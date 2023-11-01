@@ -41,10 +41,10 @@ export const useInboxReplySwipeOptions = (
             backgroundColor: swipeColorOptions.upvote,
             actionParamObject: actionParams,
             triggerThreshold: 75,
-            onAction:
+            onAction: () =>
               type === 'reply'
-                ? replySwipeableActions.upvote
-                : mentionSwipeableActions.upvote,
+                ? replySwipeableActions.upvote(actionParams)
+                : mentionSwipeableActions.upvote(actionParams),
           },
           secondStep: {
             icon: () =>
@@ -54,10 +54,10 @@ export const useInboxReplySwipeOptions = (
             backgroundColor: swipeColorOptions.upvote,
             actionParamObject: actionParams,
             triggerThreshold: 150,
-            onAction:
+            onAction: () =>
               type === 'reply'
-                ? replySwipeableActions.downvote
-                : mentionSwipeableActions.downvote,
+                ? replySwipeableActions.downvote(actionParams)
+                : mentionSwipeableActions.downvote(actionParams),
           },
         };
       } else {
@@ -70,10 +70,10 @@ export const useInboxReplySwipeOptions = (
             backgroundColor: swipeColorOptions.read,
             actionParamObject: actionParams,
             triggerThreshold: 75,
-            onAction:
+            onAction: () =>
               type === 'reply'
-                ? replySwipeableActions.read
-                : mentionSwipeableActions.read,
+                ? replySwipeableActions.read(actionParams)
+                : mentionSwipeableActions.read(actionParams),
           },
           secondStep: {
             icon: () =>
@@ -83,10 +83,10 @@ export const useInboxReplySwipeOptions = (
             backgroundColor: swipeColorOptions.reply,
             actionParamObject: actionParams,
             triggerThreshold: 150,
-            onAction:
+            onAction: () =>
               type === 'reply'
-                ? replySwipeableActions.reply
-                : mentionSwipeableActions.reply,
+                ? replySwipeableActions.reply(actionParams)
+                : mentionSwipeableActions.reply(actionParams),
           },
         };
       }

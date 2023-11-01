@@ -50,7 +50,7 @@ export const usePostSwipeOptions = (
           backgroundColor: swipeColorOptions[firstLeft],
           actionParamObject: actionParams,
           triggerThreshold: 75,
-          onAction: postSwipeableActions[firstLeft],
+          onAction: () => postSwipeableActions[firstLeft](actionParams),
         },
         ...(secondLeft != null && {
           secondStep: {
@@ -61,7 +61,7 @@ export const usePostSwipeOptions = (
             backgroundColor: swipeColorOptions[secondLeft],
             actionParamObject: actionParams,
             triggerThreshold: 150,
-            onAction: postSwipeableActions[secondLeft],
+            onAction: () => postSwipeableActions[secondLeft](actionParams),
           },
         }),
       };
@@ -77,7 +77,7 @@ export const usePostSwipeOptions = (
           backgroundColor: swipeColorOptions[firstRight],
           actionParamObject: actionParams,
           triggerThreshold: 75,
-          onAction: postSwipeableActions[firstRight],
+          onAction: () => postSwipeableActions[firstRight](actionParams),
         },
         ...(secondLeft != null && {
           secondStep: {
@@ -88,7 +88,7 @@ export const usePostSwipeOptions = (
             backgroundColor: swipeColorOptions[secondRight],
             actionParamObject: actionParams,
             triggerThreshold: 150,
-            onAction: postSwipeableActions[secondRight],
+            onAction: () => postSwipeableActions[secondRight](actionParams),
           },
         }),
       };

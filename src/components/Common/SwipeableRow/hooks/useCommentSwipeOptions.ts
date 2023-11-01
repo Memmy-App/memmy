@@ -52,7 +52,7 @@ export const useCommentSwipeOptions = (
             backgroundColor: swipeColorOptions[firstLeft],
             actionParamObject: actionParams,
             triggerThreshold: 75,
-            onAction: commentSwipeableActions[firstLeft],
+            onAction: () => commentSwipeableActions[firstLeft](actionParams),
           },
           ...(secondLeft != null && {
             secondStep: {
@@ -63,7 +63,7 @@ export const useCommentSwipeOptions = (
               backgroundColor: swipeColorOptions[secondLeft],
               actionParamObject: actionParams,
               triggerThreshold: 150,
-              onAction: commentSwipeableActions[secondLeft],
+              onAction: () => commentSwipeableActions[secondLeft](actionParams),
             },
           }),
         };
@@ -79,7 +79,7 @@ export const useCommentSwipeOptions = (
             backgroundColor: swipeColorOptions[firstRight],
             actionParamObject: actionParams,
             triggerThreshold: 75,
-            onAction: commentSwipeableActions[firstRight],
+            onAction: () => commentSwipeableActions[firstRight](actionParams),
           },
           ...(secondLeft != null && {
             secondStep: {
@@ -90,7 +90,8 @@ export const useCommentSwipeOptions = (
               backgroundColor: swipeColorOptions[secondRight],
               actionParamObject: actionParams,
               triggerThreshold: 150,
-              onAction: commentSwipeableActions[secondRight],
+              onAction: () =>
+                commentSwipeableActions[secondRight](actionParams),
             },
           }),
         };
