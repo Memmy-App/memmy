@@ -22,7 +22,7 @@ PODS:
     - React-Core
   - EXPermissions (14.4.0):
     - ExpoModulesCore
-  - Expo (49.0.13):
+  - Expo (49.0.16):
     - ExpoModulesCore
   - expo-dev-client (2.4.11):
     - EXManifests
@@ -81,7 +81,7 @@ PODS:
     - React-Core
   - ExpoClipboard (4.5.0):
     - ExpoModulesCore
-  - ExpoImage (1.5.1):
+  - ExpoImage (1.6.0):
     - ExpoModulesCore
     - SDWebImage (~> 5.17.0)
     - SDWebImageAVIFCoder (~> 0.10.1)
@@ -1015,13 +1015,13 @@ SPEC CHECKSUMS:
   EXManifests: cf66451b11b2c2f6464917528d792759f7fd6ce0
   EXMediaLibrary: 802eee8ef888ee16ef80f1b79005d3d611793e14
   EXPermissions: 51c6115893689c3e9787f4819aa67ceeae601038
-  Expo: e7d2116b947e2e6fdeb09ee4f2754f819426d1b6
+  Expo: fcfd60c1ed6806dee5103b210335ae0c72f675ed
   expo-dev-client: a97a68508a6104ad99f4b2613fd808cda7a4186c
   expo-dev-launcher: 7336e6dc8ed51b87225f8a96d787add81a99748c
   expo-dev-menu: 9542570483a647626570cb4333c80add4cea1254
   expo-dev-menu-interface: bda969497e73dadc2663c479e0fa726ca79a306e
   ExpoClipboard: d2f0e44d50e5ba07b02f5fb7bd280178b420e24e
-  ExpoImage: bbd451559f49f78d858592fe1d4d74aedb3d900b
+  ExpoImage: a0db596f9f82dfa377305196d2c80770b20e2177
   ExpoImageCachePath: 5bb1072da668ab3938c7d11b717d76920a41a1b7
   ExpoImagePicker: 9e5c745cb3e56ee00e1cfe5d6af59caab66ecf1a
   ExpoKeepAwake: be4cbd52d9b177cde0fd66daa1913afa3161fc1d

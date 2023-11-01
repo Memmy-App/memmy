@@ -67,7 +67,7 @@ function ViewerImage({
     }
   }, [imageViewer.visible]);
 
-  const onImagePress = useCallback(() => {
+  const onImagePress = useCallback(async () => {
     // figure out if we want to do something
     if (
       !loaded.current ||
