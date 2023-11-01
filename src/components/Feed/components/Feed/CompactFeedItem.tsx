@@ -21,6 +21,7 @@ import CompactFeedItemVoteButtons from '@components/Feed/components/Feed/Compact
 import PostUserLabel from '@components/Common/PostCard/PostUserLabel';
 import { Swipeable } from 'react-native-reanimated-swipeable';
 import { usePostSwipeOptions } from '@components/Common/SwipeableRow/hooks/usePostSwipeOptions';
+import { playHaptic } from '@helpers/haptics';
 
 interface IProps {
   itemId: number;
@@ -72,6 +73,9 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
       <Swipeable
         leftActionGroup={leftSwipeOptions ?? undefined}
         rightActionGroup={rightSwipeOptions ?? undefined}
+        options={{
+          onHitStep: playHaptic,
+        }}
       >
         {postSaved && (
           <View

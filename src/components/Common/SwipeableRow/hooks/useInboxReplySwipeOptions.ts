@@ -90,7 +90,7 @@ export const useInboxReplySwipeOptions = (
           },
         };
       }
-    }, [enabled, swipeColorOptions]);
+    }, [enabled, swipeColorOptions, actionParams]);
 
   return actionGroup;
 };

@@ -102,6 +102,7 @@ export const useCommentSwipeOptions = (
       firstRight,
       secondRight,
       swipeColorOptions,
+      actionParams,
     ]);
 
   return actionGroup;

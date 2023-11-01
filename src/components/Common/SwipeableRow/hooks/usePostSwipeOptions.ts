@@ -100,6 +100,7 @@ export const usePostSwipeOptions = (
     firstRight,
     secondRight,
     swipeColorOptions,
+    actionParams,
   ]);
 
   return actionGroup;

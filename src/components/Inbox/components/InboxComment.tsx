@@ -30,6 +30,7 @@ import InboxReplyEllipsisButton from '@components/Inbox/components/InboxReplyEll
 import InboxReplyMetrics from '@components/Inbox/components/InboxReplyMetrics';
 import { Swipeable } from 'react-native-reanimated-swipeable';
 import { useInboxReplySwipeOptions } from '@components/Common/SwipeableRow/hooks/useInboxReplySwipeOptions';
+import { playHaptic } from '@helpers/haptics';
 
 interface IProps {
   itemId: number;
@@ -122,6 +123,9 @@ function InboxComment({ itemId, type }: IProps): React.JSX.Element {
       <Swipeable
         leftActionGroup={leftOptions ?? undefined}
         rightActionGroup={rightOptions ?? undefined}
+        options={{
+          onHitStep: playHaptic,
+        }}
       >
         {!read && (
           <View
