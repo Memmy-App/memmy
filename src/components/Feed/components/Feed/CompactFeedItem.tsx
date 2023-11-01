@@ -4,17 +4,12 @@ import {
   useCompactShowUsername,
   useMarkReadOnPostView,
   usePostCreator,
-  usePostGesturesEnabled,
   usePostSaved,
   useSettingsStore,
 } from '@src/state';
-import { usePostSwipeOptions } from '@components/Common/SwipeableRow/hooks/usePostSwipeOptions';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTheme, View, XStack, YStack } from 'tamagui';
-import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
-import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
-import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
 import CompactFeedItemThumbnail from '@components/Feed/components/Feed/CompactFeedItem/CompactFeedItemThumbnail';
 import CompactFeedItemTitle from '@components/Feed/components/Feed/CompactFeedItemTitle';
 import PostMetrics from '@components/Common/PostCard/PostMetrics';
@@ -24,6 +19,8 @@ import Ellipsis from '@components/Common/Icons/Ellipsis';
 import { Pressable } from 'react-native';
 import CompactFeedItemVoteButtons from '@components/Feed/components/Feed/CompactFeedItem/CompactFeedItemVoteButtons';
 import PostUserLabel from '@components/Common/PostCard/PostUserLabel';
+import { Swipeable } from 'react-native-reanimated-swipeable';
+import { usePostSwipeOptions } from '@components/Common/SwipeableRow/hooks/usePostSwipeOptions';
 
 interface IProps {
   itemId: number;
@@ -41,10 +38,16 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
   );
   const markReadOnPostView = useMarkReadOnPostView();
 
-  const gesturesEnabled = usePostGesturesEnabled();
+  const actionParams = useMemo(
+    () => ({
+      navigation,
+      postId: itemId,
+    }),
+    [itemId],
+  );
 
-  const leftSwipeOptions = usePostSwipeOptions('left');
-  const rightSwipeOptions = usePostSwipeOptions('right');
+  const leftSwipeOptions = usePostSwipeOptions('left', actionParams);
+  const rightSwipeOptions = usePostSwipeOptions('right', actionParams);
 
   const postUser = usePostCreator(itemId);
 
@@ -64,32 +67,11 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
     });
   }, [itemId]);
 
-  const actionParams = useMemo(() => {
-    return {
-      postId: itemId,
-      navigation,
-    };
-  }, [itemId, navigation]);
-
   return (
     <YStack my="$1" onPress={onPress} hitSlop={3}>
-      <SwipeableRow
-        leftOption={
-          gesturesEnabled && leftSwipeOptions.actions.first != null ? (
-            <LeftOptions
-              options={leftSwipeOptions}
-              actionParams={actionParams}
-            />
-          ) : undefined
-        }
-        rightOption={
-          gesturesEnabled && rightSwipeOptions.actions.first !== null ? (
-            <RightOptions
-              options={rightSwipeOptions}
-              actionParams={actionParams}
-            />
-          ) : undefined
-        }
+      <Swipeable
+        leftActionGroup={leftSwipeOptions ?? undefined}
+        rightActionGroup={rightSwipeOptions ?? undefined}
       >
         {postSaved && (
           <View
@@ -147,7 +129,7 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
             <CompactFeedItemVoteButtons itemId={itemId} />
           )}
         </XStack>
-      </SwipeableRow>
+      </Swipeable>
     </YStack>
   );
 }

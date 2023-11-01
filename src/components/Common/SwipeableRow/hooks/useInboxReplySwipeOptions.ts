@@ -1,21 +1,21 @@
-import { useMemo } from 'react';
+import { ComponentProps, createElement, useMemo } from 'react';
 import {
   mentionSwipeableActions,
   replySwipeableActions,
 } from '@helpers/swipeableActions';
-import { IPostGestureOption } from '@src/types';
-import {
-  ISwipeableColors,
-  ISwipeableIcons,
-  ISwipeableOptions,
-} from '@components/Common/SwipeableRow/types';
+import { IconMap, IPostGestureOption } from '@src/types';
 import { useTheme } from 'tamagui';
+import { ISwipeableActionGroup } from 'react-native-reanimated-swipeable';
+import { useCommentGesturesEnabled } from '@src/state';
 
 export const useInboxReplySwipeOptions = (
   side: 'right' | 'left',
   type: 'reply' | 'mention',
-): ISwipeableOptions => {
+  actionParams: object,
+): ISwipeableActionGroup | null => {
   const theme = useTheme();
+
+  const enabled = useCommentGesturesEnabled();
 
   const swipeColorOptions = useMemo<Record<IPostGestureOption, string>>(
     () => ({
@@ -27,47 +27,70 @@ export const useInboxReplySwipeOptions = (
     [theme],
   );
 
-  // TODO type this
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const swipeActions = () => {
-    const first = side === 'left' ? 'upvote' : 'read';
-    const second = side === 'left' ? 'downvote' : 'reply';
+  const actionGroup: ISwipeableActionGroup | null =
+    useMemo((): ISwipeableActionGroup | null => {
+      if (!enabled) return null;
 
-    return {
-      first:
-        type === 'reply'
-          ? replySwipeableActions[first]
-          : mentionSwipeableActions[first],
-      second:
-        type === 'reply'
-          ? replySwipeableActions[second]
-          : mentionSwipeableActions[second],
-    };
-  };
+      if (side === 'left') {
+        return {
+          firstStep: {
+            icon: () =>
+              createElement<ComponentProps<any>>(IconMap.upvote, {
+                size: 30,
+              }),
+            backgroundColor: swipeColorOptions.upvote,
+            actionParamObject: actionParams,
+            triggerThreshold: 75,
+            onAction:
+              type === 'reply'
+                ? replySwipeableActions.upvote
+                : mentionSwipeableActions.upvote,
+          },
+          secondStep: {
+            icon: () =>
+              createElement<ComponentProps<any>>(IconMap.downvote, {
+                size: 30,
+              }),
+            backgroundColor: swipeColorOptions.upvote,
+            actionParamObject: actionParams,
+            triggerThreshold: 150,
+            onAction:
+              type === 'reply'
+                ? replySwipeableActions.downvote
+                : mentionSwipeableActions.downvote,
+          },
+        };
+      } else {
+        return {
+          firstStep: {
+            icon: () =>
+              createElement<ComponentProps<any>>(IconMap.read, {
+                size: 30,
+              }),
+            backgroundColor: swipeColorOptions.read,
+            actionParamObject: actionParams,
+            triggerThreshold: 75,
+            onAction:
+              type === 'reply'
+                ? replySwipeableActions.read
+                : mentionSwipeableActions.read,
+          },
+          secondStep: {
+            icon: () =>
+              createElement<ComponentProps<any>>(IconMap.reply, {
+                size: 30,
+              }),
+            backgroundColor: swipeColorOptions.reply,
+            actionParamObject: actionParams,
+            triggerThreshold: 150,
+            onAction:
+              type === 'reply'
+                ? replySwipeableActions.reply
+                : mentionSwipeableActions.reply,
+          },
+        };
+      }
+    }, [enabled, swipeColorOptions]);
 
-  const swipeColors = useMemo<ISwipeableColors>(() => {
-    const first = side === 'left' ? 'upvote' : 'read';
-    const second = side === 'left' ? 'downvote' : 'reply';
-
-    return {
-      first: swipeColorOptions[first],
-      second: swipeColorOptions[second],
-    };
-  }, [swipeColorOptions]);
-
-  const swipeIcons = useMemo<ISwipeableIcons>(() => {
-    const first = side === 'left' ? 'upvote' : 'read';
-    const second = side === 'left' ? 'downvote' : 'reply';
-
-    return {
-      first,
-      second,
-    };
-  }, []);
-
-  return {
-    actions: swipeActions(),
-    colors: swipeColors,
-    icons: swipeIcons,
-  };
+  return actionGroup;
 };

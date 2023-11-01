@@ -8,17 +8,11 @@ import { Pressable, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import FeedItemContent from '@components/Feed/components/Feed/FeedItem/FeedItemContent';
-import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
-import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
-import {
-  setPostRead,
-  useMarkReadOnPostView,
-  usePostGesturesEnabled,
-  usePostSaved,
-} from '@src/state';
-import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
-import { usePostSwipeOptions } from '@components/Common/SwipeableRow/hooks/usePostSwipeOptions';
+import { setPostRead, useMarkReadOnPostView, usePostSaved } from '@src/state';
 import { View } from 'tamagui';
+import { Swipeable } from 'react-native-reanimated-swipeable';
+import { usePostSwipeOptions } from '@components/Common/SwipeableRow/hooks/usePostSwipeOptions';
+import { playHaptic } from '@helpers/haptics';
 
 interface IProps {
   itemId: number;
@@ -27,12 +21,19 @@ interface IProps {
 function FeedItem({ itemId }: IProps): React.JSX.Element {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const gesturesEnabled = usePostGesturesEnabled();
-  const leftSwipeOptions = usePostSwipeOptions('left');
-  const rightSwipeOptions = usePostSwipeOptions('right');
-
   const postSaved = usePostSaved(itemId);
   const markReadOnView = useMarkReadOnPostView();
+
+  const actionParams = useMemo(
+    () => ({
+      navigation,
+      postId: itemId,
+    }),
+    [itemId],
+  );
+
+  const leftSwipeOptions = usePostSwipeOptions('left', actionParams);
+  const rightSwipeOptions = usePostSwipeOptions('right', actionParams);
 
   const onPress = useCallback(() => {
     navigation.push('Post', {
@@ -47,32 +48,14 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
     }
   }, [itemId, markReadOnView]);
 
-  const actionParams = useMemo(() => {
-    return {
-      postId: itemId,
-      navigation,
-    };
-  }, [itemId, navigation]);
-
   return (
     <Pressable onPress={onPress} style={styles.pressable}>
-      <SwipeableRow
-        leftOption={
-          gesturesEnabled && leftSwipeOptions.actions.first != null ? (
-            <LeftOptions
-              options={leftSwipeOptions}
-              actionParams={actionParams}
-            />
-          ) : undefined
-        }
-        rightOption={
-          gesturesEnabled && rightSwipeOptions.actions.first !== null ? (
-            <RightOptions
-              options={rightSwipeOptions}
-              actionParams={actionParams}
-            />
-          ) : undefined
-        }
+      <Swipeable
+        leftActionGroup={leftSwipeOptions ?? undefined}
+        rightActionGroup={rightSwipeOptions ?? undefined}
+        options={{
+          onHitStep: playHaptic,
+        }}
       >
         {postSaved && (
           <View
@@ -97,7 +80,7 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
             <FeedItemActionButtons itemId={itemId} />
           </FeedItemFooter>
         </FeedItemContainer>
-      </SwipeableRow>
+      </Swipeable>
     </Pressable>
   );
 }

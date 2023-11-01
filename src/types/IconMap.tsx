@@ -23,8 +23,9 @@ import {
   Shield,
   Zap,
 } from '@tamagui/lucide-icons';
+import { NamedExoticComponent } from 'react';
 
-export const IconMap = {
+export const IconMap: Record<string, NamedExoticComponent> = {
   dots: CircleEllipsis,
   upvote: ArrowUp,
   downvote: ArrowDown,

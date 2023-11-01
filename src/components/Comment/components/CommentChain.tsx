@@ -1,9 +1,12 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { ICommentInfo } from '@src/types';
 import { PressableComment } from '@components/Comment/components/Comment';
 import CommentShowMoreButton from '@components/Comment/components/CommentShowMoreButton';
 import { useCommentSwipeOptions } from '@components/Common/SwipeableRow/hooks/useCommentSwipeOptions';
 import { setPostCommentHidden, useCommentGesturesCollapse } from '@src/state';
+import { SwipeableActionParams } from '@helpers/swipeableActions';
+import { useNavigation } from '@react-navigation/core';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface IProps {
   commentInfo: ICommentInfo;
@@ -14,10 +17,22 @@ function CommentChain({
   commentInfo,
   ignoreLoadMore = false,
 }: IProps): React.JSX.Element | null {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   const collapseOnTap = useCommentGesturesCollapse();
 
-  const leftOptions = useCommentSwipeOptions('left');
-  const rightOptions = useCommentSwipeOptions('right');
+  const actionParams = useMemo<SwipeableActionParams>(
+    () => ({
+      postId: commentInfo.postId,
+      commentId: commentInfo.commentId,
+      path: commentInfo.path,
+      navigation,
+    }),
+    [commentInfo.commentId],
+  );
+
+  const leftOptions = useCommentSwipeOptions('left', actionParams);
+  const rightOptions = useCommentSwipeOptions('right', actionParams);
 
   const onCommentPress = useCallback(() => {
     if (!collapseOnTap) return;
@@ -43,8 +58,8 @@ function CommentChain({
       itemId={commentInfo.commentId}
       depth={commentInfo.depth}
       collapsed={commentInfo.collapsed}
-      leftOptions={leftOptions}
-      rightOptions={rightOptions}
+      leftOptions={leftOptions ?? undefined}
+      rightOptions={rightOptions ?? undefined}
     />
   );
 }

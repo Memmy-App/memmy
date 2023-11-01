@@ -3,36 +3,32 @@ import { Separator, View, YStack } from 'tamagui';
 import CommentHeader from '@components/Comment/components/CommentHeader';
 import CommentContent from '@components/Comment/components/CommentContent';
 import { Pressable } from 'react-native';
-import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
 import {
   useCommentContent,
   useCommentCreator,
   useCommentDeleted,
-  useCommentGesturesEnabled,
-  useCommentPath,
   useCommentPostId,
   useCommentRemoved,
   useCommentSaved,
   usePostCreatorId,
   useShowCommentButtons,
 } from '@src/state';
-import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
-import { SwipeableActionParams } from '@helpers/swipeableActions';
-import { useNavigation } from '@react-navigation/core';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
-import { ISwipeableOptions } from '@components/Common/SwipeableRow/types';
 import CommentEllipsisButton from '@components/Comment/components/CommentEllipsisButton';
 import CommentMetrics from '@components/Comment/components/CommentMetrics';
 import CommentActionBar from '@components/Comment/components/CommentActionBar';
+import {
+  ISwipeableActionGroup,
+  Swipeable,
+} from 'react-native-reanimated-swipeable';
+import { playHaptic } from '@helpers/haptics';
 
 interface IProps {
   itemId: number;
   depth?: number;
   onPress?: () => unknown | Promise<unknown>;
   collapsed?: boolean;
-  leftOptions?: ISwipeableOptions;
-  rightOptions?: ISwipeableOptions;
+  leftOptions?: ISwipeableActionGroup;
+  rightOptions?: ISwipeableActionGroup;
   space?: boolean;
 }
 
@@ -64,32 +60,18 @@ function Comment({
   rightOptions,
   space = false,
 }: IProps): React.JSX.Element {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
   const postId = useCommentPostId(itemId);
   const postCreatorId = usePostCreatorId(postId);
   const commentContent = useCommentContent(itemId);
   const commentRemoved = useCommentRemoved(itemId);
   const commentDeleted = useCommentDeleted(itemId);
   const commentSaved = useCommentSaved(itemId);
-  const commentPath = useCommentPath(itemId);
   const commentCreator = useCommentCreator(itemId);
 
-  const swipesEnabled = useCommentGesturesEnabled();
   const showButtons = useShowCommentButtons();
 
   const borderWidth = useMemo(() => (depth > 0 ? 2 : 0), [depth]);
   const borderColor = useMemo(() => depthToColor(depth), [depth]);
-
-  const actionParams = useMemo<SwipeableActionParams>(
-    () => ({
-      postId,
-      commentId: itemId,
-      path: commentPath,
-      navigation,
-    }),
-    [itemId],
-  );
 
   const ellipsisButton = useCallback(
     () => <CommentEllipsisButton itemId={itemId} />,
@@ -103,17 +85,12 @@ function Comment({
 
   return (
     <View my={space ? 2 : 0}>
-      <SwipeableRow
-        leftOption={
-          swipesEnabled && leftOptions?.actions.first != null ? (
-            <LeftOptions options={leftOptions} actionParams={actionParams} />
-          ) : undefined
-        }
-        rightOption={
-          swipesEnabled && rightOptions?.actions.first != null ? (
-            <RightOptions options={rightOptions} actionParams={actionParams} />
-          ) : undefined
-        }
+      <Swipeable
+        leftActionGroup={leftOptions}
+        rightActionGroup={rightOptions}
+        options={{
+          onHitStep: playHaptic,
+        }}
       >
         {commentSaved && (
           <View
@@ -159,7 +136,7 @@ function Comment({
           </YStack>
           <Separator borderColor="$bg" ml={depth * 10 + 10} />
         </YStack>
-      </SwipeableRow>
+      </Swipeable>
     </View>
   );
 }

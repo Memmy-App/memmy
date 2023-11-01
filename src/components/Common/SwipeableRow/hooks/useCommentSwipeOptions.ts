@@ -1,23 +1,23 @@
-import { useMemo } from 'react';
+import { ComponentProps, createElement, useMemo } from 'react';
 import {
+  useCommentGesturesEnabled,
   useCommentGesturesFirstLeft,
   useCommentGesturesFirstRight,
   useCommentGesturesSecondLeft,
   useCommentGesturesSecondRight,
 } from '@src/state';
 import { commentSwipeableActions } from '@helpers/swipeableActions';
-import { IPostGestureOption } from '@src/types';
-import {
-  ISwipeableColors,
-  ISwipeableIcons,
-  ISwipeableOptions,
-} from '@components/Common/SwipeableRow/types';
+import { IconMap, IPostGestureOption } from '@src/types';
 import { useTheme } from 'tamagui';
+import { ISwipeableActionGroup } from 'react-native-reanimated-swipeable';
 
 export const useCommentSwipeOptions = (
   side: 'right' | 'left',
-): ISwipeableOptions => {
+  actionParams: object,
+): ISwipeableActionGroup | null => {
   const theme = useTheme();
+
+  const enabled = useCommentGesturesEnabled();
 
   const firstLeft = useCommentGesturesFirstLeft();
   const firstRight = useCommentGesturesFirstRight();
@@ -36,44 +36,73 @@ export const useCommentSwipeOptions = (
     [theme],
   );
 
-  // TODO type this
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const swipeActions = () => {
-    const first = side === 'left' ? firstLeft : firstRight;
-    const second = side === 'left' ? secondLeft : secondRight;
+  const actionGroup: ISwipeableActionGroup | null =
+    useMemo((): ISwipeableActionGroup | null => {
+      if (!enabled) return null;
 
-    return {
-      first: first !== 'none' ? commentSwipeableActions[first] : undefined,
-      second: second !== 'none' ? commentSwipeableActions[second] : undefined,
-    };
-  };
+      if (side === 'left') {
+        if (firstLeft === 'none') return null;
 
-  const swipeColors = useMemo<ISwipeableColors>(() => {
-    const first = side === 'left' ? firstLeft : firstRight;
-    const second = side === 'left' ? secondLeft : secondRight;
+        return {
+          firstStep: {
+            icon: () =>
+              createElement<ComponentProps<any>>(IconMap[firstLeft], {
+                size: 30,
+              }),
+            backgroundColor: swipeColorOptions[firstLeft],
+            actionParamObject: actionParams,
+            triggerThreshold: 75,
+            onAction: commentSwipeableActions[firstLeft],
+          },
+          ...(secondLeft != null && {
+            secondStep: {
+              icon: () =>
+                createElement<ComponentProps<any>>(IconMap[secondLeft], {
+                  size: 30,
+                }),
+              backgroundColor: swipeColorOptions[secondLeft],
+              actionParamObject: actionParams,
+              triggerThreshold: 150,
+              onAction: commentSwipeableActions[secondLeft],
+            },
+          }),
+        };
+      } else {
+        if (firstRight === 'none') return null;
 
-    return {
-      first:
-        first !== 'none' ? swipeColorOptions[first] ?? '$accent' : '$accent',
-      second:
-        second !== 'none' ? swipeColorOptions[second] ?? undefined : undefined,
-    };
-  }, [firstLeft, firstRight, secondLeft, secondRight, swipeColorOptions]);
+        return {
+          firstStep: {
+            icon: () =>
+              createElement<ComponentProps<any>>(IconMap[firstRight], {
+                size: 30,
+              }),
+            backgroundColor: swipeColorOptions[firstRight],
+            actionParamObject: actionParams,
+            triggerThreshold: 75,
+            onAction: commentSwipeableActions[firstRight],
+          },
+          ...(secondLeft != null && {
+            secondStep: {
+              icon: () =>
+                createElement<ComponentProps<any>>(IconMap[secondRight], {
+                  size: 30,
+                }),
+              backgroundColor: swipeColorOptions[secondRight],
+              actionParamObject: actionParams,
+              triggerThreshold: 150,
+              onAction: commentSwipeableActions[secondRight],
+            },
+          }),
+        };
+      }
+    }, [
+      enabled,
+      firstLeft,
+      secondLeft,
+      firstRight,
+      secondRight,
+      swipeColorOptions,
+    ]);
 
-  // @ts-expect-error TODO Fix this
-  const swipeIcons = useMemo<ISwipeableIcons>(() => {
-    const first = side === 'left' ? firstLeft : firstRight;
-    const second = side === 'left' ? secondLeft : secondRight;
-
-    return {
-      first: first !== 'none' ? first : undefined,
-      second: second !== 'none' ? second : undefined,
-    };
-  }, [firstLeft, firstRight, secondLeft, secondRight]);
-
-  return {
-    actions: swipeActions(),
-    colors: swipeColors,
-    icons: swipeIcons,
-  };
+  return actionGroup;
 };

@@ -31,7 +31,7 @@ export interface SwipeableActionParams {
 
 export const postSwipeableActions: Record<
   IPostGestureOption,
-  (params: SwipeableActionParams) => any
+  (...args: any[]) => any
 > = {
   upvote: upvotePostOption,
   downvote: downvotePostOption,

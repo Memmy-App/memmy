@@ -60,7 +60,6 @@ export const useCommentSwipeOptions = (
     };
   }, [firstLeft, firstRight, secondLeft, secondRight, swipeColorOptions]);
 
-  // @ts-expect-error TODO Fix this
   const swipeIcons = useMemo<ISwipeableIcons>(() => {
     const first = side === 'left' ? firstLeft : firstRight;
     const second = side === 'left' ? secondLeft : secondRight;

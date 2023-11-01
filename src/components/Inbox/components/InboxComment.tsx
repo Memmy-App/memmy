@@ -3,7 +3,6 @@ import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
   setReplyRead,
-  useCommentGesturesEnabled,
   useMentionCommentId,
   useMentionContent,
   useMentionCreator,
@@ -24,15 +23,13 @@ import {
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 import instance from '@src/Instance';
 import { Separator, View, YStack } from 'tamagui';
-import { SwipeableRow } from '@components/Common/SwipeableRow/SwipeableRow';
-import { LeftOptions } from '@components/Common/SwipeableRow/LeftOptions';
-import { RightOptions } from '@components/Common/SwipeableRow/RightOptions';
 import { SwipeableActionParams } from '@helpers/swipeableActions';
 import CommentHeader from '@components/Comment/components/CommentHeader';
 import CommentContent from '@components/Comment/components/CommentContent';
 import InboxReplyEllipsisButton from '@components/Inbox/components/InboxReplyEllipsisButton';
-import { useInboxReplySwipeOptions } from '@components/Common/SwipeableRow/hooks/useInboxReplySwipeOptions';
 import InboxReplyMetrics from '@components/Inbox/components/InboxReplyMetrics';
+import { Swipeable } from 'react-native-reanimated-swipeable';
+import { useInboxReplySwipeOptions } from '@components/Common/SwipeableRow/hooks/useInboxReplySwipeOptions';
 
 interface IProps {
   itemId: number;
@@ -40,11 +37,6 @@ interface IProps {
 }
 
 function InboxComment({ itemId, type }: IProps): React.JSX.Element {
-  const swipesEnabled = useCommentGesturesEnabled();
-
-  const leftOptions = useInboxReplySwipeOptions('left', type);
-  const rightOptions = useInboxReplySwipeOptions('right', type);
-
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const postId =
@@ -72,6 +64,9 @@ function InboxComment({ itemId, type }: IProps): React.JSX.Element {
     }),
     [itemId],
   );
+
+  const leftOptions = useInboxReplySwipeOptions('left', type, actionParams);
+  const rightOptions = useInboxReplySwipeOptions('right', type, actionParams);
 
   const [loadingPost, setLoadingPost] = useState(false);
 
@@ -124,17 +119,9 @@ function InboxComment({ itemId, type }: IProps): React.JSX.Element {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <YStack my={2} onPress={onPress} hitSlop={3}>
       <LoadingOverlay visible={loadingPost} />
-      <SwipeableRow
-        leftOption={
-          swipesEnabled && leftOptions?.actions.first != null ? (
-            <LeftOptions options={leftOptions} actionParams={actionParams} />
-          ) : undefined
-        }
-        rightOption={
-          swipesEnabled && rightOptions?.actions.first != null ? (
-            <RightOptions options={rightOptions} actionParams={actionParams} />
-          ) : undefined
-        }
+      <Swipeable
+        leftActionGroup={leftOptions ?? undefined}
+        rightActionGroup={rightOptions ?? undefined}
       >
         {!read && (
           <View
@@ -169,7 +156,7 @@ function InboxComment({ itemId, type }: IProps): React.JSX.Element {
           </YStack>
           <Separator borderColor="$bg" />
         </YStack>
-      </SwipeableRow>
+      </Swipeable>
     </YStack>
   );
 }

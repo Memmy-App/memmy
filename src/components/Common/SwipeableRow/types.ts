@@ -1,4 +1,3 @@
-import { SharedValue } from 'react-native-reanimated';
 import {
   GestureStateChangeEvent,
   GestureUpdateEvent,
@@ -6,10 +5,6 @@ import {
 } from 'react-native-gesture-handler';
 import { SwipeableActionParams } from '@helpers/swipeableActions';
 import { IconType } from '@src/types/IconMap';
-
-export interface SwipeableRowGestureContext {
-  startX: number;
-}
 
 export interface Handlers {
   onBegin?: (
@@ -25,10 +20,6 @@ export interface Handlers {
     event: GestureStateChangeEvent<PanGestureHandlerEventPayload>,
   ) => void;
   onUpdate?: (event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => void;
-}
-export interface ISwipeableRowContext {
-  translateX: SharedValue<number>;
-  subscribe: (handlers: Handlers) => () => void;
 }
 
 export interface ISwipeableColors {
