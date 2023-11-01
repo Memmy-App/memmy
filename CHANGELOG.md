@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changes
+
+- Another performance boost. Swipeables have been reworked considerably in the background, resulting in better scroll
+performance. Another update to markdown rendering should offer some additional improvements in the comments
+section (as well as animations).
+- Upgraded expo-image version to provide better and more performant rendering of WebP and other animated images
+
 ### Fixed
 
 - Crash when viewing privacy policy
