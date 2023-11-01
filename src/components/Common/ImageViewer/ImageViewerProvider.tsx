@@ -13,16 +13,14 @@ interface ImageViewerParams {
 }
 
 interface IImageViewerProviderContext {
-  params?: ImageViewerParams;
-  setParams:
-    | React.Dispatch<SetStateAction<ImageViewerParams | undefined>>
-    | undefined;
+  params: ImageViewerParams;
+  setParams: React.Dispatch<SetStateAction<ImageViewerParams>>;
 
   visible: boolean;
-  setVisible: React.Dispatch<SetStateAction<boolean>> | undefined;
+  setVisible: React.Dispatch<SetStateAction<boolean>>;
 
   dimensions: Dimensions;
-  setDimensions?: React.Dispatch<SetStateAction<Dimensions>> | undefined;
+  setDimensions: React.Dispatch<SetStateAction<Dimensions>>;
 
   viewerRef?: React.MutableRefObject<View | undefined> | null;
   setViewerRef?: React.Dispatch<
@@ -30,17 +28,9 @@ interface IImageViewerProviderContext {
   >;
 }
 
-const ImageViewerContext = React.createContext<IImageViewerProviderContext>({
-  params: undefined,
-  setParams: undefined,
-
-  visible: false,
-  setVisible: undefined,
-
-  dimensions: { height: 0, width: 0 },
-
-  setDimensions: undefined,
-});
+const ImageViewerContext = React.createContext<IImageViewerProviderContext>(
+  {} as IImageViewerProviderContext,
+);
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const useImageViewer = () => React.useContext(ImageViewerContext);
@@ -50,7 +40,7 @@ interface IProps {
 }
 
 function ImageViewerProvider({ children }: IProps): React.JSX.Element {
-  const [params, setParams] = useState<ImageViewerParams | undefined>({
+  const [params, setParams] = useState<ImageViewerParams>({
     source: undefined,
     title: undefined,
   });

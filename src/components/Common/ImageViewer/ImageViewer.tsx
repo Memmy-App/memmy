@@ -58,6 +58,7 @@ function ImageViewer(): React.JSX.Element {
     return getImageRatio(
       imageViewer.dimensions.height,
       imageViewer.dimensions.width,
+      0.9,
     );
   }, [imageViewer.dimensions]);
 
@@ -106,20 +107,20 @@ function ImageViewer(): React.JSX.Element {
         backgroundColor.value = withTiming('rgba(0,0,0,1)', { duration: 200 });
 
         // Set the initial position
-        positionX.value = px;
-        positionY.value = py;
+        positionX.value = px - (SCREEN_WIDTH - w) / 2;
+        positionY.value = py - (SCREEN_HEIGHT - h) / 2;
 
         // TODO Waiting on Expo patch for images
         // SEt the initial size
-        // height.value = h;
-        // width.value = w;
+        height.value = h;
+        width.value = w;
 
         // Center the image from the initial position and size the image up
         centerImage();
 
         // TODO Waiting on Expo patch for images
-        // height.value = withTiming(viewerDims.height, { duration: 200 });
-        // width.value = withTiming(viewerDims.width, { duration: 200 });
+        height.value = withTiming(viewerDims.height, { duration: 200 });
+        width.value = withTiming(viewerDims.width, { duration: 200 });
       });
     }
   }, [imageViewer.visible]);
@@ -131,11 +132,18 @@ function ImageViewer(): React.JSX.Element {
       // Fade out the background
       backgroundColor.value = withTiming('rgba(0,0,0,0)', { duration: 200 });
 
+      const initialX =
+        initialPosition.current.px -
+        (SCREEN_WIDTH - initialPosition.current.width) / 2;
+      const initialY =
+        initialPosition.current.py -
+        (SCREEN_HEIGHT - initialPosition.current.height) / 2;
+
       // Set the image back to the original position
-      positionX.value = withTiming(initialPosition.current.px, {
+      positionX.value = withTiming(initialX, {
         duration: 200,
       });
-      positionY.value = withTiming(initialPosition.current.py, {
+      positionY.value = withTiming(initialY, {
         duration: 200,
       });
 
@@ -180,10 +188,10 @@ function ImageViewer(): React.JSX.Element {
   }));
 
   // TODO Wait for expo fix
-  // const dimensionsStyle = useAnimatedStyle(() => ({
-  //   height: height.value,
-  //   width: width.value,
-  // }));
+  const dimensionsStyle = useAnimatedStyle(() => ({
+    height: height.value,
+    width: width.value,
+  }));
 
   const onSingleTap = useCallback(() => {
     cancelAnimation(positionX);
@@ -417,7 +425,7 @@ function ImageViewer(): React.JSX.Element {
             <Animated.View style={[positionStyle, { alignItems: 'center' }]}>
               <AnimatedImage
                 source={{ uri: imageViewer.params?.source }}
-                style={[viewerDims, scaleStyle]}
+                style={[viewerDims, scaleStyle, dimensionsStyle]}
                 ref={animatedImageRef}
               />
             </Animated.View>
