@@ -16,11 +16,12 @@ import {
 import CommentEllipsisButton from '@components/Comment/components/CommentEllipsisButton';
 import CommentMetrics from '@components/Comment/components/CommentMetrics';
 import CommentActionBar from '@components/Comment/components/CommentActionBar';
+
+import { playHaptic } from '@helpers/haptics';
 import {
   ISwipeableActionGroup,
   Swipeable,
 } from 'react-native-reanimated-swipeable';
-import { playHaptic } from '@helpers/haptics';
 
 interface IProps {
   itemId: number;
@@ -54,7 +55,6 @@ const depthToColor = (depth: number): string => {
 function Comment({
   itemId,
   depth = 0,
-  onPress,
   collapsed = false,
   leftOptions,
   rightOptions,

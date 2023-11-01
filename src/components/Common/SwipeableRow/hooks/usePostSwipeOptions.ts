@@ -8,8 +8,8 @@ import {
   usePostGesturesSecondRight,
 } from '@src/state';
 import { IconMap, IPostGestureOption } from '@src/types';
-import { ISwipeableActionGroup } from 'react-native-reanimated-swipeable';
 import { postSwipeableActions } from '@helpers/swipeableActions';
+import { ISwipeableActionGroup } from 'react-native-reanimated-swipeable';
 
 export const usePostSwipeOptions = (
   side: 'right' | 'left',

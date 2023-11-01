@@ -19,9 +19,9 @@ import Ellipsis from '@components/Common/Icons/Ellipsis';
 import { Pressable } from 'react-native';
 import CompactFeedItemVoteButtons from '@components/Feed/components/Feed/CompactFeedItem/CompactFeedItemVoteButtons';
 import PostUserLabel from '@components/Common/PostCard/PostUserLabel';
-import { Swipeable } from 'react-native-reanimated-swipeable';
 import { usePostSwipeOptions } from '@components/Common/SwipeableRow/hooks/usePostSwipeOptions';
 import { playHaptic } from '@helpers/haptics';
+import { Swipeable } from 'react-native-reanimated-swipeable';
 
 interface IProps {
   itemId: number;
