@@ -5870,9 +5870,9 @@ expo-image-picker@^14.5.0:
   dependencies:
     expo-image-loader "~4.4.0"
 
-"expo-image@https://gitpkg.now.sh/expo/expo/packages/expo-image?7b089eb567afa51e2a0a0f2207d90524adafa40a":
+"expo-image@https://gitpkg.now.sh/expo/expo/packages/expo-image?%40behenate/fix-image-reloads":
   version "1.6.0"
-  resolved "https://gitpkg.now.sh/expo/expo/packages/expo-image?7b089eb567afa51e2a0a0f2207d90524adafa40a#0ab951d87db442f0c4c10a9618199a0e2eba4198"
+  resolved "https://gitpkg.now.sh/expo/expo/packages/expo-image?%40behenate/fix-image-reloads#79577f69e09d389a2bfd93f0e8c8f76b08a45130"
 
 expo-json-utils@~0.7.0:
   version "0.7.1"

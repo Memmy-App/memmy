@@ -1021,7 +1021,7 @@ SPEC CHECKSUMS:
   expo-dev-menu: 9542570483a647626570cb4333c80add4cea1254
   expo-dev-menu-interface: bda969497e73dadc2663c479e0fa726ca79a306e
   ExpoClipboard: d2f0e44d50e5ba07b02f5fb7bd280178b420e24e
-  ExpoImage: a0db596f9f82dfa377305196d2c80770b20e2177
+  ExpoImage: a02f1b0c514f3521c8b442a93687f927ef2c0d8d
   ExpoImageCachePath: 5bb1072da668ab3938c7d11b717d76920a41a1b7
   ExpoImagePicker: 9e5c745cb3e56ee00e1cfe5d6af59caab66ecf1a
   ExpoKeepAwake: be4cbd52d9b177cde0fd66daa1913afa3161fc1d
