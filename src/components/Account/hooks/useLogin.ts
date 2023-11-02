@@ -75,6 +75,7 @@ export const useLogin = (): UseLogin => {
         fullUsername: `${options.username}@${options.instance}`,
         token: instance.authToken ?? '',
         isCurrentAccount: true,
+        notificationsEnabled: false,
       });
     } catch (e) {
       setLoading(false);
