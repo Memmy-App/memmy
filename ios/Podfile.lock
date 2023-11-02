@@ -20,6 +20,8 @@ PODS:
     - ExpoModulesCore
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
+  - EXNotifications (0.23.0):
+    - ExpoModulesCore
   - EXPermissions (14.4.0):
     - ExpoModulesCore
   - Expo (49.0.16):
@@ -80,6 +82,8 @@ PODS:
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - ExpoClipboard (4.5.0):
+    - ExpoModulesCore
+  - ExpoDevice (5.6.0):
     - ExpoModulesCore
   - ExpoImage (1.6.0):
     - ExpoModulesCore
@@ -710,6 +714,7 @@ DEPENDENCIES:
   - EXJSONUtils (from `../node_modules/expo-json-utils/ios`)
   - EXManifests (from `../node_modules/expo-manifests/ios`)
   - EXMediaLibrary (from `../node_modules/expo-media-library/ios`)
+  - EXNotifications (from `../node_modules/expo-notifications/ios`)
   - EXPermissions (from `../node_modules/expo-permissions/ios`)
   - Expo (from `../node_modules/expo`)
   - expo-dev-client (from `../node_modules/expo-dev-client/ios`)
@@ -717,6 +722,7 @@ DEPENDENCIES:
   - expo-dev-menu (from `../node_modules/expo-dev-menu`)
   - expo-dev-menu-interface (from `../node_modules/expo-dev-menu-interface/ios`)
   - ExpoClipboard (from `../node_modules/expo-clipboard/ios`)
+  - ExpoDevice (from `../node_modules/expo-device/ios`)
   - ExpoImage (from `../node_modules/expo-image/ios`)
   - ExpoImageCachePath (from `../modules/expo-image-cache-path/ios`)
   - ExpoImagePicker (from `../node_modules/expo-image-picker/ios`)
@@ -854,6 +860,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-manifests/ios"
   EXMediaLibrary:
     :path: "../node_modules/expo-media-library/ios"
+  EXNotifications:
+    :path: "../node_modules/expo-notifications/ios"
   EXPermissions:
     :path: "../node_modules/expo-permissions/ios"
   Expo:
@@ -868,6 +876,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-dev-menu-interface/ios"
   ExpoClipboard:
     :path: "../node_modules/expo-clipboard/ios"
+  ExpoDevice:
+    :path: "../node_modules/expo-device/ios"
   ExpoImage:
     :path: "../node_modules/expo-image/ios"
   ExpoImageCachePath:
@@ -1014,6 +1024,7 @@ SPEC CHECKSUMS:
   EXJSONUtils: 6802be4282d42b97c51682468ddc1026a06f8276
   EXManifests: cf66451b11b2c2f6464917528d792759f7fd6ce0
   EXMediaLibrary: 802eee8ef888ee16ef80f1b79005d3d611793e14
+  EXNotifications: 40f334ce2b713e180e13beff9a16cab170a0c70c
   EXPermissions: 51c6115893689c3e9787f4819aa67ceeae601038
   Expo: fcfd60c1ed6806dee5103b210335ae0c72f675ed
   expo-dev-client: a97a68508a6104ad99f4b2613fd808cda7a4186c
@@ -1021,6 +1032,7 @@ SPEC CHECKSUMS:
   expo-dev-menu: 9542570483a647626570cb4333c80add4cea1254
   expo-dev-menu-interface: bda969497e73dadc2663c479e0fa726ca79a306e
   ExpoClipboard: d2f0e44d50e5ba07b02f5fb7bd280178b420e24e
+  ExpoDevice: 4b9825263a3f996fd5a89ec26426e22e6cbc32d6
   ExpoImage: a02f1b0c514f3521c8b442a93687f927ef2c0d8d
   ExpoImageCachePath: 5bb1072da668ab3938c7d11b717d76920a41a1b7
   ExpoImagePicker: 9e5c745cb3e56ee00e1cfe5d6af59caab66ecf1a

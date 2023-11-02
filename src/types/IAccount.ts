@@ -4,4 +4,5 @@ export interface IAccount {
   fullUsername: string;
   token: string;
   isCurrentAccount: boolean;
+  notificationsEnabled: boolean;
 }

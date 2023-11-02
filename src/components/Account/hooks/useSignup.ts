@@ -110,6 +110,7 @@ export const useSignup = (): UseSignup => {
         fullUsername: `${options.username}@${options.instance}`,
         token: instance.authToken ?? '',
         isCurrentAccount: true,
+        notificationsEnabled: false,
       });
     } catch (e) {
       setLoading(false);

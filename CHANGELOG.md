@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Version 1.1 (76)] - 2023-11-02T11:50:50Z
+
+### Added
+
+- Push notifications are back. Will add more functionality to these in the coming days.
+
+### Fixed
+
+- Hit slop on swipeables (should not be hard to swipe to go back now)
+
 ## [Version 1.1 (74)] - 2023-11-01T11:10:21Z
 
 ### Changes
