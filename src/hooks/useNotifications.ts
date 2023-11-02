@@ -56,8 +56,6 @@ export const useNotifications = (): UseNotifications => {
 
     setIsLoading(true);
 
-    console.log(API_URL);
-
     try {
       const res = await axios.post(`${API_URL}/${action}`, {
         instance: account.instance,
@@ -71,8 +69,6 @@ export const useNotifications = (): UseNotifications => {
 
       return true;
     } catch (e: any) {
-      console.log(e);
-
       setIsLoading(false);
       return false;
     }
