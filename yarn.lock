@@ -9519,10 +9519,10 @@ react-native-pager-view@^7.0.0-rc.0:
   resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-7.0.0-rc.0.tgz#e90d3ad8089c5233954c01523c39e49042ea172c"
   integrity sha512-6DDvsLle8T1V1BN9VexIwNhXr+bzmGuL0zPwtn3bXpnmsLDcTFY4SMJqze4P1ZRhCJNb0Usuwh+lwsaRfwmvWg==
 
-react-native-reanimated-swipeable@^1.0.10:
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/react-native-reanimated-swipeable/-/react-native-reanimated-swipeable-1.0.10.tgz#72950b35c40373647980c72071fadf3d9e9e397b"
-  integrity sha512-Y+MHfflcCYOKejLxPw8T44xKQrbvZRkg63IgbTGp1MekOPmnS1+apy2CYPPbBt94Sk7BBhnJXato/KUQA9mQGg==
+react-native-reanimated-swipeable@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/react-native-reanimated-swipeable/-/react-native-reanimated-swipeable-1.0.11.tgz#83e9f428c1376de37ba230662b18ab80e56e3df3"
+  integrity sha512-2E4SoZsQ+FSxnl3a9qqjRz4MEVNVgXTraOzD3am4gLQYNnCPWnXfcRNX1c7qcxeIxA2w9sAi/Ja6jiXXztz3MQ==
 
 react-native-reanimated@~3.3.0:
   version "3.3.0"
