@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const API_URL = __DEV__
   ? process.env.EXPO_PUBLIC_TEST_API
-  : 'https://memmy.app/account/push';
+  : process.env.EXPO_PUBLIC_LIVE_API;
 
 interface UseNotifications {
   isLoading: boolean;
