@@ -35,6 +35,7 @@ export interface IReadOptions {
   onVote: boolean;
   onFeedScroll: boolean;
   onCommunityScroll: boolean;
+  onLinkOpen: boolean;
 
   hideReadPostsFeed: boolean;
   hideReadPostsCommunity: boolean;
@@ -92,6 +93,7 @@ export interface SettingsStore {
 
   showCommunityIconInFeed: boolean;
   showAvatarInFeed: boolean;
+  animateAvatars: boolean;
 
   showAvatarInTabBar: boolean;
   showUsernameInTabBar: boolean;
@@ -166,6 +168,7 @@ const initialState: Partial<SettingsStore> = {
     onVote: true,
     onFeedScroll: false,
     onCommunityScroll: false,
+    onLinkOpen: false,
 
     hideReadPostsFeed: false,
     hideReadPostsCommunity: false,
@@ -191,6 +194,7 @@ const initialState: Partial<SettingsStore> = {
 
   showCommunityIconInFeed: true,
   showAvatarInFeed: true,
+  animateAvatars: true,
 
   showAvatarInTabBar: true,
   showUsernameInTabBar: true,
@@ -319,11 +323,15 @@ export const useMarkReadOnCommunityScroll = (): boolean =>
 export const useMarkReadOnImageView = (): boolean =>
   useSettingsStore((state) => state.readOptions.onImageView);
 
-export const useMarkReadOnPostView = (): boolean =>
+export const useMarkReadOnPostOpen = (): boolean =>
+  // TODO Change this in a future version
   useSettingsStore((state) => state.readOptions.onPostView);
 
 export const useMarkReadOnVote = (): boolean =>
   useSettingsStore((state) => state.readOptions.onVote);
+
+export const useMarkReadOnLinkOpen = (): boolean =>
+  useSettingsStore((state) => state.readOptions.onLinkOpen);
 
 export const useMouseLoadingIcon = (): boolean =>
   useSettingsStore((state) => state.mouseLoadingIcon);
@@ -345,3 +353,6 @@ export const useFullWidthSwipes = (): boolean =>
 
 export const useShowTotalScore = (): boolean =>
   useSettingsStore((state) => state.totalScore);
+
+export const useAnimateAvatars = (): boolean =>
+  useSettingsStore((state) => state.animateAvatars);

@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import {
   setPostRead,
   useCompactShowUsername,
-  useMarkReadOnPostView,
+  useMarkReadOnPostOpen,
   usePostCreator,
   usePostSaved,
   useSettingsStore,
@@ -37,7 +37,7 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
   const voteButtonPosition = useSettingsStore(
     (state) => state.compactVoteButtonPosition,
   );
-  const markReadOnPostView = useMarkReadOnPostView();
+  const markReadOnPostView = useMarkReadOnPostOpen();
 
   const actionParams = useMemo(
     () => ({

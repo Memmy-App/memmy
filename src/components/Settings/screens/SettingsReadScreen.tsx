@@ -1,7 +1,6 @@
 import React from 'react';
 import ScrollView from '@components/Common/Gui/ScrollView';
 import Table from '@components/Common/Table/Table';
-import { Switch } from 'react-native';
 import {
   IReadOptions,
   setUserSetting,
@@ -38,58 +37,45 @@ export default function SettingsReadScreen(): React.JSX.Element {
         <Table.Section header="Marking Read">
           <Table.Cell
             label="On Post Open"
-            accessoryRight={
-              <Switch
-                value={settings.readOptions.onPostView}
-                onChange={(e) => {
-                  setReadOption('onPostView', e.nativeEvent.value);
-                }}
-              />
-            }
+            switchValue={settings.readOptions.onPostView}
+            onSwitchValueChange={(v) => {
+              setReadOption('onPostView', v);
+            }}
+          />
+          <Table.Cell
+            label="On Link Open"
+            switchValue={settings.readOptions.onLinkOpen ?? false}
+            onSwitchValueChange={(v) => {
+              setReadOption('onLinkOpen', v);
+            }}
           />
           <Table.Cell
             label="On Image View"
-            accessoryRight={
-              <Switch
-                value={settings.readOptions.onImageView}
-                onChange={(e) => {
-                  setReadOption('onImageView', e.nativeEvent.value);
-                }}
-              />
-            }
+            switchValue={settings.readOptions.onImageView}
+            onSwitchValueChange={(v) => {
+              setReadOption('onImageView', v);
+            }}
           />
           <Table.Cell
             label="On Vote"
-            accessoryRight={
-              <Switch
-                value={settings.readOptions.onVote}
-                onChange={(e) => {
-                  setReadOption('onVote', e.nativeEvent.value);
-                }}
-              />
-            }
+            switchValue={settings.readOptions.onVote}
+            onSwitchValueChange={(v) => {
+              setReadOption('onVote', v);
+            }}
           />
           <Table.Cell
             label="On Feed Scroll"
-            accessoryRight={
-              <Switch
-                value={settings.readOptions.onFeedScroll}
-                onChange={(e) => {
-                  setReadOption('onFeedScroll', e.nativeEvent.value);
-                }}
-              />
-            }
+            switchValue={settings.readOptions.onFeedScroll}
+            onSwitchValueChange={(v) => {
+              setReadOption('onFeedScroll', v);
+            }}
           />
           <Table.Cell
             label="On Community Scroll"
-            accessoryRight={
-              <Switch
-                value={settings.readOptions.onCommunityScroll}
-                onChange={(e) => {
-                  setReadOption('onCommunityScroll', e.nativeEvent.value);
-                }}
-              />
-            }
+            switchValue={settings.readOptions.onCommunityScroll}
+            onSwitchValueChange={(v) => {
+              setReadOption('onCommunityScroll', v);
+            }}
           />
         </Table.Section>
       </Table.Container>

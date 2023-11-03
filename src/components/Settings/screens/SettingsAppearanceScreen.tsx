@@ -193,6 +193,13 @@ export default function SettingsAppearanceScreen({
               setSetting('showAvatarInFeed', v);
             }}
           />
+          <Table.Cell
+            label="Animated Avatars (GIFs)"
+            switchValue={settings.animateAvatars}
+            onSwitchValueChange={(v) => {
+              setSetting('animateAvatars', v);
+            }}
+          />
         </Table.Section>
         <Table.Section header="Comment Appearance">
           <Table.Cell
