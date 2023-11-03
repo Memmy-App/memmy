@@ -342,3 +342,6 @@ export const useShowCommentButtons = (): boolean =>
 
 export const useFullWidthSwipes = (): boolean =>
   useSettingsStore((state) => state.fullWidthSwipes);
+
+export const useShowTotalScore = (): boolean =>
+  useSettingsStore((state) => state.totalScore);

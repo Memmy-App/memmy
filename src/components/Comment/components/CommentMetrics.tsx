@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
-import { useCommentPublished, useSettingsStore } from '@src/state';
+import { useCommentPublished, useShowTotalScore } from '@src/state';
 import { Text, XStack } from 'tamagui';
 import ScoreIcon from '@components/Common/Icons/ScoreIcon';
 import { ArrowDown, ArrowUp, Clock } from '@tamagui/lucide-icons';
 import { useCommentVoting } from '@hooks/comments/useCommentVoting';
 import { getTimeFrom } from '@helpers/time';
+import { useMetricsColors } from '@hooks/useMetricsColors';
 
 interface IProps {
   itemId: number;
@@ -13,33 +14,15 @@ interface IProps {
 function CommentMetrics({ itemId }: IProps): React.JSX.Element {
   const commentPublished = useCommentPublished(itemId);
   const voting = useCommentVoting(itemId, true);
+  const showTotalScore = useShowTotalScore();
+  const metricsColors = useMetricsColors(voting.myVote);
 
   const timestamp = useMemo(
     () => getTimeFrom(commentPublished),
     [commentPublished],
   );
 
-  const totalScore = useSettingsStore((state) => state.totalScore);
-
-  const upvoteColor = useMemo(
-    () => (voting.myVote === 1 ? '$upvote' : '$secondary'),
-    [voting.myVote],
-  );
-  const downvoteColor = useMemo(
-    () => (voting.myVote === -1 ? '$downvote' : '$secondary'),
-    [voting.myVote],
-  );
-  const scoreColor = useMemo(
-    () =>
-      voting.myVote === 1
-        ? '$upvote'
-        : voting.myVote === -1
-        ? '$downvote'
-        : '$secondary',
-    [voting.myVote],
-  );
-
-  if (totalScore) {
+  if (showTotalScore) {
     return (
       <XStack space="$2">
         <XStack
@@ -49,13 +32,13 @@ function CommentMetrics({ itemId }: IProps): React.JSX.Element {
           alignItems="center"
         >
           <ScoreIcon myVote={voting.myVote} />
-          <Text fontSize="$2" color={scoreColor}>
+          <Text fontSize="$2" color={metricsColors.scoreColor}>
             {voting.score}
           </Text>
         </XStack>
-        <XStack space="$1">
+        <XStack space="$1" alignItems="center">
           <Clock size={14} color="$secondary" />
-          <Text>{timestamp}</Text>
+          <Text color="$secondary">{timestamp}</Text>
         </XStack>
       </XStack>
     );
@@ -68,8 +51,8 @@ function CommentMetrics({ itemId }: IProps): React.JSX.Element {
           hitSlop={3}
           alignItems="center"
         >
-          <ArrowUp size={14} color={upvoteColor} />
-          <Text fontSize="$2" color={upvoteColor}>
+          <ArrowUp size={14} color={metricsColors.upvoteColor} />
+          <Text fontSize="$2" color={metricsColors.upvoteColor}>
             {voting.upvotes}
           </Text>
         </XStack>
@@ -79,8 +62,8 @@ function CommentMetrics({ itemId }: IProps): React.JSX.Element {
           hitSlop={3}
           alignItems="center"
         >
-          <ArrowDown size={14} color={downvoteColor} />
-          <Text fontSize="$2" color={downvoteColor}>
+          <ArrowDown size={14} color={metricsColors.downvoteColor} />
+          <Text fontSize="$2" color={metricsColors.downvoteColor}>
             {voting.downvotes}
           </Text>
         </XStack>
