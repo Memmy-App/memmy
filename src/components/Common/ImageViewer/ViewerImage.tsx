@@ -48,7 +48,7 @@ function ViewerImage({
   const savedDimensions = useImageSavedDimensions(source);
   const markReadOnImagePress = useMarkReadOnImageView();
 
-  const loaded = useRef(false);
+  const isLoaded = useRef(false);
   const viewerRef = useRef<View>();
 
   const ignoreHeight = useSettingsStore(
@@ -70,7 +70,7 @@ function ViewerImage({
   const onImagePress = useCallback(async () => {
     // figure out if we want to do something
     if (
-      !loaded.current ||
+      !isLoaded.current ||
       imageViewer.setParams == null ||
       imageViewer.setVisible == null
     ) {
@@ -111,6 +111,8 @@ function ViewerImage({
           width: e.source.width,
         };
 
+        isLoaded.current = true;
+
         const viewerDimensions = getImageRatio(
           dimensions.height,
           dimensions.width,
@@ -127,10 +129,6 @@ function ViewerImage({
     },
     [source],
   );
-
-  const onLoadEnd = useCallback(() => {
-    loaded.current = true;
-  }, []);
 
   return (
     <Pressable
@@ -149,7 +147,6 @@ function ViewerImage({
           imageStyle,
         ]}
         onLoad={onLoad}
-        onLoadEnd={onLoadEnd}
         blurRadius={blurRadius}
         placeholder={spinner}
         placeholderContentFit="scale-down"
