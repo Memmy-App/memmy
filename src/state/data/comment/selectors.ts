@@ -4,6 +4,9 @@ import { Person } from 'lemmy-js-client';
 export const useCommentCreatorActorId = (id: number): string | undefined =>
   useDataStore((state) => state.comments.get(id)?.view.creator.actor_id);
 
+export const useCommentActorId = (id: number): string | undefined =>
+  useDataStore((state) => state.comments.get(id)?.view.comment.ap_id);
+
 export const useCommentContent = (id: number): string | undefined =>
   useDataStore((state) => state.comments.get(id)?.view.comment.content);
 

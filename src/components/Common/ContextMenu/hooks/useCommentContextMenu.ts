@@ -5,7 +5,7 @@ import { Alert } from 'react-native';
 import { useThemeColorScheme } from '@src/hooks';
 import {
   setToast,
-  useCommentCreatorActorId,
+  useCommentActorId,
   useCommentPostId,
   useDataStore,
   usePostTitle,
@@ -35,7 +35,7 @@ export const useCommentContextMenu = (
 
   const postId = useCommentPostId(itemId);
   const postTitle = usePostTitle(postId ?? 0);
-  const commentLink = useCommentCreatorActorId(itemId);
+  const commentLink = useCommentActorId(itemId);
 
   const share = (): void => {
     if (postTitle == null || commentLink == null) return;
