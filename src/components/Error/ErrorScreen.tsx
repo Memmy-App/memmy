@@ -21,7 +21,7 @@ export default function ErrorScreen(): React.JSX.Element {
       </Text>
       <Text textAlign="center" fontSize="$3">
         It would be a huge help if you could send us information about this
-        crash. It is up to you, and we do not send anything with your
+        crash. It is up to you, and we do not send anything without your
         permission.
       </Text>
       <Text textAlign="center" fontSize="$3">
