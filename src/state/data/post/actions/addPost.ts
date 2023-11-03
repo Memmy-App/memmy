@@ -21,8 +21,15 @@ export const addOrUpdatePost = ({
       useDataStore.getState().site.site?.my_user?.local_user_view.local_user
         .person_id;
 
-    if (currentPost != null && screenId != null) {
-      currentPost.usedBy.push(screenId);
+    if (currentPost != null) {
+      if (screenId != null) {
+        currentPost.usedBy.push(screenId);
+      }
+
+      currentPost.view.counts = post.counts;
+      currentPost.view.post.body = post.post.body;
+      currentPost.view.post.deleted = post.post.deleted;
+      currentPost.view.post.removed = post.post.removed;
     } else {
       state.posts.set(post.post.id, {
         view: post,
