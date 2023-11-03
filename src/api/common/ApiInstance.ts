@@ -824,7 +824,7 @@ class ApiInstance {
             ];
           }
         } else {
-          myUser.person_blocks = myUser.person_blocks?.filter(
+          myUser.person_blocks = myUser.person_blocks.filter(
             (b) => b.target.id !== personId,
           );
         }
@@ -871,7 +871,7 @@ class ApiInstance {
             ];
           }
         } else {
-          myUser.community_blocks = myUser.community_blocks?.filter(
+          myUser.community_blocks = myUser.community_blocks.filter(
             (b) => b.community.id !== communityId,
           );
         }
