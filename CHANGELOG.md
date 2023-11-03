@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Crash when trying to open an image that did not load (hopefully)
+- Wrong font color used to display time when using `Display Total Score`
+- Use correct image library for profile and community headers (should improve loading of these)
+- Use the correct URL to share comments
+- Post data will refresh when opening a post
+
+### Added
+
+- Share option added to swipe gestures
+- JWTs are stored in secure storage (all current tokens will be migrated to your device's secure storage when you open the app)
+- Downvotes will not be displayed when using an instance that does not allow them
+- Added blocking options on comments and posts
+- Mark posts on read when opening a link
+- Option to disable user avatar animations (for GIF/WebP avatars)
+
 ## [Version 1.1 (76)] - 2023-11-02T11:50:50Z
 
 ### Added
