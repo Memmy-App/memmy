@@ -6,6 +6,7 @@ import {
   MessageSquare,
 } from '@tamagui/lucide-icons';
 import {
+  useDownvotesAllowed,
   usePostCommentCount,
   usePostCounts,
   usePostMyVote,
@@ -22,6 +23,8 @@ interface IProps {
 
 function PostMetrics({ itemId }: IProps): React.JSX.Element {
   const showTotalScore = useSettingsStore((state) => state.totalScore);
+
+  const downvotesAllowed = useDownvotesAllowed();
 
   const postCounts = usePostCounts(itemId);
   const postCommentCount = usePostCommentCount(itemId);
@@ -65,12 +68,14 @@ function PostMetrics({ itemId }: IProps): React.JSX.Element {
               {postCounts?.upvotes}
             </Text>
           </XStack>
-          <XStack space="$1" alignItems="center">
-            <ArrowDown size={14} color={downvoteColor} />
-            <Text color={downvoteColor} fontSize="$2">
-              {postCounts?.downvotes}
-            </Text>
-          </XStack>
+          {downvotesAllowed && (
+            <XStack space="$1" alignItems="center">
+              <ArrowDown size={14} color={downvoteColor} />
+              <Text color={downvoteColor} fontSize="$2">
+                {postCounts?.downvotes}
+              </Text>
+            </XStack>
+          )}
         </XStack>
       )}
 

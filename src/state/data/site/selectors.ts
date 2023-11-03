@@ -39,3 +39,8 @@ export const useBlockedPersons = (): PersonBlockView[] | undefined =>
 
 export const useBlockedCommunities = (): CommunityBlockView[] | undefined =>
   useDataStore((state) => state.site.site?.my_user?.community_blocks);
+
+export const useDownvotesAllowed = (): boolean =>
+  useDataStore(
+    (state) => state.site.site?.site_view.local_site.enable_downvotes ?? false,
+  );

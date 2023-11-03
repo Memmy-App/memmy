@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import {
+  useDownvotesAllowed,
   useMentionPublished,
   useReplyPublished,
   useSettingsStore,
@@ -21,6 +22,8 @@ function InboxReplyMetrics({
   commentId,
   type,
 }: IProps): React.JSX.Element {
+  const downvotesAllowed = useDownvotesAllowed();
+
   const voting = useInboxReplyVoting(itemId, commentId, type);
 
   const published =
@@ -83,17 +86,19 @@ function InboxReplyMetrics({
             {voting.upvotes}
           </Text>
         </XStack>
-        <XStack
-          space="$1"
-          onPress={voting.downvote}
-          hitSlop={3}
-          alignItems="center"
-        >
-          <ArrowDown size={14} color={downvoteColor} />
-          <Text fontSize="$2" color={downvoteColor}>
-            {voting.downvotes}
-          </Text>
-        </XStack>
+        {downvotesAllowed && (
+          <XStack
+            space="$1"
+            onPress={voting.downvote}
+            hitSlop={3}
+            alignItems="center"
+          >
+            <ArrowDown size={14} color={downvoteColor} />
+            <Text fontSize="$2" color={downvoteColor}>
+              {voting.downvotes}
+            </Text>
+          </XStack>
+        )}
         <XStack space="$1.5" alignItems="center">
           <Clock size={14} color="$secondary" />
           <Text fontSize="$2" color="$secondary">

@@ -1,5 +1,9 @@
 import React, { useMemo } from 'react';
-import { useCommentPublished, useShowTotalScore } from '@src/state';
+import {
+  useCommentPublished,
+  useDownvotesAllowed,
+  useShowTotalScore,
+} from '@src/state';
 import { Text, XStack } from 'tamagui';
 import ScoreIcon from '@components/Common/Icons/ScoreIcon';
 import { ArrowDown, ArrowUp, Clock } from '@tamagui/lucide-icons';
@@ -12,6 +16,8 @@ interface IProps {
 }
 
 function CommentMetrics({ itemId }: IProps): React.JSX.Element {
+  const downvotesAllowed = useDownvotesAllowed();
+
   const commentPublished = useCommentPublished(itemId);
   const voting = useCommentVoting(itemId, true);
   const showTotalScore = useShowTotalScore();
@@ -56,17 +62,19 @@ function CommentMetrics({ itemId }: IProps): React.JSX.Element {
             {voting.upvotes}
           </Text>
         </XStack>
-        <XStack
-          space="$1"
-          onPress={voting.downvote}
-          hitSlop={3}
-          alignItems="center"
-        >
-          <ArrowDown size={14} color={metricsColors.downvoteColor} />
-          <Text fontSize="$2" color={metricsColors.downvoteColor}>
-            {voting.downvotes}
-          </Text>
-        </XStack>
+        {downvotesAllowed && (
+          <XStack
+            space="$1"
+            onPress={voting.downvote}
+            hitSlop={3}
+            alignItems="center"
+          >
+            <ArrowDown size={14} color={metricsColors.downvoteColor} />
+            <Text fontSize="$2" color={metricsColors.downvoteColor}>
+              {voting.downvotes}
+            </Text>
+          </XStack>
+        )}
         <XStack space="$1.5" alignItems="center">
           <Clock size={14} color="$secondary" />
           <Text fontSize="$2" color="$secondary">
