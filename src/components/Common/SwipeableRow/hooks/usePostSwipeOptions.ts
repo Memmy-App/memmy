@@ -31,6 +31,7 @@ export const usePostSwipeOptions = (
       save: theme.bookmark.val,
       // hide: theme.warn.val, TODO we will replace this with something else eventually
       reply: theme.accent.val,
+      share: theme.opText.val,
     }),
     [theme],
   );

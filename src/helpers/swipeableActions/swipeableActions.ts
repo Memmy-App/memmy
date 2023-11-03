@@ -16,6 +16,7 @@ import { markMentionReadOption } from '@helpers/swipeableActions/markMentionRead
 import { downvoteMentionOption } from '@helpers/swipeableActions/downvoteMentionOption';
 import { upvoteMentionOption } from '@helpers/swipeableActions/upvoteMentionOption';
 import { collapseCommentOption } from '@helpers/swipeableActions/collapseCommentOption';
+import { shareOption } from '@helpers/swipeableActions/shareOption';
 
 export interface SwipeableActionParams {
   commentId?: number;
@@ -39,6 +40,7 @@ export const postSwipeableActions: Record<
   hide: () => {},
   reply: replyOption,
   custom: customOption,
+  share: shareOption,
 };
 
 export const commentSwipeableActions: Record<
@@ -51,6 +53,7 @@ export const commentSwipeableActions: Record<
   collapse: collapseCommentOption,
   reply: replyOption,
   hide: () => {},
+  share: shareOption,
 };
 
 export const replySwipeableActions: Record<

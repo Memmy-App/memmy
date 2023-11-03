@@ -32,6 +32,7 @@ export const useCommentSwipeOptions = (
       hide: theme.warn.val,
       reply: theme.accent.val,
       collapse: theme.warn.val,
+      share: theme.opText.val,
     }),
     [theme],
   );

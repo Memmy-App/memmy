@@ -4,6 +4,7 @@ export const commentGestureOptions = [
   'save',
   'collapse',
   'reply',
+  'share',
   'none',
 ];
 

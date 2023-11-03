@@ -4,6 +4,7 @@ export const postGestureOptions = [
   'save',
   'hide',
   'reply',
+  'share',
   'none',
 ];
 

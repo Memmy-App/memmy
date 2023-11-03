@@ -20,6 +20,7 @@ import {
   MailOpen,
   MessageCircle,
   PanelBottomClose,
+  Share,
   Shield,
   Zap,
 } from '@tamagui/lucide-icons';
@@ -34,6 +35,7 @@ export const IconMap: Record<string, NamedExoticComponent> = {
   comment: MessageCircle,
   collapse: PanelBottomClose,
   save: Bookmark,
+  share: Share,
   read: MailOpen,
   saved: BookmarkCheck,
   hide: EyeOff,
