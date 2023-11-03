@@ -18,10 +18,13 @@ import { ChevronLeft, Globe } from '@tamagui/lucide-icons';
 import SortTypeContextMenuButton from '@components/Common/ContextMenu/components/buttons/SortTypeContextMenuButton';
 import { SortType } from 'lemmy-js-client';
 import CommunityContextMenuButton from '@components/Common/ContextMenu/components/buttons/CommunityContextMenuButton';
+import { Image } from 'expo-image';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const headerPlaceholder = require('../../../../../assets/headerPlaceholder.jpg');
 const AnimatedAvatarPlaceholder = Animated.createAnimatedComponent(Globe);
+
+const AnimatedImage = Animated.createAnimatedComponent(Image);
 
 interface IProps {
   isLoading: boolean;
@@ -160,13 +163,13 @@ function CommunityHeader({
           top={-5}
         >
           {communityBanner != null && !communityNsfw ? (
-            <Animated.Image
+            <AnimatedImage
               source={{ uri: communityBanner }}
               style={[{ width: '100%' }, bannerStyle]}
               resizeMode="cover"
             />
           ) : (
-            <Animated.Image
+            <AnimatedImage
               source={headerPlaceholder}
               style={[{ width: '100%' }, bannerStyle]}
               resizeMode="cover"
@@ -193,7 +196,7 @@ function CommunityHeader({
         </YStack>
         <YStack zIndex={2}>
           {communityIcon != null ? (
-            <Animated.Image
+            <AnimatedImage
               source={{ uri: communityIcon }}
               style={[
                 {
