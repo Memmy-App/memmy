@@ -9,6 +9,7 @@ import { YStack } from 'tamagui';
 import RefreshControl from '@components/Common/Gui/RefreshControl';
 import { usePostScreen } from '@components/Post/hooks/usePostScreen';
 import FAB, { FABRef } from '@components/Common/Button/FAB';
+import { useShowCommentJumpButton } from '@src/state';
 
 interface IPostScreenContext {
   refresh?: () => void;
@@ -37,6 +38,8 @@ const renderItem = ({
 const keyExtractor = (item: ICommentInfo): string => item.commentId.toString();
 
 export default function PostScreen(): React.JSX.Element {
+  const showJumpButton = useShowCommentJumpButton();
+
   const {
     isLoading,
     isError,
@@ -182,7 +185,9 @@ export default function PostScreen(): React.JSX.Element {
           }
           contentContainerStyle={{ paddingBottom: 100 }}
         />
-        <FAB onPress={onFabPress} onLongPress={onFabLongPress} ref={fabRef} />
+        {showJumpButton && (
+          <FAB onPress={onFabPress} onLongPress={onFabLongPress} ref={fabRef} />
+        )}
       </YStack>
     </PostScreenContext.Provider>
   );
