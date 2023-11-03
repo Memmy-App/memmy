@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import {
   useBlurNsfw,
+  useMarkReadOnLinkOpen,
   useMouseLoadingIcon,
   usePostCommunityNsfw,
   usePostLink,
@@ -23,6 +24,7 @@ import { LinkHandler } from '@helpers/links';
 import LoadingAnimation from '@components/Common/Loading/LoadingAnimation';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import instance from '@src/Instance';
 
 interface IProps {
   itemId: number;
@@ -33,6 +35,7 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
 
   const theme = useTheme();
 
+  const markRead = useMarkReadOnLinkOpen();
   const mouse = useMouseLoadingIcon();
   const blurNsfw = useBlurNsfw();
 
@@ -54,6 +57,12 @@ function PostLinkPreview({ itemId }: IProps): React.JSX.Element | null {
   if (postLink == null) return null;
 
   const onPress = useCallback(() => {
+    if (markRead) {
+      void instance.markPostRead({
+        postId: itemId,
+      });
+    }
+
     const handler = new LinkHandler(postLink, theme.navBarBg.val, navigation);
     void handler.handleLink();
   }, [itemId, theme]);
