@@ -66,7 +66,7 @@ export default function SettingsAccountScreen({
                 if (v) {
                   Alert.alert(
                     'Push Notifications',
-                    'Because Lemmy does not offer scoped access to user accounts, enabling push notifications requires providing Memmy with your account access token. This token can be used to access your Lemmy account and is valid until you sign out or change your password. We do not use your access token for anything other than retrieving notification status, but we just wanted to let you know. See our Privacy Policy for more information.',
+                    'Because Lemmy does not offer scoped access to user accounts, enabling push notifications requires providing Memmy with your account access token.\n\nThis token can be used to access your Lemmy account and is valid until you sign out or change your password. We do not use your access token for anything other than retrieving notification status, but we just wanted to let you know.\n\nSee our Privacy Policy for more information.',
                     [
                       {
                         text: 'View Privacy Policy',
@@ -79,7 +79,7 @@ export default function SettingsAccountScreen({
                         style: 'cancel',
                       },
                       {
-                        text: 'I Understand. Continue.',
+                        text: 'Continue',
                         onPress: async () => {
                           const res = await notifications.enableOrDisable(
                             account,
@@ -97,6 +97,7 @@ export default function SettingsAccountScreen({
                             );
                           }
                         },
+                        style: 'default',
                       },
                     ],
                     {
