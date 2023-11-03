@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import FeedLoadingIndicator from '@components/Feed/components/Feed/FeedLoadingIndicator';
 import CommunityHeader from '@components/Feed/components/Community/CommunityHeader';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
@@ -20,6 +20,11 @@ import {
 } from '@src/state';
 import { ViewableItemsChanged } from '@src/types/ViewToken';
 import CommunityInfo from '@components/Feed/components/Community/CommunityInfo';
+
+const viewabilityConfig = {
+  minimumViewTime: 1000,
+  itemVisiblePercentThreshold: 50,
+};
 
 const renderItem = ({
   item,
@@ -47,14 +52,6 @@ export default function MainFeed(): React.JSX.Element {
     contentOffsetY.value =
       e.nativeEvent.contentOffset.y > 0 ? e.nativeEvent.contentOffset.y : 0;
   }, []);
-
-  const viewabilityConfig = useMemo(
-    () => ({
-      minimumViewTime: 1000,
-      itemVisiblePercentThreshold: 50,
-    }),
-    [],
-  );
 
   const onViewableItemsChanged = useCallback(
     ({ viewableItems }: ViewableItemsChanged<number>) => {
@@ -132,7 +129,6 @@ export default function MainFeed(): React.JSX.Element {
           contentContainerStyle={{ backgroundColor: theme.bg.val }}
           // @ts-expect-error - This is valid but useScrollToTop expect a ref to a FlatList
           ref={mainFeed.flashListRef}
-          // @ts-expect-error - This is valid but it doesn't like the typing for some reason
           viewabilityConfigCallbackPairs={
             viewabilityConfigCallbackPairs.current
           }

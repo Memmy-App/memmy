@@ -45,7 +45,7 @@ export const usePostScreen = (): UsePostScreen => {
   const newCommentId = useNewCommentId();
 
   const initialized = useRef(false);
-  const flashListRef = useRef<FlatList | undefined>();
+  const flashListRef = useRef<FlatList>(null);
 
   const [sortType, setSortType] = useState<CommentSortType>(
     defaultSortType ?? 'Top',

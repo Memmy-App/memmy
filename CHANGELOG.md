@@ -7,9 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Feat
+### Added
 
-- View saved posts. An odd issue with loading *all* of the saved posts. Will investigate more in the coming days.
+- View saved posts
+- Comment jump button
 
 ### Fixed
 

@@ -203,7 +203,14 @@ export default function SettingsAppearanceScreen({
         </Table.Section>
         <Table.Section header="Comment Appearance">
           <Table.Cell
-            label="Show Buttons"
+            label="Show Jump Button"
+            switchValue={settings.showCommentJumpButton}
+            onSwitchValueChange={(v) => {
+              setSetting('showCommentJumpButton', v);
+            }}
+          />
+          <Table.Cell
+            label="Show Vote Buttons"
             switchValue={settings.showCommentButtons}
             onSwitchValueChange={(v) => {
               setSetting('showCommentButtons', v);

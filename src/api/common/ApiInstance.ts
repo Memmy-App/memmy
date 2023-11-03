@@ -1221,6 +1221,7 @@ class ApiInstance {
       const res = await this.instance!.getPosts({
         auth: this.authToken!,
         saved_only: true,
+        type_: 'All',
         sort: 'New',
         page,
         limit: 25,

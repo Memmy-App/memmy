@@ -1,9 +1,8 @@
 export interface ViewToken<T> {
   item?: T;
   key: string;
-  index?: number;
+  index: number | null;
   isViewable: boolean;
-  timestamp: number;
 }
 
 export interface ViewableItemsChanged<T> {

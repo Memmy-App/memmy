@@ -103,6 +103,7 @@ export interface SettingsStore {
   mouseLoadingIcon: boolean;
 
   showCommentButtons: boolean;
+  showCommentJumpButton: boolean;
 
   useImgur: boolean;
 
@@ -200,6 +201,7 @@ const initialState: Partial<SettingsStore> = {
   showUsernameInTabBar: true,
 
   showCommentButtons: false,
+  showCommentJumpButton: false,
 
   mouseLoadingIcon: false,
 
@@ -359,3 +361,6 @@ export const useAnimateAvatars = (): boolean =>
 
 export const useViewType = (): 'full' | 'compact' =>
   useSettingsStore((state) => state.viewType);
+
+export const useShowCommentJumpButton = (): boolean =>
+  useSettingsStore((state) => state.showCommentJumpButton);
