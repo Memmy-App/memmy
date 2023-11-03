@@ -4,6 +4,7 @@ import * as Notifications from 'expo-notifications';
 import { Alert } from 'react-native';
 import { IAccount } from '@src/types';
 import axios from 'axios';
+import { getAccessToken } from '@helpers/secureStore';
 
 const API_URL = __DEV__
   ? process.env.EXPO_PUBLIC_TEST_API
@@ -56,18 +57,24 @@ export const useNotifications = (): UseNotifications => {
 
     setIsLoading(true);
 
+    // Get the access token
+    const accessToken = await getAccessToken(account);
+
+    if (accessToken == null) {
+      setIsLoading(false);
+      return false;
+    }
+
     try {
       const res = await axios.post(`${API_URL}/${action}`, {
         instance: account.instance,
-        authToken: account.token,
+        authToken: accessToken,
         pushToken: token,
       });
 
       setIsLoading(false);
 
-      if (res.status !== 200) return false;
-
-      return true;
+      return res.status === 200;
     } catch (e: any) {
       setIsLoading(false);
       return false;

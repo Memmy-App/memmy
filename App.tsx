@@ -81,6 +81,7 @@ export default function App(): React.JSX.Element | null {
 
   if (!loaded || !themeSettings.initialized) return null;
 
+  // TODO Eventually remove this
   if (upgraded == null || !upgraded) {
     resetAccountStore();
     resetSettingsStore();

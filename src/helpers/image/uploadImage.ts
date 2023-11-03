@@ -4,6 +4,7 @@ import { Alert } from 'react-native';
 import { useAccountStore, useSettingsStore } from '@src/state';
 import fs from 'react-native-fs';
 import axios from 'axios';
+import { getAccessToken } from '@helpers/secureStore';
 
 const imageTypes: Record<string, string> = {
   jpg: 'image/jpeg',
@@ -70,13 +71,20 @@ export const uploadImage = async (
   ];
 
   try {
+    // Get the access token
+    const accessToken = await getAccessToken(currentAccount);
+
+    if (accessToken == null) {
+      return null;
+    }
+
     const res = await fs.uploadFiles({
       toUrl: instanceUrl,
       files,
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        Cookie: 'jwt=' + currentAccount.token,
+        Cookie: 'jwt=' + accessToken,
       },
     }).promise;
 

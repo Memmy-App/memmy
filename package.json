@@ -34,6 +34,7 @@
     "expo-media-library": "^15.6.0",
     "expo-notifications": "^0.23.0",
     "expo-permissions": "^14.4.0",
+    "expo-secure-store": "^12.5.0",
     "expo-splash-screen": "^0.22.0",
     "expo-status-bar": "^1.7.1",
     "expo-system-ui": "^2.6.0",

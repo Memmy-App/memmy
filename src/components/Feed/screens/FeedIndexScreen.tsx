@@ -5,6 +5,8 @@ import instance from '@src/Instance';
 import { Alert } from 'react-native';
 import MainFeed from '@components/Feed/components/MainFeed';
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
+import { getAccessToken, setAccessToken } from '@helpers/secureStore';
+import { removeAccessTokenFromDataStore } from '@src/state/account/actions/removeAccessToken';
 
 export default function FeedIndexScreen(): React.JSX.Element {
   const currentAccount = useCurrentAccount();
@@ -13,6 +15,10 @@ export default function FeedIndexScreen(): React.JSX.Element {
 
   // On current account changes
   useEffect(() => {
+    void initialize();
+  }, [currentAccount]);
+
+  const initialize = async (): Promise<void> => {
     // Return if the account hasn't changed
     if (currentAccount === previousAccount.current) return;
     // Make sure it is not null
@@ -20,6 +26,16 @@ export default function FeedIndexScreen(): React.JSX.Element {
 
     previousAccount.current = currentAccount;
 
+    // We are going to migrate to using secure store. Will be removed in the future. For now, we want to see if the
+    // user's token is inside the store. If not, we will set it then remove it from the account object.
+
+    let token = await getAccessToken(currentAccount);
+
+    if (token == null) {
+      token = currentAccount.token;
+      await setAccessToken(currentAccount, token);
+      removeAccessTokenFromDataStore(currentAccount);
+    }
     // Reset the instance
     setInitialized(false);
     instance.resetInstance();
@@ -28,7 +44,7 @@ export default function FeedIndexScreen(): React.JSX.Element {
     void instance
       .initialize({
         host: currentAccount.instance,
-        authToken: currentAccount.token,
+        authToken: token,
         username: currentAccount.username,
         type: 'lemmy',
       })
@@ -49,7 +65,7 @@ export default function FeedIndexScreen(): React.JSX.Element {
       .catch(() => {
         Alert.alert('Error initializing.');
       });
-  }, [currentAccount]);
+  };
 
   if (!initialized) return <LoadingScreen />;
 
