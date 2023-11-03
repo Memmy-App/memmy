@@ -66,6 +66,8 @@ export default function CommentContextMenu({
         case 'report':
           commentContextMenu.report();
           break;
+        case 'block':
+          void commentContextMenu.block();
       }
     },
     [commentContextMenu],

@@ -6,6 +6,7 @@ import { useThemeColorScheme } from '@src/hooks';
 import {
   setToast,
   useCommentActorId,
+  useCommentCreator,
   useCommentPostId,
   useDataStore,
   usePostTitle,
@@ -25,6 +26,7 @@ interface UseCommentContextMenu {
   share: () => void;
   save: () => void;
   copy: () => Promise<void>;
+  block: () => Promise<void>;
 }
 
 export const useCommentContextMenu = (
@@ -36,6 +38,7 @@ export const useCommentContextMenu = (
   const postId = useCommentPostId(itemId);
   const postTitle = usePostTitle(postId ?? 0);
   const commentLink = useCommentActorId(itemId);
+  const commentCreatorId = useCommentCreator(itemId)?.id;
 
   const share = (): void => {
     if (postTitle == null || commentLink == null) return;
@@ -193,6 +196,16 @@ export const useCommentContextMenu = (
     }
   };
 
+  const block = async (): Promise<void> => {
+    if (commentCreatorId == null) return;
+
+    await instance.blockPerson({ personId: commentCreatorId, block: true });
+
+    setToast({
+      text: 'User has been blocked.',
+    });
+  };
+
   return {
     share,
     reply,
@@ -205,5 +218,6 @@ export const useCommentContextMenu = (
     report,
     save,
     copy,
+    block,
   };
 };

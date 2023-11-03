@@ -47,10 +47,22 @@ export const createCommentContextMenuOptions = (
     arr = [
       ...arr,
       {
-        key: 'report',
-        title: 'Report',
-        icon: 'exclamationmark.shield',
-        destructive: true,
+        key: 'inline',
+        title: 'Reporting and Blocking',
+        options: [
+          {
+            key: 'report',
+            title: 'Report',
+            icon: 'exclamationmark.shield',
+            destructive: true,
+          },
+          {
+            key: 'block',
+            title: 'Block',
+            icon: 'hand.raised',
+            destructive: true,
+          },
+        ],
       },
     ];
   }
@@ -59,15 +71,21 @@ export const createCommentContextMenuOptions = (
     arr = [
       ...arr,
       {
-        key: 'edit',
-        title: 'Edit',
-        icon: 'pencil',
-      },
-      {
-        key: 'delete',
-        title: 'Delete',
-        icon: 'trash',
-        destructive: true,
+        key: 'inline',
+        title: 'Content Tools',
+        options: [
+          {
+            key: 'edit',
+            title: 'Edit',
+            icon: 'pencil',
+          },
+          {
+            key: 'delete',
+            title: 'Delete',
+            icon: 'trash',
+            destructive: true,
+          },
+        ],
       },
     ];
   }
@@ -76,10 +94,16 @@ export const createCommentContextMenuOptions = (
     arr = [
       ...arr,
       {
-        key: 'remove',
-        title: 'Remove',
-        icon: 'trash',
-        destructive: true,
+        key: 'inline',
+        title: 'Moderation Tools',
+        options: [
+          {
+            key: 'remove',
+            title: 'Remove',
+            icon: 'trash',
+            destructive: true,
+          },
+        ],
       },
     ];
   }

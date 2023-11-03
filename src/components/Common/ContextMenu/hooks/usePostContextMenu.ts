@@ -7,6 +7,7 @@ import {
   usePostActorId,
   usePostBody,
   usePostCommunityId,
+  usePostCreatorId,
   usePostLink,
   usePostTitle,
 } from '@src/state';
@@ -30,6 +31,8 @@ interface UsePostContextMenu {
   copyPostImage: () => void;
   shareUrl: (isImage: boolean) => void;
   copyText: () => void;
+  blockCreator: () => Promise<void>;
+  blockCommunity: () => Promise<void>;
 }
 
 export const usePostContextMenu = (itemId: number): UsePostContextMenu => {
@@ -40,6 +43,7 @@ export const usePostContextMenu = (itemId: number): UsePostContextMenu => {
   const postActorId = usePostActorId(itemId);
   const postLink = usePostLink(itemId);
   const postBody = usePostBody(itemId);
+  const postCreatorId = usePostCreatorId(itemId);
 
   const colorScheme = useThemeColorScheme();
 
@@ -202,6 +206,26 @@ export const usePostContextMenu = (itemId: number): UsePostContextMenu => {
     );
   };
 
+  const blockCreator = async (): Promise<void> => {
+    if (postCreatorId == null) return;
+
+    await instance.blockPerson({ personId: postCreatorId, block: true });
+
+    setToast({
+      text: 'User blocked successfully!',
+    });
+  };
+
+  const blockCommunity = async (): Promise<void> => {
+    if (communityId == null) return;
+
+    await instance.blockCommunity({ communityId, block: true });
+
+    setToast({
+      text: 'Community blocked successfully!',
+    });
+  };
+
   return {
     share,
     shareUrl,
@@ -216,5 +240,7 @@ export const usePostContextMenu = (itemId: number): UsePostContextMenu => {
     report,
     copyText,
     copyPostImage,
+    blockCreator,
+    blockCommunity,
   };
 };

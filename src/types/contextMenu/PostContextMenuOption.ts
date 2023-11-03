@@ -1,4 +1,5 @@
 export type PostContextMenuOption =
+  | 'inline'
   | 'reply'
   | 'share'
   | 'shareImage'
@@ -11,4 +12,6 @@ export type PostContextMenuOption =
   | 'downvote'
   | 'report'
   | 'copyImage'
-  | 'copyText';
+  | 'copyText'
+  | 'blockCreator'
+  | 'blockCommunity';

@@ -1,4 +1,5 @@
 export type CommentContextMenuOption =
+  | 'inline'
   | 'reply'
   | 'share'
   | 'edit'
@@ -8,4 +9,5 @@ export type CommentContextMenuOption =
   | 'downvote'
   | 'save'
   | 'report'
-  | 'copy';
+  | 'copy'
+  | 'block';

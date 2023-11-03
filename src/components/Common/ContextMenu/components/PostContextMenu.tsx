@@ -73,6 +73,12 @@ export default function PostContextMenu({
         case 'copyImage':
           postContextMenu.copyPostImage();
           break;
+        case 'blockCreator':
+          void postContextMenu.blockCreator();
+          break;
+        case 'blockCommunity':
+          void postContextMenu.blockCommunity();
+          break;
       }
     },
     [postContextMenu],
