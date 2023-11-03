@@ -321,7 +321,8 @@ export const useMarkReadOnCommunityScroll = (): boolean =>
 export const useMarkReadOnImageView = (): boolean =>
   useSettingsStore((state) => state.readOptions.onImageView);
 
-export const useMarkReadOnPostView = (): boolean =>
+export const useMarkReadOnPostOpen = (): boolean =>
+  // TODO Change this in a future version
   useSettingsStore((state) => state.readOptions.onPostView);
 
 export const useMarkReadOnVote = (): boolean =>

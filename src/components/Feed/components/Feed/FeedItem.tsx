@@ -8,7 +8,7 @@ import { Pressable, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import FeedItemContent from '@components/Feed/components/Feed/FeedItem/FeedItemContent';
-import { setPostRead, useMarkReadOnPostView, usePostSaved } from '@src/state';
+import { setPostRead, useMarkReadOnPostOpen, usePostSaved } from '@src/state';
 import { View } from 'tamagui';
 import { Swipeable } from 'react-native-reanimated-swipeable';
 import { usePostSwipeOptions } from '@components/Common/SwipeableRow/hooks/usePostSwipeOptions';
@@ -22,7 +22,7 @@ function FeedItem({ itemId }: IProps): React.JSX.Element {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const postSaved = usePostSaved(itemId);
-  const markReadOnView = useMarkReadOnPostView();
+  const markReadOnView = useMarkReadOnPostOpen();
 
   const actionParams = useMemo(
     () => ({
