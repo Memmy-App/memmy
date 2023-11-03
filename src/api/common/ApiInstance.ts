@@ -638,7 +638,7 @@ class ApiInstance {
   /**
    * Get a single post and add it to the store
    * @param {number} postId
-   * @returns {Promise<GetPostResponse>}
+   * @returns {Promise<void>}
    */
   async getPost({ postId }: IPostParams): Promise<void> {
     try {
@@ -661,6 +661,7 @@ class ApiInstance {
    * Get comments
    * @param {Partial<GetComments>} options
    * @param {boolean} addToPost
+   * @param ignoreDepth
    * @returns {Promise<ICommentInfo[] | null>}
    */
   async getComments({
@@ -742,13 +743,11 @@ class ApiInstance {
     });
 
     try {
-      const res = await this.instance!.followCommunity({
+      return await this.instance!.followCommunity({
         community_id: communityId,
         follow: subscribe,
         auth: this.authToken!,
       });
-
-      return res;
     } catch (e: any) {
       setSubscribed({
         communityId,
@@ -1114,11 +1113,6 @@ class ApiInstance {
           page,
           limit: 20,
         });
-
-        if (res === undefined) {
-          const errMsg = ApiInstance.handleError('unknown');
-          throw new Error(errMsg);
-        }
 
         communities = [...communities, ...res.communities];
 
