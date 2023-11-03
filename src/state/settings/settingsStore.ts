@@ -93,6 +93,7 @@ export interface SettingsStore {
 
   showCommunityIconInFeed: boolean;
   showAvatarInFeed: boolean;
+  animateAvatars: boolean;
 
   showAvatarInTabBar: boolean;
   showUsernameInTabBar: boolean;
@@ -193,6 +194,7 @@ const initialState: Partial<SettingsStore> = {
 
   showCommunityIconInFeed: true,
   showAvatarInFeed: true,
+  animateAvatars: true,
 
   showAvatarInTabBar: true,
   showUsernameInTabBar: true,
@@ -351,3 +353,6 @@ export const useFullWidthSwipes = (): boolean =>
 
 export const useShowTotalScore = (): boolean =>
   useSettingsStore((state) => state.totalScore);
+
+export const useAnimateAvatars = (): boolean =>
+  useSettingsStore((state) => state.animateAvatars);
