@@ -48,6 +48,13 @@ export default function SettingsReadScreen(): React.JSX.Element {
             }
           />
           <Table.Cell
+            label="On Link Open"
+            switchValue={settings.readOptions.onLinkOpen}
+            onSwitchValueChange={(v) => {
+              setReadOption('onLinkOpen', v);
+            }}
+          />
+          <Table.Cell
             label="On Image View"
             accessoryRight={
               <Switch

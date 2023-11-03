@@ -35,6 +35,7 @@ export interface IReadOptions {
   onVote: boolean;
   onFeedScroll: boolean;
   onCommunityScroll: boolean;
+  onLinkOpen: boolean;
 
   hideReadPostsFeed: boolean;
   hideReadPostsCommunity: boolean;
@@ -166,6 +167,7 @@ const initialState: Partial<SettingsStore> = {
     onVote: true,
     onFeedScroll: false,
     onCommunityScroll: false,
+    onLinkOpen: false,
 
     hideReadPostsFeed: false,
     hideReadPostsCommunity: false,
@@ -324,6 +326,9 @@ export const useMarkReadOnPostView = (): boolean =>
 
 export const useMarkReadOnVote = (): boolean =>
   useSettingsStore((state) => state.readOptions.onVote);
+
+export const useMarkReadOnLinkOpen = (): boolean =>
+  useSettingsStore((state) => state.readOptions.onLinkOpen);
 
 export const useMouseLoadingIcon = (): boolean =>
   useSettingsStore((state) => state.mouseLoadingIcon);
