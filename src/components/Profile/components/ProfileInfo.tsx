@@ -12,10 +12,14 @@ import { useProfileScreenContext } from '@components/Profile/screens/ProfileScre
 import { getBaseUrl } from '@helpers/links';
 import ProfileTopTabs from '@components/Profile/components/Tabs/ProfileTopTabs';
 import ButtonOne from '@components/Common/Button/ButtonOne';
-import { Hand } from '@tamagui/lucide-icons';
+import { Bookmark, Hand } from '@tamagui/lucide-icons';
 import instance from '@src/Instance';
+import { useNavigation } from '@react-navigation/core';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 function ProfileHeader(): React.JSX.Element {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   const { profileId } = useProfileScreenContext();
   const personName = useProfileName(profileId);
   const personActorId = useProfileActorId(profileId);
@@ -57,9 +61,9 @@ function ProfileHeader(): React.JSX.Element {
 
   return (
     <>
-      <YStack mx="$3" space="$2.5" pt={isSelf ? '$10' : undefined} pb="$2">
-        {!isSelf && (
-          <XStack ml="auto" width="30%" py="$2" space="$3" right={10}>
+      <YStack mx="$3" space="$2.5" pb="$2">
+        <XStack ml="auto" width="30%" py="$2" space="$3" right={10}>
+          {!isSelf ? (
             <ButtonOne
               label={isBlocked ? 'Unblock' : 'Block'}
               icon={Hand}
@@ -67,8 +71,16 @@ function ProfileHeader(): React.JSX.Element {
               onPress={onBlockPress}
               backgroundColor="$fg"
             />
-          </XStack>
-        )}
+          ) : (
+            <ButtonOne
+              label="Saved"
+              icon={Bookmark}
+              onPress={() => navigation.navigate('SavedPosts')}
+              backgroundColor="$fg"
+            />
+          )}
+        </XStack>
+
         <YStack space="$0.5">
           <Text fontSize="$5" fontWeight="bold">
             {personName}

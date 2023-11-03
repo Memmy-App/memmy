@@ -79,3 +79,9 @@ export interface ICreateCommentParams extends IPostParams {
 export interface ICreatePostParams {
   options: Partial<CreatePost>;
 }
+
+export interface IPageParams {
+  page: number;
+  refresh?: boolean;
+  screenId?: string;
+}

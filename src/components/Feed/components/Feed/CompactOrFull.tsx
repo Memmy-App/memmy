@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSettingsStore } from '@src/state';
+import { useViewType } from '@src/state';
 import CompactFeedItem from '@components/Feed/components/Feed/CompactFeedItem';
 import FeedItem from '@components/Feed/components/Feed/FeedItem';
 
@@ -8,7 +8,7 @@ interface IProps {
 }
 
 function CompactOrFull({ itemId }: IProps): React.JSX.Element {
-  const viewType = useSettingsStore((state) => state.viewType);
+  const viewType = useViewType();
 
   if (viewType === 'compact') {
     return <CompactFeedItem itemId={itemId} />;

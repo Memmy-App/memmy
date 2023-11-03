@@ -36,3 +36,6 @@ export const useProfileActorId = (personId: number): string | undefined =>
   useDataStore(
     (state) => state.profiles.get(personId)?.person_view.person.actor_id,
   );
+
+export const useSavedPosts = (): number[] =>
+  useDataStore((state) => state.savedPosts);

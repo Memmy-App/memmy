@@ -101,9 +101,9 @@ export default function ProfileScreen(): React.JSX.Element {
             <ProfilePostsTab />
           </View>
           <View key={1} style={{ flex: 1 }}>
-            <ProfileCommentsTab selected={selectedTab} />
+            <ProfileCommentsTab />
           </View>
-          <View key={2} style={{ flex: 1 }}>
+          <View key={4} style={{ flex: 1 }}>
             <ProfileAboutTab />
           </View>
         </PagerView>

@@ -356,3 +356,6 @@ export const useShowTotalScore = (): boolean =>
 
 export const useAnimateAvatars = (): boolean =>
   useSettingsStore((state) => state.animateAvatars);
+
+export const useViewType = (): 'full' | 'compact' =>
+  useSettingsStore((state) => state.viewType);

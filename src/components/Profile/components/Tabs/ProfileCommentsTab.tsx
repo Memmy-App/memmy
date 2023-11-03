@@ -17,11 +17,7 @@ const renderItem = ({
 
 const keyExtractor = (item: CommentView): string => item.comment.id.toString();
 
-interface IProps {
-  selected: number;
-}
-
-function ProfileCommentsTab({ selected }: IProps): React.JSX.Element | null {
+function ProfileCommentsTab(): React.JSX.Element | null {
   const profileScreenContext = useProfileScreenContext();
   // TODO no need to store profile comments in global state, we can just return them in the hook
   const profileComments = useProfileComments(profileScreenContext.profileId);

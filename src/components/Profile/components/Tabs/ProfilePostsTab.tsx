@@ -28,7 +28,7 @@ function ProfilePostsTab(): React.JSX.Element {
       renderItem={renderItem}
       data={profilePosts}
       keyExtractor={keyExtractor}
-      estimatedItemSize={300}
+      estimatedItemSize={350}
       onScroll={profileScreenContext.onScroll}
       ListHeaderComponent={<ProfileInfo />}
       ListEmptyComponent={

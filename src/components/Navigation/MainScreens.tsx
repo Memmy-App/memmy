@@ -20,6 +20,7 @@ import WebViewScreen from '@components/WebViewer/WebViewScreen';
 import EditReplyScreen from '@components/Reply/screens/EditReplyScreen';
 import CommunityModeratorListScreen from '@components/Community/screens/CommunityModeratorListScreen';
 import CommunityInfoScreen from '@components/Community/screens/CommunityInfoScreen';
+import SavedPostsScreen from '@components/Profile/screens/SavedPostsScreen';
 
 export default function MainScreens(
   stack: TypedNavigator<
@@ -58,6 +59,11 @@ export default function MainScreens(
           name="Profile"
           component={ProfileScreen}
           options={{ headerShown: false }}
+        />
+        <stack.Screen
+          name="SavedPosts"
+          component={SavedPostsScreen}
+          options={{ headerTitle: 'Saved Posts' }}
         />
       </stack.Group>
       <stack.Group

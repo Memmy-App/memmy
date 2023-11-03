@@ -37,6 +37,7 @@ import {
   IGetRepliesParams,
   ILikeCommentParams,
   ILikePostParams,
+  IPageParams,
   IPostParams,
   IReportCommentParams,
   IReportPostParams,
@@ -74,6 +75,7 @@ import {
 } from '@src/state';
 import { ICommentInfo, lemmyErrors } from '@src/types';
 import { updatePost } from '@src/state/data/post/actions/updatePost';
+import { addSavedPosts } from '@src/state/data/profile/actions/addSavedPosts';
 
 export enum EInitializeResult {
   SUCCESS,
@@ -1204,6 +1206,32 @@ class ApiInstance {
         avatar: userAvatar ?? '',
         [setting]: value,
       });
+    } catch (e: any) {
+      const errMsg = ApiInstance.handleError(e.toString());
+      throw new Error(errMsg);
+    }
+  }
+
+  async getSavedPosts({
+    page,
+    refresh = false,
+    screenId,
+  }: IPageParams): Promise<void> {
+    try {
+      const res = await this.instance!.getPosts({
+        auth: this.authToken!,
+        saved_only: true,
+        sort: 'New',
+        page,
+        limit: 25,
+      });
+
+      const postIds = res.posts.map((p) => p.post.id);
+      addPosts({
+        posts: res.posts,
+        screenId: screenId!,
+      });
+      addSavedPosts(postIds, refresh);
     } catch (e: any) {
       const errMsg = ApiInstance.handleError(e.toString());
       throw new Error(errMsg);

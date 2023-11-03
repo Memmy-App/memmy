@@ -16,6 +16,7 @@ import {
   useMarkReadOnCommunityScroll,
   useMarkReadOnFeedScroll,
   useSettingsStore,
+  useViewType,
 } from '@src/state';
 import { ViewableItemsChanged } from '@src/types/ViewToken';
 import CommunityInfo from '@components/Feed/components/Community/CommunityInfo';
@@ -33,6 +34,7 @@ export default function MainFeed(): React.JSX.Element {
 
   const markReadOnFeedScroll = useMarkReadOnFeedScroll();
   const markReadOnCommunityScroll = useMarkReadOnCommunityScroll();
+  const viewType = useViewType();
 
   const theme = useTheme();
 
@@ -109,7 +111,7 @@ export default function MainFeed(): React.JSX.Element {
           keyExtractor={keyExtractor}
           onEndReachedThreshold={0.5}
           onEndReached={mainFeed.onEndReached}
-          estimatedItemSize={300}
+          estimatedItemSize={viewType === 'compact' ? 100 : 350}
           scrollEventThrottle={16}
           onScroll={onScroll}
           ListHeaderComponent={
