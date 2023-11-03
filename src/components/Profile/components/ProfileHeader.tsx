@@ -17,6 +17,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useProfileScreenContext } from '@components/Profile/screens/ProfileScreen';
 import { ChevronLeft, User } from '@tamagui/lucide-icons';
+import { Image } from 'expo-image';
+
+const AnimatedImage = Animated.createAnimatedComponent(Image);
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const headerPlaceholder = require('../../../../assets/headerPlaceholder.jpg');
@@ -134,13 +137,13 @@ function ProfileHeader(): React.JSX.Element {
           top={-5}
         >
           {personBanner != null ? (
-            <Animated.Image
+            <AnimatedImage
               source={{ uri: personBanner }}
               style={[{ width: '100%' }, bannerStyle]}
               resizeMode="cover"
             />
           ) : (
-            <Animated.Image
+            <AnimatedImage
               source={headerPlaceholder}
               style={[{ width: '100%' }, bannerStyle]}
               resizeMode="cover"
@@ -170,7 +173,7 @@ function ProfileHeader(): React.JSX.Element {
         </YStack>
         <YStack zIndex={2}>
           {personAvatar != null ? (
-            <Animated.Image
+            <AnimatedImage
               source={{ uri: personAvatar }}
               style={[
                 {
