@@ -21,6 +21,7 @@ import EditReplyScreen from '@components/Reply/screens/EditReplyScreen';
 import CommunityModeratorListScreen from '@components/Community/screens/CommunityModeratorListScreen';
 import CommunityInfoScreen from '@components/Community/screens/CommunityInfoScreen';
 import SavedPostsScreen from '@components/Profile/screens/SavedPostsScreen';
+import ProfileRecentPostHistoryTab from '@components/Profile/screens/ProfileRecentPostHistoryTab';
 
 export default function MainScreens(
   stack: TypedNavigator<
@@ -64,6 +65,11 @@ export default function MainScreens(
           name="SavedPosts"
           component={SavedPostsScreen}
           options={{ headerTitle: 'Saved Posts' }}
+        />
+        <stack.Screen
+          name="RecentPostHistory"
+          component={ProfileRecentPostHistoryTab}
+          options={{ headerTitle: 'Recently Seen Posts' }}
         />
       </stack.Group>
       <stack.Group

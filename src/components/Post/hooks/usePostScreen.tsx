@@ -16,6 +16,8 @@ import CommentSortTypeContextMenuButton from '@components/Common/ContextMenu/com
 import { CommentSortType } from 'lemmy-js-client';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ICommentInfo } from '@src/types';
+import { addRecentPost } from '@root/src/state/history/recentPosts';
+import { writeToLog } from '@src/helpers';
 
 interface UsePostScreen {
   isLoading: boolean;
@@ -149,8 +151,18 @@ export const usePostScreen = (): UsePostScreen => {
         ignoreDepth: parentCommentId != null,
       });
 
-      // Refresh the post once we are done. No need to await.
-      void instance.getPost({ postId });
+      // Refresh the post once we are done. No need to await to render, except
+      // to add to recent post history.
+      instance
+        .getPost({ postId })
+        .then(() => {
+          addRecentPost({ postId });
+        })
+        .catch((err) => {
+          writeToLog(
+            'Failed to add post to recent post history ' + err.toString(),
+          );
+        });
 
       if (parentCommentId != null) {
         flashListRef.current?.scrollToEnd({ animated: true });

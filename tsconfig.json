@@ -4,6 +4,7 @@
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 		"strict": true,
+		"jsx": "react-native",
 		"strictNullChecks": true,
 		"strictPropertyInitialization": true,
 		"noImplicitReturns": true,

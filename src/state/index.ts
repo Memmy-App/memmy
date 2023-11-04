@@ -5,3 +5,4 @@ export * from './draft';
 export * from './settings';
 export * from './filters';
 export * from './data';
+export * from './history';
