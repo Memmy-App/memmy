@@ -11,7 +11,7 @@ import Table from '@components/Common/Table/Table';
 import HeaderButton from '@components/Common/Button/HeaderButton';
 import AccountsContextMenu from '@components/Common/ContextMenu/components/AccountsContextMenu';
 import { Alert } from 'react-native';
-import { useNotifications } from '@hooks/useNotifications';
+import { useNotificationsSetup } from '@hooks/useNotificationsSetup';
 import { useThemeColorScheme } from '@src/hooks';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 
@@ -24,7 +24,7 @@ export default function SettingsAccountScreen({
 }: IProps): React.JSX.Element {
   const accounts = useAccounts();
   const currentAccount = useCurrentAccount();
-  const notifications = useNotifications();
+  const notifications = useNotificationsSetup();
   const colorScheme = useThemeColorScheme();
 
   useEffect(() => {

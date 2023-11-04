@@ -18,7 +18,7 @@ interface UseNotifications {
   ) => Promise<boolean>;
 }
 
-export const useNotifications = (): UseNotifications => {
+export const useNotificationsSetup = (): UseNotifications => {
   const [isLoading, setIsLoading] = useState(false);
 
   const register = async (): Promise<string | null> => {
