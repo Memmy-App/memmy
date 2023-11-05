@@ -19,3 +19,4 @@ export * from './IContextMenuOption';
 export * from './IPostGestureOption';
 export * from './IReplyGestureOptions';
 export * from './ICommentGestureOptions';
+export * from './IReplyNotification';

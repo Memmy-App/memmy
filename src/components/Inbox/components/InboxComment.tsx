@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
@@ -20,8 +20,6 @@ import {
   useReplyRead,
   useReplyRemoved,
 } from '@src/state';
-import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
-import instance from '@src/Instance';
 import { Separator, View, YStack } from 'tamagui';
 import { SwipeableActionParams } from '@helpers/swipeableActions';
 import CommentHeader from '@components/Comment/components/CommentHeader';
@@ -31,6 +29,7 @@ import InboxReplyMetrics from '@components/Inbox/components/InboxReplyMetrics';
 import { Swipeable } from 'react-native-reanimated-swipeable';
 import { useInboxReplySwipeOptions } from '@components/Common/SwipeableRow/hooks/useInboxReplySwipeOptions';
 import { playHaptic } from '@helpers/haptics';
+import { preloadPost } from '@helpers/post';
 
 interface IProps {
   itemId: number;
@@ -69,33 +68,24 @@ function InboxComment({ itemId, type }: IProps): React.JSX.Element {
   const leftOptions = useInboxReplySwipeOptions('left', type, actionParams);
   const rightOptions = useInboxReplySwipeOptions('right', type, actionParams);
 
-  const [loadingPost, setLoadingPost] = useState(false);
-
   const onPress = useCallback(async () => {
-    // Display loading
-    setLoadingPost(true);
+    const preloadRes = await preloadPost(postId ?? 0);
 
-    // Try to get the post and add it to the store
-    try {
-      await instance.getPost({ postId: postId ?? 0 });
-      setLoadingPost(false);
+    if (!preloadRes) return;
 
-      // Mark the reply as read
-      if (type === 'reply') setReplyRead({ itemId, type: 'reply' });
-      else setReplyRead({ itemId, type: 'mention' });
+    // Mark the reply as read
+    if (type === 'reply') setReplyRead({ itemId, type: 'reply' });
+    else setReplyRead({ itemId, type: 'mention' });
 
-      const pathArr = path!.split('.');
-      const parentId =
-        pathArr.length === 2 ? pathArr[1] : pathArr[pathArr.length - 2];
+    const pathArr = path!.split('.');
+    const parentId =
+      pathArr.length === 2 ? pathArr[1] : pathArr[pathArr.length - 2];
 
-      // Send to the post
-      navigation.push('Post', {
-        postId,
-        parentCommentId: parentId,
-      });
-    } catch (e) {
-      setLoadingPost(false);
-    }
+    // Send to the post
+    navigation.push('Post', {
+      postId,
+      parentCommentId: parentId,
+    });
   }, [itemId]);
 
   const ellipsisButton = useCallback(
@@ -119,7 +109,6 @@ function InboxComment({ itemId, type }: IProps): React.JSX.Element {
   return (
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <YStack my={2} onPress={onPress} hitSlop={3}>
-      <LoadingOverlay visible={loadingPost} />
       <Swipeable
         leftActionGroup={leftOptions ?? undefined}
         rightActionGroup={rightOptions ?? undefined}

@@ -41,6 +41,7 @@ import { useBackgroundChecks } from '@hooks/useBackgroundChecks';
 import { resetState } from '@src/state/resetState';
 import ErrorScreen from '@components/Error/ErrorScreen';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
+import { useNotificationsObserver } from '@hooks/useNotificationsObserver';
 
 if (__DEV__) {
   require('./ReactotronConfig');
@@ -119,14 +120,20 @@ const setOpen = (): void => {
 };
 
 function PartTwo(): React.JSX.Element {
+  // Drawer opening
   const drawerOpen = useDrawerOpen();
+
+  // App wide loading modal
   const isAppLoading = useIsAppLoading();
 
+  // Theme information
   const theme = useTheme();
   const accent = useAccent();
 
+  // Current account
   const currentAccount = useCurrentAccount();
 
+  // Create the theme for the navigation container.
   const navTheme = useMemo(
     () => ({
       ...DarkTheme,
@@ -142,7 +149,11 @@ function PartTwo(): React.JSX.Element {
     [theme],
   );
 
+  // Create a ref for navigation
   const navRef = useNavigationContainerRef();
+
+  // Handle notification redirects
+  useNotificationsObserver(navRef);
 
   /* This is a little trick to completely reset our stack whenever we change accounts.
      We don't want to have any remnant of leftover screens because the IDs for posts, profiles,
@@ -171,6 +182,7 @@ function PartTwo(): React.JSX.Element {
       {/* @ts-expect-error - This is a valid option */}
       <StatusBar style={theme.statusBar.val} />
 
+      {/* A global loading overlay to use throughout the app */}
       <LoadingOverlay visible={isAppLoading} />
 
       <RNDrawer

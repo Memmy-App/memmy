@@ -16,7 +16,7 @@ import { createName } from '@helpers/text';
 
 interface IProps {
   view: CommunityView;
-  navigation: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
+  navigation: NavigationContainerRefWithCurrent<any>;
 }
 
 function DrawerItem({ view, navigation }: IProps): React.JSX.Element {
@@ -34,7 +34,6 @@ function DrawerItem({ view, navigation }: IProps): React.JSX.Element {
 
   const onCommunityPress = useCallback(() => {
     setDrawerOpen(false);
-    // @ts-expect-error this is valid
     navigation.navigate('Community', {
       communityName: createName(
         view.community.name,
