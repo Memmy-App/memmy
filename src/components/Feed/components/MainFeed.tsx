@@ -12,6 +12,7 @@ import LoadingScreen from '@components/Common/Loading/LoadingScreen';
 import { useTheme, View } from 'tamagui';
 import CompactOrFull from '@components/Feed/components/Feed/CompactOrFull';
 import {
+  PostPair,
   setPostRead,
   useMarkReadOnCommunityScroll,
   useMarkReadOnFeedScroll,
@@ -20,6 +21,7 @@ import {
 } from '@src/state';
 import { ViewableItemsChanged } from '@src/types/ViewToken';
 import CommunityInfo from '@components/Feed/components/Community/CommunityInfo';
+import { LinkType } from '@src/types';
 
 const viewabilityConfig = {
   minimumViewTime: 1000,
@@ -28,11 +30,15 @@ const viewabilityConfig = {
 
 const renderItem = ({
   item,
-}: ListRenderItemInfo<number>): React.JSX.Element => {
-  return <CompactOrFull itemId={item} />;
+}: ListRenderItemInfo<PostPair>): React.JSX.Element => {
+  return <CompactOrFull itemId={item.postId} />;
 };
 
-const keyExtractor = (item: number): string => item.toString();
+const getItemType = (item: PostPair): LinkType => {
+  return item.linkType;
+};
+
+const keyExtractor = (item: PostPair): string => item.postId.toString();
 
 export default function MainFeed(): React.JSX.Element {
   const { params } = useRoute<any>();
@@ -102,10 +108,11 @@ export default function MainFeed(): React.JSX.Element {
         />
       )}
       <View flex={1} zIndex={-1}>
-        <FlashList<number>
+        <FlashList<PostPair>
           renderItem={renderItem}
-          data={mainFeed.postIds}
+          data={mainFeed.postPairs}
           keyExtractor={keyExtractor}
+          getItemType={getItemType}
           onEndReachedThreshold={0.5}
           onEndReached={mainFeed.onEndReached}
           estimatedItemSize={viewType === 'compact' ? 100 : 350}
