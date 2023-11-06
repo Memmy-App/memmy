@@ -12,7 +12,6 @@ import { enableFreeze, enableScreens } from 'react-native-screens';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { enableMapSet } from 'immer';
-import ImageViewerProvider from '@components/Common/ImageViewer/ImageViewerProvider';
 import { LogBox } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -29,6 +28,7 @@ import {
   useAppUpgraded,
   useCurrentAccount,
   useDrawerOpen,
+  useIgnoreScreenHeight,
   useIsAppLoading,
   useSettingsStore,
 } from '@src/state';
@@ -42,6 +42,7 @@ import { resetState } from '@src/state/resetState';
 import ErrorScreen from '@components/Error/ErrorScreen';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 import { useNotificationsObserver } from '@hooks/useNotificationsObserver';
+import { ImageViewerProvider } from 'expo-image-viewer';
 
 if (__DEV__) {
   require('./ReactotronConfig');
@@ -133,6 +134,8 @@ function PartTwo(): React.JSX.Element {
   // Current account
   const currentAccount = useCurrentAccount();
 
+  const ignoreScreenHeight = useIgnoreScreenHeight();
+
   // Create the theme for the navigation container.
   const navTheme = useMemo(
     () => ({
@@ -197,7 +200,15 @@ function PartTwo(): React.JSX.Element {
         }}
         swipeEnabled={false}
       >
-        <ImageViewerProvider>
+        <ImageViewerProvider
+          options={{
+            showHeader: true,
+            showFooter: true,
+            swipeToDismiss: true,
+            preloadImages: false,
+            heightModifier: ignoreScreenHeight ? 0.9 : 0.6,
+          }}
+        >
           <AppToast />
           <NavigationContainer theme={navTheme} ref={navRef} key={key}>
             <Stack />

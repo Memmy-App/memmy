@@ -1,30 +1,22 @@
 import React from 'react';
 import {
-  useBlurNsfw,
   usePostBody,
-  usePostCommunityNsfw,
   usePostDeleted,
   usePostLink,
   usePostLinkType,
-  usePostNsfw,
   usePostRemoved,
 } from '@src/state';
 import { useRoute } from '@react-navigation/core';
 import { Text, View } from 'tamagui';
-import ViewerImage from '@components/Common/ImageViewer/ViewerImage';
 import Markdown from '@components/Common/Markdown/Markdown';
 import PostLinkPreview from '@components/Common/PostCard/PostLinkPreview';
 
 function PostContent(): React.JSX.Element {
   const { postId } = useRoute<any>().params;
 
-  const blurNsfw = useBlurNsfw();
-
   const postLinkType = usePostLinkType(postId);
   const postBody = usePostBody(postId);
   const postLink = usePostLink(postId);
-  const postNsfw = usePostNsfw(postId);
-  const postCommunityNsfw = usePostCommunityNsfw(postId);
   const postRemoved = usePostRemoved(postId);
   const postDeleted = usePostDeleted(postId);
 
@@ -52,10 +44,10 @@ function PostContent(): React.JSX.Element {
     <View>
       {postLinkType === 'image' && (
         <View my="$3">
-          <ViewerImage
-            source={postLink!}
-            blurRadius={(postNsfw || postCommunityNsfw) && blurNsfw ? 90 : 0}
-          />
+          {/* <ViewerImage */}
+          {/*   source={postLink!} */}
+          {/*   blurRadius={(postNsfw || postCommunityNsfw) && blurNsfw ? 90 : 0} */}
+          {/* /> */}
         </View>
       )}
       {postBody != null && (

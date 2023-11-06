@@ -5916,6 +5916,11 @@ expo-font@~11.4.0:
   dependencies:
     fontfaceobserver "^2.1.0"
 
+expo-haptics@^12.6.0:
+  version "12.6.0"
+  resolved "https://registry.yarnpkg.com/expo-haptics/-/expo-haptics-12.6.0.tgz#1e32e5411c15e91df1f757faf1a53484cc47cf6d"
+  integrity sha512-/kw75+2qKfr+K1wIjul0BFG1YUqidXYt1wMzsEmdDTCBU/P/xTKX5O3X5W3mdAeUSvA8FFPbij0IHbyw3W4XKg==
+
 expo-image-loader@~4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/expo-image-loader/-/expo-image-loader-4.4.0.tgz#35909516311aa60fa4bf35aa6eb7624d7f7f788d"
@@ -5927,6 +5932,11 @@ expo-image-picker@^14.5.0:
   integrity sha512-9icvfQuWMdNKufFqu+FxenKcfybz9ior+XYQCIl/q5+mpHPo2tKq8I30vu2BjsOJ0Cfo7V4vMeN7a9F/3ooUfQ==
   dependencies:
     expo-image-loader "~4.4.0"
+
+expo-image-viewer@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/expo-image-viewer/-/expo-image-viewer-0.4.1.tgz#6acad1bbb2ffa100d3057489da2e15e70c619af0"
+  integrity sha512-Svw4tc+iwpCHkhVgNXTLxNjq6rFwLQrk9UOkn15DKLPpia991OhtwyfNeyLQ7Ncf1a0ArgFtPwEZl4x1j3oMVw==
 
 "expo-image@https://gitpkg.now.sh/expo/expo/packages/expo-image?%40behenate/fix-image-reloads":
   version "1.6.0"

@@ -1,45 +1,23 @@
 import React from 'react';
-import {
-  useBlurNsfw,
-  usePostCommunityNsfw,
-  usePostLink,
-  usePostLinkType,
-  usePostNsfw,
-  usePostThumbnail,
-  usePostTitle,
-} from '@src/state';
+import { usePostLinkType, usePostThumbnail } from '@src/state';
 import { YStack } from 'tamagui';
-import ViewerImage from '@components/Common/ImageViewer/ViewerImage';
 import { Link } from '@tamagui/lucide-icons';
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
+import ViewerImageWrapper from '@components/Common/ImageViewer/ViewerImageWrapper';
 
 interface IProps {
   itemId: number;
 }
 
 function CompactFeedItemThumbnail({ itemId }: IProps): React.JSX.Element {
-  const blurNsfw = useBlurNsfw();
-
-  const postLink = usePostLink(itemId);
   const postLinkType = usePostLinkType(itemId);
-  const postNsfw = usePostNsfw(itemId);
-  const postCommunityNsfw = usePostCommunityNsfw(itemId);
-  const postTitle = usePostTitle(itemId);
   const postThumbnail = usePostThumbnail(itemId);
 
   if (postLinkType === 'image') {
     return (
       <YStack justifyContent="center" borderRadius="$2">
-        <ViewerImage
-          source={postLink!}
-          blurRadius={(postNsfw || postCommunityNsfw) && blurNsfw ? 90 : 0}
-          title={postTitle}
-          overrideDimensions
-          height={65}
-          width={65}
-          borderRadius={10}
-        />
+        <ViewerImageWrapper itemId={itemId} type="compact" />
       </YStack>
     );
   }

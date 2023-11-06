@@ -4,8 +4,25 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
+_
 ## [Unreleased]
+
+### Changes
+
+- Migrate image viewer into an external library. Took the time to properly handle scaling up and downsizes, animations,
+etc.
+
+### Fixed
+
+- This should fix issues with images that don't properly load crashing the app.
+- Images that are loaded in comments show an activity indicator
+- Activity indicator for images in the feeds is animated properly
+
+## [Version 1.1.1 (79)] - 2023-11-05T02:21:26Z
+
+### Added
+
+- Opening notification takes you to the correct notification
 
 ## [Version 1.1 (78)] - 2023-11-03T10:23:59Z
 

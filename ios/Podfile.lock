@@ -85,6 +85,8 @@ PODS:
     - ExpoModulesCore
   - ExpoDevice (5.6.0):
     - ExpoModulesCore
+  - ExpoHaptics (12.6.0):
+    - ExpoModulesCore
   - ExpoImage (1.6.0):
     - ExpoModulesCore
     - SDWebImage (~> 5.17.0)
@@ -725,6 +727,7 @@ DEPENDENCIES:
   - expo-dev-menu-interface (from `../node_modules/expo-dev-menu-interface/ios`)
   - ExpoClipboard (from `../node_modules/expo-clipboard/ios`)
   - ExpoDevice (from `../node_modules/expo-device/ios`)
+  - ExpoHaptics (from `../node_modules/expo-haptics/ios`)
   - ExpoImage (from `../node_modules/expo-image/ios`)
   - ExpoImageCachePath (from `../modules/expo-image-cache-path/ios`)
   - ExpoImagePicker (from `../node_modules/expo-image-picker/ios`)
@@ -881,6 +884,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-clipboard/ios"
   ExpoDevice:
     :path: "../node_modules/expo-device/ios"
+  ExpoHaptics:
+    :path: "../node_modules/expo-haptics/ios"
   ExpoImage:
     :path: "../node_modules/expo-image/ios"
   ExpoImageCachePath:
@@ -1038,6 +1043,7 @@ SPEC CHECKSUMS:
   expo-dev-menu-interface: bda969497e73dadc2663c479e0fa726ca79a306e
   ExpoClipboard: d2f0e44d50e5ba07b02f5fb7bd280178b420e24e
   ExpoDevice: 4b9825263a3f996fd5a89ec26426e22e6cbc32d6
+  ExpoHaptics: 604aca02e942d1d43c139cae7cf397b26f85476f
   ExpoImage: a02f1b0c514f3521c8b442a93687f927ef2c0d8d
   ExpoImageCachePath: 5bb1072da668ab3938c7d11b717d76920a41a1b7
   ExpoImagePicker: 9e5c745cb3e56ee00e1cfe5d6af59caab66ecf1a

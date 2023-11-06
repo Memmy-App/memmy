@@ -364,3 +364,6 @@ export const useViewType = (): 'full' | 'compact' =>
 
 export const useShowCommentJumpButton = (): boolean =>
   useSettingsStore((state) => state.showCommentJumpButton);
+
+export const useIgnoreScreenHeight = (): boolean =>
+  useSettingsStore((state) => state.imagesIgnoreScreenHeight);

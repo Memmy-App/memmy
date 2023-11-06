@@ -1,30 +1,25 @@
-import { IDimensions } from '@src/types';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-
-interface IStoredDimensionsState {
-  dimensions: IDimensions;
-  viewerDimensions?: IDimensions;
-}
+import { IAllDimensions } from 'expo-image-viewer';
 
 interface ImageStore {
-  dimensions: Map<string, IStoredDimensionsState>;
+  dimensions: Map<string, IAllDimensions>;
 }
 
 export const useImageStore = create(
   immer<ImageStore>(() => ({
-    dimensions: new Map<string, IStoredDimensionsState>(),
+    dimensions: new Map<string, IAllDimensions>(),
   })),
 );
 
 export const useImageSavedDimensions = (
   source: string,
-): IStoredDimensionsState | undefined =>
+): IAllDimensions | undefined =>
   useImageStore((state) => state.dimensions.get(source));
 
 export const saveImageDimensions = (
   source: string,
-  dimensions: IStoredDimensionsState,
+  dimensions: IAllDimensions,
 ): void => {
   useImageStore.setState((state) => {
     state.dimensions.set(source, dimensions);
