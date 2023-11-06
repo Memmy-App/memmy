@@ -10,6 +10,7 @@ _
 ### Added
 
 - Added link to Lemmy-Status.org to check if there is an issue with your instance.
+- Option to show full title in compact view
 
 ### Changes
 

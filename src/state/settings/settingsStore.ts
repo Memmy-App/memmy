@@ -60,6 +60,7 @@ export interface SettingsStore {
   compactThumbnailPosition: 'left' | 'right' | 'none';
   compactVoteButtonPosition: 'left' | 'right' | 'none';
   compactShowUsername: boolean;
+  compactShowFullTitle: boolean;
 
   theme: IThemeOption;
   themeLight: IThemeOption;
@@ -152,6 +153,7 @@ const initialState: Partial<SettingsStore> = {
   compactThumbnailPosition: 'left',
   compactVoteButtonPosition: 'right',
   compactShowUsername: false,
+  compactShowFullTitle: false,
 
   theme: 'lightTheme',
   themeLight: 'lightTheme',
@@ -367,3 +369,12 @@ export const useShowCommentJumpButton = (): boolean =>
 
 export const useIgnoreScreenHeight = (): boolean =>
   useSettingsStore((state) => state.imagesIgnoreScreenHeight);
+
+export const useThumbnailPosition = (): 'left' | 'right' | 'none' =>
+  useSettingsStore((state) => state.compactThumbnailPosition);
+
+export const useVoteButtonPosition = (): 'left' | 'right' | 'none' =>
+  useSettingsStore((state) => state.compactVoteButtonPosition);
+
+export const useCompactShowFullTitle = (): boolean =>
+  useSettingsStore((state) => state.compactShowFullTitle);

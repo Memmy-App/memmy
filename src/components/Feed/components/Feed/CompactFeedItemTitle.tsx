@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePostTitle } from '@src/state';
+import { useCompactShowFullTitle, usePostTitle } from '@src/state';
 import { Text } from 'tamagui';
 
 interface IProps {
@@ -7,13 +7,15 @@ interface IProps {
 }
 
 function CompactFeedItemTitle({ itemId }: IProps): React.JSX.Element {
+  const showFullTitle = useCompactShowFullTitle();
+
   const postTitle = usePostTitle(itemId);
 
   return (
     <Text
       fontSize="$3"
       fontWeight="bold"
-      numberOfLines={2}
+      numberOfLines={showFullTitle ? undefined : 2}
       textBreakStrategy="simple"
     >
       {postTitle}
