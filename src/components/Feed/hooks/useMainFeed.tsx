@@ -6,7 +6,6 @@ import {
   useDefaultSort,
   useFeedNextPage,
   useFeedPostPairs,
-  useLastHomePress,
 } from '@src/state';
 import React, {
   useCallback,
@@ -57,8 +56,6 @@ export const useMainFeed = (): UseMainFeed => {
   const defaultCommunitySort = useDefaultCommunitySort();
   const defaultListingType = useDefaultListingType();
 
-  const lastHomePress = useLastHomePress();
-
   const [sortType, setSortType] = useState<SortType>(
     params?.communityName != null
       ? defaultCommunitySort ?? 'Hot'
@@ -95,6 +92,10 @@ export const useMainFeed = (): UseMainFeed => {
       );
     },
   );
+
+  useEffect(() => {
+    console.log(isLoading);
+  }, [isLoading]);
 
   // Add subs button if necessary and cleanup posts whenever we leave the screen
   useEffect(() => {
@@ -141,6 +142,7 @@ export const useMainFeed = (): UseMainFeed => {
     if (!isLoading) {
       onRefresh();
       flashListRef.current?.scrollToOffset({ offset: 0, animated: true });
+    } else {
     }
   }, [listingType, sortType]);
 
@@ -152,7 +154,7 @@ export const useMainFeed = (): UseMainFeed => {
         page: nextPage,
       });
     });
-  }, [defaultOptions, nextPage]);
+  }, [defaultOptions, key, nextPage]);
 
   // Callback for refreshing the data
   const onRefresh = useCallback(() => {
@@ -163,7 +165,7 @@ export const useMainFeed = (): UseMainFeed => {
         refresh: true,
       });
     });
-  }, [defaultOptions]);
+  }, [defaultOptions, key]);
 
   return {
     postPairs,
