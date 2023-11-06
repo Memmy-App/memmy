@@ -8,7 +8,6 @@ import ProfileStackScreen from '@components/Navigation/ProfileStackScreen';
 import { Cog, Home, Inbox, Search, User } from '@tamagui/lucide-icons';
 import {
   setDrawerOpen,
-  setHomePress,
   useCurrentAccount,
   usePersonAvatar,
   useShowAvatarInTabBar,
@@ -21,20 +20,6 @@ import { playHaptic } from '@helpers/haptics';
 import AccountsContextMenu from '@components/Common/ContextMenu/components/AccountsContextMenu';
 
 const Tab = createBottomTabNavigator();
-
-let lastPress = 0;
-
-const onHomeTabPress = (): void => {
-  const now = Date.now();
-
-  if (now < lastPress + 200) {
-    setHomePress();
-  }
-
-  lastPress = now;
-
-  void playHaptic();
-};
 
 const onHomeTabLongPress = (): void => {
   setDrawerOpen(true);
@@ -88,7 +73,6 @@ export default function Tabs(): React.JSX.Element {
           tabBarIcon: ({ color }) => <Home color={color} size={24} />,
         }}
         listeners={{
-          tabPress: onHomeTabPress,
           tabLongPress: onHomeTabLongPress,
         }}
       />

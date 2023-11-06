@@ -144,15 +144,6 @@ export const useMainFeed = (): UseMainFeed => {
     }
   }, [listingType, sortType]);
 
-  useEffect(() => {
-    if (lastHomePress === 0) return;
-
-    if (!isLoading) {
-      onRefresh();
-      flashListRef.current?.scrollToOffset({ offset: 0, animated: true });
-    }
-  }, [lastHomePress]);
-
   // Callback for loading more data when we hit the end
   const onEndReached = useCallback(() => {
     append(async () => {
