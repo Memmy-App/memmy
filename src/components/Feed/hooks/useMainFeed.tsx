@@ -1,10 +1,11 @@
 import {
+  PostPair,
   setDrawerOpen,
   useDefaultCommunitySort,
   useDefaultListingType,
   useDefaultSort,
   useFeedNextPage,
-  useFeedPostIds,
+  useFeedPostPairs,
   useLastHomePress,
 } from '@src/state';
 import React, {
@@ -30,7 +31,7 @@ import { List } from '@tamagui/lucide-icons';
 import { XStack } from 'tamagui';
 
 interface UseMainFeed {
-  postIds: number[];
+  postPairs: PostPair[];
   onEndReached: () => void;
   isLoading: boolean;
   isRefreshing: boolean;
@@ -49,7 +50,7 @@ export const useMainFeed = (): UseMainFeed => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { key, params } = useRoute<any>();
 
-  const postIds = useFeedPostIds(key);
+  const postPairs = useFeedPostPairs(key);
   const nextPage = useFeedNextPage(key);
 
   const defaultSort = useDefaultSort();
@@ -174,7 +175,7 @@ export const useMainFeed = (): UseMainFeed => {
   }, [defaultOptions]);
 
   return {
-    postIds,
+    postPairs,
     onEndReached,
     isLoading,
     isRefreshing,

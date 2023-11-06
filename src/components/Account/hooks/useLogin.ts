@@ -4,6 +4,7 @@ import { EInitializeResult } from '@api/common/ApiInstance';
 import { addAccount, setToast } from '@src/state';
 import { Alert } from 'react-native';
 import { useThemeColorScheme } from '@hooks/useThemeColorScheme';
+import { getBaseUrl } from '@helpers/links';
 
 interface DoLoginOptions {
   instance: string;
@@ -27,10 +28,28 @@ export const useLogin = (): UseLogin => {
   const doLogin = async (options: DoLoginOptions): Promise<void> => {
     setLoading(true);
 
+    // We actually want to check for any nullish values here.
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    if (!options.instance || !options.username || !options.password) {
+      setLoading(false);
+      setToast({
+        text: 'Please fill out all fields.',
+      });
+      return;
+    }
+
+    if (options.username.includes('@')) {
+      setLoading(false);
+      setToast({
+        text: 'Please enter a username instead of an email.',
+      });
+      return;
+    }
+
     try {
       const res = await instance.initialize({
         type: 'lemmy',
-        host: options.instance,
+        host: getBaseUrl(options.instance),
         username: options.username,
         password: options.password,
         totpToken: options.totpToken,

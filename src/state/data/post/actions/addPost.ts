@@ -1,5 +1,5 @@
 import { PostView } from 'lemmy-js-client';
-import { useDataStore, useFilterStore } from '@src/state';
+import { PostPair, useDataStore, useFilterStore } from '@src/state';
 import { getLinkType } from '@helpers/links/getLinkType';
 import { truncateText } from '@helpers/text';
 import { cacheImages } from '@helpers/image';
@@ -58,8 +58,8 @@ export const addPosts = ({
 }: AddPostsParams): void => {
   const links: string[] = [];
 
-  const postIds: number[] = [];
-  const currentPosts = useDataStore.getState().feeds.get(screenId)?.postIds;
+  const postPairs: PostPair[] = [];
+  const currentPosts = useDataStore.getState().feeds.get(screenId)?.postPairs;
   const moderated = useDataStore.getState().site?.moderatedIds;
   const userId =
     useDataStore.getState().site.site?.my_user?.local_user_view.local_user
@@ -84,6 +84,7 @@ export const addPosts = ({
       }
 
       const currentPost = state.posts.get(post.post.id);
+      const linkType = getLinkType(post.post.url);
 
       if (currentPost != null) {
         currentPost.usedBy.push(screenId);
@@ -91,7 +92,7 @@ export const addPosts = ({
         state.posts.set(post.post.id, {
           view: post,
           usedBy: [screenId],
-          linkType: getLinkType(post.post.url),
+          linkType,
           bodyPreview: truncateText(post.post.body, 200),
           moderates: moderated?.includes(post.post.community_id) ?? false,
           isOwnPost: userId === post.creator.id,
@@ -99,19 +100,23 @@ export const addPosts = ({
       }
 
       if (!refresh) {
-        const index = currentPosts?.indexOf(post.post.id);
+        const index = currentPosts?.findIndex((p) => p.postId === post.post.id);
 
         if (index == null || index === -1) {
-          postIds.push(post.post.id);
+          postPairs.push({
+            postId: post.post.id,
+            linkType,
+          });
 
           if (post.post.url != null) {
             links.push(post.post.url);
-          } else if (post.post.thumbnail_url != null) {
-            links.push(post.post.thumbnail_url);
           }
         }
       } else {
-        postIds.push(post.post.id);
+        postPairs.push({
+          postId: post.post.id,
+          linkType,
+        });
       }
 
       void cacheImages(links);
@@ -123,11 +128,11 @@ export const addPosts = ({
     if (feed == null || refresh) {
       state.feeds.set(screenId, {
         feedId: screenId,
-        postIds: [...postIds],
+        postPairs: [...postPairs],
         nextPage: page + 1,
       });
     } else {
-      feed.postIds = [...feed.postIds, ...postIds];
+      feed.postPairs = [...feed.postPairs, ...postPairs];
       feed.nextPage = page + 1;
     }
   });

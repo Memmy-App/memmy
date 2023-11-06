@@ -1,6 +1,6 @@
 import RNShare, { ShareOptions } from 'react-native-share';
-import { getCachePath } from '@root/modules/expo-image-cache-path';
 import { setToast } from '@src/state';
+import { Image } from 'expo-image';
 
 interface ShareLinkOptions {
   title?: string;
@@ -21,7 +21,7 @@ export const shareLink = async ({
   };
 
   if (isImage === true) {
-    const uri = getCachePath(link);
+    const uri = await Image.getCachePathAsync(link);
 
     if (uri == null) return;
 

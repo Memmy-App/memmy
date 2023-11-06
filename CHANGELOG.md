@@ -7,16 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 _
 ## [Unreleased]
 
+### Added
+
+- Added link to Lemmy-Status.org to check if there is an issue with your instance.
+- Option to show full title in compact view
+
 ### Changes
 
 - Migrate image viewer into an external library. Took the time to properly handle scaling up and downsizes, animations,
 etc.
+- Performance improvements for feeds
 
 ### Fixed
 
+- Issues that allowed users to sign in with incorrect values for instance or username have been fixed.
 - This should fix issues with images that don't properly load crashing the app.
 - Images that are loaded in comments show an activity indicator
 - Activity indicator for images in the feeds is animated properly
+- Better login validation
+- Fix issue where the wrong background color was displayed while opening the drawer or rotating the device
+- False positive Lemmy links should now open (i.e. https://newsrepublic.com/post/1234 isn't a Lemmy post)
+- Old change, but it seems that NSFW GIF/WebPs are now blurred properly
+- Bold and image accessories will now position the cursor inside the stars if no text is selected. The current behavior
+of placing the cursor at the end of the stars will happen if any text was selected.
 
 ## [Version 1.1.1 (79)] - 2023-11-05T02:21:26Z
 

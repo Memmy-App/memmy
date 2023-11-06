@@ -16,7 +16,6 @@ import { LogBox } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { ErrorBoundary } from 'react-error-boundary';
 import { writeToLog } from '@src/helpers';
-import { useThemeSettings } from '@hooks/useThemeSettings';
 import AppToast from '@components/Common/Toast/AppToast';
 
 import { Drawer as RNDrawer } from 'react-native-drawer-layout';
@@ -37,12 +36,17 @@ import {
   NavigationContainer,
   useNavigationContainerRef,
 } from '@react-navigation/native';
-import { useBackgroundChecks } from '@hooks/useBackgroundChecks';
 import { resetState } from '@src/state/resetState';
 import ErrorScreen from '@components/Error/ErrorScreen';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
-import { useNotificationsObserver } from '@hooks/useNotificationsObserver';
 import { ImageViewerProvider } from 'expo-image-viewer';
+import ImageViewerFooter from '@components/Common/ImageViewer/ImageViewerFooter';
+import {
+  useBackgroundChecks,
+  useManageRootBackgroundColor,
+  useNotificationsObserver,
+  useThemeSettings,
+} from '@src/hooks';
 
 if (__DEV__) {
   require('./ReactotronConfig');
@@ -158,6 +162,9 @@ function PartTwo(): React.JSX.Element {
   // Handle notification redirects
   useNotificationsObserver(navRef);
 
+  // Manage the background color
+  useManageRootBackgroundColor();
+
   /* This is a little trick to completely reset our stack whenever we change accounts.
      We don't want to have any remnant of leftover screens because the IDs for posts, profiles,
      will be incorrect. We also will reset most of the stores here so we have a fresh, clean slate.
@@ -207,6 +214,7 @@ function PartTwo(): React.JSX.Element {
             swipeToDismiss: true,
             preloadImages: false,
             heightModifier: ignoreScreenHeight ? 0.9 : 0.6,
+            FooterComponent: () => <ImageViewerFooter />,
           }}
         >
           <AppToast />
