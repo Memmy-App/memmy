@@ -5,7 +5,8 @@ import {
   useMarkReadOnPostOpen,
   usePostCreator,
   usePostSaved,
-  useSettingsStore,
+  useThumbnailPosition,
+  useVoteButtonPosition,
 } from '@src/state';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -31,13 +32,13 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const theme = useTheme();
 
-  const thumbnailPosition = useSettingsStore(
-    (state) => state.compactThumbnailPosition,
-  );
-  const voteButtonPosition = useSettingsStore(
-    (state) => state.compactVoteButtonPosition,
-  );
-  const markReadOnPostView = useMarkReadOnPostOpen();
+  const postUser = usePostCreator(itemId);
+  const postSaved = usePostSaved(itemId);
+
+  const thumbnailPosition = useThumbnailPosition();
+  const voteButtonPosition = useVoteButtonPosition();
+  const markReadOnView = useMarkReadOnPostOpen();
+  const showUsername = useCompactShowUsername();
 
   const actionParams = useMemo(
     () => ({
@@ -50,22 +51,16 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
   const leftSwipeOptions = usePostSwipeOptions('left', actionParams);
   const rightSwipeOptions = usePostSwipeOptions('right', actionParams);
 
-  const postUser = usePostCreator(itemId);
-
-  const showUsername = useCompactShowUsername();
-
-  const postSaved = usePostSaved(itemId);
-
   const onPress = useCallback(() => {
-    if (markReadOnPostView) {
+    navigation.push('Post', {
+      postId: itemId,
+    });
+
+    if (markReadOnView) {
       setPostRead({
         postId: itemId,
       });
     }
-
-    navigation.push('Post', {
-      postId: itemId,
-    });
   }, [itemId]);
 
   return (
