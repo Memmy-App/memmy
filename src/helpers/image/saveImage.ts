@@ -3,7 +3,6 @@ import * as MediaLibrary from 'expo-media-library';
 import { Alert } from 'react-native';
 import { writeToLog } from '@src/helpers';
 import { setToast } from '@src/state';
-import { getCachePath } from '@root/modules/expo-image-cache-path';
 import * as Clipboard from 'expo-clipboard';
 import * as FileSystem from 'expo-file-system';
 import { Image } from 'expo-image';
@@ -52,7 +51,7 @@ export const saveImage = async (source: string): Promise<void> => {
 export const copyImageToClipboard = async (source: string): Promise<void> => {
   try {
     // Use SDWebImage to get the cache path
-    const uri = getCachePath(source);
+    const uri = await Image.getCachePathAsync(source);
 
     // Make sure that we have a valid URI
     if (uri == null) {
