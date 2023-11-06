@@ -60,7 +60,7 @@ export default function AddAccountModal(): React.JSX.Element {
         <Label icon={<User size={12} />}>Username</Label>
         <TextInput
           placeholder="Username"
-          onChangeText={(v) => {
+          onChangeText={(v: string) => {
             onFormChange('username', v);
           }}
           autoCorrect={false}
@@ -73,7 +73,7 @@ export default function AddAccountModal(): React.JSX.Element {
         <Label icon={<Key size={12} />}>Password</Label>
         <TextInput
           placeholder="Password"
-          onChangeText={(v) => {
+          onChangeText={(v: string) => {
             onFormChange('password', v);
           }}
           autoCorrect={false}

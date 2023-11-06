@@ -147,6 +147,13 @@ export default function SettingsAppearanceScreen({
                 }}
               />
               <Table.Cell
+                label="Show Full Title"
+                switchValue={settings.compactShowFullTitle}
+                onSwitchValueChange={(v) => {
+                  setSetting('compactShowFullTitle', v);
+                }}
+              />
+              <Table.Cell
                 label="Show Avatars"
                 switchValue={settings.showAvatarInFeed}
                 onSwitchValueChange={(v) => {

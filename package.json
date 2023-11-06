@@ -58,7 +58,6 @@
     "react-native-drawer-layout": "^4.0.0-alpha.1",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.13.4",
-    "react-native-haptic-feedback": "^2.2.0",
     "react-native-ios-context-menu": "^1.15.3",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-material-tabs": "^4.2.0",

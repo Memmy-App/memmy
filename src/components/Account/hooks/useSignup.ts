@@ -3,6 +3,7 @@ import instance from '@src/Instance';
 import { EInitializeResult } from '@api/common/ApiInstance';
 import { addAccount, setToast } from '@src/state';
 import { Alert } from 'react-native';
+import { getBaseUrl } from '@helpers/links';
 
 const validateEmail = (email: string): boolean => {
   const re = /\S+@\S+\.\S+/;
@@ -49,12 +50,31 @@ export const useSignup = (): UseSignup => {
         return;
       }
 
+      if (
+        options.instance === '' ||
+        options.username === '' ||
+        options.password === '' ||
+        options.passwordAgain === ''
+      ) {
+        setToast({
+          text: 'Please fill out all fields.',
+        });
+        return;
+      }
+
+      if (options.username.includes('@')) {
+        setToast({
+          text: 'Please enter a username instead of an email.',
+        });
+        return;
+      }
+
       setLoading(true);
 
       const res = await instance.initialize(
         {
           type: 'lemmy',
-          host: options.instance,
+          host: getBaseUrl(options.instance),
           username: options.username,
           password: options.password,
         },

@@ -7,7 +7,9 @@ interface IProps {
   itemId: number;
 }
 
-function CompactFeedItemVoteButtons({ itemId }: IProps): React.JSX.Element {
+export default function CompactFeedItemVoteButtons({
+  itemId,
+}: IProps): React.JSX.Element {
   return (
     <YStack space="$1" justifyContent="center" alignItems="center" mx="$1.5">
       <PostUpvoteButton itemId={itemId} />
@@ -15,5 +17,3 @@ function CompactFeedItemVoteButtons({ itemId }: IProps): React.JSX.Element {
     </YStack>
   );
 }
-
-export default React.memo(CompactFeedItemVoteButtons);

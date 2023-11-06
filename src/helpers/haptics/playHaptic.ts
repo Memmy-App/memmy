@@ -1,11 +1,6 @@
 import { IHapticStrengthOption } from '@src/types/options';
 import { useSettingsStore } from '@src/state';
-import { trigger } from 'react-native-haptic-feedback';
-
-const hapticOptions = {
-  enableVibrateFallback: true,
-  ignoreAndroidSystemSettings: false,
-};
+import * as Haptics from 'expo-haptics';
 
 export const playHaptic = async (
   override?: IHapticStrengthOption,
@@ -19,13 +14,13 @@ export const playHaptic = async (
 
   switch (hapticStrength) {
     case 'light':
-      trigger('impactLight', hapticOptions);
+      void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       break;
     case 'medium':
-      trigger('impactMedium', hapticOptions);
+      void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       break;
     case 'strong':
-      trigger('impactHeavy', hapticOptions);
+      void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       break;
     default:
       break;
