@@ -43,6 +43,7 @@ import ErrorScreen from '@components/Error/ErrorScreen';
 import LoadingOverlay from '@components/Common/Loading/LoadingOverlay';
 import { useNotificationsObserver } from '@hooks/useNotificationsObserver';
 import { ImageViewerProvider } from 'expo-image-viewer';
+import ImageViewerFooter from '@components/Common/ImageViewer/ImageViewerFooter';
 
 if (__DEV__) {
   require('./ReactotronConfig');
@@ -207,6 +208,7 @@ function PartTwo(): React.JSX.Element {
             swipeToDismiss: true,
             preloadImages: false,
             heightModifier: ignoreScreenHeight ? 0.9 : 0.6,
+            FooterComponent: () => <ImageViewerFooter />,
           }}
         >
           <AppToast />
