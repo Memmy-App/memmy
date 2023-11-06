@@ -60,16 +60,12 @@ export default function MainFeed(): React.JSX.Element {
   }, []);
 
   const onViewableItemsChanged = useCallback(
-    ({ viewableItems }: ViewableItemsChanged<number>) => {
+    ({ viewableItems }: ViewableItemsChanged<PostPair>) => {
       const item = viewableItems?.[0]?.item;
 
       // If viewable items is null or empty, just return now
       if (item == null) return;
 
-      /*
-        This is a weird situation where we can't use the hook to get these setting values. FlashList does not support
-        updating the viewability config on the fly and as a result we have to resort to this.
-      */
       const markReadOnFeedScroll =
         useSettingsStore.getState().readOptions.onFeedScroll;
       const markReadOnCommunityScroll =
@@ -82,7 +78,7 @@ export default function MainFeed(): React.JSX.Element {
       ) {
         // Mark the first viewable post as read
         setPostRead({
-          postId: item,
+          postId: item.postId,
         });
       }
     },
