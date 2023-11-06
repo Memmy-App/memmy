@@ -6,10 +6,11 @@ import { setToast } from '@src/state';
 import { getCachePath } from '@root/modules/expo-image-cache-path';
 import * as Clipboard from 'expo-clipboard';
 import * as FileSystem from 'expo-file-system';
+import { Image } from 'expo-image';
 
 export const saveImage = async (source: string): Promise<void> => {
   // Use SDWebImage to get the cache path
-  const localUri = getCachePath(source);
+  const localUri = await Image.getCachePathAsync(source);
 
   // Make sure that we have a valid URI
   if (localUri == null) {
