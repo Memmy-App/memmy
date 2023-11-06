@@ -1,5 +1,4 @@
 import { useAppStore } from '@src/state/app';
-import { useImageStore } from '@src/state/image';
 import { useDataStore } from '@src/state/data';
 
 export const resetState = (): void => {
@@ -29,9 +28,5 @@ export const resetState = (): void => {
     state.site.subscriptions = [];
     state.site.moderated = [];
     state.site.moderatedIds = [];
-  });
-
-  useImageStore.setState((state) => {
-    state.dimensions.clear();
   });
 };
