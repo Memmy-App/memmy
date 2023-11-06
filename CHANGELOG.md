@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 _
 ## [Unreleased]
 
+### Added
+
+- Added link to Lemmy-Status.org to check if there is an issue with your instance.
+
 ### Changes
 
 - Migrate image viewer into an external library. Took the time to properly handle scaling up and downsizes, animations,
