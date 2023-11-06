@@ -6,7 +6,6 @@ import {
   useDefaultSort,
   useFeedNextPage,
   useFeedPostPairs,
-  useLastHomePress,
 } from '@src/state';
 import React, {
   useCallback,
@@ -56,8 +55,6 @@ export const useMainFeed = (): UseMainFeed => {
   const defaultSort = useDefaultSort();
   const defaultCommunitySort = useDefaultCommunitySort();
   const defaultListingType = useDefaultListingType();
-
-  const lastHomePress = useLastHomePress();
 
   const [sortType, setSortType] = useState<SortType>(
     params?.communityName != null
@@ -144,15 +141,6 @@ export const useMainFeed = (): UseMainFeed => {
     }
   }, [listingType, sortType]);
 
-  useEffect(() => {
-    if (lastHomePress === 0) return;
-
-    if (!isLoading) {
-      onRefresh();
-      flashListRef.current?.scrollToOffset({ offset: 0, animated: true });
-    }
-  }, [lastHomePress]);
-
   // Callback for loading more data when we hit the end
   const onEndReached = useCallback(() => {
     append(async () => {
@@ -161,7 +149,7 @@ export const useMainFeed = (): UseMainFeed => {
         page: nextPage,
       });
     });
-  }, [defaultOptions, nextPage]);
+  }, [defaultOptions, key, nextPage]);
 
   // Callback for refreshing the data
   const onRefresh = useCallback(() => {
@@ -172,7 +160,7 @@ export const useMainFeed = (): UseMainFeed => {
         refresh: true,
       });
     });
-  }, [defaultOptions]);
+  }, [defaultOptions, key]);
 
   return {
     postPairs,

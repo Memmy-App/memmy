@@ -2,7 +2,7 @@ module.exports = {
   env: {
     es2021: true,
   },
-  extends: ["plugin:react/recommended", "standard-with-typescript", "prettier"],
+  extends: ["plugin:react/recommended", "standard-with-typescript", "prettier", "plugin:react-hooks/recommended"],
   overrides: [],
   parserOptions: {
     ecmaVersion: "latest",
@@ -57,5 +57,7 @@ module.exports = {
       printWidth: 80,
     }],
     "no-console": [2],
+    "react-hooks/rules-of-hooks": [2],
+    "react-hooks/exhaustive-deps": [1],
   },
 };

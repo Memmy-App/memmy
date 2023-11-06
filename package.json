@@ -88,6 +88,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "license-report": "^6.5.0",
     "patch-package": "^8.0.0",
     "postinstall-postinstall": "^2.1.0",

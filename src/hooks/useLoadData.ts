@@ -82,18 +82,18 @@ export const useLoadData = <ReturnType>(
 
           setPage?.((prev) => prev + 1);
         } else {
-          setStatus((prev) => ({
-            ...prev,
-            isLoading: false,
-            isError: false,
-            isRefreshing: false,
-            error: undefined,
-          }));
-
           setReturnData(data);
 
           setPage?.(2);
         }
+
+        setStatus((prev) => ({
+          ...prev,
+          isLoading: false,
+          isError: false,
+          isRefreshing: false,
+          error: undefined,
+        }));
 
         inProgress.current = false;
       })
