@@ -93,10 +93,6 @@ export const useMainFeed = (): UseMainFeed => {
     },
   );
 
-  useEffect(() => {
-    console.log(isLoading);
-  }, [isLoading]);
-
   // Add subs button if necessary and cleanup posts whenever we leave the screen
   useEffect(() => {
     navigation.setOptions({
@@ -142,7 +138,6 @@ export const useMainFeed = (): UseMainFeed => {
     if (!isLoading) {
       onRefresh();
       flashListRef.current?.scrollToOffset({ offset: 0, animated: true });
-    } else {
     }
   }, [listingType, sortType]);
 
