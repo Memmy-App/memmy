@@ -16,9 +16,11 @@ _
 
 - Migrate image viewer into an external library. Took the time to properly handle scaling up and downsizes, animations,
 etc.
+- Performance improvements for feeds
 
 ### Fixed
 
+- Issues that allowed users to sign in with incorrect values for instance or username have been fixed.
 - This should fix issues with images that don't properly load crashing the app.
 - Images that are loaded in comments show an activity indicator
 - Activity indicator for images in the feeds is animated properly
