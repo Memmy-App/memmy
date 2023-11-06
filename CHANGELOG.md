@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 _
 ## [Unreleased]
 
+## [Version 1.1.1 (81)] - 2023-11-06T09:55:51Z
+
 ### Added
 
 - Added link to Lemmy-Status.org to check if there is an issue with your instance.
