@@ -111,6 +111,13 @@ export default function SettingsIndexScreen({
         </Table.Section>
         <Table.Section header="Memmy">
           <Table.Cell
+            label="Check Lemmy Status"
+            useChevron
+            onPress={() => {
+              void openLink('https://lemmy-status.org/', theme.navBarBg.val);
+            }}
+          />
+          <Table.Cell
             label="Report a Bug"
             useChevron
             onPress={() => {
