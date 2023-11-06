@@ -48,26 +48,38 @@ export const useKeyboardAccessory = (
   };
 
   const onBoldPress = useCallback(() => {
-    const replacement = `**${getSelected()}**`;
+    const selected = getSelected();
+    const hasSelection = selected.length > 0;
+
+    const replacement = `**${selected}**`;
     const newText = replace(replacement);
 
     setText(newText);
 
     inputRef.current?.setNativeProps({
       text: newText,
-      selection: { start: selection.end, end: selection.end },
+      selection: {
+        start: hasSelection ? selection.end : selection.end - 2,
+        end: hasSelection ? selection.end : selection.end - 2,
+      },
     });
   }, [text, selection]);
 
   const onItalicPress = useCallback(() => {
-    const replacement = `*${getSelected()}*`;
+    const selected = getSelected();
+    const hasSelection = selected.length > 0;
+
+    const replacement = `*${selected}*`;
     const newText = replace(replacement);
 
     setText(newText);
 
     inputRef.current?.setNativeProps({
       text: newText,
-      selection: { start: selection.end, end: selection.end },
+      selection: {
+        start: hasSelection ? selection.end : selection.end - 1,
+        end: hasSelection ? selection.end : selection.end - 1,
+      },
     });
   }, [text, selection]);
 

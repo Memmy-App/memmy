@@ -25,6 +25,9 @@ etc.
 - Better login validation
 - Fix issue where the wrong background color was displayed while opening the drawer or rotating the device
 - False positive Lemmy links should now open (i.e. https://newsrepublic.com/post/1234 isn't a Lemmy post)
+- Old change, but it seems that NSFW GIF/WebPs are now blurred properly
+- Bold and image accessories will now position the cursor inside the stars if no text is selected. The current behavior
+of placing the cursor at the end of the stars will happen if any text was selected.
 
 ## [Version 1.1.1 (79)] - 2023-11-05T02:21:26Z
 
