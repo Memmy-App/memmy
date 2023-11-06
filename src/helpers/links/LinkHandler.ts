@@ -75,7 +75,11 @@ export class LinkHandler {
     } catch (e: any) {
       // We received an error, so this is not a lemmy instance
       setAppLoading(false);
-      return false;
+
+      setTimeout(() => {
+        openLink(this.link, this.color);
+      }, 150);
+      return true;
     }
 
     // We know this is a lemmy instance, so now we will proceed to search the instance

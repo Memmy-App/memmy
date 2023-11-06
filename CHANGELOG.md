@@ -24,6 +24,7 @@ etc.
 - Activity indicator for images in the feeds is animated properly
 - Better login validation
 - Fix issue where the wrong background color was displayed while opening the drawer or rotating the device
+- False positive Lemmy links should now open (i.e. https://newsrepublic.com/post/1234 isn't a Lemmy post)
 
 ## [Version 1.1.1 (79)] - 2023-11-05T02:21:26Z
 
