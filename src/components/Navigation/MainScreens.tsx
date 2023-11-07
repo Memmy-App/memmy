@@ -21,6 +21,7 @@ import EditReplyScreen from '@components/Reply/screens/EditReplyScreen';
 import CommunityModeratorListScreen from '@components/Community/screens/CommunityModeratorListScreen';
 import CommunityInfoScreen from '@components/Community/screens/CommunityInfoScreen';
 import SavedPostsScreen from '@components/Profile/screens/SavedPostsScreen';
+import GiphyModal from '@components/Common/Giphy/GiphyModal';
 
 export default function MainScreens(
   stack: TypedNavigator<
@@ -76,6 +77,11 @@ export default function MainScreens(
           name="Reply"
           component={ReplyScreen}
           options={{ gestureEnabled: false }}
+        />
+        <stack.Screen
+          name="Giphy"
+          component={GiphyModal}
+          options={{ headerTitle: 'Giphy' }}
         />
         <stack.Screen
           name="NewPost"

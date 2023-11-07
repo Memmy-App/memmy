@@ -11,3 +11,4 @@ export * from './useThemeSettings';
 export * from './comments';
 export * from './useBackgroundChecks';
 export * from './useManageBackgroundColor';
+export * from './useGiphySearch';
