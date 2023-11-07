@@ -66,7 +66,7 @@ export const useNotificationsSetup = (): UseNotifications => {
     }
 
     try {
-      const res = await axios.post(`${API_URL}/account/push${action}`, {
+      const res = await axios.post(`${API_URL}/account/push/${action}`, {
         instance: account.instance,
         authToken: accessToken,
         pushToken: token,
