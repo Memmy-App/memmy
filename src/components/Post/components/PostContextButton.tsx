@@ -13,7 +13,7 @@ function PostContextButton({ itemId }: IProps): React.JSX.Element {
   return (
     <XStack ml="auto" p="$1" pr="$2" space="$3">
       <PostContextMenu itemId={itemId}>
-        <Ellipsis size={18} color={theme.accent.val} />
+        <Ellipsis color={theme.accent.val} />
       </PostContextMenu>
     </XStack>
   );

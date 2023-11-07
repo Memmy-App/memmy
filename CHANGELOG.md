@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 _
 ## [Unreleased]
 
+### Fixed
+
+- Posts not being marked read on scroll
+- Feed not refreshing when changing sort
+- Improved pressability of ellipsis buttons (again)
+
 ## [Version 1.1.1 (81)] - 2023-11-06T09:55:51Z
 
 ### Added

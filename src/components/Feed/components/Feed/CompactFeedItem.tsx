@@ -17,7 +17,6 @@ import PostMetrics from '@components/Common/PostCard/PostMetrics';
 import PostCommunityLabel from '@components/Common/PostCard/PostCommunityLabel';
 import PostContextMenu from '@components/Common/ContextMenu/components/PostContextMenu';
 import Ellipsis from '@components/Common/Icons/Ellipsis';
-import { Pressable } from 'react-native';
 import CompactFeedItemVoteButtons from '@components/Feed/components/Feed/CompactFeedItem/CompactFeedItemVoteButtons';
 import PostUserLabel from '@components/Common/PostCard/PostUserLabel';
 import { usePostSwipeOptions } from '@components/Common/SwipeableRow/hooks/usePostSwipeOptions';
@@ -115,9 +114,7 @@ function CompactFeedItem({ itemId }: IProps): React.JSX.Element {
             <XStack justifyContent="space-between">
               <PostMetrics itemId={itemId} />
               <PostContextMenu itemId={itemId}>
-                <Pressable>
-                  <Ellipsis color={theme.accent.val} />
-                </Pressable>
+                <Ellipsis color={theme.accent.val} />
               </PostContextMenu>
             </XStack>
           </YStack>
