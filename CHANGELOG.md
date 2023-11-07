@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 _
 ## [Unreleased]
 
+## [Version 1.1.2 (84)] - 2023-11-07T09:33:27Z
+
 ### Fixed
 
 - Posts not being marked read on scroll
