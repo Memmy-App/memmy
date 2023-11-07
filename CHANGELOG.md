@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 _
 ## [Unreleased]
 
+## [Version 1.1.3 (88)] - 2023-11-07T19:52:24Z
+
+### Fixed
+
+- Native crash when rendering an SVG image in a feed
+
 ## [Version 1.1.2 (84)] - 2023-11-07T09:33:27Z
 
 ### Fixed
