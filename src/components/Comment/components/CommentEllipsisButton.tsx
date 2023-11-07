@@ -14,7 +14,7 @@ export default function CommentEllipsisButton({
 
   return (
     <CommentContextMenu itemId={itemId}>
-      <Ellipsis size={16} color={theme.accent.val} />
+      <Ellipsis size={20} color={theme.accent.val} />
     </CommentContextMenu>
   );
 }
