@@ -55,7 +55,12 @@ function PostContent(): React.JSX.Element {
   return (
     <View>
       {postLinkType === 'image' && (
-        <View my="$3">
+        <View
+          my="$3"
+          justifyContent="center"
+          alignItems="center"
+          backgroundColor="$bg"
+        >
           <ViewerImage
             source={postLink!}
             blurRadius={(postNsfw || postCommunityNsfw) && blurNsfw ? 90 : 0}
