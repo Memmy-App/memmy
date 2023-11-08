@@ -11,6 +11,7 @@ import { useTheme } from 'tamagui';
 import instance from '@src/Instance';
 import { ViewerImage } from 'expo-image-viewer';
 import { StyleProp, StyleSheet } from 'react-native';
+import { useCreateImageHeaders } from '@hooks/useCreateImageHeaders';
 
 interface IProps {
   itemId: number;
@@ -27,6 +28,8 @@ function ViewerImageWrapper({ itemId, type }: IProps): React.JSX.Element {
   const postCommunityNsfw = usePostCommunityNsfw(itemId);
   const postTitle = usePostTitle(itemId);
 
+  const imageHeaders = useCreateImageHeaders(postLink!);
+
   const onPress = useCallback((): void => {
     if (markReadOnView) {
       void instance.markPostRead({ postId: itemId });
@@ -39,6 +42,7 @@ function ViewerImageWrapper({ itemId, type }: IProps): React.JSX.Element {
         source={postLink!}
         blurRadius={(postNsfw || postCommunityNsfw) && blurNsfw ? 90 : 0}
         title={postTitle}
+        headers={imageHeaders}
         initialDimensions={{ width: 65, height: 65 }}
         onPress={onPress}
         showActivityIndicator
@@ -57,6 +61,7 @@ function ViewerImageWrapper({ itemId, type }: IProps): React.JSX.Element {
       source={postLink!}
       blurRadius={(postNsfw || postCommunityNsfw) && blurNsfw ? 90 : 0}
       title={postTitle}
+      headers={imageHeaders}
       initialDimensions={{ width: 300, height: 300 }}
       onPress={onPress}
       showActivityIndicator

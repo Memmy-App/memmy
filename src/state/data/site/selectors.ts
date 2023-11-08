@@ -44,3 +44,8 @@ export const useDownvotesAllowed = (): boolean =>
   useDataStore(
     (state) => state.site.site?.site_view.local_site.enable_downvotes ?? false,
   );
+
+export const useIsSitePrivate = (): boolean =>
+  useDataStore(
+    (state) => state.site.site?.site_view.local_site.private_instance,
+  ) ?? false;

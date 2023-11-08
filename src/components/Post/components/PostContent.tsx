@@ -1,36 +1,25 @@
 import React from 'react';
 import {
-  useBlurNsfw,
   usePostBody,
-  usePostCommunityNsfw,
   usePostDeleted,
   usePostLink,
   usePostLinkType,
-  usePostNsfw,
   usePostRemoved,
-  usePostTitle,
 } from '@src/state';
 import { useRoute } from '@react-navigation/core';
-import { Text, useTheme, View } from 'tamagui';
+import { Text, View } from 'tamagui';
 import Markdown from '@components/Common/Markdown/Markdown';
 import PostLinkPreview from '@components/Common/PostCard/PostLinkPreview';
-import { ViewerImage } from 'expo-image-viewer';
+import ViewerImageWrapper from '@components/Common/ImageViewer/ViewerImageWrapper';
 
 function PostContent(): React.JSX.Element {
-  const theme = useTheme();
-
   const { postId } = useRoute<any>().params;
 
-  const blurNsfw = useBlurNsfw();
-
-  const postNsfw = usePostNsfw(postId);
-  const postCommunityNsfw = usePostCommunityNsfw(postId);
   const postLinkType = usePostLinkType(postId);
   const postBody = usePostBody(postId);
   const postLink = usePostLink(postId);
   const postRemoved = usePostRemoved(postId);
   const postDeleted = usePostDeleted(postId);
-  const postTitle = usePostTitle(postId);
 
   if (postDeleted) {
     return (
@@ -61,14 +50,7 @@ function PostContent(): React.JSX.Element {
           alignItems="center"
           backgroundColor="$bg"
         >
-          <ViewerImage
-            source={postLink!}
-            blurRadius={(postNsfw || postCommunityNsfw) && blurNsfw ? 90 : 0}
-            title={postTitle}
-            initialDimensions={{ width: 300, height: 300 }}
-            showActivityIndicator
-            activityIndicatorColor={theme.accent.val}
-          />
+          <ViewerImageWrapper itemId={postId} type="full" />
         </View>
       )}
       {postBody != null && (

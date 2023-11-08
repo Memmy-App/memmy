@@ -5938,10 +5938,10 @@ expo-image-picker@^14.5.0:
   dependencies:
     expo-image-loader "~4.4.0"
 
-expo-image-viewer@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/expo-image-viewer/-/expo-image-viewer-0.4.2.tgz#8240bbdef52f08fd89875582c5b6ef70845051c5"
-  integrity sha512-mlxl/NTCMXXToh1LocqoBIQ0UBNUw+0N8653ToXJkaFEZa3XIpJDjp7RlrZ/Qg03aUfDSTxyowBynq+FJHb1xQ==
+expo-image-viewer@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/expo-image-viewer/-/expo-image-viewer-0.4.3.tgz#82badb40d5ff5b9e0f92db0e5eb5101b50a6bec6"
+  integrity sha512-JUQFq1a6441f9okjiNIbo2VbXIEta75kKaxxPKC5AfSc/ZnGIuy/zekUWBKgJM9PFnNoXOP2LIWnWCCvuLoH/Q==
 
 "expo-image@https://gitpkg.now.sh/expo/expo/packages/expo-image?%40behenate/fix-image-reloads":
   version "1.6.0"
