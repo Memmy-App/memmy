@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 _
 ## [Unreleased]
 
+## [Version 1.1.3 (89)] - 2023-11-08T11:05:14Z
+
+### Fixed
+
+- Images on private instances not loading
+- Some images being misaligned
+
 ## [Version 1.1.3 (88)] - 2023-11-07T19:52:24Z
 
 ### Fixed
