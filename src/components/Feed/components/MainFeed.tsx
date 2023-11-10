@@ -5,7 +5,11 @@ import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import RefreshControl from '@components/Common/Gui/RefreshControl';
 import { useMainFeed } from '@components/Feed/hooks/useMainFeed';
 import Animated, { FadeIn, useSharedValue } from 'react-native-reanimated';
-import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ViewabilityConfig,
+} from 'react-native';
 import { useRoute } from '@react-navigation/core';
 import { useCommunityFeed } from '@components/Feed/hooks/useCommunityFeed';
 import LoadingScreen from '@components/Common/Loading/LoadingScreen';
@@ -23,9 +27,9 @@ import { ViewableItemsChanged } from '@src/types/ViewToken';
 import CommunityInfo from '@components/Feed/components/Community/CommunityInfo';
 import { LinkType } from '@src/types';
 
-const viewabilityConfig = {
-  minimumViewTime: 1000,
-  itemVisiblePercentThreshold: 50,
+const viewabilityConfig: ViewabilityConfig = {
+  minimumViewTime: 300,
+  itemVisiblePercentThreshold: 20,
 };
 
 const renderItem = ({

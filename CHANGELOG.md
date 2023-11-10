@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 _
 ## [Unreleased]
 
+### Fixed
+
+- Mark posts read (visibly) on scroll in compact
+
 ## [Version 1.1.3 (89)] - 2023-11-08T11:05:14Z
 
 ### Fixed
