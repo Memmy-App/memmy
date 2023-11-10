@@ -4,6 +4,8 @@ import { EInitializeResult } from '@api/common/ApiInstance';
 import { addAccount, setToast } from '@src/state';
 import { Alert } from 'react-native';
 import { getBaseUrl } from '@helpers/links';
+import { IAccount } from '@src/types';
+import { setAccessToken } from '@helpers/secureStore';
 
 const validateEmail = (email: string): boolean => {
   const re = /\S+@\S+\.\S+/;
@@ -124,14 +126,16 @@ export const useSignup = (): UseSignup => {
         return;
       }
 
-      addAccount({
+      const account: IAccount = {
         instance: options.instance,
         username: options.username,
         fullUsername: `${options.username}@${options.instance}`,
-        token: instance.authToken ?? '',
         isCurrentAccount: true,
         notificationsEnabled: false,
-      });
+      };
+
+      await setAccessToken(account, instance.authToken!);
+      addAccount(account);
     } catch (e) {
       setLoading(false);
       Alert.alert('Error', 'An unknown error has occurred.');

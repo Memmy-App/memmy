@@ -5,6 +5,8 @@ import { addAccount, setToast } from '@src/state';
 import { Alert } from 'react-native';
 import { useThemeColorScheme } from '@hooks/useThemeColorScheme';
 import { getBaseUrl } from '@helpers/links';
+import { IAccount } from '@src/types';
+import { setAccessToken } from '@helpers/secureStore';
 
 interface DoLoginOptions {
   instance: string;
@@ -88,14 +90,16 @@ export const useLogin = (): UseLogin => {
         return;
       }
 
-      addAccount({
+      const account: IAccount = {
         instance: options.instance,
         username: options.username,
         fullUsername: `${options.username}@${options.instance}`,
-        token: instance.authToken ?? '',
         isCurrentAccount: true,
         notificationsEnabled: false,
-      });
+      };
+
+      await setAccessToken(account, instance.authToken!);
+      addAccount(account);
     } catch (e) {
       setLoading(false);
       Alert.alert('Error', 'An unknown error has occurred.');
