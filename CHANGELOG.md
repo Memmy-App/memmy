@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 _
 ## [Unreleased]
 
+## [Version 1.1.4 (95)] - 2023-11-10T20:46:29Z
+
 ### Fixed
 
 - A few authentication issues with 0.19
