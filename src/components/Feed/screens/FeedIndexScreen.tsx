@@ -29,9 +29,9 @@ export default function FeedIndexScreen(): React.JSX.Element {
     // We are going to migrate to using secure store. Will be removed in the future. For now, we want to see if the
     // user's token is inside the store. If not, we will set it then remove it from the account object.
 
-    let token = await getAccessToken(currentAccount);
+    let token: string | null | undefined = await getAccessToken(currentAccount);
 
-    if (token == null) {
+    if (token == null && currentAccount.token != null) {
       token = currentAccount.token;
       await setAccessToken(currentAccount, token);
       removeAccessTokenFromDataStore(currentAccount);
@@ -44,7 +44,7 @@ export default function FeedIndexScreen(): React.JSX.Element {
     void instance
       .initialize({
         host: currentAccount.instance,
-        authToken: token,
+        authToken: token!,
         username: currentAccount.username,
         type: 'lemmy',
       })
