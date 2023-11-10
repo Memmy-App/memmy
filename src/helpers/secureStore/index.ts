@@ -1,2 +1,1 @@
-export * from './getAccessToken';
-export * from './setAccessToken';
+export * from './accessToken';

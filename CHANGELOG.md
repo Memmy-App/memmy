@@ -9,6 +9,13 @@ _
 
 ### Fixed
 
+- A few authentication issues with 0.19
+- Removing an account won't remove all accounts with the same name or same instance.
+
+## [Version 1.1.4 (91)] - 2023-11-10T06:11:54Z
+
+### Fixed
+
 - Mark posts read (visibly) on scroll in compact
 
 ## [Version 1.1.3 (89)] - 2023-11-08T11:05:14Z

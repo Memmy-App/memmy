@@ -205,6 +205,7 @@ class ApiInstance {
   resetInstance(): void {
     this.instance = null;
     this.initialized = false;
+    this.authToken = null;
   }
 
   static handleError(error: string): string {
