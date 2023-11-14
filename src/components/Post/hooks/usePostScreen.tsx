@@ -16,7 +16,7 @@ import CommentSortTypeContextMenuButton from '@components/Common/ContextMenu/com
 import { CommentSortType } from 'lemmy-js-client';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ICommentInfo } from '@src/types';
-import { addRecentPost } from '@root/src/state/history/recentPosts';
+import { addRecentPost } from '@src/state/history/recentPosts';
 import { writeToLog } from '@src/helpers';
 
 interface UsePostScreen {

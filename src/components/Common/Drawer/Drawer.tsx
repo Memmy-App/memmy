@@ -7,9 +7,8 @@ import { Separator, YStack } from 'tamagui';
 import { addAlphabeticalLabels } from '@src/helpers';
 import DrawerLabel from '@components/Common/Drawer/DrawerLabel';
 import { NavigationContainerRefWithCurrent } from '@react-navigation/core';
-// import ButtonOne from '@components/Common/Button/ButtonOne';
+import ButtonOne from '@components/Common/Button/ButtonOne';
 import { Bookmark, History } from '@tamagui/lucide-icons';
-import ButtonOne from '../Button/ButtonOne';
 
 const getItemType = (item: CommunityView | string): 'community' | 'label' => {
   if ((item as CommunityView).community != null) {
