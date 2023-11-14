@@ -9,13 +9,6 @@ export const useRecentPostHistory = (): PostView[] | undefined => {
       return;
     }
 
-    console.log('wtf', state.userScoped);
-    // if (!state.userScoped.has(currentAccount.fullUsername)) {
-    //   state.userScoped.set(currentAccount.fullUsername, {
-    //     recentPosts: [],
-    //   });
-    // }
-    // return state.userScoped.get(currentAccount.fullUsername)!.recentPosts;
     if (!(currentAccount.fullUsername in state.userScoped)) {
       state.userScoped[currentAccount.fullUsername] = {
         recentPosts: [],

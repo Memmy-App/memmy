@@ -4,7 +4,9 @@ import { immer } from 'zustand/middleware/immer';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// UserSelector account.fullUsername.
+// UserSelector is account.fullUsername.
+// Also for some reason creating a store with Map field in zustand does not work:
+// the Map turns into an object. So we'll use object instead of Map.
 type UserSelector = string;
 interface HistoryStore {
   userScoped: Record<
