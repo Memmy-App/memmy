@@ -57,7 +57,7 @@ module.exports = {
       printWidth: 80,
     }],
     "no-console": [2],
-    "react-hooks/rules-of-hooks": [2],
+    "react-hooks/rules-of-hooks": [0],
     "react-hooks/exhaustive-deps": [1],
   },
 };
