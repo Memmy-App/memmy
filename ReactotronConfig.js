@@ -7,6 +7,7 @@ import {
   useDataStore,
   useDraftStore,
   useSettingsStore,
+  useHistoryStore,
 } from "./src/state";
 
 Reactotron.setAsyncStorageHandler(AsyncStorage) // AsyncStorage would either come from `react-native` or `@react-native-community/async-storage` depending on where you get it from
@@ -37,6 +38,10 @@ Reactotron.setAsyncStorageHandler(AsyncStorage) // AsyncStorage would either com
           name: "account",
           zustand: useAccountStore,
         },
+        {
+          name: "history",
+          zustand: useHistoryStore,
+        }
       ],
     }),
   )
