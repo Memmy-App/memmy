@@ -33,7 +33,7 @@ export default function SettingsGesturesScreen(): React.JSX.Element {
           footer="Enabling full width swipes will disable post and comment swipe gestures."
         >
           <Table.Cell
-            label="Full With Swipe Gestures"
+            label="Full Width Swipe Gestures"
             switchValue={settings.fullWidthSwipes}
             onSwitchValueChange={(v) => {
               LayoutAnimation.configureNext(
